@@ -21,7 +21,7 @@ class QnAMakerBot extends ActivityHandler {
         super();
 
         this.conversationState = conversationState;
-        
+
         // Create a property used to store dialog state.
         // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
         this.dialogState = this.conversationState.createProperty(DIALOG_STATE_PROPERTY);
@@ -39,9 +39,8 @@ class QnAMakerBot extends ActivityHandler {
             ScoreThreshold: 0.03,
             Top: 3
         };
-        
 
-        this.dialogHelper = new DialogHelper(this.qnaMaker)
+        this.dialogHelper = new DialogHelper(this.qnaMaker);
 
         this.dialogs.add(this.dialogHelper.qnaMakerActiveLearningDialog);
     }
@@ -55,18 +54,11 @@ class QnAMakerBot extends ActivityHandler {
     async onTurn(turnContext) {
         // By checking the incoming Activity type, the bot only calls QnA Maker in appropriate cases.
         if (turnContext.activity.type === ActivityTypes.Message) {
-
             const dialogContext = await this.dialogs.createContext(turnContext);
             const results = await dialogContext.continueDialog();
-            switch(results.status){
-                case DialogTurnStatus.cancelled:
-                case DialogTurnStatus.empty:
-                    await dialogContext.beginDialog(this.dialogHelper.activeLearningDialogName, this.qnaMakerOptions);
-                    break;
-                case DialogTurnStatus.complete:
-                    break;
-                case DialogTurnStatus.waiting:
-                    break;
+
+            if ((results.status === DialogTurnStatus.cancelled) || (results.status === DialogTurnStatus.empty)) {
+                await dialogContext.beginDialog(this.dialogHelper.activeLearningDialogName, this.qnaMakerOptions);
             }
 
             await this.conversationState.saveChanges(turnContext);

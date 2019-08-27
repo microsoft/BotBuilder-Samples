@@ -1,14 +1,29 @@
 ﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot in NodeJS. Click [here][al#1] to know more about how to enable and use active learning .
+This sample shows how to integrate Active Learning in a QnA Maker bot in NodeJS. Click [here][50] to know more about how to enable and use active learning .
 
 
 ## Concepts introduced in this sample
 The [QnA Maker Service][19] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
 
-## Prerequisites
-This samples requires prerequisites in order to run.
-- [Required Prerequisites][41]
+# Prerequisites
+
+This samples **requires** prerequisites in order to run.
+
+### Overview
+
+This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
+
+- [Node.js](https://nodejs.org) version 10.14 or higher
+
+    ```bash
+    # determine node version
+    node --version
+    ```
+
+### Create a QnAMaker Application to enable QnA Knowledge Bases
+
+QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 
 # To try this sample
 - Clone the repository
@@ -54,39 +69,17 @@ One of the basic requirements in writing your own bot is to seed it with questio
 - Sample queries: "surface pro 4", "apps on your surface pro"
 
 # Deploy the bot to Azure
-After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.  To deploy your bot to Azure:
-
-```bash
-# login to Azure
-az login
-```
-
-### Publishing Changes to Azure Bot Service
-As you make changes to your locally running bot, you can deploy those changes to Azure Bot Service using a _publish_ helper.  See `publish.cmd` if you are on Windows or `./publish` if you are on a non-Windows platform.  The following is an example of publishing local changes to Azure:
-
-```bash
-# build the TypeScript bot before you publish
-npm run build
-```
-
-```bash
-# run the publish helper (non-Windows) to update Azure Bot Service.  Use publish.cmd if running on Windows
-./publish
-```
-
-### Getting Additional Help with Deploying to Azure
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
-- [Active learning Documentation][al#1]
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [QnA Maker Documentation][23]
+- [Active learning Documentation][50]
 - [Activity Processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [QnA Maker CLI][24]
 - [Azure Portal][10]
 - [Restify][30]
@@ -111,5 +104,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
-[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
+[50]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base

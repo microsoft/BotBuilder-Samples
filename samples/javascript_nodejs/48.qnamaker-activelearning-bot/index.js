@@ -8,8 +8,7 @@ const path = require('path');
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
-const { BotConfiguration } = require('botframework-config');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage } = require('botbuilder');
 const { QnAMakerBot } = require('./bots/activelearning-bot');
 
 // Note: Ensure you have a .env file and include all necessary credentials to access services like LUIS and QnAMaker.
@@ -19,7 +18,6 @@ require('dotenv').config({ path: ENV_FILE });
 // Create conversation and user state with in-memory storage provider.
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
-const userState = new UserState(memoryStorage);
 
 // Create adapter. See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
@@ -43,7 +41,7 @@ try {
 }
 
 // Create HTTP server.
-let server = restify.createServer();
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3999, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator.`);
