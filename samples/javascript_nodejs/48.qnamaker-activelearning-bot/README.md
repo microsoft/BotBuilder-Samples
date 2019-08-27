@@ -1,5 +1,5 @@
 ﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot in NodeJS. Click [here][al#1] to know more about how to enable and use active learning .
+This sample shows how to integrate Active Learning in a QnA Maker bot in NodeJS. Click [here][50] to know more about how to enable and use active learning .
 
 
 ## Concepts introduced in this sample
@@ -72,15 +72,14 @@ One of the basic requirements in writing your own bot is to seed it with questio
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
 
 # Further reading
-- [Active learning Documentation][al#1]
 - [Bot Framework Documentation][20]
 - [Bot Basics][32]
 - [QnA Maker Documentation][23]
+- [Active learning Documentation][50]
 - [Activity Processing][25]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Azure CLI][7]
-- [msbot CLI][9]
 - [QnA Maker CLI][24]
 - [Azure Portal][10]
 - [Restify][30]
@@ -105,5 +104,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 [31]: https://www.npmjs.com/package/dotenv
 [32]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [40]: https://aka.ms/azuredeployment
-[41]: ./PREREQUISITES.md
-[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
+[50]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
