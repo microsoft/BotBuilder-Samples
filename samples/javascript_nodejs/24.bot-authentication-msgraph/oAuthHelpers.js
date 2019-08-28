@@ -70,9 +70,10 @@ class OAuthHelpers {
         }
 
         var client = new SimpleGraphClient(tokenResponse.token);
-        var messages = await client.getRecentMail();
+        var response = await client.getRecentMail();
+        var messages = response.value;
         if (Array.isArray(messages)) {
-            let numberOfMessages = 0;
+            let numberOfMessages = messages.length;
             if (messages.length > 5) {
                 numberOfMessages = 5;
             }
