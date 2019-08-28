@@ -28,6 +28,7 @@
       "botId": "528d4825-cca3-420a-bb88-712fbf54e6ca",
       "scopes": [
         "personal",
+        "groupchat",
         "team"
       ],
       "supportsFiles": false,
