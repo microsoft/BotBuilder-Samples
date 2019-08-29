@@ -54,9 +54,10 @@ class QnABot extends ActivityHandler {
                     await context.sendActivity('No QnA Maker answers were found.');
                 }
     
-                // By calling next() you ensure that the next BotHandler is run.
-                await next();
             }
+            
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
         });
     }
 }
