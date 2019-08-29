@@ -33,21 +33,30 @@ class QnABot extends ActivityHandler {
 
         // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
         this.onMessage(async (context, next) => {
-            console.log('Calling QnA Maker');
+            if (!process.env.QnAKnowledgebaseId || !process.env.QnAEndpointKey || !process.env.QnAEndpointHostName) {
+                let unconfiguredQnaMessage = 'NOTE: \r\n' + 
+                    'QnA Maker is not configured. To enable all capabilities, add `QnAKnowledgebaseId`, `QnAEndpointKey` and `QnAEndpointHostName` to the .env file. \r\n' +
+                    'You may visit www.qnamaker.ai to create a QnA Maker knowledge base.'
 
-            const qnaResults = await this.qnaMaker.getAnswers(context);
-
-            // If an answer was received from QnA Maker, send the answer back to the user.
-            if (qnaResults[0]) {
-                await context.sendActivity(qnaResults[0].answer);
-
-            // If no answers were returned from QnA Maker, reply with help.
-            } else {
-                await context.sendActivity('No QnA Maker answers were found.');
+                 await context.sendActivity(unconfiguredQnaMessage)
             }
-
-            // By calling next() you ensure that the next BotHandler is run.
-            await next();
+            else {
+                console.log('Calling QnA Maker');
+    
+                const qnaResults = await this.qnaMaker.getAnswers(context);
+    
+                // If an answer was received from QnA Maker, send the answer back to the user.
+                if (qnaResults[0]) {
+                    await context.sendActivity(qnaResults[0].answer);
+    
+                // If no answers were returned from QnA Maker, reply with help.
+                } else {
+                    await context.sendActivity('No QnA Maker answers were found.');
+                }
+    
+                // By calling next() you ensure that the next BotHandler is run.
+                await next();
+            }
         });
     }
 }
