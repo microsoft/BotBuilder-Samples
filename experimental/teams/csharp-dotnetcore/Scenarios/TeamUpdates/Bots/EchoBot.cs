@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Builder.Teams.StateStorage;
 using Microsoft.Bot.Builder.Teams.TeamEchoBot;
 using Microsoft.Bot.Schema;
+using Microsoft.Bot.Schema.Teams;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -30,29 +31,58 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
-            if (turnContext.Activity.ChannelData.eventType != null)
-            {
-                if (turnContext.Activity.ChannelData.eventType == "channelRenamed")
+            var channelData = turnContext.Activity.GetChannelData<TeamsChannelData>();
+            
 
+            
+
+            if (channelData.EventType == "channelRenamed")
+            {
                 var reply = turnContext.Activity.CreateReply();
 
                 var heroCard = new HeroCard
                 {
-                    Text = "A channel was renamed."
+                    Text = $"{channelData.Channel.Name} is the new Channel name"
 
                 };
 
                 reply.Attachments.Add(heroCard.ToAttachment());
                 await turnContext.SendActivityAsync(reply, cancellationToken);
             }
-            else if (turnContext.Activity.MembersRemoved != null)
+            else if (channelData.EventType == "teamRenamed")
             {
                 var reply = turnContext.Activity.CreateReply();
                 var heroCard = new HeroCard
                 {
-                    Text = $"{turnContext.Activity.MembersRemoved[0].Id} was removed from {turnContext.Activity.Conversation.ConversationType}"
+                    Text = $"{channelData.Team.Name} is the new Team name"
 
                 };
+                reply.Attachments.Add(heroCard.ToAttachment());
+                await turnContext.SendActivityAsync(reply, cancellationToken);
+            }
+            else if (channelData.EventType == "channelCreated")
+            {
+                var reply = turnContext.Activity.CreateReply();
+
+                var heroCard = new HeroCard
+                {
+                    Text = $"{channelData.Channel.Name} is the newly created channel name"
+
+                };
+
+                reply.Attachments.Add(heroCard.ToAttachment());
+                await turnContext.SendActivityAsync(reply, cancellationToken);
+            }
+            else if (channelData.EventType == "channelDeleted")
+            {
+                var reply = turnContext.Activity.CreateReply();
+
+                var heroCard = new HeroCard
+                {
+                    Text = $"{channelData.Channel.Name} is the newly created channel name"
+
+                };
+
                 reply.Attachments.Add(heroCard.ToAttachment());
                 await turnContext.SendActivityAsync(reply, cancellationToken);
             }

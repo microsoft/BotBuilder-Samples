@@ -1,0 +1,148 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Net.Http;
+using System.Net.Http.Headers;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
+using Microsoft.Bot.Schema.Teams;
+using Newtonsoft.Json.Linq;
+
+namespace Microsoft.BotBuilderSamples.Bots
+{
+    public class TeamsFileBot : TeamsActivityHandler
+    {
+        private readonly IHttpClientFactory _clientFactory;
+
+        public TeamsFileBot(IHttpClientFactory clientFactory)
+        {
+            _clientFactory = clientFactory;
+        }
+
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            bool messageWithFileDownloadInfo = turnContext.Activity.Attachments?[0].ContentType == FileDownloadInfo.ContentType;
+            if (messageWithFileDownloadInfo)
+            {
+                var file = turnContext.Activity.Attachments[0];
+                var fileDownload = JObject.FromObject(file.Content).ToObject<FileDownloadInfo>();
+
+                string filePath = Path.Combine("Files", file.Name);
+
+                var client = _clientFactory.CreateClient();
+                var response = await client.GetAsync(fileDownload.DownloadUrl);
+                using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+                {
+                    await response.Content.CopyToAsync(fileStream);
+                }
+
+                var reply = ((Activity)turnContext.Activity).CreateReply();
+                reply.TextFormat = "xml";
+                reply.Text = $"Complete downloading <b>{file.Name}</b>";
+                await turnContext.SendActivityAsync(reply, cancellationToken);
+            }
+            else
+            {
+                string filename = "teams-logo.png";
+                string filePath = Path.Combine("Files", filename);
+                long fileSize = new FileInfo(filePath).Length;
+                await SendFileCardAsync(turnContext, filename, fileSize, cancellationToken);
+            }
+        }
+
+        private async Task SendFileCardAsync(ITurnContext turnContext, string filename, long filesize, CancellationToken cancellationToken)
+        {
+            var consentContext = new Dictionary<string, string>
+            {
+                { "filename", filename },
+            };
+
+            var fileCard = new FileConsentCard
+            {
+                Description = "This is the file I want to send you",
+                SizeInBytes = filesize,
+                AcceptContext = consentContext,
+                DeclineContext = consentContext,
+            };
+
+            var replyActivity = turnContext.Activity.CreateReply();
+            replyActivity.Attachments = new List<Attachment>()
+            {
+                fileCard.ToAttachment(filename),
+            };
+
+            await turnContext.SendActivityAsync(replyActivity, cancellationToken);
+        }
+
+        protected override async Task<InvokeResponse> OnFileConsentAcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        {
+            try
+            {
+                JToken context = JObject.FromObject(fileConsentCardResponse.Context);
+
+                string filePath = Path.Combine("Files", context["filename"].ToString());
+                long fileSize = new FileInfo(filePath).Length;
+                var client = _clientFactory.CreateClient();
+                using (var fileStream = File.OpenRead(filePath))
+                {
+                    var fileContent = new StreamContent(fileStream);
+                    fileContent.Headers.ContentLength = fileSize;
+                    fileContent.Headers.ContentRange = new ContentRangeHeaderValue(0, fileSize - 1, fileSize);
+                    await client.PutAsync(fileConsentCardResponse.UploadInfo.UploadUrl, fileContent, cancellationToken);
+                }
+
+                await FileUploadCompletedAsync(turnContext, fileConsentCardResponse, cancellationToken);
+            }
+            catch (Exception e)
+            {
+                await FileUploadFailedAsync(turnContext, e.ToString(), cancellationToken);
+            }
+
+            return new InvokeResponse { Status = 200 };
+        }
+
+        protected override async Task<InvokeResponse> OnFileConsentDeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        {
+            JToken context = JObject.FromObject(fileConsentCardResponse.Context);
+
+            var reply = ((Activity)turnContext.Activity).CreateReply();
+            reply.TextFormat = "xml";
+            reply.Text = $"Declined. We won't upload file <b>{context["filename"]}</b>.";
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+
+            return new InvokeResponse { Status = 200 };
+        }
+
+        private async Task FileUploadCompletedAsync(ITurnContext turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        {
+            var downloadCard = new FileInfoCard
+            {
+                UniqueId = fileConsentCardResponse.UploadInfo.UniqueId,
+                FileType = fileConsentCardResponse.UploadInfo.FileType,
+            };
+
+            var reply = turnContext.Activity.CreateReply();
+            reply.TextFormat = "xml";
+            reply.Text = $"<b>File uploaded.</b> Your file <b>{fileConsentCardResponse.UploadInfo.Name}</b> is ready to download";
+            reply.Attachments = new List<Attachment>
+            {
+                downloadCard.ToAttachment(fileConsentCardResponse.UploadInfo.Name, fileConsentCardResponse.UploadInfo.ContentUrl),
+            };
+
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+        }
+
+        private async Task FileUploadFailedAsync(ITurnContext turnContext, string error, CancellationToken cancellationToken)
+        {
+            var reply = turnContext.Activity.CreateReply();
+            reply.TextFormat = "xml";
+            reply.Text = $"<b>File upload failed.</b> Error: <pre>{error}</pre>";
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+        }
+    }
+}
