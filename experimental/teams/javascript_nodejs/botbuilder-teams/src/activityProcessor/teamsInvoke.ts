@@ -220,7 +220,7 @@ export class InvokeActivity {
     }
   }
 
-  private static stripHtmlTag(content: string): string {
+  public static stripHtmlTag(content: string): string {
     let dom = new JSDOM(content);
     const textRestrictedHtmlTags = new Set(["AT", "ATTACHMENT"]);
     return this.stripHtmlTagHelper(dom.window.document.body, textRestrictedHtmlTags, dom.window.Node.TEXT_NODE);

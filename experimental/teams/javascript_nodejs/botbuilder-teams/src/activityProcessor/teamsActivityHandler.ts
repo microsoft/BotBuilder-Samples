@@ -6,6 +6,22 @@
  * Licensed under the MIT License.
  */
 import { ActivityTypes, BotHandler, InvokeResponse, TurnContext } from 'botbuilder';
+import {
+    AppBasedLinkQuery,
+    FileConsentCardResponse,
+    MessagingExtensionAction,
+    MessagingExtensionActionResponse,
+    MessagingExtensionQuery,
+    MessagingExtensionResponse,
+    O365ConnectorCardActionQuery,
+    SigninStateVerificationQuery,
+    TaskModuleRequest,
+    TaskModuleResponse
+} from '../schema';
+import {
+    InvokeActivity,
+    InvokeResponseTyped
+} from './teamsInvoke';
 
 // NOTE:
 // Due to ActivityHandler.on() and ActivityHandler.handle() being private methods, it is not
@@ -216,90 +232,124 @@ export class TeamsActivityHandler {
     }
 
     /**
-     * Receives invoke activities with Activity name of 'fileConsent/invoke'
+     * Receives invoke activities with Activity name of 'fileConsent/invoke' with confirmation from user
      * @remarks
      * This type of invoke activity occur during the File Consent flow.
      * For more information, see:
      * https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-files#message-requesting-permission-to-upload
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... }
+     * @param handler (context: TurnContext, value: FileConsentCardResponse, next: () => Promise<void>) => Promise<InvokeResponse>
      */
-    public onAcceptFileConsent(handler: InvokeActivityHandler): this {
+    public onAcceptFileConsent(
+        handler: (context: TurnContext, value: FileConsentCardResponse, next: () => Promise<void>) => Promise<InvokeResponse>
+    ): this {
         return this.on('AcceptFileConsent', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onAcceptFileConsent', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsInvokeResponse(context, invokeResponse, 'onAcceptFileConsent');
         });
     }
 
     /**
-     * Receives invoke activities with Activity name of 'fileConsent/invoke'
+     * Receives invoke activities with Activity name of 'fileConsent/invoke' with decline from user
      * @remarks
      * This type of invoke activity occur during the File Consent flow.
      * For more information, see:
      * https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/bots/bots-files#message-requesting-permission-to-upload
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... }
+     * @param handler (context: TurnContext, value: FileConsentCardResponse, next: () => Promise<void>) => Promise<InvokeResponse>
      */
-    public onDeclineFileConsent(handler: InvokeActivityHandler): this {
+    public onDeclineFileConsent(
+        handler: (context: TurnContext, value: FileConsentCardResponse, next: () => Promise<void>) => Promise<InvokeResponse>
+    ): this {
         return this.on('DeclineFileConsent', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onDeclineFileConsent', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsInvokeResponse(context, invokeResponse, 'onDeclineFileConsent');
         });
     }
 
     /**
      * Receives invoke activities with Activity name of 'actionableMessage/executeAction'
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @param handler (context: TurnContext, value: O365ConnectorCardActionQuery, next: () => Promise<void>) => Promise<InvokeResponse>
      */
-    public on365CardAction(handler: InvokeActivityHandler): this {
+    public on365CardAction(
+        handler: (context: TurnContext, value: O365ConnectorCardActionQuery, next: () => Promise<void>) => Promise<InvokeResponse>): this {
         return this.on('365CardAction', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'on365CardAction', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsInvokeResponse(context, invokeResponse, 'on365CardAction');
         });
     }
 
     /**
      * Receives invoke activities with Activity name of 'signin/verifyState'
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @param handler (context: TurnContext, value: SigninStateVerificationQuery, next: () => Promise<void>) => Promise<InvokeResponse>
      */
-    public onSigninStateVerification(handler: InvokeActivityHandler): this {
+    public onSigninStateVerification(
+        handler: (context: TurnContext, value: SigninStateVerificationQuery, next: () => Promise<void>) => Promise<InvokeResponse>): this {
         return this.on('SigninStateVerification', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onSigninStateVerification', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsInvokeResponse(context, invokeResponse, 'onSigninStateVerification');
         })
     }
 
     /**
      * Receives invoke activities with Activity name of 'composeExtension/queryLink'
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @remarks
+     * Used in creating a Search-based Message Extension.
+     * @param handler (context: TurnContext, value: AppBasedLinkQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>
      */
-    public onAppBasedLinkQuery(handler: InvokeActivityHandler): this {
+    public onAppBasedLinkQuery(
+        handler: (context: TurnContext, value: AppBasedLinkQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
         return this.on('AppBasedLinkQuery', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onAppBasedLinkQuery', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onAppBasedLinkQuery');
         })
     }
 
     /**
      * Receives invoke activities with Activity name of 'task/fetch'
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @param handler (context: TurnContext, value: TaskModuleRequest, next: () => Promise<void>) => Promise<InvokeResponseTyped<TaskModuleResponse>>
      */
-    public onTaskModuleFetch(handler: InvokeActivityHandler): this {
+    public onTaskModuleFetch(
+        handler: (context: TurnContext, value: TaskModuleRequest, next: () => Promise<void>) => Promise<InvokeResponseTyped<TaskModuleResponse>>): this {
         return this.on('TaskModuleFetch', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onTaskModuleFetch', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onTaskModuleFetch');
         })
     }
 
     /**
      * Receives invoke activities with Activity name of 'task/submit'
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @param handler (context: TurnContext, value: TaskModuleRequest, next: () => Promise<void>) => Promise<InvokeResponseTyped<TaskModuleResponse>>
      */
-    public onTaskModuleSubmit(handler: InvokeActivityHandler): this {
+    public onTaskModuleSubmit(
+        handler: (context: TurnContext, value: TaskModuleRequest, next: () => Promise<void>) => Promise<InvokeResponseTyped<TaskModuleResponse>>): this {
         return this.on('TaskModuleSubmit', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onTaskModuleSubmit', context, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onTaskModuleFetch');
         })
     }
 
     /**
      * Receives invoke activities with the name 'composeExtension/query'.
+     * @remarks
+     * Used in creating a Search-based Message Extension.
+     * @param handler (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>
+     */
+    public onMessagingExtensionQuery(
+        handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
+        return this.on('ComposeExtension/Query', async (context, next) => {
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionQuery');
+        });
+    }
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/query'.
+     * @remarks
+     * Used in creating a Search-based Message Extension.
      * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
      */
-    public onMessagingExtensionQuery(handler: InvokeActivityHandler): this {
-        return this.on('ComposeExtension/Query', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onMessagingExtensionQuery', context, next);
+    public onSelectItem(handler: InvokeActivityHandler): this {
+        return this.on('ComposeExtension/SelectItem', async (context, next) => {
+            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onSelectItem', context, next);
         });
     }
 
@@ -307,13 +357,32 @@ export class TeamsActivityHandler {
      * Receives invoke activities with the name 'composeExtension/submitAction'.
      * @remarks
      * This invoke activity is received when a user 
-     * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
+     * @param handler (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
      */
-    public onMessagingExtensionSubmit(handler: InvokeActivityHandler): this {
+    public onMessagingExtensionSubmit(
+        handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
         return this.on('ComposeExtension/SubmitAction', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onMessagingExtensionSubmit', context, next);
+            let messagingExtensionActionData: MessagingExtensionAction = context.activity.value;
+            messagingExtensionActionData.messagePayload.body.textContent = InvokeActivity.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
+            const invokeResponse = await handler(context, messagingExtensionActionData, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionSubmit');
         });
     }
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/fetchTask' 
+     * @param handler (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
+     */
+    public onMessagingExtensionFetchTask(
+        handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
+        return this.on('ComposeExtension/FetchTask', async (context, next) => {
+            let messagingExtensionActionData = context.activity.value;
+            messagingExtensionActionData.messagePayload.body.textContent = InvokeActivity.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
+            const invokeResponse = await handler(context, messagingExtensionActionData, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
+        });
+    };
+        
 
     /**
      * `run()` is the main "activity handler" function used to ingest activities into the event emission process.
@@ -394,9 +463,9 @@ export class TeamsActivityHandler {
                     switch (context.activity.name) {
                         case 'fileConsent/invoke':
                             if (context.activity.value.action === 'accept') {
-                                invokeResponse = await this.handle(context, 'AcceptFileConsent', runDialogs);
+                                await this.handle(context, 'AcceptFileConsent', runDialogs);
                             } else {
-                                invokeResponse = await this.handle(context, 'DeclineFileConsent', runDialogs);
+                                await this.handle(context, 'DeclineFileConsent', runDialogs);
                             }
                             break;
                         case 'composeExtension/query':
@@ -416,6 +485,12 @@ export class TeamsActivityHandler {
                             break;
                         case 'composeExtension/queryLink':
                             await this.handle(context, 'AppBasedLinkQuery', runDialogs);
+                            break;
+                        case 'composeExtension/fetchTask':
+                            await this.handle(context, 'ComposeExtension/FetchTask', runDialogs);
+                            break;
+                        case 'signin/verifyState':
+                            await this.handle(context, 'SigninStateVerification', runDialogs);
                             break;
                         default:
                             // Correct behavior to be determined.
@@ -492,4 +567,31 @@ export class TeamsActivityHandler {
         }
     }
 
+    /**
+     * Private helper method to send TypedInvokeResponses for Teams, or throw an error for a handler that does not return an InvokeResponse.
+     * @param context TurnContext
+     * @param invokeResponse InvokeResponse
+     * @param handlerType string 
+     */
+    private static async sendTeamsTypedInvokeResponse<T>(context: TurnContext, invokeResponse: InvokeResponseTyped<T>, handlerType: string) {
+        if (invokeResponse) {
+            await context.sendActivity({ value: invokeResponse, type: 'invokeResponse' });
+        } else {
+            throw new Error(`TeamsActivityHandler.teamsInvokeWrapper(): InvokeResponse not returned from "${handlerType}" handler.`);
+        }
+    }
+
+    /**
+     * Private helper method to send InvokeResponses for Teams, or throw an error for a handler that does not return an InvokeResponse.
+     * @param context TurnContext
+     * @param invokeResponse InvokeResponse
+     * @param handlerType string 
+     */
+    private static async sendTeamsInvokeResponse(context: TurnContext, invokeResponse: InvokeResponse, handlerType: string) {
+        if (invokeResponse) {
+            await context.sendActivity({ value: invokeResponse, type: 'invokeResponse' });
+        } else {
+            throw new Error(`TeamsActivityHandler.teamsInvokeWrapper(): InvokeResponse not returned from "${handlerType}" handler.`);
+        }
+    }
 }

@@ -15,7 +15,11 @@ function createInvokeActivity(name, value, channelData) {
 describe('TeamsActivityHandler', () => {
     it('should handle "AcceptFileConsent" activities', async () => {
         const bot = new TeamsActivityHandler();
-        bot.onAcceptFileConsent(async (context, next) => {
+        bot.onAcceptFileConsent(async (context, value, next) => {
+            assert(context, 'context not passed to handler');
+            assert(value, 'value not passed in');
+            assert(value === context.activity.value);
+            assert(next, 'next handler not passed in');
             await context.sendActivity('fileconsent received');
             await next();
             return { status: 200 };
@@ -30,6 +34,7 @@ describe('TeamsActivityHandler', () => {
         adapter.send(fileConsentActivity)
             .assertReply('fileconsent received')
             .assertReply(activity => {
+                // Verify that bot sends out an invokeResponse via the TurnContext.
                 assert(activity.value, 'activity value does not exist');
                 assert(activity.value.status === 200, `incorrect status code "${activity.value.status}", expected "200"`);
                 assert(activity.type === 'invokeResponse', `incorrect activity type "${activity.type}", expected "invokeResponse"`);
@@ -38,7 +43,11 @@ describe('TeamsActivityHandler', () => {
 
     it('should throw an error if onAcceptFileConsent handler does not return InvokeResponse', done => {
         const bot = new TeamsActivityHandler();
-        bot.onAcceptFileConsent(async (context, next) => {
+        bot.onAcceptFileConsent(async (context, value, next) => {
+            assert(context, 'context not passed to handler');
+            assert(value, 'value not passed in');
+            assert(value === context.activity.value);
+            assert(next, 'next handler not passed in');
             await context.sendActivity('fileconsent received');
             await next();
         });
@@ -60,7 +69,11 @@ describe('TeamsActivityHandler', () => {
 
     it('should handle "DeclineFileConsent" activities', async () => {
         const bot = new TeamsActivityHandler();
-        bot.onDeclineFileConsent(async (context, next) => {
+        bot.onDeclineFileConsent(async (context, value, next) => {
+            assert(context, 'context not passed to handler');
+            assert(value, 'value not passed in');
+            assert(value === context.activity.value);
+            assert(next, 'next handler not passed in');
             await context.sendActivity('fileconsent not received');
             await next();
             return { status: 200 };
@@ -83,7 +96,11 @@ describe('TeamsActivityHandler', () => {
 
     it('should throw an error if onDeclineFileConsent handler does not return InvokeResponse', done => {
         const bot = new TeamsActivityHandler();
-        bot.onDeclineFileConsent(async (context, next) => {
+        bot.onDeclineFileConsent(async (context, value, next) => {
+            assert(context, 'context not passed to handler');
+            assert(value, 'value not passed in');
+            assert(value === context.activity.value);
+            assert(next, 'next handler not passed in');
             await context.sendActivity('fileconsent received');
             await next();
         });
