@@ -79,7 +79,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                 var heroCard = new HeroCard
                 {
-                    Text = $"{channelData.Channel.Name} is the newly created channel name"
+                    Text = $"{channelData.Channel.Name} was deleted"
 
                 };
 

@@ -3,32 +3,31 @@
   "manifestVersion": "1.3",
   "version": "1.0.0",
   "id": "528d4825-cca3-420a-bb88-712fbf54e6ca",
-  "packageName": "com.teams.samples.auditbot",
+  "packageName": "com.teams.sample.echobot",
   "developer": {
-    "name": "TeamsAuditBot",
+    "name": "TeamsRosterBot",
     "websiteUrl": "https://www.microsoft.com",
     "privacyUrl": "https://www.teams.com/privacy",
-    "termsOfUseUrl": "https://www.teams.com/termsofuse"
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
   },
   "icons": {
     "color": "color.png",
     "outline": "outline.png"
   },
   "name": {
-    "short": "AuditBot",
-    "full": "AuditBot"
+    "short": "TeamsRosterBot",
+    "full": "TeamsRosterBot"
   },
   "description": {
-    "short": "Audit bot for Team",
-    "full": "Audits events in Team"
+    "short": "TeamsRosterBot",
+    "full": "TeamsRosterBot"
   },
   "accentColor": "#FFFFFF",
   "bots": [
     {
       "botId": "528d4825-cca3-420a-bb88-712fbf54e6ca",
       "scopes": [
-        "team",
-        "personal"
+        "team"
       ],
       "supportsFiles": false,
       "isNotificationOnly": false
