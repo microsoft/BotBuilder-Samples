@@ -44,10 +44,11 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             string actualText = teamsContext.GetActivityTextWithoutMentions();
 
-            if (actualText.Equals("Show Members", StringComparison.OrdinalIgnoreCase)) 
+            if (actualText.Equals("Show Team Members", StringComparison.OrdinalIgnoreCase)) 
             {
-                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(
-                    turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id)).ToList();
+
+
+                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id)).ToList();
 
                 var replyActivity = ((Activity)turnContext.Activity).CreateReply();
                 teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
@@ -104,9 +105,38 @@ namespace Microsoft.BotBuilderSamples.Bots
                     }
                 }
             }
+            else if (actualText.Equals("show group chat members", StringComparison.OrdinalIgnoreCase))
+            {
+                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.Conversation.Id)).ToList();
+
+                var replyActivity = ((Activity)turnContext.Activity).CreateReply();
+                teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
+                replyActivity.Text = replyActivity.Text + $" Total of {teamMembers.Count} members are currently in team";
+
+                await turnContext.SendActivityAsync(replyActivity);
+
+                for (int i = teamMembers.Count % 10; i >= 0; i--)
+                {
+                    var elementsToSend = teamMembers.Skip(10 * i).Take(10).ToList().ConvertAll<TeamsChannelAccount>((account) => teamsContext.AsTeamsChannelAccount(account));
+
+                    var stringBuilder = new StringBuilder();
+
+                    if (elementsToSend.Count > 0)
+                    {
+                        for (int j = elementsToSend.Count - 1; j >= 0; j--)
+                        {
+                            stringBuilder.Append($"{elementsToSend[j].AadObjectId} --> {elementsToSend[j].Name} -->  {elementsToSend[j].UserPrincipalName} </br>");
+                        }
+
+                        var memberListActivity = ((Activity)turnContext.Activity).CreateReply(stringBuilder.ToString());
+                        await turnContext.SendActivityAsync(memberListActivity);
+                    }
+                }
+            }
             else
             {
-                await turnContext.SendActivityAsync("Invalid command. Type \"Show channels\" to see a channel list. Type \"Show members\" to see a list of members");
+                await turnContext.SendActivityAsync("Invalid command. Type \"Show channels\" to see a channel list. Type \"Show members\" to see a list of members in a team. " +
+                    "Type \"show group chat members\" to see members in a group chat.");
             }
         }
 
