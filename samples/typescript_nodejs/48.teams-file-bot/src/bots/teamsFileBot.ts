@@ -41,16 +41,27 @@ export class TeamsFileBot extends TeamsActivityHandler {
         }
 
         this.onMessage(this.routeMessageActivities.bind(this));
-        this.onFileConsent(async (context, next): Promise<InvokeResponse> => {
+        this.onAcceptFileConsent(async (context, value: FileConsentCardResponse, next): Promise<InvokeResponse> => {
             // InvokeActivityHandlers need to send a response to Teams.
             // In this scenario, the helper method `TeamsFileBot.handleFileConsent` returns an InvokeResponse which will be sent
             // to Teams. We store this response and return it after running any additional InvokeActivityHandlers
-            const invokeResponse: InvokeResponse = await this.handleFileConsent.bind(this)(context, (context.activity as InvokeRequestActivity<FileConsentCardResponse>).value);
+            const invokeResponse: InvokeResponse = await this.handleAcceptFileConsent.bind(this)(context, value);
             
-            // By calling next() you ensure that the next InvokeActivityHandler is run.
+            // By calling next() you ensure that the next InvokeActivityHandler or ActivityHandler is run.
             await next();
+
+            // Return the invokeResponse so it is sent to Teams
             return invokeResponse;
         });
+        this.onDeclineFileConsent(async (context, value: FileConsentCardResponse, next) => {
+            let invokeResponse: InvokeResponse = await this.handleDeclineFileConsent.bind(this)(context, value);
+
+            // By calling next() you ensure that the next InvokeActivityHandler or ActivityHandler is run.
+            await next();
+            
+            // Return the invokeResponse so it is sent to Teams
+            return invokeResponse;
+        })
     }
 
     private async routeMessageActivities(context, next): Promise<void> {
@@ -70,50 +81,46 @@ export class TeamsFileBot extends TeamsActivityHandler {
         await next();
     }
 
-    private async handleFileConsent(context: TurnContext, query: FileConsentCardResponse): Promise<InvokeResponse> {
+    private async handleAcceptFileConsent(context: TurnContext, query: FileConsentCardResponse): Promise<InvokeResponse> {
         await context.sendActivity({ textFormat: 'xml', text: `<b>Received user's consent</b> <pre>${JSON.stringify(query, null, 2)}</pre>`});
 
         const queryContext: ConsentContext = query.context;
 
-        // 'Accepted' case
-        if (query.action === 'accept') {
-            const fname = `${this.fileFolder}/${queryContext.filename}`;
-            const fileInfo = fs.statSync(fname);
-            const file = Buffer.from(fs.readFileSync(fname, 'binary'), 'binary');
-            await context.sendActivity({ textFormat: 'xml', text: `Uploading <b>${queryContext.filename}</b>`});
-            const r = new Promise((resolve, reject) => {
-                request.put({
-                    uri: query.uploadInfo.uploadUrl,
-                    headers: {
-                        'Content-Length': fileInfo.size,
-                        'Content-Range': `bytes 0-${fileInfo.size-1}/${fileInfo.size}`
-                    },
-                    encoding: null,
-                    body: file
-                }, async (err, res) => {
-                    if (err) {
-                        reject(err);
-                    } else {
-                        const data = Buffer.from(res.body, 'binary').toString('utf8');
-                        resolve(JSON.parse(data));
-                    }
-                });
+        const fname = `${this.fileFolder}/${queryContext.filename}`;
+        const fileInfo = fs.statSync(fname);
+        const file = Buffer.from(fs.readFileSync(fname, 'binary'), 'binary');
+        await context.sendActivity({ textFormat: 'xml', text: `Uploading <b>${queryContext.filename}</b>`});
+        const r = new Promise((resolve, reject) => {
+            request.put({
+                uri: query.uploadInfo.uploadUrl,
+                headers: {
+                    'Content-Length': fileInfo.size,
+                    'Content-Range': `bytes 0-${fileInfo.size-1}/${fileInfo.size}`
+                },
+                encoding: null,
+                body: file
+            }, async (err, res) => {
+                if (err) {
+                    reject(err);
+                } else {
+                    const data = Buffer.from(res.body, 'binary').toString('utf8');
+                    resolve(JSON.parse(data));
+                }
             });
+        });
 
-            return r.then(async res => {
-                await this.fileUploadCompleted(context, query, res);
-                return { status: 200 }
-            }).catch(async err => {
-                await this.fileUploadFailed(context, err);
-                return { status: 500, body: `File upload failed: ${JSON.stringify(err)}` }
-            });
-        }
+        return r.then(async res => {
+            await this.fileUploadCompleted(context, query, res);
+            return { status: 200 }
+        }).catch(async err => {
+            await this.fileUploadFailed(context, err);
+            return { status: 500, body: `File upload failed: ${JSON.stringify(err)}` }
+        });
+    }
 
-        // 'Declined' case
-        if (query.action === 'decline') {
-            await context.sendActivity({ textFormat: 'xml', text: `Declined. We won't upload file <b>${queryContext.filename}</b>.`} );
-        }
-
+    private async handleDeclineFileConsent(context: TurnContext, query: FileConsentCardResponse): Promise<InvokeResponse> {
+        const queryContext: ConsentContext = query.context;
+        await context.sendActivity({ textFormat: 'xml', text: `Declined. We won't upload file <b>${queryContext.filename}</b>.`} );
         return { status: 200 };
     }
 
