@@ -45,6 +45,11 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
 
+## Testing the bot using Microsoft Teams
+
+1. Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+2. [Install your Bot to Teams via App Studio](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio), ensuring that you've added `token.botframework.com` to the [Valid Domains](https://docs.microsoft.com/en-us/microsoftteams/platform/get-started/get-started-app-studio) (*Note: In App Studio, this is in `Manifest Editor > Your App > Domains and Permissions`*)
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
