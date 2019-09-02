@@ -18,11 +18,11 @@ namespace Microsoft.BotBuilderSamples
         protected readonly ILogger Logger;
         private const string OAuth_Prompt = "OAuth Prompt";
         private const string OAuth_Card = "OAuth Card";
-        private const string SignIn_Card = "Sign In Card";
+        public const string SignIn_Card = "Sign In Card";
         private List<string> AuthOptions = new List<string> { OAuth_Prompt, OAuth_Card, SignIn_Card };
 
-        public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger)
-            : base(nameof(MainDialog), configuration["ConnectionName"])
+        public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger, ConversationState conversationState)
+            : base(nameof(MainDialog), configuration["ConnectionName"], conversationState)
         {
             Logger = logger;
             
@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
                 new OAuthPromptSettings
                 {
                     ConnectionName = ConnectionName,
-                    Text = "Please Sign In",
+                    Text = "OAuth Prompt",
                     Title = "Sign In",
                     Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
                 }));
@@ -68,13 +68,15 @@ namespace Microsoft.BotBuilderSamples
             
             var attachments = new List<Attachment>();
             var reply = MessageFactory.Attachment(attachments);
+            stepContext.Context.Activity.RemoveRecipientMention();
             // Hack to remove \n, which is currently appended to the end of a message when the bot is @mentioned
-            stepContext.Context.Activity.RemoveRecipientMention().Replace("\n", string.Empty).Trim();
-            var text = stepContext.Context.Activity.Text;
+            var text = stepContext.Context.Activity.Text.Replace("\n", string.Empty).Trim();
 
             switch (text)
             {
                 case OAuth_Card:
+                    await _conversationState.CreateProperty<string>(CardChoicePropertyName).SetAsync(stepContext.Context, MainDialog.OAuth_Card, cancellationToken);
+
                     attachments.Add(new Attachment
                     {
                         ContentType = OAuthCard.ContentType,
@@ -98,9 +100,12 @@ namespace Microsoft.BotBuilderSamples
                     return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                 case OAuth_Prompt:
+                    await _conversationState.CreateProperty<string>(CardChoicePropertyName).SetAsync(stepContext.Context, MainDialog.OAuth_Prompt, cancellationToken);
+
                     return await stepContext.BeginDialogAsync(nameof(OAuthPrompt), null, cancellationToken);
 
                 case SignIn_Card:
+                    await _conversationState.CreateProperty<string>(CardChoicePropertyName).SetAsync(stepContext.Context, MainDialog.SignIn_Card, cancellationToken);
 
                     var link = await (stepContext.Context.Adapter as IUserTokenProvider).GetOauthSignInLinkAsync(stepContext.Context, ConnectionName, cancellationToken).ConfigureAwait(false);
                     attachments.Add(new Attachment
