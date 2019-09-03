@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "PowerApp";
+    Layout = "~/Views/Shared/_EmbedPage.cshtml";
+}
+
+<iframe width="720" height="520" style="width: 94%;" src="https://web.powerapps.com/webplayer/iframeapp?source=iframe&amp;screenColor=rgba(104,101,171,1)&amp;appId=/providers/Microsoft.PowerApps/apps/a3447344-9220-4868-b45b-07759637be0f"></iframe>
+<div class="surface" id="powerAppError" style="display: none; padding: 20px;">
+    <p>
+        This task module shows an "Asset Checkout" PowerApp (you'll find more information on it <a href="https://powerusers.microsoft.com/t5/Community-Apps-Gallery/Asset-Checkout-Microsoft-sample/td-p/43221" target="_blank">here</a>). Unfortunately, PowerApps
+        are tenant-specific. The one in this sample only works on the Microsoft.com tenant.
+    </p>
+    <p>To create your own:</p>
+    <ol>
+        <li>Go to <a href="https://powerapps.microsoft.com" target="_blank">https://powerapps.microsoft.com</a> and sign in.</li>
+        <li>There's a search box in the middle of the page: search for "Asset Checkout".</li>
+        <li>Click on it, press the "Make this app" button, and save it to the cloud.</li>
+        <li>Press the Share button and you'll see a page with the newly-created PowerApp's App ID. Copy it to the clipboard.</li>
+        <li>Replace "a3447344-9220-4868-b45b-07759637be0f" in the <code>src=</code> URL of the &lt;iframe&gt; in this file (Microsoft.Teams.Samples.TaskModule.Web/Views/Home/PowerApp.cshtml) with your App ID.</li>
+        <li>Modify the JavaScript function in this file (Microsoft.Teams.Samples.TaskModule.Web/Views/Home/PowerApp.cshtml) to override the check for Microsoft's Tenant ID by uncommenting one line.</li>
+    </ol>
+</div>
+<script>
+    microsoftTeams.initialize();
+    microsoftTeams.getContext(function (context) {
+        // If not running in the Microsoft tenant, show an error message; otherwise, show the PowerApp
+        var showPowerApp = (context.tid === "72f988bf-86f1-41af-91ab-2d7cd011db47"); // Microsoft's tenant ID
+        // Uncomment the line below if you create your own PowerApp and modify the iframe's src= URL
+        // var showPowerApp = true
+        if (showPowerApp) {
+            document.getElementById("powerApp").style.display = "block";
+        } else {
+            document.getElementById("powerAppError").style.display = "block";
+        }
+    });
+</script>
+

@@ -1,0 +1,78 @@
+﻿{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "a17d282d-e0cc-45fb-b457-3080de7f1480",
+  "packageName": "com.contoso.teamstaskmodulev4",
+  "developer": {
+    "name": "Contoso",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.microsoft.com/privacy",
+    "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
+  },
+  "name": {
+    "short": "Task Module Sample V4 (C#)",
+    "full": "Task Module Sample Bot Builder Version 4 (C#/.NET version)"
+  },
+  "description": {
+    "short": "Task Module Demo - V4 C#",
+    "full": "This is a sample app for the Task Module feature written in C# using the Bot BUilder V4 SDK."
+  },
+  "icons": {
+    "outline": "outline_icon.png",
+    "color": "color_icon.png"
+  },
+  "accentColor": "#60A18E",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://teamstaskmodulev4.azurewebsites.net/configure",
+      "canUpdateConfiguration": true,
+      "scopes": [
+        "team",
+        "groupchat"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "com.contoso.teamstaskmodulev4.task",
+      "name": "Tasks!",
+      "contentUrl": "https://teamstaskmodulev4.azurewebsites.net/tasks",
+      "websiteUrl": "https://teamstaskmodulev4.azurewebsites.net/tasks",
+      "scopes": [
+        "personal"
+      ]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "a17d282d-e0cc-45fb-b457-3080de7f1480",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
+      "scopes": [
+        "personal",
+        "team",
+        "groupchat"
+      ],
+      "commandLists": [
+        {
+          "scopes": [
+            "personal",
+            "team"
+          ],
+          "commands": [
+            {
+              "title": "tasks",
+              "description": "Test the task module with an Adaptive & Thumbnail card"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": [ "teamstaskmodulev4.azurewebsites.net" ]
+}
