@@ -1,0 +1,65 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2020
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Teams.Samples.TaskModule.Web", "Microsoft.Teams.Samples.TaskModule.Web\Microsoft.Teams.Samples.TaskModule.Web.csproj", "{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E84CE1F7-CF62-4588-B813-3C6D9741D04E}"
+	ProjectSection(SolutionItems) = preProject
+		.vs\config\applicationhost.config = .vs\config\applicationhost.config
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Teams", "..\..\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj", "{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Teams", "..\..\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj", "{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams", "..\..\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj", "{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Integration.AspNet.WebApi", "Microsoft.Bot.Builder.Integration.AspNet.WebApi\Microsoft.Bot.Builder.Integration.AspNet.WebApi.csproj", "{13DC93B1-6F3F-4933-B748-314B952F300D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E7A02B0D-A563-4CB8-AC6B-1D85272C5D7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5332AA0-2E0E-42AE-8735-6C744ACEBA1B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D3F5E21-941E-4C10-9B10-0EC9B6E125DE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13DC93B1-6F3F-4933-B748-314B952F300D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {198B8C49-4263-42CD-857C-04463EE76D69}
+	EndGlobalSection
+EndGlobal

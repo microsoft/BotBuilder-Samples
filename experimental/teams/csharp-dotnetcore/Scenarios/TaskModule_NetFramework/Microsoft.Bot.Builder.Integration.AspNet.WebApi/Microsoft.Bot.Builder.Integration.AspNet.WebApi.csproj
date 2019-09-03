@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<Version Condition=" '$(PackageVersion)' == '' ">4.0.0-local</Version>
+		<Version Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</Version>
+		<PackageVersion Condition=" '$(PackageVersion)' == '' ">4.0.0-local</PackageVersion>
+		<PackageVersion Condition=" '$(PackageVersion)' != '' ">$(PackageVersion)</PackageVersion>
+		<Configurations>Debug;Release;Debug - NuGet Packages</Configurations>
+	</PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+		<SignAssembly>true</SignAssembly>
+		<DelaySign>true</DelaySign>
+		<AssemblyOriginatorKeyFile>..\..\..\build\35MSSharedLib1024.snk</AssemblyOriginatorKeyFile>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <TargetFramework>net461</TargetFramework>
+    <PackageId>Microsoft.Bot.Builder.Integration.AspNet.WebApi</PackageId>
+    <Description>This library integrates the Microsoft Bot Builder SDK with ASP.NET WebAPI. It offers idiomatic configuration APIs in addition to providing all the plumbing to direct incoming bot messages to a configured bot.</Description>
+    <Summary>This library provides integration between the Microsoft Bot Builder SDK and ASP.NET WebAPI.</Summary>
+  </PropertyGroup>
+
+	<PropertyGroup>		
+		<AssemblyName>Microsoft.Bot.Builder.Integration.AspNet.WebApi</AssemblyName>
+		<RootNamespace>Microsoft.Bot.Builder.Integration.AspNet.NetFx</RootNamespace>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DocumentationFile>bin\$(Configuration)\net461\Microsoft.Bot.Builder.Integration.AspNet.WebApi.xml</DocumentationFile>		
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="AsyncUsageAnalyzers" Version="1.0.0-alpha003" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNet.WebApi" Version="5.2.6" />
+    <PackageReference Include="Microsoft.Bot.Builder" Condition=" '$(PackageVersion)' == '' " Version="4.0.0-local" />
+    <PackageReference Include="Microsoft.Bot.Builder" Condition=" '$(PackageVersion)' != '' " Version="4.5.1" />
+    <PackageReference Include="SourceLink.Create.CommandLine" Version="2.8.3" />
+  </ItemGroup>
+
+	<ItemGroup>
+	  <Reference Include="System.Configuration" />
+	  <Reference Include="System.Web" />
+	</ItemGroup>
+
+</Project>
