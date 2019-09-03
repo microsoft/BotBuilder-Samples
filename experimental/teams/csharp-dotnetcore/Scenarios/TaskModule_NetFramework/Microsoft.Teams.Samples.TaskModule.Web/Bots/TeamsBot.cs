@@ -16,14 +16,8 @@ namespace Microsoft.Teams.Samples.HelloWorld.Web.Bots
 {
     public class TeamsBot : TeamsActivityHandler
     {
-        HttpRequestMessage _request;
-
-        // TODO: HACK to overcome issue with HttpHelper.WriteResponse
-        public HttpResponseMessage HackResponseMessage;
-
-        public TeamsBot(HttpRequestMessage request)
+        public TeamsBot()
         {
-            _request = request;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
@@ -55,10 +49,7 @@ namespace Microsoft.Teams.Samples.HelloWorld.Web.Bots
                     TaskInfo = taskInfo
                 }
             };
-
-            // TODO: HACK to overcome issue with HttpHelper.WriteResponse
-            this.HackResponseMessage = _request.CreateResponse(HttpStatusCode.OK, taskEnvelope);
-
+            
             var response = new InvokeResponse()
             {
                 Status = (int)System.Net.HttpStatusCode.OK,

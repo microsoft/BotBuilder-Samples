@@ -52,7 +52,8 @@ namespace Microsoft.Teams.Samples.TaskModule.Web
 
             // Create the Bot Framework Adapter with error handling enabled.            
             builder.RegisterType<BotFrameworkHttpAdapter>().As<IBotFrameworkHttpAdapter>().SingleInstance();
-           
+            builder.RegisterType<TeamsBot>().As<IBot>().SingleInstance();
+
             var container = builder.Build();
             var resolver = new AutofacWebApiDependencyResolver(container);
 

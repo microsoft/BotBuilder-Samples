@@ -16,8 +16,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Tea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams", "..\..\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj", "{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Integration.AspNet.WebApi", "Microsoft.Bot.Builder.Integration.AspNet.WebApi\Microsoft.Bot.Builder.Integration.AspNet.WebApi.csproj", "{13DC93B1-6F3F-4933-B748-314B952F300D}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -49,12 +47,6 @@ Global
 		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF36BDD6-9D8E-4D05-B5DA-6120F9FCDBD1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug - NuGet Packages|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug - NuGet Packages|Any CPU.Build.0 = Debug - NuGet Packages|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{13DC93B1-6F3F-4933-B748-314B952F300D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

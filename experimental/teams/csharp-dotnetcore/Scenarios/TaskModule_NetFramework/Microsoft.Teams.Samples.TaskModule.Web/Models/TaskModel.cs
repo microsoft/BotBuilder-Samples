@@ -24,6 +24,7 @@
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
 using System.Runtime.Serialization;
 
 namespace Microsoft.Teams.Samples.TaskModule.Web.Models
@@ -69,6 +70,7 @@ namespace Microsoft.Teams.Samples.TaskModule.Web.Models
         public TaskInfo TaskInfo { get; set; }
 
         [JsonProperty("type")]
+        [JsonConverter(typeof(StringEnumConverter))]
         public TaskType Type { get; set; }
     }
 

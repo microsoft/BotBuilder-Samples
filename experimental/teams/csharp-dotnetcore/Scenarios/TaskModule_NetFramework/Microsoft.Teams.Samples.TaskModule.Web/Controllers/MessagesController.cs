@@ -22,15 +22,7 @@
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Schema;
 using Microsoft.Teams.Samples.HelloWorld.Web.Bots;
-using Microsoft.Teams.Samples.TaskModule.Web.Helper;
-using Microsoft.Teams.Samples.TaskModule.Web.Models;
-using Newtonsoft.Json;
-using System;
-using System.IO;
-using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -40,9 +32,11 @@ namespace Microsoft.Teams.Samples.TaskModule.Web.Controllers
     public class MessagesController : ApiController
     {
         private readonly IBotFrameworkHttpAdapter Adapter;
-        
-        public MessagesController(IBotFrameworkHttpAdapter adapter)
+        private readonly IBot Bot;
+
+        public MessagesController(IBotFrameworkHttpAdapter adapter, IBot bot)
         {
+            Bot = bot;
             Adapter = adapter;
         }
 
@@ -50,11 +44,9 @@ namespace Microsoft.Teams.Samples.TaskModule.Web.Controllers
         public async Task<HttpResponseMessage> Post()
         {
             var response = new HttpResponseMessage();
-            var bot = new TeamsBot(Request);
-            await Adapter.ProcessAsync(Request, response, bot);
-
-            // TODO: HACK to overcome issue with HttpHelper.WriteResponse
-            return bot.HackResponseMessage ?? response;
+            await Adapter.ProcessAsync(Request, response, Bot);
+            
+            return response;
         }
     }
 }
