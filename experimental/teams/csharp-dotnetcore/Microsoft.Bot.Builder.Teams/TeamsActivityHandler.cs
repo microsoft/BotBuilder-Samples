@@ -184,12 +184,12 @@ namespace Microsoft.BotBuilderSamples
 
         protected virtual Task OnTeamMembersAddedEventAsync(IList<ChannelAccount> membersAdded, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return OnMembersAddedAsync(membersAdded, turnContext, cancellationToken);
         }
 
         protected virtual Task OnTeamMembersRemovedEventAsync(IList<ChannelAccount> membersRemoved, TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            return Task.CompletedTask;
+            return OnMembersRemovedAsync(membersRemoved, turnContext, cancellationToken);
         }
 
         protected virtual Task OnChannelCreatedEventAsync(TeamsChannelData channelData, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

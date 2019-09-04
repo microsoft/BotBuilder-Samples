@@ -1,0 +1,83 @@
+﻿@using Microsoft.Teams.Samples.TaskModule.Web.Helper;
+
+<div class="font-semibold font-title">Microsoft Teams Task Modules Demo</div>
+<p>
+    A task module allows Teams app developers to create one or more custom, modal experiences with custom code for their users, particularly useful for initiating and/or completing tasks using a GUI that does not litter a Teams conversation with superfluous,
+    intermediate task completion information.
+</p>
+<p>
+    Let's try it out!
+    <div style="text-align: center; margin-left: auto; margin-right: auto;">
+        <button class="button-primary" onclick="submit('youtube');">YouTube</button>
+        <button class="button-primary" onclick="submit('powerapp');">PowerApp</button>
+        <p></p>
+        <button class="button-primary" onclick="submit('customform');">Custom Form (results &rarr; tab)</button>
+        <p></p>
+        <button class="button-primary" onclick="submit('customform bot');">Custom Form (results &rarr; bot)</button>
+        <p></p>
+        <button class="button-primary" onclick="submit('adaptivecard');">Adaptive Card (results &rarr; tab)</button>
+        <p></p>
+        <button class="button-primary" onclick="submit('adaptivecard bot');">Adaptive Card (results &rarr; bot)</button>
+        <p></p>
+        <p></p>
+        <a target="_blank" href="@(DeeplinkHelper.DeepLink)">Deep link to Custom Form page</a>
+    </div>
+<p></p>
+<script src="~/Scripts/teamsapp.js"></script>
+<script>
+    microsoftTeams.initialize();
+
+    submitHandler = (err, result) => {
+            console.log(`Submit handler - err: ${err}`);
+            alert("Result = " + JSON.stringify(result) + "\nError = " + JSON.stringify(err));
+        };
+
+        function submit(type) {
+            let taskInfo = {
+                title: null,
+                height: null,
+                width: null,
+                url: null,
+                card: null,
+                fallbackUrl: null,
+                completionBotId: null,
+            };
+
+            taskInfo.title = "Task Module Demo";
+            taskInfo.height = "medium";
+            taskInfo.width = "medium";
+
+            if (type.includes('youtube')) {
+                taskInfo.url = "@(ApplicationSettings.BaseUrl)" + "/youtube";
+                taskInfo.title = "@(TaskModuleUIConstants.YouTube.Title)";
+                taskInfo.height = "@(TaskModuleUIConstants.YouTube.Height)";
+                taskInfo.width = "@(TaskModuleUIConstants.YouTube.Width)";
+            }
+            else if (type.includes('powerapp')) {
+                taskInfo.url = "@(ApplicationSettings.BaseUrl)" + "/powerapp";
+                taskInfo.title = "@(TaskModuleUIConstants.PowerApp.Title)";
+                taskInfo.height = "@(TaskModuleUIConstants.PowerApp.Height)";
+                taskInfo.width = "@(TaskModuleUIConstants.PowerApp.Width)";
+            }
+            else if (type.includes('customform')) {
+                taskInfo.url = "@(ApplicationSettings.BaseUrl)" + "/customform";
+                taskInfo.title = "@(TaskModuleUIConstants.CustomForm.Title)";
+                taskInfo.height = "@(TaskModuleUIConstants.CustomForm.Height)";
+                taskInfo.width = "@(TaskModuleUIConstants.CustomForm.Width)";
+            }
+            else {
+                taskInfo.card =  @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(AdaptiveCardHelper.GetAdaptiveCard()));
+                taskInfo.title = "@(TaskModuleUIConstants.AdaptiveCard.Title)";
+                taskInfo.height = "@(TaskModuleUIConstants.AdaptiveCard.Height)";
+                taskInfo.width = "@(TaskModuleUIConstants.AdaptiveCard.Width)";
+            }
+
+            // Set fallback URL
+            taskInfo.fallbackUrl = taskInfo.url;
+
+            if (type.includes('bot'))
+                taskInfo.completionBotId = "@(ApplicationSettings.MicrosoftAppId)";
+
+            microsoftTeams.tasks.startTask(taskInfo, submitHandler);
+        }
+</script>

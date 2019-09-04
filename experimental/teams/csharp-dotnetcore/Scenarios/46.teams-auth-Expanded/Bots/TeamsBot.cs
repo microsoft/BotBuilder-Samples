@@ -30,8 +30,7 @@ namespace Microsoft.BotBuilderSamples
                 }
             }
         }
-
-        protected override async Task OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        protected async override Task<InvokeResponse> OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             Logger.LogInformation("Running dialog with signin/verifystate from an Invoke Activity.");
 
@@ -39,6 +38,9 @@ namespace Microsoft.BotBuilderSamples
 
             // Run the Dialog with the new Invoke Activity.
             await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+
+            // NOTE: MUST return null here, since the OAuthPrompt already adds the InvokeResponse
+            return null;
         }
     }
 }

@@ -12,9 +12,13 @@ namespace Microsoft.BotBuilderSamples
 {
     public class LogoutDialog : ComponentDialog
     {
-        public LogoutDialog(string id, string connectionName)
+        protected ConversationState _conversationState;
+        public const string CardChoicePropertyName = "CardChoice";
+
+        public LogoutDialog(string id, string connectionName, ConversationState conversationState)
             : base(id)
         {
+            _conversationState = conversationState;
             ConnectionName = connectionName;
         }
 
@@ -38,7 +42,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 return result;
             }
-            else if (IsTeamsVerificationInvoke(innerDc.Context))
+            var userChoice = await _conversationState.CreateProperty<string>(CardChoicePropertyName).GetAsync(innerDc.Context,()=> string.Empty, cancellationToken);
+
+            if (userChoice == MainDialog.SignIn_Card && IsTeamsVerificationInvoke(innerDc.Context))
             {
                 var magicCodeObject = innerDc.Context.Activity.Value as JObject;
                 var magicCode = magicCodeObject.GetValue("state")?.ToString();
@@ -49,9 +55,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     // Hack to support SignIn Cards in this LogoutDialog
                     innerDc.Context.Activity.Type = ActivityTypes.Message;
-                    innerDc.Context.Activity.Text = token.ConnectionName;
-                    
-                    await innerDc.Context.SendActivityAsync(new Activity { Type = ActivityTypesEx.InvokeResponse }, cancellationToken).ConfigureAwait(false);
+                    innerDc.Context.Activity.Text = token.ConnectionName;                    
                 }
                 else
                 {

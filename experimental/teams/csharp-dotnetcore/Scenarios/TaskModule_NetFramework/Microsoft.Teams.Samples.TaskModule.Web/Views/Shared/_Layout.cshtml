@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Microsoft Teams Hello World Sample App</title>
+    @Styles.Render("~/Content/msteams-16.css")
+    @Styles.Render("~/Content/Custom.css")
+    @Styles.Render("~/Content/Site.css")
+    @Scripts.Render("https://unpkg.com/@microsoft/teams-js@1.3.4/dist/MicrosoftTeams.min.js")
+
+    @RenderSection("scripts", required: false)
+</head>
+<body class="theme-light">
+    <div class="surface">
+        <div class="panel">
+            @RenderBody()
+        </div>
+    </div>
+</body>
+</html>
