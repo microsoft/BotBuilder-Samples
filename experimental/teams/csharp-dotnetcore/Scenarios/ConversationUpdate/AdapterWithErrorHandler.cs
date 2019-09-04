@@ -7,9 +7,9 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class ScenarioAdapter : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public ScenarioAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger)
             : base(configuration, logger)
         {
             OnTurnError = async (turnContext, exception) =>
