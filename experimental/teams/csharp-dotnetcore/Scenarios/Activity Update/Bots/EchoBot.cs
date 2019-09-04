@@ -10,8 +10,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Builder.Teams.StateStorage;
 using Microsoft.Bot.Builder.Teams.TeamEchoBot;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -21,13 +24,15 @@ namespace Microsoft.BotBuilderSamples.Bots
         private BotState _botState;
         private UserState _userState;
         private IStatePropertyAccessor<string> _joshID;
+        private IConfiguration _config;
 
-        public EchoBot(TeamSpecificConversationState teamSpecificConversationState, UserState userState)
+        public EchoBot(TeamSpecificConversationState teamSpecificConversationState, UserState userState, IConfiguration config)
         {
             _accessor = teamSpecificConversationState.CreateProperty<EchoState>(EchoStateAccessor.CounterStateName);
             _botState = teamSpecificConversationState;
             _userState = userState;
             _joshID = userState.CreateProperty<string>("joshID");
+            _config = config;
         }
 
 
@@ -36,18 +41,29 @@ namespace Microsoft.BotBuilderSamples.Bots
             var id = _joshID.GetAsync(turnContext, () => { return "1"; }).Result;
 
             if (id == turnContext.Activity?.ReplyToId)
-            {  
-                var reply = turnContext.Activity.CreateReply();
-                reply.Id = id;
-
-                var heroCard = new HeroCard
+            {
+                if (turnContext.Activity.Text == "deleteMe")
                 {
-                    Title = "BF hero card v2"
-                };
+                    
+                    var connector = new ConnectorClient(new Uri(turnContext.Activity.ServiceUrl), _config["MicrosoftAppId"], _config["MicrosoftAppPassword"]);
+                    MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
 
-                reply.Attachments.Add(heroCard.ToAttachment());
+                    await connector.Conversations.DeleteActivityAsync(turnContext.Activity.Conversation.Id, id, cancellationToken);
+                }
+                else
+                {
+                    var reply = turnContext.Activity.CreateReply();
+                    reply.Id = id;
 
-                await turnContext.UpdateActivityAsync(reply, cancellationToken);
+                    var heroCard = new HeroCard
+                    {
+                        Title = "BF hero card v2"
+                    };
+
+                    reply.Attachments.Add(heroCard.ToAttachment());
+
+                    await turnContext.UpdateActivityAsync(reply, cancellationToken);
+                }
             }
             else
             {
@@ -83,7 +99,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 Text = "build stuff",
                 Buttons = new List<CardAction>
                 {
-                    new CardAction(ActionTypes.MessageBack, text:"clickMe", value:"button1")
+                    new CardAction(ActionTypes.MessageBack, text:"clickMe", value:"button1"),
+                    new CardAction(ActionTypes.MessageBack, text:"deleteMe", value:"button2")
                 },
             };
             
