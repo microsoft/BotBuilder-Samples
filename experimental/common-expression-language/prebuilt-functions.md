@@ -145,6 +145,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[getProperty](#getProperty)    | Return the value of the given property in a JSON object.  |
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
 |[xPath](#xPath)    | Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[jPath](#jPath)    | Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -1930,6 +1931,50 @@ join(createArray('a', 'b', 'c'), '.')
 
 And returns this result: `"a.b.c"`
 
+<a name="jPath"></a>
+
+### jPath
+
+Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes.
+
+```
+jPath(<json>, '<path>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*json*> | Yes | Any | The json object or string to search for nodes or values that match path expression value |
+| <*path*> | Yes | Any | The path expression used to find matching json nodes or values |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+|[ <*json-node*>] | Array | An list of json nodes or value that matches the specified path expression |
+||||
+
+*Example*
+In C#:
+The jsonStr is "{'Stores': ['Lambton Quay','Willis Street'],'Manufacturers': [{'Name': 'Acme Co','Products': [{'Name': 'Anvil','Price': 50}]},
+{'Name': 'Contoso','Products': [{'Name': 'Elbow Grease','Price': 99.95},{'Name': 'Headlight Fluid','Price': 4}]}]}", and the path expression is 
+"$..Products[?(@.Price >= 50)].Name" 
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `["Anvil", "Elbow Grease"]`
+
+In JavaScript:
+The jsonStr is '{"automobiles" : [{ "maker" : "Nissan", "model" : "Teana", "year" : 2011 },{ "maker" : "Honda", "model" : "Jazz", "year" : 2010 },{ "maker" : "Honda", "model" : "Civic", "year" : 2007 },{ "maker" : "Toyota", "model" : "Yaris", "year" : 2008 },{"maker" : "Honda", "model" : "Accord", "year" : 2011 }],"motorcycles" : [{ "maker" : "Honda", "model" : "ST1300", "year" : 2012 }]}'.
+And the path expression is `.automobiles{.maker === "Honda" && .year > 2009}.model`.
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `['Jazz', 'Accord']`
+
+
 <a name="json"></a>
 
 ### json
@@ -2571,7 +2616,7 @@ replace('<text>', '<oldText>', '<newText>')
 | <*updated-text*> | String | The updated string after replacing the substring <p>If the substring is not found, return the original string. |
 ||||
 
-*Example*
+*Example 1*
 
 This example finds the "old" substring in "the old string"
 and replaces "old" with "new":
@@ -2581,6 +2626,19 @@ replace('the old string', 'old', 'new')
 ```
 
 And returns this result: `"the new string"`
+
+*Example 2*
+
+When dealing with escape characters, the expression engine handles the unescape for you. Here is some example about the replace function with escape character cases:
+
+```
+replace('hello\"', '\"', '\n')
+replace('hello\n', '\n', '\\\\')
+@"replace('hello\\', '\\', '\\\\')"
+@"replace('hello\n', '\n', '\\\\')"
+```
+
+And returns these results: `"hello\n"`, `"hello\\"`, `@"hello\\"`, `@"hello\\"`
 
 <a name="replaceIgnoreCase"></a>
 
