@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "BookingDialog.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));

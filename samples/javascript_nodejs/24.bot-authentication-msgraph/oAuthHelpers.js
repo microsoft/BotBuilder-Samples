@@ -49,16 +49,11 @@ class OAuthHelpers {
             throw new Error('OAuthHelpers.listMe(): `tokenResponse` cannot be undefined.');
         }
 
-        try {
-            // Pull in the data from Microsoft Graph.
-            const client = new SimpleGraphClient(tokenResponse.token);
-            const me = await client.getMe();
-            const manager = await client.getManager();
+        // Pull in the data from Microsoft Graph.
+        const client = new SimpleGraphClient(tokenResponse.token);
+        const me = await client.getMe();
 
-            await context.sendActivity(`You are ${ me.displayName } and you report to ${ manager.displayName }.`);
-        } catch (error) {
-            throw error;
-        }
+        await context.sendActivity(`You are ${ me.displayName }.`);
     }
 
     /**
@@ -75,9 +70,10 @@ class OAuthHelpers {
         }
 
         var client = new SimpleGraphClient(tokenResponse.token);
-        var messages = await client.getRecentMail();
+        var response = await client.getRecentMail();
+        var messages = response.value;
         if (Array.isArray(messages)) {
-            let numberOfMessages = 0;
+            let numberOfMessages = messages.length;
             if (messages.length > 5) {
                 numberOfMessages = 5;
             }

@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using System.IO;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -18,14 +20,23 @@ namespace Microsoft.BotBuilderSamples
             : base(nameof(RootDialog))
         {
             Configuration = configuration;
+            string[] paths = { ".", "Dialogs", "RootDialog", "RootDialog.lg" };
+            string fullPath = Path.Combine(paths);
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                // Add a generator. This is how all Language Generation constructs specified for this dialog are resolved.
+                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
                 Rules = new List<IRule>()
                 {
+                    // Add a rule to welcome user
+                    new ConversationUpdateActivityRule()
+                    {
+                        Steps = WelcomeUserSteps()
+                    },
                     // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
                     new IntentRule("Greeting")         { Steps = new List<IDialog>() { new SendActivity("[Help-Root-Dialog]") } },
                     new IntentRule("AddToDoDialog")    { Steps = new List<IDialog>() { new BeginDialog(nameof(AddToDoDialog)) } },
@@ -56,6 +67,32 @@ namespace Microsoft.BotBuilderSamples
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(AdaptiveDialog);
+        }
+
+        private static List<IDialog> WelcomeUserSteps()
+        {
+            return new List<IDialog>()
+            {
+                // Iterate through membersAdded list and greet user added to the conversation.
+                new Foreach()
+                {
+                    ListProperty = "turn.activity.membersAdded",
+                    ValueProperty = "turn.memberAdded",
+                    Steps = new List<IDialog>()
+                    {
+                        // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
+                        // Filter cases where the bot itself is the recipient of the message. 
+                        new IfCondition()
+                        {
+                            Condition = "turn.memberAdded.name != turn.activity.recipient.name",
+                            Steps = new List<IDialog>()
+                            {
+                                new SendActivity("[Intro-message]")
+                            }
+                        }
+                    }
+                }
+            };
         }
 
         public static IRecognizer CreateRecognizer()

@@ -44,7 +44,7 @@ public Expression[] Children { get; set; }
 /// <summary>
 /// Expected result of evaluating expression.
 /// </summary>
-public ReturnType ReturnType => Evaluator.ReturnType;
+public ReturnType ReturnType { get; }
 ```
 
 #### Contructor

@@ -8,12 +8,10 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.LanguageGeneration.Renderer;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -22,17 +20,17 @@ namespace Microsoft.BotBuilderSamples
         private TemplateEngine _lgEngine;
 
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
+            UserState userState, ConversationState conversationState, IConfiguration configuration)
             : base(credentialProvider)
         {
             // combine path for cross platform support
             string[] paths = { ".", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
 
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+            this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712), events: new Events<AdaptiveEvents>());
 
             OnTurnError = async (turnContext, exception) =>
@@ -41,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", null));
+                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception));
 
                 if (conversationState != null)
                 {

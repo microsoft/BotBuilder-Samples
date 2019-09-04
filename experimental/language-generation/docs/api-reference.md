@@ -48,13 +48,36 @@ public TemplateEngine AddFile(string filePath, ImportResolverDelegate importReso
 
 ```C#
 /// <summary>
-/// Add text as lg file content to template engine.
+/// Add text as lg file content to template engine. A fullpath id is needed when importResolver is empty, or simply pass in customized importResolver.
 /// </summary>
 /// <param name="content">Text content contains lg templates.</param>
-/// <param name="name">Text name.</param>
+/// <param name="id">id is the content identifier. If <see cref="importResolver"/> is null, id should must be a full path string. </param>
 /// <param name="importResolver">resolver to resolve LG import id to template text.</param>
 /// <returns>Template engine with the parsed content.</returns>
-public TemplateEngine AddText(string content, string name, ImportResolverDelegate importResolver)
+public TemplateEngine AddText(string content, string id = "", ImportResolverDelegate importResolver = null)
+```
+
+```C#
+/// <summary>
+/// Evaluate a template with given name and scope.
+/// </summary>
+/// <param name="templateName">Template name to be evaluated.</param>
+/// <param name="scope">The state visible in the evaluation.</param>
+/// <param name="methodBinder">Optional methodBinder to extend or override functions.</param>
+/// <returns>Evaluate result.</returns>
+public string EvaluateTemplate(string templateName, object scope = null, IGetMethod methodBinder = null)
+```
+
+```C#
+/// <summary>
+/// Expand a template with given name and scope.
+/// Return all possible responses instead of random one.
+/// </summary>
+/// <param name="templateName">Template name to be evaluated.</param>
+/// <param name="scope">The state visible in the evaluation.</param>
+/// <param name="methodBinder">Optional methodBinder to extend or override functions.</param>
+/// <returns>Expand result.</returns>
+public List<string> ExpandTemplate(string templateName, object scope = null, IGetMethod methodBinder = null)
 ```
 
 ```C#
@@ -64,6 +87,17 @@ public TemplateEngine AddText(string content, string name, ImportResolverDelegat
 /// <param name="templateName">Template name</param>
 /// <returns>list of variable names</returns>
 public List<string> AnalyzeTemplate(string templateName)
+```
+
+```C#
+/// <summary>
+/// Use to evaluate an inline template str.
+/// </summary>
+/// <param name="inlineStr">inline string which will be evaluated.</param>
+/// <param name="scope">scope object or JToken.</param>
+/// <param name="methodBinder">input method.</param>
+/// <returns>Evaluate result.</returns>
+public string Evaluate(string inlineStr, object scope = null, IGetMethod methodBinder = null)
 ```
 
 [1]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration

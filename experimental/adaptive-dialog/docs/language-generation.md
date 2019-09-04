@@ -8,18 +8,21 @@ Once you have authored your .lg files for your Adaptive dialogs (or your bot pro
 
 All [sample projects][2] follow the exact same pattern.
 
-In startup.cs
-``` C#
-// Resource explorer helps load all .lg files for this project.
-var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-services.AddSingleton(resourceExplorer);
-```
 
 In adapter
 ```C#
-this.UseStorage(storage);
-this.UseState(userState, conversationState);
-this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
+```
+
+In any Adaptive Dialog
+```C#
+var adaptiveDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{ 
+    Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(lgFilePath)),
+    Rules = new List<IRule> () {
+        // Rules
+    }    
+}
 ```
 
 With this, you can simply refer to a LG template anywhere in your bot's response. 

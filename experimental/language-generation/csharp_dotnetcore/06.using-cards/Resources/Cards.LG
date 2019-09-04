@@ -2,7 +2,7 @@
 > All cards use the chatdown notation - see here - https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
 > Multi-line text are enclosed in ```
 > Multi-line text can include inline expressions enclosed in @{expression}.
-> @{lgTemplate("TemplateName")} is an inline expression that uses the lgTemplate pre-built function to evaluate a template by name.
+> @{TemplateName()} is way to refer to another template within a multi-line response.
 
 # HeroCard
 - ```
@@ -83,12 +83,12 @@
 
 # AllCards
 - ```
-[AttachmentLayout=@{lgTemplate("AttachmentLayoutType")}]
-@{lgTemplate("HeroCard")}
-@{lgTemplate("ThumbnailCard")}
-@{lgTemplate("SigninCard")}
-@{lgTemplate("AnimationCard")}
-@{lgTemplate("VideoCard")}
-@{lgTemplate("AudioCard")}
-@{lgTemplate("AdaptiveCard")}
+[AttachmentLayout=@{AttachmentLayoutType()}]
+@{HeroCard()}
+@{ThumbnailCard()}
+@{SigninCard()}
+@{AnimationCard()}
+@{VideoCard()}
+@{AudioCard()}
+@{AdaptiveCard()}
 ```

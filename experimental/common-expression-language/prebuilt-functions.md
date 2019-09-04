@@ -1931,6 +1931,7 @@ join(createArray('a', 'b', 'c'), '.')
 
 And returns this result: `"a.b.c"`
 
+
 <a name="jPath"></a>
 
 ### jPath
@@ -1973,7 +1974,6 @@ jPath(jsonStr, path)
 ```
 
 And it returns this result: `['Jazz', 'Accord']`
-
 
 <a name="json"></a>
 
@@ -2615,6 +2615,7 @@ replace('<text>', '<oldText>', '<newText>')
 | ------------ | ---- | ----------- |
 | <*updated-text*> | String | The updated string after replacing the substring <p>If the substring is not found, return the original string. |
 ||||
+
 
 *Example 1*
 
