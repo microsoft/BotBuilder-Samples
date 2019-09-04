@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
 
 
-                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id)).ToList();
+                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id));
 
                 var replyActivity = ((Activity)turnContext.Activity).CreateReply();
                 teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
@@ -107,7 +107,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             else if (actualText.Equals("show group chat members", StringComparison.OrdinalIgnoreCase))
             {
-                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.Conversation.Id)).ToList();
+                var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.Conversation.Id));
 
                 var replyActivity = ((Activity)turnContext.Activity).CreateReply();
                 teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
