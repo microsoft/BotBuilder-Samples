@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Tea
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams", "..\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj", "{846047D5-F2C4-4CD7-854F-E61B303837B3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "MessageReaction\MessageReaction.csproj", "{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{846047D5-F2C4-4CD7-854F-E61B303837B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{846047D5-F2C4-4CD7-854F-E61B303837B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{846047D5-F2C4-4CD7-854F-E61B303837B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

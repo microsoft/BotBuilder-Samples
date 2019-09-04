@@ -5,7 +5,7 @@
   "id": "528d4825-cca3-420a-bb88-712fbf54e6ca",
   "packageName": "com.teams.sample.echobot",
   "developer": {
-    "name": "TeamsEchoBot",
+    "name": "Add & Remove Bot",
     "websiteUrl": "https://www.microsoft.com",
     "privacyUrl": "https://www.teams.com/privacy",
     "termsOfUseUrl": "https://www.teams.com/termsofuser"
@@ -15,19 +15,18 @@
     "outline": "outline.png"
   },
   "name": {
-    "short": "Message Reaction bot",
-    "full": "Message Reaction bot"
+    "short": "Team Member Add & Remove",
+    "full": "Team Member Add & Remove"
   },
   "description": {
-    "short": "Handles message reactions",
-    "full": "Handles message reactions"
+    "short": "Team Member Add & Remove",
+    "full": "Team Member Add & Remove"
   },
   "accentColor": "#FFFFFF",
   "bots": [
     {
       "botId": "528d4825-cca3-420a-bb88-712fbf54e6ca",
       "scopes": [
-        "personal",
         "groupchat",
         "team"
       ],

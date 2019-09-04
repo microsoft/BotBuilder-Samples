@@ -6,11 +6,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.BotBuilderSamples.Bots;
-using Microsoft.Bot.Builder.Teams.StateStorage;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -28,17 +26,17 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the Bot Framework Adapter with error handling enabled.
-            services.AddSingleton<IBotFrameworkHttpAdapter, TeamsAdapter>();
-
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
 
-            services.AddSingleton<TeamSpecificConversationState>();
+            // Create the User state. (Used in this bot's Dialog implementation.)
+            services.AddSingleton<ActivityLog>();
 
-            services.AddSingleton<UserState>();
+            // Create the Bot Framework Adapter with error handling enabled.
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, MessageReactionBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
