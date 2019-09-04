@@ -3699,7 +3699,7 @@ xPath('<xml>', '<xpath>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*xml*> | Yes | Any | The XML string to search for nodes oor values that match an XPath expression value |
+| <*xml*> | Yes | Any | The XML string to search for nodes or values that match an XPath expression value |
 | <*xPath*> | Yes | Any | The XPath expression used to find matching XML nodes or values |
 |||||
 
