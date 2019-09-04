@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "MessageReaction\MessageReaction.csproj", "{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileBot", "FileUpload\TeamsFileBot.csproj", "{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
