@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const dotenv = require('dotenv');
-const fetch = require('node-fetch')
+const fetch = require('node-fetch');
 const path = require('path');
 const restify = require('restify');
 
@@ -23,6 +23,7 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
     console.log(`\nTo talk to your bot, open the emulator select "Open Bot"`);
+    console.log(`\nor navigate to ${`http://localhost:${process.env.port || process.env.PORT || 3978}/WebChat`} to talk to your bot`);
 });
 
 // Create adapter.
