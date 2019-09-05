@@ -382,7 +382,32 @@ export class TeamsActivityHandler {
             await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
         });
     };
-        
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/querySettingUrl' 
+     * @param handler (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
+     */
+    public onMessagingExtensionQuerySettingUrl(
+        handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
+        return this.on('ComposeExtension/QuerySettingUrl', async (context, next) => {
+            let messagingExtensionQuery = context.activity.value;
+            const invokeResponse = await handler(context, messagingExtensionQuery, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
+        });
+    }
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/setting' 
+     * @param handler (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
+     */
+    public onMessagingExtensionQuerySetting(
+        handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
+        return this.on('ComposeExtension/Setting', async (context, next) => {
+            let messagingExtensionQuery = context.activity.value;
+            const invokeResponse = await handler(context, messagingExtensionQuery, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
+        });
+    }
 
     /**
      * `run()` is the main "activity handler" function used to ingest activities into the event emission process.
@@ -467,6 +492,12 @@ export class TeamsActivityHandler {
                             } else {
                                 await this.handle(context, 'DeclineFileConsent', runDialogs);
                             }
+                            break;
+                        case 'composeExtension/querySettingUrl':
+                            await this.handle(context, 'ComposeExtension/QuerySettingUrl', runDialogs);
+                            break;
+                        case 'composeExtension/setting':
+                            await this.handle(context, 'ComposeExtension/Setting', runDialogs);
                             break;
                         case 'composeExtension/query':
                             await this.handle(context, 'ComposeExtension/Query', runDialogs);
