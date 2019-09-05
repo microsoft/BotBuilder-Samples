@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id));
 
-            var replyActivity = turnContext.Activity.CreateReply();
+            var replyActivity = MessageFactory.Text(string.Empty);
             teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
             replyActivity.Text = replyActivity.Text + $" Total of {teamMembers.Count} members are currently in team";
 
@@ -67,7 +67,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         stringBuilder.Append($"{elementsToSend[j].AadObjectId} --> {elementsToSend[j].Name} -->  {elementsToSend[j].UserPrincipalName} </br>");
                     }
 
-                    var memberListActivity = turnContext.Activity.CreateReply(stringBuilder.ToString());
+                    var memberListActivity = MessageFactory.Text(stringBuilder.ToString());
                     await turnContext.SendActivityAsync(memberListActivity);
                 }
             }
@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             var channelList = await teamsContext.Operations.FetchChannelListAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id);
 
-            var replyActivity = turnContext.Activity.CreateReply();
+            var replyActivity = MessageFactory.Text(string.Empty);
             teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
             replyActivity.Text = replyActivity.Text + $" Total of {channelList.Conversations.Count} channels are currently in team";
 
@@ -96,7 +96,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         stringBuilder.Append($"{elementsToSend[j].Id} --> {elementsToSend[j].Name}</br>");
                     }
 
-                    var memberListActivity = turnContext.Activity.CreateReply(stringBuilder.ToString());
+                    var memberListActivity = MessageFactory.Text(stringBuilder.ToString());
                     await turnContext.SendActivityAsync(memberListActivity);
                 }
             }
@@ -106,7 +106,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.Conversation.Id));
 
-            var replyActivity = turnContext.Activity.CreateReply();
+            var replyActivity = MessageFactory.Text(string.Empty);
             teamsContext.AddMentionToText(replyActivity, turnContext.Activity.From);
             replyActivity.Text = replyActivity.Text + $" Total of {teamMembers.Count} members are currently in team";
 
@@ -125,7 +125,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         stringBuilder.Append($"{elementsToSend[j].AadObjectId} --> {elementsToSend[j].Name} -->  {elementsToSend[j].UserPrincipalName} </br>");
                     }
 
-                    var memberListActivity = turnContext.Activity.CreateReply(stringBuilder.ToString());
+                    var memberListActivity = MessageFactory.Text(stringBuilder.ToString());
                     await turnContext.SendActivityAsync(memberListActivity);
                 }
             }
