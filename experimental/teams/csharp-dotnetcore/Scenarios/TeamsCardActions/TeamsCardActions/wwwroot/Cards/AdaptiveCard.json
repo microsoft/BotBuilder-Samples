@@ -82,6 +82,11 @@
   ],
   "actions": [
     {
+      "type": "Action.OpenUrl",
+      "title": "More Info",
+      "url": "https://adaptivecards.io"
+    },
+    {
       "type": "Action.ShowCard",
       "title": "Set due date",
       "card": {
