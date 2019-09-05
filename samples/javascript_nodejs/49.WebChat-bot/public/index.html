@@ -5,35 +5,36 @@
 <title>Web Chat: Full-featured bundle</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!--
-    This CDN points to the latest official release of Web Chat. If you need to test against Web Chat's latest bits, please refer to pointing to Web Chat's MyGet feed:
-    https://github.com/microsoft/BotFramework-WebChat#how-to-test-with-web-chats-latest-bits
-    -->
+  This CDN points to the latest official release of Web Chat. If you need to test against Web Chat's latest bits, please refer 
+  to pointing to Web Chat's MyGet feed: https://github.com/microsoft/BotFramework-WebChat#how-to-test-with-web-chats-latest-bits
+-->
 <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
 <style>
-    html, body { height: 100% }
-    body { margin: 0  }
+  html, body { height: 100% }
+  body { margin: 0  }
 
-    #webchat {
+  #webchat {
     height: 100%;
     width: 100%;
-    }
+  }
 </style>
 </head>
 
 <body>
 <div id="webchat" role="main"></div>
 <script>
-    (async function () {
+  'use strict';
+  (async function () {
 
-    const res = await fetch('/directline/token', { method: 'POST' });
-    const { token } = await res.json();
+  const res = await fetch('/directline/token', { method: 'POST' });
+  const { token } = await res.json();
 
-    window.WebChat.renderWebChat({
-        directLine: window.WebChat.createDirectLine({ token })
-    }, document.getElementById('webchat'));
+  window.WebChat.renderWebChat({
+    directLine: window.WebChat.createDirectLine({ token })
+  }, document.getElementById('webchat'));
 
-    document.querySelector('#webchat > *').focus();
-    })().catch(err => console.error(err));
+  document.querySelector('#webchat > *').focus();
+  })().catch(err => console.error(err));
 </script>
 </body>
 
