@@ -26,7 +26,7 @@ namespace Microsoft.Bot.Builder.Teams.Internal
         /// </summary>
         /// <param name="turnContext">Turn context created by adapter and sent over through middlewares.</param>
         /// <param name="teamsConnectorClient">Teams connector client instance.</param>
-        internal TeamsContext(ITurnContext turnContext, ITeamsConnectorClient teamsConnectorClient)
+        public TeamsContext(ITurnContext turnContext, ITeamsConnectorClient teamsConnectorClient)
         {
             this.turnContext = turnContext;
             this.teamsConnectorClient = teamsConnectorClient;
