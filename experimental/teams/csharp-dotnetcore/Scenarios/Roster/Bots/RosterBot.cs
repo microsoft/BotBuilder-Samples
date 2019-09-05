@@ -37,6 +37,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 await ShowGroupChatMembers(turnContext, teamsContext, cancellationToken);
             }
+            else if (actualText.Equals("show teams details", StringComparison.OrdinalIgnoreCase))
+            {
+                await ShowTeamDetails(turnContext, teamsContext, cancellationToken);
+            }
             else
             {
                 await turnContext.SendActivityAsync("Invalid command. Type \"Show channels\" to see a channel list. Type \"Show members\" to see a list of members in a team. " +
@@ -44,7 +48,16 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        private async Task ShowTeamMembers(ITurnContext<IMessageActivity> turnContext, ITeamsContext teamsContext, CancellationToken cancellationToken)
+        private async Task ShowTeamDetails(ITurnContext<IMessageActivity> turnContext, ITeamsContext teamsContext, CancellationToken cancellationToken)
+        {
+            var teamsDetails = await teamsContext.Operations.FetchTeamDetailsAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id);
+            var replyActivity = turnContext.Activity.CreateReply();
+            replyActivity.Text = $"The team name is {teamsDetails.Name}. The team ID is {teamsDetails.Id}. The ADDGroupID is {teamsDetails.AadGroupId}.";
+
+            await turnContext.SendActivityAsync(replyActivity);
+        }
+
+            private async Task ShowTeamMembers(ITurnContext<IMessageActivity> turnContext, ITeamsContext teamsContext, CancellationToken cancellationToken)
         {
             var teamMembers = (await turnContext.TurnState.Get<IConnectorClient>().Conversations.GetConversationMembersAsync(turnContext.Activity.GetChannelData<TeamsChannelData>().Team.Id));
 
