@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj" />
+    <ProjectReference Include="..\..\..\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj" />
   </ItemGroup>
 
     <ItemGroup>
