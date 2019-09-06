@@ -30,8 +30,6 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
-// adapter.use(new TranscriptLoggerMiddleware(new FileTranscriptStore('./transcripts')));
-
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
