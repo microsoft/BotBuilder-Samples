@@ -6,22 +6,25 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Builder.Teams.Internal;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class MessagingExtensionsBot : TeamsActivityHandler
+    public class CardActionsBot : TeamsActivityHandler
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             //await turnContext.SendActivityAsync(MessageFactory.Text($"MessagingExtensions echo: {turnContext.Activity.Text}"), cancellationToken);
 
-            ITeamsContext teamsContext = turnContext.TurnState.Get<ITeamsContext>();
-
-
+            var connectorClient = turnContext.TurnState.Get<IConnectorClient>();
+            var teamsConnectorClient = new TeamsConnectorClient(connectorClient.Credentials);
+            teamsConnectorClient.BaseUri = new Uri(turnContext.Activity.ServiceUrl);
+            var teamsContext = new TeamsContext(turnContext, teamsConnectorClient);
 
             string actualText = teamsContext.GetActivityTextWithoutMentions();
             if (actualText.Equals("Cards", StringComparison.OrdinalIgnoreCase))
@@ -33,9 +36,13 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var action1 = new CardAction("imback", "imBack", null, null, null, "text");
                 var action2 = new CardAction("messageBack", "message back", null, "text received by bots", "text display to users", JObject.Parse(@"{ ""key"" : ""value"" }"));
                 var action3 = new CardAction("invoke", "invoke", null, null, null, JObject.Parse(@"{ ""key"" : ""value"" }"));
+                var action4 = new CardAction("openUrl", "Buckethead", null, null, null, "https://en.wikipedia.org/wiki/Buckethead");
+                var action5 = new CardAction("invoke", "a special invoke", null, "text on an invoke", "display text", JObject.Parse(@"{ ""key"" : ""value"" }"));
                 adaptiveCard.Actions.Add(action1.ToAdaptiveCardAction());
                 adaptiveCard.Actions.Add(action2.ToAdaptiveCardAction());
                 adaptiveCard.Actions.Add(action3.ToAdaptiveCardAction());
+                adaptiveCard.Actions.Add(action4.ToAdaptiveCardAction());
+                adaptiveCard.Actions.Add(action5.ToAdaptiveCardAction());
 
                 // Task module action
                 var taskModuleAction = new TaskModuleAction("Launch Task Module", @"{ ""hiddenKey"": ""hidden value from task module launcher"" }");
@@ -57,6 +64,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text($"You said: {turnContext.Activity.Text}"), cancellationToken);
             }
+        }
+
+        protected override Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return base.OnInvokeActivityAsync(turnContext, cancellationToken);
         }
     }
 }
