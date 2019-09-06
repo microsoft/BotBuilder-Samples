@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj" Exclude="Runtime" DevelopmentDependency="true" />
+    <ProjectReference Include="..\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj" />
   </ItemGroup>
 
 </Project>

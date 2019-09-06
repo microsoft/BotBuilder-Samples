@@ -49,38 +49,50 @@ namespace Microsoft.BotBuilderSamples
 
         protected virtual Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
-            switch (turnContext.Activity.Name)
+            if (turnContext.Activity.Name == null)
             {
-                case "signin/verifyState":
-                    return OnSigninVerifyStateAsync(turnContext, cancellationToken);
-
-                case "fileConsent/invoke":
-                    return OnFileConsent(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<FileConsentCardResponse>(), cancellationToken);
-
-                case "composeExtension/query":
-                    return OnMessagingExtensionQueryAsync(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<MessagingExtensionQuery>(), cancellationToken);
-
-                case "actionableMessage/executeAction":
-                    return OnO365ConnectorCardActionAsync(turnContext, cancellationToken);
-
-                case "composeExtension/queryLink":
-                    return OnAppBasedLinkQueryAsync(turnContext, cancellationToken);
-
-                case "composeExtension/fetchTask":
-                    return OnMessagingExtensionFetchTaskAsync(turnContext, cancellationToken);
-
-                case "composeExtension/submitAction":
-                    return OnMessagingExtensionSubmitActionAsync(turnContext, cancellationToken);
-
-                case "task/fetch":
-                    return OnTaskModuleFetchAsync(turnContext, cancellationToken);
-
-                case "task/submit":
-                    return OnTaskModuleSubmitAsync(turnContext, cancellationToken);
-
-                default:
-                    return Task.FromResult<InvokeResponse>(null);
+                return OnCardActionInvokeAsync(turnContext, cancellationToken);
             }
+            else
+            {
+                switch (turnContext.Activity.Name)
+                {
+                    case "signin/verifyState":
+                        return OnSigninVerifyStateAsync(turnContext, cancellationToken);
+
+                    case "fileConsent/invoke":
+                        return OnFileConsent(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<FileConsentCardResponse>(), cancellationToken);
+
+                    case "composeExtension/query":
+                        return OnMessagingExtensionQueryAsync(turnContext, JObject.FromObject(turnContext.Activity.Value).ToObject<MessagingExtensionQuery>(), cancellationToken);
+
+                    case "actionableMessage/executeAction":
+                        return OnO365ConnectorCardActionAsync(turnContext, cancellationToken);
+
+                    case "composeExtension/queryLink":
+                        return OnAppBasedLinkQueryAsync(turnContext, cancellationToken);
+
+                    case "composeExtension/fetchTask":
+                        return OnMessagingExtensionFetchTaskAsync(turnContext, cancellationToken);
+
+                    case "composeExtension/submitAction":
+                        return OnMessagingExtensionSubmitActionAsync(turnContext, cancellationToken);
+
+                    case "task/fetch":
+                        return OnTaskModuleFetchAsync(turnContext, cancellationToken);
+
+                    case "task/submit":
+                        return OnTaskModuleSubmitAsync(turnContext, cancellationToken);
+
+                    default:
+                        return Task.FromResult<InvokeResponse>(null);
+                }
+            }
+        }
+
+        protected virtual Task<InvokeResponse> OnCardActionInvokeAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<InvokeResponse>(null);
         }
 
         protected virtual Task<InvokeResponse> OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
