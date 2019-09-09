@@ -342,15 +342,17 @@ export class TeamsActivityHandler {
     }
 
     /**
-     * Receives invoke activities with the name 'composeExtension/query'.
+     * Receives invoke activities with the name 'composeExtension/selectItem'.
      * @remarks
      * Used in creating a Search-based Message Extension.
      * @param handler InvokeActivityHandler a handler in the form async(context, next): Promise<InvokeResponse> => { ... } 
      */
-    public onSelectItem(handler: InvokeActivityHandler): this {
+    public onSelectItem(
+        handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
         return this.on('ComposeExtension/SelectItem', async (context, next) => {
-            await TeamsActivityHandler.teamsInvokeWrapper(handler, 'onSelectItem', context, next);
-        });
+            const invokeResponse = await handler(context, context.activity.value, next);
+            await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onSelectItem');
+        }); 
     }
 
     /**
@@ -362,11 +364,39 @@ export class TeamsActivityHandler {
     public onMessagingExtensionSubmit(
         handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
         return this.on('ComposeExtension/SubmitAction', async (context, next) => {
-            let messagingExtensionActionData: MessagingExtensionAction = context.activity.value;
-            messagingExtensionActionData.messagePayload.body.textContent = InvokeActivity.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
-            const invokeResponse = await handler(context, messagingExtensionActionData, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
             await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionSubmit');
         });
+    }
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/submitAction' with the 'botMessagePreview' property present on activity.value.
+     * The value for 'botMessagePreview' is 'edit'.
+     * @remarks
+     * This invoke activity is received when a user 
+     * @param handler (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
+     */
+    public onBotMessagePreviewEdit(
+        handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
+            return this.on('ComposeExtension/SubmitAction/BotMessagePreviewEdit', async (context, next) => {
+                const invokeResponse = await handler(context, context.activity.value, next);
+                await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onBotMessagePreviewEdit');
+            });
+    }
+
+    /**
+     * Receives invoke activities with the name 'composeExtension/submitAction' with the 'botMessagePreview' property present on activity.value.
+     * The value for 'botMessagePreview' is 'send'.
+     * @remarks
+     * This invoke activity is received when a user 
+     * @param handler (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>
+     */
+    public onBotMessagePreviewSend(
+        handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
+            return this.on('ComposeExtension/SubmitAction/BotMessagePreviewSend', async (context, next) => {
+                const invokeResponse = await handler(context, context.activity.value, next);
+                await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onBotMessagePreviewSend');
+            });
     }
 
     /**
@@ -376,9 +406,7 @@ export class TeamsActivityHandler {
     public onMessagingExtensionFetchTask(
         handler: (context: TurnContext, value: MessagingExtensionAction, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionActionResponse>>): this {
         return this.on('ComposeExtension/FetchTask', async (context, next) => {
-            let messagingExtensionActionData = context.activity.value;
-            messagingExtensionActionData.messagePayload.body.textContent = InvokeActivity.stripHtmlTag(messagingExtensionActionData.messagePayload.body.content);
-            const invokeResponse = await handler(context, messagingExtensionActionData, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
             await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
         });
     };
@@ -390,8 +418,7 @@ export class TeamsActivityHandler {
     public onMessagingExtensionQuerySettingUrl(
         handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
         return this.on('ComposeExtension/QuerySettingUrl', async (context, next) => {
-            let messagingExtensionQuery = context.activity.value;
-            const invokeResponse = await handler(context, messagingExtensionQuery, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
             await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
         });
     }
@@ -403,8 +430,7 @@ export class TeamsActivityHandler {
     public onMessagingExtensionQuerySetting(
         handler: (context: TurnContext, value: MessagingExtensionQuery, next: () => Promise<void>) => Promise<InvokeResponseTyped<MessagingExtensionResponse>>): this {
         return this.on('ComposeExtension/Setting', async (context, next) => {
-            let messagingExtensionQuery = context.activity.value;
-            const invokeResponse = await handler(context, messagingExtensionQuery, next);
+            const invokeResponse = await handler(context, context.activity.value, next);
             await TeamsActivityHandler.sendTeamsTypedInvokeResponse(context, invokeResponse, 'onMessagingExtensionFetchTask');
         });
     }
@@ -502,8 +528,17 @@ export class TeamsActivityHandler {
                         case 'composeExtension/query':
                             await this.handle(context, 'ComposeExtension/Query', runDialogs);
                             break;
+                        case 'composeExtension/selectItem':
+                            await this.handle(context, 'ComposeExtension/SelectItem', runDialogs);
+                            break;
                         case 'composeExtension/submitAction':
-                            await this.handle(context, 'ComposeExtension/SubmitAction', runDialogs);
+                            if ((context.activity.value as MessagingExtensionAction).botMessagePreviewAction === 'edit') {
+                                await this.handle(context, 'ComposeExtension/SubmitAction/BotMessagePreviewEdit', runDialogs);
+                            } else if ((context.activity.value as MessagingExtensionAction).botMessagePreviewAction === 'send') {
+                                await this.handle(context, 'ComposeExtension/SubmitAction/BotMessagePreviewSend', runDialogs);
+                            } else {
+                                await this.handle(context, 'ComposeExtension/SubmitAction', runDialogs);
+                            }
                             break;
                         case 'actionableMessage/executeAction':
                             await this.handle(context, '365CardAction', runDialogs);
