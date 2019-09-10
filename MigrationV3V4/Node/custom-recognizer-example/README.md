@@ -1,6 +1,6 @@
 # custom-recognizer-example
 
-Demonstrate the core capabilities of the Microsoft Bot Framework
+This sample bot demonstrates how to implement a custom recognizer. The recognizer code (customRecognizer.js) uses a regex expression to detect an email address in the user input and suggests possible intents if present. Then the bot uses the top intent returned from the recognizer to respond accordingly.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
