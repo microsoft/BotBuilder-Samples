@@ -1,7 +1,5 @@
 class CustomRecognizer {
 
-    construction() {}
-
     recognize(text) {
         const recognizerResult = {
             text: text,
