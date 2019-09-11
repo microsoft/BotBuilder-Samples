@@ -13,6 +13,7 @@
   "author": "Microsoft",
   "license": "MIT",
   "dependencies": {
+    "botbuilder": "^4.5.3",
     "dotenv": "^8.1.0"
   }
 }
