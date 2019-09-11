@@ -4,6 +4,6 @@ class ErrorViewModel {
     }
     
     showRequestId() {
-        return !this.requestId;
+        return Boolean(this.requestId);
     }
 }
