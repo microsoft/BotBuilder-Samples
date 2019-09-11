@@ -79,7 +79,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             await turnContext.SendActivityAsync(replyActivity, cancellationToken);
         }
 
-        protected override async Task<InvokeResponse> OnFileConsentAcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        protected override async Task<InvokeResponse> OnTeamsFileConsentAcceptAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
             try
             {
@@ -106,7 +106,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             return new InvokeResponse { Status = 200 };
         }
 
-        protected override async Task<InvokeResponse> OnFileConsentDeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
+        protected override async Task<InvokeResponse> OnTeamsFileConsentDeclineAsync(ITurnContext<IInvokeActivity> turnContext, FileConsentCardResponse fileConsentCardResponse, CancellationToken cancellationToken)
         {
             JToken context = JObject.FromObject(fileConsentCardResponse.Context);
 
