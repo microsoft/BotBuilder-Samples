@@ -84,6 +84,12 @@ namespace Microsoft.BotBuilderSamples
                     case "composeExtension/fetchTask":
                         return CreateInvokeResponse(await OnTeamsMessagingExtensionFetchTaskAsync(turnContext, cancellationToken));
 
+                    case "composeExtension/onquerySettingsUrl":
+                        return CreateInvokeResponse(await OnTeamsMessagingExtensionConfigurationSettingsUrlAsync(turnContext, cancellationToken));
+
+                    case "composeExtension/setting":
+                        return CreateInvokeResponse(await OnTeamsMessagingExtensionConfigurationSettings(turnContext, cancellationToken));
+
                     case "task/fetch":
                         return CreateInvokeResponse(await OnTeamsTaskModuleFetchAsync(turnContext, cancellationToken));
 
@@ -193,6 +199,15 @@ namespace Microsoft.BotBuilderSamples
         protected virtual Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionBotMessagePreviewSend(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction query, CancellationToken cancellationToken)
         {
             return Task.FromResult<MessagingExtensionActionResponse>(null);
+        }
+
+        protected virtual Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationSettingsUrlAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<MessagingExtensionResponse>(null);
+        }
+        protected virtual Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationSettings(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            return Task.FromResult<MessagingExtensionResponse>(null);
         }
 
         protected virtual Task<InvokeResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
