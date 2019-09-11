@@ -5,7 +5,6 @@ const { ActivityHandler } = require('botbuilder');
 
 class DialogBot extends ActivityHandler {
     /**
-     * 
      * @param {ConversationState} conversationState 
      * @param {UserState} userState 
      * @param {Dialog} dialog 
@@ -25,6 +24,7 @@ class DialogBot extends ActivityHandler {
             await this.conversationState.saveChanges(turnContext, false);
             await this.userState.saveChanges(turnContext, false);
 
+            // Ensure next BotHandler is executed.
             await next();
         });
 
@@ -34,6 +34,7 @@ class DialogBot extends ActivityHandler {
             
             await this.dialog.run(turnContext, dialogState);
 
+            // Ensure next BotHandler is executed.
             await next();
         });
     }
