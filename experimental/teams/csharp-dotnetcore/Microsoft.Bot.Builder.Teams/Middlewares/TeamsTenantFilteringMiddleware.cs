@@ -6,7 +6,6 @@ namespace Microsoft.Bot.Builder.Teams.Middlewares
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Microsoft.Bot.Connector;
@@ -19,9 +18,9 @@ namespace Microsoft.Bot.Builder.Teams.Middlewares
     public class TeamsTenantFilteringMiddleware : IMiddleware
     {
         /// <summary>
-        /// The tenant map. This is an optimization as dictionaries are hashmap based thus allowing quicker lookup.
+        /// The tenant map.
         /// </summary>
-        private readonly Dictionary<string, string> tenantMap = new Dictionary<string, string>();
+        private readonly HashSet<string> tenantMap;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="TeamsTenantFilteringMiddleware"/> class.
@@ -34,7 +33,7 @@ namespace Microsoft.Bot.Builder.Teams.Middlewares
                 throw new ArgumentNullException(nameof(allowedTenantIds));
             }
 
-            this.tenantMap = allowedTenantIds.ToDictionary((tenantId) => tenantId, (tenantId) => tenantId);
+            this.tenantMap = new HashSet<string>(allowedTenantIds);
         }
 
         /// <summary>
@@ -73,7 +72,7 @@ namespace Microsoft.Bot.Builder.Teams.Middlewares
                 throw new UnauthorizedAccessException("Tenant Id is missing.");
             }
 
-            if (!this.tenantMap.ContainsKey(tenantId))
+            if (!this.tenantMap.Contains(tenantId))
             {
                 throw new UnauthorizedAccessException("Tenant Id '" + tenantId + "' is not allowed access.");
             }
