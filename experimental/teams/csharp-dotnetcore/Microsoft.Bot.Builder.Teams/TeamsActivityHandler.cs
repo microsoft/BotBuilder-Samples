@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -61,24 +62,24 @@ namespace Microsoft.BotBuilderSamples
                         return await OnTeamsSigninVerifyStateAsync(turnContext, cancellationToken);
 
                     case "fileConsent/invoke":
-                        return await OnTeamsFileConsentAsync(turnContext, turnContext.Activity.Value as FileConsentCardResponse, cancellationToken);
+                        return await OnTeamsFileConsentAsync(turnContext, SafeCast<FileConsentCardResponse>(turnContext.Activity.Value), cancellationToken);
 
                     case "actionableMessage/executeAction":
-                        // TODO: need to understand what argument and waht result this callback should take.
-                        await OnTeamsO365ConnectorCardActionAsync(turnContext, cancellationToken);
+                        // TODO: need to understand what result this callback should take.
+                        await OnTeamsO365ConnectorCardActionAsync(turnContext, SafeCast<O365ConnectorCardActionQuery>(turnContext.Activity.Value), cancellationToken);
                         return CreateInvokeResponse();
 
                     case "composeExtension/query":
-                        return CreateInvokeResponse(await OnTeamsMessagingExtensionQueryAsync(turnContext, turnContext.Activity.Value as MessagingExtensionQuery, cancellationToken));
+                        return CreateInvokeResponse(await OnTeamsMessagingExtensionQueryAsync(turnContext, SafeCast<MessagingExtensionQuery>(turnContext.Activity.Value), cancellationToken));
 
                     case "composeExtension/queryLink":
                         return CreateInvokeResponse(await OnTeamsAppBasedLinkQueryAsync(turnContext, cancellationToken));
 
                     case "composeExtension/selectItem":
-                        return CreateInvokeResponse(await OnTeamsMessagingExtensionSelectItemAsync(turnContext, turnContext.Activity.Value as MessagingExtensionQuery, cancellationToken));
+                        return CreateInvokeResponse(await OnTeamsMessagingExtensionSelectItemAsync(turnContext, SafeCast<MessagingExtensionQuery>(turnContext.Activity.Value), cancellationToken));
 
                     case "composeExtension/submitAction":
-                        return CreateInvokeResponse(await OnTeamsMessagingExtensionSubmitActionDispatchAsync(turnContext, turnContext.Activity.Value as MessagingExtensionAction, cancellationToken));
+                        return CreateInvokeResponse(await OnTeamsMessagingExtensionSubmitActionDispatchAsync(turnContext, SafeCast<MessagingExtensionAction>(turnContext.Activity.Value), cancellationToken));
 
                     case "composeExtension/fetchTask":
                         return CreateInvokeResponse(await OnTeamsMessagingExtensionFetchTaskAsync(turnContext, cancellationToken));
@@ -137,7 +138,7 @@ namespace Microsoft.BotBuilderSamples
             return Task.FromResult<MessagingExtensionResponse>(null);
         }
 
-        protected virtual Task<InvokeResponse> OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        protected virtual Task<InvokeResponse> OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, O365ConnectorCardActionQuery query, CancellationToken cancellationToken)
         {
             return Task.FromResult<InvokeResponse>(null);
         }
@@ -268,9 +269,20 @@ namespace Microsoft.BotBuilderSamples
             return Task.CompletedTask;
         }
 
-        private InvokeResponse CreateInvokeResponse(object body = null)
+        private static InvokeResponse CreateInvokeResponse(object body = null)
         {
             return body == null ? null : new InvokeResponse { Status = (int)HttpStatusCode.OK, Body = body };
+        }
+
+        private static T SafeCast<T>(object value)
+        {
+            var obj = value as JObject;
+            if (obj == null)
+            {
+                throw new Exception($"expected type '{value.GetType().Name}'");
+            }
+
+            return obj.ToObject<T>();
         }
     }
 }
