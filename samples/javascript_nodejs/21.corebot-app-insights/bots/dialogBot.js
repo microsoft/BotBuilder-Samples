@@ -38,3 +38,5 @@ class DialogBot extends ActivityHandler {
         });
     }
 }
+
+module.exports.DialogBot = DialogBot;
