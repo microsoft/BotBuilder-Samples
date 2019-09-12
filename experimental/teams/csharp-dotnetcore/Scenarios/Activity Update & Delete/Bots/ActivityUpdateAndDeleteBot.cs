@@ -22,7 +22,24 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             if (_list.Count == 0)
             {
-                await SendMessageAndLogActivityId(turnContext, "Hello. If you message me again I'll echo your message and update all sent messages with your text.", cancellationToken);
+
+                
+                var welcomeMessage = "Hello. If you message me again I'll echo your message and update all sent messages with your text. " +
+                                     "Type \"delete\" to delete all messages sent";
+                await SendMessageAndLogActivityId(turnContext, welcomeMessage, cancellationToken);
+            }
+            else if (turnContext.Activity.Text == "delete")
+            {
+                /*
+                var connector = new ConnectorClient(new Uri(turnContext.Activity.ServiceUrl), _config["MicrosoftAppId"], _config["MicrosoftAppPassword"]);
+                MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
+
+                foreach (var activityId in _list)
+                {
+                    await connector.Conversations.DeleteActivityAsync(turnContext.Activity.Conversation.Id, id, cancellationToken);
+                }
+                _list.Clear();
+                */
             }
             else
             {
