@@ -10,7 +10,7 @@ const restify = require('restify');
 const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require ('botbuilder-applicationinsights');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, NullTelemetryClient, UserState } = require('botbuilder');
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // This bot's main dialog.
@@ -19,7 +19,6 @@ const { MainDialog } = require('./dialogs/mainDialog');
 
 // the bot's booking dialog
 const { BookingDialog } = require('./dialogs/bookingDialog');
-const BOOKING_DIALOG = 'bookingDialog';
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -61,10 +60,10 @@ const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint
 
 const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
+const telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
+
 // Create the main dialog.
-//TO-DO
-const bookingDialog = new BookingDialog(BOOKING_DIALOG);
-const dialog = new MainDialog(luisRecognizer, bookingDialog);
+const dialog = new MainDialog(luisRecognizer, telemetryClient);
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
@@ -72,8 +71,8 @@ const server = restify.createServer();
 
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
-server.use(restify.plugins.bodyParser());
-server.use(ApplicationInsightsWebserverMiddleware)
+// server.use(restify.plugins.bodyParser());
+server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
@@ -88,3 +87,13 @@ server.post('/api/messages', (req, res) => {
         await bot.run(turnContext);
     });
 });
+
+// Creates a new TelemetryClient based on a instrumentation key
+function getTelemetryClient(instrumentationKey) {
+    if (instrumentationKey) {
+        const instrumentationKey = instrumentationKey.appInsights.instrumentationKey;
+
+        return new ApplicationInsightsTelemetryClient(instrumentationKey);
+    }
+    return new NullTelemetryClient();
+}
