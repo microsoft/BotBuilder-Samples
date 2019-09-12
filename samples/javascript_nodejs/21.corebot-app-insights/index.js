@@ -91,8 +91,6 @@ server.post('/api/messages', (req, res) => {
 // Creates a new TelemetryClient based on a instrumentation key
 function getTelemetryClient(instrumentationKey) {
     if (instrumentationKey) {
-        const instrumentationKey = instrumentationKey.appInsights.instrumentationKey;
-
         return new ApplicationInsightsTelemetryClient(instrumentationKey);
     }
     return new NullTelemetryClient();
