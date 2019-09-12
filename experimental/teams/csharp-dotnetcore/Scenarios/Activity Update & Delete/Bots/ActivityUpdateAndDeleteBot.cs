@@ -2,9 +2,14 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Builder.Teams.Internal;
+using Microsoft.Bot.Builder.TraceExtensions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -20,26 +25,22 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            var teamsContext = new TeamsContext(turnContext, null);
+            string actualText = teamsContext.GetActivityTextWithoutMentions();
+
             if (_list.Count == 0)
             {
-
-                
                 var welcomeMessage = "Hello. If you message me again I'll echo your message and update all sent messages with your text. " +
                                      "Type \"delete\" to delete all messages sent";
                 await SendMessageAndLogActivityId(turnContext, welcomeMessage, cancellationToken);
             }
-            else if (turnContext.Activity.Text == "delete")
+            else if (actualText == "delete")
             {
-                /*
-                var connector = new ConnectorClient(new Uri(turnContext.Activity.ServiceUrl), _config["MicrosoftAppId"], _config["MicrosoftAppPassword"]);
-                MicrosoftAppCredentials.TrustServiceUrl(turnContext.Activity.ServiceUrl);
-
                 foreach (var activityId in _list)
                 {
-                    await connector.Conversations.DeleteActivityAsync(turnContext.Activity.Conversation.Id, id, cancellationToken);
+                    await turnContext.DeleteActivityAsync(activityId, cancellationToken);
                 }
-                _list.Clear();
-                */
+                _list.Clear();   
             }
             else
             {
