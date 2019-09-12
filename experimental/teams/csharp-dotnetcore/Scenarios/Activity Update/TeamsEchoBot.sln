@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsEchoBot", "TeamsEchoBo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Teams", "..\..\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj", "{13575E72-7B77-4385-BEE2-3C8C7CB75CE1}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityUpdateAndDelete", "..\Activity Update & Delete\ActivityUpdateAndDelete.csproj", "{7FE42C08-A121-4E30-8D3E-4A93CD64E0ED}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{13575E72-7B77-4385-BEE2-3C8C7CB75CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13575E72-7B77-4385-BEE2-3C8C7CB75CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13575E72-7B77-4385-BEE2-3C8C7CB75CE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7FE42C08-A121-4E30-8D3E-4A93CD64E0ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7FE42C08-A121-4E30-8D3E-4A93CD64E0ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7FE42C08-A121-4E30-8D3E-4A93CD64E0ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7FE42C08-A121-4E30-8D3E-4A93CD64E0ED}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
