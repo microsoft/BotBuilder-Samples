@@ -27,6 +27,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Office365Card", "CardsOffic
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityUpdateAndDelete", "Activity Update & Delete\ActivityUpdateAndDelete.csproj", "{DF02065E-364B-4BF4-AD16-199D9CA8FF98}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReplyToChannel", "ReplyToChannel\ReplyToChannel.csproj", "{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -81,6 +83,10 @@ Global
 		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
