@@ -20,10 +20,9 @@ namespace Cards.Bots
             await turnContext.SendActivityAsync(MessageFactory.Attachment(Cards.CreateSampleO365ConnectorCard().ToAttachment()));
         }
 
-        protected override async Task<InvokeResponse> OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, O365ConnectorCardActionQuery query, CancellationToken cancellationToken)
+        protected override async Task OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, O365ConnectorCardActionQuery query, CancellationToken cancellationToken)
         {
             await turnContext.SendActivityAsync(MessageFactory.Text($"O365ConnectorCardActionQuery event value: {JsonConvert.SerializeObject(query)}"));
-            return new InvokeResponse { Status = 200 };
         }
     }
 }

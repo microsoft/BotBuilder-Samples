@@ -66,8 +66,9 @@ namespace Microsoft.BotBuilderSamples
 
                     case "actionableMessage/executeAction":
                         // TODO: need to understand what result this callback should take.
-                        return await OnTeamsO365ConnectorCardActionAsync(turnContext, SafeCast<O365ConnectorCardActionQuery>(turnContext.Activity.Value), cancellationToken);
-                        
+                        await OnTeamsO365ConnectorCardActionAsync(turnContext, SafeCast<O365ConnectorCardActionQuery>(turnContext.Activity.Value), cancellationToken);
+                        return CreateInvokeResponse();
+
                     case "composeExtension/query":
                         return CreateInvokeResponse(await OnTeamsMessagingExtensionQueryAsync(turnContext, SafeCast<MessagingExtensionQuery>(turnContext.Activity.Value), cancellationToken));
 
@@ -143,9 +144,9 @@ namespace Microsoft.BotBuilderSamples
             return Task.FromResult<MessagingExtensionResponse>(null);
         }
 
-        protected virtual Task<InvokeResponse> OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, O365ConnectorCardActionQuery query, CancellationToken cancellationToken)
+        protected virtual Task OnTeamsO365ConnectorCardActionAsync(ITurnContext<IInvokeActivity> turnContext, O365ConnectorCardActionQuery query, CancellationToken cancellationToken)
         {
-            return Task.FromResult<InvokeResponse>(null);
+            return Task.CompletedTask;
         }
 
         protected virtual Task<MessagingExtensionResponse> OnTeamsAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
@@ -285,7 +286,7 @@ namespace Microsoft.BotBuilderSamples
 
         private static InvokeResponse CreateInvokeResponse(object body = null)
         {
-            return body == null ? null : new InvokeResponse { Status = (int)HttpStatusCode.OK, Body = body };
+            return new InvokeResponse { Status = (int)HttpStatusCode.OK, Body = body };
         }
 
         private static T SafeCast<T>(object value)
