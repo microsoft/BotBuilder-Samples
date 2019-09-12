@@ -1,0 +1,64 @@
+{
+  "$schema": "https://github.com/OfficeDev/microsoft-teams-app-schema/blob/preview/DevPreview/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0",
+  "id": "f0a41ea1-87b1-4d28-bf94-539cd3d623f7",
+  "packageName": "com.teams.sample.linkunfurling",
+  "developer": {
+    "name": "Link Unfurling",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Link Unfurling",
+    "full": "Link Unfurling"
+  },
+  "description": {
+    "short": "Link Unfurling",
+    "full": "Link Unfurling"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "f0a41ea1-87b1-4d28-bf94-539cd3d623f7",
+      "scopes": [ "personal", "team" ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "f0a41ea1-87b1-4d28-bf94-539cd3d623f7",
+      "commands": [
+        {
+          "id": "searchQuery",
+          "context": [ "compose", "commandBox" ],
+          "description": "Test command to run query",
+          "title": "Search",
+          "type": "query",
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search Query",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": [
+              "tzadik.com"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
