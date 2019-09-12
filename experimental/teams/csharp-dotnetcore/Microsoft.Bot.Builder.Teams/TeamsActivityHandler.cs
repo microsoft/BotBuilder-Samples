@@ -66,8 +66,7 @@ namespace Microsoft.BotBuilderSamples
 
                     case "actionableMessage/executeAction":
                         // TODO: need to understand what result this callback should take.
-                        await OnTeamsO365ConnectorCardActionAsync(turnContext, SafeCast<O365ConnectorCardActionQuery>(turnContext.Activity.Value), cancellationToken);
-                        return CreateInvokeResponse();
+                        return await OnTeamsO365ConnectorCardActionAsync(turnContext, SafeCast<O365ConnectorCardActionQuery>(turnContext.Activity.Value), cancellationToken);
 
                     case "composeExtension/query":
                         return CreateInvokeResponse(await OnTeamsMessagingExtensionQueryAsync(turnContext, SafeCast<MessagingExtensionQuery>(turnContext.Activity.Value), cancellationToken));
