@@ -2,7 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -25,16 +27,22 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var teamsContext = new TeamsContext(turnContext, null);
-            string actualText = teamsContext.GetActivityTextWithoutMentions();
+            foreach (var mention in turnContext.Activity.GetMentions().Where(mention => mention.Mentioned.Id == turnContext.Activity.Recipient.Id))
 
-            if (_list.Count == 0)
             {
-                var welcomeMessage = "Hello. If you message me again I'll echo your message and update all sent messages with your text. " +
-                                     "Type \"delete\" to delete all messages sent";
-                await SendMessageAndLogActivityId(turnContext, welcomeMessage, cancellationToken);
+                if (mention.Text == null)
+                {
+                    turnContext.Activity.Text = Regex.Replace(turnContext.Activity.Text, "<at>" + mention.Mentioned.Name + "</at>", string.Empty, RegexOptions.IgnoreCase).Trim();
+                }
+                else
+                {
+                    turnContext.Activity.Text = Regex.Replace(turnContext.Activity.Text, mention.Text, string.Empty, RegexOptions.IgnoreCase).Trim();
+                }
             }
-            else if (actualText == "delete")
+
+            
+
+          if (turnContext.Activity.Text == "delete")
             {
                 foreach (var activityId in _list)
                 {
@@ -65,6 +73,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             // We need to record the Activity Id from the Activity just sent in order to understand what the reaction is a reaction too. 
             var replyActivity = MessageFactory.Text(text);
+            replyActivity.ApplyConversationReference(turnContext.Activity.GetConversationReference());
             var resourceResponse = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
             _list.Add(resourceResponse.Id);
         }
