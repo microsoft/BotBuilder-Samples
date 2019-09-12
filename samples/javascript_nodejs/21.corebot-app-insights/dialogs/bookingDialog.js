@@ -16,16 +16,29 @@ class BookingDialog extends CancelAndHelpDialog {
     constructor(telemetryClient) {
         super('bookingDialog');
 
-        this.addDialog((new TextPrompt(TEXT_PROMPT)).telemetryClient(telemetryClient))
-            .addDialog((new ConfirmPrompt(CONFIRM_PROMPT)).telemetryClient(telemetryClient))
-            .addDialog((new DateResolverDialog(DATE_RESOLVER_DIALOG)).telemetryClient(telemetryClient))
-            .addDialog((new WaterfallDialog(WATERFALL_DIALOG, [
-                this.destinationStep.bind(this),
-                this.originStep.bind(this),
-                this.travelDateStep.bind(this),
-                this.confirmStep.bind(this),
-                this.finalStep.bind(this)
-            ]).telemetryClient(telemetryClient)));
+        let textPrompt = new TextPrompt(TEXT_PROMPT);
+        textPrompt.telemetryClient = telemetryClient;
+
+        let confirmPrompt = new ConfirmPrompt(CONFIRM_PROMPT);
+        confirmPrompt.telemetryClient = telemetryClient;
+
+        let dateResolveDialog = new DateResolverDialog(DATE_RESOLVER_DIALOG);
+        dateResolveDialog.telemetryClient = telemetryClient;
+
+        let waterFallDialog = new WaterfallDialog(WATERFALL_DIALOG, [
+            this.destinationStep.bind(this),
+            this.originStep.bind(this),
+            this.travelDateStep.bind(this),
+            this.confirmStep.bind(this),
+            this.finalStep.bind(this)
+        ]);
+
+        waterFallDialog.telemetryClient = telemetryClient;
+
+        this.addDialog(textPrompt)
+            .addDialog(confirmPrompt)
+            .addDialog(dateResolveDialog)
+            .addDialog(waterFallDialog);
 
         this.initialDialogId = WATERFALL_DIALOG;
     }

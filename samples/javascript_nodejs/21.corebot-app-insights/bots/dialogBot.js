@@ -37,6 +37,15 @@ class DialogBot extends ActivityHandler {
             // Ensure next BotHandler is executed.
             await next();
         });
+
+        this.onDialog(async (context, next) => {
+            // Save any state changes. The load happened during the execution of the Dialog.
+            await this.conversationState.saveChanges(context, false);
+            await this.userState.saveChanges(context, false);
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
     }
 }
 

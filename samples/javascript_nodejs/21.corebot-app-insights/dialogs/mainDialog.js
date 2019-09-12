@@ -23,6 +23,9 @@ class MainDialog extends ComponentDialog {
         this.luisRecognizer = luisRecognizer;
         this.telemetryClient = telemetryClient;
 
+        let textPrompt = new TextPrompt('TextPrompt');
+        textPrompt.telemetryClient = this.telemetryClient;
+
         let waterfallDialog = new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
             this.introStep.bind(this),
             this.actStep.bind(this),
@@ -33,7 +36,7 @@ class MainDialog extends ComponentDialog {
 
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.
-        this.addDialog((new TextPrompt('TextPrompt')).telemetryClient = this.telemetryClient)
+        this.addDialog(textPrompt)
             .addDialog(new BookingDialog(telemetryClient))
             .addDialog(waterfallDialog);
 
