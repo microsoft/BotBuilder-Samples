@@ -21,6 +21,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardActions", "CardActions\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkUnfurling", "LinkUnfurling\LinkUnfurling.csproj", "{6CD3219E-A8C4-415B-B008-0E6B265E8E88}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotFrameworkCards", "CardsBotFramework\BotFrameworkCards.csproj", "{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Office365Card", "CardsOffice365\Office365Card.csproj", "{857BE2A3-9547-4029-966F-71906F4EEAA7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +67,14 @@ Global
 		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
