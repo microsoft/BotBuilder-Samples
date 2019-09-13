@@ -126,7 +126,7 @@ class MainDialog extends ComponentDialog {
 
     /**
      * Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
-     * In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
+     * In some cases LUIS will recognize the From and To composite entities as valid cities but the From and To Airport values
      * will be empty if those entity values can't be mapped to a canonical item in the Airport.
      */
     async showWarningForUnsupportedCities(context, fromEntities, toEntities) {
