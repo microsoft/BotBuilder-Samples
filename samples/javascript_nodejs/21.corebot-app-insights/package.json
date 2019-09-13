@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node ./index.js",
     "watch": "nodemon ./index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "lint": "eslint .",
+    "test": "nyc mocha tests/**/*.test.js"
   },
   "repository": {
     "type": "git",
@@ -21,6 +22,12 @@
     "botbuilder-applicationinsights": "^4.5.3",
     "botbuilder-dialogs": "^4.5.3",
     "dotenv": "^8.1.0",
+    "eslint": "^6.3.0",
+    "eslint-config-standard": "^14.1.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-node": "^10.0.0",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-standard": "^4.0.1",
     "nodemon": "^1.19.2",
     "path": "^0.12.7",
     "restify": "^8.4.0"
