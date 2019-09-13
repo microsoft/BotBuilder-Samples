@@ -30,12 +30,13 @@ and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cl
 
 The LUIS model for this example can be found under `CognitiveModels/FlightBooking.json` and the LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=cs).
 
-Once you created the LUIS model, update `appsettings.json` with your `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName`.
+Once you created the LUIS model, update `.env` with your `LuisAppId`, `LuisAPIKey`, `LuisAPIHostName` and AppInsights's `InstrumentationKey` (more info on instrumentation key [here](https://docs.microsoft.com/en-us/azure/azure-monitor/app/create-new-resource#copy-the-instrumentation-key)).
 
 ```json
   "LuisAppId": "Your LUIS App Id",
   "LuisAPIKey": "Your LUIS Subscription key here",
   "LuisAPIHostName": "Your LUIS App region here (i.e: westus.api.cognitive.microsoft.com)"
+  "InstrumentationKey": "Your AppInsights instrumentation key here"
 ```
 
 ### Add Application Insights service to enable the bot monitoring
