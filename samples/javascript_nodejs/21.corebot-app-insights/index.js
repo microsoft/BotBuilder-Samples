@@ -7,7 +7,7 @@
 const path = require('path');
 const restify = require('restify');
 
-const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require ('botbuilder-applicationinsights');
+const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, NullTelemetryClient, UserState } = require('botbuilder');
@@ -16,9 +16,6 @@ const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer')
 // This bot's main dialog.
 const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
 const { MainDialog } = require('./dialogs/mainDialog');
-
-// the bot's booking dialog
-const { BookingDialog } = require('./dialogs/bookingDialog');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -38,7 +35,7 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    const onTurnErrorMessage = `Sorry, it looks like something went wrong!`;
+    const onTurnErrorMessage = 'Sorry, it looks like something went wrong!';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
     await conversationState.delete(context);
@@ -76,7 +73,7 @@ server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.

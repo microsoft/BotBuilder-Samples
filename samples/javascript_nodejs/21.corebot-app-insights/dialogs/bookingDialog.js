@@ -16,16 +16,16 @@ class BookingDialog extends CancelAndHelpDialog {
     constructor(telemetryClient) {
         super('bookingDialog');
 
-        let textPrompt = new TextPrompt(TEXT_PROMPT);
+        const textPrompt = new TextPrompt(TEXT_PROMPT);
         textPrompt.telemetryClient = telemetryClient;
 
-        let confirmPrompt = new ConfirmPrompt(CONFIRM_PROMPT);
+        const confirmPrompt = new ConfirmPrompt(CONFIRM_PROMPT);
         confirmPrompt.telemetryClient = telemetryClient;
 
-        let dateResolveDialog = new DateResolverDialog(DATE_RESOLVER_DIALOG);
+        const dateResolveDialog = new DateResolverDialog(DATE_RESOLVER_DIALOG);
         dateResolveDialog.telemetryClient = telemetryClient;
 
-        let waterFallDialog = new WaterfallDialog(WATERFALL_DIALOG, [
+        const waterFallDialog = new WaterfallDialog(WATERFALL_DIALOG, [
             this.destinationStep.bind(this),
             this.originStep.bind(this),
             this.travelDateStep.bind(this),

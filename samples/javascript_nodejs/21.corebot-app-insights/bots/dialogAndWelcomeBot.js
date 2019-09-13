@@ -7,9 +7,9 @@ const WelcomeCard = require('./resources/welcomeCard.json');
 
 class DialogAndWelcomeBot extends DialogBot {
     /**
-     * @param {ConversationState} conversationState 
-     * @param {UserState} userState 
-     * @param {Dialog} dialog 
+     * @param {ConversationState} conversationState
+     * @param {UserState} userState
+     * @param {Dialog} dialog
      */
     constructor(conversationState, userState, dialog) {
         super(conversationState, userState, dialog);
@@ -18,7 +18,7 @@ class DialogAndWelcomeBot extends DialogBot {
             const membersAdded = turnContext.activity.membersAdded;
 
             for (let pos = 0; pos < membersAdded.length; pos++) {
-                if (membersAdded[pos].id != turnContext.activity.recipient.id) {
+                if (membersAdded[pos].id !== turnContext.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
 
                     await turnContext.sendActivity({ attachments: [welcomeCard] });
@@ -27,7 +27,7 @@ class DialogAndWelcomeBot extends DialogBot {
             }
             // Ensure next BotHandler is executed.
             await next();
-        })
+        });
     }
 }
 
