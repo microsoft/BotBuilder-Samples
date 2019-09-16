@@ -16,6 +16,7 @@ const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer')
 // This bot's main dialog.
 const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
 const { MainDialog } = require('./dialogs/mainDialog');
+const { BookingDialog } = require('./dialogs/bookingDialog');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -60,7 +61,8 @@ const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 const telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
 
 // Create the main dialog.
-const dialog = new MainDialog(luisRecognizer, telemetryClient);
+const bookingDialog = new BookingDialog(telemetryClient);
+const dialog = new MainDialog(luisRecognizer, bookingDialog, telemetryClient);
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server

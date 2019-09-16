@@ -3,7 +3,6 @@
 
 const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
-const { BookingDialog } = require('../dialogs/bookingDialog');
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 const { MessageFactory, InputHints } = require('botbuilder');
 
@@ -12,15 +11,18 @@ const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 class MainDialog extends ComponentDialog {
     /**
      * @param {*} luisRecognizer
+     * @param {*} bookingDialog
      * @param {*} telemetryClient
      */
-    constructor(luisRecognizer, telemetryClient) {
+    constructor(luisRecognizer, bookingDialog, telemetryClient) {
         super('MainDialog');
 
         if (!luisRecognizer) { throw new Error('[MainDialog]: Missing parameter \'luisRecognizer\' is required.'); }
+        if (!bookingDialog) { throw new Error('[MainDialog]: Missing parameter \'bookingDialog\' is required.'); }
         if (!telemetryClient) { throw new Error('[MainDialog]: Missing parameter \'telemetryClient\' is required.'); }
 
         this.luisRecognizer = luisRecognizer;
+        this.bookingDialog = bookingDialog;
         this.telemetryClient = telemetryClient;
 
         const textPrompt = new TextPrompt('TextPrompt');
@@ -37,7 +39,7 @@ class MainDialog extends ComponentDialog {
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.
         this.addDialog(textPrompt)
-            .addDialog(new BookingDialog(telemetryClient))
+            .addDialog(bookingDialog)
             .addDialog(waterfallDialog);
 
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
