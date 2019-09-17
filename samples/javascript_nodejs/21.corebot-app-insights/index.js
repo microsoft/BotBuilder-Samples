@@ -70,7 +70,7 @@ const server = restify.createServer();
 
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
-// server.use(restify.plugins.bodyParser());
+server.use(restify.plugins.bodyParser());
 server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || 3978, function() {

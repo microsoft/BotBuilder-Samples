@@ -50,10 +50,10 @@ Application Insights resource creation steps can be found [here](https://docs.mi
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/13.core-bot`
+- In a terminal, navigate to `samples/javascript_nodejs/21.corebot-app-insights`
 
     ```bash
-    cd samples/javascript_nodejs/13.core-bot
+    cd samples/javascript_nodejs/21.corebot-app-insights
     ```
 
 - Install modules
@@ -64,7 +64,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 
 - Setup LUIS
 
-    The prerequisites outlined above contain the steps necessary to provision a language understanding model on www.luis.ai.  Refer to _Create a LUIS Application to enable language understanding_ above for directions to setup and configure LUIS.
+    The prerequisites outlined above contain the steps necessary to provision a language understanding model on www.luis.ai. Refer to _Create a LUIS Application to enable language understanding_ above for directions to setup and configure LUIS.
 
 - Run the sample
 
@@ -100,6 +100,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Application Insights](https://docs.microsoft.com/en-us/azure/azure-monitor/app/app-insights-overview)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
