@@ -8,6 +8,7 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
+const { BotFrameworkStreamingAdapter } = require('botbuilder-streaming-extensions');
 
 // This bot's main dialog.
 const { EchoBot } = require('./bot');
@@ -51,19 +52,16 @@ server.post('/api/messages', (req, res) => {
 });
 
 // If a GET is received defer to the streaming extensions package.
-// The WebSocketConnector will handle creation of a new streaming
+// The adapter will handle creation of a new streaming
 // connection and route all messages over through the passed in
 // bot.
 // A MiddleWare or MiddleWareSet may be passed in as an optional
-// third argument to the WebSocketConnector, and will be executed
+// third argument to the adapter, and will be executed
 // in the same manner as a typical bot.
-const { WebSocketConnector } = require('microsoft-bot-protocol-streamingextensions');
 server.get('/api/messages', function upgradeRoute(req, res) {
-    let wsc = new WebSocketConnector(bot, logger);
-    wsc.processAsync(req, res,
-        {   appId: process.env.MicrosoftAppId,
-            appPassword: process.env.MicrosoftAppPassword,
-            channelService: process.env.ChannelService
-        }
-    );
+    const streamingAdapter = new BotFrameworkStreamingAdapter(bot);
+    streamingAdapter.connectWebSocket(req, res, { appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword,
+        channelService: process.env.ChannelService,
+    });
 });
