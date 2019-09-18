@@ -60,7 +60,8 @@ server.post('/api/messages', (req, res) => {
 // in the same manner as a typical bot.
 server.get('/api/messages', function upgradeRoute(req, res) {
     const streamingAdapter = new BotFrameworkStreamingAdapter(bot);
-    streamingAdapter.connectWebSocket(req, res, { appId: process.env.MicrosoftAppId,
+    streamingAdapter.connectWebSocket(req, res, { 
+        appId: process.env.MicrosoftAppId,
         appPassword: process.env.MicrosoftAppPassword,
         channelService: process.env.ChannelService,
     });
