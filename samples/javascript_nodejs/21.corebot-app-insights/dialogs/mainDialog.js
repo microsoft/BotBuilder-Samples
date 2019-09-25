@@ -12,29 +12,23 @@ class MainDialog extends ComponentDialog {
     /**
      * @param {*} luisRecognizer
      * @param {*} bookingDialog
-     * @param {*} telemetryClient
      */
-    constructor(luisRecognizer, bookingDialog, telemetryClient) {
+    constructor(luisRecognizer, bookingDialog) {
         super('MainDialog');
 
         if (!luisRecognizer) { throw new Error('[MainDialog]: Missing parameter \'luisRecognizer\' is required.'); }
         if (!bookingDialog) { throw new Error('[MainDialog]: Missing parameter \'bookingDialog\' is required.'); }
-        if (!telemetryClient) { throw new Error('[MainDialog]: Missing parameter \'telemetryClient\' is required.'); }
 
         this.luisRecognizer = luisRecognizer;
         this.bookingDialog = bookingDialog;
-        this.telemetryClient = telemetryClient;
 
         const textPrompt = new TextPrompt('TextPrompt');
-        textPrompt.telemetryClient = this.telemetryClient;
 
         const waterfallDialog = new WaterfallDialog(MAIN_WATERFALL_DIALOG, [
             this.introStep.bind(this),
             this.actStep.bind(this),
             this.finalStep.bind(this)
         ]);
-
-        waterfallDialog.telemetryClient = this.telemetryClient;
 
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.

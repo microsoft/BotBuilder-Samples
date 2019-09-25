@@ -58,11 +58,11 @@ const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint
 
 const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 
-const telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
-
 // Create the main dialog.
-const bookingDialog = new BookingDialog(telemetryClient);
-const dialog = new MainDialog(luisRecognizer, bookingDialog, telemetryClient);
+const bookingDialog = new BookingDialog();
+const dialog = new MainDialog(luisRecognizer, bookingDialog);
+dialog.telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
+
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
