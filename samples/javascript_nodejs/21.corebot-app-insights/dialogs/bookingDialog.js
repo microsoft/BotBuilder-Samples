@@ -13,27 +13,19 @@ const TEXT_PROMPT = 'textPrompt';
 const WATERFALL_DIALOG = 'waterfallDialog';
 
 class BookingDialog extends CancelAndHelpDialog {
-    constructor() {
-        super('bookingDialog');
+    constructor(id) {
+        super(id || 'bookingDialog');
 
-        const textPrompt = new TextPrompt(TEXT_PROMPT);
-
-        const confirmPrompt = new ConfirmPrompt(CONFIRM_PROMPT);
-
-        const dateResolveDialog = new DateResolverDialog(DATE_RESOLVER_DIALOG);
-
-        const waterFallDialog = new WaterfallDialog(WATERFALL_DIALOG, [
-            this.destinationStep.bind(this),
-            this.originStep.bind(this),
-            this.travelDateStep.bind(this),
-            this.confirmStep.bind(this),
-            this.finalStep.bind(this)
-        ]);
-
-        this.addDialog(textPrompt)
-            .addDialog(confirmPrompt)
-            .addDialog(dateResolveDialog)
-            .addDialog(waterFallDialog);
+        this.addDialog(new TextPrompt(TEXT_PROMPT))
+            .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
+            .addDialog(new DateResolverDialog(DATE_RESOLVER_DIALOG))
+            .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
+                this.destinationStep.bind(this),
+                this.originStep.bind(this),
+                this.travelDateStep.bind(this),
+                this.confirmStep.bind(this),
+                this.finalStep.bind(this)
+            ]));
 
         this.initialDialogId = WATERFALL_DIALOG;
     }
