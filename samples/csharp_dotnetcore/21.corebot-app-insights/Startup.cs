@@ -29,17 +29,17 @@ namespace Microsoft.BotBuilderSamples
             // Create the telemetry client.
             services.AddSingleton<IBotTelemetryClient, BotTelemetryClient>();
 
-            // Add ASP middleware to store the http body mapped with bot activity key in the httpcontext.items. This will be picked by the TelemetryBotIdInitializer
-            services.AddTransient<TelemetrySaveBodyASPMiddleware>();
-
             // Add telemetry initializer that will set the correlation context for all telemetry items.
             services.AddSingleton<ITelemetryInitializer, OperationCorrelationTelemetryInitializer>();
 
             // Add telemetry initializer that sets the user ID and session ID (in addition to other bot-specific properties such as activity ID)
             services.AddSingleton<ITelemetryInitializer, TelemetryBotIdInitializer>();
 
-            // Create the telemetry middleware to track conversation events
-            services.AddSingleton<IMiddleware, TelemetryLoggerMiddleware>();
+            // Create the telemetry middleware to initialize telemetry gathering
+            services.AddSingleton<IMiddleware, TelemetryInitializerMiddleware>();
+
+            // Create the telemetry middleware (used by the telemetry initializer) to track conversation events
+            services.AddSingleton<TelemetryLoggerMiddleware>();
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
@@ -76,7 +76,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseStaticFiles();
 
             //app.UseHttpsRedirection();
-            app.UseBotApplicationInsights();
             app.UseMvc();
         }
     }
