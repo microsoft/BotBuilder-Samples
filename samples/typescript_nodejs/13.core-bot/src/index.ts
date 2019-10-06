@@ -38,7 +38,7 @@ adapter.onTurnError = async (context, error) => {
     // Create a trace activity that contains the error object
     const traceActivity = {
         label: 'TurnError',
-        name: 'Turn Error',
+        name: 'onTurnError Trace',
         timestamp: new Date(),
         type: ActivityTypes.Trace,
         value: `${ error }`,
@@ -53,7 +53,7 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(traceActivity);
 
     // Send a message to the user
-    await context.sendActivity(`Bot Framework encounted an error or bug in this bot.`);
+    await context.sendActivity(`The bot encounted an error or bug.`);
     await context.sendActivity(`To continue to run this bot, please fix the bot source code.`);
     // Clear out state
     await conversationState.delete(context);

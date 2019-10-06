@@ -46,12 +46,11 @@ adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     console.error(`\n [onTurnError]: ${ error }`);
     // Send a message to the user
-    await context.sendActivity(`Oops. Something went wrong!`);
+    // Send a message to the user
+    await context.sendActivity(`The bot encounted an error or bug.`);
+    await context.sendActivity(`To continue to run this bot, please fix the bot source code.`);
     // Clear out state
-    await conversationState.load(context);
     await conversationState.clear(context);
-    // Save state changes.
-    await conversationState.saveChanges(context);
 };
 
 // Listen for incoming requests.

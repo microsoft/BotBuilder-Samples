@@ -7,8 +7,6 @@
 const path = require('path');
 const restify = require('restify');
 
-const { name } = require('./package.json');
-
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
@@ -41,7 +39,7 @@ adapter.onTurnError = async (context, error) => {
     const traceActivity = {
         type: ActivityTypes.Trace,
         timestamp: new Date(),
-        name: 'Turn Error',
+        name: 'onTurnError Trace',
         label: 'TurnError',
         value: `${ error }`,
         valueType: 'https://www.botframework.com/schemas/error'
@@ -55,9 +53,9 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(traceActivity);
 
     // Send a message to the user
-    let onTurnErrorMessage = `Bot Framework encounted an error or bug in ${ name }.`;
+    let onTurnErrorMessage = `The bot encounted an error or bug.`;
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    onTurnErrorMessage = `To continue to run this bot, please fix ${ name } source code.`;
+    onTurnErrorMessage = `To continue to run this bot, please fix the bot source code.`;
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
     await conversationState.delete(context);
