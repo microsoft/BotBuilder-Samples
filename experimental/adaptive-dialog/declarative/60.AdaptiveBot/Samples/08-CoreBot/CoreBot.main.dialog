@@ -1,0 +1,131 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "generator": "CoreBot.lg",
+    "$comment": "Use lubuild to create and update a LUIS app for this bot. See https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/lubuild",
+    "recognizer": "CoreBot.lu",
+    "autoEndDialog": "false",
+    "rules": [
+        {
+            "$type": "Microsoft.EventRule",
+            "events": [
+                "beginDialog"
+            ],
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[BotOverview]"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Cancel",
+            "constraint": "turn.recognized.intents.Cancel.score > 0.5",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Sure, cancelling that...",
+                },
+                {
+                    "$type": "Microsoft.EndDialog"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Help",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[BotOverview]"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Greeting",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[BotOverview]"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "None",
+            "steps": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "I'm sorry, I do not understand that. Can you please rephrase what you are saying?",
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "[BotOverview]"
+                }
+            ]
+        },
+        {
+            "$type": "Microsoft.IntentRule",
+            "intent": "Book_flight",
+            "steps": [
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property":"conversation.flightBooking.departureCity",
+                    "value": "turn.recognized.entities.fromCity[0].geographyV2_city[0]"
+                },
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "conversation.flightBooking.destinationCity",
+                    "value": "turn.recognized.entities.toCity[0].geographyV2_city[0]"
+                },
+                {
+                    "$type": "Microsoft.SetProperty",
+                    "property": "conversation.flightBooking.departureDate",
+                    "value": "turn.recognized.entities.datetimeV2[0]"
+                },
+                {
+                    "$type": "Microsoft.TextInput",
+                    "prompt": "[PromptForMissingInformation]",
+                    "property": "conversation.flightBooking.departureCity"
+                },
+                {
+                    "$type": "Microsoft.TextInput",
+                    "prompt": "[PromptForMissingInformation]",
+                    "property": "conversation.flightBooking.destinationCity"
+                },
+                {
+                    "$type": "Microsoft.DateTimeInput",
+                    "prompt": "[PromptForMissingInformation]",
+                    "property": "conversation.flightBooking.departureDate",
+                    "allowInterruptions": false
+                },
+                {
+                    "$type": "Microsoft.ConfirmInput",
+                    "prompt": "[ConfirmBooking]",
+                    "property": "turn.bookingConfirmation"
+                },
+                {
+                    "$type": "Microsoft.IfCondition",
+                    "condition": "turn.bookingConfirmation == true",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "[BookingConfirmation]"
+                        }
+                        ],
+                    "elseSteps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "Thank you."
+                        }
+                    ]
+                },
+                {
+                    "$type": "Microsoft.EndDialog"
+                }
+            ]
+        }
+    ]
+}
