@@ -1,0 +1,41 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+  "packageName": "com.teams.sample.replyToChannel",
+  "developer": {
+    "name": "ReplyToChannelBot",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "ReplyToChannelBot",
+    "full": "ReplyToChannelBot"
+  },
+  "description": {
+    "short": "ReplyToChannelBot",
+    "full": "ReplyToChannelBot"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+      "scopes": [
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
