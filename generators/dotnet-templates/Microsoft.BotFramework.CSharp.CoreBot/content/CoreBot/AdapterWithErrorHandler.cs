@@ -20,7 +20,7 @@ namespace CoreBot
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
-                logger.LogError($"Exception caught : {exception.Message}");
+                logger.LogError(exception, $"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
                 var errorMessageText = "Sorry, it looks like something went wrong.";
