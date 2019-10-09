@@ -1954,9 +1954,42 @@ jPath(<json>, '<path>')
 ||||
 
 *Example*
-In C#:
-The jsonStr is "{'Stores': ['Lambton Quay','Willis Street'],'Manufacturers': [{'Name': 'Acme Co','Products': [{'Name': 'Anvil','Price': 50}]},
-{'Name': 'Contoso','Products': [{'Name': 'Elbow Grease','Price': 99.95},{'Name': 'Headlight Fluid','Price': 4}]}]}", and the path expression is 
+
+Given jsonStr is 
+```json
+{
+    "Stores": [
+        "Lambton Quay",
+        "Willis Street"
+    ],
+    "Manufacturers": [
+        {
+            "Name": "Acme Co",
+            "Products": [
+                {
+                    "Name": "Anvil",
+                    "Price": 50
+                }
+            ]
+        },
+        {
+            "Name": "Contoso",
+            "Products": [
+                {
+                    "Name": "Elbow Grease",
+                    "Price": 99.95
+                },
+                {
+                    "Name": "Headlight Fluid",
+                    "Price": 4
+                }
+            ]
+        }
+    ]
+}
+```
+
+and the path expression is 
 "$..Products[?(@.Price >= 50)].Name" 
 
 ```
@@ -1965,8 +1998,47 @@ jPath(jsonStr, path)
 
 And it returns this result: `["Anvil", "Elbow Grease"]`
 
-In JavaScript:
-The jsonStr is '{"automobiles" : [{ "maker" : "Nissan", "model" : "Teana", "year" : 2011 },{ "maker" : "Honda", "model" : "Jazz", "year" : 2010 },{ "maker" : "Honda", "model" : "Civic", "year" : 2007 },{ "maker" : "Toyota", "model" : "Yaris", "year" : 2008 },{"maker" : "Honda", "model" : "Accord", "year" : 2011 }],"motorcycles" : [{ "maker" : "Honda", "model" : "ST1300", "year" : 2012 }]}'.
+Given jsonStr is 
+
+```json
+{
+    "automobiles": [
+        {
+            "maker": "Nissan",
+            "model": "Teana",
+            "year": 2011
+        },
+        {
+            "maker": "Honda",
+            "model": "Jazz",
+            "year": 2010
+        },
+        {
+            "maker": "Honda",
+            "model": "Civic",
+            "year": 2007
+        },
+        {
+            "maker": "Toyota",
+            "model": "Yaris",
+            "year": 2008
+        },
+        {
+            "maker": "Honda",
+            "model": "Accord",
+            "year": 2011
+        }
+    ],
+    "motorcycles": [
+        {
+            "maker": "Honda",
+            "model": "ST1300",
+            "year": 2012
+        }
+    ]
+}
+```
+
 And the path expression is `.automobiles{.maker === "Honda" && .year > 2009}.model`.
 
 ```
