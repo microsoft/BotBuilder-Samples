@@ -1,0 +1,35 @@
+{
+    "$schema": "../../app.schema",
+    "$type": "Microsoft.AdaptiveDialog",
+    "steps": [
+        {
+            "$type": "Microsoft.SetProperty",
+            "property": "user.age",
+            "value": "22"
+        },
+        {
+            "$type": "Microsoft.SwitchCondition",
+            "condition": "user.age",
+            "cases": [
+                {
+                    "value": "21",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "Age is 21!"
+                        }
+                    ]
+                },
+                {
+                    "value": "22",
+                    "steps": [
+                        {
+                            "$type": "Microsoft.SendActivity",
+                            "activity": "Age is 22!"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
