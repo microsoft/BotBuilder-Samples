@@ -1,0 +1,96 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0",
+  "id": "",
+  "packageName": "com.teams.sample.composeextension",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "ComposeExtensions",
+    "full": "ComposeExtensions"
+  },
+  "description": {
+    "short": "ComposeExtensions",
+    "full": "ComposeExtensions"
+  },
+  "accentColor": "#FFFFFF",
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://teamssettingspagescenario.azurewebsites.net",
+      "canUpdateConfiguration": false,
+      "scopes": ["groupchat", "team"]
+    }
+  ],
+  "bots": [
+    {
+      "botId": "",
+      "scopes": [
+        "personal",
+        "team",
+        "groupchat"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "searchQueryCommand",
+          "context": [ "commandBox" ],
+          "description": "Test command to run query",
+          "title": "Search",
+          "type": "query",
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search Query",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        },
+        {
+          "id": "searchQueryCompose",
+          "context": [ "compose" ],
+          "description": "Test command to run query",
+          "title": "Search",
+          "type": "query",
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search Query",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": [
+              "*.bing.com"
+            ]
+          }
+        }
+      ]
+    }
+  ],
+  "validDomains": [
+    "*.azurewebsites.net"
+  ]
+}
