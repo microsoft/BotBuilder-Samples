@@ -44,7 +44,7 @@ new SendActivity("[MyLGTemplateName]")
 - Roger
 ```
 
-[1]:../../language-generation/language-generation.md
+[1]:../../language-generation/README.md
 [2]:../csharp_dotnetcore
 
 
