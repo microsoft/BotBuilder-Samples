@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0.0",
-  "id": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+  "id": "",
   "packageName": "com.teams.sample.enhancedechobot",
   "developer": {
     "name": "EnhancedEchoBot",
@@ -25,7 +25,7 @@
   "accentColor": "#FFFFFF",
   "bots": [
     {
-      "botId": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+      "botId": "",
       "scopes": [
         "personal",
         "groupchat",
