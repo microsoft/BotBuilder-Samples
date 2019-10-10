@@ -43,6 +43,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComposeMessagingExtensionAu
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "teams-enhanced-echo-bot", "53.Teams-enhanced-echo-bot\teams-enhanced-echo-bot.csproj", "{047078D9-819A-45BD-8A1B-403BABB3E72C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsEchoBot", "TeamsEcho\TeamsEchoBot.csproj", "{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EnhancedTeamsEchoBot", "TeamsEnhancedEcho\EnhancedTeamsEchoBot.csproj", "{ADA8D421-E484-484A-B35A-D2B6BF794008}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
@@ -170,6 +174,18 @@ Global
 		{047078D9-819A-45BD-8A1B-403BABB3E72C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{047078D9-819A-45BD-8A1B-403BABB3E72C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{047078D9-819A-45BD-8A1B-403BABB3E72C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ADA8D421-E484-484A-B35A-D2B6BF794008}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

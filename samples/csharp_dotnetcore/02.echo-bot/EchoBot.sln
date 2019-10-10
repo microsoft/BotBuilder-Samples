@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "teams-enhanced-echo-bot", "teams-enhanced-echo-bot.csproj", "{BFC1349B-5FA0-4058-A9CF-D32311BE0CE1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "EchoBot.csproj", "{B18CD866-7E29-498F-88EA-C3B48C96CA7C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BFC1349B-5FA0-4058-A9CF-D32311BE0CE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BFC1349B-5FA0-4058-A9CF-D32311BE0CE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BFC1349B-5FA0-4058-A9CF-D32311BE0CE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BFC1349B-5FA0-4058-A9CF-D32311BE0CE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B18CD866-7E29-498F-88EA-C3B48C96CA7C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B18CD866-7E29-498F-88EA-C3B48C96CA7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B18CD866-7E29-498F-88EA-C3B48C96CA7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B18CD866-7E29-498F-88EA-C3B48C96CA7C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {D5FC29B9-88EC-4E92-9C1F-0C0E7C4C93A7}
+		SolutionGuid = {7075E508-599E-421A-A431-696A3E92B2F9}
 	EndGlobalSection
 EndGlobal
