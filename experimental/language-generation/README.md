@@ -1,5 +1,7 @@
 # Language Generation ***_[PREVIEW]_***
 
+> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+
 Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
 
 At the core of language generation lies template expansion and entity substitution. You can provide one-of variation for expansion as well as conditionally expand a template. The output from language generation can be a simple text string or multi-line response or a complex object payload that a layer above language generation will use to construct a full blown [activity][1].
@@ -53,10 +55,10 @@ Here is an example of a card definition.
     # HeroCardTemplate(buttonsCollection)
     - ```
     [Herocard
-        title=@{[TitleText]}
-        subtitle=@{[SubText]}
-        text=@{[DescriptionText]}
-        images=@{[CardImages]}
+        title=@{TitleText())}
+        subtitle=@{SubText())}
+        text=@{DescriptionText())}
+        images=@{CardImages())}
         buttons=@{join(buttonsCollection, '|')]
     ```
 
@@ -81,6 +83,7 @@ Here is an example of a card definition.
     - https://picsum.photos/300/200?image=200
     - https://picsum.photos/200/200?image=400
 ```
+
 
 ## Language Generation in action
 
@@ -142,6 +145,9 @@ For NodeJS
     await turnContext.sendActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } ));
 ```
 
+## Multi-lingual generation and language fallback policy
+Quite often your bot might target more than one spoken/ display language. To help with resource management as well as implement a default language fall back policy, you can either use `MultiLanguageGenerator` or `ResourceMultiLanguageGenerator`. See [here][25] for an example.
+
 ## Grammar check and correction
 
 The current library does not include any capabilities for grammar check or correction.
@@ -149,6 +155,20 @@ The current library does not include any capabilities for grammar check or corre
 ## Packages
 
 Packages for C# are available under the [BotBuilder MyGet feed][12]
+
+## Change Log
+### 4.6 PREVIEW
+- \[**NEW**\] [VS code extension][22] for LG (syntax highlighting, auto-suggest (including expressions, pre-built functions, template names etc), validation)
+- LG file format:
+    - Support for [Switch..Case..Default][20]
+    - Support for [import reference][21] to another .lg file.
+- [API changes][2]: 
+    - Dropped FromFile and FromText methods in favor of AddFile and AddFiles. 
+    - Added ability to provide a delegate to externally resolve import references found in content. 
+- \[**NEW**\] Translate functionality in [MSLG CLI][23]
+
+### 4.5 PREVIEW
+- Initial preview release
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md
@@ -160,3 +180,9 @@ Packages for C# are available under the [BotBuilder MyGet feed][12]
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
 [12]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[20]:./docs/lg-file-format.md#Switch..Case
+[21]:./docs/lg-file-format.md#Importing-external-references
+[22]:https://aka.ms/lg-vscode-extension
+[23]:https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/MSLG
+[25]:https://github.com/microsoft/botbuilder-dotnet/blob/d953d1b7fe548cdb1800f1c2e85fe35c34edf75c/tests/Microsoft.Bot.Builder.LanguageGeneration.Renderer.Tests/LGGeneratorTests.cs#L78
+

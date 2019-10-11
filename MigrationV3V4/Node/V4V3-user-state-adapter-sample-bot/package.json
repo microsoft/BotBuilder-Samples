@@ -1,0 +1,30 @@
+{
+    "name": "V4V3-user-state-adapter-sample",
+    "version": "1.0.0",
+    "description": "Demonstrates how to set up a v4 bot that can read and write v3-formatted state.",
+    "author": "Microsoft Bot Builder Yeoman Generator v4.0.10",
+    "license": "MIT",
+    "main": "index.js",
+    "scripts": {
+        "start": "node ./index.js",
+        "watch": "nodemon ./index.js",
+        "lint": "eslint .",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "botbuilder": "~4.5.1",
+        "botbuilder-azure": "^4.5.2",
+        "botbuilder-azure-v3": "npm:botbuilder-azure@^3.1.0",
+        "dotenv": "^8.0.0",
+        "restify": "~8.3.3"
+    },
+    "devDependencies": {
+        "eslint": "^6.0.1",
+        "eslint-config-standard": "^13.0.1",
+        "eslint-plugin-import": "^2.18.2",
+        "eslint-plugin-node": "^9.1.0",
+        "eslint-plugin-promise": "^4.2.1",
+        "eslint-plugin-standard": "^4.0.0",
+        "nodemon": "~1.19.1"
+    }
+}

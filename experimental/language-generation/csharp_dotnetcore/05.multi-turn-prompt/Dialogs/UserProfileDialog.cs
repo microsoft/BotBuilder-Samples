@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "UserProfileDialog.LG" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
             // This array defines how the Waterfall will execute.
             var waterfallSteps = new WaterfallStep[]
             {

@@ -1,5 +1,7 @@
 # Adaptive Dialog *[Preview]*
 
+> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
 Dialogs are a central concept in the Bot Framework SDK, and provide a way to manage a conversation with the user. Bot Framework V4 SDK Dialogs library offers [waterfall dialogs][3], [prompts][2] and [component dialogs][4] as built-in constructs to model conversations via Dialogs. These set of dialog types offered by the SDK put you in control of managing your bot's conversations. However, they also require you to write a bunch of boiler plate code for sophisticated conversation modelling concepts like building a dialog dispatcher, ability to handle interruptions elegantly and to build a pluggable, extensible dialog system.
@@ -41,6 +43,21 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 ## Debugging Adaptive Dialog
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
+## Change Log
+### 4.6 PREVIEW
+- \[**New\] DialogManager class to help manage state persistance for Adaptive dialogs as well as ensure appropriate events are registered and routed. See [here][30] for how this gets wired up. 
+- \[**New\] Generator property on Adaptive dialog that defines the specific language generation resources that power a particular Adaptive dialog. 
+- \[**New\] ConversationUpdateActivityRule to help welcome users
+- Several updates to steps. Notable ones include
+    - SwitchCondition step - Removed need to enclose cases in ‘’
+    - IfCondition step
+         - Condition no longer needs an expression().parse()
+    - Normalized all input steps properties
+    - \[**New\] steps include EmitEvent, DateTimeInput, OAuthInput, EditSteps, DebugBreak, ForEach, ForEachPage
+
+### 4.5 PREVIEW
+- Initial preview release
+
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0
 [2]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0#prompts
 [3]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0#waterfall-dialogs
@@ -54,8 +71,10 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues
 [13]:https://github.com/microsoft/botbuilder-js/issues
 [14]:https://botbuilder.myget.org/gallery
-[15]:https://github.com/Microsoft/botbuilder-dotnet/tree/4.next
-[16]:https://github.com/Microsoft/botbuilder-js/tree/4.next
+[15]:https://github.com/microsoft/botbuilder-dotnet/tree/4.Future
+[16]:https://github.com/microsoft/botbuilder-js/tree/4.future
 [17]:./docs/language-generation.md
 [18]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [19]:./declarative/60.AdaptiveBot/
+
+[30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs

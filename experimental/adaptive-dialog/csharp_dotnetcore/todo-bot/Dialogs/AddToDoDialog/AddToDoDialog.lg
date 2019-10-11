@@ -1,6 +1,10 @@
 ﻿> Language Generation definition file. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
+
+> You can now add reference to other .lg files.
+[Root LG](..\RootDialog\RootDialog.lg)
+
 # Help-Add-ToDo
 - [Help-prefix], you can simply say the title of your todo to add it.
 
@@ -15,7 +19,7 @@
 
 # Confirm-cancellation
 - ```
-@{lgTemplate("Cancel-Prefix")}
+@{Cancel-Prefix()}
 [Suggestions=Yes | No]
 ```
 
@@ -29,12 +33,12 @@ Ok, what is the title of your todo?
 > By default, the ResourceExplorer loads all LG files found in your project and so all template definitions have 'global' scope.
 # Add-ToDo-ReadBack
 - ```
-@{lgTemplate("Help-prefix")}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
-@{lgTemplate("Welcome-Actions")}
+@{Help-prefix()}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
+@{Welcome-Actions()}
 ```
 
 # Cancel-add-todo
 - ```
-@{lgTemplate("Help-prefix")}, I've cancelled that.
-@{lgTemplate("Welcome-Actions")}
+@{Help-prefix()}, I've cancelled that.
+@{Welcome-Actions()}
 ```

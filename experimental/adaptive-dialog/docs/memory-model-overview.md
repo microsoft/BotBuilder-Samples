@@ -51,8 +51,23 @@ Examples:
 
 ### Turn sub-scopes
 - Each incoming [activity][5] to the bot is available via turn.activity scope.
-- For each turn of the conversation, if a [recognizer][4] is run, then the output intents and entities from that recognizer are automatically set and available under _turn.intents_ and _turn.entities_
+- For each turn of the conversation, if a [recognizer][4] is run, then the output intents and entities from that recognizer are automatically set and available under _turn.recognized.intents_ and _turn.recognized.entities_
 - The payload of an event raised by the system (or via user code) is available under turn.dialogEvents.\<eventName\>.value scope.
+
+## Settings scope
+This represents any settings that are made available to the bot via the platform specific settings configuration system - e.g. appsettings.json, .env etc. 
+
+## Memory short-hands
+There are few short-hand notations supported to access specific memory scopes. 
+
+| Symbol | Usage            | Expansion                           | Notes                                                                                                                 |
+|--------|------------------|-------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| $      | $userName        | dialog.userName                     | Short hand notation that can be used to simply get or set a value on the dialog scope                                 |
+| #      | #intentName      | turn.recognized.intents.intentName  | Short hand used to denote a named intent returned by the recognizer                                                   |
+| @      | @entityName      | turn.recognized.entities.entityName | @entityName will always **only** return the first value found for the entity immaterial of the value's cardinality    |
+| @@     | @@entityName     | turn.recognized.entities.entityName | @@entityName will return the actual value of the entity, preserving the value's cardinality                           | 
+| ~      | ~propertyName    | dialog.instance.propertyName        | Used to refer to instance properties (e.g. minValue, maxValue etc)                                                    |
+| %      | %optionsName     | dialog.options.optionsName          | Used to refer to options passed in to this dialog by the caller                                                       |
 
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-state?view=azure-bot-service-4.0
 [2]:../README.md

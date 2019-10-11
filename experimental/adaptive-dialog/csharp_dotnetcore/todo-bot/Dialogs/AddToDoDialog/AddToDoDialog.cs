@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.IO;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -6,7 +7,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Expressions.Parser;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,10 +16,12 @@ namespace Microsoft.BotBuilderSamples
         public AddToDoDialog()
             : base(nameof(AddToDoDialog))
         {
-
+            string[] paths = { ".", "Dialogs", "AddToDoDialog", "AddToDoDialog.lg" };
+            string fullPath = Path.Combine(paths);
             // Create instance of adaptive dialog. 
             var AddToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
+                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
                 // Create and use a regex recognizer on the child
                 Recognizer = CreateRecognizer(),
                 Steps = new List<IDialog>()
@@ -30,13 +33,13 @@ namespace Microsoft.BotBuilderSamples
                     // @EntityName is a short-hand for turn.entities.<EntityName>. Other useful short-hands are 
                     //     #IntentName is a short-hand for turn.intents.<IntentName>
                     //     $PropertyName is a short-hand for dialog.results.<PropertyName>
-                    new SaveEntity() {
+                    new SetProperty() {
                         Property = "turn.todoTitle",
-                        Entity = "@todoTitle[0]"
+                        Value = "turn.recognized.entities.todoTitle[0]"
                     },
-                    new SaveEntity() {
+                    new SetProperty() {
                         Property = "turn.todoTitle",
-                        Entity = "@todoTitle_patternAny[0]"
+                        Value = "turn.recognized.entities.todoTitle_patternAny[0]"
                     },
                     // TextInput by default will skip the prompt if the property has value.
                     new TextInput()
@@ -47,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
                     // Add the new todo title to the list of todos. Keep the list of todos in the user scope.
                     new EditArray()
                     {
-                        ItemProperty = "turn.todoTitle",
+                        Value = "turn.todoTitle",
                         ArrayProperty = "user.todos",
                         ChangeType = EditArray.ArrayChangeType.Push
                     },
@@ -79,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 // All conditions are expressed using the common expression language.
                                 // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
-                                Condition = new ExpressionEngine().Parse("turn.addTodo.cancelConfirmation == true"),
+                                Condition = "turn.addTodo.cancelConfirmation == true",
                                 Steps = new List<IDialog>()
                                 {
                                     new SendActivity("[Cancel-add-todo]"),
@@ -103,7 +106,7 @@ namespace Microsoft.BotBuilderSamples
                             // Set what user said as the todo title.
                             new SetProperty() {
                                 Property = "turn.todoTitle",
-                                Value = new ExpressionEngine().Parse("turn.activity.text")
+                                Value = "turn.activity.text"
                             }
                         }
                     }

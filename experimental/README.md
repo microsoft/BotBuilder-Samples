@@ -26,7 +26,6 @@ Experimental samples are organized per platform.
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|
 |multilingual-luis-bot| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 |[View][cs#1] |  |  | [View][ts#1] |
-|qnamaker-activelearning-bot| This sample shows how to integrate Active Learning in a QnA Maker bot.                                                                                                 |[View][cs#2] | [View][js#1]|  |  |
 
 [cs#1]: ./csharp_dotnetcore/multilingual-luis-bot
 

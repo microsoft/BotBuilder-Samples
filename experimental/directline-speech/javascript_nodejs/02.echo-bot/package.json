@@ -17,11 +17,8 @@
     },
     "dependencies": {
         "botbuilder": "~4.4.0",
+        "botbuilder-streaming-extensions": "^4.6.0-preview.76590",
         "dotenv": "^7.0.0",
-        "microsoft-bot-protocol": "file:microsoft-bot-protocol.0.0.1.tgz",
-        "microsoft-bot-protocol-namedpipe": "file:microsoft-bot-protocol-namedpipe.0.0.1.tgz",
-        "microsoft-bot-protocol-streamingextensions": "file:microsoft-bot-protocol-streamingextensions.0.0.1.tgz",
-        "microsoft-bot-protocol-websocket": "file:microsoft-bot-protocol-websocket.0.0.1.tgz",
         "restify": "~8.3.3"
     },
     "devDependencies": {

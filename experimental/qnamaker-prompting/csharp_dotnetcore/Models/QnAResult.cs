@@ -15,7 +15,7 @@ namespace QnAPrompting.Models
 
         public string Source { get; set; }
 
-        public QnAMetadata[] Metadata { get; }
+        public QnAMetadata[] Metadata { get; set; }
 
         public QnAContext Context { get; set; }
     }
