@@ -35,22 +35,10 @@ const adapter = new BotFrameworkAdapter({
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
-    // Create a trace activity that contains the error object
-    const traceActivity = {
-        type: ActivityTypes.Trace,
-        timestamp: new Date(),
-        name: 'onTurnError Trace',
-        label: 'TurnError',
-        value: `${ error }`,
-        valueType: 'https://www.botframework.com/schemas/error'
-    };
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
-
-    // Send a trace activity, which will be displayed in Bot Framework Emulator
-    await context.sendActivity(traceActivity);
 
     // Send a message to the user
     let onTurnErrorMessage = `The bot encounted an error or bug.`;
@@ -59,6 +47,21 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
     await conversationState.delete(context);
+
+    // Send a trace activity if we're talking to the Bot Framework Emulator
+    if (context.activity.channelId === 'emulator') {
+        // Create a trace activity that contains the error object
+        const traceActivity = {
+            label: 'TurnError',
+            name: 'onTurnError Trace',
+            timestamp: new Date(),
+            type: ActivityTypes.Trace,
+            value: `${ error }`,
+            valueType: 'https://www.botframework.com/schemas/error'
+        };
+        // Send a trace activity, which will be displayed in Bot Framework Emulator
+        await context.sendActivity(traceActivity);
+    }
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
