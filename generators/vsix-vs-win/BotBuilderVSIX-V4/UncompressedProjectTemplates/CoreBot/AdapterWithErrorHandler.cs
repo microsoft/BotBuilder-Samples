@@ -49,8 +49,9 @@ namespace $safeprojectname$
                 }
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
-            };
                 await SendTraceActivityAsync(turnContext, exception);
+            };
+
         }
 
         private static async Task SendTraceActivityAsync(ITurnContext turnContext, Exception exception)
