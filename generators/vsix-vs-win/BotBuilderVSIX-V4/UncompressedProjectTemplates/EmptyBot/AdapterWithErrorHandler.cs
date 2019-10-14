@@ -1,5 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+//
+// Generated with Bot Builder V4 SDK Template for Visual Studio CoreBot v$templateversion$
 
 using System;
 using Microsoft.Bot.Builder;
@@ -17,10 +19,11 @@ namespace $safeprojectname$
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
-                logger.LogError(exception, $"Exception caught : {exception.Message}");
+                logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
-                // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync("Sorry, it looks like something went wrong.");
+                // Send a message to the user
+                await turnContext.SendActivityAsync("The bot encounted an error or bug.");
+                await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
             };
         }
     }
