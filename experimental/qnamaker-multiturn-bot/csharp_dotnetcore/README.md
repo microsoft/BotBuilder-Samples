@@ -1,5 +1,5 @@
-﻿﻿# Active learning in QnA Maker
-This sample shows how to integrate Active Learning in a QnA Maker bot with ASP.Net Core-2. Click [here][al#1] to know more about how to enable and use active learning .
+﻿﻿# Multiturn in QnA Maker
+This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with ASP.Net Core-2. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
 
 
 ## Concepts introduced in this sample
@@ -7,10 +7,9 @@ The [QnA Maker Service][7] enables you to build, train and publish a simple ques
 In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
 
 # Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure)
-to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to
-import and publish the [ActiveLearningSampleFAQ.tsv](CognitiveModels/ActiveLearningSampleFAQ.tsv) to your newly created QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation) to create multiturn experience.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import and publish your newly created QnA Maker service.
 - Update [appsettings.json](appsettings.json) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
@@ -23,7 +22,7 @@ QnA Maker CLI to deploy the model.
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/48.qnamaker-active-learning-bot`
+- In a terminal, navigate to `experimental/qnamaker-multiturn-bot/csharp_dotnetcore`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -37,8 +36,8 @@ QnA Maker CLI to deploy the model.
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/48.qnamaker-active-learning-bot` folder
-  - Select `QnAMakerActiveLearningBot.csproj` file
+  - Navigate to `experimental/qnamaker-multiturn-bot/csharp_dotnetcore` folder
+  - Open `qnamaker-sample.sln` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
@@ -52,10 +51,6 @@ QnA Maker CLI to deploy the model.
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3999/api/messages`
-
-# Try Active Learning
-- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Sample queries: "surface pro 4", "apps on your surface pro"
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
@@ -92,4 +87,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
 [150]: https://www.luis.ai
-[al#1]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
+
+[71]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
+[72]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation

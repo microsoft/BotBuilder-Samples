@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qnamaker-sample", ".\qnamaker-sample.csproj", "{359FDF61-588E-4C12-A88F-4A9FA5EB9B85}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "qnamaker-multiturn-bot", ".\qnamaker-multiturn-bot.csproj", "{359FDF61-588E-4C12-A88F-4A9FA5EB9B85}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

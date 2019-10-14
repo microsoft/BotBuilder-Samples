@@ -7,7 +7,7 @@ const { ActivityHandler } = require('botbuilder');
  * A simple bot that responds to utterances with answers from QnA Maker.
  * If an answer is not found for an utterance, the bot responds with help.
  */
-class QnAMakerBot extends ActivityHandler {
+class QnAMakerMultiturnBot extends ActivityHandler {
     /**
      *
      * @param {ConversationState} conversationState
@@ -46,4 +46,4 @@ class QnAMakerBot extends ActivityHandler {
     }
 }
 
-module.exports.QnAMakerBot = QnAMakerBot;
+module.exports.QnAMakerMultiturnBot = QnAMakerMultiturnBot;

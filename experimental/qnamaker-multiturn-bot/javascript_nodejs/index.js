@@ -11,7 +11,7 @@ const restify = require('restify');
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 const { QnAMaker } = require('botbuilder-ai');
 
-const { QnAMakerBot } = require('./bots/qnamaker-bot');
+const { QnAMakerMultiturnBot } = require('./bots/qnamaker-multiturn-bot');
 const { RootDialog } = require('./dialogs/rootDialog');
 
 // Note: Ensure you have a .env file and include all necessary credentials to access services like LUIS and QnAMaker.
@@ -51,7 +51,7 @@ const qnaService = new QnAMaker({
 const dialog = new RootDialog(qnaService);
 
 // Create the bot's main handler.
-const bot = new QnAMakerBot(conversationState, userState, dialog);
+const bot = new QnAMakerMultiturnBot(conversationState, userState, dialog);
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
