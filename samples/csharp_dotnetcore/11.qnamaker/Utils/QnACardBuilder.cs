@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Schema;
 
-namespace QnAMakerSample.Utils
+namespace Microsoft.BotBuilderSamples.Utils
 {
     /// <summary>
     /// Message activity card builder for QnAMaker dialogs.

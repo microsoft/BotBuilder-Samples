@@ -1,18 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Recognizers.Text;
-using Newtonsoft.Json.Linq;
-using QnAMakerSample.Utils;
+using Microsoft.BotBuilderSamples.Utils;
 
-namespace QnAMakerSample.Dialog
+namespace Microsoft.BotBuilderSamples.Dialog
 {
     /// <summary>
     /// This is an example root dialog. Replace this with your applications.

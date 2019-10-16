@@ -8,9 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using QnAMakerSample.Utils;
+using Microsoft.BotBuilderSamples.Utils;
 
-namespace QnAMakerSample.Dialog
+namespace Microsoft.BotBuilderSamples.Dialog
 {
     /// <summary>
     /// QnAMaker action builder class
@@ -40,7 +40,7 @@ namespace QnAMakerSample.Dialog
         /// </summary>
         private const string QnAMakerDialogName = "qnamaker-dialog";
         private readonly IBotServices _services;
-        private float maximumScoreForLowScoreVariation = 0.95F;
+        private readonly float maximumScoreForLowScoreVariation = 0.95F;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
@@ -134,7 +134,7 @@ namespace QnAMakerSample.Dialog
             stepContext.Values[QnAData] = new List<QueryResult>(response.Answers);
             
             // Check if active learning is enabled.
-            if (isActiveLearningEnabled && response.Answers.Any() && response.Answers.First().Score <= 0.95)
+            if (isActiveLearningEnabled && response.Answers.Any() && response.Answers.First().Score <= maximumScoreForLowScoreVariation)
             {
                 // Get filtered list of the response that support low score variation criteria.
                 response.Answers = _services.QnAMakerService.GetLowScoreVariation(response.Answers);

@@ -4,7 +4,7 @@
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Extensions.Configuration;
 
-namespace QnAMakerSample
+namespace Microsoft.BotBuilderSamples
 {
     public class BotServices : IBotServices
     {

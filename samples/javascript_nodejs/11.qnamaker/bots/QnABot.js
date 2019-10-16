@@ -2,64 +2,48 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
-const { QnAMaker } = require('botbuilder-ai');
 
+/**
+ * A simple bot that responds to utterances with answers from QnA Maker.
+ * If an answer is not found for an utterance, the bot responds with help.
+ */
 class QnABot extends ActivityHandler {
-    constructor() {
+    /**
+     *
+     * @param {ConversationState} conversationState
+     * @param {UserState} userState
+     * @param {Dialog} dialog
+     */
+    constructor(conversationState, userState, dialog) {
         super();
+        if (!conversationState) throw new Error('[QnABot]: Missing parameter. conversationState is required');
+        if (!userState) throw new Error('[QnABot]: Missing parameter. userState is required');
+        if (!dialog) throw new Error('[QnABot]: Missing parameter. dialog is required');
 
-        try {
-            this.qnaMaker = new QnAMaker({
-                knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAEndpointKey,
-                host: process.env.QnAEndpointHostName
-            });
-        } catch (err) {
-            console.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
-        }
+        this.conversationState = conversationState;
+        this.userState = userState;
+        this.dialog = dialog;
+        this.dialogState = this.conversationState.createProperty('DialogState');
 
-        // If a new user is added to the conversation, send them a greeting message
-        this.onMembersAdded(async (context, next) => {
-            const membersAdded = context.activity.membersAdded;
-            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
-                if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    await context.sendActivity('Welcome to the QnA Maker sample! Ask me a question and I will try to answer it.');
-                }
-            }
+        this.onMessage(async (context, next) => {
+            console.log('Running dialog with Message Activity.');
+
+            // Run the Dialog with the new message Activity.
+            await this.dialog.run(context, this.dialogState);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
 
-        // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
-        this.onMessage(async (context, next) => {
-            if (!process.env.QnAKnowledgebaseId || !process.env.QnAEndpointKey || !process.env.QnAEndpointHostName) {
-                let unconfiguredQnaMessage = 'NOTE: \r\n' + 
-                    'QnA Maker is not configured. To enable all capabilities, add `QnAKnowledgebaseId`, `QnAEndpointKey` and `QnAEndpointHostName` to the .env file. \r\n' +
-                    'You may visit www.qnamaker.ai to create a QnA Maker knowledge base.'
+        this.onDialog(async (context, next) => {
+            // Save any state changes. The load happened during the execution of the Dialog.
+            await this.conversationState.saveChanges(context, false);
+            await this.userState.saveChanges(context, false);
 
-                 await context.sendActivity(unconfiguredQnaMessage)
-            }
-            else {
-                console.log('Calling QnA Maker');
-    
-                const qnaResults = await this.qnaMaker.getAnswers(context);
-    
-                // If an answer was received from QnA Maker, send the answer back to the user.
-                if (qnaResults[0]) {
-                    await context.sendActivity(qnaResults[0].answer);
-    
-                // If no answers were returned from QnA Maker, reply with help.
-                } else {
-                    await context.sendActivity('No QnA Maker answers were found.');
-                }
-    
-            }
-            
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
     }
 }
 
-module.exports.QnABot = QnABot;
+module.exports.QnAMakerMultiturnBot = QnAMakerMultiturnBot;
