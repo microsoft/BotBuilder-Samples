@@ -1,14 +1,14 @@
 {
-    "name": "qnamaker",
+    "name": "qnamaker-bot",
     "version": "1.0.0",
-    "description": "Bot Builder v4 using QnA Maker service",
+    "description": "Bot Builder v4 using QnA Maker service with active learning and multi-turn experience.",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
     "scripts": {
         "start": "node ./index.js",
         "watch": "nodemon ./index.js",
-        "lint": "eslint .",
+        "lint": "./node_modules/.bin/eslint .",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
@@ -16,10 +16,11 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "~4.5.1",
-        "botbuilder-ai": "~4.5.1",
+        "botbuilder": "~4.6.0-preview1",
+        "botbuilder-ai": "~4.6.0-preview1",
+        "botbuilder-dialogs": "~4.6.0-preview1",
         "dotenv": "^8.0.0",
-        "restify": "~8.3.3"
+        "restify": "^8.3.3"
     },
     "devDependencies": {
         "eslint": "^6.0.1",
