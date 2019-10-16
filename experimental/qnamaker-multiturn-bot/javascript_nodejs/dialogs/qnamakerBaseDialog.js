@@ -205,7 +205,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
                 stepContext.activeDialog.state['options'] = dialogOptions;
 
                 // Get multi-turn prompts card activity.
-                var message = QnACardBuilder.GetQnAPromptsCard(answer, qnaDialogResponseOptions.cardNoMatchText);
+                var message = QnACardBuilder.GetQnAPromptsCard(answer);
                 await stepContext.context.sendActivity(message);
 
                 return { status: DialogTurnStatus.waiting };

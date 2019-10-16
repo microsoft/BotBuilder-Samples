@@ -82,18 +82,12 @@ namespace QnAMakerSample.Utils
         /// Get multi-turn prompts card.
         /// </summary>
         /// <param name="result">Result to be dispalyed as prompts.</param>
-        /// <param name="cardNoMatchText">No match text.</param>
         /// <returns>IMessageActivity.</returns>
-        public static IMessageActivity GetQnAPromptsCard(QueryResult result, string cardNoMatchText)
+        public static IMessageActivity GetQnAPromptsCard(QueryResult result)
         {
             if (result == null)
             {
                 throw new ArgumentNullException(nameof(result));
-            }
-
-            if (cardNoMatchText == null)
-            {
-                throw new ArgumentNullException(nameof(cardNoMatchText));
             }
 
             var chatActivity = Activity.CreateMessageActivity();
@@ -110,15 +104,6 @@ namespace QnAMakerSample.Utils
                         Title = prompt.DisplayText,
                     });
             }
-
-            // Add No match text
-            buttonList.Add(
-                new CardAction()
-                {
-                    Value = cardNoMatchText,
-                    Type = "imBack",
-                    Title = cardNoMatchText
-                });
 
             var plCard = new HeroCard()
             {

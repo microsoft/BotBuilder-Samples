@@ -250,7 +250,7 @@ namespace QnAMakerSample.Dialog
                     stepContext.ActiveDialog.State["options"] = dialogOptions;
 
                     // Get multi-turn prompts card activity.
-                    var message = QnACardBuilder.GetQnAPromptsCard(answer, qnaDialogResponseOptions.CardNoMatchText);
+                    var message = QnACardBuilder.GetQnAPromptsCard(answer);
                     await stepContext.Context.SendActivityAsync(message).ConfigureAwait(false);
 
                     return new DialogTurnResult(DialogTurnStatus.Waiting);

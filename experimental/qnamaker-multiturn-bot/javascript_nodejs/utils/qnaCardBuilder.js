@@ -9,7 +9,7 @@ class QnACardBuilder {
     * @param {QnAMakerResult} result Result to be dispalyed as prompts.
     * @param {string} cardNoMatchText No match text.
     */
-    static GetQnAPromptsCard(result, cardNoMatchText) {
+    static GetQnAPromptsCard(result) {
         var cardActions = [];
         result.context.prompts.forEach(prompt => {
             cardActions.push({
@@ -17,12 +17,6 @@ class QnACardBuilder {
                 type: ActionTypes.ImBack,
                 title: prompt.displayText
             });
-        });
-
-        cardActions.push({
-            value: cardNoMatchText,
-            type: ActionTypes.ImBack,
-            title: cardNoMatchText
         });
 
         var heroCard = CardFactory.heroCard('', result.answer, [], CardFactory.actions(cardActions));
