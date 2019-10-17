@@ -1,24 +1,13 @@
-'use strict';
-var __importStar = (this && this.__importStar) || function(mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result.default = mod;
-    return result;
-};
-Object.defineProperty(exports, '__esModule', { value: true });
-
-/**
- * @module botbuilder
- */
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-// tslint:disable:no-console
-const botbuilderCore = require('botbuilder-core');
-const readline = __importStar(require('readline'));
-const console = require('console');
+
+// @ts-check
+
+const botbuilderCore = require("botbuilder-core");
+const { BotAdapter, TurnContext, ActivityTypes } = botbuilderCore;
+const readline = require("readline");
 
 /**
  * Lets a user communicate with a bot from a console window.
@@ -36,15 +25,22 @@ const console = require('console');
  * });
  * ```
  */
-class ConsoleAdapter extends botbuilderCore.BotAdapter {
+class ConsoleAdapter extends BotAdapter {
     /**
      * Creates a new ConsoleAdapter instance.
-     * @param reference (Optional) reference used to customize the address information of activities sent from the adapter.
+     * @param [reference] Reference used to customize the address information of activities sent from the adapter.
      */
     constructor(reference) {
         super();
         this.nextId = 0;
-        this.reference = Object.assign({ channelId: 'console', user: { id: 'user', name: 'User1' }, bot: { id: 'bot', name: 'Bot' }, conversation: { id: 'convo1', name: '', isGroup: false }, serviceUrl: '' }, reference);
+        this.reference = {
+            channelId: "console",
+            user: { id: "user", name: "User1" },
+            bot: { id: "bot", name: "Bot" },
+            conversation: { id: "convo1", name: "", isGroup: false },
+            serviceUrl: "",
+            ...reference
+        };
     }
 
     /**
@@ -76,19 +72,28 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
      * @param logic Function which will be called each time a message is input by the user.
      */
     listen(logic) {
-        const rl = this.createInterface({ input: process.stdin, output: process.stdout, terminal: false });
-        rl.on('line', (line) => {
+        const rl = this.createInterface({
+            input: process.stdin,
+            output: process.stdout,
+            terminal: false
+        });
+        rl.on("line", line => {
             // Initialize activity
-            const activity = botbuilderCore.TurnContext.applyConversationReference({
-                type: botbuilderCore.ActivityTypes.Message,
-                id: (this.nextId++).toString(),
-                timestamp: new Date(),
-                text: line
-            }, this.reference, true);
+            const activity = TurnContext.applyConversationReference(
+                {
+                    type: ActivityTypes.Message,
+                    id: (this.nextId++).toString(),
+                    timestamp: new Date(),
+                    text: line
+                },
+                this.reference,
+                true
+            );
             // Create context and run middleware pipe
-            const context = new botbuilderCore.TurnContext(this, activity);
-            this.runMiddleware(context, logic)
-                .catch((err) => { this.printError(err.toString()); });
+            const context = new TurnContext(this, activity);
+            this.runMiddleware(context, logic).catch(err => {
+                this.printError(err.toString());
+            });
         });
         return () => {
             rl.close();
@@ -120,10 +125,15 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
      */
     continueConversation(reference, logic) {
         // Create context and run middleware pipe
-        const activity = botbuilderCore.TurnContext.applyConversationReference({}, reference, true);
-        const context = new botbuilderCore.TurnContext(this, activity);
-        return this.runMiddleware(context, logic)
-            .catch((err) => { this.printError(err.toString()); });
+        const activity = TurnContext.applyConversationReference(
+            {},
+            reference,
+            true
+        );
+        const context = new TurnContext(this, activity);
+        return this.runMiddleware(context, logic).catch(err => {
+            this.printError(err.toString());
+        });
     }
 
     /**
@@ -136,40 +146,36 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
      * @param context Context for the current turn of conversation with the user.
      * @param activities List of activities to send.
      */
-    sendActivities(context, activities) {
-        const that = this;
-        // tslint:disable-next-line:promise-must-complete
-        return new Promise((resolve, reject) => {
-            const responses = [];
-            function next(i) {
-                if (i < activities.length) {
-                    responses.push({});
-                    const a = activities[i];
-                    switch (a.type) {
-                    case 'delay':
-                        setTimeout(() => next(i + 1), a.value);
-                        break;
-                    case botbuilderCore.ActivityTypes.Message:
-                        if (a.attachments && a.attachments.length > 0) {
-                            const append = a.attachments.length === 1
-                                ? '(1 attachment)' : `(${ a.attachments.length } attachments)`;
-                            that.print(`${ a.text } ${ append }`);
-                        } else {
-                            that.print(a.text || '');
-                        }
-                        next(i + 1);
-                        break;
-                    default:
-                        that.print(`[${ a.type }]`);
-                        next(i + 1);
-                        break;
+    async sendActivities(context, activities) {
+        /** @type {any[]} */
+        const responses = [];
+        for (const activity of activities) {
+            responses.push({});
+
+            switch (activity.type) {
+                case "delay":
+                    await this.sleep(activity.value);
+                    break;
+                case ActivityTypes.Message:
+                    if (
+                        activity.attachments &&
+                        activity.attachments.length > 0
+                    ) {
+                        const append =
+                            activity.attachments.length === 1
+                                ? `(1 attachment)`
+                                : `(${activity.attachments.length} attachments)`;
+                        this.print(`${activity.text} ${append}`);
+                    } else {
+                        this.print(activity.text || "");
                     }
-                } else {
-                    resolve(responses);
-                }
+                    break;
+                default:
+                    this.print(`[${activity.type}]`);
+                    break;
             }
-            next(0);
-        });
+        }
+        return responses;
     }
 
     /**
@@ -211,5 +217,11 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
     printError(line) {
         console.error(line);
     }
+
+    sleep(milliseconds) {
+        return new Promise(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
+    }
 }
-exports.ConsoleAdapter = ConsoleAdapter;
+module.exports = { ConsoleAdapter };
