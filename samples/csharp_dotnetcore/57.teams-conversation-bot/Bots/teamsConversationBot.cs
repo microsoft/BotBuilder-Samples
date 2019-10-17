@@ -1,163 +1,174 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class EnhancedTeamsEchoBot : TeamsActivityHandler
+    public class TeamsConversationBot : TeamsActivityHandler
     {
-        ConcurrentDictionary<string, string> _dict;
+        private string _appId;
 
-        public EnhancedTeamsEchoBot(ConcurrentDictionary<string, string> dict)
+        public TeamsConversationBot(IConfiguration config)
         {
-            _dict = dict;
+            _appId = config["MicorosftAppId"];
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
-
             turnContext.Activity.RemoveRecipientMention();
+
+            await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
 
             switch (turnContext.Activity.Text)
             {
-                case "show members":
-                    await ShowMembersAsync(turnContext, cancellationToken);
-                    break;
-
-                case "show channels":
-                    await ShowChannelsAsync(turnContext, cancellationToken);
-                    break;
-
-                case "show details":
-                    await ShowDetailsAsync(turnContext, cancellationToken);
-                    break;
-
-                case "delete":
-                    await DeleteMessages(turnContext, cancellationToken);
-                    break;
-
-                case "mention":
+                case "MentionMe":
                     await MentionActivityAsync(turnContext, cancellationToken);
                     break;
 
-                case "update":
-                    await UpdateAllMessages(turnContext, cancellationToken);
+                case "ShowCard":
+                    await ShowCardActivityAsync(turnContext, cancellationToken);
                     break;
 
                 default:
-                    await turnContext.SendActivityAsync("Hi! I'm an more enhanced echo bot. These are the commands that I respond to:" +
-                        "\"show members\", \"show channels\", \"show details\", \"delete\", \"mention\", \"update\".");
+                    var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
+                    foreach (var member in members)
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text($"AAD: {member.AadObjectId}, ID: {member.Id}"));
+                    }
+                    var josh = new ChannelAccount
+                    {
+                        Id = "29:15S79eilr9W40STMFCebm7Nj8wfivnW-2EsYailbRVcSz59K_792I9SYXcpzQYdgwR6OT1u6FZ3qwKuIQsToxqA",
+                        AadObjectId = "ae5c5e52-97a9-4688-8472-2c524f29878a",
+                        Name = "Josh Ratliff"
+                    };
+
+                    var jj = new ChannelAccount
+                    {
+                        Id = "29:1QA1BHQPG97UoBy0rn3pfG4x4YEM3SLgCNb4ANrJFNYhABzv7OB35lFuL98lQLRDQy-nmlPi8UHbEAB9bgJlPyA",
+                        AadObjectId = "8a2e0ffb-dd66-4723-8dce-4cfa6043b459",
+                        Name = "JJ"
+                    };
+
+                    var eric = new ChannelAccount
+                    {
+                        Id = "29:1uV7uRAs-ystwLkXp7SjSulgoxjEd4yGZwKeCeaH9JzddtU_o1SGb0MrG4g0wJECQx4cW7NLdcb-Vwe4naKCDVA",
+                        AadObjectId = "c87bdf38-be54-466a-bd67-4029da348cc4",
+                        Name = "Eric"
+                    };
+
+                    var connector = turnContext.TurnState.Get<IConnectorClient>();
+
+                    var parameters = new ConversationParameters
+                    {
+                        Bot = turnContext.Activity.Recipient,
+                        Members = new ChannelAccount[] { josh, jj, eric },
+                        ChannelData = new TeamsChannelData
+                        {
+                            Tenant = new TenantInfo
+                            {
+                                Id = turnContext.Activity.Conversation.TenantId,
+                            }
+                        },
+                    };
+
+                    var converationReference = await connector.Conversations.CreateConversationAsync(parameters);
+
+
+                    var proactiveMessage = MessageFactory.Text($"Hello Josh. You sent me a message. This is a proactive responsive message.");
+                    proactiveMessage.From = turnContext.Activity.Recipient;
+                    proactiveMessage.Conversation = new ConversationAccount
+                    {
+                        Id = converationReference.Id.ToString(),
+                    };
+
+                    await connector.Conversations.SendToConversationAsync(proactiveMessage, cancellationToken);
+                    /*var welcomeCard = new HeroCard();
+                    var updateCardAction = new CardAction(ActionTypes.)
                     await turnContext.SendActivityAsync("These are the events that I will respond to: " +
                         "Teams channel add, teams channel remove, teams channel rename, team member added, team member removed, message reaction added" +
-                        "message reaction removed");
+                        "message reaction removed");*/
                     break;
             }
-        }
-
-        protected override async Task OnTeamsChannelRenamedAsync(ChannelInfo channelInfo, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{channelInfo.Name} is the new Channel name");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnTeamsChannelCreatedAsync(ChannelInfo channelInfo, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{channelInfo.Name} is the Channel created");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnTeamsChannelDeletedAsync(ChannelInfo channelInfo, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{channelInfo.Name} is the Channel deleted");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnTeamsTeamRenamedAsync(TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{teamInfo.Name} is the new Team name");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
         }
 
         protected override async Task OnTeamsMembersAddedAsync(IList<ChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            var heroCard = new HeroCard(text: $"{string.Join(' ', membersAdded.Select(member => member.Id))} joined {teamInfo.Name}");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnTeamsMembersRemovedAsync(IList<ChannelAccount> membersRemoved, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{string.Join(' ', membersRemoved.Select(member => member.Id))} removed from {teamInfo.Name}");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{string.Join(' ', membersAdded.Select(member => member.Id))} joined {turnContext.Activity.Conversation.ConversationType}");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnMembersRemovedAsync(IList<ChannelAccount> membersRemoved, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var heroCard = new HeroCard(text: $"{string.Join(' ', membersRemoved.Select(member => member.Id))} removed from {turnContext.Activity.Conversation.ConversationType}");
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(heroCard.ToAttachment()), cancellationToken);
-        }
-
-        protected override async Task OnReactionsAddedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var reaction in messageReactions)
+            foreach (var member in membersAdded)
             {
-                // The ReplyToId property of the inbound MessageReaction Activity will correspond to a Message Activity that was previously sent from this bot.
-                var activityText = "";
-                if (_dict.TryGetValue(turnContext.Activity.ReplyToId, out activityText))
+                if(member.Name == "TeamsConversationBot")
                 {
-                    await SendMessageAndLogActivityId(turnContext, $"You added '{reaction.Type}' regarding '{activityText}'", cancellationToken);
+                    var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
+                    foreach (var teamMember in members)
+                    {
+                        var message = MessageFactory.Text($"Hello {teamMember.Name}. I'm a Teams conversational bot.");
+                        var (conversationReference, activityId)  = await turnContext.TeamsCreateConversationAsync(turnContext.Activity.ChannelId, message, cancellationToken);
+                        await turnContext.Adapter.ContinueConversationAsync(_appId, conversationReference, SendMessage, cancellationToken);
+                    }
                 }
                 else
                 {
-                    // If we had sent the message from the error handler we wouldn't have recorded the Activity Id and so we shouldn't expect to see it in the log.
-                    await SendMessageAndLogActivityId(turnContext, $"Activity {turnContext.Activity.ReplyToId} not found in the log.", cancellationToken);
+                    var connector = turnContext.TurnState.Get<IConnectorClient>();
+
+                    var parameters = new ConversationParameters
+                    {
+                        Bot = member,
+                        Members = new ChannelAccount[] { member },
+                        ChannelData = new TeamsChannelData
+                        {
+                            Tenant = new TenantInfo
+                            {
+                                Id = turnContext.Activity.Conversation.TenantId,
+                            }
+                        },
+                    };
+
+                    var converation = await connector.Conversations.CreateConversationAsync(parameters);
+
+
+                    var proactiveMessage = MessageFactory.Text($"Hello {member.Id}. You sent me a message. This is a proactive responsive message.");
+                    
+                    proactiveMessage.Conversation = new ConversationAccount
+                    {
+                        Id = converation.Id.ToString(),
+                    };
+
+                    await connector.Conversations.SendToConversationAsync(proactiveMessage, cancellationToken);
+                    //var (conversationReference, activityId) = await turnContext.TeamsCreateConversationAsync(turnContext.Activity.Conversation.Id, message, cancellationToken);
+
+
+                    // message.ApplyConversationReference(conversationReference);
+                    //await turnContext.SendActivityAsync(message, cancellationToken);
+
+                    //await turnContext.Adapter.ContinueConversationAsync(_appId, conversationReference, SendMessage, cancellationToken);
+
+                    //await turnContext.SendActivityAsync(message, cancellationToken);
                 }
             }
         }
 
-        protected override async Task OnReactionsRemovedAsync(IList<MessageReaction> messageReactions, ITurnContext<IMessageReactionActivity> turnContext, CancellationToken cancellationToken)
+        private async Task SendMessage(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            foreach (var reaction in messageReactions)
-            {
-                // The ReplyToId property of the inbound MessageReaction Activity will correspond to a Message Activity that was previously sent from this bot.
-                var activityText = "";
-                if (_dict.TryGetValue(turnContext.Activity.ReplyToId, out activityText))
-                {
-                    await SendMessageAndLogActivityId(turnContext, $"You removed '{reaction.Type}' regarding '{activityText}'", cancellationToken);
-                }
-                else
-                {
-                    // If we had sent the message from the error handler we wouldn't have recorded the Activity Id and so we shouldn't expect to see it in the log.
-                    await SendMessageAndLogActivityId(turnContext, $"Activity {turnContext.Activity.ReplyToId} not found in the log.", cancellationToken);
-                }
-            }
+            await turnContext.SendActivityAsync("I'm a bot.");
         }
 
-        private async Task UpdateAllMessages(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        private async Task ShowCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            // read number from message
+            // bump the number by 1
+            // send new message with bumped number
             await turnContext.SendActivityAsync(MessageFactory.Text("I will delete all messages that I have sent"), cancellationToken);
-            foreach (var activityId in _dict.Keys)
-            {
-                var newActivity = MessageFactory.Text(turnContext.Activity.Text);
-                newActivity.Id = activityId;
-                await turnContext.UpdateActivityAsync(newActivity, cancellationToken);
-                _dict[activityId] = turnContext.Activity.Text;
-            }
         }
 
         private async Task MentionActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -174,82 +185,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             replyActivity.Entities = new List<Entity> { mention };
 
             var responseId = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-            _dict.TryAdd(responseId.Id, replyActivity.Id);
-        }
 
-        private async Task DeleteMessages(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var activity in _dict.Keys)
-            {
-                await turnContext.DeleteActivityAsync(activity, cancellationToken);
-            }
-
-            _dict.Clear();
-        }
-
-        private async Task ShowDetailsAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var teamDetails = await TeamsInfo.GetTeamDetailsAsync(turnContext, cancellationToken);
-
-            var message = $"The team name is <b>{teamDetails.Name}</b>. The team ID is <b>{teamDetails.Id}</b>. The ADDGroupID is <b>{teamDetails.AadGroupId}</b>.";
-
-            await SendMessageAndLogActivityId(turnContext, message, cancellationToken);
-        }
-
-        private async Task ShowMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            await ShowMembersAsync(turnContext, await TeamsInfo.GetMembersAsync(turnContext, cancellationToken), cancellationToken);
-        }
-
-        private async Task ShowChannelsAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var channels = await TeamsInfo.GetChannelsAsync(turnContext, cancellationToken);
-
-            await SendMessageAndLogActivityId(turnContext, $"Total of {channels.Count} channels are currently in team", cancellationToken);
-
-            var messages = channels.Select(channel => $"{channel.Id} --> {channel.Name}");
-
-            await SendInBatchesAsync(turnContext, messages, cancellationToken);
-        }
-
-        private async Task ShowMembersAsync(ITurnContext<IMessageActivity> turnContext, IEnumerable<TeamsChannelAccount> teamsChannelAccounts, CancellationToken cancellationToken)
-        {
-            var replyActivity = MessageFactory.Text($"Total of {teamsChannelAccounts.Count()} members are currently in team");
-            await turnContext.SendActivityAsync(replyActivity);
-
-            var messages = teamsChannelAccounts
-                .Select(teamsChannelAccount => $"{teamsChannelAccount.AadObjectId} --> {teamsChannelAccount.Name} -->  {teamsChannelAccount.UserPrincipalName}");
-
-            await SendInBatchesAsync(turnContext, messages, cancellationToken);
-        }
-
-        private async Task SendMessageAndLogActivityId(ITurnContext turnContext, string text, CancellationToken cancellationToken)
-        {
-            // We need to record the Activity Id from the Activity just sent in order to understand what the reaction is a reaction too. 
-            var replyActivity = MessageFactory.Text(text);
-            var resourceResponse = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-            _dict.TryAdd(resourceResponse.Id, replyActivity.Text);
-        }
-
-        private async Task SendInBatchesAsync(ITurnContext<IMessageActivity> turnContext, IEnumerable<string> messages, CancellationToken cancellationToken)
-        {
-            var batch = new List<string>();
-            foreach (var msg in messages)
-            {
-                batch.Add(msg);
-
-                if (batch.Count == 10)
-                {
-                    var responseId = await turnContext.SendActivityAsync(MessageFactory.Text(string.Join("<br>", batch)), cancellationToken);
-                    _dict.TryAdd(responseId.Id, string.Join("<br>", batch));
-                    batch.Clear();
-                }
-            }
-
-            if (batch.Count > 0)
-            {
-                await turnContext.SendActivityAsync(MessageFactory.Text(string.Join("<br>", batch)), cancellationToken);
-            }
         }
     }
 }
