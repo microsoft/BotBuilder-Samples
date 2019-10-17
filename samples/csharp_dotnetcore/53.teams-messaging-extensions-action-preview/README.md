@@ -1,8 +1,8 @@
 ﻿# EchoBot
 
-Bot Framework v4 Teams Message Extensions Search sample.
+Bot Framework v4 Teams Messaging Extensions Action Preview sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts an action command requests from the user and demonstrates the preview edit and send pattern.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/50.teams-message-extensions-search`
+- In a terminal, navigate to `samples/csharp_dotnetcore/53.teams-messaging-extensions-action-preview`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -35,8 +35,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/50.teams-message-extensions-search` folder
-  - Select `TeamsMessageExtensionsSearch.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/53.teams-messaging-extensions-action-preview` folder
+  - Select `TeamsMessagingExtensionsActionPreview.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Teams
