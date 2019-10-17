@@ -1,0 +1,44 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+  "packageName": "com.teams.sample.teamsconversationbot",
+  "developer": {
+    "name": "teamsConversationBot",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "TeamsConversationBot",
+    "full": "TeamsConversationBot"
+  },
+  "description": {
+    "short": "TeamsConversationBot",
+    "full": "TeamsConversationBot"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "b6b52a0b-88df-455d-8e5c-7169f394f337",
+      "scopes": [
+        "personal",
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false,
+      "commandLists": ["c1", "c2"]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}
