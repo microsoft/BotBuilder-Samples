@@ -182,8 +182,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 Text = $"<at>{turnContext.Activity.From.Name}</at>",
             };
 
-            // Against Teams having a Mention in the Entities but not including that
-            // mention Text in the Activity Text will result in a BadRequest.
             var replyActivity = MessageFactory.Text($"Hello {mention.Text}.");
             replyActivity.Entities = new List<Entity> { mention };
 
