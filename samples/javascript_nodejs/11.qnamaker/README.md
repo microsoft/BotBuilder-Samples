@@ -29,24 +29,32 @@ This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitiv
 
 QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 
-# To try this sample
+## To try this sample
+
 - Clone the repository
+
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `experimental/qnamaker-multiturn-bot/javascript_nodejs`
+
+- In a terminal, navigate to `samples/javascript_nodejs/11.qnamaker`
+
     ```bash
-    cd experimental/qnamaker-multiturn-bot/javascript_nodejs
+    cd samples/javascript_nodejs/11.qnamaker
     ```
+
 - Install modules
+
     ```bash
     npm install
     ```
+
 - Setup QnAMaker
 
-    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+    The prerequisite outlined above contain the steps necessary to provision a QnA Knowledge Base on www.qnamaker.ai.  Refer to [Use QnA Maker to answer questions][41] for directions to setup and configure QnAMaker.
 
-- Start the bot
+- Run the sample
+
     ```bash
     npm start
     ```
