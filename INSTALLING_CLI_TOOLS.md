@@ -5,7 +5,7 @@ The Bot Framework SDK team is happy to announce the General Availability of the 
 
 Upon the release of Bot Framework SDK version 4.6 the following legacy tools have been ported: Chatdown, QnAMaker, LuisGen, and LuDown.
 
-To learn more about the BF CLI please visit the following github repository: https://aka.ms/bfcli
+To learn more about the BF CLI please visit the [BF CLI github repository](https://aka.ms/bfcli).
 
 __The following page is about the legacy tools.__
 
