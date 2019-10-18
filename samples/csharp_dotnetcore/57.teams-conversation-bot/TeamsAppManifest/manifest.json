@@ -51,7 +51,7 @@
             },
             {
               "title": "MessageAllMembers",
-              "description": "Messages all members in a group or team chat"
+              "description": "Send 1 to 1 message to all members"
             }
           ]
         }

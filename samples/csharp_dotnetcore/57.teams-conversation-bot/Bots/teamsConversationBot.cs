@@ -92,44 +92,38 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.Conversation.ConversationType == "personal")
+            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
+
+            foreach (var teamMember in members)
             {
-                var message = MessageFactory.Text("This does not work in person chat. Try this in group chat or team chat");
-                await turnContext.SendActivityAsync(message, cancellationToken);
-            }
-            else
-            {
-                var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
-                foreach (var teamMember in members)
+                var connector = turnContext.TurnState.Get<IConnectorClient>();
+
+                var parameters = new ConversationParameters
                 {
-                    var connector = turnContext.TurnState.Get<IConnectorClient>();
-
-                    var parameters = new ConversationParameters
+                    Bot = turnContext.Activity.Recipient,
+                    Members = new ChannelAccount[] { teamMember },
+                    ChannelData = new TeamsChannelData
                     {
-                        Bot = turnContext.Activity.Recipient,
-                        Members = new ChannelAccount[] { teamMember },
-                        ChannelData = new TeamsChannelData
+                        Tenant = new TenantInfo
                         {
-                            Tenant = new TenantInfo
-                            {
-                                Id = turnContext.Activity.Conversation.TenantId,
-                            }
-                        },
-                    };
+                            Id = turnContext.Activity.Conversation.TenantId,
+                        }
+                    },
+                };
 
-                    var converationReference = await connector.Conversations.CreateConversationAsync(parameters);
+                var converationReference = await connector.Conversations.CreateConversationAsync(parameters);
 
-                    var proactiveMessage = MessageFactory.Text($"Hello {teamMember.Name}. I'm a Teams conversation bot.");
-                    proactiveMessage.From = turnContext.Activity.Recipient;
-                    proactiveMessage.Conversation = new ConversationAccount
-                    {
-                        Id = converationReference.Id.ToString(),
-                    };
+                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.Name}. I'm a Teams conversation bot.");
+                proactiveMessage.From = turnContext.Activity.Recipient;
+                proactiveMessage.Conversation = new ConversationAccount
+                {
+                    Id = converationReference.Id.ToString(),
+                };
 
-                    await connector.Conversations.SendToConversationAsync(proactiveMessage, cancellationToken);
-                }
-                await turnContext.SendActivityAsync(MessageFactory.Text("All members have been messaged"), cancellationToken);
+                await connector.Conversations.SendToConversationAsync(proactiveMessage, cancellationToken);
             }
+
+            await turnContext.SendActivityAsync(MessageFactory.Text("All members have been messaged"), cancellationToken);
         }
 
         private async Task UpdateCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
