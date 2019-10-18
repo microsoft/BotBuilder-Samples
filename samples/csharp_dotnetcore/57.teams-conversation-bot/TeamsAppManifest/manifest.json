@@ -46,8 +46,12 @@
               "description": "Sends message with @mention of the sender"
             },
             {
-              "title": "ShowCard",
-              "description": "Replies with an adaptive card with update button"
+              "title": "Show Welcome",
+              "description": "Shows the welcome card"
+            },
+            {
+              "title": "MessageAllMembers",
+              "description": "Messages all members in a group or team chat"
             }
           ]
         }
