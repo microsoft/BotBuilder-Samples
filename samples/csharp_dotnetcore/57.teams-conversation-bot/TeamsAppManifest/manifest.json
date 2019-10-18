@@ -51,7 +51,7 @@
             },
             {
               "title": "MessageAllMembers",
-              "description": "Send 1 to 1 message to all members"
+              "description": "Send 1 to 1 message to all members of the current conversation"
             }
           ]
         }
