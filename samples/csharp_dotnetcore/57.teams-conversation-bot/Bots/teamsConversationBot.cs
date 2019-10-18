@@ -185,8 +185,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var replyActivity = MessageFactory.Text($"Hello {mention.Text}.");
             replyActivity.Entities = new List<Entity> { mention };
 
-            var responseId = await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-
+            await turnContext.SendActivityAsync(replyActivity, cancellationToken);
         }
     }
 }
