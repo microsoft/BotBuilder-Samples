@@ -23,10 +23,10 @@ QnA Maker CLI to deploy the model.
 - Clone the repository
 
     ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `experimental/qnamaker-multiturn-bot/csharp_dotnetcore`
+- In a terminal, navigate to `samples/csharp_dotnetcore/11.qnamaker`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -40,8 +40,8 @@ QnA Maker CLI to deploy the model.
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `experimental/qnamaker-multiturn-bot/csharp_dotnetcore` folder
-  - Open `qnamaker-sample.sln` file
+  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
+  - Select `QnABot.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
