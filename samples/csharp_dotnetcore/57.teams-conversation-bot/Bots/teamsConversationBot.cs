@@ -21,8 +21,6 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             turnContext.Activity.RemoveRecipientMention();
 
-           // await turnContext.SendActivityAsync(MessageFactory.Text($"Echo: {turnContext.Activity.Text}"), cancellationToken);
-
             switch (turnContext.Activity.Text)
             {
                 case "MentionMe":
