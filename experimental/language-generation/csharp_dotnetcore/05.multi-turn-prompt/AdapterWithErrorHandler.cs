@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Dialogs;
 using System.IO;
 
 namespace Microsoft.BotBuilderSamples

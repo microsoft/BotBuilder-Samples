@@ -16,7 +16,6 @@ namespace Microsoft.BotBuilderSamples
     {
         private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
         private static TemplateEngine _lgEngine;
-
         public UserProfileDialog(UserState userState)
             : base(nameof(UserProfileDialog))
         {
