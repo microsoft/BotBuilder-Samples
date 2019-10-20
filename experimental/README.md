@@ -16,7 +16,7 @@ Each sample contains a reference to the backing GitHub issue(s) that frames the 
 
 The samples found in this folder are experimental, do not necessarily relate to one another, are stand-alone, and are not meant to be viewed in any particular order.  None of the samples in the **experimental** folder should be used with bots running in a production environment.
 
-Experimental samples written in C# may have dependencies on assemblies pushed on the team's daily build feed.  To understand how to use assemblies from the daily build feed refer to [Using MyGet to consume daily builds]{https://github.com/microsoft/botbuilder-dotnet/blob/master/UsingMyGet.md) for further instructions.
+Experimental samples written in C# may have dependencies on assemblies pushed on the team's daily build feed.  To understand how to use assemblies from the daily build feed refer to [Using MyGet to consume daily builds](https://github.com/microsoft/botbuilder-dotnet/blob/master/UsingMyGet.md) for further instructions.
 
 
 
