@@ -1,8 +1,8 @@
 ﻿# EchoBot
 
-Bot Framework v4 Teams Messaging Extensions Search with Auth and Config sample.
+Bot Framework v4 Teams Messaging Extensions Search sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results. The sample also incorporates auth and config.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results.
 
 ## Prerequisites
 
@@ -21,7 +21,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config`
+- In a terminal, navigate to `samples/csharp_dotnetcore/52.teams-message-extensions-search-auth-config`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -35,18 +35,20 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config` folder
-  - Select `TeamsMessagingExtensionsSearchAuthConfig.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/52.teams-message-extensions-search-auth-config` folder
+  - Select `TeamsMessagingExtensionsSearch.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Teams
 
 1) run ngrok - point to port 3978
-1) create bot framework registration - using ngrok URL
-1) update your manifest.json to include the app id from bot framework
-1) zip up teams-manifest folder to create a manifest.zip
-1) upload manifest.zip to teams (from Apps view click "Upload a custom app")
-1) pick your bot from the compose command menu
+2) add the ngrok url to appsettings.json SiteUrl
+3) create bot framework registration - using ngrok URL
+4) add an AAD V2 OAuth Connection Settings (see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
+5) update your manifest.json to include the app id from bot framework, and the AAD V2 ConnectionSetting name
+6) zip up teams-manifest folder to create a manifest.zip
+7) upload manifest.zip to teams (from Apps view click "Upload a custom app")
+8) pick your bot from the compose command menu
 
 ## Deploy the bot to Azure
 
