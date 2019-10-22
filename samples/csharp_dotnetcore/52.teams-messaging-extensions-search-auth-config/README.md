@@ -45,7 +45,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 2) add the ngrok url to appsettings.json - SiteUrl
 3) create bot framework registration - using ngrok URL
 4) add MicrosoftAppId and MicrosoftAppPassword values to appsettings.json
-5) add an AAD V2 OAuth Connection Setting (see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
+5) add an AAD V2 OAuth Connection Setting 
+scopes: email Mail.Read User.Read openid profile User.ReadBasic.All Mail.Send.Shared 
+(see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
 6) add AAD ConnectionName to appsettings.json
 7) update your manifest.json to include the app id from bot framework
 8) zip up teams-manifest folder to create a manifest.zip
