@@ -8,7 +8,10 @@
 - Please enter your name.
 
 # AckName
-- Thanks, {Result}.
+- Thanks, {CapitalizeFirstLetter(Result)}.
+
+# CapitalizeFirstLetter (arg) 
+- {concat(toUpper(substring(arg, 0, 1)), substring(arg, 1))}
 
 # AgeConfirmPrompt
 - Would you like to give your age?

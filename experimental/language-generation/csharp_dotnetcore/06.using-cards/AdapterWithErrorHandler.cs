@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
-using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -19,8 +19,6 @@ namespace Microsoft.BotBuilderSamples
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            //this.Use(new RegisterClassMiddleware<IMessageActivityGenerator>(new TextMessageActivityGenerator()));
-
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
             string fullPath = Path.Combine(paths);
@@ -31,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception));
+                await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception)));
 
                 if (conversationState != null)
                 {

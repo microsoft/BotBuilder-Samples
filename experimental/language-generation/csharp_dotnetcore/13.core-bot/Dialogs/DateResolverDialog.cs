@@ -9,6 +9,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
@@ -40,8 +41,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             var bookingDetails = (BookingDetails)stepContext.Options;
             var timex = bookingDetails.TravelDate;
 
-            var promptMsg = _lgEngine.EvaluateTemplate("PromptForTravelDate", null);
-            var repromptMsg = _lgEngine.EvaluateTemplate("InvalidDateReprompt", null);
+            var promptMsg = _lgEngine.EvaluateTemplate("PromptForTravelDate");
+            var repromptMsg = _lgEngine.EvaluateTemplate("InvalidDateReprompt");
 
             if (timex == null)
             {
@@ -49,8 +50,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = MessageFactory.Text(promptMsg),
-                        RetryPrompt = MessageFactory.Text(repromptMsg)
+                        Prompt = ActivityBuilder.GenerateFromLG(promptMsg),
+                        RetryPrompt = ActivityBuilder.GenerateFromLG(repromptMsg)
                     }, cancellationToken);
             }
             else
@@ -63,7 +64,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.PromptAsync(nameof(DateTimePrompt),
                         new PromptOptions
                         {
-                            Prompt = MessageFactory.Text(repromptMsg)
+                            Prompt = ActivityBuilder.GenerateFromLG(repromptMsg)
                         }, cancellationToken);
                 }
                 else

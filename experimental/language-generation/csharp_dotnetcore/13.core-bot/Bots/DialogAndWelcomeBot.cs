@@ -12,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System;
+using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -36,21 +37,9 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = MessageFactory.Attachment(welcomeCard);
-                    await turnContext.SendActivityAsync(response, cancellationToken);
+                    await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("WelcomeCard")));
                 }
             }
-        }
-
-        // Load attachment from file.
-        private Attachment CreateAdaptiveCardAttachment()
-        {
-            return new Attachment()
-            {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(_lgEngine.EvaluateTemplate("WelcomeCard", null))
-            };
-        }
+        }       
     }
 }
