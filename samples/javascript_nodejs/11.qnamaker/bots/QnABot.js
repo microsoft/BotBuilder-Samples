@@ -46,4 +46,4 @@ class QnABot extends ActivityHandler {
     }
 }
 
-module.exports.QnAMakerMultiturnBot = QnAMakerMultiturnBot;
+module.exports.QnABot = QnABot;
