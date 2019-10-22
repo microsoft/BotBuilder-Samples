@@ -195,7 +195,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 ContentType = HeroCard.ContentType,
                 Content = new HeroCard
                 {
-                    Title = $"{packageId}, {version}, {description}",
+                    Title = $"{packageId}, {version}",
+                    Subtitle = description,
                     Buttons = new List<CardAction>
                     {
                         new CardAction
