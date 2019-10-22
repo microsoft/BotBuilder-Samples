@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0.0",
-  "id": "",
+  "id": "00000000-0000-0000-0000-000000000000",
   "packageName": "com.teams.sample.teamsconversationbot",
   "developer": {
     "name": "teamsConversationBot",
@@ -25,7 +25,7 @@
   "accentColor": "#FFFFFF",
   "bots": [
     {
-      "botId": "",
+      "botId": "00000000-0000-0000-0000-000000000000",
       "scopes": [
         "personal",
         "groupchat",
