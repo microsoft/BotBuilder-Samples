@@ -42,13 +42,15 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ## Testing the bot using Teams
 
 1) run ngrok - point to port 3978
-2) add the ngrok url to appsettings.json SiteUrl
+2) add the ngrok url to appsettings.json - SiteUrl
 3) create bot framework registration - using ngrok URL
-4) add an AAD V2 OAuth Connection Settings (see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
-5) update your manifest.json to include the app id from bot framework, and the AAD V2 ConnectionSetting name
-6) zip up teams-manifest folder to create a manifest.zip
-7) upload manifest.zip to teams (from Apps view click "Upload a custom app")
-8) pick your bot from the compose command menu
+4) add MicrosoftAppId and MicrosoftAppPassword values to appsettings.json
+5) add an AAD V2 OAuth Connection Setting (see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
+6) add AAD ConnectionName to appsettings.json
+7) update your manifest.json to include the app id from bot framework
+8) zip up teams-manifest folder to create a manifest.zip
+9) upload manifest.zip to teams (from Apps view click "Upload a custom app")
+10) pick your bot from the compose command menu
 
 ## Deploy the bot to Azure
 
