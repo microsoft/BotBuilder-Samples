@@ -18,10 +18,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 1 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-dotnet.git
+    git clone https://github.com/Microsoft/BotBuilder-Samples.git
     ```
 
-2 - In a terminal, navigate to `test/Test Applications/Microsoft.Bot.Builder.Twilio.Sample`
+2 - In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter`
 
 3 - Connect the bot with Twilio by following the instructions below.
 
@@ -38,7 +38,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `test/Test Applications/Microsoft.Bot.Builder.Twilio.Sample` folder
+  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter` folder
   - Select `Microsoft.Bot.Builder.Twilio.Sample.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
@@ -58,14 +58,19 @@ _**Note**: Make sure the chosen number has SMS capability enabled._
 
 4 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
 
+_**Note**:  Some important fact is that if ngrok will be used to test the bot locally, `http` should be used instead of the `https` in the URL._
+    [Read more about this in the Twilio documentation.](https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-csharp-aspnet-core-app-by-validating-incoming-twilio-requests#use-the-filter-attribute-with-our-twilio-webhooks)
+
 5 - Configure the Messaging Webhook with the https URL generated in the previous step adding '/api/messages' to it.
 
 6 - Back in the bot project, set the credentials in _appsettings.json_.
 
     TwilioNumber (the one obtained in step 3)
-    AccountSID (the one obtained in step 2)
-    AuthToken (the one obtained in step 2)
-    ValidationURL (the one configured in step 5)
+    TwilioAccountSid (the one obtained in step 2)
+    TwilioAuthToken (the one obtained in step 2)
+    TwilioValidationUrl (the one configured in step 5)
+
+    
 
 
 ## Deploy the bot to Azure

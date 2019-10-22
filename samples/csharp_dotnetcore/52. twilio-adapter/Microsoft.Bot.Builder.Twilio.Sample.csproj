@@ -6,14 +6,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Twilio" Version="4.6.0-local" />
   </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\libraries\Adapters\Microsoft.Bot.Builder.Adapters.Twilio\Microsoft.Bot.Builder.Adapters.Twilio.csproj" />
-    <ProjectReference Include="..\..\..\libraries\integration\Microsoft.Bot.Builder.Integration.AspNet.Core\Microsoft.Bot.Builder.Integration.AspNet.Core.csproj" />
-    <ProjectReference Include="..\..\..\libraries\Microsoft.Bot.Builder\Microsoft.Bot.Builder.csproj" />
-  </ItemGroup>
-
     <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
