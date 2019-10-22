@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Microsoft.Bot.Builder.Webex.Sample": {
+    "Microsoft.Bot.Builder.Twilio.Sample": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
