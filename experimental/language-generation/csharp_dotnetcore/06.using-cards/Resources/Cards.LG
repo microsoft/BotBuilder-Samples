@@ -98,16 +98,6 @@
     },
     {
       "type": "TextBlock",
-      "text": "@{PassengerName()}",
-      "spacing": "none"
-    },
-    {
-      "type": "TextBlock",
-      "text": "@{PassengerName()}",
-      "spacing": "none"
-    },
-    {
-      "type": "TextBlock",
       "text": "2 Stops",
       "weight": "bolder",
       "spacing": "medium"
