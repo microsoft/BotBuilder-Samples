@@ -26,9 +26,9 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public TeamsMessagingExtensionsSearchAuthConfigBot(IConfiguration configuration, UserState userState)
         {
-            _connectionName = configuration["ConnectionName"];
-            _siteUrl = configuration["SiteUrl"];
-            _userState = userState;
+            _connectionName = configuration["ConnectionName"] ?? throw new NullReferenceException("ConnectionName");
+            _siteUrl = configuration["SiteUrl"] ?? throw new NullReferenceException("SiteUrl");
+            _userState = userState ?? throw new NullReferenceException(nameof(userState));
             _userConfigProperty = userState.CreateProperty<string>("UserConfiguration");
         }
 
@@ -39,7 +39,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             // After the turn is complete, persist any UserState changes.
             await _userState.SaveChangesAsync(turnContext);
         }
-
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationQuerySettingUrlAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
@@ -83,17 +82,17 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery action, CancellationToken cancellationToken)
         {
-            var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
-            IEnumerable<(string, string, string)> results = null;
-
+            var text = action?.Parameters?[0]?.Value as string ?? string.Empty;
+            
             var attachments = new List<MessagingExtensionAttachment>();
             var userConfigSettings = await _userConfigProperty.GetAsync(turnContext, () => string.Empty);
-            if (userConfigSettings.ToLower().Contains("email"))
+            if (userConfigSettings.ToUpper().Contains("EMAIL"))
             {
+                // When the Bot Service Auth flow completes, the action.State will contain a magic code used for verification.
                 var magicCode = string.Empty;
-                var state = query.State;
+                var state = action.State;
                 if (!string.IsNullOrEmpty(state))
                 {
                     int parsed = 0;
@@ -135,7 +134,9 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var client = new SimpleGraphClient(tokenResponse.Token);
 
                 var messages = await client.SearchMailInboxAsync(text);
-                
+
+                // Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
+                // displayed if the selects that item.
                 attachments = messages.Select(msg => new MessagingExtensionAttachment
                     {
                         ContentType = HeroCard.ContentType,
@@ -159,7 +160,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             else
             {
-                results = await FindPackages(text);
+                var results = await FindPackages(text);
                 // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
                 // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
                 attachments = results.Select(package => new MessagingExtensionAttachment
@@ -181,6 +182,49 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
+
+        protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
+        {
+            // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
+            var (packageId, version, description, projectUrl) = query.ToObject<(string, string, string, string)>();
+
+            // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
+            // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
+            var attachment = new MessagingExtensionAttachment
+            {
+                ContentType = HeroCard.ContentType,
+                Content = new HeroCard
+                {
+                    Title = $"{packageId}, {version}, {description}",
+                    Buttons = new List<CardAction>
+                    {
+                        new CardAction
+                        {
+                            Type = ActionTypes.OpenUrl,
+                            Title = "Nuget Package",
+                            Value = $"https://www.nuget.org/packages/{packageId}",
+                        },
+                        new CardAction
+                        {
+                            Type = ActionTypes.OpenUrl,
+                            Title = "Project",
+                            Value = projectUrl,
+                        }
+                    }
+                },
+            };
+
+            return Task.FromResult(new MessagingExtensionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    Type = "result",
+                    AttachmentLayout = "list",
+                    Attachments = new List<MessagingExtensionAttachment> { attachment }
+                }
+            });
+        }
+
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             // This method is to handle the 'Close' button on the confirmation Task Module after the user signs out.
@@ -203,14 +247,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                             {
                                 Content = new AdaptiveCard(new AdaptiveSchemaVersion("1.0"))
                                 {
-                                    Body = new List<AdaptiveElement>()
-                                    {
-                                        new AdaptiveTextBlock() { Text = "You have been signed out." },
-                                    },
-                                    Actions = new List<AdaptiveAction>()
-                                    {
-                                        new AdaptiveSubmitAction() { Title = "Close" },
-                                    },
+                                    Body = new List<AdaptiveElement>() { new AdaptiveTextBlock() { Text = "You have been signed out." } },
+                                    Actions = new List<AdaptiveAction>() { new AdaptiveSubmitAction() { Title = "Close" } },
                                 },
                                 ContentType = AdaptiveCard.ContentType,
                             },
@@ -224,35 +262,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             return null;
         }
 
-        protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
-        {
-            // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
-            var (packageId, version, description) = query.ToObject<(string, string, string)>();
-
-            // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
-            // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-            var attachment = new MessagingExtensionAttachment
-            {
-                ContentType = HeroCard.ContentType,
-                Content = new HeroCard { Title = $"{packageId}, {version}, {description}" },
-            };
-
-            return Task.FromResult(new MessagingExtensionResponse
-            {
-                ComposeExtension = new MessagingExtensionResult
-                {
-                    Type = "result",
-                    AttachmentLayout = "list",
-                    Attachments = new List<MessagingExtensionAttachment> { attachment }
-                }
-            });
-        }
-
         // Generate a set of substrings to illustrate the idea of a set of results coming back from a query. 
-        private async Task<IEnumerable<(string, string, string)>> FindPackages(string text)
+        private async Task<IEnumerable<(string, string, string, string)>> FindPackages(string text)
         {
             var obj = JObject.Parse(await (new HttpClient()).GetStringAsync($"https://azuresearch-usnc.nuget.org/query?q=id:{text}&prerelease=true"));
-            return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString()));
+            return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString(), item["projectUrl"].ToString()));
         }
     }
 }
