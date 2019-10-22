@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples
         {
             _userProfileAccessor = userState.CreateProperty<UserProfile>("UserProfile");
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "UserProfileDialog.LG" };
+            string[] paths = { ".", "Resources", "UserProfileDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
             // This array defines how the Waterfall will execute.

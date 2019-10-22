@@ -24,20 +24,39 @@ namespace Microsoft.BotBuilderSamples.Bots
             : base(conversationState, userState, dialog, logger)
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "welcomeCard.LG" };
+            string[] paths = { ".", "Resources", "welcomeCard.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
+            var actions = new {
+                actions = new List<Object>() {
+                    new {
+                        type = "Action.openUrl",
+                        title = "Get an overview",
+                        url = "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+                    },
+                    new {
+                        type = "Action.OpenUrl",
+                        title = "Ask a question",
+                        url = "https://stackoverflow.com/questions/tagged/botframework"
+                    },
+                    new {
+                        type = "Action.OpenUrl",
+                        title = "Learn how to deploy",
+                        url = "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+                    }
+                }
+            };
             foreach (var member in membersAdded)
             {
                 // Greet anyone that was not the target (recipient) of this message.
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("WelcomeCard")));
+                    await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("WelcomeCard", actions)));
                 }
             }
         }       

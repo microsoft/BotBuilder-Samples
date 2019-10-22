@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             : base(nameof(MainDialog))
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "MainDialog.LG" };
+            string[] paths = { ".", "Resources", "MainDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
 

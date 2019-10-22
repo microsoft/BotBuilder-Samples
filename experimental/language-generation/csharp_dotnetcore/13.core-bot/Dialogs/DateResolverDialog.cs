@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             : base(id ?? nameof(DateResolverDialog))
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "BookingDialog.LG" };
+            string[] paths = { ".", "Resources", "BookingDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
 

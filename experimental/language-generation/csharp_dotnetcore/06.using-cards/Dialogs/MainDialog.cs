@@ -27,9 +27,9 @@ namespace Microsoft.BotBuilderSamples
             _logger = logger;
 
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "MainDialog.LG" };
+            string[] paths = { ".", "Resources", "MainDialog.lg" };
             string mainDialogLGFile = Path.Combine(paths);
-            paths = new string[] { ".", "Resources", "Cards.LG" };
+            paths = new string[] { ".", "Resources", "Cards.lg" };
             string cardsLGFile = Path.Combine(paths);
             string[] lgFiles = { mainDialogLGFile, cardsLGFile };
 

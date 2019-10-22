@@ -2,8 +2,8 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 > This shows an example of inline definition of a card. 
-> See the cardsBot sample to see more ways to define and manage cards (including definitions in external files)
-# WelcomeCard
+> See the cardsBot sample to see more ways to define and manage cards.
+# AdaptiveCard
 - ```
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -34,21 +34,7 @@
     }
   ],
   "actions": [
-    {
-      "type": "Action.OpenUrl",
-      "title": "Get an overview",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Ask a question",
-      "url": "https://stackoverflow.com/questions/tagged/botframework"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Learn how to deploy",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
-    }
+    @{join(foreach(actions, item, cardActionTemplate(item.title, item.url, item.type)), ',')}
   ]
 }
 ```
@@ -56,3 +42,15 @@
 # HeaderText
 - Welcome to Bot Framework!
 - Welcome to core bot with Language Generation!
+ 
+# WelcomeCard
+[Activity
+    Text = {json(AdaptiveCard())}
+]
+
+# cardActionTemplate(title, url, type)
+- ```{
+    "type" : @{if(type == null, 'Action.OpenUrl', type)},
+    "title" : @{title},
+    "url" : @{url}
+}```
