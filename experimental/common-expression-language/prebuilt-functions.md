@@ -145,6 +145,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[getProperty](#getProperty)    | Return the value of the given property in a JSON object.  |
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
 |[xPath](#xPath)    | Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[jPath](#jPath)    | Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -195,9 +196,9 @@ addDays('<timestamp>', <days>, '<format>'?)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*timestamp*> | Yes | String | The string that contains the timestamp which must be standard UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ |
+| <*timestamp*> | Yes | String | The string that contains the timestamp which must be standard UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ |
 | <*days*> | Yes | Integer | The positive or negative number of days to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -239,7 +240,7 @@ addHours('<timestamp>', <hours>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*hours*> | Yes | Integer | The positive or negative number of hours to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -281,7 +282,7 @@ addMinutes('<timestamp>', <minutes>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*minutes*> | Yes | Integer | The positive or negative number of minutes to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -385,7 +386,7 @@ addSeconds('<timestamp>', <seconds>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*seconds*> | Yes | Integer | The positive or negative number of seconds to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -428,7 +429,7 @@ addToTime('<timestamp>', '<interval>', <timeUnit>, '<format>'?)
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*interval*> | Yes | Integer | The number of specified time units to add |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -876,7 +877,7 @@ convertFromUTC('<timestamp>', '<destinationTimeZone>', '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string contains the timestamp |
 | <*destinationTimeZone*> | Yes | String | The name for the target time zone. Support Windows time zone and Iana time zone |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -905,7 +906,7 @@ convertToUTC('<timestamp>', '<sourceTimeZone>', '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string contains the timestamp |
 | <*sourceTimeZone*> | Yes | String | The name for the target time zone. Support Windows time zone and Iana time zone |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -1507,7 +1508,7 @@ formatDateTime('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1539,7 +1540,7 @@ getFutureTime(<interval>, <timeUnit>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*interval*> | Yes | Integer | The number of specific time units to add |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1581,7 +1582,7 @@ getPastTime(<interval>, <timeUnit>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*interval*> | Yes | Integer | The number of specific time units to substract |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1929,6 +1930,122 @@ join(createArray('a', 'b', 'c'), '.')
 ```
 
 And returns this result: `"a.b.c"`
+
+
+<a name="jPath"></a>
+
+### jPath
+
+Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes.
+
+```
+jPath(<json>, '<path>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*json*> | Yes | Any | The json object or string to search for nodes or values that match path expression value |
+| <*path*> | Yes | Any | The path expression used to find matching json nodes or values |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+|[ <*json-node*>] | Array | An list of json nodes or value that matches the specified path expression |
+||||
+
+*Example*
+
+Given jsonStr is 
+```json
+{
+    "Stores": [
+        "Lambton Quay",
+        "Willis Street"
+    ],
+    "Manufacturers": [
+        {
+            "Name": "Acme Co",
+            "Products": [
+                {
+                    "Name": "Anvil",
+                    "Price": 50
+                }
+            ]
+        },
+        {
+            "Name": "Contoso",
+            "Products": [
+                {
+                    "Name": "Elbow Grease",
+                    "Price": 99.95
+                },
+                {
+                    "Name": "Headlight Fluid",
+                    "Price": 4
+                }
+            ]
+        }
+    ]
+}
+```
+
+and the path expression is 
+"$..Products[?(@.Price >= 50)].Name" 
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `["Anvil", "Elbow Grease"]`
+
+Given jsonStr is 
+
+```json
+{
+    "automobiles": [
+        {
+            "maker": "Nissan",
+            "model": "Teana",
+            "year": 2011
+        },
+        {
+            "maker": "Honda",
+            "model": "Jazz",
+            "year": 2010
+        },
+        {
+            "maker": "Honda",
+            "model": "Civic",
+            "year": 2007
+        },
+        {
+            "maker": "Toyota",
+            "model": "Yaris",
+            "year": 2008
+        },
+        {
+            "maker": "Honda",
+            "model": "Accord",
+            "year": 2011
+        }
+    ],
+    "motorcycles": [
+        {
+            "maker": "Honda",
+            "model": "ST1300",
+            "year": 2012
+        }
+    ]
+}
+```
+
+And the path expression is `.automobiles{.maker === "Honda" && .year > 2009}.model`.
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `['Jazz', 'Accord']`
 
 <a name="json"></a>
 
@@ -2571,7 +2688,8 @@ replace('<text>', '<oldText>', '<newText>')
 | <*updated-text*> | String | The updated string after replacing the substring <p>If the substring is not found, return the original string. |
 ||||
 
-*Example*
+
+*Example 1*
 
 This example finds the "old" substring in "the old string"
 and replaces "old" with "new":
@@ -2581,6 +2699,19 @@ replace('the old string', 'old', 'new')
 ```
 
 And returns this result: `"the new string"`
+
+*Example 2*
+
+When dealing with escape characters, the expression engine handles the unescape for you. Here is some example about the replace function with escape character cases:
+
+```
+replace('hello\"', '\"', '\n')
+replace('hello\n', '\n', '\\\\')
+@"replace('hello\\', '\\', '\\\\')"
+@"replace('hello\n', '\n', '\\\\')"
+```
+
+And returns these results: `"hello\n"`, `"hello\\"`, `@"hello\\"`, `@"hello\\"`
 
 <a name="replaceIgnoreCase"></a>
 
@@ -2724,7 +2855,7 @@ startOfDay('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -2755,7 +2886,7 @@ startOfHour('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -2786,7 +2917,7 @@ startOfDay('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3002,7 +3133,7 @@ subtractFromTime('<timestamp>', <interval>, '<timeUnit>', '<format>'?)
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*interval*> | Yes | Integer | The number of specified time units to subtract |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3539,7 +3670,7 @@ Optionally, you can specify a different format with the <*format*> parameter.
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3641,7 +3772,7 @@ xPath('<xml>', '<xpath>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*xml*> | Yes | Any | The XML string to search for nodes oor values that match an XPath expression value |
+| <*xml*> | Yes | Any | The XML string to search for nodes or values that match an XPath expression value |
 | <*xPath*> | Yes | Any | The XPath expression used to find matching XML nodes or values |
 |||||
 

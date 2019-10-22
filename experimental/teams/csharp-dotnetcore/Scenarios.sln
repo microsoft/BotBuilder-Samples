@@ -1,0 +1,188 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConversationUpdate", "ConversationUpdate\ConversationUpdate.csproj", "{D62F48FD-D7F4-41D9-958F-421D51536B54}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "MessageReaction\MessageReaction.csproj", "{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileBot", "FileUpload\TeamsFileBot.csproj", "{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Roster", "Roster\Roster.csproj", "{AEE5C25E-74CC-48D9-815D-BE5C17D16737}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LinkUnfurling", "LinkUnfurling\LinkUnfurling.csproj", "{6CD3219E-A8C4-415B-B008-0E6B265E8E88}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotFrameworkCards", "CardsBotFramework\BotFrameworkCards.csproj", "{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Office365Card", "CardsOffice365\Office365Card.csproj", "{857BE2A3-9547-4029-966F-71906F4EEAA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActivityUpdateAndDelete", "Activity Update & Delete\ActivityUpdateAndDelete.csproj", "{DF02065E-364B-4BF4-AD16-199D9CA8FF98}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ReplyToChannel", "ReplyToChannel\ReplyToChannel.csproj", "{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaskModule", "TaskModule\TaskModule.csproj", "{71C198B6-DA9C-4159-8724-A3A6704D6585}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCards", "AdaptiveCards\AdaptiveCards.csproj", "{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Mentions", "Mentions\Mentions.csproj", "{8485C374-3111-4A82-9A0C-CC38DE99AE75}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SearchBasedMessagingExtension", "SearchBasedMessagingExtension\SearchBasedMessagingExtension.csproj", "{45A96B17-2878-424C-929C-4CCD0B186AFA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionBasedMessagingExtension", "ActionBasedMessagingExtension\ActionBasedMessagingExtension.csproj", "{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ActionBasedMessagingExtensionFetchTask", "ActionBasedMessagingExtension-FetchTask\ActionBasedMessagingExtensionFetchTask.csproj", "{A26E1445-E2D7-44C2-9C33-CBFC3846537A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProactiveMessages", "ProactiveMessages\ProactiveMessages.csproj", "{FED44219-2A75-49A1-B925-954929D09BD8}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NotificationOnly", "NotificationOnly\NotificationOnly.csproj", "{ED2CF41C-3B02-4602-AD2E-654B83374DC5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComposeMessagingExtensions", "ComposeMessagingExtensions\ComposeMessagingExtensions.csproj", "{7824D509-81E9-4C08-9E9A-666915A2935D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ComposeMessagingExtensionAuth", "ComposeMessagingExtensionAuth\ComposeMessagingExtensionAuth.csproj", "{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsEchoBot", "TeamsEcho\TeamsEchoBot.csproj", "{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsEnhancedEchoBot", "TeamsEnhancedEcho\TeamsEnhancedEchoBot.csproj", "{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug - NuGet Packages|Any CPU = Debug - NuGet Packages|Any CPU
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D62F48FD-D7F4-41D9-958F-421D51536B54}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8B89B8F-BBAA-4636-9FBD-7D89F9334539}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9F2EA9EE-023D-4E41-B0E0-68EF593E458B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEE5C25E-74CC-48D9-815D-BE5C17D16737}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CD3219E-A8C4-415B-B008-0E6B265E8E88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{890A4C16-C4DC-4CF5-BE1F-80BEFE71C97B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{857BE2A3-9547-4029-966F-71906F4EEAA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF02065E-364B-4BF4-AD16-199D9CA8FF98}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2CCA3B1B-79C2-44BA-A434-AB1E5652547A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{71C198B6-DA9C-4159-8724-A3A6704D6585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE0D599-F1F5-4F50-B5E5-A39724EE9AD5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8485C374-3111-4A82-9A0C-CC38DE99AE75}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A96B17-2878-424C-929C-4CCD0B186AFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC4553C0-E2CB-47A1-84A6-5D27A6EB7DEC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A26E1445-E2D7-44C2-9C33-CBFC3846537A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FED44219-2A75-49A1-B925-954929D09BD8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED2CF41C-3B02-4602-AD2E-654B83374DC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7824D509-81E9-4C08-9E9A-666915A2935D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3680A9E-AD12-4331-A9F5-BCEF2FB91A55}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EDA28045-6440-47B9-8DFE-8EC356CBFC1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Debug - NuGet Packages|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Debug - NuGet Packages|Any CPU.Build.0 = Debug|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5AD43E3-0AB5-454F-B71A-BF4E65A33A59}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {99A36009-192F-4D48-8E48-0A583C0168D1}
+	EndGlobalSection
+EndGlobal

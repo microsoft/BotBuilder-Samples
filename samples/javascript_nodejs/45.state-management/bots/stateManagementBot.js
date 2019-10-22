@@ -11,8 +11,8 @@ class StateManagementBot extends ActivityHandler {
     constructor(conversationState, userState) {
         super();
         // Create the state property accessors for the conversation data and user profile.
-        this.conversationData = conversationState.createProperty(CONVERSATION_DATA_PROPERTY);
-        this.userProfile = userState.createProperty(USER_PROFILE_PROPERTY);
+        this.conversationDataAccessor = conversationState.createProperty(CONVERSATION_DATA_PROPERTY);
+        this.userProfileAccessor = userState.createProperty(USER_PROFILE_PROPERTY);
 
         // The state management objects for the conversation and user state.
         this.conversationState = conversationState;
@@ -20,8 +20,8 @@ class StateManagementBot extends ActivityHandler {
 
         this.onMessage(async (turnContext, next) => {
             // Get the state properties from the turn context.
-            const userProfile = await this.userProfile.get(turnContext, {});
-            const conversationData = await this.conversationData.get(
+            const userProfile = await this.userProfileAccessor.get(turnContext, {});
+            const conversationData = await this.conversationDataAccessor.get(
                 turnContext, { promptedForUserName: false });
 
             if (!userProfile.name) {
@@ -31,7 +31,7 @@ class StateManagementBot extends ActivityHandler {
                     userProfile.name = turnContext.activity.text;
 
                     // Acknowledge that we got their name.
-                    await turnContext.sendActivity(`Thanks ${ userProfile.name }.`);
+                    await turnContext.sendActivity(`Thanks ${ userProfile.name }. To see conversation data, type anything.`);
 
                     // Reset the flag to allow the bot to go though the cycle again.
                     conversationData.promptedForUserName = false;
@@ -62,6 +62,17 @@ class StateManagementBot extends ActivityHandler {
             await this.conversationState.saveChanges(turnContext, false);
             await this.userState.saveChanges(turnContext, false);
 
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+
+        this.onMembersAdded(async (context, next) => {
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; ++cnt) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+                    await context.sendActivity('Welcome to State Bot Sample. Type anything to get started.');
+                }
+            }
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });

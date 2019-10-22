@@ -1,0 +1,42 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.3/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.3",
+  "version": "1.0.0",
+  "id": "",
+  "packageName": "com.teams.sample.activityupdateanddelete",
+  "developer": {
+    "name": "ActivityUpdateAndDeleteBot",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "ActivityUpdateAndDeleteBot",
+    "full": "ActivityUpdateAndDeleteBot"
+  },
+  "description": {
+    "short": "TeamsActivityUpdateAndDeleteBot",
+    "full": "TeamsActivityUpdateAndDeleteBot"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "",
+      "scopes": [
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

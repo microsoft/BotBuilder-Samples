@@ -13,21 +13,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     node --version
     ```
 
-- Download the following packages to the root dir of the bot:
-1. https://botbuilder.myget.org/feed/experimental/package/npm/microsoft-bot-protocol
-2. https://botbuilder.myget.org/feed/experimental/package/npm/microsoft-bot-protocol-namedpipe
-3. https://botbuilder.myget.org/feed/experimental/package/npm/microsoft-bot-protocol-streamingextensions
-4. https://botbuilder.myget.org/feed/experimental/package/npm/microsoft-bot-protocol-websocket
-
-- Run the following terminal commands from the root dir of the bot:
-1. npm install .\microsoft-bot-protocol.0.0.1.tgz
-2. npm install .\microsoft-bot-protocol-namedpipe.0.0.1.tgz
-3. npm install .\microsoft-bot-protocol-websocket.0.0.1.tgz
-4. npm install .\microsoft-bot-protocol-streamingextensions.0.0.1.tgz
-
-```bash
-npm install .\microsoft-bot-protocol.0.0.1.tgz .\microsoft-bot-protocol-namedpipe.0.0.1.tgz .\microsoft-bot-protocol-websocket.0.0.1.tgz install .\microsoft-bot-protocol-streamingextensions.0.0.1.tgz
-```
+- In order to use the preview version of the [botbuilder-streaming-extensions](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-streaming-extensions) library required to use Direct Line Speech, run the following terminal commands from the root dir of the bot:
+1. npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
+2. npm install
+3. npm config set registry https://registry.npmjs.org/
 
 ## To try this sample
 
