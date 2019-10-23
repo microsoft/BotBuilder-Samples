@@ -1,4 +1,4 @@
-﻿# EchoBot using Facebook Adapter
+﻿# Facebook Adapter
 
 Bot Framework v4 echo bot using facebook Adapter sample.
 
@@ -45,11 +45,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Facebook
 
-- Create a Facebook Account for Developers (https://developers.facebook.com/).
+1 - Create a Facebook Account for Developers (https://developers.facebook.com/).
 
-- Create a new App. Give a name to the app and click Create App ID button.
+2 - Create a new App. Give a name to the app and click Create App ID button.
 
-- In the Dashboard go to Add a Product and select Messenger by clicking on Set Up button
+3 - In the Dashboard go to Add a Product and select Messenger by clicking on Set Up button
 
     A) In the Access Tokens section, select a Facebook Page or create a new one. This is the page where the bot will be tested later.
 
@@ -57,17 +57,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
     C) A Page Access Token is generated. Copy it, it will be needed to connect the adapter.
 
-- Get the app credentials. Go to Settings, Basic and copy the App Secret.
+4 - Get the app credentials. Go to Settings, Basic and copy the App Secret.
 
-- Set the tokens in appsettings.json file: 
+5 - Set the tokens in appsettings.json file: 
     
         FacebookVerifyToken (create one. It will be used to validate received messages)
         FacebookAppSecret (the one obtained in step 4)
         FacebookAccessToken (the one obtained in step 3.c)
 
-- Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
+6 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
 
-- Go back to the Facebook for Developers page and click on Messenger, Settings.
+7 - Go back to the Facebook for Developers page and click on Messenger, Settings.
     In the Webhooks section, click on Subscribe To Events button.
 
     A) Complete the Callback URL with the ngrok https URL adding   '/api/messages'. 
@@ -76,9 +76,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
     B) Click Verify and Save button.
 
-- Subscribe the webhook to the Page.
+8 - Subscribe the webhook to the Page.
 
-- Go to the Page and click Add a Button.
+9 - Go to the Page and click Add a Button.
 
     A) Select a Send Message button.
 
@@ -86,7 +86,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
     C) And click Finish button.
 
-- Finally, click on the button created and test your bot!
+10 - Finally, click on the button created and test your bot!
 
 ## Deploy the bot to Azure
 
