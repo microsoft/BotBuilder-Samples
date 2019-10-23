@@ -3,6 +3,24 @@
 
 > This shows an example of inline definition of a card. 
 > See the cardsBot sample to see more ways to define and manage cards.
+
+# HeaderText
+- Welcome to Bot Framework!
+- Welcome to core bot with Language Generation!
+ 
+# WelcomeCard
+[Activity
+    Attachments = @{json(AdaptiveCard())}
+]
+
+> This template is called by AdaptiveCard template to put together the list of buttons in the adaptive card based on the object passed in via the EvaluateTemplate call.
+# cardActionTemplate(title, url, type)
+- ```{
+    "type" : "@{if(type == null, 'Action.OpenUrl', type)}",
+    "title" : "@{title}",
+    "url" : "@{url}"
+}```
+
 # AdaptiveCard
 - ```
 {
@@ -39,18 +57,3 @@
 }
 ```
 
-# HeaderText
-- Welcome to Bot Framework!
-- Welcome to core bot with Language Generation!
- 
-# WelcomeCard
-[Activity
-    Attachments = {json(AdaptiveCard())}
-]
-
-# cardActionTemplate(title, url, type)
-- ```{
-    "type" : "@{if(type == null, 'Action.OpenUrl', type)}",
-    "title" : "@{title}",
-    "url" : "@{url}"
-}```

@@ -1,6 +1,6 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+> See [here](#Change-Log) for what's new in 4.7 PREVIEW release.
 
 Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
 
@@ -26,64 +26,6 @@ You can use language generation to:
 - include variations and sophisticated composition based resolution for any of your bot's replies
 - construct speak .vs. display adaptations
 - construct cards, suggested actions and attachments.
-
-## Speak .vs. display adaptation
-
-By design, the .lg file format does not explicitly support the ability to provide speak .vs. display adaptation. The file format supports simple constructs that are composable and supports resolution on multi-line text and so you can have syntax and semantics for speak .vs. display adaptation, cards, suggested actions etc that can be interpreted as simple text and transformed into the Bot Framework [activity][1] by a layer above language generation.
-
-Bot Builder SDK supports a short hand notation that can parse and transform a piece of text separated by `displayText`||`spokenText` into speak and display text.
-
-```markdown
-# greetingTemplate
-- hi || hi there
-- hello || hello, what can I help with today
-```
-
-You can use the `TextMessageActivityGenerator.CreateActityFromText` method to transform the command into a Bot Framework activity to post back to the user.
-
-## Using Chatdown style cards
-
-[Chatdown][6] introduced a simple markdown based way to write mock conversations. Also introduced as part of the [.chat][7] file format was the ability to express different [message commands][9] via simple text representation. Message commands include [cards][10], [Attachments][11] and suggested actions.
-
-You can include message commands via multi-line text in the .lg file format and use the `TextMessageActivityGenerator.CreateActityFromText` method to transform the command into a Bot Framework activity to post back to the user.
-
-See [here][8] for examples of how different card types are represented in .chat file format.
-
-Here is an example of a card definition.
-
-```markdown
-    # HeroCardTemplate(buttonsCollection)
-    - ```
-    [Herocard
-        title=@{TitleText())}
-        subtitle=@{SubText())}
-        text=@{DescriptionText())}
-        images=@{CardImages())}
-        buttons=@{join(buttonsCollection, '|')]
-    ```
-
-    # TitleText
-    - Here are some [TitleSuffix]
-
-    # TitleSuffix
-    - cool photos
-    - pictures
-    - nice snaps
-
-    # SubText
-    - What is your favorite?
-    - Don't they all look great?
-    - sorry, some of them are repeats
-
-    # DescriptionText
-    - This is description for the hero card
-
-    # CardImages
-    - https://picsum.photos/200/200?image=100
-    - https://picsum.photos/300/200?image=200
-    - https://picsum.photos/200/200?image=400
-```
-
 
 ## Language Generation in action
 
@@ -157,6 +99,14 @@ The current library does not include any capabilities for grammar check or corre
 Packages for C# are available under the [BotBuilder MyGet feed][12]
 
 ## Change Log
+### 4.7 PREVIEW
+- \[**BREAKING CHANGES**\]:
+    - Old `display || speak` notation is deprecated in favor of structured template support. See below for more details on structured template. 
+    - Old `Chatdown` style cards are deprecated in favor of structured template support. See below for more details on structured template. 
+- \[**NEW**\]:
+    - Structured Template support in .lg file format. See [here](./docs/structured-response-template.md) to learn more about Structured Template definition.
+    - ActivityGenerator.GenerateFromLG static method to transform output from LG sub-system into a full blown [Bot Framework Activity][1]
+
 ### 4.6 PREVIEW
 - \[**NEW**\] [VS code extension][22] for LG (syntax highlighting, auto-suggest (including expressions, pre-built functions, template names etc), validation)
 - LG file format:
@@ -179,7 +129,7 @@ Packages for C# are available under the [BotBuilder MyGet feed][12]
 [9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
-[12]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[12]:https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
 [20]:./docs/lg-file-format.md#Switch..Case
 [21]:./docs/lg-file-format.md#Importing-external-references
 [22]:https://aka.ms/lg-vscode-extension

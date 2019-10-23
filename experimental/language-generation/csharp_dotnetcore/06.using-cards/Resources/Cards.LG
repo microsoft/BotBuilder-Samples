@@ -6,8 +6,8 @@
 
 # AllCards
 [Activity
-    Attachments = {HeroCard()} | {ThumbnailCard()} | {SigninCard()} | {AnimationCard()} | {VideoCard()} | {AudioCard()} | {AdaptiveCard()}
-    AttachmentLayout = {AttachmentLayoutType()}
+    Attachments = @{HeroCard()} | @{ThumbnailCard()} | @{SigninCard()} | @{AnimationCard()} | @{VideoCard()} | @{AudioCard()} | @{AdaptiveCard()}
+    AttachmentLayout = @{AttachmentLayoutType()}
 ]
 
 # HeroCard
@@ -64,7 +64,7 @@
 
 # AdaptiveCard
 [Activity
-    Attachments = {json(adaptivecardjson())}
+    Attachments = @{json(adaptivecardjson())}
 ]
 
 # PassengerName
