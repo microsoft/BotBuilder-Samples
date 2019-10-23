@@ -62,9 +62,9 @@ c. In order to verify these URLs, the bot must to be running with a valid _Slack
 
 3 - Back in the bot project, set the credentials (obtained in step 2) in _appsettings.json_.
 
-  SlackVerificationToken
-  SlackBotToken
-  SlackClientSigningSecret
+    SlackVerificationToken
+    SlackBotToken
+    SlackClientSigningSecret
 
 ## Deploy the bot to Azure
 
