@@ -1,4 +1,4 @@
-﻿# EchoBot using Twilio Adapter
+﻿# Twilio Adapter
 
 Bot Framework v4 echo bot using Twilio Adapter sample.
 
@@ -15,17 +15,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## To try this sample
 
-1 - Clone the repository
+- Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     ```
 
-2 - In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter`
+- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter`
 
-3 - Connect the bot with Twilio by following the instructions below.
+- Connect the bot with Twilio by following the instructions below.
 
-4 - Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
 
@@ -39,10 +39,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter` folder
-  - Select `Microsoft.Bot.Builder.Twilio.Sample.csproj` file
+  - Select `TwilioAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
-5 - Test the bot sending a SMS message to the Twilio Number.
+- Test the bot sending a SMS message to the Twilio Number.
 
 ### Connect the bot with Twilio
 
@@ -59,9 +59,9 @@ _**Note**: Make sure the chosen number has SMS capability enabled._
 4 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
 
 _**Note**:  Some important fact is that if ngrok will be used to test the bot locally, `http` should be used instead of the `https` in the URL._
-    [Read more about this in the Twilio documentation.](https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-csharp-aspnet-core-app-by-validating-incoming-twilio-requests#use-the-filter-attribute-with-our-twilio-webhooks)
+Read more about this in the [Twilio documentation.](https://www.twilio.com/docs/usage/tutorials/how-to-secure-your-csharp-aspnet-core-app-by-validating-incoming-twilio-requests#use-the-filter-attribute-with-our-twilio-webhooks)
 
-5 - Configure the Messaging Webhook with the https URL generated in the previous step adding '/api/messages' to it.
+5 - Configure the Messaging Webhook with the URL generated in the previous step adding '/api/messages' to it.
 
 6 - Back in the bot project, set the credentials in _appsettings.json_.
 
@@ -69,8 +69,6 @@ _**Note**:  Some important fact is that if ngrok will be used to test the bot lo
     TwilioAccountSid (the one obtained in step 2)
     TwilioAuthToken (the one obtained in step 2)
     TwilioValidationUrl (the one configured in step 5)
-
-    
 
 
 ## Deploy the bot to Azure
