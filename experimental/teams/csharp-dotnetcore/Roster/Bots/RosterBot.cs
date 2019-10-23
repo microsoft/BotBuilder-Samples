@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             var teamDetails = await TeamsInfo.GetTeamDetailsAsync(turnContext, cancellationToken);
 
-            var replyActivity = MessageFactory.Text($"The team name is {teamDetails.Name}. The team ID is {teamDetails.Id}. The ADDGroupID is {teamDetails.AadGroupId}.");
+            var replyActivity = MessageFactory.Text($"The team name is {teamDetails.Name}. The team ID is {teamDetails.Id}. The AADGroupID is {teamDetails.AadGroupId}.");
 
             await turnContext.SendActivityAsync(replyActivity, cancellationToken);
         }
