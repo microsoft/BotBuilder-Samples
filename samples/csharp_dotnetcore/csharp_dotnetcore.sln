@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMakerActiveLearningBot", "48.qnamaker-active-learning-bot\QnAMakerActiveLearningBot.csproj", "{0D10F464-E767-4F65-BE97-3AFBD886BCF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlackAdapterBot", "53.SlackAdapterBot\SlackAdapterBot.csproj", "{5CEEF2B7-F0EF-4BCD-B3DD-CE449ABCB85C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlackAdapterBot", "54.SlackAdapterBot\SlackAdapterBot.csproj", "{5FF3377A-E533-4A6F-B8FA-85985CA5BCB5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,10 +173,10 @@ Global
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5CEEF2B7-F0EF-4BCD-B3DD-CE449ABCB85C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5CEEF2B7-F0EF-4BCD-B3DD-CE449ABCB85C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5CEEF2B7-F0EF-4BCD-B3DD-CE449ABCB85C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5CEEF2B7-F0EF-4BCD-B3DD-CE449ABCB85C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FF3377A-E533-4A6F-B8FA-85985CA5BCB5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FF3377A-E533-4A6F-B8FA-85985CA5BCB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FF3377A-E533-4A6F-B8FA-85985CA5BCB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FF3377A-E533-4A6F-B8FA-85985CA5BCB5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
