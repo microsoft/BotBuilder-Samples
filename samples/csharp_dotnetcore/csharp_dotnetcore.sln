@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMakerActiveLearningBot", "48.qnamaker-active-learning-bot\QnAMakerActiveLearningBot.csproj", "{0D10F464-E767-4F65-BE97-3AFBD886BCF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwilioAdapterBot", "52. twilio-adapter\TwilioAdapterBot.csproj", "{9C4889AD-4824-484F-A6D7-5341589043A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwilioAdapterBot", "52.twilio-adapter\TwilioAdapterBot.csproj", "{9C4889AD-4824-484F-A6D7-5341589043A2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
