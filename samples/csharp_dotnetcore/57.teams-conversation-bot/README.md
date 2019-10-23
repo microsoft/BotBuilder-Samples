@@ -43,10 +43,10 @@ ngrok http -host-header=rewrite 3978
 - Under the ```Capabilities``` tab on the left hand side click the ```Bots``` tab
 - Click the ```Set up``` button
 - Under the ```New bot``` tab Fill in the following fields
-  - Put ```EchoBot``` into the Name field
+  - Put ```TeamsConversationBot``` into the Name field
   - Under ```Scope``` check all 3 boxes ```Personal```, ```Team```, ```Group Chat```
   - Click the ```Create bot``` button
-- Copy the Bot ID (string under ```EchoBot```) and paste it into notepad as you will need it later
+- Copy the Bot ID (string under ```TeamsConversationBot```) and paste it into notepad as you will need it later
 - Click the ```Generate new password``` button (copy/paste) the password into notepad as you will need it later)
 - Under Messaging endpoint paste the https ngrok url and add ```/api/messages``` to the end
   - EX: ```https://ca7f8a7e.ngrok.io/api/messages```
@@ -59,7 +59,7 @@ ngrok http -host-header=rewrite 3978
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In Visual Studio navigate to the ```52.teams-echo-bot``` folder and open the ```appsettings.json``` file
+- In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
 - Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
 - Put the password into the ```MicrosoftAppPassword``` field
 - Save
