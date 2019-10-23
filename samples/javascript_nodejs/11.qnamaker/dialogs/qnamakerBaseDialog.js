@@ -83,8 +83,8 @@ class QnAMakerBaseDialog extends ComponentDialog {
                     previousQnAId: prevQnAId
                 };
 
-                if (previousContextData[stepContext.context.activity.text] != null) {
-                    qnaMakerOptions.qnaId = previousContextData[stepContext.context.activity.text];
+                if (previousContextData[stepContext.context.activity.text.toLowerCase()] != null) {
+                    qnaMakerOptions.qnaId = previousContextData[stepContext.context.activity.text.toLowerCase()];
                 }
             }
         }
@@ -197,7 +197,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
                 }
 
                 answer.context.prompts.forEach(prompt => {
-                    previousContextData[prompt.displayText] = prompt.qnaId;
+                    previousContextData[prompt.displayText.toLowerCase()] = prompt.qnaId;
                 });
 
                 dialogOptions[QnAContextData] = previousContextData;
