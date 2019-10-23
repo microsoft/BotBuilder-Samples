@@ -77,8 +77,8 @@ ngrok http -host-header=rewrite 3978
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/52.teams-echo-bot` folder
-  - Select `EchoBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
+  - Select `TeamsConversationBot.csproj` file
   - Press `F5` to run the project
 
 ### Finishing Teams Setup
@@ -89,11 +89,17 @@ ngrok http -host-header=rewrite 3978
 |:-------------------- | :------------------------- | :-----------------------|
 | 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
 
-**Note:** If you send an unsupported string in a group chat or personal chat the bot will respond with an error message. This is because it's missing data that comes with messages that orignates from a team or group chat.
+You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
 
-|Supported strings in personal chat | Supported strings in group chat | supported strings in team chat|
-|:----------------------------- | :-------------------------------|:----------------------------------|
-| N/A | ```show members``` |  ```show members``` <br> ```show channels``` <br> ```show details``` |
+1. **Show Welcome**
+  - **Result:** The bot will send the welcome card for you to interact with
+  - **Valid Scopes:** personal, group chat, team chat
+2. **MentionMe**
+  - **Result:** The bot will respond to the message and mention the user
+  - **Valid Scopes:** personal, group chat, team chat
+3. **MessageAllMembers**
+  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
+  - **Valid Scopes:** personal, group chat, team chat
 
-### Place holder for potential errors
-- If your tenant admin has things disabled
+You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+
