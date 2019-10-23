@@ -78,19 +78,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        protected override async Task OnTeamsMembersAddedAsync(IList<ChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {member.Id}."), cancellationToken);
-            }
-        }
-
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var member in membersAdded)
-            {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the group chat {member.Id}."), cancellationToken);
             }
         }
 
@@ -150,7 +142,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var data = turnContext.Activity.Value as JObject;
             data["count"] = data["count"].Value<int>() + 1;
             data = JObject.FromObject(data);
-            
+
             var card = new HeroCard
             {
                 Title = "Welcome Card",
