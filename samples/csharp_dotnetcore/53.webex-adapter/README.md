@@ -1,4 +1,4 @@
-﻿# EchoBot using Webex Adapter
+﻿# Webex Adapter
 
 Bot Framework v4 echo bot using Webex Adapter sample.
 
@@ -15,17 +15,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## To try this sample
 
-1 - Clone the repository
+- Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/BotBuilder-Samples.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-2 - In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/53. WebexAdapterBot`
+- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/53. WebexAdapterBot`
 
-3 - Connect the bot with Webex by following the instructions below.
+- Connect the bot with Webex by following the instructions below.
 
-4 - Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
 
@@ -42,7 +42,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Select `WebexAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
-5 - Using Webex Teams, search your bot by the _Bot Username_ in the contacts barTest and send a message.
+- Using Webex Teams, search your bot by the _Bot Username_ in the contacts barTest and send a message.
 
 ### Connect the bot with Webex
 
@@ -52,20 +52,26 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 _**Note**: When clicking in the `Add bot` button, the bot's credentials will be generated._
 
-3 - Copy the _Access Token_ and the _Bot Username_ from the Dashboard. These credentials will be needed to connect the bot to Webex.
+3 - Copy the _Access Token_ from the Dashboard. This credential will be needed to connect the bot to Webex.
 
 4 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
 
-5 - Create/Update the webhooks for messages and attachment for the bot using https://developer.webex.com/docs/api/v1/webhooks 
-    (TODO: need detailed documentation here)
+5 - Create/Update the webhooks for messages and attachments for the bot using https://developer.webex.com/docs/api/v1/webhooks 
 
-6 - Set the credentials in the botConfigure the Messaging Webhook with the https URL generated in the previous step adding '/api/messages' to it.
+    Complete the form with the following data:
+        - Authorization: Complete with the WebexAccessToken (the one obtained in step 3)
+        - Name: Choose a name for the Webhook
+        - TargetUrl: Complete with the https url generated in step 4 adding '/api/messages' to it
+        - Resource: Complete with 'messages' or 'attachmentActions'
+        - Event: Complete with 'all'
+        - Secret: Complete with any random secret.
+    Click the Run button
 
-7 - Back in the bot project, set the credentials in _appsettings.json_.
+6 - Back in the bot project, set the credentials in _appsettings.json_.
 
     WebexAccessToken (the one obtained in step 3)
     WebexPublicAddress (the url obtained in step 4)
-    WebexSecret (can be any random secret. You set it when you create the Webhook)
+    WebexSecret (the one set for the Webhook)
     WebexWebhookName (The one created in step 5)
 
 
