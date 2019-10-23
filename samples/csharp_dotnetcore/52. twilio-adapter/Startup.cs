@@ -6,17 +6,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Bot.Builder.Adapters.Twilio.TestBot.Bots;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters.Twilio;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using TwilioAdapterBot.Bots;
 
-namespace Microsoft.Bot.Builder.Adapters.Twilio.TestBot
+namespace TwilioAdapterBot
 {
     public class Startup
     {
-        public IConfiguration Configuration { get; }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
