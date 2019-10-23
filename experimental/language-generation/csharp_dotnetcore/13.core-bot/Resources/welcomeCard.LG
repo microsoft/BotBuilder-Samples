@@ -45,12 +45,12 @@
  
 # WelcomeCard
 [Activity
-    Text = {json(AdaptiveCard())}
+    Attachments = {json(AdaptiveCard())}
 ]
 
 # cardActionTemplate(title, url, type)
 - ```{
-    "type" : @{if(type == null, 'Action.OpenUrl', type)},
-    "title" : @{title},
-    "url" : @{url}
+    "type" : "@{if(type == null, 'Action.OpenUrl', type)}",
+    "title" : "@{title}",
+    "url" : "@{url}"
 }```

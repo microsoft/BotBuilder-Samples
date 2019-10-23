@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System;
 using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
@@ -31,20 +30,18 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
+            // Actions to include in the welcome card. These are passed to LG and are then included in the generated Welcome card.
             var actions = new {
                 actions = new List<Object>() {
                     new {
-                        type = "Action.openUrl",
                         title = "Get an overview",
                         url = "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
                     },
                     new {
-                        type = "Action.OpenUrl",
                         title = "Ask a question",
                         url = "https://stackoverflow.com/questions/tagged/botframework"
                     },
                     new {
-                        type = "Action.OpenUrl",
                         title = "Learn how to deploy",
                         url = "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
                     }
