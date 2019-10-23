@@ -36,7 +36,8 @@ namespace WebexAdapterBot.Bots
             }
             else
             {
-                var activity = MessageFactory.Text($"Echo: {turnContext.Activity.Text}");
+                var activity = turnContext.Activity.Text == "cards" ? MessageFactory.Attachment(CreateAdaptiveCardAttachment(Directory.GetCurrentDirectory() + @"/Resources/adaptive_card.json")) : MessageFactory.Text($"Echo: {turnContext.Activity.Text}");
+
                 await turnContext.SendActivityAsync(activity, cancellationToken);
             }
         }
@@ -59,9 +60,7 @@ namespace WebexAdapterBot.Bots
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var activity = MessageFactory.Attachment(CreateAdaptiveCardAttachment(Directory.GetCurrentDirectory() + @"\Resources\adaptive_card.json"));
-
-                    await turnContext.SendActivityAsync(activity, cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
                 }
             }
         }
