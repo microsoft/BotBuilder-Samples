@@ -89,6 +89,8 @@ ngrok http -host-header=rewrite 3978
 |:-------------------- | :------------------------- | :-----------------------|
 | 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
 
+### Interacting with the bot
+
 You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
 
 1. **Show Welcome**
