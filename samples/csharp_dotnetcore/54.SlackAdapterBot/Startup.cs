@@ -4,11 +4,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Bot.Builder.Adapters.Slack.TestBot.Bots;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters.Slack;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
+using SlackAdapterBot.Bots;
 
-namespace Microsoft.Bot.Builder.Adapters.Slack.TestBot
+namespace SlackAdapterBot
 {
     public class Startup
     {
