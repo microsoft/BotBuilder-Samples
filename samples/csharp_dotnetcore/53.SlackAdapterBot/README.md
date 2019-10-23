@@ -18,10 +18,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 1 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-dotnet.git
+    git clone https://github.com/Microsoft/BotBuilder-Samples.git
     ```
 
-2 - In a terminal, navigate to `test/Adapters/Microsoft.Bot.Builder.Adapters.Slack.TestBot`
+2 - In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/53.SlackAdapterBot`
 
 3 - Connect the bot with Slack by following the instructions below.
 
@@ -38,8 +38,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `test/Adapters/Microsoft.Bot.Builder.Adapters.Slack.TestBot` folder
-  - Select `Microsoft.Bot.Builder.Adapters.Slack.TestBot.csproj` file
+  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/53.SlackAdapterBot` folder
+  - Select `SlackAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
 5 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
@@ -62,9 +62,9 @@ c. In order to verify these URLs, the bot must to be running with a valid _Slack
 
 3 - Back in the bot project, set the credentials (obtained in step 2) in _appsettings.json_.
 
-    Verification Token
-    Bot Token
-    Client Signing Secret
+  SlackVerificationToken
+  SlackBotToken
+  SlackClientSigningSecret
 
 ## Deploy the bot to Azure
 
