@@ -139,13 +139,13 @@ Some times you might want to come back with a carousel of cards. Here's an examp
 # AskForAge.prompt
 [Activity
 > Defaults to carousel layout in case of list of cards
-    Attachments = @{forEach($cardValues, item, HeroCard(item)}
+    Attachments = @{foreach($cardValues, item, HeroCard(item)}
 ]
 
 # AskForAge.prompt_2
 [Activity
 > Explicitly specify an attachment layout
-    Attachments = @{forEach($cardValues, item, HeroCard(item)}
+    Attachments = @{foreach($cardValues, item, HeroCard(item)}
     AttachmentLayout = list    
 ]
 
