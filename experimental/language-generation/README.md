@@ -88,7 +88,7 @@ For NodeJS
 ```
 
 ## Multi-lingual generation and language fallback policy
-Quite often your bot might target more than one spoken/ display language. To help with resource management as well as implement a default language fall back policy, you can either use `MultiLanguageGenerator` or `ResourceMultiLanguageGenerator`. See [here][25] for an example.
+Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
 
 ## Grammar check and correction
 
@@ -134,5 +134,5 @@ Packages for C# are available under the [BotBuilder MyGet feed][12]
 [21]:./docs/lg-file-format.md#Importing-external-references
 [22]:https://aka.ms/lg-vscode-extension
 [23]:https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/MSLG
-[25]:https://github.com/microsoft/botbuilder-dotnet/blob/d953d1b7fe548cdb1800f1c2e85fe35c34edf75c/tests/Microsoft.Bot.Builder.LanguageGeneration.Renderer.Tests/LGGeneratorTests.cs#L78
+[25]:./csharp_dotnetcore/05.a.multi-turn-prompt-with-language-fallback/
 
