@@ -106,7 +106,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (!LangFallBackPolicy.TryGetValue(string.Empty, out locales))
                 {
-                    throw new Exception($"No supported language found for {locale}");
+                    throw new Exception($"No supported language found for {iLocale}");
                 }
             }
 
