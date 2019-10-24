@@ -74,7 +74,7 @@ namespace Microsoft.BotBuilderSamples
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             //app.UseHttpsRedirection();
             app.UseBotApplicationInsights();
             app.UseMvc();
