@@ -113,7 +113,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                             PreviousQnAId = previousQnAId
                         };
 
-                        if (previousContextData.TryGetValue(stepContext.Context.Activity.Text, out var currentQnAId))
+                        if (previousContextData.TryGetValue(stepContext.Context.Activity.Text.ToLower(), out var currentQnAId))
                         {
                             qnaMakerOptions.QnAId = currentQnAId;
                         }
@@ -242,7 +242,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
                     foreach (var prompt in answer.Context.Prompts)
                     {
-                        previousContextData.Add(prompt.DisplayText, prompt.QnaId);
+                        previousContextData.Add(prompt.DisplayText.ToLower(), prompt.QnaId);
                     }
 
                     dialogOptions[QnAContextData] = previousContextData;
