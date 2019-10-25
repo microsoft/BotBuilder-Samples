@@ -17,11 +17,11 @@
 - what is your age?
 
 # AskForAge.invalid
-- Sorry, @{turn.value} does not work. I'm looking for a value between 1-150. @{AskForAge()}
+- Sorry, '@{this.value}'' does not work. I'm looking for a value between 1-150. @{AskForAge()}
 - Sorry, that does not work. Your age must be greater than 0 and less than 150. @{AskForAge()}
 
 # AskForAge.unRecognized
-- Sorry, I do not recognized '@{turn.activity.text}'. @{AskForAge()}
+- Sorry, I do not recognized '@{this.value}'. @{AskForAge()}
 
 # NoName
 - No age given.

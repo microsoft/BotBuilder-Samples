@@ -15,11 +15,11 @@
 - Does this sound righ to you? 
 
 # ConfirmMessage
-- I have you traveling to: {conversation.flightBooking.destinationCity} from: {conversation.flightBooking.departureCity} on: {conversation.flightBooking.departureDate[0].value}
-- on {conversation.flightBooking.departureDate[0].value}, travelling from {conversation.flightBooking.departureCity} to {conversation.flightBooking.destinationCity}
+- I have you traveling to: @{conversation.flightBooking.destinationCity} from: @{conversation.flightBooking.departureCity} on: @{conversation.flightBooking.departureDate[0].value}
+- on @{conversation.flightBooking.departureDate[0].value}, travelling from @{conversation.flightBooking.departureCity} to @{conversation.flightBooking.destinationCity}
 
 # ConfirmBooking
-- [ConfirmPrefix] [ConfirmMessage]
+- @{ConfirmPrefix()} @{ConfirmMessage()}
 
 # PromptForTravelDate
 - When would you like to travel?
@@ -30,49 +30,95 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 
 # PromptForMissingInformation
-- IF: {conversation.flightBooking.departureCity == null} 
-  - [PromptForDepartureCity]
-- ELSEIF: {conversation.flightBooking.destinationCity == null}
-  - [PromptForDestinationCity]
-- ELSEIF: {conversation.flightBooking.departureDate == null}
-  - [PromptForTravelDate]
+- IF: @{conversation.flightBooking.departureCity == null} 
+  - @{PromptForDepartureCity()}
+- ELSEIF: @{conversation.flightBooking.destinationCity == null}
+  - @{PromptForDestinationCity()}
+- ELSEIF: @{conversation.flightBooking.departureDate == null}
+  - @{PromptForTravelDate()}
 - ELSE: 
-  - [ConfirmBooking]
+  - @{ConfirmBooking()}
 
 # ApologyPrefix
 - I'm sorry,
 - Unfortunately that does not work. 
 
 # InvalidDateReprompt
-- [ApologyPrefix] to make your booking please enter a full travel date including Day Month and Year.
+- @{ApologyPrefix()} to make your booking please enter a full travel date including Day Month and Year.
 
 
 # BookingConfirmation
-- I have you booked to {conversation.flightBooking.destinationCity} from {conversation.flightBooking.destinationCity} on {conversation.flightBooking.departureDate[0].value}.
+- I have you booked to @{conversation.flightBooking.destinationCity} from @{conversation.flightBooking.destinationCity} on @{conversation.flightBooking.departureDate[0].value}.
 
 # IntroPrompt
 - What can I help you with today?
 
+> Structured template definition.
 # BotOverview
-- ```
-Hello, I'm the core bot. How can I be of help today? 
-[Suggestions=book flight| Help| cancel]
-```
+[Activity
+    Text = Hello, I'm the core bot. How can I be of help today? 
+    SuggestedActions = Book flight | Help | Cancel
+]
 
 # Disambiguate-city
-- Sure, what should I use {@geographyV2[0]} as?
-
-# Log-Trace
-- ```
-Turn state: @{if("turn.entities != null", turn.entities, "") }
-Dialog state: @{if("conversation.flightBooking != null", conversation.flightBooking, "") }
-```
+- Sure, what should I use @{@geographyV2[0]} as?
 
 # HeaderText
 - Welcome to Bot Framework!
 - Welcome to core bot with Language Generation!
 
+> Structured template definition.
 # WelcomeCard
+[Activity
+    Attachments = @{json(AdaptiveCard.Definition())}
+]
+
+# AdaptiveCard.Definition
 - ```
-[Attachment=Dialogs\WelcomeCard.json adaptivecard]
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "@{HeaderText()}",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": "true",
+      "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Get an overview",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Ask a question",
+      "url": "https://stackoverflow.com/questions/tagged/botframework"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Learn how to deploy",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+    }
+  ]
+}
 ```

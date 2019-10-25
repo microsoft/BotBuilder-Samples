@@ -9,7 +9,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
-using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -81,22 +80,22 @@ namespace Microsoft.BotBuilderSamples
                 // Ask for user's age and set it in user.userProfile scope.
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("[ModeOfTransportPrompt]"),
+                    Prompt = new ActivityTemplate("@{ModeOfTransportPrompt()}"),
                     // Set the output of the text input to this property in memory.
                     Property = "user.userProfile.Transport"
                 },
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("[AskForName]"),
+                    Prompt = new ActivityTemplate("@{AskForName()}"),
                     Property = "user.userProfile.Name"
                 },
                 // SendActivity supports full language generation resolution.
                 // See here to learn more about language generation
                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                new SendActivity("[AckName]"),
+                new SendActivity("@{AckName()}"),
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("[AgeConfirmPrompt]"),
+                    Prompt = new ActivityTemplate("@{AgeConfirmPrompt()}"),
                     Property = "turn.ageConfirmation"
                 },
                 new IfCondition()
@@ -108,7 +107,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                          new NumberInput()
                          {
-                             Prompt = new ActivityTemplate("[AskForAge]"),
+                             Prompt = new ActivityTemplate("@{AskForAge()}"),
                              Property = "user.userProfile.Age",
                              // Add validations
                              Validations = new List<String>()
@@ -118,24 +117,24 @@ namespace Microsoft.BotBuilderSamples
                                  // Age must be less than 150
                                  "int(this.value) < 150"
                              },
-                             InvalidPrompt = new ActivityTemplate("[AskForAge.invalid]"),
-                             UnrecognizedPrompt = new ActivityTemplate("[AskForAge.unRecognized]")
+                             InvalidPrompt = new ActivityTemplate("@{AskForAge.invalid()}"),
+                             UnrecognizedPrompt = new ActivityTemplate("@{AskForAge.unRecognized()}")
                          },
-                         new SendActivity("[UserAgeReadBack]")
+                         new SendActivity("@{UserAgeReadBack()}")
                     },
                     ElseActions = new List<Dialog>()
                     {
-                        new SendActivity("[NoName]") 
+                        new SendActivity("@{NoName()}") 
                     }
                 },
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("[ConfirmPrompt]"),
+                    Prompt = new ActivityTemplate("@{ConfirmPrompt()}"),
                     Property = "turn.finalConfirmation"
                 },
                 // Use LG template to come back with the final read out.
                 // This LG template is a great example of what logic can be wrapped up in LG sub-system.
-                new SendActivity("[FinalUserProfileReadOut]"), // examines turn.finalConfirmation
+                new SendActivity("@{FinalUserProfileReadOut()}"), // examines turn.finalConfirmation
                 new EndDialog()
             };
         }
