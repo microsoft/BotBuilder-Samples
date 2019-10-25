@@ -188,7 +188,6 @@ class QnAMakerBaseDialog extends ComponentDialog {
 
             if (answer.context != null && answer.context.prompts.length > 0) {
                 var dialogOptions = getDialogOptionsValue(stepContext);
-                var qnaDialogResponseOptions = dialogOptions[QnADialogResponseOptions];
 
                 var previousContextData = {};
 

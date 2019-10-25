@@ -6,6 +6,7 @@
 // Import required packages
 const path = require('path');
 const restify = require('restify');
+const ActivityTypes = require('botbuilder-core');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
@@ -64,6 +65,15 @@ const memoryStorage = new MemoryStorage();
 // Create conversation and user state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
+
+var endpointHostName = process.env.QnAEndpointHostName;
+if (!endpointHostName.startsWith('https://')) {
+    endpointHostName = 'https://' + endpointHostName;
+}
+
+if (!endpointHostName.endsWith('/qnamaker')) {
+    endpointHostName = endpointHostName + '/qnamaker';
+}
 
 const qnaService = new QnAMaker({
     knowledgeBaseId: process.env.QnAKnowledgebaseId,
