@@ -60,7 +60,7 @@ namespace Microsoft.BotBuilderSamples
 
         [HttpPost]
         [HttpGet]
-        public async Task<HttpResponseMessage> Post()
+        public async Task<HttpResponseMessage> PostAsync()
         {
             var response = new HttpResponseMessage();
 
