@@ -120,23 +120,23 @@ namespace Microsoft.BotBuilderSamples
                                 //    detect presence of an entity via @entityName etc. Interruption is allowed if the expression
                                 //    evaluates to `true`. This property defaults to `true`.
                                 AllowInterruptions = "!@fromCity || !@geographyV2",
-                                // Value is an expression. Here, we are using coalesce prebuilt function that takes the first non-null
-                                // value from the parameters list.
-                                Value = "coalesce(@fromCity, @geographyV2)"
+                                // Value is an expression. Take any recognized city name as fromCity
+                                Value = "@geographyV2"
                             },
                             new TextInput()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
                                 Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@toCity || !@geographyV2",
-                                Value = "coalesce(@toCity, @geographyV2)"
-                            },
+                                // Value is an expression. Take any recognized city name as fromCity
+                                Value = "@geographyV2"                            },
                             new DateTimeInput()
                             {
                                 Property = "conversation.flightBooking.departureDate",
                                 Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@datetime",
-                                Value = "coalesce(@datetime.timex, @fromDate.timex)"
+                                // Value is an expression. Take any date time entity recognition as deparature date.
+                                Value = "@datetime.timex"
                             },
                             new ConfirmInput()
                             {
