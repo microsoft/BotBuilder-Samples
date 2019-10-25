@@ -48,7 +48,7 @@
 
 
 # BookingConfirmation
-- I have you booked to @{conversation.flightBooking.destinationCity} from @{conversation.flightBooking.destinationCity} on @{conversation.flightBooking.departureDate[0].value}.
+- I have you booked to @{conversation.flightBooking.destinationCity} from @{conversation.flightBooking.departureCity} on @{conversation.flightBooking.departureDate[0].value}.
 
 # IntroPrompt
 - What can I help you with today?

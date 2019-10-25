@@ -93,17 +93,17 @@ namespace Microsoft.BotBuilderSamples
                                 Property = "conversation.flightBooking.departureCity",
                                 // Value is an expresson. @entityName is short hand to refer to the value of an entity recognized.
                                 // @xxx is same as turn.recognized.entities.xxx
-                                Value = "@fromCity"
+                                Value = "@fromCity.location"
                             },
                             new SetProperty()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Value = "@toCity"
+                                Value = "@toCity.location"
                             },
                             new SetProperty()
                             {
                                 Property = "conversation.flightBooking.departureDate",
-                                Value = "@datetime.timex"
+                                Value = "@datetime.timex[0]"
                             },
                             // Steps to book flight
                             // Help and Cancel intents are always available since TextInput will always initiate
@@ -121,7 +121,7 @@ namespace Microsoft.BotBuilderSamples
                                 //    evaluates to `true`. This property defaults to `true`.
                                 AllowInterruptions = "!@fromCity || !@geographyV2",
                                 // Value is an expression. Take any recognized city name as fromCity
-                                Value = "@geographyV2"
+                                Value = "@geographyV2.location"
                             },
                             new TextInput()
                             {
@@ -129,14 +129,14 @@ namespace Microsoft.BotBuilderSamples
                                 Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@toCity || !@geographyV2",
                                 // Value is an expression. Take any recognized city name as fromCity
-                                Value = "@geographyV2"                            },
+                                Value = "@geographyV2.location"                            },
                             new DateTimeInput()
                             {
                                 Property = "conversation.flightBooking.departureDate",
                                 Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@datetime",
                                 // Value is an expression. Take any date time entity recognition as deparature date.
-                                Value = "@datetime.timex"
+                                Value = "@datetime.timex[0]"
                             },
                             new ConfirmInput()
                             {
