@@ -15,10 +15,10 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-rc0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.6.0-rc0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-rc0" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-rc0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-preview2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.6.0-preview2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-preview2" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-preview-191009-2" />
   </ItemGroup>
 
