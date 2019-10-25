@@ -160,14 +160,24 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             else
             {
-                var results = await FindPackages(text);
+                var packages = await FindPackages(text);
                 // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
                 // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-                attachments = results.Select(package => new MessagingExtensionAttachment
-                {
-                    ContentType = HeroCard.ContentType,
-                    Content = new HeroCard { Title = package.Item1 },
-                    Preview = new HeroCard { Title = package.Item1, Tap = new CardAction { Type = "invoke", Value = package } }.ToAttachment()
+                attachments = packages.Select(package => {
+                    var previewCard = new ThumbnailCard { Title = package.Item1, Tap = new CardAction { Type = "invoke", Value = package } };
+                    if (!string.IsNullOrEmpty(package.Item5))
+                    {
+                        previewCard.Images = new List<CardImage>() { new CardImage(package.Item5, "Icon") };
+                    }
+
+                    var attachment = new MessagingExtensionAttachment
+                    {
+                        ContentType = HeroCard.ContentType,
+                        Content = new HeroCard { Title = package.Item1 },
+                        Preview = previewCard.ToAttachment()
+                    };
+
+                    return attachment;
                 }).ToList();
             }
 
@@ -186,33 +196,30 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
         {
             // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
-            var (packageId, version, description, projectUrl) = query.ToObject<(string, string, string, string)>();
+            var (packageId, version, description, projectUrl, iconUrl) = query.ToObject<(string, string, string, string, string)>();
 
             // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
+            var card = new ThumbnailCard
+            {
+                Title = $"{packageId}, {version}",
+                Subtitle = description,
+                Buttons = new List<CardAction>
+                    {
+                        new CardAction { Type = ActionTypes.OpenUrl, Title = "Nuget Package", Value = $"https://www.nuget.org/packages/{packageId}" },
+                        new CardAction { Type = ActionTypes.OpenUrl, Title = "Project", Value = projectUrl },
+                    },
+            };
+
+            if (!string.IsNullOrEmpty(iconUrl))
+            {
+                card.Images = new List<CardImage>() { new CardImage(iconUrl, "Icon") };
+            }
+
             var attachment = new MessagingExtensionAttachment
             {
-                ContentType = HeroCard.ContentType,
-                Content = new HeroCard
-                {
-                    Title = $"{packageId}, {version}",
-                    Subtitle = description,
-                    Buttons = new List<CardAction>
-                    {
-                        new CardAction
-                        {
-                            Type = ActionTypes.OpenUrl,
-                            Title = "Nuget Package",
-                            Value = $"https://www.nuget.org/packages/{packageId}",
-                        },
-                        new CardAction
-                        {
-                            Type = ActionTypes.OpenUrl,
-                            Title = "Project",
-                            Value = projectUrl,
-                        }
-                    }
-                },
+                ContentType = ThumbnailCard.ContentType,
+                Content = card,
             };
 
             return Task.FromResult(new MessagingExtensionResponse
@@ -226,10 +233,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             });
         }
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             // This method is to handle the 'Close' button on the confirmation Task Module after the user signs out.
-            return new MessagingExtensionActionResponse();
+            return Task.FromResult(new MessagingExtensionActionResponse());
         }
 
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
@@ -264,10 +271,10 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
 
         // Generate a set of substrings to illustrate the idea of a set of results coming back from a query. 
-        private async Task<IEnumerable<(string, string, string, string)>> FindPackages(string text)
+        private async Task<IEnumerable<(string, string, string, string, string)>> FindPackages(string text)
         {
             var obj = JObject.Parse(await (new HttpClient()).GetStringAsync($"https://azuresearch-usnc.nuget.org/query?q=id:{text}&prerelease=true"));
-            return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString(), item["projectUrl"].ToString()));
+            return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString(), item["projectUrl"]?.ToString(), item["iconUrl"]?.ToString()));
         }
     }
 }
