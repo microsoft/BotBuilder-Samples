@@ -58,6 +58,8 @@ namespace Microsoft.BotBuilderSamples
             _dialog = new MainDialog(bookingRecognizer, bookingDialog, _loggerFactory.CreateLogger<MainDialog>());
         }
 
+        [HttpPost]
+        [HttpGet]
         public async Task<HttpResponseMessage> Post()
         {
             var response = new HttpResponseMessage();
