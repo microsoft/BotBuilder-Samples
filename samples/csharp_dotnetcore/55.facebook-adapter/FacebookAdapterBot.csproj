@@ -6,7 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Facebook" Version="4.7.0-preview-191025-1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Facebook" Version="4.6.0-rc0-preview" />
   </ItemGroup>
 
     <ItemGroup>
