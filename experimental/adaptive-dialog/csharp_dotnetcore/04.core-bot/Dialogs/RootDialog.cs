@@ -6,12 +6,14 @@ using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.BotBuilderSamples.Dialogs
+namespace Microsoft.BotBuilderSamples
 {
     public class RootDialog : ComponentDialog
     {
@@ -37,45 +39,46 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 // Add rules to respond to different events of interest
                 //Rules = CreateRules()
                 Generator = new TemplateEngineLanguageGenerator(_lgEngine),
-                Rules = new List<IRule>()
+                Triggers = new List<OnCondition>()
                 {
                     // Add a rule to welcome user
-                    new ConversationUpdateActivityRule()
+                    new OnConversationUpdateActivity()
                     {
-                        Steps = WelcomeUserSteps()
+                        Actions = WelcomeUserSteps()
                     },
                     // Add additional rules to respond to other intents returned by the LUIS application.
                     // The intents here are based on intents defined in MainAdaptiveDialog.LU file
-                    new IntentRule()
+                    new OnIntent()
                     {
                         Intent = "Cancel",
-                        Constraint = "turn.recognized.intents.Cancel.score > 0.5",
-                        Steps = new List<IDialog>()
+                        Condition = "#Cancel.Score >= 0.8",
+                        Actions = new List<Dialog>()
                         {
                             new SendActivity("Sure, cancelling that..."),
                             new CancelAllDialogs(),
                             new EndDialog()
                         }
                     },
-                    new IntentRule()
+                    new OnIntent()
                     {
                         Intent = "Help",
-                        Steps = new List<IDialog> ()
+                        Condition = "#Help.Score >= 0.8",
+                        Actions = new List<Dialog> ()
                         {
-                            new SendActivity("[BotOverview]")
+                            new SendActivity("@{BotOverview()}")
                         }
                     },
-                    new IntentRule()
+                    new OnIntent()
                     {
                         Intent = "Greeting",
-                        Steps = new List<IDialog> ()
+                        Actions = new List<Dialog> ()
                         {
-                            new SendActivity("[BotOverview]")
+                            new SendActivity("@{BotOverview()}")
                         }
                     },
-                    new IntentRule("Book_flight")
+                    new OnIntent("Book_flight")
                     {
-                        Steps = new List<IDialog>()
+                        Actions = new List<Dialog>()
                         {
                             // Save any entities returned by LUIS.
                             // We will only save any geography city entities that explicitly have been classified as either fromCity or toCity.
@@ -103,39 +106,37 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                                 // Prompt property supports full language generation resolution.
                                 // See here to learn more about language generation
                                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
                             },
                             new TextInput()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
-                                AllowInterruptions = AllowInterruptions.Never
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
                             },
                             new DateTimeInput()
                             {
                                 Property = "conversation.flightBooking.departureDate",
-                                Prompt = new ActivityTemplate("[PromptForMissingInformation]"),
-                                // You can use this flag to control when a specific input participates in consultation bubbling and can be interrupted.
-                                // NotRecognized will only consult up to the parent dialog if the user input does not include a data time value in this case.
-                                AllowInterruptions = AllowInterruptions.NotRecognized
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
                             },
                             new ConfirmInput()
                             {
                                 Property = "turn.bookingConfirmation",
-                                Prompt = new ActivityTemplate("[ConfirmBooking]")
+                                Prompt = new ActivityTemplate("@{ConfirmBooking()}"),
+                                // You can use this flag to control when a specific input participates in consultation bubbling and can be interrupted.
+                                // 'false' means intteruption is not allowed when this input is active.
+                                AllowInterruptions = "false"
                             },
                             new IfCondition()
                             {
                                 // All conditions are expressed using the common expression language.
                                 // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                                 Condition = "turn.bookingConfirmation == true",
-                                Steps = new List<IDialog>()
+                                Actions = new List<Dialog>()
                                 {
                                     // TODO: book flight.
-                                    new SendActivity("[BookingConfirmation]")
+                                    new SendActivity("@{BookingConfirmation()}")
                                 },
-                                ElseSteps = new List<IDialog>()
+                                ElseActions = new List<Dialog>()
                                 {
                                     new SendActivity("Thank you.")
                                 }
@@ -152,25 +153,24 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static List<IDialog> WelcomeUserSteps()
+        private static List<Dialog> WelcomeUserSteps()
         {
-            return new List<IDialog>()
+            return new List<Dialog>()
             {
                 // Iterate through membersAdded list and greet user added to the conversation.
                 new Foreach()
                 {
-                    ListProperty = "turn.activity.membersAdded",
-                    ValueProperty = "turn.memberAdded",
-                    Steps = new List<IDialog>()
+                    ItemsProperty = "turn.activity.membersAdded",
+                    Actions = new List<Dialog>()
                     {
                         // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
                         // Filter cases where the bot itself is the recipient of the message. 
                         new IfCondition()
                         {
-                            Condition = "turn.memberAdded.name != turn.activity.recipient.name",
-                            Steps = new List<IDialog>()
+                            Condition = "$foreach.value.name != turn.activity.recipient.name",
+                            Actions = new List<Dialog>()
                             {
-                                new SendActivity("[WelcomeCard]")
+                                new SendActivity("@{WelcomeCard()}")
                             }
                         }
                     }
