@@ -76,6 +76,12 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("@{BotOverview()}")
                         }
                     },
+                    new OnUnknownIntent() 
+                    {
+                        Actions = new List<Dialog>() {
+                            new SendActivity("@{UnknownIntent()}")
+                        }
+                    },
                     new OnIntent("Book_flight")
                     {
                         Actions = new List<Dialog>()
@@ -85,17 +91,19 @@ namespace Microsoft.BotBuilderSamples
                             new SetProperty()
                             {
                                 Property = "conversation.flightBooking.departureCity",
-                                Value = "turn.recognized.entities.fromCity[0].geographyV2_city[0]"
+                                // Value is an expresson. @entityName is short hand to refer to the value of an entity recognized.
+                                // @xxx is same as turn.recognized.entities.xxx
+                                Value = "@fromCity"
                             },
                             new SetProperty()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Value = "turn.recognized.entities.toCity[0].geographyV2_city[0]"
+                                Value = "@toCity"
                             },
                             new SetProperty()
                             {
                                 Property = "conversation.flightBooking.departureDate",
-                                Value = "turn.recognized.entities.datetimeV2[0]"
+                                Value = "@datetime.timex"
                             },
                             // Steps to book flight
                             // Help and Cancel intents are always available since TextInput will always initiate
@@ -106,17 +114,29 @@ namespace Microsoft.BotBuilderSamples
                                 // Prompt property supports full language generation resolution.
                                 // See here to learn more about language generation
                                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                // We will allow interruptions as long as the user did not explicitly answer the question
+                                // This property supports an expression so you can examine presence of an intent via #intentName, 
+                                //    detect presence of an entity via @entityName etc. Interruption is allowed if the expression
+                                //    evaluates to `true`. This property defaults to `true`.
+                                AllowInterruptions = "!@fromCity || !@geographyV2",
+                                // Value is an expression. Here, we are using coalesce prebuilt function that takes the first non-null
+                                // value from the parameters list.
+                                Value = "coalesce(@fromCity, @geographyV2)"
                             },
                             new TextInput()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                AllowInterruptions = "!@toCity || !@geographyV2",
+                                Value = "coalesce(@toCity, @geographyV2)"
                             },
                             new DateTimeInput()
                             {
                                 Property = "conversation.flightBooking.departureDate",
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}")
+                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                AllowInterruptions = "!@datetime",
+                                Value = "coalesce(@datetime.timex, @fromDate.timex)"
                             },
                             new ConfirmInput()
                             {

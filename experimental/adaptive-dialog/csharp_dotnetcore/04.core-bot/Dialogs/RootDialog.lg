@@ -63,6 +63,12 @@
 # Disambiguate-city
 - Sure, what should I use @{@geographyV2[0]} as?
 
+# UnknownIntent
+[Activity
+    Text = Sorry, I do not understand that. Can you try and re-phrase?
+    SuggestedActions = Book flight | Hi | Help | Cancel
+]
+
 # HeaderText
 - Welcome to Bot Framework!
 - Welcome to core bot with Language Generation!
