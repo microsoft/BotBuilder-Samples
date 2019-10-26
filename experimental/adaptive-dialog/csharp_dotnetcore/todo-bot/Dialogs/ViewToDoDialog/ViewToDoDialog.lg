@@ -2,25 +2,29 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 > You can now add reference to other .lg files.
-[Root LG](..\RootDialog\RootDialog.lg)
+[Root LG](../RootDialog/RootDialog.lg)
 
 > This template uses inline expressions. Expressions are defined using the common expression language. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # View-ToDos
-- IF: {user.todos != null && count(user.todos) != 0}
+[Activity
+    Text = @{Items-readback()}
+    @{Welcome-Actions()}
+]
+
+# Items-Ordinality
+- IF: @{user.todos != null && count(user.todos) == 1}
+    - item
+- ELSE:
+    - items
+
+# Items-readback
+- IF: @{user.todos != null && count(user.todos) != 0}
     - ```
 You have @{count(user.todos)} @{Items-Ordinality()} in your collection.
-- @{join(user.todos, '\r\n- ')}
-@{Welcome-Actions()}
+    - @{join(user.todos, '\r\n- ')}
 ```
 - ELSE: 
     - ```
 You do not have any Todos in your collection.
-@{Welcome-Actions()}
 ```
-
-# Items-Ordinality
-- IF: {user.todos != null && count(user.todos) == 1}
-    - item
-- ELSE:
-    - items
