@@ -64,6 +64,19 @@ namespace Microsoft.BotBuilderSamples
                             // AutoEndDialog property on the Adaptive Dialog to 'false'
                         }
                     },
+                    // Since we are using regex recognizer, we will take any user input that does not match 
+                    // help/ cancel/ confirmation intent to be the actual title of the todo item.
+                    new OnIntent("None")
+                    {
+                        Actions = new List<Dialog>() 
+                        {
+                            new SetProperty() 
+                            {
+                                Property = "turn.todoTitle",
+                                Value = "turn.activity.text"
+                            }
+                        }
+                    },
                     // Handle local help
                     new OnIntent("Help")
                     {
