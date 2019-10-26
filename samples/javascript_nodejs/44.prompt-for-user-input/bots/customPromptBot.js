@@ -135,7 +135,7 @@ class CustomPromptBot extends ActivityHandler {
             let output;
             results.forEach(result => {
                 // result.resolution is a dictionary, where the "value" entry contains the processed string.
-                const value = result.resolution['value'];
+                const value = result.resolution.value;
                 if (value) {
                     const age = parseInt(value);
                     if (!isNaN(age) && age >= 18 && age <= 120) {
@@ -165,12 +165,12 @@ class CustomPromptBot extends ActivityHandler {
             let output;
             results.forEach(result => {
                 // result.resolution is a dictionary, where the "values" entry contains the processed input.
-                result.resolution['values'].forEach(resolution => {
+                result.resolution.values.forEach(resolution => {
                     // The processed input contains a "value" entry if it is a date-time value, or "start" and
                     // "end" entries if it is a date-time range.
-                    const datevalue = resolution['value'] || resolution['start'];
+                    const datevalue = resolution.value || resolution.start;
                     // If only time is given, assume it's for today.
-                    const datetime = resolution['type'] === 'time'
+                    const datetime = resolution.type === 'time'
                         ? new Date(`${ now.toLocaleDateString() } ${ datevalue }`)
                         : new Date(datevalue);
                     if (datetime && earliest < datetime.getTime()) {

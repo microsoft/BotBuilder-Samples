@@ -91,8 +91,8 @@ describe('MainDialog', () => {
         // Create array with test case data.
         const testCases = [
             { utterance: 'I want to book a flight', intent: 'BookFlight', invokedDialogResponse: 'bookingDialog mock invoked', taskConfirmationMessage: 'I have you booked to Seattle from New York' },
-            { utterance: `What's the weather like?`, intent: 'GetWeather', invokedDialogResponse: 'TODO: get weather flow here', taskConfirmationMessage: undefined },
-            { utterance: 'bananas', intent: 'None', invokedDialogResponse: `Sorry, I didn't get that. Please try asking in a different way (intent was None)`, taskConfirmationMessage: undefined }
+            { utterance: 'What\'s the weather like?', intent: 'GetWeather', invokedDialogResponse: 'TODO: get weather flow here', taskConfirmationMessage: undefined },
+            { utterance: 'bananas', intent: 'None', invokedDialogResponse: 'Sorry, I didn\'t get that. Please try asking in a different way (intent was None)', taskConfirmationMessage: undefined }
         ];
 
         testCases.map(testData => {
