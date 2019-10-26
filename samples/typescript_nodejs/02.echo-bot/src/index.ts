@@ -10,7 +10,7 @@ import * as restify from 'restify';
 import { BotFrameworkAdapter } from 'botbuilder';
 
 // This bot's main dialog.
-import { MyBot } from './bot';
+import { EchoBot } from './bot';
 
 const ENV_FILE = path.join(__dirname, '..', '.env');
 config({ path: ENV_FILE });
@@ -51,7 +51,7 @@ adapter.onTurnError = async (context, error) => {
 };
 
 // Create the main dialog.
-const myBot = new MyBot();
+const myBot = new EchoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
