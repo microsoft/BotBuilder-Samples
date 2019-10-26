@@ -93,7 +93,17 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 Property = "turn.addTodo.cancelConfirmation",
                                 Prompt = new ActivityTemplate("@{Confirm-cancellation()}"),
-                                AllowInterruptions = "false"
+                                // Allow interruptions is an expression. So you can write any expression to determine if an interruption should be allowed.
+                                // In this case, we will disallow interruptions since this is a cancellation confirmation. 
+                                AllowInterruptions = "false",
+                                // Controls the number of times user is prompted for this input.
+                                MaxTurnCount = 1,
+                                // Default value to use if we have hit the MaxTurnCount
+                                DefaultValue = "false",
+                                // You can refer to properties of this input via %propertyName notation. 
+                                // The default response is sent if we have prompted the user for MaxTurnCount number of times
+                                // and if a default value is assumed for the property.
+                                DefaultValueResponse = new ActivityTemplate("Sorry, I do not recognize '@{this.value}'. I'm going with '@{%DefaultValue}' for now to be safe.")
                             },
                             new IfCondition()
                             {
