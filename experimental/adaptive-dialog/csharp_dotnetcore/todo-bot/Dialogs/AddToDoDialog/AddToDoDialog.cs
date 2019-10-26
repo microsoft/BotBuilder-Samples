@@ -79,11 +79,8 @@ namespace Microsoft.BotBuilderSamples
                             new ConfirmInput()
                             {
                                 Property = "turn.addTodo.cancelConfirmation",
-                                Prompt = new ActivityTemplate("@{Confirm-cancellation()}")
-                            },
-                            new SendActivity() 
-                            {
-                                Activity = new ActivityTemplate("@{turn.addTodo.cancelConfirmation}")
+                                Prompt = new ActivityTemplate("@{Confirm-cancellation()}"),
+                                AllowInterruptions = "false"
                             },
                             new IfCondition()
                             {
@@ -101,19 +98,6 @@ namespace Microsoft.BotBuilderSamples
                                 }
                                 // We do not need to specify an else block here since if user said no,
                                 // the control flow will automatically return to the last active step (if any)
-                            }
-                        }
-                    },
-                    // Since we are using a regex recognizer, anything except for help or cancel will come back as none intent.
-                    // If so, just accept user's response as the title of the todo and move forward.
-                    new OnIntent("None")
-                    {
-                        Actions = new List<Dialog>()
-                        {
-                            // Set what user said as the todo title.
-                            new SetProperty() {
-                                Property = "turn.todoTitle",
-                                Value = "turn.activity.text"
                             }
                         }
                     }
