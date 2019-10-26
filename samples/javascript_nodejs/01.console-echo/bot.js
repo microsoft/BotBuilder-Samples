@@ -9,7 +9,7 @@ class EchoBot {
             // Check to see if the user sent a simple "quit" message.
             if (context.activity.text.toLowerCase() === 'quit') {
                 // Send a reply.
-                context.sendActivity(`Bye!`);
+                context.sendActivity('Bye!');
                 process.exit();
             } else {
                 // Echo the message text back to the user.
