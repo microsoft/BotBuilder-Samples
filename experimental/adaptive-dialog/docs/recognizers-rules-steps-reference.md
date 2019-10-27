@@ -557,8 +557,8 @@ addToDoDialog.Triggers.Add(new OnIntent()
             Value = "dialog.addTodo.title"
             ChangeType = EditArray.ArrayChangeType.Push
         },
-        new SendActivity("Ok, I have added {dialog.addTodo.title} to your todos."),
-        new SendActivity("You now have {count(user.todos)} items in your todo.")
+        new SendActivity("Ok, I have added @{dialog.addTodo.title} to your todos."),
+        new SendActivity("You now have @{count(user.todos)} items in your todo.")
 }));
 ```
 
@@ -628,7 +628,7 @@ addToDoDialog.Triggers.Add(new OnIntent()
                 new SendActivity("Yes master. On it right now \\[You have unlocked an easter egg] :)")
             }
         },
-        new SendActivity("You now have {count(user.todos)} items in your todo.")
+        new SendActivity("You now have @{count(user.todos)} items in your todo.")
     }
 });
 ```
@@ -664,9 +664,9 @@ cardDialog.Triggers.Add(new OnIntent()
             Condition = "turn.cardDialog.cardChoice",
             Cases = new List<Case>() 
             {
-                new Case("Adaptive card",  new List<Dialog>() { new SendActivity("[AdativeCardRef]") } ),
-                new Case("Hero card", new List<Dialog>() { new SendActivity("[HeroCard]") } ),
-                new Case("Video card",     new List<Dialog>() { new SendActivity("[VideoCard]") } ),
+                new Case("Adaptive card",  new List<Dialog>() { new SendActivity("@{AdativeCardRef()}") } ),
+                new Case("Hero card", new List<Dialog>() { new SendActivity("@{HeroCard()}") } ),
+                new Case("Video card",     new List<Dialog>() { new SendActivity("@{VideoCard()}") } ),
             },
             Default = new List<Dialog>()
             {
@@ -734,7 +734,7 @@ getUserName.Triggers.Add(new OnIntent()
             Property = "user.name",
             Prompt = new ActivityTemplate("What is your name?")
         },
-        new SendActivity("Hello {user.name}, nice to meet you!")
+        new SendActivity("Hello @{user.name}, nice to meet you!")
     }
 });
 
@@ -820,7 +820,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
         {
             Actions = new List<Dialog>()
             {
-                new SendActivity("You have {count(user.favColors)} favorite colors - {join(user.favColors, ',', 'and')}"),
+                new SendActivity("You have @{count(user.favColors)} favorite colors - @{join(user.favColors, ',', 'and')}"),
                 new EndDialog()
             }
         }
@@ -948,20 +948,19 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
         {
             Actions = new List<Dialog>()
             {
-                new NumberInput() {
-                    Prompt = new ActivityTemplate("Give me your favorite number (1-10)\\n\\[Suggestions = Append | Insert | End | Replace | Insert before tag \\]"),
-                    UnrecognizedPrompt = new ActivityTemplate("Sorry, '{turn.activity.text}' did not include a valid number"),
-                    InvalidPrompt = new ActivityTemplate("Sorry, {turn.value} does not work. Can you give me a different number that is between 1-10?"),
-                    Validations = new List<string>()
-                    {
-                        "int(turn.value) >= 1",
-                        "int(turn.value) <= 10"
-                    },
-                    Property = "user.favoriteNumber",
+                new ChoiceInput() 
+                {
+                    Prompt = new ActivityTemplate("What type of EditAction would you like to see?"),
+                    Property = "$userChoice",
                     AlwaysPrompt = true,
-                    OutputFormat = NumberOutputFormat.Integer
+                    Choices = new ChoiceSet(new List<Choice>()
+                    {
+                        new Choice("Append actions"),
+                        new Choice("Insert actions"),
+                        new Choice("End actions"),
+                    })
                 },
-                new SendActivity("Your favorite number is {user.favoriteNumber}")
+                new SendActivity("This messge is after your EditActions choice..")
             }
         },
         new OnIntent()
@@ -1116,7 +1115,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                         // You can use short hands to refer to these via 
                         //      $foreach.value
                         //      $foreach.index
-                        new SendActivity("{$foreach.index}: Found '{$foreach.value}' in the collection!")
+                        new SendActivity("@{$foreach.index}: Found '@{$foreach.value}' in the collection!")
                     }
                 }
             }
