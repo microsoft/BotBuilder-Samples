@@ -44,6 +44,14 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
+### 4.7 PREVIEW
+- \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
+- \[**New\] ***BREAKING CHANGE*** Renamed `Steps` -> `Actions`, `Rules` -> `Triggers`. Updated all triggers to follow `OnXXX` notation. 
+- \[**New\] Updating Adaptive dialogs to drop `Steps` tied directly to the adaptive dialog. If you need to run a set of actions when a dialog begins, add them to the `OnBeginDialog` trigger.
+- \[**New\] Updated and streamlined properties for actions.
+- \[**New\] `AllowInterruption` property for all `Input actions` is now an expression, providing you more fine grained control of when you want to allow interruptions.
+- \[**New\] RegexRecognizer now supports entity extractors.
+
 ### 4.6 PREVIEW
 - \[**New\] DialogManager class to help manage state persistance for Adaptive dialogs as well as ensure appropriate events are registered and routed. See [here][30] for how this gets wired up. 
 - \[**New\] Generator property on Adaptive dialog that defines the specific language generation resources that power a particular Adaptive dialog. 
@@ -70,11 +78,10 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [10]:#Debugging-Adaptive-Dialog
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues
 [13]:https://github.com/microsoft/botbuilder-js/issues
-[14]:https://botbuilder.myget.org/gallery
-[15]:https://github.com/microsoft/botbuilder-dotnet/tree/4.Future
+[14]:https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily
+[15]:https://github.com/microsoft/botbuilder-dotnet
 [16]:https://github.com/microsoft/botbuilder-js/tree/4.future
 [17]:./docs/language-generation.md
 [18]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [19]:./declarative/60.AdaptiveBot/
-
 [30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs
