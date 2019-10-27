@@ -275,6 +275,9 @@ Adaptive dialogs support the following inputs -
 - [ChoiceInput](#ChoiceInput)
 - [ConfirmInput](#ConfirmInput)
 - [NumberInput](#NumberInput)
+- [DateTimeInput](#DateTimeInput)
+- [OAuth input](#OAuth)
+- [AttachmentInput](#AttachmentInput)
 
 ### TextInput
 Use text input when you want to verbatim accept user input as a value for a specific piece of information your bot is trying to collect. E.g. user's name, subject of an email etc. 
@@ -463,6 +466,127 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     OutputFormat = NumberOutputFormat.Integer
                 },
                 new SendActivity("Your favorite number is {user.favoriteNumber}")
+            }
+        }
+    }
+};
+```
+
+### DateTimeInput
+Asks for a date/time.
+
+| Property             | Description                                                                                                                                                            |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DefaultLocale        | Sets the default locale for input processing. Supported locales are Spanish, Dutch, English, French, German, Japanese, Portuguese, Chinese                             |
+| Value                | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn                                                               |
+| DefaultValue         | Default value the property is set to if max turn count is reached                                                                                                      |
+| AlwaysPrompt         | Denotes if we should always execute this prompt even if the property has an existing value set                                                                         |
+| AllowInterruptions   | Denotes if this input is interruptable. Expression.                                                                                                                    |
+| Prompt               | Initial prompt response to ask for user input                                                                                                                          |
+| UnrecognizedPrompt   | Prompt string to use if the input was unrecognized                                                                                                                     |
+| InvalidPrompt        | Response when input is not recognized or not valid for the expected input type                                                                                         |
+| Validations          | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount         | Denotes the maxinum number of attempts this specific input will execute to resolve a value                                                                             |
+| DefaultValueResponse | Response to send when MaxTurnCount has been reached and the default value is used                                                                                      |
+| Property             | Property this input dialog is bound to                                                                                                                                 |
+
+``` C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(_templateEngine),
+    Triggers = new List<OnCondition>()
+    {
+        new OnUnknownIntent()
+        {
+            Actions = new List<Dialog>()
+            {
+                new DateTimeInput()
+                {
+                    Property = "$userDate",
+                    Prompt = new ActivityTemplate("Give me a date"),
+                },
+                new SendActivity("You gave me @{$userDate}")
+            }
+        }
+    }
+};
+```
+
+### OAuth
+Use to ask user to sign in. 
+
+| Property       | Description                                                                             |
+| -------------- | --------------------------------------------------------------------------------------- |
+| ConnectionName | Name of the OAuth connection configured in Azure Bot Service settings page for the bot. |
+| Title          | Title text to display in the sign in card.                                              |
+| Text           | Text to display in the sign in card.                                                    |
+| TokenProperty  | Property path to store the auth token                                                   |
+
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(_templateEngine),
+    Triggers = new List<OnCondition>()
+    {
+        new OnUnknownIntent()
+        {
+            Actions = new List<Dialog>()
+            {
+                new OAuthInput()
+                {
+                    // Name of the connection configured on Azure Bot Service for the OAuth connection.
+                    ConnectionName = "GitHub",
+                    
+                    // Title of the sign in card.
+                    Title = "Sign in",
+                    
+                    // Text displayed in sign in card.
+                    Text = "Please sign in to your GitHub account.",
+
+                    // Property path to store the authorization token.
+                    TokenProperty = "user.authToken"
+                },
+                new SendActivity("You are signed in with token = @{user.authToken}")
+            }
+        }
+    }
+};
+```
+
+### AttachmentInput
+Use to request an attachment from user as input.
+
+| Property             | Description                                                                                                                                                            |
+| -------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| DefaultLocale        | Sets the default locale for input processing. Supported locales are Spanish, Dutch, English, French, German, Japanese, Portuguese, Chinese                             |
+| Value                | Denotes the value (as an expression) to set to the Property. Value expression is evaluated on every turn                                                               |
+| DefaultValue         | Default value the property is set to if max turn count is reached                                                                                                      |
+| AlwaysPrompt         | Denotes if we should always execute this prompt even if the property has an existing value set                                                                         |
+| AllowInterruptions   | Denotes if this input is interruptable. Expression.                                                                                                                    |
+| Prompt               | Initial prompt response to ask for user input                                                                                                                          |
+| UnrecognizedPrompt   | Prompt string to use if the input was unrecognized                                                                                                                     |
+| InvalidPrompt        | Response when input is not recognized or not valid for the expected input type                                                                                         |
+| Validations          | List of expressions used to validate if user provided input meets required constraints. You can use turn.value to examine the user input in the validation expressions |
+| MaxTurnCount         | Denotes the maxinum number of attempts this specific input will execute to resolve a value                                                                             |
+| DefaultValueResponse | Response to send when MaxTurnCount has been reached and the default value is used                                                                                      |
+| Property             | Property this input dialog is bound to                                                                                                                                 |
+``` C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(_templateEngine),
+    Triggers = new List<OnCondition>()
+    {
+        new OnUnknownIntent()
+        {
+            Actions = new List<Dialog>()
+            {
+                new AttachmentInput()
+                {
+                    Property = "$userAttachmentCarImage",
+                    Prompt = new ActivityTemplate("Please give me an image of your car. Drag drop the image to the chat canvas."),
+                    OutputFormat = AttachmentOutputFormat.All
+                },
+                new SendActivity("You gave me @{$userAttachmentCarImage}")
             }
         }
     }
