@@ -1,10 +1,10 @@
 {
-  "$schema": "../../app.schema",
+  "$schema": "../app.schema",
   "$type": "Microsoft.AdaptiveDialog",
-  "rules": [
+  "triggers": [
     {
-      "$type": "Microsoft.UnknownIntentRule",
-      "steps": [
+      "$type": "Microsoft.OnUnknownIntent",
+      "actions": [
         {
           "$type": "Microsoft.SendActivity",
           "activity":  "You said '{turn.activity.text}'"

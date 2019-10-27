@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EchoBot": {
+    "Microsoft.BotBuilderSamples": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

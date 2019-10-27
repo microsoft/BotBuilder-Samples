@@ -1,23 +1,31 @@
 {
     "$schema": "../../app.schema",
     "$type": "Microsoft.AdaptiveDialog",
-    "autoEndDialog": false,
     "recognizer": {
         "$type": "Microsoft.RegexRecognizer",
-        "intents": {
-            "JokeIntent": "(?i)joke",
-            "FortuneTellerIntent": "(?i)fortune|future",
-            "CancelIntent": "(?i)cancel"
-        }
+        "intents": [
+            {
+                "intent": "JokeIntent",
+                "pattern": "(?i)joke"
+            },
+            {
+                "intent": "FortuneTellerIntent",
+                "pattern": "(?i)fortune|future"
+            },
+            {
+                "intent": "CancelIntent",
+                "pattern": "(?i)cancel"
+            }
+        ]
     },
-    "rules": [
+    "triggers": [
         {
-            "$type": "Microsoft.UnknownIntentRule",
-            "steps": [
+            "$type": "Microsoft.OnUnknownIntent",
+            "actions": [
                 {
                     "$type": "Microsoft.IfCondition",
                     "condition": "user.name == null",
-                    "steps": [
+                    "actions": [
                         {
                             "$type": "Microsoft.TextInput",
                             "property": "user.name",
@@ -36,23 +44,23 @@
             ]
         },
         {
-            "$type": "Microsoft.IntentRule",
+            "$type": "Microsoft.OnIntent",
             "intent": "JokeIntent",
-            "steps": [
+            "actions": [
                 "BeginDialog.TellJokeDialog"
             ]
         },
         {
-            "$type": "Microsoft.IntentRule",
+            "$type": "Microsoft.OnIntent",
             "intent": "FortuneTellerIntent",
-            "steps": [
+            "actions": [
                 "BeginDialog.FortuneTellerDialog"
             ]
         },
         {
-            "$type":"Microsoft.IntentRule",
+            "$type":"Microsoft.OnIntent",
             "intent": "CancelIntent",
-            "steps":[
+            "actions":[
                 {
                     "$type":"Microsoft.SendActivity",
                     "activity":"OK, see ya"
@@ -63,8 +71,8 @@
             ]
         },
         {
-            "$type": "Microsoft.UnknownIntentRule",
-            "steps": [
+            "$type": "Microsoft.OnUnknownIntent",
+            "actions": [
                 {
                     "$type": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"

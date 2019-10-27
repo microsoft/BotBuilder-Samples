@@ -1,5 +1,5 @@
 ﻿> All cards can be defined and managed through .lg files.
-> All cards use the chatdown notation - see here - https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
+> All cards use the structured LG notation.
 > Multi-line text are enclosed in ```
 > Multi-line text can include inline expressions enclosed in @{expression}.
 > @{TemplateName()} is how you can refer to another languge genration template in multi-line resolution.
@@ -56,10 +56,6 @@
     buttons = Read More
 ]
 
-> The external file reference here 'Dialogs\adaptiveCard.json' should be marked as 'copy to output directory'
-> Note: The external file will be read as text and any language generation templates/ expressions in the content will be evaluated. 
-> You can see this in Dialogs\adaptiveCard.json that pulls in a passenger name at random based on the call to 'PassengerName' template defined below.
-> Note: Chatdown already supports the ability to create any card type from its json definition. So you can apply this for not just Adaptive cards but to all card types.
 # AdaptiveCard
 [Activity
     Attachments = @{json(AdaptiveCard.Definition())}
