@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             foreach (var teamMember in members)
             {
-                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.Name}. I'm a Teams conversation bot.");
+                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.GivenName} {teamMember.Surname}. I'm a Teams conversation bot.");
                 var connector = turnContext.TurnState.Get<IConnectorClient>();
 
                 var conversationParameters = new ConversationParameters
@@ -111,6 +111,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Members = new ChannelAccount[] { teamMember },
                     TenantId = turnContext.Activity.Conversation.TenantId,
                 };
+
+                System.Console.Write(conversationParameters);
 
                 await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
                     teamsChannelId,
