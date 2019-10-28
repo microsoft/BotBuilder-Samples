@@ -11,7 +11,7 @@ const { TranslatorMiddleware } = require('./translation/translatorMiddleware');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, UserState, ActivityTypes, TurnContext } = require('botbuilder');
 
 // This bot's main dialog.
 const { MultilingualBot } = require('./bots/multilingualBot');
@@ -44,9 +44,11 @@ adapter.onTurnError = async (context, error) => {
         'TurnError'
     );
 
-    // Send a message to the user
-    await context.sendActivity('The bot encounted an error or bug.');
-    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
+    // Send a message to the user - send through the adapater to skip the translation middleware (because it might throw)
+    const conversationReference = TurnContext.getConversationReference(context.activity);
+    await context.adapter.sendActivities(context, [
+        TurnContext.applyConversationReference({ type: ActivityTypes.Message, text: 'The bot encounted an error or bug.' }, conversationReference),
+        TurnContext.applyConversationReference({ type: ActivityTypes.Message, text: 'To continue to run this bot, please fix the bot source code.' }, conversationReference)]);
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
