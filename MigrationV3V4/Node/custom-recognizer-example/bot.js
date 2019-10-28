@@ -16,20 +16,21 @@ class MyBot extends ActivityHandler {
             const intent = recognizerResult.intents.length > 0 ? recognizer.getTopIntent(recognizerResult) : '';
             
             // respond according to the top intent provided by the recognizer
-            switch(intent) {
-              case 'SendEmail':
-                await context.sendActivity('Your response includes an email address. Would you like to contact us by email?');
-                break;
-              case 'SearchForEmailAddress':
-                await context.sendActivity('Your response includes an email address. Would you like to search for an email address?');
-                break;
-              case 'OpenEmailAccount':
-                await context.sendActivity('Your response includes an email address. Would you like to open an email account?');
-                break;
-              default:
-                await context.sendActivity('Your response includes an email address.'); 
+            if (intent) {
+              switch(intent) {
+                case 'SendEmail':
+                  await context.sendActivity('Your response includes an email address. Would you like to contact us by email?');
+                  break;
+                case 'SearchForEmailAddress':
+                  await context.sendActivity('Your response includes an email address. Would you like to search for an email address?');
+                  break;
+                case 'OpenEmailAccount':
+                  await context.sendActivity('Your response includes an email address. Would you like to open an email account?');
+                  break;
+                default:
+                  await context.sendActivity('Your response includes an email address.'); 
+              }
             }
-
             await context.sendActivity(`You said '${ context.activity.text }'`);
             
             // By calling next() you ensure that the next BotHandler is run.
