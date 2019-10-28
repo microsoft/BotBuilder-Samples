@@ -25,7 +25,7 @@
         "type": "generated",
         "generator": "constant",
         "parameters": {
-          "value": "v4.5.2"
+          "value": "v4.6.0"
         },
         "replaces": "__vX.X.X__"
       },
