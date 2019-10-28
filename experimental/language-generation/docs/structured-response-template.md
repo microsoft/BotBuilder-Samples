@@ -15,6 +15,9 @@ For bot applications, we will natively support ability to -
 | Attachments       | List of attachments with their type. Used by channels to render as UI cards or other generic file attachment types                |
 | SuggestedActions  | List of actions rendered as suggestions to user.                                                                                  | 
 | InputHint         | Controls audio capture stream state on devices that support spoken input. Possible values can be accepting, expecting, ignoring   |
+
+There is no default fallback behavior implemented by the template resolver. If a property is not specified, then it remains un-specified. E.g. If only `Text` property is specified, the `Speak` property **is not** automatically assigned to be the `Text` property etc. 
+
 # Definition
 Here's the definition of a structured template - 
 

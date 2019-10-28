@@ -1,6 +1,6 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in 4.7 PREVIEW release.
+> See [here](#Change-Log) for what's new in **4.6 PREVIEW 2** release.
 
 Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
 
@@ -99,7 +99,7 @@ The current library does not include any capabilities for grammar check or corre
 Packages for C# are available under the [BotBuilder MyGet feed][12]
 
 ## Change Log
-### 4.7 PREVIEW
+### 4.6 PREVIEW 2
 - \[**BREAKING CHANGES**\]:
     - Old `display || speak` notation is deprecated in favor of structured template support. See below for more details on structured template. 
     - Old `Chatdown` style cards are deprecated in favor of structured template support. See below for more details on structured template. 

@@ -4,21 +4,22 @@
 .lg files help describe language generation templates with entity references and their composition. The rest of this document covers the various concepts expressed via the .lg file format. See [here][2] for API-reference.
 
 **Concepts:**
-- [Comments](#Comments)
-- [Escape character](#Escape-character)
-- [Templates](#Templates)
-    - [Simple response template](#Simple-response-template)
-    - [Conditional response template](#Conditional-response-template)
-        - [If condition](#If..Else)
-        - [Switch condition](#Switch..Case)
-    - [Structured response template](#Structured-response-template)
-- [Template composition and expansion](#References-to-templates)
-    - [Refernce to another template](#References-to-templates)
-    - [Using entities](#Entities)
-    - [Using expressions](#Using-pre-built-functions-in-variations)
-    - [Multi-line text in variations](#Multi-line-text-in-variations)
-- [Parametrization of templates](#Parametrization-of-templates)
-- [Importing external references](#Importing-external-references)
+- [.LG file format](#lg-file-format)
+- [Comments](#comments)
+- [Escape character](#escape-character)
+- [Templates](#templates)
+  - [Simple response template](#simple-response-template)
+  - [Conditional response template](#conditional-response-template)
+    - [If..Else](#ifelse)
+    - [Switch..Case](#switchcase)
+  - [Structured response template](#structured-response-template)
+- [Template composition and expansion](#template-composition-and-expansion)
+  - [References to templates](#references-to-templates)
+  - [Entities](#entities)
+  - [Using pre-built functions in variations](#using-pre-built-functions-in-variations)
+  - [Multi-line text in variations](#multi-line-text-in-variations)
+- [Parametrization of templates](#parametrization-of-templates)
+- [Importing external references](#importing-external-references)
 
 # Comments
 Comments are prefixed with '>' character. All lines that have this prefix will be skipped by the parser. 
@@ -199,6 +200,7 @@ In case where you must have the template name be the same as a prebuilt function
 Here is an example that illustrates that
 
 ```markdown
+> Custom length function with one parameter.
 # length(a)
 - This is use's customized length function
 
