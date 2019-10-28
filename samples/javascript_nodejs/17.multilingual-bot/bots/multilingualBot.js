@@ -48,7 +48,6 @@ class MultilingualBot extends ActivityHandler {
         });
 
         this.onMessage(async (context, next) => {
-            console.log('Running dialog with Message Activity.');
 
             if (isLanguageChangeRequested(context.activity.text)) {
                 const currentLang = context.activity.text.toLowerCase();
