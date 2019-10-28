@@ -28,9 +28,9 @@ class TeamsConversationBot extends TeamsActivityHandler {
         super(conversationState, userState);
 
         this.onMessage(async (context, next) => {
-            const text = TurnContext.removeRecipientMention(context.activity).trim();
+            TurnContext.removeRecipientMention(context.activity);
 
-            switch(text) {
+            switch(context.activity.text.trim()) {
                 case "MentionMe":
                     await this.MentionActivityAsync(context);
                     break;
@@ -138,61 +138,27 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
 
     async MessageAllMemebersAsync(context) {
-        const context2 = JSON.parse(JSON.stringify(context));
-        //console.log("Context:\n" + JSON.stringify(context));
         const members = await TeamsInfo.getMembers(context);
-        const teamsChannelId = context.activity.channelId;
-        //console.log("teamsChannelId:\n" + JSON.stringify(teamsChannelId));
-        const serviceUrl = context.activity.serviceUrl;
-        const credentials = new MicrosoftAppCredentials(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
 
         members.forEach(async (member) => {
             const message = MessageFactory.text(`Hello ${member.givenName} ${member.surname}. I'm a Teams conversation bot.`);
 
+            var ref = TurnContext.getConversationReference(context.activity);
+            ref.user = member;
 
-            const conversationParameters = {
-                isGroup: false,
-                members: [ member ],
-                tenantId: context.activity.conversation.tenantId,
-                bot: context.activity.recipient
-            };
-
-            
-            const adapter = context.adapter;
-            const connectorClient = adapter.createConnectorClient(context.activity.serviceUrl);
-            
-            
-            // This call does NOT send the outbound Activity is not being sent through the middleware stack.
-            const conversationResourceResponse = await connectorClient.conversations.createConversation(conversationParameters);
-            
-
-            //const conversationReference = TurnContext.getConversationReference(context2.activity);
-
-            console.log(context2._activity);
-            console.log(context2._activity.id);
-
-            const activity2 = context2._activity;
-            let cr = {
-                activityId: activity2.id,
-                user: activity2.from,
-                bot: activity2.recipient,
-                conversation: activity2.conversation,
-                channelId: activity2.channelId,
-                serviceUrl: serviceUrl
-            };
-
-
-            
-            cr.conversation.id = conversationResourceResponse.id;
-
-            console.log("reference applied");
-            await adapter.continueConversation(cr,
-                async (t) =>
-                {
-                    await t.sendActivity(message);
+            await context.adapter.createConversation(ref, 
+                async (t) => {
+                    
+                    const ref2 = TurnContext.getConversationReference(t.activity);
+                    
+                    await t.adapter.continueConversation(ref2, async (t2) => {
+                        await t2.sendActivity(message);
+                    });
+                    
                 });
 
         });
+
         await context.sendActivity(MessageFactory.text("All messages have been sent"));
     };
 }

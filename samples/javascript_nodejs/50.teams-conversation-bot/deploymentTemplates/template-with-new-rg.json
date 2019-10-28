@@ -151,29 +151,42 @@
                                 }
                             }
                         },
-                        {
-                            "apiVersion": "2017-12-01",
-                            "type": "Microsoft.BotService/botServices",
-                            "name": "[parameters('botId')]",
+                      {
+                        "apiVersion": "2017-12-01",
+                        "type": "Microsoft.BotService/botServices",
+                        "name": "[parameters('botId')]",
+                        "location": "global",
+                        "kind": "bot",
+                        "sku": {
+                          "name": "[parameters('botSku')]"
+                        },
+                        "properties": {
+                          "name": "[parameters('botId')]",
+                          "displayName": "[parameters('botId')]",
+                          "endpoint": "[variables('botEndpoint')]",
+                          "msaAppId": "[parameters('appId')]",
+                          "developerAppInsightsApplicationId": null,
+                          "developerAppInsightKey": null,
+                          "publishingCredentials": null,
+                          "storageResourceId": null
+                        },
+                        "resources": [
+                          {
+                            "name": "MsTeamsChannel",
+                            "type": "channels",
                             "location": "global",
+                            "apiVersion": "2018-07-12",
                             "kind": "bot",
-                            "sku": {
-                                "name": "[parameters('botSku')]"
-                            },
                             "properties": {
-                                "name": "[parameters('botId')]",
-                                "displayName": "[parameters('botId')]",
-                                "endpoint": "[variables('botEndpoint')]",
-                                "msaAppId": "[parameters('appId')]",
-                                "developerAppInsightsApplicationId": null,
-                                "developerAppInsightKey": null,
-                                "publishingCredentials": null,
-                                "storageResourceId": null
+                              "channelName": "MsTeamsChannel"
                             },
-                            "dependsOn": [
-                                "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
-                            ]
-                        }
+                            "dependsOn": [ "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]" ]
+                          }
+                        ],
+                        "dependsOn": [
+                          "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
+                        ]
+                      }
                     ],
                     "outputs": {}
                 }

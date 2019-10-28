@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             turnContext.Activity.RemoveRecipientMention();
 
-            switch (turnContext.Activity.Text)
+            switch (turnContext.Activity.Text.Trim())
             {
                 case "MentionMe":
                     await MentionActivityAsync(turnContext, cancellationToken);
@@ -102,7 +102,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             foreach (var teamMember in members)
             {
                 var proactiveMessage = MessageFactory.Text($"Hello {teamMember.GivenName} {teamMember.Surname}. I'm a Teams conversation bot.");
-                var connector = turnContext.TurnState.Get<IConnectorClient>();
 
                 var conversationParameters = new ConversationParameters
                 {
@@ -112,28 +111,27 @@ namespace Microsoft.BotBuilderSamples.Bots
                     TenantId = turnContext.Activity.Conversation.TenantId,
                 };
 
-                System.Console.Write(conversationParameters);
 
                 await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
                     teamsChannelId,
                     serviceUrl,
                     credentials,
                     conversationParameters,
-                    (t, ct) =>
+                    async (t1, c1) =>
                     {
-                        conversationReference = t.Activity.GetConversationReference();
-                        return Task.CompletedTask;
+                        conversationReference = t1.Activity.GetConversationReference();
+                        await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+                            _appId,
+                            conversationReference,
+                                async (t2, c2) =>
+                                {
+                                    await t2.SendActivityAsync(proactiveMessage, c2);
+                                },
+                            cancellationToken);
                     },
                     cancellationToken);
 
-                await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
-                    _appId,
-                    conversationReference,
-                    async (t, ct) =>
-                    {
-                        await t.SendActivityAsync(proactiveMessage, ct);
-                    },
-                    cancellationToken);
+                
             }
 
             await turnContext.SendActivityAsync(MessageFactory.Text("All members have been messaged"), cancellationToken);
