@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+//
+// Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.5.0
 
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Controllers
 {
     // This ASP Controller is created to handle a request. Dependency Injection will provide the Adapter and IBot
     // implementation at runtime. Multiple different IBot implementations running at different endpoints can be
@@ -15,13 +17,13 @@ namespace Microsoft.BotBuilderSamples
     [ApiController]
     public class BotController : ControllerBase
     {
-        private readonly IBotFrameworkHttpAdapter _adapter;
-        private readonly IBot _bot;
+        private readonly IBotFrameworkHttpAdapter Adapter;
+        private readonly IBot Bot;
 
         public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
         {
-            _adapter = adapter;
-            _bot = bot;
+            Adapter = adapter;
+            Bot = bot;
         }
 
         [HttpPost]
@@ -29,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
         {
             // Delegate the processing of the HTTP POST to the adapter.
             // The adapter will invoke the bot.
-            await _adapter.ProcessAsync(Request, Response, _bot);
+            await Adapter.ProcessAsync(Request, Response, Bot);
         }
     }
 }

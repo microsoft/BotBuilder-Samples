@@ -17,10 +17,10 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the Bot Framework Adapter with error handling enabled. 
+            // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.) 
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
 
             // Create the User state. (Used in this bot's Dialog implementation.)
@@ -51,7 +51,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
