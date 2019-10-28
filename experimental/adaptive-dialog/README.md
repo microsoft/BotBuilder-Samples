@@ -10,16 +10,16 @@ The new **Adaptive dialog** is a new way to model conversations that takes the b
 
 ## Getting started
 To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
-1. [Why Adaptive dialog?](#Why-Adaptive-Dialog)
-2. [New memory model overview][6]
-3. [Adaptive dialogs - anatomy][7]
-4. [Adaptive dialogs - runtime behavior][8]
-5. [Recognizers, rules and steps references][9]
-6. [Language generation][17]
-6. [Debugging Adaptive Dialog][10]
-7. [Declarative Adaptive Dialog][19]
-8. [Packages](#Packages-and-source-code)
-9. [Reporting issues](#Reporting-issues)
+- [Adaptive Dialog *[Preview]*](#adaptive-dialog-preview)
+  - [Getting started](#getting-started)
+  - [Why Adaptive dialog?](#why-adaptive-dialog)
+  - [Packages and source code](#packages-and-source-code)
+  - [Reporting issues](#reporting-issues)
+  - [Debugging Adaptive Dialog](#debugging-adaptive-dialog)
+  - [Change Log](#change-log)
+    - [4.7 PREVIEW](#47-preview)
+    - [4.6 PREVIEW](#46-preview)
+    - [4.5 PREVIEW](#45-preview)
 
 ## Why Adaptive dialog?
 We set out with the following goals for Adaptive dialogs - 
@@ -46,11 +46,16 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 ## Change Log
 ### 4.7 PREVIEW
 - \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
-- \[**New\] ***BREAKING CHANGE*** Renamed `Steps` -> `Actions`, `Rules` -> `Triggers`. Updated all triggers to follow `OnXXX` notation. 
-- \[**New\] Updating Adaptive dialogs to drop `Steps` tied directly to the adaptive dialog. If you need to run a set of actions when a dialog begins, add them to the `OnBeginDialog` trigger.
-- \[**New\] Updated and streamlined properties for actions.
-- \[**New\] `AllowInterruption` property for all `Input actions` is now an expression, providing you more fine grained control of when you want to allow interruptions.
 - \[**New\] RegexRecognizer now supports entity extractors.
+- \[***BREAKING CHANGES***\] 
+  - Renamed `Steps` -> `Actions`.
+  - `Actions` are now `List<Dialog>` (instead of `List<IDialog>`)
+  - Renamed `Rules` -> `Triggers`. 
+  - `Triggers` are now `List<OnCondition>` (instead of `List<IRule>`)
+  - Updated all triggers to follow `OnXXX` notation. 
+  - Adaptive dialogs no longer have `Steps` tied directly to them. If you need to run a set of actions when a dialog begins, add them to the `OnBeginDialog` trigger.
+  - Renamed, updated and streamlined properties for actions - e.g. `ItemsProperty`, `ResultProperty` and `Property` are consistently available where applicable (EditArray, EndDialog etc)
+  - `AllowInterruption` property for all `Input actions` is now an expression, providing you more fine grained control of when you want to allow interruptions.
 
 ### 4.6 PREVIEW
 - \[**New\] DialogManager class to help manage state persistance for Adaptive dialogs as well as ensure appropriate events are registered and routed. See [here][30] for how this gets wired up. 

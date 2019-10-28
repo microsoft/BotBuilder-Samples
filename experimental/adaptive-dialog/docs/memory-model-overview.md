@@ -12,12 +12,15 @@ All memory properties, in all memory scopes, are property bags, meaning you can 
 See [here][3] for guidance on when to use each scope. 
 
 Here are the different memory scopes available - 
-- [User](#User-scope)
-- [Conversation](#Conversation-scope)
-- [Dialog](#Dialog-scope)
-- [Turn](#Turn-scope)
-- [Settings](#Settings-scope)
-- [Short-hands](#Memory-short-hand-notations)
+- [Managing state](#managing-state)
+  - [User scope](#user-scope)
+  - [Conversation scope](#conversation-scope)
+  - [Dialog scope](#dialog-scope)
+    - [Dialog sub-scopes](#dialog-sub-scopes)
+  - [Turn scope](#turn-scope)
+    - [Turn sub-scopes](#turn-sub-scopes)
+  - [Settings scope](#settings-scope)
+  - [Memory short-hand notations](#memory-short-hand-notations)
 
 ## User scope
 User scope is persistent data scoped to the id of the user you are conversing with.  
@@ -77,7 +80,7 @@ Examples:
 - `turn.activityProcessed` - Bool property which if set means that the turncontet.activity has been consumed by some component in the system.
 
 ## Settings scope
-This represents any settings that are made available to the bot via the platform specific settings configuration system - e.g. appsettings.json, .env etc. 
+This represents any settings that are made available to the bot via the platform specific settings configuration system - e.g. appsettings.json, .env, dynamic environment setting in Azure etc. 
 
 Examples: 
 ```markdown

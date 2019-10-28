@@ -84,7 +84,7 @@ When the `AllowInterruptions` property evaluates to `true`, the active input act
 
 Consultation **stops** when an intent event up the parent dialog chain (including the immediate) parent fires. 
 
-The active input will assume the user utterance to be consumed if there are any actions that are excuted in the consultaton bubble. When this happens, the active input will always issue a `re-prompt` and not try to re-process the activity for that turn of the conversaiton. To override this, you can set `turn.activityProcessed = false` in the interruption to have the active input re-recognize the activity for that turn of the conversation.
+The active input will assume the user utterance to be consumed if there are any actions that are excuted in the consultaton bubble path. When this happens, the active input will always issue a `re-prompt` and not try to re-process the activity for that turn of the conversaiton. To override this, you can set `turn.activityProcessed = false` in the interruption handler to have the active input re-recognize the activity for that turn of the conversation.
 
 Here's an example: 
 

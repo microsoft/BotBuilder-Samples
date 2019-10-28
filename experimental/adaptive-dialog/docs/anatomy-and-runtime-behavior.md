@@ -17,7 +17,7 @@
 _Recognizers_ help understand and extract meaningful pieces of information from user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from given user utterance. See [here][1] to learn more about supported recognizers and their usage.
 
 ## Generator
-_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's language understanding and language generation assets. With the [Language Generation][5] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][6] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
+_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's Language Understanding and Language Generation assets. With the [Language Generation][5] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][6] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
 
 ### Triggers
 _Triggers_ enable you to catch and respond to events. The broadest trigger is the OnEvent trigger that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs supports couple of other specialized triggers to wrap common events that your bot would handle. See [here][2] to learn more about supported triggers and their usage.
