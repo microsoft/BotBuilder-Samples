@@ -1,6 +1,6 @@
 # Adaptive Dialog *[Preview]*
 
-> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+> See [here](#Change-Log) for what's new in **4.6 PREVIEW 2** release.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -17,7 +17,7 @@ To get started, you can check out the various samples [here][5]. The following a
   - [Reporting issues](#reporting-issues)
   - [Debugging Adaptive Dialog](#debugging-adaptive-dialog)
   - [Change Log](#change-log)
-    - [4.7 PREVIEW](#47-preview)
+    - [4.6 PREVIEW 2](#46-preview-2)
     - [4.6 PREVIEW](#46-preview)
     - [4.5 PREVIEW](#45-preview)
 
@@ -44,7 +44,7 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
-### 4.7 PREVIEW
+### 4.6 PREVIEW 2
 - \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
 - \[**New\] RegexRecognizer now supports entity extractors.
 - \[***BREAKING CHANGES***\] 
