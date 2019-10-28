@@ -13,6 +13,9 @@ namespace CoreBot.Dialogs
 {
     public class CancelAndHelpDialog : ComponentDialog
     {
+        private const string HelpMsgText = "Show help here";
+        private const string CancelMsgText = "Cancelling...";
+
         public CancelAndHelpDialog(string id)
             : base(id)
         {
@@ -39,15 +42,13 @@ namespace CoreBot.Dialogs
                 {
                     case "help":
                     case "?":
-                        var helpMessageText = "Show help here";
-                        var helpMessage = MessageFactory.Text(helpMessageText, helpMessageText, InputHints.ExpectingInput);
+                        var helpMessage = MessageFactory.Text(HelpMsgText, HelpMsgText, InputHints.ExpectingInput);
                         await innerDc.Context.SendActivityAsync(helpMessage, cancellationToken);
                         return new DialogTurnResult(DialogTurnStatus.Waiting);
 
                     case "cancel":
                     case "quit":
-                        var cancelMessageText = "Cancelling...";
-                        var cancelMessage = MessageFactory.Text(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
+                        var cancelMessage = MessageFactory.Text(CancelMsgText, CancelMsgText, InputHints.IgnoringInput);
                         await innerDc.Context.SendActivityAsync(cancelMessage, cancellationToken);
                         return await innerDc.CancelAllDialogsAsync(cancellationToken);
                 }

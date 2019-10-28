@@ -39,7 +39,7 @@ class MultilingualBot extends ActivityHandler {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
                     await context.sendActivity({ attachments: [welcomeCard] });
-                    await context.sendActivity(`This bot will introduce you to translation middleware. Say 'hi' to get started.`);
+                    await context.sendActivity('This bot will introduce you to translation middleware. Say \'hi\' to get started.');
                 }
             }
 
@@ -81,7 +81,7 @@ class MultilingualBot extends ActivityHandler {
                         value: englishEnglish
                     }
                 ];
-                const reply = MessageFactory.suggestedActions(cardActions, `Choose your language:`);
+                const reply = MessageFactory.suggestedActions(cardActions, 'Choose your language:');
                 await context.sendActivity(reply);
             }
 

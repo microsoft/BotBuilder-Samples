@@ -3,7 +3,7 @@ var __importStar = (this && this.__importStar) || function(mod) {
     if (mod && mod.__esModule) return mod;
     var result = {};
     if (mod != null) for (var k in mod) if (Object.hasOwnProperty.call(mod, k)) result[k] = mod[k];
-    result['default'] = mod;
+    result.default = mod;
     return result;
 };
 Object.defineProperty(exports, '__esModule', { value: true });
@@ -152,7 +152,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
                     case botbuilderCore.ActivityTypes.Message:
                         if (a.attachments && a.attachments.length > 0) {
                             const append = a.attachments.length === 1
-                                ? `(1 attachment)` : `(${ a.attachments.length } attachments)`;
+                                ? '(1 attachment)' : `(${ a.attachments.length } attachments)`;
                             that.print(`${ a.text } ${ append }`);
                         } else {
                             that.print(a.text || '');
@@ -177,7 +177,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
      * will result an error being returned.
      */
     updateActivity(context, activity) {
-        return Promise.reject(new Error(`ConsoleAdapter.updateActivity(): not supported.`));
+        return Promise.reject(new Error('ConsoleAdapter.updateActivity(): not supported.'));
     }
 
     /**
@@ -185,7 +185,7 @@ class ConsoleAdapter extends botbuilderCore.BotAdapter {
      * will result an error being returned.
      */
     deleteActivity(context, reference) {
-        return Promise.reject(new Error(`ConsoleAdapter.deleteActivity(): not supported.`));
+        return Promise.reject(new Error('ConsoleAdapter.deleteActivity(): not supported.'));
     }
 
     /**

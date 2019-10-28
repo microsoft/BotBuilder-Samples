@@ -65,7 +65,7 @@ class MainDialog extends LogoutDialog {
     }
 
     async commandStep(step) {
-        step.values['command'] = step.result;
+        step.values.command = step.result;
 
         // Call the prompt again because we need the token. The reasons for this are:
         // 1. If the user is already logged in we do not need to store the token locally in the bot and worry
@@ -87,7 +87,7 @@ class MainDialog extends LogoutDialog {
 
             // If we have the token use the user is authenticated so we may use it to make API calls.
             if (tokenResponse && tokenResponse.token) {
-                const parts = (step.values['command'] || '').toLowerCase().split(' ');
+                const parts = (step.values.command || '').toLowerCase().split(' ');
 
                 const command = parts[0];
 

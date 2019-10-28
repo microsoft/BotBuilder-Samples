@@ -51,7 +51,6 @@ namespace __PROJECT_NAME__
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
