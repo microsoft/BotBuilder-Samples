@@ -60,7 +60,7 @@ ngrok http -host-header=rewrite 3978
 - Put the password into the ```MicrosoftAppPassword``` field
 - Save the file
 - Open the ```manifest.json``` file
-- Replace your botID everywhere you see the place holder string ```<<YOUR-BOT-ID>>```
+- Replace your botID everywhere you see the place holder string ```<<YOUR-MICROSOFT-BOT-ID>>```
 
 - Run the bot from a terminal
 
