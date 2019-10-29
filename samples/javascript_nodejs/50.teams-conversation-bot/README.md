@@ -30,7 +30,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ```bash
 ngrok http -host-header=rewrite 3978
 ```
-- Copy/paste the ```https``` web address into notepad as you will need it later
+- Copy/paste the ```https``` NOT the ```http``` web address into notepad as you will need it later
 
 ### Creating the bot registration
 - Create a new bot [here](https://dev.botframework.com/bots/new)
