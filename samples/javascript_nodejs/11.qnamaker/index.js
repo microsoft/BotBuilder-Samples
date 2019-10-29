@@ -73,7 +73,7 @@ if (!endpointHostName.endsWith('/qnamaker')) {
 const qnaService = new QnAMaker({
     knowledgeBaseId: process.env.QnAKnowledgebaseId,
     endpointKey: process.env.QnAEndpointKey,
-    host: process.env.QnAEndpointHostName
+    host: endpointHostName
 });
 
 // Create the main dialog.

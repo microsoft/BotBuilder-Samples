@@ -77,7 +77,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
             var qnaMakerOptions = new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
-                Top = DefaultTopN
+                Top = DefaultTopN,
+                Context = new QnARequestContext()
             };
 
             var dialogOptions = GetDialogOptionsValue(stepContext);
