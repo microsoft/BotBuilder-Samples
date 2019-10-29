@@ -59,9 +59,8 @@ ngrok http -host-header=rewrite 3978
 - Paste your botID value into the ```MicrosoftAppId``` field 
 - Put the password into the ```MicrosoftAppPassword``` field
 - Save the file
-- Open the ```manifest.json``` in the `TeamsAppManifest` directory
+- Open the ```manifest.json``` file
 - Replace your botID everywhere you see the place holder string ```<<YOUR-BOT-ID>>```
-- Zip the 3 files in the ```TeamsAppManifest``` directory 
 
 - Run the bot from a terminal
 
@@ -78,7 +77,7 @@ ngrok http -host-header=rewrite 3978
 - In the bar at the top of Teams search for and select ```App Studio``` 
 - Click the ```Manifest editor``` tab
 - Click ```Import an existing app```
-- Navigate to and select the zip file that you made in the previous step
+- Navigate to and select the `manifest.json` file from the previous step
 - Click on the `TeamsConversationBot` card
 - Click ```Test and distribute``` on the left hand side
 - Click the ```Install``` button
