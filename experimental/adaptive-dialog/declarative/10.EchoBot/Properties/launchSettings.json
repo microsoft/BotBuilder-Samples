@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EchoBot": {
+    "10.EchoBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

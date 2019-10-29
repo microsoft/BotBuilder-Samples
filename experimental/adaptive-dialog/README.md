@@ -1,6 +1,6 @@
 # Adaptive Dialog *[Preview]*
 
-> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+> See [here](#Change-Log) for what's new in **4.6 PREVIEW 2** release.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -10,16 +10,16 @@ The new **Adaptive dialog** is a new way to model conversations that takes the b
 
 ## Getting started
 To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
-1. [Why Adaptive dialog?](#Why-Adaptive-Dialog)
-2. [New memory model overview][6]
-3. [Adaptive dialogs - anatomy][7]
-4. [Adaptive dialogs - runtime behavior][8]
-5. [Recognizers, rules and steps references][9]
-6. [Language generation][17]
-6. [Debugging Adaptive Dialog][10]
-7. [Declarative Adaptive Dialog][19]
-8. [Packages](#Packages-and-source-code)
-9. [Reporting issues](#Reporting-issues)
+- [Adaptive Dialog *[Preview]*](#adaptive-dialog-preview)
+  - [Getting started](#getting-started)
+  - [Why Adaptive dialog?](#why-adaptive-dialog)
+  - [Packages and source code](#packages-and-source-code)
+  - [Reporting issues](#reporting-issues)
+  - [Debugging Adaptive Dialog](#debugging-adaptive-dialog)
+  - [Change Log](#change-log)
+    - [4.6 PREVIEW 2](#46-preview-2)
+    - [4.6 PREVIEW](#46-preview)
+    - [4.5 PREVIEW](#45-preview)
 
 ## Why Adaptive dialog?
 We set out with the following goals for Adaptive dialogs - 
@@ -44,6 +44,19 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
+### 4.6 PREVIEW 2
+- \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
+- \[**New\] RegexRecognizer now supports entity extractors. See [here][31] for supported entity recognizers.
+- \[***BREAKING CHANGES***\] 
+  - Renamed `Steps` -> `Actions`.
+  - `Actions` are now `List<Dialog>` (instead of `List<IDialog>`)
+  - Renamed `Rules` -> `Triggers`. 
+  - `Triggers` are now `List<OnCondition>` (instead of `List<IRule>`)
+  - Updated all triggers to follow `OnXXX` notation. 
+  - Adaptive dialogs no longer have `Steps` tied directly to them. If you need to run a set of actions when a dialog begins, add them to the `OnBeginDialog` trigger.
+  - Renamed, updated and streamlined properties for actions - e.g. `ItemsProperty`, `ResultProperty` and `Property` are consistently available where applicable (EditArray, EndDialog etc)
+  - `AllowInterruption` property for all `Input actions` is now an expression, providing you more fine grained control of when you want to allow interruptions.
+
 ### 4.6 PREVIEW
 - \[**New\] DialogManager class to help manage state persistance for Adaptive dialogs as well as ensure appropriate events are registered and routed. See [here][30] for how this gets wired up. 
 - \[**New\] Generator property on Adaptive dialog that defines the specific language generation resources that power a particular Adaptive dialog. 
@@ -70,11 +83,11 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [10]:#Debugging-Adaptive-Dialog
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues
 [13]:https://github.com/microsoft/botbuilder-js/issues
-[14]:https://botbuilder.myget.org/gallery
-[15]:https://github.com/microsoft/botbuilder-dotnet/tree/4.Future
+[14]:https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily
+[15]:https://github.com/microsoft/botbuilder-dotnet
 [16]:https://github.com/microsoft/botbuilder-js/tree/4.future
 [17]:./docs/language-generation.md
 [18]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [19]:./declarative/60.AdaptiveBot/
-
 [30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs
+[31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
