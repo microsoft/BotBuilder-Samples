@@ -80,6 +80,7 @@ ngrok http -host-header=rewrite 3978
 - Click ```Import an existing app```
 - Navigate to and select the zip file that you made in the previous step
 - Click on the `TeamsConversationBot` card
+- Click ```Test and distribute``` on the left hand side
 - Click the ```Install``` button
 
 | To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
