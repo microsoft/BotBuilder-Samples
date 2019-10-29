@@ -47,7 +47,7 @@ ngrok http -host-header=rewrite 3978
 - Enter a name and click ```Add```
 - Copy & paste the password into notepad. This is your app password.
 - Go back to the bot registration tab and enter the ```botID``` into the app ID field
-- Scroll down and click ```Register```
+- Scroll down, agree to the Terms, and click ```Register```
 - Click the ```Microsoft Teams``` icon on the next screen
 - Click ```Save```
 
