@@ -16,6 +16,13 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## To try this sample
 
+### Clone the repo
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
+
 ### Ngrok
 - Download and install [ngrok](https://ngrok.com/download)
 - In terminal navigate to where ngrok is installed and run: 
@@ -24,6 +31,33 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ngrok http -host-header=rewrite 3978
 ```
 - Copy/paste the ```https``` web address into notepad as you will need it later
+
+### Creating the bot registration
+- Create a new bot [here](https://dev.botframework.com/bots/new)
+- **Note:** In the ```Messaging endpoint``` enter the https address from Ngrok
+
+### Visual Studio
+- In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
+- Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
+- Put the password into the ```MicrosoftAppPassword``` field
+- Save
+
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
+  - Select `TeamsConversationBot.csproj` file
+  - Press `F5` to run the project
 
 ### Microsoft Teams Setup
 - Launch Microsoft Teams. In the search bar at the top of Teams search for and select ```App Studio```.
@@ -52,34 +86,7 @@ ngrok http -host-header=rewrite 3978
   - EX: ```https://ca7f8a7e.ngrok.io/api/messages```
 - Press Enter to save the address
 
-### Bot Setup
-- Clone the repository
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
-
-- In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
-- Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save
-
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
-
-  A) From a terminal
-
-  ```bash
-  # run the bot
-  dotnet run
-  ```
-
-  B) Or from Visual Studio
-
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
-  - Select `TeamsConversationBot.csproj` file
-  - Press `F5` to run the project
 
 ### Finishing Teams Setup
 - Back in Teams click ```Test and distribute``` on the left hand side under ```Finish``` section
