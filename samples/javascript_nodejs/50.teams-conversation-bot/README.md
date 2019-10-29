@@ -45,6 +45,7 @@ ngrok http -host-header=rewrite 3978
 - Click on ```Certificates & secrets``` tab on the left
 - Click ```New client secret```
 - Enter a name and click ```Add```
+- Copy & paste the password into notepad. This is your app password.
 - Go back to the ```Register | my bots``` tab and enter the ```Application (client) ID``` into the app ID field
 - Scroll down and click ```Register```
 - Click the ```Microsoft Teams``` icon on the next screen
