@@ -75,7 +75,7 @@ ngrok http -host-header=rewrite 3978
   - Select `TeamsConversationBot.csproj` file
   - Press `F5` to run the project
 
-### App Studio - Teams
+### Teams - App Studio
 - Launch Microsoft Teams
 - In the bar at the top of Teams search for and select ```App Studio``` 
 - Click the ```Manifest editor``` 
