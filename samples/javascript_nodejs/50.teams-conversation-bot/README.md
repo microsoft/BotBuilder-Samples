@@ -34,7 +34,7 @@ ngrok http -host-header=rewrite 3978
 
 ### Creating the bot registration
 - Create a new bot [here](https://dev.botframework.com/bots/new)
-- Enter a```Display name```, ```Bot handle```
+- Enter a```Display name``` and ```Bot handle```
 - In the ```Messaging endpoint``` enter the https address from Ngrok and add ```/api/messages``` to the end
   - EX: ```https://7d899fbb.ngrok.io/api/messages``` 
 - Open the ```Create Microsoft App ID and password``` button in a new tab
