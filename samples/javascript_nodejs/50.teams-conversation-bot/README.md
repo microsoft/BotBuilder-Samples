@@ -45,7 +45,7 @@ ngrok http -host-header=rewrite 3978
 - Copy & paste the ```Application (client) ID``` field into notepad. This is your botID.
 - Click on ```Certificates & secrets``` tab on the left
 - Click ```New client secret```
-- Enter a name and click ```Add```
+- Enter a name, select `Never`, and click ```Add```
 - Copy & paste the password into notepad. This is your app password.
 - Go back to the bot registration tab and enter the ```botID``` into the app ID field
 - Scroll down, agree to the Terms, and click ```Register```
