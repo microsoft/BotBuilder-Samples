@@ -52,7 +52,6 @@ ngrok http -host-header=rewrite 3978
 - Click the ```Microsoft Teams``` icon on the next screen
 - Click ```Save```
 
-- Click ```Test and distribute``` on the left hand side
 ### Visual Studio
 - Launch Visual Studio
 - Navigate to `samples/javascript_nodejs/50.teams-conversation-bot` and open the folder 
