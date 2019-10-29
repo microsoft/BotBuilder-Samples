@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             }
         }
 
-        protected override async Task OnSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnTeamsSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
             Logger.LogInformation("Running dialog with signin/verifystate from an Invoke Activity.");
 
