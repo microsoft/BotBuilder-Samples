@@ -6,12 +6,13 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+- [Node.js](https://nodejs.org) version 10.14 or higher
+
+    ```bash
+    # determine node version
+    node --version
+    ```
 - Microsoft Teams is installed and you have an account
 
 ## To try this sample
