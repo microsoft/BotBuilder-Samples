@@ -15,27 +15,23 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private MultiLingualTemplateEngineManager _lgManager;
+        private MultiLingualTemplateEngine _lgManager;
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>();
-            lgFilesPerLocale[""] = new List<string>()
+            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>() 
             {
-                Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")
+                {"", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")}},
+                {"fr", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}}
             };
-            lgFilesPerLocale["fr"] = new List<string>()
-            {
-                Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")
-            };
-            _lgManager = new MultiLingualTemplateEngineManager(lgFilesPerLocale);
+            _lgManager = new MultiLingualTemplateEngine(lgFilesPerLocale);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgManager.GenerateActivityForLocale("SomethingWentWrong", exception, turnContext));
+                await turnContext.SendActivityAsync(_lgManager.GenerateActivity("SomethingWentWrong", exception, turnContext));
 
                 if (conversationState != null)
                 {

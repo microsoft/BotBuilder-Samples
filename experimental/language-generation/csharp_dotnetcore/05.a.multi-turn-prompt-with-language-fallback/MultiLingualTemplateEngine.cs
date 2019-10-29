@@ -11,22 +11,27 @@ using Microsoft.Bot.Builder;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class MultiLingualTemplateEngineManager
+    public class MultiLingualTemplateEngine
     {
         public Dictionary<string, TemplateEngine> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, TemplateEngine>();
         private LanguagePolicy LangFallBackPolicy;
 
-        public MultiLingualTemplateEngineManager(Dictionary<string, List<string>> lgFilesPerLocale)
+        public MultiLingualTemplateEngine(Dictionary<string, List<string>> lgFilesPerLocale)
         {
             if (lgFilesPerLocale == null)
             {
                 throw new ArgumentNullException(nameof(lgFilesPerLocale));
             }
 
-            InternalConstructor(lgFilesPerLocale);
+            foreach (KeyValuePair<string, List<string>> filesPerLocale in lgFilesPerLocale)
+            {
+                TemplateEnginesPerLocale[filesPerLocale.Key] = new TemplateEngine();
+                TemplateEnginesPerLocale[filesPerLocale.Key].AddFiles(filesPerLocale.Value);
+            }
+            LangFallBackPolicy = new LanguagePolicy();        
         }
 
-        public Activity GenerateActivityForLocale(string templateName, object data, WaterfallStepContext stepContext)
+        public Activity GenerateActivity(string templateName, object data, WaterfallStepContext stepContext)
         {
             if (templateName == null)
             {
@@ -42,11 +47,11 @@ namespace Microsoft.BotBuilderSamples
             {
                 throw new ArgumentNullException(nameof(stepContext));
             }
-            return InternalGenerateActivityForLocale(templateName, data, stepContext.Context.Activity.Locale);
+            return InternalGenerateActivity(templateName, data, stepContext.Context.Activity.Locale);
 
         }
 
-        public Activity GenerateActivityForLocale(string templateName, object data, ITurnContext turnContext)
+        public Activity GenerateActivity(string templateName, object data, ITurnContext turnContext)
         {
             if (templateName == null)
             {
@@ -62,10 +67,10 @@ namespace Microsoft.BotBuilderSamples
             {
                 throw new ArgumentNullException(nameof(turnContext));
             }
-            return InternalGenerateActivityForLocale(templateName, data, turnContext.Activity.Locale);
+            return InternalGenerateActivity(templateName, data, turnContext.Activity.Locale);
         }
 
-        public Activity GenerateActivityForLocale(string templateName, WaterfallStepContext stepContext)
+        public Activity GenerateActivity(string templateName, WaterfallStepContext stepContext)
         {
             if (templateName == null)
             {
@@ -76,10 +81,10 @@ namespace Microsoft.BotBuilderSamples
             {
                 throw new ArgumentNullException(nameof(stepContext));
             }
-            return InternalGenerateActivityForLocale(templateName, null, stepContext.Context.Activity.Locale);
+            return InternalGenerateActivity(templateName, null, stepContext.Context.Activity.Locale);
         }
 
-        public Activity GenerateActivityForLocale(string templateName, TurnContext turnContext)
+        public Activity GenerateActivity(string templateName, TurnContext turnContext)
         {
             if (templateName == null)
             {
@@ -90,10 +95,10 @@ namespace Microsoft.BotBuilderSamples
             {
                 throw new ArgumentNullException(nameof(turnContext));
             }
-            return InternalGenerateActivityForLocale(templateName, null, turnContext.Activity.Locale);
+            return InternalGenerateActivity(templateName, null, turnContext.Activity.Locale);
         }
 
-        private Activity InternalGenerateActivityForLocale(string templateName, object data, string locale)
+        private Activity InternalGenerateActivity(string templateName, object data, string locale)
         {
             var iLocale = locale == null ? "" : locale;
 
@@ -119,16 +124,5 @@ namespace Microsoft.BotBuilderSamples
             }
             return new Activity();
         }
-
-        private void InternalConstructor(Dictionary<string, List<string>> lgFilesPerLocale, Dictionary<string, string> fallBackPolicy = null)
-        {
-            foreach (KeyValuePair<string, List<string>> filesPerLocale in lgFilesPerLocale)
-            {
-                TemplateEnginesPerLocale[filesPerLocale.Key] = new TemplateEngine();
-                TemplateEnginesPerLocale[filesPerLocale.Key].AddFiles(filesPerLocale.Value);
-            }
-            LangFallBackPolicy = new LanguagePolicy();
-        }
-
     }
 }

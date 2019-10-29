@@ -35,14 +35,14 @@ See [here](./api-reference.md) for API reference.
 |'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
 |"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
 |[]	        |Used to refer to an item in a list by its index. E.g. A[3]	                                |N/A                                |
-|{}	        |Used to denote an expression. E.g. {A == B}.                                               |N/A                                |
-|{}	        |Used to denote a variable in template expansion. E.g. {myVariable}	                        |N/A                                |
+|@{}	    |Used to denote an expression. E.g. @{A == B}.                                              |N/A                                |
+|@{}	    |Used to denote a variable in template expansion. E.g. @{myVariable}	                    |N/A                                |
 |()	        |Enforces precedence order and groups sub expressions into larger expressions. E.g. (A+B)*C	|N/A                                |
 |.	        |Property selector. E.g. myObject.Property1	                                                |N/A                                |
 |\	        |Escape character for templates, expressions.                                               |N/A                                |
 
 ## Variables
-Variables are always referenced by their name. E.g. {myVariable}
+Variables are always referenced by their name. E.g. @{myVariable}
 Variables can be complex objects. In which case they are referenced either using the property selector operator e.g. myParent.myVariable or using the item index selection operator. E.g. myParent.myList[0]. or using the [parameters](TODO) function. 
 
 ## Explicit values
