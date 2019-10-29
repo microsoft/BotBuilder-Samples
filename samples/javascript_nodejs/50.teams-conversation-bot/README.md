@@ -34,13 +34,29 @@ ngrok http -host-header=rewrite 3978
 
 ### Creating the bot registration
 - Create a new bot [here](https://dev.botframework.com/bots/new)
-- **Note:** In the ```Messaging endpoint``` enter the https address from Ngrok
+- **Note:** In the ```Messaging endpoint``` enter the https address from Ngrok and add ```/api/messages``` to the end
+- - EX: ```https://7d899fbb.ngrok.io/api/messages``` 
+- Open the ```Create Microsoft App ID and password``` button in a new tab
+- Click on the ```New registration``` button 
+- Enter a name, and select the ```Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)```
+- Click ```Register```
+- Copy & paste the ```Application (client) ID``` field into notepad. This is your botID.
+- Click on ```Certificates & secrets``` tab on the left
+- Click ```New client secret```
+- Enter a name and click ```Add```
+- Go back to the ```Register | my bots``` tab and enter the ```Application (client) ID``` into the app ID field
+- Scroll down and click ```Register```
+- Click the ```Microsoft Teams``` icon on the next screen
+- Click ```Save```
 
 ### Visual Studio
 - In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
-- Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
+- Paste your botID value into the ```MicrosoftAppId``` field 
 - Put the password into the ```MicrosoftAppPassword``` field
-- Save
+- Save the file
+- Open the ```manifest.json``` in the TeamsAppManifest directory
+- Replace your botID everywhere you see the place holder string ```<<YOUR-BOT-ID>>```
+- Zip the 3 files in the ```TeamsAppManifest``` directory 
 
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -59,37 +75,16 @@ ngrok http -host-header=rewrite 3978
   - Select `TeamsConversationBot.csproj` file
   - Press `F5` to run the project
 
-### Microsoft Teams Setup
-- Launch Microsoft Teams. In the search bar at the top of Teams search for and select ```App Studio```.
-- Click the ```Manifest editor``` tab near the top of the screen.
-- Click the ```Create a new app``` button on the left hand side.
-- Under the ```Details``` section fill in the following fields 
-  - In the Short name field enter ```EchoBot```
-  - Click the ```Generate``` button under App ID 
-  - Package Name
-  - Version 
-  - Short description
-  - Long description
-  - Developer name
-  - Website 
-  - Privacy statement web address
-  - Terms of use web address
-- Under the ```Capabilities``` tab on the left hand side click the ```Bots``` tab
-- Click the ```Set up``` button
-- Under the ```New bot``` tab Fill in the following fields
-  - Put ```TeamsConversationBot``` into the Name field
-  - Under ```Scope``` check all 3 boxes ```Personal```, ```Team```, ```Group Chat```
-  - Click the ```Create bot``` button
-- Copy the Bot ID (string under ```TeamsConversationBot```) and paste it into notepad as you will need it later
-- Click the ```Generate new password``` button (copy/paste) the password into notepad as you will need it later)
-- Under Messaging endpoint paste the https ngrok url and add ```/api/messages``` to the end
-  - EX: ```https://ca7f8a7e.ngrok.io/api/messages```
-- Press Enter to save the address
-
-
+### Teams - App Studio
+- Launch Microsoft Teams
+- In the bar at the top of Teams search for and select ```App Studio``` 
+- Click the ```Manifest editor``` 
+- Click ```Import an existing app```
+- Navigate to and select the zip file that you made in the previous step
+- Click on the bot card
 
 ### Finishing Teams Setup
-- Back in Teams click ```Test and distribute``` on the left hand side under ```Finish``` section
+- Click ```Test and distribute``` on the left hand side
 - Click the ```Install``` button
 
 | To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
