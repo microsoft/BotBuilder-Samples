@@ -10,6 +10,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples
@@ -23,7 +24,7 @@ namespace Microsoft.BotBuilderSamples
         {
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.Use(new RegisterClassMiddleware<Microsoft.Bot.Builder.Dialogs.Adaptive.IActivityGenerator>(new ActivityBuilder()));
+            this.Use(new RegisterClassMiddleware<IActivityGenerator>(new ActivityBuilder()));
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             string[] paths = { ".", "AdapterWithErrorHandler.lg" };

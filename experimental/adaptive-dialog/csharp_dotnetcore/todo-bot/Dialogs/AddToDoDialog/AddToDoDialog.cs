@@ -148,7 +148,15 @@ namespace Microsoft.BotBuilderSamples
                         Intent = "Cancel", 
                         Pattern = "(?i)cancel|never mind" 
                     }
-                }
+                },
+                // Regex recognizer now supports pre-built entity types as well. 
+                // See here for a list of supported entity recognizers - 
+                // https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
+                // Entities = new List<EntityRecognizer>() {
+                //     new DateTimeEntityRecognizer(),
+                //     new NumberEntityRecognizer(),
+                //     new AgeEntityRecognizer()
+                // }
             };
         }
     }

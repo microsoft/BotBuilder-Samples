@@ -46,7 +46,7 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 ## Change Log
 ### 4.6 PREVIEW 2
 - \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
-- \[**New\] RegexRecognizer now supports entity extractors.
+- \[**New\] RegexRecognizer now supports entity extractors. See [here][31] for supported entity recognizers.
 - \[***BREAKING CHANGES***\] 
   - Renamed `Steps` -> `Actions`.
   - `Actions` are now `List<Dialog>` (instead of `List<IDialog>`)
@@ -90,3 +90,4 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [18]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [19]:./declarative/60.AdaptiveBot/
 [30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs
+[31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
