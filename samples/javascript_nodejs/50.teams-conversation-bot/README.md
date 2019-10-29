@@ -78,7 +78,7 @@ ngrok http -host-header=rewrite 3978
 - Click the ```Manifest editor``` tab
 - Click ```Import an existing app```
 - Navigate to and select the zip file that you made in the previous step
-- Click on the bot card
+- Click on the `TeamsConversationBot` card
 
 ### Finishing Teams Setup
 - Click ```Test and distribute``` on the left hand side
