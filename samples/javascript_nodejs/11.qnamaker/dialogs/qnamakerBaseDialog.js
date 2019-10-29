@@ -191,7 +191,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
 
                 var previousContextData = {};
 
-                if (dialogOptions[QnAContextData] !== null) {
+                if (!!dialogOptions[QnAContextData]) {
                     previousContextData = dialogOptions[QnAContextData];
                 }
 
