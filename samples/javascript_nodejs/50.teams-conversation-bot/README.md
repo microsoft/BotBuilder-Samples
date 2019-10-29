@@ -62,21 +62,15 @@ ngrok http -host-header=rewrite 3978
 - Replace your botID everywhere you see the place holder string ```<<YOUR-BOT-ID>>```
 - Zip the 3 files in the ```TeamsAppManifest``` directory 
 
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
-
-  A) From a terminal
+- Run the bot from a terminal
 
   ```bash
-  # run the bot
-  dotnet run
+  npm install
   ```
-
-  B) Or from Visual Studio
-
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
-  - Select `TeamsConversationBot.csproj` file
-  - Press `F5` to run the project
+  
+  ```bash
+  npm start
+  ```
 
 ### Teams - App Studio
 - Launch Microsoft Teams
