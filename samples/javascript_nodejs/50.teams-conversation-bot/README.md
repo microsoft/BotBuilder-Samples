@@ -75,7 +75,7 @@ ngrok http -host-header=rewrite 3978
 ### Teams - App Studio
 - Launch Microsoft Teams
 - In the bar at the top of Teams search for and select ```App Studio``` 
-- Click the ```Manifest editor``` 
+- Click the ```Manifest editor``` tab
 - Click ```Import an existing app```
 - Navigate to and select the zip file that you made in the previous step
 - Click on the bot card
