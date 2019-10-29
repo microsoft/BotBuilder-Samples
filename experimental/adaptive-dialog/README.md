@@ -10,16 +10,17 @@ The new **Adaptive dialog** is a new way to model conversations that takes the b
 
 ## Getting started
 To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
-- [Adaptive Dialog *[Preview]*](#adaptive-dialog-preview)
-  - [Getting started](#getting-started)
-  - [Why Adaptive dialog?](#why-adaptive-dialog)
-  - [Packages and source code](#packages-and-source-code)
-  - [Reporting issues](#reporting-issues)
-  - [Debugging Adaptive Dialog](#debugging-adaptive-dialog)
-  - [Change Log](#change-log)
-    - [4.6 PREVIEW 2](#46-preview-2)
-    - [4.6 PREVIEW](#46-preview)
-    - [4.5 PREVIEW](#45-preview)
+1. [Why Adaptive dialog?](#Why-Adaptive-Dialog)
+2. [New memory model overview][6]
+3. [Adaptive dialogs - anatomy][7]
+4. [Adaptive dialogs - runtime behavior][8]
+5. [Recognizers, Generators, Triggers and Actions - references][9]
+6. [Language generation][17]
+6. [Debugging Adaptive Dialog][10]
+7. [Declarative Adaptive Dialog][19]
+8. [Packages](#Packages-and-source-code)
+9. [Reporting issues](#Reporting-issues)
+10. [Change Log](#change-log)
 
 ## Why Adaptive dialog?
 We set out with the following goals for Adaptive dialogs - 
