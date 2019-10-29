@@ -59,7 +59,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
         var qnaMakerOptions = {
             scoreThreshold: DefaultThreshold,
             top: DefaultTopN,
-            context: null,
+            context: {},
             qnaId: -1
         };
 

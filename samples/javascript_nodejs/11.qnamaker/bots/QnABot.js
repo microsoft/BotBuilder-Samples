@@ -35,6 +35,19 @@ class QnABot extends ActivityHandler {
             await next();
         });
 
+        // If a new user is added to the conversation, send them a greeting message
+        this.onMembersAdded(async (context, next) => {
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
+                    await context.sendActivity('Welcome to the QnA Maker sample! Ask me a question and I will try to answer it.');
+                }
+            }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
+
         this.onDialog(async (context, next) => {
             // Save any state changes. The load happened during the execution of the Dialog.
             await this.conversationState.saveChanges(context, false);
