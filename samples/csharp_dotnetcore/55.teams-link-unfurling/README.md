@@ -2,7 +2,7 @@
 
 Bot Framework v4 Teams link unfurling bot sample for Teams.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that performs link unfurling in Teams.
 
 ## Prerequisites
 
@@ -77,7 +77,7 @@ ngrok http -host-header=rewrite 3978
 
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/55.teams-link-unfurling-bot` folder
-  - Select `TeamsConversationBot.csproj` file
+  - Select `TeamsLinkUnfurlingBot.csproj` file
   - Press `F5` to run the project
 
 ### Teams - App Studio
