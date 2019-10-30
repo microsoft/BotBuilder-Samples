@@ -55,7 +55,7 @@ ngrok http -host-header=rewrite 3978
 
 ### Visual Studio
 - Launch Visual Studio
-- Navigate to and open the `samples/csharp_dotnet/57.teams-conversation-bot` directory
+- Navigate to and open the `samples/csharp_dotnet/56.teams-conversation-bot` directory
 - Open the ```appsettings.json``` file
 - Paste your botID value into the ```MicrosoftAppId``` field 
 - Put the password into the ```MicrosoftAppPassword``` field
@@ -76,7 +76,7 @@ ngrok http -host-header=rewrite 3978
   B) Or from Visual Studio
 
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/57.teams-conversation-bot` folder
+  - Navigate to `samples/csharp_dotnetcore/56.teams-conversation-bot` folder
   - Select `TeamsConversationBot.csproj` file
   - Press `F5` to run the project
 
