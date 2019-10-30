@@ -96,17 +96,5 @@ ngrok http -host-header=rewrite 3978
 
 ### Interacting with the bot
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
-
-1. **Show Welcome**
-  - **Result:** The bot will send the welcome card for you to interact with
-  - **Valid Scopes:** personal, group chat, team chat
-2. **MentionMe**
-  - **Result:** The bot will respond to the message and mention the user
-  - **Valid Scopes:** personal, group chat, team chat
-3. **MessageAllMembers**
-  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
-  - **Valid Scopes:** personal, group chat, team chat
-
-You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.pgn` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
 
