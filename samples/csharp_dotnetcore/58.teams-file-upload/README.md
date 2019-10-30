@@ -96,5 +96,5 @@ ngrok http -host-header=rewrite 3978
 
 ### Interacting with the bot
 
-If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.pgn` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
+If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
 
