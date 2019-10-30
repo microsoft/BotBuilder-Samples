@@ -5,12 +5,6 @@ VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileBot", "TeamsFileBot.csproj", "{2B15EEA3-EFD3-4766-9566-3C3FC4286B3F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Teams", "..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Builder.Teams\Microsoft.Bot.Builder.Teams.csproj", "{22E51AD3-42D4-49DE-8678-3EAF86641DE9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Schema.Teams", "..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Schema.Teams\Microsoft.Bot.Schema.Teams.csproj", "{6ED7624D-E497-460B-88DB-F6DF716972BB}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Connector.Teams", "..\..\..\experimental\teams\csharp-dotnetcore\Microsoft.Bot.Connector.Teams\Microsoft.Bot.Connector.Teams.csproj", "{CC6E2B9C-4684-42A3-B001-2462DB2896B9}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,18 +15,6 @@ Global
 		{2B15EEA3-EFD3-4766-9566-3C3FC4286B3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B15EEA3-EFD3-4766-9566-3C3FC4286B3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B15EEA3-EFD3-4766-9566-3C3FC4286B3F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{22E51AD3-42D4-49DE-8678-3EAF86641DE9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{22E51AD3-42D4-49DE-8678-3EAF86641DE9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{22E51AD3-42D4-49DE-8678-3EAF86641DE9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{22E51AD3-42D4-49DE-8678-3EAF86641DE9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{6ED7624D-E497-460B-88DB-F6DF716972BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6ED7624D-E497-460B-88DB-F6DF716972BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6ED7624D-E497-460B-88DB-F6DF716972BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6ED7624D-E497-460B-88DB-F6DF716972BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CC6E2B9C-4684-42A3-B001-2462DB2896B9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CC6E2B9C-4684-42A3-B001-2462DB2896B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CC6E2B9C-4684-42A3-B001-2462DB2896B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CC6E2B9C-4684-42A3-B001-2462DB2896B9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

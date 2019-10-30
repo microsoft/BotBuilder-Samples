@@ -27,9 +27,7 @@
     {
       "botId": "<<YOUR-MICROSOFT-BOT-ID>>",
       "scopes": [
-        "personal",
-        "team",
-        "groupchat"
+        "personal"
       ],
       "supportsFiles": true
     }
