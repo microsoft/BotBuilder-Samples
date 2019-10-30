@@ -5,11 +5,11 @@
 - @{ErrorPrefix()}, @{ErrorSuffix()}\nError:@{Message}
 
 # ErrorSuffix
-- it looks like something went wrong.
-- I seem to have run into a snag. We need to start over. 
-- something is not right. We need to start over. 
+- on dirait que quelque chose s'est mal passé.
+- J'ai l'air d'avoir rencontré un hic. Il faut tout recommencer. 
+- quelque chose ne va pas. Il faut tout recommencer. 
 
 # ErrorPrefix
-- Oops
-- Sorry
-- I apologize
+- Oups
+- Pardon
+- Je m'excuse

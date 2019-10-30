@@ -3,10 +3,11 @@
     "windowsAuthentication": false,
     "anonymousAuthentication": true,
     "iisExpress": {
-      "applicationUrl": "http://localhost:3978/",
+      "applicationUrl": "http://localhost:3978",
       "sslPort": 0
     }
   },
+  "$schema": "http://json.schemastore.org/launchsettings.json",
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
@@ -15,13 +16,13 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CoreBot": {
+    "MultiTurnPromptBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:3978/"
+      "applicationUrl": "http://localhost:3978"
     }
   }
 }
