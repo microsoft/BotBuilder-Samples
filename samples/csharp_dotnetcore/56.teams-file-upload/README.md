@@ -1,4 +1,4 @@
-﻿﻿# TeamsFileUploadBot
+## TeamsFileUploadBot
 
 Bot Framework v4 file upload bot sample for Teams.
 
