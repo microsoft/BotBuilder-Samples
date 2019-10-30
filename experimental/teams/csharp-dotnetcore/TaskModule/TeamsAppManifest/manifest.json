@@ -1,0 +1,45 @@
+{
+    "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+    "manifestVersion": "1.5",
+    "version": "1.0.0",
+    "id": "e51acca9-9943-4b29-8255-97f13b05566c",
+    "packageName": "com.teams.microsoft.bot.test",
+    "developer": {
+        "name": "Bot Framework Team",
+        "websiteUrl": "https://dev.botframework.com",
+        "privacyUrl": "https://dev.botframework.com",
+        "termsOfUseUrl": "https://dev.botframework.com"
+    },
+    "icons": {
+        "color": "color.png",
+        "outline": "outline.png"
+    },
+    "name": {
+        "short": "Task Module",
+        "full": "Simple Task Module"
+    },
+    "description": {
+        "short": "Test Task Module Scenario",
+        "full": "Simple Task Module Scenario Test"
+    },
+    "accentColor": "#FFFFFF",
+    "bots": [
+        {
+            "botId": "13808447-43f1-4998-bcf1-8f816509a36c",
+            "scopes": [
+                "personal",
+                "team",
+                "groupchat"
+            ],
+            "supportsFiles": false,
+            "isNotificationOnly": false
+        }
+    ],
+    "permissions": [
+        "identity",
+        "messageTeamMembers"
+    ],
+  "validDomains": [
+    "YourBotWebApp.azurewebsites.net"
+  ]
+}
