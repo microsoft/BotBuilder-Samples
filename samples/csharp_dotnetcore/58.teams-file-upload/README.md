@@ -1,18 +1,19 @@
-# TeamsConversationBot
+﻿# TeamsFileUploadBot
 
-Bot Framework v4 Teams conversation bot sample for Teams.
+Bot Framework v4 file upload bot sample for Teams.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
 
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-    ```bash
-    # determine node version
-    node --version
-    ```
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+  
 - Microsoft Teams is installed and you have an account
 
 ## To try this sample
@@ -54,23 +55,30 @@ ngrok http -host-header=rewrite 3978
 
 ### Visual Studio
 - Launch Visual Studio
-- Navigate to `samples/javascript_nodejs/50.teams-conversation-bot` and open the folder 
-- Open the ```.env``` file
+- Navigate to and open the `samples/csharp_dotnet/56.teams-conversation-bot` directory
+- Open the ```appsettings.json``` file
 - Paste your botID value into the ```MicrosoftAppId``` field 
 - Put the password into the ```MicrosoftAppPassword``` field
 - Save the file
-- Open the ```manifest.json``` file
-- Replace your botID everywhere you see the place holder string ```<<YOUR-BOT-ID>>```
+- Open the ```manifest.json```
+- Replace your botID everywhere you see the place holder string ```<<YOUR-MICROSOFT-BOT-ID>>```
 
-- Run the bot from a terminal
+
+- Run the bot:
+
+ A) From a terminal
 
   ```bash
-  npm install
+  # run the bot
+  dotnet run
   ```
-  
-  ```bash
-  npm start
-  ```
+
+  B) Or from Visual Studio
+
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/56.teams-conversation-bot` folder
+  - Select `TeamsConversationBot.csproj` file
+  - Press `F5` to run the project
 
 ### Teams - App Studio
 - Launch Microsoft Teams
@@ -84,21 +92,9 @@ ngrok http -host-header=rewrite 3978
 
 | To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
 |:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
+| 1. Click ```Add``` button| This feature does not work in this scope. |  This feature does not work in this scope.  |
 
 ### Interacting with the bot
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
-
-1. **Show Welcome**
-  - **Result:** The bot will send the welcome card for you to interact with
-  - **Valid Scopes:** personal, group chat, team chat
-2. **MentionMe**
-  - **Result:** The bot will respond to the message and mention the user
-  - **Valid Scopes:** personal, group chat, team chat
-3. **MessageAllMembers**
-  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
-  - **Valid Scopes:** personal, group chat, team chat
-
-You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
 
