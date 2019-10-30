@@ -1,6 +1,6 @@
-﻿# TeamsConversationBot
+﻿# TeamsFileUploadBot
 
-Bot Framework v4 echo bot sample for Teams.
+Bot Framework v4 file upload bot sample for Teams.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
