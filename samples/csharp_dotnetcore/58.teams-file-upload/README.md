@@ -92,7 +92,7 @@ ngrok http -host-header=rewrite 3978
 
 | To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
 |:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
+| 1. Click ```Add``` button| This feature does not work in this scope. |  This feature does not work in this scope.  |
 
 ### Interacting with the bot
 
