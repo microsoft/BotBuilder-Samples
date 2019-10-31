@@ -2,7 +2,7 @@
 
 Bot Framework v4 Teams Messaging Extension Action Preview sample.
 
-This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple survey based on parameters entered by the user from a Task Module.
+This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple card based on parameters entered by the user from a Task Module.
 
 ## Prerequisites
 
@@ -93,4 +93,4 @@ ngrok http -host-header=rewrite 3978
 
 ### Interacting with the Messaging Extension
 
-Click the Messaging
+Click the Messaging Extension icon in the Compose Box's Messaging Extension menu.

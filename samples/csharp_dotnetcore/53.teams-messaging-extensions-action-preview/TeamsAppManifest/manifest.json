@@ -43,8 +43,8 @@
         {
           "id": "createWithPreview",
           "type": "action",
-          "title": "Create Survey Card",
-          "description": "Example of creating a Survey Card",
+          "title": "Create Card",
+          "description": "Example of creating a Card",
           "initialRun": false,
           "fetchTask": true,
           "context": [
