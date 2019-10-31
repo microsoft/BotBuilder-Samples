@@ -2,7 +2,7 @@
 
 Bot Framework v4 Teams Messaging Extension Action sample.
 
-This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple Survey that accepts input from users and shows responses in a Task Module.
+This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple Card based on parameters entered by the user, and how to Share a message through a Messaging Extension.
 
 ## Prerequisites
 
@@ -91,11 +91,9 @@ ngrok http -host-header=rewrite 3978
 - Click the ```Install``` button
 - Click ```Add``` button
 
-#### * Note: Submitting survey results from within a Group Chat context will not function as expected.  Only users who have the Messaging Extension installed within that group will be allowed to submit responses.  Microsoft is aware of this bug, and a fix will be released soon.
-
 ### Interacting with the Messaging Extension
 
-1. Selecting the **Create Survey** command from the Compose Box command list. The survey parameters dialog will be displayed and can be submitted. 
+1. Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code. 
 
 or
 
