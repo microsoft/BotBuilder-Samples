@@ -61,7 +61,8 @@ namespace CoreBot
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
