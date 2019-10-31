@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.BotBuilderSamples.Utils;
+using QnACardBuilder = Microsoft.BotBuilderSamples.Utils.QnACardBuilder;
 
 namespace Microsoft.BotBuilderSamples.Dialog
 {
@@ -251,7 +252,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                     stepContext.ActiveDialog.State["options"] = dialogOptions;
 
                     // Get multi-turn prompts card activity.
-                    var message = QnACardBuilder.GetQnAPromptsCard(answer, qnaDialogResponseOptions.CardNoMatchText);
+                    var message = QnACardBuilder.GetQnAPromptsCard(answer);
                     await stepContext.Context.SendActivityAsync(message).ConfigureAwait(false);
 
                     return new DialogTurnResult(DialogTurnStatus.Waiting);
