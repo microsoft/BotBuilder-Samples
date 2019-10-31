@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        private async Task<MessagingExtensionActionResponse> CreateSurveyCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private Task<MessagingExtensionActionResponse> CreateSurveyCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // Create Survey action command was chosen.  The parameters entered in the Create Survey Card
             // dialog will arrive in the MessagingExtensionAction.Data field.
@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             _surveys.TryAdd(surveyId, survey);
 
-            return new MessagingExtensionActionResponse
+            return Task.FromResult(new MessagingExtensionActionResponse
             {
                 ComposeExtension = new MessagingExtensionResult
                 {
@@ -79,7 +79,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         },
                     },
                 },
-            };
+            });
         }
 
         private MessagingExtensionActionResponse ShareMessageCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
@@ -128,7 +128,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        protected override async Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
+        protected override Task<TaskModuleResponse> OnTeamsTaskModuleFetchAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
             // The user has requested to see the Results of a Survey by clicking the
             // View Results button.  (See AdaptiveCardHelper.CreateSurveyCard)
@@ -156,7 +156,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 cardHeight = 150 + Math.Min(50 * factSet.Facts.Count, 600);
             }
 
-            return new TaskModuleResponse
+            return Task.FromResult(new TaskModuleResponse
             {
                 Task = new TaskModuleContinueResponse
                 {
@@ -168,10 +168,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Title = "Survey Results",
                     },
                 },
-            };
+            });
         }
 
-        protected override async Task OnTeamsMessagingExtensionCardButtonClickedAsync(ITurnContext<IInvokeActivity> turnContext, JObject cardData, CancellationToken cancellationToken)
+        protected override Task OnTeamsMessagingExtensionCardButtonClickedAsync(ITurnContext<IInvokeActivity> turnContext, JObject cardData, CancellationToken cancellationToken)
         {
             // When a user submits a survey, their response choices will arrive in cardData.
             // Since the SurveyId was embedded in the button's AdaptiveSubmitAction.Data field,
@@ -195,6 +195,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 UserId = turnContext.Activity.From.Id,
                 UserName = turnContext.Activity.From.Name,
             });
+
+            return Task.CompletedTask;
         }
 
         protected override Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
