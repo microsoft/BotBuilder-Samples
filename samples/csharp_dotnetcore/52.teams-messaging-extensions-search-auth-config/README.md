@@ -2,7 +2,7 @@
 
 Bot Framework v4 Teams Messaging Extensions Search with Auth and Config sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results. The sample also incorporates auth and config.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results.  The sample also incorporates auth and config via Messaging Extension.
 
 ## Prerequisites
 
@@ -42,11 +42,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ## Testing the bot using Teams
 
 1) run ngrok - point to port 3978
-1) create bot framework registration - using ngrok URL
-1) update your manifest.json to include the app id from bot framework
-1) zip up teams-manifest folder to create a manifest.zip
-1) upload manifest.zip to teams (from Apps view click "Upload a custom app")
-1) pick your bot from the compose command menu
+2) add the ngrok url to appsettings.json - SiteUrl
+3) create bot framework registration - using ngrok URL
+4) add MicrosoftAppId and MicrosoftAppPassword values to appsettings.json
+5) add an AAD V2 OAuth Connection Setting 
+scopes: email Mail.Read User.Read openid profile User.ReadBasic.All Mail.Send.Shared 
+(see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
+6) add AAD ConnectionName to appsettings.json
+7) update your manifest.json to include the app id from bot framework
+8) zip up teams-manifest folder to create a manifest.zip
+9) upload manifest.zip to teams (from Apps view click "Upload a custom app")
+10) pick your bot from the compose command menu
 
 ## Deploy the bot to Azure
 
