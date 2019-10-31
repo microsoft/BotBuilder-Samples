@@ -48,7 +48,7 @@ namespace $safeprojectname$
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             app.UseMvc();
         }
     }
