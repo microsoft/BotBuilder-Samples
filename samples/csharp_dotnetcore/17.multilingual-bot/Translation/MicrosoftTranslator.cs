@@ -47,7 +47,10 @@ namespace Microsoft.BotBuilderSamples.Translation
 
                 var response = await _client.SendAsync(request, cancellationToken);
 
-                response.EnsureSuccessStatusCode();
+                if (!response.IsSuccessStatusCode)
+                {
+                    throw new Exception($"The call to the translation service returned HTTP status code {response.StatusCode}.");
+                }
 
                 var responseBody = await response.Content.ReadAsStringAsync();
                 var result = JsonConvert.DeserializeObject<TranslatorResponse[]>(responseBody);
