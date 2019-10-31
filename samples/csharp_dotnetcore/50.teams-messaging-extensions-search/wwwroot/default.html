@@ -351,41 +351,12 @@
                 height: 110px;
                 width: 110px;
             }
-
-            .how-to-iframe {
-                max-width: 480px !important;
-                min-width: 400px !important;
-                height: 650px !important;
-                overflow: hidden;
-            }
         }
 
         .remove-frame-height {
             max-height: 10px;
         }
     </style>
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            loadFrame();
-        });
-        var loadFrame = function () {
-            var iframe = document.createElement('iframe');
-            iframe.setAttribute("id", "iframe");
-            var offLineHTMLContent = "";
-            var frameElement = document.getElementById("how-to-iframe");
-            if (window.navigator.onLine) {
-                iframe.src = 'https://docs.botframework.com/static/abs/pages/f5.htm';
-                iframe.setAttribute("scrolling", "no");
-                iframe.setAttribute("frameborder", "0");
-                iframe.setAttribute("width", "100%");
-                iframe.setAttribute("height", "100%");
-                var frameDiv = document.getElementById("how-to-iframe");
-                frameDiv.appendChild(iframe);
-            } else {
-                frameElement.classList.add("remove-frame-height");
-            }
-        };
-    </script>
 </head>
 
 <body>

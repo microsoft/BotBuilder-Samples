@@ -6,7 +6,6 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
@@ -80,9 +79,9 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            foreach (var member in membersAdded)
+            foreach (var teamMember in membersAdded)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {member.Id}."), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
             }
         }
 
@@ -93,11 +92,12 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
             var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
             var serviceUrl = turnContext.Activity.ServiceUrl;
             var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
             ConversationReference conversationReference = null;
+
+            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
 
             foreach (var teamMember in members)
             {
@@ -111,7 +111,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     TenantId = turnContext.Activity.Conversation.TenantId,
                 };
 
-
                 await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
                     teamsChannelId,
                     serviceUrl,
@@ -123,18 +122,16 @@ namespace Microsoft.BotBuilderSamples.Bots
                         await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
                             _appId,
                             conversationReference,
-                                async (t2, c2) =>
-                                {
-                                    await t2.SendActivityAsync(proactiveMessage, c2);
-                                },
+                            async (t2, c2) =>
+                            {
+                                await t2.SendActivityAsync(proactiveMessage, c2);
+                            },
                             cancellationToken);
                     },
                     cancellationToken);
-
-                
             }
 
-            await turnContext.SendActivityAsync(MessageFactory.Text("All members have been messaged"), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text("All messages have been sent."), cancellationToken);
         }
 
         private async Task UpdateCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

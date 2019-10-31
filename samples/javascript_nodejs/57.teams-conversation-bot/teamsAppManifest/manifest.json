@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0.0",
-  "id": "<<YOUR-MICROSOFT-BOT-ID>>",
+  "id": "<YOUR-BOT-ID>",
   "packageName": "com.teams.sample.teamsconversationbot",
   "developer": {
     "name": "teamsConversationBot",
@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://www.teams.com/termsofuser"
   },
   "icons": {
-    "color": "color.png",
-    "outline": "outline.png"
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
   },
   "name": {
     "short": "TeamsConversationBot",
@@ -25,7 +25,7 @@
   "accentColor": "#FFFFFF",
   "bots": [
     {
-      "botId": "<<YOUR-MICROSOFT-BOT-ID>>",
+      "botId": "<YOUR-BOT-ID>",
       "scopes": [
         "personal",
         "groupchat",
