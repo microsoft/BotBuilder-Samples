@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/4.Future/schemas/component.schema",
+    "title": "Microsoft Dialogs",
+    "description": "Union of components which implement the Dialog contract",
+    "$role": "unionType",
+    "oneOf": [
+        {
+            "type": "string"
+        }
+    ]
+}

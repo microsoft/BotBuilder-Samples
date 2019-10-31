@@ -1,0 +1,11 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/4.Future/schemas/component.schema",
+    "title": "Microsoft IRecognizer",
+    "description": "Union of components which implement the IRecognizer interface",
+    "$role": "unionType",
+    "oneOf": [
+        {
+            "type": "string"
+        }
+    ]
+}
