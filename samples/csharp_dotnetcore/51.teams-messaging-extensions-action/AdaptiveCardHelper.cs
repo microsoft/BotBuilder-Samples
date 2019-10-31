@@ -73,7 +73,7 @@ namespace Microsoft.BotBuilderSamples
                 },
             };
 
-            bodyElements.Add(new AdaptiveTextBlock { Separation = AdaptiveSeparationStyle.Strong, Separator = true });
+            bodyElements.Add(new AdaptiveTextBlock { Spacing = AdaptiveSpacing.Medium, Separator = true });
             
             var factSet = new AdaptiveFactSet { Facts = new List<AdaptiveFact>() };
             bodyElements.Add(factSet);
