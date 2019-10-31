@@ -232,7 +232,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
                 var answer = response.First();
 
-                if (answer.Context != null && answer.Context.Prompts.Count() > 0)
+                if (answer.Context != null && answer.Context.Prompts != null && answer.Context.Prompts.Count() > 0)
                 {
                     var dialogOptions = GetDialogOptionsValue(stepContext);
                     var qnaDialogResponseOptions = dialogOptions[QnADialogResponseOptions] as QnADialogResponseOptions;
