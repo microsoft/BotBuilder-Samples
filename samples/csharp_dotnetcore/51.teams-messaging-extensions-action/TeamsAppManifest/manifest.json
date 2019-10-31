@@ -28,41 +28,29 @@
       "botId": "<YOUR-BOT-ID>",
       "commands": [
         {
-          "id": "createSurvey",
+          "id": "createCard",
           "type": "action",
           "context": [ "compose" ],
-          "description": "Command to run action to create a Survey Card from Compose Box",
-          "title": "Create Survey Card",
+          "description": "Command to run action to create a Card from Compose Box",
+          "title": "Create Card",
           "parameters": [
             {
-              "name": "Question",
-              "title": "Question parameter",
-              "description": "Text for question in the Survey Card",
+              "name": "title",
+              "title": "Card title",
+              "description": "Title for the card",
+              "inputType": "text"
+            },
+            {
+              "name": "subTitle",
+              "title": "Subtitle",
+              "description": "Subtitle for the card",
+              "inputType": "text"
+            },
+            {
+              "name": "text",
+              "title": "Text",
+              "description": "Text for the card",
               "inputType": "textarea"
-            },
-            {
-              "name": "IsMultiSelect",
-              "title": "Multiselect parameter",
-              "description": "Check for Multiselect survey options",
-              "inputType": "toggle"
-            },
-            {
-              "name": "Option1",
-              "title": "Option 1",
-              "description": "Text for Option 1",
-              "inputType": "text"
-            },
-            {
-              "name": "Option2",
-              "title": "Option 2",
-              "description": "Text for Option 2",
-              "inputType": "text"
-            },
-            {
-              "name": "option3",
-              "title": "Option 3",
-              "description": "Text for Option 3",
-              "inputType": "text"
             }
           ]
         },
