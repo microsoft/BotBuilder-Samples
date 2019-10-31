@@ -85,7 +85,7 @@ namespace $ext_safeprojectname$.Tests.Dialogs
             // Act/Assert
             var reply = await testClient.SendActivityAsync<IMessageActivity>("hi");
             Assert.Equal("What can I help you with today?\nSay something like \"Book a flight from Paris to Berlin on March 22, 2020\"", reply.Text);
-         }
+        }
 
         [Theory]
         [InlineData("I want to book a flight", "BookFlight", "BookingDialog mock invoked", "I have you booked to Seattle from New York")]

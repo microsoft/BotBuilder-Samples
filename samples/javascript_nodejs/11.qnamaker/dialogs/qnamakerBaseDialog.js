@@ -59,7 +59,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
         var qnaMakerOptions = {
             scoreThreshold: DefaultThreshold,
             top: DefaultTopN,
-            context: null,
+            context: {},
             qnaId: -1
         };
 
@@ -83,7 +83,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
                     previousQnAId: prevQnAId
                 };
 
-                if (previousContextData[stepContext.context.activity.text.toLowerCase()] != null) {
+                if (previousContextData[stepContext.context.activity.text.toLowerCase()] !== null) {
                     qnaMakerOptions.qnaId = previousContextData[stepContext.context.activity.text.toLowerCase()];
                 }
             }
@@ -94,7 +94,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
 
         // Resetting previous query.
         dialogOptions[PreviousQnAId] = -1;
-        stepContext.activeDialog.state['options'] = dialogOptions;
+        stepContext.activeDialog.state.options = dialogOptions;
 
         // Take this value from GetAnswerResponse.
         var isActiveLearningEnabled = response.activeLearningEnabled;
@@ -165,7 +165,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
                 await stepContext.context.sendActivity(qnaDialogResponseOptions.cardNoMatchResponse);
                 return await stepContext.endDialog();
             } else {
-                return await stepContext.replaceDialog(QNAMAKER_DIALOG, stepContext.activeDialog.state['options']);
+                return await stepContext.replaceDialog(QNAMAKER_DIALOG, stepContext.activeDialog.state.options);
             }
         }
 
@@ -188,11 +188,10 @@ class QnAMakerBaseDialog extends ComponentDialog {
 
             if (answer.context != null && answer.context.prompts.length > 0) {
                 var dialogOptions = getDialogOptionsValue(stepContext);
-                var qnaDialogResponseOptions = dialogOptions[QnADialogResponseOptions];
 
                 var previousContextData = {};
 
-                if (dialogOptions[QnAContextData] != null) {
+                if (!!dialogOptions[QnAContextData]) {
                     previousContextData = dialogOptions[QnAContextData];
                 }
 
@@ -202,7 +201,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
 
                 dialogOptions[QnAContextData] = previousContextData;
                 dialogOptions[PreviousQnAId] = answer.id;
-                stepContext.activeDialog.state['options'] = dialogOptions;
+                stepContext.activeDialog.state.options = dialogOptions;
 
                 // Get multi-turn prompts card activity.
                 var message = QnACardBuilder.GetQnAPromptsCard(answer);
@@ -250,8 +249,8 @@ class QnAMakerBaseDialog extends ComponentDialog {
 function getDialogOptionsValue(dialogContext) {
     var dialogOptions = {};
 
-    if (dialogContext.activeDialog.state['options'] != null) {
-        dialogOptions = dialogContext.activeDialog.state['options'];
+    if (dialogContext.activeDialog.state.options !== null) {
+        dialogOptions = dialogContext.activeDialog.state.options;
     }
 
     return dialogOptions;

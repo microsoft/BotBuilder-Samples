@@ -10,6 +10,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
+using System.Collections.Concurrent;
+using Microsoft.BotBuilderSamples.Models;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -26,6 +28,10 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            
+            // Register a ConcurrentDictionary to store Surveys and Responses.
+            // In a production environment, this would be your favorite storage provider.
+            services.AddSingleton<ConcurrentDictionary<string,Survey>>();
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
@@ -49,7 +55,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
