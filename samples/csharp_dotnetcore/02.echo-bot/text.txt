@@ -1,8 +1,0 @@
-az deployment create --name "firstDeployment" --template-file "template-with-new-rg.json" --location "westus" --parameters appId="c048da4e-3e56-4f7f-85f4-c90aeb816a87" appSecret="AtLeastSixteenCharacters_0" botId="csharp-test-websockets" botSku=F0 newAppServicePlanName="csharptestwebsockets" newWebAppName="csharp-test-websockets" groupName="csharp-test-websockets" groupLocation="westus" newAppServicePlanLocation="westus"
-
-Deployment succeeded!
-
-
-az bot prepare-deploy --lang Csharp --code-dir "." --proj-file-path "EchoBot.csproj"
-
-az webapp deployment source config-zip --resource-group "csharp-test-websockets" --name "csharp-test-websockets" --src "02.echo-bot.zip"
