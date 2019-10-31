@@ -11,9 +11,6 @@ using Microsoft.Bot.Schema.Teams;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    /*
-     * This one exists in JS.
-     */
     public class LinkUnfurlingBot : TeamsActivityHandler
     {
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -23,7 +20,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 MessageFactory.Text("If you copy and paste a link from seattletimes.com the link will unfurl."), cancellationToken);
         }
 
-        protected override async Task<MessagingExtensionResponse> OnTeamsAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, AppBasedLinkQuery query, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionResponse> OnTeamsAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, AppBasedLinkQuery query, CancellationToken cancellationToken)
         {
             var heroCard = new ThumbnailCard
             {
@@ -35,7 +32,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var attachments = new MessagingExtensionAttachment(HeroCard.ContentType, null, heroCard);
             var result = new MessagingExtensionResult(AttachmentLayoutTypes.List, "result", new[] { attachments }, null, "test unfurl");
 
-            return new MessagingExtensionResponse(result);
+            return Task.FromResult(new MessagingExtensionResponse(result));
         }
     }
 }

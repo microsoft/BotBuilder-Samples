@@ -16,16 +16,14 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class TeamsFileBot : TeamsActivityHandler
+    public class TeamsFileUploadBot : TeamsActivityHandler
     {
-        /*
-         * You can install this bot at any scope. You can @mention the bot and it will present you with the file prompt. You can accept and 
-         * the file will be uploaded, or you can decline and it won't.
-         */
+        // You can install this bot at any scope. You can @mention the bot and it will present you with the file prompt. You can accept and 
+        // the file will be uploaded, or you can decline and it won't.
 
         private readonly IHttpClientFactory _clientFactory;
 
-        public TeamsFileBot(IHttpClientFactory clientFactory)
+        public TeamsFileUploadBot(IHttpClientFactory clientFactory)
         {
             _clientFactory = clientFactory;
         }
