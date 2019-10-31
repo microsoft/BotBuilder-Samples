@@ -12,18 +12,18 @@
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "dependencies": {
-        "botbuilder": "~4.5.1",
-        "botbuilder-dialogs": "~4.5.1",
-        "dotenv": "^8.0.0",
-        "restify": "~8.3.3"
+        "botbuilder": "~4.6.0",
+        "botbuilder-dialogs": "~4.6.0",
+        "dotenv": "^8.2.0",
+        "restify": "~8.4.0"
     },
     "devDependencies": {
-        "eslint": "^6.0.1",
-        "eslint-config-standard": "^13.0.1",
+        "eslint": "^6.6.0",
+        "eslint-config-standard": "^14.1.0",
         "eslint-plugin-import": "^2.18.2",
-        "eslint-plugin-node": "^9.1.0",
+        "eslint-plugin-node": "^10.0.0",
         "eslint-plugin-promise": "^4.2.1",
-        "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "~1.19.1"
+        "eslint-plugin-standard": "^4.0.1",
+        "nodemon": "~1.19.4"
     }
 }

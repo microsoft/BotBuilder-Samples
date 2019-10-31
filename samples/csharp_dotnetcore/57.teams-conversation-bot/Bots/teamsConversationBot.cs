@@ -6,20 +6,30 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
-using Microsoft.Bot.Connector;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsConversationBot : TeamsActivityHandler
     {
+        private string _appId;
+        private string _appPassword;
+
+        public TeamsConversationBot(IConfiguration config)
+        {
+            _appId = config["MicrosoftAppId"];
+            _appPassword = config["MicrosoftAppPassword"];
+        }
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             turnContext.Activity.RemoveRecipientMention();
 
-            switch (turnContext.Activity.Text)
+            switch (turnContext.Activity.Text.Trim())
             {
                 case "MentionMe":
                     await MentionActivityAsync(turnContext, cancellationToken);
@@ -67,19 +77,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        protected override async Task OnTeamsMembersAddedAsync(IList<ChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            foreach (var member in membersAdded)
+            foreach (var teamMember in membersAdded)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {member.Id}."), cancellationToken);
-            }
-        }
-
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var member in membersAdded)
-            {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the group chat {member.Id}."), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
             }
         }
 
@@ -90,47 +92,54 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
+            var serviceUrl = turnContext.Activity.ServiceUrl;
+            var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
+            ConversationReference conversationReference = null;
+
             var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
 
             foreach (var teamMember in members)
             {
-                var connector = turnContext.TurnState.Get<IConnectorClient>();
+                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.GivenName} {teamMember.Surname}. I'm a Teams conversation bot.");
 
-                var parameters = new ConversationParameters
+                var conversationParameters = new ConversationParameters
                 {
+                    IsGroup = false,
                     Bot = turnContext.Activity.Recipient,
                     Members = new ChannelAccount[] { teamMember },
-                    ChannelData = new TeamsChannelData
+                    TenantId = turnContext.Activity.Conversation.TenantId,
+                };
+
+                await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
+                    teamsChannelId,
+                    serviceUrl,
+                    credentials,
+                    conversationParameters,
+                    async (t1, c1) =>
                     {
-                        Tenant = new TenantInfo
-                        {
-                            Id = turnContext.Activity.Conversation.TenantId,
-                        }
+                        conversationReference = t1.Activity.GetConversationReference();
+                        await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+                            _appId,
+                            conversationReference,
+                            async (t2, c2) =>
+                            {
+                                await t2.SendActivityAsync(proactiveMessage, c2);
+                            },
+                            cancellationToken);
                     },
-                };
-
-                var converationReference = await connector.Conversations.CreateConversationAsync(parameters);
-
-                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.Name}. I'm a Teams conversation bot.");
-                proactiveMessage.From = turnContext.Activity.Recipient;
-                proactiveMessage.Conversation = new ConversationAccount
-                {
-                    Id = converationReference.Id.ToString(),
-                };
-
-                await connector.Conversations.SendToConversationAsync(proactiveMessage, cancellationToken);
+                    cancellationToken);
             }
 
-            await turnContext.SendActivityAsync(MessageFactory.Text("All members have been messaged"), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Text("All messages have been sent."), cancellationToken);
         }
 
         private async Task UpdateCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var data = turnContext.Activity.Value as JObject;
             data["count"] = data["count"].Value<int>() + 1;
-
             data = JObject.FromObject(data);
-            
+
             var card = new HeroCard
             {
                 Title = "Welcome Card",
@@ -160,9 +169,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
 
             var updatedActivity = MessageFactory.Attachment(card.ToAttachment());
-
             updatedActivity.Id = turnContext.Activity.ReplyToId;
-            
             await turnContext.UpdateActivityAsync(updatedActivity, cancellationToken);            
         }
 

@@ -77,7 +77,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
             var qnaMakerOptions = new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
-                Top = DefaultTopN
+                Top = DefaultTopN,
+                Context = new QnARequestContext()
             };
 
             var dialogOptions = GetDialogOptionsValue(stepContext);
@@ -113,7 +114,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                             PreviousQnAId = previousQnAId
                         };
 
-                        if (previousContextData.TryGetValue(stepContext.Context.Activity.Text, out var currentQnAId))
+                        if (previousContextData.TryGetValue(stepContext.Context.Activity.Text.ToLower(), out var currentQnAId))
                         {
                             qnaMakerOptions.QnAId = currentQnAId;
                         }
@@ -242,7 +243,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
                     foreach (var prompt in answer.Context.Prompts)
                     {
-                        previousContextData.Add(prompt.DisplayText, prompt.QnaId);
+                        previousContextData.Add(prompt.DisplayText.ToLower(), prompt.QnaId);
                     }
 
                     dialogOptions[QnAContextData] = previousContextData;
@@ -250,7 +251,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                     stepContext.ActiveDialog.State["options"] = dialogOptions;
 
                     // Get multi-turn prompts card activity.
-                    var message = QnACardBuilder.GetQnAPromptsCard(answer);
+                    var message = QnACardBuilder.GetQnAPromptsCard(answer, qnaDialogResponseOptions.CardNoMatchText);
                     await stepContext.Context.SendActivityAsync(message).ConfigureAwait(false);
 
                     return new DialogTurnResult(DialogTurnStatus.Waiting);

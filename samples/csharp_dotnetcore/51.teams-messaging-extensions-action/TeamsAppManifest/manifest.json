@@ -2,60 +2,55 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0",
-  "id": "<<YOUR_GENERATED_APP_GUID>>",
-  "packageName": "com.microsoft.teams.samples.v4bot",
+  "id": "<YOUR-BOT-ID>",
+  "packageName": "com.microsoft.teams.samples",
   "developer": {
-    "name": "Microsoft Corp",
-    "websiteUrl": "https://example.azurewebsites.net",
-    "privacyUrl": "https://example.azurewebsites.net/privacy",
-    "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+    "name": "Microsoft",
+    "websiteUrl": "https://dev.botframework.com",
+    "privacyUrl": "https://privacy.microsoft.com",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx"
   },
   "name": {
-    "short": "ActionBasedMEBot-CSharp",
-    "full": "Microsoft Teams V4 Action Messaging Extension Bot - C#"
+    "short": "Action Messaging Extension",
+    "full": "Microsoft Teams Action Based Messaging Extension"
   },
   "description": {
-    "short": "Microsoft Teams V4 Action Messaging Extension Bot - C#",
-    "full": "Sample Action Messaging Extension Bot using V4 Bot Builder SDK and V4 Microsoft Teams Extension SDK"
+    "short": "Sample demonstrating an Action Based Messaging Extension",
+    "full": "Sample Action Messaging Extension built with the Bot Builder SDK"
   },
   "icons": {
     "outline": "icon-outline.png",
     "color": "icon-color.png"
   },
-  "accentColor": "#0080FF",
-  "bots": [
-    {
-      "botId": "<<YOUR_BOTS_MSA_APP_ID>>",
-      "scopes": [ "personal", "team" ]
-    }
-  ],
+  "accentColor": "#FFFFFF",
   "composeExtensions": [
     {
-      "botId": "<<YOUR_BOTS_MSA_APP_ID>>",
+      "botId": "<YOUR-BOT-ID>",
       "commands": [
         {
           "id": "createCard",
           "type": "action",
-          "description": "Test command to run action to create a card from Compose Box or Command Bar",
-          "title": "Create card with params from manifest",
+          "context": [ "compose" ],
+          "description": "Command to run action to create a Card from Compose Box",
+          "title": "Create Card",
           "parameters": [
             {
               "name": "title",
-              "title": "Title parameter",
-              "description": "Text for title in Hero Card",
-              "type": "text"
+              "title": "Card title",
+              "description": "Title for the card",
+              "inputType": "text"
             },
             {
-              "name": "subtitle",
-              "title": "Subtitle parameter",
-              "description": "Text for subtitle in Hero Card",
-              "type": "text"
+              "name": "subTitle",
+              "title": "Subtitle",
+              "description": "Subtitle for the card",
+              "inputType": "text"
             },
             {
               "name": "text",
-              "title": "Body text",
-              "description": "Text for body in Hero Card",
-              "type": "text"
+              "title": "Text",
+              "description": "Text for the card",
+              "inputType": "textarea"
             }
           ]
         },
@@ -77,9 +72,7 @@
       ]
     }
   ],
-  "validDomains": [
-    "*.ngrok.io",
-    "*.azurewebsites.net",
-    "*.example.com"
+  "permissions": [
+    "identity"
   ]
 }

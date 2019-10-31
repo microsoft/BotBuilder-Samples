@@ -65,7 +65,8 @@ class RootDialog extends ComponentDialog {
         // Set values for generate answer options.
         var qnamakerOptions = {
             scoreThreshold: DefaultThreshold,
-            top: DefaultTopN
+            top: DefaultTopN,
+            context: {}
         };
 
         // Set values for dialog responses.

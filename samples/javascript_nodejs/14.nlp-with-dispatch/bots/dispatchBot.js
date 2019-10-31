@@ -8,7 +8,7 @@ class DispatchBot extends ActivityHandler {
     constructor() {
         super();
 
-        // If the includeApiResults parameter is set to true, as shown below, the full response 
+        // If the includeApiResults parameter is set to true, as shown below, the full response
         // from the LUIS api will be made available in the properties  of the RecognizerResult
         const dispatchRecognizer = new LuisRecognizer({
             applicationId: process.env.LuisAppId,
