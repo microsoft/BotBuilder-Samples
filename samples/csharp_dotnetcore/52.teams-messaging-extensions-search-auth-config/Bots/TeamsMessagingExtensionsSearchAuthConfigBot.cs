@@ -239,9 +239,9 @@ namespace Microsoft.BotBuilderSamples.Bots
             return Task.FromResult(new MessagingExtensionActionResponse());
         }
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
-            if (query.CommandId.ToUpper() == "SIGNOUTCOMMAND")
+            if (action.CommandId.ToUpper() == "SIGNOUTCOMMAND")
             {
                 await (turnContext.Adapter as IUserTokenProvider).SignOutUserAsync(turnContext, _connectionName, turnContext.Activity.From.Id, cancellationToken);
 

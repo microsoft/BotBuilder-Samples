@@ -9,6 +9,7 @@
     <PackageReference Include="AdaptiveCards" Version="1.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0" />
+    <PackageReference Include="Microsoft.Graph" Version="1.19.0" />
   </ItemGroup>
 
   <ItemGroup>

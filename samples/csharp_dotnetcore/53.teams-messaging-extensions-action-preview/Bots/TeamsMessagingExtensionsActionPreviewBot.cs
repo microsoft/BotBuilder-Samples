@@ -32,11 +32,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             var adaptiveCardEditor = AdaptiveCardHelper.CreateAdaptiveCardEditor();
 
-            return new MessagingExtensionActionResponse
+            return Task.FromResult(new MessagingExtensionActionResponse
             {
                 Task = new TaskModuleContinueResponse
                 {
@@ -52,10 +52,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Title = "Task Module Fetch Example",
                     },
                 },
-            };
+            });
         }
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             var exampleData = JsonConvert.DeserializeObject<ExampleData>(action.Data.ToString());
 
@@ -93,7 +93,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // (3) start a preview flow
 
-            return new MessagingExtensionActionResponse
+            return Task.FromResult(new MessagingExtensionActionResponse
             {
                 ComposeExtension = new MessagingExtensionResult
                 {
@@ -104,10 +104,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                         ContentType = AdaptiveCard.ContentType,
                     }) as Activity,
                 },
-            };
+            });
         }
 
-        protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionBotMessagePreviewEditAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionBotMessagePreviewEditAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             // The data has been returned to the bot in the action structure.
             var activityPreview = action.BotActivityPreview[0];
@@ -118,7 +118,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // This is a preview edit call and so this time we want to re-create the adaptive card editor.
             var adaptiveCardEditor = AdaptiveCardHelper.CreateAdaptiveCardEditor(exampleData);
 
-            return new MessagingExtensionActionResponse
+            return Task.FromResult(new MessagingExtensionActionResponse
             {
                 Task = new TaskModuleContinueResponse
                 {
@@ -134,7 +134,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Title = "Task Module Fetch Example",
                     },
                 },
-            };
+            });
         }
 
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionBotMessagePreviewSendAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)

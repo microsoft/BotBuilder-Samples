@@ -45,9 +45,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await response.Content.CopyToAsync(fileStream);
                 }
 
-                var reply = ((Activity)turnContext.Activity).CreateReply();
+                var reply = MessageFactory.Text($"Complete downloading <b>{file.Name}</b>");
                 reply.TextFormat = "xml";
-                reply.Text = $"Complete downloading <b>{file.Name}</b>";
                 await turnContext.SendActivityAsync(reply, cancellationToken);
             }
             else
@@ -83,7 +82,6 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             var replyActivity = turnContext.Activity.CreateReply();
             replyActivity.Attachments = new List<Attachment>() { asAttachment };
-
             await turnContext.SendActivityAsync(replyActivity, cancellationToken);
         }
 
@@ -116,9 +114,8 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             JToken context = JObject.FromObject(fileConsentCardResponse.Context);
 
-            var reply = ((Activity)turnContext.Activity).CreateReply();
+            var reply = MessageFactory.Text($"Declined. We won't upload file <b>{context["filename"]}</b>.");
             reply.TextFormat = "xml";
-            reply.Text = $"Declined. We won't upload file <b>{context["filename"]}</b>.";
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
 
@@ -138,9 +135,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 ContentUrl = fileConsentCardResponse.UploadInfo.ContentUrl,
             };
 
-            var reply = turnContext.Activity.CreateReply();
+            var reply = MessageFactory.Text($"<b>File uploaded.</b> Your file <b>{fileConsentCardResponse.UploadInfo.Name}</b> is ready to download");
             reply.TextFormat = "xml";
-            reply.Text = $"<b>File uploaded.</b> Your file <b>{fileConsentCardResponse.UploadInfo.Name}</b> is ready to download";
             reply.Attachments = new List<Attachment> { asAttachment };
 
             await turnContext.SendActivityAsync(reply, cancellationToken);
@@ -148,9 +144,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task FileUploadFailedAsync(ITurnContext turnContext, string error, CancellationToken cancellationToken)
         {
-            var reply = turnContext.Activity.CreateReply();
+            var reply = MessageFactory.Text($"<b>File upload failed.</b> Error: <pre>{error}</pre>");
             reply.TextFormat = "xml";
-            reply.Text = $"<b>File upload failed.</b> Error: <pre>{error}</pre>";
             await turnContext.SendActivityAsync(reply, cancellationToken);
         }
     }
