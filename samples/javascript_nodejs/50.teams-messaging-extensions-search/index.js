@@ -26,26 +26,21 @@ const adapter = new BotFrameworkAdapter({
 });
 
 adapter.onTurnError = async (context, error) => {
-    // Create a trace activity that contains the error object
-    const traceActivity = {
-        type: ActivityTypes.Trace,
-        timestamp: new Date(),
-        name: 'onTurnError Trace',
-        label: 'TurnError',
-        value: `${ error }`,
-        valueType: 'https://www.botframework.com/schemas/error'
-    };
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
-    await context.sendActivity(traceActivity);
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
 
-    // Send a message to the user
-    await context.sendActivity(`The bot encounted an error or bug.`);
-    await context.sendActivity(`To continue to run this bot, please fix the bot source code.`);
+    // Note: Since this Messaging Extension does not have the messageTeamMembers permission
+    // in the manifest, the bot will not be allowed to message users.
 };
 
 // Create the bot that will handle incoming messages.
