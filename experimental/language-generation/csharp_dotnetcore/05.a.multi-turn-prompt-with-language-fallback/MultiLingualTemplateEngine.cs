@@ -1,4 +1,4 @@
-// Licensed under the MIT License.
+﻿// Licensed under the MIT License.
 // Copyright (c) Microsoft Corporation. All rights reserved.
 
 using System.Collections.Generic;
@@ -8,6 +8,7 @@ using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.Activi
 using System;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 
 namespace Microsoft.BotBuilderSamples
 {

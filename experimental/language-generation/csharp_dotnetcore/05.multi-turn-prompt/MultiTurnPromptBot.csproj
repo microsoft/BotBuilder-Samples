@@ -22,7 +22,6 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-preview2" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview2" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-preview2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-preview-191009-2" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-preview2" />
   </ItemGroup>
 
