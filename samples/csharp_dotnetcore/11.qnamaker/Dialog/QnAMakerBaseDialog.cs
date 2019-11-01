@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.Utils;
 
 namespace Microsoft.BotBuilderSamples.Dialog
@@ -231,7 +232,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
                 var answer = response.First();
 
-                if (answer.Context != null && answer.Context.Prompts.Count() > 0)
+                if (answer.Context != null && answer.Context.Prompts != null && answer.Context.Prompts.Count() > 0)
                 {
                     var dialogOptions = GetDialogOptionsValue(stepContext);
                     var qnaDialogResponseOptions = dialogOptions[QnADialogResponseOptions] as QnADialogResponseOptions;
@@ -251,7 +252,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                     stepContext.ActiveDialog.State["options"] = dialogOptions;
 
                     // Get multi-turn prompts card activity.
-                    var message = QnACardBuilder.GetQnAPromptsCard(answer, qnaDialogResponseOptions.CardNoMatchText);
+                    var message = GetQnAPromptsCardWithoutNoMatch(answer);
                     await stepContext.Context.SendActivityAsync(message).ConfigureAwait(false);
 
                     return new DialogTurnResult(DialogTurnStatus.Waiting);
@@ -291,6 +292,48 @@ namespace Microsoft.BotBuilderSamples.Dialog
             }
 
             return await stepContext.EndDialogAsync().ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Get multi-turn prompts card.
+        /// </summary>
+        /// <param name="result">Result to be dispalyed as prompts.</param>
+        /// <returns>IMessageActivity.</returns>
+        private static IMessageActivity GetQnAPromptsCardWithoutNoMatch(QueryResult result)
+        {
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+
+            var chatActivity = Activity.CreateMessageActivity();
+            var buttonList = new List<CardAction>();
+
+            // Add all prompt
+            foreach (var prompt in result.Context.Prompts)
+            {
+                buttonList.Add(
+                    new CardAction()
+                    {
+                        Value = prompt.DisplayText,
+                        Type = "imBack",
+                        Title = prompt.DisplayText,
+                    });
+            }
+
+            var plCard = new HeroCard()
+            {
+                Text = result.Answer,
+                Subtitle = string.Empty,
+                Buttons = buttonList
+            };
+
+            // Create the attachment.
+            var attachment = plCard.ToAttachment();
+
+            chatActivity.Attachments.Add(attachment);
+
+            return chatActivity;
         }
     }
 }
