@@ -109,12 +109,12 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> GetToDoTitleToDelete(DialogContext dc, System.Object options)
         {
             // Demonstrates using a custom code step to extract entities and set them in state.
-            var todoList = dc.State.GetValue<string[]>("user.todos");
+            var todoList = dc.GetState().GetValue<string[]>("user.todos");
             string todoTitleStr = null;
             string[] todoTitle;
             // By default, recognized intents from a recognizer are available under turn.intents scope. 
             // Recognized entities are available under turn.entities scope. 
-            dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
+            dc.GetState().TryGetValue("turn.entities.todoTitle", out todoTitle);
             if (todoTitle != null && todoTitle.Length != 0)
             {
                 if (Array.Exists(todoList, e => e == todoTitle[0])) {
@@ -124,7 +124,7 @@ namespace Microsoft.BotBuilderSamples
             if (todoTitleStr != null)
             {
                 // Set the todo title in turn.todoTitle scope.
-                dc.State.SetValue("turn.todoTitle", todoTitleStr);
+                dc.GetState().SetValue("turn.todoTitle", todoTitleStr);
             }
             return new DialogTurnResult(DialogTurnStatus.Complete, options);
         }
