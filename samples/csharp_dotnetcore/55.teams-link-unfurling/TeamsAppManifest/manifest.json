@@ -16,28 +16,22 @@
   },
   "name": {
     "short": "Link Unfurling",
-    "full": "Link Unfurling"
+    "full": "Link Unfurling Sample"
   },
   "description": {
-    "short": "Link Unfurling",
-    "full": "Link Unfurling"
+    "short": "Link Unfurling sample",
+    "full": "This sample demonstrates Link Unfurling for *.BotFramework.com urls."
   },
   "accentColor": "#FFFFFF",
-  "bots": [
-    {
-      "botId": "<<YOUR-MICROSOFT-BOT-ID>>",
-      "scopes": [ "personal", "team" ]
-    }
-  ],
   "composeExtensions": [
     {
       "botId": "<<YOUR-MICROSOFT-BOT-ID>>",
       "commands": [
         {
           "id": "searchQuery",
-          "context": [ "compose", "commandBox" ],
+          "context": [ "commandBox" ],
           "description": "Test command to run query",
-          "title": "Search",
+          "title": "Search Command",
           "type": "query",
           "parameters": [
             {
@@ -54,7 +48,7 @@
           "type": "link",
           "value": {
             "domains": [
-              "seattletimes.com"
+              "*.botframework.com"
             ]
           }
         }

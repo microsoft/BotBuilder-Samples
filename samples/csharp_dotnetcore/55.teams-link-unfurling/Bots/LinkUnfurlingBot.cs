@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,13 +14,6 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class LinkUnfurlingBot : TeamsActivityHandler
     {
-        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            await turnContext.SendActivityAsync(MessageFactory.Text($"echo: {turnContext.Activity.Text}"), cancellationToken);
-            await turnContext.SendActivityAsync(
-                MessageFactory.Text("If you copy and paste a link from seattletimes.com the link will unfurl."), cancellationToken);
-        }
-
         protected override Task<MessagingExtensionResponse> OnTeamsAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, AppBasedLinkQuery query, CancellationToken cancellationToken)
         {
             var heroCard = new ThumbnailCard
@@ -30,9 +24,48 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
 
             var attachments = new MessagingExtensionAttachment(HeroCard.ContentType, null, heroCard);
-            var result = new MessagingExtensionResult(AttachmentLayoutTypes.List, "result", new[] { attachments }, null, "test unfurl");
+            var result = new MessagingExtensionResult("list", "result", new[] { attachments });
 
             return Task.FromResult(new MessagingExtensionResponse(result));
+        }
+
+        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        {
+            //Note: The Teams manifest.json for this sample also inclues a Search Query, in order to enable installing from App Studio.
+
+            var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
+            switch (query.CommandId)
+            {
+                // These commandIds are defined in the Teams App Manifest.
+                case "searchQuery":
+                    var card = new HeroCard
+                    {
+                        Title = "This is a Link Unfurling Sample",
+                        Subtitle = "It will unfurl links from *.BotFramework.com",
+                        Text = "This sample demonstrates how to handle link unfurling in Teams.  Please review the readme for more information.",
+                    };
+
+                    return new MessagingExtensionResponse
+                    {
+                        ComposeExtension = new MessagingExtensionResult
+                        {
+                            AttachmentLayout = "list",
+                            Type = "result",
+                            Attachments = new List<MessagingExtensionAttachment>
+                            {
+                                new MessagingExtensionAttachment
+                                {
+                                    Content = card,
+                                    ContentType = HeroCard.ContentType,
+                                    Preview = card.ToAttachment(),
+                                },
+                            },
+                        },
+                    };
+
+                default:
+                    throw new NotImplementedException($"Invalid CommandId: {query.CommandId}");
+            }
         }
     }
 }

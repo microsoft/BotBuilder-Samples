@@ -86,14 +86,12 @@ ngrok http -host-header=rewrite 3978
 - Click the ```Manifest editor``` tab
 - Click ```Import an existing app```
 - Navigate to and select the `manifest.json` file from the previous step
-- Click on the `TeamsConversationBot` card
+- Click on the `Link Unfurling` card
 - Click ```Test and distribute``` on the left hand side
 - Click the ```Install``` button
 
-| To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
-|:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
-
 ### Interacting with the bot
 
-If you copy and paste a link from https://www.seattletimes.com into the compose message area the link will unfurl. 
+If you copy and paste a link from https://www.BotFramework.com into the compose message area the link will unfurl. 
+
+Note: The Teams manifest.json for this sample also inclues a Search Query, in order to enable installing from App Studio.
