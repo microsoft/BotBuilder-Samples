@@ -88,4 +88,4 @@ ngrok http -host-header=rewrite 3978
 
 ### Interacting with the bot
 
-You can interact with this bot by sending it a message. The bot will respond to the following strings. The bot will display a Hero Card with a button which will display a Task Module when clicked.  The Task Module demonstrates retrieving input from a user through a Text Block and a Submit button.
+You can interact with this bot by sending it a message. The bot will respond with a Hero Card with a button which will display a Task Module when clicked.  The Task Module demonstrates retrieving input from a user through a Text Block and a Submit button.
