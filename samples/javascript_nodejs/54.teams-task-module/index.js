@@ -10,8 +10,6 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
-const { ActivityTypes } = require('botbuilder-core');
-
 const { TeamsTaskModuleBot } = require('./bots/teamsTaskModuleBot');
 
 // Read botFilePath and botFileSecret from .env file.
@@ -39,8 +37,9 @@ adapter.onTurnError = async (context, error) => {
         'TurnError'
     );
 
-    // Note: Since this Messaging Extension does not have the messageTeamMembers permission
-    // in the manifest, the bot will not be allowed to message users.
+    // Send a message to the user
+    await context.sendActivity('The bot encounted an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
 // Create the bot that will handle incoming messages.
