@@ -3,80 +3,64 @@
 Bot Framework v4 file upload bot sample for Teams.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to
-upload files to Teams from a bot and how to receive a file send to a bot as an attachment.
+upload files to Teams from a bot and how to receive a file sent to a bot as an attachment.
 
 ## Prerequisites
 
-- Node
 - Microsoft Teams is installed and you have an account
+- [NodeJS](https://nodejs.org/en/)
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-### Ngrok
-- Download and install [ngrok](https://ngrok.com/download)
-- In terminal navigate to where ngrok is installed and run: 
-
-```bash
-ngrok http -host-header=rewrite 3978
-```
-- Copy/paste the ```https``` web address into notepad as you will need it later
-
-### Microsoft Teams Setup
-- Launch Microsoft Teams. In the search bar at the top of Teams search for and select ```App Studio```.
-- Click the ```Manifest editor``` tab near the top of the screen.
-- Click the ```Create a new app``` button on the left hand side.
-- Under the ```Details``` section fill in the following fields 
-  - In the Short name field enter ```EchoBot```
-  - Click the ```Generate``` button under App ID 
-  - Package Name
-  - Version 
-  - Short description
-  - Long description
-  - Developer name
-  - Website 
-  - Privacy statement web address
-  - Terms of use web address
-- Under the ```Capabilities``` tab on the left hand side click the ```Bots``` tab
-- Click the ```Set up``` button
-- Under the ```New bot``` tab Fill in the following fields
-  - Put ```TeamsConversationBot``` into the Name field
-  - Under ```Scope``` check all 3 boxes ```Personal```, ```Team```, ```Group Chat```
-  - Click the ```Create bot``` button
-- Copy the Bot ID (string under ```TeamsConversationBot```) and paste it into notepad as you will need it later
-- Click the ```Generate new password``` button (copy/paste) the password into notepad as you will need it later)
-- Under Messaging endpoint paste the https ngrok url and add ```/api/messages``` to the end
-  - EX: ```https://ca7f8a7e.ngrok.io/api/messages```
-- Press Enter to save the address
-
-### Bot Setup
-- Clone the repository
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
-- Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save
+1) In a terminal, navigate to `samples/javascript_nodejs/56.teams-file-upload`
 
-- Run the bot from a terminal.
+1) Install modules
 
-  ```bash
-  # run the bot
-  node index.js
-  ```
+    ```bash
+    npm install
+    ```
 
-### Finishing Teams Setup
-- Back in Teams click ```Test and distribute``` on the left hand side under ```Finish``` section
-- Click the ```Install``` button
+1) Run ngrok - point to port 3978
 
-| To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
-|:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
+1) Create [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework), using the current https URL you were given by running ngrok.
 
-### Interacting with the bot
+1) Update the `.env` configuration for the bot to use the app id and app password from the Bot Framework registration. (Note the app password is referred to as the client secret in the azure portal and you can always create a new client secret anytime.)
 
-If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
+1) *This step is specific to Teams.* **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to include the app id from Bot Framework. **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`. **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-You can also send a file to the bot as an attachment in the message compose section in Teams.
+1) Run your bot at the command line:
+
+    ```bash
+    node index.js
+    ```
+
+Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
+
+## Interacting with the file upload bot
+
+Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
+
+You can also send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Create a bot for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+
+
