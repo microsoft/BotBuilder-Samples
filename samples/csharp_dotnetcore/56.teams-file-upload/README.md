@@ -1,8 +1,9 @@
-## TeamsFileUploadBot
+## Teams File Upload Bot
 
 Bot Framework v4 file upload bot sample for Teams.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to
+upload files to Teams from a bot and how to receive a file send to a bot as an attachment.
 
 ## Prerequisites
 
@@ -55,7 +56,7 @@ ngrok http -host-header=rewrite 3978
 
 ### Visual Studio
 - Launch Visual Studio
-- Navigate to and open the `samples/csharp_dotnet/56.teams-conversation-bot` directory
+- Navigate to and open the `samples/csharp_dotnet/56.teams-file-upload` directory
 - Open the ```appsettings.json``` file
 - Paste your botID value into the ```MicrosoftAppId``` field 
 - Put the password into the ```MicrosoftAppPassword``` field
@@ -76,8 +77,8 @@ ngrok http -host-header=rewrite 3978
   B) Or from Visual Studio
 
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/56.teams-conversation-bot` folder
-  - Select `TeamsConversationBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/56.teams-file-upload` folder
+  - Select `TeamsFileUpload.csproj` file
   - Press `F5` to run the project
 
 ### Teams - App Studio
@@ -86,7 +87,7 @@ ngrok http -host-header=rewrite 3978
 - Click the ```Manifest editor``` tab
 - Click ```Import an existing app```
 - Navigate to and select the `manifest.json` file from the previous step
-- Click on the `TeamsConversationBot` card
+- Click on the `TeamsFileUpload` card
 - Click ```Test and distribute``` on the left hand side
 - Click the ```Install``` button
 
@@ -97,4 +98,6 @@ ngrok http -host-header=rewrite 3978
 ### Interacting with the bot
 
 If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
+
+You can also send a file to the bot as an attachment in the message compose section in Teams.
 

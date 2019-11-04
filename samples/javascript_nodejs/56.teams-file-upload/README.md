@@ -1,17 +1,13 @@
-# TeamsConversationBot
+## Teams File Upload Bot
 
-Bot Framework v4 echo bot sample for Teams.
+Bot Framework v4 file upload bot sample for Teams.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to
+upload files to Teams from a bot and how to receive a file send to a bot as an attachment.
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+- Node
 - Microsoft Teams is installed and you have an account
 
 ## To try this sample
@@ -64,22 +60,12 @@ ngrok http -host-header=rewrite 3978
 - Put the password into the ```MicrosoftAppPassword``` field
 - Save
 
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
-
-  A) From a terminal
+- Run the bot from a terminal.
 
   ```bash
   # run the bot
-  dotnet run
+  node index.js
   ```
-
-  B) Or from Visual Studio
-
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
-  - Select `TeamsConversationBot.csproj` file
-  - Press `F5` to run the project
 
 ### Finishing Teams Setup
 - Back in Teams click ```Test and distribute``` on the left hand side under ```Finish``` section
@@ -91,17 +77,6 @@ ngrok http -host-header=rewrite 3978
 
 ### Interacting with the bot
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
+If you send a message to the bot it will respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. You can message the bot again to receive another prompt. 
 
-1. **Show Welcome**
-  - **Result:** The bot will send the welcome card for you to interact with
-  - **Valid Scopes:** personal, group chat, team chat
-2. **MentionMe**
-  - **Result:** The bot will respond to the message and mention the user
-  - **Valid Scopes:** personal, group chat, team chat
-3. **MessageAllMembers**
-  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
-  - **Valid Scopes:** personal, group chat, team chat
-
-You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
-
+You can also send a file to the bot as an attachment in the message compose section in Teams.
