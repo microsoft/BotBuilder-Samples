@@ -1,4 +1,4 @@
-﻿# TeamsMessagingExtensionsActionPreviewBot
+﻿# Teams Messaging Extensions Action Preview
 
 Bot Framework v4 Teams Messaging Extension Action Preview sample.
 
