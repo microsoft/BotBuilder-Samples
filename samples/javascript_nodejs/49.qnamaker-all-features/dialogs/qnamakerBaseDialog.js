@@ -82,7 +82,8 @@ class QnAMakerBaseDialog extends ComponentDialog {
                 qnaMakerOptions.context = {
                     previousQnAId: prevQnAId
                 };
-
+                
+                qnaMakerOptions.qnaId = 0;
                 if (previousContextData[stepContext.context.activity.text.toLowerCase()] !== null) {
                     qnaMakerOptions.qnaId = previousContextData[stepContext.context.activity.text.toLowerCase()];
                 }
