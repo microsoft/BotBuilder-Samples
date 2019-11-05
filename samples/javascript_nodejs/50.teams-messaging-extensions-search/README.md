@@ -1,104 +1,69 @@
-# TeamsConversationBot
+# Teams Messaging Extensions Search
 
-Bot Framework v4 Teams conversation bot sample for Teams.
+Messaging Extensions are a special kind of Microsoft Teams application that is support by the [Bot Framework](https://dev.botframework.com) v4.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+There are two basic types of Messaging Extension in Teams: search based and action based. This sample illustrates how to
+build a simple search based Messaging Extension.
 
 ## Prerequisites
 
-
-- [Node.js](https://nodejs.org) version 10.14 or higher
-
-    ```bash
-    # determine node version
-    node --version
-    ```
 - Microsoft Teams is installed and you have an account
+- [NodeJS](https://nodejs.org/en/)
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-### Clone the repo
-- Clone the repository
+> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+the Teams service needs to call into the bot.
+
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-### Ngrok
-- Download and install [ngrok](https://ngrok.com/download)
-- In terminal navigate to where ngrok is installed and run: 
+1) In a terminal, navigate to `samples/javascript_nodejs/50.teams-messaging-extensions-search`
 
-```bash
-ngrok http -host-header=rewrite 3978
-```
-- Copy/paste the ```https``` **NOT** the ```http``` web address into notepad as you will need it later
+1) Install modules
 
-### Creating the bot registration
-- Create a new bot [here](https://dev.botframework.com/bots/new)
-- Enter a```Display name``` and ```Bot handle```
-- In the ```Messaging endpoint``` enter the https address from Ngrok and add ```/api/messages``` to the end
-  - EX: ```https://7d899fbb.ngrok.io/api/messages``` 
-- Open the ```Create Microsoft App ID and password``` link in a new tab
-- Click on the ```New registration``` button 
-- Enter a name, and select the ```Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)```
-- Click ```Register```
-- Copy & paste the ```Application (client) ID``` field into notepad. This is your botID.
-- Click on ```Certificates & secrets``` tab on the left
-- Click ```New client secret```
-- Enter a name, select `Never`, and click ```Add```
-- Copy & paste the password into notepad. This is your app password.
-- Go back to the bot registration tab and enter the ```botID``` into the app ID field
-- Scroll down, agree to the Terms, and click ```Register```
-- Click the ```Microsoft Teams``` icon on the next screen
-- Click ```Save```
+    ```bash
+    npm install
+    ```
 
-### Visual Studio
-- Launch Visual Studio
-- Navigate to `samples/javascript_nodejs/50.teams-conversation-bot` and open the folder 
-- Open the ```.env``` file
-- Paste your botID value into the ```MicrosoftAppId``` field 
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save the file
-- Open the ```manifest.json``` file
-- Replace your botID everywhere you see the place holder string ```<<YOUR-MICROSOFT-BOT-ID>>```
+1) Run ngrok - point to port 3978
 
-- Run the bot from a terminal
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
+1) Create [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework), using the current https URL you were given by running ngrok. Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
 
-  ```bash
-  npm install
-  ```
-  
-  ```bash
-  npm start
-  ```
+1) Update the `.env` configuration for the bot to use the app id and app password from the Bot Framework registration. (Note the app password is referred to as the client secret in the azure portal and you can always create a new client secret anytime.)
 
-### Teams - App Studio
-- Launch Microsoft Teams
-- In the bar at the top of Teams search for and select ```App Studio``` 
-- Click the ```Manifest editor``` tab
-- Click ```Import an existing app```
-- Navigate to and select the `manifest.json` file from the previous step
-- Click on the `TeamsConversationBot` card
-- Click ```Test and distribute``` on the left hand side
-- Click the ```Install``` button
+1) *This step is specific to Teams.* **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your app if from Bot Framework everywhere you see the place holder string `<<YOUR-MICROSOFT-BOT-ID>>`.
+**Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`. **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-| To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
-|:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
+1) Run your bot at the command line:
 
-### Interacting with the bot
+    ```bash
+    npm start
+    ```
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
+## Interacting with the file upload bot
 
-1. **Show Welcome**
-  - **Result:** The bot will send the welcome card for you to interact with
-  - **Valid Scopes:** personal, group chat, team chat
-2. **MentionMe**
-  - **Result:** The bot will respond to the message and mention the user
-  - **Valid Scopes:** personal, group chat, team chat
-3. **MessageAllMembers**
-  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
-  - **Valid Scopes:** personal, group chat, team chat
+> Note this `manifest.json` specified that the feature will be available from both the `compose` and `commandBox` areas of Teams. Please refer to Teams documentation for more details.
 
-You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+In Teams, the command bar is located at the top of the window. When you at mention the bot what you type is forwarded (as you type) to the bot for processing. By way of illustration, this sample uses the text it receives to query the npmjs package store.
+
+There is a secondary, drill down, event illustrated in this sample: clicking on the results from the initial query will result in the bot receiving another event.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Create a bot for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 
