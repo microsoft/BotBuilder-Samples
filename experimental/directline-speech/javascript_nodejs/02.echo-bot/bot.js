@@ -8,7 +8,7 @@ class EchoBot extends ActivityHandler {
         super();
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            await context.sendActivity(this.speak(`You said '${ context.activity.text }'`));
+            await context.sendActivity(this.createActivityWithTextAndSpeak(`You said '${ context.activity.text }'`));
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
@@ -18,7 +18,7 @@ class EchoBot extends ActivityHandler {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; ++cnt) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    await context.sendActivity(this.speak('Hello and welcome!'));
+                    await context.sendActivity(this.createActivityWithTextAndSpeak('Hello and welcome!'));
                 }
             }
             // By calling next() you ensure that the next BotHandler is run.
@@ -26,7 +26,7 @@ class EchoBot extends ActivityHandler {
         });
     }
 
-    speak(text) {
+    createActivityWithTextAndSpeak(text) {
         const speak = `<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'><voice name='Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'>${text}</voice></speak>`;
         const activity = { text, speak };
         return activity;
