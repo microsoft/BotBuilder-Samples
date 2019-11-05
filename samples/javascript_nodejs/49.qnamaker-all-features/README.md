@@ -40,7 +40,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 - In a terminal, navigate to `samples/javascript_nodejs/49.qnamaker-all-features`
 
     ```bash
-    cd samples/javascript_nodejs/11.qnamaker
+    cd samples/javascript_nodejs/49.qnamaker-all-features
     ```
 
 - Install modules
