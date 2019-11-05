@@ -12,7 +12,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## To try this sample
 
-> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
 the Teams service needs to call into the bot.
 
 1) Clone the repository

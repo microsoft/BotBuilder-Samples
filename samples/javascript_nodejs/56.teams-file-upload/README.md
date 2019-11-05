@@ -13,7 +13,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 
 ## To try this sample
 
-> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
 the Teams service needs to call into the bot.
 
 1) Clone the repository
