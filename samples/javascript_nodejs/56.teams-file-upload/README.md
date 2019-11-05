@@ -13,6 +13,9 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 
 ## To try this sample
 
+> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+the Teams service needs to call into the bot.
+
 1) Clone the repository
 
     ```bash
@@ -45,9 +48,9 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
     npm start
     ```
 
-Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
-
 ## Interacting with the file upload bot
+
+> Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
 
 Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
 

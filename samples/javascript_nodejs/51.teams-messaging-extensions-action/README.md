@@ -1,94 +1,70 @@
-# TeamsMessagingExtensionsActionBot
+# Teams Messaging Extensions Action
 
-Bot Framework v4 Teams Messaging Extension Action sample.
+Messaging Extensions are a special kind of Microsoft Teams application that is support by the [Bot Framework](https://dev.botframework.com) v4.
 
-This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple Card based on parameters entered by the user, and how to Share a message through a Messaging Extension.
+There are two basic types of Messaging Extension in Teams: search based and action based. This sample illustrates how to
+build an action based Messaging Extension.
 
 ## Prerequisites
 
-
-- [Node.js](https://nodejs.org) version 10.14 or higher
-
-    ```bash
-    # determine node version
-    node --version
-    ```
 - Microsoft Teams is installed and you have an account
+- [NodeJS](https://nodejs.org/en/)
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-### Clone the repo
-- Clone the repository
+> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+the Teams service needs to call into the bot.
+
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-### Ngrok
-- Download and install [ngrok](https://ngrok.com/download)
-- In terminal navigate to where ngrok is installed and run: 
+1) In a terminal, navigate to `samples/javascript_nodejs/51.teams-messaging-extensions-action`
 
-```bash
-ngrok http -host-header=rewrite 3978
-```
-- Copy/paste the ```https``` **NOT** the ```http``` web address into notepad as you will need it later
+1) Install modules
 
-### Creating the bot registration
-- Create a new bot [here](https://dev.botframework.com/bots/new)
-- Enter a```Display name``` and ```Bot handle```
-- In the ```Messaging endpoint``` enter the https address from Ngrok and add ```/api/messages``` to the end
-  - EX: ```https://7d899fbb.ngrok.io/api/messages``` 
-- Open the ```Create Microsoft App ID and password``` link in a new tab
-- Click on the ```New registration``` button 
-- Enter a name, and select the ```Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)```
-- Click ```Register```
-- Copy & paste the ```Application (client) ID``` field into notepad. This is your botID.
-- Click on ```Certificates & secrets``` tab on the left
-- Click ```New client secret```
-- Enter a name, select `Never`, and click ```Add```
-- Copy & paste the password into notepad. This is your app password.
-- Go back to the bot registration tab and enter the ```botID``` into the app ID field
-- Scroll down, agree to the Terms, and click ```Register```
-- Click the ```Microsoft Teams``` icon on the next screen
-- Click ```Save```
+    ```bash
+    npm install
+    ```
 
-### Visual Studio Code
-- Launch Visual Studio Code
-- Navigate to and open the `samples/javascript_nodejs/51.teams-messaging-extensions-action` directory
-- Open the ```appsettings.json``` file
-- Paste your botID value into the ```MicrosoftAppId``` field 
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save the file
-- Open the ```manifest.json```
-- Replace your botID everywhere you see the place holder string ```<YOUR-BOT-ID>```
+1) Run ngrok - point to port 3978
 
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
+1) Create [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework), using the current https URL you were given by running ngrok.
 
-- Run the bot from a terminal
+1) Update the `.env` configuration for the bot to use the app id and app password from the Bot Framework registration. (Note the app password is referred to as the client secret in the azure portal and you can always create a new client secret anytime.)
 
-  ```bash
-  npm install
-  ```
-  
-  ```bash
-  npm start
-  ```
+1) *This step is specific to Teams.* **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your app if from Bot Framework everywhere you see the place holder string `<<YOUR-MICROSOFT-BOT-ID>>`.
+**Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`. **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-### Teams - App Studio
-- Launch Microsoft Teams
-- In the bar at the top of Teams search for and select ```App Studio``` 
-- Click the ```Manifest editor``` tab
-- Click ```Import an existing app```
-- Navigate to and select the `manifest.json` file from the previous step
-- Click on the `Action Messaging Extension` card
-- Click ```Test and distribute``` on the left hand side
-- Click the ```Install``` button
-- Click ```Add``` button
+1) Run your bot at the command line:
+
+    ```bash
+    npm start
+    ```
 
 ### Interacting with the Messaging Extension
 
-1. Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code. 
+> Note this `manifest.json` specified that the bot will be called from both the `compose` and `message` areas of Teams. Please refer to Teams documentation for more details.
+
+1) Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code. 
 
 or
 
-2. Selecting the **Share Message** command from the Message command list.  
+2) Selecting the **Share Message** command from the Message command list.  
 
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [Bot Framework Documentation](https://docs.botframework.com)
+- [Create a bot for Microsoft Teams](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
