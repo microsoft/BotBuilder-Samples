@@ -73,9 +73,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsConversationBot", "57.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileUpload", "56.teams-file-upload\TeamsFileUpload.csproj", "{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11a.qnamaker\QnABot.csproj", "{F15FCB75-8835-4E38-B978-2244F339EDDE}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAllFeatures", "49.qnamaker-all-features\QnABotAllFeatures.csproj", "{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -219,14 +219,14 @@ Global
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F15FCB75-8835-4E38-B978-2244F339EDDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F15FCB75-8835-4E38-B978-2244F339EDDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F15FCB75-8835-4E38-B978-2244F339EDDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F15FCB75-8835-4E38-B978-2244F339EDDE}.Release|Any CPU.Build.0 = Release|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
