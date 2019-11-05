@@ -79,7 +79,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
             {
                 ScoreThreshold = DefaultThreshold,
                 Top = DefaultTopN,
-                Context = new QnARequestContext()
+                Context = new QnARequestContext(),
+                QnAId = 0
             };
 
             var dialogOptions = GetDialogOptionsValue(stepContext);
@@ -115,6 +116,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                             PreviousQnAId = previousQnAId
                         };
 
+                        qnaMakerOptions.QnAId = 0;
                         if (previousContextData.TryGetValue(stepContext.Context.Activity.Text.ToLower(), out var currentQnAId))
                         {
                             qnaMakerOptions.QnAId = currentQnAId;
@@ -244,7 +246,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
                     foreach (var prompt in answer.Context.Prompts)
                     {
-                        previousContextData.Add(prompt.DisplayText.ToLower(), prompt.QnaId);
+                        previousContextData[prompt.DisplayText.ToLower()] = prompt.QnaId;
                     }
 
                     dialogOptions[QnAContextData] = previousContextData;
