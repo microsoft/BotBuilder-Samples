@@ -35,7 +35,7 @@ the Teams service needs to call into the bot.
     ngrok http -host-header=rewrite 3978
     ```
 
-5) Create [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework), using the current https URL you were given by running ngrok.  NOTE: this bot requires an **OAuth Connection Settings** which can only be added from the Azure Portal.
+5) Create [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework), using the current https URL you were given by running ngrok.  NOTE: this bot requires an **OAuth Connection Settings** which can only be added from the Azure Portal. Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
 
 6) Register an AADV2 application, and add it to the Bot Registration's **OAuth Connection Settings**. See [Add authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication) for more information.
 
