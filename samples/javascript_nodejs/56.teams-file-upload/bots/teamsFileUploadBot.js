@@ -20,7 +20,7 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
                 const response = await axios.get(file.content.downloadUrl, { responseType: 'stream' });
                 const filePath = path.join('Files', file.name);
                 response.data.pipe(fs.createWriteStream(filePath));
-                const reply = MessageFactory.text(`<b>${ file.Name }</b> received and saved.`);
+                const reply = MessageFactory.text(`<b>${ file.name }</b> received and saved.`);
                 reply.textFormat = 'xml';
                 await context.sendActivity(reply);
             } else {
