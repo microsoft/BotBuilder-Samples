@@ -1,6 +1,6 @@
 # Teams Search Auth Config Bot
 
-Bot Framework v4 sample for Teams expands the 50.teams-messaging-extensions-search sample to include a configuration page and Bot Service authentication.
+Bot Framework v4 sample for Teams expands the [50.teams-messaging-extensions-search](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/50.teams-messaging-extensions-search) sample to include a configuration page and Bot Service authentication.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension.
 
@@ -11,6 +11,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
+
+> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+the Teams service needs to call into the bot.
 
 1) Clone the repository
 
