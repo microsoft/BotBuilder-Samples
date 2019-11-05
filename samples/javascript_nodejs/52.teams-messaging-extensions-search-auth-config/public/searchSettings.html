@@ -19,11 +19,11 @@
             var urlParams = new URLSearchParams(window.location.search);
             var settings = urlParams.get('settings');
             if (settings) {
-                var checkboxes = document.getElementsByName("includeInSearch");
-                for (var i = 0; i < checkboxes.length; i++) {
-                    var thisCheckbox = checkboxes[i];
-                    if (settings.includes(thisCheckbox.value)) {
-                        checkboxes[i].checked = true;
+                var options = document.getElementsByName("includeInSearch");
+                for (var i = 0; i < options.length; i++) {
+                    var thisOption = options[i];
+                    if (settings.includes(thisOption.value)) {
+                        options[i].checked = true;
                     }
                 }
             }
@@ -38,11 +38,11 @@
         function onSubmit() {
             var newSettings = [];
 
-            var checkboxes = document.getElementsByName("includeInSearch");
+            var options = document.getElementsByName("includeInSearch");
 
-            for (var i = 0; i < checkboxes.length; i++) {
-                if (checkboxes[i].checked) {
-                    newSettings.push(checkboxes[i].value);
+            for (var i = 0; i < options.length; i++) {
+                if (options[i].checked) {
+                    newSettings.push(options[i].value);
                 }
             }
 
