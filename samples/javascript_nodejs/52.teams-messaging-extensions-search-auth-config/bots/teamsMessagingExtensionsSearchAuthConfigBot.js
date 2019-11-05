@@ -26,10 +26,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     async handleTeamsMessagingExtensionConfigurationQuerySettingUrl(context, query) {
         // The user has requested the Messaging Extension Configuration page settings url.
         const userSettings = await this.userConfigurationProperty.get(context, '');
-        let escapedSettings = '';
-        if (userSettings) {
-            escapedSettings = querystring.escape(userSettings);
-        }
+        const escapedSettings = userSettings ? querystring.escape(userSettings) : '';
 
         return {
             composeExtension: {
@@ -38,7 +35,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     actions: [
                         {
                             type: ActionTypes.OpenUrl,
-                            value: process.env.SiteUrl + '/public/searchSettings.html?settings=' + escapedSettings
+                            value: `${ process.env.SiteUrl }/public/searchSettings.html?settings=${ escapedSettings }`
                         }
                     ]
                 }
@@ -50,7 +47,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         // When the user submits the settings page, this event is fired.
         if (settings.state != null) {
             await this.userConfigurationProperty.set(context, settings.state);
-
             await this.userState.saveChanges(context, false);
         }
     }
@@ -58,16 +54,13 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     async handleTeamsMessagingExtensionQuery(context, query) {
         const searchQuery = query.parameters[0].value;
         const attachments = [];
-
         const userSettings = await this.userConfigurationProperty.get(context, '');
+
         if (userSettings && userSettings.includes('email')) {
             // When the Bot Service Auth flow completes, the query.State will contain a magic code used for verification.
-            let magicCode = '';
-            if (query.state && Number.isInteger(Number(query.state))) {
-                magicCode = query.state;
-            }
+            const magicCode = (query.state && Number.isInteger(Number(query.state))) ? query.state : '';
+            const tokenResponse = await context.adapter.getUserToken(context, this.connectionName, magicCode);
 
-            var tokenResponse = await context.adapter.getUserToken(context, this.connectionName, magicCode);
             if (!tokenResponse || !tokenResponse.token) {
                 // There is no token, so the user has not signed in yet.
 
@@ -90,21 +83,16 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
 
             // The user is signed in, so use the token to create a Graph Clilent and search their email
             const graphClient = new SimpleGraphClient(tokenResponse.token);
-            var messages = await graphClient.searchMailInbox(searchQuery);
+            const messages = await graphClient.searchMailInbox(searchQuery);
 
             // Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
-            // displayed if the selects that item.
+            // displayed if the user selects that item.
             messages.value.forEach(msg => {
-                const heroCard = CardFactory.heroCard(msg.from.emailAddress.address);
-                heroCard.content.subtitle = msg.subject;
-                heroCard.content.text = msg.body.content;
-                const heroCardContent = heroCard.content;
-
+                const heroCard = CardFactory.heroCard(msg.from.emailAddress.address, msg.body.content, null, null, { subtitle: msg.subject });
                 const preview = CardFactory.thumbnailCard(msg.from.emailAddress.address,
-                    msg.subject + '<br />' + msg.bodyPreview,
+                    `${ msg.subject } <br />  ${ msg.bodyPreview.substring(0, 100) }`,
                     ['https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg']);
-                const attachment = { contentType: heroCard.contentType, content: heroCardContent, preview: preview };
-                attachments.push(attachment);
+                attachments.push({ contentType: heroCard.contentType, content: heroCard.content, preview: preview });
             });
         } else {
             const response = await axios.get(`http://registry.npmjs.com/-/v1/search?${ querystring.stringify({ text: searchQuery, size: 8 }) }`);
@@ -113,8 +101,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 const heroCard = CardFactory.heroCard(obj.package.name);
                 const preview = CardFactory.heroCard(obj.package.name);
                 preview.content.tap = { type: 'invoke', value: { description: obj.package.description } };
-                const attachment = { ...heroCard, preview };
-                attachments.push(attachment);
+                attachments.push({ ...heroCard, preview });
             });
         }
 
@@ -177,6 +164,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionSubmitAction(context, action) {
+        // This method is to handle the 'Close' button on the confirmation Task Module after the user signs out.
         return {};
     }
 }
