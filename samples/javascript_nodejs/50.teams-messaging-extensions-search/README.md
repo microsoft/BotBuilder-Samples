@@ -1,9 +1,10 @@
 # Teams Messaging Extensions Search
 
-Messaging Extensions are a special kind of Microsoft Teams application that is support by the [Bot Framework](https://dev.botframework.com) v4.
+[Messaging Extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/what-are-messaging-extensions) are a special kind of Microsoft Teams application that is support by the [Bot Framework](https://dev.botframework.com) v4.
 
-There are two basic types of Messaging Extension in Teams: search based and action based. This sample illustrates how to
-build a simple search based Messaging Extension.
+There are two basic types of Messaging Extension in Teams: [Search-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/search-commands/define-search-command) and [Action-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/action-commands/define-action-command). This sample illustrates how to
+build a Search-based Messaging Extension.
+
 
 ## Prerequisites
 
@@ -13,7 +14,7 @@ build a simple search based Messaging Extension.
 
 ## To try this sample
 
-> Note these instructions are for running the sample on your local machine, the tunnelling solition is required because
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
 the Teams service needs to call into the bot.
 
 1) Clone the repository
