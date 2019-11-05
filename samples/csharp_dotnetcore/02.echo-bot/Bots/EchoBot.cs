@@ -30,10 +30,10 @@ namespace Microsoft.BotBuilderSamples.Bots
         private IActivity CreateActivityWithTextAndSpeak(string message)
         {
             var activity = MessageFactory.Text(message);
-            string body = @"<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>	
+            string speak = @"<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'>	
               <voice name='Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'>" +
               $"{message}" + "</voice></speak>";
-            activity.Speak = body;
+            activity.Speak = speak;
             return activity;
         }
     }
