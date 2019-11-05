@@ -47,7 +47,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-### Interacting with the bot
+## Interacting with the bot in Teams
 
 > Note this `manifest.json` specified that the bot will be installed in "personal", "team" and "groupchat" scope which is why you immediately entered a one on one chat conversation with the bot. You can at mention the bot in a group chat or in a Channel in the Team you installed it in. Please refer to Teams documentation for more details.
 
