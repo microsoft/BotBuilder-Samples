@@ -1,8 +1,9 @@
-﻿# TeamsMessagingExtensionsActionBot
+﻿# Teams Messaging Extensions Action
 
-Bot Framework v4 Teams Messaging Extension Action sample.
+[Messaging Extensions](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/what-are-messaging-extensions) are a special kind of Microsoft Teams application that is support by the [Bot Framework](https://dev.botframework.com) v4.
 
-This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple Card based on parameters entered by the user, and how to Share a message through a Messaging Extension.
+There are two basic types of Messaging Extension in Teams: [Search-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/search-commands/define-search-command) and [Action-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/action-commands/define-action-command). This sample illustrates how to
+build an Action-based Messaging Extension.
 
 ## Prerequisites
 

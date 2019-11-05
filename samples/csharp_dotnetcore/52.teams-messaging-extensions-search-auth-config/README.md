@@ -1,4 +1,4 @@
-﻿# EchoBot
+﻿# Teams Messaging Extensions Search with Auth and Config
 
 Bot Framework v4 Teams Messaging Extensions Search with Auth and Config sample.
 
