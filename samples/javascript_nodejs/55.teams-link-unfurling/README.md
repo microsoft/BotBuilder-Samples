@@ -47,7 +47,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-### Interacting with the bot
+## Interacting with the bot in Teams
 
 > Note the Teams `manifest.json` for this sample also inclues a Search Query. This Messaging Extension is only introduced in order to enable installation, because there is no mechanism for installing a link unfurling feature in isolation.
 

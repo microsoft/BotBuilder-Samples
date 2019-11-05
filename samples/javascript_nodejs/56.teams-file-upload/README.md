@@ -48,7 +48,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-## Interacting with the file upload bot
+## Interacting with the bot in Teams
 
 > Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
 

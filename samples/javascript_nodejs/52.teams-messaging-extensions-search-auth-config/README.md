@@ -50,7 +50,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-## Interacting with the search/auth/config bot
+## Interacting with the bot in Teams
 
 Once the Messaging Extension is installed, click the icon for **Config Auth Search** in the Compose Box's Messaging Extension menu to display the search window.  Left click to choose **Settings** and view the Config page.
 

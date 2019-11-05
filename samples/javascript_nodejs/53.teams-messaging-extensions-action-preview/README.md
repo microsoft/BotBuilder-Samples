@@ -47,7 +47,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-### Interacting with the Messaging Extension
+## Interacting with the bot in Teams
 
 > Note the `manifest.json` specifies that this bot will be available in "personal", "team" and "groupchat" scopes and the command will be available in the     "commandBox", "compose" and "message" context.
 

@@ -49,7 +49,7 @@ the Teams service needs to call into the bot.
     npm start
     ```
 
-## Interacting with the file upload bot
+## Interacting with the bot in Teams
 
 > Note this `manifest.json` specified that the feature will be available from both the `compose` and `commandBox` areas of Teams. Please refer to Teams documentation for more details.
 
