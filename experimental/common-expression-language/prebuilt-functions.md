@@ -18,8 +18,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[replaceIgnoreCase](#replaceIgnoreCase)|	Replace a substring with the specified string, and return the updated string. Case in-sensitive	|
 |[split](#split)	|Returns an array that contains substrings based on the delimiter specified.|
 |[substring](#substring) |Returns characters from a string. Substring(sourceString, startPos, endPos). startPos cannot be less than 0. endPos greater than source strings length will be taken as the max length of the string	|
-|[toLower](#toLower) |Convert a string to all upper case characters |
-|[toUpper](#toUpper) |Convert a string to all lower case characters |
+|[toLower](#toLower) |Convert a string to all lower case characters |
+|[toUpper](#toUpper) |Convert a string to all upper case characters |
 |[trim](#trim) |Remove leading and trailing white spaces from a string |
 |[addOrdinal](#addOrdinal) | Return the ordinal number of the input number |
 |[endsWith](#endsWith) | Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive. |
