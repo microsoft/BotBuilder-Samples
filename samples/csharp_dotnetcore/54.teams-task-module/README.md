@@ -1,4 +1,4 @@
-﻿# TeamsTaskModuleBot
+﻿# Teams Task Module
 
 Bot Framework v4 Teams Task Module sample.
 
