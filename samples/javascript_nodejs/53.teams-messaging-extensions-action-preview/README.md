@@ -1,4 +1,4 @@
-# TeamsMessagingExtensionsActionPreviewBot
+# Teams Messaging Extensions Action Preview
 
 Bot Framework v4 Teams Messaging Extension Action Preview sample.
 
@@ -21,7 +21,7 @@ the Teams service needs to call into the bot.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-1) In a terminal, navigate to `samples/javascript_nodejs/56.teams-file-upload`
+1) In a terminal, navigate to `samples/javascript_nodejs/53.teams-messaging-extensions-action-preview`
 
 1) Install modules
 
@@ -40,10 +40,10 @@ the Teams service needs to call into the bot.
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) Update the `.env` configuration for the bot to use the app id and app password from the Bot Framework registration. (Note the app password is referred to as the client secret in the azure portal and you can always create a new client secret anytime.)
+1) Update the `.env` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
 1) __*This step is specific to Teams.*__
-    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your app if from Bot Framework everywhere you see the place holder string `<<YOUR-MICROSOFT-BOT-ID>>`
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
     - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
