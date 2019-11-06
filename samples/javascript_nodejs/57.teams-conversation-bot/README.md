@@ -1,95 +1,61 @@
-# TeamsConversationBot
 
-Bot Framework v4 echo bot sample for Teams.
+# Teams Conversation Bot
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+Bot Framework v4 Conversation Bot sample for Teams.
+
+This bot has been created using [Bot Framework](https://dev.botframework.com). This sample shows
+how to incorporate basic conversational flow into a Teams application. It also illustrates a few of the Teams specific calls you can make from your bot.
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
 - Microsoft Teams is installed and you have an account
+- [NodeJS](https://nodejs.org/en/)
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-### Ngrok
-- Download and install [ngrok](https://ngrok.com/download)
-- In terminal navigate to where ngrok is installed and run: 
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
+the Teams service needs to call into the bot.
 
-```bash
-ngrok http -host-header=rewrite 3978
-```
-- Copy/paste the ```https``` web address into notepad as you will need it later
-
-### Microsoft Teams Setup
-- Launch Microsoft Teams. In the search bar at the top of Teams search for and select ```App Studio```.
-- Click the ```Manifest editor``` tab near the top of the screen.
-- Click the ```Create a new app``` button on the left hand side.
-- Under the ```Details``` section fill in the following fields 
-  - In the Short name field enter ```EchoBot```
-  - Click the ```Generate``` button under App ID 
-  - Package Name
-  - Version 
-  - Short description
-  - Long description
-  - Developer name
-  - Website 
-  - Privacy statement web address
-  - Terms of use web address
-- Under the ```Capabilities``` tab on the left hand side click the ```Bots``` tab
-- Click the ```Set up``` button
-- Under the ```New bot``` tab Fill in the following fields
-  - Put ```TeamsConversationBot``` into the Name field
-  - Under ```Scope``` check all 3 boxes ```Personal```, ```Team```, ```Group Chat```
-  - Click the ```Create bot``` button
-- Copy the Bot ID (string under ```TeamsConversationBot```) and paste it into notepad as you will need it later
-- Click the ```Generate new password``` button (copy/paste) the password into notepad as you will need it later)
-- Under Messaging endpoint paste the https ngrok url and add ```/api/messages``` to the end
-  - EX: ```https://ca7f8a7e.ngrok.io/api/messages```
-- Press Enter to save the address
-
-### Bot Setup
-- Clone the repository
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In Visual Studio navigate to the ```5NNNNNNNNN.teams-conversation-bot``` folder and open the ```appsettings.json``` file
-- Put the  you saved earlier from Teams in the ```MicrosoftAppId``` field
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save
+1) In a terminal, navigate to `samples/javascript_nodejs/57.teams-conversation-bot`
 
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+1) Install modules
 
-  A) From a terminal
+    ```bash
+    npm install
+    ```
 
-  ```bash
-  # run the bot
-  dotnet run
-  ```
+1) Run ngrok - point to port 3978
 
-  B) Or from Visual Studio
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/5NNNNNNNNN.teams-echo-bot` folder
-  - Select `TeamsConversationBot.csproj` file
-  - Press `F5` to run the project
+1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-### Finishing Teams Setup
-- Back in Teams click ```Test and distribute``` on the left hand side under ```Finish``` section
-- Click the ```Install``` button
+1) Update the `.env` configuration for the bot to use the app id and app password from the Bot Framework registration. (Note the app password is referred to as the client secret in the azure portal and you can always create a new client secret anytime.)
 
-| To install bot in a personal chat... | To install in a group chat... | To install in team chat... |
-|:-------------------- | :------------------------- | :-----------------------|
-| 1. Click ```Add``` button| 1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Chat``` <br> 3. Search for and select your group chat <br> 4. Click the ```Set up bot``` button <br> **Note:** There must be at least 1 message in a group chat for it to be searchable |  1. Click the down arrow to the right of the ```Add``` button <br> 2. Click ```Add to Team``` <br> 3. Search for and select your team <br> 4. Click the ```Set up a bot``` button  |
+1) __*This step is specific to Teams.*__
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your app if from Bot Framework everywhere you see the place holder string `<<YOUR-MICROSOFT-BOT-ID>>`
+    - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
+    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-### Interacting with the bot
+1) Run your bot at the command line:
+
+    ```bash
+    npm start
+    ```
+
+## Interacting with the bot
 
 You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
 
@@ -104,4 +70,12 @@ You can interact with this bot by sending it a message, or selecting a command f
   - **Valid Scopes:** personal, group chat, team chat
 
 You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+## Further reading
+
+- [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)
 
