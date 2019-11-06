@@ -27,12 +27,9 @@
     {
       "botId": "<YOUR-BOT-ID>",
       "scopes": [
-        "personal",
         "team",
         "groupchat"
-      ],
-      "supportsFiles": false,
-      "isNotificationOnly": false
+      ]
     }
   ],
   "composeExtensions": [
