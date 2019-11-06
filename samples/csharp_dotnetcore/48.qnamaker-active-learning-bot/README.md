@@ -51,7 +51,7 @@ QnA Maker CLI to deploy the model.
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3999/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Try Active Learning
 - Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
