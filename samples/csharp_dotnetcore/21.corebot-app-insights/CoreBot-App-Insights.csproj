@@ -6,11 +6,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.2" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
   </ItemGroup>
 

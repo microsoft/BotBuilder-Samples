@@ -8,8 +8,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="9.4.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.2" />
   </ItemGroup>
 
   <ItemGroup>
