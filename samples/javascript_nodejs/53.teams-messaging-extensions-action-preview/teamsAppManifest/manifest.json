@@ -27,8 +27,7 @@
     {
       "botId": "<YOUR-BOT-ID>",
       "scopes": [
-        "team",
-        "groupchat"
+        "team"
       ]
     }
   ],
