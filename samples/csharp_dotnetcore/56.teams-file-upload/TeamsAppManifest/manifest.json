@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0",
-  "id": "<<YOUR-MICROSOFT-BOT-ID>>",
+  "id": "<<YOUR-MICROSOFT-APP-ID>>",
   "packageName": "com.microsoft.teams.fileupload",
   "developer": {
     "name": "Microsoft Corp",
@@ -25,7 +25,7 @@
   "accentColor": "#abcdef",
   "bots": [
     {
-      "botId": "<<YOUR-MICROSOFT-BOT-ID>>",
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
       "scopes": [
         "personal"
       ],
