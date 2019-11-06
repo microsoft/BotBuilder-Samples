@@ -67,7 +67,7 @@ namespace CoreBot.Tests.Dialogs
                 Assert.Equal(bookingTestData.UtterancesAndReplies[i, 1], reply.Text);
             }
 
-            Assert.Equal(DialogTurnStatus.Cancelled, testClient.DialogTurnResult.Status);
+            Assert.Equal(DialogTurnStatus.Complete, testClient.DialogTurnResult.Status);
             Assert.Null(testClient.DialogTurnResult.Result);
         }
     }
