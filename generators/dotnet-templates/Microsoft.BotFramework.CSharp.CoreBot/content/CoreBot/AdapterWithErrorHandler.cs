@@ -13,7 +13,6 @@ using Microsoft.Extensions.Logging;
 
 namespace CoreBot
 {
-{
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
         public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
