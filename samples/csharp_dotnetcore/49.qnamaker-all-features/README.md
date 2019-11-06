@@ -54,7 +54,7 @@ QnA Maker CLI to deploy the model.
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3999/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
