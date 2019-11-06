@@ -69,7 +69,7 @@ You can interact with this bot by sending it a message, or selecting a command f
   - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
   - **Valid Scopes:** personal, group chat, team chat
 
-You can select an option from the coammn list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
+You can select an option from the command list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
 
 ## Deploy the bot to Azure
 
