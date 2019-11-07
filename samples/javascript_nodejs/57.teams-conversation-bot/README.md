@@ -66,7 +66,7 @@ You can interact with this bot by sending it a message, or selecting a command f
   - **Result:** The bot will respond to the message and mention the user
   - **Valid Scopes:** personal, group chat, team chat
 3. **MessageAllMembers**
-  - **Result:** The bot will send a 1-on-1 message to each memeber in the current conversation (aka on the converstation's roster).
+  - **Result:** The bot will send a 1-on-1 message to each member in the current conversation (aka on the conversation's roster).
   - **Valid Scopes:** personal, group chat, team chat
 
 You can select an option from the command list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.

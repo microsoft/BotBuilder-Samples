@@ -26,7 +26,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 await this.deleteCardActivityAsync(context);
                 break;
             case 'MessageAllMembers':
-                await this.messageAllMemebersAsync(context);
+                await this.messageAllMembersAsync(context);
                 break;
             default:
                 const value = { count: 0 };
@@ -111,7 +111,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         await context.deleteActivity(context.activity.replyToId);
     }
 
-    async messageAllMemebersAsync(context) {
+    async messageAllMembersAsync(context) {
         const members = await TeamsInfo.getMembers(context);
 
         members.forEach(async (teamMember) => {
