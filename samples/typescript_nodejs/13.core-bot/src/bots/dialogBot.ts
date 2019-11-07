@@ -43,14 +43,16 @@ export class DialogBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+    }
 
-        this.onDialog(async (context, next) => {
-            // Save any state changes. The load happened during the execution of the Dialog.
-            await this.conversationState.saveChanges(context, false);
-            await this.userState.saveChanges(context, false);
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context): Promise<void> {
+        await super.run(context);
 
-            // By calling next() you ensure that the next BotHandler is run.
-            await next();
-        });
+        // Save any state changes. The load happened during the execution of the Dialog.
+        await this.conversationState.saveChanges(context, false);
+        await this.userState.saveChanges(context, false);
     }
 }
