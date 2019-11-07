@@ -23,6 +23,16 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         this.userState = userState;
     }
 
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context) {
+        await super.run(context);
+
+        // Save state changes
+        await this.userState.saveChanges(context);
+    }
+
     async handleTeamsMessagingExtensionConfigurationQuerySettingUrl(context, query) {
         // The user has requested the Messaging Extension Configuration page settings url.
         const userSettings = await this.userConfigurationProperty.get(context, '');
@@ -47,7 +57,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         // When the user submits the settings page, this event is fired.
         if (settings.state != null) {
             await this.userConfigurationProperty.set(context, settings.state);
-            await this.userState.saveChanges(context, false);
         }
     }
 
