@@ -4,8 +4,9 @@
 const fetch = require('node-fetch');
 
 class MicrosoftTranslator {
-    constructor(translatorKey) {
+    constructor(translatorKey, translatorRegion) {
         this.key = translatorKey;
+        this.region = translatorRegion === null ? "westus" : translatorRegion;
     }
 
     /**
@@ -27,7 +28,8 @@ class MicrosoftTranslator {
             body: JSON.stringify([{ Text: text }]),
             headers: {
                 'Content-Type': 'application/json',
-                'Ocp-Apim-Subscription-Key': this.key
+                'Ocp-Apim-Subscription-Key': this.key,
+                'Ocp-Apim-Subscription-Region': this.region
             }
         });
 

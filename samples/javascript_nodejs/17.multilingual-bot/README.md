@@ -29,10 +29,10 @@ This sample **requires** prerequisites in order to run.
 - [Microsoft Translator Text API key](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup)
 
     To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup).
-    Paste the key in the `TranslatorKey` setting in the `.env` file, or use your preferred configuration and update the following line in `index.js` with your translation key:
+    Paste the key in the `TranslatorKey` and `TranslatorRegion` settings in the `.env` file, or use your preferred configuration and update the following line in `index.js` with your translation key:
 
     ```js
-    adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey));
+    adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey, process.env.translatorRegion));
     ```
 
 

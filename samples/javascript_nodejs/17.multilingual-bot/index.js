@@ -62,7 +62,7 @@ const userState = new UserState(memoryStorage);
 
 const languagePreferenceProperty = userState.createProperty(LANGUAGE_PREFERENCE);
 
-const translator = new MicrosoftTranslator(process.env.translatorKey);
+const translator = new MicrosoftTranslator(process.env.translatorKey, process.env.translatorRegion);
 adapter.use(new TranslatorMiddleware(translator, languagePreferenceProperty));
 
 // Create the MultilingualBot.
