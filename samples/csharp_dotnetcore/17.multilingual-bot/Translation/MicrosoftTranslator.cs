@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples.Translation
             var key = configuration["TranslatorKey"];
             _key = key ?? throw new ArgumentNullException(nameof(key));
 
-            var region = configuration["TranslateRegion"];
+            var region = configuration["TranslatorRegion"];
             _region = region == null ? "westus" : region;
         }
 
