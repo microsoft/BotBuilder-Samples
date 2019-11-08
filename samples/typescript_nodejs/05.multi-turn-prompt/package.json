@@ -1,8 +1,8 @@
 {
-    "name": "emptybot",
+    "name": "multiturn-prompts-bot",
     "version": "1.0.0",
-    "description": "BotBuilder v4 TypeScript empty bot sample",
-    "author": "Microsoft",
+    "description": "Bot Builder v4 multiturn prompts sample",
+    "author": "Leo Lorenzo Luis",
     "license": "MIT",
     "main": "./lib/index.js",
     "scripts": {
