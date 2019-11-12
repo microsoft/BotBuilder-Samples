@@ -8,10 +8,9 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
-const { ActivityTypes } = require('botbuilder-core');
 
 // This bot's main dialog.
-const { MyBot } = require('./bot');
+const { EchoBot } = require('./bot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -21,8 +20,8 @@ dotenv.config({ path: ENV_FILE });
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo test your bot, see: https://aka.ms/debug-with-emulator`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
 // Create adapter.
@@ -39,28 +38,21 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
-    // Send a message to the user
-    await context.sendActivity(`The bot encounted an error or bug.`);
-    await context.sendActivity(`To continue to run this bot, please fix the bot source code.`);
+    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
 
-    // Send a trace activity if we're talking to the Bot Framework Emulator
-    if (context.activity.channelId === 'emulator') {
-        // Create a trace activity that contains the error object
-        const traceActivity = {
-            label: 'TurnError',
-            name: 'onTurnError Trace',
-            timestamp: new Date(),
-            type: ActivityTypes.Trace,
-            value: `${ error }`,
-            valueType: 'https://www.botframework.com/schemas/error'
-        };
-        // Send a trace activity, which will be displayed in Bot Framework Emulator
-        await context.sendActivity(traceActivity);
-    }
+    // Send a message to the user
+    await context.sendActivity('The bot encounted an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
 // Create the main dialog.
-const myBot = new MyBot();
+const myBot = new EchoBot();
 
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {

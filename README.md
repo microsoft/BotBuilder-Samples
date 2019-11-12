@@ -15,8 +15,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
     cd BotBuilder-Samples
 ```
 
-:runner: - Indicates planned and work in progress.
-
 | Sample Name           | Description                                                                    | .NET CORE   | JavaScript      | .NET Web API | JS (es6)    | TypeScript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |
@@ -45,6 +43,16 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |
 |47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |
+|48.qnamaker-active-learning-bot     | Demonstrates how to integrate Active Learning in a QnA Maker bot.|[View][cs#48]|[View][js#48]          |              |     |     |
+|49.qnamaker-all-features     | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.|[View][cs#49]|[View][js#49]          |              |     |     |
+|50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |
+|51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |
+|52.teams-messaging-extensions-search-auth-config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[View][cs#52]|[View][js#52]          |              |     |     |
+|53.teams-messaging-extensions-action-preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[View][cs#53]|[View][js#53]          |              |     |     |
+|54.teams-task-module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[View][cs#54]|[View][js#54]          |              |     |     |
+|55.teams-link-unfurling     | A Messaging Extension that performs link unfurling.|[View][cs#55]|[View][js#55]          |              |     |     |
+|56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |
+|57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
@@ -55,6 +63,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#7]:samples/csharp_dotnetcore/07.using-adaptive-cards
 [cs#8]:samples/csharp_dotnetcore/08.suggested-actions
 [cs#11]:samples/csharp_dotnetcore/11.qnamaker
+[cs#12]:samples/csharp_dotnetcore/11a.qnamaker
 [cs#13]:samples/csharp_dotnetcore/13.core-bot
 [cs#13.b]:samples/csharp_dotnetcore/13.core-bot.tests
 [cs#14]:samples/csharp_dotnetcore/14.nlp-with-dispatch
@@ -73,7 +82,16 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#46]:samples/csharp_dotnetcore/46.teams-auth
 [cs#47]:samples/csharp_dotnetcore/47.inspection
-[cs#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
+[cs#48]:samples/csharp_dotnetcore/48.qnamaker-active-learning-bot
+[cs#49]:samples/csharp_dotnetcore/49.qnamaker-all-features
+[cs#50]:samples/csharp_dotnetcore/50.teams-messaging-extensions-search
+[cs#51]:samples/csharp_dotnetcore/51.teams-messaging-extensions-action
+[cs#52]:samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config
+[cs#53]:samples/csharp_dotnetcore/53.teams-messaging-extensions-action-preview
+[cs#54]:samples/csharp_dotnetcore/54.teams-task-module
+[cs#55]:samples/csharp_dotnetcore/55.teams-link-unfurling
+[cs#56]:samples/csharp_dotnetcore/56.teams-file-upload
+[cs#57]:samples/csharp_dotnetcore/57.teams-conversation-bot
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 
@@ -95,6 +113,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#7]:samples/javascript_nodejs/07.using-adaptive-cards
 [js#8]:samples/javascript_nodejs/08.suggested-actions
 [js#11]:samples/javascript_nodejs/11.qnamaker
+[js#12]:samples/javascript_nodejs/11a.qnamaker
 [js#13]:samples/javascript_nodejs/13.core-bot
 [js#14]:samples/javascript_nodejs/14.nlp-with-dispatch
 [js#15]:samples/javascript_nodejs/15.handling-attachments
@@ -111,7 +130,16 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#45]:samples/javascript_nodejs/45.state-management
 [js#46]:samples/javascript_nodejs/46.teams-auth
 [js#47]:samples/javascript_nodejs/47.inspection
-
+[js#48]:samples/javascript_nodejs/48.qnamaker-active-learning-bot
+[js#49]:samples/javascript_nodejs/49.qnamaker-all-features
+[js#50]:samples/javascript_nodejs/50.teams-messaging-extensions-search
+[js#51]:samples/javascript_nodejs/51.teams-messaging-extensions-action
+[js#52]:samples/javascript_nodejs/52.teams-messaging-extensions-search-auth-config
+[js#53]:samples/javascript_nodejs/53.teams-messaging-extensions-action-preview
+[js#54]:samples/javascript_nodejs/54.teams-task-module
+[js#55]:samples/javascript_nodejs/55.teams-link-unfurling
+[js#56]:samples/javascript_nodejs/56.teams-file-upload
+[js#57]:samples/javascript_nodejs/57.teams-conversation-bot
 
 ## Contributing
 

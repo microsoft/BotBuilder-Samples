@@ -18,8 +18,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[replaceIgnoreCase](#replaceIgnoreCase)|	Replace a substring with the specified string, and return the updated string. Case in-sensitive	|
 |[split](#split)	|Returns an array that contains substrings based on the delimiter specified.|
 |[substring](#substring) |Returns characters from a string. Substring(sourceString, startPos, endPos). startPos cannot be less than 0. endPos greater than source strings length will be taken as the max length of the string	|
-|[toLower](#toLower) |Convert a string to all upper case characters |
-|[toUpper](#toUpper) |Convert a string to all lower case characters |
+|[toLower](#toLower) |Convert a string to all lower case characters |
+|[toUpper](#toUpper) |Convert a string to all upper case characters |
 |[trim](#trim) |Remove leading and trailing white spaces from a string |
 |[addOrdinal](#addOrdinal) | Return the ordinal number of the input number |
 |[endsWith](#endsWith) | Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive. |
@@ -45,6 +45,10 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[take](#take) | Return items from the front of a collection |
 |[intersection](#intersection) | Return a collection that has only the common items across the specified collections |
 |[subArray](#subArray) | Returns a sub-array from specified start and end position. Index values start with the number 0. |
+|[select](#select) | Operate on each element and return the new collection of transformed elements |
+|[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
+|[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
+|[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
 
 
 ### Logical comparison functions
@@ -2748,7 +2752,39 @@ replace('the old string', 'old', 'new')
 
 And returns this result: `"the new string"`
 
-<a name="setProperty">
+<a name="select"></a>
+
+### select
+
+Operate on each element and return the new collection of transformed elements.
+
+```
+select([<collection>], <iteratorName>, <function>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection with the items |
+| <*iteratorName*> | Yes | String | The key item of arrow function |
+| <*function*> | Yes | Any | function that can contains iteratorName |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection which each element has been evaluated with the function  |
+||||
+
+*Example*
+
+These examples generate new collections:
+
+```
+select(createArray(0, 1, 2, 3), x, x + 1)
+```
+
+And return this result: `[1, 2, 3, 4]`
+
+<a name="setProperty"></a>
 
 ### setProperty
 
@@ -2808,6 +2844,130 @@ skip(createArray(0, 1, 2, 3), 1)
 ```
 
 And returns this array with the remaining items: `[1,2,3]`
+
+<a name="sortBy"></a>
+
+### sortBy
+
+Sort elements in the collection with ascending order and return the sorted collection.
+
+```
+sortBy([<collection>], '<property>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | String or Array | The collection to sort |
+| <*property*> | No | String | Sort by this specific property of the object element in the collection if set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection whose elements have been sorted |
+||||
+
+*Example1*
+
+This example generates new sorted collection:
+
+```
+sortBy(createArray(1, 2, 0, 3))
+```
+
+And return this result: `[0, 1, 2, 3]`
+
+*Example2*
+Suppose you have this collection:
+
+```
+{
+  'nestedItems': [
+    {'x': 2},
+    {'x': 1},
+    {'x': 3}
+  ]
+}
+```
+
+This example generates new sorted collection based on object property 'x':
+
+```
+sortBy(nestedItems, 'x')
+```
+
+And return this result:
+
+```
+{
+  'nestedItems': [
+    {'x': 1},
+    {'x': 2},
+    {'x': 3}
+  ]
+}
+```
+
+<a name="sortByDescending"></a>
+
+### sortByDescending
+
+Sort elements in the collection with descending order and return the sorted collection.
+
+```
+sortBy([<collection>], '<property>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | String or Array | The collection to sort |
+| <*property*> | No | String | Sort by this specific property of the object element in the collection if set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection whose elements have been sorted |
+||||
+
+*Example1*
+
+This example generates new sorted collection:
+
+```
+sortByDescending(createArray(1, 2, 0, 3))
+```
+
+And return this result: `[3, 2, 1, 0]`
+
+*Example2*
+Suppose you have this collection:
+
+```
+{
+  'nestedItems': [
+    {'x': 2},
+    {'x': 1},
+    {'x': 3}
+  ]
+}
+```
+
+This example generates new sorted collection based on object property 'x':
+
+```
+sortByDescending(nestedItems, 'x')
+```
+
+And return this result:
+
+```
+{
+  'nestedItems': [
+    {'x': 3},
+    {'x': 2},
+    {'x': 1}
+  ]
+}
+```
 
 <a name="split"></a>
 
@@ -3699,6 +3859,38 @@ utcNow('D')
 ```
 
 And returns this result: `"Sunday, April 15, 2018"`
+
+<a name="where"></a>
+
+### where
+
+Filter on each element and return the new collection of filtered elements which match specific condition.
+
+```
+where([<collection>], <iteratorName>, <function>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection with the items |
+| <*iteratorName*> | Yes | String | The key item of arrow function |
+| <*function*> | Yes | Any | condition function which is used to filter items|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection which each element has been filtered with the function  |
+||||
+
+*Example*
+
+These examples generate new collections:
+
+```
+where(createArray(0, 1, 2, 3), x, x > 1)
+```
+
+And return this result: `[2, 3]`
 
 <a name="xml"></a>
 

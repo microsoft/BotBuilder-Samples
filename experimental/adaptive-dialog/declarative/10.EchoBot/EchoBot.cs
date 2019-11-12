@@ -29,28 +29,29 @@ namespace Microsoft.BotBuilderSamples
             // auto reload dialogs when file changes
             this.resourceExplorer.Changed += (resources) =>
             {
-                if (resources.Any(resource => resource.Id.EndsWith(".dialog")))
+                if (resources.Any(resource => resource.Id == ".dialog"))
                 {
-                    Task.Run(() => this.LoadDialogs());
+                    Task.Run(() => this.LoadRootDialogAsync());
                 }
             };
-            LoadDialogs();
+
+            LoadRootDialogAsync();
         }
 
 
-        private void LoadDialogs()
+        private void LoadRootDialogAsync()
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
 
             var resource = this.resourceExplorer.GetResource("main.dialog");
-            this.dialogManager = new DialogManager(DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceRegistry));
+            dialogManager = new DialogManager(DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceMap));
 
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
         }
 
-        public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
+        public async override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
+            await dialogManager.OnTurnAsync(turnContext, cancellationToken).ConfigureAwait(false);
         }
     }
 }
