@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Slack;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
+using SlackAdapterBot.Adapters;
 using SlackAdapterBot.Bots;
 
 namespace SlackAdapterBot
@@ -19,8 +20,11 @@ namespace SlackAdapterBot
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the Bot Framework Slack Adapter.
-            services.AddSingleton<IBotFrameworkHttpAdapter, SlackAdapter>();
+            // Create the default Bot Framework Adapter (used for Azure Bot Service channels and emulator).
+            services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkAdapterWithErrorHandler>();
+
+            // Create the Facebook Adapter
+            services.AddSingleton<SlackAdapter, SlackAdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, EchoBot>();

@@ -32,16 +32,16 @@ namespace SlackAdapterBot.Bots
         }
 
         /// <summary>
-        /// OnMessageActivityAsync method that returns an async Task.
+        /// OnEventActivityAsync method that returns an async Task.
         /// </summary>
         /// <param name="turnContext">turnContext of ITurnContext{T}, where T is an IActivity.</param>
         /// <param name="cancellationToken">cancellationToken propagates notifications that operations should be canceled.</param>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.TryGetChannelData(out SlackRequestBody _))
+            if (turnContext.Activity.TryGetChannelData(out SlackRequestBody body))
             {
-                if (turnContext.Activity.GetChannelData<SlackRequestBody>().Command == "/test")
+                if (body?.Command == "/test")
                 {
                     var interactiveMessage = MessageFactory.Attachment(
                         CreateInteractiveMessage(
@@ -50,33 +50,15 @@ namespace SlackAdapterBot.Bots
                 }
             }
 
-            if (turnContext.Activity.TryGetChannelData(out SlackEvent _))
+            if (turnContext.Activity.TryGetChannelData(out SlackEvent slackEvent))
             {
-                if (turnContext.Activity.GetChannelData<SlackEvent>().SubType == "file_share")
+                if (slackEvent?.SubType == "file_share")
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received an attachment"), cancellationToken);
                 }
-                else if (turnContext.Activity.GetChannelData<SlackEvent>().Message?.Attachments != null)
+                else if (slackEvent?.Message?.Attachments != null)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received a link share"), cancellationToken);
-                }
-            }
-        }
-
-        /// <summary>
-        /// OnMembersAddedAsync method that returns an async Task.
-        /// </summary>
-        /// <param name="membersAdded">membersAdded of IList{T}, where T is ChannelAccount.</param>
-        /// <param name="turnContext">turnContext of ITurnContext{T}, where T is an IConversationUpdateActivity.</param>
-        /// <param name="cancellationToken">cancellationToken propagates notifications that operations should be canceled.</param>
-        /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            foreach (var member in membersAdded)
-            {
-                if (member.Id != turnContext.Activity.Recipient.Id)
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and Welcome!"), cancellationToken);
                 }
             }
         }
