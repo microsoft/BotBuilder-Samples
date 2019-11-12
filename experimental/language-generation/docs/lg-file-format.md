@@ -103,7 +103,7 @@ Here's how you can specify SWITCH ... CASE block in LG.
 
 ```markdown
 # TestTemplate
-SWITCH: @{condition}
+- SWITCH: @{condition}
 - CASE: @{case-expression-1}
     - output1
 - CASE: @{case-expression-2}
@@ -117,7 +117,7 @@ Here's an example:
 ```markdown
 > Note: any of the cases can include reference to one or more templates
 # greetInAWeek
-SWITCH: @{dayOfWeek(utcNow())}
+- SWITCH: @{dayOfWeek(utcNow())}
 - CASE: @{0}
     - Happy Sunday!
 -CASE: @{6}
