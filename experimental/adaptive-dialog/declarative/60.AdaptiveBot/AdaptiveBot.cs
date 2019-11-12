@@ -12,7 +12,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
@@ -60,37 +62,39 @@ namespace Microsoft.BotBuilderSamples
 
         private AdaptiveDialog CreateChoiceInputForAllMainDialogs()
         {
-            var dialog = new AdaptiveDialog()
-            {
-                AutoEndDialog = false,
-                Steps = new List<IDialog>()
-            };
-            var choiceInput = new ChoiceInput()
-            {
-                Prompt = new ActivityTemplate("What declarative sample do you want to run?"),
-                Property = "conversation.dialogChoice",
-                AlwaysPrompt = true,
-                Choices = new List<Choice>(),
-            };
-
-            var handleChoice = new SwitchCondition()
-            {
-                Condition = "conversation.dialogChoice",
-                Cases = new List<Case>()
-            };
-
+            var dialogChoices = new List<Choice>();
+            var dialogCases = new List<Case>();
             foreach (var resource in this.resourceExplorer.GetResources(".dialog").Where(r => r.Id.EndsWith(".main.dialog")))
             {
                 var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(resource.Id));
-                choiceInput.Choices.Add(new Choice(name));
-                var subDialog = DeclarativeTypeLoader.Load<IDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
-                handleChoice.Cases.Add(new Case($"{name}", new List<IDialog>() { subDialog }));
+                dialogChoices.Add(new Choice(name));
+                var subDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceMap);
+                dialogCases.Add(new Case($"{name}", new List<Dialog>() { subDialog }));
             }
-            choiceInput.Style = ListStyle.List;
-            dialog.Steps.Add(choiceInput);
-            dialog.Steps.Add(new SendActivity("# Running {conversation.dialogChoice}.main.dialog"));
-            dialog.Steps.Add(handleChoice);
-            dialog.Steps.Add(new RepeatDialog());
+
+            var dialog = new AdaptiveDialog()
+            {
+                AutoEndDialog = false,
+                Triggers = new List<OnCondition>() {
+                    new OnBeginDialog() {
+                        Actions = new List<Dialog>() {
+                            new ChoiceInput() {
+                                Prompt = new ActivityTemplate("What declarative sample do you want to run?"),
+                                Property = "conversation.dialogChoice",
+                                AlwaysPrompt = true,
+                                Style = ListStyle.List,
+                                Choices = new ChoiceSet(dialogChoices)
+                            },
+                            new SendActivity("# Running {conversation.dialogChoice}.main.dialog"),
+                            new SwitchCondition(){
+                                Condition = "conversation.dialogChoice",
+                                Cases = dialogCases
+                            },
+                            new RepeatDialog()
+                        }
+                    }
+                }
+            };
             return dialog;
         }
 

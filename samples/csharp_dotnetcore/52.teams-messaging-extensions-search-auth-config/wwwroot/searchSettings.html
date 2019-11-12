@@ -1,0 +1,54 @@
+﻿<html>
+<body>
+    <form>
+        <fieldset>
+            <legend>What would you like to search?</legend>
+            <input type="radio" name="includeInSearch" value="nuget">Nuget<br>
+            <input type="radio" name="includeInSearch" value="email">Email (requires AAD Authentication)<br>
+        </fieldset>
+
+        <br />
+        <input type="button" onclick="onSubmit()" value="Save"> <br />
+    </form>
+
+    <script src='https://statics.teams.microsoft.com/sdk/v1.0/js/MicrosoftTeams.min.js'></script>
+
+    <script type="text/javascript">
+
+        document.addEventListener("DOMContentLoaded", function () {
+            var urlParams = new URLSearchParams(window.location.search);
+            var settings = urlParams.get('settings');
+            if (settings) {
+                var checkboxes = document.getElementsByName("includeInSearch");
+                for (var i = 0; i < checkboxes.length; i++) {
+                    var thisCheckbox = checkboxes[i];
+                    if (settings.includes(thisCheckbox.value)) {
+                        checkboxes[i].checked = true;
+                    }
+                }
+            }
+        });
+
+    </script>
+        
+    <script type="text/javascript">
+        
+        microsoftTeams.initialize();
+
+        function onSubmit() {
+            var newSettings = [];
+
+            var checkboxes = document.getElementsByName("includeInSearch");
+
+            for (var i = 0; i < checkboxes.length; i++) {
+                if (checkboxes[i].checked) {
+                    newSettings.push(checkboxes[i].value);
+                }
+            }
+
+            microsoftTeams.authentication.notifySuccess(JSON.stringify(newSettings));
+        }
+
+    </script>
+</body>
+</html>

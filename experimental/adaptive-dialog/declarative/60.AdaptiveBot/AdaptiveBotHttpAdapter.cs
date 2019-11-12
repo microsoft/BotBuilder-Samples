@@ -20,14 +20,12 @@ namespace Microsoft.BotBuilderSamples
             IStorage storage, UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer)
             : base(credentialProvider)
         {
+            this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
+            this.UseResourceExplorer(resourceExplorer);
             this.UseLanguageGeneration(resourceExplorer);
-            this.UseResourceExplorer(resourceExplorer, () =>
-            {
-                TypeFactory.Register("Testbot.Multiply", typeof(MultiplyStep));
-                TypeFactory.Register("Testbot.JavascriptStep", typeof(JavascriptStep));
-            });
+            this.UseAdaptiveDialogs();
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712), events: new Events<AdaptiveEvents>());
 
             this.OnTurnError = async (turnContext, exception) =>
@@ -43,7 +41,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     try
                     {
-
                         // Delete the conversationState for the current conversation to prevent the
                         // bot from getting stuck in a error-loop caused by being in a bad state.
                         // ConversationState should be thought of as similar to "cookie-state" in a Web pages.

@@ -13,6 +13,8 @@ using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
 using System.Collections.Generic;
 using Microsoft.Bot.Schema;
+using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
@@ -26,7 +28,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             : base(nameof(MainDialog))
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "MainDialog.LG" };
+            string[] paths = { ".", "Resources", "MainDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
 
@@ -57,7 +59,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
             else
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text(_lgEngine.EvaluateTemplate("IntroPrompt", null)) }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("IntroPrompt")) }, cancellationToken);
             }
         }
 
@@ -90,7 +92,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
                 var timeProperty = new TimexProperty(result.TravelDate);
                 result.travelDateMsg = timeProperty.ToNaturalLanguage(DateTime.Now);
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text(_lgEngine.EvaluateTemplate("BookingConfirmation", result)), cancellationToken);
+                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("BookingConfirmation", result)), cancellationToken);
             }
             else
             {
