@@ -57,7 +57,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMakerActiveLearningBot", "48.qnamaker-active-learning-bot\QnAMakerActiveLearningBot.csproj", "{0D10F464-E767-4F65-BE97-3AFBD886BCF3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "55.facebook-adapter\FacebookAdapterBot.csproj", "{77143411-6079-4885-B834-23367603FB00}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "59.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -173,10 +173,10 @@ Global
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77143411-6079-4885-B834-23367603FB00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77143411-6079-4885-B834-23367603FB00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77143411-6079-4885-B834-23367603FB00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77143411-6079-4885-B834-23367603FB00}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
