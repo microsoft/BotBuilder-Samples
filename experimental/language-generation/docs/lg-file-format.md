@@ -195,7 +195,7 @@ The above example uses the [join][5] pre-built function to list all values in th
 
 If template name is the same with builtin function's name, template will be executed first, without automatically executing one according to the parameter variable. 
 
-In case where you must have the template name be the same as a prebuilt function name, you can use `builtin.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
+In case where you must have the template name be the same as a prebuilt function name, you can use `prebuilt.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
 
 Here is an example that illustrates that
 
@@ -210,7 +210,7 @@ Here is an example that illustrates that
 
 # mufunc2
 > builtin function 'length' would be called, and output 2
-- @{builtin.length('hi')}
+- @{prebuilt.length('hi')}
 ```
 ## Multi-line text in variations
 Each one-of variation can include multi-line text enclosed in ```...```. 
