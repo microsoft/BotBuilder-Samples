@@ -1,8 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
-// Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.3.0
 
+using FacebookAdapterBot.Adapters;
 using FacebookAdapterBot.Bots;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -21,8 +20,11 @@ namespace FacebookAdapterBot
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the Bot Framework Facebook Adapter.
-            services.AddSingleton<IBotFrameworkHttpAdapter, FacebookAdapter>();
+            // Create the default Bot Framework Adapter (used for Azure Bot Service channels and emulator).
+            services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkAdapterWithErrorHandler>();
+
+            // Create the Facebook Adapter
+            services.AddSingleton<FacebookAdapter, FacebookAdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, EchoBot>();

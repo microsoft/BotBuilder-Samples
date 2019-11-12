@@ -4,24 +4,26 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters.Facebook;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace FacebookAdapterBot.Controllers
 {
-    [Route("api/messages")]
+    [Route("api/facebook")]
     [ApiController]
-    public class BotController : ControllerBase
+    public class FacebookController : ControllerBase
     {
         private readonly IBotFrameworkHttpAdapter _adapter;
         private readonly IBot _bot;
 
-        public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
+        public FacebookController(FacebookAdapter adapter, IBot bot)
         {
             _adapter = adapter;
             _bot = bot;
         }
 
         [HttpPost]
+        [HttpGet]
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.
