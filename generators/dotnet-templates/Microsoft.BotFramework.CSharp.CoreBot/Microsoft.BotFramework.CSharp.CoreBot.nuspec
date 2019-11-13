@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.Bot.Framework.CSharp.CoreBot</id>
-    <version>4.5.2</version>
+    <version>4.6.2</version>
     <description>
       A .NET Core Template for Microsoft Bot Framework v4.  Will let you quickly set up a conversational AI bot with core features every bot is likely to use.
     </description>

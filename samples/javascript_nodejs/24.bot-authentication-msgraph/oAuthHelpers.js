@@ -30,7 +30,7 @@ class OAuthHelpers {
 
         await client.sendMail(
             emailAddress,
-            `Message from a bot!`,
+            'Message from a bot!',
             `Hi there! I had this message sent from a bot. - Your friend, ${ me.displayName }`
         );
         await context.sendActivity(`I sent a message to ${ emailAddress } from your account.`);

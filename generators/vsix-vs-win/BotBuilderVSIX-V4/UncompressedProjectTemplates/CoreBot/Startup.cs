@@ -40,7 +40,7 @@ namespace $safeprojectname$
             // Register the BookingDialog.
             services.AddSingleton<BookingDialog>();
 
-            // The Dialog that will be run by the bot.
+            // The MainDialog that will be run by the bot.
             services.AddSingleton<MainDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
@@ -61,7 +61,7 @@ namespace $safeprojectname$
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             app.UseMvc();
         }
     }

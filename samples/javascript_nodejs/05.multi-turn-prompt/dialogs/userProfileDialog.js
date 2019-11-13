@@ -72,7 +72,7 @@ class UserProfileDialog extends ComponentDialog {
 
     async nameStep(step) {
         step.values.transport = step.result.value;
-        return await step.prompt(NAME_PROMPT, `What is your name, human?`);
+        return await step.prompt(NAME_PROMPT, 'What is your name, human?');
     }
 
     async nameConfirmStep(step) {

@@ -27,7 +27,7 @@ class TranslatorMiddleware {
 
     async onTurn(context, next) {
         if (!context) {
-            throw new Error(`Context is returning null`);
+            throw new Error('Context is returning null');
         };
 
         const translate = await this.shouldTranslate(context);

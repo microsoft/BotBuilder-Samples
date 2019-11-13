@@ -2,7 +2,9 @@
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
 namespace Microsoft.BotBuilderSamples
@@ -18,9 +20,15 @@ namespace Microsoft.BotBuilderSamples
             var ViewToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
-                Steps = new List<IDialog>()
+                Triggers = new List<OnCondition>()
                 {
-                    new SendActivity("[View-ToDos]")
+                    new OnBeginDialog() 
+                    {
+                        Actions = new List<Dialog>() 
+                        {
+                            new SendActivity("@{View-ToDos()}")
+                        }
+                    }
                 }
             };
 
