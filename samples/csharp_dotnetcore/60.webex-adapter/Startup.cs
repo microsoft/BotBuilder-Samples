@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Webex;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
+using WebexAdapterBot.Adapters;
 using WebexAdapterBot.Bots;
 
 namespace WebexAdapterBot
@@ -19,8 +20,11 @@ namespace WebexAdapterBot
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the Bot Framework Webex Adapter.
-            services.AddSingleton<IBotFrameworkHttpAdapter, WebexAdapter>();
+            // Create the default Bot Framework Adapter.
+            services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkAdapterWithErrorHandler>();
+
+            // Create the default Bot Framework Adapter.
+            services.AddSingleton<WebexAdapter, WebexAdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, EchoBot>();

@@ -9,7 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Webex" Version="4.6.0-preview-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Webex" Version="4.6.2-preview" />
   </ItemGroup>
 
   <ItemGroup>

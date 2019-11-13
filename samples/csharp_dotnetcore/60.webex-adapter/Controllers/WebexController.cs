@@ -23,7 +23,6 @@ namespace WebexAdapterBot.Controllers
         }
 
         [HttpPost]
-        [HttpGet]
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.
