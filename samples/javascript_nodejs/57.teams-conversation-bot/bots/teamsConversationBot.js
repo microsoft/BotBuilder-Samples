@@ -9,6 +9,7 @@ const {
     CardFactory,
     ActionTypes
 } = require('botbuilder');
+const TextEncoder = require('util').TextEncoder;
 
 class TeamsConversationBot extends TeamsActivityHandler {
     constructor() {
@@ -65,11 +66,11 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async mentionActivityAsync(context) {
         const mention = {
             mentioned: context.activity.from,
-            text: `<at>${ context.activity.from.name }</at>`,
+            text: `<at>${ new TextEncoder().encode(context.activity.from.name) }</at>`,
             type: 'mention'
         };
 
-        const replyActivity = MessageFactory.text(mention.text);
+        const replyActivity = MessageFactory.text(`Hi ${ mention.text }`);
         replyActivity.entities = [mention];
         await context.sendActivity(replyActivity);
     }
