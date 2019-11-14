@@ -23,16 +23,20 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-// Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about how bots work.
-const adapter = new BotFrameworkAdapter({
+// BotFrameworkAdapterSettings configuration object with enableWebSockets set to true.
+// The three values below are required for use with Direct Line Speech.
+const adapterSettings = {
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword,
     enableWebSockets: true
-});
+};
+
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about how bots work.
+const adapter = new BotFrameworkAdapter(adapterSettings);
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+ const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -51,6 +55,9 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
+
 // Create the main dialog.
 const myBot = new EchoBot();
 
@@ -64,7 +71,12 @@ server.post('/api/messages', (req, res) => {
 
 // Listen for GET requests to the same route to accept Upgrade requests for Streaming.
 server.get('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter(adapterSettings);
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.processActivity(req, res, async (context) => {
         // After connecting via WebSocket, run this logic for every request sent over
         // the WebSocket connection.
         await myBot.run(context);
