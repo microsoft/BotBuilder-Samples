@@ -9,7 +9,7 @@ The bot maintains user state to track the user's answers.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-python.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\44.prompt-user-for-input` folder
+- Bring up a terminal, navigate to `botbuilder-samples\samples\python\44.prompt-for-user-input` folder
 - In the terminal, type `pip install -r requirements.txt`
 - In the terminal, type `python app.py`
 
