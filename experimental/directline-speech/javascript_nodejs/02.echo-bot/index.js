@@ -27,8 +27,7 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 // The three values below are required for use with Direct Line Speech.
 const adapterSettings = {
     appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword,
-    enableWebSockets: true
+    appPassword: process.env.MicrosoftAppPassword
 };
 
 // Create adapter.
@@ -36,7 +35,7 @@ const adapterSettings = {
 const adapter = new BotFrameworkAdapter(adapterSettings);
 
 // Catch-all for errors.
- const onTurnErrorHandler = async (context, error) => {
+const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -72,7 +71,10 @@ server.post('/api/messages', (req, res) => {
 // Listen for GET requests to the same route to accept Upgrade requests for Streaming.
 server.get('/api/messages', (req, res) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter(adapterSettings);
+    const streamingAdapter = new BotFrameworkAdapter({
+        ...adapterSettings,
+        enableWebSockets: true
+    });
     // Set onTurnError for the BotFrameworkAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 

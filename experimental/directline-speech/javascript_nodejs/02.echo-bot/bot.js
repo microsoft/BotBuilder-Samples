@@ -1,14 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler } = require('botbuilder');
+const { ActivityHandler, MessageFactory } = require('botbuilder');
 
 class EchoBot extends ActivityHandler {
     constructor() {
         super();
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            await context.sendActivity(this.createActivityWithTextAndSpeak(`You said '${ context.activity.text }'`));
+            const replyText = `Echo: ${ context.activity.text }`;
+            await context.sendActivity(MessageFactory.text(replyText, replyText));
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
@@ -16,20 +17,15 @@ class EchoBot extends ActivityHandler {
 
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
+            const welcomeText = 'Hello and welcome!';
             for (let cnt = 0; cnt < membersAdded.length; ++cnt) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    await context.sendActivity(this.createActivityWithTextAndSpeak('Hello and welcome!'));
+                    await context.sendActivity(MessageFactory.text(welcomeText, welcomeText));
                 }
             }
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
-    }
-
-    createActivityWithTextAndSpeak(text) {
-        const speak = `<speak version='1.0' xmlns='https://www.w3.org/2001/10/synthesis' xml:lang='en-US'><voice name='Microsoft Server Speech Text to Speech Voice (en-US, JessaRUS)'>${text}</voice></speak>`;
-        const activity = { text, speak };
-        return activity;
     }
 }
 
