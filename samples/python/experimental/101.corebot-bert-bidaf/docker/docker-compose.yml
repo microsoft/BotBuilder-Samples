@@ -1,0 +1,20 @@
+version: '3.7'
+services:
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile_bot
+    ports:
+      - "3978:3978"
+    links:
+      - api
+    environment:
+      MODEL_RUNTIME_API_HOST : api
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile_model_runtime
+    ports:
+      - "8880:8880"
+      

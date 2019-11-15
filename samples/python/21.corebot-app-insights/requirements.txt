@@ -1,0 +1,13 @@
+Flask>=1.0.2
+asyncio>=3.4.3
+requests>=2.18.1
+botframework-connector>=4.4.0.b1
+botbuilder-schema>=4.4.0.b1
+botbuilder-core>=4.4.0.b1
+botbuilder-dialogs>=4.4.0.b1
+botbuilder-ai>=4.4.0.b1
+botbuilder-applicationinsights>=4.4.0.b1
+datatypes-date-time>=1.0.0.a1
+azure-cognitiveservices-language-luis>=0.2.0
+msrest>=0.6.6
+
