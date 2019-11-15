@@ -279,3 +279,6 @@ generators/generator-botbuilder/.npmrc
 /generators/generator-botbuilder/package-lock.json
 package-lock.json
 tsconfig.tsbuildinfo
+samples/python/44.prompt-for-user-input/__pycache__
+samples/python/44.prompt-for-user-input/bots/__pycache__
+samples/python/44.prompt-for-user-input/data_models/__pycache__
