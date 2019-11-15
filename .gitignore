@@ -279,3 +279,5 @@ generators/generator-botbuilder/.npmrc
 /generators/generator-botbuilder/package-lock.json
 package-lock.json
 tsconfig.tsbuildinfo
+samples/python/14.nlp-with-dispatch/__pycache__
+samples/python/14.nlp-with-dispatch/bots/__pycache__
