@@ -279,3 +279,5 @@ generators/generator-botbuilder/.npmrc
 /generators/generator-botbuilder/package-lock.json
 package-lock.json
 tsconfig.tsbuildinfo
+samples/python/07.using-adaptive-cards/__pycache__
+samples/python/07.using-adaptive-cards/bots/__pycache__
