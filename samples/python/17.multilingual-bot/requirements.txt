@@ -1,0 +1,3 @@
+requests
+botbuilder-core>=4.4.0b1
+flask>=1.0.3
