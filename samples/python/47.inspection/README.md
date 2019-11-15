@@ -13,7 +13,7 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 ## Running the sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\47.inspection` folder
 - In the terminal, type `pip install -r requirements.txt`

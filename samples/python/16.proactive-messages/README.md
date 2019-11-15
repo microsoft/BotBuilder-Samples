@@ -16,7 +16,7 @@ all users who have previously messaged the bot.
 ## Running the sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\16.proactive-messages` folder
