@@ -143,7 +143,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
-[py#3]:samples/python/03.welcome-users
+[py#3]:samples/python/03.welcome-user
 [py#5]:samples/python/05.multi-turn-prompt
 [py#6]:samples/python/06.using-cards
 [py#7]:samples/python/07.using-adaptive-cards
