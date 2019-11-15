@@ -37,7 +37,7 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 ## Running the sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\40.timex-resolution` folder

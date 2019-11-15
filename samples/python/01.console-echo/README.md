@@ -8,7 +8,7 @@ This sample shows a simple echo bot and demonstrates the bot working as a consol
 ## To try this sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\01.console-echo` folder
 - type 'python main.py'

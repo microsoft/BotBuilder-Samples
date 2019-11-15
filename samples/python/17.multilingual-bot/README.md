@@ -18,7 +18,7 @@ The API uses the most modern neural machine translation technology, as well as o
 ## Running the sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\17.multilingual-bot` folder
