@@ -174,7 +174,7 @@ class CustomPromptBot(ActivityHandler):
                         if diff.total_seconds() >= 3600:
                             return ValidationResult(
                                 is_valid=True,
-                                value=candidate.strftime("%m/%d/%y @ %H:%M"),
+                                value=candidate.strftime("%m/%d/%y"),
                             )
 
             return ValidationResult(
