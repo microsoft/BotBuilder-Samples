@@ -59,7 +59,7 @@ class AdaptiveCardPromptDialog extends ComponentDialog {
     async displayResults(stepContext) {
         // Use the result
         const result = stepContext.result;
-        const resultString = Object.keys(result).map((key) => `Key: ${ key }   |   Value: ${ result[key] }`).join('\n');
+        const resultString = Object.keys(result).map((key) => `Key: ${ key }   |   Value: ${ result[key] }`).join('\n\n');
         await stepContext.context.sendActivity(`Your input:\n\n${ resultString }`);
         return await stepContext.endDialog();
     }
