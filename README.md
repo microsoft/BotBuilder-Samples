@@ -23,12 +23,12 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | | |[View][py#3]
 |5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             | |[View][py#5]
 |6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             | |[View][py#6]
-|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |
+|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |[View][py#7]
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |[View][py#8]
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
 |13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|[View][py#13]
 |13.core-bot.tests            | Unit test project Core bot shows how to use use Bot Framework testing framework.                         |[View][cs#13.b]|   |   |             |  |
-|14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |             | |
+|14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |            | |[View][py#14]
 |15.handling-attachments| Demonstrates how to listen for/handle user provided attachments.                |[View][cs#15]|[View][js#15]|              |             | |[View][py#15]
 |16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | |[View][py#16]
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |[View][py#17]
