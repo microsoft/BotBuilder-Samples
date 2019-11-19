@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
-            //Note: The Teams manifest.json for this sample also inclues a Search Query, in order to enable installing from App Studio.
+            //Note: The Teams manifest.json for this sample also includes a Search Query, in order to enable installing from App Studio.
 
             switch (query.CommandId)
             {
