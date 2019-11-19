@@ -21,7 +21,7 @@ class AdaptiveCardPromptDialog extends ComponentDialog {
         const cardJson = require('../resources/adaptiveCard.json');
         const card = CardFactory.adaptiveCard(cardJson);
 
-        this.addDialog(new AdaptiveCardPrompt(ADAPTIVE_CARD_PROMPT, undefined, { card: card }));
+        this.addDialog(new AdaptiveCardPrompt(ADAPTIVE_CARD_PROMPT, { card }));
 
         this.addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
             this.showCard.bind(this),

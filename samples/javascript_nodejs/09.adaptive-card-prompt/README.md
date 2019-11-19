@@ -125,6 +125,14 @@ A message exchange between user and bot can contain media attachments, such as c
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
+// TODO: Remove this section once AdaptiveCardPrompt merged into SDK
+## Updating AdaptiveCardPrompt with PR
+
+1. Copy `AdaptiveCardPrompt.ts` from [the PR](https://github.com/microsoft/botbuilder-js/pull/1431) to the root of this sample
+2. Change the imports to botbuilder packages instead of local files
+3. Run `npm i -D typescript`
+4. Run `./node_modules/.bin/tsc adaptiveCardPrompt.ts --target es2017 --module commonjs`
+
 ## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
