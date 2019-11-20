@@ -21,9 +21,7 @@ class AuthBot(DialogBot):
         user_state: UserState,
         dialog: Dialog,
     ):
-        super(AuthBot, self).__init__(
-            conversation_state, user_state, dialog
-        )
+        super(AuthBot, self).__init__(conversation_state, user_state, dialog)
 
     async def on_members_added_activity(
         self, members_added: List[ChannelAccount], turn_context: TurnContext
@@ -32,12 +30,12 @@ class AuthBot(DialogBot):
             # Greet anyone that was not the target (recipient) of this message.
             # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
             if member.id != turn_context.activity.recipient.id:
-                await turn_context.send_activity("Welcome to AuthenticationBot. Type anything to get logged in. Type "
-                                                 "'logout' to sign-out.")
+                await turn_context.send_activity(
+                    "Welcome to AuthenticationBot. Type anything to get logged in. Type "
+                    "'logout' to sign-out."
+                )
 
-    async def on_token_response_event(
-            self, turn_context: TurnContext
-    ):
+    async def on_token_response_event(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
         await DialogHelper.run_dialog(
             self.dialog,
