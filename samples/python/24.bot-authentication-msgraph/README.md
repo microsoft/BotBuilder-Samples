@@ -1,20 +1,27 @@
-# Bot Authentication
+# Authentication Bot Utilizing MS Graph
 
-Bot Framework v4 bot authentication sample
+Bot Framework v4 bot authentication using Microsoft Graph sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use authentication in your bot using OAuth.
+This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to use the bot authentication capabilities of Azure Bot Service. In this sample we are assuming the OAuth 2 provider is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the user. [Check here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp) for information about getting an AADv2
+application setup for use in Azure Bot Service. The [scopes](https://developer.microsoft.com/en-us/graph/docs/concepts/permissions_reference) used in this sample are the following:
 
-The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+- `email`
+- `Mail.Read`
+- `Mail.Send.Shared`
+- `openid`
+- `profile`
+- `User.Read`
+- `User.ReadBasic.All`
 
 NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
 
 ## Running the sample
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-python.git
+git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Activate your desired virtual environment
-- Bring up a terminal, navigate to `botbuilder-python\samples\18.bot-authentication` folder
+- Bring up a terminal, navigate to `botbuilder-samples\samples\24.bot-authentication-msgraph` folder
 - In the terminal, type `pip install -r requirements.txt`
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
 - [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)

@@ -11,6 +11,6 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = "127ff2d8-29b4-4618-b661-7ea0430186ee"
-    APP_PASSWORD = "b0tframew0rks3cr3t!"
-    CONNECTION_NAME = "bot-auth"
+    APP_ID = os.environ.get("MicrosoftAppId", "")
+    APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    CONNECTION_NAME = os.environ.get("ConnectionName", "")

@@ -11,7 +11,9 @@ API_VERSION = "beta"
 class SimpleGraphClient:
     def __init__(self, token: str):
         self.token = token
-        self.client = OAuth2Session(token={"access_token": token, "token_type": "Bearer"})
+        self.client = OAuth2Session(
+            token={"access_token": token, "token_type": "Bearer"}
+        )
 
     async def send_mail(self, to_address: str, subject: str, content: str):
         # Create recipient list in required format.
@@ -23,13 +25,12 @@ class SimpleGraphClient:
                 "Subject": subject,
                 "Body": {"ContentType": "Text", "Content": content},
                 "ToRecipients": recipient_list,
-            },
-            "SaveToSentItems": "true",
+            }
         }
 
         # Do a POST to Graph's sendMail API and return the response.
         return self.client.post(
-            self.api_endpoint("me/microsoft.graph.sendMail"),
+            self.api_endpoint("me/sendMail"),
             headers={"Content-Type": "application/json"},
             json=email_msg,
         )
@@ -40,7 +41,7 @@ class SimpleGraphClient:
 
     async def get_recent_mail(self):
         response = self.client.get(self.api_endpoint("me/messages"))
-        return json.loads(response.text)
+        return json.loads(response.text)["value"]
 
     def api_endpoint(self, url):
         """Convert a relative path such as /me/photo/$value to a full URI based
@@ -48,6 +49,4 @@ class SimpleGraphClient:
         """
         if urlparse(url).scheme in ["http", "https"]:
             return url  # url is already complete
-        return urljoin(
-            f"{RESOURCE}/{API_VERSION}/", url.lstrip("/")
-        )
+        return urljoin(f"{RESOURCE}/{API_VERSION}/", url.lstrip("/"))
