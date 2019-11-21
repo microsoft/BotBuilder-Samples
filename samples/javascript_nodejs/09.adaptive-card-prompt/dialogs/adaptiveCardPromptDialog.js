@@ -90,10 +90,15 @@ class AdaptiveCardPromptDialog extends ComponentDialog {
     }
 
     async displayResults(stepContext) {
-        // Send the result to the error
+        await stepContext.context.sendActivity('Success!');
+
+        // Send the result to the user
         const result = stepContext.result.data;
         const resultString = Object.keys(result).map((key) => `* **${ key }**: ${ result[key] }`).join('\n\n');
         await stepContext.context.sendActivity(`Your input:\n\n${ resultString }`);
+
+        await stepContext.context.sendActivity('Type anything to start again.');
+
         return await stepContext.endDialog();
     }
 
