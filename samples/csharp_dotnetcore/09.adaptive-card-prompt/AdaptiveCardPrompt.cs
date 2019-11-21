@@ -184,7 +184,7 @@ namespace Microsoft.Bot.Builder.BotBuilderSamples
                 var data = JObject.FromObject(context.Activity.Value);
 
                 // Validate it comes from the correct card - This is only a worry while the prompt/dialog has not ended
-                if (!string.IsNullOrEmpty(_promptId) && data["promptId"].ToString() != _promptId)
+                if (!string.IsNullOrEmpty(_promptId) && data["promptId"]?.ToString() != _promptId)
                 {
                     return Task.FromResult(new PromptRecognizerResult<AdaptiveCardPromptResult>()
                     {

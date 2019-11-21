@@ -1,0 +1,57 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Complex Adaptive Card",
+            "size": "Large",
+            "weight": "Bolder"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Text Input - id: textInput"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Required",
+            "size": "Small",
+            "color": "Attention"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Submit without filling this out to produce error",
+            "id": "textInput"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Number Input - id: numberInput"
+        },
+        {
+            "type": "Input.Number",
+            "placeholder": "This is optional",
+            "id": "numberInput"
+        },
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Produce a different error by not pressing Submit and instead, pressing Send after entering text in the \"normal\" text input box.",
+                    "wrap": true,
+                    "color": "Warning"
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit",
+            "data": {
+                "promptId": "complexCard"
+            }
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
