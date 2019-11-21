@@ -1,0 +1,24 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Submit Here to Reproduce \"Wrong Card\" Error",
+            "weight": "Bolder",
+            "size": "Medium"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Placeholder text",
+            "id": "textInput"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}

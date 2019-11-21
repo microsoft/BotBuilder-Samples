@@ -1,7 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const botbuilder_dialogs_1 = require("botbuilder-dialogs");
-const botbuilder_1 = require("botbuilder");
+const botbuilder_core_1 = require("botbuilder-core");
 /**
  * AdaptiveCardPrompt catches certain common errors that are passed to validator, if present
  * This allows developers to handle these specific errors as they choose
@@ -10,21 +10,25 @@ const botbuilder_1 = require("botbuilder");
 var AdaptiveCardPromptErrors;
 (function (AdaptiveCardPromptErrors) {
     /**
+     * No known user errors.
+     */
+    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["none"] = 0] = "none";
+    /**
      * Error presented if developer specifies AdaptiveCardPromptSettings.promptId,
      *  but user submits adaptive card input on a card where the ID does not match.
      * This error will also be present if developer AdaptiveCardPromptSettings.promptId,
      *  but forgets to add the promptId to every <submit>.data.promptId in your Adaptive Card.
      */
-    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["userInputDoesNotMatchCardId"] = 0] = "userInputDoesNotMatchCardId";
+    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["userInputDoesNotMatchCardId"] = 1] = "userInputDoesNotMatchCardId";
     /**
      * Error presented if developer specifies AdaptiveCardPromptSettings.requiredIds,
      * but user does not submit input for all required input id's on the adaptive card
      */
-    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["missingRequiredIds"] = 1] = "missingRequiredIds";
+    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["missingRequiredIds"] = 2] = "missingRequiredIds";
     /**
      * Error presented if user enters plain text instead of using Adaptive Card's input fields
      */
-    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["userUsedTextInput"] = 2] = "userUsedTextInput";
+    AdaptiveCardPromptErrors[AdaptiveCardPromptErrors["userUsedTextInput"] = 3] = "userUsedTextInput";
 })(AdaptiveCardPromptErrors = exports.AdaptiveCardPromptErrors || (exports.AdaptiveCardPromptErrors = {}));
 /**
  * Waits for Adaptive Card Input to be received.
@@ -89,7 +93,7 @@ class AdaptiveCardPrompt extends botbuilder_dialogs_1.Dialog {
         const existingAttachments = clonedPrompt.attachments || options ? options['attachments'] : [];
         // Add Adaptive Card as last attachment (user input should go last), keeping any others
         clonedPrompt.attachments = existingAttachments ? [...existingAttachments, this.card] : [this.card];
-        await context.sendActivity(clonedPrompt, undefined, botbuilder_1.InputHints.ExpectingInput);
+        await context.sendActivity(clonedPrompt, undefined, botbuilder_core_1.InputHints.ExpectingInput);
     }
     // Override continueDialog so that we can catch activity.value (which is ignored, by default)
     async continueDialog(dc) {
@@ -130,10 +134,10 @@ class AdaptiveCardPrompt extends botbuilder_dialogs_1.Dialog {
     async onRecognize(context) {
         // Ignore user input that doesn't come from adaptive card
         if (!context.activity.text && context.activity.value) {
-            const value = context.activity.value;
+            const data = context.activity.value;
             // Validate it comes from the correct card - This is only a worry while the prompt/dialog has not ended
             if (this.promptId && context.activity.value && context.activity.value['promptId'] != this.promptId) {
-                return { succeeded: false, value, error: AdaptiveCardPromptErrors.userInputDoesNotMatchCardId };
+                return { succeeded: false, value: { data, error: AdaptiveCardPromptErrors.userInputDoesNotMatchCardId } };
             }
             // Check for required input data, if specified in AdaptiveCardPromptSettings
             const missingIds = [];
@@ -144,13 +148,13 @@ class AdaptiveCardPrompt extends botbuilder_dialogs_1.Dialog {
             });
             // User did not submit inputs that were required
             if (missingIds.length > 0) {
-                return { succeeded: false, value, missingIds, error: AdaptiveCardPromptErrors.missingRequiredIds };
+                return { succeeded: false, value: { data, missingIds, error: AdaptiveCardPromptErrors.missingRequiredIds } };
             }
-            return { succeeded: true, value };
+            return { succeeded: true, value: { data } };
         }
         else {
             // User used text input instead of card input
-            return { succeeded: false, error: AdaptiveCardPromptErrors.userUsedTextInput };
+            return { succeeded: false, value: { error: AdaptiveCardPromptErrors.userUsedTextInput } };
         }
     }
     throwIfNotAdaptiveCard(cardAttachment) {

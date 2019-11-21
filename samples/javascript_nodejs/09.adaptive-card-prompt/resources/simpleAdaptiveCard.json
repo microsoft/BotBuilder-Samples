@@ -1,0 +1,31 @@
+{
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Text Input - id: textInput"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Enter some text",
+            "id": "textInput"
+        },
+        {
+            "type": "TextBlock",
+            "text": "Number Input - id: numberInput"
+        },
+        {
+            "type": "Input.Number",
+            "placeholder": "Enter a number",
+            "id": "numberInput"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.0"
+}
