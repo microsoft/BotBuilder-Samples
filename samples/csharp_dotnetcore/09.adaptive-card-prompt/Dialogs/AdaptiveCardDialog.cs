@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,7 +10,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Linq;
 using Microsoft.Bot.Builder.BotBuilderSamples;
-using Microsoft.Bot.Builder;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -20,21 +18,6 @@ namespace Microsoft.BotBuilderSamples
 
         public AdaptiveCardDialog()
             : base(nameof(AdaptiveCardDialog))
-        {
-            var adaptiveCardPrompt = new AdaptiveCardPrompt(nameof(AdaptiveCardPrompt));
-
-            AddDialog(adaptiveCardPrompt);
-
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
-            {
-                ShowCardAsync,
-                DisplayResultsAsync
-            }));
-
-            InitialDialogId = nameof(WaterfallDialog);
-        }
-
-        private static async Task<DialogTurnResult> ShowCardAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var cardPath = Path.Combine("./Resources/", "adaptiveCard.json");
             var cardJson = File.ReadAllText(cardPath);
@@ -49,18 +32,29 @@ namespace Microsoft.BotBuilderSamples
                 Card = cardAttachment
             };
 
-            // Call the prompt
-            return await stepContext.PromptAsync(nameof(AdaptiveCardPrompt), new PromptOptions()
+            var adaptiveCardPrompt = new AdaptiveCardPrompt(nameof(AdaptiveCardPrompt), promptSettings);
+
+            AddDialog(adaptiveCardPrompt);
+
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
-                Prompt = MessageFactory.Attachment(cardAttachment) as Activity
-            }) ;
-            
+                ShowCardAsync,
+                DisplayResultsAsync
+            }));
+
+            InitialDialogId = nameof(WaterfallDialog);
+        }
+
+        private static async Task<DialogTurnResult> ShowCardAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            // Call the prompt - Note: PromptOptions is a required argument for StepContext and DialogContext, but doesn't need to be filled out
+            return await stepContext.PromptAsync(nameof(AdaptiveCardPrompt), new PromptOptions());
         }
 
         private async Task<DialogTurnResult> DisplayResultsAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // Use the result
-            var result = stepContext.Result as JObject;
+            var result = (stepContext.Result as AdaptiveCardPromptResult).Data as JObject;
             var resultArray = result.Properties().Select(p => $"Key: {p.Name}  |  Value: {p.Value}").ToList();
             var resultString = string.Join("\n\n", resultArray);
 
