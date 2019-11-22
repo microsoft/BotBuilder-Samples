@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples
             AddDialog(new NumberPrompt<int>(nameof(NumberPrompt<int>), AgePromptValidatorAsync));
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
-            AddDialog(new AttachmentPrompt(nameof(AttachmentPrompt), AttachmentPromptValidatorAsync));
+            AddDialog(new AttachmentPrompt(nameof(AttachmentPrompt), PicturePromptValidatorAsync));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
             if ((bool)stepContext.Result)
             {
                 // User said "yes" so we will be prompting for the age.
-                // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+                // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
                 var promptOptions = new PromptOptions
                 {
                     Prompt = MessageFactory.Text("Please enter your age."),
@@ -107,13 +107,14 @@ namespace Microsoft.BotBuilderSamples
             // We can send messages to the user at any point in the WaterfallStep.
             await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
 
-            if (stepContext.Context.Activity.ChannelId.Equals(Channels.Msteams))
+            if (stepContext.Context.Activity.ChannelId == Channels.Msteams)
             {
                 // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
                 return await stepContext.NextAsync(null, cancellationToken);
             }
             else
             {
+                // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
                 var promptOptions = new PromptOptions
                 {
                     Prompt = MessageFactory.Text("Please attach a profile picture (or type any message to skip)."),
@@ -128,7 +129,7 @@ namespace Microsoft.BotBuilderSamples
         {
             stepContext.Values["picture"] = ((IList<Attachment>)stepContext.Result)?.FirstOrDefault();
 
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
         }
 
@@ -172,7 +173,7 @@ namespace Microsoft.BotBuilderSamples
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
             }
 
-            // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
             return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
@@ -182,7 +183,7 @@ namespace Microsoft.BotBuilderSamples
             return Task.FromResult(promptContext.Recognized.Succeeded && promptContext.Recognized.Value > 0 && promptContext.Recognized.Value < 150);
         }
 
-        private static async Task<bool> AttachmentPromptValidatorAsync(PromptValidatorContext<IList<Attachment>> promptContext, CancellationToken cancellationToken)
+        private static async Task<bool> PicturePromptValidatorAsync(PromptValidatorContext<IList<Attachment>> promptContext, CancellationToken cancellationToken)
         {
             if (promptContext.Recognized.Succeeded)
             {
