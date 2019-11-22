@@ -110,6 +110,7 @@ namespace Microsoft.BotBuilderSamples
             if (stepContext.Context.Activity.ChannelId == Channels.Msteams)
             {
                 // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Skipping attachment prompt in Teams channel..."), cancellationToken);
                 return await stepContext.NextAsync(null, cancellationToken);
             }
             else

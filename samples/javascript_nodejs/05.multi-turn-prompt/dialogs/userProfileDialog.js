@@ -114,6 +114,7 @@ class UserProfileDialog extends ComponentDialog {
 
         if (step.context.activity.channelId === channels.msteams) {
             // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
+            await step.context.sendActivity('Skipping attachment prompt in Teams channel...');
             return await step.next(undefined);
         } else {
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
@@ -184,7 +185,7 @@ class UserProfileDialog extends ComponentDialog {
             promptContext.recognized.value = validImages;
 
             // If none of the attachments are valid images, the retry prompt should be sent.
-            return validImages.length;
+            return !!validImages.length;
         }
         else {
             await promptContext.context.sendActivity('No attachments received. Proceeding without a profile picture...');
