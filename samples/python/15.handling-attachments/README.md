@@ -29,10 +29,18 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
 The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.
 
-## Further reading
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+# Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Attachments](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-receive-attachments?view=azure-bot-service-4.0)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)

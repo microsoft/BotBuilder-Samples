@@ -48,7 +48,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 Once you are comfortable with the concepts presented in this sample, you may want to configure Dispatch using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
 
-## Further reading
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+# Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)

@@ -26,7 +26,11 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - File -> Open Bot
 - Paste this URL in the emulator window - http://localhost:3978/api/messages
 
-## Further reading
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+# Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)

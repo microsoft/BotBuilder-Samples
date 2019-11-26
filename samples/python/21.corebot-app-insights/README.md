@@ -48,8 +48,11 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
+## Deploy the bot to Azure
 
-## Further reading
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+# Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)

@@ -19,12 +19,12 @@ from bots import ProactiveBot
 
 # Create the loop and Flask app
 LOOP = asyncio.get_event_loop()
-APP = Flask(__name__, instance_relative_config=True)
-APP.config.from_object("config.DefaultConfig")
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_object("config.DefaultConfig")
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(APP.config["APP_ID"], APP.config["APP_PASSWORD"])
+SETTINGS = BotFrameworkAdapterSettings(app.config["APP_ID"], app.config["APP_PASSWORD"])
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 
 
@@ -70,7 +70,7 @@ APP_ID = SETTINGS.app_id if SETTINGS.app_id else uuid.uuid4()
 BOT = ProactiveBot(CONVERSATION_REFERENCES)
 
 # Listen for incoming requests on /api/messages.
-@APP.route("/api/messages", methods=["POST"])
+@app.route("/api/messages", methods=["POST"])
 def messages():
     # Main bot message handler.
     if "application/json" in request.headers["Content-Type"]:
@@ -94,7 +94,7 @@ def messages():
 
 
 # Listen for requests on /api/notify, and send a messages to all conversation members.
-@APP.route("/api/notify")
+@app.route("/api/notify")
 def notify():
     try:
         task = LOOP.create_task(_send_proactive_message())
@@ -118,6 +118,6 @@ async def _send_proactive_message():
 
 if __name__ == "__main__":
     try:
-        APP.run(debug=False, port=APP.config["PORT"])  # nosec debug
+        app.run(debug=False, port=app.config["PORT"])  # nosec debug
     except Exception as exception:
         raise exception

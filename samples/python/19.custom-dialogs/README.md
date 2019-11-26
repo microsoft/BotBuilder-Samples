@@ -38,6 +38,10 @@ series of "slots" which define a value the bot needs to collect from the user, a
 as the prompt it should use. The bot will iterate through all of the slots until they are
 all full, at which point the dialog completes.
 
+## Deploy the bot to Azure
+
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
 # Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
@@ -46,3 +50,7 @@ all full, at which point the dialog completes.
 - [Dialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog)
 - [Manage complex conversation flows with dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
