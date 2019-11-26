@@ -22,12 +22,12 @@ from bots import DialogAndWelcomeBot
 from dialogs import MainDialog
 
 LOOP = asyncio.get_event_loop()
-APP = Flask(__name__, instance_relative_config=True)
-APP.config.from_object("config.DefaultConfig")
+app = Flask(__name__, instance_relative_config=True)
+app.config.from_object("config.DefaultConfig")
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(APP.config["APP_ID"], APP.config["APP_PASSWORD"])
+SETTINGS = BotFrameworkAdapterSettings(app.config["APP_ID"], app.config["APP_PASSWORD"])
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 
 
@@ -76,7 +76,7 @@ BOT = DialogAndWelcomeBot(CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 # Listen for incoming requests on /api/messages.
-@APP.route("/api/messages", methods=["POST"])
+@app.route("/api/messages", methods=["POST"])
 def messages():
     # Main bot message handler.
     if "application/json" in request.headers["Content-Type"]:
@@ -101,6 +101,6 @@ def messages():
 
 if __name__ == "__main__":
     try:
-        APP.run(debug=False, port=APP.config["PORT"])  # nosec debug
+        app.run(debug=False, port=app.config["PORT"])  # nosec debug
     except Exception as exception:
         raise exception
