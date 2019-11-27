@@ -23,13 +23,10 @@ class TeamsBot extends DialogBot {
 
             await next();
         });
+    }
 
-        this.onInvoke(async (context, next) => {
-            console.log('Running dialog with Invoke Activity.');
-            await this.dialog.run(context, this.dialogState);
-
-            await next();
-        });
+    async handleTeamsSigninVerifyState(context, state) {
+        await this.dialog.run(context, this.dialogState);
     }
 }
 
