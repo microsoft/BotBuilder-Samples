@@ -2,6 +2,8 @@
 
 Bot Framework v4 multilingual bot sample
 
+This sample will present you with a set of cards to select your choice of language. You can either change language by invoking the option cards, or by entering the language code (en, es). The sample will then acknowledge your selection.
+
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
 
 ## Concepts introduced in this sample
