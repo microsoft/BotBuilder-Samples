@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Note: Since this Messaging Extension does not have the messageTeamMembers permission
                 // in the manifest, the bot will not be allowed to message users.
-                // await turnContext.SendActivityAsync("The bot encounted an error or bug.");
+                // await turnContext.SendActivityAsync("The bot encountered an error or bug.");
                 // await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
