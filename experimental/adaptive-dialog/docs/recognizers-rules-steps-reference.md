@@ -2,11 +2,11 @@
 
 This document describes the constituent parts of [Adaptive][7] dialog. 
 
-- [Recognizers](#Recognizers)
-- [Generator](#Generator)
-- [Triggers](#Rules)
-- [Actins](#Steps)
-- [Inputs](#Inputs)
+- [Recognizers](#recognizers)
+- [Generator](#generator)
+- [Triggers](#triggers)
+- [Actions](#actions)
+- [Inputs](#inputs)
 
 ## Recognizers
 _Recognizers_ provide the functionality of understanding and extracting meaningful pieces of information from a user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from a given user utterance.
