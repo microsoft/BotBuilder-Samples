@@ -8,10 +8,6 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 - * [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
   * Access to a Slack workspace with sufficient permissions to login to create / manage applications at  [https://api.slack.com/apps](https://api.slack.com/apps). If you do not have access to a Slack environment you can create a workspace for free at https://www.slack.com
 
 ## To try this sample
@@ -40,9 +36,7 @@ Once your app has been created, you need to collect some information that will b
 
 1. Note the 'Verification Token' and the 'Signing Secret' from the **Basic Information** tab and keep them for later when we configure our bot settings. 
 
-![Slack tokens](~/media/bot-service-adapter-connect-slack/slack-tokens.png)
-
-2. Navigate to the 'Install App' page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
+2. Navigate to the **Install App** page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
 
 ### Add Slack app settings to your bot's configuration file
 
@@ -95,7 +89,7 @@ Navigate back to the [Slack api dashboard]([https://api.slack.com/apps]) and sel
 
 4. Expand the 'Subscribe to bot events' section and use the 'Add Bot User Event' button to subscribe to 'im_created' and 'message.im'.
 
-#### Test your bot in Slack
+## Test your bot in Slack
 
 Your Slack app is now configured and you can now login to the Slack workspace you installed your app into and you will see it listed under the 'Apps' section of the left hand menu.  
 
@@ -109,18 +103,3 @@ Select your app and try:
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
-
-## Further reading
-
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)
