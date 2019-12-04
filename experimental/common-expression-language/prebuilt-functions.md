@@ -33,10 +33,10 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 ### Collection functions
 |Function	|Explanation|
 |-----------|-----------|
-|[contains](#contains)	|Works to find an item in a string or to find an item in an array or to find a parameter in a complex object. E.g. contains(‘hello world, ‘hello); contains([‘1’, ‘2’], ‘1’); contains({“foo”:”bar”}, “foo”)	|
+|[contains](#contains)	|Works to find an item in a string or to find an item in an array or to find a parameter in a complex object. E.g. contains('hello world', 'hello'); contains(createArray('1','2'), '1'); contains(json("{'foo':'bar'}"), 'foo')	|
 |[empty](#empty)	|Check if the collection is empty	|
 |[first](#first)	|Returns the first item from the collection	|
-|[join](#join) 	|Return a string that has all the items from an array and has each character separated by a delimiter. Join(collection, delimiter). Join(createArray(‘a’,’b’), ‘.’) = “a.b”	|
+|[join](#join) 	|Return a string that has all the items from an array and has each character separated by a delimiter. Join(collection, delimiter). Join(createArray('a','b'), '.') = "a.b"	|
 |[last](#last) 	|Returns the last item from the collection	|
 |[count](#count)	|Returns the number of items in the collection	|
 |[foreach](#foreach)	|Operate on each element and return the new collection	|
@@ -71,7 +71,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[float](#float)	|Return floating point representation of the specified string or the string itself if conversion is not possible	|
 |[int](#int)	|Return integer representation of the specified string or the string itself if conversion is not possible	|
 |[string](#string)	|Return string version of the specified value	|
-|[bool](#bool)	|Return Boolean representation of the specified string. Bool(‘true’), bool(1)	|
+|[bool](#bool)	|Return Boolean representation of the specified string. Bool('true'), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
 |[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
 |[array](#array)| Return an array from a single specified input. For multiple inputs, see [createArray](#createArray). |
