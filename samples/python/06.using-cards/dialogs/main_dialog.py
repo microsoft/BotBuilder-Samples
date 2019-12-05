@@ -6,8 +6,10 @@ from botbuilder.dialogs import (
     ComponentDialog,
     WaterfallDialog,
     WaterfallStepContext,
+    DialogTurnResult,
 )
-from botbuilder.dialogs.prompts import TextPrompt, PromptOptions
+from botbuilder.dialogs.prompts import ChoicePrompt, PromptOptions
+from botbuilder.dialogs.choices import Choice
 from botbuilder.schema import (
     ActionTypes,
     Attachment,
@@ -24,12 +26,13 @@ from botbuilder.schema import (
     ThumbnailUrl,
     Fact,
     ReceiptItem,
+    AttachmentLayoutTypes,
 )
 
-from helpers.activity_helper import create_activity_reply
 from .resources.adaptive_card_example import ADAPTIVE_CARD_CONTENT
 
 MAIN_WATERFALL_DIALOG = "mainWaterfallDialog"
+CARD_PROMPT = "cardPrompt"
 
 
 class MainDialog(ComponentDialog):
@@ -37,7 +40,7 @@ class MainDialog(ComponentDialog):
         super().__init__("MainDialog")
 
         # Define the main dialog and its related components.
-        self.add_dialog(TextPrompt("TextPrompt"))
+        self.add_dialog(ChoicePrompt(CARD_PROMPT))
         self.add_dialog(
             WaterfallDialog(
                 MAIN_WATERFALL_DIALOG, [self.choice_card_step, self.show_card_step]
@@ -47,91 +50,69 @@ class MainDialog(ComponentDialog):
         # The initial child Dialog to run.
         self.initial_dialog_id = MAIN_WATERFALL_DIALOG
 
-    async def choice_card_step(self, step_context: WaterfallStepContext):
+    async def choice_card_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
         """
         1. Prompts the user if the user is not in the middle of a dialog.
         2. Re-prompts the user when an invalid input is received.
         """
-        menu_text = (
-            "Which card would you like to see?\n"
-            "(1) Adaptive Card\n"
-            "(2) Animation Card\n"
-            "(3) Audio Card\n"
-            "(4) Hero Card\n"
-            "(5) Receipt Card\n"
-            "(6) Signin Card\n"
-            "(7) Thumbnail Card\n"
-            "(8) Video Card\n"
-            "(9) All Cards"
-        )
 
         # Prompt the user with the configured PromptOptions.
         return await step_context.prompt(
-            "TextPrompt", PromptOptions(prompt=MessageFactory.text(menu_text))
+            CARD_PROMPT,
+            PromptOptions(
+                prompt=MessageFactory.text(
+                    "What card would you like to see? You can click or type the card name"
+                ),
+                retry_prompt=MessageFactory.text(
+                    "That was not a valid choice, please select a card or number from 1 "
+                    "to 9."
+                ),
+                choices=self.get_choices(),
+            ),
         )
 
-    async def show_card_step(self, step_context: WaterfallStepContext):
+    async def show_card_step(
+        self, step_context: WaterfallStepContext
+    ) -> DialogTurnResult:
         """
         Send a Rich Card response to the user based on their choice.
         self method is only called when a valid prompt response is parsed from the user's
         response to the ChoicePrompt.
         """
-        response = step_context.result.lower().strip()
-        choice_dict = {
-            "1": [self.create_adaptive_card],
-            "adaptive card": [self.create_adaptive_card],
-            "2": [self.create_animation_card],
-            "animation card": [self.create_animation_card],
-            "3": [self.create_audio_card],
-            "audio card": [self.create_audio_card],
-            "4": [self.create_hero_card],
-            "hero card": [self.create_hero_card],
-            "5": [self.create_receipt_card],
-            "receipt card": [self.create_receipt_card],
-            "6": [self.create_signin_card],
-            "signin card": [self.create_signin_card],
-            "7": [self.create_thumbnail_card],
-            "thumbnail card": [self.create_thumbnail_card],
-            "8": [self.create_video_card],
-            "video card": [self.create_video_card],
-            "9": [
-                self.create_adaptive_card,
-                self.create_animation_card,
-                self.create_audio_card,
-                self.create_hero_card,
-                self.create_receipt_card,
-                self.create_signin_card,
-                self.create_thumbnail_card,
-                self.create_video_card,
-            ],
-            "all cards": [
-                self.create_adaptive_card,
-                self.create_animation_card,
-                self.create_audio_card,
-                self.create_hero_card,
-                self.create_receipt_card,
-                self.create_signin_card,
-                self.create_thumbnail_card,
-                self.create_video_card,
-            ],
-        }
+        reply = MessageFactory.list([])
 
-        # Get the functions that will generate the card(s) for our response
-        # If the stripped response from the user is not found in our choice_dict, default to None
-        choice = choice_dict.get(response, None)
-        # If the user's choice was not found, respond saying the bot didn't understand the user's response.
-        if not choice:
-            not_found = create_activity_reply(
-                step_context.context.activity, "Sorry, I didn't understand that. :("
-            )
-            await step_context.context.send_activity(not_found)
+        found_choice = step_context.result.value
+        if found_choice == "Adaptive Card":
+            reply.attachments.append(self.create_adaptive_card())
+        elif found_choice == "Animation Card":
+            reply.attachments.append(self.create_animation_card())
+        elif found_choice == "Audio Card":
+            reply.attachments.append(self.create_audio_card())
+        elif found_choice == "Hero Card":
+            reply.attachments.append(self.create_hero_card())
+        elif found_choice == "Receipt Card":
+            reply.attachments.append(self.create_receipt_card())
+        elif found_choice == "Signin Card":
+            reply.attachments.append(self.create_signin_card())
+        elif found_choice == "Thumbnail Card":
+            reply.attachments.append(self.create_thumbnail_card())
+        elif found_choice == "Video Card":
+            reply.attachments.append(self.create_video_card())
         else:
-            for func in choice:
-                card = func()
-                response = create_activity_reply(
-                    step_context.context.activity, "", "", [card]
-                )
-                await step_context.context.send_activity(response)
+            reply.attachment_layout = AttachmentLayoutTypes.carousel
+            reply.attachments.append(self.create_adaptive_card())
+            reply.attachments.append(self.create_animation_card())
+            reply.attachments.append(self.create_audio_card())
+            reply.attachments.append(self.create_hero_card())
+            reply.attachments.append(self.create_receipt_card())
+            reply.attachments.append(self.create_signin_card())
+            reply.attachments.append(self.create_thumbnail_card())
+            reply.attachments.append(self.create_video_card())
+
+        # Send the card(s) to the user as an attachment to the activity
+        await step_context.context.send_activity(reply)
 
         # Give the user instructions about what to do next
         await step_context.context.send_activity("Type anything to see another card.")
@@ -296,3 +277,18 @@ class MainDialog(ComponentDialog):
             ],
         )
         return CardFactory.thumbnail_card(card)
+
+    def get_choices(self):
+        card_options = [
+            Choice(value="Adaptive Card", synonyms=["adaptive"]),
+            Choice(value="Animation Card", synonyms=["animation"]),
+            Choice(value="Audio Card", synonyms=["audio"]),
+            Choice(value="Hero Card", synonyms=["hero"]),
+            Choice(value="Receipt Card", synonyms=["receipt"]),
+            Choice(value="Signin Card", synonyms=["signin"]),
+            Choice(value="Thumbnail Card", synonyms=["thumbnail", "thumb"]),
+            Choice(value="Video Card", synonyms=["video"]),
+            Choice(value="All Cards", synonyms=["all"]),
+        ]
+
+        return card_options
