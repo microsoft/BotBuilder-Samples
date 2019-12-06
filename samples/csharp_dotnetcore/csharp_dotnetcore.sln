@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+VisualStudioVersion = 16.0.29519.87
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -76,6 +76,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAllFeatures", "49.qnamaker-all-features\QnABotAllFeatures.csproj", "{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "58.teams-message-reaction\MessageReaction.csproj", "{655DA114-C3A5-492A-BDC5-77EF285A005A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -227,6 +229,10 @@ Global
 		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{655DA114-C3A5-492A-BDC5-77EF285A005A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{655DA114-C3A5-492A-BDC5-77EF285A005A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{655DA114-C3A5-492A-BDC5-77EF285A005A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{655DA114-C3A5-492A-BDC5-77EF285A005A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
