@@ -47,7 +47,7 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user - send through the adapater to skip the translation middleware (because it might throw)
     const conversationReference = TurnContext.getConversationReference(context.activity);
     await context.adapter.sendActivities(context, [
-        TurnContext.applyConversationReference({ type: ActivityTypes.Message, text: 'The bot encounted an error or bug.' }, conversationReference),
+        TurnContext.applyConversationReference({ type: ActivityTypes.Message, text: 'The bot encountered an error or bug.' }, conversationReference),
         TurnContext.applyConversationReference({ type: ActivityTypes.Message, text: 'To continue to run this bot, please fix the bot source code.' }, conversationReference)]);
 };
 
