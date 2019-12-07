@@ -11,7 +11,7 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage } = require('botbuilder');
 
-const { ActivityLog } = require("./activityLog");
+const { ActivityLog } = require('./activityLog');
 const { MessageReactionBot } = require('./bots/messageReactionBot');
 
 // Read botFilePath and botFileSecret from .env file.
