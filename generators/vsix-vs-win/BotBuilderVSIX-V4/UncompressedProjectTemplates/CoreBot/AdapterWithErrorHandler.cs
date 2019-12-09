@@ -24,7 +24,7 @@ namespace $safeprojectname$
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
                 // Send a message to the user
-                var errorMessageText = "The bot encounted an error or bug.";
+                var errorMessageText = "The bot encountered an error or bug.";
                 var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
                 await turnContext.SendActivityAsync(errorMessage);
 

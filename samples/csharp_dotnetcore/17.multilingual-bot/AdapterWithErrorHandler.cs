@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
                 // Send a message to the user
-                await SendWithoutMiddleware(turnContext, "The bot encounted an error or bug.");
+                await SendWithoutMiddleware(turnContext, "The bot encountered an error or bug.");
                 await SendWithoutMiddleware(turnContext, "To continue to run this bot, please fix the bot source code.");
 
                 if (conversationState != null)
