@@ -1,5 +1,6 @@
 {
   "luis_schema_version": "1.3.0",
+  "versionId": "1.0.0",
   "name": "LuisBot",
   "desc": "",
   "culture": "en-us",
@@ -28,7 +29,7 @@
   "composites": [],
   "closedLists": [],
   "bing_entities": [
-    "geography"
+    "geographyV2"
   ],
   "actions": [],
   "model_features": [
