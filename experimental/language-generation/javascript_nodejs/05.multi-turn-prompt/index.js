@@ -3,6 +3,10 @@
 
 const restify = require('restify');
 const path = require('path');
+const {
+    ActivityFactory,
+    TemplateEngine
+} = require('botbuilder-lg');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -23,12 +27,15 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
+const templateEngine = new TemplateEngine().addFile('./Resources/AdapterWithErrorHandler.LG');
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+    console.error(templateEngine.evaluateTemplate('SomethingWentWrong', {
+        'message' : `${error}`
+    }));
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
     await context.sendTraceActivity(
