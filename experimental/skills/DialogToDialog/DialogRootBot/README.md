@@ -18,3 +18,4 @@ can consume a remote skill capabilities using a SkillDialog to manage the conver
 - A [SkillConversationIdFactory](SkillConversationIdFactory.cs) based on IStorage to create and maintain conversation IDs to interact with a skill.
 - A [SkillsConfiguration](SkillsConfiguration.cs) class that can load skill definitions from appsettings.
 - A [startup](Startup.cs) class that shows how to register the different skills components for DI.
+- A [SkillController](Controllers/SkillController.cs) that handles skill responses.
