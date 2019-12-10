@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Cards\welcomeCard.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Cards\welcomeCard.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.6.3" />
     <PackageReference Include="Microsoft.Bot.Builder.ApplicationInsights" Version="4.6.3" />
@@ -12,6 +20,14 @@
     <PackageReference Include="Microsoft.Bot.Builder.Integration.ApplicationInsights.Core" Version="4.6.3" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.3" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="CognitiveModels\FlightBooking.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>

@@ -20,6 +20,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
         }
 
+
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
@@ -29,32 +30,30 @@ namespace Microsoft.BotBuilderSamples.Bots
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = CreateResponse(turnContext.Activity, welcomeCard);
+                    var response = MessageFactory.Attachment(welcomeCard, ssml: "Welcome to Bot Framework!");
                     await turnContext.SendActivityAsync(response, cancellationToken);
+                    await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }
             }
         }
 
-        // Create an attachment message response.
-        private Activity CreateResponse(IActivity activity, Attachment attachment)
-        {
-            var response = ((Activity)activity).CreateReply();
-            response.Attachments = new List<Attachment>() { attachment };
-            return response;
-        }
-
-        // Load attachment from file.
+        // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            // combine path for cross platform support
-            string[] paths = { ".", "Cards", "welcomeCard.json" };
-            string fullPath = Path.Combine(paths);
-            var adaptiveCard = File.ReadAllText(fullPath);
-            return new Attachment()
+            var cardResourcePath = "CoreBot.Cards.welcomeCard.json";
+
+            using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCard),
-            };
+                using (var reader = new StreamReader(stream))
+                {
+                    var adaptiveCard = reader.ReadToEnd();
+                    return new Attachment()
+                    {
+                        ContentType = "application/vnd.microsoft.card.adaptive",
+                        Content = JsonConvert.DeserializeObject(adaptiveCard),
+                    };
+                }
+            }
         }
     }
 }
