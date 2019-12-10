@@ -29,16 +29,15 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         private readonly SkillsConfiguration _skillsConfig;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(ConversationState conversationState, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, SkillDialog bookingDialog, IConfiguration configuration)
+        public MainDialog(ConversationState conversationState, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, SkillDialog skillDialog, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
             _skillClient = skillClient;
             _skillsConfig = skillsConfig;
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-
             AddDialog(new TextPrompt(nameof(TextPrompt)));
-            AddDialog(bookingDialog);
+            AddDialog(skillDialog);
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 IntroStepAsync,
@@ -64,18 +63,23 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Send a message activity to the skill.
             if (stepContext.Context.Activity.Text.StartsWith("m:", StringComparison.CurrentCultureIgnoreCase))
             {
-                stepContext.Context.Activity.Text = stepContext.Context.Activity.Text.Substring(2).Trim();
-                var dialogArgs = new SkillDialogArgs { SkillId = _targetSkillId };
+                var dialogArgs = new SkillDialogArgs
+                {
+                    SkillId = _targetSkillId,
+                    ActivityType = ActivityTypes.Message,
+                    Text = stepContext.Context.Activity.Text.Substring(2).Trim()
+                };
                 return await stepContext.BeginDialogAsync(nameof(SkillDialog), dialogArgs, cancellationToken);
             }
 
             // Send a message activity to the skill with some artificial parameters in value
             if (stepContext.Context.Activity.Text.StartsWith("mv:", StringComparison.CurrentCultureIgnoreCase))
             {
-                stepContext.Context.Activity.Text = stepContext.Context.Activity.Text.Substring(3).Trim();
                 var dialogArgs = new SkillDialogArgs
                 {
                     SkillId = _targetSkillId,
+                    ActivityType = ActivityTypes.Message,
+                    Text = stepContext.Context.Activity.Text.Substring(3).Trim(),
                     Value = new BookingDetails { Destination = "New York" }
                 };
                 return await stepContext.BeginDialogAsync(nameof(SkillDialog), dialogArgs, cancellationToken);
@@ -87,7 +91,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 var dialogArgs = new SkillDialogArgs
                 {
                     SkillId = _targetSkillId,
-                    EventName = "OAuthTest"
+                    ActivityType = ActivityTypes.Event,
+                    Name = "OAuthTest"
                 };
                 return await stepContext.BeginDialogAsync(nameof(SkillDialog), dialogArgs, cancellationToken);
             }
@@ -98,7 +103,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 var dialogArgs = new SkillDialogArgs
                 {
                     SkillId = _targetSkillId,
-                    EventName = "BookFlight"
+                    ActivityType = ActivityTypes.Event,
+                    Name = "BookFlight"
                 };
                 return await stepContext.BeginDialogAsync(nameof(SkillDialog), dialogArgs, cancellationToken);
             }
@@ -109,7 +115,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 var dialogArgs = new SkillDialogArgs
                 {
                     SkillId = _targetSkillId,
-                    EventName = "BookFlight",
+                    ActivityType = ActivityTypes.Event,
+                    Name = "BookFlight",
                     Value = new BookingDetails
                     {
                         Destination = "New York",

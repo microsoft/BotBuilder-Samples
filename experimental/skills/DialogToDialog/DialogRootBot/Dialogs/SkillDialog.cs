@@ -73,24 +73,30 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Store Skill ID for this dialog instance
             await _activeSkillProperty.SetAsync(dc.Context, skillId, cancellationToken);
 
-            var fwdActivity = dc.Context.Activity;
-            if (!string.IsNullOrEmpty(dialogArgs.EventName))
+            await dc.Context.SendTraceActivityAsync($"{GetType().Name}.BeginDialogAsync(). Using activity of type: {dialogArgs.ActivityType}", cancellationToken: cancellationToken);
+
+            Activity skillActivity;
+            switch (dialogArgs.ActivityType)
             {
-                await dc.Context.SendTraceActivityAsync($"{GetType().Name}.BeginDialogAsync(). Using an event: {dialogArgs.EventName}", cancellationToken: cancellationToken);
-                var eventActivity = Activity.CreateEventActivity();
-                eventActivity.Name = dialogArgs.EventName;
-                eventActivity.Value = dialogArgs.Value;
-                eventActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
-                fwdActivity = (Activity)eventActivity;
-            }
-            else
-            {
-                await dc.Context.SendTraceActivityAsync($"{GetType().Name}.BeginDialogAsync(). Using pass through (activity is: {dc.Context.Activity.Type}).", cancellationToken: cancellationToken);
-                fwdActivity.Value = dialogArgs.Value;
+                case ActivityTypes.Event:
+                    var eventActivity = Activity.CreateEventActivity();
+                    eventActivity.Name = dialogArgs.Name;
+                    eventActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+                    skillActivity = (Activity)eventActivity;
+                    break;
+
+                case ActivityTypes.Message:
+                    var messageActivity = Activity.CreateMessageActivity();
+                    messageActivity.Text = dialogArgs.Text;
+                    skillActivity = (Activity)messageActivity;
+                    break;
+
+                default:
+                    throw new ArgumentException($"Invalid activity type in {dialogArgs.ActivityType} in {nameof(SkillDialogArgs)}");
             }
 
-            // forward activity to the remote skill.
-            return await SendToSkill(dc, fwdActivity, skillInfo, cancellationToken);
+            ApplyParentActivityProperties(dc, skillActivity, dialogArgs);
+            return await SendToSkill(dc, skillActivity, skillInfo, cancellationToken);
         }
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default)
@@ -133,6 +139,15 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             return EndOfTurn;
+        }
+
+        private static void ApplyParentActivityProperties(DialogContext dc, Activity skillActivity, SkillDialogArgs dialogArgs)
+        {
+            // Apply conversation reference and common properties from incoming activity before sending.
+            skillActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+            skillActivity.Value = dialogArgs.Value;
+            skillActivity.ChannelData = dc.Context.Activity.ChannelData;
+            skillActivity.Properties = dc.Context.Activity.Properties;
         }
     }
 }
