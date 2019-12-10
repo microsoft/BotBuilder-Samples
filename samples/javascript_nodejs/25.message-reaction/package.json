@@ -1,7 +1,7 @@
 {
-    "name": "teams-bot",
+    "name": "message-reaction-bot",
     "version": "1.0.0",
-    "description": "Bot Builder v4 Bot Teams sample",
+    "description": "Bot Builder v4 Bot sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",

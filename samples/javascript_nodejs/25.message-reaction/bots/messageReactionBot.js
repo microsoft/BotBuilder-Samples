@@ -23,7 +23,7 @@ class MessageReactionBot extends ActivityHandler {
                 // If we had sent the message from the error handler we wouldn't have recorded the Activity Id and so we shouldn't expect to see it in the log.
                 await this.sendMessageAndLogActivityId(context, `Activity ${ context.activity.replyToId } not found in the log.`);
             } else {
-                await this.sendMessageAndLogActivityId(context, `You added '${ reactionsAdded[i].type }' regarding '${ activity.text }'`);
+                await this.sendMessageAndLogActivityId(context, ` added '${ reactionsAdded[i].type }' regarding '${ activity.text }'`);
             }
         };
     }
