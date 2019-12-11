@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -43,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                 throw new NullReferenceException($"ChannelId in {nameof(conversationReference)} can't be null.");
             }
 
-            var storageKey = $"{conversationReference.Conversation.Id}{conversationReference.ChannelId}".GetHashCode().ToString(CultureInfo.InvariantCulture);
+            var storageKey = $"{conversationReference.Conversation.Id}-{conversationReference.ChannelId}-skillconvo";
             var skillConversationInfo = new Dictionary<string, object> { { storageKey, JObject.FromObject(conversationReference) } };
             await _storage.WriteAsync(skillConversationInfo, cancellationToken).ConfigureAwait(false);
 
