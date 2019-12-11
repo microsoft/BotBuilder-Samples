@@ -1,15 +1,20 @@
 {
   "$schema": "../../app.schema",
   "$type": "Microsoft.AdaptiveDialog",
-  "steps": [
+  "triggers": [
     {
-      "$type": "Microsoft.TextInput",
-      "prompt": "Why did the chicken cross the road?",
-      "property": "turn.userReply"
-    },
-    {
-      "$type": "Microsoft.SendActivity",
-      "activity": "To get to the other side"
+      "$type": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$type": "Microsoft.TextInput",
+          "prompt": "Why did the chicken cross the road?",
+          "property": "turn.userReply"
+        },
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "To get to the other side"
+        }
+      ]
     }
   ]
 }

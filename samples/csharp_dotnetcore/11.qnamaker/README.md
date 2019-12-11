@@ -33,7 +33,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/11.qnamaker`
+- In a terminal, navigate to `samples/csharp_dotnetcore/11a.qnamaker`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -47,7 +47,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
+  - Navigate to `samples/csharp_dotnetcore/11a.qnamaker` folder
   - Select `QnABot.csproj` file
   - Press `F5` to run the project
 

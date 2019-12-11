@@ -4,10 +4,10 @@
 
 ***Adaptive dialogs*** at the core comprise of 5 main concepts - 
 - [Recognizers](#Recognizers)
-- [Rules](#Rules)
-- [Steps](#Steps)
-- [Inputs](#Inputs)
 - [Generator](#Generator)
+- [Triggers](#Triggers)
+- [Actions](#Actions)
+- [Inputs](#Inputs)
 
 <p align="center">
     <img alt="Adaptive_dialog_anatomy" src="./Assets/adaptive-dialog-anatomy.png" style="max-width:700px;" />
@@ -16,14 +16,17 @@
 ### Recognizers
 _Recognizers_ help understand and extract meaningful pieces of information from user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from given user utterance. See [here][1] to learn more about supported recognizers and their usage.
 
-### Rules
-_Rules_ enable you to catch and respond to events. The broadest rule is the EventRule that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs supports couple of other specialized rules to wrap common events that your bot would handle. See [here][2] to learn more about supported Rules and their usage.
+## Generator
+_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's Language Understanding and Language Generation assets. With the [Language Generation][5] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][6] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
 
-### Steps
-_Steps_ help put together the flow of conversation when a specific event is captured via a Rule. **_Note:_** unlike Waterfall dialog where each step is a function, each step in an Adaptive dialog is in itself a dialog. This enables adaptive dialogs by design to: 
+### Triggers
+_Triggers_ enable you to catch and respond to events. The broadest trigger is the OnEvent trigger that allows you to catch and attach a set of steps to execute when a specific event is emitted by any sub-system. Adaptive dialogs supports couple of other specialized triggers to wrap common events that your bot would handle. See [here][2] to learn more about supported triggers and their usage.
+
+### Actions
+_Actions_ help put together the flow of conversation when a specific event is captured via a Trigger. **_Note:_** unlike Waterfall dialog where each step is a function, each action in an Adaptive dialog is in itself a dialog. This enables adaptive dialogs by design to: 
 - have a simple way to handle interruptions.
 - branch conditionally based on context or current state.
-See [here][3] to learn more about supported steps and their usage.
+See [here][3] to learn more about supported actions and their usage.
 
 ### Inputs
 _Inputs_ are wrappers around Bot Builder [prompts][2] that you can use in an adaptive dialog step to ask and collect a piece of input from user, validate and accept the input  into memory. Inputs include these pre-built features:  
@@ -32,9 +35,6 @@ _Inputs_ are wrappers around Bot Builder [prompts][2] that you can use in an ada
 - Accepts constraints - min, max, etc. 
 
 See [here][4] to learn more about supported Inputs and their usage.
-
-## Generator
-_Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's language understanding and language generation assets. With the [Language Generation][5] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][6] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
 
 ## Runtime behavior: Adaptive dialog
 

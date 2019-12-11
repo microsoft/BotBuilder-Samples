@@ -1,0 +1,82 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "<<YOUR-MICROSOFT-APP-ID>>",
+  "packageName": "com.microsoft.teams.sample",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://dev.botframework.com",
+    "privacyUrl": "https://dev.botframework.com",
+    "termsOfUseUrl": "https://dev.botframework.com"
+  },
+  "icons": {
+    "color": "color.png",
+    "outline": "outline.png"
+  },
+  "name": {
+    "short": "Config Auth Search",
+    "full": "Config Auth Search"
+  },
+  "description": {
+    "short": "Config Auth Search",
+    "full": "Config Auth Search"
+  },
+  "accentColor": "#FFFFFF",
+  "composeExtensions": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "searchQuery",
+          "type": "query",
+          "title": "Search",
+          "description": "Perform a search",
+          "initialRun": false,
+          "fetchTask": false,
+          "context": [
+            "commandBox",
+            "compose",
+            "message"
+          ],
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        },
+        {
+          "id": "SignOutCommand",
+          "type": "action",
+          "title": "Sign Out",
+          "description": "Sign out from authenticated services.",
+          "initialRun": false,
+          "fetchTask": true,
+          "context": [
+            "commandBox",
+            "compose"
+          ],
+          "parameters": [
+            {
+              "name": "param",
+              "title": "param",
+              "description": ""
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "*.githubusercontent.com",
+    "*.ngrok.io",
+    "*.botframework.com"
+  ]
+}

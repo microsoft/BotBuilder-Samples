@@ -50,7 +50,7 @@ namespace __PROJECT_NAME__
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             //app.UseHttpsRedirection();
             app.UseMvc();
         }

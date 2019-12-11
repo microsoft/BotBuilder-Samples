@@ -1,18 +1,23 @@
 {
     "$schema": "../../app.schema",
     "$type": "Microsoft.AdaptiveDialog",
-    "steps": [
+    "triggers": [
         {
-            "$type": "Microsoft.SendActivity",
-            "activity": "Step 1"
-        },
-        {
-            "$type": "Microsoft.SendActivity",
-            "activity": "Step 2"
-        },
-        {
-            "$type": "Microsoft.SendActivity",
-            "activity": "Step 3"
+            "$type": "Microsoft.OnBeginDialog",
+            "actions": [
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Step 1"
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Step 2"
+                },
+                {
+                    "$type": "Microsoft.SendActivity",
+                    "activity": "Step 3"
+                }
+            ]
         }
     ]
 }

@@ -1,6 +1,6 @@
 # API reference for LG 
 
-For Nuget packages, see [this MyGet feed][1]
+For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
 ### TemplateEngine Class
 
@@ -100,4 +100,5 @@ public List<string> AnalyzeTemplate(string templateName)
 public string Evaluate(string inlineStr, object scope = null, IGetMethod methodBinder = null)
 ```
 
-[1]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-lg
