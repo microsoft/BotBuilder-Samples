@@ -38,12 +38,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(skillDialog);
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
-            {
-                IntroStepAsync,
-                ActStepAsync,
-                FinalStepAsync
-            }));
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] { IntroStepAsync, ActStepAsync, FinalStepAsync }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);

@@ -122,6 +122,15 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             return await SendToSkill(dc, dc.Context.Activity, _skillsConfig.Skills[skillId], cancellationToken);
         }
 
+        private static void ApplyParentActivityProperties(DialogContext dc, Activity skillActivity, SkillDialogArgs dialogArgs)
+        {
+            // Apply conversation reference and common properties from incoming activity before sending.
+            skillActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
+            skillActivity.Value = dialogArgs.Value;
+            skillActivity.ChannelData = dc.Context.Activity.ChannelData;
+            skillActivity.Properties = dc.Context.Activity.Properties;
+        }
+
         private async Task<DialogTurnResult> SendToSkill(DialogContext dc, Activity activity, BotFrameworkSkill skillInfo, CancellationToken cancellationToken)
         {
             // Always save state before forwarding
@@ -134,15 +143,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             return EndOfTurn;
-        }
-
-        private static void ApplyParentActivityProperties(DialogContext dc, Activity skillActivity, SkillDialogArgs dialogArgs)
-        {
-            // Apply conversation reference and common properties from incoming activity before sending.
-            skillActivity.ApplyConversationReference(dc.Context.Activity.GetConversationReference(), true);
-            skillActivity.Value = dialogArgs.Value;
-            skillActivity.ChannelData = dc.Context.Activity.ChannelData;
-            skillActivity.Properties = dc.Context.Activity.Properties;
         }
     }
 }
