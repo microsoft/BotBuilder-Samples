@@ -1,8 +1,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const restify = require('restify');
+// index.js is used to setup and configure your bot
+
+// Import required packages
 const path = require('path');
+const restify = require('restify');
 const {
     ActivityFactory,
     TemplateEngine
@@ -10,25 +13,23 @@ const {
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
-// Import our custom bot class that provides a turn handling function.
-const { DialogBot } = require('./bots/dialogBot');
-const { UserProfileDialog } = require('./dialogs/userProfileDialog');
+// This bot's main dialog.
+const { RichCardsBot } = require('./bots/richCardsBot');
+const { MainDialog } = require('./dialogs/mainDialog');
 
-// Read environment variables from .env file
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
-// Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
-// the .bot file when configuring your adapter.
+// Create adapter. See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
 });
 
 // Create template engine for language generation.
-const templateEngine = new TemplateEngine().addFile('./Resources/AdapterWithErrorHandler.LG');
+const templateEngine = new TemplateEngine().addFile('./resources/AdapterWithErrorHandler.lg');
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -54,18 +55,19 @@ adapter.onTurnError = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Define the state store for your bot.
-// See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a state storage system to persist the dialog and user state between messages.
-const memoryStorage = new MemoryStorage();
+// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state store to persist the dialog and user state between messages.
 
-// Create conversation state with in-memory storage provider.
+// For local development, in-memory storage is used.
+// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
+// is restarted, anything stored in memory will be gone.
+const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
-const dialog = new UserProfileDialog(userState);
-const bot = new DialogBot(conversationState, userState, dialog);
+const dialog = new MainDialog();
+const bot = new RichCardsBot(conversationState, userState, dialog);
 
 // Create HTTP server.
 const server = restify.createServer();
@@ -75,10 +77,11 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-// Listen for incoming requests.
+// Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
-        // Route the message to the bot's main handler.
-        await bot.run(context);
+    // Route received a request to adapter for processing
+    adapter.processActivity(req, res, async (turnContext) => {
+        // route to bot activity handler.
+        await bot.run(turnContext);
     });
 });
