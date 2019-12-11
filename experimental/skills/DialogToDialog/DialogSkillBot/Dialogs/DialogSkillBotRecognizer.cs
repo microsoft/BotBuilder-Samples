@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Configuration;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
@@ -22,8 +23,9 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
                     configuration["LuisAppId"],
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
+                var luisOptions = new LuisRecognizerOptionsV2(luisApplication);
 
-                _recognizer = new LuisRecognizer(luisApplication);
+                _recognizer = new LuisRecognizer(luisOptions);
             }
         }
 

@@ -33,9 +33,9 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
                 // Handle remote cancellation request if we have something in the stack.
                 var activeDialogContext = GetActiveDialogContext(dialogContext);
 
-                // Send cancellation message to the top dialog in the stack to ensure all the parents are cancelled in the right order. 
+                // Send cancellation message to the top dialog in the stack to ensure all the parents are canceled in the right order. 
                 await activeDialogContext.CancelAllDialogsAsync(true, cancellationToken: cancellationToken);
-                var remoteCancelText = "**SkillBot.** The current mainDialog in the skill was **cancelled** by a request **from the host**, do some cleanup here if needed.";
+                var remoteCancelText = "**SkillBot.** The current mainDialog in the skill was **canceled** by a request **from the host**, do some cleanup here if needed.";
                 await turnContext.SendActivityAsync(MessageFactory.Text(remoteCancelText, inputHint: InputHints.IgnoringInput), cancellationToken);
             }
             else

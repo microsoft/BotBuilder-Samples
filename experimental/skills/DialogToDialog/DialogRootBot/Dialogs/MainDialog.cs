@@ -17,11 +17,11 @@ using Newtonsoft.Json;
 namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 {
     /// <summary>
-    /// A sample MainDialog that uses SkillDialog to call skills.
+    /// The main dialog for this bot. It uses a <see cref="SkillDialog"/> to call skills.
     /// </summary>
     public class MainDialog : ComponentDialog
     {
-        // Note: in this example we using only one skill.
+        // Note: this example uses only one skill.
         private const string _targetSkillId = "DialogSkillBot";
         private readonly string _botId;
         private readonly ConversationState _conversationState;
@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         private async Task<DialogTurnResult> IntroStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Use the text provided in FinalStepAsync or the default if it is the first time.
+            // Use the text provided in the dialog options if it is present; otherwise, use the default text.
             var messageText = stepContext.Options?.ToString() ?? "What can I help you with today?";
             var promptMessage = CreateTaskPromptMessageWithActions(messageText);
             return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = promptMessage }, cancellationToken);
@@ -138,10 +138,11 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 };
                 invokeActivity.ApplyConversationReference(stepContext.Context.Activity.GetConversationReference(), true);
 
+                // Always save state before forwarding
                 await _conversationState.SaveChangesAsync(stepContext.Context, true, cancellationToken);
                 var skillInfo = _skillsConfig.Skills[_targetSkillId];
                 var response = await _skillClient.PostActivityAsync(_botId, skillInfo, _skillsConfig.SkillHostEndpoint, (Activity)invokeActivity, cancellationToken);
-                if (response.Status != 200)
+                if (!(response.Status >= 200 && response.Status <= 299))
                 {
                     throw new HttpRequestException($"Error invoking the skill id: \"{skillInfo.Id}\" at \"{skillInfo.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
                 }

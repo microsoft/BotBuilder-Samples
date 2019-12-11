@@ -98,7 +98,7 @@
     {
       "type": "TextBlock",
       "size": "default",
-      "text": "Cancelling multi-turn conversations",
+      "text": "Canceling multi-turn conversations",
       "wrap": true,
       "weight": "Bolder",
       "color": "Accent"

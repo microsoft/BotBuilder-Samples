@@ -36,7 +36,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Bots
                 await base.OnTurnAsync(turnContext, cancellationToken);
             }
 
-            // Save any state changes that might have occured during the turn.
+            // Save any state changes that might have occurred during the turn.
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 

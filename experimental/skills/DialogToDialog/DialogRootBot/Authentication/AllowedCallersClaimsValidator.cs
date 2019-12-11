@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Authentication
                 var appId = JwtTokenValidation.GetAppIdFromClaims(claims);
                 if (!_allowedSkills.Contains(appId))
                 {
-                    throw new UnauthorizedAccessException($"The application received a request from \"{appId}\" that is not configured. Update your configuration file to enable this skill");
+                    throw new UnauthorizedAccessException($"Received a request from an application with an appID of \"{appId}\". To enable requests from this skill, add the skill to your configuration file.");
                 }
             }
 

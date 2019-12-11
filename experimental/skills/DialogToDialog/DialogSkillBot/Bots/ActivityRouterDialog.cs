@@ -8,9 +8,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs;
-using Microsoft.BotBuilderSamples.DialogSkillBot.Extensions;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
@@ -39,7 +39,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
         private async Task<DialogTurnResult> ProcessActivityAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             // A skill can send trace activities if needed :)
-            await stepContext.Context.SendTraceActivityAsync($"{GetType().Name}.ProcessActivityAsync()", value: $"Got ActivityType: {stepContext.Context.Activity.Type}", cancellationToken: cancellationToken);
+            await stepContext.Context.TraceActivityAsync($"{GetType().Name}.ProcessActivityAsync()", label: $"Got ActivityType: {stepContext.Context.Activity.Type}", cancellationToken: cancellationToken);
 
             switch (stepContext.Context.Activity.Type)
             {
@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
         private async Task<DialogTurnResult> OnEventActivityAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var activity = stepContext.Context.Activity;
-            await stepContext.Context.SendTraceActivityAsync($"{GetType().Name}.OnEventActivityAsync().\r\nName: {activity.Name}. Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
+            await stepContext.Context.TraceActivityAsync($"{GetType().Name}.OnEventActivityAsync()", label: $"Name: {activity.Name}. Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
 
             // Resolve what to execute based on the event name.
             switch (activity.Name)
@@ -95,7 +95,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
         private async Task<DialogTurnResult> OnInvokeActivityAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var activity = stepContext.Context.Activity;
-            await stepContext.Context.SendTraceActivityAsync($"{GetType().Name}.OnInvokeActivityAsync().\r\nName: {activity.Name}. Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
+            await stepContext.Context.TraceActivityAsync($"{GetType().Name}.OnInvokeActivityAsync()", label: $"Name: {activity.Name}. Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
 
             // Resolve what to execute based on the invoke name.
             switch (activity.Name)
@@ -108,7 +108,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
                     }
 
                     var lookingIntoItMessage = "Getting your weather forecast...";
-                    await stepContext.Context.SendActivityAsync(MessageFactory.Text( $"{lookingIntoItMessage} \n\nValue parameters: {JsonConvert.SerializeObject(location)}", lookingIntoItMessage, inputHint: InputHints.IgnoringInput), cancellationToken);
+                    await stepContext.Context.SendActivityAsync(MessageFactory.Text($"{lookingIntoItMessage} \n\nValue parameters: {JsonConvert.SerializeObject(location)}", lookingIntoItMessage, inputHint: InputHints.IgnoringInput), cancellationToken);
 
                     // Create and return an invoke activity with the weather results.
                     var invokeResponseActivity = new Activity(type: "invokeResponse")
@@ -140,7 +140,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
         private async Task<DialogTurnResult> OnMessageActivityAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var activity = stepContext.Context.Activity;
-            await stepContext.Context.SendTraceActivityAsync($"{GetType().Name}.OnMessageActivityAsync().\r\nText: \"{activity.Text}\". Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
+            await stepContext.Context.TraceActivityAsync($"{GetType().Name}.OnMessageActivityAsync()", label: $"Text: \"{activity.Text}\". Value: {GetObjectAsJsonString(activity.Value)}", cancellationToken: cancellationToken);
 
             if (!_luisRecognizer.IsConfigured)
             {

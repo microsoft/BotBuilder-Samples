@@ -10,9 +10,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.BotBuilderSamples.DialogRootBot.Extensions;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
@@ -54,11 +54,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default)
         {
-            if (options is CancellationToken)
-            {
-                throw new ArgumentException($"{nameof(options)} cannot be a cancellation token");
-            }
-
             if (!(options is SkillDialogArgs dialogArgs))
             {
                 throw new ArgumentNullException(nameof(options), $"Unable to cast {nameof(options)} to {nameof(SkillDialogArgs)}");
@@ -73,7 +68,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Store Skill ID for this dialog instance
             await _activeSkillProperty.SetAsync(dc.Context, skillId, cancellationToken);
 
-            await dc.Context.SendTraceActivityAsync($"{GetType().Name}.BeginDialogAsync(). Using activity of type: {dialogArgs.ActivityType}", cancellationToken: cancellationToken);
+            await dc.Context.TraceActivityAsync($"{GetType().Name}.BeginDialogAsync()", label: $"Using activity of type: {dialogArgs.ActivityType}", cancellationToken: cancellationToken);
 
             Activity skillActivity;
             switch (dialogArgs.ActivityType)
@@ -101,7 +96,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         public override async Task<DialogTurnResult> ContinueDialogAsync(DialogContext dc, CancellationToken cancellationToken = default)
         {
-            await dc.Context.SendTraceActivityAsync($"{GetType().Name}.ContinueDialogAsync(). ActivityType: {dc.Context.Activity.Type}", cancellationToken: cancellationToken);
+            await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"ActivityType: {dc.Context.Activity.Type}", cancellationToken: cancellationToken);
 
             var skillId = await _activeSkillProperty.GetAsync(dc.Context, () => null, cancellationToken);
 
@@ -113,13 +108,13 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 await SendToSkill(dc, (Activity)eocActivity, _skillsConfig.Skills[skillId], cancellationToken);
 
                 // End this dialog and return (we don't care if the skill responds or not)
-                await dc.Context.SendTraceActivityAsync($"{GetType().Name}.ContinueDialogAsync(). Cancelled", cancellationToken: cancellationToken);
+                await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Canceled", cancellationToken: cancellationToken);
                 return await dc.EndDialogAsync(cancellationToken: cancellationToken);
             }
 
             if (dc.Context.Activity.Type == ActivityTypes.EndOfConversation)
             {
-                await dc.Context.SendTraceActivityAsync($"{GetType().Name}.ContinueDialogAsync(). Got EndOfConversation", cancellationToken: cancellationToken);
+                await dc.Context.TraceActivityAsync($"{GetType().Name}.ContinueDialogAsync()", label: $"Got EndOfConversation", cancellationToken: cancellationToken);
                 return await dc.EndDialogAsync(dc.Context.Activity.Value, cancellationToken);
             }
 
@@ -133,7 +128,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // (the dialog stack won't get updated with the skillDialog and things won't work if you don't)
             await _conversationState.SaveChangesAsync(dc.Context, true, cancellationToken);
             var response = await _skillClient.PostActivityAsync(_botId, skillInfo, _skillsConfig.SkillHostEndpoint, activity, cancellationToken);
-            if (response.Status != 200)
+            if (!(response.Status >= 200 && response.Status <= 299))
             {
                 throw new HttpRequestException($"Error invoking the skill id: \"{skillInfo.Id}\" at \"{skillInfo.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
             }
