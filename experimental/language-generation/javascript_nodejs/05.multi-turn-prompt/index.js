@@ -34,7 +34,7 @@ adapter.onTurnError = async (context, error) => {
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(templateEngine.evaluateTemplate('SomethingWentWrong', {
-        'message' : `${error}`
+        message : `${error}`
     }));
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator

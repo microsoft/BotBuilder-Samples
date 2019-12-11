@@ -73,7 +73,7 @@ class UserProfileDialog extends ComponentDialog {
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
         // Running a prompt here means the next WaterfallStep will be run when the users response is received.
         return await step.prompt(CHOICE_PROMPT, {
-            prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ModeOfTransportPrompt12')),
+            prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ModeOfTransportPrompt')),
             choices: ChoiceFactory.toChoices(['Car', 'Bus', 'Bicycle'])
         });
     }
