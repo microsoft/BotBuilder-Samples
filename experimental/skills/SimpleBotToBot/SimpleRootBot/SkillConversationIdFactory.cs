@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
-using System.Globalization;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.Skills;
@@ -22,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
         public override Task<string> CreateSkillConversationIdAsync(ConversationReference conversationReference, CancellationToken cancellationToken)
         {
             var crJson = JsonConvert.SerializeObject(conversationReference);
-            var key = (conversationReference.Conversation.Id + conversationReference.ServiceUrl).GetHashCode().ToString(CultureInfo.InvariantCulture);
+            var key =  $"{conversationReference.Conversation.Id}-{conversationReference.ChannelId}-skillconvo";
             _conversationRefs.GetOrAdd(key, crJson);
             return Task.FromResult(key);
         }
