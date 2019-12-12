@@ -4,12 +4,10 @@
 - [ActivityAttachment](#ActivityAttachment)
 - [template](#template)
 - [fromFile](#fromFile)
-- [isTemplate ](#isTemplate )
-
 
 ### ActivityAttachment
 
-Return a activityAttachment converting from objects.
+Return an activityAttachment from objects.
 
 ```
 ActivityAttachment(<collection-of-objects>)
@@ -22,18 +20,67 @@ ActivityAttachment(<collection-of-objects>)
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*function*> | Function | A function convert object to activityAttachment |
+| <*activityAttachment*> | Object | An activityAttachment formed from the input |
 ||||
 
 *Example*
 
 This example converts an collection of objects to an activityAttachment :
+Suppose we want to convert a JSON file to herocard attachment. 
+the content in the herocard.json: 
 
 ```
-ActivityAttachment()
+{
+  "title": "titleContent",
+  "text": "textContent",
+  "Buttons": [
+    {
+      "type": "imBack",
+      "Title": "titleContent",
+      "Value": "textContent",
+      "Text": "textContent"
+    }
+  ],
+  "tap": {
+    "type": "@{type}",
+    "title": "@{title}",
+    "text": "@{title}",
+    "value": "@{value}"
+  }
+}
 ```
 
-And returns this result:
+```
+ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')
+```
+
+And returns a herocard:
+
+```
+{
+    "lgType" = "attachment",
+    "contenttype" = "herocard",
+    "content" = {
+        "title": "titleContent",
+        "text": "textContent",
+        "Buttons": [
+            {
+            "type": "imBack",
+            "Title": "titleContent",
+            "Value": "textContent",
+            "Text": "textContent"
+            }
+        ],
+        "tap": {
+            "type": "@{type}",
+            "title": "@{title}",
+            "text": "@{title}",
+            "value": "@{value}"
+        }
+    }
+}
+```
+
 
 ### template
 
@@ -50,30 +97,45 @@ template(<collection-of-objects>)
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*function*> | Function | A function convert object to activityAttachment |
+| <*evaluated-result*> | Object | the result evaluated from the template as a function  |
 ||||
 
 *Example*
 
-This example converts an collection of objects to an activityAttachment :
+This example evaluates the result of calling the template as a function :
+Suppose we have template:
+    
+    # welcome(userName)
+
+    - Hi @{userName}
+
+    - Hello @{userName}
+
+    - Hey @{userName}
 
 ```
-ActivityAttachment()
+template("welcome", new { userName = "DL" }.ToString())
 ```
 
-And returns this result:
+And returns one of the results:
+
+```
+Hi DL
+Hello DL
+Hey DL
+```
 
 ### fromFile
 
-Return the evaluated result from the content of a file
+Return the evaluated result from the expression in the given file
 
 ```
-fromFile(<string>)
+fromFile(<filepath>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*string*> | Yes | string  |  |
+| <*filepath*> | Yes | string  | path of the a file |
 |||||
 
 | Return value | Type | Description |
@@ -83,38 +145,19 @@ fromFile(<string>)
 
 *Example*
 
-This example converts an collection of objects to an activityAttachment :
+This example evaluate the result from the given filepath :
+Suppose we have a file whose filepath is:  
+
+`/home/user/test.txt`.
+
+The content of the file is 
+
+`add(1,2)`
 
 ```
-ActivityAttachment()
+fromFile('/home/user/test.txt')
 ```
 
-And returns this result:
+And returns this result: 
 
-### isTemplate
-
-Return a function converts objects to an activityAttachment.
-
-```
-isTemplate(<collection-of-objects>)
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*collection-of-objects*> | Yes | Array or object  | A collection of objects|
-|||||
-
-| Return value | Type | Description |
-| ------------ | -----| ----------- |
-| <*function*> | Function | A function convert object to activityAttachment |
-||||
-
-*Example*
-
-This example converts an collection of objects to an activityAttachment :
-
-```
-isTemplate()
-```
-
-And returns this result:
+`3`
