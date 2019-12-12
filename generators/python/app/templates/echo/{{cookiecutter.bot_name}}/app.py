@@ -34,7 +34,7 @@ async def on_error(self, context: TurnContext, error: Exception):
     print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
 
     # Send a message to the user
-    await context.send_activity("The bot encounted an error or bug.")
+    await context.send_activity("The bot encountered an error or bug.")
     await context.send_activity("To continue to run this bot, please fix the bot source code.")
     # Send a trace activity if we're talking to the Bot Framework Emulator
     if context.activity.channel_id == 'emulator':
