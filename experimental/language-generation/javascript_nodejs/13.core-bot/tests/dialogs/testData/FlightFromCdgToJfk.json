@@ -1,0 +1,103 @@
+{
+  "text": "flight from cdg to jfk",
+  "intents": {
+    "BookFlight": {
+      "score": 0.712058365
+    }
+  },
+  "entities": {
+    "$instance": {
+      "From": [
+        {
+          "startIndex": 12,
+          "endIndex": 15,
+          "score": 0.9553623,
+          "text": "cdg",
+          "type": "From"
+        }
+      ],
+      "To": [
+        {
+          "startIndex": 19,
+          "endIndex": 22,
+          "score": 0.8905674,
+          "text": "jfk",
+          "type": "To"
+        }
+      ]
+    },
+    "From": [ { "$instance": {} } ],
+
+    "To": [
+      {
+        "$instance": {
+          "Airport": [
+            {
+              "startIndex": 19,
+              "endIndex": 22,
+              "text": "jfk",
+              "type": "Airport"
+            }
+          ]
+        },
+        "Airport": [
+          [
+            "New York"
+          ]
+        ]
+      }
+    ]
+  },
+  "luisResult": {
+    "query": "flight from cdg to jfk",
+    "topScoringIntent": {
+      "intent": "BookFlight",
+      "score": 0.712058365
+    },
+    "entities": [
+      {
+        "entity": "cdg",
+        "type": "From",
+        "startIndex": 12,
+        "endIndex": 14,
+        "score": 0.9553623
+      },
+      {
+        "entity": "jfk",
+        "type": "To",
+        "startIndex": 19,
+        "endIndex": 21,
+        "score": 0.8905674
+      },
+      {
+        "entity": "jfk",
+        "type": "Airport",
+        "startIndex": 19,
+        "endIndex": 21,
+        "resolution": {
+          "values": [
+            "New York"
+          ]
+        }
+      }
+    ],
+    "compositeEntities": [
+      {
+        "parentType": "From",
+        "value": "cdg",
+        "children": []
+
+      },
+      {
+        "parentType": "To",
+        "value": "jfk",
+        "children": [
+          {
+            "type": "Airport",
+            "value": "jfk"
+          }
+        ]
+      }
+    ]
+  }
+}
