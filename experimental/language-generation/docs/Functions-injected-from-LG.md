@@ -4,7 +4,9 @@
 - [ActivityAttachment](#ActivityAttachment)
 - [template](#template)
 - [fromFile](#fromFile)
+- [isTemplate](#isTemplate)
 
+<a name="ActivityAttachment"></a>
 ### ActivityAttachment
 
 Return an activityAttachment from objects.
@@ -25,7 +27,7 @@ ActivityAttachment(<collection-of-objects>)
 
 *Example*
 
-This example converts an collection of objects to an activityAttachment :
+This example converts an collection of objects to an activityAttachment.
 Suppose we want to convert a JSON file to herocard attachment. 
 the content in the herocard.json: 
 
@@ -50,8 +52,13 @@ the content in the herocard.json:
 }
 ```
 
+By calling ActivityAttachment in a template, type, title, value are passed from template name.
+
 ```
-ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')
+# externalHeroCardActivity(type, title, value)
+[Activity
+    attachments = @{ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')}
+]
 ```
 
 And returns a herocard:
@@ -81,10 +88,10 @@ And returns a herocard:
 }
 ```
 
-
+<a name="template"></a>
 ### template
 
-Return a function converts objects to an activityAttachment.
+Return the evaluated result of the template name and parameters.
 
 ```
 template(<collection-of-objects>)
@@ -125,6 +132,8 @@ Hello DL
 Hey DL
 ```
 
+<a name="fromFile"></a>
+
 ### fromFile
 
 Return the evaluated result from the expression in the given file
@@ -161,3 +170,53 @@ fromFile('/home/user/test.txt')
 And returns this result: 
 
 `3`
+
+<a name="isTemplate"></a>
+### isTemplate
+
+Return whether a given template name is included in the evaluator.
+
+```
+isTemplate(<tempalteName>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*tempalteName*> | Yes | String  | A tempalte name to check |
+|||||
+
+| Return value | Type | Description |
+| ------------ | -----| ----------- |
+| <*result*> | Boolean | whether the given template name is included in the evaluator  |
+||||
+
+*Example*
+
+This example use isTempalte to check whether the template name is in the evaluator:
+Suppose we have evalutor contains these templates:
+
+```
+['welcome', 'show-alarms', 'add-to-do']
+```
+
+By calling
+
+```
+isTemplate("welcome")
+```
+
+And returns one of the results:
+
+```
+true
+```
+
+```
+isTemplate("delete-to-do")
+```
+
+And returns one of the results:
+
+```
+false
+```
