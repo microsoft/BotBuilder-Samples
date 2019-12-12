@@ -9,7 +9,7 @@
 <a name="ActivityAttachment"></a>
 ### ActivityAttachment
 
-Return an activityAttachment from objects.
+Return an activityAttachment constructed from an object and a type.
 
 ```
 ActivityAttachment(<collection-of-objects>)
@@ -17,19 +17,30 @@ ActivityAttachment(<collection-of-objects>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection-of-objects*> | Yes | Array or object  | A collection of objects|
+| <*content*> | Yes | Object  | Object contains the information of attachment |
+| <*type*> | Yes | string  | A string represents the type of attachment |
 |||||
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*activityAttachment*> | Object | An activityAttachment formed from the input |
+| <*activityAttachment*> | Object | An activityAttachment formed from the inputs |
 ||||
 
 *Example*
 
 This example converts an collection of objects to an activityAttachment.
-Suppose we want to convert a JSON file to herocard attachment. 
-the content in the herocard.json: 
+
+Using ActivityAttachment function in the template body, type, title, value are parameters in the template name.
+Suppose we have a template:
+
+```
+# externalHeroCardActivity(type, title, value)
+[Activity
+    attachments = @{ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')}
+]
+```
+
+The content in herocard.json:
 
 ```
 {
@@ -52,16 +63,13 @@ the content in the herocard.json:
 }
 ```
 
-By calling ActivityAttachment in a template, type, title, value are passed from template name.
+By calling externalHeroCardActivity as a function:
 
 ```
-# externalHeroCardActivity(type, title, value)
-[Activity
-    attachments = @{ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')}
-]
+externalHeroCardActivity('signin', 'Signin Button', 'http://login.microsoft.com')
 ```
 
-And returns a herocard:
+And it returns a herocard:
 
 ```
 {
@@ -79,10 +87,10 @@ And returns a herocard:
             }
         ],
         "tap": {
-            "type": "@{type}",
-            "title": "@{title}",
-            "text": "@{title}",
-            "value": "@{value}"
+            "type": "signin",
+            "title": "Signin Button",
+            "text": "Signin Button",
+            "value": "http://login.microsoft.com"
         }
     }
 }
@@ -91,15 +99,16 @@ And returns a herocard:
 <a name="template"></a>
 ### template
 
-Return the evaluated result of the template name and parameters.
+Return the evaluated result of given template name and scope.
 
 ```
-template(<collection-of-objects>)
+template(<templateName>, <scope>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection-of-objects*> | Yes | Array or object  | A collection of objects|
+| <*templateName*> | Yes | String  | A string represents the template name |
+| <*scope*> | Yes | Object  | The scope to pass parameters to the template |
 |||||
 
 | Return value | Type | Description |
@@ -111,7 +120,8 @@ template(<collection-of-objects>)
 
 This example evaluates the result of calling the template as a function :
 Suppose we have template:
-    
+
+```    
     # welcome(userName)
 
     - Hi @{userName}
@@ -119,12 +129,13 @@ Suppose we have template:
     - Hello @{userName}
 
     - Hey @{userName}
-
-```
-template("welcome", new { userName = "DL" }.ToString())
 ```
 
-And returns one of the results:
+```
+template("welcome", { userName = "DL" })
+```
+
+And it returns one of these results:
 
 ```
 Hi DL
@@ -136,30 +147,32 @@ Hey DL
 
 ### fromFile
 
-Return the evaluated result from the expression in the given file
+Return the string representation of the evaluated result in the given file. 
 
 ```
-fromFile(<filepath>)
+fromFile(<filePath>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*filepath*> | Yes | string  | path of the a file |
+| <*filePath*> | Yes | string  | relative or absolute path of a file contains expressions |
 |||||
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*function*> | Function | A function convert object to activityAttachment |
+| <*result*> | string | The string representation of the evaluated result |
 ||||
 
 *Example*
 
-This example evaluate the result from the given filepath :
+This example evaluates the result from the given file:
 Suppose we have a file whose filepath is:  
 
-`/home/user/test.txt`.
+`/home/user/test.txt`
+
 
 The content of the file is 
+
 
 `add(1,2)`
 
@@ -167,9 +180,9 @@ The content of the file is
 fromFile('/home/user/test.txt')
 ```
 
-And returns this result: 
+And it returns the result: 
 
-`3`
+`'3'`
 
 <a name="isTemplate"></a>
 ### isTemplate
@@ -192,11 +205,18 @@ isTemplate(<tempalteName>)
 
 *Example*
 
-This example use isTempalte to check whether the template name is in the evaluator:
+This example uses isTempalte function to check whether given template name is in the evaluator:
 Suppose we have evalutor contains these templates:
 
 ```
-['welcome', 'show-alarms', 'add-to-do']
+# welcome
+- hi
+
+# show-alarms
+- 7:am and 8:pm
+
+# add-to-do
+- you add a task at 7:pm
 ```
 
 By calling
@@ -205,7 +225,7 @@ By calling
 isTemplate("welcome")
 ```
 
-And returns one of the results:
+And it returns the result:
 
 ```
 true
@@ -215,7 +235,7 @@ true
 isTemplate("delete-to-do")
 ```
 
-And returns one of the results:
+And it returns the result:
 
 ```
 false
