@@ -147,7 +147,7 @@ Hey DL
 
 ### fromFile
 
-Return the string representation of the evaluated result in the given file. 
+Return the evaluated result of the expression in the given file. 
 
 ```
 fromFile(<filePath>)
@@ -174,15 +174,15 @@ Suppose we have a file whose filepath is:
 The content of the file is 
 
 
-`add(1,2)`
+`you have @{add(1,2)} alarms`
 
 ```
 fromFile('/home/user/test.txt')
 ```
 
-And it returns the result: 
+The fromFile function will evaluate the expression part and the result will replace the original expression. So it returns the result: 
 
-`'3'`
+`'you have 3 alarms'`
 
 <a name="isTemplate"></a>
 ### isTemplate
