@@ -58,6 +58,26 @@ QnA knowledge base setup and application configuration steps can be found [here]
     ```bash
     npm start
     ```
+##### Microsoft Teams channel group chat fix
+- Goto `dialog/rootDialog.js`
+- Update `run` function as
+    ~~~
+    async run(context, accessor) {
+        const dialogSet = new DialogSet(accessor);
+        dialogSet.add(this);
+
+        const dialogContext = await dialogSet.createContext(context);
+
+        if (context.activity.channelId === "msteams") {
+            context.activity.text = context.activity.text.replace("/<at>[^<]+<\/at>[ ]*/gi", "");
+        }
+
+        const results = await dialogContext.continueDialog();
+        if (results.status === DialogTurnStatus.empty) {
+            await dialogContext.beginDialog(this.id);
+        }
+    }
+    ~~~
 
 ## Testing the bot using Bot Framework Emulator
 
