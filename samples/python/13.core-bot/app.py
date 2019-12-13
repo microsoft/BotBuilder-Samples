@@ -9,9 +9,8 @@ This sample shows how to create a bot that demonstrates the following:
 - Prompt for and validate requests for information from the user.
 """
 
-import asyncio
-
-from flask import Flask, request, Response
+from aiohttp import web
+from aiohttp.web import Request, Response, json_response
 from botbuilder.core import (
     BotFrameworkAdapterSettings,
     ConversationState,
@@ -19,18 +18,19 @@ from botbuilder.core import (
     UserState,
 )
 from botbuilder.schema import Activity
+
+from config import DefaultConfig
 from dialogs import MainDialog, BookingDialog
 from bots import DialogAndWelcomeBot
 
 from adapter_with_error_handler import AdapterWithErrorHandler
 from flight_booking_recognizer import FlightBookingRecognizer
 
-# Create the loop and Flask app
-LOOP = asyncio.get_event_loop()
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_object("config.DefaultConfig")
+CONFIG = DefaultConfig()
 
-SETTINGS = BotFrameworkAdapterSettings(app.config["APP_ID"], app.config["APP_PASSWORD"])
+# Create adapter.
+# See https://aka.ms/about-bot-adapter to learn more about how bots work.
+SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 
 # Create MemoryStorage, UserState and ConversationState
 MEMORY = MemoryStorage()
@@ -42,38 +42,37 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 ADAPTER = AdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
 
 # Create dialogs and Bot
-RECOGNIZER = FlightBookingRecognizer(app.config)
+RECOGNIZER = FlightBookingRecognizer(CONFIG)
 BOOKING_DIALOG = BookingDialog()
 DIALOG = MainDialog(RECOGNIZER, BOOKING_DIALOG)
 BOT = DialogAndWelcomeBot(CONVERSATION_STATE, USER_STATE, DIALOG)
 
 
 # Listen for incoming requests on /api/messages.
-@app.route("/api/messages", methods=["POST"])
-def messages():
+async def messages(req: Request) -> Response:
     # Main bot message handler.
-    if "application/json" in request.headers["Content-Type"]:
-        body = request.json
+    if "application/json" in req.headers["Content-Type"]:
+        body = await req.json()
     else:
         return Response(status=415)
 
     activity = Activity().deserialize(body)
-    auth_header = (
-        request.headers["Authorization"] if "Authorization" in request.headers else ""
-    )
+    auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
     try:
-        task = LOOP.create_task(
-            ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
-        )
-        LOOP.run_until_complete(task)
+        response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+        if response:
+            return json_response(data=response.value.body, status=response.value.status)
         return Response(status=201)
     except Exception as exception:
         raise exception
 
 
+APP = web.Application()
+APP.router.add_post("/api/messages", messages)
+
 if __name__ == "__main__":
     try:
-        app.run(debug=False, port=app.config["PORT"])  # nosec debug
-    except Exception as exception:
-        raise exception
+        web.run_app(APP, host="localhost", port=CONFIG.PORT)
+    except Exception as error:
+        raise error

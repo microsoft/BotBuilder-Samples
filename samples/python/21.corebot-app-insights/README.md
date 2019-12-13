@@ -10,6 +10,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - Prompt for and validate requests for information from the user
 - Use [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices) to monitor your bot
 
+**NOTE:**
+Unlike the other samples that use aiohttp, this sample is using Flask.  We do not recommend using Flask for a production bot.  This sample will be updated to use aiohttp in the future.
+
 ## Prerequisites
 
 ### Install Python 3.6

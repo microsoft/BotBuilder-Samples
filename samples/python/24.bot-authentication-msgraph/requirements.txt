@@ -1,4 +1,4 @@
+aiohttp
 botbuilder-core>=4.4.0b1
-flask>=1.0.3
 microsoftgraph-python==0.1.6
 

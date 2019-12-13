@@ -1,4 +1,4 @@
+aiohttp
 jsonpickle
 botbuilder-core>=4.4.0b1
 azure>=4.0.0
-flask>=1.0.3
