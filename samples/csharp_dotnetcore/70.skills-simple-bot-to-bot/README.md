@@ -19,6 +19,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - A [EchoSkillBot](EchoSkillBot/README.md) that handle echoes message activities from the parent bot.
 
 ## To try this sample
+- Open the solution and configure it to run both projects (TODO: explain this)
 
 - Create a bot registration in the azure portal for the EchoSkillBot and update [EchoSkillBot/appsettings.json](EchoSkillBot/appsettings.json) with the AppId and password.
 - Create a bot registration in the azure portal for the SimpleRootBot and update [SimpleRootBot/appsettings.json](SimpleRootBot/appsettings.json) with the AppId and password. 
