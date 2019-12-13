@@ -55,6 +55,8 @@ namespace ProactiveBot.Controllers
 
         private async Task BotCallback(ITurnContext turnContext, CancellationToken cancellationToken)
         {
+            // If you encounter permission-related errors when sending this message, see
+            // https://aka.ms/BotTrustServiceUrl
             await turnContext.SendActivityAsync("proactive hello");
         }
     }
