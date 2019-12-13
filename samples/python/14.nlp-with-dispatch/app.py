@@ -1,11 +1,12 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import asyncio
 import sys
+import traceback
 from datetime import datetime
 
-from flask import Flask, request, Response
+from aiohttp import web
+from aiohttp.web import Request, Response, json_response
 from botbuilder.core import (
     BotFrameworkAdapterSettings,
     TurnContext,
@@ -14,15 +15,13 @@ from botbuilder.core import (
 from botbuilder.schema import Activity, ActivityTypes
 
 from bots import DispatchBot
+from config import DefaultConfig
 
-# Create the loop and Flask app
-LOOP = asyncio.get_event_loop()
-app = Flask(__name__, instance_relative_config=True)
-app.config.from_object("config.DefaultConfig")
+CONFIG = DefaultConfig()
 
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
-SETTINGS = BotFrameworkAdapterSettings(app.config["APP_ID"], app.config["APP_PASSWORD"])
+SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 ADAPTER = BotFrameworkAdapter(SETTINGS)
 
 
@@ -32,6 +31,7 @@ async def on_error(context: TurnContext, error: Exception):
     # NOTE: In production environment, you should consider logging this to Azure
     #       application insights.
     print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
+    traceback.print_exc()
 
     # Send a message to the user
     await context.send_activity("The bot encountered an error or bug.")
@@ -56,34 +56,34 @@ async def on_error(context: TurnContext, error: Exception):
 ADAPTER.on_turn_error = on_error
 
 # Create the Bot
-BOT = DispatchBot(app.config)
+BOT = DispatchBot(CONFIG)
+
 
 # Listen for incoming requests on /api/messages
-@app.route("/api/messages", methods=["POST"])
-def messages():
+async def messages(req: Request) -> Response:
     # Main bot message handler.
-    if "application/json" in request.headers["Content-Type"]:
-        body = request.json
+    if "application/json" in req.headers["Content-Type"]:
+        body = await req.json()
     else:
         return Response(status=415)
 
     activity = Activity().deserialize(body)
-    auth_header = (
-        request.headers["Authorization"] if "Authorization" in request.headers else ""
-    )
+    auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
     try:
-        task = LOOP.create_task(
-            ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
-        )
-        LOOP.run_until_complete(task)
+        response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+        if response:
+            return json_response(data=response.value.body, status=response.value.status)
         return Response(status=201)
     except Exception as exception:
         raise exception
 
 
+APP = web.Application()
+APP.router.add_post("/api/messages", messages)
+
 if __name__ == "__main__":
     try:
-        app.run(debug=False, port=app.config["PORT"])  # nosec debug
-    except Exception as exception:
-        raise exception
+        web.run_app(APP, host="localhost", port=CONFIG.PORT)
+    except Exception as error:
+        raise error
