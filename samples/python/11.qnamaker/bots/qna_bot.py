@@ -1,20 +1,20 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-from flask import Config
-
 from botbuilder.ai.qna import QnAMaker, QnAMakerEndpoint
 from botbuilder.core import ActivityHandler, MessageFactory, TurnContext
 from botbuilder.schema import ChannelAccount
 
+from config import DefaultConfig
+
 
 class QnABot(ActivityHandler):
-    def __init__(self, config: Config):
+    def __init__(self, config: DefaultConfig):
         self.qna_maker = QnAMaker(
             QnAMakerEndpoint(
-                knowledge_base_id=config["QNA_KNOWLEDGEBASE_ID"],
-                endpoint_key=config["QNA_ENDPOINT_KEY"],
-                host=config["QNA_ENDPOINT_HOST"],
+                knowledge_base_id=config.QNA_KNOWLEDGEBASE_ID,
+                endpoint_key=config.QNA_ENDPOINT_KEY,
+                host=config.QNA_ENDPOINT_HOST,
             )
         )
 
