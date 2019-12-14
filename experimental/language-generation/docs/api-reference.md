@@ -1,7 +1,5 @@
 # API reference for LG 
 
-For Nuget packages, see [this MyGet feed][1]
-
 ### TemplateEngine Class
 
 #### Fields
