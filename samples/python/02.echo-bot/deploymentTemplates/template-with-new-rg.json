@@ -206,7 +206,7 @@
                               "use32BitWorkerProcess": true,
                               "webSocketsEnabled": false,
                               "alwaysOn": false,
-                              "appCommandLine": "",
+                              "appCommandLine": "startup.txt",
                               "managedPipelineMode": "Integrated",
                               "virtualApplications": [
                                   {
