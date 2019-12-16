@@ -9,7 +9,7 @@ how to incorporate basic conversational flow into a Teams application. It also i
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [Python SDK](https://www.python.org/downloads/) min version 3.6
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
@@ -24,9 +24,7 @@ the Teams service needs to call into the bot.
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsConversationBot`
-    - The changes specified here will apply to this project
+    - Open the solution `samples\python\57.teams-conversation-bot`
 
 1) Run ngrok - point to port 3978
 
