@@ -26,7 +26,7 @@ QnA Maker CLI to deploy the model.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/11.qnamaker`
+- In a terminal, navigate to `samples/csharp_dotnetcore/49.qnamaker-all-features`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -40,7 +40,7 @@ QnA Maker CLI to deploy the model.
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
+  - Navigate to `samples/csharp_dotnetcore/49.qnamaker-all-features` folder
   - Select `QnABot.csproj` file
   - Press `F5` to run the project
 
@@ -54,7 +54,7 @@ QnA Maker CLI to deploy the model.
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3999/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.

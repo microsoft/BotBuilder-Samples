@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 class EchoBot {
     async onTurn(context) {
         // Check to see if this activity is an incoming message.
@@ -19,4 +21,4 @@ class EchoBot {
     }
 }
 
-module.exports.EchoBot = EchoBot;
+module.exports = { EchoBot };

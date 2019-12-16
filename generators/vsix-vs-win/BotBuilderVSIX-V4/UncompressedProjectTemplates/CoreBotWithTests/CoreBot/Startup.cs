@@ -61,7 +61,7 @@ namespace $ext_safeprojectname$
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             app.UseMvc();
         }
     }

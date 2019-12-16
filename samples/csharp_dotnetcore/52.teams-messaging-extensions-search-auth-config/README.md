@@ -1,58 +1,54 @@
-﻿# EchoBot
+﻿# Teams Search Auth Config Bot
 
-Bot Framework v4 Teams Messaging Extensions Search with Auth and Config sample.
+Bot Framework v4 sample for Teams expands the [50.teams-messaging-extensions-search](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/50.teams-messaging-extensions-search) sample to include a configuration page and Bot Service authentication.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts search requests from the user and returns the results.  The sample also incorporates auth and config via Messaging Extension.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension.
 
 ## Prerequisites
 
+- Microsoft Teams is installed and you have an account
 - [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-- Clone the repository
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
+the Teams service needs to call into the bot.
+
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+1) If you are using Visual Studio
+    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
+    - Set the Startup Project to `TeamsMessagingExtensionsSearchAuthConfig`
+    - The changes specified here will apply to this project
 
-  A) From a terminal
+1) Run ngrok - point to port 3978
 
-  ```bash
-  # run the bot
-  dotnet run
-  ```
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 
-  B) Or from Visual Studio
+1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config` folder
-  - Select `TeamsMessagingExtensionsSearchAuthConfig.csproj` file
-  - Press `F5` to run the project
+1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
-## Testing the bot using Teams
+1) __*This step is specific to Teams.*__
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
+    - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
+    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-1) run ngrok - point to port 3978
-2) add the ngrok url to appsettings.json - SiteUrl
-3) create bot framework registration - using ngrok URL
-4) add MicrosoftAppId and MicrosoftAppPassword values to appsettings.json
-5) add an AAD V2 OAuth Connection Setting 
-scopes: email Mail.Read User.Read openid profile User.ReadBasic.All Mail.Send.Shared 
-(see https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication)
-6) add AAD ConnectionName to appsettings.json
-7) update your manifest.json to include the app id from bot framework
-8) zip up teams-manifest folder to create a manifest.zip
-9) upload manifest.zip to teams (from Apps view click "Upload a custom app")
-10) pick your bot from the compose command menu
+1) Run your bot, either from Visual Studio with `F5` or using `dotnet run` in the appropriate folder.
+
+## Interacting with the bot in Teams
+
+Once the Messaging Extension is installed, click the icon for **Config Auth Search** in the Compose Box's Messaging Extension menu to display the search window.  Left click to choose **Settings** and view the Config page.
 
 ## Deploy the bot to Azure
 
@@ -60,15 +56,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 ## Further reading
 
-- [Bot Framework Documentation](https://docs.botframework.com)
-- [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
-- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)
+- [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)

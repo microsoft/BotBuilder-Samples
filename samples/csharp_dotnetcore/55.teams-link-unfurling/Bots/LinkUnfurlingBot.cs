@@ -29,11 +29,10 @@ namespace Microsoft.BotBuilderSamples.Bots
             return Task.FromResult(new MessagingExtensionResponse(result));
         }
 
-        protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
+        protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
-            //Note: The Teams manifest.json for this sample also inclues a Search Query, in order to enable installing from App Studio.
+            //Note: The Teams manifest.json for this sample also includes a Search Query, in order to enable installing from App Studio.
 
-            var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
             switch (query.CommandId)
             {
                 // These commandIds are defined in the Teams App Manifest.
@@ -45,7 +44,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Text = "This sample demonstrates how to handle link unfurling in Teams.  Please review the readme for more information.",
                     };
 
-                    return new MessagingExtensionResponse
+                    return Task.FromResult(new MessagingExtensionResponse
                     {
                         ComposeExtension = new MessagingExtensionResult
                         {
@@ -61,7 +60,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                                 },
                             },
                         },
-                    };
+                    });
 
                 default:
                     throw new NotImplementedException($"Invalid CommandId: {query.CommandId}");

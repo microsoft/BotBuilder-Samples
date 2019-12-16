@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await response.Content.CopyToAsync(fileStream);
                 }
 
-                var reply = MessageFactory.Text($"Complete downloading <b>{file.Name}</b>");
+                var reply = MessageFactory.Text($"<b>{file.Name}</b> received and saved.");
                 reply.TextFormat = "xml";
                 await turnContext.SendActivityAsync(reply, cancellationToken);
             }
