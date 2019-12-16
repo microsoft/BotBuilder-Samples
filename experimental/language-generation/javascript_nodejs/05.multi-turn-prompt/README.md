@@ -4,6 +4,8 @@ Bot Framework v4 multi-turn prompt bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use the prompts classes included in `botbuilder-dialogs`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to store and retrieve values.
 
+In this sample, we will demonstrate use of [Language Generation][41] to generate all responses from the bot. 
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
@@ -80,3 +82,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+
+[41]:../../README.md

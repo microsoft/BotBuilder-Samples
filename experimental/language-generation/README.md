@@ -107,6 +107,7 @@ Nightly packages for C# are available here
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
     - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation.
+    - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
     - New `ActivityFactory` class that helps transform structured response template output from LG into a Bot framework activity.

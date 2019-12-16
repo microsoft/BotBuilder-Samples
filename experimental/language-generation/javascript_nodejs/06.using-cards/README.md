@@ -4,6 +4,9 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses rich cards to enhance your bot design.
 
+In this sample, we will demonstrate use of [Language Generation][41] to generate all responses from the bot. 
+
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
@@ -85,3 +88,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+[41]:../../README.md

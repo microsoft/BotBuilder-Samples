@@ -9,6 +9,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
 
+In this sample, we will demonstrate use of [Language Generation][41] to generate all responses from the bot. 
+
 ## Prerequisites
 
 This sample **requires** prerequisites in order to run.
@@ -97,3 +99,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+[41]:../../README.md
