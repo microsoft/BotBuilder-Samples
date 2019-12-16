@@ -2,6 +2,8 @@
 
 Bot Framework v4 multilingual bot sample
 
+This sample will present the user with a set of cards to pick their choice of language. The user can either change language by invoking the option cards, or by entering the language code (_en_/_es_). The bot will then acknowledge the selection.
+
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
 
 ## Concepts introduced in this sample
@@ -32,7 +34,8 @@ This sample **requires** prerequisites in order to run.
     Paste the key in the `TranslatorKey` setting in the `.env` file, or use your preferred configuration and update the following line in `index.js` with your translation key:
 
     ```js
-    adapter.use(new TranslatorMiddleware(languagePreferenceProperty, process.env.translatorKey));
+    const translator = new MicrosoftTranslator(process.env.translatorKey);
+    adapter.use(new TranslatorMiddleware(translator, languagePreferenceProperty));
     ```
 
 

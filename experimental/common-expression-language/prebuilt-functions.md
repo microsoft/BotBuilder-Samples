@@ -1474,12 +1474,12 @@ And returns this result: `10.333`
 Operate on each element and return the new collection
 
 ```
-foreach([<collection>], <iteratorName>, <function>)
+foreach([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array or Object | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | function that can contains iteratorName |
 |||||
@@ -1498,6 +1498,16 @@ foreach(createArray(0, 1, 2, 3), x, x + 1)
 ```
 
 And return this result: `[1, 2, 3, 4]`
+
+
+
+These examples generate new collections from instance:
+
+```
+foreach(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
 
 <a name="formatDateTime"></a>
 
@@ -2759,12 +2769,12 @@ And returns this result: `"the new string"`
 Operate on each element and return the new collection of transformed elements.
 
 ```
-select([<collection>], <iteratorName>, <function>)
+select([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | function that can contains iteratorName |
 |||||
@@ -2783,6 +2793,15 @@ select(createArray(0, 1, 2, 3), x, x + 1)
 ```
 
 And return this result: `[1, 2, 3, 4]`
+
+These examples generate new collections from instance:
+
+```
+select(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
+
 
 <a name="setProperty"></a>
 
@@ -3867,19 +3886,19 @@ And returns this result: `"Sunday, April 15, 2018"`
 Filter on each element and return the new collection of filtered elements which match specific condition.
 
 ```
-where([<collection>], <iteratorName>, <function>)
+where([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | condition function which is used to filter items|
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*new-collection*> | Array | the new collection which each element has been filtered with the function  |
+| <*new-collection/new-object*> | Array/Object | the new collection which each element has been filtered with the function  |
 ||||
 
 *Example*
@@ -3891,6 +3910,15 @@ where(createArray(0, 1, 2, 3), x, x > 1)
 ```
 
 And return this result: `[2, 3]`
+
+These examples generate new object:
+
+```
+where(json("{'name': 'jack', 'age': '15'}"), x, x.value == 'jack')
+```
+
+And return this result: `{'name': 'jack'}`
+
 
 <a name="xml"></a>
 
