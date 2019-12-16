@@ -9,7 +9,7 @@ how to incorporate basic conversational flow into a Teams application. It also i
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account
-- [Python SDK](https://www.python.org/downloads/) min version 3.6
+- [Python SDK](https://www.python.org/downloads/) min version 3.7
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
