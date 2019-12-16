@@ -35,8 +35,9 @@ class TeamsBot(DialogBot):
                     "'logout' to sign-out."
                 )
 
-    async def on_token_response_event(self, turn_context: TurnContext):
+    async def on_teams_signin_verify_state(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
+        # The OAuth Prompt needs to see the Invoke Activity in order to complete the login process.
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,
