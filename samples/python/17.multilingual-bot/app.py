@@ -87,7 +87,7 @@ async def messages(req: Request) -> Response:
     try:
         response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
         if response:
-            return json_response(data=response.value.body, status=response.value.status)
+            return json_response(data=response.body, status=response.status)
         return Response(status=201)
     except Exception as exception:
         raise exception
