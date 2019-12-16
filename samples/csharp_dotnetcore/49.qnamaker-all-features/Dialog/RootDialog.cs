@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.BotBuilderSamples.Utils;
 
 namespace Microsoft.BotBuilderSamples.Dialog
 {
@@ -38,30 +38,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Set values for generate answer options.
-            var qnamakerOptions = new QnAMakerOptions
-            {
-                ScoreThreshold = QnAMakerBaseDialog.DefaultThreshold,
-                Top = QnAMakerBaseDialog.DefaultTopN,
-                Context = new QnARequestContext()
-            };
-
-            // Set values for dialog responses.
-            var qnaDialogResponseOptions = new QnADialogResponseOptions
-            {
-                NoAnswer = QnAMakerBaseDialog.DefaultNoAnswer,
-                ActiveLearningCardTitle = QnAMakerBaseDialog.DefaultCardTitle,
-                CardNoMatchText = QnAMakerBaseDialog.DefaultCardNoMatchText,
-                CardNoMatchResponse = QnAMakerBaseDialog.DefaultCardNoMatchResponse
-            };
-
-            var dialogOptions = new Dictionary<string, object>
-            {
-                [QnAMakerBaseDialog.QnAOptions] = qnamakerOptions,
-                [QnAMakerBaseDialog.QnADialogResponseOptions] = qnaDialogResponseOptions
-            };
-
-            return await stepContext.BeginDialogAsync(nameof(QnAMakerBaseDialog), dialogOptions, cancellationToken);
+            return await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
         }
     }
 }
