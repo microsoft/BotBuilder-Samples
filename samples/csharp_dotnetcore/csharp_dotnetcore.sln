@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.29409.12
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.902
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -78,6 +78,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebexAdapterBot", "60.webex-adapter\WebexAdapterBot.csproj", "{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -233,6 +235,10 @@ Global
 		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

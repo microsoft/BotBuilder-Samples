@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
@@ -178,7 +179,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var mention = new Mention
             {
                 Mentioned = turnContext.Activity.From,
-                Text = $"<at>{turnContext.Activity.From.Name}</at>",
+                Text = $"<at>{XmlConvert.EncodeName(turnContext.Activity.From.Name)}</at>",
             };
 
             var replyActivity = MessageFactory.Text($"Hello {mention.Text}.");

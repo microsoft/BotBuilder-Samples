@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TeamsActivityHandler } = require('../teamsActivityHandler');
+const { TeamsActivityHandler } = require('botbuilder');
 
 class DialogBot extends TeamsActivityHandler {
     /**
