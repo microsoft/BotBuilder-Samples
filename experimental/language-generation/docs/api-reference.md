@@ -1,10 +1,7 @@
 # API reference for LG 
 
-<<<<<<< HEAD
-=======
 For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
->>>>>>> 60e3a4e07558797a53e0ca1abd3862a0617996eb
 ### TemplateEngine Class
 
 #### Fields
