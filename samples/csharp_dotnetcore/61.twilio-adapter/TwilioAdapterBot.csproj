@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Twilio" Version="4.6.0-preview-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Adapters.Twilio" Version="4.7.0-preview" />
   </ItemGroup>
   
   <ItemGroup>
