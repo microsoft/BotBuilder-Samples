@@ -19,18 +19,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         public DateResolverDialog(string id = null)
             : base(id ?? nameof(DateResolverDialog))
         {
-            AddDialog(new DateTimePrompt(nameof(DateTimePrompt), DateTimePromptValidator)
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+            AddDialog(new DateTimePrompt(nameof(DateTimePrompt), DateTimePromptValidator));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 InitialStepAsync,
                 FinalStepAsync,
-            })
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+            }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
