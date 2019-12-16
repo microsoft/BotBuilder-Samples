@@ -26,10 +26,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             _luisRecognizer = luisRecognizer;
             Logger = logger;
 
+            // Set the telemetry client for this and all child dialogs
             this.TelemetryClient = telemetryClient;
 
-            // The TelemetryClient property for each added dialog will be set to
-            // the TelemetryClient property (set above) of this component dialog
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(bookingDialog);
             AddDialog(new WaterfallDialog(
