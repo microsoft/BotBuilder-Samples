@@ -2,30 +2,31 @@
 # Licensed under the MIT License.
 
 from azure.cognitiveservices.language.luis.runtime.models import LuisResult
-from flask import Config
 
 from botbuilder.ai.luis import LuisApplication, LuisRecognizer, LuisPredictionOptions
 from botbuilder.ai.qna import QnAMaker, QnAMakerEndpoint
 from botbuilder.core import ActivityHandler, TurnContext, RecognizerResult
 from botbuilder.schema import ChannelAccount
 
+from config import DefaultConfig
+
 
 class DispatchBot(ActivityHandler):
-    def __init__(self, config: Config):
+    def __init__(self, config: DefaultConfig):
         self.qna_maker = QnAMaker(
             QnAMakerEndpoint(
-                knowledge_base_id=config["QNA_KNOWLEDGEBASE_ID"],
-                endpoint_key=config["QNA_ENDPOINT_KEY"],
-                host=config["QNA_ENDPOINT_HOST"],
+                knowledge_base_id=config.QNA_KNOWLEDGEBASE_ID,
+                endpoint_key=config.QNA_ENDPOINT_KEY,
+                host=config.QNA_ENDPOINT_HOST,
             )
         )
 
         # If the includeApiResults parameter is set to true, as shown below, the full response
         # from the LUIS api will be made available in the properties  of the RecognizerResult
         luis_application = LuisApplication(
-            config["LUIS_APP_ID"],
-            config["LUIS_API_KEY"],
-            "https://" + config["LUIS_API_HOST_NAME"],
+            config.LUIS_APP_ID,
+            config.LUIS_API_KEY,
+            "https://" + config.LUIS_API_HOST_NAME,
         )
         luis_options = LuisPredictionOptions(
             include_all_intents=True, include_instance_data=True

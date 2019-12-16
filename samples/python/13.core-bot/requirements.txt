@@ -1,5 +1,5 @@
+aiohttp
 botbuilder-dialogs>=4.4.0.b1
 botbuilder-ai>=4.4.0.b1
 datatypes-date-time>=1.0.0.a2
-flask>=1.0.3
 
