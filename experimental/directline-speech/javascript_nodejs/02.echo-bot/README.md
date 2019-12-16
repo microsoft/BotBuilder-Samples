@@ -1,6 +1,6 @@
-# echo-bot
+# echo-bot with Direct Line Speech
 
-Bot Framework v4 echo bot sample
+Bot Framework v4 echo bot sample with Direct Line Speech
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
@@ -13,7 +13,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     node --version
     ```
 
-- In order to use the preview version of the [botbuilder-streaming-extensions](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-streaming-extensions) library required to use Direct Line Speech, run the following terminal commands from the root dir of the bot:
+### `botbuilder@4.6.0-preview2`
+
+- To use the preview versions of [botbuilder](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botframework) and [botframework-streaming](https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botframework-streaming) libraries required to use Direct Line Speech, you must download them from the [botbuilder-v4-js-daily MyGet feed](https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily). To easily facilitate this, there is a project-level [`.npmrc`](./.npmrc) file with the `registry` already configured with `https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/`.
+
+Alternatively, you can run the following terminal commands from the root dir of the bot:
 1. npm config set registry https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/
 2. npm install
 3. npm config set registry https://registry.npmjs.org/
@@ -26,10 +30,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/02.echo-bot`
+- In a terminal, navigate to `experimental/directline-speech/javascript_nodejs/02.echo-bot/`
 
     ```bash
-    cd samples/javascript_nodejs/02.echo-bot
+    cd experimental/directline-speech/javascript_nodejs/02.echo-bot/
     ```
 
 - Install modules
@@ -48,7 +52,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.6.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -73,3 +77,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+- [IIS 8.0 WebSocket Protocol Support](https://docs.microsoft.com/en-us/iis/get-started/whats-new-in-iis-8/iis-80-websocket-protocol-support)

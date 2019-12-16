@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Rules;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -22,23 +23,18 @@ namespace Microsoft.BotBuilderSamples
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 // These steps are executed when this Adaptive Dialog begins
-                Rules = new List<IRule>()
+                Triggers = new List<OnCondition>()
                 {
                     // Add a rule to welcome user
-                    new ConversationUpdateActivityRule()
+                    new OnConversationUpdateActivity()
                     {
-                        Steps = WelcomeUserSteps()
+                        Actions = WelcomeUserSteps()
                     },
 
                     // Respond to user on message activity
-                    new EventRule()
+                    new OnUnknownIntent()
                     {
-                        Events = new List<String> ()
-                        {
-                            AdaptiveEvents.BeginDialog
-                        },
-                        Constraint = $"turn.activity.type == '{ActivityTypes.Message}'",
-                        Steps = OnBeginDialogSteps()
+                        Actions = OnBeginDialogSteps()
                     }
                 },
                 Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath))
@@ -51,25 +47,24 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static List<IDialog> WelcomeUserSteps()
+        private static List<Dialog> WelcomeUserSteps()
         {
-            return new List<IDialog>()
+            return new List<Dialog>()
             {
                 // Iterate through membersAdded list and greet user added to the conversation.
                 new Foreach()
                 {
-                    ListProperty = "turn.activity.membersAdded",
-                    ValueProperty = "turn.memberAdded",
-                    Steps = new List<IDialog>()
+                    ItemsProperty = "turn.activity.membersAdded",
+                    Actions = new List<Dialog>()
                     {
                         // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
                         // Filter cases where the bot itself is the recipient of the message. 
                         new IfCondition()
                         {
-                            Condition = "turn.memberAdded.name != turn.activity.recipient.name",
-                            Steps = new List<IDialog>()
+                            Condition = "$foreach.value.name != turn.activity.recipient.name",
+                            Actions = new List<Dialog>()
                             {
-                                new SendActivity("Hello, I'm the cards bot. Please send a message to get started!")
+                                new SendActivity("Hello, I'm the multi-turn prompt bot. Please send a message to get started!")
                             }
                         }
                     }
@@ -78,29 +73,29 @@ namespace Microsoft.BotBuilderSamples
 
         }
 
-        private static List<IDialog> OnBeginDialogSteps()
+        private static List<Dialog> OnBeginDialogSteps()
         {
-            return new List<IDialog>()
+            return new List<Dialog>()
             {
                 // Ask for user's age and set it in user.userProfile scope.
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("[ModeOfTransportPrompt]"),
+                    Prompt = new ActivityTemplate("@{ModeOfTransportPrompt()}"),
                     // Set the output of the text input to this property in memory.
                     Property = "user.userProfile.Transport"
                 },
                 new TextInput()
                 {
-                    Prompt = new ActivityTemplate("[AskForName]"),
+                    Prompt = new ActivityTemplate("@{AskForName()}"),
                     Property = "user.userProfile.Name"
                 },
                 // SendActivity supports full language generation resolution.
                 // See here to learn more about language generation
                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                new SendActivity("[AckName]"),
+                new SendActivity("@{AckName()}"),
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("[AgeConfirmPrompt]"),
+                    Prompt = new ActivityTemplate("@{AgeConfirmPrompt()}"),
                     Property = "turn.ageConfirmation"
                 },
                 new IfCondition()
@@ -108,38 +103,38 @@ namespace Microsoft.BotBuilderSamples
                     // All conditions are expressed using the common expression language.
                     // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                     Condition = "turn.ageConfirmation == true",
-                    Steps = new List<IDialog>()
+                    Actions = new List<Dialog>()
                     {
                          new NumberInput()
                          {
-                             Prompt = new ActivityTemplate("[AskForAge]"),
+                             Prompt = new ActivityTemplate("@{AskForAge()}"),
                              Property = "user.userProfile.Age",
                              // Add validations
                              Validations = new List<String>()
                              {
                                  // Age must be greater than or equal 1
-                                 "int(turn.value) >= 1",
+                                 "int(this.value) >= 1",
                                  // Age must be less than 150
-                                 "int(turn.value) < 150"
+                                 "int(this.value) < 150"
                              },
-                             InvalidPrompt = new ActivityTemplate("[AskForAge.invalid]"),
-                             UnrecognizedPrompt = new ActivityTemplate("[AskForAge.unRecognized]")
+                             InvalidPrompt = new ActivityTemplate("@{AskForAge.invalid()}"),
+                             UnrecognizedPrompt = new ActivityTemplate("@{AskForAge.unRecognized()}")
                          },
-                         new SendActivity("[UserAgeReadBack]")
+                         new SendActivity("@{UserAgeReadBack()}")
                     },
-                    ElseSteps = new List<IDialog>()
+                    ElseActions = new List<Dialog>()
                     {
-                        new SendActivity("[NoName]") 
+                        new SendActivity("@{NoName()}") 
                     }
                 },
                 new ConfirmInput()
                 {
-                    Prompt = new ActivityTemplate("[ConfirmPrompt]"),
+                    Prompt = new ActivityTemplate("@{ConfirmPrompt()}"),
                     Property = "turn.finalConfirmation"
                 },
                 // Use LG template to come back with the final read out.
                 // This LG template is a great example of what logic can be wrapped up in LG sub-system.
-                new SendActivity("[FinalUserProfileReadOut]"), // examines turn.finalConfirmation
+                new SendActivity("@{FinalUserProfileReadOut()}"), // examines turn.finalConfirmation
                 new EndDialog()
             };
         }

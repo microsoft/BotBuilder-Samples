@@ -1,18 +1,23 @@
 {
   "$schema": "../../app.schema",
   "$type": "Microsoft.AdaptiveDialog",
-  "steps": [
+  "triggers": [
     {
-      "$type": "Microsoft.SendActivity",
-      "activity": "Seeing into the future..."
-    },
-    {
-      "$type": "Microsoft.SendActivity",
-      "activity": "I see great things in your future..."
-    },
-    {
-      "$type": "Microsoft.SendActivity",
-      "activity": "Potentially a successful demo"
+      "$type": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "Seeing into the future..."
+        },
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "I see great things in your future..."
+        },
+        {
+          "$type": "Microsoft.SendActivity",
+          "activity": "Potentially a successful demo"
+        }
+      ]
     }
   ]
 }

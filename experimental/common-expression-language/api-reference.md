@@ -1,6 +1,6 @@
 # API reference for Expression
 
-For Nuget packages, see [this MyGet feed][1]
+For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
 ### ExpressionEngine Class
 
@@ -71,4 +71,5 @@ public Expression(string type, ExpressionEvaluator evaluator = null, params Expr
 public (object value, string error) TryEvaluate(object state)
 ```
 
-[1]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.Expressions
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Expressions
+[2]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botframework-expressions

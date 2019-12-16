@@ -26,9 +26,6 @@ This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to imp
   dotnet --version
   ```
 
-- If you don't have an Azure subscription, create a [free account](https://azure.microsoft.com/free/).
-- Install the latest version of the [Azure CLI](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest) tool. Version 2.0.54 or higher.
-
 ### Create a LUIS Application to enable language understanding
 
 The LUIS model for this example can be found under `CognitiveModels/FlightBooking.json` and the LUIS language model setup, training, and application configuration steps can be found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=cs).

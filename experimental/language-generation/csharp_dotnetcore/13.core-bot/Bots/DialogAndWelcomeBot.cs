@@ -9,9 +9,9 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System;
+using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -23,34 +23,39 @@ namespace Microsoft.BotBuilderSamples.Bots
             : base(conversationState, userState, dialog, logger)
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "welcomeCard.LG" };
+            string[] paths = { ".", "Resources", "welcomeCard.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
+            // Actions to include in the welcome card. These are passed to LG and are then included in the generated Welcome card.
+            var actions = new {
+                actions = new List<Object>() {
+                    new {
+                        title = "Get an overview",
+                        url = "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+                    },
+                    new {
+                        title = "Ask a question",
+                        url = "https://stackoverflow.com/questions/tagged/botframework"
+                    },
+                    new {
+                        title = "Learn how to deploy",
+                        url = "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+                    }
+                }
+            };
             foreach (var member in membersAdded)
             {
                 // Greet anyone that was not the target (recipient) of this message.
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    var welcomeCard = CreateAdaptiveCardAttachment();
-                    var response = MessageFactory.Attachment(welcomeCard);
-                    await turnContext.SendActivityAsync(response, cancellationToken);
+                    await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("WelcomeCard", actions)));
                 }
             }
-        }
-
-        // Load attachment from file.
-        private Attachment CreateAdaptiveCardAttachment()
-        {
-            return new Attachment()
-            {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(_lgEngine.EvaluateTemplate("WelcomeCard", null))
-            };
-        }
+        }       
     }
 }

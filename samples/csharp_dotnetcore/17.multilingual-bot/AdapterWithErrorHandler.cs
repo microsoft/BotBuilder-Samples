@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Net.NetworkInformation;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
+using Microsoft.BotBuilderSamples.Translation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-using Microsoft.BotBuilderSamples.Translation;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -32,8 +34,8 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
                 // Send a message to the user
-                await turnContext.SendActivityAsync("The bot encounted an error or bug.");
-                await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
+                await SendWithoutMiddleware(turnContext, "The bot encountered an error or bug.");
+                await SendWithoutMiddleware(turnContext, "To continue to run this bot, please fix the bot source code.");
 
                 if (conversationState != null)
                 {
@@ -51,26 +53,21 @@ namespace Microsoft.BotBuilderSamples
                 }
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                await SendTraceActivityAsync(turnContext, exception);
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
 
-        private static async Task SendTraceActivityAsync(ITurnContext turnContext, Exception exception)
+        private static async Task SendWithoutMiddleware(ITurnContext turnContext, string message)
         {
-            // Only send a trace activity if we're talking to the Bot Framework Emulator
-            if (turnContext.Activity.ChannelId == Channels.Emulator)
-            {
-                Activity traceActivity = new Activity(ActivityTypes.Trace)
-                {
-                    Label = "TurnError",
-                    Name = "OnTurnError Trace",
-                    Value = exception.Message,
-                    ValueType = "https://www.botframework.com/schemas/error",
-                };
+            // Sending the Activity directly through the Adapter rather than through the TurnContext skips the middleware processing
+            // this might be important in this particular case because it might have been the TranslationMiddleware that is actually failing!
+            var activity = MessageFactory.Text(message);
 
-                // Send a trace activity
-                await turnContext.SendActivityAsync(traceActivity);
-            }
+            // If we are skipping the TurnContext we must address the Activity manually here before sending it.
+            activity.ApplyConversationReference(turnContext.Activity.GetConversationReference());
+
+            // Send the actual Activity through the Adapter.
+            await turnContext.Adapter.SendActivitiesAsync(turnContext, new[] { activity }, CancellationToken.None);
         }
     }
 }

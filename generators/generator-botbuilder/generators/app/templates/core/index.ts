@@ -7,9 +7,8 @@ import * as restify from 'restify';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } from 'botbuilder';
+import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
 import { LuisApplication } from 'botbuilder-ai';
-import { ActivityTypes } from 'botbuilder-core';
 
 // The bot and its main dialog.
 import { DialogAndWelcomeBot } from './bots/dialogAndWelcomeBot';
@@ -40,28 +39,19 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
+    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
+
     // Send a message to the user
-    let onTurnErrorMessage = `The bot encounted an error or bug.`;
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    onTurnErrorMessage = `To continue to run this bot, please fix the bot source code.`;
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+    await context.sendActivity('The bot encountered an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
     // Clear out state
     await conversationState.delete(context);
-
-    // Send a trace activity if we're talking to the Bot Framework Emulator
-    if (context.activity.channelId === 'emulator') {
-        // Create a trace activity that contains the error object
-        const traceActivity = {
-            label: 'TurnError',
-            name: 'onTurnError Trace',
-            timestamp: new Date(),
-            type: ActivityTypes.Trace,
-            value: `${ error }`,
-            valueType: 'https://www.botframework.com/schemas/error'
-        };
-        // Send a trace activity, which will be displayed in Bot Framework Emulator
-        await context.sendActivity(traceActivity);
-    }
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -92,8 +82,8 @@ const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo test your bot, see: https://aka.ms/debug-with-emulator`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.

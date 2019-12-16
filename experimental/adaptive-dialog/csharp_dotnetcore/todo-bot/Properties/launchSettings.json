@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MultiTurnPromptBot": {
+    "ToDoBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
