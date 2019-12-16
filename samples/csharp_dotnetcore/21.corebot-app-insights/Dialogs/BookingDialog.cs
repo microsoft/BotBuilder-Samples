@@ -18,18 +18,9 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         public BookingDialog()
             : base(nameof(BookingDialog))
         {
-            AddDialog(new TextPrompt(nameof(TextPrompt))
-            {
-                TelemetryClient = this.TelemetryClient
-            });
-            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt))
-            {
-                TelemetryClient = this.TelemetryClient
-            });
-            AddDialog(new DateResolverDialog()
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
+            AddDialog(new DateResolverDialog());
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
             {
                 DestinationStepAsync,
@@ -37,10 +28,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 TravelDateStepAsync,
                 ConfirmStepAsync,
                 FinalStepAsync,
-            })
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+            }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);

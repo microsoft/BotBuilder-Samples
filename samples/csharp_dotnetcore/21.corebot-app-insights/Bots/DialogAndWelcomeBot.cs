@@ -20,7 +20,6 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
         }
 
-
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)

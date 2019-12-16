@@ -20,23 +20,21 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         protected readonly ILogger Logger;
 
         // Dependency injection uses this constructor to instantiate MainDialog
-        public MainDialog(FlightBookingRecognizer luisRecognizer, BookingDialog bookingDialog, ILogger<MainDialog> logger)
+        public MainDialog(FlightBookingRecognizer luisRecognizer, BookingDialog bookingDialog, IBotTelemetryClient telemetryClient, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
             _luisRecognizer = luisRecognizer;
             Logger = logger;
 
-            AddDialog(new TextPrompt(nameof(TextPrompt))
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+            this.TelemetryClient = telemetryClient;
+
+            // The TelemetryClient property for each added dialog will be set to
+            // the TelemetryClient property (set above) of this component dialog
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(bookingDialog);
             AddDialog(new WaterfallDialog(
                 nameof(WaterfallDialog),
-                new WaterfallStep[] {IntroStepAsync, ActStepAsync, FinalStepAsync,})
-            {
-                TelemetryClient = this.TelemetryClient
-            });
+                new WaterfallStep[] { IntroStepAsync, ActStepAsync, FinalStepAsync, }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);
