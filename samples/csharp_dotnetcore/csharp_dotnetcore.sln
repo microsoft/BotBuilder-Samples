@@ -77,11 +77,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileUpload", "56.teams
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAllFeatures", "49.qnamaker-all-features\QnABotAllFeatures.csproj", "{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "59.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "61.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -233,10 +231,6 @@ Global
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C9568B78-641A-4010-BF9F-0E6A4ECA5B86}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
