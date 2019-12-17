@@ -125,6 +125,9 @@ class RootDialog(ComponentDialog):
 
     @staticmethod
     async def shoe_size_validator(prompt_context: PromptValidatorContext) -> bool:
+        if not prompt_context.recognized.value:
+            return False
+
         shoe_size = round(prompt_context.recognized.value, 1)
 
         # show sizes can range from 0 to 16, whole or half sizes only
