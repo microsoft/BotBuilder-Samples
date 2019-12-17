@@ -26,7 +26,8 @@ namespace CoreBot
                     "https://" + configuration["LuisAPIHostName"]);
 
                 // Set the recognizer options depending on which endpoint version you want to use.
-                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
+                // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+                var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication);
                 _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
