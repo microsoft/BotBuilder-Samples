@@ -27,12 +27,15 @@ namespace Microsoft.BotBuilderSamples
                     "https://" + configuration["LuisAPIHostName"]
                 );
 
-                var luisPredictionOptions = new LuisPredictionOptions()
+
+                // Set the recognizer options depending on which endpoint version you want to use.
+                // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+                var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication)
                 {
                     TelemetryClient = telemetryClient,
                 };
 
-                var recognizer = new LuisRecognizer(luisApplication, luisPredictionOptions);
+                var recognizer = new LuisRecognizer(recognizerOptions);
 
                 // The actual call to LUIS
                 var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
