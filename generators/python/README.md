@@ -93,7 +93,7 @@ cookiecutter https://github.com/microsoft/botbuilder-python/releases/download/Te
 To create a Core Bot project:
 
 ```bash
-# Work in progress
+cookiecutter https://github.com/microsoft/botbuilder-python/releases/download/Templates/core.zip
 ```
 
 To create an Empty Bot project:
@@ -203,7 +203,7 @@ Core Bot templates generated with unit tests can be tested using the following:
 pytest
 ```
 
-## Deploy Your Bot to Azure (PENDING)
+## Deploy Your Bot to Azure
 
 After creating the bot and testing it locally, you can deploy it to Azure to make it accessible from anywhere.
 To learn how, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete set of deployment instructions.
