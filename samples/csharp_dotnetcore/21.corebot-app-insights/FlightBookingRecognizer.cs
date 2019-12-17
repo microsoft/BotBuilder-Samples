@@ -23,10 +23,14 @@ namespace Microsoft.BotBuilderSamples
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
 
-                _recognizer = new LuisRecognizer(luisApplication, new LuisPredictionOptions()
+                // Set the recognizer options depending on which endpoint version you want to use.
+                // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+                var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication)
                 {
-                    TelemetryClient = telemetryClient
-                });
+                    TelemetryClient = telemetryClient,
+                };
+
+                _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
 
