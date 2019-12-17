@@ -22,8 +22,10 @@ namespace Microsoft.BotBuilderSamples
                     configuration["LuisAppId"],
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
+                // Set the recognizer options depending on which endpoint version you want to use.
+                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
 
-                _recognizer = new LuisRecognizer(luisApplication);
+                _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
 
