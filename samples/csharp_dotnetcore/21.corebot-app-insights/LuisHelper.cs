@@ -29,7 +29,8 @@ namespace Microsoft.BotBuilderSamples
 
 
                 // Set the recognizer options depending on which endpoint version you want to use.
-                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication) {
+                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication)
+                {
                     TelemetryClient = telemetryClient,
                 };
 
