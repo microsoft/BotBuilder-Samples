@@ -11,6 +11,7 @@ This sample shows a simple echo bot and demonstrates the bot working as a consol
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\01.console-echo` folder
+- In the terminal, type `pip install -r requirements.txt`
 - type 'python main.py'
 
 
