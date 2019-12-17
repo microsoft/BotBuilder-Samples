@@ -23,7 +23,10 @@ namespace $safeprojectname$
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
 
-                _recognizer = new LuisRecognizer(luisApplication);
+            // Set the recognizer options depending on which endpoint version you want to use.
+            // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+            var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication);
+                _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
 
