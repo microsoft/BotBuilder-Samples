@@ -23,7 +23,9 @@ namespace $safeprojectname$
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
 
-                _recognizer = new LuisRecognizer(luisApplication);
+                // Set the recognizer options depending on which endpoint version you want to use.
+                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
+                _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
 

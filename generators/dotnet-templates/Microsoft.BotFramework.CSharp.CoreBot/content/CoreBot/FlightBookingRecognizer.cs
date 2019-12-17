@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 //
 // Generated with CoreBot .NET Template version __vX.X.X__
@@ -25,7 +25,9 @@ namespace CoreBot
                     configuration["LuisAPIKey"],
                     "https://" + configuration["LuisAPIHostName"]);
 
-                _recognizer = new LuisRecognizer(luisApplication);
+                // Set the recognizer options depending on which endpoint version you want to use.
+                var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
+                _recognizer = new LuisRecognizer(recognizerOptions);
             }
         }
 
