@@ -24,7 +24,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\17.multilingual-bot` folder
 - In the terminal, type `pip install -r requirements.txt`
 
-- To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). Paste the key in the `SUBSCRIPTION_KEY` and `SUBSCRIPTION_REGION` settings in the `config.py` file.
+- To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). Paste the key in the `SUBSCRIPTION_KEY` settings in the `config.py` file.
 
 - In the terminal, type `python app.py`
 

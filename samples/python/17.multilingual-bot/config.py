@@ -14,4 +14,4 @@ class DefaultConfig:
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     SUBSCRIPTION_KEY = os.environ.get("SubscriptionKey", "")
-    SUBSCRIPTION_REGION = os.environ.get("SubscriptionRegion", "")
+    # SUBSCRIPTION_REGION = os.environ.get("SubscriptionRegion", "")

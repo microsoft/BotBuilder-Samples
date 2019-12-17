@@ -21,9 +21,11 @@ class MicrosoftTranslator:
         params = "&to=" + language_output
         constructed_url = base_url + path + params
 
+        # The region is no longer required
+        # "Ocp-Apim-Subscription-Region": self.subscription_region,
+
         headers = {
             "Ocp-Apim-Subscription-Key": self.subscription_key,
-            "Ocp-Apim-Subscription-Region": self.subscription_region,
             "Content-type": "application/json",
             "X-ClientTraceId": str(uuid.uuid4()),
         }
@@ -31,7 +33,9 @@ class MicrosoftTranslator:
         # You can pass more than one object in body.
         body = [{"text": text_input}]
         response = requests.post(constructed_url, headers=headers, json=body)
-        json_response = response.json()
+        if response.status_code / 100 != 2:
+            return "Unable to translate text.  Check your subscription key and region."
 
         # for this sample, return the first translation
+        json_response = response.json()
         return json_response[0]["translations"][0]["text"]
