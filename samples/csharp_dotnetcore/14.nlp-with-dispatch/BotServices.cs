@@ -23,6 +23,7 @@ namespace Microsoft.BotBuilderSamples
                $"https://{configuration["LuisAPIHostName"]}.api.cognitive.microsoft.com");
 
             // Set the recognizer options depending on which endpoint version you want to use.
+            // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
             var recognizerOptions = new LuisRecognizerOptionsV2(luisApplication)
             {
                 IncludeAPIResults = true,
