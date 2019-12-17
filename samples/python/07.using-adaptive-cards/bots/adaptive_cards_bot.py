@@ -55,7 +55,7 @@ class AdaptiveCardsBot(ActivityHandler):
         """
         random_card_index = random.randint(0, len(CARDS) - 1)
         card_path = os.path.join(os.getcwd(), CARDS[random_card_index])
-        with open(card_path, "rt") as in_file:
+        with open(card_path, "rb") as in_file:
             card_data = json.load(in_file)
 
         return CardFactory.adaptive_card(card_data)
