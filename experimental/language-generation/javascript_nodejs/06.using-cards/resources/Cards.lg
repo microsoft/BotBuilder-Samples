@@ -10,6 +10,38 @@
     AttachmentLayout = @{AttachmentLayoutType()}
 ]
 
+# ReceiptCard
+[ReceiptCard
+    Title = John Doe
+    Tax = $ 7.50
+    Total = $ 90.95
+    buttons = @{ReceiptButton()}
+    Facts = @{json(ReceiptFacts())}
+    items = @{receiptItems}
+]
+
+# ReceiptButton
+[CardAction
+    Title = More information
+    Image = https://account.windowsazure.com/content/6.10.1.38-.8225.160809-1618/aux-pre/images/offer-icon-freetrial.png
+    Value = https://azure.microsoft.com/en-us/pricing/
+    type = openUrl
+]
+
+# ReceiptFacts
+- ```
+[
+  {
+    "key": "Order Number",
+    "value": "1234"
+  },
+  {
+    "key": "Payment Method",
+    "value": "VISA 5555-****"
+  }
+]
+```
+
 # HeroCard
 [HeroCard
     title = BotFramework Hero Card

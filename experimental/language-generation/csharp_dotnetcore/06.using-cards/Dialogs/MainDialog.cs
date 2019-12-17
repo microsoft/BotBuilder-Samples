@@ -10,7 +10,9 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using Newtonsoft.Json.Linq;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+
 namespace Microsoft.BotBuilderSamples
 {
     public class MainDialog : ComponentDialog
@@ -116,10 +118,23 @@ namespace Microsoft.BotBuilderSamples
             }
             else if (text.StartsWith("receipt"))
             {
-                // Display a ReceiptCard.
-                reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
-                // Send the card(s) to the user as an attachment to the activity
-                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
+                var data = new JObject
+                {
+                    ["receiptItems"] = JToken.FromObject(new List<ReceiptItem>
+                    {
+                        new ReceiptItem(
+                            "Data Transfer",
+                            price: "$ 38.45",
+                            quantity: "368",
+                            image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png")),
+                        new ReceiptItem(
+                            "App Service",
+                            price: "$ 45.00",
+                            quantity: "720",
+                            image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png")),
+                    })
+                };
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ReceiptCard", data).ToString()));
             }
             else if (text.StartsWith("adaptive"))
             {

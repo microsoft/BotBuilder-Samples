@@ -90,7 +90,23 @@ class MainDialog extends ComponentDialog {
             await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('HeroCard')));
             break;
         case 'Receipt Card':
-            await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
+            var data = {
+                receiptItems : [
+                    {
+                        title: 'Data Transfer',
+                        price: '$38.45',
+                        quantity: 368,
+                        image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png' }
+                    },
+                    {
+                        title: 'App Service',
+                        price: '$45.00',
+                        quantity: 720,
+                        image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png' }
+                    }
+                ]
+            };
+            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate("ReceiptCard", data)));
             break;
         case 'Signin Card':
             await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('SigninCard')));
@@ -158,45 +174,6 @@ class MainDialog extends ComponentDialog {
 
         return cardOptions;
     }
-    createReceiptCard() {
-        return CardFactory.receiptCard({
-            title: 'John Doe',
-            facts: [
-                {
-                    key: 'Order Number',
-                    value: '1234'
-                },
-                {
-                    key: 'Payment Method',
-                    value: 'VISA 5555-****'
-                }
-            ],
-            items: [
-                {
-                    title: 'Data Transfer',
-                    price: '$38.45',
-                    quantity: 368,
-                    image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png' }
-                },
-                {
-                    title: 'App Service',
-                    price: '$45.00',
-                    quantity: 720,
-                    image: { url: 'https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png' }
-                }
-            ],
-            tax: '$7.50',
-            total: '$90.95',
-            buttons: CardFactory.actions([
-                {
-                    type: 'openUrl',
-                    title: 'More information',
-                    value: 'https://azure.microsoft.com/en-us/pricing/details/bot-service/'
-                }
-            ])
-        });
-    }
-
 }
 
 module.exports.MainDialog = MainDialog;
