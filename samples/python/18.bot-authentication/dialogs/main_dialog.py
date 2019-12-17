@@ -88,7 +88,7 @@ class MainDialog(LogoutDialog):
     ) -> DialogTurnResult:
         if step_context.result:
             await step_context.context.send_activity(
-                f"Here is your token {step_context.result['token']}"
+                f"Here is your token {step_context.result.token}"
             )
 
         return await step_context.end_dialog()
