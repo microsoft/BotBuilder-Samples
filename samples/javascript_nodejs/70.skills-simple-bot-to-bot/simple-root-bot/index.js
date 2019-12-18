@@ -9,13 +9,14 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ChannelServiceRoutes, MemoryStorage, InputHints, ConversationState, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
 const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
+const { SkillsConfiguration } = require('./skillsConfiguration');
 
 // This bot's main dialog.
-const { RootBot } = require('./rootBot');
+const { RootBot } = require('./bots/rootBot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -45,7 +46,7 @@ adapter.onTurnError = async (context, error) => {
 
     // Send a message to the user
     let onTurnErrorMessage = 'The bot encountered an error or bug.';
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
@@ -64,6 +65,9 @@ const conversationState = new ConversationState(memoryStorage);
 // Create the conversationIdFactory
 const conversationIdFactory = new SkillConversationIdFactory();
 
+// Load skills configuration
+const skillsConfig = new SkillsConfiguration();
+
 // Create the credential provider;
 const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
 
@@ -71,7 +75,7 @@ const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftApp
 const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
 
 // Create the main dialog.
-const bot = new RootBot(conversationState, conversationIdFactory, skillClient);
+const bot = new RootBot(conversationState, skillsConfig, skillClient);
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
@@ -92,5 +96,5 @@ server.post('/api/messages', (req, res) => {
 // Create and initialize the skill classes
 const authConfig = new AuthenticationConfiguration();
 const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
-const controller = new ChannelServiceRoutes(handler);
-controller.register(server, '/api/skills');
+const skillEndpoint = new ChannelServiceRoutes(handler);
+skillEndpoint.register(server, '/api/skills');

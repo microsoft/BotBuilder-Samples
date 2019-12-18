@@ -5,22 +5,30 @@ const { ActivityHandler } = require('botbuilder');
 const { ActivityTypes } = require('botframework-schema');
 
 class RootBot extends ActivityHandler {
-    constructor(conversationState, conversationIdFactory, skillClient) {
+    constructor(conversationState, skillsConfig, skillClient) {
         super();
         if (!conversationState) throw new Error('[RootBot]: Missing parameter. conversationState is required');
-        if (!conversationIdFactory) throw new Error('[RootBot]: Missing parameter. conversationIdFactory is required');
+        if (!skillsConfig) throw new Error('[RootBot]: Missing parameter. skillsConfig is required');
         if (!skillClient) throw new Error('[RootBot]: Missing parameter. skillClient is required');
 
         this.conversationState = conversationState;
-        this.activeSkillProperty = this.conversationState.createProperty('activeSkillProperty');
 
-        this.conversationIdFactory = conversationIdFactory;
+        this.skillsConfig = skillsConfig;
         this.skillClient = skillClient;
 
-        this.targetSkill = {};
-        this.targetSkill.id = process.env.SkillId;
-        this.targetSkill.appId = process.env.SkillAppId;
-        this.targetSkill.skillEndpoint = process.env.SkillEndpoint;
+        this.botId = process.env.MicrosoftAppId;
+        if (!this.botId) {
+            throw new Error('[RootBot] TODO');
+        }
+
+        // We use a single skill in this example.
+        const targetSkillId = 'EchoSkillBot';
+        this.targetSkill = skillsConfig.skills[targetSkillId];
+        if (!this.targetSkill) {
+            throw new Error('[RootBot]TODO');
+        }
+
+        this.activeSkillProperty = this.conversationState.createProperty('activeSkillProperty');
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
@@ -93,8 +101,12 @@ class RootBot extends ActivityHandler {
         await this.conversationState.saveChanges(context, true);
 
         // route the activity to the skill
-        const response = await this.skillClient.postToSkill(process.env.MicrosoftAppId, botFrameworkSkill, process.env.SkillHostEndpoint, context.activity);
+        const response = await this.skillClient.postToSkill(this.botId, botFrameworkSkill, this.skillsConfig.skillHostEndpoint, context.activity);
 
+        // Check response status
+        if (!(response.status >= 200 && response.status <= 299)) {
+            throw new Error('[RootBot]: TODO');
+        }
     }
 }
 
