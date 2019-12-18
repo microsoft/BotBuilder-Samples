@@ -15,6 +15,7 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+- Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\47.inspection` folder
 - In the terminal, type `pip install -r requirements.txt`
 - In the terminal, type `python app.py`

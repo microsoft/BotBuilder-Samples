@@ -12,6 +12,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
+- Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\06.using-cards` folder
 - In the terminal, type `pip install -r requirements.txt`
 - In the terminal, type `python app.py`

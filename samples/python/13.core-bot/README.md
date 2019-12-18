@@ -27,10 +27,10 @@ LUIS language model setup, training, and application configuration steps can be 
 If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md](README-LUIS.md).
 
 ## Running the sample
+- Activate your desired virtual environment
 - Run `pip install -r requirements.txt` to install all dependencies
 - Update LuisAppId, LuisAPIKey and LuisAPIHostName in `config.py` with the information retrieved from the [LUIS portal](https://www.luis.ai)
 - Run `python app.py`
-- Alternatively to the last command, you can set the file in an environment variable with `set FLASK_APP=app.py` in windows (`export FLASK_APP=app.py` in mac/linux) and then run `flask run --host=127.0.0.1 --port=3978`
 
 
 ## Testing the bot using Bot Framework Emulator

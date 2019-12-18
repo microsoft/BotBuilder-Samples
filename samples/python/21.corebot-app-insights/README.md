@@ -32,11 +32,11 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
 Application Insights resource creation steps can be found [here](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource).
 
 ## Running the sample
+- Activate your desired virtual environment
 - Run `pip install -r requirements.txt` to install all dependencies
 - Update LuisAppId, LuisAPIKey and LuisAPIHostName in `config.py` with the information retrieved from the [LUIS portal](https://www.luis.ai)
 - Update AppInsightsInstrumentationKey in `config.py`
 - Run `python app.py`
-- Alternatively to the last command, you can set the file in an environment variable with `set FLASK_APP=app.py` in windows (`export FLASK_APP=app.py` in mac/linux) and then run `flask run --host=127.0.0.1 --port=3978`
 
 
 ## Testing the bot using Bot Framework Emulator
