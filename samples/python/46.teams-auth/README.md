@@ -11,33 +11,31 @@ The Teams channel is also capable of sending Message Reaction Activities and vir
 The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
 ## Running the sample
-- Clone the repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- Activate your desired virtual environment
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\46.teams-auth` folder
-- In the terminal, type `pip install -r requirements.txt`
-- Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
-- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
-- Modify `APP_ID`, `APP_PASSWORD`, and `CONNECTION_NAME` in `config.py`
+1) Clone the repository
 
-After Authentication has been configured via Azure Bot Service, you can test the bot.
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
 
-- In the terminal, type `python app.py`
+2) Run ngrok - point to port 3978
 
-## Testing the bot using Bot Framework Emulator
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+3) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+4) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
-### Connect to the bot using Bot Framework Emulator
+5) __*This step is specific to Teams.*__
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
+    - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
+    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
-- Enter the app id and password
+6) Run your bot, by executing ```python app.py``` from the sample folder.
 
 ## Authentication
 

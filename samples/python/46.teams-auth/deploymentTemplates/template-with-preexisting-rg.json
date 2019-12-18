@@ -234,6 +234,19 @@
                 "publishingCredentials": null,
                 "storageResourceId": null
             },
+            "resources": [
+              {
+                "name": "MsTeamsChannel",
+                "type": "channels",
+                "location": "global",
+                "apiVersion": "2018-07-12",
+                "kind": "bot",
+                "properties": {
+                  "channelName": "MsTeamsChannel"
+                },
+                "dependsOn": [ "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]" ]
+              }
+            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
             ]
