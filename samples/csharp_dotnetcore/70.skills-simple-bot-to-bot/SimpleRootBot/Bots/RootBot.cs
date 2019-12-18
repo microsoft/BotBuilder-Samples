@@ -48,6 +48,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
                 throw new ArgumentException($"Skill with ID \"{targetSkillId}\" not found in configuration");
             }
 
+            // Create state property to track the active skill
             _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>("activeSkillProperty");
         }
 
