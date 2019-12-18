@@ -8,6 +8,7 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { ActivityTypes, BotFrameworkAdapter, InputHints } = require('botbuilder');
+const { AuthenticationConfiguration } = require('botframework-connector');
 
 // This bot's main dialog.
 const { EchoBot } = require('./bot');
@@ -24,11 +25,15 @@ server.listen(process.env.port || process.env.PORT || 39783, () => {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
+// Expose the manifest
+server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
+
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
+    appPassword: process.env.MicrosoftAppPassword,
+    authConfig: new AuthenticationConfiguration()
 });
 
 // Catch-all for errors.
