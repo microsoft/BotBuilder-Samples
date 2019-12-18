@@ -4,8 +4,8 @@ This document describes the constituent parts of [Adaptive][7] dialog.
 
 - [Recognizers](#Recognizers)
 - [Generator](#Generator)
-- [Triggers](#Rules)
-- [Actins](#Steps)
+- [Triggers](#Triggers)
+- [Actions](#Actions)
 - [Inputs](#Inputs)
 
 ## Recognizers
