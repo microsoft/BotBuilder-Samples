@@ -63,6 +63,18 @@ class RootBot extends ActivityHandler {
                 // forget skill invocation
                 this.activeSkillProperty.set(context, undefined);
 
+                // Show status message, text and value returned by the skill
+                let eocActivityMessage = `Received ${ ActivityTypes.EndOfConversation }.\n\nCode: ${ context.activity.code }`;
+                if (context.activity.text) {
+                    eocActivityMessage += `\n\nText: ${ context.activity.text }`;
+                }
+
+                if (context.activity.value) {
+                    eocActivityMessage += `\n\nValue: ${ context.activity.value }`;
+                }
+
+                await context.sendActivity(eocActivityMessage);
+
                 // We are back at the root
                 await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
 
