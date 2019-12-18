@@ -31,12 +31,20 @@ class AuthBot(DialogBot):
             # To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
             if member.id != turn_context.activity.recipient.id:
                 await turn_context.send_activity(
-                    "Welcome to AuthenticationBot. Type anything to get logged in. Type "
-                    "'logout' to sign-out."
+                    "Welcome to Authentication Bot on MSGraph. Type anything to get logged in. Type 'logout' to "
+                    "sign-out. "
                 )
 
     async def on_token_response_event(self, turn_context: TurnContext):
         # Run the Dialog with the new Token Response Event Activity.
+        await DialogHelper.run_dialog(
+            self.dialog,
+            turn_context,
+            self.conversation_state.create_property("DialogState"),
+        )
+
+    async def on_teams_signin_verify_state(self, turn_context: TurnContext):
+        # Running dialog with Teams Signin Verify State Activity.
         await DialogHelper.run_dialog(
             self.dialog,
             turn_context,
