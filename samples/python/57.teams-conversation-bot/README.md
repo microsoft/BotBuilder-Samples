@@ -23,30 +23,30 @@ the Teams service needs to call into the bot.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-2) If you are using Visual Studio
-    - Open the solution `samples\python\50.teams-messaging-extension-search`
+1) If you are using Visual Studio
+    - Open the solution `samples\python\57.teams-conversation-bot`
 
-3) Run ngrok - point to port 3978
+1) Run ngrok - point to port 3978
 
     ```bash
     ngrok http -host-header=rewrite 3978
     ```
 
-4) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
     - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-5) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
+1) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
-6) __*This step is specific to Teams.*__
+1) __*This step is specific to Teams.*__
     - **Edit** the `manifest.json` contained in the `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
     - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-7) Activate your desired virtual environment
-8) Install dependencies by running ```pip install -r requirements.txt``` in the project folder.
-9) Run your bot, either from Visual Studio or terminal with `python app.py`.
+1) Activate your desired virtual environment
+1) Install dependencies by running ```pip install -r requirements.txt``` in the project folder.
+1) Run your bot, either from Visual Studio or terminal with `python app.py`.
 
 ## Interacting with the bot
 
