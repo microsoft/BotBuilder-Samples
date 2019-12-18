@@ -23,9 +23,6 @@ the Teams service needs to call into the bot.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-1) If you are using Visual Studio
-    - Open the solution `samples\python\57.teams-conversation-bot`
-
 1) Run ngrok - point to port 3978
 
     ```bash
@@ -36,6 +33,8 @@ the Teams service needs to call into the bot.
     - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
+
+1) In a terminal, go to `samples\python\57.teams-conversation-bot`
 
 1) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
