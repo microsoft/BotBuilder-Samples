@@ -25,7 +25,7 @@ class TeamsMessagingExtensionsActionPreviewBot(TeamsActivityHandler):
         value = turn_context.activity.value
         if value is not None:
             # This was a message from the card.
-            answer = value["Answer"] if "Answer" in value else "" 
+            answer = value["Answer"] if "Answer" in value else ""
             choices = value["Choices"] if "Choices" in value else ""
 
             reply = MessageFactory.text(
