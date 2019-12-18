@@ -1,6 +1,6 @@
 # SimpleBotToBot Echo Skill
 
-Bot Framework v4 Skills Echo sample.
+Bot Framework v4 skills echo sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple RootBot that sends message activities to a SkillBot that echoes it back.
 
