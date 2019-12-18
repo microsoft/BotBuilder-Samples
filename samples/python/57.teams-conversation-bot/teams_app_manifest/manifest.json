@@ -11,8 +11,8 @@
       "termsOfUseUrl": "https://www.teams.com/termsofuser"
     },
     "icons": {
-      "outline": "outline.png",
-      "color": "color.png"
+      "outline": "icon-outline.png",
+      "color": "icon-color.png"
     },
     "name": {
       "short": "TeamsConversationBot",
