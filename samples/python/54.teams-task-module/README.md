@@ -41,7 +41,7 @@ the Teams service needs to call into the bot.
 
 1) Activate your desired virtual environment
 1) Install dependencies by running ```pip install -r requirements.txt``` in the project folder.
-1) Run your bot, either from Visual Studio or terminal with `python app.py`.
+1) Run your bot with `python app.py`.
 
 ## Interacting with the bot in Teams
 
