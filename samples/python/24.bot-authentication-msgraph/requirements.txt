@@ -1,4 +1,4 @@
 aiohttp
-botbuilder-core>=4.4.0b1
+botbuilder-core>=4.7.0
 microsoftgraph-python==0.1.6
 

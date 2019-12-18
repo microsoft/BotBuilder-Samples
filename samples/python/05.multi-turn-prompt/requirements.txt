@@ -1,4 +1,4 @@
 aiohttp
-botbuilder-dialogs>=4.4.0.b1
-botbuilder-ai>=4.4.0.b1
+botbuilder-dialogs>=4.7.0
+botbuilder-ai>=4.7.0
 
