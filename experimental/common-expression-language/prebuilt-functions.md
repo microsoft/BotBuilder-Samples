@@ -100,6 +100,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[sum](#sum)	|Returns sum of numbers in an array	|
 |[range](#range) | Return an integer array that starts from a specified integer. |
 |[exp](#exp)	|Exponentiation function. Exp(base, exponent)	|
+|[average](#average)	| Return the average number of an numeric array.	|
 
 ### Date and time functions
 |Function	|Explanation|
@@ -149,6 +150,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
 |[xPath](#xPath)    | [C# only] Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
 |[jPath](#jPath)    | Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes. |
+|[setPathToValue](#setPathToValue)    | Set the value for a specific path and return the value. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -2801,6 +2803,38 @@ select(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
 
 And return this result: `['name:jack', 'age:15']`
 
+<a name="setPathToValue"></a>
+
+### setPathToValue
+
+Retrieve the value of the specified property from the JSON object.
+
+```
+setPathToValue(<path>, <value>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*Path*> | Yes | Object | the path which you want to set |
+| <*value*> | Yes | String | the value you want to set to the path |
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| value | Object | the value be set, same with the second parameter|
+||||
+
+*Example*
+```
+setPathToValue(path.x, 1)
+```
+
+And return with result: 1, and path.x has been set to 1.
+
+```
+setPathToValue(path.array[0], 7) + path.array[0]
+```
+
+return the result: 14
 
 <a name="setProperty"></a>
 
