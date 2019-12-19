@@ -106,8 +106,15 @@ Nightly packages for C# are available here
 ## Change Log
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
-    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation.
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
     - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
+
+    |  Old  | New |
+    |-------|-----|
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
     - New `ActivityFactory` class that helps transform structured response template output from LG into a Bot framework activity.

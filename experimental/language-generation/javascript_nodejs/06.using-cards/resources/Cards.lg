@@ -63,7 +63,14 @@
 # SigninCard
 [SigninCard
     text = BotFramework Sign-in Card
-    buttons = Sign-in
+    buttons = @{signinButton()}
+]
+
+# signinButton
+[CardAction
+ title =  Sign-in
+ type = signin
+ value = http://login.microsoft.com
 ]
 
 # AnimationCard
