@@ -20,6 +20,7 @@ namespace Microsoft.BotBuilderSamples
 
             try
             {
+                
                 // Create the LUIS settings from configuration.
                 var luisApplication = new LuisApplication(
                     configuration["LuisAppId"],
@@ -27,7 +28,9 @@ namespace Microsoft.BotBuilderSamples
                     "https://" + configuration["LuisAPIHostName"]
                 );
 
-                var recognizer = new LuisRecognizer(luisApplication);
+                var luisRecognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
+
+                var recognizer = new LuisRecognizer(luisRecognizerOptions);
 
                 // The actual call to LUIS
                 var recognizerResult = await recognizer.RecognizeAsync(turnContext, cancellationToken);
