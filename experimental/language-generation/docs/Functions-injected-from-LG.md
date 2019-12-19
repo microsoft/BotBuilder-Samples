@@ -102,13 +102,13 @@ And it returns a herocard:
 Return the evaluated result of given template name and scope.
 
 ```
-template(<templateName>, <scope>)
+template(<templateName>, '<param1>', '<param2>', ...)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*templateName*> | Yes | String  | A string represents the template name |
-| <*scope*> | Yes | Object  | The scope to pass parameters to the template |
+| <*param1*>,<*param2*>, ... | Yes | Object  | The  parameters passed to the template |
 |||||
 
 | Return value | Type | Description |
@@ -132,7 +132,7 @@ Suppose we have template:
 ```
 
 ```
-template("welcome", { userName = "DL" })
+template("welcome", "DL")
 ```
 
 And it returns one of these results:
