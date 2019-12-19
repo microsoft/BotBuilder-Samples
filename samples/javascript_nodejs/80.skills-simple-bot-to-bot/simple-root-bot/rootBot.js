@@ -75,7 +75,7 @@ class RootBot extends ActivityHandler {
 
                 // We are back at the root
                 await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
-                
+
                 // Save conversation state
                 await this.conversationState.saveChanges(context, true);
             }
