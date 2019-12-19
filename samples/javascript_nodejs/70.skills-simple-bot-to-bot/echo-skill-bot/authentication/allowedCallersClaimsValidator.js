@@ -21,7 +21,7 @@ const allowedCallersClaimsValidator = async (claims) => {
         // Check that the appId claim in the skill request is in the list of skills configured for this bot.
         const appId = JwtTokenValidation.getAppIdFromClaims(claims);
         if (!allowedCallers.includes(appId)) {
-            throw new Error(`Received a request from an application with an appID of "${ appId }". To enable requests from this skill, add the skill to your configuration file.`);
+            throw new Error(`Received a request from a bot with an app ID of "${ appId }". To enable requests from this caller, add the app ID to your configuration file.`);
         }
     }
 };
