@@ -1,24 +1,29 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ValidateClaims } = require('botframework-connector');
+const { JwtTokenValidation, SkillValidation } = require('botframework-connector');
+
+// Load the AppIds for the configured callers (we will only allow responses from skills we have configured).
+// process.env.AllowedCallers is the list of parent bot Ids that are allowed to access the skill
+// to add a new parent bot simply go to the .env file and add
+// the parent bot's Microsoft AppId to the list under AllowedCallers, i.e:
+//  AllowedCallers=195bd793-4319-4a84-a800-386770c058b2,38c74e7a-3d01-4295-8e66-43dd358920f8
+const allowedCallers = process.env.AllowedCallers ? process.env.AllowedCallers.split(',') : undefined;
 
 /**
  * Sample claims validator that loads an allowed list from configuration if present
  * and checks that requests are coming from allowed parent bots.
+ * @param claims An array of Claims decoded from the HTTP request's auth header
  */
-class AllowedCallerssClaimsValidator extends ValidateClaims {
-    constructor(skillsConfig) {
-        super();
-        this.allowedCallers = {};
-
-        // Load the appIds for the configured callers (we will only allow responses from skills we have configured).
-
-        // AllowedCallers is the setting in appsettings.json file
-        // that consists of the list of parent bot ids that are allowed to access the skill
-        // to add a new parent bot simply go to the AllowedCallers and add
-        // the parent bot's microsoft app id to the list
+const allowedCallersClaimsValidator = async (claims) => {
+    // If allowedCallers is undefined we allow all calls
+    if (allowedCallers && SkillValidation.isSkillClaim(claims)) {
+        // Check that the appId claim in the skill request is in the list of skills configured for this bot.
+        const appId = JwtTokenValidation.getAppIdFromClaims(claims);
+        if (!allowedCallers.includes(appId)) {
+            throw new Error(`Received a request from an application with an appID of "${ appId }". To enable requests from this skill, add the skill to your configuration file.`);
+        }
     }
-}
+};
 
-module.exports.AllowedCallerssClaimsValidator = AllowedCallerssClaimsValidator;
+module.exports.allowedCallersClaimsValidator = allowedCallersClaimsValidator;

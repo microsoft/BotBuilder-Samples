@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler } = require('botbuilder');
-const { ActivityTypes } = require('botframework-schema');
+const { ActivityHandler, ActivityTypes } = require('botbuilder');
 
 class RootBot extends ActivityHandler {
     constructor(conversationState, skillsConfig, skillClient) {

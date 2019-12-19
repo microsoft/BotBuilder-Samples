@@ -8,13 +8,15 @@ class EchoBot extends ActivityHandler {
         super();
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            if (context.activity.text.toLowerCase().includes('end') || context.activity.text.toLowerCase().includes('stop')) {
-                const endOfConversation = {
+            switch (context.activity.text.toLowerCase()) {
+            case 'end':
+            case 'stop':
+                await context.sendActivity({
                     type: ActivityTypes.EndOfConversation,
                     code: EndOfConversationCodes.CompletedSuccessfully
-                };
-                await context.sendActivity(endOfConversation);
-            } else {
+                });
+                break;
+            default:
                 await context.sendActivity(`Echo (JS) : '${ context.activity.text }'`);
                 await context.sendActivity('Say "end" or "stop" and I\'ll end the conversation and back to the parent.');
             }

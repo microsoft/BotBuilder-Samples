@@ -12,11 +12,11 @@ const restify = require('restify');
 const { BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
-const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
 const { SkillsConfiguration } = require('./skillsConfiguration');
+const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
 
 // This bot's main dialog.
-const { RootBot } = require('./bots/rootBot');
+const { RootBot } = require('./rootBot');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -76,6 +76,7 @@ const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactor
 
 // Create the main dialog.
 const bot = new RootBot(conversationState, skillsConfig, skillClient);
+
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
