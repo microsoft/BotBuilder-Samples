@@ -2816,7 +2816,7 @@ setPathToValue(<path>, <value>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*Path*> | Yes | Object | the path which you want to set |
-| <*value*> | Yes | String | the value you want to set to the path |
+| <*value*> | Yes | Object | the value you want to set to the path |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
