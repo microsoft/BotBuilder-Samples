@@ -32,7 +32,7 @@ class RootBot extends ActivityHandler {
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
             // Try to get the active skill
-            let activeSkill = await this.activeSkillProperty.get(context, null);
+            const activeSkill = await this.activeSkillProperty.get(context);
 
             if (activeSkill) {
                 // Send the activity to the skill
@@ -42,13 +42,12 @@ class RootBot extends ActivityHandler {
                     await context.sendActivity('Got it, connecting you to the skill...');
 
                     // Set active skill
-                    activeSkill = this.targetSkill;
-                    this.activeSkillProperty.set(context, activeSkill);
+                    await this.activeSkillProperty.set(context, this.targetSkill);
 
                     // Send the activity to the skill
-                    await this.sendToSkill(context, activeSkill);
+                    await this.sendToSkill(context, this.targetSkill);
                 } else {
-                    await context.sendActivity('Me no nothin\'. Say \'skill\' and I\'ll patch you through');
+                    await context.sendActivity("Me no nothin'. Say 'skill' and I'll patch you through");
                 }
             }
 
@@ -59,8 +58,8 @@ class RootBot extends ActivityHandler {
         this.onUnrecognizedActivityType(async (context, next) => {
             // Handle EndOfConversation returned by the skill.
             if (context.activity.type === ActivityTypes.EndOfConversation) {
-                // forget skill invocation
-                this.activeSkillProperty.set(context, undefined);
+                // Stop forwarding activities to Skill.
+                await this.activeSkillProperty.set(context, undefined);
 
                 // Show status message, text and value returned by the skill
                 let eocActivityMessage = `Received ${ ActivityTypes.EndOfConversation }.\n\nCode: ${ context.activity.code }`;
@@ -76,7 +75,7 @@ class RootBot extends ActivityHandler {
 
                 // We are back at the root
                 await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
-
+                
                 // Save conversation state
                 await this.conversationState.saveChanges(context, true);
             }
@@ -99,7 +98,7 @@ class RootBot extends ActivityHandler {
 
         this.onDialog(async (context, next) => {
             // Save any state changes. The load happened during the execution of the Dialog.
-            await this.conversationState.saveChanges(context, false);
+            await this.conversationState.saveChanges(context);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();

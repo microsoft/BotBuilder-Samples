@@ -10,12 +10,13 @@ const restify = require('restify');
 const { ActivityTypes, BotFrameworkAdapter, InputHints } = require('botbuilder');
 const { AuthenticationConfiguration } = require('botframework-connector');
 
-// This bot's main dialog.
-const { EchoBot } = require('./bot');
-
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
 dotenv.config({ path: ENV_FILE });
+
+// This bot's main dialog.
+const { EchoBot } = require('./bot');
+const { allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
 
 // Create HTTP server
 const server = restify.createServer();
@@ -33,7 +34,7 @@ server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest',
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword,
-    authConfig: new AuthenticationConfiguration()
+    authConfig: new AuthenticationConfiguration([], allowedCallersClaimsValidator)
 });
 
 // Catch-all for errors.

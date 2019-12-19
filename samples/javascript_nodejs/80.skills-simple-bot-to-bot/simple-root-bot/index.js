@@ -12,21 +12,22 @@ const restify = require('restify');
 const { BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
-const { SkillsConfiguration } = require('./skillsConfiguration');
-const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
-
-// This bot's main dialog.
-const { RootBot } = require('./rootBot');
-
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
+
+// This bot's main dialog.
+const { RootBot } = require('./rootBot');
+const { SkillsConfiguration } = require('./skillsConfiguration');
+const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
+const { allowedSkillsClaimsValidator } = require('./authentication/allowedSkillsClaimsValidator');
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
+    appPassword: process.env.MicrosoftAppPassword,
+    authConfig: new AuthenticationConfiguration([], allowedSkillsClaimsValidator)
 });
 
 // Catch-all for errors.
@@ -95,7 +96,7 @@ server.post('/api/messages', (req, res) => {
 });
 
 // Create and initialize the skill classes
-const authConfig = new AuthenticationConfiguration();
+const authConfig = new AuthenticationConfiguration([], allowedSkillsClaimsValidator);
 const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
