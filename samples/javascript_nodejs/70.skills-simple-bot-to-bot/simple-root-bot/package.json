@@ -1,7 +1,7 @@
 {
-  "name": "simpleRootBot",
+  "name": "simple-root-bot",
   "version": "1.0.0",
-  "description": "a simple root bot for testing skills",
+  "description": "A simple root bot for testing skills",
   "author": "Microsoft",
   "license": "MIT",
   "main": "index.js",

@@ -6,7 +6,7 @@ const { JwtTokenValidation, SkillValidation } = require('botframework-connector'
 // Load the AppIds for the configured callers (we will only allow responses from skills we have configured).
 // process.env.AllowedCallers is the list of parent bot Ids that are allowed to access the skill
 // to add a new parent bot simply go to the .env file and add
-// the parent bot's Microsoft AppId to the list under AllowedCallers, i.e:
+// the parent bot's Microsoft AppId to the list under AllowedCallers, e.g.:
 //  AllowedCallers=195bd793-4319-4a84-a800-386770c058b2,38c74e7a-3d01-4295-8e66-43dd358920f8
 const allowedCallers = process.env.AllowedCallers ? process.env.AllowedCallers.split(',') : undefined;
 
