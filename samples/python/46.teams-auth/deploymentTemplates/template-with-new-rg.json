@@ -206,7 +206,7 @@
                               "use32BitWorkerProcess": true,
                               "webSocketsEnabled": false,
                               "alwaysOn": false,
-                              "appCommandLine": "startup.txt",
+                              "appCommandLine": "gunicorn --bind 0.0.0.0 --worker-class aiohttp.worker.GunicornWebWorker --timeout 600 app:APP",
                               "managedPipelineMode": "Integrated",
                               "virtualApplications": [
                                   {

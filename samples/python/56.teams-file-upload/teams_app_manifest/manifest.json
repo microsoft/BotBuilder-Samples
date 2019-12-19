@@ -33,6 +33,7 @@
     }
   ],
   "validDomains": [
-    "*.azurewebsites.net"
+    "*.azurewebsites.net",
+    "*.botframework.com"
   ]
 }
