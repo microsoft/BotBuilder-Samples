@@ -4,12 +4,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
@@ -50,8 +49,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = ActivityBuilder.GenerateFromLG(promptMsg),
-                        RetryPrompt = ActivityBuilder.GenerateFromLG(repromptMsg)
+                        Prompt = ActivityFactory.CreateActivity(promptMsg.ToString()),
+                        RetryPrompt = ActivityFactory.CreateActivity(repromptMsg.ToString())
                     }, cancellationToken);
             }
             else
@@ -64,7 +63,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.PromptAsync(nameof(DateTimePrompt),
                         new PromptOptions
                         {
-                            Prompt = ActivityBuilder.GenerateFromLG(repromptMsg)
+                            Prompt = ActivityFactory.CreateActivity(repromptMsg.ToString())
                         }, cancellationToken);
                 }
                 else
