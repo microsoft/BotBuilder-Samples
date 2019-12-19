@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Authentication
                 var appId = JwtTokenValidation.GetAppIdFromClaims(claims);
                 if (!_allowedCallers.Contains(appId))
                 {
-                    throw new UnauthorizedAccessException($"Received a request from an application with an appID of \"{appId}\". To enable requests from this skill, add the skill to your configuration file.");
+                    throw new UnauthorizedAccessException($"Received a request from a bot with an app ID of \"{appId}\". To enable requests from this caller, add the app ID to your configuration file.");
                 }
             }
 
