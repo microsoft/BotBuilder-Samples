@@ -8,8 +8,7 @@ using Microsoft.Bot.Builder;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
-
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 namespace Microsoft.BotBuilderSamples
 {
     public class UserProfileDialog : ComponentDialog
@@ -117,7 +116,7 @@ namespace Microsoft.BotBuilderSamples
             }, stepContext);
 
             // We can send messages to the user at any point in the WaterfallStep.
-            await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(msg), cancellationToken);
+            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
@@ -138,7 +137,7 @@ namespace Microsoft.BotBuilderSamples
 
                 var msg = _lgGenerator.GenerateActivity("SummaryReadout", userProfile, stepContext);
 
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(msg), cancellationToken);
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(msg.ToString()), cancellationToken);
             }
             else
             {
