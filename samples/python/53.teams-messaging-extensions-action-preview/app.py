@@ -3,6 +3,7 @@
 
 import json
 import sys
+import traceback
 from datetime import datetime
 
 from aiohttp import web
@@ -30,6 +31,7 @@ async def on_error(context: TurnContext, error: Exception):
     # NOTE: In production environment, you should consider logging this to Azure
     #       application insights.
     print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
+    traceback.print_exc()
 
     # Send a message to the user
     await context.send_activity("The bot encountered an error or bug.")

@@ -20,13 +20,13 @@ The API uses the most modern neural machine translation technology, as well as o
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\17.multilingual-bot` folder
+- Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
 
 - To consume the Microsoft Translator Text API, first obtain a key following the instructions in the [Microsoft Translator Text API documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/translator-text-how-to-signup). Paste the key in the `SUBSCRIPTION_KEY` settings in the `config.py` file.
 
-- In the terminal, type `python app.py`
+- Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.

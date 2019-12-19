@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+
 from botbuilder.core import CardFactory, TurnContext, MessageFactory
 from botbuilder.core.teams import TeamsActivityHandler, TeamsInfo
 from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParameters
@@ -119,7 +122,9 @@ class TeamsConversationBot(TeamsActivityHandler):
                 )
 
             async def send_message(tc2: TurnContext):
-                return await tc2.send_activity(f"Hello {member.name}. I'm a Teams conversation bot.")  # pylint: disable=cell-var-from-loop
+                return await tc2.send_activity(
+                    f"Hello {member.name}. I'm a Teams conversation bot."
+                )  # pylint: disable=cell-var-from-loop
 
             await turn_context.adapter.create_conversation(
                 conversation_reference, get_ref, conversation_parameters

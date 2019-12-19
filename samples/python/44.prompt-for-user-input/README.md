@@ -9,10 +9,10 @@ The bot maintains user state to track the user's answers.
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\44.prompt-for-user-input` folder
+- Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
-- In the terminal, type `python app.py`
+- Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.

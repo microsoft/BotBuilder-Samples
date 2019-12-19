@@ -84,6 +84,7 @@ async def messages(req: Request) -> Response:
     except Exception as exception:
         raise exception
 
+
 APP = web.Application()
 APP.router.add_post("/api/messages", messages)
 

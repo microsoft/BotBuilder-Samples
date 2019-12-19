@@ -35,7 +35,8 @@ class TeamsMessagingExtensionsActionPreviewBot(TeamsActivityHandler):
         else:
             # This is a regular text message from the user.
             reply = MessageFactory.text(
-                "Hello from TeamsMessagingExtensionsActionPreviewBot. Please refer to the bot sample's Readme for instructions."
+                "Hello from TeamsMessagingExtensionsActionPreviewBot. Please refer to the bot sample's Readme for "
+                "instructions. "
             )
             await turn_context.send_activity(reply)
 

@@ -27,10 +27,11 @@ LUIS language model setup, training, and application configuration steps can be 
 If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md](README-LUIS.md).
 
 ## Running the sample
+- Bring up a terminal, navigate to `botbuilder-samples\samples\python\13.core-bot` folder
 - Activate your desired virtual environment
 - Run `pip install -r requirements.txt` to install all dependencies
 - Update LuisAppId, LuisAPIKey and LuisAPIHostName in `config.py` with the information retrieved from the [LUIS portal](https://www.luis.ai)
-- Run `python app.py`
+- Run your bot with `python app.py`
 
 
 ## Testing the bot using Bot Framework Emulator

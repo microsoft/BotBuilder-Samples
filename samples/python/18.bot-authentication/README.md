@@ -13,8 +13,8 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Activate your desired virtual environment
 - Bring up a terminal, navigate to `botbuilder-samples\samples\python\18.bot-authentication` folder
+- Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
 - [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
@@ -22,7 +22,7 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
 
-- In the terminal, type `python app.py`
+- Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
 

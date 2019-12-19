@@ -78,7 +78,8 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
         )
         card = HeroCard(
             title="Task Module Invocation from Hero Card",
-            subtitle="This is a hero card with a Task Module Action button.  Click the button to show an Adaptive Card within a Task Module.",
+            subtitle="This is a hero card with a Task Module Action button.  Click the button to show an Adaptive "
+                     "Card within a Task Module.",
             buttons=[task_module_action],
         )
         return CardFactory.hero_card(card)

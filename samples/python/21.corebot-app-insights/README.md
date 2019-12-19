@@ -32,11 +32,12 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
 Application Insights resource creation steps can be found [here](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource).
 
 ## Running the sample
+- Bring up a terminal, navigate to `botbuilder-samples\samples\python\21.corebot-app-insights` folder
 - Activate your desired virtual environment
 - Run `pip install -r requirements.txt` to install all dependencies
 - Update LuisAppId, LuisAPIKey and LuisAPIHostName in `config.py` with the information retrieved from the [LUIS portal](https://www.luis.ai)
 - Update AppInsightsInstrumentationKey in `config.py`
-- Run `python app.py`
+- Run your bot with `python app.py`
 
 
 ## Testing the bot using Bot Framework Emulator

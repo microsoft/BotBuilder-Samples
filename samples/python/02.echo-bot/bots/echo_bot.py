@@ -14,4 +14,6 @@ class EchoBot(ActivityHandler):
                 await turn_context.send_activity("Hello and welcome!")
 
     async def on_message_activity(self, turn_context: TurnContext):
-        return await turn_context.send_activity(MessageFactory.text(f"Echo: {turn_context.activity.text}"))
+        return await turn_context.send_activity(
+            MessageFactory.text(f"Echo: {turn_context.activity.text}")
+        )

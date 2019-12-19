@@ -28,8 +28,8 @@ class TeamsMessagingExtensionsActionBot(TeamsActivityHandler):
 
     async def create_card_command(
         self,
-        turn_context: TurnContext,
-        action: MessagingExtensionAction,  # pylint: disable=unused-argument
+        turn_context: TurnContext,  # pylint: disable=unused-argument
+        action: MessagingExtensionAction,
     ) -> MessagingExtensionActionResponse:
         title = action.data["title"]
         sub_title = action.data["subTitle"]
@@ -50,8 +50,8 @@ class TeamsMessagingExtensionsActionBot(TeamsActivityHandler):
 
     async def share_message_command(
         self,
-        turn_context: TurnContext,
-        action: MessagingExtensionAction,  # pylint: disable=unused-argument
+        turn_context: TurnContext,  # pylint: disable=unused-argument
+        action: MessagingExtensionAction,
     ) -> MessagingExtensionActionResponse:
         # The user has chosen to share a message by choosing the 'Share Message' context menu command.
         title = f"{action.message_payload.from_property.user.display_name} orignally sent this message:"

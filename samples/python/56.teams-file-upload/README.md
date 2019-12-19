@@ -34,7 +34,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) In a terminal, go to `samples\python\56.teams-file-upload`
+1) Bring up a terminal, navigate to `botbuilder-samples\samples\python\56.teams-file-upload` folder
+
+1) Activate your desired virtual environment
+
+1) Install dependencies by running ```pip install -r requirements.txt``` in the project folder.
 
 1) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
@@ -43,9 +47,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
     - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-1) Activate your desired virtual environment
-1) Install dependencies by running ```pip install -r requirements.txt``` in the project folder.
-1) Run your bot with `python app.py`.
+1) Run your bot with `python app.py`
 
 ## Interacting with the bot in Teams
 
@@ -59,8 +61,6 @@ You can also send a file to the bot as an attachment in the message compose sect
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-## Further reading
+# Further reading
 
 - [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)
-
-
