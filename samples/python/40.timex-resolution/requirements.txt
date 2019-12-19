@@ -1,0 +1,3 @@
+recognizers-text>=1.0.2a2
+datatypes-timex-expression>=1.0.2a2
+
