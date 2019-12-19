@@ -41,18 +41,18 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |[View][py#43]
 |44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |[View][py#44]
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |[View][py#45]
-|46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |
+|46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |[View][py#46]
 |47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |[View][py#47]
 |48.qnamaker-active-learning-bot     | Demonstrates how to integrate Active Learning in a QnA Maker bot.|[View][cs#48]|[View][js#48]          |              |     |     |
 |49.qnamaker-all-features     | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.|[View][cs#49]|[View][js#49]          |              |     |     |
-|50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |
-|51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |
+|50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |[View][py#50]
+|51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |[View][py#51]
 |52.teams-messaging-extensions-search-auth-config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[View][cs#52]|[View][js#52]          |              |     |     |
-|53.teams-messaging-extensions-action-preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[View][cs#53]|[View][js#53]          |              |     |     |
-|54.teams-task-module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[View][cs#54]|[View][js#54]          |              |     |     |
-|55.teams-link-unfurling     | A Messaging Extension that performs link unfurling.|[View][cs#55]|[View][js#55]          |              |     |     |
-|56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |
-|57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |
+|53.teams-messaging-extensions-action-preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[View][cs#53]|[View][js#53]          |              |     |     |[View][py#53]
+|54.teams-task-module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[View][cs#54]|[View][js#54]          |              |     |     |[View][py#54] 
+|55.teams-link-unfurling     | A Messaging Extension that performs link unfurling.|[View][cs#55]|[View][js#55]          |              |     |     |[View][py#55]
+|56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |[View][py#56]
+|57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |[View][py#57]
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
@@ -166,6 +166,14 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [py#45]:samples/python/45.state-management
 [py#46]:samples/python/46.teams-auth
 [py#47]:samples/python/47.inspection
+[py#50]:samples/python/50.teams-messaging-extensions-search
+[py#51]:samples/python/51.teams-messaging-extensions-action
+[py#52]:samples/python/52.teams-messaging-extensions-search-auth-config
+[py#53]:samples/python/53.teams-messaging-extensions-action-preview
+[py#54]:samples/python/54.teams-task-module
+[py#55]:samples/python/55.teams-link-unfurling
+[py#56]:samples/python/56.teams-file-upload
+[py#57]:samples/python/57.teams-conversation-bot
 
 ## Contributing
 
