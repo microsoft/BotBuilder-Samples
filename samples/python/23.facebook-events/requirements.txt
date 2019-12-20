@@ -1,0 +1,3 @@
+aiohttp
+jsonpickle==1.2
+botbuilder-core>=4.7.0

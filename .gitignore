@@ -283,3 +283,7 @@ tsconfig.tsbuildinfo
 # Visual Studio
 appsettings.Development.json
 .config/
+
+# Python
+__pycache__/
+env/
