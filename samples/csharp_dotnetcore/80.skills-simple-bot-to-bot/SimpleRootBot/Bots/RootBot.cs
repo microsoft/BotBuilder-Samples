@@ -69,11 +69,10 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
                 await turnContext.SendActivityAsync(MessageFactory.Text("Got it, connecting you to the skill..."), cancellationToken);
 
                 // Save active skill in state
-                activeSkill = _targetSkill;
-                await _activeSkillProperty.SetAsync(turnContext, activeSkill, cancellationToken);
+                await _activeSkillProperty.SetAsync(turnContext, _targetSkill, cancellationToken);
 
                 // Send the activity to the skill
-                await SendToSkill(turnContext, activeSkill, cancellationToken);
+                await SendToSkill(turnContext, _targetSkill, cancellationToken);
                 return;
             }
 
