@@ -69,6 +69,8 @@ server.post('/api/messages', (req, res) => {
 server.get('/api/notify', async (req, res) => {
     for (const conversationReference of Object.values(conversationReferences)) {
         await adapter.continueConversation(conversationReference, async turnContext => {
+            // If you encounter permission-related errors when sending this message, see
+            // https://aka.ms/BotTrustServiceUrl
             await turnContext.sendActivity('proactive hello');
         });
     }
