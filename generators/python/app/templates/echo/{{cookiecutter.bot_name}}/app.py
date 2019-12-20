@@ -15,7 +15,7 @@ from botbuilder.core import (
 from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes
 
-from bots import EchoBot
+from bot import MyBot
 from config import DefaultConfig
 
 CONFIG = DefaultConfig()
@@ -57,7 +57,7 @@ async def on_error(context: TurnContext, error: Exception):
 ADAPTER.on_turn_error = on_error
 
 # Create the Bot
-BOT = EchoBot()
+BOT = MyBot()
 
 
 # Listen for incoming requests on /api/messages

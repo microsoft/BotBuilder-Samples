@@ -13,7 +13,6 @@ This sample **requires** prerequisites in order to run.
 ## Running the sample
 - Run `pip install -r requirements.txt` to install all dependencies
 - Run `python app.py`
-- Alternatively to the last command, you can set the file in an environment variable with `set FLASK_APP=app.py` in windows (`export FLASK_APP=app.py` in mac/linux) and then run `flask run --host=127.0.0.1 --port=3978`
 
 
 ## Testing the bot using Bot Framework Emulator
