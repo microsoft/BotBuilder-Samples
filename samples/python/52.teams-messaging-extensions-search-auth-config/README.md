@@ -50,7 +50,7 @@ the Teams service needs to call into the bot.
 
 > Note this `manifest.json` specified that the feature will be available from both the `compose`, `message` and `commandBox` areas of Teams. Please refer to Teams documentation for more details.
 
-Once the Messaging Extension is installed, click the icon for **Config Auth Search** in the Compose Box's Messaging Extension menu to display the search window.  Left click to choose **Settings** and view the Config page.  The default search is Pypi, and can be changed from the Config page.  
+Once the Messaging Extension is installed, click the icon for **Config Auth Search** in the Compose Box's Messaging Extension menu to display the search window.  Right click to choose **Settings** and view the Config page.  The default search is Pypi, and can be changed to Email from the Config page.
 
 
 ## Deploy the bot to Azure

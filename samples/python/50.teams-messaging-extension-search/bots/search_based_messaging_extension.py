@@ -20,7 +20,7 @@ class SearchBasedMessagingExtension(TeamsActivityHandler):
     ):
         search_query = str(query.parameters[0].value).strip()
         if search_query == "":
-            turn_context.send_activity(
+            await turn_context.send_activity(
                 MessageFactory.text("You cannot enter a blank string for the search")
             )
             return

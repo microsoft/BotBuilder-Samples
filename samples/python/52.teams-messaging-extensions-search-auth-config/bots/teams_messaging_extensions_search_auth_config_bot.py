@@ -52,7 +52,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot(TeamsActivityHandler):
         # Save any state changes that might have occurred during the turn.
         await self.user_state.save_changes(turn_context, False)
 
-    async def on_teams_messaging_extension_configuration_query_settings_url(  # pylint: disable=unused-argument
+    async def on_teams_messaging_extension_configuration_query_settings_url(
         self, turn_context: TurnContext, query: MessagingExtensionQuery
     ) -> MessagingExtensionResponse:
         # The user has requested the Messaging Extension Configuration page.
@@ -77,108 +77,31 @@ class TeamsMessagingExtensionsSearchAuthConfigBot(TeamsActivityHandler):
             )
         )
 
-    async def on_teams_messaging_extension_configuration_setting(  # pylint: disable=unused-argument
+    async def on_teams_messaging_extension_configuration_setting(
         self, turn_context: TurnContext, settings
     ):
+        # Save the user's settings
         if "state" in settings:
             state = settings["state"]
             if state is not None:
                 await self.user_config_property.set(turn_context, state)
 
     async def on_teams_messaging_extension_query(
-        self,
-        turn_context: TurnContext,
-        query: MessagingExtensionQuery,  # pylint: disable=unused-argument
-    ):
+        self, turn_context: TurnContext, query: MessagingExtensionQuery,
+    ) -> MessagingExtensionResponse:
         search_query = str(query.parameters[0].value).strip()
 
         user_configuration = await self.user_config_property.get(
             turn_context, "UserConfiguration"
         )
         if user_configuration is not None and "email" in user_configuration:
-            # When the Bot Service Auth flow completes, the action.State will contain
-            # a magic code used for verification.
-            magic_code = ""
-            if query.state is not None:
-                magic_code = query.state
-
-            token_response = await turn_context.adapter.get_user_token(
-                turn_context, self.connection_name, magic_code
-            )
-            if token_response is None or token_response.token is None:
-                # There is no token, so the user has not signed in yet.
-
-                # Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-                sign_in_link = await turn_context.adapter.get_oauth_sign_in_link(
-                    turn_context, self.connection_name
-                )
-                return MessagingExtensionResponse(
-                    compose_extension=MessagingExtensionResult(
-                        type="auth",
-                        suggested_actions=MessagingExtensionSuggestedAction(
-                            actions=[
-                                CardAction(
-                                    type="openUrl",
-                                    value=sign_in_link,
-                                    title="Bot Service OAuth",
-                                )
-                            ]
-                        ),
-                    )
-                )
-            # User is signed in, so use their token to search email via the Graph Client
-            client = SimpleGraphClient(token_response.token)
-            search_results = await client.search_mail_inbox(search_query)
-
-            # Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
-            # displayed if the user selects that item.
-            attachments = []
-            for message_meta in search_results:
-                message = message_meta["_source"]
-                message_from = message["from"] if "from" in message else None
-                if message_from:
-                    subtitle = (
-                        f"{message_from['emailAddress']['name']},"
-                        f"<{message_from['emailAddress']['address']}>"
-                    )
-                else:
-                    subtitle = ""
-
-                hero_card = HeroCard(
-                    title=message["subject"] if "subject" in message else "",
-                    subtitle=subtitle,
-                    text=message["bodyPreview"] if "bodyPreview" in message else "",
-                )
-
-                thumbnail_card = CardFactory.thumbnail_card(
-                    ThumbnailCard(
-                        title=subtitle,
-                        subtitle=message["subject"],
-                        images=[
-                            CardImage(
-                                url="https://botframeworksamples.blob.core.windows.net/samples"
-                                "/OutlookLogo.jpg",
-                                alt="Outlook Logo",
-                            )
-                        ],
-                    )
-                )
-                attachment = MessagingExtensionAttachment(
-                    content_type=CardFactory.content_types.hero_card,
-                    content=hero_card,
-                    preview=thumbnail_card,
-                )
-                attachments.append(attachment)
-
-            return MessagingExtensionResponse(
-                compose_extension=MessagingExtensionResult(
-                    type="result", attachment_layout="list", attachments=attachments
-                )
+            return await self._get_auth_or_search_result(
+                turn_context, query, search_query
             )
 
         # The user configuration is NOT set to search Email.
         if search_query is None:
-            turn_context.send_activity(
+            await turn_context.send_activity(
                 MessageFactory.text("You cannot enter a blank string for the search")
             )
             return
@@ -203,18 +126,100 @@ class TeamsMessagingExtensionsSearchAuthConfigBot(TeamsActivityHandler):
             )
         )
 
-    async def on_teams_messaging_extension_submit_action(
+    async def _get_auth_or_search_result(
         self,
         turn_context: TurnContext,
-        action: MessagingExtensionAction,  # pylint: disable=unused-argument
+        query: MessagingExtensionQuery,
+        search_query: str,
+    ) -> MessagingExtensionResponse:
+        # When the Bot Service Auth flow completes, the action.State will contain
+        # a magic code used for verification.
+        magic_code = ""
+        if query.state is not None:
+            magic_code = query.state
+
+        token_response = await turn_context.adapter.get_user_token(
+            turn_context, self.connection_name, magic_code
+        )
+        if token_response is None or token_response.token is None:
+            # There is no token, so the user has not signed in yet.
+
+            # Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+            sign_in_link = await turn_context.adapter.get_oauth_sign_in_link(
+                turn_context, self.connection_name
+            )
+            return MessagingExtensionResponse(
+                compose_extension=MessagingExtensionResult(
+                    type="auth",
+                    suggested_actions=MessagingExtensionSuggestedAction(
+                        actions=[
+                            CardAction(
+                                type="openUrl",
+                                value=sign_in_link,
+                                title="Bot Service OAuth",
+                            )
+                        ]
+                    ),
+                )
+            )
+        # User is signed in, so use their token to search email via the Graph Client
+        client = SimpleGraphClient(token_response.token)
+        search_results = await client.search_mail_inbox(search_query)
+
+        # Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
+        # displayed if the user selects that item.
+        attachments = []
+        for message_meta in search_results:
+            message = message_meta["_source"]
+            message_from = message["from"] if "from" in message else None
+            if message_from:
+                subtitle = (
+                    f"{message_from['emailAddress']['name']},"
+                    f"<{message_from['emailAddress']['address']}>"
+                )
+            else:
+                subtitle = ""
+
+            hero_card = HeroCard(
+                title=message["subject"] if "subject" in message else "",
+                subtitle=subtitle,
+                text=message["bodyPreview"] if "bodyPreview" in message else "",
+            )
+
+            thumbnail_card = CardFactory.thumbnail_card(
+                ThumbnailCard(
+                    title=subtitle,
+                    subtitle=message["subject"],
+                    images=[
+                        CardImage(
+                            url="https://botframeworksamples.blob.core.windows.net/samples"
+                            "/OutlookLogo.jpg",
+                            alt="Outlook Logo",
+                        )
+                    ],
+                )
+            )
+            attachment = MessagingExtensionAttachment(
+                content_type=CardFactory.content_types.hero_card,
+                content=hero_card,
+                preview=thumbnail_card,
+            )
+            attachments.append(attachment)
+
+        return MessagingExtensionResponse(
+            compose_extension=MessagingExtensionResult(
+                type="result", attachment_layout="list", attachments=attachments
+            )
+        )
+
+    async def on_teams_messaging_extension_submit_action(
+        self, turn_context: TurnContext, action: MessagingExtensionAction,
     ) -> MessagingExtensionActionResponse:
         # This method is to handle the 'Close' button on the confirmation Task Module after the user signs out.
         return MessagingExtensionActionResponse(task=None)
 
     async def on_teams_messaging_extension_fetch_task(
-        self,
-        turn_context: TurnContext,
-        action: MessagingExtensionAction,  # pylint: disable=unused-argument
+        self, turn_context: TurnContext, action: MessagingExtensionAction,
     ) -> MessagingExtensionActionResponse:
         if action.command_id == "SignOutCommand":
             await turn_context.adapter.sign_out_user(
