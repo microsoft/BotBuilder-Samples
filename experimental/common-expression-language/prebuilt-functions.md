@@ -49,7 +49,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
 |[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
 |[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
-|[indicesAndValues](#indicesAndValues) | turned an array into an array of objects with index and value property |
+|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
 
 ### Logical comparison functions
 |Function	|Explanation|
@@ -1842,6 +1842,30 @@ indicesAndValues('<collection>')
 *Example*
 
 Suppose there is a list { items: ["zero", "one", "two"] }
+
+```
+indicesAndValues(items)
+```
+
+returns a new list:
+```
+[
+  {
+    index: 0,
+    value: 'zero'
+  },
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+second example:
 
 ```
 where(indicesAndValues(items), elt, elt.index >= 1)
