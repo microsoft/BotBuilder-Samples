@@ -102,7 +102,7 @@
             "name": "[variables('webAppName')]",
             "properties": {
                 "name": "[variables('webAppName')]",
-                "serverFarmId": "[variables('servicePlanName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
