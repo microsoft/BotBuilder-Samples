@@ -45,52 +45,41 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Facebook
 
-1 - Create a Facebook Account for Developers (https://developers.facebook.com/).
+Populate settings for Facebook App secret, Access Token and Verify Token in appsettings.json file. 
 
-2 - Create a new App. Give a name to the app and click Create App ID button.
+Instructions about how to create / configure a Facebook App for your bot and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Facebook using the Facebook adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook?view=azure-bot-service-4.0#connect-a-bot-to-facebook-using-the-facebook-adapter).
 
-3 - In the Dashboard go to Add a Product and select Messenger by clicking on Set Up button
-
-    A) In the Access Tokens section, select a Facebook Page or create a new one. This is the page where the bot will be tested later.
-
-    B) After selecting the page, the permissions should be edited, click on the button "Add or Remove Pages", select the page just created as option and continue.
-
-    C) A Page Access Token is generated. Copy it, it will be needed to connect the adapter.
-
-4 - Get the app credentials. Go to Settings, Basic and copy the App Secret.
-
-5 - Set the tokens in appsettings.json file: 
-    
-        FacebookVerifyToken (create one. It will be used to validate received messages)
-        FacebookAppSecret (the one obtained in step 4)
-        FacebookAccessToken (the one obtained in step 3.c)
-
-6 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
-
-7 - Go back to the Facebook for Developers page and click on Messenger, Settings.
-    In the Webhooks section, click on Subscribe To Events button.
-
-    A) Complete the Callback URL with the ngrok https URL adding   '/api/messages'. 
-        Fill in the Verify Token with the one setted on your bot.
-        Subscribe to the following events: messages, messaging_postbacks, messaging_optins, messaging_deliveries
-
-    B) Click Verify and Save button.
-
-8 - Subscribe the webhook to the Page.
-
-9 - Go to the Page and click Add a Button.
-
-    A) Select a Send Message button.
-
-    B) Select Messenger.
-
-    C) And click Finish button.
-
-10 - Finally, click on the button created and test your bot!
+```json
+{
+  "FacebookVerifyToken": "",
+  "FacebookAppSecret": "",
+  "FacebookAccessToken": ""
+}
+```
 
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+### Testing your bot
+
+You can test your bot is connected to Facebook correctly by sending a message via the Facebook Page you associated with your new Facebook App.  
+
+1. Navigate to your Facebook Page.
+
+2. Click **Add a Button** button.
+
+![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/add-button.png)
+
+3. Select **Contact You** and **Send Message** and click **Next**.
+
+![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/button-settings.png)
+
+4. When asked **Where would you like this button to send people to?** select **Messenger** and click **Finish**.
+
+![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/button-settings-2.png)
+
+5. Hover over the new **Send Message** button that is now shown on your Facebook Page and clikc **Test Button** from the popup menu.  This will start a new conversation with your app via Facebook Messenger, which you can use to test messaging your bot. Once the message is receieved by your bot it will send a message back to you, echoing the text from your message.
 
 ## Further reading
 
