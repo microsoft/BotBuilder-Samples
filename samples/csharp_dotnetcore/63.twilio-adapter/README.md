@@ -46,31 +46,22 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Twilio
 
-1 - Create an Account in [Twilio](https://www.twilio.com/console).
+Populate settings for Twilio Number, Account SID, Auth Token and Validation URL in appsettings.json file. 
 
-_**Note**: It will require to validate a phone number. This number is the one to use for the testing (sending messages to Twilio)._
+Instructions about how to create / configure a Twilio number for your bot and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Twilio using the Twilio adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-twilio?view=azure-bot-service-4.0#connect-a-bot-to-twilio-using-the-twilio-adapter).
 
-2 - Copy the _Account SID_ and the _Auth Token_ from the Dashboard. These credentials will be needed to connect the bot to Twilio.
-
-3 - Get a Twilio Number (_This is the number that will receive the messages_).
-
-_**Note**: Make sure the chosen number has SMS capability enabled._
-
-4 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
-
-5 - Configure the Messaging Webhook with the https URL generated in the previous step adding '/api/messages' to it.
-
-6 - Back in the bot project, set the credentials in _appsettings.json_.
-
-    TwilioNumber (the one obtained in step 3)
-    TwilioAccountSid (the one obtained in step 2)
-    TwilioAuthToken (the one obtained in step 2)
-    TwilioValidationUrl (the one configured in step 5)
-
+```json
+  "TwilioNumber": "",
+  "TwilioAccountSid": "",
+  "TwilioAuthToken": "",
+  "TwilioValidationUrl", ""
+```
 
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+
+You can now test your bot is connected to Twilio correctly by sending an SMS message to your Twilio number.  Once the message is receieved by your bot it will send a message back to you, echoing the text from your message.
 
 ## Further reading
 
