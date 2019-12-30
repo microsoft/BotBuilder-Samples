@@ -46,34 +46,16 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Webex
 
-1 - Create an Account in [Webex](https://www.webex.com/).
+Populate settings for Webex Access Toke, Public Address, Secret and Webhook Name in appsettings.json file. 
 
-2 - Create a new app (bot) in [Webex Team] (https://developer.webex.com/my-apps).
+Instructions about how to create / configure a Webex bot app and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Webex using the Webex adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-adapter-connect-webex?view=azure-bot-service-4.0).
 
-_**Note**: When clicking in the `Add bot` button, the bot's credentials will be generated._
-
-3 - Copy the _Access Token_ from the Dashboard. This credential will be needed to connect the bot to Webex.
-
-4 - Using a tunneling tool like [Ngrok](https://ngrok.com/download), expose the bot's endpoint.
-
-5 - Create/Update the webhooks for messages and attachments for the bot using https://developer.webex.com/docs/api/v1/webhooks 
-
-    Complete the form with the following data:
-        - Authorization: Complete with the WebexAccessToken (the one obtained in step 3)
-        - Name: Choose a name for the Webhook
-        - TargetUrl: Complete with the https url generated in step 4 adding '/api/messages' to it
-        - Resource: Complete with 'messages' or 'attachmentActions'
-        - Event: Complete with 'all'
-        - Secret: Complete with any random secret.
-    Click the Run button
-
-6 - Back in the bot project, set the credentials in _appsettings.json_.
-
-    WebexAccessToken (the one obtained in step 3)
-    WebexPublicAddress (the url obtained in step 4)
-    WebexSecret (the one set for the Webhook)
-    WebexWebhookName (The one created in step 5)
-
+```json
+  "WebexAccessToken": "",
+  "WebexPublicAddress": "",
+  "WebexSecret": "",
+  "WebexWebhookName": ""
+```
 
 ## Deploy the bot to Azure
 
