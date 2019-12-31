@@ -22,7 +22,7 @@ the Teams service needs to call into the bot.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-1) In a terminal, navigate to `samples/javascript_nodejs/57.teams-conversation-bot`
+1) In a terminal, navigate to `samples/javascript_nodejs/25.message-reaction`
 
 1) Install modules
 
