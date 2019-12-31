@@ -6,9 +6,7 @@ using System.IO;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 using System.Collections.Generic;
 
 namespace Microsoft.BotBuilderSamples

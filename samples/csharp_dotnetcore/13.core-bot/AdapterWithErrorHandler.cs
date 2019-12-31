@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Send a message to the user
                 var errorMessageText = "The bot encountered an error or bug.";
-                var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
+                var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.IgnoringInput);
                 await turnContext.SendActivityAsync(errorMessage);
 
                 errorMessageText = "To continue to run this bot, please fix the bot source code.";

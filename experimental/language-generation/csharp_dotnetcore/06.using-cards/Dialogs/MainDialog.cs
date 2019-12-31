@@ -4,15 +4,14 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -54,7 +53,7 @@ namespace Microsoft.BotBuilderSamples
             // Create options for the prompt
             var options = new PromptOptions()
             {
-                Prompt = ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("CardChoice")),
+                Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("CardChoice").ToString()),
                 Choices = new List<Choice>(),
             };
 
@@ -90,52 +89,65 @@ namespace Microsoft.BotBuilderSamples
             if (text.StartsWith("hero"))
             {
                 // Display a HeroCard.
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("HeroCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("HeroCard").ToString()));
             }
             else if (text.StartsWith("thumb"))
             {
                 // Display a ThumbnailCard.
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("ThumbnailCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ThumbnailCard").ToString()));
             }
             else if (text.StartsWith("sign"))
             {
                 // Display a SignInCard.
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("SigninCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SigninCard").ToString()));
             }
             else if (text.StartsWith("animation"))
             {
                 // Display an AnimationCard.
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("AnimationCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AnimationCard").ToString()));
             }
             else if (text.StartsWith("video"))
             {
                 // Display a VideoCard
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("VideoCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("VideoCard").ToString()));
             }
             else if (text.StartsWith("audio"))
             {
                 // Display an AudioCard
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("AudioCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AudioCard").ToString()));
             }
             else if (text.StartsWith("receipt"))
             {
-                // Display a ReceiptCard.
-                reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
-                // Send the card(s) to the user as an attachment to the activity
-                await stepContext.Context.SendActivityAsync(reply, cancellationToken);
+                var data = new JObject
+                {
+                    ["receiptItems"] = JToken.FromObject(new List<ReceiptItem>
+                    {
+                        new ReceiptItem(
+                            "Data Transfer",
+                            price: "$ 38.45",
+                            quantity: "368",
+                            image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/traffic-manager.png")),
+                        new ReceiptItem(
+                            "App Service",
+                            price: "$ 45.00",
+                            quantity: "720",
+                            image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png")),
+                    })
+                };
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ReceiptCard", data).ToString()));
             }
             else if (text.StartsWith("adaptive"))
             {
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("AdaptiveCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AdaptiveCard").ToString()));
             }
             else
             {
                 // Display a carousel of all the rich card types.
-                await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("AllCards")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AllCards").ToString()));
             }
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("CardStartOverResponse")), cancellationToken);
+            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("CardStartOverResponse").ToString()), cancellationToken);
 
             return await stepContext.EndDialogAsync();
         }
