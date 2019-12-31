@@ -5,15 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Adapters.Twilio;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace TwilioAdapterBot.Controllers
 {
-    [Route("api/messages")]
+    [Route("api/twilio")]
     [ApiController]
-    public class BotController : ControllerBase
+    public class TwilioController : ControllerBase
     {
-        private readonly IBotFrameworkHttpAdapter _adapter;
+        private readonly TwilioAdapter _adapter;
         private readonly IBot _bot;
 
         /// <summary>
@@ -21,7 +22,7 @@ namespace TwilioAdapterBot.Controllers
         /// </summary>
         /// <param name="adapter">adapter for the BotController.</param>
         /// <param name="bot">bot for the BotController.</param>
-        public BotController(IBotFrameworkHttpAdapter adapter, IBot bot)
+        public TwilioController(TwilioAdapter adapter, IBot bot)
         {
             _adapter = adapter;
             _bot = bot;
@@ -32,6 +33,7 @@ namespace TwilioAdapterBot.Controllers
         /// </summary>
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         [HttpPost]
+        [HttpGet]
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.
