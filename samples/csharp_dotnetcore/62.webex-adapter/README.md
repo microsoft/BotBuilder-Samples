@@ -46,7 +46,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Webex
 
-Populate settings for Webex Access Toke, Public Address, Secret and Webhook Name in appsettings.json file. 
+Populate settings for Webex Access Token, Public Address, Secret and Webhook Name in appsettings.json file. 
 
 Instructions about how to create / configure a Webex bot app and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Webex using the Webex adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-adapter-connect-webex?view=azure-bot-service-4.0).
 
