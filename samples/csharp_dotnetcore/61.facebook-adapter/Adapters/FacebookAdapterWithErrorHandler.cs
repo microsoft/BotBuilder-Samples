@@ -1,16 +1,26 @@
 ﻿using Microsoft.Bot.Builder.Adapters.Facebook;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace FacebookAdapterBot.Adapters
 {
     public class FacebookAdapterWithErrorHandler : FacebookAdapter
     {
-        public FacebookAdapterWithErrorHandler(IConfiguration configuration)
-            : base(configuration)
+        public FacebookAdapterWithErrorHandler(IConfiguration configuration, ILogger<FacebookAdapter> logger)
+            : base(configuration, logger)
         {
-            OnTurnError = async (context, exception) =>
+            OnTurnError = async (turnContext, exception) =>
             {
-                await context.SendActivityAsync("Sorry, something went wrong");
+                // Log any leaked exception from the application.
+                logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
+
+                // Send a message to the user
+                await turnContext.SendActivityAsync("The bot encountered an error or bug.");
+                await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
+
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
     }
