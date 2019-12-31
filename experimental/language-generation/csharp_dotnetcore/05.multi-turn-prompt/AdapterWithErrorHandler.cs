@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception)));
+                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception).ToString()));
 
                 if (conversationState != null)
                 {

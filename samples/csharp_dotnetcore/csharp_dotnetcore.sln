@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28307.902
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -67,8 +67,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsTaskModule", "54.teams
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsLinkUnfurling", "55.teams-link-unfurling\TeamsLinkUnfurling.csproj", "{F07C474E-B23D-4CB9-90E4-59E33BD82461}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A76D8B99-E1D9-4802-998F-1AFBED734ABD}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsConversationBot", "57.teams-conversation-bot\TeamsConversationBot.csproj", "{3F435255-0B27-439A-9C62-259959E19042}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileUpload", "56.teams-file-upload\TeamsFileUpload.csproj", "{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}"
@@ -80,6 +78,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlackAdapterBot", "60.slack-adapter\SlackAdapterBot.csproj", "{34FC5666-6658-4A08-A6A7-72C95CFD935A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillsSimpleBotToBot", "SkillsSimpleBotToBot", "{A5567E91-578D-4212-A3CA-2EFEA116E109}"
+	ProjectSection(SolutionItems) = preProject
+		80.skills-simple-bot-to-bot\README.md = 80.skills-simple-bot-to-bot\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoSkillBot", "80.skills-simple-bot-to-bot\EchoSkillBot\EchoSkillBot.csproj", "{2FBBEF64-E34C-486A-B98E-65B5B722C24E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRootBot", "80.skills-simple-bot-to-bot\SimpleRootBot\SimpleRootBot.csproj", "{13406183-D1CB-4C2E-A3A6-95559CFB922F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -239,9 +246,21 @@ Global
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FBBEF64-E34C-486A-B98E-65B5B722C24E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FBBEF64-E34C-486A-B98E-65B5B722C24E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FBBEF64-E34C-486A-B98E-65B5B722C24E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FBBEF64-E34C-486A-B98E-65B5B722C24E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{2FBBEF64-E34C-486A-B98E-65B5B722C24E} = {A5567E91-578D-4212-A3CA-2EFEA116E109}
+		{13406183-D1CB-4C2E-A3A6-95559CFB922F} = {A5567E91-578D-4212-A3CA-2EFEA116E109}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AF4AF72-D00E-45C4-B3B2-E30FBE53245A}
