@@ -1,4 +1,7 @@
-﻿using Microsoft.Bot.Builder.Adapters.Slack;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Builder.Adapters.Slack;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
