@@ -112,6 +112,8 @@ class TeamsConversationBot extends TeamsActivityHandler {
         await context.deleteActivity(context.activity.replyToId);
     }
 
+    // If you encounter permission-related errors when sending this message, see
+    // https://aka.ms/BotTrustServiceUrl
     async messageAllMembersAsync(context) {
         const members = await TeamsInfo.getMembers(context);
 
