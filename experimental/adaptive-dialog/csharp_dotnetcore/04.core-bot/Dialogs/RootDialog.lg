@@ -66,7 +66,7 @@
 # UnknownIntent
 [Activity
     Text = Sorry, I do not understand that. Can you try and re-phrase?
-    SuggestedActions = Book flight | Hi | Help | Cancel
+    SuggestedActions = Book flight | Hi | I need help | Exit
 ]
 
 # HeaderText

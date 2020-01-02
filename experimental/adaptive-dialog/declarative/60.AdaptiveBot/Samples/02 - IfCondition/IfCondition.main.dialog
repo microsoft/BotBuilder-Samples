@@ -1,24 +1,24 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
+    "$kind": "Microsoft.AdaptiveDialog",
     "triggers": [
         {
-            "$type": "Microsoft.OnBeginDialog",
+            "$kind": "Microsoft.OnBeginDialog",
             "actions": [
                 {
-                    "$type": "Microsoft.IfCondition",
+                    "$kind": "Microsoft.IfCondition",
                     "condition": "user.name == null",
                     "actions": [
                         {
-                            "$type": "Microsoft.TextInput",
+                            "$kind": "Microsoft.TextInput",
                             "prompt": "Hello, I'm Zoidberg. What is your name?",
                             "property": "user.name"
                         }
                     ]
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
-                    "activity": "Hello {user.name}, nice to talk to you!"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Hello @{user.name}, nice to talk to you!"
                 }
             ]
         }
