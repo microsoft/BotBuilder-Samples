@@ -1,0 +1,63 @@
+{
+  "text": "flight from madrid to chicago",
+  "intents": { "BookFlight": { "score": 0.8837919 } },
+  "entities": {
+    "$instance": {
+      "From": [
+        {
+          "startIndex": 12,
+          "endIndex": 18,
+          "score": 0.888236344,
+          "text": "madrid",
+          "type": "From"
+        }
+      ],
+      "To": [
+        {
+          "startIndex": 22,
+          "endIndex": 29,
+          "score": 0.640484631,
+          "text": "chicago",
+          "type": "To"
+        }
+      ]
+    },
+    "From": [ { "$instance": {} } ],
+    "To": [ { "$instance": {} } ]
+  },
+  "luisResult": {
+    "query": "flight from madrid to chicago",
+    "topScoringIntent": {
+      "intent": "BookFlight",
+      "score": 0.8837919
+    },
+    "entities": [
+      {
+        "entity": "madrid",
+        "type": "From",
+        "startIndex": 12,
+        "endIndex": 17,
+        "score": 0.888236344
+      },
+      {
+        "entity": "chicago",
+        "type": "To",
+        "startIndex": 22,
+        "endIndex": 28,
+        "score": 0.640484631
+      }
+    ],
+    "compositeEntities": [
+      {
+        "parentType": "From",
+        "value": "madrid",
+        "children": []
+      },
+      {
+        "parentType": "To",
+        "value": "chicago",
+        "children": []
+      }
+    ]
+  }
+}
