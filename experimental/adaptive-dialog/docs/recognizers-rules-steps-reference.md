@@ -1008,7 +1008,7 @@ new HttpRequest()
     Method = HttpRequest.HttpMethod.POST,
     Header = new Dictionary<string,string> (), /* request header */
     Body = { }                                 /* request body */
-}); 
+}; 
 ```
 ### TraceActivity
 Sends a trace activity with a payload you specify. 
