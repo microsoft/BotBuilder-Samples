@@ -7,18 +7,34 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IMiddleware middleware, ConversationState conversationState = null)
+        //Create field for telemetry client. Add IBotTelemetryClient parameter to AdapterWithErrorHandler
+        private IBotTelemetryClient _adapterBotTelemetryClient;
+
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IMiddleware middleware, IBotTelemetryClient botTelemetryClient, ConversationState conversationState = null)
             : base(credentialProvider)
         {
             Use(middleware);
 
+            //Use telemetry client so that we can trace exceptions into Application Insights
+            _adapterBotTelemetryClient = botTelemetryClient;
+
             OnTurnError = async (turnContext, exception) =>
             {
+
+                // Track exceptions into Application Insights
+                // Set up some properties for our exception tracing to give more information
+                var properties = new Dictionary<string, string>
+                {{"Bot exception from", $"{nameof(AdapterWithErrorHandler)} - {nameof(OnTurnError)}"}};
+
+                //Send the exception telemetry:
+                _adapterBotTelemetryClient.TrackException(exception, properties);                
+
                 // Log any leaked exception from the application.
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
