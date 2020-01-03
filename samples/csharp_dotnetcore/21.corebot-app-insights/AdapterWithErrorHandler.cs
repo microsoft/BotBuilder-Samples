@@ -26,11 +26,10 @@ namespace Microsoft.BotBuilderSamples
 
             OnTurnError = async (turnContext, exception) =>
             {
-
                 // Track exceptions into Application Insights
                 // Set up some properties for our exception tracing to give more information
                 var properties = new Dictionary<string, string>
-                {{"Bot exception from", $"{nameof(AdapterWithErrorHandler)} - {nameof(OnTurnError)}"}};
+                {{"Bot exception caught in", $"{nameof(AdapterWithErrorHandler)} - {nameof(OnTurnError)}"}};
 
                 //Send the exception telemetry:
                 _adapterBotTelemetryClient.TrackException(exception, properties);                
