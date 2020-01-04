@@ -54,6 +54,10 @@ Here's an example of text with suggested action
     Text = @{GetAge()}
     SuggestedActions = 10 | 20 | 30
 ]
+
+# GetAge
+- how old are you?
+- what is your age?
 ```
 
 Here's an example of a Hero card definition
@@ -64,15 +68,9 @@ Here's an example of a Hero card definition
     title = @{params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
-> @{templateName()} always returns only one resolution from the template.
-> all(templateName) returns a list of all resolutions from the template.(TODO)
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 Here is a richer example that puts them all together including a hero card can be defined as below
@@ -96,18 +94,14 @@ Here is a richer example that puts them all together including a hero card can b
     title = @{params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 By default any template reference is evaluated once during evaluation of a structured template. 
 
-As an example, this returns the same resolution text for both `Speak` and `Text` properties. (TODO)
+As an example, this returns the same resolution text for both `Speak` and `Text` properties.
 
 ```markdown
 # AskForAge.prompt
@@ -121,7 +115,7 @@ As an example, this returns the same resolution text for both `Speak` and `Text`
 - what is your age?
 ```
 
-You can use the TemplateName!() (with trailing '!' after a template name) to request a new evaluation on each reference within a structured template.(TODO)
+You can use the TemplateName!() (with trailing '!' after a template name) to request a new evaluation on each reference within a structured template. (TODO)
 
 In this example, `Speak` and `Text` could come back with different resolutions because `GetAge` is re-evalauted on each instance.
 
@@ -157,13 +151,9 @@ Some times you might want to come back with a carousel of cards. Here's an examp
     title = @{title}
     subtitle = @{subtitle}
     text = @{text}
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 Use of '|' will make a definition a list. You can use '\\' as the escape character
@@ -282,6 +272,40 @@ With this content, call to `evaluateTemplate('ST1')` will result in the followin
 ]
 ```
 Note that this style of composition can only exists at the root level. If there is a reference to another structured template within a property, then the resolution is contextual to that property. 
+
+# external file reference in Attachment structured
+
+1. fromFile(fileAbsoluteOrRelativePath) prebuilt function that can load a file specified. Content returned by this function will support evaluation of content. Template references and properties/ expressions are evaluated.
+2. ActivityAttachment(content, contentType) prebuilt function that can set the ‘contentType’ if it is not already specified in content). ContentType can be one of the types here.
+ 
+With these two prebuilt functions, I should be able to externally define any content (including all card types) and use the following structured LG to compose an activity –
+```
+# AdaptiveCard
+[Activity
+                Attachments = @{ActivityAttachment(json(fromFile('../../card.json')), 'adaptiveCard')}
+]
+ 
+# HeroCard
+[Activity
+                Attachments = @{ActivityAttachment(json(fromFile('../../card.json')), 'heroCard')}
+]
+```
+
+or use attachment
+```
+# AdaptiveCard
+[Attachment
+    contenttype = adaptivecard
+    content = @{json(fromFile('../../card.json'))}
+]
+
+# HeroCard
+[Attachment
+    contenttype = herocard
+    content = @{json(fromFile('../../card.json'))}
+]
+```
+
 # Chatdown style content as structured activity template
 It is a natural extension to also define full [chatdown][1] style templates using the structured template definition capability. This helps eliminate the need to always define chatdown style cards in a multi-line definition
 
@@ -301,7 +325,7 @@ It is a natural extension to also define full [chatdown][1] style templates usin
 11. AttachmentLayout
 12. [New] CardAction 
 13. [New] AdaptiveCard
-14. [New] EventActivity
+14. Activity
 
 ## Improvements to chatown style constructs
 
@@ -361,17 +385,20 @@ Here's an example:
 ]
 ```
 
-### Event activity
-[Bot framework activity protocol][2] supports ability for bot to send a custom event activity to the client. We will add support for it via structured LG using the following definition. This should set the outgoing activities `type` property to `event` and can have a `name` property and a `value` property.
+### other type of activity
+[Bot framework activity protocol][2] supports ability for bot to send a custom activity to the client. We will add support for it via structured LG using the following definition. This should set the outgoing activities `type` property to `event` or the type Activity owns.
 
 ```markdown
-[EventActivity
+[Activity
+    type = event
     name = some name
     value = some value
 ]
 ```
 
+[more test samples][4]
 
 [1]:https://github.com/microsoft/botbuilder-tools/tree/master/packages/Chatdown
 [2]:https://github.com/Microsoft/botframework-sdk/blob/master/specs/botframework-activity/botframework-activity.md
 [3]:https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language
+[4]:https://github.com/microsoft/botbuilder-dotnet/blob/master/tests/Microsoft.Bot.Builder.Dialogs.Adaptive.Templates.Tests/lg/NormalStructuredLG.lg

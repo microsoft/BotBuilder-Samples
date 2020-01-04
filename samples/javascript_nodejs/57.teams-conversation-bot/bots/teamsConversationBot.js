@@ -9,6 +9,7 @@ const {
     CardFactory,
     ActionTypes
 } = require('botbuilder');
+const TextEncoder = require('util').TextEncoder;
 
 class TeamsConversationBot extends TeamsActivityHandler {
     constructor() {
@@ -26,7 +27,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 await this.deleteCardActivityAsync(context);
                 break;
             case 'MessageAllMembers':
-                await this.messageAllMemebersAsync(context);
+                await this.messageAllMembersAsync(context);
                 break;
             default:
                 const value = { count: 0 };
@@ -65,11 +66,11 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async mentionActivityAsync(context) {
         const mention = {
             mentioned: context.activity.from,
-            text: `<at>${ context.activity.from.name }</at>`,
+            text: `<at>${ new TextEncoder().encode(context.activity.from.name) }</at>`,
             type: 'mention'
         };
 
-        const replyActivity = MessageFactory.text(mention.text);
+        const replyActivity = MessageFactory.text(`Hi ${ mention.text }`);
         replyActivity.entities = [mention];
         await context.sendActivity(replyActivity);
     }
@@ -111,7 +112,9 @@ class TeamsConversationBot extends TeamsActivityHandler {
         await context.deleteActivity(context.activity.replyToId);
     }
 
-    async messageAllMemebersAsync(context) {
+    // If you encounter permission-related errors when sending this message, see
+    // https://aka.ms/BotTrustServiceUrl
+    async messageAllMembersAsync(context) {
         const members = await TeamsInfo.getMembers(context);
 
         members.forEach(async (teamMember) => {

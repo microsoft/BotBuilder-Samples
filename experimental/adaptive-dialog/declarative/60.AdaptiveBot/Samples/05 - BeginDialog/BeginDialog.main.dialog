@@ -1,8 +1,8 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
+    "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": {
-        "$type": "Microsoft.RegexRecognizer",
+        "$kind": "Microsoft.RegexRecognizer",
         "intents": [
             {
                 "intent": "JokeIntent",
@@ -20,61 +20,61 @@
     },
     "triggers": [
         {
-            "$type": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnUnknownIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.IfCondition",
+                    "$kind": "Microsoft.IfCondition",
                     "condition": "user.name == null",
                     "actions": [
                         {
-                            "$type": "Microsoft.TextInput",
+                            "$kind": "Microsoft.TextInput",
                             "property": "user.name",
                             "prompt": "Hello, I'm Zoidberg. What is your name?"
                         }
                     ]
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
-                    "activity": "Hello {user.name}, nice to talk to you!"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Hello @{user.name}, nice to talk to you!"
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]
         },
         {
-            "$type": "Microsoft.OnIntent",
+            "$kind": "Microsoft.OnIntent",
             "intent": "JokeIntent",
             "actions": [
                 "BeginDialog.TellJokeDialog"
             ]
         },
         {
-            "$type": "Microsoft.OnIntent",
+            "$kind": "Microsoft.OnIntent",
             "intent": "FortuneTellerIntent",
             "actions": [
                 "BeginDialog.FortuneTellerDialog"
             ]
         },
         {
-            "$type":"Microsoft.OnIntent",
+            "$kind":"Microsoft.OnIntent",
             "intent": "CancelIntent",
             "actions":[
                 {
-                    "$type":"Microsoft.SendActivity",
+                    "$kind":"Microsoft.SendActivity",
                     "activity":"OK, see ya"
                 },
                 {
-                    "$type":"Microsoft.EndDialog"
+                    "$kind":"Microsoft.EndDialog"
                 }
             ]
         },
         {
-            "$type": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnUnknownIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]

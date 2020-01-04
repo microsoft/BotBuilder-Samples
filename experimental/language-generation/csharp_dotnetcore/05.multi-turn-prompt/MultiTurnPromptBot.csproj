@@ -18,12 +18,11 @@
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.6.0-preview2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.6.0-preview2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.6.0-preview2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.6.0-preview2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration.Templates" Version="4.6.0-preview-191009-2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.6.0-preview2" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.7.0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.7.0-preview" />
   </ItemGroup>
 
 </Project>

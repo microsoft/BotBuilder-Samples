@@ -18,9 +18,10 @@ namespace Microsoft.BotBuilderSamples
                 // Log any leaked exception from the application.
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
-                // Send a message to the user
-                await turnContext.SendActivityAsync("The bot encounted an error or bug.");
-                await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
+                // Note: Since this Messaging Extension does not have the messageTeamMembers permission
+                // in the manifest, the bot will not be allowed to message users.
+                // await turnContext.SendActivityAsync("The bot encountered an error or bug.");
+                // await turnContext.SendActivityAsync("To continue to run this bot, please fix the bot source code.");
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");

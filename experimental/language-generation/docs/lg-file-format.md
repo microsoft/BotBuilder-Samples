@@ -103,7 +103,7 @@ Here's how you can specify SWITCH ... CASE block in LG.
 
 ```markdown
 # TestTemplate
-SWITCH: @{condition}
+- SWITCH: @{condition}
 - CASE: @{case-expression-1}
     - output1
 - CASE: @{case-expression-2}
@@ -117,7 +117,7 @@ Here's an example:
 ```markdown
 > Note: any of the cases can include reference to one or more templates
 # greetInAWeek
-SWITCH: @{dayOfWeek(utcNow())}
+- SWITCH: @{dayOfWeek(utcNow())}
 - CASE: @{0}
     - Happy Sunday!
 -CASE: @{6}
@@ -131,7 +131,7 @@ Structured response template enable you to define a complex structure that suppo
 For bot applications, we will natively support ability to - 
 - activity definition
 - card definition
-- any [chatdown][1] style constructs
+- any [chatdown][12] style constructs
 
 See [here](./structured-response-template.md) to learn more.
 # Template composition and expansion
@@ -195,7 +195,7 @@ The above example uses the [join][5] pre-built function to list all values in th
 
 If template name is the same with builtin function's name, template will be executed first, without automatically executing one according to the parameter variable. 
 
-In case where you must have the template name be the same as a prebuilt function name, you can use `builtin.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
+In case where you must have the template name be the same as a prebuilt function name, you can use `prebuilt.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
 
 Here is an example that illustrates that
 
@@ -210,7 +210,7 @@ Here is an example that illustrates that
 
 # mufunc2
 > builtin function 'length' would be called, and output 2
-- @{builtin.length('hi')}
+- @{prebuilt.length('hi')}
 ```
 ## Multi-line text in variations
 Each one-of variation can include multi-line text enclosed in ```...```. 
@@ -326,3 +326,5 @@ Note: All templates defined in the target file will be pulled in. So please ensu
 [9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
+[12]:https://github.com/microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
+

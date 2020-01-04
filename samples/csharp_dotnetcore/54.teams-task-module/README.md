@@ -1,96 +1,62 @@
-﻿# TeamsTaskModuleBot
+﻿# Teams Task Module
 
-Bot Framework v4 Teams Task Module sample.
+Bot Framework Teams Task Module sample.
 
-This Bot was created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple Task Module from an Adaptive Card button click.
+This bot has been created using [Bot Framework](https://dev.botframework.com). It shows how to fetch a Task Module from a Hero Card button and receive input from an Adaptive Card in the Task Module.
 
 ## Prerequisites
 
-
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
-  
 - Microsoft Teams is installed and you have an account
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
-### Clone the repo
-- Clone the repository
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
+the Teams service needs to call into the bot.
+
+1) Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-### Ngrok
-- Download and install [ngrok](https://ngrok.com/download)
-- In terminal navigate to where ngrok is installed and run: 
+1) If you are using Visual Studio
+    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
+    - Set the Startup Project to `TeamsTaskModule`
+    - The changes specified here will apply to this project
 
-```bash
-ngrok http -host-header=rewrite 3978
-```
-- Copy/paste the ```https``` **NOT** the ```http``` web address into notepad as you will need it later
+1) Run ngrok - point to port 3978
 
-### Creating the bot registration
-- Create a new bot [here](https://dev.botframework.com/bots/new)
-- Enter a```Display name``` and ```Bot handle```
-- In the ```Messaging endpoint``` enter the https address from Ngrok and add ```/api/messages``` to the end
-  - EX: ```https://7d899fbb.ngrok.io/api/messages``` 
-- Open the ```Create Microsoft App ID and password``` link in a new tab
-- Click on the ```New registration``` button 
-- Enter a name, and select the ```Accounts in any organizational directory (Any Azure AD directory - Multitenant) and personal Microsoft accounts (e.g. Skype, Xbox)```
-- Click ```Register```
-- Copy & paste the ```Application (client) ID``` field into notepad. This is your botID.
-- Click on ```Certificates & secrets``` tab on the left
-- Click ```New client secret```
-- Enter a name, select `Never`, and click ```Add```
-- Copy & paste the password into notepad. This is your app password.
-- Go back to the bot registration tab and enter the ```botID``` into the app ID field
-- Scroll down, agree to the Terms, and click ```Register```
-- Click the ```Microsoft Teams``` icon on the next screen
-- Click ```Save```
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 
-### Visual Studio
-- Launch Visual Studio
-- Navigate to and open the `samples/csharp_dotnet/54.teams-task-module` directory
-- Open the ```appsettings.json``` file
-- Paste your botID value into the ```MicrosoftAppId``` field 
-- Put the password into the ```MicrosoftAppPassword``` field
-- Save the file
-- Open the ```manifest.json```
-- Replace your botID everywhere you see the place holder string ```<YOUR-BOT-ID>```
+1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
+1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
-- Run the bot:
+1) __*This step is specific to Teams.*__
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
+    - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
+    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
- A) From a terminal
+1) Run your bot, either from Visual Studio with `F5` or using `dotnet run` in the appropriate folder.
 
-  ```bash
-  # run the bot
-  dotnet run
-  ```
+## Interacting with the bot in Teams
 
-  B) Or from Visual Studio
+> Note this `manifest.json` specified that the bot will be installed in "personal", "team" and "groupchat" scope which is why you immediately entered a one on one chat conversation with the bot. You can at mention the bot in a group chat or in a Channel in the Team you installed it in. Please refer to Teams documentation for more details.
 
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/54.teams-task-module` folder
-  - Select `TeamsTaskModule.csproj` file
-  - Press `F5` to run the project
+You can interact with this bot by sending it a message. The bot will respond with a Hero Card with a button which will display a Task Module when clicked.  The Task Module demonstrates retrieving input from a user through a Text Block and a Submit button.
 
-### Teams - App Studio
-- Launch Microsoft Teams
-- In the bar at the top of Teams search for and select ```App Studio``` 
-- Click the ```Manifest editor``` tab
-- Click ```Import an existing app```
-- Navigate to and select the `manifest.json` file from the previous step
-- Click on the `Task Module` card
-- Click ```Test and distribute``` on the left hand side
-- Click the ```Install``` button
-- Click ```Add``` button
+## Deploy the bot to Azure
 
-### Interacting with the Bot
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-Message the bot, and click the Adaptive Card button to show a Task Module.
+## Further reading
+
+- [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)
+

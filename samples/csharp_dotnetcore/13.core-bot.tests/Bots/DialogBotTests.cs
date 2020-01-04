@@ -43,7 +43,7 @@ namespace CoreBot.Tests.Bots
                     It.IsAny<EventId>(),
                     It.Is<object>(o => o.ToString() == "Running dialog with Message Activity."),
                     null,
-                    It.IsAny<Func<object, Exception, string>>()),
+                    (Func<object, Exception, string>)It.IsAny<object>()),
                 Times.Once);
         }
 
