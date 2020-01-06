@@ -85,7 +85,7 @@ namespace Microsoft.BotBuilderSamples
                                 Style = ListStyle.List,
                                 Choices = new ChoiceSet(dialogChoices)
                             },
-                            new SendActivity("# Running {conversation.dialogChoice}.main.dialog"),
+                            new SendActivity("# Running @{conversation.dialogChoice}.main.dialog"),
                             new SwitchCondition(){
                                 Condition = "conversation.dialogChoice",
                                 Cases = dialogCases

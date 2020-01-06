@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCardsBot", "07.usin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuggestedActionsBot", "08.suggested-actions\SuggestedActionsBot.csproj", "{9C70CB81-4403-41B8-ABB8-72497061DDB0}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{E8A19507-8EB5-4B37-B592-AB8316283A6F}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot", "13.core-bot\CoreBot.csproj", "{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Dispatch-Bot", "14.nlp-with-dispatch\NLP-With-Dispatch-Bot.csproj", "{C1709610-3DEC-457F-B6CA-227F7E7DAC63}"
@@ -88,6 +90,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoSkillBot", "80.skills-s
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRootBot", "80.skills-simple-bot-to-bot\SimpleRootBot\SimpleRootBot.csproj", "{13406183-D1CB-4C2E-A3A6-95559CFB922F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "61.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -118,6 +122,10 @@ Global
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -254,6 +262,10 @@ Global
 		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{13406183-D1CB-4C2E-A3A6-95559CFB922F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
