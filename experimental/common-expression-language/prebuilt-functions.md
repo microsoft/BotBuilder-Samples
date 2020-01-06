@@ -49,7 +49,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
 |[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
 |[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
-
+|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
 
 ### Logical comparison functions
 |Function	|Explanation|
@@ -1818,6 +1818,81 @@ indexOf('hello world', 'world')
 ```
 
 And returns this result: `6`
+
+<a name="indicesAndValues"></a>
+
+### indicesAndValues
+
+Turned an array into an array of objects with index (current index) and value property.
+
+```
+indicesAndValues('<collection>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | Original array |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*collection*> | Array | New array that each item has two properties, one is index, present this item's origin index, the other one is value |
+||||
+
+*Example*
+
+Suppose there is a list { items: ["zero", "one", "two"] }
+
+```
+indicesAndValues(items)
+```
+
+returns a new list:
+```
+[
+  {
+    index: 0,
+    value: 'zero'
+  },
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+second example:
+
+```
+where(indicesAndValues(items), elt, elt.index >= 1)
+```
+
+And returns a new list: 
+```
+[
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+Another example, with the same list `items`.
+
+```
+join(foreach(indicesAndValues(items), item, item.value), ',')
+```
+
+will return `zero,one,two`, and this expression has the same effect with `join(items, ',')`
+
 
 <a name="int"></a>
 

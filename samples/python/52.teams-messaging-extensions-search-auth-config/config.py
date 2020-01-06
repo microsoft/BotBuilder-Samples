@@ -12,4 +12,4 @@ class DefaultConfig:
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
     CONNECTION_NAME = os.environ.get("ConnectionName", "")
-    SITE_URL = os.environ.get("SiteUrl", "https://xxxx.ngrok.io")
+    SITE_URL = os.environ.get("SiteUrl", "https://xxxxxxxx.ngrok.io")

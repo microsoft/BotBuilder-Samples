@@ -1,5 +1,5 @@
 {
-  "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
   "$id": "DialogSkillBot",
   "name": "Skill bot with dialogs",
   "version": "1.0",
