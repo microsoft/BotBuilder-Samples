@@ -1,17 +1,17 @@
 {
   "$schema": "../../app.schema",
-  "$type": "Microsoft.AdaptiveDialog",
+  "$kind": "Microsoft.AdaptiveDialog",
   "triggers": [
     {
-      "$type": "Microsoft.OnBeginDialog",
+      "$kind": "Microsoft.OnBeginDialog",
       "actions": [
         {
-          "$type": "Microsoft.TextInput",
+          "$kind": "Microsoft.TextInput",
           "prompt": "Why did the chicken cross the road?",
           "property": "turn.userReply"
         },
         {
-          "$type": "Microsoft.SendActivity",
+          "$kind": "Microsoft.SendActivity",
           "activity": "To get to the other side"
         }
       ]

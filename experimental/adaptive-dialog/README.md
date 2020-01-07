@@ -1,6 +1,6 @@
 # Adaptive Dialog *[Preview]*
 
-> See [here](#Change-Log) for what's new in **4.6 PREVIEW 2** release.
+> See [here](#Change-Log) for what's new in **4.7 PREVIEW** release.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -45,6 +45,12 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
+### 4.7 PREVIEW
+- \[**New\] Language Generation integration has been refactored to work better with Adaptive dialogs.
+- \[**BREAKING CHANGES**\]
+    - Declarative schema for all components has been updated to now refer to `$type` -> `$kind`.
+    - `ActivityBuilder.GenerateFromLG` has been removed and replaced with `ActivityFactory.CreateActivity`
+    - Expressions now require to be prefixed with `@`. Refer to [Language generation][32] to learn more
 ### 4.6 PREVIEW 2
 - \[**New\] Adaptive dialogs have been merged into `botbuilder-dotnet` master branch and now is built on top of the core SDK.
 - \[**New\] RegexRecognizer now supports entity extractors. See [here][31] for supported entity recognizers.
@@ -92,3 +98,4 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [19]:./declarative/60.AdaptiveBot/
 [30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs
 [31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
+[32]:../language-generation/README.md#4.7-PREVIEW
