@@ -1004,11 +1004,11 @@ Use this to make HTTP requests to any endpoint.
 new HttpRequest()
 {
     // Set response from the http request to turn.httpResponse property in memory.
-    Property = "turn.httpResponse",
+    ResultProperty = "turn.httpResponse",
     Method = HttpRequest.HttpMethod.POST,
     Header = new Dictionary<string,string> (), /* request header */
     Body = { }                                 /* request body */
-}); 
+}; 
 ```
 ### TraceActivity
 Sends a trace activity with a payload you specify. 
