@@ -54,6 +54,10 @@ Here's an example of text with suggested action
     Text = @{GetAge()}
     SuggestedActions = 10 | 20 | 30
 ]
+
+# GetAge
+- how old are you?
+- what is your age?
 ```
 
 Here's an example of a Hero card definition
@@ -64,15 +68,9 @@ Here's an example of a Hero card definition
     title = @{params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
-> @{templateName()} always returns only one resolution from the template.
-> all(templateName) returns a list of all resolutions from the template.(TODO)
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 Here is a richer example that puts them all together including a hero card can be defined as below
@@ -96,13 +94,9 @@ Here is a richer example that puts them all together including a hero card can b
     title = @{params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 By default any template reference is evaluated once during evaluation of a structured template. 
@@ -157,13 +151,9 @@ Some times you might want to come back with a carousel of cards. Here's an examp
     title = @{title}
     subtitle = @{subtitle}
     text = @{text}
-    images = @{all(HeroImages)}
+    images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
-
-# HeroImages
-- https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
-- https://sec.ch9.ms/ch9/buildreactionbotframework_akajhsdi7_.jpg
 ```
 
 Use of '|' will make a definition a list. You can use '\\' as the escape character
@@ -285,7 +275,6 @@ Note that this style of composition can only exists at the root level. If there 
 
 # external file reference in Attachment structured
 
-add two builtin LG functions: `fromFile` and `ActivityAttachment`
 1. fromFile(fileAbsoluteOrRelativePath) prebuilt function that can load a file specified. Content returned by this function will support evaluation of content. Template references and properties/ expressions are evaluated.
 2. ActivityAttachment(content, contentType) prebuilt function that can set the ‘contentType’ if it is not already specified in content). ContentType can be one of the types here.
  

@@ -11,8 +11,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
-
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
@@ -24,7 +23,6 @@ namespace Microsoft.BotBuilderSamples
         {
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.Use(new RegisterClassMiddleware<IActivityGenerator>(new ActivityBuilder()));
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712));
 
             string[] paths = { ".", "AdapterWithErrorHandler.lg" };
@@ -37,7 +35,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(ActivityBuilder.GenerateFromLG(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception)));
+                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception).ToString()));
 
                 if (conversationState != null)
                 {
