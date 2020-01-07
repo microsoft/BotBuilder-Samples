@@ -14,6 +14,7 @@ from botbuilder.core import (
     TurnContext,
     BotFrameworkAdapter,
 )
+from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes, ConversationReference
 
 from bots import ProactiveBot
@@ -81,22 +82,16 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    try:
-        response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
-        if response:
-            return json_response(data=response.body, status=response.status)
-        return Response(status=201)
-    except Exception as exception:
-        raise exception
+    response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+    if response:
+        return json_response(data=response.body, status=response.status)
+    return Response(status=201)
 
 
 # Listen for requests on /api/notify, and send a messages to all conversation members.
 async def notify(req: Request) -> Response:  # pylint: disable=unused-argument
-    try:
-        await _send_proactive_message()
-        return Response(status=201, text="Proactive messages have been sent")
-    except Exception as exception:
-        raise exception
+    await _send_proactive_message()
+    return Response(status=201, text="Proactive messages have been sent")
 
 
 # Send a message to all conversation members.
@@ -110,7 +105,7 @@ async def _send_proactive_message():
         )
 
 
-APP = web.Application()
+APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
 APP.router.add_get("/api/notify", notify)
 
