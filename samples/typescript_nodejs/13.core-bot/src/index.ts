@@ -33,7 +33,7 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -53,6 +53,9 @@ adapter.onTurnError = async (context, error) => {
     // Clear out state
     await conversationState.delete(context);
 };
+
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
@@ -92,5 +95,22 @@ server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // route to bot activity handler.
         await bot.run(turnContext);
+    });
+});
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
+        await bot.run(context);
     });
 });

@@ -131,7 +131,7 @@ Structured response template enable you to define a complex structure that suppo
 For bot applications, we will natively support ability to - 
 - activity definition
 - card definition
-- any [chatdown][1] style constructs
+- any [chatdown][12] style constructs
 
 See [here](./structured-response-template.md) to learn more.
 # Template composition and expansion
@@ -326,3 +326,5 @@ Note: All templates defined in the target file will be pulled in. So please ensu
 [9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
+[12]:https://github.com/microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
+

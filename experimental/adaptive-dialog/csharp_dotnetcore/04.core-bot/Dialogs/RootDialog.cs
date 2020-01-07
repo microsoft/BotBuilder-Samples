@@ -211,7 +211,8 @@ namespace Microsoft.BotBuilderSamples
                 "https://" + configuration["LuisAPIHostName"]
             );
 
-            return new LuisRecognizer(luisApplication);
+            var luisRecognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
+            return new LuisRecognizer(luisRecognizerOptions);
         }
     }
 }
