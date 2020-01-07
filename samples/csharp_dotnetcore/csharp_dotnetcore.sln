@@ -77,6 +77,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAllFeatures", "49.qna
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TwilioAdapterBot", "63.twilio-adapter\TwilioAdapterBot.csproj", "{F0381EE9-0F35-4D16-AD95-AD69FC26D59B}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebexAdapterBot", "62.webex-adapter\WebexAdapterBot.csproj", "{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlackAdapterBot", "60.slack-adapter\SlackAdapterBot.csproj", "{34FC5666-6658-4A08-A6A7-72C95CFD935A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
@@ -254,6 +256,10 @@ Global
 		{F0381EE9-0F35-4D16-AD95-AD69FC26D59B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F0381EE9-0F35-4D16-AD95-AD69FC26D59B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F0381EE9-0F35-4D16-AD95-AD69FC26D59B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BD3BD1A-648E-4BC1-8C4A-D3CE00424D6B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Release|Any CPU.ActiveCfg = Release|Any CPU
