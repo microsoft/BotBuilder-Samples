@@ -25,7 +25,7 @@ from botframework.connector.auth import (
     AuthenticationConfiguration,
     SimpleCredentialProvider,
 )
-
+from skill_http_client import SkillHttpClient
 from skill_conversation_id_factory import SkillConversationIdFactory
 from authentication import AllowedSkillsClaimsValidator
 from bots import RootBot
@@ -33,9 +33,8 @@ from config import DefaultConfig, SkillConfiguration
 
 CONFIG = DefaultConfig()
 SKILL_CONFIG = SkillConfiguration()
-CREDENTIAL_PROVIDER = SimpleCredentialProvider(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
-CLIENT = BotFrameworkHttpClient(CREDENTIAL_PROVIDER)
 
+# Whitelist skills from SKILL_CONFIG
 ALLOWED_CALLER_IDS = frozenset([s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]])
 CLAIMS_VALIDATOR = AllowedSkillsClaimsValidator(ALLOWED_CALLER_IDS)
 AUTH_CONFIG = AuthenticationConfiguration(
@@ -54,7 +53,8 @@ STORAGE = MemoryStorage()
 
 CONVERSATION_STATE = ConversationState(STORAGE)
 ID_FACTORY = SkillConversationIdFactory(STORAGE)
-
+CREDENTIAL_PROVIDER = SimpleCredentialProvider(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
+CLIENT = SkillHttpClient(CREDENTIAL_PROVIDER, ID_FACTORY)
 
 # Catch-all for errors.
 async def on_error(context: TurnContext, error: Exception):
@@ -87,12 +87,11 @@ async def on_error(context: TurnContext, error: Exception):
 ADAPTER.on_turn_error = on_error
 
 # Create the Bot
-BOT = RootBot(CONVERSATION_STATE, SKILL_CONFIG, ID_FACTORY, CLIENT, CONFIG)
+BOT = RootBot(CONVERSATION_STATE, SKILL_CONFIG, CLIENT, CONFIG)
 
 SKILL_HANDLER = SkillHandler(
     ADAPTER, BOT, ID_FACTORY, CREDENTIAL_PROVIDER, AuthenticationConfiguration()
 )
-
 
 # Listen for incoming requests on /api/messages
 async def messages(req: Request) -> Response:
