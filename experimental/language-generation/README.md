@@ -87,6 +87,47 @@ For NodeJS
     await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
 
+If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
+For C#
+
+```c#
+    var results = lgEngine.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+```
+
+For NodeJS
+
+```typescript
+    const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+```
+
+ExpandTemplate would return all the result. now only get the rendom item from all template bodys.
+For example:
+
+```
+# Greeting
+- Hi
+- Hello
+
+#TimeOfDay
+- Morning
+- Evening
+
+# FinalGreeting
+- @{Greeting()} @{TimeOfDay()}
+
+# TimeOfDayWithCondition
+- IF: @{time == 'morning'}
+    - @{Greeting()} Morning
+- ELSEIF: @{time == 'evening'}
+    - @{Greeting()} Evening
+- ELSE:
+    - @{Greeting()} Afternoon
+```
+
+If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
+
+If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
+
 ## Multi-lingual generation and language fallback policy
 Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
 
