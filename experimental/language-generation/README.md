@@ -100,7 +100,7 @@ For NodeJS
     const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
-ExpandTemplate would return all the result. now only get the rendom item from all template bodys.
+`ExpandTemplate` would return all the result. now only get the rendom item from all template bodys.
 For example:
 
 ```
