@@ -20,10 +20,10 @@ class SkillHttpClient(BotFrameworkHttpClient):
         credential_provider: SimpleCredentialProvider,
         skill_conversation_id_factory: SkillConversationIdFactory,
     ):
-        BotFrameworkHttpClient.__init__(self, credential_provider)
-
         if not skill_conversation_id_factory:
             raise TypeError("skill_conversation_id_factory can't be None")
+
+        super().__init__(credential_provider)
 
         self._skill_conversation_id_factory = skill_conversation_id_factory
 

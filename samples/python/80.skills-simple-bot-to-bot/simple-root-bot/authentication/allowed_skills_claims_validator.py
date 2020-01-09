@@ -10,7 +10,7 @@ class AllowedSkillsClaimsValidator:
     that requests are coming from allowed skills.
     """
 
-    def __init__(self, allowed_callers: frozenset):
+    def __init__(self, allowed_callers: set):
         self.allowed_callers = allowed_callers
 
     # Check AppIds for the configured callers (we will only allow responses from skills we have configured).

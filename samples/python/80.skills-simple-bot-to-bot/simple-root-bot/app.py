@@ -19,7 +19,7 @@ from botbuilder.core.integration import (
     aiohttp_channel_service_routes,
     aiohttp_error_middleware,
 )
-from botbuilder.core.skills import SkillHandler  # SkillConversationIdFactory
+from botbuilder.core.skills import SkillHandler
 from botbuilder.schema import Activity, ActivityTypes
 from botframework.connector.auth import (
     AuthenticationConfiguration,
@@ -35,7 +35,7 @@ CONFIG = DefaultConfig()
 SKILL_CONFIG = SkillConfiguration()
 
 # Whitelist skills from SKILL_CONFIG
-ALLOWED_CALLER_IDS = frozenset([s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]])
+ALLOWED_CALLER_IDS = set([s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]])
 CLAIMS_VALIDATOR = AllowedSkillsClaimsValidator(ALLOWED_CALLER_IDS)
 AUTH_CONFIG = AuthenticationConfiguration(
     claims_validator=CLAIMS_VALIDATOR.validate_claims
