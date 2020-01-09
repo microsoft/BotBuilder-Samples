@@ -26,5 +26,11 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
                 await turnContext.SendActivityAsync(MessageFactory.Text("Say \"end\" or \"stop\" and I'll end the conversation and back to the parent."), cancellationToken);
             }
         }
+
+        protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var eocActivityMessage = $"Echo (dotnet): Received {ActivityTypes.EndOfConversation}, Code: {turnContext.Activity.Code}";
+            await turnContext.SendActivityAsync(MessageFactory.Text(eocActivityMessage), cancellationToken);
+        }
     }
 }
