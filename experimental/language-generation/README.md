@@ -87,6 +87,15 @@ For NodeJS
     await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
 
+## Multi-lingual generation and language fallback policy
+Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
+
+## Grammar check and correction
+
+The current library does not include any capabilities for grammar check or correction.
+
+## Expand api
+
 If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
 For C#
 
@@ -100,7 +109,6 @@ For NodeJS
     const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
-`ExpandTemplate` would return all the result. now only get the rendom item from all template bodys.
 For example:
 
 ```
@@ -127,13 +135,6 @@ For example:
 If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
 
 If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
-
-## Multi-lingual generation and language fallback policy
-Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
-
-## Grammar check and correction
-
-The current library does not include any capabilities for grammar check or correction.
 
 ## Packages
 Latest preview packages are available here
