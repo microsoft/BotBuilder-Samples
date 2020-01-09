@@ -54,7 +54,6 @@ class RootBot(ActivityHandler):
             # will have access to current accurate state.
             await self._conversation_state.save_changes(turn_context, force=True)
 
-            # from_bot_id: str, to_skill: BotFrameworkSkill, service_url: str, activity: Activity
             # route activity to the skill
             await self._skill_client.post_activity(
                 self._bot_id,
