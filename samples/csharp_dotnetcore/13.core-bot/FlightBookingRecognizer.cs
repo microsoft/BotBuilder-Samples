@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
                 // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
                 var recognizerOptions = new LuisRecognizerOptionsV3(luisApplication)
                 {
-                    PredictionOptions = new Bot.Builder.AI.LuisV3.LuisPredictionOptions()
+                    PredictionOptions = new Bot.Builder.AI.LuisV3.LuisPredictionOptions
                     {
                         IncludeInstanceData = true,
                     }
