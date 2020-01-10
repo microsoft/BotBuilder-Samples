@@ -22,7 +22,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |2.echo-bot             | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |[View][py#2]
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | |[View][ts#3] |[View][py#3]
 |5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             |[View][ts#5] |[View][py#5]
-|6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             | |[View][py#6]
+|6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             |[View][ts#6] |[View][py#6]
 |7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |[View][py#7]
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |[View][py#8]
 |11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
@@ -103,6 +103,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [ts#2]:samples/typescript_nodejs/02.echo-bot
 [ts#3]:samples/typescript_nodejs/03.welcome-users
 [ts#5]:samples/typescript_nodejs/05.multi-turn-prompt
+[ts#6]:samples/typescript_nodejs/06.using-cards
 [ts#13]:samples/typescript_nodejs/13.core-bot
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
