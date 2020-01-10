@@ -2,14 +2,14 @@
 // Licensed under the MIT License.
 
 // Import required Bot Framework classes.
-import { ActionTypes, ActivityHandler, CardFactory, UserState, StatePropertyAccessor, TurnContext } from 'botbuilder';
+import { ActionTypes, ActivityHandler, CardFactory, StatePropertyAccessor, TurnContext, UserState } from 'botbuilder';
 
 // Welcomed User property name
 const WELCOMED_USER = 'welcomedUserProperty';
 
 export class WelcomeBot extends ActivityHandler {
-    welcomedUserProperty: StatePropertyAccessor<boolean>;
-    userState: UserState;
+    private welcomedUserProperty: StatePropertyAccessor<boolean>;
+    private userState: UserState;
     /**
      *
      * @param {UserState} User state to persist boolean flag to indicate
@@ -75,7 +75,7 @@ export class WelcomeBot extends ActivityHandler {
                 // bot was added to the conversation, and the opposite indicates this is a user.
                 if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
                     await context.sendActivity('Welcome to the \'Welcome User\' Bot. This bot will introduce you to welcoming and greeting users.');
-                    await context.sendActivity("You are seeing this message because the bot received at least one 'ConversationUpdate' " +
+                    await context.sendActivity(`You are seeing this message because the bot received at least one 'ConversationUpdate' ` +
                         'event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
                         'pressing the \'Start Over\' button to trigger this event again. The specifics of the \'ConversationUpdate\' ' +
                         'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');
@@ -90,25 +90,25 @@ export class WelcomeBot extends ActivityHandler {
         });
     }
 
-    async sendIntroCard(context: TurnContext) {
+    private async sendIntroCard(context: TurnContext) {
         const card = CardFactory.heroCard(
             'Welcome to Bot Framework!',
             'Welcome to Welcome Users bot sample! This Introduction card is a great way to introduce your Bot to the user and suggest some things to get them started. We use this opportunity to recommend a few next steps for learning more creating and deploying bots.',
             ['https://aka.ms/bf-welcome-card-image'],
             [
                 {
-                    type: ActionTypes.OpenUrl,
                     title: 'Get an overview',
+                    type: ActionTypes.OpenUrl,
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0'
                 },
                 {
-                    type: ActionTypes.OpenUrl,
                     title: 'Ask a question',
+                    type: ActionTypes.OpenUrl,
                     value: 'https://stackoverflow.com/questions/tagged/botframework'
                 },
                 {
-                    type: ActionTypes.OpenUrl,
                     title: 'Learn how to deploy',
+                    type: ActionTypes.OpenUrl,
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0'
                 }
             ]
@@ -117,4 +117,3 @@ export class WelcomeBot extends ActivityHandler {
         await context.sendActivity({ attachments: [card] });
     }
 }
-
