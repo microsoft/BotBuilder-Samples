@@ -8,27 +8,47 @@ Dialogs are a central concept in the Bot Framework SDK, and provide a way to man
 
 The new **Adaptive dialog** is a new way to model conversations that takes the best of waterfall dialogs and prompts and simplifies sophisticated conversation modelling primitives like building a dialog dispatcher and ability to handle interruptions elegantly. The new **Adaptive dialog** and the event model simplify sophisticated conversation modelling primitives, eliminate much of the boiler plate code and helps you focus on the model of the conversation rather than the mechanics of dialog management. An Adaptive dialog is a derivative of a Dialog and interacts with the rest of the SDK dialog system.
 
-## Getting started
-To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
-1. [Why Adaptive dialog?](#Why-Adaptive-Dialog)
-2. [New memory model overview][6]
-3. [Adaptive dialogs - anatomy][7]
-4. [Adaptive dialogs - runtime behavior][8]
-5. [Recognizers, Generators, Triggers and Actions - references][9]
-6. [Language generation][17]
-6. [Debugging Adaptive Dialog][10]
-7. [Declarative Adaptive Dialog][19]
-8. [Packages](#Packages-and-source-code)
-9. [Reporting issues](#Reporting-issues)
-10. [Change Log](#change-log)
-
-## Why Adaptive dialog?
 We set out with the following goals for Adaptive dialogs - 
 * It enables you to think and model conversations as a sequence of steps but allows for rules to **dynamically adjust to context** - especially when users do not provide requested information in order, want to start a new conversation about something else while they are in the middle of an active dialog, etc. 
 * It supports and sits on top of a **rich event system** for dialogs and so modelling interruptions, cancellation and execution planning semantics are lot easier to describe and manage.
 * It brings input recognition, event handling via rules, model of the conversation (dialog) and output generation into one **cohesive, self-contained** unit. 
 * It supports **extensibility** points for recognition, event rules and machine learning.
 * It was designed to be **declarative** from the start
+
+To get started, you can check out the various samples [here][5]. The following are additional documents to help you get oriented with some of the new concept introduced with Adaptive dialogs:  
+1. [Quick Start](#Quick-Start)
+2. [New memory model overview][6]
+3. [Adaptive dialogs - anatomy][7]
+4. [Adaptive dialogs - runtime behavior][8]
+5. [Recognizers, Generators, Triggers and Actions - references][9]
+6. [Language generation][17]
+7. [Debugging Adaptive Dialog][10]
+8. [Declarative Adaptive Dialog][19]
+9. [Generating Dialogs from Schemas][33]
+10. [Packages](#Packages-and-source-code)
+11. [Reporting issues](#Reporting-issues)
+12. [Change Log](#change-log)
+
+## Quick Start
+This section describes how to quickly setup the latest [composer](https://github.com/Microsoft/BotFramework-Composer), [bf cli tool](https://github.com/microsoft/botframework-cli) and [.net SDK](https://github.com/microsoft/BotBuilder-dotnet).  If you do not use the myget feed, you will get the latest published versions instead.
+
+1. Install the Composer. 
+   1. `git clone https://github.com/microsoft/BotFramework-Composer.git`
+   2. `cd Composer`
+   3. `yarn`
+   4. `yarn build`
+   5. `yarn startall`
+2. This is enough to build and test bots with composer, but it is useful to have the cli tool bf from the [myget](https://botbuilder.myget.org/gallery) feed.  The tool supports lots of Bot Framework commands including the ability to create custom runtimes or generate dialogs from JSON schema.
+   1.  `npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/`
+   2.  `npm install -g @microsoft/botframework-cli`
+   3.  `npm config set registry https://registry.npmjs.org/`
+3. If you also want to create a custom runtime you will need to add add references to the latest .net SDK.
+   1. `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`
+   2. Start Visual Studio, create your project and add references to the SDK features you need.  
+      1. `Microsoft.Bot.Builder.Adaptive` for adaptive dialog support.
+      2. `Microsoft.Bot.Builder.Declarative` if you want support for declarative dialogs.
+      3. You can also install the [Visual studio code debugger extension][18] to help debug declarative dialogs.
+      4. If you want to edit .dialog files directly Visual Studio Code works better than Visual Studio because it provides Intellisense and schema error checking.
 
 ## Packages and source code
 Packages for C# are available on [BotBuilder MyGet][14]. We will update this section once packages for JS is available.
@@ -99,3 +119,4 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [30]:./csharp_dotnetcore/todo-bot/Bots/DialogBot.cs
 [31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
 [32]:../language-generation/README.md#4.7-PREVIEW
+[33]:./docs/generating-dialogs.md
