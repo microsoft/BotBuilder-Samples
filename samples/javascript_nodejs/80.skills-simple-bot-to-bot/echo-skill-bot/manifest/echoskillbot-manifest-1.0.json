@@ -1,0 +1,25 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "EchoSkillBot",
+  "name": "Echo Skill bot",
+  "version": "1.0",
+  "description": "This is a sample echo skill",
+  "publisherName": "Microsoft",
+  "privacyUrl": "https://echoskillbot.contoso.com/privacy.html",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "iconUrl": "https://echoskillbot.contoso.com/icon.png",
+  "tags": [
+    "sample",
+    "echo"
+  ],
+  "endpoints": [
+    {
+      "name": "default",
+      "protocol": "BotFrameworkV3",
+      "description": "Default endpoint for the skill",
+      "endpointUrl": "http://echoskillbot.contoso.com/api/messages",
+      "msAppId": "00000000-0000-0000-0000-000000000000"
+    }
+  ]
+}

@@ -16,6 +16,8 @@ Each sample contains a reference to the backing GitHub issue(s) that frames the 
 
 The samples found in this folder are experimental, do not necessarily relate to one another, are stand-alone, and are not meant to be viewed in any particular order.  None of the samples in the **experimental** folder should be used with bots running in a production environment.
 
+Experimental samples written in C# may have dependencies on assemblies pushed on the team's daily build feed.  To understand how to use assemblies from the daily build feed refer to [Using MyGet to consume daily builds](https://github.com/microsoft/botbuilder-dotnet/blob/master/UsingMyGet.md) for further instructions.
+
 
 
 ## Experimental samples list
@@ -26,7 +28,6 @@ Experimental samples are organized per platform.
 | Sample Name           | Description                                                                    | .NET CORE   | NodeJS      | .NET Web API | Typescript  |
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|
 |multilingual-luis-bot| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 |[View][cs#1] |  |  | [View][ts#1] |
-|qnamaker-activelearning-bot| This sample shows how to integrate Active Learning in a QnA Maker bot.                                                                                                 |[View][cs#2] | [View][js#1]|  |  |
 
 [cs#1]: ./csharp_dotnetcore/multilingual-luis-bot
 

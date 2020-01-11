@@ -19,18 +19,22 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "~4.4.0",
-        "botbuilder-ai": "~4.4.0",
-        "botbuilder-dialogs": "~4.4.0",
-        "dotenv": "^7.0.0",
-        "replace": "~1.1.0",
-        "restify": "~8.2.0"
+        "botbuilder": "~4.7.0",
+        "botbuilder-ai": "~4.7.0",
+        "botbuilder-dialogs": "~4.7.0",
+        "dotenv": "^8.2.0",
+        "replace": "~1.1.1",
+        "restify": "~8.4.0"
     },
     "devDependencies": {
-        "@types/dotenv": "6.1.0",
-        "@types/restify": "7.2.9",
-        "nodemon": "~1.18.10",
-        "tslint": "~5.14.0",
-        "typescript": "~3.3.3"
+        "@types/dotenv": "6.1.1",
+        "@types/mocha": "^5.2.7",
+        "@types/restify": "8.4.1",
+        "mocha": "^6.2.2",
+        "nodemon": "~1.19.4",
+        "nyc": "^14.1.1",
+        "ts-node": "^8.4.1",
+        "tslint": "~5.20.0",
+        "typescript": "~3.6.4"
     }
 }

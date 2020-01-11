@@ -208,11 +208,6 @@
       "entities": []
     },
     {
-      "text": "No todo for me",
-      "intent": "Cancel",
-      "entities": []
-    },
-    {
       "text": "Add todo",
       "intent": "AddToDoDialog",
       "entities": []
@@ -507,70 +502,59 @@
   ],
   "patterns": [
     {
-      "pattern": "Please remember [to] {todoTitle_patternAny}",
+      "pattern": "Please remember [to] {todoTitle}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "I need you to remember [that] {todoTitle_patternAny}",
+      "pattern": "I need you to remember [that] {todoTitle}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Add a todo named {todoTitle_patternAny}",
+      "pattern": "Add a todo named {todoTitle}",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to the list",
+      "pattern": "Add {todoTitle} to the list",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "[Please] add {todoTitle_patternAny} to the todo list",
+      "pattern": "[Please] add {todoTitle} to the todo list",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "Add {todoTitle_patternAny} to my todo",
+      "pattern": "Add {todoTitle} to my todo",
       "intent": "AddToDoDialog"
     },
     {
-      "pattern": "I did {todoTitle_patternAny}",
+      "pattern": "I did {todoTitle}",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "I completed {todoTitle_patternAny}",
+      "pattern": "I completed {todoTitle}",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "Mark {todoTitle_patternAny} as complete",
+      "pattern": "Delete {todoTitle}",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "Remove {todoTitle_patternAny} from my [todo] list",
+      "pattern": "Mark {todoTitle} as complete",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "[Please] delete {todoTitle_patternAny} from the list",
+      "pattern": "Remove {todoTitle} from my [todo] list",
       "intent": "DeleteToDoDialog"
     },
     {
-      "pattern": "Delete {todoTitle_patternAny}",
+      "pattern": "[Please] delete {todoTitle} from the list",
       "intent": "DeleteToDoDialog"
     }
   ],
-  "patternAnyEntities": [
-    {
-      "name": "todoTitle_patternAny",
-      "explicitList": [],
-      "roles": []
-    }
-  ],
-  "prebuiltEntities": [
-    {
-      "name": "number",
-      "roles": []
-    }
-  ],
-  "luis_schema_version": "3.0.0",
-  "versionId": "0.1",
-  "name": "ToDoLuisBot",
-  "desc": "",
-  "culture": "en-us"
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "name": "ToDo-Bot-Sample-With-Adaptive-Dialogs",
+  "desc": "Todo bot sample from BotBuilder-Samples - Adaptive dialogs",
+  "culture": "en-us",
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1"
 }

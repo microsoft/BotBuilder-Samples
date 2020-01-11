@@ -29,6 +29,10 @@ class AuthBot extends DialogBot {
             await next();
         });
     }
+
+    async handleTeamsSigninVerifyState(context, state) {
+        await this.dialog.run(context, this.dialogState);
+    }
 }
 
 module.exports.AuthBot = AuthBot;

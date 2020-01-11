@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "MultiTurnPromptBot": {
+    "02.Multi-turn-prompt": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

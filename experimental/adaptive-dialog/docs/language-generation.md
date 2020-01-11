@@ -8,24 +8,29 @@ Once you have authored your .lg files for your Adaptive dialogs (or your bot pro
 
 All [sample projects][2] follow the exact same pattern.
 
-In startup.cs
-``` C#
-// Resource explorer helps load all .lg files for this project.
-var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-services.AddSingleton(resourceExplorer);
-```
 
 In adapter
 ```C#
-this.UseStorage(storage);
-this.UseState(userState, conversationState);
-this.UseLanguageGenerator(new LGLanguageGenerator(resourceExplorer));
+    this.Use(new RegisterClassMiddleware<Microsoft.Bot.Builder.Dialogs.Adaptive.IActivityGenerator>(new ActivityBuilder()));
+```
+
+In any Adaptive Dialog
+```C#
+string[] paths = { ".", "Dialogs", "RootDialog", "RootDialog.lg" };
+string fullPath = Path.Combine(paths);
+var adaptiveDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{ 
+    Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+    Triggers = new List<OnCondition> () {
+        // Triggers
+    }    
+}
 ```
 
 With this, you can simply refer to a LG template anywhere in your bot's response. 
 
 ``` C#
-new SendActivity("[MyLGTemplateName]")
+new SendActivity("@{MyLGTemplateName()}")
 ```
 
 **Note:** By default, your bot's entire state is passed to the LG sub-system for resolution. So your teamplates can refer all properties that are available in memory just the way your code does.
@@ -33,7 +38,7 @@ new SendActivity("[MyLGTemplateName]")
 ``` markdown
 # EchoTemplate
 > The reference to {turn.Activity.Text} is valid in the LG template because bot state is passed in on all template evaluation calls.
-- [EchoPrefix], "{turn.Activity.Text}"
+- @{EchoPrefix()}, "@{turn.Activity.Text}"
 
 # EchoPrefix
 - I heard you say
@@ -41,7 +46,7 @@ new SendActivity("[MyLGTemplateName]")
 - Roger
 ```
 
-[1]:../../language-generation/language-generation.md
+[1]:../../language-generation/README.md
 [2]:../csharp_dotnetcore
 
 

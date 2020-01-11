@@ -8,6 +8,8 @@ class DispatchBot extends ActivityHandler {
     constructor() {
         super();
 
+        // If the includeApiResults parameter is set to true, as shown below, the full response
+        // from the LUIS api will be made available in the properties  of the RecognizerResult
         const dispatchRecognizer = new LuisRecognizer({
             applicationId: process.env.LuisAppId,
             endpointKey: process.env.LuisAPIKey,
@@ -45,7 +47,7 @@ class DispatchBot extends ActivityHandler {
             const welcomeText = 'Type a greeting or a question about the weather to get started.';
             const membersAdded = context.activity.membersAdded;
 
-            for (let member of membersAdded) {
+            for (const member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
                     await context.sendActivity(`Welcome to Dispatch bot ${ member.name }. ${ welcomeText }`);
                 }

@@ -41,7 +41,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }

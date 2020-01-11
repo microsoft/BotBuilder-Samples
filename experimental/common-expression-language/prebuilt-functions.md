@@ -18,8 +18,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[replaceIgnoreCase](#replaceIgnoreCase)|	Replace a substring with the specified string, and return the updated string. Case in-sensitive	|
 |[split](#split)	|Returns an array that contains substrings based on the delimiter specified.|
 |[substring](#substring) |Returns characters from a string. Substring(sourceString, startPos, endPos). startPos cannot be less than 0. endPos greater than source strings length will be taken as the max length of the string	|
-|[toLower](#toLower) |Convert a string to all upper case characters |
-|[toUpper](#toUpper) |Convert a string to all lower case characters |
+|[toLower](#toLower) |Convert a string to all lower case characters |
+|[toUpper](#toUpper) |Convert a string to all upper case characters |
 |[trim](#trim) |Remove leading and trailing white spaces from a string |
 |[addOrdinal](#addOrdinal) | Return the ordinal number of the input number |
 |[endsWith](#endsWith) | Check whether a string ends with a specific substring. Return true when the substring is found, or return false when not found. This function is not case-sensitive. |
@@ -33,10 +33,10 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 ### Collection functions
 |Function	|Explanation|
 |-----------|-----------|
-|[contains](#contains)	|Works to find an item in a string or to find an item in an array or to find a parameter in a complex object. E.g. contains(‘hello world, ‘hello); contains([‘1’, ‘2’], ‘1’); contains({“foo”:”bar”}, “foo”)	|
+|[contains](#contains)	|Works to find an item in a string or to find an item in an array or to find a parameter in a complex object. E.g. contains('hello world', 'hello'); contains(createArray('1','2'), '1'); contains(json("{'foo':'bar'}"), 'foo')	|
 |[empty](#empty)	|Check if the collection is empty	|
 |[first](#first)	|Returns the first item from the collection	|
-|[join](#join) 	|Return a string that has all the items from an array and has each character separated by a delimiter. Join(collection, delimiter). Join(createArray(‘a’,’b’), ‘.’) = “a.b”	|
+|[join](#join) 	|Return a string that has all the items from an array and has each character separated by a delimiter. Join(collection, delimiter). Join(createArray('a','b'), '.') = "a.b"	|
 |[last](#last) 	|Returns the last item from the collection	|
 |[count](#count)	|Returns the number of items in the collection	|
 |[foreach](#foreach)	|Operate on each element and return the new collection	|
@@ -45,7 +45,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[take](#take) | Return items from the front of a collection |
 |[intersection](#intersection) | Return a collection that has only the common items across the specified collections |
 |[subArray](#subArray) | Returns a sub-array from specified start and end position. Index values start with the number 0. |
-
+|[select](#select) | Operate on each element and return the new collection of transformed elements |
+|[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
+|[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
+|[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
+|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
 
 ### Logical comparison functions
 |Function	|Explanation|
@@ -67,7 +71,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[float](#float)	|Return floating point representation of the specified string or the string itself if conversion is not possible	|
 |[int](#int)	|Return integer representation of the specified string or the string itself if conversion is not possible	|
 |[string](#string)	|Return string version of the specified value	|
-|[bool](#bool)	|Return Boolean representation of the specified string. Bool(‘true’), bool(1)	|
+|[bool](#bool)	|Return Boolean representation of the specified string. Bool('true'), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
 |[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
 |[array](#array)| Return an array from a single specified input. For multiple inputs, see [createArray](#createArray). |
@@ -79,9 +83,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[dataUriToBinary](#dataUriToBinary) | Return the binary version of a data URI. |
 |[dataUriToString](#dateUriToString) | Return the string version of a data URI. |
 |[uriComponent](#uriComponent) | Return the URI-encoded version for an input value by replacing URL-unsafe characters with escape characters. |
-|[uriComponentToBinary](#uriComponentToBinary) | Return the binary version for a URI-encoded string. |
 |[uriComponentToString](#uriComponentToString) | Return the string version for a URI-encoded string. |
-|[xml](#xml) | Return the XML version for a string. |
+|[xml](#xml) | [C# only] Return the XML version for a string. |
 
 ### Math functions
 |Function	|Explanation|
@@ -97,6 +100,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[sum](#sum)	|Returns sum of numbers in an array	|
 |[range](#range) | Return an integer array that starts from a specified integer. |
 |[exp](#exp)	|Exponentiation function. Exp(base, exponent)	|
+|[average](#average)	| Return the average number of an numeric array.	|
 
 ### Date and time functions
 |Function	|Explanation|
@@ -144,7 +148,9 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[setProperty](#setProperty)    | Set the value for a JSON object's property and return the updated object. |
 |[getProperty](#getProperty)    | Return the value of the given property in a JSON object.  |
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
-|[xPath](#xPath)    | Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[xPath](#xPath)    | [C# only] Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[jPath](#jPath)    | Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes. |
+|[setPathToValue](#setPathToValue)    | Set the value for a specific path and return the value. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -195,9 +201,9 @@ addDays('<timestamp>', <days>, '<format>'?)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*timestamp*> | Yes | String | The string that contains the timestamp which must be standard UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ |
+| <*timestamp*> | Yes | String | The string that contains the timestamp which must be standard UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ |
 | <*days*> | Yes | Integer | The positive or negative number of days to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -239,7 +245,7 @@ addHours('<timestamp>', <hours>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*hours*> | Yes | Integer | The positive or negative number of hours to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -281,7 +287,7 @@ addMinutes('<timestamp>', <minutes>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*minutes*> | Yes | Integer | The positive or negative number of minutes to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -385,7 +391,7 @@ addSeconds('<timestamp>', <seconds>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*seconds*> | Yes | Integer | The positive or negative number of seconds to add |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -428,7 +434,7 @@ addToTime('<timestamp>', '<interval>', <timeUnit>, '<format>'?)
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*interval*> | Yes | Integer | The number of specified time units to add |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -876,7 +882,7 @@ convertFromUTC('<timestamp>', '<destinationTimeZone>', '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string contains the timestamp |
 | <*destinationTimeZone*> | Yes | String | The name for the target time zone. Support Windows time zone and Iana time zone |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -905,7 +911,7 @@ convertToUTC('<timestamp>', '<sourceTimeZone>', '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string contains the timestamp |
 | <*sourceTimeZone*> | Yes | String | The name for the target time zone. Support Windows time zone and Iana time zone |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -1469,12 +1475,12 @@ And returns this result: `10.333`
 Operate on each element and return the new collection
 
 ```
-foreach([<collection>], <iteratorName>, <function>)
+foreach([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array or Object | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | function that can contains iteratorName |
 |||||
@@ -1494,6 +1500,16 @@ foreach(createArray(0, 1, 2, 3), x, x + 1)
 
 And return this result: `[1, 2, 3, 4]`
 
+
+
+These examples generate new collections from instance:
+
+```
+foreach(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
+
 <a name="formatDateTime"></a>
 
 ### formatDateTime
@@ -1507,7 +1523,7 @@ formatDateTime('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1539,7 +1555,7 @@ getFutureTime(<interval>, <timeUnit>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*interval*> | Yes | Integer | The number of specific time units to add |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1581,7 +1597,7 @@ getPastTime(<interval>, <timeUnit>, '<format>'?)
 | --------- | -------- | ---- | ----------- |
 | <*interval*> | Yes | Integer | The number of specific time units to substract |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -1803,6 +1819,81 @@ indexOf('hello world', 'world')
 
 And returns this result: `6`
 
+<a name="indicesAndValues"></a>
+
+### indicesAndValues
+
+Turned an array into an array of objects with index (current index) and value property.
+
+```
+indicesAndValues('<collection>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | Original array |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*collection*> | Array | New array that each item has two properties, one is index, present this item's origin index, the other one is value |
+||||
+
+*Example*
+
+Suppose there is a list { items: ["zero", "one", "two"] }
+
+```
+indicesAndValues(items)
+```
+
+returns a new list:
+```
+[
+  {
+    index: 0,
+    value: 'zero'
+  },
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+second example:
+
+```
+where(indicesAndValues(items), elt, elt.index >= 1)
+```
+
+And returns a new list: 
+```
+[
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+Another example, with the same list `items`.
+
+```
+join(foreach(indicesAndValues(items), item, item.value), ',')
+```
+
+will return `zero,one,two`, and this expression has the same effect with `join(items, ',')`
+
+
 <a name="int"></a>
 
 ### int
@@ -1929,6 +2020,122 @@ join(createArray('a', 'b', 'c'), '.')
 ```
 
 And returns this result: `"a.b.c"`
+
+
+<a name="jPath"></a>
+
+### jPath
+
+Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes.
+
+```
+jPath(<json>, '<path>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*json*> | Yes | Any | The json object or string to search for nodes or values that match path expression value |
+| <*path*> | Yes | Any | The path expression used to find matching json nodes or values |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+|[ <*json-node*>] | Array | An list of json nodes or value that matches the specified path expression |
+||||
+
+*Example*
+
+Given jsonStr is 
+```json
+{
+    "Stores": [
+        "Lambton Quay",
+        "Willis Street"
+    ],
+    "Manufacturers": [
+        {
+            "Name": "Acme Co",
+            "Products": [
+                {
+                    "Name": "Anvil",
+                    "Price": 50
+                }
+            ]
+        },
+        {
+            "Name": "Contoso",
+            "Products": [
+                {
+                    "Name": "Elbow Grease",
+                    "Price": 99.95
+                },
+                {
+                    "Name": "Headlight Fluid",
+                    "Price": 4
+                }
+            ]
+        }
+    ]
+}
+```
+
+and the path expression is 
+"$..Products[?(@.Price >= 50)].Name" 
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `["Anvil", "Elbow Grease"]`
+
+Given jsonStr is 
+
+```json
+{
+    "automobiles": [
+        {
+            "maker": "Nissan",
+            "model": "Teana",
+            "year": 2011
+        },
+        {
+            "maker": "Honda",
+            "model": "Jazz",
+            "year": 2010
+        },
+        {
+            "maker": "Honda",
+            "model": "Civic",
+            "year": 2007
+        },
+        {
+            "maker": "Toyota",
+            "model": "Yaris",
+            "year": 2008
+        },
+        {
+            "maker": "Honda",
+            "model": "Accord",
+            "year": 2011
+        }
+    ],
+    "motorcycles": [
+        {
+            "maker": "Honda",
+            "model": "ST1300",
+            "year": 2012
+        }
+    ]
+}
+```
+
+And the path expression is `.automobiles{.maker === "Honda" && .year > 2009}.model`.
+
+```
+jPath(jsonStr, path)
+```
+
+And it returns this result: `['Jazz', 'Accord']`
 
 <a name="json"></a>
 
@@ -2571,7 +2778,8 @@ replace('<text>', '<oldText>', '<newText>')
 | <*updated-text*> | String | The updated string after replacing the substring <p>If the substring is not found, return the original string. |
 ||||
 
-*Example*
+
+*Example 1*
 
 This example finds the "old" substring in "the old string"
 and replaces "old" with "new":
@@ -2581,6 +2789,19 @@ replace('the old string', 'old', 'new')
 ```
 
 And returns this result: `"the new string"`
+
+*Example 2*
+
+When dealing with escape characters, the expression engine handles the unescape for you. Here is some example about the replace function with escape character cases:
+
+```
+replace('hello\"', '\"', '\n')
+replace('hello\n', '\n', '\\\\')
+@"replace('hello\\', '\\', '\\\\')"
+@"replace('hello\n', '\n', '\\\\')"
+```
+
+And returns these results: `"hello\n"`, `"hello\\"`, `@"hello\\"`, `@"hello\\"`
 
 <a name="replaceIgnoreCase"></a>
 
@@ -2617,7 +2838,80 @@ replace('the old string', 'old', 'new')
 
 And returns this result: `"the new string"`
 
-<a name="setProperty">
+<a name="select"></a>
+
+### select
+
+Operate on each element and return the new collection of transformed elements.
+
+```
+select([<collection/instance>], <iteratorName>, <function>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection/instance*> | Yes | Array | The collection with the items |
+| <*iteratorName*> | Yes | String | The key item of arrow function |
+| <*function*> | Yes | Any | function that can contains iteratorName |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection which each element has been evaluated with the function  |
+||||
+
+*Example*
+
+These examples generate new collections:
+
+```
+select(createArray(0, 1, 2, 3), x, x + 1)
+```
+
+And return this result: `[1, 2, 3, 4]`
+
+These examples generate new collections from instance:
+
+```
+select(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
+
+<a name="setPathToValue"></a>
+
+### setPathToValue
+
+Retrieve the value of the specified property from the JSON object.
+
+```
+setPathToValue(<path>, <value>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*Path*> | Yes | Object | the path which you want to set |
+| <*value*> | Yes | Object | the value you want to set to the path |
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| value | Object | the value be set, same with the second parameter|
+||||
+
+*Example*
+```
+setPathToValue(path.x, 1)
+```
+
+And return with result: 1, and path.x has been set to 1.
+
+```
+setPathToValue(path.array[0], 7) + path.array[0]
+```
+
+return the result: 14
+
+<a name="setProperty"></a>
 
 ### setProperty
 
@@ -2678,6 +2972,130 @@ skip(createArray(0, 1, 2, 3), 1)
 
 And returns this array with the remaining items: `[1,2,3]`
 
+<a name="sortBy"></a>
+
+### sortBy
+
+Sort elements in the collection with ascending order and return the sorted collection.
+
+```
+sortBy([<collection>], '<property>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | String or Array | The collection to sort |
+| <*property*> | No | String | Sort by this specific property of the object element in the collection if set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection whose elements have been sorted |
+||||
+
+*Example1*
+
+This example generates new sorted collection:
+
+```
+sortBy(createArray(1, 2, 0, 3))
+```
+
+And return this result: `[0, 1, 2, 3]`
+
+*Example2*
+Suppose you have this collection:
+
+```
+{
+  'nestedItems': [
+    {'x': 2},
+    {'x': 1},
+    {'x': 3}
+  ]
+}
+```
+
+This example generates new sorted collection based on object property 'x':
+
+```
+sortBy(nestedItems, 'x')
+```
+
+And return this result:
+
+```
+{
+  'nestedItems': [
+    {'x': 1},
+    {'x': 2},
+    {'x': 3}
+  ]
+}
+```
+
+<a name="sortByDescending"></a>
+
+### sortByDescending
+
+Sort elements in the collection with descending order and return the sorted collection.
+
+```
+sortBy([<collection>], '<property>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | String or Array | The collection to sort |
+| <*property*> | No | String | Sort by this specific property of the object element in the collection if set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | the new collection whose elements have been sorted |
+||||
+
+*Example1*
+
+This example generates new sorted collection:
+
+```
+sortByDescending(createArray(1, 2, 0, 3))
+```
+
+And return this result: `[3, 2, 1, 0]`
+
+*Example2*
+Suppose you have this collection:
+
+```
+{
+  'nestedItems': [
+    {'x': 2},
+    {'x': 1},
+    {'x': 3}
+  ]
+}
+```
+
+This example generates new sorted collection based on object property 'x':
+
+```
+sortByDescending(nestedItems, 'x')
+```
+
+And return this result:
+
+```
+{
+  'nestedItems': [
+    {'x': 3},
+    {'x': 2},
+    {'x': 1}
+  ]
+}
+```
+
 <a name="split"></a>
 
 ### split
@@ -2724,7 +3142,7 @@ startOfDay('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -2755,7 +3173,7 @@ startOfHour('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -2786,7 +3204,7 @@ startOfDay('<timestamp>', '<format>'?)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3002,7 +3420,7 @@ subtractFromTime('<timestamp>', <interval>, '<timeUnit>', '<format>'?)
 | <*timestamp*> | Yes | String | The string that contains the timestamp |
 | <*interval*> | Yes | Integer | The number of specified time units to subtract |
 | <*timeUnit*> | Yes | String | The unit of time to use with *interval*: "Second", "Minute", "Hour", "Day", "Week", "Month", "Year" |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3282,38 +3700,6 @@ uriComponent('https://contoso.com')
 
 And returns this result: `"http%3A%2F%2Fcontoso.com"`
 
-<a name="uriComponentToBinary"></a>
-
-### uriComponentToBinary
-
-Return the binary version for a uniform resource identifier (URI) component.
-
-```
-uriComponentToBinary('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The URI-encoded string to convert |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*binary-for-encoded-uri*> | String | The binary version for the URI-encoded string. The binary content is base64-encoded and represented by $content. |
-||||
-
-*Example*
-
-This example creates the binary version for this URI-encoded string:
-
-```
-uriComponentToBinary('http%3A%2F%2Fcontoso.com')
-```
-
-And returns this result: 
-
-`"001000100110100001110100011101000111000000100101001100 11010000010010010100110010010001100010010100110010010001 10011000110110111101101110011101000110111101110011011011 110010111001100011011011110110110100100010"`
-
 <a name="uriComponentToString"></a>
 
 ### uriComponentToString
@@ -3539,7 +3925,7 @@ Optionally, you can specify a different format with the <*format*> parameter.
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.sssZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
+| <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
 | Return value | Type | Description |
@@ -3569,11 +3955,52 @@ utcNow('D')
 
 And returns this result: `"Sunday, April 15, 2018"`
 
+<a name="where"></a>
+
+### where
+
+Filter on each element and return the new collection of filtered elements which match specific condition.
+
+```
+where([<collection/instance>], <iteratorName>, <function>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection/instance*> | Yes | Array | The collection with the items |
+| <*iteratorName*> | Yes | String | The key item of arrow function |
+| <*function*> | Yes | Any | condition function which is used to filter items|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection/new-object*> | Array/Object | the new collection which each element has been filtered with the function  |
+||||
+
+*Example*
+
+These examples generate new collections:
+
+```
+where(createArray(0, 1, 2, 3), x, x > 1)
+```
+
+And return this result: `[2, 3]`
+
+These examples generate new object:
+
+```
+where(json("{'name': 'jack', 'age': '15'}"), x, x.value == 'jack')
+```
+
+And return this result: `{'name': 'jack'}`
+
+
 <a name="xml"></a>
 
 ### xml
 
-Return the XML version for a string that contains a JSON object.
+[C# only] Return the XML version for a string that contains a JSON object.
 
 ```
 xml('<value>')
@@ -3633,7 +4060,7 @@ And returns this result XML:
 
 ### xPath
 
-Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.
+[C# only] Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.
 
 ```
 xPath('<xml>', '<xpath>')
@@ -3641,7 +4068,7 @@ xPath('<xml>', '<xpath>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*xml*> | Yes | Any | The XML string to search for nodes oor values that match an XPath expression value |
+| <*xml*> | Yes | Any | The XML string to search for nodes or values that match an XPath expression value |
 | <*xPath*> | Yes | Any | The XPath expression used to find matching XML nodes or values |
 |||||
 

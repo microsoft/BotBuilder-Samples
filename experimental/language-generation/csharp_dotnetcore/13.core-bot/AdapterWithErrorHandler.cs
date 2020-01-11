@@ -2,13 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
-using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
-
+using Microsoft.Bot.Builder;
+using Microsoft.Extensions.Logging;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
@@ -19,16 +19,16 @@ namespace Microsoft.BotBuilderSamples
             : base(credentialProvider)
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "AdapterWithErrorHandler.LG" };
+            string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };
             string fullPath = Path.Combine(paths);
-            _lgEngine = TemplateEngine.FromFiles(fullPath);
+            _lgEngine = new TemplateEngine().AddFile(fullPath);
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(_lgEngine.EvaluateTemplate("SomethingWentWrong", null));
+                await turnContext.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SomethingWentWrong", exception).ToString()));
 
                 if (conversationState != null)
                 {

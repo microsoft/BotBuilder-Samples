@@ -5,24 +5,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
-
-using Microsoft.BotBuilderSamples.Bots;
-using Microsoft.BotBuilderSamples.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using System.IO;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        public Startup()
-        {
-        }
-
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -46,12 +36,8 @@ namespace Microsoft.BotBuilderSamples
             // The Dialog that will be run by the bot.
             services.AddSingleton<RootDialog>();
 
-            // Resource explorer helps load all .lg files for this project.
-            var resourceExplorer = ResourceExplorer.LoadProject(Directory.GetCurrentDirectory(), ignoreFolders: new string[] { "models" });
-            services.AddSingleton(resourceExplorer);
-
             // Create the bot. the ASP Controller is expecting an IBot.
-            services.AddSingleton<IBot, DialogAndWelcomeBot<RootDialog>>();
+            services.AddSingleton<IBot, DialogBot<RootDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

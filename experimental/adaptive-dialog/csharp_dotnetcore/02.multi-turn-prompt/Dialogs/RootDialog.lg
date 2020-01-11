@@ -5,7 +5,10 @@
 - Please enter your name.
 
 # AckName
-- Thanks, {user.userProfile.Name}.
+- Thanks, @{CapitalizeName(user.userProfile.Name)}.
+
+# CapitalizeName(param)
+- @{concat(toUpper(substring(param, 0, 1)), substring(param, 1))}
 
 # AgeConfirmPrompt
 - Would you like to give your age?
@@ -13,19 +16,22 @@
 # AskForAge
 - what is your age?
 
-# AskForAge.reprompt
-- The value entered must be greater than 0 and less than 150.
-- Sorry, that does not work. Your age must be greater than 0 and less than 150.
+# AskForAge.invalid
+- Sorry, '@{this.value}'' does not work. I'm looking for a value between 1-150. @{AskForAge()}
+- Sorry, that does not work. Your age must be greater than 0 and less than 150. @{AskForAge()}
+
+# AskForAge.unRecognized
+- Sorry, I do not recognized '@{this.value}'. @{AskForAge()}
 
 # NoName
 - No age given.
 
 # UserAgeReadBack 
-- IF: {user.userProfile.Age == null}
+- IF: @{user.userProfile.Age == null}
    - And, No age given.
 - ELSE: 
-   - And, I have your age as {user.userProfile.Age}.
-   - You are {user.userProfile.Age} years old.
+   - And, I have your age as @{user.userProfile.Age}.
+   - You are @{user.userProfile.Age} years old.
 
 # ConfirmPrompt
 - Is this ok?
@@ -33,15 +39,18 @@
 > This template uses inline expressions. Expressions are defined using the common expression language. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # FinalUserProfileReadOut
-- IF: {turn.finalConfirmation == true}
-    - I have your mode of transport as {user.userProfile.Transport} and your name as {user.userProfile.Name}. [UserAgeReadBack]
+- IF: @{turn.finalConfirmation == true}
+    - I have your mode of transport as @{user.userProfile.Transport} and your name as @{CapitalizeName(user.userProfile.Name)}. @{UserAgeReadBack()}
 - ELSE:
     - Thanks. Your profile will not be kept.
 
+> Structured template defintion.
 # ModeOfTransportPrompt
-- what is your favoriate mode of transportion?
+[Activity
+    Text = @{ModeOfTransportPrompt.Text()}
+    SuggestedActions = Car | Bus | Other
+]
+
+# ModeOfTransportPrompt.Text
+- What is your favoriate mode of transportion?
 - Please enter your mode of transport.
-- ```
-Please enter your mode of transport.
-[Suggestions=Car| Bus| Other] 
-```

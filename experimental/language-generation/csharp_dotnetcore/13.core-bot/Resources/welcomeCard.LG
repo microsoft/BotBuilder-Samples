@@ -2,8 +2,26 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 > This shows an example of inline definition of a card. 
-> See the cardsBot sample to see more ways to define and manage cards (including definitions in external files)
+> See the cardsBot sample to see more ways to define and manage cards.
+
+# HeaderText
+- Welcome to Bot Framework!
+- Welcome to core bot with Language Generation!
+ 
 # WelcomeCard
+[Activity
+    Attachments = @{json(AdaptiveCard())}
+]
+
+> This template is called by AdaptiveCard template to put together the list of buttons in the adaptive card based on the object passed in via the EvaluateTemplate call.
+# cardActionTemplate(title, url, type)
+- ```{
+    "type" : "@{if(type == null, 'Action.OpenUrl', type)}",
+    "title" : "@{title}",
+    "url" : "@{url}"
+}```
+
+# AdaptiveCard
 - ```
 {
   "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
@@ -20,39 +38,22 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "@{lgTemplate("HeaderText")}",
+      "text": "@{HeaderText()}",
       "wrap": true,
       "maxLines": 0
     },
     {
       "type": "TextBlock",
       "size": "default",
-      "isSubtle": "yes",
+      "isSubtle": true,
       "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
       "wrap": true,
       "maxLines": 0
     }
   ],
   "actions": [
-    {
-      "type": "Action.OpenUrl",
-      "title": "Get an overview",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Ask a question",
-      "url": "https://stackoverflow.com/questions/tagged/botframework"
-    },
-    {
-      "type": "Action.OpenUrl",
-      "title": "Learn how to deploy",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
-    }
+    @{join(foreach(actions, item, cardActionTemplate(item.title, item.url, item.type)), ',')}
   ]
 }
 ```
 
-# HeaderText
-- Welcome to Bot Framework!
-- Welcome to core bot with Language Generation!

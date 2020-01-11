@@ -5,7 +5,7 @@
     </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1811</SortOrder>
+    <SortOrder>1820</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>CoreBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -19,11 +19,11 @@
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>Service</ProjectTypeTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.3.0"/>
+      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
     </CustomParameters>
     <Project File="CoreBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">
@@ -34,7 +34,9 @@
         <ProjectItem ReplaceParameters="false">welcomeCard.json</ProjectItem>
       </Folder>
       <Folder Name="CognitiveModels" TargetFolderName="CognitiveModels">
+        <ProjectItem ReplaceParameters="true">FlightBooking.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightBooking.json</ProjectItem>
+        <ProjectItem ReplaceParameters="true">FlightBookingEx.cs</ProjectItem>
       </Folder>
       <Folder Name="controllers" TargetFolderName="Controllers">
         <ProjectItem ReplaceParameters="true">BotController.cs</ProjectItem>
@@ -55,16 +57,14 @@
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
 
+      <ProjectItem ReplaceParameters="true">AdapterWithErrorHandler.cs</ProjectItem>
+
       <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
       <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
 
-      <ProjectItem ReplaceParameters="true">AdapterWithErrorHandler.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">BookingDetails.cs</ProjectItem>
 
-      <ProjectItem ReplaceParameters="true">ConfigurationCredentialProvider.cs</ProjectItem>
-
-      <ProjectItem ReplaceParameters="true">DialogExtensions.cs</ProjectItem>
-      <ProjectItem ReplaceParameters="true">LuisHelper.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">FlightBookingRecognizer.cs</ProjectItem>
 
       <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
@@ -73,6 +73,8 @@
       <Folder Name="DeploymentTemplates" TargetFolderName="DeploymentTemplates">
         <ProjectItem ReplaceParameters="false">template-with-new-rg.json</ProjectItem>
         <ProjectItem ReplaceParameters="false">template-with-preexisting-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">new-rg-parameters.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">preexisting-rg-parameters.json</ProjectItem>
       </Folder>
 
     </Project>

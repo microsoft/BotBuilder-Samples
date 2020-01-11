@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CoreBot": {
+    "04.Core-bot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

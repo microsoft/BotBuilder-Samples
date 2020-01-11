@@ -10,7 +10,7 @@
   "defaultName": "EchoBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EchoBot",
   "identity": "Microsoft.BotFramework.CSharp.EchoBot",
-  "name": "Bot Framework Echo Bot (v0.4.6)",
+  "name": "Bot Framework Echo Bot (v4.7.0)",
   "preferNameDirectory": true,
   "sourceName": "Microsoft.BotFramework.EchoBot",
   "shortName": "echobot",
@@ -24,7 +24,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "v0.4.6"
+        "value": "v4.7.0"
       },
       "replaces": "__vX.X.X__"
     },

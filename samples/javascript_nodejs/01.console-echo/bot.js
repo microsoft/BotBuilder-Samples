@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+// @ts-check
+
 class EchoBot {
     async onTurn(context) {
         // Check to see if this activity is an incoming message.
@@ -9,7 +11,7 @@ class EchoBot {
             // Check to see if the user sent a simple "quit" message.
             if (context.activity.text.toLowerCase() === 'quit') {
                 // Send a reply.
-                context.sendActivity(`Bye!`);
+                context.sendActivity('Bye!');
                 process.exit();
             } else {
                 // Echo the message text back to the user.
@@ -19,4 +21,4 @@ class EchoBot {
     }
 }
 
-module.exports.EchoBot = EchoBot;
+module.exports = { EchoBot };

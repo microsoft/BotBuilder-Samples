@@ -1,5 +1,5 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.TextInput",
+    "$kind": "Microsoft.TextInput",
     "prompt": "Hello, I'm Zoidberg. What is your name?"
 }

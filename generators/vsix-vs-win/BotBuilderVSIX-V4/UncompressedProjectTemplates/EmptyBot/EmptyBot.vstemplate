@@ -5,7 +5,7 @@
     </Description>
     <ProjectType>CSharp</ProjectType>
     <ProjectSubType>Bot Framework</ProjectSubType>
-    <SortOrder>1812</SortOrder>
+    <SortOrder>1840</SortOrder>
     <CreateNewFolder>true</CreateNewFolder>
     <DefaultName>EmptyBot</DefaultName>
     <ProvideDefaultName>true</ProvideDefaultName>
@@ -19,11 +19,11 @@
     <PlatformTag>Windows</PlatformTag>
     <PlatformTag>macOS</PlatformTag>
     <PlatformTag>Linux</PlatformTag>
-    <ProjectTypeTag>Service</ProjectTypeTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.3.0"/>
+      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
     </CustomParameters>
     <Project File="EmptyBot.csproj" ReplaceParameters="true">
       <Folder Name="controllers" TargetFolderName="Controllers">
@@ -31,17 +31,17 @@
       </Folder>
 
       <Folder Name="Properties" TargetFolderName="Properties">
-        <ProjectItem ReplaceParameters="true">launchSettings.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">launchSettings.json</ProjectItem>
       </Folder>
 
       <Folder Name="wwwroot" TargetFolderName="wwwroot">
         <ProjectItem ReplaceParameters="true">default.htm</ProjectItem>
       </Folder>
 
+      <ProjectItem ReplaceParameters="true">AdapterWithErrorHandler.cs</ProjectItem>
+
       <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
       <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
-
-      <ProjectItem ReplaceParameters="true">ConfigurationCredentialProvider.cs</ProjectItem>
 
       <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">EmptyBot.cs</ProjectItem>
 
@@ -50,8 +50,10 @@
       <ProjectItem ReplaceParameters="true">Startup.cs</ProjectItem>
 
       <Folder Name="DeploymentTemplates" TargetFolderName="DeploymentTemplates">
-        <ProjectItem ReplaceParameters="true">template-with-new-rg.json</ProjectItem>
-        <ProjectItem ReplaceParameters="true">template-with-preexisting-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">template-with-new-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">template-with-preexisting-rg.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">new-rg-parameters.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">preexisting-rg-parameters.json</ProjectItem>
       </Folder>
 
     </Project>

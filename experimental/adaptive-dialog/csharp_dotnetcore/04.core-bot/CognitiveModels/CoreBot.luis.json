@@ -14,40 +14,38 @@
     }
   ],
   "entities": [],
-  "composites": [
-    {
-      "name": "fromCity",
-      "children": [
-        "geographyV2"
-      ],
-      "roles": []
-    },
-    {
-      "name": "toCity",
-      "children": [
-        "geographyV2"
-      ],
-      "roles": []
-    }
-  ],
+  "composites": [],
   "closedLists": [],
   "regex_entities": [],
   "model_features": [],
   "regex_features": [],
   "utterances": [
     {
+      "text": "Book flight",
+      "intent": "Book flight",
+      "entities": []
+    },
+    {
       "text": "book flight from london to paris on feb 14th",
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "fromCity",
+          "entity": "geographyV2",
           "startPos": 17,
-          "endPos": 22
+          "endPos": 22,
+          "role": "fromCity"
         },
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 27,
-          "endPos": 31
+          "endPos": 31,
+          "role": "toCity"
+        },
+        {
+          "entity": "datetimeV2",
+          "startPos": 36,
+          "endPos": 43,
+          "role": "fromDate"
         }
       ]
     },
@@ -56,9 +54,16 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 15,
-          "endPos": 20
+          "endPos": 20,
+          "role": "toCity"
+        },
+        {
+          "entity": "datetimeV2",
+          "startPos": 25,
+          "endPos": 32,
+          "role": "fromDate"
         }
       ]
     },
@@ -67,14 +72,16 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "fromCity",
+          "entity": "geographyV2",
           "startPos": 22,
-          "endPos": 27
+          "endPos": 27,
+          "role": "fromCity"
         },
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 32,
-          "endPos": 36
+          "endPos": 36,
+          "role": "toCity"
         }
       ]
     },
@@ -83,9 +90,10 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 10,
-          "endPos": 14
+          "endPos": 14,
+          "role": "toCity"
         }
       ]
     },
@@ -94,14 +102,22 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 10,
-          "endPos": 14
+          "endPos": 14,
+          "role": "toCity"
         },
         {
-          "entity": "fromCity",
+          "entity": "geographyV2",
           "startPos": 21,
-          "endPos": 26
+          "endPos": 26,
+          "role": "fromCity"
+        },
+        {
+          "entity": "datetimeV2",
+          "startPos": 31,
+          "endPos": 38,
+          "role": "fromDate"
         }
       ]
     },
@@ -110,14 +126,22 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "fromCity",
+          "entity": "geographyV2",
           "startPos": 9,
-          "endPos": 14
+          "endPos": 14,
+          "role": "fromCity"
         },
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 19,
-          "endPos": 23
+          "endPos": 23,
+          "role": "toCity"
+        },
+        {
+          "entity": "datetimeV2",
+          "startPos": 28,
+          "endPos": 34,
+          "role": "fromDate"
         }
       ]
     },
@@ -126,9 +150,10 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 6,
-          "endPos": 10
+          "endPos": 10,
+          "role": "toCity"
         }
       ]
     },
@@ -137,14 +162,16 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "fromCity",
+          "entity": "geographyV2",
           "startPos": 11,
-          "endPos": 15
+          "endPos": 15,
+          "role": "fromCity"
         },
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 20,
-          "endPos": 25
+          "endPos": 25,
+          "role": "toCity"
         }
       ]
     },
@@ -153,9 +180,10 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 10,
-          "endPos": 14
+          "endPos": 14,
+          "role": "toCity"
         }
       ]
     },
@@ -164,9 +192,22 @@
       "intent": "Book flight",
       "entities": [
         {
-          "entity": "toCity",
+          "entity": "geographyV2",
           "startPos": 14,
-          "endPos": 21
+          "endPos": 21,
+          "role": "toCity"
+        }
+      ]
+    },
+    {
+      "text": "book a flight to london",
+      "intent": "Book flight",
+      "entities": [
+        {
+          "entity": "geographyV2",
+          "startPos": 17,
+          "endPos": 22,
+          "role": "toCity"
         }
       ]
     },
@@ -228,15 +269,15 @@
   ],
   "patterns": [
     {
-      "pattern": "book a flight to {toCity}",
+      "pattern": "book a flight to {geographyV2:toCity}",
       "intent": "Book flight"
     },
     {
-      "pattern": "book a flight from {fromCity}",
+      "pattern": "book a flight from {geographyV2:fromCity}",
       "intent": "Book flight"
     },
     {
-      "pattern": "book a flight from {fromCity} to {toCity}",
+      "pattern": "book a flight from {geographyV2:fromCity} to {geographyV2:toCity}",
       "intent": "Book flight"
     }
   ],
@@ -244,16 +285,22 @@
   "prebuiltEntities": [
     {
       "name": "datetimeV2",
-      "roles": []
+      "roles": [
+        "fromDate",
+        "toDate"
+      ]
     },
     {
       "name": "geographyV2",
-      "roles": []
+      "roles": [
+        "fromCity",
+        "toCity"
+      ]
     }
   ],
-  "luis_schema_version": "3.0.0",
-  "versionId": "0.1",
-  "name": "RootDialog",
-  "desc": "",
-  "culture": "en-us"
+  "name": "04.core-bot-with-adaptive-dialogs",
+  "desc": "Core bot sample from BotBuilder-Samples - Adaptive dialogs",
+  "culture": "en-us",
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1"
 }

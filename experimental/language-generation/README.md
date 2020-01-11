@@ -1,5 +1,7 @@
 # Language Generation ***_[PREVIEW]_***
 
+> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.
+
 Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
 
 At the core of language generation lies template expansion and entity substitution. You can provide one-of variation for expansion as well as conditionally expand a template. The output from language generation can be a simple text string or multi-line response or a complex object payload that a layer above language generation will use to construct a full blown [activity][1].
@@ -12,9 +14,9 @@ Language generation is achieved through:
 
 ```markdown
 # greetingTemplate
-- Hello {user.name}, how are you?
-- Good morning {user.name}. It's nice to see you again.
-- Good day {user.name}. What can I do for you today?
+- Hello @{user.name}, how are you?
+- Good morning @{user.name}. It's nice to see you again.
+- Good day @{user.name}. What can I do for you today?
 ```
 
 You can use language generation to:
@@ -24,63 +26,6 @@ You can use language generation to:
 - include variations and sophisticated composition based resolution for any of your bot's replies
 - construct speak .vs. display adaptations
 - construct cards, suggested actions and attachments.
-
-## Speak .vs. display adaptation
-
-By design, the .lg file format does not explicitly support the ability to provide speak .vs. display adaptation. The file format supports simple constructs that are composable and supports resolution on multi-line text and so you can have syntax and semantics for speak .vs. display adaptation, cards, suggested actions etc that can be interpreted as simple text and transformed into the Bot Framework [activity][1] by a layer above language generation.
-
-Bot Builder SDK supports a short hand notation that can parse and transform a piece of text separated by `displayText`||`spokenText` into speak and display text.
-
-```markdown
-# greetingTemplate
-- hi || hi there
-- hello || hello, what can I help with today
-```
-
-You can use the `TextMessageActivityGenerator.CreateActityFromText` method to transform the command into a Bot Framework activity to post back to the user.
-
-## Using Chatdown style cards
-
-[Chatdown][6] introduced a simple markdown based way to write mock conversations. Also introduced as part of the [.chat][7] file format was the ability to express different [message commands][9] via simple text representation. Message commands include [cards][10], [Attachments][11] and suggested actions.
-
-You can include message commands via multi-line text in the .lg file format and use the `TextMessageActivityGenerator.CreateActityFromText` method to transform the command into a Bot Framework activity to post back to the user.
-
-See [here][8] for examples of how different card types are represented in .chat file format.
-
-Here is an example of a card definition.
-
-```markdown
-    # HeroCardTemplate(buttonsCollection)
-    - ```
-    [Herocard
-        title=@{[TitleText]}
-        subtitle=@{[SubText]}
-        text=@{[DescriptionText]}
-        images=@{[CardImages]}
-        buttons=@{join(buttonsCollection, '|')]
-    ```
-
-    # TitleText
-    - Here are some [TitleSuffix]
-
-    # TitleSuffix
-    - cool photos
-    - pictures
-    - nice snaps
-
-    # SubText
-    - What is your favorite?
-    - Don't they all look great?
-    - sorry, some of them are repeats
-
-    # DescriptionText
-    - This is description for the hero card
-
-    # CardImages
-    - https://picsum.photos/200/200?image=100
-    - https://picsum.photos/300/200?image=200
-    - https://picsum.photos/200/200?image=400
-```
 
 ## Language Generation in action
 
@@ -95,13 +40,23 @@ Load the template manager with your .lg file(s)
 
 For C#
 
-```
-    TemplateEngine lgEngine = new TemplateEngine().AddFiles(pathToLGFiles); 
+```c#
+    // multi lg files
+    TemplateEngine lgEngine = new TemplateEngine().AddFiles(filePaths, importResolver?);
+
+    // single lg file
+    TemplateEngine lgEngine = new TemplateEngine().AddFile(filePath, importResolver?);
 ```
 
 For NodeJS
+
+```typescript
+    // multi lg files
+    let lgEngine = new TemplateEngine().addFiles(filePaths, importResolver?);
+
+    // single lg file
+    let lgEngine = new TemplateEngine().addFile(filePath, importResolver?);
 ```
-    let lgEngine = new TemplateEngine().addFiles(pathToLGFiles);
 
 When you need template expansion, call the templateEngine and pass in the relevant template name
 
@@ -113,8 +68,8 @@ For C#
 
 For NodeJS
 
-```node
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection));
+```typescript
+    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection)));
 ```
 
 If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
@@ -128,17 +83,63 @@ For C#
 
 For NodeJS
 
-```node
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } ));
+```typescript
+    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
+
+## Multi-lingual generation and language fallback policy
+Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
 
 ## Grammar check and correction
 
 The current library does not include any capabilities for grammar check or correction.
 
 ## Packages
+Latest preview packages are available here
+- C# -> [NuGet][14]
+- JS -> [npm][15]
 
-Packages for C# are available under the [BotBuilder MyGet feed][12]
+Nightly packages for C# are available here
+- C# -> [BotBuilder MyGet feed][12]
+- JS -> [BotBuilder MyGet feed][13]
+
+## Change Log
+### 4.7 PREVIEW
+- \[**BREAKING CHANGES**\]:
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
+    - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
+
+    |  Old  | New |
+    |-------|-----|
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+
+- \[**NEW**\]:
+    - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
+    - New `ActivityFactory` class that helps transform structured response template output from LG into a Bot framework activity.
+    - Bug fixes and stability improvements.
+
+### 4.6 PREVIEW 2
+- \[**BREAKING CHANGES**\]:
+    - Old `display || speak` notation is deprecated in favor of structured template support. See below for more details on structured template. 
+    - Old `Chatdown` style cards are deprecated in favor of structured template support. See below for more details on structured template. 
+- \[**NEW**\]:
+    - Structured Template support in .lg file format. See [here](./docs/structured-response-template.md) to learn more about Structured Template definition.
+    - ActivityGenerator.GenerateFromLG static method to transform output from LG sub-system into a full blown [Bot Framework Activity][1]
+
+### 4.6 PREVIEW
+- \[**NEW**\] [VS code extension][22] for LG (syntax highlighting, auto-suggest (including expressions, pre-built functions, template names etc), validation)
+- LG file format:
+    - Support for [Switch..Case..Default][20]
+    - Support for [import reference][21] to another .lg file.
+- [API changes][2]: 
+    - Dropped FromFile and FromText methods in favor of AddFile and AddFiles. 
+    - Added ability to provide a delegate to externally resolve import references found in content. 
+- \[**NEW**\] Translate functionality in [MSLG CLI][23]
+
+### 4.5 PREVIEW
+- Initial preview release
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md
@@ -149,4 +150,13 @@ Packages for C# are available under the [BotBuilder MyGet feed][12]
 [9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
-[12]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[12]:https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
+[13]:https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily
+[14]:https://www.nuget.org/packages/Microsoft.Bot.Builder.LanguageGeneration/4.7.0-preview
+[15]:https://www.npmjs.com/package/botbuilder-lg
+[20]:./docs/lg-file-format.md#Switch..Case
+[21]:./docs/lg-file-format.md#Importing-external-references
+[22]:https://aka.ms/lg-vscode-extension
+[23]:https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/MSLG
+[25]:./csharp_dotnetcore/05.a.multi-turn-prompt-with-language-fallback/
+[26]:./javascript_nodejs/

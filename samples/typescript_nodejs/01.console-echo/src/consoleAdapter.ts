@@ -41,7 +41,7 @@ export class ConsoleAdapter extends BotAdapter {
             conversation:  { id: 'convo1', name: '', isGroup: false },
             serviceUrl: '',
             user: { id: 'user', name: 'User1' },
-            ...reference,
+            ...reference
         } as ConversationReference;
     }
 
@@ -82,10 +82,10 @@ export class ConsoleAdapter extends BotAdapter {
                     id: (this.nextId++).toString(),
                     text: line,
                     timestamp: new Date(),
-                    type: ActivityTypes.Message,
+                    type: ActivityTypes.Message
                 },
                 this.reference,
-                true,
+                true
             );
 
             // Create context and run middleware pipe
@@ -141,41 +141,30 @@ export class ConsoleAdapter extends BotAdapter {
      * @param context Context for the current turn of conversation with the user.
      * @param activities List of activities to send.
      */
-    public sendActivities(context: TurnContext, activities: Array <Partial<Activity>>): Promise<ResourceResponse[]> {
-        const that: ConsoleAdapter = this;
+    public async sendActivities(context: TurnContext, activities: Array <Partial<Activity>>): Promise<ResourceResponse[]> {
+        const responses: ResourceResponse[] = [];
+        for(const activity of activities) {
+            responses.push({} as ResourceResponse);
 
-        // tslint:disable-next-line:promise-must-complete
-        return new Promise((resolve: any, reject: any): void => {
-            const responses: ResourceResponse[] = [];
-            function next(i: number): void {
-                if (i < activities.length) {
-                    responses.push({} as ResourceResponse);
-                    const a: Partial<Activity> = activities[i];
-                    switch (a.type) {
-                        case 'delay' as ActivityTypes:
-                            setTimeout(() => next(i + 1), a.value);
-                            break;
-                        case ActivityTypes.Message:
-                            if (a.attachments && a.attachments.length > 0) {
-                                const append: string = a.attachments.length === 1
-                                    ? `(1 attachment)` : `(${a.attachments.length} attachments)`;
-                                that.print(`${a.text} ${append}`);
-                            } else {
-                                that.print(a.text || '');
-                            }
-                            next(i + 1);
-                            break;
-                        default:
-                            that.print(`[${a.type}]`);
-                            next(i + 1);
-                            break;
+            switch (activity.type) {
+                case 'delay' as ActivityTypes:
+                    await this.sleep(activity.value);
+                    break;
+                case ActivityTypes.Message:
+                    if (activity.attachments && activity.attachments.length > 0) {
+                        const append: string = activity.attachments.length === 1
+                            ? `(1 attachment)` : `(${activity.attachments.length} attachments)`;
+                        this.print(`${activity.text} ${append}`);
+                    } else {
+                        this.print(activity.text || '');
                     }
-                } else {
-                    resolve(responses);
-                }
+                    break;
+                default:
+                    this.print(`[${activity.type}]`);
+                    break;
             }
-            next(0);
-        });
+        }
+        return responses;
     }
 
     /**
@@ -216,5 +205,11 @@ export class ConsoleAdapter extends BotAdapter {
      */
     protected printError(line: string): void {
         console.error(line);
+    }
+
+    private sleep(milliseconds: number): Promise<void> {
+        return new Promise(resolve => {
+            setTimeout(resolve, milliseconds);
+        });
     }
 }

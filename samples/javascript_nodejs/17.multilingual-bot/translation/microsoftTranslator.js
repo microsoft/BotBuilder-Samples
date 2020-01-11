@@ -7,6 +7,7 @@ class MicrosoftTranslator {
     constructor(translatorKey) {
         this.key = translatorKey;
     }
+
     /**
    * Helper method to translate text to a specified language.
    * @param {string} text Text that will be translated
@@ -21,22 +22,26 @@ class MicrosoftTranslator {
 
         const url = host + path + params + targetLocale;
 
-        return fetch(url, {
+        var res = await fetch(url, {
             method: 'POST',
-            body: JSON.stringify([{ 'Text': text }]),
+            body: JSON.stringify([{ Text: text }]),
             headers: {
                 'Content-Type': 'application/json',
                 'Ocp-Apim-Subscription-Key': this.key
             }
-        })
-            .then(res => res.json())
-            .then(responseBody => {
-                if (responseBody && responseBody.length > 0) {
-                    return responseBody[0].translations[0].text;
-                } else {
-                    return text;
-                }
-            });
+        });
+
+        if (!res.ok) {
+            throw new Error('Call to translation services failed.');
+        }
+
+        var responseBody = await res.json();
+
+        if (responseBody && responseBody.length > 0) {
+            return responseBody[0].translations[0].text;
+        } else {
+            return text;
+        }
     }
 }
 

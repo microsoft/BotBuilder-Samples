@@ -1,0 +1,40 @@
+{
+    "$schema": "../../app.schema",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnBeginDialog",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "user.age",
+                    "value": "22"
+                },
+                {
+                    "$kind": "Microsoft.SwitchCondition",
+                    "condition": "user.age",
+                    "cases": [
+                        {
+                            "value": "21",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "Age is 21!"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "22",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "Age is 22!"
+                                }
+                            ]
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}

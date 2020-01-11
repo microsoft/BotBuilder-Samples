@@ -95,13 +95,13 @@ class RootDialog extends ComponentDialog {
         // The complex that contain subfields have their own .values field containing the sub-values.
         const values = step.result.values;
 
-        const fullname = values['fullname'].values;
-        await step.context.sendActivity(`Your name is ${ fullname['first'] } ${ fullname['last'] }.`);
+        const fullname = values.fullname.values;
+        await step.context.sendActivity(`Your name is ${ fullname.first } ${ fullname.last }.`);
 
-        await step.context.sendActivity(`You wear a size ${ values['shoesize'] } shoes.`);
+        await step.context.sendActivity(`You wear a size ${ values.shoesize } shoes.`);
 
-        const address = values['address'].values;
-        await step.context.sendActivity(`Your address is: ${ address['street'] }, ${ address['city'] } ${ address['zip'] }`);
+        const address = values.address.values;
+        await step.context.sendActivity(`Your address is: ${ address.street }, ${ address.city } ${ address.zip }`);
 
         return await step.endDialog();
     }
