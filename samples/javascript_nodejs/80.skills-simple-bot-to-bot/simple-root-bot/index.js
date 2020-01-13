@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { BotFrameworkAdapter, TurnContext, ActivityTypes, EndOfConversationCodes, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
 // Import required bot configuration.
@@ -50,6 +50,21 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+
+    // Send EndOfConversation to the active skill
+    const activeSkill = await conversationState.createProperty('activeSkillProperty').get(context);
+    if (activeSkill) {
+        const botId = process.env.MicrosoftAppId;
+
+        let endOfConversation = {
+            type: ActivityTypes.EndOfConversation,
+            code: EndOfConversationCodes.Unknown
+        };
+        endOfConversation = TurnContext.applyConversationReference(
+            endOfConversation, TurnContext.getConversationReference(context.activity));
+        await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
+    }
+
     // Clear out state
     await conversationState.delete(context);
 };

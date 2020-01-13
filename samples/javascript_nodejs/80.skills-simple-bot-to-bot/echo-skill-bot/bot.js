@@ -24,6 +24,15 @@ class EchoBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+
+        this.onUnrecognizedActivityType(async (context, next) => {
+            if (context.activity.type == ActivityTypes.EndOfConversation) {
+                await context.sendActivity('(Echo (JS) : EndOfConversation');
+            }
+
+            // By calling next() you ensure that the next BotHandler is run.
+            await next();
+        });
     }
 }
 
