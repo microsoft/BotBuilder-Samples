@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         /// Dialog helper to generate dialogs.
         /// </summary>
         /// <param name="_services">Bot Services.</param>
-        public QnAMakerMultiturnDialog(IBotServices services) : base(nameof(QnAMakerMultiturnDialog))
+        public QnAMakerMultiturnDialog(IQnAMakerConfiguration services) : base(nameof(QnAMakerMultiturnDialog))
         {
             AddDialog(new WaterfallDialog(QnAMakerDialogName)
                 .AddStep(CallGenerateAnswerAsync)
@@ -54,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         }
 
         private const string QnAMakerDialogName = "qnamaker-multiturn-dialog";
-        private readonly IBotServices _services;
+        private readonly IQnAMakerConfiguration _services;
 
         private static Dictionary<string, object> GetDialogOptionsValue(DialogContext dialogContext)
         {

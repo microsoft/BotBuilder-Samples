@@ -32,7 +32,7 @@ namespace QnAMultiturnBot
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot services(QnA) as a singleton.
-            services.AddSingleton<IBotServices, BotServices>();
+            services.AddSingleton<IQnAMakerConfiguration, QnAMakerConfiguration>();
 
             // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();

@@ -5,7 +5,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public interface IBotServices
+    public interface IQnAMakerConfiguration
     {
         QnAMaker QnAMakerService { get; }
     }

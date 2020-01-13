@@ -6,9 +6,9 @@ using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class BotServices : IBotServices
+    public class QnAMakerConfiguration : IQnAMakerConfiguration
     {
-        public BotServices(IConfiguration configuration)
+        public QnAMakerConfiguration(IConfiguration configuration)
         {
             QnAMakerService = new QnAMaker(new QnAMakerEndpoint
             {

@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         /// Initializes a new instance of the <see cref="RootDialog"/> class.
         /// </summary>
         /// <param name="services">Bot Services.</param>
-        public RootDialog(IBotServices services)
+        public RootDialog(IQnAMakerConfiguration services)
             : base("root")
         {
             AddDialog(new QnAMakerMultiturnDialog(services));
