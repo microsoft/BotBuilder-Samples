@@ -73,7 +73,7 @@
 
 # AllCards
 [Activity
-    Attachments = @{HeroCard()} | @{ThumbnailCard()} | @{SigninCard()} | @{AnimationCard()} | @{VideoCard()} | @{AudioCard()} | @{AdaptiveCard()}
+    Attachments = @{HeroCard()} | @{ThumbnailCard()} | @{SigninCard()} | @{AnimationCard()} | @{VideoCard()} | @{AudioCard()} | @{json(AdaptiveCard.Definition())}
     AttachmentLayout = @{AttachmentLayoutType()}
 ]
 

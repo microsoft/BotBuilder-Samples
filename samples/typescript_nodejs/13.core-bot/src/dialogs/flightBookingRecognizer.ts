@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { RecognizerResult, TurnContext } from 'botbuilder';
-import { LuisApplication, LuisRecognizer } from 'botbuilder-ai';
+import { LuisApplication, LuisRecognizer, LuisRecognizerOptionsV3 } from 'botbuilder-ai';
 
 export class FlightBookingRecognizer {
     private recognizer: LuisRecognizer;
@@ -10,7 +10,13 @@ export class FlightBookingRecognizer {
     constructor(config: LuisApplication) {
         const luisIsConfigured = config && config.applicationId && config.endpoint && config.endpointKey;
         if (luisIsConfigured) {
-            this.recognizer = new LuisRecognizer(config, {}, true);
+            // Set the recognizer options depending on which endpoint version you want to use e.g LuisRecognizerOptionsV2 or LuisRecognizerOptionsV3.
+            // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+            const recognizerOptions: LuisRecognizerOptionsV3 = {
+                apiVersion : 'v3'
+            };
+
+            this.recognizer = new LuisRecognizer(config, recognizerOptions);
         }
     }
 

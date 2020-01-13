@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@babel/runtime": "^7.1.5",
-        "botbuilder-core": "^4.5.1",
+        "botbuilder-core": "~4.7.0",
         "botframework-directlinejs": "~0.11.2",
         "botframework-webchat": "4.5.0",
         "core-js": "^3.0.1"
