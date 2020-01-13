@@ -45,6 +45,9 @@ See [here](./api-reference.md) for API reference.
 Variables are always referenced by their name. E.g. @{myVariable}
 Variables can be complex objects. In which case they are referenced either using the property selector operator e.g. myParent.myVariable or using the item index selection operator. E.g. myParent.myList[0]. or using the [parameters](TODO) function. 
 
+There are two special variables, `[]` and  `{}`.
+`[]` represents an empty list, `{}` represents a empty object.
+
 ## Explicit values
 Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes - "myExplicitValue".
 
