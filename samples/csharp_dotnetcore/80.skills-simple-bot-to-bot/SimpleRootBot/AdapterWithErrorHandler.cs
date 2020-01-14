@@ -28,16 +28,16 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
         public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null, SkillHttpClient skillClient = null, SkillsConfiguration skillsConfig = null)
             : base(configuration, logger)
         {
-            _configuration = configuration;
+            _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _conversationState = conversationState;
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _skillClient = skillClient;
             _skillsConfig = skillsConfig;
 
-            OnTurnError = OnBotError;
+            OnTurnError = HandleTurnError;
         }
 
-        private async Task OnBotError(ITurnContext turnContext, Exception exception)
+        private async Task HandleTurnError(ITurnContext turnContext, Exception exception)
         {
             // Log any leaked exception from the application.
             _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
@@ -83,15 +83,17 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                 // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
                 // forwarded to a Skill.
                 var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(RootBot.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
-                var botId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+                if (activeSkill != null)
+                {
+                    var botId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
 
-                var endOfConversation = Activity.CreateEndOfConversationActivity();
-                endOfConversation.Code = "RootSkillError";
-                endOfConversation.ApplyConversationReference(turnContext.Activity.GetConversationReference());
+                    var endOfConversation = Activity.CreateEndOfConversationActivity();
+                    endOfConversation.Code = "RootSkillError";
+                    endOfConversation.ApplyConversationReference(turnContext.Activity.GetConversationReference(), true);
 
-                await _conversationState.SaveChangesAsync(turnContext, true);
-
-                await _skillClient.PostActivityAsync(botId, activeSkill, _skillsConfig.SkillHostEndpoint, (Activity)endOfConversation, CancellationToken.None);
+                    await _conversationState.SaveChangesAsync(turnContext, true);
+                    await _skillClient.PostActivityAsync(botId, activeSkill, _skillsConfig.SkillHostEndpoint, (Activity)endOfConversation, CancellationToken.None);
+                }
             }
             catch(Exception ex)
             {
