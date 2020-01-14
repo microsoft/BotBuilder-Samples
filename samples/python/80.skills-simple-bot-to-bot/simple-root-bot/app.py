@@ -86,16 +86,16 @@ async def on_error(context: TurnContext, error: Exception):
     # Send EndOfConversation to the active skill
     active_skill_id = await CONVERSATION_STATE.create_property("activeSkillProperty").get(context)
     if active_skill_id:
-        await CONVERSATION_STATE.save_changes(context, True)
-
         end_of_conversation = Activity(
             type=ActivityTypes.end_of_conversation, code="RootSkillError"
         )
         TurnContext.apply_conversation_reference(
             end_of_conversation,
             TurnContext.get_conversation_reference(context.activity),
+            is_incoming=True
         )
 
+        await CONVERSATION_STATE.save_changes(context, True)
         await CLIENT.post_activity(
             CONFIG.APP_ID,
             SKILL_CONFIG.SKILLS[active_skill_id],
