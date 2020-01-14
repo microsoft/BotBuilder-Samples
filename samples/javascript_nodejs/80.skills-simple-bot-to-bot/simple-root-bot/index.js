@@ -54,11 +54,13 @@ adapter.onTurnError = async (context, error) => {
     // Send EndOfConversation to the active skill
     const activeSkill = await conversationState.createProperty('activeSkillProperty').get(context);
     if (activeSkill) {
+        await conversationState.saveChanges(turnContext, true);
+
         const botId = process.env.MicrosoftAppId;
 
         let endOfConversation = {
             type: ActivityTypes.EndOfConversation,
-            code: EndOfConversationCodes.Unknown
+            code: 'RootSkillError'
         };
         endOfConversation = TurnContext.applyConversationReference(
             endOfConversation, TurnContext.getConversationReference(context.activity));

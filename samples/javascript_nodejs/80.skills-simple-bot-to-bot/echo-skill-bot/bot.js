@@ -26,9 +26,9 @@ class EchoBot extends ActivityHandler {
         });
 
         this.onUnrecognizedActivityType(async (context, next) => {
-            if (context.activity.type == ActivityTypes.EndOfConversation) {
-                await context.sendActivity('(Echo (JS) : EndOfConversation');
-            }
+            // This will be called if the root bot is ending the conversation.  Sending additional messages should be
+            // avoided as the conversation may have been deleted.
+            // Perform cleanup of resources if needed.
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
