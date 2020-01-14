@@ -51,8 +51,11 @@ adapter.onTurnError = async (context, error) => {
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 
-    // Send EndOfConversation to the active skill
-    const activeSkill = await conversationState.createProperty('activeSkillProperty').get(context);
+    // Inform the active skill that the conversation is ended so that it has
+    // a chance to clean up.
+    // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
+    // forwarded to a Skill.
+    const activeSkill = await conversationState.createProperty(RootBot.ActiveSkillPropertyName).get(context);
     if (activeSkill) {
         const botId = process.env.MicrosoftAppId;
 
@@ -63,7 +66,7 @@ adapter.onTurnError = async (context, error) => {
         endOfConversation = TurnContext.applyConversationReference(
             endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
-        await conversationState.saveChanges(turnContext, true);
+        await conversationState.saveChanges(context, true);
         await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
     }
 
