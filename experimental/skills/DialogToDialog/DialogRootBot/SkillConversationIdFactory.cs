@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                 throw new NullReferenceException($"ChannelId in {nameof(conversationReference)} can't be null.");
             }
 
-            var storageKey = $"{conversationReference.Conversation.Id}-{conversationReference.ChannelId}-skillconvo";
+            var storageKey = $"{conversationReference.ChannelId}-{conversationReference.Conversation.Id}";
             var skillConversationInfo = new Dictionary<string, object> { { storageKey, JObject.FromObject(conversationReference) } };
             await _storage.WriteAsync(skillConversationInfo, cancellationToken).ConfigureAwait(false);
 
