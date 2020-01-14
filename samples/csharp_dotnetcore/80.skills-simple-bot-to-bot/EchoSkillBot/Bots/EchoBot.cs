@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
             // This will be called if the root bot is ending the conversation.  Sending additional messages should be
             // avoided as the conversation may have been deleted.
             // Perform cleanup of resources if needed.
-            return Task.FromResult(true);
+            return Task.CompletedTask;
         }
     }
 }

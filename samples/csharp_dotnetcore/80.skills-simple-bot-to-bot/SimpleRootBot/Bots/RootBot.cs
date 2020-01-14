@@ -25,6 +25,8 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
 
+        public const string ActiveSkillPropertyName = "activeSkillProperty";
+
         public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
@@ -49,7 +51,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             }
 
             // Create state property to track the active skill
-            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>("activeSkillProperty");
+            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
