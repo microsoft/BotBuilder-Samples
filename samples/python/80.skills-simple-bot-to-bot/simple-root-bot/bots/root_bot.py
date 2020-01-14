@@ -16,6 +16,9 @@ from botbuilder.schema import ActivityTypes, ChannelAccount
 
 from config import DefaultConfig, SkillConfiguration
 
+ACTIVE_SKILL_PROPERTY_NAME = "activeSkillProperty"
+TARGET_SKILL_ID = "EchoSkillBot"
+
 
 class RootBot(ActivityHandler):
     def __init__(
@@ -30,7 +33,7 @@ class RootBot(ActivityHandler):
         self._skills_config = skills_config
         self._conversation_state = conversation_state
         self._active_skill_property = conversation_state.create_property(
-            "activeSkillProperty"
+            ACTIVE_SKILL_PROPERTY_NAME
         )
 
     async def on_message_activity(self, turn_context: TurnContext):
@@ -49,11 +52,11 @@ class RootBot(ActivityHandler):
             )
 
             # Save active skill in state
-            await self._active_skill_property.set(turn_context, "EchoSkillBot")
+            await self._active_skill_property.set(turn_context, TARGET_SKILL_ID)
 
             # Send the activity to the skill
             await self.__send_to_skill(
-                turn_context, self._skills_config.SKILLS["EchoSkillBot"]
+                turn_context, self._skills_config.SKILLS[TARGET_SKILL_ID]
             )
         else:
             # just respond

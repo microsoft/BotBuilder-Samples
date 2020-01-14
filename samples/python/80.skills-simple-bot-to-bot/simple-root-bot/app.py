@@ -24,6 +24,8 @@ from botframework.connector.auth import (
     AuthenticationConfiguration,
     SimpleCredentialProvider,
 )
+
+from bots.root_bot import ACTIVE_SKILL_PROPERTY_NAME
 from skill_http_client import SkillHttpClient
 from skill_conversation_id_factory import SkillConversationIdFactory
 from authentication import AllowedSkillsClaimsValidator
@@ -83,8 +85,11 @@ async def on_error(context: TurnContext, error: Exception):
         )
         await context.send_activity(trace_activity)
 
-    # Send EndOfConversation to the active skill
-    active_skill_id = await CONVERSATION_STATE.create_property("activeSkillProperty").get(context)
+    # Inform the active skill that the conversation is ended so that it has
+    # a chance to clean up.
+    # Note: ActiveSkillPropertyName is set by the RooBot while messages are being
+    # forwarded to a Skill.
+    active_skill_id = await CONVERSATION_STATE.create_property(ACTIVE_SKILL_PROPERTY_NAME).get(context)
     if active_skill_id:
         end_of_conversation = Activity(
             type=ActivityTypes.end_of_conversation, code="RootSkillError"
