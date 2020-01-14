@@ -21,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
         public override Task<string> CreateSkillConversationIdAsync(ConversationReference conversationReference, CancellationToken cancellationToken)
         {
             var crJson = JsonConvert.SerializeObject(conversationReference);
-            var key = $"{conversationReference.Conversation.Id}-{conversationReference.ChannelId}-skillconvo";
+            var key = $"{conversationReference.ChannelId}:{conversationReference.Conversation.Id}";
             _conversationRefs.GetOrAdd(key, crJson);
             return Task.FromResult(key);
         }

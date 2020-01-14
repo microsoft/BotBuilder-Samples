@@ -14,7 +14,7 @@ class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     }
 
     async createSkillConversationId(conversationReference) {
-        const key = `${ conversationReference.conversation.id }-${ conversationReference.channelId }-skillconvo`;
+        const key = `${ conversationReference.channelId }:${ conversationReference.conversation.id }`;
         this.refs[key] = conversationReference;
         return key;
     }
