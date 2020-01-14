@@ -31,6 +31,17 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
                 errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
                 await turnContext.SendActivityAsync(errorMessage);
 
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator
+                // Note: we return the entire exception in the value property to help the developer, this should not be done in prod.
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
+
+                // Send and EndOfConversation activity to the skill caller with the error to end the conversation
+                // and let the caller decide what to do.
+                var endOfConversation = Activity.CreateEndOfConversationActivity();
+                endOfConversation.Code = "SkillError";
+                endOfConversation.Text = exception.Message;
+                await turnContext.SendActivityAsync(endOfConversation);
+
                 if (conversationState != null)
                 {
                     try
@@ -45,17 +56,6 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
                         logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
                     }
                 }
-
-                // Send and EndOfConversation activity to the skill caller with the error to end the conversation
-                // and let the caller decide what to do.
-                var endOfConversation = Activity.CreateEndOfConversationActivity();
-                endOfConversation.Code = "SkillError";
-                endOfConversation.Text = exception.Message;
-                await turnContext.SendActivityAsync(endOfConversation);
-
-                // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                // Note: we return the entire exception in the value property to help the developer, this should not be done in prod.
-                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
     }
