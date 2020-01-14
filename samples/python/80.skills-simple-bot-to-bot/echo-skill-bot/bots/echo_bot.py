@@ -25,3 +25,9 @@ class EchoBot(ActivityHandler):
                     f'Say "end" or "stop" and I\'ll end the conversation and back to the parent.'
                 )
             )
+
+    async def on_end_of_conversation_activity(self, turn_context: TurnContext):
+        # This will be called if the root bot is ending the conversation.  Sending additional messages should be
+        # avoided as the conversation may have been deleted.
+        # Perform cleanup of resources if needed.
+        pass
