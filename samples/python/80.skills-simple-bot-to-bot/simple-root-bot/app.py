@@ -9,7 +9,6 @@ from aiohttp import web
 from aiohttp.web import Request, Response
 from botbuilder.core import (
     BotFrameworkAdapterSettings,
-    BotFrameworkHttpClient,
     ConversationState,
     MemoryStorage,
     TurnContext,
@@ -35,7 +34,7 @@ CONFIG = DefaultConfig()
 SKILL_CONFIG = SkillConfiguration()
 
 # Whitelist skills from SKILL_CONFIG
-ALLOWED_CALLER_IDS = set([s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]])
+ALLOWED_CALLER_IDS = {s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]}
 CLAIMS_VALIDATOR = AllowedSkillsClaimsValidator(ALLOWED_CALLER_IDS)
 AUTH_CONFIG = AuthenticationConfiguration(
     claims_validator=CLAIMS_VALIDATOR.validate_claims
@@ -56,6 +55,7 @@ ID_FACTORY = SkillConversationIdFactory(STORAGE)
 CREDENTIAL_PROVIDER = SimpleCredentialProvider(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 CLIENT = SkillHttpClient(CREDENTIAL_PROVIDER, ID_FACTORY)
 
+
 # Catch-all for errors.
 async def on_error(context: TurnContext, error: Exception):
     # This check writes out errors to console log .vs. app insights.
@@ -69,6 +69,7 @@ async def on_error(context: TurnContext, error: Exception):
     await context.send_activity(
         "To continue to run this bot, please fix the bot source code."
     )
+
     # Send a trace activity if we're talking to the Bot Framework Emulator
     if context.activity.channel_id == "emulator":
         # Create a trace activity that contains the error object
@@ -80,8 +81,30 @@ async def on_error(context: TurnContext, error: Exception):
             value=f"{error}",
             value_type="https://www.botframework.com/schemas/error",
         )
-        # Send a trace activity, which will be displayed in Bot Framework Emulator
         await context.send_activity(trace_activity)
+
+    # Send EndOfConversation to the active skill
+    active_skill_id = await CONVERSATION_STATE.create_property("activeSkillProperty").get(context)
+    if active_skill_id:
+        await CONVERSATION_STATE.save_changes(context, True)
+
+        end_of_conversation = Activity(
+            type=ActivityTypes.end_of_conversation, code="RootSkillError"
+        )
+        TurnContext.apply_conversation_reference(
+            end_of_conversation,
+            TurnContext.get_conversation_reference(context.activity),
+        )
+
+        await CLIENT.post_activity(
+            CONFIG.APP_ID,
+            SKILL_CONFIG.SKILLS[active_skill_id],
+            SKILL_CONFIG.SKILL_HOST_ENDPOINT,
+            end_of_conversation,
+        )
+
+    # Clear out state
+    await CONVERSATION_STATE.delete(context)
 
 
 ADAPTER.on_turn_error = on_error
