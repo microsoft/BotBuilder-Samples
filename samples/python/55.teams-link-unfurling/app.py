@@ -59,6 +59,7 @@ ADAPTER.on_turn_error = on_error
 # Create the Bot
 BOT = LinkUnfurlingBot()
 
+
 # Listen for incoming requests on /api/messages.s
 async def messages(req: Request) -> Response:
     # Main bot message handler.
@@ -70,17 +71,14 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    try:
-        invoke_response = await ADAPTER.process_activity(
-            activity, auth_header, BOT.on_turn
+    invoke_response = await ADAPTER.process_activity(
+        activity, auth_header, BOT.on_turn
+    )
+    if invoke_response:
+        return json_response(
+            data=invoke_response.body, status=invoke_response.status
         )
-        if invoke_response:
-            return json_response(
-                data=invoke_response.body, status=invoke_response.status
-            )
-        return Response(status=201)
-    except Exception as exception:
-        raise exception
+    return Response(status=201)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])

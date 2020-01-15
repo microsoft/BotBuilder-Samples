@@ -13,6 +13,7 @@ from botbuilder.core import (
     TurnContext,
     BotFrameworkAdapter,
 )
+from botbuilder.core.integration import aiohttp_error_middleware
 
 from botbuilder.schema import Activity, ActivityTypes
 from bots import SearchBasedMessagingExtension
@@ -59,6 +60,7 @@ ADAPTER.on_turn_error = on_error
 # Create the Bot
 BOT = SearchBasedMessagingExtension()
 
+
 # Listen for incoming requests on /api/messages
 async def messages(req: Request) -> Response:
     # Main bot message handler.
@@ -70,16 +72,13 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    try:
-        response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
-        if response:
-            return json_response(data=response.body, status=response.status)
-        return Response(status=201)
-    except Exception as exception:
-        raise exception
+    response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+    if response:
+        return json_response(data=response.body, status=response.status)
+    return Response(status=201)
 
 
-APP = web.Application()
+APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
 
 if __name__ == "__main__":

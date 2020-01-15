@@ -12,6 +12,7 @@ from botbuilder.core import (
     TurnContext,
     BotFrameworkAdapter,
 )
+from botbuilder.core.integration import aiohttp_error_middleware
 from botbuilder.schema import Activity, ActivityTypes
 from bots import TeamsMessagingExtensionsActionBot
 from config import DefaultConfig
@@ -69,22 +70,17 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    try:
-        invoke_response = await ADAPTER.process_activity(
-            activity, auth_header, BOT.on_turn
+    invoke_response = await ADAPTER.process_activity(
+        activity, auth_header, BOT.on_turn
+    )
+    if invoke_response:
+        return json_response(
+            data=invoke_response.body, status=invoke_response.status
         )
-        if invoke_response:
-            return json_response(
-                data=invoke_response.body, status=invoke_response.status
-            )
-        return Response(status=201)
-    except PermissionError:
-        return Response(status=401)
-    except Exception:
-        return Response(status=500)
+    return Response(status=201)
 
 
-APP = web.Application()
+APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
 
 if __name__ == "__main__":

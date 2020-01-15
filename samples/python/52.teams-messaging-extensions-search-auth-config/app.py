@@ -15,6 +15,7 @@ from botbuilder.core import (
     MemoryStorage,
     UserState,
 )
+from botbuilder.core.integration import aiohttp_error_middleware
 
 from botbuilder.schema import Activity, ActivityTypes
 from bots import TeamsMessagingExtensionsSearchAuthConfigBot
@@ -67,6 +68,7 @@ BOT = TeamsMessagingExtensionsSearchAuthConfigBot(
     USER_STATE, CONFIG.CONNECTION_NAME, CONFIG.SITE_URL
 )
 
+
 # Listen for incoming requests on /api/messages
 async def messages(req: Request) -> Response:
     # Main bot message handler.
@@ -78,22 +80,17 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    try:
-        invoke_response = await ADAPTER.process_activity(
-            activity, auth_header, BOT.on_turn
+    invoke_response = await ADAPTER.process_activity(
+        activity, auth_header, BOT.on_turn
+    )
+    if invoke_response:
+        return json_response(
+            data=invoke_response.body, status=invoke_response.status
         )
-        if invoke_response:
-            return json_response(
-                data=invoke_response.body, status=invoke_response.status
-            )
-        return Response(status=201)
-    except PermissionError:
-        return Response(status=401)
-    except Exception:
-        return Response(status=500)
+    return Response(status=201)
 
 
-APP = web.Application()
+APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
 APP.router.add_static("/", path="./wwwroot/", name="static")
 
