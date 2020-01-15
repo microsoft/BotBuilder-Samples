@@ -25,7 +25,7 @@ class SkillConversationIdFactory(ConversationIdFactoryBase):
         if not conversation_reference.channel_id:
             raise TypeError("channel id in conversation reference can't be None")
 
-        storage_key = f"{conversation_reference.conversation.id}-{conversation_reference.channel_id}-skillconvo"
+        storage_key = f"{conversation_reference.channel_id}:{conversation_reference.conversation.id}"
 
         skill_conversation_info = {storage_key: conversation_reference}
 
