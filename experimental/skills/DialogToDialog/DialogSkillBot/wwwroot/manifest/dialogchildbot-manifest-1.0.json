@@ -47,6 +47,11 @@
         "$ref": "#/definitions/weatherReport"
       }
     },
+    "authCardTest": {
+      "description": "Tests the sign in card using OAuth (event, multi turn)",
+      "type": "event",
+      "name": "OAuthTest"
+    },
     "passthroughMessage": {
       "type": "message",
       "description": "Receives the user's utterance and attempts to resolve it using the skill's LUIS models",

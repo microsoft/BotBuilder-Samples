@@ -32,6 +32,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
 
+        public static readonly string ActiveSkillPropertyName = $"{typeof(SkillDialog).FullName}.ActiveSkillProperty";
+
         public SkillDialog(ConversationState conversationState, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(SkillDialog))
         {
@@ -49,7 +51,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _activeSkillProperty = conversationState.CreateProperty<string>($"{typeof(SkillDialog).FullName}.ActiveSkillProperty");
+            _activeSkillProperty = conversationState.CreateProperty<string>(ActiveSkillPropertyName);
         }
 
         public override async Task<DialogTurnResult> BeginDialogAsync(DialogContext dc, object options = null, CancellationToken cancellationToken = default)
