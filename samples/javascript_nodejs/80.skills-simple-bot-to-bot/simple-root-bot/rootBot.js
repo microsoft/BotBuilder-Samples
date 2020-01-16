@@ -27,7 +27,7 @@ class RootBot extends ActivityHandler {
         }
 
         // Create state property to track the active skill
-        this.activeSkillProperty = this.conversationState.createProperty('activeSkillProperty');
+        this.activeSkillProperty = this.conversationState.createProperty(RootBot.ActiveSkillPropertyName);
 
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
@@ -121,3 +121,4 @@ class RootBot extends ActivityHandler {
 }
 
 module.exports.RootBot = RootBot;
+RootBot.ActiveSkillPropertyName = 'activeSkillProperty';

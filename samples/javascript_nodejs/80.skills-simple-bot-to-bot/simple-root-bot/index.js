@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { BotFrameworkAdapter, TurnContext, ActivityTypes, EndOfConversationCodes, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
 // Import required bot configuration.
@@ -37,21 +37,53 @@ adapter.onTurnError = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
-    // Send a trace activity, which will be displayed in Bot Framework Emulator
-    await context.sendTraceActivity(
-        'OnTurnError Trace',
-        `${ error }`,
-        'https://www.botframework.com/schemas/error',
-        'TurnError'
-    );
+    try {
+        // Send a message to the user
+        let onTurnErrorMessage = 'The bot encountered an error or bug.';
+        await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
+        onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
+        await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 
-    // Send a message to the user
-    let onTurnErrorMessage = 'The bot encountered an error or bug.';
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
-    onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    // Clear out state
-    await conversationState.delete(context);
+        // Send a trace activity, which will be displayed in Bot Framework Emulator
+        await context.sendTraceActivity(
+            'OnTurnError Trace',
+            `${ error }`,
+            'https://www.botframework.com/schemas/error',
+            'TurnError'
+        );
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught in SendErrorMessageAsync : ${ err }`);
+    }
+
+    try {
+        // Inform the active skill that the conversation is ended so that it has
+        // a chance to clean up.
+        // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
+        // forwarded to a Skill.
+        const activeSkill = await conversationState.createProperty(RootBot.ActiveSkillPropertyName).get(context);
+        if (activeSkill) {
+            const botId = process.env.MicrosoftAppId;
+
+            let endOfConversation = {
+                type: ActivityTypes.EndOfConversation,
+                code: 'RootSkillError'
+            };
+            endOfConversation = TurnContext.applyConversationReference(
+                endOfConversation, TurnContext.getConversationReference(context.activity), true);
+
+            await conversationState.saveChanges(context, true);
+            await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
+        }
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
+    }
+
+    try {
+        // Clear out state
+        await conversationState.delete(context);
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
+    }
 };
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
