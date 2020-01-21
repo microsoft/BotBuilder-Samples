@@ -159,7 +159,7 @@ class QnAMakerBaseDialog extends ComponentDialog {
                 };
 
                 // Call Active Learning Train API
-                this.qnaMaker.callTrainAsync(feedbackRecords);
+                this._qnaMakerService.callTrainAsync(feedbackRecords);
 
                 return await stepContext.next(qnaResults);
             } else if (reply === qnaDialogResponseOptions.cardNoMatchText) {
