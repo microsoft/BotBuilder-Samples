@@ -40,21 +40,21 @@ namespace Microsoft.BotBuilderSamples.Dialog
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
         /// Dialog helper to generate dialogs.
         /// </summary>
-        /// <param name="_services">Bot Services.</param>
-        public QnAMakerMultiturnDialog(IQnAMakerConfiguration services) : base(nameof(QnAMakerMultiturnDialog))
+        /// <param name="configuration">QnA Maker configuration.</param>
+        public QnAMakerMultiturnDialog(IQnAMakerConfiguration configuration) : base(nameof(QnAMakerMultiturnDialog))
         {
             AddDialog(new WaterfallDialog(QnAMakerDialogName)
                 .AddStep(CallGenerateAnswerAsync)
                 .AddStep(CheckForMultiTurnPrompt)
                 .AddStep(DisplayQnAResult));
-            _services = services ?? throw new ArgumentNullException(nameof(services));
+            _qnaService = configuration?.QnAMakerService ?? throw new ArgumentNullException(nameof(configuration));
 
             // The initial child Dialog to run.
             InitialDialogId = QnAMakerDialogName;
         }
 
         private const string QnAMakerDialogName = "qnamaker-multiturn-dialog";
-        private readonly IQnAMakerConfiguration _services;
+        private readonly QnAMaker _qnaService;
 
         private static Dictionary<string, object> GetDialogOptionsValue(DialogContext dialogContext)
         {
@@ -121,7 +121,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             }
 
             // Calling QnAMaker to get response.
-            var response = await _services.QnAMakerService.GetAnswersRawAsync(stepContext.Context, qnaMakerOptions).ConfigureAwait(false);
+            var response = await _qnaService.GetAnswersRawAsync(stepContext.Context, qnaMakerOptions).ConfigureAwait(false);
 
             // Resetting previous query.
             dialogOptions[PreviousQnAId] = -1;
