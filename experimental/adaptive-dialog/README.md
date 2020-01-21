@@ -34,7 +34,7 @@ This section describes how to quickly setup the latest [composer](https://github
 
 1. Install the Composer. 
    1. `git clone https://github.com/microsoft/BotFramework-Composer.git`
-   2. `cd Composer`
+   2. `cd BotFramework-Composer`
    3. `yarn`
    4. `yarn build`
    5. `yarn startall`
