@@ -5,7 +5,7 @@
   "id": "<<YOUR-MICROSOFT-APP-ID>>",
   "packageName": "com.teams.sample.teamsstartnewthreadinchannel",
   "developer": {
-    "name": "teamsStartThreadInChannel",
+    "name": "teamsStartNewThreadInChannel",
     "websiteUrl": "https://www.microsoft.com",
     "privacyUrl": "https://www.teams.com/privacy",
     "termsOfUseUrl": "https://www.teams.com/termsofuser"
@@ -15,12 +15,12 @@
     "color": "icon-color.png"
   },
   "name": {
-    "short": "TeamsStartThreadInChannel",
-    "full": "TeamsStartThreadInChannel"
+    "short": "TeamsStartNewThreadInChannel",
+    "full": "TeamsStartNewThreadInChannel"
   },
   "description": {
-    "short": "TeamsStartThreadInChannel",
-    "full": "TeamsStartThreadInChannel"
+    "short": "TeamsStartNewThreadInChannel",
+    "full": "TeamsStartNewThreadInChannel"
   },
   "accentColor": "#FFFFFF",
   "bots": [
