@@ -60,6 +60,12 @@ QnA knowledge base setup and application configuration steps can be found [here]
     ```
 ##### Microsoft Teams channel group chat fix
 - Goto `dialog/rootDialog.js`
+- Add reference 
+    ~~~
+    const {
+        TurnContext
+    } = require('botbuilder-core');
+    ~~~
 - Update `run` function as
     ~~~
     async run(context, accessor) {
@@ -69,7 +75,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
         const dialogContext = await dialogSet.createContext(context);
 
         if (context.activity.channelId === "msteams") {
-            context.activity.text = context.activity.text.replace("/<at>[^<]+<\/at>[ ]*/gi", "");
+            context.activity.text = TurnContext.removeRecipientMention(context.request);
         }
 
         const results = await dialogContext.continueDialog();
