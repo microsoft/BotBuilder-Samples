@@ -58,7 +58,7 @@ QnA Maker CLI to deploy the model.
             // Teams group chat
             if (turnContext.Activity.ChannelId.Equals(Channels.Msteams))
             {
-                turnContext.Activity.Text = Regex.Replace(turnContext.Activity.Text, @"<at>[^<]+<\/at>[ ]*", string.Empty);
+                turnContext.Activity.Text = turnContext.Activity.RemoveRecipientMention();
             }
             
             await base.OnTurnAsync(turnContext, cancellationToken);
