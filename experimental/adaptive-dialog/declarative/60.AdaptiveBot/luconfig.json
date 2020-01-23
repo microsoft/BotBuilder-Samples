@@ -1,7 +1,7 @@
 {
-  "name": "AdaptiveBot",
-  "defaultLanguage": "en-us",
-  "models": [
-    "samples/ToDoLuisBot/ToDoLuis.lu"
-  ]
+    "name": "AdaptiveBot",
+    "defaultLanguage": "en-us",
+    "models": [
+        "Samples/08-CoreBot/CoreBot.lu"
+    ]
 }

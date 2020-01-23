@@ -3,7 +3,7 @@
 
 const { ActivityHandler } = require('botbuilder');
 
-class MyBot extends ActivityHandler {
+class EmptyBot extends ActivityHandler {
     constructor() {
         super();
         this.onMembersAdded(async (context, next) => {
@@ -19,4 +19,4 @@ class MyBot extends ActivityHandler {
     }
 }
 
-module.exports.MyBot = MyBot;
+module.exports.EmptyBot = EmptyBot;

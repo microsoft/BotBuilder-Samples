@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CardsBot", "06.using-cards\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "05.multi-turn-prompt\MultiTurnPromptBot.csproj", "{895E4CB5-2257-43F6-B396-77B112A0BE06}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultiTurnMultiLingualPromptBot", "05.a.multi-turn-prompt-with-language-fallback\MultiTurnMultiLingualPromptBot.csproj", "{740D0943-8D76-4EF5-A73F-1CC441511229}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{895E4CB5-2257-43F6-B396-77B112A0BE06}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{895E4CB5-2257-43F6-B396-77B112A0BE06}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{895E4CB5-2257-43F6-B396-77B112A0BE06}.Release|Any CPU.Build.0 = Release|Any CPU
+		{740D0943-8D76-4EF5-A73F-1CC441511229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{740D0943-8D76-4EF5-A73F-1CC441511229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{740D0943-8D76-4EF5-A73F-1CC441511229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{740D0943-8D76-4EF5-A73F-1CC441511229}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

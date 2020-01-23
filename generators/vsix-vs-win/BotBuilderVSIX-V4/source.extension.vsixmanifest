@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PackageManifest Version="2.0.0" xmlns="http://schemas.microsoft.com/developer/vsx-schema/2011" xmlns:d="http://schemas.microsoft.com/developer/vsx-schema-design/2011">
     <Metadata>
-        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="4.5.0" Language="en-US" Publisher="Microsoft" />
+        <Identity Id="BotBuilderV4.fbe0fc50-a6f1-4500-82a2-189314b7bea2" Version="4.7.0" Language="en-US" Publisher="Microsoft" />
         <DisplayName>Bot Framework v4 SDK Templates for Visual Studio</DisplayName>
         <Description xml:space="preserve">Templates for Microsoft Bot Framework v4. Will let you quickly create a bot that uses core AI capabilities.</Description>
         <MoreInfo>https://aka.ms/BotBuilderOverview</MoreInfo>

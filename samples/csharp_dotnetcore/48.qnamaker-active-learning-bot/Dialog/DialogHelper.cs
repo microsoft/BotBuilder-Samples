@@ -1,11 +1,12 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
-using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -24,7 +25,6 @@ namespace Microsoft.BotBuilderSamples
         /// </summary>
         public WaterfallDialog QnAMakerActiveLearningDialog;
 
-        private QnAMakerOptions qnaMakerOptions;
         private readonly IBotServices _services;
 
         // Define value names for values tracked inside the dialogs.

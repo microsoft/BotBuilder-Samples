@@ -52,6 +52,5 @@ export class DialogBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
-
     }
 }

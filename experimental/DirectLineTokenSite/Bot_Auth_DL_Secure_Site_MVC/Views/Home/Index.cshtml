@@ -1,0 +1,16 @@
+﻿@model Bot_Auth_DL_Secure_Site_MVC.Models.ChatConfig
+@{
+    ViewData["Title"] = "Home Page";
+}
+<div id="webchat" role="main" />
+<head>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+</head>
+<body>
+    <script>
+      window.WebChat.renderWebChat({
+          directLine: window.WebChat.createDirectLine({ token: '@Model.Token' }),
+            userID: '@Model.UserId'
+      }, document.getElementById('webchat'));
+    </script>
+</body>

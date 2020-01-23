@@ -6,6 +6,7 @@
 using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -14,18 +15,21 @@ namespace $ext_safeprojectname$
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private const string ErrorMsgText = "Sorry, it looks like something went wrong.";
-
         public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(configuration, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
-                logger.LogError($"Exception caught : {exception.Message}");
+                logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
-                // Send a catch-all apology to the user.
-                var errorMessage = MessageFactory.Text(ErrorMsgText, ErrorMsgText, InputHints.ExpectingInput);
+                // Send a message to the user
+                var errorMessageText = "The bot encountered an error or bug.";
+                var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
+                await turnContext.SendActivityAsync(errorMessage);
+
+                errorMessageText = "To continue to run this bot, please fix the bot source code.";
+                errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
                 await turnContext.SendActivityAsync(errorMessage);
 
                 if (conversationState != null)
@@ -39,9 +43,12 @@ namespace $ext_safeprojectname$
                     }
                     catch (Exception e)
                     {
-                        logger.LogError($"Exception caught on attempting to Delete ConversationState : {e.Message}");
+                        logger.LogError(e, $"Exception caught on attempting to Delete ConversationState : {e.Message}");
                     }
                 }
+
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator
+                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
     }

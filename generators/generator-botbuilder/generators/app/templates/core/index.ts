@@ -5,7 +5,8 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
 
-// Import required bot services. // See https://aka.ms/bot-services to learn more about the different parts of a bot.
+// Import required bot services.
+// See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
 import { LuisApplication } from 'botbuilder-ai';
 
@@ -32,16 +33,29 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
-    // This check writes out errors to console log
+const onTurnErrorHandler = async (context, error) => {
+    // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+
+    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
+
     // Send a message to the user
-    await context.sendActivity(`Oops. Something went wrong!`);
+    await context.sendActivity('The bot encountered an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
     // Clear out state
     await conversationState.delete(context);
 };
+
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
@@ -71,8 +85,8 @@ const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
-    console.log(`\nTo test your bot, see: https://aka.ms/debug-with-emulator`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
@@ -81,5 +95,22 @@ server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
         // route to bot activity handler.
         await bot.run(turnContext);
+    });
+});
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
+        await bot.run(context);
     });
 });

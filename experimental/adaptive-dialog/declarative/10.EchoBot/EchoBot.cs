@@ -3,32 +3,23 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.3.0
 
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Steps;
-using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Debugging;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Types;
-using Microsoft.Bot.Schema;
-using static Microsoft.Bot.Builder.Dialogs.Debugging.Source;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class EchoBot : ActivityHandler
     {
         private IStatePropertyAccessor<DialogState> dialogStateAccessor;
-        private AdaptiveDialog rootDialog;
         private readonly ResourceExplorer resourceExplorer;
+        private DialogManager dialogManager;
 
         public EchoBot(ConversationState conversationState, ResourceExplorer resourceExplorer)
         {
@@ -36,37 +27,31 @@ namespace Microsoft.BotBuilderSamples
             this.resourceExplorer = resourceExplorer;
 
             // auto reload dialogs when file changes
-            this.resourceExplorer.Changed += (paths) =>
+            this.resourceExplorer.Changed += (resources) =>
             {
-                if (paths.Any(p => Path.GetExtension(p) == ".dialog"))
+                if (resources.Any(resource => resource.Id == ".dialog"))
                 {
-                    Task.Run(() => this.LoadDialogs());
+                    Task.Run(() => this.LoadRootDialogAsync());
                 }
             };
 
-            LoadDialogs();
+            LoadRootDialogAsync();
         }
 
 
-        private void LoadDialogs()
+        private void LoadRootDialogAsync()
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
 
-            var resource = this.resourceExplorer.GetResource("EchoDialogSteps.dialog");
-            //var resource = this.resourceExplorer.GetResource("EchoDialogRule.dialog");
-            rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceRegistry);
+            var resource = this.resourceExplorer.GetResource("main.dialog");
+            dialogManager = new DialogManager(DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceMap));
 
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
         }
 
-        protected async override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        public async override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            await rootDialog.OnTurnAsync(turnContext, null, cancellationToken).ConfigureAwait(false);
-        }
-
-        protected override Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            return base.OnMembersAddedAsync(membersAdded, turnContext, cancellationToken);
+            await dialogManager.OnTurnAsync(turnContext, cancellationToken).ConfigureAwait(false);
         }
     }
 }

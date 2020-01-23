@@ -7,7 +7,13 @@ class FlightBookingRecognizer {
     constructor(config) {
         const luisIsConfigured = config && config.applicationId && config.endpointKey && config.endpoint;
         if (luisIsConfigured) {
-            this.recognizer = new LuisRecognizer(config, {}, true);
+            // Set the recognizer options depending on which endpoint version you want to use e.g v2 or v3.
+            // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
+            const recognizerOptions = {
+                apiVersion: 'v3'
+            };
+
+            this.recognizer = new LuisRecognizer(config, recognizerOptions);
         }
     }
 
@@ -52,10 +58,10 @@ class FlightBookingRecognizer {
      * TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
      */
     getTravelDate(result) {
-        const datetimeEntity = result.entities['datetime'];
+        const datetimeEntity = result.entities.datetime;
         if (!datetimeEntity || !datetimeEntity[0]) return undefined;
 
-        const timex = datetimeEntity[0]['timex'];
+        const timex = datetimeEntity[0].timex;
         if (!timex || !timex[0]) return undefined;
 
         const datetime = timex[0].split('T')[0];

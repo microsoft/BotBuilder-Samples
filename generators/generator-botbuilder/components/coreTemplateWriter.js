@@ -24,7 +24,7 @@ const _getSourceFolders = language => {
     throw new Error(`coreTemplateWriter._getTargetFolders called for invalid language: ${ language }`);
   }
 
-  // get the folder strucure, based on language
+  // get the folder structure, based on language
   let folders = [
     'bots',
     'cognitiveModels',
@@ -77,7 +77,7 @@ const _getSourceTestFolders = language => {
     throw new Error(`coreTemplateWriter._getTargetFolders called for invalid language: ${ language }`);
   }
 
-  // get the folder strucure, based on language
+  // get the folder structure, based on language
   const folders = [
     'tests',
     path.join('tests', 'bots'),
@@ -137,7 +137,7 @@ const writeCoreTemplateTestFiles = (generator, templatePath) => {
   const DIALOGS_TESTDATA_FOLDER = 3;
   const DIALOGS_TESTDATA_JSON_FOLDER = 4;
 
-  // get the folder strucure, based on language
+  // get the folder structure, based on language
   const srcFolders = _getSourceTestFolders(_.toLower(generator.templateConfig.language));
   const destFolders = _getTargetTestFolders(_.toLower(generator.templateConfig.language));
 
@@ -250,7 +250,7 @@ const writeCoreTemplateFiles = (generator, templatePath) => {
   const DEPLOYMENT_SCRIPTS_FOLDER = 4;
   const TS_SRC_FOLDER = 'src';
 
-  // get the folder strucure, based on language
+  // get the folder structure, based on language
   const srcFolders = _getSourceFolders(_.toLower(generator.templateConfig.language), generator.options.addtests);
   const destFolders = _getTargetFolders(_.toLower(generator.templateConfig.language), generator.options.addtests);
 

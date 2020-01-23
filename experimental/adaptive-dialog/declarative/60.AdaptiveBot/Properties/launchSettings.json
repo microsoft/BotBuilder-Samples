@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "AdaptiveBot": {
+    "60.AdaptiveBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

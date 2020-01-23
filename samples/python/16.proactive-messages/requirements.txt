@@ -1,0 +1,2 @@
+aiohttp
+botbuilder-core>=4.7.0
