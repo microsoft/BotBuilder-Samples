@@ -1,1 +1,0 @@
-# Overview of QnA Maker multi-turn bot

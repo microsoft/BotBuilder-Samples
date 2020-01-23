@@ -44,6 +44,31 @@ QnA Maker CLI to deploy the model.
   - Select `QnABot.csproj` file
   - Press `F5` to run the project
 
+##### Microsoft Teams channel group chat fix
+- Goto `Bot/QnABot.cs`
+- Add References
+    ~~~
+    using Microsoft.Bot.Connector;
+    using System.Text.RegularExpressions;
+    ~~~
+- Modify `OnTurnAsync` function as:
+    ~~~
+    public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+        {
+            // Teams group chat
+            if (turnContext.Activity.ChannelId.Equals(Channels.Msteams))
+            {
+                turnContext.Activity.Text = turnContext.Activity.RemoveRecipientMention();
+            }
+            
+            await base.OnTurnAsync(turnContext, cancellationToken);
+
+            // Save any state changes that might have occured during the turn.
+            await ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+    ~~~
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
