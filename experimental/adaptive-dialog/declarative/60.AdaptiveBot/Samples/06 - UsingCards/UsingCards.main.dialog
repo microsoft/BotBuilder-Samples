@@ -1,14 +1,15 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
+    "$kind": "Microsoft.AdaptiveDialog",
     "generator": "usingCards.lg",
-    "rules": [
+    "autoEndDialog": "false",
+    "triggers": [
         {
-            "$type": "Microsoft.UnknownIntentRule",
-            "steps": [
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
                 {
-                    "$type": "Microsoft.ChoiceInput",
-                    "prompt": "[Card-choice]",
+                    "$kind": "Microsoft.ChoiceInput",
+                    "prompt": "@{Card-choice()}",
                     "property": "turn.cardChoice",
                     "outputFormat": "value",
                     "style": "Auto",
@@ -16,9 +17,6 @@
                     "choices": [
                         {
                             "value": "Cancel"
-                        },
-                        {
-                            "value": "Help"
                         },
                         {
                             "value": "All cards"
@@ -47,107 +45,107 @@
                     ]
                 },
                 {
-                    "$type": "Microsoft.SwitchCondition",
+                    "$kind": "Microsoft.SwitchCondition",
                     "condition": "turn.cardChoice",
                     "cases": [
                         {
                             "value": "Cancel",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "Cancelling.."
                                 },
                                 {
-                                    "$type": "Microsoft.EndDialog"
+                                    "$kind": "Microsoft.EndDialog"
                                 }
                             ]
                         },
                         {
                             "value": "Help",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[Help-text]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{Help-text()}"
                                 }
                             ]
 
                         },
                         {
                             "value": "All cards",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[All-cards]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{All-cards()}"
                                 }
                             ]
                         },
                         {
                             "value": "Hero card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[HeroCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{HeroCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Thumbnail card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[ThumbnailCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{ThumbnailCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Signin card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[SigninCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{SigninCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Animation card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[AnimationCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{AnimationCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Video card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[VideoCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{VideoCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Audio card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[AudioCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{AudioCard()}"
                                 }
                             ]
                         },
                         {
                             "value": "Adaptive card",
-                            "steps": [
+                            "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
-                                    "activity": "[AdaptiveCard]"
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "@{AdaptiveCard()}"
                                 }
                             ]
                         }
                     ]
                 },
                 {
-                    "$type": "Microsoft.RepeatDialog"
+                    "$kind": "Microsoft.RepeatDialog"
                 }
             ]
         }

@@ -36,5 +36,13 @@ namespace Microsoft.BotBuilderSamples
             // Run the Dialog with the new Token Response Event Activity.
             await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
+
+        protected override async Task OnTeamsSigninVerifyStateAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        {
+            Logger.LogInformation("Running dialog with Teams Signin Verify State Activity.");
+
+            // Run the Dialog with the new Teams Signin Verify State  Activity.
+            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+        }
     }
 }

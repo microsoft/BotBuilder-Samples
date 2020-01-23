@@ -4,11 +4,11 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Recognizers.Text.DataTypes.TimexExpression;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using System.IO;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples.Dialogs
 {
@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             : base(id ?? nameof(DateResolverDialog))
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "BookingDialog.LG" };
+            string[] paths = { ".", "Resources", "BookingDialog.lg" };
             string fullPath = Path.Combine(paths);
             _lgEngine = new TemplateEngine().AddFile(fullPath);
 
@@ -40,8 +40,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             var bookingDetails = (BookingDetails)stepContext.Options;
             var timex = bookingDetails.TravelDate;
 
-            var promptMsg = _lgEngine.EvaluateTemplate("PromptForTravelDate", null);
-            var repromptMsg = _lgEngine.EvaluateTemplate("InvalidDateReprompt", null);
+            var promptMsg = _lgEngine.EvaluateTemplate("PromptForTravelDate");
+            var repromptMsg = _lgEngine.EvaluateTemplate("InvalidDateReprompt");
 
             if (timex == null)
             {
@@ -49,8 +49,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 return await stepContext.PromptAsync(nameof(DateTimePrompt),
                     new PromptOptions
                     {
-                        Prompt = MessageFactory.Text(promptMsg),
-                        RetryPrompt = MessageFactory.Text(repromptMsg)
+                        Prompt = ActivityFactory.CreateActivity(promptMsg.ToString()),
+                        RetryPrompt = ActivityFactory.CreateActivity(repromptMsg.ToString())
                     }, cancellationToken);
             }
             else
@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     return await stepContext.PromptAsync(nameof(DateTimePrompt),
                         new PromptOptions
                         {
-                            Prompt = MessageFactory.Text(repromptMsg)
+                            Prompt = ActivityFactory.CreateActivity(repromptMsg.ToString())
                         }, cancellationToken);
                 }
                 else

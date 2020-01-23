@@ -29,9 +29,6 @@ namespace __PROJECT_NAME__
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            // Create the credential provider to be used with the Bot Framework Adapter.
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-
             // Create the Bot Framework Adapter.
             services.AddSingleton<IBotFrameworkHttpAdapter, BotFrameworkHttpAdapter>();
 
@@ -53,7 +50,7 @@ namespace __PROJECT_NAME__
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-
+            app.UseWebSockets();
             //app.UseHttpsRedirection();
             app.UseMvc();
         }

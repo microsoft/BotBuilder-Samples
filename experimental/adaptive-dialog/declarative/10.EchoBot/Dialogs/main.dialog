@@ -1,13 +1,13 @@
 {
-  "$schema": "../../app.schema",
-  "$type": "Microsoft.AdaptiveDialog",
-  "rules": [
+  "$schema": "../app.schema",
+  "$kind": "Microsoft.AdaptiveDialog",
+  "triggers": [
     {
-      "$type": "Microsoft.UnknownIntentRule",
-      "steps": [
+      "$kind": "Microsoft.OnUnknownIntent",
+      "actions": [
         {
-          "$type": "Microsoft.SendActivity",
-          "activity":  "You said '{turn.activity.text}'"
+          "$kind": "Microsoft.SendActivity",
+          "activity":  "You said '@{turn.activity.text}'"
         }
       ]
     }

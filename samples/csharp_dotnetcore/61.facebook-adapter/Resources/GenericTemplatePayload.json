@@ -1,0 +1,27 @@
+{
+  "template_type": "generic",
+  "elements": [
+    {
+      "title": "Welcome to BotFramework!",
+      "image_url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "subtitle": "Know more about Bots.",
+      "default_action": {
+        "type": "web_url",
+        "url": "https://dev.botframework.com/",
+        "webview_height_ratio": "compact"
+      },
+      "buttons": [
+        {
+          "type": "web_url",
+          "url": "https://dev.botframework.com/",
+          "title": "View Website"
+        },
+        {
+          "type": "postback",
+          "title": "Start Chatting",
+          "payload": "Chatting"
+        }
+      ]
+    }
+  ]
+}

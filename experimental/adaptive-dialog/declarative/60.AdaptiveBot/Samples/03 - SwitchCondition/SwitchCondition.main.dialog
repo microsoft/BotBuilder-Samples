@@ -1,31 +1,36 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
-    "steps": [
+    "$kind": "Microsoft.AdaptiveDialog",
+    "triggers": [
         {
-            "$type": "Microsoft.SetProperty",
-            "property": "user.age",
-            "value": "22"
-        },
-        {
-            "$type": "Microsoft.SwitchCondition",
-            "condition": "user.age",
-            "cases": [
+            "$kind": "Microsoft.OnBeginDialog",
+            "actions": [
                 {
-                    "value": "21",
-                    "steps": [
-                        {
-                            "$type": "Microsoft.SendActivity",
-                            "activity": "Age is 21!"
-                        }
-                    ]
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "user.age",
+                    "value": "22"
                 },
                 {
-                    "value": "22",
-                    "steps": [
+                    "$kind": "Microsoft.SwitchCondition",
+                    "condition": "user.age",
+                    "cases": [
                         {
-                            "$type": "Microsoft.SendActivity",
-                            "activity": "Age is 22!"
+                            "value": "21",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "Age is 21!"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "22",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "Age is 22!"
+                                }
+                            ]
                         }
                     ]
                 }

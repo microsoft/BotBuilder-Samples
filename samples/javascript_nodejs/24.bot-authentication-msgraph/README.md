@@ -84,6 +84,13 @@ including Windows, Office 365, and Azure.
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
+## GraphError 404: ResourceNotFound, Resource could not be discovered
+
+This error may confusingly present itself if either of the following are true:
+
+* You're using an email ending in `@microsoft.com`, and/or
+* Your OAuth AAD tenant is `microsoft.onmicrosoft.com`.
+
 ## Further Reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)

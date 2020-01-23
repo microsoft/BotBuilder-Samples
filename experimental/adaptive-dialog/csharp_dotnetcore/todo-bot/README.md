@@ -68,15 +68,15 @@ This sample uses preview packages available on the [BotBuilder MyGet feed][4].
     - You can get your application id and endpoint region by following instructions [here][10]
 
 ### Using CLI
-- Install [nodejs][8] version 8.5 or higher
-- Install [botbuilder-tools][7] CLI
+- Install [nodejs][2] version 10.14 or higher
+- Install required CLI tools
 ```bash
-> npm i -g ludown luis-apis
+> npm i -g luis-apis @microsoft/botframework-cli
 ```
 - In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/todo-bot`
-- To parse ToDoBot.lu to a LUIS json model
+- To parse RootDialog.lu to a LUIS json model
 ```bash
-> ludown parse toluis --in ./Dialogs/RootDialog/RootDialog.lu -o CognitiveModels -n ToDoLuisBot --out ToDoLuisBot.luis.json
+> bf luis:convert --in ./Dialogs/RootDialog/RootDialog.lu --out ./CognitiveModels/ToDoLuisBot.luis.json --force
 ```
 - To create a new LUIS application using this model. Note: You see [here][9] for instructions on getting your authoirng key.
 ```bash

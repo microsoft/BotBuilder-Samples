@@ -1,72 +1,80 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
-    "autoEndDialog": false,
+    "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": {
-        "$type": "Microsoft.RegexRecognizer",
-        "intents": {
-            "JokeIntent": "(?i)joke",
-            "FortuneTellerIntent": "(?i)fortune|future",
-            "CancelIntent": "(?i)cancel"
-        }
+        "$kind": "Microsoft.RegexRecognizer",
+        "intents": [
+            {
+                "intent": "JokeIntent",
+                "pattern": "(?i)joke"
+            },
+            {
+                "intent": "FortuneTellerIntent",
+                "pattern": "(?i)fortune|future"
+            },
+            {
+                "intent": "CancelIntent",
+                "pattern": "(?i)cancel"
+            }
+        ]
     },
-    "rules": [
+    "triggers": [
         {
-            "$type": "Microsoft.UnknownIntentRule",
-            "steps": [
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
                 {
-                    "$type": "Microsoft.IfCondition",
+                    "$kind": "Microsoft.IfCondition",
                     "condition": "user.name == null",
-                    "steps": [
+                    "actions": [
                         {
-                            "$type": "Microsoft.TextInput",
+                            "$kind": "Microsoft.TextInput",
                             "property": "user.name",
                             "prompt": "Hello, I'm Zoidberg. What is your name?"
                         }
                     ]
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
-                    "activity": "Hello {user.name}, nice to talk to you!"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Hello @{user.name}, nice to talk to you!"
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]
         },
         {
-            "$type": "Microsoft.IntentRule",
+            "$kind": "Microsoft.OnIntent",
             "intent": "JokeIntent",
-            "steps": [
+            "actions": [
                 "BeginDialog.TellJokeDialog"
             ]
         },
         {
-            "$type": "Microsoft.IntentRule",
+            "$kind": "Microsoft.OnIntent",
             "intent": "FortuneTellerIntent",
-            "steps": [
+            "actions": [
                 "BeginDialog.FortuneTellerDialog"
             ]
         },
         {
-            "$type":"Microsoft.IntentRule",
+            "$kind":"Microsoft.OnIntent",
             "intent": "CancelIntent",
-            "steps":[
+            "actions":[
                 {
-                    "$type":"Microsoft.SendActivity",
+                    "$kind":"Microsoft.SendActivity",
                     "activity":"OK, see ya"
                 },
                 {
-                    "$type":"Microsoft.EndDialog"
+                    "$kind":"Microsoft.EndDialog"
                 }
             ]
         },
         {
-            "$type": "Microsoft.UnknownIntentRule",
-            "steps": [
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]

@@ -73,7 +73,7 @@ To learn how to configure Dispatch with multiple LUIS models and QnA Maker servi
 
 ## Dispatch
 
-Once you are confortable with the concepts presented in this sample, you may want to configure Dispath using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
+Once you are confortable with the concepts presented in this sample, you may want to configure Dispatch using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
 
 ## Deploy the bot to Azure
 

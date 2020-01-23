@@ -1,6 +1,6 @@
 # API reference for LG 
 
-For Nuget packages, see [this MyGet feed][1]
+For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
 ### TemplateEngine Class
 
@@ -18,7 +18,8 @@ public List<LGTemplate> Templates = new List<LGTemplate>();
 /// Return an empty engine, you can then use AddFile\AddFiles to add files to it, 
 /// or you can just use this empty engine to evaluate inline template
 /// </summary>
-public TemplateEngine()
+/// <param name="expressionEngine">The expression engine this template engine based on.</param>
+public TemplateEngine(ExpressionEngine expressionEngine = null)
 ```
 
 #### Methods
@@ -63,9 +64,8 @@ public TemplateEngine AddText(string content, string id = "", ImportResolverDele
 /// </summary>
 /// <param name="templateName">Template name to be evaluated.</param>
 /// <param name="scope">The state visible in the evaluation.</param>
-/// <param name="methodBinder">Optional methodBinder to extend or override functions.</param>
 /// <returns>Evaluate result.</returns>
-public string EvaluateTemplate(string templateName, object scope = null, IGetMethod methodBinder = null)
+public string EvaluateTemplate(string templateName, object scope = null)
 ```
 
 ```C#
@@ -75,9 +75,8 @@ public string EvaluateTemplate(string templateName, object scope = null, IGetMet
 /// </summary>
 /// <param name="templateName">Template name to be evaluated.</param>
 /// <param name="scope">The state visible in the evaluation.</param>
-/// <param name="methodBinder">Optional methodBinder to extend or override functions.</param>
 /// <returns>Expand result.</returns>
-public List<string> ExpandTemplate(string templateName, object scope = null, IGetMethod methodBinder = null)
+public List<string> ExpandTemplate(string templateName, object scope = null)
 ```
 
 ```C#
@@ -89,15 +88,5 @@ public List<string> ExpandTemplate(string templateName, object scope = null, IGe
 public List<string> AnalyzeTemplate(string templateName)
 ```
 
-```C#
-/// <summary>
-/// Use to evaluate an inline template str.
-/// </summary>
-/// <param name="inlineStr">inline string which will be evaluated.</param>
-/// <param name="scope">scope object or JToken.</param>
-/// <param name="methodBinder">input method.</param>
-/// <returns>Evaluate result.</returns>
-public string Evaluate(string inlineStr, object scope = null, IGetMethod methodBinder = null)
-```
-
-[1]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-lg
