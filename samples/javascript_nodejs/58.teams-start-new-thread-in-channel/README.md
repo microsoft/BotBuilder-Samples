@@ -1,7 +1,7 @@
 
-# Teams Conversation Bot
+# Teams - Start new thread in a channel (proactive messaging)
 
-Bot Framework v4 Conversation Bot sample for Teams.
+This Bot Framework v4 bot shows how to create a new thread in a Teams channel by sending a proactive message, then replying to that message.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com). This sample shows
 how to incorporate basic conversational flow into a Teams application. It also illustrates a few of the Teams specific calls you can make from your bot.
