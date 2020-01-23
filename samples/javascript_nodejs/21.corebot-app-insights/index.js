@@ -7,7 +7,9 @@
 const path = require('path');
 const restify = require('restify');
 
-const { ApplicationInsightsTelemetryClient, ApplicationInsightsWebserverMiddleware } = require('botbuilder-applicationinsights');
+// Import required services for bot telemetry
+const { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } = require('botbuilder-applicationinsights');
+const { TelemetryLoggerMiddleware } = require('botbuilder-core');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, NullTelemetryClient, UserState } = require('botbuilder');
@@ -43,6 +45,12 @@ adapter.onTurnError = async (context, error) => {
     await conversationState.delete(context);
 };
 
+// Add telemetry middleware to the adapter middleware pipeline
+var telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
+var telemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient, true);
+var initializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware, true);
+adapter.use(initializerMiddleware);
+
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
 
@@ -62,7 +70,7 @@ const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 // Create the main dialog.
 const bookingDialog = new BookingDialog();
 const dialog = new MainDialog(luisRecognizer, bookingDialog);
-dialog.telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
+dialog.telemetryClient = telemetryClient;
 
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
@@ -72,7 +80,6 @@ const server = restify.createServer();
 // Enable the Application Insights middleware, which helps correlate all activity
 // based on the incoming request.
 server.use(restify.plugins.bodyParser());
-server.use(ApplicationInsightsWebserverMiddleware);
 
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
