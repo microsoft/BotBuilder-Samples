@@ -96,6 +96,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMultiturnBot", "58.qnama
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "61.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsStartNewThreadInTeam", "58.teams-start-new-thread-in-channel\TeamsStartNewThreadInTeam.csproj", "{6F228764-4E4A-46A8-807A-8FC9E36DDA35}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -278,6 +280,10 @@ Global
 		{7BAF37EE-FE85-4975-B75D-160359E04381}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7BAF37EE-FE85-4975-B75D-160359E04381}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
