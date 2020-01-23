@@ -75,7 +75,7 @@ namespace Microsoft.BotBuilderSamples
 
             stepContext.Values[QnAData] = new List<QueryResult>(filteredResponse);
             stepContext.Values[CurrentQuery] = stepContext.Context.Activity.Text;
-            return await stepContext.NextAsync(cancellationToken);
+            return await stepContext.NextAsync(null, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FilterLowVariationScoreList(WaterfallStepContext stepContext, CancellationToken cancellationToken)
