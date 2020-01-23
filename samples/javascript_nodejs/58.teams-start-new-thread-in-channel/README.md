@@ -23,7 +23,7 @@ the Teams service needs to call into the bot.
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-1) In a terminal, navigate to `samples/javascript_nodejs/57.teams-conversation-bot`
+1) In a terminal, navigate to `samples/javascript_nodejs/58.teams-start-new-thread-in-channel`
 
 1) Install modules
 
