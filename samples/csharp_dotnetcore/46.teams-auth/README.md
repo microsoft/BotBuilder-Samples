@@ -2,17 +2,19 @@
 
 Bot Framework v4 bot using Teams authentication
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with building a bot for Teams.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with authentication in a bot for Microsoft Teams.
 
-At this stage the primary focus of this sample is how to use the Bot Framework support for oauth in your bot. The reason for prioritizing this is that Teams behaves slightly differently than other channels in this regard. Specifically an Invoke Activity is sent to the bot rather than the Event Activity used by other channels. _This Invoke Activity must be forwarded to the dialog if the OAuthPrompt is being used._ This is done by subclassing the ActivityHandler and this sample includes a reusable TeamsActivityHandler. This class is a candidate for future inclusion in the Bot Framework SDK.
+The focus of this sample is how to use the Bot Framework support for oauth in your bot. Teams behaves slightly differently than other channels in this regard. Specifically an Invoke Activity is sent to the bot rather than the Event Activity used by other channels. _This Invoke Activity must be forwarded to the dialog if the OAuthPrompt is being used._ This is done by subclassing the ActivityHandler and this sample includes a reusable TeamsActivityHandler. This class is a candidate for future inclusion in the Bot Framework SDK.
 
-The Teams channel is also capable of sending Message Reaction Activities and virtual methods for these are included in the `TeamsActivityHandler`. A Message Reaction Activity references the original Activity using the replyToId. This id would have actually been the value returned from a previous Message Activity the bot had sent. This activity should also be visible through the Activity Feed in Microsoft Teams, documentation for which can be found here https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/activity-feed
+The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. The OAuth token is then used to make basic Microsoft Graph queries.
 
-The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+> IMPORTANT: The manifest file in this app adds "token.botframework.com" to the list of `validDomains`. This must be included in any bot that uses the Bot Framework OAuth flow.
 
 ## Prerequisites
 
+- Microsoft Teams is installed and you have an account (not a guest account)
 - [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
   ```bash
   # determine dotnet version
@@ -21,51 +23,45 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 ## To try this sample
 
-- Clone the repository
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
+> the Teams service needs to call into the bot.
+
+1) Clone the repository
 
     ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
+    git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
+1) If you are using Visual Studio
+    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
+    - Set the Startup Project to `TeamsTaskModule`
+    - The changes specified here will apply to this project
 
-- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
+1) Run ngrok - point to port 3978
 
-After Authentication has been configured via Azure Bot Service, you can test the bot.
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/46.teams-auth`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
+    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-  A) From a terminal
+1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
-  ```bash
-  # run the bot
-  dotnet run
-  ```
+1) __*This step is specific to Teams.*__
+    - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
+    - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
+    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-  B) Or from Visual Studio
+1) Run your bot, either from Visual Studio with `F5` or using `dotnet run` in the appropriate folder.
 
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/46.teams-auth` folder
-  - Select `TeamsAuth.csproj` file
-  - Press `F5` to run the project
+## Interacting with the bot in Teams
 
-## Testing the bot using Bot Framework Emulator
+> Note this `manifest.json` specified that the bot will be installed in a "personal" scope only. Please refer to Teams documentation for more details.
 
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework Emulator version 4.5.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
-
-## Authentication
-
-This sample uses bot authentication capabilities in Azure Bot Service.  Azure Bot Service provides features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. These updates also take steps towards an improved user experience by eliminating the magic code verification for some clients.
+You can interact with this bot by sending it a message. The bot will respond by requesting you to login to AAD, then making a call to the Graph API on your behalf and returning the results.
 
 ## Deploy the bot to Azure
 

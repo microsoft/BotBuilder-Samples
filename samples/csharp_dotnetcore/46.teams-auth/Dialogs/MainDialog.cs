@@ -54,9 +54,16 @@ namespace Microsoft.BotBuilderSamples
             // Get the token from the previous step. Note that we could also have gotten the
             // token directly from the prompt itself. There is an example of this in the next method.
             var tokenResponse = (TokenResponse)stepContext.Result;
-            if (tokenResponse != null)
+            if (tokenResponse?.Token != null)
             {
-                await stepContext.Context.SendActivityAsync(MessageFactory.Text("You are now logged in."), cancellationToken);
+                // Pull in the data from the Microsoft Graph.
+                var client = new SimpleGraphClient(tokenResponse.Token);
+                var me = await client.GetMeAsync();
+                var title = !string.IsNullOrEmpty(me.JobTitle) ?
+                            me.JobTitle : "Unknown";
+
+                await stepContext.Context.SendActivityAsync($"You're logged in as {me.DisplayName} ({me.UserPrincipalName}); you job title is: {title}");
+
                 return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to view your token?") }, cancellationToken);
             }
 
