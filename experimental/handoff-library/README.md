@@ -41,7 +41,7 @@ This event is used by bot to initiate handoff.
 ```C#
 handoffEvent.Attachments = new List<Attachment> {
     new Attachment {
-        Content = activities,
+        Content = transcript,
         ContentType = "application/json",
         Name = "Trasnscript",
     }};
