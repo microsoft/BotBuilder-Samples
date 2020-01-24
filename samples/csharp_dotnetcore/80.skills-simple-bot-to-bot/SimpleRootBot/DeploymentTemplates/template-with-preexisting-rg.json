@@ -60,6 +60,13 @@
                 "description": "Name of the existing App Service Plan used to create the Web App for the bot."
             }
         },
+        "existingAppServicePlanResourceGroup": {
+            "type": "string",
+            "defaultValue": "",
+            "metadata": {
+                "description": "Name of the resource group for the existing App Service Plan used to create the Web App for the bot."
+            }
+        },        
         "newWebAppName": {
             "type": "string",
             "defaultValue": "",
@@ -102,7 +109,7 @@
             "name": "[variables('webAppName')]",
             "properties": {
                 "name": "[variables('webAppName')]",
-                "serverFarmId": "[variables('servicePlanName')]",
+                "serverFarmId": "[concat('/subscriptions/', Subscription().SubscriptionId,'/resourceGroups/', parameters('existingAppServicePlanResourceGroup'), '/providers/Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
