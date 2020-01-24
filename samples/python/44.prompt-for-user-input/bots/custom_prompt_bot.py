@@ -41,7 +41,7 @@ class CustomPromptBot(ActivityHandler):
         self.user_state = user_state
 
         self.flow_accessor = self.conversation_state.create_property("ConversationFlow")
-        self.profile_accessor = self.conversation_state.create_property("UserProfile")
+        self.profile_accessor = self.user_state.create_property("UserProfile")
 
     async def on_message_activity(self, turn_context: TurnContext):
         # Get the state properties from the turn context.
