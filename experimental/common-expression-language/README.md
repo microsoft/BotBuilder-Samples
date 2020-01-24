@@ -8,7 +8,7 @@ Common expression language was put together to address this core need as well as
 
 See [here](./api-reference.md) for API reference.
 
-***_An expression is a sequence that can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../fileformats/lg/README.md#Template)._***
+***_An expression is a sequence that can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation)._***
 
 ## Operators
 
