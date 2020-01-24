@@ -16,7 +16,7 @@ namespace Microsoft.Bot.Builder.EchoBot
         {
             if (turnContext.Activity.Text.Contains("human"))
             {
-                await turnContext.SendActivityAsync($"You have requested trasfter to an agent, ConversationId={turnContext.Activity.Conversation.Id}");
+                await turnContext.SendActivityAsync($"You have requested transfer to an agent, ConversationId={turnContext.Activity.Conversation.Id}");
 
                 var a1 = MessageFactory.Text($"first message");
                 var a2 = MessageFactory.Text($"second message");
