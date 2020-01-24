@@ -1,8 +1,8 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
+    "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": {
-        "$type": "Microsoft.RegexRecognizer",
+        "$kind": "Microsoft.RegexRecognizer",
         "intents": [
             {
                 "intent": "JokeIntent",
@@ -20,82 +20,82 @@
     },
     "triggers": [
         {
-            "$type": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnUnknownIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.IfCondition",
+                    "$kind": "Microsoft.IfCondition",
                     "condition": "user.name == null",
                     "actions": [
                         {
-                            "$type": "Microsoft.TextInput",
+                            "$kind": "Microsoft.TextInput",
                             "property": "user.name",
                             "prompt": "Hello, I'm Zoidberg. What is your name?"
                         }
                     ]
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
-                    "activity": "Hello {user.name}, nice to talk to you!"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Hello @{user.name}, nice to talk to you!"
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]
         },
         {
-            "$type": "Microsoft.OnIntent",
+            "$kind": "Microsoft.OnIntent",
             "intent": "JokeIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Why did the chicken cross the road?"
                 },
                 {
-                    "$type": "Microsoft.EndTurn"
+                    "$kind": "Microsoft.EndTurn"
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "To get to the other side"
                 }
             ]
         },
         {
-            "$type": "Microsoft.OnIntent",
+            "$kind": "Microsoft.OnIntent",
             "intent": "FortuneTellerIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Seeing into the future..."
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "I see great things happening..."
                 },
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Perhaps even a successful bot demo"
                 }
             ]
         },
         {
-            "$type":"Microsoft.OnIntent",
+            "$kind":"Microsoft.OnIntent",
             "intent": "CancelIntent",
             "actions":[
                 {
-                    "$type":"Microsoft.SendActivity",
+                    "$kind":"Microsoft.SendActivity",
                     "activity":"OK, see ya"
                 },
                 {
-                    "$type":"Microsoft.EndDialog"
+                    "$kind":"Microsoft.EndDialog"
                 }
             ]
         },
         {
-            "$type": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnUnknownIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.SendActivity",
+                    "$kind": "Microsoft.SendActivity",
                     "activity": "Hey, I can tell you a joke, or tell your fortune"
                 }
             ]

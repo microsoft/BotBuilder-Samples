@@ -1,6 +1,6 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in **4.6 PREVIEW 2** release.
+> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.
 
 Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
 
@@ -52,10 +52,10 @@ For NodeJS
 
 ```typescript
     // multi lg files
-    let lgEngine = new TemplateEngine.addFiles(filePaths, importResolver?);
+    let lgEngine = new TemplateEngine().addFiles(filePaths, importResolver?);
 
     // single lg file
-    let lgEngine = new TemplateEngine.addFile(filePath, importResolver?);
+    let lgEngine = new TemplateEngine().addFile(filePath, importResolver?);
 ```
 
 When you need template expansion, call the templateEngine and pass in the relevant template name
@@ -69,7 +69,7 @@ For C#
 For NodeJS
 
 ```typescript
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection));
+    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection)));
 ```
 
 If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
@@ -83,8 +83,8 @@ For C#
 
 For NodeJS
 
-```node
-    await turnContext.sendActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } ));
+```typescript
+    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
 
 ## Multi-lingual generation and language fallback policy
@@ -94,11 +94,74 @@ Quite often your bot might target more than one spoken/ display language. To do 
 
 The current library does not include any capabilities for grammar check or correction.
 
-## Packages
+## Expand api
 
-Packages for C# are available under the [BotBuilder MyGet feed][12]
+If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
+For C#
+
+```c#
+    var results = lgEngine.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+```
+
+For NodeJS
+
+```typescript
+    const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+```
+
+For example:
+
+```
+# Greeting
+- Hi
+- Hello
+
+#TimeOfDay
+- Morning
+- Evening
+
+# FinalGreeting
+- @{Greeting()} @{TimeOfDay()}
+
+# TimeOfDayWithCondition
+- IF: @{time == 'morning'}
+    - @{Greeting()} Morning
+- ELSEIF: @{time == 'evening'}
+    - @{Greeting()} Evening
+- ELSE:
+    - @{Greeting()} Afternoon
+```
+
+If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
+
+If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
+
+## Packages
+Latest preview packages are available here
+- C# -> [NuGet][14]
+- JS -> [npm][15]
+
+Nightly packages for C# are available here
+- C# -> [BotBuilder MyGet feed][12]
+- JS -> [BotBuilder MyGet feed][13]
 
 ## Change Log
+### 4.7 PREVIEW
+- \[**BREAKING CHANGES**\]:
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
+    - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
+
+    |  Old  | New |
+    |-------|-----|
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+
+- \[**NEW**\]:
+    - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
+    - New `ActivityFactory` class that helps transform structured response template output from LG into a Bot framework activity.
+    - Bug fixes and stability improvements.
+
 ### 4.6 PREVIEW 2
 - \[**BREAKING CHANGES**\]:
     - Old `display || speak` notation is deprecated in favor of structured template support. See below for more details on structured template. 
@@ -130,9 +193,12 @@ Packages for C# are available under the [BotBuilder MyGet feed][12]
 [10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
 [11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
 [12]:https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
+[13]:https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily
+[14]:https://www.nuget.org/packages/Microsoft.Bot.Builder.LanguageGeneration/4.7.0-preview
+[15]:https://www.npmjs.com/package/botbuilder-lg
 [20]:./docs/lg-file-format.md#Switch..Case
 [21]:./docs/lg-file-format.md#Importing-external-references
 [22]:https://aka.ms/lg-vscode-extension
 [23]:https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/MSLG
 [25]:./csharp_dotnetcore/05.a.multi-turn-prompt-with-language-fallback/
-
+[26]:./javascript_nodejs/

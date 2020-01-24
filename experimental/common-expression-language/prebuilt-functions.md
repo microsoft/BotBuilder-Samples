@@ -49,7 +49,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
 |[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
 |[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
-
+|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
 
 ### Logical comparison functions
 |Function	|Explanation|
@@ -83,9 +83,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[dataUriToBinary](#dataUriToBinary) | Return the binary version of a data URI. |
 |[dataUriToString](#dateUriToString) | Return the string version of a data URI. |
 |[uriComponent](#uriComponent) | Return the URI-encoded version for an input value by replacing URL-unsafe characters with escape characters. |
-|[uriComponentToBinary](#uriComponentToBinary) | Return the binary version for a URI-encoded string. |
 |[uriComponentToString](#uriComponentToString) | Return the string version for a URI-encoded string. |
-|[xml](#xml) | Return the XML version for a string. |
+|[xml](#xml) | [C# only] Return the XML version for a string. |
 
 ### Math functions
 |Function	|Explanation|
@@ -101,6 +100,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[sum](#sum)	|Returns sum of numbers in an array	|
 |[range](#range) | Return an integer array that starts from a specified integer. |
 |[exp](#exp)	|Exponentiation function. Exp(base, exponent)	|
+|[average](#average)	| Return the average number of an numeric array.	|
 
 ### Date and time functions
 |Function	|Explanation|
@@ -148,8 +148,9 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[setProperty](#setProperty)    | Set the value for a JSON object's property and return the updated object. |
 |[getProperty](#getProperty)    | Return the value of the given property in a JSON object.  |
 |[coalesce](#coalesce)  | Return the first non-null value from one or more parameters.  |
-|[xPath](#xPath)    | Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
+|[xPath](#xPath)    | [C# only] Check XML for nodes or values that match an XPath(XML Path Language) expression, and return the matching nodes or values. |
 |[jPath](#jPath)    | Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes. |
+|[setPathToValue](#setPathToValue)    | Set the value for a specific path and return the value. |
 
 ### Regex functions
 |Function	|Explanation|
@@ -1474,12 +1475,12 @@ And returns this result: `10.333`
 Operate on each element and return the new collection
 
 ```
-foreach([<collection>], <iteratorName>, <function>)
+foreach([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array or Object | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | function that can contains iteratorName |
 |||||
@@ -1498,6 +1499,16 @@ foreach(createArray(0, 1, 2, 3), x, x + 1)
 ```
 
 And return this result: `[1, 2, 3, 4]`
+
+
+
+These examples generate new collections from instance:
+
+```
+foreach(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
 
 <a name="formatDateTime"></a>
 
@@ -1807,6 +1818,81 @@ indexOf('hello world', 'world')
 ```
 
 And returns this result: `6`
+
+<a name="indicesAndValues"></a>
+
+### indicesAndValues
+
+Turned an array into an array of objects with index (current index) and value property.
+
+```
+indicesAndValues('<collection>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | Original array |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*collection*> | Array | New array that each item has two properties, one is index, present this item's origin index, the other one is value |
+||||
+
+*Example*
+
+Suppose there is a list { items: ["zero", "one", "two"] }
+
+```
+indicesAndValues(items)
+```
+
+returns a new list:
+```
+[
+  {
+    index: 0,
+    value: 'zero'
+  },
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+second example:
+
+```
+where(indicesAndValues(items), elt, elt.index >= 1)
+```
+
+And returns a new list: 
+```
+[
+  {
+    index: 1,
+    value: 'one'
+  },
+  {
+    index: 2,
+    value: 'two'
+  }
+]
+```
+
+Another example, with the same list `items`.
+
+```
+join(foreach(indicesAndValues(items), item, item.value), ',')
+```
+
+will return `zero,one,two`, and this expression has the same effect with `join(items, ',')`
+
 
 <a name="int"></a>
 
@@ -2759,12 +2845,12 @@ And returns this result: `"the new string"`
 Operate on each element and return the new collection of transformed elements.
 
 ```
-select([<collection>], <iteratorName>, <function>)
+select([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | function that can contains iteratorName |
 |||||
@@ -2783,6 +2869,47 @@ select(createArray(0, 1, 2, 3), x, x + 1)
 ```
 
 And return this result: `[1, 2, 3, 4]`
+
+These examples generate new collections from instance:
+
+```
+select(json("{'name': 'jack', 'age': '15'}"), x, concat(x.key, ':', x.value))
+```
+
+And return this result: `['name:jack', 'age:15']`
+
+<a name="setPathToValue"></a>
+
+### setPathToValue
+
+Retrieve the value of the specified property from the JSON object.
+
+```
+setPathToValue(<path>, <value>)
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*Path*> | Yes | Object | the path which you want to set |
+| <*value*> | Yes | Object | the value you want to set to the path |
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| value | Object | the value be set, same with the second parameter|
+||||
+
+*Example*
+```
+setPathToValue(path.x, 1)
+```
+
+And return with result: 1, and path.x has been set to 1.
+
+```
+setPathToValue(path.array[0], 7) + path.array[0]
+```
+
+return the result: 14
 
 <a name="setProperty"></a>
 
@@ -3573,38 +3700,6 @@ uriComponent('https://contoso.com')
 
 And returns this result: `"http%3A%2F%2Fcontoso.com"`
 
-<a name="uriComponentToBinary"></a>
-
-### uriComponentToBinary
-
-Return the binary version for a uniform resource identifier (URI) component.
-
-```
-uriComponentToBinary('<value>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The URI-encoded string to convert |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*binary-for-encoded-uri*> | String | The binary version for the URI-encoded string. The binary content is base64-encoded and represented by $content. |
-||||
-
-*Example*
-
-This example creates the binary version for this URI-encoded string:
-
-```
-uriComponentToBinary('http%3A%2F%2Fcontoso.com')
-```
-
-And returns this result: 
-
-`"001000100110100001110100011101000111000000100101001100 11010000010010010100110010010001100010010100110010010001 10011000110110111101101110011101000110111101110011011011 110010111001100011011011110110110100100010"`
-
 <a name="uriComponentToString"></a>
 
 ### uriComponentToString
@@ -3867,19 +3962,19 @@ And returns this result: `"Sunday, April 15, 2018"`
 Filter on each element and return the new collection of filtered elements which match specific condition.
 
 ```
-where([<collection>], <iteratorName>, <function>)
+where([<collection/instance>], <iteratorName>, <function>)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection with the items |
+| <*collection/instance*> | Yes | Array | The collection with the items |
 | <*iteratorName*> | Yes | String | The key item of arrow function |
 | <*function*> | Yes | Any | condition function which is used to filter items|
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*new-collection*> | Array | the new collection which each element has been filtered with the function  |
+| <*new-collection/new-object*> | Array/Object | the new collection which each element has been filtered with the function  |
 ||||
 
 *Example*
@@ -3892,11 +3987,20 @@ where(createArray(0, 1, 2, 3), x, x > 1)
 
 And return this result: `[2, 3]`
 
+These examples generate new object:
+
+```
+where(json("{'name': 'jack', 'age': '15'}"), x, x.value == 'jack')
+```
+
+And return this result: `{'name': 'jack'}`
+
+
 <a name="xml"></a>
 
 ### xml
 
-Return the XML version for a string that contains a JSON object.
+[C# only] Return the XML version for a string that contains a JSON object.
 
 ```
 xml('<value>')
@@ -3956,7 +4060,7 @@ And returns this result XML:
 
 ### xPath
 
-Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.
+[C# only] Check XML for nodes or values that match an XPath (XML Path Language) expression, and return the matching nodes or values. An XPath expression, or just "XPath", helps you navigate an XML document structure so that you can select nodes or compute values in the XML content.
 
 ```
 xPath('<xml>', '<xpath>')

@@ -15,8 +15,8 @@ const { EchoBot } = require('./bot');
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
-// Create HTTP server and configure the Server to handle for Upgrade requests.
-const server = restify.createServer({ handleUpgrades: true });
+// Create HTTP server.
+const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -50,7 +50,7 @@ const onTurnErrorHandler = async (context, error) => {
     );
 
     // Send a message to the user
-    await context.sendActivity('The bot encounted an error or bug.');
+    await context.sendActivity('The bot encountered an error or bug.');
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
@@ -69,16 +69,13 @@ server.post('/api/messages', (req, res) => {
 });
 
 // Listen for GET requests to the same route to accept Upgrade requests for Streaming.
-server.get('/api/messages', (req, res) => {
+server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter({
-        ...adapterSettings,
-        enableWebSockets: true
-    });
+    const streamingAdapter = new BotFrameworkAdapter(adapterSettings);
     // Set onTurnError for the BotFrameworkAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.processActivity(req, res, async (context) => {
+    await streamingAdapter.useWebSocket(req, socket, head, async (context) => {
         // After connecting via WebSocket, run this logic for every request sent over
         // the WebSocket connection.
         await myBot.run(context);

@@ -4,11 +4,11 @@
 using System.Collections.Generic;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Builder.LanguageGeneration;
-using ActivityBuilder = Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityGenerator;
 using System;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -105,7 +105,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (TemplateEnginesPerLocale.ContainsKey(iLocale))
             {
-                return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data));
+                return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
             }
             var locales = new string[] { string.Empty };
             if (!LangFallBackPolicy.TryGetValue(iLocale, out locales))
@@ -120,7 +120,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (TemplateEnginesPerLocale.ContainsKey(fallBackLocale))
                 {
-                    return ActivityBuilder.GenerateFromLG(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data));
+                    return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
                 }
             }
             return new Activity();

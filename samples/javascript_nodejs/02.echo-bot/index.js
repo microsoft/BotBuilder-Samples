@@ -32,7 +32,7 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -47,9 +47,12 @@ adapter.onTurnError = async (context, error) => {
     );
 
     // Send a message to the user
-    await context.sendActivity('The bot encounted an error or bug.');
+    await context.sendActivity('The bot encountered an error or bug.');
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
+
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
 
 // Create the main dialog.
 const myBot = new EchoBot();
@@ -58,6 +61,23 @@ const myBot = new EchoBot();
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (context) => {
         // Route to main dialog.
+        await myBot.run(context);
+    });
+});
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
         await myBot.run(context);
     });
 });

@@ -1,13 +1,14 @@
 {
     "$schema": "../../app.schema",
-    "$type": "Microsoft.AdaptiveDialog",
+    "$kind": "Microsoft.AdaptiveDialog",
     "generator": "usingCards.lg",
+    "autoEndDialog": "false",
     "triggers": [
         {
-            "$type": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnUnknownIntent",
             "actions": [
                 {
-                    "$type": "Microsoft.ChoiceInput",
+                    "$kind": "Microsoft.ChoiceInput",
                     "prompt": "@{Card-choice()}",
                     "property": "turn.cardChoice",
                     "outputFormat": "value",
@@ -44,18 +45,18 @@
                     ]
                 },
                 {
-                    "$type": "Microsoft.SwitchCondition",
+                    "$kind": "Microsoft.SwitchCondition",
                     "condition": "turn.cardChoice",
                     "cases": [
                         {
                             "value": "Cancel",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "Cancelling.."
                                 },
                                 {
-                                    "$type": "Microsoft.EndDialog"
+                                    "$kind": "Microsoft.EndDialog"
                                 }
                             ]
                         },
@@ -63,7 +64,7 @@
                             "value": "Help",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{Help-text()}"
                                 }
                             ]
@@ -73,7 +74,7 @@
                             "value": "All cards",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{All-cards()}"
                                 }
                             ]
@@ -82,7 +83,7 @@
                             "value": "Hero card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{HeroCard()}"
                                 }
                             ]
@@ -91,7 +92,7 @@
                             "value": "Thumbnail card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{ThumbnailCard()}"
                                 }
                             ]
@@ -100,7 +101,7 @@
                             "value": "Signin card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{SigninCard()}"
                                 }
                             ]
@@ -109,7 +110,7 @@
                             "value": "Animation card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{AnimationCard()}"
                                 }
                             ]
@@ -118,7 +119,7 @@
                             "value": "Video card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{VideoCard()}"
                                 }
                             ]
@@ -127,7 +128,7 @@
                             "value": "Audio card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{AudioCard()}"
                                 }
                             ]
@@ -136,7 +137,7 @@
                             "value": "Adaptive card",
                             "actions": [
                                 {
-                                    "$type": "Microsoft.SendActivity",
+                                    "$kind": "Microsoft.SendActivity",
                                     "activity": "@{AdaptiveCard()}"
                                 }
                             ]
@@ -144,7 +145,7 @@
                     ]
                 },
                 {
-                    "$type": "Microsoft.RepeatDialog"
+                    "$kind": "Microsoft.RepeatDialog"
                 }
             ]
         }

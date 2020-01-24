@@ -2,11 +2,11 @@
 
 This document describes the constituent parts of [Adaptive][7] dialog. 
 
-- [Recognizers](#recognizers)
-- [Generator](#generator)
-- [Triggers](#triggers)
-- [Actions](#actions)
-- [Inputs](#inputs)
+- [Recognizers](#Recognizers)
+- [Generator](#Generator)
+- [Triggers](#Triggers)
+- [Actions](#Actions)
+- [Inputs](#Inputs)
 
 ## Recognizers
 _Recognizers_ provide the functionality of understanding and extracting meaningful pieces of information from a user's input. All recognizers emit events - of specific interest is the 'recognizedIntent' event that fires when the recognizer picks up an intent (or extracts entities) from a given user utterance.
@@ -1004,11 +1004,11 @@ Use this to make HTTP requests to any endpoint.
 new HttpRequest()
 {
     // Set response from the http request to turn.httpResponse property in memory.
-    Property = "turn.httpResponse",
+    ResultProperty = "turn.httpResponse",
     Method = HttpRequest.HttpMethod.POST,
     Header = new Dictionary<string,string> (), /* request header */
     Body = { }                                 /* request body */
-}); 
+}; 
 ```
 ### TraceActivity
 Sends a trace activity with a payload you specify. 

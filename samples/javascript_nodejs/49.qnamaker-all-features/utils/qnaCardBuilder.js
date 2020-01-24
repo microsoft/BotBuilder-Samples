@@ -19,8 +19,8 @@ class QnACardBuilder {
             });
         });
 
-        var heroCard = CardFactory.heroCard('', result.answer, [], CardFactory.actions(cardActions));
-        return { attachments: [heroCard] };
+        var heroCard = CardFactory.heroCard('', '', [], CardFactory.actions(cardActions));
+        return { text: result.answer, attachments: [heroCard] };
     }
 
     /**
@@ -47,11 +47,11 @@ class QnACardBuilder {
 
         var heroCard = CardFactory.heroCard(
             '',
-            cardTitle,
+            '',
             [],
             CardFactory.actions(cardActions));
 
-        return { attachments: [heroCard] };
+        return { text: cardTitle, attachments: [heroCard] };
     }
 }
 
