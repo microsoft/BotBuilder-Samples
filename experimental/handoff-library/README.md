@@ -31,7 +31,7 @@ TBD
 
 This event is used by bot to initiate handoff.
 
-### Payload
+#### Payload
 
 `Value`: an object containing agent hub-specific JSON content, such as required agent skill etc. Example: 
 ```C#
