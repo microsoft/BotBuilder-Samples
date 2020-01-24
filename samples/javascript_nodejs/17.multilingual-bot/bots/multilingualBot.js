@@ -62,7 +62,6 @@ class MultilingualBot extends ActivityHandler {
                 // selected language.
                 // If Spanish was selected by the user, the reply below will actually be shown in spanish to the user.
                 await context.sendActivity(`Your current language code is: ${ lang }`);
-                await this.userState.saveChanges(context);
             } else {
                 // Show the user the possible options for language. The translation middleware
                 // will pick up the language selected by the user and
@@ -87,6 +86,16 @@ class MultilingualBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+    }
+
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context) {
+        await super.run(context);
+
+        // Save state changes
+        await this.userState.saveChanges(context);
     }
 }
 

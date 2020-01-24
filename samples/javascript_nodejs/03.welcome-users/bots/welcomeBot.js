@@ -55,8 +55,6 @@ class WelcomeBot extends ActivityHandler {
                                                     Framework Emulator, press the 'Start Over' button to simulate user joining a bot or a channel`);
                 }
             }
-            // Save state changes
-            await this.userState.saveChanges(context);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
@@ -86,6 +84,16 @@ class WelcomeBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+    }
+
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context) {
+        await super.run(context);
+
+        // Save state changes
+        await this.userState.saveChanges(context);
     }
 
     async sendIntroCard(context) {
