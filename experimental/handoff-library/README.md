@@ -89,4 +89,25 @@ For "transferBack" events, the `Attachments` field MAY contain the transcript of
 
 ## Example
 
-TBD
+```C#
+protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+{
+    if (turnContext.Activity.Text.Contains("human"))
+    {
+        await turnContext.SendActivityAsync($"You have requested transfer to an agent");
+
+        var transcript = GetTranscript(); // defined elsewhere
+        var context = new { Skill = "credit cards" };
+
+        var handoffEvent = EventFactory.CreateHandoffInitiation(turnContext, context, new Transcript(transcript));
+        await turnContext.SendActivityAsync(handoffEvent);
+
+        await turnContext.SendActivityAsync($"Agent transfer has been initiated");
+
+    }
+    else
+    {
+        // handle other utterances
+    }
+}
+```
