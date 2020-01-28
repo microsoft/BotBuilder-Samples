@@ -52,7 +52,7 @@ Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes
 See [Here](./prebuilt-functions.md) for a complete list of prebuilt functions supported by the common expression language library. 
 
 ## Packages
-Packages for C# are available under the [BotBuidler MyGet feed][15]
+Packages for C# are available under the [BotBuilder MyGet feed][15]
 
 ## Change Log
 ### 4.6 PREVIEW
