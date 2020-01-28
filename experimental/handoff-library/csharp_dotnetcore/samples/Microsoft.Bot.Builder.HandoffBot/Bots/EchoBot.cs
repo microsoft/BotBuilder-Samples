@@ -1,12 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Microsoft.Bot.Builder.Handoff;
 
 namespace Microsoft.Bot.Builder.EchoBot
 {
@@ -16,22 +16,18 @@ namespace Microsoft.Bot.Builder.EchoBot
         {
             if (turnContext.Activity.Text.Contains("human"))
             {
-                await turnContext.SendActivityAsync("You will be transferred to a human agent. Sit tight.");
+                await turnContext.SendActivityAsync($"You have requested transfer to an agent, ConversationId={turnContext.Activity.Conversation.Id}");
 
                 var a1 = MessageFactory.Text($"first message");
                 var a2 = MessageFactory.Text($"second message");
                 var transcript = new Activity[] { a1, a2 };
-                var context = new { Skill = "credit cards", MSCallerId = "CCI" };
-                var request = await turnContext.InitiateHandoffAsync(transcript, context, cancellationToken);
+                var context = new { Skill = "credit cards" };
 
-                if (await request.IsCompletedAsync())
-                {
-                    await turnContext.SendActivityAsync("Handoff request has been completed");
-                }
-                else
-                {
-                    await turnContext.SendActivityAsync("Handoff request has NOT been completed");
-                }
+                var handoffEvent = EventFactory.CreateHandoffInitiation(turnContext, context, new Transcript(transcript));
+                await turnContext.SendActivityAsync(handoffEvent);
+
+                await turnContext.SendActivityAsync($"Agent transfer has been initiated");
+
             }
             else
             {
@@ -39,10 +35,11 @@ namespace Microsoft.Bot.Builder.EchoBot
             }
         }
 
-        protected override async Task OnHandoffActivityAsync(ITurnContext<IHandoffActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationId = turnContext.Activity.Conversation.Id;
-            await turnContext.SendActivityAsync($"Received Handoff ack for conversation {conversationId}");
+            var evnt = turnContext.Activity;
+            await turnContext.SendActivityAsync($"Received event Name='{evnt.Name}', Status='{evnt.Value}'");
+            await base.OnEventActivityAsync(turnContext, cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

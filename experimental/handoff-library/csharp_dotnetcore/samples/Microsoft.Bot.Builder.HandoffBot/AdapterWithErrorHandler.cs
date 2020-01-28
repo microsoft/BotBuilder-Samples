@@ -2,14 +2,13 @@
 // Licensed under the MIT License.
 
 using System;
-using Microsoft.Bot.Builder.Handoff;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.Bot.Builder.EchoBot
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapterWithHandoff
+    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
         public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(configuration, logger)
