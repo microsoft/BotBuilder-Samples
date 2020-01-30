@@ -56,7 +56,7 @@ namespace Microsoft.BotBuilderSamples
                     // Acknowledge that we got their name.
                     await turnContext.SendActivityAsync($"Thanks {userProfile.Name}. To see conversation data, type anything.");
 
-                    // Reset the flag to allow the bot to go though the cycle again.
+                    // Reset the flag to allow the bot to go through the cycle again.
                     conversationData.PromptedUserForName = false;
                 }
                 else
