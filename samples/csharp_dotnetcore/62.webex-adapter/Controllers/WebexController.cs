@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Webex;
 
-namespace WebexAdapterBot.Controllers
+namespace Microsoft.BotBuilderSamples.Controllers
 {
     [Route("api/webex")]
     [ApiController]

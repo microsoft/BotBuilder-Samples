@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 
-namespace TwilioAdapterBot.Bots
+namespace Microsoft.BotBuilderSamples.Bots
 {
     public class EchoBot : ActivityHandler
     {

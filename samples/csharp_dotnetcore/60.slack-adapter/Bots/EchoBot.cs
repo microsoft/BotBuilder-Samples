@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -13,7 +12,7 @@ using Newtonsoft.Json;
 using SlackAPI;
 using Attachment = Microsoft.Bot.Schema.Attachment;
 
-namespace SlackAdapterBot.Bots
+namespace Microsoft.BotBuilderSamples.Bots
 {
     /// <summary>
     /// An EchoBot class that extends from the ActivityHandler.

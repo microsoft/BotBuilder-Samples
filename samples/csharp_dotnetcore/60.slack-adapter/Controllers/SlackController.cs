@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Slack;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-namespace SlackAdapterBot.Controllers
+namespace Microsoft.BotBuilderSamples.Controllers
 {
     [Route("api/slack")]
     [ApiController]
