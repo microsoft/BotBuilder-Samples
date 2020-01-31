@@ -9,8 +9,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
     <PackageReference Include="Microsoft.Graph" Version="1.21.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0-preview-200129-102278" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-preview-200129-102278" />
   </ItemGroup>
 
 </Project>
