@@ -11,16 +11,16 @@
     "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
   },
   "icons": {
-    "color": "color.png",
-    "outline": "outline.png"
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
   },
   "name": {
-    "short": "Task Module",
-    "full": "Simple Task Module"
+    "short": "Team Auth Module",
+    "full": "Simple Team Auth Module"
   },
   "description": {
-    "short": "Test Task Module Scenario",
-    "full": "Simple Task Module Scenario Test"
+    "short": "Test Team Auth Module Scenario",
+    "full": "Simple Team Auth Module Scenario Test"
   },
   "accentColor": "#FFFFFF",
   "bots": [
