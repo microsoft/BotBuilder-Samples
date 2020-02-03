@@ -3104,13 +3104,13 @@ Return an array that contains substrings, separated by commas,
 based on the specified delimiter character in the original string.
 
 ```
-split('<text>', '<delimiter>')
+split('<text>', '<delimiter>'?)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string to separate into substrings based on the specified delimiter in the original string |
-| <*delimiter*> | Yes | String | The character in the original string to use as the delimiter |
+| <*text*> | Yes | String | The string to separate into substrings based on the specified delimiter in the original string, if the text is null value, it will be taken as an empty string |
+| <*delimiter*> | No | String | The character in the original string to use as the delimiter, if no delimiter given or delimiter is a null value, the default value will be an empty string |
 |||||
 
 | Return value | Type | Description |
@@ -3118,16 +3118,20 @@ split('<text>', '<delimiter>')
 | [<*substring1*>,<*substring2*>,...] | Array | An array that contains substrings from the original string, separated by commas |
 ||||
 
-*Example*
+*Examples*
 
 This example creates an array with substrings from the specified
 string based on the specified character as the delimiter:
 
 ```
 split('a_b_c', '_')
+split('hello', '')
+split('', 'e')
+split('', '')
+split('hello')
 ```
 
-And returns this array as the result: `["a","b","c"]`
+And returns this array as the result: `["a", "b", "c"]`, `["h", "e", "l", "l", "o"]`, `[""]`, `[ ]`, `["h", "e", "l", "l", "o"]`.
 
 <a name="startOfDay"></a>
 
