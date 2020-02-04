@@ -180,7 +180,7 @@ class AttachmentsBot(ActivityHandler):
         ) as in_file:
             image_data = in_file.read()
 
-        connector = turn_context.adapter.create_connector_client(
+        connector = await turn_context.adapter.create_connector_client(
             turn_context.activity.service_url
         )
         conversation_id = turn_context.activity.conversation.id
