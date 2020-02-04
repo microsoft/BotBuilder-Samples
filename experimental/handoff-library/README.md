@@ -18,21 +18,25 @@ The goal of this library is not to offer a universal solution for integration wi
 
 The protocol is centered around three distinct events for initiation, acknowledgement, and completion.
 
-### HandoffInitiation
+### Handoff Initiation
 
-**HandoffInitiation** event is created by the bot to initiate handoff. The event contains the payload as described below.
+_Handoff Initiation_ event is created by the bot to initiate handoff. The event contains the payload as described below.
+
+#### Name
+
+The `name` is a REQUIRED field that is set to `"handoff.initiate"`.
 
 #### Value
 
-`Value` field is an object containing agent hub-specific JSON content, such as required agent skill etc. Example: 
-```C#
-{ Skill = "credit cards" }
+The `value` field is an object containing agent hub-specific JSON content, such as required agent skill etc. Example: 
+```json
+{ "Skill" : "credit cards" }
 ```
-`Value` field SHOULD be present in the event.
+`Value` field is OPTIONAL.
 
 #### Attachments
 
-`Attachments` is an OPTIONAL field containing the list of `Attachment` objects. Bot Framework defines the "Transcript" attachment type that is used to send conversation transcript to the agent hub if required. Attachments can be sent either inline (subject to a size limit) or offline by providing `ContentUrl`. Example:
+The `attachments` is an OPTIONAL field containing the list of `Attachment` objects. Bot Framework defines the "Transcript" attachment type that is used to send conversation transcript to the agent hub if required. Attachments can be sent either inline (subject to a size limit) or offline by providing `ContentUrl`. Example:
 ```C#
 handoffEvent.Attachments = new List<Attachment> {
     new Attachment {
@@ -46,46 +50,48 @@ Agent hubs SHOULD ignore attachment types they don't understand.
 
 #### Conversation
 
-The `Conversation` is a REQUIRED field of type `ConversationAccount` describing the conversation being handed over. Critically, it MUST include the conversation `Id` that can be used for correlation with the other events.
+The `conversation` is a REQUIRED field of type `ConversationAccount` describing the conversation being handed over. Critically, it MUST include the conversation `Id` that can be used for correlation with the other events.
 
-### HandoffResponse
+### Handoff Status
 
-**HandoffResponse** is an OPTIONAL event sent to the bot when the handoff request has been accepted or rejected by the agent hub. Bots are NOT REQUIRED to handle the event, however they MUST NOT reject it.
+_Handoff Status_ event is sent to the bot by the agent hub. The event informs the bot about the status of the initiated handoff operation.
+
+Bots are NOT REQUIRED to handle the event, however they MUST NOT reject it.
+
+#### Name
+
+The `name` is a REQUIRED field that is set to `"handoff.status"`. 
 
 #### Value
 
-`Value` is a REQUIRED field indicating whether the handoff request has been accepted. 
-Possible values are: 
+The `value` is a REQUIRED field describing the current status of the handoff operation. 
+It is a JSON object containing the REQUIRED field `state` and an optional field `message`, as defined below.
+
+The `state` has one of the following values:
 
 - "accepted": An agent has accepted the request and taken control of the conversation.
-- "failed": Handoff request has failed.
-- "timedOut": Handoff request has timed out.
+- "failed": Handoff request has failed. The `message` might contain additional information relevant to the failure.
+- "completed": Handoff request has completed.
+
+The format and possible valued of the `message` field are unspecified.
+
+#### Example
+
+Successful handoff completion:
+
+```json
+{ "state" : "accepted" }
+```
+
+Handoff operation failed due to a timeout:
+
+```json
+{ "state" : "failed", "message" : "Cannot find agent with requested skill" }
+```
 
 #### Conversation
 
 `Conversation`is a REQUIRED field of type `ConversationAccount` describing the conversation that has been accepted or rejected. The `Id` of the conversation MUST be the same as in the HandoffInitiation that initiated the handoff.
-
-Other fields are not specified by the protocol, however agent hub implementations MAY include additional error payload in `Attachments`. For example, a "failed" event might contain error reason such as 'agent with requested skill not found'. 
-
-### HandoffCompleted
-
-HandoffCompleted is an OPTIONAL event sent to the bot after the handoff operation has ended. The event indicates that the agent has disconnected and the control has been transferred back to the bot. Bots SHALL NOT rejects this event.
-
-#### Value
-
-`Value` is a REQUIRED field. It is a code that indicates how the handoff request has completed. Possible values are: 
-
-- "endOfConversation": The conversation has ended successfully (i.e. an agent has handled the conversation). The bot is not expected to continue the conversation.
-- "transferBack": The agent has completed its part of the conversation and is transferring the conversatoin back to the bot. The bot is expected to continue the conversation. 
-- "failed". The handoff request has been accepted the by the agent but later failed (for example, the agent got disconnected). The bot SHOULD continue processing the user request, or retry the handoff.
-
-#### Attachments
-
-For "transferBack" events, the `Attachments` field MAY contain the transcript of the conversation that took place between the user and the agent. The bot can inspect the transcript and perform additional action. For example, the last record in the transcript can be "I'm transferring you back to the bot to complete your hotel reservation".
-
-#### Conversation
-
-`Conversation` is a REQUIRED field of type `ConversationAccount` describing the conversation that has just completed. The `Id` of the conversation MUST be the same as in the HandoffInitiation that initiated the handoff.
 
 ## Example
 
