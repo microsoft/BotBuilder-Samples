@@ -80,7 +80,7 @@ The format and possible valued of the `message` field are unspecified.
 Successful handoff completion:
 
 ```json
-{ "state" : "accepted" }
+{ "state" : "completed" }
 ```
 
 Handoff operation failed due to a timeout:
