@@ -1,10 +1,11 @@
-﻿using Microsoft.Bot.Connector.SkillAuthentication;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using Microsoft.Bot.Connector.SkillAuthentication;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace Microsoft.Bot.Sample.EchoBot.Authentication
 {

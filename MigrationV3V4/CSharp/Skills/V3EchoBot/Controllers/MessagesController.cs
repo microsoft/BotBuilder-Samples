@@ -1,4 +1,7 @@
-﻿using System.Net;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
@@ -8,7 +11,8 @@ using Microsoft.Bot.Connector.SkillAuthentication;
 using Microsoft.Bot.Sample.EchoBot.Authentication;
 
 namespace Microsoft.Bot.Sample.EchoBot
-{    //[SkillBotAuthentication] //Without SkillAuthenticationConfiguration, any Root bot can call this skill
+{
+    //[SkillBotAuthentication] 
     [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(SkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
