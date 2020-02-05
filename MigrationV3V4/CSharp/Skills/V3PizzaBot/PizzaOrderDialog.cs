@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +11,7 @@ using Microsoft.Bot.Builder.FormFlow;
 using Microsoft.Bot.Builder.Luis;
 using Newtonsoft.Json;
 using Microsoft.Bot.Builder.Luis.Models;
+using Microsoft.Bot.Connector;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
@@ -20,6 +24,14 @@ namespace Microsoft.Bot.Sample.PizzaBot
         internal PizzaOrderDialog(BuildFormDelegate<PizzaOrder> makePizzaForm)
         {
             this.MakePizzaForm = makePizzaForm;
+        }
+
+        public override async Task StartAsync(IDialogContext context)
+        {
+            await context.PostAsync("Welcome to the Pizza Order Bot. Let me know if you would like to order a pizza, or know our store hours.");
+            await context.PostAsync("Say 'end' or 'stop' and I'll end the conversation and back to the parent.");
+
+            await base.StartAsync(context);
         }
 
         [LuisIntent("")]
@@ -71,6 +83,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             catch (OperationCanceledException)
             {
                 await context.PostAsync("You canceled the form!");
+                await SkillsHelper.EndSkillConversation(context.Activity as Activity);
                 return;
             }
 
@@ -83,6 +96,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 await context.PostAsync("Form returned empty response!");
             }
 
+            await SkillsHelper.EndSkillConversation(context.Activity as Activity);
             context.Wait(MessageReceived);
         }
 

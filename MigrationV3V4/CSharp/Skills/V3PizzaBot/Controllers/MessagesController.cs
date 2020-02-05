@@ -1,4 +1,7 @@
-﻿using System.Web.Http;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System.Web.Http;
 using System.Threading.Tasks;
 
 using Microsoft.Bot.Connector;
@@ -63,7 +66,14 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        await Conversation.SendAsync(activity, MakeRoot);
+                        if (activity.Text.Contains("end") || activity.Text.Contains("stop"))
+                        {
+                            await SkillsHelper.EndSkillConversation(activity);
+                        }
+                        else
+                        {
+                            await Conversation.SendAsync(activity, MakeRoot);
+                        }
                         break;
 
                     case ActivityTypes.ConversationUpdate:
