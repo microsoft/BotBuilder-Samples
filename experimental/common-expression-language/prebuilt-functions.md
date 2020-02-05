@@ -537,7 +537,7 @@ average(<numericArray>)
 *Example*
 
 ```
-average(create(1,2,3))
+average(createArray(1,2,3))
 ```
 
 And it returns the result: `2`
