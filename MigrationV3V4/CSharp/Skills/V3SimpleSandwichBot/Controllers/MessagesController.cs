@@ -38,7 +38,15 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot.Controllers
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        await Conversation.SendAsync(activity, MakeRootDialog);
+                        if (activity.Text.Contains("end") || activity.Text.Contains("stop"))
+                        {
+                            await SkillsHelper.EndSkillConversation(activity);
+                        }
+                        else
+                        {
+                            await Conversation.SendAsync(activity, MakeRootDialog);
+                        }
+
                         break;
 
                     case ActivityTypes.ConversationUpdate:

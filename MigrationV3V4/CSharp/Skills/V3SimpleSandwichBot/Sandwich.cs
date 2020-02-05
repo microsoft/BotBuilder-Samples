@@ -2,8 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.Bot.Builder.FormFlow;
+using Microsoft.Bot.Connector;
 using System;
 using System.Collections.Generic;
+using System.Runtime.Remoting.Messaging;
 #pragma warning disable 649
 
 // The SandwichOrder is the simple form you want to fill out.  It must be serializable so the bot can be stateless.
@@ -45,7 +47,8 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
         public static IForm<SandwichOrder> BuildForm()
         {
             return new FormBuilder<SandwichOrder>()
-                    .Message("Welcome to the simple sandwich order bot!")
+                    .Message("Welcome to the simple sandwich order bot! Say 'end' or 'stop' and I'll end the conversation and back to the parent.")
+                    .OnCompletion((context, order) => SkillsHelper.EndSkillConversation(context.Activity as Activity, order))
                     .Build();
         }
     };

@@ -96,7 +96,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 await context.PostAsync("Form returned empty response!");
             }
 
-            await SkillsHelper.EndSkillConversation(context.Activity as Activity);
+            await SkillsHelper.EndSkillConversation(context.Activity as Activity, order);
             context.Wait(MessageReceived);
         }
 

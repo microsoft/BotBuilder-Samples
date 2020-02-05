@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Sample.PizzaBot
+namespace Microsoft.Bot.Sample.SimpleSandwichBot
 {
     internal static class SkillsHelper
     {
-        internal static async Task EndSkillConversation(Activity incomingActivity, PizzaOrder order = null)
+        internal static async Task EndSkillConversation(Activity incomingActivity, SandwichOrder order = null)
         {
             var appId = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey];
             var appPassword = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppPasswordKey];
