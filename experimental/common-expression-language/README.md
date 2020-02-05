@@ -31,7 +31,7 @@ See [here](./api-reference.md) for API reference.
 |&	        |Concatenation operator. Operands will always be cast to string – E.g. A & B	            |N/A                                |
 |&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
 |\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
-|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[Not][8]                           |
+|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[not][8]                           |
 |'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
 |"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
 |[]	        |Used to refer to an item in a list by its index. E.g. A[3]	                                |N/A                                |
@@ -44,6 +44,9 @@ See [here](./api-reference.md) for API reference.
 ## Variables
 Variables are always referenced by their name. E.g. @{myVariable}
 Variables can be complex objects. In which case they are referenced either using the property selector operator e.g. myParent.myVariable or using the item index selection operator. E.g. myParent.myList[0]. or using the [parameters](TODO) function. 
+
+There are two special variables, `[]` and  `{}`.
+`[]` represents an empty list, `{}` represents a empty object.
 
 ## Explicit values
 Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes - "myExplicitValue".

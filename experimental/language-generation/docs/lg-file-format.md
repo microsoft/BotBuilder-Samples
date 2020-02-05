@@ -22,7 +22,7 @@
 - [Importing external references](#importing-external-references)
 
 # Comments
-Comments are prefixed with '>' character. All lines that have this prefix will be skipped by the parser. 
+Comments are prefixed with '>' or '$' character. All lines that have this prefix will be skipped by the parser. 
 
 ```markdown
 > this is a comment.

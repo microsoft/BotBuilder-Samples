@@ -315,7 +315,7 @@ addMinutes('2018-03-15T00:20:00.000Z', -5)
 
 And returns this result: `"2018-03-15T00:15:00.000Z"`
 
-<a name="addOrdinal">
+<a name="addOrdinal"></a>
 
 ### addOrdinal
 
@@ -363,7 +363,7 @@ addProperty('<object>', '<property>', value)
 | --------- | -------- | ---- | ----------- |
 | <*object*> | Yes | Object | The JSON Object where you want to add a property |
 |<*property*>| Yes | String | The name of the property to add |
-|<*value*>| Yes | any | The value of the property |
+|<*value*>| Yes | Any | The value of the property |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -537,7 +537,7 @@ average(<numericArray>)
 *Example*
 
 ```
-average([1,2,3])
+average(createArray(1,2,3))
 ```
 
 And it returns the result: `2`
@@ -713,7 +713,7 @@ coalesce(<object_1>, <object_2>, ...)
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*first-non-null-item*> | any | The first item or value that is not null. If all parameters are null, this function returns null. |
+| <*first-non-null-item*> | Any | The first item or value that is not null. If all parameters are null, this function returns null. |
 ||||
 
 *Example*
@@ -1205,13 +1205,13 @@ div(<dividend>, <divisor>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*dividend*> | Yes | Integer or Float | The number to divide by the *divisor* |
-| <*divisor*> | Yes | Integer or Float | The number that divides the *dividend*, but cannot be 0 |
+| <*dividend*> | Yes | Number | The number to divide by the *divisor* |
+| <*divisor*> | Yes | Number | The number that divides the *dividend*, but cannot be 0 |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*quotient-result*> | Integer | The integer result from dividing the first number by the second number |
+| <*quotient-result*> | Number | The result from dividing the first number by the second number |
 ||||
 
 *Example*
@@ -1224,6 +1224,16 @@ div(11, 5)
 ```
 
 And return this result: `2`
+
+If one of the parameters is Float type, the result would be a Float.
+
+*Example*
+
+```
+div(11.2, 3)
+```
+
+And return the result `5.5`
 
 <a name="empty"></a>
 
@@ -1240,7 +1250,7 @@ empty([<collection>])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | String, Array, or Object | The collection to check |
+| <*collection*> | Yes | Any | The collection to check |
 |||||
 
 | Return value | Type | Description |
@@ -1316,7 +1326,7 @@ equals('<object1>', '<object2>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*object1*>, <*object2*> | Yes | Various | The values, expressions, or objects to compare |
+| <*object1*>, <*object2*> | Yes | Any | The values, expressions, or objects to compare |
 |||||
 
 | Return value | Type | Description |
@@ -1386,7 +1396,7 @@ exp(realNumber, exponentNumber)
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*result-exp*> | Integer or Float | The result from computing exponent of realNumber |
+| <*result-exp*> | Number | The result from computing exponent of realNumber |
 ||||
 
 *Example*
@@ -1481,8 +1491,8 @@ foreach([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array or Object | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | function that can contains iteratorName |
+| <*iteratorName*> | Yes | Iterator Name | The key item of arrow function |
+| <*function*> | Yes | Expression | function that can contains iteratorName |
 |||||
 
 | Return value | Type | Description |
@@ -2043,7 +2053,7 @@ jPath(<json>, '<path>')
 |[ <*json-node*>] | Array | An list of json nodes or value that matches the specified path expression |
 ||||
 
-*Example*
+*C# Example*
 
 Given jsonStr is 
 ```json
@@ -2387,13 +2397,13 @@ max([<number1>, <number2>, ...])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*number1*>, <*number2*>, ... | Yes | Integer, Float, or both | The set of numbers from which you want the highest value |
-| [<*number1*>, <*number2*>, ...] | Yes | Array - Integer, Float, or both | The array of numbers from which you want the highest value |
+| <*number1*>, <*number2*>, ... | Yes | Number | The set of numbers from which you want the highest value |
+| [<*number1*>, <*number2*>, ...] | Yes | Array - Number | The array of numbers from which you want the highest value |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*max-value*> | Integer or Float | The highest value in the specified array or set of numbers |
+| <*max-value*> | Number | The highest value in the specified array or set of numbers |
 ||||
 
 *Example*
@@ -2420,13 +2430,13 @@ min([<number1>, <number2>, ...])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*number1*>, <*number2*>, ... | Yes | Integer, Float, or both | The set of numbers from which you want the lowest value |
-| [<*number1*>, <*number2*>, ...] | Yes | Array - Integer, Float, or both | The array of numbers from which you want the lowest value |
+| <*number1*>, <*number2*>, ... | Yes | Number | The set of numbers from which you want the lowest value |
+| [<*number1*>, <*number2*>, ...] | Yes | Array - Number | The array of numbers from which you want the lowest value |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*min-value*> | Integer or Float | The lowest value in the specified set of numbers or specified array |
+| <*min-value*> | Number | The lowest value in the specified set of numbers or specified array |
 ||||
 
 *Example*
@@ -2453,13 +2463,13 @@ mod(<dividend>, <divisor>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*dividend*> | Yes | Integer or Float | The number to divide by the *divisor* |
-| <*divisor*> | Yes | Integer or Float | The number that divides the *dividend*, but cannot be 0. |
+| <*dividend*> | Yes | Number | The number to divide by the *divisor* |
+| <*divisor*> | Yes | Number | The number that divides the *dividend*, but cannot be 0. |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*modulo-result*> | Integer or Float | The remainder from dividing the first number by the second number |
+| <*modulo-result*> | Number | The remainder from dividing the first number by the second number |
 ||||
 
 *Example*
@@ -2851,8 +2861,8 @@ select([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | function that can contains iteratorName |
+| <*iteratorName*> | Yes | Iterator Name | The key item of arrow function |
+| <*function*> | Yes | Expression | function that can contains iteratorName |
 |||||
 
 | Return value | Type | Description |
@@ -3321,13 +3331,13 @@ sub(<minuend>, <subtrahend>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*minuend*> | Yes | Integer or Float | The number from which to subtract the *subtrahend* |
-| <*subtrahend*> | Yes | Integer or Float | The number to subtract from the *minuend* |
+| <*minuend*> | Yes | Number | The number from which to subtract the *subtrahend* |
+| <*subtrahend*> | Yes | Number | The number to subtract from the *minuend* |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*result*> | Integer or Float | The result from subtracting the second number from the first number |
+| <*result*> | Number | The result from subtracting the second number from the first number |
 ||||
 
 *Example*
@@ -3464,12 +3474,12 @@ add([<list of numbers>])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| [\<list of numbers\>] | Yes | List | The numbers to add |
+| [\<list of numbers\>] | Yes | Array - Number | The numbers to add |
 |||||
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*result-sum*> | Integer or Float | The result from adding the specified numbers |
+| <*result-sum*> | Number | The result from adding the specified numbers |
 ||||
 
 *Example*
@@ -3477,7 +3487,7 @@ add([<list of numbers>])
 This example adds the specified numbers:
 
 ```
-add([1, 1.5])
+add(createArray(1, 1.5))
 ```
 
 And returns this result: `2.5`
@@ -3972,8 +3982,8 @@ where([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | condition function which is used to filter items|
+| <*iteratorName*> | Yes | Iterater Name | The key item of arrow function |
+| <*function*> | Yes | Expression | condition function which is used to filter items|
 |||||
 
 | Return value | Type | Description |
