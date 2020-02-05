@@ -33,7 +33,6 @@ namespace Microsoft.Bot.Sample.EchoBot
                     .Keyed<IBotDataStore<BotData>>(AzureModule.Key_DataStore)
                     .AsSelf()
                     .SingleInstance();
-
             });
         }
     }

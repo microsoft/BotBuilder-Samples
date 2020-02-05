@@ -1,19 +1,14 @@
-﻿using System;
-using System.Configuration;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.SkillAuthentication;
 using Microsoft.Bot.Sample.EchoBot.Authentication;
 
-namespace Microsoft.Bot.Sample.EchoBot.Controllers
-{
-    //[SkillBotAuthentication] //Without SkillAuthenticationConfiguration, any Root bot can call this skill
+namespace Microsoft.Bot.Sample.EchoBot
+{    //[SkillBotAuthentication] //Without SkillAuthenticationConfiguration, any Root bot can call this skill
     [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(SkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
