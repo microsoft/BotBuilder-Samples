@@ -11,15 +11,15 @@ namespace Microsoft.Bot.Builder
     /// <summary>
     /// Contains utility methods for creating various event types.
     /// </summary>
-    public class EventFactory
+    public static class EventFactory
     {
         /// <summary>
-        /// TBD.
+        /// Create handoff initiation event.
         /// </summary>
-        /// <param name="turnContext"></param>
-        /// <param name="handoffContext"></param>
-        /// <param name="transcript"></param>
-        /// <returns></returns>
+        /// <param name="turnContext">turn context.</param>
+        /// <param name="handoffContext">agent hub-specific context.</param>
+        /// <param name="transcript">transcript of the conversation.</param>
+        /// <returns>handoff event.</returns>
         public static IEventActivity CreateHandoffInitiation(ITurnContext turnContext, object handoffContext, Transcript transcript = null)
         {
             var handoffEvent = CreateHandoffEvent(HandoffEventNames.InitiateHandoff, handoffContext, turnContext.Activity.Conversation);
@@ -48,38 +48,26 @@ namespace Microsoft.Bot.Builder
         }
 
         /// <summary>
-        /// TBD.
+        /// Create handoff status event.
         /// </summary>
-        /// <param name="conversation"></param>
-        /// <param name="code"></param>
-        /// <returns></returns>
-        public static IEventActivity CreateHandoffResponse(ConversationAccount conversation, string code)
+        /// <param name="conversation">Conversation being handed over.</param>
+        /// <param name="state">State, possible values are: "accepted", "failed", "completed".</param>
+        /// <param name="message">Additional message for failed handoff.</param>
+        /// <returns>handoff event.</returns>
+        public static IEventActivity CreateHandoffStatus(ConversationAccount conversation, string state, string message = null)
         {
-            return CreateHandoffEvent(HandoffEventNames.HandoffResponse, code, conversation);
-        }
+            object value;
 
-        /// <summary>
-        /// TBD.
-        /// </summary>
-        /// <param name="conversation"></param>
-        /// <param name="code"></param>
-        /// <param name="transcript"></param>
-        /// <returns></returns>
-        public static IEventActivity CreateHandoffCompleted(ConversationAccount conversation, string code, Transcript transcript)
-        {
-            var handoffEvent = CreateHandoffEvent(HandoffEventNames.HandoffResponse, code, conversation);
-
-            if (transcript != null)
+            if (string.IsNullOrEmpty(message))
             {
-                var attchment = new Attachment
-                {
-                    Content = transcript,
-                    ContentType = "application/json",
-                    Name = "Transcript",
-                };
-                handoffEvent.Attachments.Add(attchment);
+                value = new { state };
+            }
+            else
+            {
+                value = new { state, message };
             }
 
+            var handoffEvent = CreateHandoffEvent(HandoffEventNames.HandoffStatus, value, conversation);
             return handoffEvent;
         }
 

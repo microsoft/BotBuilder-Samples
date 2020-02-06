@@ -71,5 +71,42 @@ public Expression(string type, ExpressionEvaluator evaluator = null, params Expr
 public (object value, string error) TryEvaluate(object state)
 ```
 
+```C#
+/// <summary>
+/// Evaluate the expression.
+/// </summary>
+/// <param name="state">
+/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// </param>
+/// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+public (object value, string error) TryEvaluate(IMemory state)
+```
+
+
+```C#
+/// <summary>
+/// Evaluate the expression.
+/// </summary>
+/// <typeparam name="T">type of result of the expression.</typeparam>
+/// <param name="state">
+/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// </param>
+/// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+public (T value, string error) TryEvaluate<T>(object state)
+```
+
+
+```C#
+/// <summary>
+/// Evaluate the expression.
+/// </summary>
+/// <typeparam name="T">type of result of the expression.</typeparam>
+/// <param name="state">
+/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// </param>
+/// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+public (T value, string error) TryEvaluate<T>(IMemory state)
+```
+
 [1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Expressions
 [2]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botframework-expressions
