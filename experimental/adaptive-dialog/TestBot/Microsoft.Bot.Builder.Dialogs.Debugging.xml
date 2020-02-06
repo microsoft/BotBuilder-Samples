@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Builder.Dialogs.Debugging</name>
+    </assembly>
+    <members>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Debugging.DebuggingBotAdapterExtensions.UseDebugger(Microsoft.Bot.Builder.BotAdapter,System.Int32,Microsoft.Bot.Builder.Dialogs.Debugging.ISourceMap,Microsoft.Bot.Builder.Dialogs.Debugging.IBreakpoints,System.Action,Microsoft.Bot.Builder.Dialogs.Debugging.IEvents,Microsoft.Bot.Builder.Dialogs.Debugging.ICodeModel,Microsoft.Bot.Builder.Dialogs.Debugging.IDataModel,Microsoft.Extensions.Logging.ILogger,Microsoft.Bot.Builder.Dialogs.Debugging.ICoercion)">
+            <summary>
+            Enable Debug Adapter Protocol for the running adapter.
+            </summary>
+            <param name="botAdapter">The <see cref="T:Microsoft.Bot.Builder.BotAdapter"/> to enable.</param>
+            <param name="port">port to listen on.</param>
+            <param name="sourceMap">ISourceMap to use (default will be SourceMap()).</param>
+            <param name="breakpoints">IBreakpoints to use (default will be SourceMap()).</param>
+            <param name="terminate">Termination function (Default is Environment.Exit().</param>
+            <param name="events">IEvents to use (Default is Events).</param>
+            <param name="codeModel">ICodeModel to use (default is internal implementation).</param>
+            <param name="dataModel">IDataModel to use (default is internal implementation).</param>
+            <param name="logger">ILogger to use (Default is NullLogger).</param>
+            <param name="coercion">ICoercion to use (default is internal implementation).</param>
+            <returns>The <see cref="T:Microsoft.Bot.Builder.BotAdapter"/>.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter">
+            <summary>
+            Class which implements Debug Adapter protocol connected to IDialogDebugger data.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase">
+            <summary>
+            Thread debugging phases.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Started">
+            <summary>
+            "Started" signals Visual Studio Code that there is a new thread.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Continue">
+            <summary>
+            Follows "Next".
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Next">
+            <summary>
+            Signal to "Step" or to "Ccontinue".
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Step">
+            <summary>
+            Follows "Next".
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Breakpoint">
+            <summary>
+            At breakpoint?
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Pause">
+            <summary>
+            Thread paused.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.Dialogs.Debugging.DialogDebugAdapter.Phase.Exited">
+            <summary>
+            Thread exited.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Debugging.Extensions">
+            <summary>
+            Extension method implementing await for <see cref="T:System.Threading.SemaphoreSlim"/>.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Debugging.Identifier`1">
+            <summary>
+            This class maintains an integer identifier for C# memory within the debug adapter
+            that is referenced in the debug adapter protocol with Visual Studio Code.
+            Examples include stack frames, values, and breakpoints.
+            Ideally, identitiers fit within a 53 bit JavaScript Number.
+            Ideally, identifiers can be recycled at some point.
+            Some identifiers have a lifetime scoped to a thread (e.g. values or stack frames)
+            For these combined identifiers, we use 7 bit encoding.
+            </summary>
+            <typeparam name="T">Datatype of the stored items.</typeparam>
+        </member>
+    </members>
+</doc>

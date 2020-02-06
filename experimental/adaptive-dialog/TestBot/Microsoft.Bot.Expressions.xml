@@ -1,0 +1,3118 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Expressions</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Expressions.BuiltInFunctions">
+             <summary>
+             Definition of default built-in functions for expressions.
+             </summary>
+             <remarks>
+             These functions are largely from WDL https://docs.microsoft.com/en-us/azure/logic-apps/workflow-definition-language-functions-reference
+             with a few extensions like infix operators for math, logic and comparisons.
+            
+             This class also has some methods that are useful to use when defining custom functions.
+             You can always construct a <see cref="T:Microsoft.Bot.Expressions.ExpressionEvaluator"/> directly which gives the maximum amount of control over validation and evaluation.
+             Validators are static checkers that should throw an exception if something is not valid statically.
+             Evaluators are called to evaluate an expression and should try not to throw.
+             There are some evaluators in this file that take in a verifier that is called at runtime to verify arguments are proper.
+             </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.BuiltInFunctions.Randomizer">
+            <summary>
+            Random number generator used for expressions.
+            </summary>
+            <remarks>This is exposed so that you can explicitly seed the random number generator for tests.</remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.BuiltInFunctions.DefaultDateTimeFormat">
+            <summary>
+            The default date time format string.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.BuiltInFunctions._functions">
+            <summary>
+            Dictionary of built-in functions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.BuiltInFunctions._randomizerLock">
+            <summary>
+            Object used to lock Randomizer.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression">
+            <summary>
+            Verify the result of an expression is of the appropriate type and return a string if not.
+            </summary>
+            <param name="value">Value to verify.</param>
+            <param name="expression">Expression that produced value.</param>
+            <param name="child">Index of child expression.</param>
+            <returns>Null if value if correct or error string otherwise.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateArityAndAnyType(Microsoft.Bot.Expressions.Expression,System.Int32,System.Int32,Microsoft.Bot.Expressions.ReturnType[])">
+            <summary>
+            Validate that expression has a certain number of children that are of any of the supported types.
+            </summary>
+            <remarks>
+            If a child has a return type of Object then validation will happen at runtime.</remarks>
+            <param name="expression">Expression to validate.</param>
+            <param name="minArity">Minimum number of children.</param>
+            <param name="maxArity">Maximum number of children.</param>
+            <param name="types">Allowed return types for children.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateOrder(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.ReturnType[],Microsoft.Bot.Expressions.ReturnType[])">
+            <summary>
+            Validate the number and type of arguments to a function.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+            <param name="optional">Optional types in order.</param>
+            <param name="types">Expected types in order.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateAtLeastOne(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate at least 1 argument of any type.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateNumber(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate 1 or more numeric arguments.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateString(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate 1 or more string arguments.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateBinary(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate there are two children.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateBinaryNumber(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate 2 numeric arguments.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateTwoOrMoreThanTwoNumbers(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate 2 or more than 2 numeric arguments.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateBinaryNumberOrString(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate there are 2 numeric or string arguments.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateUnary(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate there is a single argument.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateUnaryString(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate there is a single string argument.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ValidateUnaryBoolean(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate there is a single boolean argument.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyNumber(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is numeric.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyNumericList(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is numeric list.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyContainer(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value contains elements.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyList(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value contains elements.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.TryParseList(System.Object,System.Collections.IList@)">
+            <summary>
+            Try to coerce object to IList.
+            </summary>
+            <param name="value">Value to coerce.</param>
+            <param name="list">IList if found.</param>
+            <returns>true if found IList.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyInteger(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is an integer.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyString(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is a string.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyNotNull(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is not null.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyNumberOrString(System.Object,Microsoft.Bot.Expressions.Expression,System.Int32)">
+            <summary>
+            Verify value is a number or string.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <param name="number">No function.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.VerifyBoolean(System.Object,Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Verify value is boolean.
+            </summary>
+            <param name="value">Value to check.</param>
+            <param name="expression">Expression that led to value.</param>
+            <returns>Error or null if valid.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.EvaluateChildren(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.Memory.IMemory,Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Evaluate expression children and return them.
+            </summary>
+            <param name="expression">Expression with children.</param>
+            <param name="state">Global state.</param>
+            <param name="verify">Optional function to verify each child's result.</param>
+            <returns>List of child values or error message.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.Apply(System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Object},Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Generate an expression delegate that applies function after verifying all children.
+            </summary>
+            <param name="function">Function to apply.</param>
+            <param name="verify">Function to check each arg for validity.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ApplyWithError(System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.ValueTuple{System.Object,System.String}},Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Generate an expression delegate that applies function after verifying all children.
+            </summary>
+            <param name="function">Function to apply.</param>
+            <param name="verify">Function to check each arg for validity.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ApplySequence(System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Object},Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Generate an expression delegate that applies function on the accumulated value after verifying all children.
+            </summary>
+            <param name="function">Function to apply.</param>
+            <param name="verify">Function to check each arg for validity.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.Numeric(System.String,System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Object})">
+            <summary>
+            Numeric operators that can have 1 or more args.
+            </summary>
+            <param name="type">Expression type.</param>
+            <param name="function">Function to apply.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.MultivariateNumeric(System.String,System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Object},Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Numeric operators that can have 2 or more args.
+            </summary>
+            <param name="type">Expression type.</param>
+            <param name="function">Function to apply.</param>
+            <param name="verify">Function to verify arguments.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.Comparison(System.String,System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Boolean},Microsoft.Bot.Expressions.ValidateExpressionDelegate,Microsoft.Bot.Expressions.BuiltInFunctions.VerifyExpression)">
+            <summary>
+            Comparison operators.
+            </summary>
+            <remarks>
+            A comparison operator returns false if the comparison is false, or there is an error.  This prevents errors from short-circuiting boolean expressions.
+            </remarks>
+            <param name="type">Expression type.</param>
+            <param name="function">Function to apply.</param>
+            <param name="validator">Function to validate expression.</param>
+            <param name="verify">Function to verify arguments to expression.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.StringTransform(System.String,System.Func{System.Collections.Generic.IReadOnlyList{System.Object},System.Object})">
+            <summary>
+            Transform a string into another string.
+            </summary>
+            <param name="type">Expression type.</param>
+            <param name="function">Function to apply.</param>
+            <returns>Delegate for evaluating an expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.TimeTransform(System.String,System.Func{System.DateTime,System.Int32,System.DateTime})">
+            <summary>
+            Transform a date-time to another date-time.
+            </summary>
+            <param name="type">Expression type.</param>
+            <param name="function">Transformer.</param>
+            <returns>Delegate for evaluating expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.Lookup(System.String)">
+            <summary>
+            Lookup a built-in function information by type.
+            </summary>
+            <param name="type">Type to look up.</param>
+            <returns>Information about expression type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.AccessIndex(System.Object,System.Int32)">
+            <summary>
+            Lookup an index property of instance.
+            </summary>
+            <param name="instance">Instance with property.</param>
+            <param name="index">Property to lookup.</param>
+            <returns>Value and error information if any.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.TryAccessProperty(System.Object,System.String,System.Object@)">
+            <summary>
+            Lookup a property in IDictionary, JObject or through reflection.
+            </summary>
+            <param name="instance">Instance with property.</param>
+            <param name="property">Property to lookup.</param>
+            <param name="value">Value of property.</param>
+            <returns>True if property is present and binds value.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.ResolveListValue(System.Object)">
+            <summary>
+            Return new object list replace jarray.ToArray&lt;object&gt;().
+            </summary>
+            <param name="instance">List to resolve.</param>
+            <returns>Resolved list.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.IsLogicTrue(System.Object)">
+            <summary>
+            Test result to see if True in logical comparison functions.
+            </summary>
+            <param name="instance">Computed value.</param>
+            <returns>True if boolean true or non-null.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.BuiltInFunctions.GetPropertyCount(System.Object)">
+            <summary>
+            Get the property count of an object.
+            </summary>
+            <param name="obj">input object.</param>
+            <returns>property count.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.Constant">
+            <summary>
+            Constant expression.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Constant.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.Constant"/> class.
+            Construct an expression constant.
+            </summary>
+            <param name="value">Constant value.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.Constant.Value">
+            <summary>
+            Gets or sets constant value.
+            </summary>
+            <value>
+            Constant value.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ReturnType">
+            <summary>
+            Type expected from evaluating an expression.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.ReturnType.Boolean">
+            <summary>
+            True or false boolean value.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.ReturnType.Number">
+            <summary>
+            Numerical value like int, float, double, ...
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.ReturnType.Object">
+            <summary>
+            Any value is possible.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.ReturnType.String">
+            <summary>
+            String value.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.Expression">
+            <summary>
+            An expression which can be analyzed or evaluated to produce a value.
+            </summary>
+            <remarks>
+            This provides an open-ended wrapper that supports a number of built-in functions and can also be extended at runtime.
+            It also supports validation of the correctness of an expression and evaluation that should be exception free.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.#ctor(System.String,Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.Expression"/> class.
+            Built-in expression constructor.
+            </summary>
+            <param name="type">Type of built-in expression from <see cref="T:Microsoft.Bot.Expressions.ExpressionType"/>.</param>
+            <param name="children">Child expressions.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.#ctor(Microsoft.Bot.Expressions.ExpressionEvaluator,Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.Expression"/> class.
+            Expression constructor.
+            </summary>
+            <param name="evaluator">Information about how to validate and evaluate expression.</param>
+            <param name="children">Child expressions.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.Expression.Type">
+            <summary>
+            Gets type of expression.
+            </summary>
+            <value>
+            Type of expression.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.Expression.Children">
+            <summary>
+            Gets or sets children expressions.
+            </summary>
+            <value>
+            Children expressions.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.Expression.ReturnType">
+            <summary>
+            Gets expected result of evaluating expression.
+            </summary>
+            <value>
+            Expected result of evaluating expression.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.MakeExpression(System.String,Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Make an expression and validate it.
+            </summary>
+            <param name="type">Type of expression from <see cref="T:Microsoft.Bot.Expressions.ExpressionType"/>.</param>
+            <param name="children">Child expressions.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.MakeExpression(Microsoft.Bot.Expressions.ExpressionEvaluator,Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Make an expression and validate it.
+            </summary>
+            <param name="evaluator">Information about how to validate and evaluate expression.</param>
+            <param name="children">Child expressions.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.LambaExpression(Microsoft.Bot.Expressions.EvaluateExpressionDelegate)">
+            <summary>
+            Construct an expression from a <see cref="T:Microsoft.Bot.Expressions.EvaluateExpressionDelegate"/>.
+            </summary>
+            <param name="function">Function to create an expression from.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.Lambda(System.Func{System.Object,System.Object})">
+            <summary>
+            Construct an expression from a lambda expression over the state.
+            </summary>
+            <remarks>Exceptions will be caught and surfaced as an error string.</remarks>
+            <param name="function">Lambda expression to evaluate.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.SetPathToValue(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Construct and validate an Set a property expression to a value expression.
+            </summary>
+            <param name="property">property expression.</param>
+            <param name="value">value expression.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.SetPathToValue(Microsoft.Bot.Expressions.Expression,System.Object)">
+            <summary>
+            Construct and validate an Set a property expression to a value expression.
+            </summary>
+            <param name="property">property expression.</param>
+            <param name="value">value object.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.EqualsExpression(Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Construct and validate an Equals expression.
+            </summary>
+            <param name="children">Child clauses.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.AndExpression(Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Construct and validate an And expression.
+            </summary>
+            <param name="children">Child clauses.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.OrExpression(Microsoft.Bot.Expressions.Expression[])">
+            <summary>
+            Construct and validate an Or expression.
+            </summary>
+            <param name="children">Child clauses.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.NotExpression(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Construct and validate a Not expression.
+            </summary>
+            <param name="child">Child clauses.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.ConstantExpression(System.Object)">
+            <summary>
+            Construct a constant expression.
+            </summary>
+            <param name="value">Constant value.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.Accessor(System.String,Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Construct and validate a property accessor.
+            </summary>
+            <param name="property">Property to lookup.</param>
+            <param name="instance">Expression to get instance that contains property or null for global state.</param>
+            <returns>New expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.Validate">
+            <summary>
+            Validate immediate expression.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.ValidateTree">
+            <summary>
+            Recursively validate the expression tree.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.TryEvaluate(System.Object)">
+            <summary>
+            Evaluate the expression.
+            </summary>
+            <param name="state">
+            Global state to evaluate accessor expressions against.  Can be <see cref="T:System.Collections.Generic.IDictionary`2"/>,
+            <see cref="T:System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
+            </param>
+            <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.TryEvaluate(Microsoft.Bot.Expressions.Memory.IMemory)">
+            <summary>
+            Evaluate the expression.
+            </summary>
+            <param name="state">
+            Global state to evaluate accessor expressions against.  Can be <see cref="T:System.Collections.Generic.IDictionary`2"/>,
+            <see cref="T:System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
+            </param>
+            <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.TryEvaluate``1(System.Object)">
+            <summary>
+            Evaluate the expression.
+            </summary>
+            <typeparam name="T">type of result of the expression.</typeparam>
+            <param name="state">
+            Global state to evaluate accessor expressions against.  Can be <see cref="T:System.Collections.Generic.IDictionary`2"/>,
+            <see cref="T:System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
+            </param>
+            <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Expression.TryEvaluate``1(Microsoft.Bot.Expressions.Memory.IMemory)">
+            <summary>
+            Evaluate the expression.
+            </summary>
+            <typeparam name="T">type of result of the expression.</typeparam>
+            <param name="state">
+            Global state to evaluate accessor expressions against.  Can be <see cref="T:System.Collections.Generic.IDictionary`2"/>,
+            <see cref="T:System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
+            </param>
+            <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ValidateExpressionDelegate">
+            <summary>
+            Delegate for doing static validation on an expression.
+            </summary>
+            <remarks>
+            Validators can and should throw exceptions if the expression is not valid.
+            </remarks>
+            <param name="expression">Expression to check.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.EvaluateExpressionDelegate">
+            <summary>
+            Delegate to evaluate an expression.
+            </summary>
+            <remarks>
+            Evaluators should verify runtime arguments when appropriate and return an error rather than throw exceptions if possible.
+            </remarks>
+            <param name="expression">Expression to evaluate.</param>
+            <param name="state">Global state information.</param>
+            <returns>Value and error string that is non-null if there is an error.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.EvaluatorLookup">
+            <summary>
+            Delegate to lookup function information from the type.
+            </summary>
+            <param name="type">Name to lookup, usually from <see cref="T:Microsoft.Bot.Expressions.ExpressionType"/>.</param>
+            <returns>Expression evaluation information.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ExpressionEvaluator">
+            <summary>
+            Information on how to evaluate an expression.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionEvaluator.#ctor(System.String,Microsoft.Bot.Expressions.EvaluateExpressionDelegate,Microsoft.Bot.Expressions.ReturnType,Microsoft.Bot.Expressions.ValidateExpressionDelegate)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.ExpressionEvaluator"/> class.
+            </summary>
+            <param name="type">Expression type.</param>
+            <param name="evaluator">Delegate to evaluate an expression.</param>
+            <param name="returnType">Type expected from evaluation.</param>
+            <param name="validator">Static validation of expression.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.ExpressionEvaluator.Type">
+            <summary>
+            Gets the expression type for evaluator.
+            </summary>
+            <value>
+            The type of expression from <see cref="T:Microsoft.Bot.Expressions.ExpressionType"/> for built-in functions or else a unique string for custom functions.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.ExpressionEvaluator.ReturnType">
+            <summary>
+            Gets or sets the expression return type.
+            </summary>
+            <value>
+            Type expected by evaluating the expression.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.ExpressionEvaluator.Negation">
+            <summary>
+            Gets or sets the evaluator that is a negation of this one.
+            </summary>
+            <remarks>
+            When doing <see cref="M:Microsoft.Bot.Expressions.Extensions.PushDownNot(Microsoft.Bot.Expressions.Expression)"/> then negations will replace an expression and remove not parent.
+            By default no negation is defined and not parent will remain.
+            If a negation is defined then this is automatically set as its negation.
+            If an evaluator is its own negation, then the negation will be passed through to children.
+            </remarks>
+            <value>
+            The evaluator that is a negation of this one.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionEvaluator.TryEvaluate(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.Memory.IMemory)">
+            <summary>
+            Evaluate an expression.
+            </summary>
+            <param name="expression">Expression to evaluate.</param>
+            <param name="state">Global state information.</param>
+            <returns>Value and error string that is non-null if there is an error.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionEvaluator.ValidateExpression(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Validate an expression.
+            </summary>
+            <param name="expression">Expression to validate.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ExpressionType">
+            NOTE: If you add a built-in type here, you also need to make sure it can be evaluated as well either by adding to BuiltInFunctions or when you construct the expression.
+            <summary>
+            Built-in expression types.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.Extensions">
+            <summary>
+            Extension methods for detecting or value testing of various types.
+            </summary>
+            <summary>
+            Extension methods for manipulation of <see cref="T:Microsoft.Bot.Expressions.Expression"/> values.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.IsNumber(System.Object)">
+            <summary>
+            Test an object to see if it is a numeric type.
+            </summary>
+            <param name="value">Value to check.</param>
+            <returns>True if numeric type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.IsInteger(System.Object)">
+            <summary>
+            Test an object to see if it is an integer type.
+            </summary>
+            <param name="value">Value to check.</param>
+            <returns>True if numeric type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.DeepEquals(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Do a deep equality between expressions.
+            </summary>
+            <param name="expr">Base expression.</param>
+            <param name="other">Other expression.</param>
+            <returns>True if expressions are the same.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.References(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Return the static reference paths to memory.
+            </summary>
+            <remarks>
+            Return all static paths to memory.  If there is a computed element index, then the path is terminated there,
+            but you might get other paths from the computed part as well.
+            </remarks>
+            <param name="expression">Expression to get references from.</param>
+            <returns>List of the static reference paths.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.ReferenceWalk(Microsoft.Bot.Expressions.Expression,System.Func{Microsoft.Bot.Expressions.Expression,System.Boolean})">
+            <summary>
+            Walking function for identifying static memory references in an expression.
+            </summary>
+            <param name="expression">Expression to analyze.</param>
+            <param name="extension">If present, called to override lookup for things like template expansion.</param>
+            <returns>Accessor path of expression which is a potential partial path and the full path found so far.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.PushDownNot(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Rewrite the expression by pushing not down to the leaves.
+            </summary>
+            <remarks>
+            Push down not to the leaves if possible.  For and/or/not this uses DeMorgan's law and rewrites comparisons.
+            You can define your own behavior by setting <see cref="P:Microsoft.Bot.Expressions.ExpressionEvaluator.Negation"/> to the negated evaluator.
+            </remarks>
+            <param name="expression">Expression to rewrite.</param>
+            <returns>Rewritten expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Extensions.DisjunctiveNormalForm(Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Rewrite expression into disjunctive normal form.
+            </summary>
+            <remarks>
+            Rewrites to either a simple expression or a disjunction of conjunctions or simple expressions with not pushed down
+            to leaves.
+            </remarks>
+            <param name="expression">Expression to rewrite.</param>
+            <returns>Normalized expression.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.IExpressionParser">
+            <summary>
+            Interface to parse a string into an <see cref="T:Microsoft.Bot.Expressions.Expression"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionParser.Parse(System.String)">
+            <summary>
+            Parse a string into an <see cref="T:Microsoft.Bot.Expressions.Expression"/>.
+            </summary>
+            <param name="expression">Expression to parse.</param>
+            <returns>The resulting expression.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Memory.IMemory.SetValue(System.String,System.Object)">
+            <summary>
+            Set value to a given path.
+            </summary>
+            <param name="path">memory path.</param>
+            <param name="value">value to set.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Memory.IMemory.TryGetValue(System.String,System.Object@)">
+            <summary>
+            Try get value from a given path, it can be a simple identifier like "a", or
+            a combined path like "a.b", "a.b[2]", "a.b[2].c", inside [] is guaranteed to be a int number or a string.
+            </summary>
+            <param name="path">memory path.</param>
+            <param name="value">resolved value.</param>
+            <returns> true if the memory contains an element with the specified key; otherwise, false.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Memory.IMemory.Version">
+            <summary>
+            Version is used to identify whether the a particular memory instance has been updated or not.
+            If version is not changed, the caller may choose to use the cached result instead of recomputing everything.
+            </summary>
+            <returns>A string indicates the version.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.Memory.SimpleObjectMemory.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.Memory.SimpleObjectMemory"/> class.
+            This wraps a simple object as IMemory.
+            </summary>
+            <param name="memory">the object to wrap.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ExpressionEngine">
+            <summary>
+            Parser to turn strings into an <see cref="T:Microsoft.Bot.Expressions.Expression"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionEngine.#ctor(Microsoft.Bot.Expressions.EvaluatorLookup)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.ExpressionEngine"/> class.
+            Constructor.
+            </summary>
+            <param name="lookup">If present delegate to lookup evaluation information from type string.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionEngine.Parse(System.String)">
+            <summary>
+            Parse the input into an expression.
+            </summary>
+            <param name="expression">Expression to parse.</param>
+            <returns>Expression tree.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.Extensions">
+            <summary>
+            Extension method to swap between <see cref="T:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType"/> "Generalizes" and "Specializes".
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.IOptimizer">
+            <summary>
+            Optimize a clause by rewriting it.
+            </summary>
+            <remarks>
+            If returned clause is null, then the expression will always be false.
+            This is to allow things like combining simple comparisons into a range predicate.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.IOptimizer.Optimize(Microsoft.Bot.Expressions.TriggerTrees.Clause)">
+            <summary>
+            Optionally rewrite a clause.
+            </summary>
+            <param name="clause">Original clause.</param>
+            <returns>Optimized clause.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.IPredicateComparer">
+            <summary>
+            Compare two predicates to identify the relationship between them.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.IPredicateComparer.Predicate">
+            <summary>
+            Gets name of predicate.
+            </summary>
+            <value>
+            Name of predicate.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.IPredicateComparer.Relationship(Microsoft.Bot.Expressions.Expression,Microsoft.Bot.Expressions.Expression)">
+            <summary>
+            Identify the relationship between two predicates.
+            </summary>
+            <param name="predicate">First predicate.</param>
+            <param name="other">Second predicate.</param>
+            <returns>Relationship between predicates.</returns>
+            <remarks>
+            This is useful for doing things like identifying that Range("size", 1, 5) is more specialized than Range("size", 1, 10).
+            </remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.Node">
+            <summary>
+            Node in a trigger tree.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Triggers">
+            <summary>
+            Gets all of the most specific triggers that contain the <see cref="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Clause"/> in this node.
+            </summary>
+            <value>
+            All of the most specific triggers that contain the <see cref="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Clause"/> in this node.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Node.AllTriggers">
+            <summary>
+            Gets all triggers that contain the <see cref="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Clause"/> in this node. 
+            </summary>
+            <remarks>
+            Triggers only contain the most specific trigger, so if this node 
+            is Pred(A) and there was a rule R1: Pred(A) -> A1 and R2: Pred(A) v Pred(B) -> A2
+            then the second trigger would be in AllTriggers, but not Triggers because it 
+            is more general.
+            </remarks>
+            <value>
+            All triggers that contain the <see cref="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Clause"/> in this node. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Specializations">
+            <summary>
+            Gets specialized children of this node.
+            </summary>
+            <value>
+            Specialized children of this node.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Clause">
+            <summary>
+            Gets the logical conjunction this node represents.
+            </summary>
+            <value>
+            The logical conjunction this node represents.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Node.Tree">
+            <summary>
+            Gets the tree this node is found in.
+            </summary>
+            <value>
+            The tree this node is found in.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.Node.Relationship(Microsoft.Bot.Expressions.TriggerTrees.Node)">
+            <summary>
+            Identify the relationship between two nodes.
+            </summary>
+            <param name="other">Node to compare against.</param>
+            <returns>Relationship between this node and the other.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.Node.Matches(System.Object)">
+            <summary>
+            Return the most specific matches below this node.
+            </summary>
+            <param name="state">Frame to evaluate against.</param>
+            <returns>List of the most specific matches found.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.QuantifierType">
+            <summary>
+            Type of quantifier for expanding trigger expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.QuantifierType.All">
+            <summary>
+            Within a clause, duplicate any predicate with variable for each possible binding.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.QuantifierType.Any">
+            <summary>
+            Create a new clause for each possible binding of variable.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.Quantifier">
+            <summary>
+            Quantifier for allowing runtime expansion of expressions.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.Quantifier.#ctor(System.String,Microsoft.Bot.Expressions.TriggerTrees.QuantifierType,System.Collections.Generic.IEnumerable{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.TriggerTrees.Quantifier"/> class.
+            </summary>
+            <param name="variable">Name of variable to replace.</param>
+            <param name="type">Type of quantifier.</param>
+            <param name="bindings">Possible bindings for variable.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Quantifier.Variable">
+            <summary>
+            Gets name of variable that will be replaced.
+            </summary>
+            <value>
+            Name of variable that will be replaced.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Quantifier.Type">
+            <summary>
+            Gets type of quantifier.
+            </summary>
+            <value>
+            Type of quantifier.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Quantifier.Bindings">
+            <summary>
+            Gets possible bindings for quantifier.
+            </summary>
+            <value>
+            Possible bindings for quantifier.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType">
+            <summary>
+            Relationship between trigger expressions.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType.Specializes">
+            <summary>
+            First argument specializes the second, i.e. applies to a subset of the states the second argument covers.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType.Equal">
+            <summary>
+            First and second argument are the same expression.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType.Generalizes">
+            <summary>
+            First argument generalizes the second, i.e. applies to a superset of the states the second argument covers.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.RelationshipType.Incomparable">
+            <summary>
+            Cannot tell how the first and second arguments relate.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.Trigger">
+            <summary>
+            A trigger is a combination of a trigger expression and the corresponding action.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.Trigger.#ctor(Microsoft.Bot.Expressions.TriggerTrees.TriggerTree,Microsoft.Bot.Expressions.Expression,System.Object,Microsoft.Bot.Expressions.TriggerTrees.Quantifier[])">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.TriggerTrees.Trigger"/> class.
+            Construct a trigger expression.
+            </summary>
+            <param name="tree">Trigger tree that contains this trigger.</param>
+            <param name="expression">Expression for when the trigger action is possible.</param>
+            <param name="action">Action to take when a trigger matches.</param>
+            <param name="quantifiers">Quantifiers to dynamically expand the expression.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Trigger.OriginalExpression">
+            <summary>
+            Gets the original trigger expression.
+            </summary>
+            <value>
+            Original trigger expression.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Trigger.Action">
+            <summary>
+            Gets action to take when trigger is true.
+            </summary>
+            <value>
+            Action to take when trigger is true.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Expressions.TriggerTrees.Trigger.Clauses">
+            <summary>
+            Gets list of expressions converted into Disjunctive Normal Form where ! is pushed to the leaves and 
+            there is an implicit || between clauses and &amp;&amp; within a clause. 
+            </summary>
+            <value>
+            List of expressions converted into Disjunctive Normal Form where ! is pushed to the leaves and 
+            there is an implicit || between clauses and &amp;&amp; within a clause. 
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree">
+            <summary>
+            A trigger tree organizes evaluators according to generalization/specialization in order to make it easier to use rules.
+            </summary>
+            <remarks>
+            A trigger expression generates true if the expression evaluated on a frame is true.
+            The expression itself consists of arbitrary boolean functions ("predicates") combined with &amp;&amp; || !.
+            Most predicates are expressed over the frame passed in, but they can be anything--there are even ways of optimizing or comparing them.
+            By organizing evaluators into a tree (technically a DAG) it becomes easier to use rules by reducing the coupling between rules.
+            For example if a rule applies if some predicate A is true, then another rule that applies if A &amp;&amp; B are true is
+            more specialized.  If the second expression is true, then because we know of the relationship we can ignore the first
+            rule--even though its expression is true.  Without this kind of capability in order to add the second rule, you would
+            have to change the first to become A &amp;&amp; !B.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.Optional">
+            <summary>
+            Mark a sub-expression as optional.
+            </summary>
+            <remarks>
+            When an expression is being processed, optional creates a disjunction where the expression is both included and not
+            included with the rest of the expression.  This is a simple way to express this common relationship.  By generating
+            both clauses then matching the expression can be more specific when the optional expression is true.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.Ignore">
+            <summary>
+            Any predicate expression wrapped in this will be ignored for specialization.
+            </summary>
+            <remarks>
+            This is useful for when you need to add expression to the trigger that are part of rule mechanics rather than of intent.
+            For example, if you have a counter for how often a particular message is displayed, then that is part of the triggering condition, 
+            but all such rules would be incomparable because they counter is per-rule. 
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.AddTrigger(System.String,System.Object,Microsoft.Bot.Expressions.TriggerTrees.Quantifier[])">
+            <summary>
+            Add a trigger expression to the tree.
+            </summary>
+            <param name="expression">Trigger to add.</param>
+            <param name="action">Action when triggered.</param>
+            <param name="quantifiers">Quantifiers to use when expanding expressions.</param>
+            <returns>New trigger.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.AddTrigger(Microsoft.Bot.Expressions.Expression,System.Object,Microsoft.Bot.Expressions.TriggerTrees.Quantifier[])">
+            <summary>
+            Add a trigger expression to the tree.
+            </summary>
+            <param name="expression">Trigger to add.</param>
+            <param name="action">Action when triggered.</param>
+            <param name="quantifiers">Quantifiers to use when expanding expressions.</param>
+            <returns>New trigger.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.RemoveTrigger(Microsoft.Bot.Expressions.TriggerTrees.Trigger)">
+            <summary>
+            Remove trigger from tree.
+            </summary>
+            <param name="trigger">Trigger to remove.</param>
+            <returns>True if removed trigger.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.TreeToString(System.Int32)">
+            <summary>
+            Generate a string describing the tree.
+            </summary>
+            <param name="indent">Current indent level.</param>
+            <returns>string describing the tree.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.Matches(System.Object)">
+            <summary>
+            Return the possible matches given the current state.
+            </summary>
+            <param name="state">State to evaluate against.</param>
+            <returns>Enumeration of possible matches.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.TriggerTrees.TriggerTree.VerifyTree">
+            <summary>
+            Verify the tree meets specialization/generalization invariants. 
+            </summary>
+            <returns>Bad node if found.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ICommonRegexListener">
+            <summary>
+            This interface defines a complete listener for a parse tree produced by
+            <see cref="T:Microsoft.Bot.Expressions.CommonRegexParser"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.EnterLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexListener.ExitLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.CommonRegexBaseListener">
+            <summary>
+            This class provides an empty implementation of <see cref="T:Microsoft.Bot.Expressions.ICommonRegexListener"/>,
+            which can be extended to create a listener which only needs to handle a subset
+            of the available methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.EnterEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.ExitEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.VisitTerminal(Antlr4.Runtime.Tree.ITerminalNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseListener.VisitErrorNode(Antlr4.Runtime.Tree.IErrorNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ICommonRegexVisitor`1">
+            <summary>
+            This interface defines a complete generic visitor for a parse tree produced
+            by <see cref="T:Microsoft.Bot.Expressions.CommonRegexParser"/>.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ICommonRegexVisitor`1.VisitLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1">
+            <summary>
+            This class provides an empty implementation of <see cref="T:Microsoft.Bot.Expressions.ICommonRegexVisitor`1"/>,
+            which can be extended to create a visitor which only needs to handle a subset
+            of the available methods.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitParse(Microsoft.Bot.Expressions.CommonRegexParser.ParseContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.parse"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitAlternation(Microsoft.Bot.Expressions.CommonRegexParser.AlternationContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alternation"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitExpr(Microsoft.Bot.Expressions.CommonRegexParser.ExprContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.expr"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitElement(Microsoft.Bot.Expressions.CommonRegexParser.ElementContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.element"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitQuantifier(Microsoft.Bot.Expressions.CommonRegexParser.QuantifierContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitQuantifier_type(Microsoft.Bot.Expressions.CommonRegexParser.Quantifier_typeContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.quantifier_type"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitCharacter_class(Microsoft.Bot.Expressions.CommonRegexParser.Character_classContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.character_class"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitCapture(Microsoft.Bot.Expressions.CommonRegexParser.CaptureContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.capture"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitNon_capture(Microsoft.Bot.Expressions.CommonRegexParser.Non_captureContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_capture"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitOption(Microsoft.Bot.Expressions.CommonRegexParser.OptionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitOption_flag(Microsoft.Bot.Expressions.CommonRegexParser.Option_flagContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.option_flag"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitAtom(Microsoft.Bot.Expressions.CommonRegexParser.AtomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.atom"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitCc_atom(Microsoft.Bot.Expressions.CommonRegexParser.Cc_atomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_atom"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitShared_atom(Microsoft.Bot.Expressions.CommonRegexParser.Shared_atomContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_atom"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitLiteral(Microsoft.Bot.Expressions.CommonRegexParser.LiteralContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitCc_literal(Microsoft.Bot.Expressions.CommonRegexParser.Cc_literalContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.cc_literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitShared_literal(Microsoft.Bot.Expressions.CommonRegexParser.Shared_literalContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.shared_literal"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitNumber(Microsoft.Bot.Expressions.CommonRegexParser.NumberContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.number"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitOctal_char(Microsoft.Bot.Expressions.CommonRegexParser.Octal_charContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_char"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitOctal_digit(Microsoft.Bot.Expressions.CommonRegexParser.Octal_digitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.octal_digit"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitDigits(Microsoft.Bot.Expressions.CommonRegexParser.DigitsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digits"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitDigit(Microsoft.Bot.Expressions.CommonRegexParser.DigitContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.digit"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitName(Microsoft.Bot.Expressions.CommonRegexParser.NameContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.name"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitAlpha_nums(Microsoft.Bot.Expressions.CommonRegexParser.Alpha_numsContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.alpha_nums"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitNon_close_parens(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parensContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_parens"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitNon_close_paren(Microsoft.Bot.Expressions.CommonRegexParser.Non_close_parenContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.non_close_paren"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.CommonRegexBaseVisitor`1.VisitLetter(Microsoft.Bot.Expressions.CommonRegexParser.LetterContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.CommonRegexParser.letter"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.IExpressionListener">
+            <summary>
+            This interface defines a complete listener for a parse tree produced by
+            <see cref="T:Microsoft.Bot.Expressions.ExpressionParser"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.EnterArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionListener.ExitArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ExpressionBaseListener">
+            <summary>
+            This class provides an empty implementation of <see cref="T:Microsoft.Bot.Expressions.IExpressionListener"/>,
+            which can be extended to create a listener which only needs to handle a subset
+            of the available methods.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Enter a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Exit a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Enter a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Exit a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.EnterEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.ExitEveryRule(Antlr4.Runtime.ParserRuleContext)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.VisitTerminal(Antlr4.Runtime.Tree.ITerminalNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseListener.VisitErrorNode(Antlr4.Runtime.Tree.IErrorNode)">
+            <inheritdoc/>
+            <remarks>The default implementation does nothing.</remarks>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.IExpressionVisitor`1">
+            <summary>
+            This interface defines a complete generic visitor for a parse tree produced
+            by <see cref="T:Microsoft.Bot.Expressions.ExpressionParser"/>.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.IExpressionVisitor`1.VisitArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="T:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1">
+            <summary>
+            This class provides an empty implementation of <see cref="T:Microsoft.Bot.Expressions.IExpressionVisitor`1"/>,
+            which can be extended to create a visitor which only needs to handle a subset
+            of the available methods.
+            </summary>
+            <typeparam name="Result">The return type of the visit operation.</typeparam>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitUnaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.UnaryOpExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>unaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitBinaryOpExp(Microsoft.Bot.Expressions.ExpressionParser.BinaryOpExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>binaryOpExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitPrimaryExp(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>primaryExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitParenthesisExp(Microsoft.Bot.Expressions.ExpressionParser.ParenthesisExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>parenthesisExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitConstantAtom(Microsoft.Bot.Expressions.ExpressionParser.ConstantAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>constantAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitNumericAtom(Microsoft.Bot.Expressions.ExpressionParser.NumericAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>numericAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitStringAtom(Microsoft.Bot.Expressions.ExpressionParser.StringAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>stringAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitIdAtom(Microsoft.Bot.Expressions.ExpressionParser.IdAtomContext)">
+            <summary>
+            Visit a parse tree produced by the <c>idAtom</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitMemberAccessExp(Microsoft.Bot.Expressions.ExpressionParser.MemberAccessExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>memberAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitFuncInvokeExp(Microsoft.Bot.Expressions.ExpressionParser.FuncInvokeExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>funcInvokeExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitIndexAccessExp(Microsoft.Bot.Expressions.ExpressionParser.IndexAccessExpContext)">
+            <summary>
+            Visit a parse tree produced by the <c>indexAccessExp</c>
+            labeled alternative in <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitFile(Microsoft.Bot.Expressions.ExpressionParser.FileContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.file"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitExpression(Microsoft.Bot.Expressions.ExpressionParser.ExpressionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.expression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitPrimaryExpression(Microsoft.Bot.Expressions.ExpressionParser.PrimaryExpressionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.primaryExpression"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Expressions.ExpressionBaseVisitor`1.VisitArgsList(Microsoft.Bot.Expressions.ExpressionParser.ArgsListContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Expressions.ExpressionParser.argsList"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+    </members>
+</doc>

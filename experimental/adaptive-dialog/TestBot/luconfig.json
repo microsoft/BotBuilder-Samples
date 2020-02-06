@@ -1,0 +1,8 @@
+{
+  "name": "Testbot.Json",
+  "defaultLanguage": "en-us",
+  "models": [
+    "samples/ToDoLuisBot/ToDoLuis.lu",
+    "samples/Sandwich/OrderSandwichApp.lu"
+  ]
+}
