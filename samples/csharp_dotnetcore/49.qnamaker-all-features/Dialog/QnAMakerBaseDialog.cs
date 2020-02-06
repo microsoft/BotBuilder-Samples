@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
@@ -58,7 +59,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             var noAnswer = (Activity)Activity.CreateMessageActivity();
             noAnswer.Text = DefaultNoAnswer;
 
-            var cardNoMatchResponse = new Activity(DefaultCardNoMatchResponse);
+            var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
             var responseOptions = new QnADialogResponseOptions
             {
