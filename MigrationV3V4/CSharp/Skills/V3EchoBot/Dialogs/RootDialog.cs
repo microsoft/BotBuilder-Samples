@@ -25,7 +25,7 @@ namespace Microsoft.Bot.Sample.EchoBot.Dialogs
             // calculate something for us to return
             int length = (activity.Text ?? string.Empty).Length;
 
-            if (activity.Text.Contains("end") || activity.Text.Contains("stop"))
+            if (activity.Text.ToLower().Contains("end") || activity.Text.ToLower().Contains("stop"))
             {
                 // Send End of conversation at the end.
                 await context.PostAsync($"Ending conversation from the skill...");

@@ -66,7 +66,7 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
-                        if (activity.Text.Contains("end") || activity.Text.Contains("stop"))
+                        if (activity.Text.ToLower().Contains("end") || activity.Text.ToLower().Contains("stop"))
                         {
                             await SkillsHelper.EndSkillConversation(activity);
                         }

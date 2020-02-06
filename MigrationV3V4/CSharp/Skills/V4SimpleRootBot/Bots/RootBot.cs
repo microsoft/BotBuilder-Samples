@@ -156,15 +156,13 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             await _conversationState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
         }
 
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task OnEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            foreach (var member in membersAdded)
+            if(turnContext.Activity.Name == "webchat/join")
             {
-                if (member.Id != turnContext.Activity.Recipient.Id)
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Hello and welcome!"), cancellationToken);
-                }
+                await turnContext.SendActivityAsync(MessageFactory.Text("Hello and welcome!  Would you like to test a V3 bot as a Skill?"), cancellationToken);
             }
+            await base.OnEventAsync(turnContext, cancellationToken);
         }
     }
 }

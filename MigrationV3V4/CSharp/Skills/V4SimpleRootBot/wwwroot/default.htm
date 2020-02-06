@@ -21,11 +21,27 @@
 <body>
     <div id="webchat" role="main"></div>
     <script>
+
+        const store = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+          if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+            // When we receive DIRECT_LINE/CONNECT_FULFILLED action, we will send an event activity using WEB_CHAT/SEND_EVENT
+            dispatch({
+              type: 'WEB_CHAT/SEND_EVENT',
+              payload: {
+                name: 'webchat/join'
+              }
+            });
+          }
+
+          return next(action);
+        });
+
         window.WebChat.renderWebChat(
             {
                 directLine: window.WebChat.createDirectLine({
                     token: 'Your root bots Token Here'
                 }),
+                store,
                 //userID: 'YOUR_USER_ID',
                 username: 'Web Chat User',
                 locale: 'en-US',
