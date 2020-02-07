@@ -11,12 +11,10 @@ using System.Net.Http;
 using System.Web.Http.Description;
 using System.Diagnostics;
 using Microsoft.Bot.Connector.SkillAuthentication;
-using Microsoft.Bot.Sample.SimpleSandwichBot.Authentication;
 
 namespace Microsoft.Bot.Sample.SimpleSandwichBot.Controllers
 {
-    //[SkillBotAuthentication] //Without SkillAuthenticationConfiguration, any Root bot can call this skill
-    [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(SkillAuthenticationConfiguration))]
+    [SkillBotAuthentication]
     public class MessagesController : ApiController
     {
         internal static IDialog<SandwichOrder> MakeRootDialog()

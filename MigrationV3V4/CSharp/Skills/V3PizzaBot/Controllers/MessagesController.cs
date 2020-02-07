@@ -11,12 +11,10 @@ using System.Web.Http.Description;
 using System.Net.Http;
 using System.Diagnostics;
 using Microsoft.Bot.Connector.SkillAuthentication;
-using Microsoft.Bot.Sample.PizzaBot.Authentication;
 
 namespace Microsoft.Bot.Sample.PizzaBot.Controllers
 {
-    //[SkillBotAuthentication] //Without SkillAuthenticationConfiguration, any Root bot can call this skill
-    [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(SkillAuthenticationConfiguration))]
+    [SkillBotAuthentication]
     public class MessagesController : ApiController
     {
         private static IForm<PizzaOrder> BuildForm()

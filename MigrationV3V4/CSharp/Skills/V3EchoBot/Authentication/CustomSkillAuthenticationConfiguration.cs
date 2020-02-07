@@ -7,15 +7,14 @@ using System.Linq;
 
 namespace Microsoft.Bot.Sample.EchoBot.Authentication
 {
-    public class SkillAuthenticationConfiguration : AuthenticationConfiguration
+    public class CustomSkillAuthenticationConfiguration : AuthenticationConfiguration
     {
-        private const string AllowedCallersConfigKey = "AllowedCallers";
-        public SkillAuthenticationConfiguration()
+        private const string AllowedCallersConfigKey = "EchoBotAllowedCallers";
+        public CustomSkillAuthenticationConfiguration()
         {
+            // Could pull this list from a DB or anywhere.
             var allowedCallers = ConfigurationManager.AppSettings[AllowedCallersConfigKey].Split(',').Select(s => s.Trim()).ToList();
-            ClaimsValidator = new AllowedCallersClaimsValidator(allowedCallers);
+            ClaimsValidator = new CustomAllowedCallersClaimsValidator(allowedCallers);
         }
-
-        public override ClaimsValidator ClaimsValidator { get => base.ClaimsValidator; set => base.ClaimsValidator = value; }
     }
 }

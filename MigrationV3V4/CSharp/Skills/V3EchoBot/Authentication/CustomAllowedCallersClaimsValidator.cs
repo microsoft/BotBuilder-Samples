@@ -4,22 +4,20 @@
 using Microsoft.Bot.Connector.SkillAuthentication;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 
-namespace Microsoft.Bot.Sample.SimpleSandwichBot.Authentication
+namespace Microsoft.Bot.Sample.EchoBot.Authentication
 {
     /// <summary>
     /// Sample claims validator that loads an allowed list from configuration if present
     /// and checks that requests are coming from allowed parent bots.
     /// </summary>
-    public class AllowedCallersClaimsValidator : ClaimsValidator
+    public class CustomAllowedCallersClaimsValidator : ClaimsValidator
     {
         private readonly IList<string> _allowedCallers;
 
-        public AllowedCallersClaimsValidator(IList<string> allowedCallers)
+        public CustomAllowedCallersClaimsValidator(IList<string> allowedCallers)
         {
             // AllowedCallers is the setting in web.config file
             // that consists of the list of parent bot ids that are allowed to access the skill

@@ -13,7 +13,7 @@ using Microsoft.Bot.Sample.EchoBot.Authentication;
 namespace Microsoft.Bot.Sample.EchoBot
 {
     //[SkillBotAuthentication] 
-    [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(SkillAuthenticationConfiguration))]
+    [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(CustomSkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
         /// <summary>
