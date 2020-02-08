@@ -55,6 +55,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |[View][py#56]
 |57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |[View][py#57]
 |70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
+|80.skills-simple-bot-to-bot     | This sample shows how to connect a skill to a skill consumer.| [View][cs#80] | [View][js#80]       |              |   |     |[View][py#80]
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
 [cs#2]:samples/csharp_dotnetcore/02.echo-bot
@@ -93,6 +94,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#55]:samples/csharp_dotnetcore/55.teams-link-unfurling
 [cs#56]:samples/csharp_dotnetcore/56.teams-file-upload
 [cs#57]:samples/csharp_dotnetcore/57.teams-conversation-bot
+[cs#80]:samples/csharp_dotnetcore/80.skills-simple-bot-to-bot
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 
@@ -144,6 +146,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#55]:samples/javascript_nodejs/55.teams-link-unfurling
 [js#56]:samples/javascript_nodejs/56.teams-file-upload
 [js#57]:samples/javascript_nodejs/57.teams-conversation-bot
+[js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
@@ -178,6 +181,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [py#55]:samples/python/55.teams-link-unfurling
 [py#56]:samples/python/56.teams-file-upload
 [py#57]:samples/python/57.teams-conversation-bot
+[py#80]:samples/python/80.skills-simple-bot-to-bot
 
 ## Contributing
 
