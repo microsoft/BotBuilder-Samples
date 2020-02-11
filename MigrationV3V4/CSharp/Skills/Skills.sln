@@ -5,11 +5,11 @@ VisualStudioVersion = 16.0.29613.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRootBot", "V4SimpleRootBot\SimpleRootBot.csproj", "{18BCB2AA-C515-4308-A266-E151E11CB258}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBot", "V3EchoBot\Microsoft.Bot.Sample.EchoBot.csproj", "{2B56730B-4512-4942-B39C-9C3A8B5FCEFD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.EchoBot", "V3EchoBot\Microsoft.Bot.Sample.EchoBot.csproj", "{41BC9547-FD9E-40E1-B1D9-C3F25BC9A2F3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleSandwichBot", "V3SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj", "{D51F252D-4041-4440-A3F5-DA515E50B7D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.SimpleSandwichBot", "V3SimpleSandwichBot\Microsoft.Bot.Sample.SimpleSandwichBot.csproj", "{E03FC8AD-40D4-49E4-BCDC-9981E0981E13}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.PizzaBot", "V3PizzaBot\Microsoft.Bot.Sample.PizzaBot.csproj", "{E8D5ED12-FA37-4756-9BE2-A459E9F29954}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Microsoft.Bot.Sample.PizzaBot", "V3PizzaBot\Microsoft.Bot.Sample.PizzaBot.csproj", "{0068D321-0D4A-42F3-8BAA-789FA4F564B6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,18 +21,18 @@ Global
 		{18BCB2AA-C515-4308-A266-E151E11CB258}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{18BCB2AA-C515-4308-A266-E151E11CB258}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{18BCB2AA-C515-4308-A266-E151E11CB258}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2B56730B-4512-4942-B39C-9C3A8B5FCEFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2B56730B-4512-4942-B39C-9C3A8B5FCEFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2B56730B-4512-4942-B39C-9C3A8B5FCEFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2B56730B-4512-4942-B39C-9C3A8B5FCEFD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D51F252D-4041-4440-A3F5-DA515E50B7D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D51F252D-4041-4440-A3F5-DA515E50B7D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D51F252D-4041-4440-A3F5-DA515E50B7D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D51F252D-4041-4440-A3F5-DA515E50B7D3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8D5ED12-FA37-4756-9BE2-A459E9F29954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8D5ED12-FA37-4756-9BE2-A459E9F29954}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8D5ED12-FA37-4756-9BE2-A459E9F29954}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8D5ED12-FA37-4756-9BE2-A459E9F29954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41BC9547-FD9E-40E1-B1D9-C3F25BC9A2F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41BC9547-FD9E-40E1-B1D9-C3F25BC9A2F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41BC9547-FD9E-40E1-B1D9-C3F25BC9A2F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41BC9547-FD9E-40E1-B1D9-C3F25BC9A2F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E03FC8AD-40D4-49E4-BCDC-9981E0981E13}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E03FC8AD-40D4-49E4-BCDC-9981E0981E13}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E03FC8AD-40D4-49E4-BCDC-9981E0981E13}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E03FC8AD-40D4-49E4-BCDC-9981E0981E13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0068D321-0D4A-42F3-8BAA-789FA4F564B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0068D321-0D4A-42F3-8BAA-789FA4F564B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0068D321-0D4A-42F3-8BAA-789FA4F564B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0068D321-0D4A-42F3-8BAA-789FA4F564B6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -160,7 +160,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         {
             if(turnContext.Activity.Name == "webchat/join")
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("Hello and welcome!  Would you like to test a V3 bot as a Skill?"), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Attachment(GetOptionsAttachment()), cancellationToken);
             }
             await base.OnEventAsync(turnContext, cancellationToken);
         }
