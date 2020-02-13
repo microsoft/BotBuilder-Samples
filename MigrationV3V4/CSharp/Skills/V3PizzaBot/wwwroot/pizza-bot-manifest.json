@@ -1,0 +1,30 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "PizzaSkillBot",
+  "name": "Pizza Skill Bot",
+  "version": "1.0",
+  "description": "This is a sample skill for ordering a pizza.",
+  "publisherName": "Microsoft",
+  "privacyUrl": "https://microsoft.com/privacy",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "tags": [
+    "sample",
+    "pizza"
+  ],
+  "endpoints": [
+    {
+      "name": "default",
+      "protocol": "BotFrameworkV3",
+      "description": "Default endpoint for the skill",
+      "endpointUrl": "https://ericv3skillspizzabot.azurewebsites.net/api/messages",
+      "msAppId": "fb08e4e0-18f1-4031-a05d-866c51f69da1"
+    }
+  ],
+  "activities": {
+    "OrderPizza": {
+      "type": "message",
+      "description": "Initiates the pizza ordering dialog."
+    }
+  }
+}
