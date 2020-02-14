@@ -51,7 +51,7 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
 
 ## To try this sample
 
-- Clone the repository
+- Clone the repository.
 
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
