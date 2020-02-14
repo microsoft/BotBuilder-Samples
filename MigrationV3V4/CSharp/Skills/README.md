@@ -61,7 +61,7 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
 - Create a bot registration in the azure portal for the `SimpleRootBot` and update [SimpleRootBot/appsettings.json](SimpleRootBot/appsettings.json) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
 - Create a bot registration in the azure portal for the `EchoBot` and update [Web.config](V3EchoBot/Web.config) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration.  Do the same for `PizzaBot` and `SimpleSandwichBot`
 - Add the `SimpleRootBot` `MicrosoftAppId` to the `AllowedCallers` list in `web.config` for each skill (Note: this config setting is called `EchoBotAllowedCallers` in the EchoBot project, as a demonstration of `CustomSkillAuthenticationConfiguration`)
-- Update the `BotFrameworkSkills` section in [SimpleRootBot/appsettings.json](SimpleRootBot/appsettings.json) with the app ID for the skill you created in the previous steps
+- Update the `BotFrameworkSkills` section in [SimpleRootBot/appsettings.json](SimpleRootBot/appsettings.json) with the app IDs for the skills you created in the previous steps.
 
 ## Testing the bot using Bot Framework Emulator
 
