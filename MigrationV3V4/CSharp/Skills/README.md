@@ -6,7 +6,7 @@ This sample was created using `Microsoft.Bot.Builder` [v3.30.0](https://www.nuge
 
 Steps to convert a bot to a Skill using SDK v3.30.0:
 1)	In the v3 bot's message controller, change the attribute applied to the controller from `BotAuthentication` to `SkillBotAuthentication`.
-1)	Add `AllowedCallers` app setting to web.config (comma delimited list of skill host MicrosoftAppIds, or ‘*’ to allow all hosts).
+1)	In the bot's web.config file, add an `AllowedCallers` app setting. The allowed callers array can restrict which skill consumers can access the skill. Set this to "*" to accept calls from any skill consumer, or set it to a comma-delimited list of the app IDs of the allowed consumers.
 1)	Add code to send the skill host `EndOfConversation` when the skill is finished.
 
 
