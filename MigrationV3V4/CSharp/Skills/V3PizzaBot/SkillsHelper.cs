@@ -11,6 +11,14 @@ namespace Microsoft.Bot.Sample.PizzaBot
 {
     internal static class SkillsHelper
     {
+        /// <summary>
+        /// Helper method that sends an `endOfConversation` activity.
+        /// </summary>
+        /// <param name="incomingActivity">The incoming user activity for this turn.</param>
+        /// <param name="order">Optional. The completed order.</param>
+        /// <returns>A task that represents the work queued to execute.</returns>
+        /// <remarks>Sending the `endOfConversation` activity when the conversation completes allows
+        /// the bot to be consumed as a skill.</remarks>
         internal static async Task EndSkillConversation(Activity incomingActivity, PizzaOrder order = null)
         {
             var appId = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey];
