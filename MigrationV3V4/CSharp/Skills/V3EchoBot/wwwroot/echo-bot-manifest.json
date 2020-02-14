@@ -1,20 +1,21 @@
 {
-  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
-  "$id": "EchoSkillBot",
-  "name": "Echo Skill bot",
+  "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "EricV3Echo",
+  "name": "V3 Echo Skill Bot",
   "version": "1.0",
-  "description": "This is a sample echo skill",
+  "description": "This is a sample skill for ordering a sandwich.",
   "publisherName": "Microsoft",
   "privacyUrl": "https://microsoft.com/privacy",
   "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
   "license": "",
+  "iconUrl": "https://myskill.contoso.com/icon.png",
   "tags": [
     "sample",
     "echo"
   ],
   "endpoints": [
     {
-      "name": "default",
+      "name": "EricV3Echo",
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
       "endpointUrl": "https://ericv3skillsechobot.azurewebsites.net/api/messages",
@@ -22,9 +23,10 @@
     }
   ],
   "activities": {
-    "EchoMessage": {
+    "EchoDotNetV3": {
+      "description": "Echo user responses",
       "type": "message",
-      "description": "Simply echoes back the user text."
+      "name": "V3Echo"
     }
   }
 }

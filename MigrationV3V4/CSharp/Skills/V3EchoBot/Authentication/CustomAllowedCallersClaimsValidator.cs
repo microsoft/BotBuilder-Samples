@@ -29,11 +29,11 @@ namespace Microsoft.Bot.Sample.EchoBot.Authentication
 
         public override Task ValidateClaimsAsync(IList<Claim> claims)
         {
-            // if _allowedCallers is null we allow all calls
-            if (_allowedCallers != null && SkillValidation.IsSkillClaim(claims))
+            // if _allowedCallers has one item of '*', allow all parent bot calls and do not validate the appid from claims
+            if (SkillValidation.IsSkillClaim(claims) && !(_allowedCallers.Count == 1 && _allowedCallers[0] == "*"))
             {
                 // Check that the appId claim in the skill request is in the list of skills configured for this bot.
-                var appId = JwtTokenValidation.GetAppIdFromClaims(claims);
+                var appId = JwtTokenValidation.GetAppIdFromClaims(claims).ToUpperInvariant();
                 if (!_allowedCallers.Contains(appId))
                 {
                     throw new UnauthorizedAccessException($"Received a request from a bot with an app ID of \"{appId}\". To enable requests from this caller, add the app ID to your configuration file.");

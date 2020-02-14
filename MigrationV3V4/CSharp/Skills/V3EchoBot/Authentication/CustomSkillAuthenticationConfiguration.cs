@@ -13,7 +13,7 @@ namespace Microsoft.Bot.Sample.EchoBot.Authentication
         public CustomSkillAuthenticationConfiguration()
         {
             // Could pull this list from a DB or anywhere.
-            var allowedCallers = ConfigurationManager.AppSettings[AllowedCallersConfigKey].Split(',').Select(s => s.Trim()).ToList();
+            var allowedCallers = ConfigurationManager.AppSettings[AllowedCallersConfigKey].Split(',').Select(s => s.Trim().ToUpperInvariant()).ToList();
             ClaimsValidator = new CustomAllowedCallersClaimsValidator(allowedCallers);
         }
     }
