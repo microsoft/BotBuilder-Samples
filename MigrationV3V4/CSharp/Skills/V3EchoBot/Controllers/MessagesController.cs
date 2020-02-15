@@ -12,7 +12,7 @@ using Microsoft.Bot.Sample.EchoBot.Authentication;
 
 namespace Microsoft.Bot.Sample.EchoBot
 {
-    //[SkillBotAuthentication] 
+    // Specify which type provides the authentication configuration to allow for validation for skills.
     [SkillBotAuthentication(AuthenticationConfigurationProviderType = typeof(CustomSkillAuthenticationConfiguration))]
     public class MessagesController : ApiController
     {
