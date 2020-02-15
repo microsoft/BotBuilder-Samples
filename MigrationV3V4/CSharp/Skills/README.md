@@ -71,7 +71,7 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
 
 ### Connect to the bot using Bot Framework Emulator
 
-- Launch Bot Framework Emulator
+- Launch the Bot Framework Emulator.
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`, the `MicrosoftAppId` and `MicrosoftAppPassword` for the `SimpleRootBot`
 
