@@ -73,7 +73,7 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
 
 - Launch the Bot Framework Emulator.
 - Select File -> Open Bot.
-- Enter a Bot URL of `http://localhost:3978/api/messages`, the `MicrosoftAppId` and `MicrosoftAppPassword` for the `SimpleRootBot`
+- Enter a bot URL of `http://localhost:3978/api/messages`, and use the `MicrosoftAppId` and `MicrosoftAppPassword` for the `SimpleRootBot`.
 
 ## Deploy the bots to Azure
 
