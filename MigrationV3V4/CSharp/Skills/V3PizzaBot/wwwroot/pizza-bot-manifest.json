@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
-  "$id": "EricV3Pizza",
+  "$id": "YourPizzaBotHandle",
   "name": "Pizza Skill Bot",
   "version": "1.0",
-  "description": "This is a sample skill for ordering a sandwich.",
+  "description": "This is a sample skill for ordering a Pizza.",
   "publisherName": "Microsoft",
   "privacyUrl": "https://microsoft.com/privacy",
   "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
@@ -15,11 +15,11 @@
   ],
   "endpoints": [
     {
-      "name": "EricV3Pizza",
+      "name": "YourPizzaBotName",
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
-      "endpointUrl": "https://ericv3skillspizzabot.azurewebsites.net/api/messages",
-      "msAppId": "fb08e4e0-18f1-4031-a05d-866c51f69da1"
+      "endpointUrl": "http://localhost:3980/api/messages",
+      "msAppId": "YOUR Pizza Bot's MicrosoftAppId"
     }
   ],
   "activities": {

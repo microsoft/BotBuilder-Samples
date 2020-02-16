@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
-  "$id": "EricV3Sandwich",
+  "$id": "YourSandwichBotHandle",
   "name": "Sandwich Skill Bot",
   "version": "1.0",
   "description": "This is a sample skill for ordering a sandwich.",
@@ -15,11 +15,11 @@
   ],
   "endpoints": [
     {
-      "name": "EricV3Sandwich",
+      "name": "YourSandwichBotName",
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
-      "endpointUrl": "https://ericv3skillssimplesandwichbot.azurewebsites.net/api/messages",
-      "msAppId": "94e29d0f-3f0d-46f0-aa78-00aed83698cf"
+      "endpointUrl": "http://localhost:3981/api/messages",
+      "msAppId": "YOUR Sandwich Bots MicrosoftAppId"
     }
   ],
   "activities": {

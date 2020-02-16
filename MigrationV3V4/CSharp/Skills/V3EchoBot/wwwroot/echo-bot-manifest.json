@@ -1,6 +1,6 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
-  "$id": "EricV3Echo",
+  "$id": "YourEchoBotHandle",
   "name": "V3 Echo Skill Bot",
   "version": "1.0",
   "description": "This is a sample skill for ordering a sandwich.",
@@ -15,11 +15,11 @@
   ],
   "endpoints": [
     {
-      "name": "EricV3Echo",
+      "name": "YourEchoBotName",
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
-      "endpointUrl": "https://ericv3skillsechobot.azurewebsites.net/api/messages",
-      "msAppId": "020c97f4-e634-403e-95cf-13334c90e4e6"
+      "endpointUrl": "http://localhost:3979/api/messages",
+      "msAppId": "Your Echo Bot's MicrosoftAppId"
     }
   ],
   "activities": {
