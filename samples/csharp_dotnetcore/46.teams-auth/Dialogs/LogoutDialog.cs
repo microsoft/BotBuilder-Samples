@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples
                 var text = innerDc.Context.Activity.Text.ToLowerInvariant();
 
                 // Allow logout anywhere in the command
-                if (text.IndexOf("logout") > 0)
+                if (text.IndexOf("logout") >= 0)
                 {
                     // The bot adapter encapsulates the authentication processes.
                     var botAdapter = (BotFrameworkAdapter)innerDc.Context.Adapter;
