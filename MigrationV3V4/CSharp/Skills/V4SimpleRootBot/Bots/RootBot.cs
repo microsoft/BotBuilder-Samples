@@ -24,6 +24,8 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
 
+        public const string ActiveSkillPropertyName = "activeSkillProperty";
+
         public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
@@ -41,13 +43,13 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             }
 
             // Create state property to track the active skill
-            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>("activeSkillProperty");
+            _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
         }
 
 
         private Attachment GetOptionsAttachment()
         {
-            HeroCard heroCard = null;
+            HeroCard heroCard;
 
             if (_skillsConfig.Skills.Count > 0)
             {

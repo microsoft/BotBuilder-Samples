@@ -22,12 +22,9 @@ namespace Microsoft.Bot.Sample.EchoBot.Dialogs
         {
             var activity = await result as Activity;
 
-            // calculate something for us to return
-            int length = (activity.Text ?? string.Empty).Length;
-
+            // Send an `endOfconversation` activity if the user cancels the skill.
             if (activity.Text.ToLower().Contains("end") || activity.Text.ToLower().Contains("stop"))
             {
-                // Send End of conversation at the end.
                 await context.PostAsync($"Ending conversation from the skill...");
                 var endOfConversation = activity.CreateReply();
                 endOfConversation.Type = ActivityTypes.EndOfConversation;

@@ -11,6 +11,9 @@ using System.Web.Http.Description;
 using System.Net.Http;
 using System.Diagnostics;
 using Microsoft.Bot.Connector.SkillAuthentication;
+using Microsoft.Bot.Builder.Dialogs.Internals;
+using Autofac;
+using System.Threading;
 
 namespace Microsoft.Bot.Sample.PizzaBot.Controllers
 {
@@ -64,6 +67,7 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                 switch (activity.GetActivityType())
                 {
                     case ActivityTypes.Message:
+                        // Send an `endOfconversation` activity if the user cancels the skill.
                         if (activity.Text.ToLower().Contains("end") || activity.Text.ToLower().Contains("stop"))
                         {
                             await SkillsHelper.EndSkillConversation(activity);
@@ -73,7 +77,22 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                             await Conversation.SendAsync(activity, MakeRoot);
                         }
                         break;
+                    case ActivityTypes.EndOfConversation:
+                        Trace.TraceError($"EndOfConversation: {activity}");
 
+                        // Clear the dialog stack if the root bot has ended the conversation.
+                        using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                        {
+                            var botData = scope.Resolve<IBotData>();
+                            await botData.LoadAsync(default(CancellationToken));
+
+                            var stack = scope.Resolve<IDialogStack>();
+                            stack.Reset();
+
+                            await botData.FlushAsync(default(CancellationToken));
+                        }
+
+                        break;
                     case ActivityTypes.ConversationUpdate:
                     case ActivityTypes.ContactRelationUpdate:
                     case ActivityTypes.Typing:

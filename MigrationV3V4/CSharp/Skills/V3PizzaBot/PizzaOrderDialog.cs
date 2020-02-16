@@ -83,6 +83,8 @@ namespace Microsoft.Bot.Sample.PizzaBot
             catch (OperationCanceledException)
             {
                 await context.PostAsync("You canceled the form!");
+
+                // If the user cancels the skill, send an `endOfConversation` activity to the skill consumer.
                 await SkillsHelper.EndSkillConversation(context.Activity as Activity);
                 return;
             }
@@ -96,6 +98,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 await context.PostAsync("Form returned empty response!");
             }
 
+            // When the skill completes, send an `endOfConversation` activity and include the finished order.
             await SkillsHelper.EndSkillConversation(context.Activity as Activity, order);
             context.Wait(MessageReceived);
         }
