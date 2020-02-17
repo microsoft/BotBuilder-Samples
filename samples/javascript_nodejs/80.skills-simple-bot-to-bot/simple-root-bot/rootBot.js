@@ -29,26 +29,35 @@ class RootBot extends ActivityHandler {
         // Create state property to track the active skill
         this.activeSkillProperty = this.conversationState.createProperty(RootBot.ActiveSkillPropertyName);
 
+        this.onTurn(async (turnContext, next) => {
+            // Forward all activities except EndOfConversation to the active skill.
+            if (turnContext.activity.type !== ActivityTypes.EndOfConversation) {
+                // Try to get the active skill
+                const activeSkill = await this.activeSkillProperty.get(turnContext);
+
+                if (activeSkill) {
+                    // Send the activity to the skill
+                    await this.sendToSkill(turnContext, activeSkill);
+                    return;
+                }
+            }
+
+            // Ensure next BotHandler is executed.
+            await next();
+        });
+
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            // Try to get the active skill
-            const activeSkill = await this.activeSkillProperty.get(context);
+            if (context.activity.text.toLowerCase() === 'skill') {
+                await context.sendActivity('Got it, connecting you to the skill...');
 
-            if (activeSkill) {
+                // Set active skill
+                await this.activeSkillProperty.set(context, this.targetSkill);
+
                 // Send the activity to the skill
-                await this.sendToSkill(context, activeSkill);
+                await this.sendToSkill(context, this.targetSkill);
             } else {
-                if (context.activity.text.toLowerCase() === 'skill') {
-                    await context.sendActivity('Got it, connecting you to the skill...');
-
-                    // Set active skill
-                    await this.activeSkillProperty.set(context, this.targetSkill);
-
-                    // Send the activity to the skill
-                    await this.sendToSkill(context, this.targetSkill);
-                } else {
-                    await context.sendActivity("Me no nothin'. Say 'skill' and I'll patch you through");
-                }
+                await context.sendActivity("Me no nothin'. Say 'skill' and I'll patch you through");
             }
 
             // By calling next() you ensure that the next BotHandler is run.
@@ -95,14 +104,16 @@ class RootBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+    }
 
-        this.onDialog(async (context, next) => {
-            // Save any state changes. The load happened during the execution of the Dialog.
-            await this.conversationState.saveChanges(context);
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context) {
+        await super.run(context);
 
-            // By calling next() you ensure that the next BotHandler is run.
-            await next();
-        });
+        // Save any state changes. The load happened during the execution of the Dialog.
+        await this.conversationState.saveChanges(context, false);
     }
 
     async sendToSkill(context, targetSkill) {
