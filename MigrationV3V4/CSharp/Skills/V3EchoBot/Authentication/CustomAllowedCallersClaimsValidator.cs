@@ -20,9 +20,9 @@ namespace Microsoft.Bot.Sample.EchoBot.Authentication
         public CustomAllowedCallersClaimsValidator(IList<string> allowedCallers)
         {
             // AllowedCallers is the setting in web.config file
-            // that consists of the list of parent bot ids that are allowed to access the skill
-            // to add a new parent bot simply go to the AllowedCallers and add
-            // the parent bot's microsoft app id to the list
+            // that consists of the list of parent bot IDs that are allowed to access the skill.
+            // To add a new parent bot simply go to the AllowedCallers and add
+            // the parent bot's Microsoft app ID to the list.
 
             _allowedCallers = allowedCallers ?? throw new ArgumentNullException(nameof(allowedCallers));
         }

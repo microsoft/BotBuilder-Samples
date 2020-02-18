@@ -1,10 +1,10 @@
 # Bot Framework V3 Skills
 
-This sample was created using `Microsoft.Bot.Builder` [v3.30.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.30.0) and [v4.7.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/4.7.2) sdks. It shows how to create a simple skill consumer (SimpleRootBot) which sends message activities to any of three V3 bots converted to skills.
+This sample was created using `Microsoft.Bot.Builder` [v3.30.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.30.0) and [v4.7.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/4.7.2) SDKs. It shows how to create a simple skill consumer (SimpleRootBot) which sends message activities to any of three V3 bots converted to skills.
 
 ![Skill Options](media/SkillOptions.png)
 
-Steps to convert a bot to a Skill using SDK v3.30.0:
+Steps to convert a bot to a skill using SDK v3.30.0:
 1)	In the v3 bot's message controller, change the attribute applied to the controller from `BotAuthentication` to `SkillBotAuthentication`.
 1)	In the bot's web.config file, add an `AllowedCallers` app setting. The allowed callers array can restrict which skill consumers can access the skill. Set this to "*" to accept calls from any skill consumer, or set it to a comma-delimited list of the app IDs of the allowed consumers.
 1)	Add code to send the skill host `EndOfConversation` when the skill is finished and to properly handle `EndOfConversation` from the skill consumer.
@@ -29,10 +29,10 @@ Steps to convert a bot to a Skill using SDK v3.30.0:
 
 The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https://www.nuget.org/packages/Microsoft.Bot.Builder/4.7.2) and three skill bots (`EchoBot`, `PizzaBot`, `SimpleSandwichBot`) built using [v3.30.0](https://www.nuget.org/packages/Microsoft.Bot.Builder/3.30.0). This example demonstrates how a parent bot can post activities to skill bots and returns the skill responses to the user.
 
-- `SimpleRootBot`: this project is based on [80.skills-simple-bot-to-bot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/80.skills-simple-bot-to-bot) It shows how to consume the three V3 skills and includes:
-  - A [RootBot](V4SimpleRootBot/Bots/RootBot.cs) which calls the user chosen skill and keeps the conversation active until the user says "end" or "stop". [RootBot](V4SimpleRootBot/Bots/RootBot.cs) also keeps track of the conversation with the skill and handles the `EndOfConversation` activity received from the skill to terminate the conversation.
+- `SimpleRootBot`: this project is based on [80.skills-simple-bot-to-bot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/80.skills-simple-bot-to-bot). It shows how to consume the three V3 skills and includes:
+  - A [RootBot](V4SimpleRootBot/Bots/RootBot.cs) which calls the user chosen skill and keeps the conversation active until the user says "end" or "stop". [RootBot](V4SimpleRootBot/Bots/RootBot.cs) also keeps track of the conversation with the skill and handles the `endOfConversation` activity received from the skill to terminate the conversation.
   - A simple [SkillConversationIdFactory](V4SimpleRootBot/SkillConversationIdFactory.cs) based on an in memory `ConcurrentDictionary` that creates and maintains conversation IDs used to interact with a skill
-  - A [SkillsConfiguration](V4SimpleRootBot/SkillsConfiguration.cs) class that loads skill definitions from `appsettings`
+  - A [SkillsConfiguration](V4SimpleRootBot/SkillsConfiguration.cs) class that loads skill definitions from `appsettings.json`
   - A [SkillController](V4SimpleRootBot/Controllers/SkillController.cs) that handles skill responses
   - An [AllowedSkillsClaimsValidator](V4SimpleRootBot/Authentication/AllowedSkillsClaimsValidator.cs) is used to validate responses sent to the bot are coming from the configured skills
   - A [Startup](V4SimpleRootBot/Startup.cs) class that shows how to register the different skill components for dependency injection
