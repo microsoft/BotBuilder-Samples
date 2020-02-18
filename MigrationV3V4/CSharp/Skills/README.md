@@ -31,11 +31,11 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
 
 - `SimpleRootBot`: this project is based on [80.skills-simple-bot-to-bot](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/csharp_dotnetcore/80.skills-simple-bot-to-bot). It shows how to consume the three V3 skills and includes:
   - A [RootBot](V4SimpleRootBot/Bots/RootBot.cs) which calls the user chosen skill and keeps the conversation active until the user says "end" or "stop". [RootBot](V4SimpleRootBot/Bots/RootBot.cs) also keeps track of the conversation with the skill and handles the `endOfConversation` activity received from the skill to terminate the conversation.
-  - A simple [SkillConversationIdFactory](V4SimpleRootBot/SkillConversationIdFactory.cs) based on an in memory `ConcurrentDictionary` that creates and maintains conversation IDs used to interact with a skill
-  - A [SkillsConfiguration](V4SimpleRootBot/SkillsConfiguration.cs) class that loads skill definitions from `appsettings.json`
-  - A [SkillController](V4SimpleRootBot/Controllers/SkillController.cs) that handles skill responses
-  - An [AllowedSkillsClaimsValidator](V4SimpleRootBot/Authentication/AllowedSkillsClaimsValidator.cs) is used to validate responses sent to the bot are coming from the configured skills
-  - A [Startup](V4SimpleRootBot/Startup.cs) class that shows how to register the different skill components for dependency injection
+  - A simple [SkillConversationIdFactory](V4SimpleRootBot/SkillConversationIdFactory.cs) based on an in memory `ConcurrentDictionary` that creates and maintains conversation IDs used to interact with a skill.
+  - A [SkillsConfiguration](V4SimpleRootBot/SkillsConfiguration.cs) class that loads skill definitions from `appsettings.json`.
+  - A [SkillController](V4SimpleRootBot/Controllers/SkillController.cs) that handles skill responses.
+  - An [AllowedSkillsClaimsValidator](V4SimpleRootBot/Authentication/AllowedSkillsClaimsValidator.cs) is used to validate responses sent to the bot are coming from the configured skills.
+  - A [Startup](V4SimpleRootBot/Startup.cs) class that shows how to register the different skill components for dependency injection.
 
 - `EchoBot`: this project shows a simple echo skill that receives message activities from the parent bot and echoes what the user said. This project includes:
   - A sample [CustomAllowedCallersClaimsValidator.cs](EchoSkillBot/Authentication/CustomAllowedCallersClaimsValidator.cs.cs) that shows how to provide custom validation, ensuring the skill is only invoked from a list of allowed callers.  Other samples use the default `AllowedCallersClaimsValidator`
