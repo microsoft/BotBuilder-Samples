@@ -37,7 +37,7 @@ class RootBot(ActivityHandler):
         )
 
     async def on_turn(self, turn_context):
-        # Forward all activities except EndOfConversation to active the skill.
+        # Forward all activities except EndOfConversation to the active skill.
         if turn_context.activity.type != ActivityTypes.end_of_conversation:
             # If there is an active skill
             active_skill_id: str = await self._active_skill_property.get(turn_context)
