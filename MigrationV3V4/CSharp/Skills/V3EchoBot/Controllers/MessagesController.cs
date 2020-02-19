@@ -1,11 +1,15 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web.Http;
+using Autofac;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.SkillAuthentication;
 using Microsoft.Bot.Sample.EchoBot.Authentication;
@@ -28,19 +32,35 @@ namespace Microsoft.Bot.Sample.EchoBot
             }
             else
             {
-                HandleSystemMessage(activity);
+                await HandleSystemMessage(activity);
             }
             var response = Request.CreateResponse(HttpStatusCode.OK);
             return response;
         }
 
-        private Activity HandleSystemMessage(Activity message)
+        private async Task<Activity> HandleSystemMessage(Activity message)
         {
             string messageType = message.GetActivityType();
             if (messageType == ActivityTypes.DeleteUserData)
             {
                 // Implement user deletion here
                 // If we handle user deletion, return a real message
+            }
+            if (messageType == ActivityTypes.EndOfConversation)
+            {
+                Trace.TraceInformation($"EndOfConversation: {message}");
+
+                // Clear the dialog stack if the root bot has ended the conversation.
+                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
+
+                    var stack = scope.Resolve<IDialogStack>();
+                    stack.Reset();
+
+                    await botData.FlushAsync(default(CancellationToken));
+                }
             }
             else if (messageType == ActivityTypes.ConversationUpdate)
             {
