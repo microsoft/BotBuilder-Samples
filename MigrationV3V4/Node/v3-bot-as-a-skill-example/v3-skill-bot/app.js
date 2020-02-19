@@ -32,5 +32,13 @@ server.post('/api/messages', connector.listen());
 
 // Create your bot with a function to receive messages from the user
 const bot = new builder.UniversalBot(connector, function (session) {
-    session.send("You said: %s", session.message.text);
+    switch (session.message.text.toLowerCase()) {
+        case 'end':
+        case 'stop':
+            session.endConversation();
+            break;
+        default:
+            session.send("Echo (JS V3) You said: %s", session.message.text);
+            session.send('Say "end" or "stop" and I\'ll end the conversation and back to the parent.');
+    }
 }).set('storage', inMemoryStorage); // Register in memory storage
