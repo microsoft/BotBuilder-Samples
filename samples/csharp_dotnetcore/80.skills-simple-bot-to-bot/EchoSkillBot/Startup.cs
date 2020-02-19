@@ -11,6 +11,7 @@ using Microsoft.BotBuilderSamples.EchoSkillBot.Authentication;
 using Microsoft.BotBuilderSamples.EchoSkillBot.Bots;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.BotBuilderSamples.EchoSkillBot
 {
@@ -35,22 +36,21 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-
-            // app.UseHttpsRedirection();
-            app.UseMvc();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
         }
     }
 }
