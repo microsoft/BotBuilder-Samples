@@ -78,7 +78,7 @@ namespace Microsoft.Bot.Sample.PizzaBot.Controllers
                         }
                         break;
                     case ActivityTypes.EndOfConversation:
-                        Trace.TraceError($"EndOfConversation: {activity}");
+                        Trace.TraceInformation($"EndOfConversation: {activity}");
 
                         // Clear the dialog stack if the root bot has ended the conversation.
                         using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
