@@ -37,7 +37,7 @@ The solution includes a parent bot (`SimpleRootBot`) built using [v4.7.2](https:
   - An [AllowedSkillsClaimsValidator](V4SimpleRootBot/Authentication/AllowedSkillsClaimsValidator.cs) is used to validate responses sent to the bot are coming from the configured skills.
   - A [Startup](V4SimpleRootBot/Startup.cs) class that shows how to register the different skill components for dependency injection.
 
-- `EchoBot`: this project shows a simple echo skill that receives message activities from the parent bot and echoes what the user said. This project includes:
+- `EchoBot`: this project shows a simple echo skill that receives message activities from the parent bot and echoes what the user said. This project was created from [EchoBot](https://github.com/microsoft/BotBuilder-V3/tree/master/CSharp/EchoBot) and includes:
   - A sample [CustomAllowedCallersClaimsValidator.cs](EchoSkillBot/Authentication/CustomAllowedCallersClaimsValidator.cs.cs) that shows how to provide custom validation, ensuring the skill is only invoked from a list of allowed callers.  Other samples use the default `AllowedCallersClaimsValidator`
   - A sample [MessagesController](V3EchoBot/Controllers/MessagesController.cs) that shows how to send EndOfConversation based on the message sent to the skill and yield control back to the parent bot. The MessagesController also shows how to use a custom `AuthenticationConfigurationProviderType` for Skill validation.
 
