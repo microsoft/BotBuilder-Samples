@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-preview-200129-102278" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-preview-200219-106986" />
     <PackageReference Include="Microsoft.Recognizers.Text" Version="1.1.5" />
     <PackageReference Include="Microsoft.Recognizers.Text.DateTime" Version="1.1.5" />
   </ItemGroup>
