@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Concurrent;
 using System.Configuration;
 using System.Threading.Tasks;
 using Microsoft.Bot.Connector;
@@ -11,6 +12,8 @@ namespace Microsoft.Bot.Sample.PizzaBot
 {
     internal static class SkillsHelper
     {
+        private static readonly ConcurrentDictionary<string, ConnectorClient> _connectorClientCache = new ConcurrentDictionary<string, ConnectorClient>();
+
         /// <summary>
         /// Helper method that sends an `endOfConversation` activity.
         /// </summary>
@@ -21,12 +24,15 @@ namespace Microsoft.Bot.Sample.PizzaBot
         /// the bot to be consumed as a skill.</remarks>
         internal static async Task EndSkillConversation(Activity incomingActivity, PizzaOrder order = null)
         {
-            var appId = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey];
-            var appPassword = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppPasswordKey];
-            var connector = new ConnectorClient(new Uri(incomingActivity.ServiceUrl), appId, appPassword);
+            var connectorClient = _connectorClientCache.GetOrAdd(incomingActivity.ServiceUrl, key =>
+            {
+                var appId = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppIdKey];
+                var appPassword = ConfigurationManager.AppSettings[MicrosoftAppCredentials.MicrosoftAppPasswordKey];
+                return new ConnectorClient(new Uri(incomingActivity.ServiceUrl), appId, appPassword);
+            });
 
             // Send End of conversation as reply.
-            await connector.Conversations.SendToConversationAsync(incomingActivity.CreateReply("Ending conversation from the skill..."));
+            await connectorClient.Conversations.SendToConversationAsync(incomingActivity.CreateReply("Ending conversation from the skill..."));
             var endOfConversation = incomingActivity.CreateReply();
             if (order != null)
             {
@@ -34,7 +40,7 @@ namespace Microsoft.Bot.Sample.PizzaBot
             }
             endOfConversation.Type = ActivityTypes.EndOfConversation;
             endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
-            await connector.Conversations.SendToConversationAsync(endOfConversation);
+            await connectorClient.Conversations.SendToConversationAsync(endOfConversation);
         }
     }
 }
