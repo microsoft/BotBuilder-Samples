@@ -10,7 +10,7 @@
   "dependencies": {
     "async": "^1.5.2",
     "base64url": "^3.0.0",
-    "botbuilder": "^3.30.0-preview-106905",
+    "botbuilder": "^3.30.0-preview-106979",
     "busboy": "^0.2.13",
     "chrono-node": "^1.2.5",
     "dotenv": "^8.2.0",
