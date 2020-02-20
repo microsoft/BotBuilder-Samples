@@ -1,0 +1,60 @@
+﻿@page
+@model Microsoft.BotBuilderSamples.SimpleRootBot.Pages.IndexModel
+@{
+    Layout = null;
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <style>
+        html,
+        body {
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        #webchat {
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div id="webchat" role="main"></div>
+    <script>
+
+        const store = window.WebChat.createStore({}, ({ dispatch }) => next => action => {
+            if (action.type === 'DIRECT_LINE/CONNECT_FULFILLED') {
+                // When we receive DIRECT_LINE/CONNECT_FULFILLED action, we will send an event activity using WEB_CHAT/SEND_EVENT
+                dispatch({
+                    type: 'WEB_CHAT/SEND_EVENT',
+                    payload: {
+                        name: 'webchat/join'
+                    }
+                });
+            }
+
+            return next(action);
+        });
+
+        window.WebChat.renderWebChat(
+            {
+                directLine: window.WebChat.createDirectLine({
+                    token: '@Model.DLToken'
+                }),
+                store,
+                userID: '@Model.UserId',
+                username: 'Web Chat User',
+                locale: 'en-US',
+            },
+            document.getElementById('webchat')
+        );
+    </script>
+</body>
+</html>
