@@ -18,6 +18,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.SimpleRootBot
 {
+    /// <summary>
+    /// This class sets up an OnTurnError for unhandled exceptions.
+    /// Exceptions related to a skill will send endOfConversation to the skill, and clear the ConversationState.
+    /// </summary>
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
         private readonly ConversationState _conversationState;
