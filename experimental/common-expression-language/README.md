@@ -2,13 +2,9 @@
 
 > See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
 
-Bots, like any other application, require use of expressions to evaluate outcome of a condition based on runtime information available in memory or to the dialog or the language generation system. 
+Bots use expressions to evaluate the outcome of a condition based on runtime information available in memory to the dialog or the [Language Generation](../language-generation) system. These evaluations determine how your bot reacts to user input and other factors that impact bot functionality. Common Expression Language was created to address this core need as well as provide a common expression language that can used with the Bot Framework SDK and other conversational AI components.
 
-Common expression language was put together to address this core need as well as to rationalize and snap to a common expression language that will be used across Bot Framework SDK and other conversational AI components that need an expression language.
-
-See [here](./api-reference.md) for API reference.
-
-***_An expression is a sequence that can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation)._***
+An expression in Common Expression Language can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation).
 
 ## Operators
 
@@ -42,20 +38,20 @@ See [here](./api-reference.md) for API reference.
 |\	        |Escape character for templates, expressions.                                               |N/A                                |
 
 ## Variables
-Variables are always referenced by their name. E.g. @{myVariable}
-Variables can be complex objects. In which case they are referenced either using the property selector operator e.g. myParent.myVariable or using the item index selection operator. E.g. myParent.myList[0]. or using the [parameters](TODO) function. 
+Variables are always referenced by their name in the format `@{myVariable}`.
+Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [parameters](TODO) function. 
 
 There are two special variables, `[]` and  `{}`.
-`[]` represents an empty list, `{}` represents a empty object.
+`[]` represents an empty list and `{}` represents a empty object.
 
 ## Explicit values
-Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes - "myExplicitValue".
+Explicit values are enclosed in single quotes 'myExplicitValue' or double quotes - "myExplicitValue".
 
-## Pre-built functions
-See [Here](./prebuilt-functions.md) for a complete list of prebuilt functions supported by the common expression language library. 
+## Additional resources
+- Packages for C# are available under the [BotBuilder MyGet feed][15].
+- [API reference](./api-reference.md) for Common Expression Language
+- [Pre-built functions](./prebuilt-functions.md) supported by the Common Expression Language library
 
-## Packages
-Packages for C# are available under the [BotBuilder MyGet feed][15]
 
 ## Change Log
 ### 4.6 PREVIEW
