@@ -25,7 +25,7 @@ LG can be used to enhance the entire conversational experience. Using LG develop
 - include variations and sophisticated composition based resolution for any of your bot's replies
 - construct speak .vs. display adaptations
 - construct cards, suggested actions and attachments.
-
+<!--
 ## Language Generation in action
 
 You can use Language Generation in a variety of ways when developing bots. To start, analyze your current bot's code (or the new bot you plan to develop) and create [.lg file][3] to cover all possible scenarios where you would use the language generation sub-system with your bot's replies to user.
@@ -85,14 +85,14 @@ For NodeJS
 ```typescript
     await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
-
+-->
 ## Multi-lingual generation and language fallback policy
 Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
 
 ## Grammar check and correction
 
 The current library does not include any capabilities for grammar check or correction.
-
+<!--
 ## Expand api
 
 If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
@@ -134,7 +134,7 @@ For example:
 If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
 
 If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
-
+-->
 ## Packages
 Stable release packages:
 - C# -> [NuGet][14]
