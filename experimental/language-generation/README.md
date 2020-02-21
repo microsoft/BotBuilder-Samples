@@ -2,25 +2,24 @@
 
 > See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.
 
-Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
+Language Generation (LG) lets developers extract embedded strings from their code and resource files and manage them through a Language Generation runtime and file format. Developers can now create a more natural converstion natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
 
 At the core of language generation lies template expansion and entity substitution. You can provide one-of variation for expansion as well as conditionally expand a template. The output from language generation can be a simple text string or multi-line response or a complex object payload that a layer above language generation will use to construct a full blown [activity][1].
 
 Language generation is achieved through:
+- Markdown based [.lg][3] file that describes the templates and their composition.
+- full access to current bot's memory.
+- parser and runtime libraries that help achieve runtime resolution.
 
-- markdown based .lg file that describes the templates and their composition. See [here][3] for the .lg file format.
-- full access to current bots memory so you can data bind language to the state of memory.
-- parser and runtime libraries that help achieve runtime resolution. See [here][2] for API-reference.
-
+Below is a sample of a simple greeting LG template. Notice that all of the following grettings make use of the user's name in memory by referencing the variable `@{user.name}`.
 ```markdown
 # greetingTemplate
 - Hello @{user.name}, how are you?
-- Good morning @{user.name}. It's nice to see you again.
+- Good morning @{user.name}.It's nice to see you again.
 - Good day @{user.name}. What can I do for you today?
 ```
 
-You can use language generation to:
-
+LG can be used to enhance the entire conversational experience. Using LG developers now can:
 - achieve a coherent personality, tone of voice for your bot
 - separate business logic from presentation
 - include variations and sophisticated composition based resolution for any of your bot's replies
@@ -29,9 +28,9 @@ You can use language generation to:
 
 ## Language Generation in action
 
-When building a bot, you can use language generation in several different ways. To start with, examine your current bot's code (or the new bot you plan to write) and create [.lg file][3] to cover all possible scenarios where you would like to use the language generation sub-system with your bot's replies to user.
+You can use Language Generation in a variety of ways when developing bots. To start, analyze your current bot's code (or the new bot you plan to develop) and create [.lg file][3] to cover all possible scenarios where you would use the language generation sub-system with your bot's replies to user.
 
-Then make sure you include the platform specific language generation library.
+Then make sure you include the platform specific Language Generation library.
 
 For C#, add Microsoft.Bot.Builder.LanguageGeneration.
 For NodeJS, add botbuilder-lg
@@ -137,13 +136,16 @@ If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items
 If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
 
 ## Packages
-Latest preview packages are available here
+Stable release packages:
 - C# -> [NuGet][14]
 - JS -> [npm][15]
 
-Nightly packages for C# are available here
+Nightly release packages:
 - C# -> [BotBuilder MyGet feed][12]
 - JS -> [BotBuilder MyGet feed][13]
+
+## Additional resources
+- Language Generation [API reference][2] documents
 
 ## Change Log
 ### 4.7 PREVIEW
