@@ -11,7 +11,7 @@
     "defaultName": "CoreBot",
     "groupIdentity": "Microsoft.BotFramework.CSharp.CoreBot",
     "identity": "Microsoft.BotFramework.CSharp.CoreBot",
-    "name": "Bot Framework Core Bot (v4.7.0)",
+    "name": "Bot Framework Core Bot (v4.8.0)",
     "preferNameDirectory": true,
     "sourceName": "Microsoft.BotFramework.CoreBot",
     "shortName": "corebot",
@@ -25,7 +25,7 @@
         "type": "generated",
         "generator": "constant",
         "parameters": {
-          "value": "v4.7.0"
+          "value": "v4.8.0"
         },
         "replaces": "__vX.X.X__"
       },
@@ -45,16 +45,12 @@
         "datatype": "choice",
         "choices": [
           {
-            "choice": "netcoreapp2.2",
-            "description": "Target netcoreapp2.2"
-          },
-          {
-            "choice": "netcoreapp2.1",
-            "description": "Target netcoreapp2.1"
+            "choice": "netcoreapp3.1",
+            "description": "Target netcoreapp3.1"
           }
         ],
         "replaces": "__NETCOREAPP_VERSION__",
-        "defaultValue": "netcoreapp2.2"
+        "defaultValue": "netcoreapp3.1"
       },
       "IncludeTests": {
         "type": "parameter",
@@ -64,7 +60,7 @@
         "isRequired": false
       },
       "AspCoreAssemblyVersion": {
-        "type":"generated",
+        "type": "generated",
         "generator": "switch",
         "dataType": "string",
         "replaces": "__MICROSOFT_ASPNETCORE_VERSION__",
@@ -72,18 +68,14 @@
           "evaluator": "C++",
           "cases": [
             {
-              "condition": "(Framework==\"netcoreapp2.2\")",
-              "value": "'Microsoft.AspNetCore' Version='2.2.0'"
-            },
-            {
-              "condition": "(Framework==\"netcoreapp2.1\")",
-              "value": "'Microsoft.AspNetCore' Version='2.1.6'"
+              "condition": "(Framework==\"netcoreapp3.1\")",
+              "value": "'Microsoft.AspNetCore' Version='3.1.0'"
             }
           ]
         }
       },
       "ReadmeNetCorePrereqVersion": {
-        "type":"generated",
+        "type": "generated",
         "generator": "switch",
         "dataType": "string",
         "replaces": "__NETCORE_VERSION__",
@@ -91,12 +83,8 @@
           "evaluator": "C++",
           "cases": [
             {
-              "condition": "(Framework==\"netcoreapp2.2\")",
-              "value": "2.2"
-            },
-            {
-              "condition": "(Framework==\"netcoreapp2.1\")",
-              "value": "2.1"
+              "condition": "(Framework==\"netcoreapp3.1\")",
+              "value": "3.1"
             }
           ]
         }

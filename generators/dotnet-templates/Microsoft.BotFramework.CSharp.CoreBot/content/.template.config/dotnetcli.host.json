@@ -14,7 +14,7 @@
         }
     },
     "usageExamples": [
-        "--framework netcoreapp2.1",
+        "--framework netcoreapp3.1",
         "--include-tests true",
         "--no-restore true"
     ]

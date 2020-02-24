@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.Bot.Framework.CSharp.EmptyBot</id>
-    <version>4.7.0</version>
+    <version>4.8.0</version>
     <description>
       A .NET Core Template for Microsoft Bot Framework v4.  A good template if you are familiar with Bot Framework v4, and simple want a basic skeleton project.
     </description>
