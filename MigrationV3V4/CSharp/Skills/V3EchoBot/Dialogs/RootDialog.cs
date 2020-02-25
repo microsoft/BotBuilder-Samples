@@ -28,7 +28,7 @@ namespace Microsoft.Bot.Sample.EchoBot.Dialogs
                 await context.PostAsync($"Ending conversation from the skill...");
                 var endOfConversation = activity.CreateReply();
                 endOfConversation.Type = ActivityTypes.EndOfConversation;
-                endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
+                endOfConversation.Code = EndOfConversationCodes.UserCancelled;
                 await context.PostAsync(endOfConversation);
             }
             else

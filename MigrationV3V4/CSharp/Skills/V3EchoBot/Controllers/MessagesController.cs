@@ -41,11 +41,7 @@ namespace Microsoft.Bot.Sample.EchoBot
         private async Task<Activity> HandleSystemMessage(Activity message)
         {
             string messageType = message.GetActivityType();
-            if (messageType == ActivityTypes.DeleteUserData)
-            {
-                // Implement user deletion here
-                // If we handle user deletion, return a real message
-            }
+            
             if (messageType == ActivityTypes.EndOfConversation)
             {
                 Trace.TraceInformation($"EndOfConversation: {message}");
@@ -61,6 +57,11 @@ namespace Microsoft.Bot.Sample.EchoBot
 
                     await botData.FlushAsync(default(CancellationToken));
                 }
+            }
+            else if (messageType == ActivityTypes.DeleteUserData)
+            {
+                // Implement user deletion here
+                // If we handle user deletion, return a real message
             }
             else if (messageType == ActivityTypes.ConversationUpdate)
             {
