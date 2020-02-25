@@ -76,6 +76,30 @@ bot.dialog('support', require('./support'))
         matches: [/help/i, /support/i, /problem/i]
     });
 
+bot.recognizer({
+    recognize: function (context, done) {
+        var intent = { score: 0.0 };
+        if (context.message.text) {
+            switch (context.message.text.toLowerCase()) {
+                case 'help':
+                    intent = { score: 1.0, intent: 'Help' };
+                    break;
+                case 'end':
+                    intent = { score: 1.0, intent: 'End' };
+                    break;
+            }
+        }
+        done(null, intent);
+    }
+});
+
+bot.dialog('helpDialog', function (session) {
+    session.endDialog("This bot will echo back anything you say. Say 'end' to quit.");
+}).triggerAction({ matches: 'Help' });
+
+// Add global endConversation() action bound to the 'Goodbye' intent
+bot.endConversationAction('endAction', "Ok... See you later.", { matches: 'End' });
+
 // log any bot errors into the console
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
