@@ -1,29 +1,41 @@
-# Common Expression Language ***_[PREVIEW]_***
+# Adaptive Expressions ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
+Bots use expressions to evaluate the outcome of a condition based on runtime information available in memory to the dialog or the [Language Generation](../language-generation) system. These evaluations determine how your bot reacts to user input and other factors that impact bot functionality.
 
-Bots use expressions to evaluate the outcome of a condition based on runtime information available in memory to the dialog or the [Language Generation](../language-generation) system. These evaluations determine how your bot reacts to user input and other factors that impact bot functionality. Common Expression Language was created to address this core need as well as provide a common expression language that can used with the Bot Framework SDK and other conversational AI components.
+Adaptive Expressions was created to address this core need as well as provide an adaptive expression language that can used with the Bot Framework SDK and other conversational AI components, like [Bot Framework Composer](https://github.com/microsoft/BotFramework-Composer#microsoft-bot-framework-composer-preview), [Language Generation](../language-generation), [Adaptive dialogs](../adaptive-dialog), and [Adaptive Cards](https://docs.microsoft.com/adaptive-cards/).
 
-An expression in Common Expression Language can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation).
+An expression in Common Expression Language can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation/docs/lg-file-format.md#templates).
 
 ## Operators
 
+### Arithmetic operators
+
 | Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|+          |Arithmetic operator – addition. E.g. A + B	                                                |[add][1]                           |
-|-	        |Arithmetic operator – subtraction. E.g. A – B	                                            |[sub][2]                           |
-|unary +    |Arithmetic operator – positive E.g. +1, +A	                                                |N/A                                |
-|unary -	|Arithmetic operator – negative value E.g. –2, -B	                                        |N/A                                |
-|*	        |Arithmetic operator – multiplication. E.g. A * B	                                        |[mul][3]                           |
-|/	        |Arithmetic operator – division. E.g. A / B	                                                |[div][4]                           |
-|^	        |Arithmetic operator – exponentiation. E.g. A ^ B	                                        |[exp][5]                           |
-|%	        |Arithmetic operator – modulus. E.g. A % B	                                                |[mod][6]                           |
-|==	        |Comparison operator – equals. E.g. A == B	                                                |[equals][7]                        |
-|!=	        |Comparison operator – Not equals. E.g. A != B	                                            |[not][8]([equals][7]())            |
-|>	        |Comparison operator – Greater than. A > B	                                                |[greater][9]                       |
-|<	        |Comparison operator – Less than. A < B	                                                    |[less][10]                         |
-|>= 	    |Comparison operator – Greater than or equal. A >= B	                                    |[greaterOrEquals][11]              |
-|<=	        |Comparison operator – Less than or equal. A <= B	                                        |[lessOrEquals][12]                 |
+|+          | Addition. E.g. A + B	                                                |[add][1]                           |
+|-	        | Subtraction. E.g. A – B	                                            |[sub][2]                           |
+|unary +    | Positive value E.g. +1, +A	                                                |N/A                                |
+|unary -	| Negative value E.g. –2, -B	                                        |N/A                                |
+|*	        | Multiplication. E.g. A * B	                                        |[mul][3]                           |
+|/	        | Division. E.g. A / B	                                                |[div][4]                           |
+|^	        | Exponentiation. E.g. A ^ B	                                        |[exp][5]                           |
+|%	        | Modulus. E.g. A % B	                                                |[mod][6]                           |
+
+### Comparison operators
+
+| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+|-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
+|==	        | Equals. E.g. A == B	                                                |[equals][7]                        |
+|!=	        | Not equals. E.g. A != B	                                            |[not][8]([equals][7]())            |
+|>	        | Greater than. A > B	                                                |[greater][9]                       |
+|<	        | Less than. A < B	                                                    |[less][10]                         |
+|>= 	    | Greater than or equal. A >= B	                                    |[greaterOrEquals][11]              |
+|<=	        | Less than or equal. A <= B	                                        |[lessOrEquals][12]                 |
+
+### Other operators and expression syntax
+
+| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+|-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
 |&	        |Concatenation operator. Operands will always be cast to string – E.g. A & B	            |N/A                                |
 |&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
 |\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
@@ -38,6 +50,7 @@ An expression in Common Expression Language can contain one or more [operators](
 |\	        |Escape character for templates, expressions.                                               |N/A                                |
 
 ## Variables
+
 Variables are always referenced by their name in the format `@{myVariable}`.
 Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [parameters](TODO) function. 
 
@@ -45,21 +58,24 @@ There are two special variables, `[]` and  `{}`.
 `[]` represents an empty list and `{}` represents a empty object.
 
 ## Explicit values
-Explicit values are enclosed in single quotes 'myExplicitValue' or double quotes - "myExplicitValue".
+
+Explicit values can be enclosed in single quotes 'myExplicitValue' or double quotes "myExplicitValue".
 
 ## Additional resources
-- Packages for C# are available under the [BotBuilder MyGet feed][15].
-- [API reference](./api-reference.md) for Common Expression Language
-- [Pre-built functions](./prebuilt-functions.md) supported by the Common Expression Language library
 
+- Packages for C# are available under the [BotBuilder MyGet feed][15]
+- The adaptive-expressions [npm](https://www.npmjs.com/package/adaptive-expressions) package for Javascript
+- [API reference](./api-reference.md) for Adaptive Expressions
+- [Pre-built functions](./prebuilt-functions.md) supported by the Adaptive Expressions library
 
+<!--
 ## Change Log
 ### 4.6 PREVIEW
 - Added 50+ new [prebuilt functions](prebuilt-functions.md)
 
 ### 4.5 PREVIEW
 - Initial preview release
-
+-->
 [1]:prebuilt-functions.md#add
 [2]:prebuilt-functions.md#sub
 [3]:prebuilt-functions.md#mul
