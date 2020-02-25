@@ -8,14 +8,21 @@ class SkillsConfiguration {
     constructor() {
         this.skillsData = {};
 
-        // Note: we only have one skill in this sample but we could load more if needed.
-        const botFrameworkSkill = {
-            id: process.env.SkillId,
-            appId: process.env.SkillAppId,
-            skillEndpoint: process.env.SkillEndpoint
+        // Note: we only have two skills in this sample but we could load more if needed.
+        const botFrameworkSimpleSkill = {
+            id: process.env.SkillSimpleId,
+            appId: process.env.SkillSimpleAppId,
+            skillEndpoint: process.env.SkillSimpleEndpoint
         };
 
-        this.skillsData[botFrameworkSkill.id] = botFrameworkSkill;
+        const botFrameworkBookingSkill = {
+            id: process.env.SkillBookingId,
+            appId: process.env.SkillBookingAppId,
+            skillEndpoint: process.env.SkillBookingEndpoint
+        };
+
+        this.skillsData[botFrameworkSimpleSkill.id] = botFrameworkSimpleSkill;
+        this.skillsData[botFrameworkBookingSkill.id] = botFrameworkBookingSkill;
 
         this.skillHostEndpointValue = process.env.SkillHostEndpoint;
         if (!this.skillHostEndpointValue) {

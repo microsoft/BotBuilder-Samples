@@ -22,11 +22,17 @@ class RootBot extends ActivityHandler {
             throw new Error('[RootBot] MicrosoftAppId is not set in configuration');
         }
 
-        // We use a single skill in this example.
-        const targetSkillId = process.env.SkillId;
-        this.targetSkill = skillsConfig.skills[targetSkillId];
-        if (!this.targetSkill) {
-            throw new Error(`[RootBot] Skill with ID "${ targetSkillId }" not found in configuration`);
+        // We use two skills in this example.
+        const targetSimpleSkillId = process.env.SkillSimpleId;
+        const targetBookingSkillId = process.env.SkillBookingId;
+        this.targetSimpleSkill = skillsConfig.skills[targetSimpleSkillId];
+        this.targetBookingSkill = skillsConfig.skills[targetBookingSkillId];
+        if (!this.targetSimpleSkill) {
+            throw new Error(`[RootBot] Skill with ID "${ targetSimpleSkillId }" not found in configuration`);
+        }
+
+        if (!this.targetBookingSkill) {
+            throw new Error(`[RootBot] Skill with ID "${ targetBookingSkillId }" not found in configuration`);
         }
 
         // Create state property to track the active skill
@@ -42,15 +48,23 @@ class RootBot extends ActivityHandler {
                 await this.sendToSkill(context, activeSkill);
             } else {
                 if (context.activity.text.toLowerCase() === 'yes') {
-                    await context.sendActivity('Got it, connecting you to the skill...');
+                    await context.sendActivity('Got it, connecting you to the booking skill...');
 
                     // Set active skill
-                    await this.activeSkillProperty.set(context, this.targetSkill);
+                    await this.activeSkillProperty.set(context, this.targetBookingSkill);
 
                     // Send the activity to the skill
-                    await this.sendToSkill(context, this.targetSkill);
+                    await this.sendToSkill(context, this.targetBookingSkill);
+                } else if (context.activity.text.toLowerCase() === 'echo') {
+                    await context.sendActivity('Got it, connecting you to the simple echo skill...');
+
+                    // Set active skill
+                    await this.activeSkillProperty.set(context, this.targetSimpleSkill);
+
+                    // Send the activity to the skill
+                    await this.sendToSkill(context, this.targetSimpleSkill);
                 } else {
-                    await context.sendActivity("Would you like to book a reservation? Say 'yes' and I'll patch you through to the v3 booking skill.");
+                    await context.sendActivity("If you'd like to book a hotel say 'yes'. Otherwise say 'echo' the echo skill will display your message.");
                 }
             }
 
@@ -77,7 +91,7 @@ class RootBot extends ActivityHandler {
                 await context.sendActivity(eocActivityMessage);
 
                 // We are back at the root
-                await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
+                await context.sendActivity("Back in the root bot. If you'd like to book a hotel say 'yes'. Otherwise say 'echo' the echo skill will display your message.");
 
                 // Save conversation state
                 await this.conversationState.saveChanges(context, true);
