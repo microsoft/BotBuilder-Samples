@@ -49,7 +49,7 @@ namespace Microsoft.Bot.Sample.SimpleSandwichBot
             // When the skill completes (OnCompletion), send an `endOfConversation` activity and include the finished order.
             return new FormBuilder<SandwichOrder>()
                     .Message("Welcome to the simple sandwich order bot! Say 'end' or 'stop' and I'll end the conversation and back to the parent.")
-                    .OnCompletion((context, order) => SkillsHelper.EndSkillConversation(context.Activity as Activity, order))
+                    .OnCompletion((context, order) => ConversationHelper.EndConversation(context.Activity as Activity, order))
                     .Build();
         }
     };

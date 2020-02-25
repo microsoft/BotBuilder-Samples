@@ -4,13 +4,17 @@
 using System;
 using System.Collections.Concurrent;
 using System.Configuration;
+using System.Threading;
 using System.Threading.Tasks;
+using Autofac;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Internals;
 using Microsoft.Bot.Connector;
 using Newtonsoft.Json;
 
 namespace Microsoft.Bot.Sample.PizzaBot
 {
-    internal static class SkillsHelper
+    internal static class ConversationHelper
     {
         private static readonly ConcurrentDictionary<string, ConnectorClient> _connectorClientCache = new ConcurrentDictionary<string, ConnectorClient>();
 
@@ -19,10 +23,11 @@ namespace Microsoft.Bot.Sample.PizzaBot
         /// </summary>
         /// <param name="incomingActivity">The incoming user activity for this turn.</param>
         /// <param name="order">Optional. The completed order.</param>
-        /// <returns>A task that represents the work queued to execute.</returns>
+        /// <param name="endOfConversationCode">Optional. The EndOfConversationCode to send to the parent bot.
+        /// Defaults to EndOfConversationCodes.CompletedSuccessfully.</param>
         /// <remarks>Sending the `endOfConversation` activity when the conversation completes allows
         /// the bot to be consumed as a skill.</remarks>
-        internal static async Task EndSkillConversation(Activity incomingActivity, PizzaOrder order = null)
+        internal static async Task EndConversation(Activity incomingActivity, PizzaOrder order = null, string endOfConversationCode = EndOfConversationCodes.CompletedSuccessfully)
         {
             var connectorClient = _connectorClientCache.GetOrAdd(incomingActivity.ServiceUrl, key =>
             {
@@ -39,8 +44,31 @@ namespace Microsoft.Bot.Sample.PizzaBot
                 endOfConversation.Value = JsonConvert.SerializeObject(order);
             }
             endOfConversation.Type = ActivityTypes.EndOfConversation;
-            endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
+            endOfConversation.Code = endOfConversationCode;
             await connectorClient.Conversations.SendToConversationAsync(endOfConversation);
+        }
+
+        /// <summary>
+        /// Clear the dialog stack and data bags.
+        /// </summary>
+        /// <param name="activity">The incoming activity to use for scoping the Conversation.Container.</param>
+        internal static async Task ClearState(Activity activity)
+        {
+            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+            {
+                var botData = scope.Resolve<IBotData>();
+                await botData.LoadAsync(default(CancellationToken));
+
+                // Some skills might persist data between invokations.
+                botData.UserData.Clear();
+                botData.ConversationData.Clear();
+                botData.PrivateConversationData.Clear();
+
+                var stack = scope.Resolve<IDialogStack>();
+                stack.Reset();
+                
+                await botData.FlushAsync(default(CancellationToken));
+            }
         }
     }
 }
