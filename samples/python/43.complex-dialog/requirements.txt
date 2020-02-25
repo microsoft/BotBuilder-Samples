@@ -1,2 +1,3 @@
 aiohttp
 botbuilder-core>=4.7.0
+botbuilder-dialogs>=4.7.0
