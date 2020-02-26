@@ -10,7 +10,7 @@ LG can be used to enhance the entire conversational experience. Using LG one can
 - separate business logic from presentation
 - include variations and sophisticated composition based resolution for any of their bot's replies
 - construct speak .vs. display adaptations
-- construct cards, suggested actions and attachments.
+- construct cards, suggested actions and attachments
 
 At the core of LG lies template expansion and entity substitution. You can provide one-off variation for expansion as well as conditionally expand a template. The output from LG can be a simple text string, multi-line response or a complex object payload that a layer above LG will use to construct an [activity][1].
 
