@@ -1,8 +1,8 @@
-# Adaptive Expressions ***_[PREVIEW]_***
+# Adaptive expressions ***_[PREVIEW]_***
 
 Bots use expressions to evaluate the outcome of a condition based on runtime information available in memory to the dialog or the [Language Generation](../language-generation) system. These evaluations determine how your bot reacts to user input and other factors that impact bot functionality.
 
-Adaptive Expressions was created to address this core need as well as provide an adaptive expression language that can used with the Bot Framework SDK and other conversational AI components, like [Bot Framework Composer](https://github.com/microsoft/BotFramework-Composer#microsoft-bot-framework-composer-preview), [Language Generation](../language-generation), [Adaptive dialogs](../adaptive-dialog), and [Adaptive Cards](https://docs.microsoft.com/adaptive-cards/).
+Adaptive expressions were created to address this core need as well as provide an adaptive expression language that can used with the Bot Framework SDK and other conversational AI components, like [Bot Framework Composer](https://github.com/microsoft/BotFramework-Composer#microsoft-bot-framework-composer-preview), [Language Generation](../language-generation), [Adaptive dialogs](../adaptive-dialog), and [Adaptive Cards](https://docs.microsoft.com/adaptive-cards/).
 
 An adaptive expression can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation/docs/lg-file-format.md#templates).
 
