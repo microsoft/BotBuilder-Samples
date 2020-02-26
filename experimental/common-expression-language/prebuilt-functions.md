@@ -27,8 +27,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[countWord](#countWord)| Return the number of words in the given string |
 |[concat](#concat) | Combine two or more strings and return the resulting string |
 |[newGuid](#newGuid) | Return a new Guid string|
-|[indexOf](#indexOf)| Return the starting position or index value for a substring. This function is not case-sensitive, and indexes start with the number 0.|
-|[lastIndexOf](#lastIndexOf)| Return the starting position or index value for the last occurrence of a substring. This function is not case-sensitive, and indexes start with the number 0. |
+|[indexOf](#indexOf)| Return the starting position or index value for a substring. Or Searches for the specified object and returns the zero-based index of the first occurrence within the entire list. This function is not case-sensitive, and indexes start with the number 0.|
+|[lastIndexOf](#lastIndexOf)| Return the starting position or index value for the last occurrence of a substring. Or searches for the specified object and returns the zero-based index of the last occurrence within the range of elements in the list.This function is not case-sensitive, and indexes start with the number 0. |
 
 ### Collection functions
 |Function	|Explanation|
@@ -1809,7 +1809,7 @@ indexOf('<text>', '<searchText>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string that has the substring to find |
+| <*text*> | Yes | String or Array   | The string that has the substring to find |
 | <*searchText*> | Yes | String | The substring to find |
 |||||
 
@@ -1828,6 +1828,13 @@ indexOf('hello world', 'world')
 ```
 
 And returns this result: `6`
+
+This example finds the starting index value for the "def" substring in the Array ['abc', 'def', 'ghi']
+```
+indexOf(createArray('abc', 'def', 'ghi'), 'def')
+```
+
+And returns this result: `1`
 
 <a name="indicesAndValues"></a>
 
@@ -2255,7 +2262,7 @@ lastIndexOf('<text>', '<searchText>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string that has the substring to find |
+| <*text*> | Yes | String or Array | The string that has the substring to find |
 | <*searchText*> | Yes | String | The substring to find |
 |||||
 
@@ -2274,6 +2281,13 @@ lastIndexOf('hello world', 'world')
 ```
 
 And returns this result: `6`
+
+This example finds the starting index value for the last occurrence of "def" substring in the Array ['abc', 'def', 'ghi', 'def']
+```
+lastIndexOf(createArray('abc', 'def', 'ghi', 'def'), 'def')
+```
+
+And returns this result: `3`
 
 ### length
 
