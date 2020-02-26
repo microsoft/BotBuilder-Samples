@@ -1,17 +1,21 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.
+<!--> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.-->
 
-Language Generation (LG) lets developers extract embedded strings from their code and resource files and manage them through a Language Generation runtime and file format. Developers can now create a more natural converstion natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
+Language Generation (LG) was created to let developers extract embedded strings from their code and resource files and manage them through a LG runtime and file format. Developers can now create a more natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
 
-At the core of language generation lies template expansion and entity substitution. You can provide one-of variation for expansion as well as conditionally expand a template. The output from language generation can be a simple text string or multi-line response or a complex object payload that a layer above language generation will use to construct a full blown [activity][1].
+LG can be used to enhance the entire conversational experience. Using LG one can:
 
-Language generation is achieved through:
-- Markdown based [.lg][3] file that describes the templates and their composition.
-- full access to current bot's memory.
-- parser and runtime libraries that help achieve runtime resolution.
+- achieve a coherent personality, tone of voice for their bot
+- separate business logic from presentation
+- include variations and sophisticated composition based resolution for any of their bot's replies
+- construct speak .vs. display adaptations
+- construct cards, suggested actions and attachments.
 
-Below is a sample of a simple greeting LG template. Notice that all of the following grettings make use of the user's name in memory by referencing the variable `@{user.name}`.
+At the core of LG lies template expansion and entity substitution. You can provide one-off variation for expansion as well as conditionally expand a template. The output from LG can be a simple text string, multi-line response or a complex object payload that a layer above LG will use to construct an [activity][1].
+
+Below is a sample of a simple greeting LG template. Notice that all of the greetings reference the user's name in memory with the variable `@{user.name}`.
+
 ```markdown
 # greetingTemplate
 - Hello @{user.name}, how are you?
@@ -19,12 +23,6 @@ Below is a sample of a simple greeting LG template. Notice that all of the follo
 - Good day @{user.name}. What can I do for you today?
 ```
 
-LG can be used to enhance the entire conversational experience. Using LG developers now can:
-- achieve a coherent personality, tone of voice for your bot
-- separate business logic from presentation
-- include variations and sophisticated composition based resolution for any of your bot's replies
-- construct speak .vs. display adaptations
-- construct cards, suggested actions and attachments.
 <!--
 ## Language Generation in action
 
@@ -86,12 +84,15 @@ For NodeJS
     await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
 -->
+
 ## Multi-lingual generation and language fallback policy
-Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
+
+Your bot might target more than one spoken/display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See the multi-turn-prompt-with-language fallback [sample][25] for an example of how to add language fallback to your bot.
 
 ## Grammar check and correction
 
 The current library does not include any capabilities for grammar check or correction.
+
 <!--
 ## Expand api
 
@@ -135,18 +136,25 @@ If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items
 
 If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
 -->
+
 ## Packages
+
 Stable release packages:
+
 - C# -> [NuGet][14]
 - JS -> [npm][15]
 
 Nightly release packages:
+
 - C# -> [BotBuilder MyGet feed][12]
 - JS -> [BotBuilder MyGet feed][13]
 
 ## Additional resources
-- Language Generation [API reference][2] documents
 
+- Language Generation [API reference][2]
+- Language Generation in [Bot Framework Composer](https://docs.microsoft.com/composer/concept-language-generation)
+
+<!--
 ## Change Log
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
@@ -184,6 +192,7 @@ Nightly release packages:
 
 ### 4.5 PREVIEW
 - Initial preview release
+-->
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md
