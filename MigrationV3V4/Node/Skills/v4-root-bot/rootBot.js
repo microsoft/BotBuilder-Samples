@@ -1,7 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler, ActivityTypes } = require('botbuilder');
+const { ActivityHandler, ActionTypes, ActivityTypes, CardFactory, MessageFactory } = require('botbuilder');
+
 const path = require('path');
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
@@ -22,50 +23,42 @@ class RootBot extends ActivityHandler {
             throw new Error('[RootBot] MicrosoftAppId is not set in configuration');
         }
 
-        // We use two skills in this example.
-        const targetSimpleSkillId = process.env.SkillSimpleId;
-        const targetBookingSkillId = process.env.SkillBookingId;
-        this.targetSimpleSkill = skillsConfig.skills[targetSimpleSkillId];
-        this.targetBookingSkill = skillsConfig.skills[targetBookingSkillId];
-        if (!this.targetSimpleSkill) {
-            throw new Error(`[RootBot] Skill with ID "${ targetSimpleSkillId }" not found in configuration`);
-        }
-
-        if (!this.targetBookingSkill) {
-            throw new Error(`[RootBot] Skill with ID "${ targetBookingSkillId }" not found in configuration`);
-        }
-
         // Create state property to track the active skill
         this.activeSkillProperty = this.conversationState.createProperty(RootBot.ActiveSkillPropertyName);
 
+        this.onTurn(async (turnContext, next) => {
+            // Forward all activities except EndOfConversation to the active skill.
+            if (turnContext.activity.type !== ActivityTypes.EndOfConversation) {
+                // Try to get the active skill
+                const activeSkill = await this.activeSkillProperty.get(turnContext);
+
+                if (activeSkill) {
+                    // Send the activity to the skill
+                    await this.sendToSkill(turnContext, activeSkill);
+                    return;
+                }
+            }
+
+            // Ensure next BotHandler is executed.
+            await next();
+        });
+
         // See https://aka.ms/about-bot-activity-message to learn more about the message and other activity types.
         this.onMessage(async (context, next) => {
-            // Try to get the active skill
-            const activeSkill = await this.activeSkillProperty.get(context);
-
+            const text = context.activity.text;
+            const activeSkill = this.skillsConfig.skills[text];
             if (activeSkill) {
+                await context.sendActivity('Got it, connecting you to the skill...');
+
+                // Set active skill
+                await this.activeSkillProperty.set(context, activeSkill);
+
                 // Send the activity to the skill
                 await this.sendToSkill(context, activeSkill);
             } else {
-                if (context.activity.text.toLowerCase() === 'yes') {
-                    await context.sendActivity('Got it, connecting you to the booking skill...');
-
-                    // Set active skill
-                    await this.activeSkillProperty.set(context, this.targetBookingSkill);
-
-                    // Send the activity to the skill
-                    await this.sendToSkill(context, this.targetBookingSkill);
-                } else if (context.activity.text.toLowerCase() === 'echo') {
-                    await context.sendActivity('Got it, connecting you to the simple echo skill...');
-
-                    // Set active skill
-                    await this.activeSkillProperty.set(context, this.targetSimpleSkill);
-
-                    // Send the activity to the skill
-                    await this.sendToSkill(context, this.targetSimpleSkill);
-                } else {
-                    await context.sendActivity("If you'd like to book a hotel say 'yes'. Otherwise say 'echo' the echo skill will display your message.");
-                }
+                const card = this.getOptionsCard();
+                const message = MessageFactory.attachment(card);
+                await context.sendActivity(message);
             }
 
             // By calling next() you ensure that the next BotHandler is run.
@@ -91,7 +84,9 @@ class RootBot extends ActivityHandler {
                 await context.sendActivity(eocActivityMessage);
 
                 // We are back at the root
-                await context.sendActivity("Back in the root bot. If you'd like to book a hotel say 'yes'. Otherwise say 'echo' the echo skill will display your message.");
+                const card = this.getOptionsCard();
+                const message = MessageFactory.attachment(card);
+                await context.sendActivity(message);
 
                 // Save conversation state
                 await this.conversationState.saveChanges(context, true);
@@ -112,14 +107,19 @@ class RootBot extends ActivityHandler {
             // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
+    }
 
-        this.onDialog(async (context, next) => {
-            // Save any state changes. The load happened during the execution of the Dialog.
-            await this.conversationState.saveChanges(context);
+    getOptionsCard() {
+        const buttons = [];
 
-            // By calling next() you ensure that the next BotHandler is run.
-            await next();
-        });
+        for (const [key, value] of Object.entries(this.skillsConfig.skills)) {
+            buttons.push({ type: ActionTypes.ImBack, title: key, value: key });
+        }
+
+        const card = CardFactory.heroCard('Javascript Skills Bot Options', undefined,
+            buttons, { text: 'Click one of the buttons below to initiate that skill.' });
+
+        return card;
     }
 
     async sendToSkill(context, targetSkill) {
@@ -134,6 +134,16 @@ class RootBot extends ActivityHandler {
         if (!(response.status >= 200 && response.status <= 299)) {
             throw new Error(`[RootBot]: Error invoking the skill id: "${ targetSkill.id }" at "${ targetSkill.skillEndpoint }" (status is ${ response.status }). \r\n ${ response.body }`);
         }
+    }
+
+    /**
+     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
+     */
+    async run(context) {
+        await super.run(context);
+
+        // Save any state changes. The load happened during the execution of the Dialog.
+        await this.conversationState.saveChanges(context, false);
     }
 }
 
