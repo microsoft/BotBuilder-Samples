@@ -30,7 +30,7 @@ SkillSimpleEndpoint={V3_SIMPLE_SKILL_BOT_ENDPOINT ex: http://{HOST}{PORT}/api/me
 
 SkillBookingId={V3_BOOKING_SKILL_BOT_NAME ex: 'v3-booking-bot-skill'}
 SkillBookingAppId={V3_BOOKING_SKILL_BOT_APP_ID}
-SkillBookingEndpoint=http://localhost:3977/api/messages
+SkillBookingEndpoint={V3_BOOKING_SKILL_BOT_ENDPOINT ex: http://{HOST}{PORT}/api/messages}
 ```
 
 ## Test run
