@@ -4,7 +4,7 @@ Bots use expressions to evaluate the outcome of a condition based on runtime inf
 
 Adaptive Expressions was created to address this core need as well as provide an adaptive expression language that can used with the Bot Framework SDK and other conversational AI components, like [Bot Framework Composer](https://github.com/microsoft/BotFramework-Composer#microsoft-bot-framework-composer-preview), [Language Generation](../language-generation), [Adaptive dialogs](../adaptive-dialog), and [Adaptive Cards](https://docs.microsoft.com/adaptive-cards/).
 
-An expression in Common Expression Language can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation/docs/lg-file-format.md#templates).
+An adaptive expression can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation/docs/lg-file-format.md#templates).
 
 ## Operators
 
@@ -51,15 +51,13 @@ An expression in Common Expression Language can contain one or more [operators](
 
 ## Variables
 
-Variables are always referenced by their name in the format `@{myVariable}`.
-Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [parameters](TODO) function. 
+Variables are always referenced by their name in the format `@{myVariable}`. Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [parameters](TODO) function. 
 
-There are two special variables, `[]` and  `{}`.
-`[]` represents an empty list and `{}` represents a empty object.
+There are two special variables, `[]` and  `{}`. `[]` represents an empty list and `{}` represents a empty object.
 
 ## Explicit values
 
-Explicit values can be enclosed in single quotes 'myExplicitValue' or double quotes "myExplicitValue".
+Explicit values can be enclosed in either single quotes 'myExplicitValue' or double quotes "myExplicitValue".
 
 ## Additional resources
 
