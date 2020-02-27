@@ -1,8 +1,7 @@
 # .LG file format
-.lg file will be a lot similar to the [.lu][1] file. As an overarching goal, we use simple markdown conventions as much as possible and add additional syntax and semantics only where needed. 
 
-.lg files help describe language generation templates with entity references and their composition. The rest of this document covers the various concepts expressed via the .lg file format. See [here][2] for API-reference.
-
+.lg files help describe Language Generation templates with entity references and their composition. This document covers the various concepts expressed via the .lg file format.
+<!--
 **Concepts:**
 - [.LG file format](#lg-file-format)
 - [Comments](#comments)
@@ -20,29 +19,43 @@
   - [Multi-line text in variations](#multi-line-text-in-variations)
 - [Parametrization of templates](#parametrization-of-templates)
 - [Importing external references](#importing-external-references)
+-->
 
-# Comments
-Comments are prefixed with '>' or '$' character. All lines that have this prefix will be skipped by the parser. 
+## Comments
+
+Comments are prefixed with '>' or '$' character. All lines that have this prefix will be skipped by the parser.
 
 ```markdown
 > this is a comment.
 ```
-# Escape character
-- Use '\\' as escape character. E.g. "You can say cheese and tomato \\[toppings are optional\\]"
-# Templates
-At the core of LG is the concept of a template. Each template has a 
-- Name
-- List of one-of variation text values .or. 
-- Structured content definition .or.
-- A collection of conditions, each with a
-    - Condition expression which is expressed using the [Common expression language][3] and 
-    - List of one-of variation text values per condition.
 
-Template names follow the markdown header definition - e.g. 
+## Escape character
+
+Use '\\' as escape character.
+
+```markdown
+# TemplateName
+- You can say cheese and tomato \\[toppings are optional\\]
+```
+
+## Templates
+
+At the core of LG is the concept of a template. Each template has a name and one of the following:
+
+- List of one-of variation text values
+- Structured content definition
+- A collection of conditions, each with:
+    - an [adaptive expression][3]
+    - a list of one-of variation text values per condition.
+
+Template names follow the markdown header definition
+
 ```markdown
 # TemplateName
 ```
-Variations are expressed as markdown list; so you can prefix them using either '-' or '*' or '+' - e.g. 
+
+Variations are expressed as a Markdown list. You can prefix lists using the '-', '*', or '+' character.
+
 ```markdown
 # Template1
 - one
@@ -56,50 +69,58 @@ Variations are expressed as markdown list; so you can prefix them using either '
 + one
 + two
 ```
-## Simple response template
+
+### Simple response template
+
 A simple response template includes one or more variations of text that must be used for composition and expansion. 
 
 One of the variations provided will be picked at random by the LG library. 
 
-Here is an example of a simple template that includes 2 variations. 
+Here is an example of a simple template that includes two variations.
 
 ```markdown
-> Greeting template with 2 variations. 
+> Greeting template with 2 variations.
 # GreetingPrefix
 - Hi
 - Hello
 ```
-## Conditional response template
-Conditional response templates enable you to author content that is selecting based on a condition. All conditions are expressed using the [Common expression language][3].
-### If..Else
-IF ... ELSEIF ... ELSE enable you to build a template that picks a collection based on a cascading order of conditions. Evaluation is top-down and stops when a condition evaluates to `true` or we have hit the ELSE block.
 
-Here is an example that shows the simple IF ... ELSE conditional response template definition. 
+### Conditional response template
+
+Conditional response templates enable you to author content that is selecting based on a condition. All conditions are expressed using [adaptive expressions][3].
+
+#### If Else
+
+IF ... ELSEIF ... ELSE enable you to build a template that picks a collection based on a cascading order of conditions. Evaluation is top-down and stops when a condition evaluates to `true` or the ELSE block is hit.
+
+Here is an example that shows the simple IF ... ELSE conditional response template definition.
 
 ```markdown
-> time of day greeting reply template with conditions. 
+> time of day greeting reply template with conditions.
 # timeOfDayGreeting
 - IF: @{timeOfDay == 'morning'}
     - good morning
-- ELSE: 
+- ELSE:
     - good evening
 ```
-Here's another example that shows IF ... ELSEIF ... ELSE conditional response template definition. 
 
-Note that you can include references to other simple or conditional response templates in the variation for any of the conditions. 
+Here is another example that shows IF ... ELSEIF ... ELSE conditional response template definition. Note that you can include references to other simple or conditional response templates in the variation for any of the conditions.
+
 ```markdown
 # timeOfDayGreeting
 - IF: @{timeOfDay == 'morning'}
     - @{morningTemplate()}
 - ELSEIF: @{timeOfDay == 'afternoon'}
     - @{afternoonTemplate()}
-- ELSE: 
+- ELSE:
     - I love the evenings! Just saying. @{eveningTemplate()}
 ```
-### Switch..Case
-Apart from IF ... ELSEIF ... ELSE construct, you can also use the SWITCH ... CASE ... DEFAULT construct. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - @{}
 
-Here's how you can specify SWITCH ... CASE block in LG. 
+#### Switch..Case
+
+The SWITCH ... CASE ... DEFAULT construct lets you design a conditional template that matches expression's value to a case clause and produces output based on that case. Condition expressions are enclosed in curly brackets - @{}
+
+Here's how you can specify SWITCH ... CASE block in LG.
 
 ```markdown
 # TestTemplate
@@ -125,20 +146,23 @@ Here's an example:
 -DEFAULT:  
     - @{apology-phrase()}, @{defaultResponseTemplate()}
 ```
-## Structured response template
-Structured response template enable you to define a complex structure that supports all the goodness of LG (templating, composition, substitution) while leaving the interpretation of the structured response up to the caller of the LG library. 
 
-For bot applications, we will natively support ability to - 
+### Structured response template
+
+Structured response templates enable you to define a complex structure that supports major LG functionality, like templating, composition, and substitution, while leaving the interpretation of the structured response up to the caller of the LG library.
+
+For bot applications, we natively support:
+
 - activity definition
 - card definition
 - any [chatdown][12] style constructs
 
-See [here](./structured-response-template.md) to learn more.
-# Template composition and expansion
-## References to templates
-Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. 
-Reference to another named template are denoted using - 
-@{TemplateName()}. 
+Read the [structure response templates](./structured-response-template.md) article for more information.
+
+## Template composition and expansion
+### References to templates
+
+Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. References to other named template are denoted using _- @{TemplateName()}._
 
 ```markdown
 > Example of a template that includes composition reference to another template
@@ -154,11 +178,11 @@ Reference to another named template are denoted using -
     - good morning
 - ELSEIF: @{timeOfDay == 'afternoon'}
     - good afternoon
-- ELSE: 
+- ELSE:
     - good evening
 ```
 
-Calling the `GreetingReply` template can result in one of the following expansion resolutions - 
+Calling the `GreetingReply` template can result in one of the following expansion resolutions -
 
 ```
 Hi, good morning
@@ -168,7 +192,9 @@ Hello, good morning
 Hello, good afternoon
 Hello, good evening
 ```
-## Entities 
+
+## Entities
+
 - When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets - @{`entityName`}
 - When used as a parameter within a 
     - [pre-built function][4] or 
@@ -282,7 +308,7 @@ Here is an example of complex object (defined in template `ImageGalleryTemplate`
     }
     ```
 ```
-# Parametrization of templates
+## Parametrization of templates
 To aid with contextual re-usability, templates can be parametrized. With this different callers to the template can pass in different values for use in expansion resolution.
 
 Here is an example of a template parametrization. 
@@ -302,18 +328,22 @@ Here is an example of a template parametrization.
 # timeOfDayGreeting
 - @{timeOfDayGreetingTemplate(timeOfDay)}
 ```
-# Importing external references
+## Importing external references
 Often times for organization purposes and to help with re-usability, you might want to break the language generation templates into separate files and refer them from one another. In order to help with this scenario, you can use markdown-style links to import templates defined in another file. 
 
 ```markdown
 [Link description](filePathOrUri)
 ```
 
-Note: All templates defined in the target file will be pulled in. So please ensure that your template names are unique (or namespaced via a # <namespace>.<templatename> convention) across files being pulled in. 
+Note: All templates defined in the target file will be pulled in. So please ensure that your template names are unique (or namespaced via a # <namespace>.<templatename> convention) across files being pulled in.
 
 ```markdown
 [Shared](../shared/common.lg)
 ```
+
+## Additional Resources
+
+- LG [API reference][2]
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md
