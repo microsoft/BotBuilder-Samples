@@ -8,7 +8,7 @@ const { allowedCallersClaimsValidator } = require('./allowedCallersClaimsValidat
 
 // Setup Restify Server
 var server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3977, function () {
+server.listen(process.env.port || process.env.PORT || 3980, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
@@ -66,6 +66,10 @@ var bot = new builder.UniversalBot(connector, [
             case DialogLabels.Hotels:
                 return session.beginDialog('hotels');
         }
+    },
+    // Dialog has ended
+    function(session, result) {
+        endConversation(session, result, 'dialogEnded');
     }
 ]).set('storage', inMemoryStorage); // Register in memory storage
 
@@ -94,7 +98,7 @@ bot.recognizer({
 });
 
 bot.dialog('helpDialog', function (session) {
-    session.endDialog("This bot will echo back anything you say. Say 'end' to quit.");
+    session.endDialog("This bot helps you book hotels. Flight booking is not yet implemented. Say 'End' to quit");
 }).triggerAction({ matches: 'Help' });
 
 // Add global endConversation() action bound to the 'Goodbye' intent
@@ -104,3 +108,13 @@ bot.endConversationAction('endAction', "Ok... See you later.", { matches: 'End' 
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
+
+async function endConversation(session, value = null, code = null) {
+    await session.send('Ending conversation from the skill...')
+    const msg = {
+        value,
+        code,
+        type: 'endOfConversation'
+    };
+    session.send(msg)
+}

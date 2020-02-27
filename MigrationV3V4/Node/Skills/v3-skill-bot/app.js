@@ -4,12 +4,11 @@ A simple echo bot for the Microsoft Bot Framework.
 
 const restify = require('restify');
 const builder = require('botbuilder');
-const skills = require('botbuilder/skills-validator');
-const { allowedCallersClaimsValidator } = require('./allowedCallersClaimsValidator');
+require('dotenv-extended').load();
 
 // Setup Restify Server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function () {
+server.listen(process.env.port || process.env.PORT || 3979, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
   
@@ -24,7 +23,7 @@ const connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,
     appPassword: process.env.MICROSOFT_APP_PASSWORD,
     enableSkills: true,
-    authConfiguration: new skills.AuthenticationConfiguration([], allowedCallersClaimsValidator)
+    allowedCallers: [process.env.ROOT_BOT_APP_ID]
 });
 
 // Listen for messages from users 

@@ -57,7 +57,13 @@ module.exports = [
                 session.send(message);
 
                 // End
-                session.endDialog();
+                const result = {
+                    destination,
+                    checkIn,
+                    checkOut,
+                    hotels
+                }
+                session.endDialogWithResult(result);
             });
     }
 ];
