@@ -1,5 +1,5 @@
 // This loads the environment variables from the .env file
-require('dotenv-extended').load();
+require('dotenv').config();
 
 var builder = require('botbuilder');
 var restify = require('restify');
