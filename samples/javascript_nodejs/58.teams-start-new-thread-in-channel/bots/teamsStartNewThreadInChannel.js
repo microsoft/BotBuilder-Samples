@@ -5,7 +5,7 @@ const {
     TurnContext,
     MessageFactory,
     TeamsActivityHandler,
-    teamsGetChannelId,
+    teamsGetChannelId
 } = require('botbuilder');
 
 class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
@@ -14,14 +14,14 @@ class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
 
         this.onMessage(async (context, next) => {
             const teamsChannelId = teamsGetChannelId(context.activity);
-            const message = MessageFactory.text("This will be the first message in a new thread");
+            const message = MessageFactory.text('This will be the first message in a new thread');
             const newConversation = await this.teamsCreateConversation(context, teamsChannelId, message);
-            
-            await context.adapter.continueConversation(newConversation[0], 
+
+            await context.adapter.continueConversation(newConversation[0],
                 async (t) => {
-                    await t.sendActivity(MessageFactory.text("This will be the first response to the new thread"));
+                    await t.sendActivity(MessageFactory.text('This will be the first response to the new thread'));
                 });
-            
+
             await next();
         });
     }
@@ -34,14 +34,14 @@ class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
                     id: teamsChannelId
                 }
             },
-    
-            activity: message,
+
+            activity: message
         };
 
         const connectorClient = context.adapter.createConnectorClient(context.activity.serviceUrl);
         const conversationResourceResponse = await connectorClient.conversations.createConversation(conversationParameters);
         const conversationReference = TurnContext.getConversationReference(context.activity);
-        conversationReference.conversation.id = conversationResourceResponse.id;        
+        conversationReference.conversation.id = conversationResourceResponse.id;
         return [conversationReference, conversationResourceResponse.activityId];
     }
 }
