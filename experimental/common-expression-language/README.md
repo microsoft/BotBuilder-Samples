@@ -4,7 +4,7 @@ Bots use expressions to evaluate the outcome of a condition based on runtime inf
 
 Adaptive expressions were created to address this core need as well as provide an adaptive expression language that can used with the Bot Framework SDK and other conversational AI components, like [Bot Framework Composer](https://github.com/microsoft/BotFramework-Composer#microsoft-bot-framework-composer-preview), [Language Generation](../language-generation), [Adaptive dialogs](../adaptive-dialog), and [Adaptive Cards](https://docs.microsoft.com/adaptive-cards/).
 
-An adaptive expression can contain one or more [operators](#Operators), [variables](#Variables), [explicit values](#Explicit-values), [pre-built functions](./prebuilt-functions.md) or [Language Generation templates](../language-generation/docs/lg-file-format.md#templates).
+An adaptive expression can contain one or more explicit values, [pre-built functions](./prebuilt-functions.md) or [custom functions](./extend-functions.md). Consumers of adaptive expressions also have the capability to inject additional supported functions. For example, all Language Generation templates are available as functions as well as additional functions that are only available within that component's use of adaptive expressions.
 
 ## Operators
 
@@ -51,7 +51,7 @@ An adaptive expression can contain one or more [operators](#Operators), [variabl
 
 ## Variables
 
-Variables are always referenced by their name in the format `@{myVariable}`. Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [parameters](TODO) function. 
+Variables are always referenced by their name in the format `${myVariable}`. Variables can be referenced either using the property selector operator in the form of `myParent.myVariable`, using the item index selection operator like in `myParent.myList[0]`, or using the [getProperty](./prebuilt-functions.md#getProperty) function. 
 
 There are two special variables, `[]` and  `{}`. `[]` represents an empty list and `{}` represents a empty object.
 
@@ -61,10 +61,11 @@ Explicit values can be enclosed in either single quotes 'myExplicitValue' or dou
 
 ## Additional resources
 
-- Packages for C# are available under the [BotBuilder MyGet feed][15]
-- The adaptive-expressions [npm](https://www.npmjs.com/package/adaptive-expressions) package for Javascript
+- [NuGet AdaptiveExpressions](https://www.nuget.org/packages/AdaptiveExpressions) package for C#
+- [npm adaptive-expressions](https://www.npmjs.com/package/adaptive-expressions) package for Javascript
 - [API reference](./api-reference.md) for Adaptive Expressions
 - [Pre-built functions](./prebuilt-functions.md) supported by the Adaptive Expressions library
+- [Extend functions](./extend-functions.md)
 
 <!--
 ## Change Log
