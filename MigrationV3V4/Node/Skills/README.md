@@ -34,7 +34,6 @@ The solution includes a parent bot (`v4-root-bot`) built using [v4.7.2](https://
   - A [RootBot](v4-root-bot/index.js) which calls the user's chosen skill and keeps the conversation active until the user says "end" or "stop". [RootBot](v4-root-bot/index.js) also keeps track of the conversation with the skill and handles the `endOfConversation` activity received from the skill to terminate the conversation.
   - A simple [SkillConversationIdFactory](v4-root-bot/skillConversationIdFactory.js) based on an in memory JavaScript `object` that creates and maintains conversation IDs used to interact with a skill.
   - A [SkillsConfiguration](v4-root-bot/skillsConfiguration.js) class that loads skill definitions from `.env`.
-  - A [SkillController](v4-root-bot/rootBot.js) that handles skill responses.
   - An [AllowedSkillsClaimsValidator](v4-root-bot/authentication/allowedSkillsClaimsValidator.js) is used to validate responses sent to the bot are coming from the configured skills.
   - An [Index](v4-root-bot/index.js) class that shows how to instantiate all of the key botbuilder classes and set up the necessary skill components.
 

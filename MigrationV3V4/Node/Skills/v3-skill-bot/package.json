@@ -14,12 +14,11 @@
     "busboy": "^0.2.13",
     "chrono-node": "^1.2.5",
     "dotenv": "^8.2.0",
-    "dotenv-extended": "^2.7.1",
     "jsonwebtoken": "^8.2.2",
     "node-uuid": "^1.4.7",
     "promise": "^7.1.1",
     "request": "^2.78.0",
-    "restify": "^4.3.4",
+    "restify": "^8.5.1",
     "rsa-pem-from-mod-exp": "^0.8.4",
     "sprintf-js": "^1.0.3",
     "url-join": "^1.1.0"

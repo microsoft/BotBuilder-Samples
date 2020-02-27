@@ -12,6 +12,9 @@ server.listen(process.env.port || process.env.PORT || 3980, function () {
     console.log('%s listening to %s', server.name, server.url);
 });
 
+// Expose the manifest
+server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
+
 // Create chat bot and listen to messages
 var connector = new builder.ChatConnector({
     appId: process.env.MICROSOFT_APP_ID,

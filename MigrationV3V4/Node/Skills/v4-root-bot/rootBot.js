@@ -128,7 +128,6 @@ class RootBot extends ActivityHandler {
         await this.conversationState.saveChanges(context, true);
 
         // route the activity to the skill
-        debugger;
         const response = await this.skillClient.postToSkill(this.botId, targetSkill, this.skillsConfig.skillHostEndpoint, context.activity);
 
         // Check response status

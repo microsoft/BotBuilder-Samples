@@ -4,13 +4,16 @@ A simple echo bot for the Microsoft Bot Framework.
 
 const restify = require('restify');
 const builder = require('botbuilder');
-require('dotenv-extended').load();
+require('dotenv').config();
 
 // Setup Restify Server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3979, function () {
    console.log('%s listening to %s', server.name, server.url); 
 });
+
+// Expose the manifest
+server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
   
 // Bot Storage: Here we register the state storage for your bot. 
 // Default store: volatile in-memory store - Only for prototyping!
