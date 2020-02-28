@@ -72,7 +72,7 @@ var bot = new builder.UniversalBot(connector, [
     },
     // Dialog has ended
     function(session, result) {
-        endConversation(session, result, 'dialogEnded');
+        endConversation(session, result, 'completedSuccessfully');
     }
 ]).set('storage', inMemoryStorage); // Register in memory storage
 
@@ -112,6 +112,7 @@ bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
 
+// Code enum can be found here: https://aka.ms/codeEnum
 function endConversation(session, value = null, code = null) {
     session.send('Ending conversation from the skill...');
     // Send endOfConversation with custom code and values
