@@ -112,12 +112,15 @@ bot.on('error', function (e) {
     console.log('And error ocurred', e);
 });
 
-async function endConversation(session, value = null, code = null) {
-    await session.send('Ending conversation from the skill...')
+function endConversation(session, value = null, code = null) {
+    session.send('Ending conversation from the skill...');
+    // Send endOfConversation with custom code and values
     const msg = {
         value,
         code,
         type: 'endOfConversation'
     };
-    session.send(msg)
+    session.send(msg);
+    // Call endConversation() to clear state
+    session.endConversation();
 }
