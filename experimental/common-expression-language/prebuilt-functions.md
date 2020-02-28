@@ -27,8 +27,8 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[countWord](#countWord)| Return the number of words in the given string |
 |[concat](#concat) | Combine two or more strings and return the resulting string |
 |[newGuid](#newGuid) | Return a new Guid string|
-|[indexOf](#indexOf)| Return the starting position or index value for a substring. This function is not case-sensitive, and indexes start with the number 0.|
-|[lastIndexOf](#lastIndexOf)| Return the starting position or index value for the last occurrence of a substring. This function is not case-sensitive, and indexes start with the number 0. |
+|[indexOf](#indexOf)| Return the starting position or index value for a substring. Or Searches for the specified object and returns the zero-based index of the first occurrence within the entire list. This function is not case-sensitive, and indexes start with the number 0.|
+|[lastIndexOf](#lastIndexOf)| Return the starting position or index value for the last occurrence of a substring. Or searches for the specified object and returns the zero-based index of the last occurrence within the range of elements in the list.This function is not case-sensitive, and indexes start with the number 0. |
 
 ### Collection functions
 |Function	|Explanation|
@@ -41,7 +41,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[count](#count)	|Returns the number of items in the collection	|
 |[foreach](#foreach)	|Operate on each element and return the new collection	|
 |[union](#union) | Return a collection that has all the items from the specified collections |
-|[skip](#skip) | Remove items from the front of a collection, and return *all the other* items |
+|[skip](#skip) | Remove items from the front of a collection, and return *\all the other* items |
 |[take](#take) | Return items from the front of a collection |
 |[intersection](#intersection) | Return a collection that has only the common items across the specified collections |
 |[subArray](#subArray) | Returns a sub-array from specified start and end position. Index values start with the number 0. |
@@ -49,9 +49,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
 |[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
 |[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
-|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
+|[indicesAndValues](#indicesAndValues) | Turned an array or object into an array of objects with index and value property |
+|[flatten](#flatten) | Flatten arrays into an array with non-array values |
+|[unique](#unique) | Remove all duplicates from an array |
 
-### Logical comparison functions
+### Logical comparison functionsl
 |Function	|Explanation|
 |-----------|-----------|
 |[and](#and)	|Logical and. Returns true if all specified expressions evaluate to true.	|
@@ -315,7 +317,7 @@ addMinutes('2018-03-15T00:20:00.000Z', -5)
 
 And returns this result: `"2018-03-15T00:15:00.000Z"`
 
-<a name="addOrdinal">
+<a name="addOrdinal"></a>
 
 ### addOrdinal
 
@@ -363,7 +365,7 @@ addProperty('<object>', '<property>', value)
 | --------- | -------- | ---- | ----------- |
 | <*object*> | Yes | Object | The JSON Object where you want to add a property |
 |<*property*>| Yes | String | The name of the property to add |
-|<*value*>| Yes | any | The value of the property |
+|<*value*>| Yes | Any | The value of the property |
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
@@ -537,7 +539,7 @@ average(<numericArray>)
 *Example*
 
 ```
-average([1,2,3])
+average(createArray(1,2,3))
 ```
 
 And it returns the result: `2`
@@ -713,7 +715,7 @@ coalesce(<object_1>, <object_2>, ...)
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*first-non-null-item*> | any | The first item or value that is not null. If all parameters are null, this function returns null. |
+| <*first-non-null-item*> | Any | The first item or value that is not null. If all parameters are null, this function returns null. |
 ||||
 
 *Example*
@@ -1205,13 +1207,13 @@ div(<dividend>, <divisor>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*dividend*> | Yes | Integer or Float | The number to divide by the *divisor* |
-| <*divisor*> | Yes | Integer or Float | The number that divides the *dividend*, but cannot be 0 |
+| <*dividend*> | Yes | Number | The number to divide by the *divisor* |
+| <*divisor*> | Yes | Number | The number that divides the *dividend*, but cannot be 0 |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*quotient-result*> | Integer | The integer result from dividing the first number by the second number |
+| <*quotient-result*> | Number | The result from dividing the first number by the second number |
 ||||
 
 *Example*
@@ -1224,6 +1226,16 @@ div(11, 5)
 ```
 
 And return this result: `2`
+
+If one of the parameters is Float type, the result would be a Float.
+
+*Example*
+
+```
+div(11.2, 3)
+```
+
+And return the result `5.5`
 
 <a name="empty"></a>
 
@@ -1240,7 +1252,7 @@ empty([<collection>])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | String, Array, or Object | The collection to check |
+| <*collection*> | Yes | Any | The collection to check |
 |||||
 
 | Return value | Type | Description |
@@ -1316,7 +1328,7 @@ equals('<object1>', '<object2>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*object1*>, <*object2*> | Yes | Various | The values, expressions, or objects to compare |
+| <*object1*>, <*object2*> | Yes | Any | The values, expressions, or objects to compare |
 |||||
 
 | Return value | Type | Description |
@@ -1386,7 +1398,7 @@ exp(realNumber, exponentNumber)
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*result-exp*> | Integer or Float | The result from computing exponent of realNumber |
+| <*result-exp*> | Number | The result from computing exponent of realNumber |
 ||||
 
 *Example*
@@ -1481,8 +1493,8 @@ foreach([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array or Object | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | function that can contains iteratorName |
+| <*iteratorName*> | Yes | Iterator Name | The key item of arrow function |
+| <*function*> | Yes | Expression | function that can contains iteratorName |
 |||||
 
 | Return value | Type | Description |
@@ -1799,7 +1811,7 @@ indexOf('<text>', '<searchText>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string that has the substring to find |
+| <*text*> | Yes | String or Array   | The string that has the substring to find |
 | <*searchText*> | Yes | String | The substring to find |
 |||||
 
@@ -1819,24 +1831,31 @@ indexOf('hello world', 'world')
 
 And returns this result: `6`
 
+This example finds the starting index value for the "def" substring in the Array ['abc', 'def', 'ghi']
+```
+indexOf(createArray('abc', 'def', 'ghi'), 'def')
+```
+
+And returns this result: `1`
+
 <a name="indicesAndValues"></a>
 
 ### indicesAndValues
 
-Turned an array into an array of objects with index (current index) and value property.
+Turn an array or object into an array of objects with index (current index) and value property.  For arrays the index is the position in the array.  For objects it is the key for the value.
 
 ```
-indicesAndValues('<collection>')
+indicesAndValues('<collection or object>')
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | Original array |
+| <*collection or object*> | Yes | Array | Original array or object |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*collection*> | Array | New array that each item has two properties, one is index, present this item's origin index, the other one is value |
+| <*collection*> | Array | New array that each item has two properties, one is index with the position in an array or the key for an object, the other one is the corresponding value |
 ||||
 
 *Example*
@@ -2043,7 +2062,7 @@ jPath(<json>, '<path>')
 |[ <*json-node*>] | Array | An list of json nodes or value that matches the specified path expression |
 ||||
 
-*Example*
+*C# Example*
 
 Given jsonStr is 
 ```json
@@ -2245,7 +2264,7 @@ lastIndexOf('<text>', '<searchText>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string that has the substring to find |
+| <*text*> | Yes | String or Array | The string that has the substring to find |
 | <*searchText*> | Yes | String | The substring to find |
 |||||
 
@@ -2264,6 +2283,13 @@ lastIndexOf('hello world', 'world')
 ```
 
 And returns this result: `6`
+
+This example finds the starting index value for the last occurrence of "def" substring in the Array ['abc', 'def', 'ghi', 'def']
+```
+lastIndexOf(createArray('abc', 'def', 'ghi', 'def'), 'def')
+```
+
+And returns this result: `3`
 
 ### length
 
@@ -2387,13 +2413,13 @@ max([<number1>, <number2>, ...])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*number1*>, <*number2*>, ... | Yes | Integer, Float, or both | The set of numbers from which you want the highest value |
-| [<*number1*>, <*number2*>, ...] | Yes | Array - Integer, Float, or both | The array of numbers from which you want the highest value |
+| <*number1*>, <*number2*>, ... | Yes | Number | The set of numbers from which you want the highest value |
+| [<*number1*>, <*number2*>, ...] | Yes | Array - Number | The array of numbers from which you want the highest value |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*max-value*> | Integer or Float | The highest value in the specified array or set of numbers |
+| <*max-value*> | Number | The highest value in the specified array or set of numbers |
 ||||
 
 *Example*
@@ -2420,13 +2446,13 @@ min([<number1>, <number2>, ...])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*number1*>, <*number2*>, ... | Yes | Integer, Float, or both | The set of numbers from which you want the lowest value |
-| [<*number1*>, <*number2*>, ...] | Yes | Array - Integer, Float, or both | The array of numbers from which you want the lowest value |
+| <*number1*>, <*number2*>, ... | Yes | Number | The set of numbers from which you want the lowest value |
+| [<*number1*>, <*number2*>, ...] | Yes | Array - Number | The array of numbers from which you want the lowest value |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*min-value*> | Integer or Float | The lowest value in the specified set of numbers or specified array |
+| <*min-value*> | Number | The lowest value in the specified set of numbers or specified array |
 ||||
 
 *Example*
@@ -2453,13 +2479,13 @@ mod(<dividend>, <divisor>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*dividend*> | Yes | Integer or Float | The number to divide by the *divisor* |
-| <*divisor*> | Yes | Integer or Float | The number that divides the *dividend*, but cannot be 0. |
+| <*dividend*> | Yes | Number | The number to divide by the *divisor* |
+| <*divisor*> | Yes | Number | The number that divides the *dividend*, but cannot be 0. |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*modulo-result*> | Integer or Float | The remainder from dividing the first number by the second number |
+| <*modulo-result*> | Number | The remainder from dividing the first number by the second number |
 ||||
 
 *Example*
@@ -2851,8 +2877,8 @@ select([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | function that can contains iteratorName |
+| <*iteratorName*> | Yes | Iterator Name | The key item of arrow function |
+| <*function*> | Yes | Expression | function that can contains iteratorName |
 |||||
 
 | Return value | Type | Description |
@@ -3096,6 +3122,68 @@ And return this result:
 }
 ```
 
+<a name="flatten"/>
+
+### flatten
+
+Flatten an array into non-array values.  With an optional depth flatten only to that depth.
+
+```
+flatten([<collection>], '<depth>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to flatten |
+| <*depth*> | No | Number | Maximum depth to flatten, or infinity if not set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | new collection whose elements have been flattened to non-array to the specified depth |
+||||
+
+*Example 1*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+This example will flatten the array to: ```[1, 2, 3, 4, 5, 6]```
+
+*Example 2*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+
+This example will only flatten the first level to: ```[1, 2, [3, 4], [5, 6]]```
+
+<a name="unique"/>
+
+### unique
+
+```
+unique([<collection>])
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to modify |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | New collection with duplicate element removed |
+||||
+
+*Example 1*
+
+```
+unique(createArray(1, 2, 1))
+```
+
+This will remove the duplicate 1 and produce: ```[1, 2]```
+
 <a name="split"></a>
 
 ### split
@@ -3104,13 +3192,13 @@ Return an array that contains substrings, separated by commas,
 based on the specified delimiter character in the original string.
 
 ```
-split('<text>', '<delimiter>')
+split('<text>', '<delimiter>'?)
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*text*> | Yes | String | The string to separate into substrings based on the specified delimiter in the original string |
-| <*delimiter*> | Yes | String | The character in the original string to use as the delimiter |
+| <*text*> | Yes | String | The string to separate into substrings based on the specified delimiter in the original string, if the text is a null value, it will be taken as an empty string |
+| <*delimiter*> | No | String | The character in the original string to use as the delimiter, if no delimiter given or delimiter is a null value, the default value will be an empty string |
 |||||
 
 | Return value | Type | Description |
@@ -3118,16 +3206,20 @@ split('<text>', '<delimiter>')
 | [<*substring1*>,<*substring2*>,...] | Array | An array that contains substrings from the original string, separated by commas |
 ||||
 
-*Example*
+*Examples*
 
 This example creates an array with substrings from the specified
 string based on the specified character as the delimiter:
 
 ```
 split('a_b_c', '_')
+split('hello', '')
+split('', 'e')
+split('', '')
+split('hello')
 ```
 
-And returns this array as the result: `["a","b","c"]`
+And returns these arrays as the result: `["a", "b", "c"]`, `["h", "e", "l", "l", "o"]`, `[""]`, `[ ]`, `["h", "e", "l", "l", "o"]`.
 
 <a name="startOfDay"></a>
 
@@ -3317,13 +3409,13 @@ sub(<minuend>, <subtrahend>)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*minuend*> | Yes | Integer or Float | The number from which to subtract the *subtrahend* |
-| <*subtrahend*> | Yes | Integer or Float | The number to subtract from the *minuend* |
+| <*minuend*> | Yes | Number | The number from which to subtract the *subtrahend* |
+| <*subtrahend*> | Yes | Number | The number to subtract from the *minuend* |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*result*> | Integer or Float | The result from subtracting the second number from the first number |
+| <*result*> | Number | The result from subtracting the second number from the first number |
 ||||
 
 *Example*
@@ -3460,12 +3552,12 @@ add([<list of numbers>])
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| [\<list of numbers\>] | Yes | List | The numbers to add |
+| [\<list of numbers\>] | Yes | Array - Number | The numbers to add |
 |||||
 
 | Return value | Type | Description |
 | ------------ | -----| ----------- |
-| <*result-sum*> | Integer or Float | The result from adding the specified numbers |
+| <*result-sum*> | Number | The result from adding the specified numbers |
 ||||
 
 *Example*
@@ -3473,7 +3565,7 @@ add([<list of numbers>])
 This example adds the specified numbers:
 
 ```
-add([1, 1.5])
+add(createArray(1, 1.5))
 ```
 
 And returns this result: `2.5`
@@ -3968,8 +4060,8 @@ where([<collection/instance>], <iteratorName>, <function>)
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
 | <*collection/instance*> | Yes | Array | The collection with the items |
-| <*iteratorName*> | Yes | String | The key item of arrow function |
-| <*function*> | Yes | Any | condition function which is used to filter items|
+| <*iteratorName*> | Yes | Iterater Name | The key item of arrow function |
+| <*function*> | Yes | Expression | condition function which is used to filter items|
 |||||
 
 | Return value | Type | Description |

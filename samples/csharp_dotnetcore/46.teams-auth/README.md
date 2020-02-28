@@ -34,7 +34,7 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 1) If you are using Visual Studio
     - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsTaskModule`
+    - Set the Startup Project to `TeamsAuth`
     - The changes specified here will apply to this project
 
 1) Run ngrok - point to port 3978

@@ -115,7 +115,7 @@ As an example, this returns the same resolution text for both `Speak` and `Text`
 - what is your age?
 ```
 
-You can use the TemplateName!() (with trailing '!' after a template name) to request a new evaluation on each reference within a structured template. (TODO)
+You can use the TemplateName!() (with trailing '!' after a template name) to request a new evaluation on each reference within a structured template.
 
 In this example, `Speak` and `Text` could come back with different resolutions because `GetAge` is re-evalauted on each instance.
 

@@ -1,0 +1,785 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Builder.AI.QnA</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.Dialogs.QnAMakerDialog">
+            <summary>
+            QnAMaker dialog which uses QnAMaker to get an answer.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.Dialogs.QnAMakerDialogOptions">
+            <summary>
+            Defines Dialog Options for QnAMakerDialog.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.Dialogs.QnAMakerDialogOptions.QnAMakerOptions">
+            <summary>
+            Gets or sets the options for the QnAMaker service.
+            </summary>
+            <value>
+            The options for the QnAMaker service.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.Dialogs.QnAMakerDialogOptions.ResponseOptions">
+            <summary>
+            Gets or sets the response options for the QnAMakerDialog.
+            </summary>
+            <value>
+            The response options for the QnAMakerDialog.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.IQnAMakerClient">
+            <summary>
+            Client to access a QnA Maker knowledge base.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.IQnAMakerClient.GetAnswersAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double})">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <param name="telemetryProperties">Additional properties to be logged to telemetry with the QnaMessage event.</param>
+            <param name="telemetryMetrics">Additional metrics to be logged to telemetry with the QnaMessage event.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.IQnAMakerClient.GetAnswersRawAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double})">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <param name="telemetryProperties">Additional properties to be logged to telemetry with the QnaMessage event.</param>
+            <param name="telemetryMetrics">Additional metrics to be logged to telemetry with the QnaMessage event.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.IQnAMakerClient.GetLowScoreVariation(Microsoft.Bot.Builder.AI.QnA.QueryResult[])">
+            <summary>
+            Filters the ambiguous question for active learning.
+            </summary>
+            <param name="queryResult">User query output.</param>
+            <returns>Filtered array of ambiguous question.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.IQnAMakerClient.CallTrainAsync(Microsoft.Bot.Builder.AI.QnA.FeedbackRecords)">
+            <summary>
+            Send feedback to the knowledge base.
+            </summary>
+            <param name="feedbackRecords">Feedback records.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.ITelemetryQnAMaker.LogPersonalInformation">
+            <summary>
+            Gets a value indicating whether determines whether to log personal information that came from the user.
+            </summary>
+            <value>If true, will log personal information into the IBotTelemetryClient.TrackEvent method; otherwise the properties will be filtered.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.ITelemetryQnAMaker.TelemetryClient">
+            <summary>
+            Gets the currently configured <see cref="T:Microsoft.Bot.Builder.IBotTelemetryClient"/> that logs the QnaMessage event.
+            </summary>
+            <value>The <see cref="T:Microsoft.Bot.Builder.IBotTelemetryClient"/> being used to log events.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.ITelemetryQnAMaker.GetAnswersAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double})">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <param name="telemetryProperties">Additional properties to be logged to telemetry with the QnaMessage event.</param>
+            <param name="telemetryMetrics">Additional metrics to be logged to telemetry with the QnaMessage event.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnaMakerPrompt">
+            <summary>
+            Prompt Object.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnaMakerPrompt.DisplayOrder">
+            <summary>
+            Gets or sets displayOrder - index of the prompt - used in ordering of the prompts.
+            </summary>
+            <value>Display order.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnaMakerPrompt.QnaId">
+            <summary>
+            Gets or sets qna id corresponding to the prompt - if QnaId is present, QnADTO object is ignored.
+            </summary>
+            <value>QnA Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnaMakerPrompt.DisplayText">
+            <summary>
+            Gets or sets displayText - Text displayed to represent a follow up question prompt.
+            </summary>
+            <value>Display test.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnaMakerPrompt.Qna">
+            <summary>
+            Gets or sets the QnADTO returned from the API.
+            </summary>
+            <value>
+            The QnA DTO.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.FeedbackRecord">
+            <summary>
+            Active learning feedback record.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.FeedbackRecord.UserId">
+            <summary>
+            Gets or sets the user id.
+            </summary>
+            <value>the user id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.FeedbackRecord.UserQuestion">
+            <summary>
+            Gets or sets the user question.
+            </summary>
+            <value>the user question.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.FeedbackRecord.QnaId">
+            <summary>
+            Gets or sets the QnA Id.
+            </summary>
+            <value>the qnaMaker id.</value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.FeedbackRecords">
+            <summary>
+            Active learning feedback records.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo">
+            <summary>
+            This class represents all the trace info that we collect from the QnAMaker Middleware.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.Message">
+            <summary>
+            Gets or sets message which instigated the query to QnAMaker.
+            </summary>
+            <value>
+            Message which instigated the query to QnAMaker.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.QueryResults">
+            <summary>
+            Gets or sets results that QnAMaker returned.
+            </summary>
+            <value>
+            Results that QnAMaker returned.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.KnowledgeBaseId">
+            <summary>
+            Gets or sets iD of the Knowledgebase that is being used.
+            </summary>
+            <value>
+            ID of the Knowledgebase that is being used.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.ScoreThreshold">
+            <summary>
+            Gets or sets the minimum score threshold, used to filter returned results.
+            </summary>
+            <remarks>Scores are normalized to the range of 0.0 to 1.0
+            before filtering.</remarks>
+            <value>
+            The minimum score threshold, used to filter returned results.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.Top">
+            <summary>
+            Gets or sets number of ranked results that are asked to be returned.
+            </summary>
+            <value>
+            Number of ranked results that are asked to be returned.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.StrictFilters">
+            <summary>
+            Gets or sets the filters used to return answers that have the specified metadata.
+            </summary>
+            <value>
+            The filters used to return answers that have the specified metadata.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.MetadataBoost">
+            <summary>
+            Gets or sets miscellaneous data to boost answers.
+            </summary>
+            <value>
+            Miscellaneous data to boost answers.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.Context">
+            <summary>
+            Gets or sets context for multi-turn responses.
+            </summary>
+            <value>
+            The context from which the QnA was extracted.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.QnAId">
+            <summary>
+            Gets or sets QnA Id of the current question asked.
+            </summary>
+            <value>
+            Id of the current question asked.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.IsTest">
+            <summary>
+            Gets or sets a value indicating whether gets or sets environment of knowledgebase to be called. 
+            </summary>
+            <value>
+            A value indicating whether to call test or prod environment of knowledgebase. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerTraceInfo.RankerType">
+            <summary>
+            Gets or sets ranker Types.
+            </summary>
+            <value>
+            Ranker Types.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnARequestContext">
+            <summary>
+            The context associated with QnA.  Used to mark if the current prompt is relevant with a previous question or not.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnARequestContext.PreviousQnAId">
+            <summary>
+            Gets or sets the previous QnA Id that was returned.
+            </summary>
+            <value>
+            The previous QnA Id.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnARequestContext.PreviousUserQuery">
+            <summary>
+            Gets or sets the previous user query/question.
+            </summary>
+            <value>
+            The previous user query.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAResponseContext">
+            <summary>
+            The context associated with QnA.  Used to mark if the qna response has related prompts to display.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAResponseContext.Prompts">
+            <summary>
+            Gets or sets the prompts collection of related prompts.
+            </summary>
+            <value>
+            The QnA prompts array.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QueryResult">
+            <summary>
+            Represents an individual result from a knowledge base query.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Questions">
+            <summary>
+            Gets or sets the list of questions indexed in the QnA Service for the given answer.
+            </summary>
+            <value>
+            The list of questions indexed in the QnA Service for the given answer.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Answer">
+            <summary>
+            Gets or sets the answer text.
+            </summary>
+            <value>
+            The answer text.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Score">
+            <summary>
+            Gets or sets the answer's score, from 0.0 (least confidence) to
+            1.0 (greatest confidence).
+            </summary>
+            <value>
+            The answer's score, from 0.0 (least confidence) to
+            1.0 (greatest confidence).
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Metadata">
+            <summary>
+            Gets or sets metadata that is associated with the answer.
+            </summary>
+            <value>
+            Metadata that is associated with the answer.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Source">
+            <summary>
+            Gets or sets the source from which the QnA was extracted.
+            </summary>
+            <value>
+            The source from which the QnA was extracted.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Id">
+            <summary>
+            Gets or sets the index of the answer in the knowledge base. V3 uses
+            'qnaId', V4 uses 'id'.
+            </summary>
+            <value>
+            The index of the answer in the knowledge base. V3 uses
+            'qnaId', V4 uses 'id'.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResult.Context">
+            <summary>
+            Gets or sets context for multi-turn responses.
+            </summary>
+            <value>
+            The context from which the QnA was extracted.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QueryResults">
+            <summary>
+            Contains answers for a user query.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResults.Answers">
+            <summary>
+            Gets or sets the answers for a user query,
+            sorted in decreasing order of ranking score.
+            </summary>
+            <value>
+            The answers for a user query,
+            sorted in decreasing order of ranking score.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QueryResults.ActiveLearningEnabled">
+            <summary>
+            Gets or sets a value indicating whether gets or set for the active learning enable flag.
+            </summary>
+            <value>
+            The active learning enable flag.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.RankerTypes">
+            <summary>
+            Enumeration of types of ranking.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.RankerTypes.DefaultRankerType">
+            <summary>
+            Default Ranker Behaviour. i.e. Ranking based on Questions and Answer.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.RankerTypes.QuestionOnly">
+            <summary>
+            Ranker based on question Only.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.RankerTypes.AutoSuggestQuestion">
+            <summary>
+            Ranker based on Autosuggest for question field Only.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnADialogResponseOptions">
+            <summary>
+            QnA dialog response options class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnADialogResponseOptions.ActiveLearningCardTitle">
+            <summary>
+            Gets or sets get or set for Active learning card title.
+            </summary>
+            <value>
+            Get or set for Active learning card title.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnADialogResponseOptions.CardNoMatchText">
+            <summary>
+            Gets or sets get or set for Card no match text.
+            </summary>
+            <value>
+            Get or set for Card no match text.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnADialogResponseOptions.NoAnswer">
+            <summary>
+            Gets or sets get or set for No answer.
+            </summary>
+            <value>
+            Get or set for No answer.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnADialogResponseOptions.CardNoMatchResponse">
+            <summary>
+            Gets or sets get or set for Card no match response.
+            </summary>
+            <value>
+            Get or set for Card no match response.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAMaker">
+            <summary>
+            Provides access to a QnA Maker knowledge base.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.#ctor(Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Net.Http.HttpClient,Microsoft.Bot.Builder.IBotTelemetryClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.QnAMaker"/> class.
+            </summary>
+            <param name="endpoint">The endpoint of the knowledge base to query.</param>
+            <param name="options">The options for the QnA Maker knowledge base.</param>
+            <param name="httpClient">An alternate client with which to talk to QnAMaker.
+            If null, a default client is used for this instance.</param>
+            <param name="telemetryClient">The IBotTelemetryClient used for logging telemetry events.</param>
+            <param name="logPersonalInformation">Set to true to include personally identifiable information in telemetry events.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.#ctor(Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.QnAMaker"/> class.
+            </summary>
+            <param name="endpoint">The endpoint of the knowledge base to query.</param>
+            <param name="options">The options for the QnA Maker knowledge base.</param>
+            <param name="httpClient">An alternate client with which to talk to QnAMaker.
+            If null, a default client is used for this instance.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.#ctor(Microsoft.Bot.Configuration.QnAMakerService,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Net.Http.HttpClient,Microsoft.Bot.Builder.IBotTelemetryClient,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.QnAMaker"/> class.
+            </summary>
+            <param name="service">QnA service details from configuration.</param>
+            <param name="options">The options for the QnA Maker knowledge base.</param>
+            <param name="httpClient">An alternate client with which to talk to QnAMaker.
+            If null, a default client is used for this instance.</param>
+            <param name="telemetryClient">The IBotTelemetryClient used for logging telemetry events.</param>
+            <param name="logPersonalInformation">Set to true to include personally identifiable information in telemetry events.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.#ctor(Microsoft.Bot.Configuration.QnAMakerService,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.QnAMaker"/> class.
+            </summary>
+            <param name="service">QnA service details from configuration.</param>
+            <param name="options">The options for the QnA Maker knowledge base.</param>
+            <param name="httpClient">An alternate client with which to talk to QnAMaker.
+            If null, a default client is used for this instance.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMaker.LogPersonalInformation">
+            <summary>
+            Gets a value indicating whether determines whether to log personal information that came from the user.
+            </summary>
+            <value>If true, will log personal information into the IBotTelemetryClient.TrackEvent method; otherwise the properties will be filtered.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMaker.TelemetryClient">
+            <summary>
+            Gets the currently configured <see cref="T:Microsoft.Bot.Builder.IBotTelemetryClient"/> that logs the QnaMessage event.
+            </summary>
+            <value>The <see cref="T:Microsoft.Bot.Builder.IBotTelemetryClient"/> being used to log events.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.GetAnswersAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions)">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.GetAnswersAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double})">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <param name="telemetryProperties">Additional properties to be logged to telemetry with the QnaMessage event.</param>
+            <param name="telemetryMetrics">Additional metrics to be logged to telemetry with the QnaMessage event.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.GetAnswersRawAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double})">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <param name="telemetryProperties">Additional properties to be logged to telemetry with the QnaMessage event.</param>
+            <param name="telemetryMetrics">Additional metrics to be logged to telemetry with the QnaMessage event.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.GetLowScoreVariation(Microsoft.Bot.Builder.AI.QnA.QueryResult[])">
+            <summary>
+            Filters the ambiguous question for active learning.
+            </summary>
+            <param name="queryResult">User query output.</param>
+            <returns>Filtered array of ambiguous question.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.CallTrainAsync(Microsoft.Bot.Builder.AI.QnA.FeedbackRecords)">
+            <summary>
+            Send feedback to the knowledge base.
+            </summary>
+            <param name="feedbackRecords">Feedback records.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMaker.FillQnAEventAsync(Microsoft.Bot.Builder.AI.QnA.QueryResult[],Microsoft.Bot.Builder.ITurnContext,System.Collections.Generic.Dictionary{System.String,System.String},System.Collections.Generic.Dictionary{System.String,System.Double},System.Threading.CancellationToken)">
+            <summary>
+            Fills the event properties and metrics for the QnaMessage event for telemetry.
+            These properties are logged when the QnA GetAnswers method is called.
+            </summary>
+            <param name="queryResults">QnA service results.</param>
+            <param name="turnContext">Context object containing information for a single turn of conversation with a user.</param>
+            <param name="telemetryProperties">Properties to add/override for the event.</param>
+            <param name="telemetryMetrics">Metrics to add/override for the event.</param>
+            <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive notice of cancellation.</param>
+            additionalProperties
+            <returns>A tuple of Properties and Metrics that will be sent to the IBotTelemetryClient.TrackEvent method for the QnAMessage event.  The properties and metrics returned the standard properties logged with any properties passed from the GetAnswersAsync method.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint">
+            <summary>
+            Defines an endpoint used to connect to a QnA Maker Knowledge base.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint.#ctor(Microsoft.Bot.Configuration.QnAMakerService)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint"/> class.
+            </summary>
+            <param name="service">QnA service details from configuration.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint.KnowledgeBaseId">
+            <summary>
+            Gets or sets the knowledge base ID.
+            </summary>
+            <value>
+            The knowledge base ID.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint.EndpointKey">
+            <summary>
+            Gets or sets the endpoint key for the knowledge base.
+            </summary>
+            <value>
+            The endpoint key for the knowledge base.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint.Host">
+            <summary>
+            Gets or sets the host path. For example "https://westus.api.cognitive.microsoft.com/qnamaker/v2.0".
+            </summary>
+            <value>
+            The host path.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions">
+            <summary>
+            Defines options for the QnA Maker knowledge base.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.ScoreThreshold">
+            <summary>
+            Gets or sets the minimum score threshold, used to filter returned results.
+            </summary>
+            <remarks>Scores are normalized to the range of 0.0 to 1.0
+            before filtering.</remarks>
+            <value>
+            The minimum score threshold, used to filter returned results.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.Timeout">
+            <summary>
+            Gets or sets the time in milliseconds to wait before the request times out.
+            </summary>
+            <value>
+            The time in milliseconds to wait before the request times out. Default is 100000 milliseconds.
+            </value>
+            <remarks>
+            This property allows users to set Timeout without having to pass in a custom HttpClient to QnAMaker class constructor.
+            If using custom HttpClient, then set Timeout value in HttpClient instead of QnAMakerOptions.Timeout.
+            </remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.Top">
+            <summary>
+            Gets or sets the number of ranked results you want in the output.
+            </summary>
+            <value>
+            The number of ranked results you want in the output.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.Context">
+            <summary>
+            Gets or sets context of the previous turn.
+            </summary>
+            <value>
+            The context of previous turn.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.QnAId">
+            <summary>
+            Gets or sets QnA Id of the current question asked (if avaliable).
+            </summary>
+            <value>
+            Id of the current question asked.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.IsTest">
+            <summary>
+            Gets or sets a value indicating whether gets or sets environment of knowledgebase to be called. 
+            </summary>
+            <value>
+            A value indicating whether to call test or prod environment of knowledgebase. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions.RankerType">
+            <summary>
+            Gets or sets ranker Types.
+            </summary>
+            <value>
+            Ranker Types.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils">
+            <summary>
+            Active learning helper class.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils.MinimumScoreForLowScoreVariation">
+            <summary>
+            Minimum Score For Low Score Variation.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils.PreviousLowScoreVariationMultiplier">
+            <summary>
+            Previous Low Score Variation Multiplier.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils.MaxLowScoreVariationMultiplier">
+            <summary>
+            Max Low Score Variation Multiplier.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils.MaximumScoreForLowScoreVariation">
+            <summary>
+            Maximum Score For Low Score Variation.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.ActiveLearningUtils.GetLowScoreVariation(System.Collections.Generic.List{Microsoft.Bot.Builder.AI.QnA.QueryResult})">
+            <summary>
+            Returns list of qnaSearch results which have low score variation.
+            </summary>
+            <param name="qnaSearchResults">List of QnaSearch results.</param>
+            <returns>List of filtered qnaSearch results.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils">
+            <summary>
+            Helper class for Generate Answer API.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils.#ctor(Microsoft.Bot.Builder.IBotTelemetryClient,Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions,System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils"/> class.
+            </summary>
+            <param name="telemetryClient">Telemetry client.</param>
+            <param name="endpoint">QnA Maker endpoint details.</param>
+            <param name="options">QnA Maker options.</param>
+            <param name="httpClient">Http client.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils.Options">
+            <summary>
+            Gets or sets qnA Maker options.
+            </summary>
+            <value>The options for QnAMaker.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils.GetAnswersAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.IMessageActivity,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions)">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="messageActivity">Message activity of the turn context.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils.GetAnswersRawAsync(Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Schema.IMessageActivity,Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions)">
+            <summary>
+            Generates an answer from the knowledge base.
+            </summary>
+            <param name="turnContext">The Turn Context that contains the user question to be queried against your knowledge base.</param>
+            <param name="messageActivity">Message activity of the turn context.</param>
+            <param name="options">The options for the QnA Maker knowledge base. If null, constructor option is used for this instance.</param>
+            <returns>A list of answers for the user query, sorted in decreasing order of ranking score.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.GenerateAnswerUtils.HydrateOptions(Microsoft.Bot.Builder.AI.QnA.QnAMakerOptions)">
+            <summary>
+            Combines QnAMakerOptions passed into the QnAMaker constructor with the options passed as arguments into GetAnswersAsync().
+            </summary>
+            <param name="queryOptions">The options for the QnA Maker knowledge base.</param>
+            <returns>Return modified options for the QnA Maker knowledge base.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.HttpRequestUtils">
+            <summary>
+            Helper for HTTP requests.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.HttpRequestUtils.#ctor(System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.HttpRequestUtils"/> class.
+            </summary>
+            <param name="httpClient">Http client.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.HttpRequestUtils.ExecuteHttpRequestAsync(System.String,System.String,Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint)">
+            <summary>
+            Execute Http request.
+            </summary>
+            <param name="requestUrl">Http request url.</param>
+            <param name="payloadBody">Http request body.</param>
+            <param name="endpoint">QnA Maker endpoint details.</param>
+            <returns>Returns http response object.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnACardBuilder">
+            <summary>
+            Message activity card builder for QnAMaker dialogs.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnACardBuilder.GetSuggestionsCard(System.Collections.Generic.List{System.String},System.String,System.String)">
+            <summary>
+            Get active learning suggestions card.
+            </summary>
+            <param name="suggestionsList">List of suggested questions.</param>
+            <param name="cardTitle">Title of the cards.</param>
+            <param name="cardNoMatchText">No match text.</param>
+            <returns>IMessageActivity.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnACardBuilder.GetQnAPromptsCard(Microsoft.Bot.Builder.AI.QnA.QueryResult,System.String)">
+            <summary>
+            Get active learning suggestions card.
+            </summary>
+            <param name="result">Result to be dispalyed as prompts.</param>
+            <param name="cardNoMatchText">No match text.</param>
+            <returns>IMessageActivity.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnATelemetryConstants">
+            <summary>
+            Default QnA event and property names logged using IBotTelemetryClient.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.TrainUtils">
+            <summary>
+            Helper class for train API.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.TrainUtils.#ctor(Microsoft.Bot.Builder.AI.QnA.QnAMakerEndpoint,System.Net.Http.HttpClient)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.AI.QnA.TrainUtils"/> class.
+            </summary>
+            <param name="endpoint">QnA Maker endpoint details.</param>
+            <param name="httpClient">Http client.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.TrainUtils.CallTrainAsync(Microsoft.Bot.Builder.AI.QnA.FeedbackRecords)">
+            <summary>
+            Train API to provide feedback.
+            </summary>
+            <param name="feedbackRecords">Feedback record list.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
+        </member>
+    </members>
+</doc>

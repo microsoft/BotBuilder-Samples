@@ -36,16 +36,23 @@ class RootBot(ActivityHandler):
             ACTIVE_SKILL_PROPERTY_NAME
         )
 
-    async def on_message_activity(self, turn_context: TurnContext):
-        # If there is an active skill
-        active_skill_id: str = await self._active_skill_property.get(turn_context)
+    async def on_turn(self, turn_context):
+        # Forward all activities except EndOfConversation to the active skill.
+        if turn_context.activity.type != ActivityTypes.end_of_conversation:
+            # If there is an active skill
+            active_skill_id: str = await self._active_skill_property.get(turn_context)
 
-        if active_skill_id:
-            # If there is an active skill, forward the Activity to it.
-            await self.__send_to_skill(
-                turn_context, self._skills_config.SKILLS[active_skill_id]
-            )
-        elif "skill" in turn_context.activity.text:
+            if active_skill_id:
+                # If there is an active skill, forward the Activity to it.
+                await self.__send_to_skill(
+                    turn_context, self._skills_config.SKILLS[active_skill_id]
+                )
+                return
+
+        await super().on_turn(turn_context)
+
+    async def on_message_activity(self, turn_context: TurnContext):
+        if "skill" in turn_context.activity.text:
             # Begin forwarding Activities to the skill
             await turn_context.send_activity(
                 MessageFactory.text("Got it, connecting you to the skill...")

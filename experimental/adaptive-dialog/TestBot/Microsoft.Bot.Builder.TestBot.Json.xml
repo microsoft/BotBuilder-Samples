@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Builder.TestBot.Json</name>
+    </assembly>
+    <members>
+        <!-- Badly formed XML comment ignored for member "P:Microsoft.Bot.Builder.TestBot.Json.JavascriptAction.Script" -->
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.JavascriptAction.Options">
+            <summary>
+            Gets or sets configurable options for the dialog. 
+            </summary>
+            <value>
+            Configurable options for the dialog. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.JavascriptAction.Disabled">
+            <summary>
+            Gets or sets an optional expression which if is true will disable this action.
+            </summary>
+            <example>
+            "user.age > 18".
+            </example>
+            <value>
+            A boolean expression. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.JavascriptAction.ResultProperty">
+            <summary>
+            Gets or sets the property path to store the dialog result in.
+            </summary>
+            <value>
+            The property path to store the dialog result in.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.TestBot.Json.MultiplyDialog">
+            <summary>
+            Custom command which takes takes 2 data bound arguments (arg1 and arg2) and multiplies them returning that as a databound result.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.MultiplyDialog.Arg1">
+            <summary>
+            Gets or sets memory path to bind to arg1 (ex: conversation.width).
+            </summary>
+            <value>
+            Memory path to bind to arg1 (ex: conversation.width).
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.MultiplyDialog.Arg2">
+            <summary>
+            Gets or sets memory path to bind to arg2 (ex: conversation.height).
+            </summary>
+            <value>
+            Memory path to bind to arg2 (ex: conversation.height).
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.TestBot.Json.MultiplyDialog.ResultProperty">
+            <summary>
+            Gets or sets caller's memory path to store the result of this step in (ex: conversation.area).
+            </summary>
+            <value>
+            Caller's memory path to store the result of this step in (ex: conversation.area).
+            </value>
+        </member>
+    </members>
+</doc>

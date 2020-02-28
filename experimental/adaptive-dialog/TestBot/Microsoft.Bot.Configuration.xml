@@ -1,0 +1,595 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Microsoft.Bot.Configuration</name>
+    </assembly>
+    <members>
+        <member name="T:Microsoft.Bot.Configuration.BotConfiguration">
+            <summary>
+            BotConfiguration represents configuration information for a bot.
+            </summary>
+            <remarks>It is typically loaded from a .bot file on disk.
+            This class implements methods for encrypting and manipulating the in memory representation of the configuration.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Name">
+            <summary>
+            Gets or sets name of the bot.
+            </summary>
+            <value>The name of the bot.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Description">
+            <summary>
+            Gets or sets description of the bot.
+            </summary>
+            <value>The description for the bot.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Padlock">
+            <summary>
+            Gets or sets padlock - Used to validate that the secret is consistent for all encrypted fields.
+            </summary>
+            <value>The padlock.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Version">
+            <summary>
+            Gets or sets the version.
+            </summary>
+            <value>The version.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Services">
+            <summary>
+            Gets or sets connected services.
+            </summary>
+            <value>The list of connected services.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Properties">
+            <summary>
+            Gets or sets properties that are not otherwise defined.
+            </summary>
+            <value>The extended properties for the object.</value>
+            <remarks>With this, properties not represented in the defined type are not dropped when
+            the JSON object is deserialized, but are instead stored in this property. Such properties
+            will be written to a JSON object when the instance is serialized.</remarks>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotConfiguration.Location">
+            <summary>
+            Gets or sets the location of the configuration.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.LoadFromFolderAsync(System.String,System.String)">
+            <summary>
+            Load the bot configuration by looking in a folder and loading the first .bot file in the folder.
+            </summary>
+            <param name="folder">Folder to look for bot files. </param>
+            <param name="secret">Secret to use to encrypt keys. </param>
+            <returns><see cref="T:System.Threading.Tasks.Task"/> of <see cref="T:Microsoft.Bot.Configuration.BotConfiguration"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.LoadFromFolder(System.String,System.String)">
+            <summary>
+            Load the bot configuration by looking in a folder and loading the first .bot file in the folder.
+            </summary>
+            <param name="folder">Folder to look for bot files. </param>
+            <param name="secret">Secret to use to encrypt keys. </param>
+            <returns><see cref="T:Microsoft.Bot.Configuration.BotConfiguration"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.LoadAsync(System.String,System.String)">
+            <summary>
+            Load the configuration from a .bot file.
+            </summary>
+            <param name="file">Path to bot file. </param>
+            <param name="secret">Secret to use to decrypt the file on disk. </param>
+            <returns><see cref="T:System.Threading.Tasks.Task"/> of <see cref="T:Microsoft.Bot.Configuration.BotConfiguration"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.Load(System.String,System.String)">
+            <summary>
+            Load the configuration from a .bot file.
+            </summary>
+            <param name="file">Path to bot file. </param>
+            <param name="secret">Secret to use to decrypt the file on disk. </param>
+            <returns><see cref="T:Microsoft.Bot.Configuration.BotConfiguration"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.GenerateKey">
+            <summary>
+            Generate a new key suitable for encrypting.
+            </summary>
+            <returns>key to use with <see cref="M:Microsoft.Bot.Configuration.BotConfiguration.Encrypt(System.String)"/> method. </returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.SaveAsync(System.String)">
+            <summary>
+            Save the file with secret.
+            </summary>
+            <param name="secret">Secret for encryption. </param>
+            <returns><see cref="T:System.Threading.Tasks.Task"/>.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.Save(System.String)">
+            <summary>
+            Save the file with secret.
+            </summary>
+            <param name="secret">Secret for encryption. </param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.SaveAsAsync(System.String,System.String)">
+            <summary>
+            Save the configuration to a .bot file.
+            </summary>
+            <param name="path">Path to bot file.</param>
+            <param name="secret">Secret for encrypting the file keys.</param>
+            <returns>Task. </returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.SaveAs(System.String,System.String)">
+            <summary>
+            Save the configuration to a .bot file.
+            </summary>
+            <param name="path">Path to bot file.</param>
+            <param name="secret">Secret for encrypting the file keys.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.ClearSecret">
+            <summary>
+            Clear secret.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.ConnectService(Microsoft.Bot.Configuration.ConnectedService)">
+            <summary>
+            Connect a service to the bot file.
+            </summary>
+            <param name="newService"><see cref="T:Microsoft.Bot.Configuration.ConnectedService"/> to add.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.Encrypt(System.String)">
+            <summary>
+            Encrypt all values in the in memory config.
+            </summary>
+            <param name="secret">Secret to encrypt.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.Decrypt(System.String)">
+            <summary>
+            Decrypt all values in the in memory config.
+            </summary>
+            <param name="secret">Secret to encrypt.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.FindServiceByNameOrId(System.String)">
+            <summary>
+            Find a service by its name or ID.
+            </summary>
+            <param name="nameOrId">The name or service ID to find.</param>
+            <returns>The <see cref="T:Microsoft.Bot.Configuration.ConnectedService"/>; or null if the service isn't found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.FindServiceByNameOrId``1(System.String)">
+            <summary>
+            Find a specific type of service by its name or ID.
+            </summary>
+            <typeparam name="T">The service type.</typeparam>
+            <param name="nameOrId">The name or service ID to find.</param>
+            <returns>The <see cref="T:Microsoft.Bot.Configuration.ConnectedService"/>; or null if the service isn't found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.FindService(System.String)">
+            <summary>
+            Find a service by ID.
+            </summary>
+            <param name="id">The ID of the service to find.</param>
+            <returns>The <see cref="T:Microsoft.Bot.Configuration.ConnectedService"/>; or null if the service isn't found.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.DisconnectServiceByNameOrId(System.String)">
+            <summary>
+            Remove a service by its name or ID.
+            </summary>
+            <param name="nameOrId">The name or service ID.</param>
+            <returns>The <see cref="T:Microsoft.Bot.Configuration.ConnectedService"/> that was found and removed.</returns>
+            <exception cref="T:System.Exception">No such service was found.</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.DisconnectServiceByNameOrId``1(System.String)">
+            <summary>
+            Remove a specific type of service by its name or ID.
+            </summary>
+            <typeparam name="T">The service type.</typeparam>
+            <param name="nameOrId">The name or service ID.</param>
+            <returns>The <see cref="T:Microsoft.Bot.Configuration.ConnectedService"/> that was found and removed.</returns>
+            <exception cref="T:System.Exception">No such service was found.</exception>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.DisconnectService(System.String)">
+            <summary>
+            Remove a service by its ID.
+            </summary>
+            <param name="id">The ID of the service.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.ValidateSecret(System.String)">
+            <summary>
+            Make sure secret is correct by decrypting the secretKey with it.
+            </summary>
+            <param name="secret">Secret to use.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.MigrateData">
+            <summary>
+            migrate old records to new records.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Configuration.BotConfiguration.BotServiceConverter">
+            <summary>
+            Converter for strongly typed connected services.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.BotServiceConverter.CanConvert(System.Type)">
+            <summary>
+            Checks whether the connected service can be converted to the provided type.
+            </summary>
+            <param name="objectType">Type to be checked for conversion. </param>
+            <returns>Whether the connected service can be converted to the provided type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.BotServiceConverter.ReadJson(Newtonsoft.Json.JsonReader,System.Type,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfiguration.BotServiceConverter.WriteJson(Newtonsoft.Json.JsonWriter,System.Object,Newtonsoft.Json.JsonSerializer)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfigurationExtensions.IsProjectNameSpaceless(Microsoft.Bot.Configuration.BotConfiguration,System.String)">
+            <summary>
+            Check if the Project's Name contains white spaces.
+            </summary>
+            <param name="botConfiguration">BotConfiguration object to extend.</param>
+            <param name="folder">Folder's path to validate.</param>
+            <exception cref="T:System.Exception"> Thrown when no '.scproj' file is found or when there are two or more 'csproj' files.</exception>
+            <exception cref="T:System.ArgumentNullException"> Thrown when param 'folder' is null.</exception>
+            <returns>Boolean that indicates if a Project's Name is spaceless.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfigurationExtensions.ValidateLuisKeyExistence(Microsoft.Bot.Configuration.BotConfiguration)">
+            <summary>
+            Checks if the <see cref="T:Microsoft.Bot.Configuration.LuisService"/> has its key defined.
+            </summary>
+            <param name="botConfiguration">BotConfiguration object to extend.</param>
+            <returns>Tuple with a boolean that indicates if a bot configuration file's Luis keys are present and its Error message.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotConfigurationExtensions.ValidateQnAKeyExistence(Microsoft.Bot.Configuration.BotConfiguration)">
+            <summary>
+            Checks if the <see cref="T:Microsoft.Bot.Configuration.QnAMakerService"/> has its key defined.
+            </summary>
+            <param name="botConfiguration">BotConfiguration object to extend.</param>
+            <returns>Boolean that indicates if a bot configuration file's QnAMaker keys are present.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.Encryption.EncryptUtilities.GenerateKey">
+            <summary>
+            Generates a key to use for encryption.
+            </summary>
+            <returns>The base64-encoded cryptokey.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.Encryption.EncryptUtilities.Encrypt(System.String,System.String)">
+            <summary>
+            Encrypts a string.
+            </summary>
+            <param name="plainText">The string to encrypt.</param>
+            <param name="key">The key to use for encryption.</param>
+            <returns>The base64-encrypted value.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.Encryption.EncryptUtilities.Decrypt(System.String,System.String)">
+            <summary>
+            Decrypts a string.
+            </summary>
+            <param name="encryptedText">The base64-encrypted string.</param>
+            <param name="key">The key to use for decryption.</param>
+            <returns>The decrypted string.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.Encryption.EncryptUtilities.EncryptStringToBytes_Aes(System.String,System.Byte[],System.Byte[])">
+            <summary>
+            Encrypts a string using Advanced Encryption Standard (AES).
+            </summary>
+            <param name="plainText">The text to encrypt.</param>
+            <param name="key">The 32-byte encryption key to use.</param>
+            <param name="iv">A 16-byte initialization vector to use.</param>
+            <returns>The initialization vector and the encrypted bytes.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.Encryption.EncryptUtilities.DecryptStringFromBytes_Aes(System.Byte[],System.Byte[],System.Byte[])">
+            <summary>
+            Decrypts a string using Advanced Encryption Standard (AES).
+            </summary>
+            <param name="cipherText">The encrypted bytes.</param>
+            <param name="key">The 32-byte encryption key to use.</param>
+            <param name="iv">A 16-byte initialization vector to use.</param>
+            <returns>The decrypted string.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.AppInsightsService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.AppInsightsService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AppInsightsService.InstrumentationKey">
+            <summary>
+            Gets or sets instrumentation Key.
+            </summary>
+            <value>The Instrumentation Key.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AppInsightsService.ApplicationId">
+            <summary>
+            Gets or sets applicationId for programatic access to appInsights.
+            </summary>
+            <value>The Application Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AppInsightsService.ApiKeys">
+            <summary>
+            Gets or sets apiKeys.
+            </summary>
+            <value>The Api Keys.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.AppInsightsService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.AppInsightsService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.AzureService.#ctor(System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.AzureService"/> class.
+            </summary>
+            <param name="type">Identifies the service type.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AzureService.TenantId">
+            <summary>
+            Gets or sets tenant ID for the service, for example "contoso.onmicrosoft.com".
+            </summary>
+            <value>The Tenant Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AzureService.SubscriptionId">
+            <summary>
+            Gets or sets subscription ID.
+            </summary>
+            <value>The subscription Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AzureService.ResourceGroup">
+            <summary>
+            Gets or sets the resource group.
+            </summary>
+            <value>The Resource Group.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.AzureService.ServiceName">
+            <summary>
+            Gets or sets the service name.
+            </summary>
+            <value>The Name of the Service.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BlobStorageService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.BlobStorageService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BlobStorageService.ConnectionString">
+            <summary>
+            Gets or sets connection string.
+            </summary>
+            <value>The connection String.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BlobStorageService.Container">
+            <summary>
+            Gets or sets container.
+            </summary>
+            <value>The container.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BlobStorageService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BlobStorageService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.BotService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.BotService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.BotService.AppId">
+            <summary>
+            Gets or sets appId for the bot.
+            </summary>
+            <value>The App Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.ConnectedService.Type">
+            <summary>
+            Gets or sets type of the service.
+            </summary>
+            <value>The type of service.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.ConnectedService.Name">
+            <summary>
+            Gets or sets user friendly name of the service.
+            </summary>
+            <value>The name of the service.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.ConnectedService.Id">
+            <summary>
+            Gets or sets unique id for the service.
+            </summary>
+            <value>The Id of the service.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.ConnectedService.Properties">
+            <summary>
+            Gets or sets properties that are not otherwise defined.
+            </summary>
+            <value>The extended properties for the object.</value>
+            <remarks>With this, properties not represented in the defined type are not dropped when
+            the JSON object is deserialized, but are instead stored in this property. Such properties
+            will be written to a JSON object when the instance is serialized.</remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.ConnectedService.Decrypt(System.String)">
+            <summary>
+            Decrypt properties on this service.
+            </summary>
+            <param name="secret"> secret to use to decrypt the keys in this service.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.ConnectedService.Encrypt(System.String)">
+            <summary>
+            Encrypt properties on this service.
+            </summary>
+            <param name="secret">secret to use to encrypt the keys in this service.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.CosmosDbService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.CosmosDbService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.CosmosDbService.Endpoint">
+            <summary>
+            Gets or sets endpoint for CosmosDB.
+            </summary>
+            <value>The endpoint for CosmosDB.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.CosmosDbService.Key">
+            <summary>
+            Gets or sets key for accessing CosmosDB.
+            </summary>
+            <value>The key for CosmosDB.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.CosmosDbService.Database">
+            <summary>
+            Gets or sets database.
+            </summary>
+            <value>The database for CosmosDB.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.CosmosDbService.Collection">
+            <summary>
+            Gets or sets collection.
+            </summary>
+            <value>The collection for CosmosDB.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.CosmosDbService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.CosmosDbService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.DispatchService.ServiceIds">
+            <summary>
+            Gets or sets the service IDs to include in the dispatch model.
+            </summary>
+            <value>The list of service Ids.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.EndpointService.AppId">
+            <summary>
+            Gets or sets appId for the bot.
+            </summary>
+            <value>The App Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.EndpointService.AppPassword">
+            <summary>
+            Gets or sets app password for the bot.
+            </summary>
+            <value>The App password.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.EndpointService.ChannelService">
+            <summary>
+            Gets or sets the channel service (Azure or US Government Azure) for the bot.
+            </summary>
+            <value>The Channel Service.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.EndpointService.Endpoint">
+            <summary>
+            Gets or sets endpoint url for the bot.
+            </summary>
+            <value>The Endpoint for the Bot.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.EndpointService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.EndpointService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.FileService.Path">
+            <summary>
+            Gets or sets file path.
+            </summary>
+            <value>The Path for the file.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.GenericService.Url">
+            <summary>
+            Gets or sets url for deep link to service.
+            </summary>
+            <value>The Url to Service.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.GenericService.Configuration">
+            <summary>
+            Gets or sets configuration.
+            </summary>
+            <value>The service configuration.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.GenericService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.GenericService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.LuisService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.LuisService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.LuisService.AppId">
+            <summary>
+            Gets or sets appId for the LUIS model.
+            </summary>
+            <value>The App Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.LuisService.AuthoringKey">
+            <summary>
+            Gets or sets authoringKey for interacting with service management.
+            </summary>
+            <value>The Authoring Key.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.LuisService.SubscriptionKey">
+            <summary>
+            Gets or sets subscriptionKey for accessing this service.
+            </summary>
+            <value>The Subscription Key.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.LuisService.Version">
+            <summary>
+            Gets or sets version of the LUIS app.
+            </summary>
+            <value>The Version of the LUIS app.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.LuisService.Region">
+            <summary>
+            Gets or sets region.
+            </summary>
+            <value>The Region.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.LuisService.GetEndpoint">
+            <summary>
+            Gets the endpoint for this LUIS service.
+            </summary>
+            <returns>The URL for this service.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.LuisService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.LuisService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.QnAMakerService.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Configuration.QnAMakerService"/> class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.QnAMakerService.KbId">
+            <summary>
+            Gets or sets kbId.
+            </summary>
+            <value>The Knowledge Base Id.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.QnAMakerService.SubscriptionKey">
+            <summary>
+            Gets or sets subscriptionKey.
+            </summary>
+            <value>The subscription key.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.QnAMakerService.Hostname">
+            <summary>
+            Gets or sets url for the deployed qnaMaker instance.
+            </summary>
+            <value>The Host name.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Configuration.QnAMakerService.EndpointKey">
+            <summary>
+            Gets or sets endpointKey.
+            </summary>
+            <value>The endpoint.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.QnAMakerService.Encrypt(System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:Microsoft.Bot.Configuration.QnAMakerService.Decrypt(System.String)">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

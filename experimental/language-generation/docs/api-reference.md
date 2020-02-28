@@ -2,61 +2,118 @@
 
 For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
-### TemplateEngine Class
+### LGFile Class
 
 #### Fields
 ``` C#
 /// <summary>
-/// Parsed LG templates
+/// Gets get all templates from current lg file and reference lg files.
 /// </summary>
-public List<LGTemplate> Templates = new List<LGTemplate>();
+/// <value>
+/// All templates from current lg file and reference lg files.
+/// </value>
+public IList<LGTemplate> AllTemplates {get;}
+
+/// <summary>
+/// Gets get all diagnostics from current lg file and reference lg files.
+/// </summary>
+/// <value>
+/// All diagnostics from current lg file and reference lg files.
+/// </value>
+public IList<Diagnostic> AllDiagnostics {get;}
+
+/// <summary>
+/// Gets or sets delegate for resolving resource id of imported lg file.
+/// </summary>
+/// <value>
+/// Delegate for resolving resource id of imported lg file.
+/// </value>
+public ImportResolverDelegate ImportResolver { get; set; }
+
+/// <summary>
+/// Gets or sets templates that this LG file contains directly.
+/// </summary>
+/// <value>
+/// templates that this LG file contains directly.
+/// </value>
+public IList<LGTemplate> Templates { get; set; }
+
+/// <summary>
+/// Gets or sets expression parser.
+/// </summary>
+/// <value>
+/// expression parser.
+/// </value>
+public ExpressionEngine ExpressionEngine { get; set; }
+
+/// <summary>
+/// Gets or sets import elements that this LG file contains directly.
+/// </summary>
+/// <value>
+/// import elements that this LG file contains directly.
+/// </value>
+public IList<LGImport> Imports { get; set; }
+
+/// <summary>
+/// Gets or sets all references that this LG file has from <see cref="Imports"/>.
+/// Notice: reference includes all child imports from the LG file,
+/// not only the children belong to this LG file directly.
+/// so, reference count may >= imports count. 
+/// </summary>
+/// <value>
+/// all references that this LG file has from <see cref="Imports"/>.
+/// </value>
+public IList<LGFile> References { get; set; }
+
+/// <summary>
+/// Gets or sets diagnostics.
+/// </summary>
+/// <value>
+/// diagnostics.
+/// </value>
+public IList<Diagnostic> Diagnostics { get; set; }
+
+/// <summary>
+/// Gets or sets LG content.
+/// </summary>
+/// <value>
+/// LG content.
+/// </value>
+public string Content { get; set; }
+
+/// <summary>
+/// Gets or sets id of this LG file.
+/// </summary>
+/// <value>
+/// id of this lg source. For file, is full path.
+/// </value>
+public string Id { get; set; }
 ```
 
 #### Constructors
 ```C#
-/// <summary>
-/// Return an empty engine, you can then use AddFile\AddFiles to add files to it, 
-/// or you can just use this empty engine to evaluate inline template
-/// </summary>
-/// <param name="expressionEngine">The expression engine this template engine based on.</param>
-public TemplateEngine(ExpressionEngine expressionEngine = null)
+public LGFile(
+IList<LGTemplate> templates = null,
+IList<LGImport> imports = null,
+IList<Diagnostic> diagnostics = null,
+IList<LGFile> references = null,
+string content = null,
+string id = null,
+ExpressionEngine expressionEngine = null,
+ImportResolverDelegate importResolver = null)
+{
+    Templates = templates ?? new List<LGTemplate>();
+    Imports = imports ?? new List<LGImport>();
+    Diagnostics = diagnostics ?? new List<Diagnostic>();
+    References = references ?? new List<LGFile>();
+    Content = content ?? string.Empty;
+    ImportResolver = importResolver;
+    Id = id ?? string.Empty;
+    ExpressionEngine = expressionEngine ?? new ExpressionEngine();
+}
 ```
 
 #### Methods
-```C#
- /// <summary>
-/// Load .lg files into template engine
-/// You can add one file, or mutlple file as once
-/// If you have multiple files referencing each other, make sure you add them all at once,
-/// otherwise static checking won't allow you to add it one by one.
-/// </summary>
-/// <param name="filePaths">Paths to .lg files.</param>
-/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
-/// <returns>Teamplate engine with parsed files.</returns>
-public TemplateEngine AddFiles(IEnumerable<string> filePaths, ImportResolverDelegate importResolver = null)
-```
-
-
-```C#
- /// <summary>
-/// Load single .lg file into template engine.
-/// </summary>
-/// <param name="filePath">Path to .lg file.</param>
-/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
-/// <returns>Teamplate engine with single parsed file.</returns>
-public TemplateEngine AddFile(string filePath, ImportResolverDelegate importResolver = null)
-```
-
-```C#
-/// <summary>
-/// Add text as lg file content to template engine. A fullpath id is needed when importResolver is empty, or simply pass in customized importResolver.
-/// </summary>
-/// <param name="content">Text content contains lg templates.</param>
-/// <param name="id">id is the content identifier. If <see cref="importResolver"/> is null, id should must be a full path string. </param>
-/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
-/// <returns>Template engine with the parsed content.</returns>
-public TemplateEngine AddText(string content, string id = "", ImportResolverDelegate importResolver = null)
-```
 
 ```C#
 /// <summary>
@@ -65,7 +122,7 @@ public TemplateEngine AddText(string content, string id = "", ImportResolverDele
 /// <param name="templateName">Template name to be evaluated.</param>
 /// <param name="scope">The state visible in the evaluation.</param>
 /// <returns>Evaluate result.</returns>
-public string EvaluateTemplate(string templateName, object scope = null)
+public object EvaluateTemplate(string templateName, object scope = null)
 ```
 
 ```C#
@@ -76,17 +133,51 @@ public string EvaluateTemplate(string templateName, object scope = null)
 /// <param name="templateName">Template name to be evaluated.</param>
 /// <param name="scope">The state visible in the evaluation.</param>
 /// <returns>Expand result.</returns>
-public List<string> ExpandTemplate(string templateName, object scope = null)
+public IList<string> ExpandTemplate(string templateName, object scope = null)
 ```
 
 ```C#
 /// <summary>
-/// Analyze a given template and return it's referenced variables
+/// (experimental)
+/// Analyzer a template to get the static analyzer results including variables and template references.
 /// </summary>
-/// <param name="templateName">Template name</param>
-/// <returns>list of variable names</returns>
-public List<string> AnalyzeTemplate(string templateName)
+/// <param name="templateName">Template name to be evaluated.</param>
+/// <returns>analyzer result.</returns>
+public AnalyzerResult AnalyzeTemplate(string templateName)
 ```
+
+```C#
+/// <summary>
+/// update an exist template.
+/// </summary>
+/// <param name="templateName">origin template name. the only id of a template.</param>
+/// <param name="newTemplateName">new template Name.</param>
+/// <param name="parameters">new params.</param>
+/// <param name="templateBody">new template body.</param>
+/// <returns>updated LG file.</returns>
+public LGFile UpdateTemplate(string templateName, string newTemplateName, List<string> parameters, string templateBody)
+```
+
+```C#
+/// <summary>
+/// Add a new template and return LG File.
+/// </summary>
+/// <param name="templateName">new template name.</param>
+/// <param name="parameters">new params.</param>
+/// <param name="templateBody">new  template body.</param>
+/// <returns>updated LG file.</returns>
+public LGFile AddTemplate(string templateName, List<string> parameters, string templateBody)
+```
+
+```C#
+/// <summary>
+/// Delete an exist template.
+/// </summary>
+/// <param name="templateName">which template should delete.</param>
+/// <returns>updated LG file.</returns>
+public LGFile DeleteTemplate(string templateName)
+```
+
 
 [1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Builder.LanguageGeneration
 [1]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botbuilder-lg
