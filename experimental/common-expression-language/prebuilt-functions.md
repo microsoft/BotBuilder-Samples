@@ -41,7 +41,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[count](#count)	|Returns the number of items in the collection	|
 |[foreach](#foreach)	|Operate on each element and return the new collection	|
 |[union](#union) | Return a collection that has all the items from the specified collections |
-|[skip](#skip) | Remove items from the front of a collection, and return *all the other* items |
+|[skip](#skip) | Remove items from the front of a collection, and return *\all the other* items |
 |[take](#take) | Return items from the front of a collection |
 |[intersection](#intersection) | Return a collection that has only the common items across the specified collections |
 |[subArray](#subArray) | Returns a sub-array from specified start and end position. Index values start with the number 0. |
@@ -49,9 +49,11 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[where](#where) | Filter on each element and return the new collection of filtered elements which match specific condition |
 |[sortBy](#sortBy) | Sort elements in the collection with ascending order and return the sorted collection |
 |[sortByDescending](#sortByDescending) | Sort elements in the collection with descending order and return the sorted collection |
-|[indicesAndValues](#indicesAndValues) | Turned an array into an array of objects with index and value property |
+|[indicesAndValues](#indicesAndValues) | Turned an array or object into an array of objects with index and value property |
+|[flatten](#flatten) | Flatten arrays into an array with non-array values |
+|[unique](#unique) | Remove all duplicates from an array |
 
-### Logical comparison functions
+### Logical comparison functionsl
 |Function	|Explanation|
 |-----------|-----------|
 |[and](#and)	|Logical and. Returns true if all specified expressions evaluate to true.	|
@@ -1840,20 +1842,20 @@ And returns this result: `1`
 
 ### indicesAndValues
 
-Turned an array into an array of objects with index (current index) and value property.
+Turn an array or object into an array of objects with index (current index) and value property.  For arrays the index is the position in the array.  For objects it is the key for the value.
 
 ```
-indicesAndValues('<collection>')
+indicesAndValues('<collection or object>')
 ```
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | Original array |
+| <*collection or object*> | Yes | Array | Original array or object |
 |||||
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*collection*> | Array | New array that each item has two properties, one is index, present this item's origin index, the other one is value |
+| <*collection*> | Array | New array that each item has two properties, one is index with the position in an array or the key for an object, the other one is the corresponding value |
 ||||
 
 *Example*
@@ -3120,6 +3122,68 @@ And return this result:
 }
 ```
 
+<a name="flatten"/>
+
+### flatten
+
+Flatten an array into non-array values.  With an optional depth flatten only to that depth.
+
+```
+flatten([<collection>], '<depth>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to flatten |
+| <*depth*> | No | Number | Maximum depth to flatten, or infinity if not set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | new collection whose elements have been flattened to non-array to the specified depth |
+||||
+
+*Example 1*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+This example will flatten the array to: ```[1, 2, 3, 4, 5, 6]```
+
+*Example 2*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+
+This example will only flatten the first level to: ```[1, 2, [3, 4], [5, 6]]```
+
+<a name="unique"/>
+
+### unique
+
+```
+unique([<collection>])
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to modify |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | New collection with duplicate element removed |
+||||
+
+*Example 1*
+
+```
+unique(createArray(1, 2, 1))
+```
+
+This will remove the duplicate 1 and produce: ```[1, 2]```
+
 <a name="split"></a>
 
 ### split
@@ -3155,7 +3219,7 @@ split('', '')
 split('hello')
 ```
 
-And returns this array as the result: `["a", "b", "c"]`, `["h", "e", "l", "l", "o"]`, `[""]`, `[ ]`, `["h", "e", "l", "l", "o"]`.
+And returns these arrays as the result: `["a", "b", "c"]`, `["h", "e", "l", "l", "o"]`, `[""]`, `[ ]`, `["h", "e", "l", "l", "o"]`.
 
 <a name="startOfDay"></a>
 
