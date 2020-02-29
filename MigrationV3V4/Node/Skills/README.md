@@ -59,8 +59,7 @@ The solution includes a parent bot (`v4-root-bot`) built using [v4.7.2](https://
 
 ### Root bot setup
 
-1. In the 'v4-root-bot' folder, create a '.env' file in each v3 skill bot root folder and copy / paste the contents of '.env.example' into this new file.
-2. Fill in the '.env' values based on your bot's specific configuration
+For `v4-root-bot`, fill in the '.env' values based on your bot's specific configuration:
 
 ```
 MicrosoftAppId={V4_BOT_APP_ID}
@@ -78,9 +77,7 @@ SkillBookingEndpoint={V3_BOOKING_SKILL_BOT_ENDPOINT ex: http://{HOST}{PORT}/api/
 
 ### Skill bots setup
 
-1. Create a bot registration in the azure portal for the `v4-root-bot`
-2. In the 'v3-skill-bot' folders, create a '.env' file in each v3 skill bot root folder and copy / paste the contents of '.env.example' into this new file.
-3. Fill in the '.env' values based on your bot's specific configuration
+For both `v3-skill-bot` and `v3-booking-bot-skill`, fill in the '.env' values based on your bot's specific configuration:
 
 ```
 MICROSOFT_APP_ID={V3_BOT_APP_ID}
