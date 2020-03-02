@@ -1885,7 +1885,7 @@ indicesAndValues('<collection or object>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection or object*> | Yes | Array | Original array or object |
+| <*collection or object*> | Yes | Array or Object | Original array or object |
 |||||
 
 | Return value | Type | Description |
@@ -1946,6 +1946,28 @@ join(foreach(indicesAndValues(items), item, item.value), ',')
 ```
 
 will return `zero,one,two`, and this expression has the same effect with `join(items, ',')`
+
+Another example, with object parameter.
+
+Suppose there is an object { user: {name: 'jack', age: 20} }
+
+```
+indicesAndValues(user)
+```
+
+will get 
+```
+[
+  {
+    index: 'name',
+    value: 'jack'
+  },
+  {
+    index: 'age',
+    value: 20
+  }
+]
+```
 
 
 <a name="int"></a>
