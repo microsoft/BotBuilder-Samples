@@ -2,7 +2,7 @@
   "name": "Testbot.Json",
   "defaultLanguage": "en-us",
   "models": [
-    "samples/ToDoLuisBot/ToDoLuis.lu",
-    "samples/Sandwich/OrderSandwichApp.lu"
+    "Samples/ToDoLuisBot/ToDoLuis.lu",
+    "Samples/sandwich/luis/sandwich.en-us.lu"
   ]
 }

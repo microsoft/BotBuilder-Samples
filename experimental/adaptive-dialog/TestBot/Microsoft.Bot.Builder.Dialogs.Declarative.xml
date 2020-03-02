@@ -4,22 +4,105 @@
         <name>Microsoft.Bot.Builder.Dialogs.Declarative</name>
     </assembly>
     <members>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeAdapterExtensions.UseResourceExplorer(Microsoft.Bot.Builder.BotAdapter,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.IEnumerable{Microsoft.Bot.Builder.Dialogs.Declarative.TypeRegistration})">
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.ComponentRegistration">
             <summary>
-            Register ResourceExplorer and optionally register more types.
+            ComponentRegistration is a placeholder class for discovering assets from components. 
             </summary>
-            <param name="botAdapter">BotAdapter to add middleware to.</param>
-            <param name="resourceExplorer">resourceExplorer to use.</param>
-            <param name="types">custom types to register.</param>
-            <returns>The bot adapter.</returns>
+            <remarks>
+            To make your components available to the system you derive from ComponentRegistration and implement the 
+            interfaces which definethe components.  These components then are consumed in appropriate places by the 
+            systems that need them. For example, to add declarative types to the system you simply add class that 
+            implements IComponentDeclarativeTypes.
+            <code>
+            public class MyComponentRegistration : IComponentDeclarativeTypes
+            {
+                public IEnumerable&lt;DeclarativeType&gt;()
+                {  
+                     yield return new DeclarativeType&lt;MyType&gt;("Contoso.MyType");
+                     ...
+                }
+            }
+            </code>
+            </remarks>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeTypeLoader.LoadSetting(Microsoft.Extensions.Configuration.IConfiguration,System.String)">
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.ComponentRegistration.Registrations">
             <summary>
-            Load a settings style path settings.x.y.z -> x:y:z. 
+            Gets list of all classes in process which are derived from ComponentRegistration.
             </summary>
-            <param name="configuration">Configuration.</param>
-            <param name="value">Value to load.</param>
-            <returns>The value formatted to the configuration.</returns>
+            <remarks>
+            This is a lazy list because we only want to do this work once.  This calculates this by
+            using Reflection over all of the assemblies in the AppDomain (and their references) to discover
+            all of the ComponentRegistrationClasses and build a list of them.
+            </remarks>
+            <value>
+            A list of ComponentRegistration objects.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType">
+            <summary>
+            DeclarativeType object which is $kind => type.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType.#ctor">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType"/> class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType.#ctor(System.String,System.Type)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType"/> class.
+            </summary>
+            <param name="kind">$kind.</param>
+            <param name="type">type.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType.Kind">
+            <summary>
+            Gets or sets the declarative id for this type.
+            </summary>
+            <value>
+            The declarative id for this type.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType.Type">
+            <summary>
+            Gets or sets the type for this registration.
+            </summary>
+            <value>
+            The type for this registration.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType.CustomDeserializer">
+            <summary>
+            Gets or sets an optional custom deserializer for this type.
+            </summary>
+            <value>
+            An optional custom deserializer for this type.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.DeclarativeType`1">
+            <summary>
+            TypeRegistration of Kind => type using generic.
+            </summary>
+            <typeparam name="T">type.</typeparam>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.IComponentDeclarativeTypes">
+            <summary>
+            Interface for registering declarative kinds and jsonconverters to support them.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.IComponentDeclarativeTypes.GetDeclarativeTypes">
+            <summary>
+            Return an enumeration of KindRegistrations $kind => Type.
+            </summary>
+            <returns>declarative type registration.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.IComponentDeclarativeTypes.GetConverters(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.Stack{System.String})">
+            <summary>
+            Return an enumeration of JsonConverters for supporting loading declarative types.
+            </summary>
+            <param name="resourceExplorer">resourceExplorer.</param>
+            <param name="paths">paths.</param>
+            <returns>jsonsconverters.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.Loaders.ComponentDialogLoader">
             <summary>
@@ -226,7 +309,7 @@
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer">
             <summary>
-            Class which gives standard access to file based resources.
+            Class which gives standard access to content resources.
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.#ctor">
@@ -270,6 +353,14 @@
             <param name="resource">resource to bind to.</param>
             <returns>created type.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.LoadTypeAsync``1(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.IResource)">
+            <summary>
+            Create Type from resource.
+            </summary>
+            <typeparam name="T">type to create.</typeparam>
+            <param name="resource">resource to bind to.</param>
+            <returns>task which will resolve to created type.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.GetResources(System.String)">
             <summary>
             Get resources of a given type.
@@ -292,29 +383,73 @@
             <param name="resource">resource that was found or null.</param>
             <returns>true if found.</returns>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.TypeRegistration.Name">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.RegisterType``1(System.String,Microsoft.Bot.Builder.Dialogs.Declarative.Loaders.ICustomDeserializer)">
             <summary>
-            Gets or sets the declarative id for this type.
+            Register a declarative type with the resource loader system.
             </summary>
-            <value>
-            The declarative id for this type.
-            </value>
+            <typeparam name="T">type of object to create.</typeparam>
+            <param name="kind">the $kind name to map to this type.</param>
+            <param name="loader">optional custom deserializer.</param>
+            <returns>Resource explorer for fluent style multiple calls.</returns>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.TypeRegistration.Type">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.RegisterType(System.String,System.Type,Microsoft.Bot.Builder.Dialogs.Declarative.Loaders.ICustomDeserializer)">
             <summary>
-            Gets or sets the type for this registration.
+            Register a declarative type with the resource loader system.
             </summary>
-            <value>
-            The type for this registration.
-            </value>
+            <param name="kind">the $kind name to map to this type.</param>
+            <param name="type">type of object to create.</param>
+            <param name="loader">optional custom deserializer.</param>
+            <returns>Resource explorer for fluent style multiple calls.</returns>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Declarative.TypeRegistration.CustomDeserializer">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.BuildType``1(System.String,Newtonsoft.Json.Linq.JToken,Newtonsoft.Json.JsonSerializer)">
             <summary>
-            Gets or sets an optional custom deserializer for this type.
+            Build type for given $kind using the JToken/serializer as the source.
             </summary>
-            <value>
-            An optional custom deserializer for this type.
-            </value>
+            <typeparam name="T">type of object to create.</typeparam>
+            <param name="kind">$kind.</param>
+            <param name="obj">source object.</param>
+            <param name="serializer">serializer to user.</param>
+            <returns>instantiated object of type(T).</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.GetTypeForKind(System.String)">
+            <summary>
+            Get the type for $kind.
+            </summary>
+            <param name="kind">$kind.</param>
+            <returns>type of object.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.GetKindForType(System.Type)">
+            <summary>
+            Get the $kind for a type.
+            </summary>
+            <param name="type">type.</param>
+            <returns>$kind for the type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.GetKindForType``1">
+            <summary>
+            Get the $kind for a type.
+            </summary>
+            <typeparam name="T">type.</typeparam>
+            <returns>$kind for the type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.Dispose">
+            <summary>
+            Dispose of internal resources.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.IsRef(Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Determine if token is a reference.
+            </summary>
+            <param name="token">jtoken.</param>
+            <returns>true if it is string ref.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer.ResolveRefAsync(Newtonsoft.Json.Linq.JToken)">
+            <summary>
+            Resolves a ref to the actual object.
+            </summary>
+            <param name="refToken">reference.</param>
+            <returns>resolved object the reference refers to.</returns>
         </member>
     </members>
 </doc>

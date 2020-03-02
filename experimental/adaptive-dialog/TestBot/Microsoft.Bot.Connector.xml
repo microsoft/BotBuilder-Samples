@@ -291,6 +291,12 @@
             </summary>
             <returns>A lazy <see cref="T:Microsoft.Bot.Connector.Authentication.AdalAuthenticator"/>.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Authentication.AppCredentials.BuildIAuthenticator">
+            <summary>
+            Builds the lazy <see cref="T:Microsoft.Bot.Connector.Authentication.IAuthenticator" /> to be used for token acquisition.
+            </summary>
+            <returns>A lazy <see cref="T:Microsoft.Bot.Connector.Authentication.IAuthenticator"/>.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Connector.Authentication.AuthenticationConfiguration">
             <summary>
             General configuration settings for authentication.
@@ -1173,20 +1179,22 @@
             <param name="customHttpClient">Optional <see cref="T:System.Net.Http.HttpClient"/> to be used when acquiring tokens.</param>
             <param name="logger">Optional <see cref="T:Microsoft.Extensions.Logging.ILogger"/> to gather telemetry data while acquiring and managing credentials.</param>
         </member>
+        <member name="M:Microsoft.Bot.Connector.Authentication.MicrosoftGovernmentAppCredentials.#ctor(System.String,System.String,System.Net.Http.HttpClient,Microsoft.Extensions.Logging.ILogger,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Connector.Authentication.MicrosoftGovernmentAppCredentials"/> class.
+            </summary>
+            <param name="appId">The Microsoft app ID.</param>
+            <param name="password">The Microsoft app password.</param>
+            <param name="customHttpClient">Optional <see cref="T:System.Net.Http.HttpClient"/> to be used when acquiring tokens.</param>
+            <param name="logger">Optional <see cref="T:Microsoft.Extensions.Logging.ILogger"/> to gather telemetry data while acquiring and managing credentials.</param>
+            <param name="oAuthScope">The scope for the token (defaults to <see cref="F:Microsoft.Bot.Connector.Authentication.GovernmentAuthenticationConstants.ToChannelFromBotOAuthScope"/> if null).</param>
+        </member>
         <member name="P:Microsoft.Bot.Connector.Authentication.MicrosoftGovernmentAppCredentials.OAuthEndpoint">
             <summary>
             Gets the OAuth endpoint to use.
             </summary>
             <value>
             The OAuth endpoint to use.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Connector.Authentication.MicrosoftGovernmentAppCredentials.OAuthScope">
-            <summary>
-            Gets the OAuth scope to use.
-            </summary>
-            <value>
-            The OAuth scope to use.
             </value>
         </member>
         <member name="T:Microsoft.Bot.Connector.Authentication.OAuthConfiguration">
@@ -1414,6 +1422,22 @@
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Connector.BotSignInExtensions.GetSignInUrlAsync(Microsoft.Bot.Connector.IBotSignIn,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='state'>
+            </param>
+            <param name='codeChallenge'>
+            </param>
+            <param name='emulatorUrl'>
+            </param>
+            <param name='finalRedirect'>
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.BotSignInExtensions.GetSignInResourceAsync(Microsoft.Bot.Connector.OAuthClient,System.String,System.String,System.String,System.String,System.Threading.CancellationToken)">
             <param name='operations'>
             The operations group for this extension method.
             </param>
@@ -3755,6 +3779,68 @@
             Thrown when a required parameter is null
             </exception>
         </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.ExchangeAsyncWithHttpMessagesAsync(System.String,System.String,System.String,Microsoft.Bot.Schema.TokenExchangeRequest,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='userId'>
+            </param>
+            <param name='connectionName'>
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='exchangeRequest'>
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Bot.Schema.ErrorResponseException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.OAuthClient.GetSignInResourceWithHttpMessagesAsync(System.String,System.String,System.String,System.String,System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.List{System.String}},System.Threading.CancellationToken)">
+            <param name='state'>
+            </param>
+            <param name='codeChallenge'>
+            </param>
+            <param name='emulatorUrl'>
+            </param>
+            <param name='finalRedirect'>
+            </param>
+            <param name='customHeaders'>
+            Headers that will be added to request.
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+            <exception cref="T:Microsoft.Rest.HttpOperationException">
+            Thrown when the operation returned an invalid status code
+            </exception>
+            <exception cref="T:Microsoft.Rest.SerializationException">
+            Thrown when unable to deserialize the response
+            </exception>
+            <exception cref="T:Microsoft.Rest.ValidationException">
+            Thrown when a required parameter is null
+            </exception>
+            <exception cref="T:System.ArgumentNullException">
+            Thrown when a required parameter is null
+            </exception>
+            <return>
+            A response object containing the response body and response headers.
+            </return>
+        </member>
         <member name="M:Microsoft.Bot.Connector.OAuthClient.Initialize">
             <summary>
             Initializes client properties.
@@ -4503,6 +4589,22 @@
             <param name='channelId'>
             </param>
             <param name='include'>
+            </param>
+            <param name='cancellationToken'>
+            The cancellation token.
+            </param>
+        </member>
+        <member name="M:Microsoft.Bot.Connector.UserTokenExtensions.ExchangeAsyncAsync(Microsoft.Bot.Connector.OAuthClient,System.String,System.String,System.String,Microsoft.Bot.Schema.TokenExchangeRequest,System.Threading.CancellationToken)">
+            <param name='operations'>
+            The operations group for this extension method.
+            </param>
+            <param name='userId'>
+            </param>
+            <param name='connectionName'>
+            </param>
+            <param name='channelId'>
+            </param>
+            <param name='exchangeRequest'>
             </param>
             <param name='cancellationToken'>
             The cancellation token.

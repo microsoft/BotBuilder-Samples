@@ -1192,18 +1192,18 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.#ctor(Microsoft.Bot.Builder.Dialogs.DialogSet,Microsoft.Bot.Builder.ITurnContext,Microsoft.Bot.Builder.Dialogs.DialogState)">
             <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogContext"/> class from Turn context.
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogContext"/> class from the turn context.
             </summary>
-            <param name="dialogs">dialogset.</param>
-            <param name="turnContext">turn context.</param>
-            <param name="state">dialogState.</param>
+            <param name="dialogs">The dialog set to create the dialog context for.</param>
+            <param name="turnContext">The current turn context.</param>
+            <param name="state">The state property from which to retrieve the dialog context.</param>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.#ctor(Microsoft.Bot.Builder.Dialogs.DialogSet,Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Builder.Dialogs.DialogState)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogContext"/> class.
             </summary>
             <param name="dialogs">Parent dialog set.</param>
-            <param name="parentDialogContext">Parent dialog state.</param>
+            <param name="parentDialogContext">Parent dialog context.</param>
             <param name="state">Current dialog state.</param>
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.DialogContext.Dialogs">
@@ -1272,7 +1272,8 @@
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.PromptAsync(System.String,Microsoft.Bot.Builder.Dialogs.PromptOptions,System.Threading.CancellationToken)">
             <summary>
             Helper function to simplify formatting the options for calling a prompt dialog. This helper will
-            take a `PromptOptions` argument and then call[begin(context, dialogId, options)](#begin).
+            take an <paramref name="options"/> argument and then call
+            <see cref="M:Microsoft.Bot.Builder.Dialogs.DialogContext.BeginDialogAsync(System.String,System.Object,System.Threading.CancellationToken)"/>.
             </summary>
             <param name="dialogId">ID of the prompt dialog to start.</param>
             <param name="options">Information to pass to the prompt dialog being started.</param>
@@ -1303,13 +1304,14 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.EndDialogAsync(System.Object,System.Threading.CancellationToken)">
              <summary>
-             Ends a dialog by popping it off the stack and returns an optional result to the dialogs
-             parent.The parent dialog is the dialog the started the on being ended via a call to
-             either[begin()](#begin) or [prompt()](#prompt).
-             The parent dialog will have its `Dialog.resume()` method invoked with any returned
-             result. If the parent dialog hasn't implemented a `resume()` method then it will be
-             automatically ended as well and the result passed to its parent. If there are no more
-             parent dialogs on the stack then processing of the turn will end.
+             Ends a dialog by popping it off the stack and returns an optional result to the dialog's
+             parent. The parent dialog is the dialog the started the on being ended via a call to
+             either <see cref="M:Microsoft.Bot.Builder.Dialogs.DialogContext.BeginDialogAsync(System.String,System.Object,System.Threading.CancellationToken)"/> or
+             <see cref="M:Microsoft.Bot.Builder.Dialogs.DialogContext.PromptAsync(System.String,Microsoft.Bot.Builder.Dialogs.PromptOptions,System.Threading.CancellationToken)"/>. The parent dialog
+             will have its <see cref="M:Microsoft.Bot.Builder.Dialogs.Dialog.ResumeDialogAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Builder.Dialogs.DialogReason,System.Object,System.Threading.CancellationToken)"/>
+             method invoked with any returned result. If the parent dialog hasn't implemented a `ResumeDialogAsync`
+             method, then it will be automatically ended as well and the result passed to its parent.
+             If there are no more parent dialogs on the stack then processing of the turn will end.
              </summary>
              <param name="result">Optional, result to pass to the parent context.</param>
              <param name="cancellationToken">A cancellation token that can be used by other objects
@@ -1321,7 +1323,7 @@
              In general, the parent context is the dialog or bot turn handler that started the dialog.
              If the parent is a dialog, the stack calls the parent's
              <see cref="M:Microsoft.Bot.Builder.Dialogs.Dialog.ResumeDialogAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Builder.Dialogs.DialogReason,System.Object,System.Threading.CancellationToken)"/> method to
-             return a result to the parent dialog. If the parent dialog does not implement `ResumeDialogAsyn`,
+             return a result to the parent dialog. If the parent dialog does not implement `ResumeDialogAsync`,
              then the parent will end, too, and the result passed to the next parent context.
             
              The returned <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogTurnResult"/> contains the return value in its
@@ -1333,7 +1335,7 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.CancelAllDialogsAsync(System.Threading.CancellationToken)">
              <summary>
-             Deletes any existing dialog stack thus cancelling all dialogs on the stack.
+             Deletes any existing dialog stack thus canceling all dialogs on the stack.
              </summary>
              <param name="cancellationToken">A cancellation token that can be used by other objects
              or threads to receive notice of cancellation.</param>
@@ -1351,9 +1353,9 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.DialogContext.CancelAllDialogsAsync(System.Boolean,System.String,System.Object,System.Threading.CancellationToken)">
              <summary>
-             Deletes any existing dialog stack thus cancelling all dialogs on the stack.
+             Deletes any existing dialog stack thus canceling all dialogs on the stack.
              </summary>
-             <param name="cancelParents">If true the cancelation will bubble up through any parent dialogs as well.</param>
+             <param name="cancelParents">If true the cancellation will bubble up through any parent dialogs as well.</param>
              <param name="eventName">The event.</param>
              <param name="eventValue">The event value.</param>
              <param name="cancellationToken">A cancellation token that can be used by other objects
@@ -1768,6 +1770,21 @@
             </summary>
             <param name="obj">Object to map against.</param>
             <param name="action">Action to take.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.ObjectPath.GetProperties(System.Object)">
+            <summary>
+            Get all properties in an object.
+            </summary>
+            <param name="obj">Object to enumerate property names.</param>
+            <returns>enumeration of property names on the object if it is not a value type.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.ObjectPath.ContainsProperty(System.Object,System.String)">
+            <summary>
+            Detects if property exists on object.
+            </summary>
+            <param name="obj">object.</param>
+            <param name="name">name of the property.</param>
+            <returns>true if found.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.ObjectPath.Clone``1(``0)">
             <summary>
@@ -2825,23 +2842,6 @@
             </summary>
             <value>Id.</value>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Recognizer.RecognizeAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,System.Threading.CancellationToken)">
-            <summary>
-            Runs current DialogContext.TurnContext.Activity through a recognizer and returns a generic recognizer result.
-            </summary>
-            <param name="dialogContext">Dialog context.</param>
-            <param name="cancellationToken">Cancellation token.</param>
-            <returns>Analysis of utterance.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Recognizer.RecognizeAsync``1(Microsoft.Bot.Builder.Dialogs.DialogContext,System.Threading.CancellationToken)">
-            <summary>
-            Runs current DialogContext.TurnContext.Activity through a recognizer and returns a strongly-typed recognizer result using IRecognizerConvert.
-            </summary>
-            <typeparam name="T">The recognition result type.</typeparam>
-            <param name="dialogContext">Dialog context.</param>
-            <param name="cancellationToken">Cancellation token.</param>
-            <returns>Analysis of utterance.</returns>
-        </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Recognizer.RecognizeAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Schema.Activity,System.Threading.CancellationToken)">
             <summary>
             Runs current DialogContext.TurnContext.Activity through a recognizer and returns a generic recognizer result.
@@ -2858,27 +2858,6 @@
             <typeparam name="T">The recognition result type.</typeparam>
             <param name="dialogContext">Dialog context.</param>
             <param name="activity">activity to recognize.</param>
-            <param name="cancellationToken">Cancellation token.</param>
-            <returns>Analysis of utterance.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Recognizer.RecognizeAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Runs an utterance through an input recognizer and returns a generic recognizer result.
-            </summary>
-            <param name="dialogContext">Dialog context.</param>
-            <param name="text">text to recognize.</param>
-            <param name="locale">locale to use for recognition.</param>
-            <param name="cancellationToken">Cancellation token.</param>
-            <returns>Analysis of utterance.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Recognizer.RecognizeAsync``1(Microsoft.Bot.Builder.Dialogs.DialogContext,System.String,System.String,System.Threading.CancellationToken)">
-            <summary>
-            Runs an utterance through a recognizer and returns a strongly-typed recognizer result using IRecognizerConvert.
-            </summary>
-            <typeparam name="T">The recognition result type.</typeparam>
-            <param name="dialogContext">Dialog context.</param>
-            <param name="text">text to recognize.</param>
-            <param name="locale">locale to use for recognition.</param>
             <param name="cancellationToken">Cancellation token.</param>
             <returns>Analysis of utterance.</returns>
         </member>

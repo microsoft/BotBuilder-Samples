@@ -60,11 +60,12 @@
             <param name="httpResponse">The response sent on error or connection termination.</param>
             <returns>Returns on task completion.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Integration.AspNet.Core.BotFrameworkHttpClient.PostActivityAsync(System.String,System.String,System.Uri,System.Uri,System.String,Microsoft.Bot.Schema.Activity,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Builder.Integration.AspNet.Core.BotFrameworkHttpClient.PostActivityAsync``1(System.String,System.String,System.Uri,System.Uri,System.String,Microsoft.Bot.Schema.Activity,System.Threading.CancellationToken)">
             <summary>
             Forwards an activity to a skill (bot).
             </summary>
             <remarks>NOTE: Forwarding an activity to a skill will flush UserState and ConversationState changes so that skill has accurate state.</remarks>
+            <typeparam name="T">The type of body in the InvokeResponse.</typeparam>
             <param name="fromBotId">The MicrosoftAppId of the bot sending the activity.</param>
             <param name="toBotId">The MicrosoftAppId of the bot receiving the activity.</param>
             <param name="toUrl">The URL of the bot receiving the activity.</param>

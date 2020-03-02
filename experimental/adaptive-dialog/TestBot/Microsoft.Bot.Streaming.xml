@@ -764,6 +764,16 @@
             </param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will not resolve until the client stops listening for incoming messages.</returns>
         </member>
+        <member name="M:Microsoft.Bot.Streaming.Transport.WebSockets.WebSocketClient.ConnectAsyncEx(System.Collections.Generic.IDictionary{System.String,System.String},System.Threading.CancellationToken)">
+            <summary>
+            Establish a connection with optional custom headers.
+            </summary>
+            <param name="requestHeaders">An optional <see cref="T:System.Collections.Generic.IDictionary`2"/> of string header names and string header values to include when sending the
+            initial request to establish this connection.
+            </param>
+            <param name="cancellationToken">An optional <see cref="T:System.Threading.CancellationToken"/> used to signal this operation should be cancelled.</param>
+            <returns>A <see cref="T:System.Threading.Tasks.Task"/> that will not resolve until the client stops listening for incoming messages.</returns>
+        </member>
         <member name="M:Microsoft.Bot.Streaming.Transport.WebSockets.WebSocketClient.SendAsync(Microsoft.Bot.Streaming.StreamingRequest,System.Threading.CancellationToken)">
             <summary>
             Task used to send data over this client connection.
