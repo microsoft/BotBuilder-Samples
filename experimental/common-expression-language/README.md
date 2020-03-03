@@ -10,50 +10,50 @@ An adaptive expression can contain one or more explicit values, [pre-built funct
 
 ### Arithmetic operators
 
-| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+| Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|+          | Addition. E.g. A + B	                                                |[add][1]                           |
-|-	        | Subtraction. E.g. A – B	                                            |[sub][2]                           |
-|unary +    | Positive value E.g. +1, +A	                                                |N/A                                |
-|unary -	| Negative value E.g. –2, -B	                                        |N/A                                |
-|*	        | Multiplication. E.g. A * B	                                        |[mul][3]                           |
-|/	        | Division. E.g. A / B	                                                |[div][4]                           |
-|^	        | Exponentiation. E.g. A ^ B	                                        |[exp][5]                           |
-|%	        | Modulus. E.g. A % B	                                                |[mod][6]                           |
+|+          | Addition. E.g. A + B                                                    |[add][1]                           |
+|-            | Subtraction. E.g. A – B                                                |[sub][2]                           |
+|unary +    | Positive value E.g. +1, +A                                                    |N/A                                |
+|unary -    | Negative value E.g. –2, -B                                            |N/A                                |
+|*            | Multiplication. E.g. A * B                                            |[mul][3]                           |
+|/            | Division. E.g. A / B                                                    |[div][4]                           |
+|^            | Exponentiation. E.g. A ^ B                                            |[exp][5]                           |
+|%            | Modulus. E.g. A % B                                                    |[mod][6]                           |
 
 ### Comparison operators
 
-| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+| Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|==	        | Equals. E.g. A == B	                                                |[equals][7]                        |
-|!=	        | Not equals. E.g. A != B	                                            |[not][8]([equals][7]())            |
-|>	        | Greater than. A > B	                                                |[greater][9]                       |
-|<	        | Less than. A < B	                                                    |[less][10]                         |
-|>= 	    | Greater than or equal. A >= B	                                    |[greaterOrEquals][11]              |
-|<=	        | Less than or equal. A <= B	                                        |[lessOrEquals][12]                 |
+|==            | Equals. E.g. A == B                                                    |[equals][7]                        |
+|!=            | Not equals. E.g. A != B                                                |[not][8]([equals][7]())            |
+|>            | Greater than. A > B                                                    |[greater][9]                       |
+|<            | Less than. A < B                                                        |[less][10]                         |
+|>=         | Greater than or equal. A >= B                                        |[greaterOrEquals][11]              |
+|<=            | Less than or equal. A <= B                                            |[lessOrEquals][12]                 |
 
 ### Logical operators
 
-| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+| Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
-|\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
-|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[not][8]                           |
+|&&            |Logical operator – AND. E.g. exp1 && exp2                                                    |[and][13]                          |
+|\|\|        |Logical operator – OR. E.g. exp1 \|\| exp2                                                    |[or][14]                           |
+|!            |Logical operator – NOT. E.g. !exp1                                                            |[not][8]                           |
 
 
 ### Other operators and expression syntax
 
-| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+| Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|&, +	        |Concatenation operator. Operands will always be cast to string – E.g. A & B, 'foo' + ' bar' => 'foo bar', 'foo' + 3 => 'foo3', 'foo' + (3 + 3) => 'foo6'	            |N/A                                |
-|'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
-|"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
-|[]	        |Used to refer to an item in a list by its index. E.g. A[0]	                                |N/A                                |
-|@{}	    |Used to denote an expression. E.g. @{A == B}.                                              |N/A                                |
-|@{}	    |Used to denote a variable in template expansion. E.g. @{myVariable}	                    |N/A                                |
-|()	        |Enforces precedence order and groups sub expressions into larger expressions. E.g. (A+B)*C	|N/A                                |
-|.	        |Property selector. E.g. myObject.Property1	                                                |N/A                                |
-|\	        |Escape character for templates, expressions.                                               |N/A                                |
+|&, +            |Concatenation operator. Operands will always be cast to string – E.g. A & B, 'foo' + ' bar' => 'foo bar', 'foo' + 3 => 'foo3', 'foo' + (3 + 3) => 'foo6'                |N/A                                |
+|'            |Used to wrap a string literal. E.g. 'myValue'                                                |N/A                                |
+|"            |Used to wrap a string literal. E.g. "myValue"                                                |N/A                                |
+|[]            |Used to refer to an item in a list by its index. E.g. A[0]                                    |N/A                                |
+|${}        |Used to denote an expression. E.g. ${A == B}.                                              |N/A                                |
+|${}        |Used to denote a variable in template expansion. E.g. ${myVariable}                        |N/A                                |
+|()            |Enforces precedence order and groups sub expressions into larger expressions. E.g. (A+B)*C    |N/A                                |
+|.            |Property selector. E.g. myObject.Property1                                                    |N/A                                |
+|\            |Escape character for templates, expressions.                                               |N/A                                |
 
 ## Variables
 
