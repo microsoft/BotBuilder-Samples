@@ -14,13 +14,13 @@ LG can be used to enhance the entire conversational experience. Using LG one can
 
 At the core of LG lies template expansion and entity substitution. You can provide one-off variation for expansion as well as conditionally expand a template. The output from LG can be a simple text string, multi-line response or a complex object payload that a layer above LG will use to construct an [activity][1].
 
-Below is a sample of a simple greeting LG template. Notice that all of the greetings reference the user's name in memory with the variable `@{user.name}`.
+Below is a sample of a simple greeting LG template. Notice that all of the greetings reference the user's name in memory with the variable `${user.name}`.
 
 ```markdown
 # greetingTemplate
-- Hello @{user.name}, how are you?
-- Good morning @{user.name}.It's nice to see you again.
-- Good day @{user.name}. What can I do for you today?
+- Hello ${user.name}, how are you?
+- Good morning ${user.name}.It's nice to see you again.
+- Good day ${user.name}. What can I do for you today?
 ```
 
 <!--
@@ -121,15 +121,15 @@ For example:
 - Evening
 
 # FinalGreeting
-- @{Greeting()} @{TimeOfDay()}
+- ${Greeting()} ${TimeOfDay()}
 
 # TimeOfDayWithCondition
-- IF: @{time == 'morning'}
-    - @{Greeting()} Morning
-- ELSEIF: @{time == 'evening'}
-    - @{Greeting()} Evening
+- IF: ${time == 'morning'}
+    - ${Greeting()} Morning
+- ELSEIF: ${time == 'evening'}
+    - ${Greeting()} Evening
 - ELSE:
-    - @{Greeting()} Afternoon
+    - ${Greeting()} Afternoon
 ```
 
 If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
@@ -158,14 +158,14 @@ Nightly release packages:
 ## Change Log
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
-    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
-    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `${TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `${<expression>}`. The old notation `{<expression>}` is no longer supported.
     - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
 
     |  Old  | New |
     |-------|-----|
-    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
-    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
 
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]

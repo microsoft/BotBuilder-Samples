@@ -35,7 +35,7 @@ Use '\\' as escape character.
 
 ```markdown
 # TemplateName
-- You can say cheese and tomato \\[toppings are optional\\]
+- You can say cheese and tomato \[toppings are optional\]
 ```
 
 ## Templates
@@ -98,7 +98,7 @@ Here is an example that shows the simple IF ... ELSE conditional response templa
 ```markdown
 > time of day greeting reply template with conditions.
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
+- IF: ${timeOfDay == 'morning'}
     - good morning
 - ELSE:
     - good evening
@@ -108,26 +108,26 @@ Here is another example that shows IF ... ELSEIF ... ELSE conditional response t
 
 ```markdown
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
-    - @{morningTemplate()}
-- ELSEIF: @{timeOfDay == 'afternoon'}
-    - @{afternoonTemplate()}
+- IF: ${timeOfDay == 'morning'}
+    - ${morningTemplate()}
+- ELSEIF: ${timeOfDay == 'afternoon'}
+    - ${afternoonTemplate()}
 - ELSE:
-    - I love the evenings! Just saying. @{eveningTemplate()}
+    - I love the evenings! Just saying. ${eveningTemplate()}
 ```
 
 #### Switch..Case
 
-The SWITCH ... CASE ... DEFAULT construct lets you design a conditional template that matches an expression's value to a case clause and produces output based on that case. Condition expressions are enclosed in curly brackets - @{}.
+The SWITCH ... CASE ... DEFAULT construct lets you design a conditional template that matches an expression's value to a case clause and produces output based on that case. Condition expressions are enclosed in curly brackets - ${}.
 
 Here's how you can specify SWITCH ... CASE block in LG.
 
 ```markdown
 # TestTemplate
-- SWITCH: @{condition}
-- CASE: @{case-expression-1}
+- SWITCH: ${condition}
+- CASE: ${case-expression-1}
     - output1
-- CASE: @{case-expression-2}
+- CASE: ${case-expression-2}
     - output2
 - DEFAULT:
    - final output
@@ -138,13 +138,13 @@ Here's a more complicated example:
 ```markdown
 > Note: any of the cases can include reference to one or more templates
 # greetInAWeek
-- SWITCH: @{dayOfWeek(utcNow())}
-- CASE: @{0}
+- SWITCH: ${dayOfWeek(utcNow())}
+- CASE: ${0}
     - Happy Sunday!
--CASE: @{6}
+-CASE: ${6}
     - Happy Saturday!
 -DEFAULT:  
-    - @{apology-phrase()}, @{defaultResponseTemplate()}
+    - ${apology-phrase()}, ${defaultResponseTemplate()}
 ```
 
 ### Structured response template
@@ -163,21 +163,21 @@ Read the [structure response templates](./structured-response-template.md) artic
 
 ### References to templates
 
-Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. References to other named templates are denoted using _- @{TemplateName()}._
+Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. References to other named templates are denoted using _- ${TemplateName()}._
 
 ```markdown
 > Example of a template that includes composition reference to another template
 # GreetingReply
-- @{GreetingPrefix()}, @{timeOfDayGreeting()}
+- ${GreetingPrefix()}, ${timeOfDayGreeting()}
 
 # GreetingPrefix
 - Hi
 - Hello
 
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
+- IF: ${timeOfDay == 'morning'}
     - good morning
-- ELSEIF: @{timeOfDay == 'afternoon'}
+- ELSEIF: ${timeOfDay == 'afternoon'}
     - good afternoon
 - ELSE:
     - good evening
@@ -196,25 +196,25 @@ Hello, good evening
 
 ## Entities
 
-When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets -  @{`entityName`}.
+When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets -  ${`entityName`}.
 
-Entities are expressed as `entityName`. - e.g. @{entityName == null} - when used as a parameter:
+Entities are expressed as `entityName`. - e.g. ${entityName == null} - when used as a parameter:
     - within a [pre-built function][4]
     - within a condition in a [conditional response template](#conditional-response-template)
     - to [template resolution call](#Parametrization-of-templates)
 
 ## Using pre-built functions in variations
 
-[Pre-built functions][4] supported by the [adaptive expressions][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - @{}.
+[Pre-built functions][4] supported by the [adaptive expressions][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - ${}.
 
 ```markdown
 # RecentTasks
-- IF: @{count(recentTasks) == 1}
-    - Your most recent task is @{recentTasks[0]}. You can let me know if you want to add or complete a task.
-- ELSEIF: @{count(recentTasks) == 2}
-    - Your most recent tasks are @{join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
-- ELSEIF: @{count(recentTasks) > 2}
-    - Your most recent @{count(recentTasks)} tasks are @{join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
+- IF: ${count(recentTasks) == 1}
+    - Your most recent task is ${recentTasks[0]}. You can let me know if you want to add or complete a task.
+- ELSEIF: ${count(recentTasks) == 2}
+    - Your most recent tasks are ${join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
+- ELSEIF: ${count(recentTasks) > 2}
+    - Your most recent ${count(recentTasks)} tasks are ${join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
 - ELSE:
     - You don't have any tasks.
 ```
@@ -232,11 +232,11 @@ In cases where you must have the template name be the same as a pre-built functi
 
 # myfunc1
 > will call template length, and return 'This is use's customized length function'
-- @{length('hi')}
+- ${length('hi')}
 
 # mufunc2
 > builtin function 'length' would be called, and output 2
-- @{prebuilt.length('hi')}
+- ${prebuilt.length('hi')}
 ```
 ## Multi-line text in variations
 Each one-of variation can include multi-line text enclosed in triple quotes.
@@ -253,15 +253,15 @@ Each one-of variation can include multi-line text enclosed in triple quotes.
     ```
 ```
 
-Multi-line variation can request template expansion and entity substitution by enclosing the requested operation in @{}.
+Multi-line variation can request template expansion and entity substitution by enclosing the requested operation in ${}.
 
 ```markdown
 # MultiLineExample
     - ```
         Here is what I have for the order
-        - Title: @{reservation.title}
-        - Location: @{reservation.location}
-        - Date/ time: @{reservation.dateTimeReadBack}
+        - Title: ${reservation.title}
+        - Location: ${reservation.location}
+        - Date/ time: ${reservation.dateTimeReadBack}
     ```
 ```
 
@@ -291,16 +291,16 @@ Here is an example of complex object (defined in the `ImageGalleryTemplate` temp
     # ImageGalleryTemplate
     - ```
     {
-        "titleText": "@{TitleText()}",
-        "subTitle": "@{SubText()}",
+        "titleText": "${TitleText()}",
+        "subTitle": "${SubText()}",
         "images": [
             {
                 "type": "Image",
-                "url": "@{CardImages()}"
+                "url": "${CardImages()}"
             },
             {
                 "type": "Image",
-                "url": "@{CardImages()}"
+                "url": "${CardImages()}"
             }
         ]
     }
@@ -313,18 +313,18 @@ To aid with contextual re-usability, templates can be parametrized. Different ca
 
 ```markdown
 # timeOfDayGreetingTemplate (param1)
-- IF: @{param1 == 'morning'}
+- IF: ${param1 == 'morning'}
     - good morning
-- ELSEIF: @{param1 == 'afternoon'}
+- ELSEIF: ${param1 == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
 
 # morningGreeting
-- @{timeOfDayGreetingTemplate('morning')}
+- ${timeOfDayGreetingTemplate('morning')}
 
 # timeOfDayGreeting
-- @{timeOfDayGreetingTemplate(timeOfDay)}
+- ${timeOfDayGreetingTemplate(timeOfDay)}
 ```
 
 ## Importing external references
