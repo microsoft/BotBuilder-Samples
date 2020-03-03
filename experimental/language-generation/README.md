@@ -87,7 +87,7 @@ For NodeJS
 
 ## Multi-lingual generation and language fallback policy
 
-Your bot might target more than one spoken/display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See the multi-turn-prompt-with-language fallback [sample][25] for an example of how to add language fallback to your bot.
+Your bot might target more than one spoken/display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See the [05.a.multi-turn-prompt-with-language-fallback sample][25] for an example of how to add language fallback to your bot.
 
 ## Grammar check and correction
 

@@ -40,11 +40,11 @@ Use '\\' as escape character.
 
 ## Templates
 
-At the core of LG is the concept of a template. Each template has a name and one of the following:
+At the core of language generation system is the concept of a template. Each template has a name and one of the following:
 
-- List of one-of variation text values
-- Structured content definition
-- A collection of conditions, each with:
+- list of one-of variation text values
+- structured content definition
+- a collection of conditions, each with:
     - an [adaptive expression][3]
     - a list of one-of variation text values per condition.
 
@@ -74,7 +74,7 @@ Variations are expressed as a Markdown list. You can prefix lists using the '-',
 
 A simple response template includes one or more variations of text that must be used for composition and expansion. 
 
-One of the variations provided will be picked at random by the LG library. 
+One of the variations provided will be picked at random by the LG library.
 
 Here is an example of a simple template that includes two variations.
 
@@ -91,7 +91,7 @@ Conditional response templates enable you to author content that is selecting ba
 
 #### If Else
 
-IF ... ELSEIF ... ELSE enable you to build a template that picks a collection based on a cascading order of conditions. Evaluation is top-down and stops when a condition evaluates to `true` or the ELSE block is hit.
+IF ... ELSEIF ... ELSE construct lets you to build a template that picks a collection based on a cascading order of conditions. Evaluation is top-down and stops when a condition evaluates to `true` or the ELSE block is hit.
 
 Here is an example that shows the simple IF ... ELSE conditional response template definition.
 
@@ -118,7 +118,7 @@ Here is another example that shows IF ... ELSEIF ... ELSE conditional response t
 
 #### Switch..Case
 
-The SWITCH ... CASE ... DEFAULT construct lets you design a conditional template that matches expression's value to a case clause and produces output based on that case. Condition expressions are enclosed in curly brackets - @{}
+The SWITCH ... CASE ... DEFAULT construct lets you design a conditional template that matches an expression's value to a case clause and produces output based on that case. Condition expressions are enclosed in curly brackets - @{}.
 
 Here's how you can specify SWITCH ... CASE block in LG.
 
@@ -133,7 +133,7 @@ Here's how you can specify SWITCH ... CASE block in LG.
    - final output
 ```
 
-Here's an example:
+Here's a more complicated example:
 
 ```markdown
 > Note: any of the cases can include reference to one or more templates
@@ -149,7 +149,7 @@ Here's an example:
 
 ### Structured response template
 
-Structured response templates enable you to define a complex structure that supports major LG functionality, like templating, composition, and substitution, while leaving the interpretation of the structured response up to the caller of the LG library.
+Structured response templates let you define a complex structure that supports major LG functionality, like templating, composition, and substitution, while leaving the interpretation of the structured response up to the caller of the LG library.
 
 For bot applications, we natively support:
 
@@ -160,9 +160,10 @@ For bot applications, we natively support:
 Read the [structure response templates](./structured-response-template.md) article for more information.
 
 ## Template composition and expansion
+
 ### References to templates
 
-Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. References to other named template are denoted using _- @{TemplateName()}._
+Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. References to other named templates are denoted using _- @{TemplateName()}._
 
 ```markdown
 > Example of a template that includes composition reference to another template
@@ -182,7 +183,7 @@ Variation text can include references to another named template to aid with comp
     - good evening
 ```
 
-Calling the `GreetingReply` template can result in one of the following expansion resolutions -
+Calling the `GreetingReply` template can result in one of the following expansion resolutions:
 
 ```
 Hi, good morning
@@ -195,16 +196,16 @@ Hello, good evening
 
 ## Entities
 
-- When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets - @{`entityName`}
-- When used as a parameter within a 
-    - [pre-built function][4] or 
-    - as a parameter to [template resolution call](#Parametrization-of-templates) or 
-    - a condition in [conditional response template](#conditional-response-template)
-they are simply expressed as `entityName`. - e.g. @{entityName == null}
-## Using pre-built functions in variations
-[Pre-built functions][4] supported by the [Common expression language][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - @{}.
+When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets -  @{`entityName`}.
 
-Here is an example that illustrates that - 
+Entities are expressed as `entityName`. - e.g. @{entityName == null} - when used as a parameter:
+    - within a [pre-built function][4]
+    - within a condition in a [conditional response template](#conditional-response-template)
+    - to [template resolution call](#Parametrization-of-templates)
+
+## Using pre-built functions in variations
+
+[Pre-built functions][4] supported by the [adaptive expressions][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - @{}.
 
 ```markdown
 # RecentTasks
@@ -217,13 +218,12 @@ Here is an example that illustrates that -
 - ELSE:
     - You don't have any tasks.
 ```
-The above example uses the [join][5] pre-built function to list all values in the `recentTasks` collection. 
 
-If template name is the same with builtin function's name, template will be executed first, without automatically executing one according to the parameter variable. 
+The example uses the [join][5] pre-built function to list all values in the `recentTasks` collection.
 
-In case where you must have the template name be the same as a prebuilt function name, you can use `prebuilt.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
+If the template name is the same as the built-in function's, the template will be executed first, without automatically executing one according to the parameter variable. <!--what does the last line mean?-->
 
-Here is an example that illustrates that
+In cases where you must have the template name be the same as a pre-built function name you can use `prebuilt.xxx`, as seen in the example below, to refer to the pre-built function and avoid possible collisions with your own template name.
 
 ```markdown
 > Custom length function with one parameter.
@@ -239,9 +239,8 @@ Here is an example that illustrates that
 - @{prebuilt.length('hi')}
 ```
 ## Multi-line text in variations
-Each one-of variation can include multi-line text enclosed in ```...```. 
+Each one-of variation can include multi-line text enclosed in triple quotes.
 
-Here is an example - 
 ```markdown
     # MultiLineExample
     - ```This is a multi-line list
@@ -256,7 +255,6 @@ Here is an example -
 
 Multi-line variation can request template expansion and entity substitution by enclosing the requested operation in @{}.
 
-Here is an example - 
 ```markdown
 # MultiLineExample
     - ```
@@ -267,9 +265,9 @@ Here is an example -
     ```
 ```
 
-With multi-line support, you can have the language generation sub-system fully resolve a complex JSON or XML (e.g. SSML wrapped text to control bot's spoken reply). 
+With multi-line support, you can have the language generation sub-system fully resolve a complex JSON or XML (e.g. SSML wrapped text to control bot's spoken reply).
 
-Here is an example of complex object (defined in template `ImageGalleryTemplate`) that your bot's code will parse out and render appropriately. Calling the `ImageGalleryTemplate` for template resolution will result in a json string that has a 'titleText', 'subTitle' and randomly selected images from the `CardImages` template.
+Here is an example of complex object (defined in the `ImageGalleryTemplate` template) that your bot's code will parse out and render appropriately. Calling the `ImageGalleryTemplate` for template resolution will result in a JSON string that has a _titleText_, _subTitle_ and randomly selected images from the `CardImages` template.
 
 ```markdown
     # TitleText
@@ -308,10 +306,10 @@ Here is an example of complex object (defined in template `ImageGalleryTemplate`
     }
     ```
 ```
-## Parametrization of templates
-To aid with contextual re-usability, templates can be parametrized. With this different callers to the template can pass in different values for use in expansion resolution.
 
-Here is an example of a template parametrization. 
+## Parametrization of templates
+
+To aid with contextual re-usability, templates can be parametrized. Different callers to the template can pass in different values for use in expansion resolution.
 
 ```markdown
 # timeOfDayGreetingTemplate (param1)
@@ -328,14 +326,16 @@ Here is an example of a template parametrization.
 # timeOfDayGreeting
 - @{timeOfDayGreetingTemplate(timeOfDay)}
 ```
+
 ## Importing external references
-Often times for organization purposes and to help with re-usability, you might want to break the language generation templates into separate files and refer them from one another. In order to help with this scenario, you can use markdown-style links to import templates defined in another file. 
+
+You may want to break the language generation templates into separate files and refer them from one another for organizational and reusability purposes. You can use Markdown-style links to import templates defined in another file.
 
 ```markdown
 [Link description](filePathOrUri)
 ```
 
-Note: All templates defined in the target file will be pulled in. So please ensure that your template names are unique (or namespaced via a # <namespace>.<templatename> convention) across files being pulled in.
+All templates defined in the target file will be pulled in. Ensure that your template names are unique (or namespaced via a # <namespace>.<templatename> convention) across files being pulled in.
 
 ```markdown
 [Shared](../shared/common.lg)
@@ -343,7 +343,8 @@ Note: All templates defined in the target file will be pulled in. So please ensu
 
 ## Additional Resources
 
-- LG [API reference][2]
+- Language Generation [API reference][2]
+- Language Generation in [Bot Framework Composer](https://docs.microsoft.com/composer/concept-language-generation))
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md
