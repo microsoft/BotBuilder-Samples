@@ -107,6 +107,13 @@ bot.dialog('helpDialog', function (session) {
 // Add global endConversation() action bound to the 'Goodbye' intent
 bot.endConversationAction('endAction', "Ok... See you later.", { matches: 'End' });
 
+// Listen for endOfConversation activities from other sources
+bot.on('endOfConversation', (message) => {
+    bot.loadSession(message.address, (err, session) => {
+        endConversation(session, null, 'completedSuccessfully');
+    });
+})
+
 // log any bot errors into the console
 bot.on('error', function (e) {
     console.log('And error ocurred', e);
