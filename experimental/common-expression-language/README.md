@@ -32,17 +32,23 @@ An adaptive expression can contain one or more explicit values, [pre-built funct
 |>= 	    | Greater than or equal. A >= B	                                    |[greaterOrEquals][11]              |
 |<=	        | Less than or equal. A <= B	                                        |[lessOrEquals][12]                 |
 
+### Logical operators
+
+| Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
+|-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
+|&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
+|\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
+|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[not][8]                           |
+
+
 ### Other operators and expression syntax
 
 | Operator	|                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|&	        |Concatenation operator. Operands will always be cast to string – E.g. A & B	            |N/A                                |
-|&&	        |Logical operator – AND. E.g. exp1 && exp2	                                                |[and][13]                          |
-|\|\|	    |Logical operator – OR. E.g. exp1 \|\| exp2	                                                |[or][14]                           |
-|!	        |Logical operator – NOT. E.g. !exp1	                                                        |[not][8]                           |
+|&, +	        |Concatenation operator. Operands will always be cast to string – E.g. A & B, 'foo' + ' bar' => 'foo bar', 'foo' + 3 => 'foo3', 'foo' + (3 + 3) => 'foo6'	            |N/A                                |
 |'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
 |"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
-|[]	        |Used to refer to an item in a list by its index. E.g. A[3]	                                |N/A                                |
+|[]	        |Used to refer to an item in a list by its index. E.g. A[0]	                                |N/A                                |
 |@{}	    |Used to denote an expression. E.g. @{A == B}.                                              |N/A                                |
 |@{}	    |Used to denote a variable in template expansion. E.g. @{myVariable}	                    |N/A                                |
 |()	        |Enforces precedence order and groups sub expressions into larger expressions. E.g. (A+B)*C	|N/A                                |
