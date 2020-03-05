@@ -36,16 +36,16 @@ An adaptive expression can contain one or more explicit values, [pre-built funct
 
 | Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|&&            |Logical operator – AND. E.g. exp1 && exp2                                                    |[and][13]                          |
-|\|\|        |Logical operator – OR. E.g. exp1 \|\| exp2                                                    |[or][14]                           |
-|!            |Logical operator – NOT. E.g. !exp1                                                            |[not][8]                           |
+|&&            |And. E.g. exp1 && exp2                                                    |[and][13]                          |
+|\|\|        |Or. E.g. exp1 \|\| exp2                                                    |[or][14]                           |
+|!            |Not. E.g. !exp1                                                            |[not][8]                           |
 
 
 ### Other operators and expression syntax
 
 | Operator    |                                  Functionality                                            |   Prebuilt function equivalent    |
 |-----------|-------------------------------------------------------------------------------------------|-----------------------------------|
-|&, +            |Concatenation operator. Operands will always be cast to string – E.g. A & B, 'foo' + ' bar' => 'foo bar', 'foo' + 3 => 'foo3', 'foo' + (3 + 3) => 'foo6'                |N/A                                |
+|&, +            |Concatenation operators. Operands will always be cast to string – E.g. A & B, 'foo' + ' bar' => 'foo bar', 'foo' + 3 => 'foo3', 'foo' + (3 + 3) => 'foo6'                |N/A                                |
 |'            |Used to wrap a string literal. E.g. 'myValue'                                                |N/A                                |
 |"            |Used to wrap a string literal. E.g. "myValue"                                                |N/A                                |
 |[]            |Used to refer to an item in a list by its index. E.g. A[0]                                    |N/A                                |
