@@ -37,6 +37,56 @@
             Terminate the action sequence, then add the change actions.
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext">
+            <summary>
+            Extends the <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogContext"/> with additional methods for manipulating the 
+            executing sequence of actions for an <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.AdaptiveDialog"/>.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext.#ctor(Microsoft.Bot.Builder.Dialogs.DialogSet,Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Builder.Dialogs.DialogState,System.Collections.Generic.List{Microsoft.Bot.Builder.Dialogs.Adaptive.ActionState},System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext"/> class.
+            </summary>
+            <param name="dialogs">The dialog set to create the action context for.</param>
+            <param name="parentDialogContext">Parent dialog context.</param>
+            <param name="state">Current dialog state.</param>
+            <param name="actions">Current list of remaining actions to execute.</param>
+            <param name="changeKey">TurnState key for were to persist any changes.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext.Actions">
+            <summary>
+            Gets or sets list of actions being executed.
+            </summary>
+            <value>
+            List of actions being executed.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext.Changes">
+            <summary>
+            Gets list of changes that are queued to be applied.
+            </summary>
+            <value>
+            List of changes that are queued to be applied.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext.QueueChanges(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionChangeList)">
+            <summary>
+            Queues up a set of changes that will be applied when ApplyChanges is called.
+            </summary>
+            <param name="changes">Plan changes to queue up.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext.ApplyChangesAsync(System.Threading.CancellationToken)">
+            <summary>
+            Applies any queued up changes.
+            </summary>
+            <remarks>
+            Applying a set of changes can result in additional changes being queued. The method
+            will loop and apply any additional plan changes until there are no more changes left to 
+            apply.
+            </remarks>
+            <param name="cancellationToken">Cancellation token.</param>
+            <returns>True if there were any changes to apply. </returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.ActionScope">
             <summary>
             ActionScope manages execution of a block of actions, and supports Goto, Continue and Break semantics..
@@ -176,19 +226,11 @@
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.Case.Value">
             <summary>
-            Gets or sets value expression to be compared against condition.
+            Gets or sets constant to be compared against condition.
             </summary>
             <value>
-            Value expression to be compared against condition.
+            Constant be compared against condition.
             </value>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.Case.CreateValueExpression">
-            <summary>
-            Creates an expression that returns the value in its primitive type. Still
-            assumes that switch case values are compile time constants and not expressions
-            that can be evaluated against state.
-            </summary>
-            <returns>An expression that reflects the constant case value.</returns>
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.CodeAction.Disabled">
             <summary>
@@ -698,6 +740,12 @@
             HttpMethod.
             </value>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.HttpRequest.ContentType">
+            <summary>
+            Gets or sets the content type for the body of the http operation.
+            </summary>
+            <value>Content type such as "application/json" or "test/plain".  Default is "application/json".</value>
+        </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Actions.HttpRequest.Url">
             <summary>
             Gets or sets the Url.
@@ -1128,12 +1176,10 @@
             Properties expected to be filled by response.
             </value>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.AdaptiveAdapterExtensions.UseAdaptiveDialogs(Microsoft.Bot.Builder.BotAdapter)">
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.ActivityTemplateConverter">
             <summary>
-            Register ResourceExplorer and optionally register more types.
+            JsonConverter to load ITemplate&lt;Activity&gt;.
             </summary>
-            <param name="botAdapter">BotAdapter to add middleware to.</param>
-            <returns>The bot adapter.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.AdaptiveDialog">
             <summary>
@@ -1258,6 +1304,18 @@
             Clear a properties value.
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGeneratorConverter">
+            <summary>
+            JsonConverter which understands how to deal with strings when assigning to ILanguageGenerator.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGeneratorConverter.#ctor(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.Stack{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGeneratorConverter"/> class.
+            </summary>
+            <param name="resourceExplorer">resourcexplorer to use to resolve references.</param>
+            <param name="paths">path stack to build debugger call graph.</param>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityAssignment">
             <summary>
             Possible assignment of an entity to a property.
@@ -1320,18 +1378,18 @@
             </summary>
             <value>List of properties to clear.</value>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityEvents.Read(Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityEvents.Read(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext)">
             <summary>
             Read event queues from memory.
             </summary>
-            <param name="context">Context for memory.</param>
+            <param name="actionContext">Context for memory.</param>
             <returns>Event queues.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityEvents.Write(Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityEvents.Write(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext)">
             <summary>
             Write state into memory.
             </summary>
-            <param name="context">Memory context.</param>
+            <param name="actionContext">Memory context.</param>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.EntityEvents.DequeueEvent(System.String)">
             <summary>
@@ -1432,6 +1490,11 @@
             </summary>
             <param name="entity">Entity to compare.</param>
             <returns>True if entity text completely covers other entity text.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityChecker">
+            <summary>
+            Structure LG result checker.
+            </summary>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Generators.ActivityChecker.Check(System.Object)">
             <summary>
@@ -2002,12 +2065,6 @@
             Select the trigger to execute in a given state.
             </summary>
         </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.ITriggerSelector.Parser">
-            <summary>
-            Gets or sets the expression parser for expressions.
-            </summary>
-            <value>Expression parser.</value>
-        </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ITriggerSelector.Initialize(System.Collections.Generic.IEnumerable{Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition},System.Boolean)">
             <summary>
             Initialize the selector with the set of rules.
@@ -2015,34 +2072,51 @@
             <param name="conditionHandlers">Possible rules to match.</param>
             <param name="evaluate">True if rules should be evaluated on select.</param>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ITriggerSelector.Select(Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ITriggerSelector.Select(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext,System.Threading.CancellationToken)">
             <summary>
             Select the best rule to execute.
             </summary>
-            <param name="context">Dialog context for evaluation.</param>
+            <param name="actionContext">Dialog context for evaluation.</param>
             <param name="cancel">Cancellation token.</param>
             <returns>Best rule in original list to execute or -1 if none.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGenerationComponentRegistration">
+            <summary>
+            ComponentRegistration class for language generation resources.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGenerationComponentRegistration.GetDeclarativeTypes">
+            <summary>
+            Return declarative types for Language Generation.
+            </summary>
+            <returns>DeclarativeTypes enumeration.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguageGenerationComponentRegistration.GetConverters(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.Stack{System.String})">
+            <summary>
+            Return JsonConverters for LanguageGeneration resources.
+            </summary>
+            <param name="resourceExplorer">resource explorer to use for resolving references.</param>
+            <param name="paths">contextual path stack to use to build debugger.sourcemap.</param>
+            <returns>enumeration of jsonconverters.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.LanguagePolicy">
             <summary>
             Language policy with fallback for each language as most specific to default en-us -> en -> default.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LGAdapterExtensions.UseLanguageGeneration(Microsoft.Bot.Builder.BotAdapter,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LGExtensions.UseLanguageGeneration(Microsoft.Bot.Builder.Dialogs.DialogManager,System.String)">
             <summary>
             Register default LG file as language generation.
             </summary>
-            <param name="botAdapter">The <see cref="T:Microsoft.Bot.Builder.BotAdapter"/> to add services to.</param>
-            <param name="resourceExplorer">resource explorer to use for .lg based resources.</param>
+            <param name="dialogManager">The <see cref="T:Microsoft.Bot.Builder.BotAdapter"/> to add services to.</param>
             <param name="defaultLg">Default LG Resource Id (default: main.lg).</param>
             <returns>The BotAdapter.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LGAdapterExtensions.UseLanguageGeneration(Microsoft.Bot.Builder.BotAdapter,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,Microsoft.Bot.Builder.Dialogs.Adaptive.ILanguageGenerator)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.LGExtensions.UseLanguageGeneration(Microsoft.Bot.Builder.Dialogs.DialogManager,Microsoft.Bot.Builder.Dialogs.Adaptive.ILanguageGenerator)">
             <summary>
             Register ILanguageGenerator as default langugage generator.
             </summary>
-            <param name="botAdapter">botAdapter to add services to.</param>
-            <param name="resourceExplorer">resourceExporer to provide to LanguageGenerator.</param>
+            <param name="dialogManager">botAdapter to add services to.</param>
             <param name="languageGenerator">LanguageGenerator to use.</param>
             <returns>botAdapter.</returns>
         </member>
@@ -2131,7 +2205,7 @@
             </summary>
             <value>Telemetry client.</value>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers.LuisAdaptiveRecognizer.RecognizeAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,System.String,System.String,System.Threading.CancellationToken)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers.LuisAdaptiveRecognizer.RecognizeAsync(Microsoft.Bot.Builder.Dialogs.DialogContext,Microsoft.Bot.Schema.Activity,System.Threading.CancellationToken)">
             <inheritdoc/>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers.LuisAdaptiveRecognizer.RecognizerOptions(Microsoft.Bot.Builder.Dialogs.DialogContext)">
@@ -2320,6 +2394,13 @@
             <summary>
             Converter which allows json to be expression to object or static object.
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Converters.DialogExpressionConverter.#ctor(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.Stack{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Converters.DialogExpressionConverter"/> class.
+            </summary>
+            <param name="resourceExplorer">resource explorer to use for resolving references.</param>
+            <param name="paths">Path stack to use for building debugger call graph.</param>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.DialogExpression">
             <summary>
@@ -2588,6 +2669,40 @@
             The desired RankerType.
             </value>
         </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.QnA.Recognizers.QnAMakerRecognizer.IncludeDialogNameInMetadata">
+            <summary>
+            Gets or sets the whether to include the dialog name metadata for QnA context.
+            </summary>
+            <value>
+            A bool or boolean expression.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.QnA.Recognizers.QnAMakerRecognizer.Metadata">
+            <summary>
+            Gets or sets an expression to evaluate to set additional metadata name value pairs.
+            </summary>
+            <value>An expression to evaluate for pairs of metadata.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.QnA.Recognizers.QnAMakerRecognizer.Context">
+            <summary>
+            Gets or sets an expression to evaluate to set the context.
+            </summary>
+            <value>An expression to evaluate to QnARequestContext to pass as context.</value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.QnA.Recognizers.QnAMakerRecognizer.QnAId">
+            <summary>
+            Gets or sets an expression or numberto use for the QnAId paratmer.
+            </summary>
+            <value>The expression or number.</value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.ResourceExtensions.UseResourceExplorer(Microsoft.Bot.Builder.Dialogs.DialogManager,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer)">
+            <summary>
+            Register ResourceExplorer and optionally register more types.
+            </summary>
+            <param name="dialogManager">BotAdapter to add middleware to.</param>
+            <param name="resourceExplorer">resourceExplorer to use.</param>
+            <returns>The bot adapter.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors.ConditionalSelector">
             <summary>
             Select between two rule selectors based on a condition.
@@ -2616,12 +2731,6 @@
             <value>
             Selector if <see cref="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors.ConditionalSelector.Condition"/> is false.
             </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors.ConditionalSelector.Parser">
-            <summary>
-            Gets or sets the expression parser to use.
-            </summary>
-            <value>Expression parser.</value>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Selectors.FirstSelector">
             <summary>
@@ -2659,40 +2768,6 @@
             <summary>
             Select all rules which evaluate to true.
             </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext.Actions">
-            <summary>
-            Gets or sets list of actions being executed.
-            </summary>
-            <value>
-            List of actions being executed.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext.Changes">
-            <summary>
-            Gets list of changes that are queued to be applied.
-            </summary>
-            <value>
-            List of changes that are queued to be applied.
-            </value>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext.QueueChanges(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionChangeList)">
-            <summary>
-            Queues up a set of changes that will be applied when ApplyChanges is called.
-            </summary>
-            <param name="changes">Plan changes to queue up.</param>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext.ApplyChangesAsync(System.Threading.CancellationToken)">
-            <summary>
-            Applies any queued up changes.
-            </summary>
-            <remarks>
-            Applying a set of changes can result in additional changes being queued. The method
-            will loop and apply any additional plan changes until there are no more changes left to 
-            apply.
-            </remarks>
-            <param name="cancellationToken">Cancellation token.</param>
-            <returns>True if there were any changes to apply. </returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.SimpleMultiLangGenerator">
             <summary>
@@ -2738,322 +2813,6 @@
             <value>
             The template to evaluate to create the text.
             </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertCondition.Condition">
-            <summary>
-            Gets or sets condition which must be true.
-            </summary>
-            <value>
-            Condition which must be true.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertCondition.Description">
-            <summary>
-            Gets or sets description of assertion.
-            </summary>
-            <value>
-            Description of assertion.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReply.Text">
-            <summary>
-            Gets or sets the Text to assert.
-            </summary>
-            <value>The text value to look for in the reply.</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReply.Exact">
-            <summary>
-            Gets or sets a value indicating whether text should be an exact match.
-            </summary>
-            <value>if true, then exact match, if false, then it will be a Contains match.</value>
-        </member>
-        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyActivity">
-            <summary>
-            Basic assertion TestAction, which validates assertions against a reply activity.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyActivity.Description">
-            <summary>
-            Gets or sets the description of this assertion.
-            </summary>
-            <value>Description of what this assertion is.</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyActivity.Timeout">
-            <summary>
-            Gets or sets the milliseconds to wait for a reply.
-            </summary>
-            <value>the milliseceods to wait.</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyActivity.Assertions">
-            <summary>
-            Gets or sets the assertions.
-            </summary>
-            <value>The expressions for assertions.</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyOneOf.Text">
-            <summary>
-            Gets or sets the text variations.
-            </summary>
-            <value>
-            The text variations.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.Actions.AssertReplyOneOf.Exact">
-            <summary>
-            Gets or sets a value indicating whether exact match policy should be used.
-            </summary>
-            <value>
-            A bool value for match policy.
-            </value>
-        </member>
-        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserActivity">
-            <summary>
-            Send an activity to the bot.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserActivity.Activity">
-            <summary>
-            Gets or sets the activity to compare.
-            </summary>
-            <value>
-            The activity to compare.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserActivity.User">
-            <summary>
-            Gets or sets the User name.
-            </summary>
-            <value>
-            If user is set then the channalAccount.Id and channelAccount.Name will be from user.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserConversationUpdate.MembersAdded">
-            <summary>
-            Gets or sets the members added names.
-            </summary>
-            <value>The members names.</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserConversationUpdate.MembersRemoved">
-            <summary>
-            Gets or sets the members removed names.
-            </summary>
-            <value>The members names.</value>
-        </member>
-        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserSays">
-            <summary>
-            Send an text to the bot.
-            </summary>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserSays.Text">
-            <summary>
-            Gets or sets the text.
-            </summary>
-            <value>
-            the text to send to the bot.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestActions.UserSays.User">
-            <summary>
-            Gets or sets the User name.
-            </summary>
-            <value>
-            If user is set then the channalAccount.Id and channelAccount.Name will be from user.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.UserDelay.Timespan">
-            <summary>
-            Gets or sets the timespan to delay.
-            </summary>
-            <value>
-            The timespan to delay.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.UserTyping.User">
-            <summary>
-            Gets or sets the User name.
-            </summary>
-            <value>
-            If user is set then the channalAccount.Id and channelAccount.Name will be from user.
-            </value>
-        </member>
-        <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript">
-            <summary>
-            A mock Test Script that can be used for unit testing of bot logic.
-            </summary>
-            <remarks>You can use this class to mimic input from a a user or a channel to validate
-            that the bot or adapter responds as expected.</remarks>
-            <seealso cref="T:Microsoft.Bot.Builder.Adapters.TestAdapter"/>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.#ctor">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> class.
-            </summary>
-            <remarks>If adapter is not provided a standard test adapter with all services will be registered.</remarks>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Description">
-            <summary>
-            Gets or sets the description property.
-            </summary>
-            <value>
-            A description of the test sequence.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Dialog">
-            <summary>
-            Gets or sets the RootDialog.
-            </summary>
-            <value>
-            The dialog to use for the root dialog.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Locale">
-            <summary>
-            Gets or sets the locale.
-            </summary>
-            <value>the locale (Default:en-us).</value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Script">
-            <summary>
-            Gets or sets the test script actions.
-            </summary>
-            <value>
-            The sequence of test actions to perform to validate the dialog behavior.
-            </value>
-        </member>
-        <member name="P:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.EnableTrace">
-            <summary>
-            Gets or sets a value indicating whether trace activities should be passed to the test script.
-            </summary>
-            <value>If true then trace activities will be sent to the test script.</value>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.DefaultTestAdapter(System.String,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Build default test adapter.
-            </summary>
-            <param name="testName">Name of test.</param>
-            <param name="resourceExplorer">Resource explorer to use.</param>
-            <param name="configuration">Bot Framework configuration.</param>
-            <returns>Test adapter.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.ExecuteAsync(System.String,Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,Microsoft.Bot.Builder.BotCallbackHandler,Microsoft.Bot.Builder.Adapters.TestAdapter,Microsoft.Extensions.Configuration.IConfiguration)">
-            <summary>
-            Starts the execution of the test sequence.
-            </summary>
-            <remarks>This methods sends the activities from the user to the bot and
-            checks the responses from the bot based on the TestActions.</remarks>
-            <param name="testName">testName.</param>
-            <param name="resourceExplorer">resource explorer.</param>
-            <param name="callback">bot logic.</param>
-            <param name="adapter">optional test adapter.</param>
-            <param name="configuration">configuration.</param>
-            <returns>Runs the exchange between the user and the bot.</returns>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Send(System.String,System.String,System.Int32)">
-            <summary>
-            Adds a message activity from the user to the bot.
-            </summary>
-            <param name="userSays">The text of the message to send.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends a new message activity from the user to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Send(Microsoft.Bot.Schema.IActivity,System.String,System.Int32)">
-            <summary>
-            Adds an activity from the user to the bot.
-            </summary>
-            <param name="userActivity">The activity to send.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends a new activity from the user to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Delay(System.UInt32,System.String,System.Int32)">
-            <summary>
-            Adds a delay in the conversation.
-            </summary>
-            <param name="ms">The delay length in milliseconds.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends a delay to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Delay(System.TimeSpan,System.String,System.Int32)">
-            <summary>
-            Adds a delay in the conversation.
-            </summary>
-            <param name="timespan">The delay length in TimeSpan.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends a delay to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.AssertReply(System.String,System.String,System.UInt32,System.String[],System.String,System.Int32)">
-            <summary>
-            Adds an assertion that the turn processing logic responds as expected.
-            </summary>
-            <param name="expected">The expected text of a message from the bot.</param>
-            <param name="description">A message to send if the actual response is not as expected.</param>
-            <param name="timeout">The amount of time in milliseconds within which a response is expected.</param>
-            <param name="assertions">assertions.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends this assertion to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-            <exception cref="T:System.Exception">The bot did not respond as expected.</exception>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.AssertReplyActivity(System.String[],System.String,System.UInt32,System.String,System.Int32)">
-            <summary>
-            Adds an assertion that the turn processing logic responds as expected.
-            </summary>
-            <param name="assertions">assertions.</param>
-            <param name="description">A message to send if the actual response is not as expected.</param>
-            <param name="timeout">The amount of time in milliseconds within which a response is expected.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends this assertion to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-            <exception cref="T:System.Exception">The bot did not respond as expected.</exception>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.AssertReplyContains(System.String,System.String,System.UInt32,System.String,System.Int32)">
-            <summary>
-            Adds an assertion that the turn processing logic responds as expected.
-            </summary>
-            <param name="expected">The part of the expected text of a message from the bot.</param>
-            <param name="description">A message to send if the actual response is not as expected.</param>
-            <param name="timeout">The amount of time in milliseconds within which a response is expected.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends this assertion to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-            <exception cref="T:System.Exception">The bot did not respond as expected.</exception>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Test(System.String,System.String,System.String,System.UInt32,System.String,System.Int32)">
-            <summary>
-            Shortcut for calling <see cref="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.Send(System.String,System.String,System.Int32)"/> followed by <see cref="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.AssertReply(System.String,System.String,System.UInt32,System.String[],System.String,System.Int32)"/>.
-            </summary>
-            <param name="userSays">The text of the message to send.</param>
-            <param name="expected">The expected text of a message from the bot.</param>
-            <param name="description">A message to send if the actual response is not as expected.</param>
-            <param name="timeout">The amount of time in milliseconds within which a response is expected.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends this exchange to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-            <exception cref="T:System.Exception">The bot did not respond as expected.</exception>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript.AssertReplyOneOf(System.String[],System.String,System.UInt32,System.String,System.Int32)">
-            <summary>
-            Adds an assertion that the bot's response is contained within a set of acceptable responses.
-            </summary>
-            <param name="candidates">The set of acceptable messages.</param>
-            <param name="description">A message to send if the actual response is not as expected.</param>
-            <param name="timeout">The amount of time in milliseconds within which a response is expected.</param>
-            <param name="path">path.</param>
-            <param name="line">line number.</param>
-            <returns>A new <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object that appends this assertion to the modeled exchange.</returns>
-            <remarks>This method does not modify the original <see cref="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Testing.TestScript"/> object.</remarks>
-            <exception cref="T:System.Exception">The bot did not respond as expected.</exception>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.Extensions">
             <summary>
@@ -3204,18 +2963,17 @@
             </summary>
             <value>Id for condition.</value>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.GetExpression(Microsoft.Bot.Expressions.IExpressionParser)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.GetExpression">
             <summary>
             Get the expression for this rule by calling GatherConstraints().
             </summary>
-            <param name="parser">Expression parser.</param>
             <returns>Expression which will be cached and used to evaluate this rule.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.CurrentPriority(Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.CurrentPriority(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext)">
             <summary>
             Compute the current value of the priority expression and return it.
             </summary>
-            <param name="context">Context to use for evaluation.</param>
+            <param name="actionContext">Context to use for evaluation.</param>
             <returns>Computed priority.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.AddExternalCondition(System.String)">
@@ -3224,11 +2982,11 @@
             </summary>
             <param name="condition">External constraint to add, it will be AND'ed to all other constraints.</param>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.ExecuteAsync(Microsoft.Bot.Builder.Dialogs.Adaptive.SequenceContext)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.ExecuteAsync(Microsoft.Bot.Builder.Dialogs.Adaptive.ActionContext)">
             <summary>
             Method called to execute the rule's actions.
             </summary>
-            <param name="planningContext">Context.</param>
+            <param name="actionContext">Context.</param>
             <returns>A <see cref="T:System.Threading.Tasks.Task"/> with plan change list.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions.OnCondition.GetIdentity">
@@ -3373,10 +3131,39 @@
             This provides the parent dialogs the opportunity to handle global commands as fallback interruption.
             </remarks>
         </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.Converters.JObjectConverter">
+            <summary>
+            JsonConverter which handles resolving declarative types in JObjects using the ResourceExplorer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.Converters.JObjectConverter.#ctor(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Declarative.Converters.JObjectConverter"/> class.
+            </summary>
+            <param name="resourceExplorer">ResourceExplorer to use to resolve references.</param>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Declarative.IComponentPathResolvers">
+            <summary>
+            Interface for declaring path resolvers in the memory system.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Declarative.IComponentPathResolvers.GetPathResolvers">
+            <summary>
+            Return enumeration of pathresolvers.
+            </summary>
+            <returns>collection of IPathResolvers.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.DialogManager">
             <summary>
             Class which runs the dialog system.
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.DialogManager.#ctor(Microsoft.Bot.Builder.Dialogs.Dialog,System.String)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.DialogManager"/> class.
+            </summary>
+            <param name="rootDialog">rootdialog to use.</param>
+            <param name="dialogStateProperty">alternate name for the dialogState property. (Default is "DialogState").</param>
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.DialogManager.ConversationState">
             <summary>
@@ -3392,6 +3179,14 @@
             </summary>
             <value>
             The UserState.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.Dialogs.DialogManager.TurnState">
+            <summary>
+            Gets turnState to use when turn context happens.
+            </summary>
+            <value>
+            TurnState.
             </value>
         </member>
         <member name="P:Microsoft.Bot.Builder.Dialogs.DialogManager.RootDialog">
@@ -3458,7 +3253,7 @@
             <param name="name">Name of scope.</param>
             <returns>A memory scope.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.DialogStateManager.Microsoft#Bot#Expressions#Memory#IMemory#Version">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.DialogStateManager.AdaptiveExpressions#Memory#IMemory#Version">
             <summary>
             Version help caller to identify the updates and decide cache or not.
             </summary>
@@ -3632,15 +3427,13 @@
             BotStateMemoryScope represents a BotState scoped memory.
             </summary>
             <remarks>This relies on the BotState object being accessible from turnContext.TurnState.Get&lt;T&gt;().</remarks>
-            <typeparam name="T">botState type.</typeparam>
+            <typeparam name="T">BotState type.</typeparam>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.BotStateMemoryScope`1.#ctor(System.String,Microsoft.Bot.Builder.BotState,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.BotStateMemoryScope`1.#ctor(System.String)">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.BotStateMemoryScope`1"/> class.
             </summary>
             <param name="name">name of the property.</param>
-            <param name="botState">bot state that is storage for this memoryscope.</param>
-            <param name="propertyName">optional propertyname.</param>
         </member>
         <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.BotStateMemoryScope`1.GetMemory(Microsoft.Bot.Builder.Dialogs.DialogContext)">
             <summary>
@@ -3667,13 +3460,11 @@
             </summary>
             <remarks>This relies on the ConversationState object being accessible from turnContext.TurnState.Get&lt;ConversationState&gt;().</remarks>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ConversationMemoryScope.#ctor(Microsoft.Bot.Builder.ConversationState,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ConversationMemoryScope.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ConversationMemoryScope"/> class.
             Create new ConversationMemoryScope bound to ConversationState.
             </summary>
-            <param name="conversationState">conversationState to bind to.</param>
-            <param name="propertyName">alterative property for conversation memory scope to be stored under.</param>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.DialogClassMemoryScope">
             <summary>
@@ -3684,6 +3475,24 @@
             <summary>
             DialogMemoryScope maps "dialog" -> dc.Parent?.ActiveDialog.State ?? ActiveDialog.State.
             </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ExpressionPropertyBinder">
+            <summary>
+            ExpressionPropertyBinder is a wrapper around any object to support expression binding.
+            </summary>
+            <remarks>
+            The ExpressionPropertyBinder provides read-only dictionary semantics for getting access to properties of an object.
+            If the value of a property is an IExpressionProperty, then the expression property will be evaluated using the DC.
+            Any complex objects that are returned from this are further wrapped in an ExpressionPropertyBinder, so that you can
+            get ExpressionProperty binding for properties in a complex hierarchy of objects.
+            </remarks>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ExpressionPropertyBinder.#ctor(Microsoft.Bot.Builder.Dialogs.DialogContext,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.ExpressionPropertyBinder"/> class.
+            </summary>
+            <param name="dialogContext">dialog context for evalutation of expression properties.</param>
+            <param name="obj">object to wrap.  Any expression properties on it will be evaluated using the dc.</param>
         </member>
         <member name="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.MemoryScope">
             <summary>
@@ -3793,59 +3602,34 @@
             </summary>
             <remarks>This relies on the UserState object being accessible from turnContext.TurnState.Get&lt;UserState&gt;().</remarks>
         </member>
-        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.UserMemoryScope.#ctor(Microsoft.Bot.Builder.UserState,System.String)">
+        <member name="M:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.UserMemoryScope.#ctor">
             <summary>
             Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.Dialogs.Memory.Scopes.UserMemoryScope"/> class.
             </summary>
-            <param name="userState">UserState to bind the UserMemory to.</param>
-            <param name="propertyName">Optional alternate propertyName to store UserMemoryScope in.</param>
         </member>
-        <member name="M:Microsoft.Bot.Builder.AI.QnA.AdapterExtensions.UseQnAMaker(Microsoft.Bot.Builder.BotAdapter)">
+        <member name="T:Microsoft.Bot.Builder.AI.Luis.LuisComponentRegistration">
             <summary>
-            Register QnAMaker types.
+            Define component assets for Luis.
             </summary>
-            <param name="botAdapter">BotAdapter to add middleware to.</param>
-            <returns>The bot adapter.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.MockLuis.MockLuisExtensions.UseMockLuis(Microsoft.Bot.Builder.BotAdapter)">
+        <member name="T:Microsoft.Bot.Builder.AI.QnA.QnAMakerComponentRegistration">
             <summary>
-            Replace Microsoft.LUISRecognizer declarative implementation with <see cref="T:Microsoft.Bot.Builder.MockLuis.MockLuisRecognizer"/>.
+            Class which contains registration of components for QnAMaker.
             </summary>
-            <param name="botAdapter">Adapter to register with.</param>
-            <returns>Modified adapter.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.MockLuis.MockLuisExtensions.UseLuisSettings(Microsoft.Extensions.Configuration.IConfigurationBuilder,System.String,System.String,System.String,System.String)">
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMakerComponentRegistration.GetDeclarativeTypes">
             <summary>
-            Setup configuration to utilize the settings file generated by lubuild.
+            Gets declarative type registrations for QnAMAker.
             </summary>
-            <remarks>
-            This utilizes the user secrets store to pick up the LUIS endpoint key.  
-            To store it do: "dotnet user-secrets luis:endpointKey *LUISKEY* --id *UserSecretId*".
-            The *UserSecretId* should be passed in here.
-            LUIS responses will be in cachedResponse in <paramref name="directory"/>.
-            </remarks>
-            <param name="builder">Configuration builder to modify.</param>
-            <param name="directory">Directory with the setting file in it.</param>
-            <param name="userSecretId">The id for finding your user secrets.</param>
-            <param name="environment">Environment where LUIS models are deployed.</param>
-            <param name="endpoint">Endpoint to use with a default of westus.</param>
-            <returns>Modified configuration builder.</returns>
+            <returns>enumeration of DeclarativeTypes.</returns>
         </member>
-        <member name="T:Microsoft.Bot.Builder.MockLuis.MockLuisRecognizer">
+        <member name="M:Microsoft.Bot.Builder.AI.QnA.QnAMakerComponentRegistration.GetConverters(Microsoft.Bot.Builder.Dialogs.Declarative.Resources.ResourceExplorer,System.Collections.Generic.Stack{System.String})">
             <summary>
-            Test class for creating cached LUIS responses for testing.
+            Gets JsonConverters for DeclarativeTypes for QnAMaker.
             </summary>
-            <remarks>
-            This will either use a cached LUIS response or generate a new one by calling LUIS.
-            </remarks>
-        </member>
-        <member name="M:Microsoft.Bot.Builder.MockLuis.MockLuisRecognizer.#ctor(Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers.LuisAdaptiveRecognizer,System.String,System.String)">
-            <summary>
-            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.MockLuis.MockLuisRecognizer"/> class.
-            </summary>
-            <param name="recognizer">LUIS recognizer definition.</param>
-            <param name="resourceDir">Where the settings file generated by lubuild is found.</param>
-            <param name="name">Name of the LUIS model.</param>
+            <param name="resourceExplorer">resourceExplorer to use for resolving references.</param>
+            <param name="paths">Path stack used to build debugger call stack.</param>
+            <returns>enumeration of json converters.</returns>
         </member>
     </members>
 </doc>

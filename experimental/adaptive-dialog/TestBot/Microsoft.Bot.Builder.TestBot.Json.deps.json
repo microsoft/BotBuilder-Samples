@@ -1523,17 +1523,6 @@
           "lib/netstandard1.0/NuGet.Versioning.dll": {}
         }
       },
-      "RichardSzalay.MockHttp/6.0.0": {
-        "runtime": {
-          "lib/netstandard2.0/RichardSzalay.MockHttp.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.0.0"
-          }
-        },
-        "compile": {
-          "lib/netstandard2.0/RichardSzalay.MockHttp.dll": {}
-        }
-      },
       "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.fedora.23-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
       "runtime.fedora.24-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {},
@@ -2647,6 +2636,20 @@
           "System.Xml.XmlDocument": "4.3.0"
         }
       },
+      "AdaptiveExpressions/4.8.0-local": {
+        "dependencies": {
+          "Antlr4.Runtime": "4.6.6",
+          "Microsoft.CSharp": "4.7.0",
+          "Microsoft.Recognizers.Text.DataTypes.TimexExpression": "1.2.9",
+          "Newtonsoft.Json": "12.0.3"
+        },
+        "runtime": {
+          "AdaptiveExpressions.dll": {}
+        },
+        "compile": {
+          "AdaptiveExpressions.dll": {}
+        }
+      },
       "Microsoft.Bot.Builder/4.8.0-local": {
         "dependencies": {
           "Microsoft.Bot.Connector": "4.8.0-local",
@@ -2667,6 +2670,8 @@
           "Microsoft.Bot.Builder.Dialogs": "4.8.0-local",
           "Microsoft.Bot.Configuration": "4.8.0-local",
           "Microsoft.Bot.Schema": "4.8.0-local",
+          "Microsoft.Extensions.Configuration": "2.1.0",
+          "Microsoft.Extensions.Configuration.Json": "2.1.0",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
@@ -2704,21 +2709,19 @@
       },
       "Microsoft.Bot.Builder.Dialogs.Adaptive/4.8.0-local": {
         "dependencies": {
+          "AdaptiveExpressions": "4.8.0-local",
           "Microsoft.Bot.Builder.AI.Luis": "4.8.0-local",
           "Microsoft.Bot.Builder.AI.QnA": "4.8.0-local",
           "Microsoft.Bot.Builder.Dialogs": "4.8.0-local",
           "Microsoft.Bot.Builder.Dialogs.Declarative": "4.8.0-local",
           "Microsoft.Bot.Builder.LanguageGeneration": "4.8.0-local",
-          "Microsoft.Bot.Expressions": "4.8.0-local",
-          "Microsoft.Bot.Expressions.Properties": "4.8.0-local",
           "Microsoft.Extensions.Configuration.Json": "2.1.0",
           "Microsoft.Extensions.Configuration.UserSecrets": "2.1.0",
           "Microsoft.Recognizers.Text": "1.2.9",
           "Microsoft.Recognizers.Text.Choice": "1.2.9",
           "Microsoft.Recognizers.Text.DateTime": "1.2.9",
           "Microsoft.Recognizers.Text.Number": "1.2.9",
-          "Microsoft.Recognizers.Text.Sequence": "1.2.9",
-          "RichardSzalay.MockHttp": "6.0.0"
+          "Microsoft.Recognizers.Text.Sequence": "1.2.9"
         },
         "runtime": {
           "Microsoft.Bot.Builder.Dialogs.Adaptive.dll": {}
@@ -2745,9 +2748,9 @@
       },
       "Microsoft.Bot.Builder.Dialogs.Declarative/4.8.0-local": {
         "dependencies": {
+          "AdaptiveExpressions": "4.8.0-local",
           "Microsoft.Bot.Builder": "4.8.0-local",
           "Microsoft.Bot.Builder.Dialogs": "4.8.0-local",
-          "Microsoft.Bot.Expressions": "4.8.0-local",
           "Microsoft.Json.Pointer": "0.61.0",
           "Newtonsoft.Json": "12.0.3",
           "NuGet.Client": "4.2.0"
@@ -2774,8 +2777,8 @@
       },
       "Microsoft.Bot.Builder.LanguageGeneration/4.8.0-local": {
         "dependencies": {
+          "AdaptiveExpressions": "4.8.0-local",
           "Antlr4.Runtime": "4.6.6",
-          "Microsoft.Bot.Expressions": "4.8.0-local",
           "Newtonsoft.Json": "12.0.3"
         },
         "runtime": {
@@ -2811,33 +2814,6 @@
         },
         "compile": {
           "Microsoft.Bot.Connector.dll": {}
-        }
-      },
-      "Microsoft.Bot.Expressions/4.8.0-local": {
-        "dependencies": {
-          "Antlr4.Runtime": "4.6.6",
-          "Microsoft.CSharp": "4.7.0",
-          "Microsoft.Recognizers.Text.DataTypes.TimexExpression": "1.2.9",
-          "Newtonsoft.Json": "12.0.3"
-        },
-        "runtime": {
-          "Microsoft.Bot.Expressions.dll": {}
-        },
-        "compile": {
-          "Microsoft.Bot.Expressions.dll": {}
-        }
-      },
-      "Microsoft.Bot.Expressions.Properties/4.8.0-local": {
-        "dependencies": {
-          "Microsoft.Bot.Builder.LanguageGeneration": "4.8.0-local",
-          "Microsoft.Bot.Expressions": "4.8.0-local",
-          "Newtonsoft.Json": "12.0.3"
-        },
-        "runtime": {
-          "Microsoft.Bot.Expressions.Properties.dll": {}
-        },
-        "compile": {
-          "Microsoft.Bot.Expressions.Properties.dll": {}
         }
       },
       "Microsoft.Bot.Schema/4.8.0-local": {
@@ -5145,13 +5121,6 @@
       "path": "nuget.versioning/4.2.0",
       "hashPath": "nuget.versioning.4.2.0.nupkg.sha512"
     },
-    "RichardSzalay.MockHttp/6.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-bStGNqIX/MGYtML7K3EzdsE/k5HGVAcg7XgN23TQXGXqxNC9fvYFR94fA0sGM5hAT36R+BBGet6ZDQxXL/IPxg==",
-      "path": "richardszalay.mockhttp/6.0.0",
-      "hashPath": "richardszalay.mockhttp.6.0.0.nupkg.sha512"
-    },
     "runtime.debian.8-x64.runtime.native.System.Security.Cryptography.OpenSsl/4.3.2": {
       "type": "package",
       "serviceable": true,
@@ -5964,6 +5933,11 @@
       "path": "system.xml.xmlserializer/4.3.0",
       "hashPath": "system.xml.xmlserializer.4.3.0.nupkg.sha512"
     },
+    "AdaptiveExpressions/4.8.0-local": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
     "Microsoft.Bot.Builder/4.8.0-local": {
       "type": "project",
       "serviceable": false,
@@ -6015,16 +5989,6 @@
       "sha512": ""
     },
     "Microsoft.Bot.Connector/4.8.0-local": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Bot.Expressions/4.8.0-local": {
-      "type": "project",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "Microsoft.Bot.Expressions.Properties/4.8.0-local": {
       "type": "project",
       "serviceable": false,
       "sha512": ""

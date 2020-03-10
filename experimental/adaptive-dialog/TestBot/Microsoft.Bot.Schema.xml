@@ -1766,6 +1766,11 @@
             Gets or sets the name of the registered connection
             </summary>
         </member>
+        <member name="P:Microsoft.Bot.Schema.OAuthCard.TokenExchangeResource">
+            <summary>
+            The resource to try to perform token exchange with
+            </summary>
+        </member>
         <member name="P:Microsoft.Bot.Schema.OAuthCard.Buttons">
             <summary>
             Gets or sets action to use to perform signin
@@ -4180,6 +4185,52 @@
             Semantic action is done.
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Schema.SignInConstants">
+            <summary>
+            Names for signin invoke operations in the token protocol.
+            </summary>
+        </member>
+        <member name="F:Microsoft.Bot.Schema.SignInConstants.VerifyStateOperationName">
+            <summary>
+            Name for the signin invoke to verify the 6-digit authentication code as part of sign-in.
+            </summary>
+            <remarks>
+            This invoke operation includes a value containing a state property for the magic code.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Schema.SignInConstants.TokenExchangeOperationName">
+            <summary>
+            Name for signin invoke to perform a token exchange.
+            </summary>
+            <remarks>
+            This invoke operation includes a value of the token exchange class.
+            </remarks>
+        </member>
+        <member name="F:Microsoft.Bot.Schema.SignInConstants.TokenResponseEventName">
+            <summary>
+            The EventActivity name when a token is sent to the bot.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.SignInResource.#ctor">
+            <summary>
+            Initializes a new instance of the SignInUrlResponse class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.SignInResource.#ctor(System.String,Microsoft.Bot.Schema.TokenExchangeResource)">
+            <summary>
+            Initializes a new instance of the SignInUrlResponse class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.SignInResource.SignInLink">
+            <summary>
+            The sign-in link
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.SignInResource.TokenExchangeResource">
+            <summary>
+            Additional properties that cna be used for token exchange operations
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Schema.SuggestedActions">
             <summary>
             SuggestedActions that can be performed
@@ -6521,6 +6572,124 @@
             Gets or sets HTML alt text to include on this thumbnail image
             </summary>
         </member>
+        <member name="T:Microsoft.Bot.Schema.TokenExchangeInvokeRequest">
+            <summary>
+            A request to exchange a token.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeRequest.Id">
+            <summary>
+            Gets or sets the id from the OAuthCard.
+            </summary>
+            <value>
+            The id from the OAuthCard.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeRequest.ConnectionName">
+            <summary>
+            Gets or sets the connection name.
+            </summary>
+            <value>
+            The connection name.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeRequest.Token">
+            <summary>
+            Gets or sets the user token that can be exchanged.
+            </summary>
+            <value>
+            The user token that can be exchanged.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeRequest.Properties">
+            <summary>
+            Gets or sets extension data for overflow of properties.
+            </summary>
+            <value>
+            Extension data for overflow of properties.
+            </value>
+        </member>
+        <member name="T:Microsoft.Bot.Schema.TokenExchangeInvokeResponse">
+            <summary>
+            The response object of a token exchange invoke.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeResponse.Id">
+            <summary>
+            Gets or sets the id from the TokenExchangeInvokeRequest.
+            </summary>
+            <value>
+            The id from the TokenExchangeInvokeRequest.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeResponse.ConnectionName">
+            <summary>
+            Gets or sets the connection name.
+            </summary>
+            <value>
+            The connection name.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeResponse.FailureDetail">
+            <summary>
+            Gets or sets the details of why the token exchange failed.
+            </summary>
+            <value>
+            The details of why the token exchange failed.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeInvokeResponse.Properties">
+            <summary>
+            Gets or sets extension data for overflow of properties.
+            </summary>
+            <value>
+            Extension data for overflow of properties.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.TokenExchangeRequest.#ctor">
+            <summary>
+            Initializes a new instance of the TokenExchangeRequest class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.TokenExchangeRequest.#ctor(System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TokenExchangeRequest class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeRequest.Uri">
+            <summary>
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeRequest.Token">
+            <summary>
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.TokenExchangeResource.#ctor">
+            <summary>
+            Initializes a new instance of the TokenExchangeResource class.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Schema.TokenExchangeResource.#ctor(System.String,System.String,System.String)">
+            <summary>
+            Initializes a new instance of the TokenExchangeResource class.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeResource.Id">
+            <summary>
+            A unique identifier for this token exchange instance
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeResource.Uri">
+            <summary>
+            The application ID / resource identifier with which to exchange a token on behalf of
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeResource.ProviderId">
+            <summary>
+            The identifier of the provider with which to attempt a token exchange
+            A value of null or empty will default to Azure Active Directory
+            </summary>
+        </member>
         <member name="T:Microsoft.Bot.Schema.TokenExchangeState">
             <summary>
             State object passed to the bot token service.
@@ -6540,6 +6709,14 @@
             </summary>
             <value>
             A reference to the conversation.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Schema.TokenExchangeState.RelatesTo">
+            <summary>
+            Gets or sets a reference to a related parent conversation for this token exchange.
+            </summary>
+            <value>
+            A reference to a related parent conversation conversation.
             </value>
         </member>
         <member name="P:Microsoft.Bot.Schema.TokenExchangeState.BotUrl">
@@ -6637,7 +6814,7 @@
         </member>
         <member name="P:Microsoft.Bot.Schema.TokenResponse.Properties">
             <summary>
-            Extension data for overflow of properties
+            Extra propreties
             </summary>
         </member>
         <member name="T:Microsoft.Bot.Schema.TokenStatus">

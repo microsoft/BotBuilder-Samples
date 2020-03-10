@@ -1446,6 +1446,41 @@ And return these results:
 * First example: `"h"`
 * Second example: `0`
 
+<a name="flatten"/>
+
+### flatten
+
+Flatten an array into non-array values.  With an optional depth flatten only to that depth.
+
+```
+flatten([<collection>], '<depth>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to flatten |
+| <*depth*> | No | Number | Maximum depth to flatten, or infinity if not set|
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | new collection whose elements have been flattened to non-array to the specified depth |
+||||
+
+*Example 1*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+This example will flatten the array to: ```[1, 2, 3, 4, 5, 6]```
+
+*Example 2*
+
+```
+flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
+```
+
+This example will only flatten the first level to: ```[1, 2, [3, 4], [5, 6]]```
 
 <a name="float"></a>
 
@@ -1850,7 +1885,7 @@ indicesAndValues('<collection or object>')
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*collection or object*> | Yes | Array | Original array or object |
+| <*collection or object*> | Yes | Array or Object | Original array or object |
 |||||
 
 | Return value | Type | Description |
@@ -1911,6 +1946,28 @@ join(foreach(indicesAndValues(items), item, item.value), ',')
 ```
 
 will return `zero,one,two`, and this expression has the same effect with `join(items, ',')`
+
+Another example, with object parameter.
+
+Suppose there is an object { user: {name: 'jack', age: 20} }
+
+```
+indicesAndValues(user)
+```
+
+will get 
+```
+[
+  {
+    index: 'name',
+    value: 'jack'
+  },
+  {
+    index: 'age',
+    value: 20
+  }
+]
+```
 
 
 <a name="int"></a>
@@ -3122,68 +3179,6 @@ And return this result:
 }
 ```
 
-<a name="flatten"/>
-
-### flatten
-
-Flatten an array into non-array values.  With an optional depth flatten only to that depth.
-
-```
-flatten([<collection>], '<depth>')
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection to flatten |
-| <*depth*> | No | Number | Maximum depth to flatten, or infinity if not set|
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*new-collection*> | Array | new collection whose elements have been flattened to non-array to the specified depth |
-||||
-
-*Example 1*
-
-```
-flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
-```
-This example will flatten the array to: ```[1, 2, 3, 4, 5, 6]```
-
-*Example 2*
-
-```
-flatten(createArray(1, createArray(2), createArray(createArray(3, 4), createArray(5, 6)))
-```
-
-This example will only flatten the first level to: ```[1, 2, [3, 4], [5, 6]]```
-
-<a name="unique"/>
-
-### unique
-
-```
-unique([<collection>])
-```
-
-| Parameter | Required | Type | Description |
-| --------- | -------- | ---- | ----------- |
-| <*collection*> | Yes | Array | The collection to modify |
-|||||
-
-| Return value | Type | Description |
-| ------------ | ---- | ----------- |
-| <*new-collection*> | Array | New collection with duplicate element removed |
-||||
-
-*Example 1*
-
-```
-unique(createArray(1, 2, 1))
-```
-
-This will remove the duplicate 1 and produce: ```[1, 2]```
-
 <a name="split"></a>
 
 ### split
@@ -3761,6 +3756,32 @@ union(createArray(1, 2, 3), createArray(1, 2, 10, 101))
 ```
 
 And returns this result: `[1, 2, 3, 10, 101]`
+
+<a name="unique"/>
+
+### unique
+
+```
+unique([<collection>])
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*collection*> | Yes | Array | The collection to modify |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*new-collection*> | Array | New collection with duplicate element removed |
+||||
+
+*Example 1*
+
+```
+unique(createArray(1, 2, 1))
+```
+
+This will remove the duplicate 1 and produce: ```[1, 2]```
 
 <a name="uriComponent"></a>
 

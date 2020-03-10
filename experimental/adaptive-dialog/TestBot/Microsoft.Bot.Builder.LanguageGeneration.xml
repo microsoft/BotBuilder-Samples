@@ -4,7 +4,34 @@
         <name>Microsoft.Bot.Builder.LanguageGeneration</name>
     </assembly>
     <members>
-        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Analyzer.AnalyzeExpressionDirectly(Microsoft.Bot.Expressions.Expression)">
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.Analyzer">
+            <summary>
+            LG template analyzer.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Analyzer.#ctor(System.Collections.Generic.List{Microsoft.Bot.Builder.LanguageGeneration.LGTemplate},AdaptiveExpressions.ExpressionEngine)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.Analyzer"/> class.
+            </summary>
+            <param name="templates">template list.</param>
+            <param name="expressionEngine">expression engine.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Analyzer.Templates">
+            <summary>
+            Gets templates.
+            </summary>
+            <value>
+            Templates.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Analyzer.AnalyzeTemplate(System.String)">
+            <summary>
+            Analyzer a template to get the static analyzer results.
+            </summary>
+            <param name="templateName">Template name.</param>
+            <returns>analyze result including variables and template references.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Analyzer.AnalyzeExpressionDirectly(AdaptiveExpressions.Expression)">
             <summary>
             Extract the templates ref out from an expression
             return only those without parameters.
@@ -12,12 +39,85 @@
             <param name="exp">Expression.</param>
             <returns>template refs.</returns>
         </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult">
+            <summary>
+            Analyzer result. Contains variables and template references.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult.#ctor(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.String})">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult"/> class.
+            </summary>
+            <param name="variables">Init varibales.</param>
+            <param name="templateReferences">Init template references.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult.Variables">
+            <summary>
+            Gets or sets variables that this template contains.
+            </summary>
+            <value>
+            Variables that this template contains.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult.TemplateReferences">
+            <summary>
+            Gets or sets template references that this template contains.
+            </summary>
+            <value>
+            template references that this template contains.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult.Union(Microsoft.Bot.Builder.LanguageGeneration.AnalyzerResult)">
+            <summary>
+            Combine two analyzer results.
+            </summary>
+            <param name="outputItem">Another analyzer result.</param>
+            <returns>Combined analyzer result.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory">
             <summary>
             A customized memory designed for LG evaluation, in which
             we want to make sure the global memory (the first memory passed in) can be
             accessible at any sub evaluation process. 
             </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory.#ctor(System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory"/> class.
+            </summary>
+            <param name="scope">scope.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory.#ctor(AdaptiveExpressions.Memory.IMemory,AdaptiveExpressions.Memory.IMemory)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory"/> class.
+            </summary>
+            <param name="globalMemory">global memory.</param>
+            <param name="localMemory">local memory.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory.GlobalMemory">
+            <summary>
+            Gets or sets global memory.
+            </summary>
+            <value>
+            Global memory.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory.LocalMemory">
+            <summary>
+            Gets or sets local memory.
+            </summary>
+            <value>
+            Local memory.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.CustomizedMemory.TryGetValue(System.String,System.Object@)">
+            <summary>
+            Try to get the value from a given path. Firstly, get result from global memory,
+            if global memory does not contain, get from local memory.
+            </summary>
+            <param name="path">memory path.</param>
+            <param name="value">resolved value.</param>
+            <returns> true if the memory contains an element with the specified key; otherwise, false.</returns>
         </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.DiagnosticSeverity">
             <summary>
@@ -90,6 +190,136 @@
             The human-readable message.
             </value>
         </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.ErrorListener">
+            <summary>
+            LG parser error listener.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget">
+            <summary>
+            Runtime template state.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget.#ctor(System.String,System.Object)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget"/> class.
+            </summary>
+            <param name="templateName">template name.</param>
+            <param name="scope">template scope.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget.EvaluatedChildren">
+            <summary>
+            Gets or sets the children template that this template has evaluated currently. 
+            </summary>
+            <value>
+            The children template that this template has evaluated currently. 
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget.TemplateName">
+            <summary>
+            Gets or sets template name.
+            </summary>
+            <value>
+            template name.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget.Scope">
+            <summary>
+            Gets or sets scope.
+            </summary>
+            <value>
+            Scope.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.EvaluationTarget.GetId">
+            <summary>
+            Get current instance id. If two target has the same Id,
+            we can say they have the same template evaluation.
+            </summary>
+            <returns>id.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.Evaluator">
+            <summary>
+            LG template Evaluator.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Evaluator.#ctor(System.Collections.Generic.List{Microsoft.Bot.Builder.LanguageGeneration.LGTemplate},AdaptiveExpressions.ExpressionEngine,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.Evaluator"/> class.
+            </summary>
+            <param name="templates">Template list.</param>
+            <param name="expressionEngine">expression engine.</param>
+            <param name="strictMode">strict mode. If strictMode == true, exception in expression would throw outside.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Evaluator.Templates">
+            <summary>
+            Gets templates.
+            </summary>
+            <value>
+            Templates.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Evaluator.ExpressionEngine">
+            <summary>
+            Gets expression engine.
+            </summary>
+            <value>
+            Expression engine.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Evaluator.TemplateMap">
+            <summary>
+            Gets templateMap.
+            </summary>
+            <value>
+            TemplateMap.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Evaluator.EvaluateTemplate(System.String,System.Object)">
+            <summary>
+            Evaluate a template with given name and scope.
+            </summary>
+            <param name="inputTemplateName">template name.</param>
+            <param name="scope">scope.</param>
+            <returns>Evaluate result.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.Expander">
+            <summary>
+            LG template expander.
+            </summary>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Expander.#ctor(System.Collections.Generic.List{Microsoft.Bot.Builder.LanguageGeneration.LGTemplate},AdaptiveExpressions.ExpressionEngine,System.Boolean)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.Expander"/> class.
+            </summary>
+            <param name="templates">template list.</param>
+            <param name="expressionEngine">Given expression engine.</param>
+            <param name="strictMode">strict mode. If strictMode == true, exception in expression would throw outside.</param>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Expander.Templates">
+            <summary>
+            Gets templates.
+            </summary>
+            <value>
+            Templates.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.Expander.TemplateMap">
+            <summary>
+            Gets templateMap.
+            </summary>
+            <value>
+            TemplateMap.
+            </value>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Expander.ExpandTemplate(System.String,System.Object)">
+            <summary>
+            Expand the results of a template with given name and scope.
+            </summary>
+            <param name="templateName">Given template name.</param>
+            <param name="scope">Given scope.</param>
+            <returns>All possiable results.</returns>
+        </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.Extensions">
             <summary>
             Extension methods for LG.
@@ -112,7 +342,7 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Extensions.TrimExpression(System.String)">
             <summary>
-            trim expression. @{abc} => abc,  @{a == {}} => a == {}.
+            trim expression. ${abc} => abc,  ${a == {}} => a == {}.
             </summary>
             <param name="expression">input expression string.</param>
             <returns>pure expression string.</returns>
@@ -128,6 +358,31 @@
             </remarks>
             <param name="ambigiousPath">authoredPath.</param>
             <returns>path expressed as OS path.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.Extensions.GetPrefixErrorMessage(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.NormalTemplateStringContext)">
+            <summary>
+            Get prefix error message from normal template sting context.
+            </summary>
+            <param name="context">normal template sting context.</param>
+            <returns>prefix error message.</returns>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.LGErrors">
+            <summary>
+            Centralized LG errors.
+            </summary>
+        </member>
+        <member name="T:Microsoft.Bot.Builder.LanguageGeneration.LGException">
+            <summary>
+            LG Exception that contains diagnostics.
+            </summary>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.LGException.Diagnostics">
+            <summary>
+            Gets or sets diagnostics.
+            </summary>
+            <value>
+            Diagnostics.
+            </value>
         </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile">
             <summary>
@@ -217,12 +472,40 @@
             id of this lg source. For file, is full path.
             </value>
         </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.LGFile.Options">
+            <summary>
+            Gets or sets lG file options.
+            </summary>
+            <value>
+            LG file options.
+            </value>
+        </member>
+        <member name="P:Microsoft.Bot.Builder.LanguageGeneration.LGFile.StrictMode">
+            <summary>
+            Gets a value indicating whether lG parser/checker/evaluate strict mode.
+            If strict mode is on, expression would throw exception instead of return
+            null or make the condition failed.
+            </summary>
+            <value>
+            A value indicating whether lG parser/checker/evaluate strict mode.
+            If strict mode is on, expression would throw exception instead of return
+            null or make the condition failed.
+            </value>
+        </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFile.EvaluateTemplate(System.String,System.Object)">
             <summary>
             Evaluate a template with given name and scope.
             </summary>
             <param name="templateName">Template name to be evaluated.</param>
             <param name="scope">The state visible in the evaluation.</param>
+            <returns>Evaluate result.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFile.Evaluate(System.String,System.Object)">
+            <summary>
+            Use to evaluate an inline template str.
+            </summary>
+            <param name="inlineStr">inline string which will be evaluated.</param>
+            <param name="scope">scope object or JToken.</param>
             <returns>Evaluate result.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFile.ExpandTemplate(System.String,System.Object)">
@@ -283,7 +566,7 @@
         </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.LGImport">
             <summary>
-            Here is a data model that can easily understand and use the LG import definition in LG files.
+            Here is a data model that can help users understand and use the LG import definition in LG files easily. 
             </summary>
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGImport.#ctor(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.ImportDefinitionContext,System.String)">
@@ -335,24 +618,39 @@
         </member>
         <member name="T:Microsoft.Bot.Builder.LanguageGeneration.LGParser">
             <summary>
-            Parser to turn lg content into an <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
+            Parser to turn lg content into a <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
             </summary>
         </member>
-        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ParseFile(System.String,Microsoft.Bot.Builder.LanguageGeneration.ImportResolverDelegate)">
+        <member name="F:Microsoft.Bot.Builder.LanguageGeneration.LGParser.OptionRegex">
             <summary>
-            Parser to turn lg content into an <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
+            option regex.
             </summary>
-            <param name="filePath">LG absolute file path.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ParseFile(System.String,Microsoft.Bot.Builder.LanguageGeneration.ImportResolverDelegate,AdaptiveExpressions.ExpressionEngine)">
+            <summary>
+            Parser to turn lg content into a <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
+            </summary>
+            <param name="filePath"> absolut path of a LG file.</param>
             <param name="importResolver">resolver to resolve LG import id to template text.</param>
+            <param name="expressionEngine">expressionEngine Expression engine for evaluating expressions.</param>
             <returns>new <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/> entity.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ParseText(System.String,System.String,Microsoft.Bot.Builder.LanguageGeneration.ImportResolverDelegate)">
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ParseText(System.String,System.String,Microsoft.Bot.Builder.LanguageGeneration.ImportResolverDelegate,AdaptiveExpressions.ExpressionEngine)">
             <summary>
-            Parser to turn lg content into an <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
+            Parser to turn lg content into a <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/>.
             </summary>
             <param name="content">Text content contains lg templates.</param>
-            <param name="id">id is the content identifier. If importResolver is null, id must be a full path string. </param>
+            <param name="id">id is the identifier of content. If importResolver is null, id must be a full path string. </param>
             <param name="importResolver">resolver to resolve LG import id to template text.</param>
+            <param name="expressionEngine">expressionEngine Expression engine for evaluating expressions.</param>
+            <returns>new <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/> entity.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ParseTextWithRef(System.String,Microsoft.Bot.Builder.LanguageGeneration.LGFile)">
+            <summary>
+            Parser to turn lg content into a <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/> based on the original LGFile.
+            </summary>
+            <param name="content">Text content contains lg templates.</param>
+            <param name="lgFile">original LGFile.</param>
             <returns>new <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.LGFile"/> entity.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.DefaultFileResolver(System.String,System.String)">
@@ -365,19 +663,26 @@
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.GetFileContentContext(System.String,System.String)">
             <summary>
-            Get parsed tree node from text by antlr4 engine.
+            Get parsed tree nodes from text by antlr4 engine.
             </summary>
             <param name="text">Original text which will be parsed.</param>
-            <returns>Parsed tree node.</returns>
+            <returns>Parsed tree nodes.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ExtractLGTemplates(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.FileContext,System.String,System.String)">
             <summary>
-            Extract LG templates from a file parse tree.
+            Extract LG templates from the parse tree of a file.
             </summary>
             <param name="file">LG file context from ANTLR parser.</param>
             <param name="lgfileContent">LG file content.</param>
             <param name="source">text source.</param>
             <returns>LG template list.</returns>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ExtractLGOptions(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.FileContext)">
+            <summary>
+            Extract LG options from the parse tree of a file.
+            </summary>
+            <param name="file">LG file context from ANTLR parser.</param>
+            <returns>Option list.</returns>
         </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGParser.ExtractLGImports(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.FileContext,System.String)">
             <summary>
@@ -489,13 +794,20 @@
             LG managed code checker.
             </summary>
         </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.StaticChecker.#ctor(Microsoft.Bot.Builder.LanguageGeneration.LGFile)">
+            <summary>
+            Initializes a new instance of the <see cref="T:Microsoft.Bot.Builder.LanguageGeneration.StaticChecker"/> class.
+            </summary>
+            <param name="lgFile">the lgFile wihch would be checked.</param>
+            <param name="expressionEngine">Init expression engine.</param>
+        </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.StaticChecker.Check">
             <summary>
             Return error messages list.
             </summary>
             <returns>report result.</returns>
         </member>
-        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.StaticChecker.BuildLGDiagnostic(System.String,Microsoft.Bot.Builder.LanguageGeneration.DiagnosticSeverity,Antlr4.Runtime.ParserRuleContext)">
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.StaticChecker.BuildLGDiagnostic(System.String,Microsoft.Bot.Builder.LanguageGeneration.DiagnosticSeverity,Antlr4.Runtime.ParserRuleContext,System.Boolean)">
             <summary>
             Build LG diagnostic with ANTLR tree node context.
             </summary>
@@ -911,6 +1223,18 @@
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.ILGFileParserListener.ExitImportDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.ImportDefinitionContext)">
             <summary>
             Exit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.importDefinition"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.ILGFileParserListener.EnterOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.ILGFileParserListener.ExitOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
             </summary>
             <param name="context">The parse tree.</param>
         </member>
@@ -1391,6 +1715,20 @@
             </summary>
             <param name="context">The parse tree.</param>
         </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParserBaseListener.EnterOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Enter a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParserBaseListener.ExitOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Exit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
+            <para>The default implementation does nothing.</para>
+            </summary>
+            <param name="context">The parse tree.</param>
+        </member>
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParserBaseListener.EnterEveryRule(Antlr4.Runtime.ParserRuleContext)">
             <inheritdoc/>
             <remarks>The default implementation does nothing.</remarks>
@@ -1645,6 +1983,13 @@
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.ILGFileParserVisitor`1.VisitImportDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.ImportDefinitionContext)">
             <summary>
             Visit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.importDefinition"/>.
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.ILGFileParserVisitor`1.VisitOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
             </summary>
             <param name="context">The parse tree.</param>
             <return>The visitor result.</return>
@@ -2016,6 +2361,17 @@
         <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParserBaseVisitor`1.VisitImportDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.ImportDefinitionContext)">
             <summary>
             Visit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.importDefinition"/>.
+            <para>
+            The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
+            on <paramref name="context"/>.
+            </para>
+            </summary>
+            <param name="context">The parse tree.</param>
+            <return>The visitor result.</return>
+        </member>
+        <member name="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParserBaseVisitor`1.VisitOptionsDefinition(Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.OptionsDefinitionContext)">
+            <summary>
+            Visit a parse tree produced by <see cref="M:Microsoft.Bot.Builder.LanguageGeneration.LGFileParser.optionsDefinition"/>.
             <para>
             The default implementation returns the result of calling <see cref="M:Antlr4.Runtime.Tree.AbstractParseTreeVisitor`1.VisitChildren(Antlr4.Runtime.Tree.IRuleNode)"/>
             on <paramref name="context"/>.
