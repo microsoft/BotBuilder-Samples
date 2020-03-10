@@ -1,0 +1,24 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "size": "Medium",
+      "weight": "Bolder",
+      "text": "Welcome to the Dialog Skill Prototype! (.Net Core 3.1)",
+      "wrap": true,
+      "maxLines": 0,
+      "color": "Accent"
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "text": "This sample allows you to select a skill to invoke and try different SkillDialog scenarios.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ]
+}
