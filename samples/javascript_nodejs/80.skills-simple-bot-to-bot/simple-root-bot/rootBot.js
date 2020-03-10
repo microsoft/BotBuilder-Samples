@@ -64,30 +64,28 @@ class RootBot extends ActivityHandler {
             await next();
         });
 
-        this.onUnrecognizedActivityType(async (context, next) => {
-            // Handle EndOfConversation returned by the skill.
-            if (context.activity.type === ActivityTypes.EndOfConversation) {
-                // Stop forwarding activities to Skill.
-                await this.activeSkillProperty.set(context, undefined);
+        // Handle EndOfConversation returned by the skill.
+        this.onEndOfConversation(async (context, next) => {
+            // Stop forwarding activities to Skill.
+            await this.activeSkillProperty.set(context, undefined);
 
-                // Show status message, text and value returned by the skill
-                let eocActivityMessage = `Received ${ ActivityTypes.EndOfConversation }.\n\nCode: ${ context.activity.code }`;
-                if (context.activity.text) {
-                    eocActivityMessage += `\n\nText: ${ context.activity.text }`;
-                }
-
-                if (context.activity.value) {
-                    eocActivityMessage += `\n\nValue: ${ context.activity.value }`;
-                }
-
-                await context.sendActivity(eocActivityMessage);
-
-                // We are back at the root
-                await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
-
-                // Save conversation state
-                await this.conversationState.saveChanges(context, true);
+            // Show status message, text and value returned by the skill
+            let eocActivityMessage = `Received ${ ActivityTypes.EndOfConversation }.\n\nCode: ${ context.activity.code }`;
+            if (context.activity.text) {
+                eocActivityMessage += `\n\nText: ${ context.activity.text }`;
             }
+
+            if (context.activity.value) {
+                eocActivityMessage += `\n\nValue: ${ context.activity.value }`;
+            }
+
+            await context.sendActivity(eocActivityMessage);
+
+            // We are back at the root
+            await context.sendActivity('Back in the root bot. Say \'skill\' and I\'ll patch you through');
+
+            // Save conversation state
+            await this.conversationState.saveChanges(context, true);
 
             // By calling next() you ensure that the next BotHandler is run.
             await next();
