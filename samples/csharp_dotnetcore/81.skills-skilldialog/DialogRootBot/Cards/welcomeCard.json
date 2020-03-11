@@ -8,7 +8,7 @@
       "spacing": "Medium",
       "size": "Medium",
       "weight": "Bolder",
-      "text": "Welcome to the Dialog Skill Prototype! (.Net Core 3.1)",
+      "text": "Welcome to the Skill Dialog Sample! (.Net Core 3.1)",
       "wrap": true,
       "maxLines": 0,
       "color": "Accent"
