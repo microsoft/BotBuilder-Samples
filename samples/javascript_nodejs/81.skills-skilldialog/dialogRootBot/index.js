@@ -16,9 +16,6 @@ const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botfr
 const { RootBot } = require('./bots/rootBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
-// the bot's tangent dialog
-const { TangentDialog } = require('./dialogs/tangentDialog');
-
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
@@ -88,8 +85,7 @@ const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactor
 const skillsConfig = new SkillsConfiguration();
 
 // Create the main dialog.
-const tangentDialog = new TangentDialog(TangentDialog.name);
-const mainDialog = new MainDialog(conversationState, skillsConfig, skillClient, conversationIdFactory, tangentDialog);
+const mainDialog = new MainDialog(conversationState, skillsConfig, skillClient, conversationIdFactory);
 const bot = new RootBot(conversationState, mainDialog);
 
 // Create HTTP server

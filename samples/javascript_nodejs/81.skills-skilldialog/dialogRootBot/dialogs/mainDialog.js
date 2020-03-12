@@ -3,20 +3,18 @@
 
 const { ActivityTypes, DeliveryModes, InputHints, MessageFactory } = require('botbuilder');
 const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, SkillDialog, WaterfallDialog } = require('botbuilder-dialogs');
-const { TangentDialog } = require('../dialogs/tangentDialog');
 
 /**
  * The main dialog for this bot. It uses a SkillDialog to call skills.
  * TODO: add params
  */
 class MainDialog extends ComponentDialog {
-    constructor(conversationState, skillsConfig, skillClient, conversationIdFactory, tangentDialog) {
+    constructor(conversationState, skillsConfig, skillClient, conversationIdFactory) {
         super(MainDialog.name);
 
         if (!conversationState) throw new Error('[MainDialog]: Missing parameter \'conversationState\' is required');
         if (!skillsConfig) throw new Error('[MainDialog]: Missing parameter \'skillsConfig\' is required');
         if (!skillClient) throw new Error('[MainDialog]: Missing parameter \'skillClient\' is required');
-        if (!tangentDialog) throw new Error('[MainDialog]: Missing parameter \'tangentDialog\' is required');
         if (!conversationIdFactory) throw new Error('[MainDialog]: Missing parameter \'conversationIdFactory\' is required');
 
         if (!process.env.MicrosoftAppId) throw new Error('[MainDialog]: Missing parameter \'MicrosoftAppId\' is required');
@@ -45,7 +43,6 @@ class MainDialog extends ComponentDialog {
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.
         this.addDialog(new ChoicePrompt(ChoicePrompt.name))
-            .addDialog(tangentDialog)
             .addDialog(new WaterfallDialog(WaterfallDialog.name, [
                 this.selectSkillStep.bind(this),
                 this.selectSkillActionStep.bind(this),
@@ -80,11 +77,6 @@ class MainDialog extends ComponentDialog {
             // Cancel all dialogs when the user says "abort"
             await innerDc.cancelAllDialogs();
             return await innerDc.replaceDialog(this.initialDialogId, { text: 'Canceled! \n\n What skill would you like to call?' });
-        }
-
-        if (activeSkill != null && activity.type === ActivityTypes.Message && activity.text.toLowerCase() === 'tangent') {
-            // Start tangent dialog
-            return await innerDc.beginDialog(TangentDialog.name);
         }
 
         return await super.onContinueDialog(innerDc);
@@ -180,7 +172,7 @@ class MainDialog extends ComponentDialog {
         skillDialogArgs.activity.properties = stepContext.context.activity.properties;
 
         // Comment or uncomment this line if you need to enable or disable buffered replies
-        skillDialogArgs.activity.deliveryMode = DeliveryModes.ExpectReplies;
+        // skillDialogArgs.activity.deliveryMode = DeliveryModes.ExpectReplies;
 
         // Save active skill in state
         await this.activeSkillProperty.set(stepContext.context, selectedSkill);
