@@ -1,0 +1,39 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
+  <TemplateData>
+    <Name>Core Bot with Tests (Bot Framework v4 - .NET Core 2.1)</Name>
+    <Description>
+      Core Bot Template with Unit Tests for Bot Framework v4.  Same features as Core Bot, plus a full unit test project.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Bot Framework</ProjectSubType>
+    <SortOrder>1830</SortOrder>
+    <CreateNewFolder>false</CreateNewFolder>
+    <DefaultName>CoreBotWithTests</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <CreateInPlace>true</CreateInPlace>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>CoreBot.png</Icon>
+    <PreviewImage></PreviewImage>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>csharp</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$templateversion$" Value="4.8.0"/>
+    </CustomParameters>
+    <ProjectCollection>
+      <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$">
+        CoreBot\CoreBot.vstemplate
+      </ProjectTemplateLink>
+      <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$.Tests">
+        CoreBot.Tests\CoreBot.tests.vstemplate
+      </ProjectTemplateLink>
+    </ProjectCollection>
+  </TemplateContent>
+
+</VSTemplate>
