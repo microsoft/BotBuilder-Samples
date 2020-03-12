@@ -1,8 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityHandler, CardFactory } = require('botbuilder');
-const WelcomeCard = require('../cards/welcomeCard.json');
+const { ActivityHandler } = require('botbuilder');
 
 class SkillBot extends ActivityHandler {
     /**

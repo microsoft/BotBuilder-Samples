@@ -6,7 +6,7 @@ const { ComponentDialog, OAuthPrompt, WaterfallDialog } = require('botbuilder-di
 
 class OAuthTestDialog extends ComponentDialog {
     constructor() {
-        super();
+        super(OAuthTestDialog.name);
         this.connectionName = process.env.ConnectionName;
 
         if (!this.connectionName) throw new Error('[OAuthTestDialog]: Missing environment variable. \'ConnectionName\' (name of OAuth connection) is required');

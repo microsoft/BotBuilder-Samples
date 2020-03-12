@@ -2,10 +2,11 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, DeliveryModes, InputHints, MessageFactory } = require('botbuilder');
-const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnResult, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
+const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
-const { BookingDialog } = require('../dialogs/bookingDialog');
+const { BookingDialog } = require('./bookingDialog');
+const { OAuthTestDialog } = require('./oAuthTestDialog');
 
 /**
  * A root dialog that can route activities sent to the skill by different dialogs
@@ -42,11 +43,11 @@ class ActivityRouterDialog extends ComponentDialog {
 
         switch (stepContext.context.activity.type) {
             case ActivityTypes.Message:
-                return await onMessageActivity(stepContext);
+                return await this.onMessageActivity(stepContext);
             case ActivityTypes.Invoke:
-                return await onInvokeActivity(stepContext);
+                return await this.onInvokeActivity(stepContext);
             case ActivityTypes.Event:
-                return await onEventActivity(stepContext);
+                return await this.onEventActivity(stepContext);
             default:
                 // We didn't get an activity type we can handle.
                 await stepContext.context.sendActivity(
@@ -55,7 +56,7 @@ class ActivityRouterDialog extends ComponentDialog {
                         undefined,
                         InputHints.IgnoringInput
                     ));
-                return new DialogTurnResult(DialogTurnStatus.complete);
+                return { status: DialogTurnStatus.complete };
         }
     }
 
@@ -88,7 +89,7 @@ class ActivityRouterDialog extends ComponentDialog {
                         undefined,
                         InputHints.IgnoringInput
                     ));
-                return new DialogTurnResult(DialogTurnStatus.complete);
+                return { status: DialogTurnStatus.complete };
         }
     }
 
@@ -138,12 +139,12 @@ class ActivityRouterDialog extends ComponentDialog {
                     ));
                 break;
         }
-        return new DialogTurnResult(DialogTurnStatus.complete);
+        return { status: DialogTurnStatus.complete };
     }
 
     /**
      * This method just gets a message activity and runs it through LUIS.
-     * A developer can choose to start a dialog based on the LUIS results (not implemented here). 
+     * A developer can choose to start a dialog based on the LUIS results (not implemented here).
      */
     async onMessageActivity(stepContext) {
         const activity = stepContext.context.activity;
@@ -157,13 +158,13 @@ class ActivityRouterDialog extends ComponentDialog {
 
         if (!this.luisRecognizer || !this.luisRecognizer.isConfigured) {
             await stepContext.context.sendActivity(MessageFactory.text(
-                'NOTE: LUIS is not configured. TO enable all capabilities, please add \'LuisAppId\', \'LuisAPIKey\' and \'LuisAPIHostName\' to the appsettings.json file.',
+                'NOTE: LUIS is not configured. To enable all capabilities, please add \'LuisAppId\', \'LuisAPIKey\' and \'LuisAPIHostName\' to the appsettings.json file.',
                 undefined,
                 InputHints.IgnoringInput
             ));
         } else {
             // Call LUIS with the utterance
-            const luisResult = await this.luisRecognizer.recognize(stepContext.context);
+            const luisResult = await this.luisRecognizer.executeLuisQuery(stepContext.context);
             const topIntent = LuisRecognizer.topIntent(luisResult);
 
             // Create a message showing the LUIS result
@@ -180,7 +181,7 @@ class ActivityRouterDialog extends ComponentDialog {
             await stepContext.context.sendActivity(MessageFactory.text(resultString, undefined, InputHints.IgnoringInput));
         }
 
-        return new DialogTurnResult(DialogTurnStatus.complete);
+        return { status: DialogTurnStatus.complete };
     }
 
     /**

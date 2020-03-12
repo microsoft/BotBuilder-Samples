@@ -9,12 +9,13 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { ActivityTypes, BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { ActivityTypes, BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage } = require('botbuilder');
 const { AuthenticationConfiguration } = require('botframework-connector');
 
 // This bot's main dialog.
-const { RootBot: SkillBot } = require('./bots/skillBot');
-const { MainDialog: ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
+const { SkillBot } = require('./bots/skillBot');
+const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
+const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -77,13 +78,19 @@ adapter.onTurnError = onTurnErrorHandler;
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
+// Initialize LUIS Recognizer
+const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
+const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
+
+const luisRecognizer = new FlightBookingRecognizer(luisConfig);
+
 // Create the activity router dialog.
-const activityRouterDialog = new MainDialog(conversationState);
+const activityRouterDialog = new ActivityRouterDialog(conversationState, luisRecognizer);
 const bot = new SkillBot(conversationState, activityRouterDialog);
 
 // Create HTTP server
 const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
+server.listen(process.env.port || process.env.PORT || 3979, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');

@@ -221,13 +221,13 @@ class MainDialog extends ComponentDialog {
 
         // Send a message activity to the skill
         if (selectedOption.value.toLowerCase().startsWith('m:')) {
-            const activity = MessageFactory.text(selectedOption.substr(2).trim());
+            const activity = MessageFactory.text(selectedOption.value.substr(2).trim());
             return activity;
         }
 
         // Send a message activity to the skill with some artificial parameters in value
         if (selectedOption.value.toLowerCase().startsWith('mv:')) {
-            const activity = MessageFactory.text(selectedOption.substr(3).trim());
+            const activity = MessageFactory.text(selectedOption.value.substr(3).trim());
             activity.value = { destination: 'New York' };
             return activity;
         }
