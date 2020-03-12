@@ -33,6 +33,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Bots
             }
             else
             {
+                // let the base class handle the activity.
                 await base.OnTurnAsync(turnContext, cancellationToken);
             }
 

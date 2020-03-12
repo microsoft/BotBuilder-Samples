@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
+using Microsoft.BotBuilderSamples.DialogSkillBot.Authentication;
 using Microsoft.BotBuilderSamples.DialogSkillBot.Bots;
 using Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -28,6 +30,9 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
             services.AddControllers()
                 .AddNewtonsoftJson();
 
+            // Register AuthConfiguration to enable custom claim validation.
+            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+            
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, SkillAdapterWithErrorHandler>();
 
@@ -55,21 +60,17 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseWebSockets()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
 
             //app.UseHttpsRedirection(); Enable this to support https
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
         }
     }
 }

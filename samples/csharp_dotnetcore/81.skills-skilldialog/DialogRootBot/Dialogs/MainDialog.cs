@@ -53,9 +53,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // ChoicePrompt to render available skills and skill actions
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
 
-            // Register the tangent
-            AddDialog(new TangentDialog());
-
             // Create SkillDialog instances for the configured skills
             foreach (var skillInfo in _skillsConfig.Skills.Values)
             {
@@ -99,12 +96,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 // Cancel all dialog when the user says abort.
                 await innerDc.CancelAllDialogsAsync(cancellationToken);
                 return await innerDc.ReplaceDialogAsync(InitialDialogId, "Canceled! \n\n What skill would you like to call?", cancellationToken);
-            }
-
-            if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("tangent", StringComparison.CurrentCultureIgnoreCase))
-            {
-                // Start tangent.
-                return await innerDc.BeginDialogAsync(nameof(TangentDialog), cancellationToken: cancellationToken);
             }
 
             return await base.OnContinueDialogAsync(innerDc, cancellationToken);
@@ -180,8 +171,9 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             skillDialogArgs.Activity.ChannelData = stepContext.Context.Activity.ChannelData;
             skillDialogArgs.Activity.Properties = stepContext.Context.Activity.Properties;
 
-            // Comment or uncomment this line if you need to enable or disabled buffered replies.
-            skillDialogArgs.Activity.DeliveryMode = DeliveryModes.ExpectReplies;
+            // Comment or uncomment this line if you need to enable or disable buffering
+            // replies from the skill in the response.
+            //skillDialogArgs.Activity.DeliveryMode = DeliveryModes.ExpectReplies;
 
             // Save active skill in state
             await _activeSkillProperty.SetAsync(stepContext.Context, selectedSkill, cancellationToken);

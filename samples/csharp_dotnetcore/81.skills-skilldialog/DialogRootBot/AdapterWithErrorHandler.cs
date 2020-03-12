@@ -11,7 +11,6 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.BotBuilderSamples.DialogRootBot.Bots;
 using Microsoft.BotBuilderSamples.DialogRootBot.Dialogs;
 using Microsoft.BotBuilderSamples.DialogRootBot.Middleware;
 using Microsoft.Extensions.Configuration;
@@ -31,7 +30,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
             : base(configuration, logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _conversationState = conversationState;
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _skillClient = skillClient;
             _skillsConfig = skillsConfig;
