@@ -12,8 +12,8 @@ class RootBot extends ActivityHandler {
      */
     constructor(conversationState, dialog) {
         super();
-        if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
-        if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
+        if (!conversationState) throw new Error('[RootBot]: Missing parameter. conversationState is required');
+        if (!dialog) throw new Error('[RootBot]: Missing parameter. dialog is required');
 
         this.conversationState = conversationState;
         this.dialog = dialog;

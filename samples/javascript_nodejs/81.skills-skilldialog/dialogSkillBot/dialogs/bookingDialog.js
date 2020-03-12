@@ -7,19 +7,14 @@ const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialo
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
 
-const CONFIRM_PROMPT = 'confirmPrompt';
-const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
-const TEXT_PROMPT = 'textPrompt';
-const WATERFALL_DIALOG = 'waterfallDialog';
-
 class BookingDialog extends CancelAndHelpDialog {
-    constructor(id) {
-        super(id || 'bookingDialog');
+    constructor() {
+        super(BookingDialog.name);
 
-        this.addDialog(new TextPrompt(TEXT_PROMPT))
-            .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
-            .addDialog(new DateResolverDialog(DATE_RESOLVER_DIALOG))
-            .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
+        this.addDialog(new TextPrompt(TextPrompt.name))
+            .addDialog(new ConfirmPrompt(ConfirmPrompt.name))
+            .addDialog(new DateResolverDialog(DateResolverDialog.name))
+            .addDialog(new WaterfallDialog(WaterfallDialog.name, [
                 this.destinationStep.bind(this),
                 this.originStep.bind(this),
                 this.travelDateStep.bind(this),
@@ -27,7 +22,7 @@ class BookingDialog extends CancelAndHelpDialog {
                 this.finalStep.bind(this)
             ]));
 
-        this.initialDialogId = WATERFALL_DIALOG;
+        this.initialDialogId = WaterfallDialog.name;
     }
 
     /**
@@ -39,7 +34,7 @@ class BookingDialog extends CancelAndHelpDialog {
         if (!bookingDetails.destination) {
             const messageText = 'To what city would you like to travel?';
             const msg = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
-            return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
+            return await stepContext.prompt(TextPrompt.name, { prompt: msg });
         }
         return await stepContext.next(bookingDetails.destination);
     }

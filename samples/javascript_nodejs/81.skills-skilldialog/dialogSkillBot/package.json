@@ -1,7 +1,7 @@
 {
-    "name": "skill-to-skill-root-bot",
+    "name": "skill-to-skill-skill-bot",
     "version": "1.0.0",
-    "description": "A bot that demonstrates Skill to Skill Dialogs (Root Bot)",
+    "description": "A bot that demonstrates Skill to Skill Dialogs (Skill Bot)",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -17,6 +17,7 @@
     },
     "dependencies": {
         "botbuilder": "^4.8.0-preview-112340",
+        "botbuilder-ai": "^4.7.2",
         "botbuilder-dialogs": "^4.8.0-preview-112340",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
