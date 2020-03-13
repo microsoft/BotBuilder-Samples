@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Bot.Builder
 {
@@ -22,9 +23,12 @@ namespace Microsoft.Bot.Builder
         /// <returns>handoff event.</returns>
         public static IEventActivity CreateHandoffInitiation(ITurnContext turnContext, object handoffContext, Transcript transcript = null)
         {
-            var handoffEvent = CreateHandoffEvent(HandoffEventNames.InitiateHandoff, handoffContext, turnContext.Activity.Conversation);
+            if (turnContext == null)
+            {
+                throw new ArgumentNullException(nameof(turnContext));
+            }
 
-            var conversationReference = turnContext.Activity.GetConversationReference();
+            var handoffEvent = CreateHandoffEvent(HandoffEventNames.InitiateHandoff, handoffContext, turnContext.Activity.Conversation);
 
             handoffEvent.From = turnContext.Activity.From;
             handoffEvent.RelatesTo = turnContext.Activity.GetConversationReference();
@@ -34,10 +38,9 @@ namespace Microsoft.Bot.Builder
 
             if (transcript != null)
             {
-                var bufferedActivities = transcript.Activities.Select(a => a.ApplyConversationReference(conversationReference)).ToArray();
                 var attchment = new Attachment
                 {
-                    Content = new Transcript(bufferedActivities),
+                    Content = transcript,
                     ContentType = "application/json",
                     Name = "Transcript",
                 };
@@ -56,16 +59,17 @@ namespace Microsoft.Bot.Builder
         /// <returns>handoff event.</returns>
         public static IEventActivity CreateHandoffStatus(ConversationAccount conversation, string state, string message = null)
         {
-            object value;
+            if (conversation == null)
+            {
+                throw new ArgumentNullException(nameof(conversation));
+            }
 
-            if (string.IsNullOrEmpty(message))
+            if (state == null)
             {
-                value = new { state };
+                throw new ArgumentNullException(nameof(state));
             }
-            else
-            {
-                value = new { state, message };
-            }
+
+            object value = new { state, message };
 
             var handoffEvent = CreateHandoffEvent(HandoffEventNames.HandoffStatus, value, conversation);
             return handoffEvent;
@@ -76,7 +80,7 @@ namespace Microsoft.Bot.Builder
             var handoffEvent = Activity.CreateEventActivity() as Activity;
 
             handoffEvent.Name = name;
-            handoffEvent.Value = value;
+            handoffEvent.Value = JObject.FromObject(value);
             handoffEvent.Id = Guid.NewGuid().ToString();
             handoffEvent.Timestamp = DateTime.UtcNow;
             handoffEvent.Conversation = conversation;
