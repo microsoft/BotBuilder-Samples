@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
+const { runDialog } = require('botbuilder-dialogs');
 
 class SkillBot extends ActivityHandler {
     /**
@@ -18,7 +19,7 @@ class SkillBot extends ActivityHandler {
         this.dialog = dialog;
 
         this.onTurn(async (context, next) => {
-            await dialog.run(context, this.conversationState.createProperty('DialogState'));
+            await runDialog(this.dialog, context, this.conversationState.createProperty('DialogState'));
 
             await next();
         });

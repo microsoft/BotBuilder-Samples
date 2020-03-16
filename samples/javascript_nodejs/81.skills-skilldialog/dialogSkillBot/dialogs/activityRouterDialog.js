@@ -3,18 +3,20 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
-const { ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
+const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { BookingDialog } = require('./bookingDialog');
-const { OAuthTestDialog } = require('./oAuthTestDialog');
+
+const ACTIVITY_ROUTER_DIALOG = 'activityRouterDialog';
+const WATERFALL_DIALOG = 'waterfallDialog';
+const BOOKING_DIALOG = 'bookingDialog';
 
 /**
  * A root dialog that can route activities sent to the skill by different dialogs
- * TODO: add params
  */
 class ActivityRouterDialog extends ComponentDialog {
     constructor(conversationState, luisRecognizer = undefined) {
-        super(ActivityRouterDialog.name);
+        super(ACTIVITY_ROUTER_DIALOG);
 
         if (!conversationState) throw new Error('[MainDialog]: Missing parameter \'conversationState\' is required');
 
@@ -23,12 +25,11 @@ class ActivityRouterDialog extends ComponentDialog {
         // Define the main dialog and its related components.
         // This is a sample "book a flight" dialog.
         this.addDialog(new BookingDialog())
-            .addDialog(new OAuthTestDialog())
-            .addDialog(new WaterfallDialog(WaterfallDialog.name, [
+            .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
                 this.processActivity.bind(this)
             ]));
 
-        this.initialDialogId = WaterfallDialog.name;
+        this.initialDialogId = WATERFALL_DIALOG;
     }
 
     async processActivity(stepContext) {
@@ -42,12 +43,10 @@ class ActivityRouterDialog extends ComponentDialog {
         await stepContext.context.sendActivity(traceActivity);
 
         switch (stepContext.context.activity.type) {
-            case ActivityTypes.Message:
-                return await this.onMessageActivity(stepContext);
-            case ActivityTypes.Invoke:
-                return await this.onInvokeActivity(stepContext);
             case ActivityTypes.Event:
                 return await this.onEventActivity(stepContext);
+            case ActivityTypes.Message:
+                return await this.onMessageActivity(stepContext);
             default:
                 // We didn't get an activity type we can handle.
                 await stepContext.context.sendActivity(
@@ -76,11 +75,9 @@ class ActivityRouterDialog extends ComponentDialog {
         // Resolve what to execute based on the event name
         switch (activity.name) {
             case 'BookFlight':
-                // Start the booking dialog with booking details from activity.value, if available
-                return await stepContext.beginDialog(BookingDialog.name, activity.value || {});
-            case 'OAuthTest':
-                // Start the OAuthTestDialog
-                return await stepContext.beginDialog(OAuthTestDialog.name);
+                return await this.beginBookFlight(stepContext);
+            case 'GetWeather':
+                return await this.beginGetWeather(stepContext);
             default:
                 // We didn't get an event name we can handle
                 await stepContext.context.sendActivity(
@@ -94,57 +91,7 @@ class ActivityRouterDialog extends ComponentDialog {
     }
 
     /**
-     * This method responds right away using invokeResponse based on the activity name property
-     */
-    async onInvokeActivity(stepContext) {
-        const activity = stepContext.context.activity;
-        const traceActivity = {
-            type: ActivityTypes.Trace,
-            timestamp: new Date(),
-            text: 'ActivityRouterDialog.onInvokeActivity()',
-            label: `Name: ${ activity.name }, Value: ${ JSON.stringify(activity.value) }`
-        };
-        await stepContext.context.sendActivity(traceActivity);
-
-        // Resolve what to execute based on the invoke name
-        switch (activity.name) {
-            case 'GetWeather':
-                const lookingIntoItMessage = 'Getting your weather forecast...';
-                await stepContext.context.sendActivity(MessageFactory.text(
-                    `${ lookingIntoItMessage } \n\nValue parameters: ${ JSON.stringify(activity.value || {}) }`,
-                    lookingIntoItMessage,
-                    InputHints.IgnoringInput
-                ));
-
-                // Create and return an invoke activity with the weather results
-                const invokeResponseActivity = {
-                    type: 'invokeResponse',
-                    value: {
-                        body: [
-                            'Ney York, NY, Clear, 56 F',
-                            'Bellevue, WA, Mostly Cloudy, 48 F'
-                        ],
-                        status: 200
-                    }
-                };
-                await stepContext.context.sendActivity(invokeResponseActivity);
-                break;
-            default:
-                // We didn't get an invoke name we can handle
-                await stepContext.context.sendActivity(
-                    MessageFactory.text(
-                        `Unrecognized InvokeName: "${ stepContext.context.activity.name }".`,
-                        undefined,
-                        InputHints.IgnoringInput
-                    ));
-                break;
-        }
-        return { status: DialogTurnStatus.complete };
-    }
-
-    /**
      * This method just gets a message activity and runs it through LUIS.
-     * A developer can choose to start a dialog based on the LUIS results (not implemented here).
      */
     async onMessageActivity(stepContext) {
         const activity = stepContext.context.activity;
@@ -171,34 +118,44 @@ class ActivityRouterDialog extends ComponentDialog {
             let resultString = '';
             resultString += `LUIS results for "${ activity.text }":\n`;
             resultString += `Intent: "${ topIntent }", Score: ${ luisResult.intents[topIntent].score }\n`;
-            resultString += `Entities found: ${ luisResult.entities.length - 1 }\n`;
-            luisResult.entities.forEach((luisResultEntity) => {
-                if (!luisResultEntity.instance) {
-                    resultString += `\n* ${ luisResultEntity }`;
-                }
-            });
 
             await stepContext.context.sendActivity(MessageFactory.text(resultString, undefined, InputHints.IgnoringInput));
+
+            switch (topIntent.intent) {
+                case 'BookFlight':
+                    return await this.beginBookFlight(stepContext);
+                case 'GetWeather':
+                    return await this.beginGetWeather(stepContext);
+                default:
+                    // Catch all for unhandled intents
+                    const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${ topIntent.intent })`;
+                    const didntUnderstandMessage = MessageFactory.text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
+                    await stepContext.context.sendActivity(didntUnderstandMessage);
+                    break;
+            }
         }
 
         return { status: DialogTurnStatus.complete };
     }
 
-    /**
-     * The run method handles the incoming activity (in the form of a TurnContext) and passes it through the dialog system.
-     * If no dialog is active, it will start the default dialog.
-     * @param {*} turnContext
-     * @param {*} accessor
-     */
-    async run(turnContext, accessor) {
-        const dialogSet = new DialogSet(accessor);
-        dialogSet.add(this);
+    async beginGetWeather(stepContext) {
+        const activity = stepContext.context.activity;
+        const location = activity.value || {};
 
-        const dialogContext = await dialogSet.createContext(turnContext);
-        const results = await dialogContext.continueDialog();
-        if (results.status === DialogTurnStatus.empty) {
-            await dialogContext.beginDialog(this.id);
-        }
+        // We haven't implemented the GetWeatherDialog so we just display a TODO message
+        const getWeatherMessageText = `TODO: get weather for here (lat: ${ location.latitude }, long: ${ location.longitude })`;
+        const getWeatherMessage = MessageFactory.text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
+        await stepContext.context.sendActivity(getWeatherMessage);
+        return { status: DialogTurnStatus.complete };
+    }
+
+    async beginBookFlight(stepContext) {
+        const activity = stepContext.context.activity;
+        const bookingDetails = activity.value || {};
+
+        // Start the booking dialog
+        const bookingDialog = this.findDialog(BOOKING_DIALOG);
+        return await stepContext.beginDialog(bookingDialog.id, bookingDetails);
     }
 }
 

@@ -3,10 +3,11 @@
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
 const { InputHints, MessageFactory } = require('botbuilder');
-const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const { ConfirmPrompt, TextPrompt, WaterfallDialog, runDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
 
+const BOOKING_DIALOG = 'bookingDialog';
 const CONFIRM_PROMPT = 'confirmPrompt';
 const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
 const TEXT_PROMPT = 'textPrompt';
@@ -14,7 +15,7 @@ const WATERFALL_DIALOG = 'waterfallDialog';
 
 class BookingDialog extends CancelAndHelpDialog {
     constructor() {
-        super(BookingDialog.name);
+        super(BOOKING_DIALOG);
 
         this.addDialog(new TextPrompt(TEXT_PROMPT))
             .addDialog(new ConfirmPrompt(CONFIRM_PROMPT))
