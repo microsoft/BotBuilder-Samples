@@ -1,7 +1,5 @@
 # Common Expression Language ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in 4.6 PREVIEW release.
-
 Bots, like any other application, require use of expressions to evaluate outcome of a condition based on runtime information available in memory or to the dialog or the language generation system. 
 
 Common expression language was put together to address this core need as well as to rationalize and snap to a common expression language that will be used across Bot Framework SDK and other conversational AI components that need an expression language.
@@ -51,6 +49,15 @@ There are two special variables, `[]` and  `{}`.
 ## Explicit values
 Explicit values are enclosed in single quotes 'myExplicitValut' or double quotes - "myExplicitValue".
 
+## string interpolation
+string interpolation is string literals allowing embedded expressions. An interpolated string is a string literal that might contain interpolation expressions. When an interpolated string is resolved to a result string, items with interpolation expressions are replaced by the string representations of the expression results. 
+
+e.g. 
+```
+showColorCard(json(`{'foo': '${bar}','item': '${itemName}'}`))
+```
+would get the right json result with variable `bar` and `itemName`
+
 ## Pre-built functions
 See [Here](./prebuilt-functions.md) for a complete list of prebuilt functions supported by the common expression language library. 
 
@@ -58,6 +65,10 @@ See [Here](./prebuilt-functions.md) for a complete list of prebuilt functions su
 Packages for C# are available under the [BotBuilder MyGet feed][15]
 
 ## Change Log
+### 4.8 PREVIEW
+- Added 5+ new [prebuilt functions](prebuilt-functions.md)
+- Add string interpolation feature
+
 ### 4.6 PREVIEW
 - Added 50+ new [prebuilt functions](prebuilt-functions.md)
 
@@ -78,5 +89,5 @@ Packages for C# are available under the [BotBuilder MyGet feed][15]
 [12]:prebuilt-functions.md#essOrEquals
 [13]:prebuilt-functions.md#and
 [14]:prebuilt-functions.md#or
-[15]:https://botbuilder.myget.org/feed/botbuilder-declarative/package/nuget/Microsoft.Bot.Builder.Expressions
+[15]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/AdaptiveExpressions
 [20]:https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/README.md

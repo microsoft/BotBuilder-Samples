@@ -2,111 +2,121 @@
 
 For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
-### ExpressionEngine Class
+### Expression Class
 
 #### Constructors
 ```C#
 /// <summary>
-/// Constructor
+/// Initializes a new instance of the <see cref="Expression"/> class.
+/// Built-in expression constructor.
 /// </summary>
-/// <param name="lookup">If present delegate to lookup evaluation information from type string.</param>
-public ExpressionEngine(EvaluatorLookup lookup = null)
-```
-#### Methods
-```C#
-/// <summary>
-/// Parse the input into an expression.
-/// </summary>
-/// <param name="expression">Expression to parse.</param>
-/// <returns>Expresion tree.</returns>
-public Expression Parse(string expression)
-```
-
-### Expression Class
-
-#### Fields
-```C#
-/// <summary>
-/// Type of expression.
-/// </summary>
-public string Type { get; }
+/// <param name="type">Type of built-in expression from <see cref="ExpressionType"/>.</param>
+/// <param name="children">Child expressions.</param>
+public Expression(string type, params Expression[] children)
 
 /// <summary>
-/// Evaluator of this expression
-/// </summary>
-public ExpressionEvaluator Evaluator { get; }
-
-/// <summary>
-/// Children expressions.
-/// </summary>
-public Expression[] Children { get; set; }
-
-/// <summary>
-/// Expected result of evaluating expression.
-/// </summary>
-public ReturnType ReturnType { get; }
-```
-
-#### Contructor
-```C#
-/// <summary>
+/// Initializes a new instance of the <see cref="Expression"/> class.
 /// Expression constructor.
 /// </summary>
-/// <param name="type">Type of expression from <see cref="ExpressionType"/>.</param>
 /// <param name="evaluator">Information about how to validate and evaluate expression.</param>
 /// <param name="children">Child expressions.</param>
-public Expression(string type, ExpressionEvaluator evaluator = null, params Expression[] children)
+public Expression(ExpressionEvaluator evaluator, params Expression[] children)
 ```
-
 #### Methods
-
 ```C#
+/// <summary>
+/// Parse an expression string into an expression object.
+/// </summary>
+/// <param name="expression">expression string.</param>
+/// <param name="lookup">Optional function lookup when parsing the expression. Default is Expression.Lookup which uses Expression.Functions table.</param>
+/// <returns>expression object.</returns>
+public static Expression Parse(string expression, EvaluatorLookup lookup = null)
+
+/// <summary>
+/// Lookup a ExpressionEvaluator (function) by name.
+/// </summary>
+/// <param name="functionName">function name.</param>
+/// <returns>ExpressionEvaluator.</returns>
+public static ExpressionEvaluator Lookup(string functionName)
+
 /// <summary>
 /// Evaluate the expression.
 /// </summary>
 /// <param name="state">
-/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// Global state to evaluate accessor expressions against.  Can be <see cref="System.Collections.Generic.IDictionary{String, Object}"/>,
+/// <see cref="System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
 /// </param>
 /// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
 public (object value, string error) TryEvaluate(object state)
-```
 
-```C#
+
 /// <summary>
 /// Evaluate the expression.
 /// </summary>
 /// <param name="state">
-/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// Global state to evaluate accessor expressions against.  Can be <see cref="System.Collections.Generic.IDictionary{String, Object}"/>,
+/// <see cref="System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
 /// </param>
 /// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
 public (object value, string error) TryEvaluate(IMemory state)
-```
 
-
-```C#
 /// <summary>
 /// Evaluate the expression.
 /// </summary>
 /// <typeparam name="T">type of result of the expression.</typeparam>
 /// <param name="state">
-/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// Global state to evaluate accessor expressions against.  Can be <see cref="System.Collections.Generic.IDictionary{String, Object}"/>,
+/// <see cref="System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
 /// </param>
 /// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
 public (T value, string error) TryEvaluate<T>(object state)
-```
 
-
-```C#
 /// <summary>
 /// Evaluate the expression.
 /// </summary>
 /// <typeparam name="T">type of result of the expression.</typeparam>
 /// <param name="state">
-/// Global state to evaluate accessor expressions against.  Can be <see cref="IDictionary{String}{Object}"/>, <see cref="IDictionary"/> otherwise reflection is used to access property and then indexer.
+/// Global state to evaluate accessor expressions against.  Can be <see cref="System.Collections.Generic.IDictionary{String, Object}"/>,
+/// <see cref="System.Collections.IDictionary"/> otherwise reflection is used to access property and then indexer.
 /// </param>
 /// <returns>Computed value and an error string.  If the string is non-null, then there was an evaluation error.</returns>
 public (T value, string error) TryEvaluate<T>(IMemory state)
 ```
 
-[1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/Microsoft.Bot.Expressions
-[2]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/botframework-expressions
+#### Fields
+``` C#
+/// <summary>
+/// Gets type of expression.
+/// </summary>
+/// <value>
+/// Type of expression.
+/// </value>
+public string Type => Evaluator.Type;
+
+/// <summary>
+/// Gets expression evaluator.
+/// </summary>
+/// <value>
+/// expression evaluator.
+/// </value>
+public ExpressionEvaluator Evaluator { get; }
+
+/// <summary>
+/// Gets or sets children expressions.
+/// </summary>
+/// <value>
+/// Children expressions.
+/// </value>
+public Expression[] Children { get; set; }
+
+/// <summary>
+/// Gets expected result of evaluating expression.
+/// </summary>
+/// <value>
+/// Expected result of evaluating expression.
+/// </value>
+public ReturnType ReturnType => Evaluator.ReturnType;
+```
+
+[1]:https://botbuilder.myget.org/feed/botbuilder-v4-dotnet-daily/package/nuget/AdaptiveExpressions
+[2]:https://botbuilder.myget.org/feed/botbuilder-v4-js-daily/package/npm/adaptive-expressions

@@ -141,12 +141,17 @@ Nightly packages for C# are available here
 ### 4.8 PREVIEW
 - \[**BREAKING CHANGES**\]:
     - Old way to refer to an Expression via `@{}` notation is deprecated in favor of `${}`
-    - `TemplateEngine` is dropped and new `Templates` class is the whole entry. Use `Templates` you can achieve all the features of LG. (Parser, checker, analyzer, expander and  evaluator)
+    - `TemplateEngine` is dropped and new `Templates` class is the new whole entry. Use `Templates` you can achieve all the features of LG. (parser, checker, analyzer, expander and  evaluator)
 
+- \[**NEW**\]: 
+    - `ActivityFactory` has been moved to `Microsoft.Bot.Builder` package, and `FromObject` is the new transform method. 
+    - new Multi-lingual support in LG. refer to `MultiLanguageLG` class
+    - More friendly error prompt
+  
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
-    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
-    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `${TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `${<expression>}`. The old notation `{<expression>}` is no longer supported.
     - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
 
     |  Old  | New |
