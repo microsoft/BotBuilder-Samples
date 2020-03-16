@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Bots
         {
             await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
 
-            // Save any state changes that might have occured during the turn.
+            // Save any state changes that might have occurred during the turn.
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     }
