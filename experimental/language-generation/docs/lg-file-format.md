@@ -20,6 +20,7 @@
   - [Multi-line text in variations](#multi-line-text-in-variations)
 - [Parametrization of templates](#parametrization-of-templates)
 - [Importing external references](#importing-external-references)
+- [Strict option](#strict-option)
 
 # Comments
 Comments are prefixed with '>' or '$' character. All lines that have this prefix will be skipped by the parser. 
@@ -79,7 +80,7 @@ Here is an example that shows the simple IF ... ELSE conditional response templa
 ```markdown
 > time of day greeting reply template with conditions. 
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
+- IF: ${timeOfDay == 'morning'}
     - good morning
 - ELSE: 
     - good evening
@@ -89,24 +90,24 @@ Here's another example that shows IF ... ELSEIF ... ELSE conditional response te
 Note that you can include references to other simple or conditional response templates in the variation for any of the conditions. 
 ```markdown
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
-    - @{morningTemplate()}
-- ELSEIF: @{timeOfDay == 'afternoon'}
-    - @{afternoonTemplate()}
+- IF: ${timeOfDay == 'morning'}
+    - ${morningTemplate()}
+- ELSEIF: ${timeOfDay == 'afternoon'}
+    - ${afternoonTemplate()}
 - ELSE: 
-    - I love the evenings! Just saying. @{eveningTemplate()}
+    - I love the evenings! Just saying. ${eveningTemplate()}
 ```
 ### Switch..Case
-Apart from IF ... ELSEIF ... ELSE construct, you can also use the SWITCH ... CASE ... DEFAULT construct. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - @{}
+Apart from IF ... ELSEIF ... ELSE construct, you can also use the SWITCH ... CASE ... DEFAULT construct. All conditions are expressed using the [Common expression language][3]. Condition expressions are enclosed in curly brackets - ${}
 
 Here's how you can specify SWITCH ... CASE block in LG. 
 
 ```markdown
 # TestTemplate
-- SWITCH: @{condition}
-- CASE: @{case-expression-1}
+- SWITCH: ${condition}
+- CASE: ${case-expression-1}
     - output1
-- CASE: @{case-expression-2}
+- CASE: ${case-expression-2}
     - output2
 - DEFAULT:
    - final output
@@ -117,13 +118,13 @@ Here's an example:
 ```markdown
 > Note: any of the cases can include reference to one or more templates
 # greetInAWeek
-- SWITCH: @{dayOfWeek(utcNow())}
-- CASE: @{0}
+- SWITCH: ${dayOfWeek(utcNow())}
+- CASE: ${0}
     - Happy Sunday!
--CASE: @{6}
+-CASE: ${6}
     - Happy Saturday!
 -DEFAULT:  
-    - @{apology-phrase()}, @{defaultResponseTemplate()}
+    - ${apology-phrase()}, ${defaultResponseTemplate()}
 ```
 ## Structured response template
 Structured response template enable you to define a complex structure that supports all the goodness of LG (templating, composition, substitution) while leaving the interpretation of the structured response up to the caller of the LG library. 
@@ -138,21 +139,21 @@ See [here](./structured-response-template.md) to learn more.
 ## References to templates
 Variation text can include references to another named template to aid with composition and resolution of sophisticated responses. 
 Reference to another named template are denoted using - 
-@{TemplateName()}. 
+${TemplateName()}. 
 
 ```markdown
 > Example of a template that includes composition reference to another template
 # GreetingReply
-- @{GreetingPrefix()}, @{timeOfDayGreeting()}
+- ${GreetingPrefix()}, ${timeOfDayGreeting()}
 
 # GreetingPrefix
 - Hi
 - Hello
 
 # timeOfDayGreeting
-- IF: @{timeOfDay == 'morning'}
+- IF: ${timeOfDay == 'morning'}
     - good morning
-- ELSEIF: @{timeOfDay == 'afternoon'}
+- ELSEIF: ${timeOfDay == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
@@ -169,33 +170,33 @@ Hello, good afternoon
 Hello, good evening
 ```
 ## Entities 
-- When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets - @{`entityName`}
+- When used directly within a one-of variation text, entity references are denoted by enclosing them in curly brackets - ${`entityName`}
 - When used as a parameter within a 
     - [pre-built function][4] or 
     - as a parameter to [template resolution call](#Parametrization-of-templates) or 
     - a condition in [conditional response template](#conditional-response-template)
-they are simply expressed as `entityName`. - e.g. @{entityName == null}
+they are simply expressed as `entityName`. - e.g. ${entityName == null}
 ## Using pre-built functions in variations
-[Pre-built functions][4] supported by the [Common expression language][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - @{}.
+[Pre-built functions][4] supported by the [Common expression language][3] can also be used inline in a one-of variation text to achieve even more powerful text composition. To use an expression inline, simply wrap it in curly brackets - ${}.
 
 Here is an example that illustrates that - 
 
 ```markdown
 # RecentTasks
-- IF: @{count(recentTasks) == 1}
-    - Your most recent task is @{recentTasks[0]}. You can let me know if you want to add or complete a task.
-- ELSEIF: @{count(recentTasks) == 2}
-    - Your most recent tasks are @{join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
-- ELSEIF: @{count(recentTasks) > 2}
-    - Your most recent @{count(recentTasks)} tasks are @{join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
+- IF: ${count(recentTasks) == 1}
+    - Your most recent task is ${recentTasks[0]}. You can let me know if you want to add or complete a task.
+- ELSEIF: ${count(recentTasks) == 2}
+    - Your most recent tasks are ${join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
+- ELSEIF: ${count(recentTasks) > 2}
+    - Your most recent ${count(recentTasks)} tasks are ${join(recentTasks, ', ', ' and ')}. You can let me know if you want to add or complete a task.
 - ELSE:
     - You don't have any tasks.
 ```
 The above example uses the [join][5] pre-built function to list all values in the `recentTasks` collection. 
 
-If template name is the same with builtin function's name, template will be executed first, without automatically executing one according to the parameter variable. 
+If template name is the same with builtin function's name, builtin function will be executed first, without automatically executing one according to the parameter variable. 
 
-In case where you must have the template name be the same as a prebuilt function name, you can use `prebuilt.xxx` to refer to the prebuilt function and avoid possible collisions with your own template name.
+In case where you must have the template name be the same as a prebuilt function name, and want template name be executed first, you can use `lg.xxx` to refer to the template reference and avoid possible collisions with the builtin function.
 
 Here is an example that illustrates that
 
@@ -205,12 +206,12 @@ Here is an example that illustrates that
 - This is use's customized length function
 
 # myfunc1
-> will call template length, and return 'This is use's customized length function'
-- @{length('hi')}
+> builtin function 'length' would be called, and output 2
+- ${length('hi')}
 
 # mufunc2
-> builtin function 'length' would be called, and output 2
-- @{prebuilt.length('hi')}
+> will call template length, and return 'This is use's customized length function'
+- ${lg.length('hi')}
 ```
 ## Multi-line text in variations
 Each one-of variation can include multi-line text enclosed in ```...```. 
@@ -228,16 +229,16 @@ Here is an example -
     ```
 ```
 
-Multi-line variation can request template expansion and entity substitution by enclosing the requested operation in @{}.
+Multi-line variation can request template expansion and entity substitution by enclosing the requested operation in ${}.
 
 Here is an example - 
 ```markdown
 # MultiLineExample
     - ```
         Here is what I have for the order
-        - Title: @{reservation.title}
-        - Location: @{reservation.location}
-        - Date/ time: @{reservation.dateTimeReadBack}
+        - Title: ${reservation.title}
+        - Location: ${reservation.location}
+        - Date/ time: ${reservation.dateTimeReadBack}
     ```
 ```
 
@@ -267,16 +268,16 @@ Here is an example of complex object (defined in template `ImageGalleryTemplate`
     # ImageGalleryTemplate
     - ```
     {
-        "titleText": "@{TitleText()}",
-        "subTitle": "@{SubText()}",
+        "titleText": "${TitleText()}",
+        "subTitle": "${SubText()}",
         "images": [
             {
                 "type": "Image",
-                "url": "@{CardImages()}"
+                "url": "${CardImages()}"
             },
             {
                 "type": "Image",
-                "url": "@{CardImages()}"
+                "url": "${CardImages()}"
             }
         ]
     }
@@ -289,18 +290,18 @@ Here is an example of a template parametrization.
 
 ```markdown
 # timeOfDayGreetingTemplate (param1)
-- IF: @{param1 == 'morning'}
+- IF: ${param1 == 'morning'}
     - good morning
-- ELSEIF: @{param1 == 'afternoon'}
+- ELSEIF: ${param1 == 'afternoon'}
     - good afternoon
 - ELSE: 
     - good evening
 
 # morningGreeting
-- @{timeOfDayGreetingTemplate('morning')}
+- ${timeOfDayGreetingTemplate('morning')}
 
 # timeOfDayGreeting
-- @{timeOfDayGreetingTemplate(timeOfDay)}
+- ${timeOfDayGreetingTemplate(timeOfDay)}
 ```
 # Importing external references
 Often times for organization purposes and to help with re-usability, you might want to break the language generation templates into separate files and refer them from one another. In order to help with this scenario, you can use markdown-style links to import templates defined in another file. 
@@ -314,6 +315,9 @@ Note: All templates defined in the target file will be pulled in. So please ensu
 ```markdown
 [Shared](../shared/common.lg)
 ```
+
+# Strict option
+TODO
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md

@@ -14,9 +14,9 @@ Language generation is achieved through:
 
 ```markdown
 # greetingTemplate
-- Hello @{user.name}, how are you?
-- Good morning @{user.name}. It's nice to see you again.
-- Good day @{user.name}. What can I do for you today?
+- Hello ${user.name}, how are you?
+- Good morning ${user.name}. It's nice to see you again.
+- Good day ${user.name}. What can I do for you today?
 ```
 
 You can use language generation to:
@@ -41,35 +41,27 @@ Load the template manager with your .lg file(s)
 For C#
 
 ```c#
-    // multi lg files
-    TemplateEngine lgEngine = new TemplateEngine().AddFiles(filePaths, importResolver?);
-
-    // single lg file
-    TemplateEngine lgEngine = new TemplateEngine().AddFile(filePath, importResolver?);
+    Templates templates = Templates.ParseFile(filePath, importResolver?, expressionParser?);
 ```
 
 For NodeJS
 
 ```typescript
-    // multi lg files
-    let lgEngine = new TemplateEngine().addFiles(filePaths, importResolver?);
-
-    // single lg file
-    let lgEngine = new TemplateEngine().addFile(filePath, importResolver?);
+    let templates = Templates.parseFile(filePaths, importResolver?, expressionParser?);
 ```
 
-When you need template expansion, call the templateEngine and pass in the relevant template name
+When you need template expansion, call the templates and pass in the relevant template name
 
 For C#
 
 ```c#
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("<TemplateName>", entitiesCollection));
+    await turnContext.SendActivityAsync(ActivityFactory.FromObject(templates.Evaluate("<TemplateName>", entitiesCollection)));
 ```
 
 For NodeJS
 
 ```typescript
-    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection)));
+    await turnContext.sendActivity(ActivityFactory.fromObject(templates.evaluate("<TemplateName>", entitiesCollection)));
 ```
 
 If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
@@ -77,14 +69,14 @@ If your template needs specific entity values to be passed for resolution/ expan
 For C#
 
 ```c#
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("WordGameReply", new { GameName = "MarcoPolo" } ));
+    await turnContext.SendActivityAsync(ActivityFactory.FromObject(templates.EvaluateText("WordGameReply", new { GameName = "MarcoPolo" } )));
 
 ```
 
 For NodeJS
 
 ```typescript
-    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
+    await turnContext.sendActivity(ActivityFactory.fromObject(templates.evaluateText("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
 
 ## Multi-lingual generation and language fallback policy
@@ -100,13 +92,13 @@ If you need to know the expand result of the evaluation of a template, `ExpandTe
 For C#
 
 ```c#
-    var results = lgEngine.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    var results = templates.ExpandTemplate("WordGameReply", new { GameName = "MarcoPolo" } )
 ```
 
 For NodeJS
 
 ```typescript
-    const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    const results = templates.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
 For example:
@@ -121,20 +113,20 @@ For example:
 - Evening
 
 # FinalGreeting
-- @{Greeting()} @{TimeOfDay()}
+- ${Greeting()} ${TimeOfDay()}
 
 # TimeOfDayWithCondition
-- IF: @{time == 'morning'}
-    - @{Greeting()} Morning
-- ELSEIF: @{time == 'evening'}
-    - @{Greeting()} Evening
+- IF: ${time == 'morning'}
+    - ${Greeting()} Morning
+- ELSEIF: ${time == 'evening'}
+    - ${Greeting()} Evening
 - ELSE:
-    - @{Greeting()} Afternoon
+    - ${Greeting()} Afternoon
 ```
 
-If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
+If you call `templates.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
 
-If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
+If you call `templates.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
 
 ## Packages
 Latest preview packages are available here
@@ -146,6 +138,13 @@ Nightly packages for C# are available here
 - JS -> [BotBuilder MyGet feed][13]
 
 ## Change Log
+### 4.8 PREVIEW
+- \[**BREAKING CHANGES**\]:
+    - todo
+
+- \[**NEW**\]:
+    - todo
+
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
     - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
@@ -154,8 +153,8 @@ Nightly packages for C# are available here
 
     |  Old  | New |
     |-------|-----|
-    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
-    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
 
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]

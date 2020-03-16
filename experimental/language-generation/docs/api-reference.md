@@ -2,7 +2,7 @@
 
 For Nuget packages, see [this MyGet C# feed][1] and [this MyGet js feed][2]
 
-### LGFile Class
+### Templates Class
 
 #### Fields
 ``` C#
@@ -31,20 +31,20 @@ public IList<Diagnostic> AllDiagnostics {get;}
 public ImportResolverDelegate ImportResolver { get; set; }
 
 /// <summary>
-/// Gets or sets templates that this LG file contains directly.
-/// </summary>
-/// <value>
-/// templates that this LG file contains directly.
-/// </value>
-public IList<LGTemplate> Templates { get; set; }
-
-/// <summary>
 /// Gets or sets expression parser.
 /// </summary>
 /// <value>
 /// expression parser.
 /// </value>
 public ExpressionEngine ExpressionEngine { get; set; }
+
+/// <summary>
+/// Gets or sets lG file options.
+/// </summary>
+/// <value>
+/// LG file options.
+/// </value>
+public IList<string> Options { get; set; }
 
 /// <summary>
 /// Gets or sets import elements that this LG file contains directly.
@@ -92,7 +92,7 @@ public string Id { get; set; }
 
 #### Constructors
 ```C#
-public LGFile(
+public Templates(
 IList<LGTemplate> templates = null,
 IList<LGImport> imports = null,
 IList<Diagnostic> diagnostics = null,
@@ -102,7 +102,10 @@ string id = null,
 ExpressionEngine expressionEngine = null,
 ImportResolverDelegate importResolver = null)
 {
-    Templates = templates ?? new List<LGTemplate>();
+    if (templates != null)
+    {
+        this.AddRange(templates);
+    }
     Imports = imports ?? new List<LGImport>();
     Diagnostics = diagnostics ?? new List<Diagnostic>();
     References = references ?? new List<LGFile>();
@@ -110,6 +113,7 @@ ImportResolverDelegate importResolver = null)
     ImportResolver = importResolver;
     Id = id ?? string.Empty;
     ExpressionEngine = expressionEngine ?? new ExpressionEngine();
+    Options = options ?? new List<string>();
 }
 ```
 
@@ -122,7 +126,40 @@ ImportResolverDelegate importResolver = null)
 /// <param name="templateName">Template name to be evaluated.</param>
 /// <param name="scope">The state visible in the evaluation.</param>
 /// <returns>Evaluate result.</returns>
-public object EvaluateTemplate(string templateName, object scope = null)
+public object Evaluate(string templateName, object scope = null)
+```
+
+```C#
+/// <summary>
+/// Use to evaluate an inline template str.
+/// </summary>
+/// <param name="text">inline string which will be evaluated.</param>
+/// <param name="scope">scope object or JToken.</param>
+/// <returns>Evaluate result.</returns>
+public object EvaluateText(string templateName, object scope = null)
+```
+
+```C#
+/// <summary>
+/// Parser to turn lg content into a <see cref="LanguageGeneration.Templates"/>.
+/// </summary>
+/// <param name="filePath"> absolut path of a LG file.</param>
+/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
+/// <param name="expressionParser">expressionEngine Expression engine for evaluating expressions.</param>
+/// <returns>new <see cref="LanguageGeneration.Templates"/> entity.</returns>
+public static Templates ParseFile( string filePath, ImportResolverDelegate importResolver = null, ExpressionParser expressionParser = null)
+```
+
+```C#
+/// <summary>
+/// Parser to turn lg content into a <see cref="LanguageGeneration.Templates"/>.
+/// </summary>
+/// <param name="content">Text content contains lg templates.</param>
+/// <param name="id">id is the identifier of content. If importResolver is null, id must be a full path string. </param>
+/// <param name="importResolver">resolver to resolve LG import id to template text.</param>
+/// <param name="expressionParser">expressionEngine parser engine for parsing expressions.</param>
+/// <returns>new <see cref="LanguageGeneration.Templates"/> entity.</returns>
+public static Templates ParseText(string content, string id = "", ImportResolverDelegate importResolver = null, ExpressionParser expressionParser = null)
 ```
 
 ```C#
