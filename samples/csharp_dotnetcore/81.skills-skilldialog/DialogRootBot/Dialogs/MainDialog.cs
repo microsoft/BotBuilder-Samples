@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
     /// </summary>
     public class MainDialog : ComponentDialog
     {
-        // Constants used for selection actions on the skill.
+        // Constants used for selecting actions on the skill.
         private const string SkillActionBookFlight = "BookFlight";
         private const string SkillActionBookFlightWithInputParameters = "BookFlight with input parameters";
         private const string SkillActionGetWeather = "GetWeather";
@@ -57,16 +57,16 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 throw new ArgumentNullException(nameof(conversationState));
             }
 
-            // Create SkillDialog instances for the configured skills
+            // Add SkillDialog instances for the configured skills
             AddSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, botId);
 
-            // ChoicePrompt to render available skills
+            // Add ChoicePrompt to render available skills
             AddDialog(new ChoicePrompt("SkillPrompt"));
 
-            // ChoicePrompt to render skill actions
+            // Add ChoicePrompt to render skill actions
             AddDialog(new ChoicePrompt("SkillActionPrompt", SkillActionPromptValidator));
 
-            // Main waterfall dialog for this bot
+            // Add main waterfall dialog for this bot
             var waterfallSteps = new WaterfallStep[]
             {
                 SelectSkillStepAsync,
@@ -91,6 +91,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
             {
                 // Cancel all dialog when the user says abort.
+                // SkillDialog automatically sends an EndOfConversation message to the skill to let the
+                // skill know that it needs to end the current dialogs too.
                 await innerDc.CancelAllDialogsAsync(cancellationToken);
                 return await innerDc.ReplaceDialogAsync(InitialDialogId, "Canceled! \n\n What skill would you like to call?", cancellationToken);
             }

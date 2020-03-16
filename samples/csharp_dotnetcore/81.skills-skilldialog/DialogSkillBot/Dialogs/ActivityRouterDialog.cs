@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
 using Microsoft.BotBuilderSamples.DialogSkillBot.CognitiveModels;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
@@ -22,7 +21,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
     {
         private readonly DialogSkillBotRecognizer _luisRecognizer;
 
-        public ActivityRouterDialog(DialogSkillBotRecognizer luisRecognizer, IConfiguration configuration)
+        public ActivityRouterDialog(DialogSkillBotRecognizer luisRecognizer)
             : base(nameof(ActivityRouterDialog))
         {
             _luisRecognizer = luisRecognizer;
@@ -150,9 +149,6 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
             return await stepContext.BeginDialogAsync(bookingDialog.Id, bookingDetails, cancellationToken);
         }
 
-        private string GetObjectAsJsonString(object value)
-        {
-            return value == null ? string.Empty : JsonConvert.SerializeObject(value);
-        }
+        private string GetObjectAsJsonString(object value) => value == null ? string.Empty : JsonConvert.SerializeObject(value);
     }
 }
