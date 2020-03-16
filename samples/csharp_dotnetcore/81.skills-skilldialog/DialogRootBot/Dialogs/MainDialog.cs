@@ -169,12 +169,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Create the BeginSkillDialogOptions and assign the activity to send.
             var skillDialogArgs = new BeginSkillDialogOptions { Activity = skillActivity };
 
-            // We are manually creating the activity to send to the skill, ensure we add the ChannelData and Properties 
-            // from the original activity so the skill gets them.
-            // Note: this is not necessary if we are just forwarding the current activity from context. 
-            skillDialogArgs.Activity.ChannelData = stepContext.Context.Activity.ChannelData;
-            skillDialogArgs.Activity.Properties = stepContext.Context.Activity.Properties;
-
             // Save active skill in state
             await _activeSkillProperty.SetAsync(stepContext.Context, selectedSkill, cancellationToken);
 
@@ -251,32 +245,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Note: in a real bot, the dialogArgs will be created dynamically based on the conversation
             // and what each action requires, here we hardcode the values to make things simpler.
 
-            // Send an event activity to the skill with "BookFlight" in the name.
-            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.CurrentCultureIgnoreCase))
-            {
-                var activity = (Activity)Activity.CreateEventActivity();
-                activity.Name = SkillActionBookFlight;
-                return activity;
-            }
-
-            // Send an event activity to the skill with "BookFlight" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.CurrentCultureIgnoreCase))
-            {
-                var activity = (Activity)Activity.CreateEventActivity();
-                activity.Name = SkillActionBookFlight;
-                activity.Value = JObject.Parse("{ \"origin\": \"New York\", \"destination\": \"Seattle\"}");
-                return activity;
-            }
-
-            // Send an event activity to the skill with "GetWeather" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.CurrentCultureIgnoreCase))
-            {
-                var activity = (Activity)Activity.CreateEventActivity();
-                activity.Name = SkillActionGetWeather;
-                activity.Value = JObject.Parse("{ \"latitude\": 47.614891, \"longitude\": -122.195801}");
-                return activity;
-            }
-
             // Just forward the message activity to the skill with whatever the user said. 
             if (selectedOption.Equals(SkillActionMessage, StringComparison.CurrentCultureIgnoreCase))
             {
@@ -284,7 +252,44 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 return turnContext.Activity;
             }
 
-            throw new Exception($"Unable to create dialogArgs for \"{selectedOption}\".");
+            Activity activity = null;
+
+            // Send an event activity to the skill with "BookFlight" in the name.
+            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.CurrentCultureIgnoreCase))
+            {
+                activity = (Activity)Activity.CreateEventActivity();
+                activity.Name = SkillActionBookFlight;
+            }
+
+            // Send an event activity to the skill with "BookFlight" in the name and some testing values.
+            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.CurrentCultureIgnoreCase))
+            {
+                activity = (Activity)Activity.CreateEventActivity();
+                activity.Name = SkillActionBookFlight;
+                activity.Value = JObject.Parse("{ \"origin\": \"New York\", \"destination\": \"Seattle\"}");
+            }
+
+            // Send an event activity to the skill with "GetWeather" in the name and some testing values.
+            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.CurrentCultureIgnoreCase))
+            {
+                activity = (Activity)Activity.CreateEventActivity();
+                activity.Name = SkillActionGetWeather;
+                activity.Value = JObject.Parse("{ \"latitude\": 47.614891, \"longitude\": -122.195801}");
+                return activity;
+            }
+
+            if (activity == null)
+            {
+                throw new Exception($"Unable to create dialogArgs for \"{selectedOption}\".");
+            }
+
+            // We are manually creating the activity to send to the skill, ensure we add the ChannelData and Properties 
+            // from the original activity so the skill gets them.
+            // Note: this is not necessary if we are just forwarding the current activity from context. 
+            activity.ChannelData = turnContext.Activity.ChannelData;
+            activity.Properties = turnContext.Activity.Properties;
+
+            return activity;
         }
     }
 }
