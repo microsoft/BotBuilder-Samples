@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Builder;
@@ -8,17 +8,11 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using LPProxyBot.Bots;
-using LPProxyBot;
-using System.Collections.Concurrent;
-using Microsoft.Bot.Schema;
 
 namespace LPProxyBot
 {
     public class Startup
     {
-        private const string BotOpenIdMetadataKey = "BotOpenIdMetadata";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

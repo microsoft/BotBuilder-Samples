@@ -4,6 +4,7 @@
 using System;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
@@ -39,28 +40,34 @@ namespace LivePersonConnector.Controllers
 
         private bool Authenticate(HttpRequest request, string body)
         {
+            // https://github.com/LivePersonInc/developers-community/blob/ae8890694cb9b3be797ca382e9ad7395382aed25/pages/documents/MessagingChannels/ConnectorAPI/webhooks/security.md#authentication
+            if (!request.Headers.ContainsKey("X-Liveperson-Signature") || !request.Headers.ContainsKey("X-Liveperson-Client-Id") || !request.Headers.ContainsKey("X-Liveperson-Account-Id"))
+            {
+                Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                return false;
+            }
+
             using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes(_creds.LpAppSecret)))
             {
                 var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(body));
                 var signature = $"sha1={Convert.ToBase64String(hash)}";
                 if (signature != request.Headers["X-Liveperson-Signature"])
                 {
-                    Response.StatusCode = 401;
+                    Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                     return false;
                 }
             }
 
-            Response.StatusCode = 200;
-
             var account = request.Headers["X-Liveperson-Account-Id"];
             var clientId = request.Headers["X-Liveperson-Client-Id"];
-
-            if (account == _creds.LpAccount && clientId == _creds.LpAppId)
+            if (account != _creds.LpAccount || clientId != _creds.LpAppId)
             {
-                return true;
+                Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                return false;
             }
 
-            return false;
+            Response.StatusCode = (int)HttpStatusCode.OK;
+            return true;
         }
 
 #if DEBUG
@@ -68,7 +75,7 @@ namespace LivePersonConnector.Controllers
         [Route("test")]
         public async Task PostTest()
         {
-            ConversationRecord conversationRec = _conversationMap.ConversationRecords.Values.First();
+            var conversationRec = _conversationMap.ConversationRecords.Values.First();
             var evnt = EventFactory.CreateHandoffStatus(conversationRec.ConversationReference.Conversation, "test") as Activity;
             await _adapter.ProcessActivityAsync(evnt, _creds.MsAppId, conversationRec.ConversationReference, _bot.OnTurnAsync, default(CancellationToken));
         }
@@ -78,7 +85,7 @@ namespace LivePersonConnector.Controllers
         [Route("AcceptStatusEvent")]
         public async Task PostAcceptStatusEventAsync()
         {
-            using (StreamReader readStream = new StreamReader(Request.Body, Encoding.UTF8))
+            using (var readStream = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 var body = await readStream.ReadToEndAsync();
 
@@ -121,14 +128,14 @@ namespace LivePersonConnector.Controllers
                 }
                 catch { }
             }
-            Response.StatusCode = 200;
+            Response.StatusCode = (int)HttpStatusCode.OK;
         }
 
         [HttpPost]
         [Route("chatstateevent")]
         public async Task PostChatStateEventAsync()
         {
-            using (StreamReader readStream = new StreamReader(Request.Body, Encoding.UTF8))
+            using (var readStream = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 var body = await readStream.ReadToEndAsync();
 
@@ -153,14 +160,14 @@ namespace LivePersonConnector.Controllers
                 }
                 catch { }
             }
-            Response.StatusCode = 200;
+            Response.StatusCode = (int)HttpStatusCode.OK;
         }
 
         [HttpPost]
         [Route("contentevent")]
         public async Task PostContentEventAsync()
         {
-            using (StreamReader readStream = new StreamReader(Request.Body, Encoding.UTF8))
+            using (var readStream = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 var body = await readStream.ReadToEndAsync();
 
@@ -200,14 +207,14 @@ namespace LivePersonConnector.Controllers
                     }
                 }
             }
-            Response.StatusCode = 200;
+            Response.StatusCode = (int)HttpStatusCode.OK;
         }
 
         [HttpPost]
         [Route("richcontentevent")]
         public async Task PostRichContentEventAsync()
         {
-            using (StreamReader readStream = new StreamReader(Request.Body, Encoding.UTF8))
+            using (var readStream = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 var body = await readStream.ReadToEndAsync();
 
@@ -219,14 +226,14 @@ namespace LivePersonConnector.Controllers
                 }
                 catch { }
             }
-            Response.StatusCode = 200;
+            Response.StatusCode = (int)HttpStatusCode.OK;
         }
 
         [HttpPost]
         [Route("ExConversationChangeNotification")]
         public async Task PostExConversationChangeNotification()
         {
-            using (StreamReader readStream = new StreamReader(Request.Body, Encoding.UTF8))
+            using (var readStream = new StreamReader(Request.Body, Encoding.UTF8))
             {
                 var body = await readStream.ReadToEndAsync();
 
@@ -264,8 +271,7 @@ namespace LivePersonConnector.Controllers
                 }
                 catch { }
             }
-            Response.StatusCode = 200;
+            Response.StatusCode = (int)HttpStatusCode.OK;
         }
-
     }
 }

@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System.Threading;
@@ -40,7 +40,7 @@ namespace LivePersonConnector
 
             activity.ApplyConversationReference(conversationRef, true);
 
-            await this.ContinueConversationAsync(
+            await ContinueConversationAsync(
                 msAppId,
                 conversationRef,
                 (ITurnContext proactiveContext, CancellationToken ct) =>
