@@ -20,7 +20,7 @@ namespace LivePersonConnector
         string MsAppId { get; }
     }
 
-    class LivePersonConversationRecord
+    internal class LivePersonConversationRecord
     {
         public string ConversationId;
         public string MsgDomain;
@@ -34,7 +34,7 @@ namespace LivePersonConnector
         {
             var sentinelDomain = await GetDomain(account, "sentinel");
             var appJWT = await GetAppJWT(account, sentinelDomain, clientId, clientSecret);
-            ConsumerId consumer = new ConsumerId { ext_consumer_id = turnContext.Activity.From.Id };
+            var consumer = new ConsumerId { ext_consumer_id = turnContext.Activity.From.Id };
 
             var userName = turnContext.Activity.From.Name;
 
