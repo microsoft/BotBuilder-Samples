@@ -162,6 +162,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 case "DialogSkillBot":
                     skillActivity = CreateDialogSkillBotActivity(((FoundChoice)stepContext.Result).Value, stepContext.Context);
                     break;
+
+                // We can add other case statements here if we support more than one skill.
                 default:
                     throw new Exception($"Unknown target skill id: {selectedSkill.Id}.");
             }
