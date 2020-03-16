@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
     <LangVersion>latest</LangVersion>
-    <UserSecretsId>f94e58a2-e019-4a0c-a6c2-59ecb1115b80</UserSecretsId>
     <AssemblyName>Microsoft.BotBuilderSamples.EchoSkillBot</AssemblyName>
     <RootNamespace>Microsoft.BotBuilderSamples.EchoSkillBot</RootNamespace>
   </PropertyGroup>

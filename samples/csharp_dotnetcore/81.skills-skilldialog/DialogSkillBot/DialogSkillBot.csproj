@@ -5,14 +5,13 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>Microsoft.BotBuilderSamples.DialogSkillBot</AssemblyName>
     <RootNamespace>Microsoft.BotBuilderSamples.DialogSkillBot</RootNamespace>
-    <UserSecretsId>826727db-61ca-4ace-bda5-40ba6b4cf070</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.0-rc2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0-rc2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-rc2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
   </ItemGroup>
 

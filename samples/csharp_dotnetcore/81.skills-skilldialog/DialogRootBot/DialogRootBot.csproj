@@ -5,7 +5,6 @@
     <LangVersion>latest</LangVersion>
     <AssemblyName>Microsoft.BotBuilderSamples.DialogRootBot</AssemblyName>
     <RootNamespace>Microsoft.BotBuilderSamples.DialogRootBot</RootNamespace>
-    <UserSecretsId>7b2e59c2-bdd5-4f9e-8e80-372a97959d24</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -18,8 +17,8 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0-rc2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0-rc2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0" />
   </ItemGroup>
 
   <ItemGroup>

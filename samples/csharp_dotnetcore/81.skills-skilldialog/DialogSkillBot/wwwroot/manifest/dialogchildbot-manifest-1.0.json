@@ -20,7 +20,7 @@
       "name": "default",
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
-      "endpointUrl": "https://ggdialogskillbot.azurewebsites.net/api/messages",
+      "endpointUrl": "https://dialogskillbot.contoso.com/api/messages",
       "msAppId": "f3fe8762-e50c-4688-b202-a040f522d916"
     }
   ],
@@ -37,8 +37,8 @@
       }
     },
     "getWeather": {
-      "description": "Retrieves and returns the weather for the user's location (single turn, invoke)",
-      "type": "invoke",
+      "description": "Retrieves and returns the weather for the user's location.",
+      "type": "event",
       "name": "GetWeather",
       "value": {
         "$ref": "#/definitions/location"

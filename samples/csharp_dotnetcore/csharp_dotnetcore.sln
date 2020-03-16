@@ -83,7 +83,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SlackAdapterBot", "60.slack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillsSimpleBotToBot", "SkillsSimpleBotToBot", "{A5567E91-578D-4212-A3CA-2EFEA116E109}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SimpleBotToBot", "Skills-SimpleBotToBot", "{A5567E91-578D-4212-A3CA-2EFEA116E109}"
 	ProjectSection(SolutionItems) = preProject
 		80.skills-simple-bot-to-bot\README.md = 80.skills-simple-bot-to-bot\README.md
 	EndProjectSection
@@ -97,6 +97,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsStartNewThreadInTeam", "58.teams-start-new-thread-in-channel\TeamsStartNewThreadInTeam.csproj", "{6F228764-4E4A-46A8-807A-8FC9E36DDA35}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMultiturnBot", "70.qnamaker-multiturn-sample\QnAMultiturnBot.csproj", "{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SkillDialog", "Skills-SkillDialog", "{B1D88331-C060-4250-9CED-5B397D3C9835}"
+	ProjectSection(SolutionItems) = preProject
+		81.skills-skilldialog\README.md = 81.skills-skilldialog\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogRootBot", "81.skills-skilldialog\DialogRootBot\DialogRootBot.csproj", "{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogSkillBot", "81.skills-skilldialog\DialogSkillBot\DialogSkillBot.csproj", "{97ED3103-3C3F-4906-B271-8601104CC725}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -284,6 +293,14 @@ Global
 		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{97ED3103-3C3F-4906-B271-8601104CC725}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97ED3103-3C3F-4906-B271-8601104CC725}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97ED3103-3C3F-4906-B271-8601104CC725}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{97ED3103-3C3F-4906-B271-8601104CC725}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -291,6 +308,8 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{2FBBEF64-E34C-486A-B98E-65B5B722C24E} = {A5567E91-578D-4212-A3CA-2EFEA116E109}
 		{13406183-D1CB-4C2E-A3A6-95559CFB922F} = {A5567E91-578D-4212-A3CA-2EFEA116E109}
+		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA} = {B1D88331-C060-4250-9CED-5B397D3C9835}
+		{97ED3103-3C3F-4906-B271-8601104CC725} = {B1D88331-C060-4250-9CED-5B397D3C9835}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AF4AF72-D00E-45C4-B3B2-E30FBE53245A}
