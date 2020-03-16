@@ -1,9 +1,9 @@
 Flask>=1.0.2
 asyncio>=3.4.3
 requests>=2.18.1
+botbuilder-core>=4.7.0
 botframework-connector>=4.7.0
 botbuilder-schema>=4.7.0
-botbuilder-core>=4.7.0
 botbuilder-dialogs>=4.7.0
 botbuilder-ai>=4.7.0
 botbuilder-applicationinsights>=4.7.0
