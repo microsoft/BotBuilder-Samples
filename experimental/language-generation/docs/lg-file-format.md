@@ -317,7 +317,25 @@ Note: All templates defined in the target file will be pulled in. So please ensu
 ```
 
 # Strict option
-TODO
+Sometimes user does not want to tolerate null result for the null evaluated result, if so, you could add the strict option command at the beginning of the lg file, such as:
+```
+> !# @strict = true
+# template
+- hi
+```
+
+If the strict option is on, null errors would be thrown by friendly message.
+for example:
+
+```
+# welcome
+- hi ${name}
+```
+
+If name is null, the diagnostic would be: 'name' evaluated to null. [welcome]  Error occurred when evaluating '- hi ${name}'.
+
+Otherwise, if strict is not set, or set to false, a compatible result will be given. The above sample would get the result "hi null"
+
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md

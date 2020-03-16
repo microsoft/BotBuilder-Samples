@@ -140,10 +140,8 @@ Nightly packages for C# are available here
 ## Change Log
 ### 4.8 PREVIEW
 - \[**BREAKING CHANGES**\]:
-    - todo
-
-- \[**NEW**\]:
-    - todo
+    - Old way to refer to an Expression via `@{}` notation is deprecated in favor of `${}`
+    - `TemplateEngine` is dropped and new `Templates` class is the whole entry. Use `Templates` you can achieve all the features of LG. (Parser, checker, analyzer, expander and  evaluator)
 
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:

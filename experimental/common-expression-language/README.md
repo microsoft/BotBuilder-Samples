@@ -35,8 +35,8 @@ See [here](./api-reference.md) for API reference.
 |'	        |Used to wrap a string literal. E.g. 'myValue'	                                            |N/A                                |
 |"	        |Used to wrap a string literal. E.g. "myValue"	                                            |N/A                                |
 |[]	        |Used to refer to an item in a list by its index. E.g. A[3]	                                |N/A                                |
-|@{}	    |Used to denote an expression. E.g. @{A == B}.                                              |N/A                                |
-|@{}	    |Used to denote a variable in template expansion. E.g. @{myVariable}	                    |N/A                                |
+|${}	    |Used to denote an expression. E.g. @{A == B}.                                              |N/A                                |
+|${}	    |Used to denote a variable in template expansion. E.g. @{myVariable}	                    |N/A                                |
 |()	        |Enforces precedence order and groups sub expressions into larger expressions. E.g. (A+B)*C	|N/A                                |
 |.	        |Property selector. E.g. myObject.Property1	                                                |N/A                                |
 |\	        |Escape character for templates, expressions.                                               |N/A                                |
