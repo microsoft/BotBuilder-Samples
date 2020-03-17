@@ -103,8 +103,8 @@ class BookingDialog extends CancelAndHelpDialog {
     }
 
     isAmbiguous(timex) {
-        const timexPropery = new TimexProperty(timex);
-        return !timexPropery.types.has('definite');
+        const timexProperty = new TimexProperty(timex);
+        return !timexProperty.types.has('definite');
     }
 }
 

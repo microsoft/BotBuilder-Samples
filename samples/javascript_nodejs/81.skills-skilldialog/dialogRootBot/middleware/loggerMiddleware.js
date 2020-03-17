@@ -1,9 +1,13 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 const { ActivityTypes } = require('botbuilder');
 
 /**
  * Logs user and bot messages. It filters out ContinueConversation events coming from skill responses.
  */
 class LoggerMiddleware {
+    // This defaults to using Node's console.log() method if a logger isn't passed in
     constructor(logger = console) {
         this.logger = logger;
     }

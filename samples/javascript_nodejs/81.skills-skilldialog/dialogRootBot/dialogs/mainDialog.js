@@ -131,12 +131,12 @@ class MainDialog extends ComponentDialog {
 
         let skillActivity;
         switch (selectedSkill.id) {
-        case 'DialogSkillBot':
-            skillActivity = this.createDialogSkillBotActivity(stepContext.result.value, stepContext.context);
-            break;
-        // We can add other case statements here if we support more than one skill.
-        default:
-            throw new Error(`Unknown target skill id: ${ selectedSkill.id }`);
+            case 'DialogSkillBot':
+                skillActivity = this.createDialogSkillBotActivity(stepContext.result.value, stepContext.context);
+                break;
+            // We can add other case statements here if we support more than one skill.
+            default:
+                throw new Error(`Unknown target skill id: ${ selectedSkill.id }`);
         }
 
         // Create the BeginSkillDialogOptions and assign the activity to send.
@@ -151,7 +151,6 @@ class MainDialog extends ComponentDialog {
 
     /**
      * The SkillDialog has ended, render the results (if any) and restart MainDialog.
-     * @param {*} stepContext
      */
     async finalStep(stepContext) {
         const activeSkill = await this.activeSkillProperty.get(stepContext.context, () => null);
@@ -198,15 +197,15 @@ class MainDialog extends ComponentDialog {
      * Helper method to create Choice elements for the actions supported by the skill.
      */
     getSkillActions(skill) {
-        // Note: the bot would probably render this by reading the skill manifest.
-        // We are just using hardcoded skill actions here for simplicity.
+        // Note: The bot would probably render this by reading the skill manifest;
+        //   we are just using hardcoded skill actions here for simplicity.
         const choices = [];
         switch (skill.id) {
-        case 'DialogSkillBot':
-            choices.push({ value: SKILL_ACTION_BOOK_FLIGHT });
-            choices.push({ value: SKILL_ACTION_BOOK_FLIGHT_WITH_INPUT_PARAMETERS });
-            choices.push({ value: SKILL_ACTION_GET_WEATHER });
-            break;
+            case 'DialogSkillBot':
+                choices.push({ value: SKILL_ACTION_BOOK_FLIGHT });
+                choices.push({ value: SKILL_ACTION_BOOK_FLIGHT_WITH_INPUT_PARAMETERS });
+                choices.push({ value: SKILL_ACTION_GET_WEATHER });
+                break;
         }
 
         return choices;
@@ -225,8 +224,7 @@ class MainDialog extends ComponentDialog {
             return turnContext.activity;
         }
 
-        let activity = null;
-
+        let activity;
         // Send an event activity to the skill with "BookFlight" in the name.
         if (selectedOption.toLowerCase() === SKILL_ACTION_BOOK_FLIGHT.toLowerCase()) {
             activity = { type: ActivityTypes.Event, name: SKILL_ACTION_BOOK_FLIGHT };
@@ -262,7 +260,7 @@ class MainDialog extends ComponentDialog {
 
         // We are manually creating the activity to send to the skill; ensure we add the ChannelData and Properties
         // from the original activity so the skill gets them.
-        // Note: this is not necessary if we are just forwarding the current activity from context.
+        // Note: This is not necessary if we are just forwarding the current activity from context.
         activity.channelData = turnContext.activity.channelData;
         activity.properties = turnContext.activity.properties;
 

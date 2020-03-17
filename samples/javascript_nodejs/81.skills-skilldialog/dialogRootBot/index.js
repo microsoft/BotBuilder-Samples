@@ -36,7 +36,7 @@ const adapter = new BotFrameworkAdapter({
     authConfig: authConfig
 });
 
-// Use the logger middleware to log messages.
+// Use the logger middleware to log messages. The default logger argument for LoggerMiddleware is Node's console.log().
 const { LoggerMiddleware } = require('./middleware/loggerMiddleware');
 adapter.use(new LoggerMiddleware());
 
