@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                 // Log any leaked exception from the application.
                 logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
-                // Send a message to the user
+                // Send a message to the user.
                 var errorMessageText = "The skill encountered an error or bug.";
                 var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.IgnoringInput);
                 await turnContext.SendActivityAsync(errorMessage);
@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                     {
                         // Delete the conversationState for the current conversation to prevent the
                         // bot from getting stuck in a error-loop caused by being in a bad state.
-                        // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
+                        // ConversationState should be thought of as similar to "cookie-state" for a Web page.
                         await conversationState.DeleteAsync(turnContext);
                     }
                     catch (Exception ex)
@@ -46,15 +46,16 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                     }
                 }
 
-                // Send and EndOfConversation activity to the skill caller with the error to end the conversation
+                // Send an EndOfConversation activity to the skill caller with the error to end the conversation,
                 // and let the caller decide what to do.
                 var endOfConversation = Activity.CreateEndOfConversationActivity();
                 endOfConversation.Code = "SkillError";
                 endOfConversation.Text = exception.Message;
                 await turnContext.SendActivityAsync(endOfConversation);
 
-                // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                // Note: we return the entire exception in the value property to help the developer, this should not be done in prod.
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator.
+                // Note: we return the entire exception in the value property to help the developer;
+                // this should not be done in production.
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
             };
         }

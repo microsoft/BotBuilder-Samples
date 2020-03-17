@@ -33,22 +33,22 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                 throw new ArgumentNullException(nameof(options));
             }
 
-            // Create the storage key based on the SkillConversationIdFactoryOptions
+            // Create the storage key based on the SkillConversationIdFactoryOptions.
             var conversationReference = options.Activity.GetConversationReference();
             var skillConversationId = $"{conversationReference.Conversation.Id}-{options.BotFrameworkSkill.Id}-{conversationReference.ChannelId}-skillconvo";
 
-            // Create the SkillConversationReference instance
+            // Create the SkillConversationReference instance.
             var skillConversationReference = new SkillConversationReference
             {
                 ConversationReference = conversationReference,
                 OAuthScope = options.FromBotOAuthScope
             };
 
-            // Store the SkillConversationReference using the skillConversationId as a key
+            // Store the SkillConversationReference using the skillConversationId as a key.
             var skillConversationInfo = new Dictionary<string, object> { { skillConversationId, JObject.FromObject(skillConversationReference) } };
             await _storage.WriteAsync(skillConversationInfo, cancellationToken).ConfigureAwait(false);
 
-            // Return the generated skillConversationId (that will be also used as the conversation ID to call the skill)
+            // Return the generated skillConversationId (that will be also used as the conversation ID to call the skill).
             return skillConversationId;
         }
 
@@ -72,7 +72,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
         public override async Task DeleteConversationReferenceAsync(string skillConversationId, CancellationToken cancellationToken)
         {
-            // Delete the SkillConversationReference from storage
+            // Delete the SkillConversationReference from storage.
             await _storage.DeleteAsync(new[] { skillConversationId }, cancellationToken).ConfigureAwait(false);
         }
     }

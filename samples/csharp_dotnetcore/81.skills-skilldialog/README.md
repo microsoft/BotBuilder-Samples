@@ -2,7 +2,7 @@
 
 Bot Framework v4 Skills with Dialogs sample.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com); it shows how to use a skill dialog from a root bot.
+This bot has been created using the [Bot Framework](https://dev.botframework.com); it shows how to use a skill dialog from a root bot.
 
 ## Prerequisites
 
@@ -15,13 +15,14 @@ This bot has been created using [Bot Framework](https://dev.botframework.com); i
 
 ## Key concepts in this sample
 
-The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skill bot (`DialogSkillBot`). It demonstrates how to post activities from the parent bot to the skill bot and return the skill responses to the user.
+The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skill bot (`DialogSkillBot`).
+It demonstrates how to post activities from the parent bot to the skill bot and return the skill responses to the user.
 
 - `DialogRootBot`: this project shows how to consume a skill bot using a `SkillDialog`. It includes:
   - A [root dialog](DialogRootBot/Dialogs/MainDialog.cs) that can call different actions on a skill using a `SkillDialog`:
-    - Send events activities
-    - Send message activities
-    - Cancel a `SkillDialog` using `CancelAllDialogsAsync` that automatically sends an `EndOfConversation` activity to remotely let a skill know that it needs to end a conversation.
+    - To send events activities.
+    - To send message activities.
+    - To cancel a `SkillDialog` using `CancelAllDialogsAsync` that automatically sends an `EndOfConversation` activity to remotely let a skill know that it needs to end a conversation.
   - A sample [AdapterWithErrorHandler](DialogRootBot/AdapterWithErrorHandler.cs) adapter that shows how to handle errors, terminate skills and send traces back to the emulator to help debugging the bot.
   - A sample [AllowedSkillsClaimsValidator](DialogRootBot/Authentication/AllowedSkillsClaimsValidator.cs) class that shows how to validate that responses sent to the bot are coming from the configured skills.
   - A [Logger Middleware](DialogRootBot/Middleware/LoggerMiddleware.cs) that shows how to handle and log activities coming from a skill.

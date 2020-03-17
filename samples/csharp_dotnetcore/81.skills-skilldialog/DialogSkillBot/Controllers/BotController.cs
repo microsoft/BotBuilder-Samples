@@ -8,9 +8,9 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace Microsoft.BotBuilderSamples.DialogSkillBot.Controllers
 {
-    // This ASP Controller is created to handle a request. Dependency Injection will provide the Adapter and IBot
-    // implementation at runtime. Multiple different IBot implementations running at different endpoints can be
-    // achieved by specifying a more specific type for the bot constructor argument.
+    // This ASP Controller is created to handle a request. Dependency injection will provide the Adapter and IBot
+    // instances at runtime. Multiple different IBot implementations running at different endpoints can be
+    // achieved by specifying a more specific type for the bot constructor parameter.
     [Route("api/messages")]
     [ApiController]
     public class BotController : ControllerBase

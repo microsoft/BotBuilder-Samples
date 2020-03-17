@@ -13,7 +13,7 @@ using Microsoft.Extensions.Logging;
 namespace Microsoft.BotBuilderSamples.DialogRootBot.Middleware
 {
     /// <summary>
-    /// A middleware that logs to an ILogger instance filtering ContinueConversation events coming from skill responses.
+    /// Uses an ILogger instance to log user and bot messages. It filters out ContinueConversation events coming from skill responses.
     /// </summary>
     public class LoggerMiddleware : IMiddleware
     {
@@ -26,8 +26,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Middleware
 
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default)
         {
-            // Note: skill responses will show as ContinueConversation events, we don't log those,
-            // we only log incoming messages from users
+            // Note: skill responses will show as ContinueConversation events; we don't log those.
+            // We only log incoming messages from users.
             if (turnContext.Activity.Type != ActivityTypes.Event && turnContext.Activity.Name != "ContinueConversation")
             {
                 var message = $"User said: {turnContext.Activity.Text} Type: \"{turnContext.Activity.Type}\" Name: \"{turnContext.Activity.Name}\"";

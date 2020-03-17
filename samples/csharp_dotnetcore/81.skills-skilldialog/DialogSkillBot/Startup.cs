@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
             services.AddControllers()
                 .AddNewtonsoftJson();
 
-            // Configure credentials
+            // Configure credentials.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Register AuthConfiguration to enable custom claim validation.
@@ -46,7 +46,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // Register LUIS recognizer
+            // Register LUIS recognizer.
             services.AddSingleton<DialogSkillBotRecognizer>();
 
             // The Dialog that will be run by the bot.
@@ -74,7 +74,8 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
                     endpoints.MapControllers();
                 });
 
-            //app.UseHttpsRedirection(); Enable this to support https
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

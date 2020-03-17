@@ -35,7 +35,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         private readonly string _selectedSkillKey = $"{typeof(MainDialog).FullName}.SelectedSkillKey";
         private readonly SkillsConfiguration _skillsConfig;
 
-        // Dependency injection uses this constructor to instantiate MainDialog
+        // Dependency injection uses this constructor to instantiate MainDialog.
         public MainDialog(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
@@ -57,16 +57,16 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 throw new ArgumentNullException(nameof(conversationState));
             }
 
-            // Add SkillDialog instances for the configured skills
+            // Use helper method to add SkillDialog instances for the configured skills.
             AddSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, botId);
 
-            // Add ChoicePrompt to render available skills
+            // Add ChoicePrompt to render available skills.
             AddDialog(new ChoicePrompt("SkillPrompt"));
 
-            // Add ChoicePrompt to render skill actions
+            // Add ChoicePrompt to render skill actions.
             AddDialog(new ChoicePrompt("SkillActionPrompt", SkillActionPromptValidator));
 
-            // Add main waterfall dialog for this bot
+            // Add main waterfall dialog for this bot.
             var waterfallSteps = new WaterfallStep[]
             {
                 SelectSkillStepAsync,
@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             };
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), waterfallSteps));
 
-            // Create state property to track the active skill
+            // Create state property to track the active skill.
             _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
 
             // The initial child Dialog to run.
@@ -85,14 +85,14 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default)
         {
-            // This is an example on how to cancel a SkillDialog that is currently in progress from the parent bot
+            // This is an example on how to cancel a SkillDialog that is currently in progress from the parent bot.
             var activeSkill = await _activeSkillProperty.GetAsync(innerDc.Context, () => null, cancellationToken);
             var activity = innerDc.Context.Activity;
             if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
             {
-                // Cancel all dialog when the user says abort.
-                // SkillDialog automatically sends an EndOfConversation message to the skill to let the
-                // skill know that it needs to end the current dialogs too.
+                // Cancel all dialogs when the user says abort.
+                // The SkillDialog automatically sends an EndOfConversation message to the skill to let the
+                // skill know that it needs to end its current dialogs, too.
                 await innerDc.CancelAllDialogsAsync(cancellationToken);
                 return await innerDc.ReplaceDialogAsync(InitialDialogId, "Canceled! \n\n What skill would you like to call?", cancellationToken);
             }
@@ -151,7 +151,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             return Task.FromResult(true);
         }
 
-        // Starts SkillDialog based on the user's selections
+        // Starts the SkillDialog based on the user's selections.
         private async Task<DialogTurnResult> CallSkillActionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var selectedSkill = (BotFrameworkSkill)stepContext.Values[_selectedSkillKey];
@@ -171,7 +171,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Create the BeginSkillDialogOptions and assign the activity to send.
             var skillDialogArgs = new BeginSkillDialogOptions { Activity = skillActivity };
 
-            // Save active skill in state
+            // Save active skill in state.
             await _activeSkillProperty.SetAsync(stepContext.Context, selectedSkill, cancellationToken);
 
             // Start the skillDialog instance with the arguments. 
@@ -194,10 +194,10 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Clear the skill selected by the user.
             stepContext.Values[_selectedSkillKey] = null;
 
-            // Clear active skill in state
+            // Clear active skill in state.
             await _activeSkillProperty.DeleteAsync(stepContext.Context, cancellationToken);
 
-            // Restart the main dialog with a different message the second time around
+            // Restart the main dialog with a different message the second time around.
             return await stepContext.ReplaceDialogAsync(InitialDialogId, $"Done with \"{activeSkill.Id}\". \n\n What skill would you like to call?", cancellationToken);
         }
 
@@ -217,16 +217,16 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                     Skill = skillInfo
                 };
 
-                // Add the SkillDialog interact with the selected skill
+                // Add a SkillDialog for the selected skill.
                 AddDialog(new SkillDialog(skillDialogOptions, skillInfo.Id));
             }
         }
 
-        // Helper method to create Choice elements for the actions supported by the skill
+        // Helper method to create Choice elements for the actions supported by the skill.
         private IList<Choice> GetSkillActions(BotFrameworkSkill skill)
         {
-            // Note: the bot would probably render this by reading the skill manifest
-            // we are just using hardcoded skill actions here for simplicity.
+            // Note: the bot would probably render this by reading the skill manifest.
+            // We are just using hardcoded skill actions here for simplicity.
 
             var choices = new List<Choice>();
             switch (skill.Id)
@@ -241,11 +241,11 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             return choices;
         }
 
-        // Helper method to create the activity to be sent to the DialogSkillBot using selected type and values
+        // Helper method to create the activity to be sent to the DialogSkillBot using selected type and values.
         private Activity CreateDialogSkillBotActivity(string selectedOption, ITurnContext turnContext)
         {
             // Note: in a real bot, the dialogArgs will be created dynamically based on the conversation
-            // and what each action requires, here we hardcode the values to make things simpler.
+            // and what each action requires; here we hardcode the values to make things simpler.
 
             // Just forward the message activity to the skill with whatever the user said. 
             if (selectedOption.Equals(SkillActionMessage, StringComparison.CurrentCultureIgnoreCase))
@@ -285,7 +285,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 throw new Exception($"Unable to create dialogArgs for \"{selectedOption}\".");
             }
 
-            // We are manually creating the activity to send to the skill, ensure we add the ChannelData and Properties 
+            // We are manually creating the activity to send to the skill; ensure we add the ChannelData and Properties 
             // from the original activity so the skill gets them.
             // Note: this is not necessary if we are just forwarding the current activity from context. 
             activity.ChannelData = turnContext.Activity.ChannelData;
