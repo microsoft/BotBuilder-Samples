@@ -36,6 +36,10 @@ const adapter = new BotFrameworkAdapter({
     authConfig: authConfig
 });
 
+// Use the logger middleware to log messages
+const { LoggerMiddleware } = require('./middleware/loggerMiddleware');
+adapter.use(new LoggerMiddleware());
+
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.

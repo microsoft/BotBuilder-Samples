@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
- 
+
 const { JwtTokenValidation, SkillValidation } = require('botframework-connector');
 const { SkillsConfiguration } = require('../skillsConfiguration');
- 
+
 const skillsConfig = new SkillsConfiguration();
 // Load the appIds for the configured skills (we will only allow responses from skills we have configured).
 const allowedSkills = Object.values(skillsConfig.skills).map(skill => skill.appId);
- 
+
 /**
  * Sample claims validator that loads an allowed list from configuration if present
  * and checks that responses are coming from configured skills.
@@ -21,5 +21,5 @@ const allowedSkillsClaimsValidator = async (claims) => {
         }
     }
 };
- 
+
 module.exports.allowedSkillsClaimsValidator = allowedSkillsClaimsValidator;

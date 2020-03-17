@@ -96,6 +96,9 @@ server.listen(process.env.port || process.env.PORT || 3979, function() {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
+// Expose the manifest
+server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
+
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
     // Route received a request to adapter for processing
