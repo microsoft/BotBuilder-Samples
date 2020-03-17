@@ -15,7 +15,7 @@ using Newtonsoft.Json;
 namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
 {
     /// <summary>
-    /// A root dialog that can route activities sent to the skill to different sub dialogs.
+    /// A root dialog that can route activities sent to the skill to different sub-dialogs.
     /// </summary>
     public class ActivityRouterDialog : ComponentDialog
     {
@@ -35,7 +35,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
 
         private async Task<DialogTurnResult> ProcessActivityAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // A skill can send trace activities if needed :)
+            // A skill can send trace activities, if needed.
             await stepContext.Context.TraceActivityAsync($"{GetType().Name}.ProcessActivityAsync()", label: $"Got ActivityType: {stepContext.Context.Activity.Type}", cancellationToken: cancellationToken);
 
             switch (stepContext.Context.Activity.Type)
@@ -108,7 +108,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
                         return await BeginGetWeather(stepContext, cancellationToken);
 
                     default:
-                        // Catch all for unhandled intents
+                        // Catch all for unhandled intents.
                         var didntUnderstandMessageText = $"Sorry, I didn't get that. Please try asking in a different way (intent was {luisResult.TopIntent().intent})";
                         var didntUnderstandMessage = MessageFactory.Text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                         await stepContext.Context.SendActivityAsync(didntUnderstandMessage, cancellationToken);
@@ -144,7 +144,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
                 bookingDetails = JsonConvert.DeserializeObject<BookingDetails>(JsonConvert.SerializeObject(activity.Value));
             }
 
-            // Start the booking dialog
+            // Start the booking dialog.
             var bookingDialog = FindDialog(nameof(BookingDialog));
             return await stepContext.BeginDialogAsync(bookingDialog.Id, bookingDetails, cancellationToken);
         }

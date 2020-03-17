@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
     public class CancelAndHelpDialog : ComponentDialog
     {
         private const string HelpMsgText = "Show help here";
-        private const string CancelMsgText = "Cancelling...";
+        private const string CancelMsgText = "Canceling...";
 
         public CancelAndHelpDialog(string id)
             : base(id)

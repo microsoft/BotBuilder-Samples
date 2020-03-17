@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
     public class DateResolverDialog : CancelAndHelpDialog
     {
         private const string PromptMsgText = "When would you like to travel?";
-        private const string RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
+        private const string RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date, including Day, Month, and Year.";
 
         public DateResolverDialog(string id = null)
             : base(id ?? nameof(DateResolverDialog))
@@ -30,11 +30,11 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Dialogs
         {
             if (promptContext.Recognized.Succeeded)
             {
-                // This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
-                // TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
+                // This value will be a TIMEX. We are only interested in the Date part, so grab the first result and drop the Time part.
+                // TIMEX is a format that represents DateTime expressions that include some ambiguity, such as a missing Year.
                 var timex = promptContext.Recognized.Value[0].Timex.Split('T')[0];
 
-                // If this is a definite Date including year, month and day we are good otherwise reprompt.
+                // If this is a definite Date that includes year, month and day we are good; otherwise, reprompt.
                 // A better solution might be to let the user know what part is actually missing.
                 var isDefinite = new TimexProperty(timex).Types.Contains(Constants.TimexTypes.Definite);
 

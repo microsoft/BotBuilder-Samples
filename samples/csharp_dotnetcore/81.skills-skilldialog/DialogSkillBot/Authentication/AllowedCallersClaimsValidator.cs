@@ -26,11 +26,11 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Authentication
                 throw new ArgumentNullException(nameof(config));
             }
 
-            // AllowedCallers is the setting in appsettings.json file
-            // that consists of the list of parent bot ids that are allowed to access the skill
-            // to add a new parent bot simply go to the AllowedCallers and add
-            // the parent bot's microsoft app id to the list.
-            // In this sample, we allow all calls if AllowedCallers contains "*".
+            // AllowedCallers is the setting in the appsettings.json file
+            // that consists of the list of parent bot IDs that are allowed to access the skill.
+            // To add a new parent bot, simply edit the AllowedCallers and add
+            // the parent bot's Microsoft app ID to the list.
+            // In this sample, we allow all callers if AllowedCallers contains an "*".
             var section = config.GetSection(ConfigKey);
             var appsList = section.Get<string[]>();
             if (appsList == null)
@@ -43,10 +43,10 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot.Authentication
 
         public override Task ValidateClaimsAsync(IList<Claim> claims)
         {
-            // if _allowedCallers contains "*" we allow all calls
+            // If _allowedCallers contains an "*", we allow all callers.
             if (SkillValidation.IsSkillClaim(claims) && !_allowedCallers.Contains("*"))
             {
-                // Check that the appId claim in the skill request is in the list of skills configured for this bot.
+                // Check that the appId claim in the skill request is in the list of callers configured for this bot.
                 var appId = JwtTokenValidation.GetAppIdFromClaims(claims);
                 if (!_allowedCallers.Contains(appId))
                 {
