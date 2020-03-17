@@ -46,16 +46,21 @@ namespace Microsoft.Bot.Sample.EchoBot
             {
                 Trace.TraceInformation($"EndOfConversation: {message}");
 
-                // Clear the dialog stack if the root bot has ended the conversation.
-                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+                // This Recipient null check is required for PVA manifest validation.
+                // PVA will send an EOC activity with null Recipient.
+                if (message.Recipient != null)
                 {
-                    var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync(default(CancellationToken));
+                    // Clear the dialog stack if the root bot has ended the conversation.
+                    using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+                    {
+                        var botData = scope.Resolve<IBotData>();
+                        await botData.LoadAsync(default(CancellationToken));
 
-                    var stack = scope.Resolve<IDialogStack>();
-                    stack.Reset();
+                        var stack = scope.Resolve<IDialogStack>();
+                        stack.Reset();
 
-                    await botData.FlushAsync(default(CancellationToken));
+                        await botData.FlushAsync(default(CancellationToken));
+                    }
                 }
             }
             else if (messageType == ActivityTypes.DeleteUserData)
