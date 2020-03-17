@@ -53,7 +53,7 @@ The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skil
 - Create a bot registration in the azure portal for the DialogRootBot and update [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId and password. 
 - Update the BotFrameworkSkills section in [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId for the skill you created in the previous step.
 - (Optional) Configure the LuisAppId, LuisAPIKey and LuisAPIHostName section in the [DialogSkillBot/appsettings.json](DialogSkillBot/appsettings.json) if you want to run message activities through LUIS.
-- Open the `DialogToDialog.sln` solution and configure it to [start debugging with multiple processes](https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#start-debugging-with-multiple-processes).
+- Open the `SkillDialogSample.sln` solution and configure it to [start debugging with multiple processes](https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#start-debugging-with-multiple-processes).
 
 ## Testing the bot using Bot Framework Emulator
 
