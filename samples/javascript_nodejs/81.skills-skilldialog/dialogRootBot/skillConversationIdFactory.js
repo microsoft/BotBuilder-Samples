@@ -5,7 +5,7 @@ const { SkillConversationIdFactoryBase, TurnContext } = require('botbuilder');
 
 /**
  * A SkillConversationIdFactory that uses an in memory dictionary
- *to store and retrieve ConversationReference instances.
+ *   to store and retrieve ConversationReference instances.
  */
 class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     constructor() {

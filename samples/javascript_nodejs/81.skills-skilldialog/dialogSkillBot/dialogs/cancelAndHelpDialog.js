@@ -30,7 +30,7 @@ class CancelAndHelpDialog extends ComponentDialog {
                 }
                 case 'cancel':
                 case 'quit': {
-                    const cancelMessageText = 'Cancelling...';
+                    const cancelMessageText = 'Canceling...';
                     await innerDc.context.sendActivity(cancelMessageText, cancelMessageText, InputHints.IgnoringInput);
                     return await innerDc.cancelAllDialogs();
                 }

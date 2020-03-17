@@ -1,7 +1,7 @@
 const { ActivityTypes } = require('botbuilder');
 
 /**
- * Logs user and bot messages. It filters out ContinueConversation events coming from skill responses
+ * Logs user and bot messages. It filters out ContinueConversation events coming from skill responses.
  */
 class LoggerMiddleware {
     constructor(logger = console) {
@@ -16,10 +16,10 @@ class LoggerMiddleware {
             this.logger.log(message);
         }
 
-        // Register outgoing handler
+        // Register outgoing handler.
         turnContext.onSendActivities(this.outgoingHandler.bind(this));
 
-        // Continue processing messages
+        // Continue processing messages.
         await next();
     }
 

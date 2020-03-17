@@ -3,7 +3,7 @@
 
 // index.js is used to setup and configure your bot
 
-// Import required packages
+// Import required packages.
 const path = require('path');
 const restify = require('restify');
 
@@ -20,12 +20,12 @@ const { MainDialog } = require('./dialogs/mainDialog');
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
-// Import Skills modules
+// Import Skills modules.
 const { allowedSkillsClaimsValidator } = require('./authentication/allowedSkillsClaimsValidator');
 const { SkillsConfiguration } = require('./skillsConfiguration');
 const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
 
-// Define our authentication configuration
+// Define our authentication configuration.
 const authConfig = new AuthenticationConfiguration([], allowedSkillsClaimsValidator);
 
 // Create adapter, passing in authConfig so that we can use skills.
@@ -36,7 +36,7 @@ const adapter = new BotFrameworkAdapter({
     authConfig: authConfig
 });
 
-// Use the logger middleware to log messages
+// Use the logger middleware to log messages.
 const { LoggerMiddleware } = require('./middleware/loggerMiddleware');
 adapter.use(new LoggerMiddleware());
 
@@ -47,7 +47,7 @@ const onTurnErrorHandler = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
-    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    // Send a trace activity, which will be displayed in Bot Framework Emulator.
     await context.sendTraceActivity(
         'OnTurnError Trace',
         `${ error }`,
@@ -55,12 +55,12 @@ const onTurnErrorHandler = async (context, error) => {
         'TurnError'
     );
 
-    // Send a message to the user
+    // Send a message to the user.
     let onTurnErrorMessage = 'The bot encountered an error or bug.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    // Clear out state
+    // Clear out state.
     await conversationState.delete(context);
 };
 
@@ -76,23 +76,23 @@ adapter.onTurnError = onTurnErrorHandler;
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
-// Create the conversationIdFactory
+// Create the conversationIdFactory.
 const conversationIdFactory = new SkillConversationIdFactory();
 
 // Create the credential provider;
 const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
 
-// Create the skill client
+// Create the skill client.
 const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
 
-// Load skills configuration
+// Load skills configuration.
 const skillsConfig = new SkillsConfiguration();
 
 // Create the main dialog.
 const mainDialog = new MainDialog(conversationState, skillsConfig, skillClient, conversationIdFactory);
 const bot = new RootBot(conversationState, mainDialog);
 
-// Create HTTP server
+// Create HTTP server.
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
@@ -102,14 +102,14 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    // Route received a request to adapter for processing
+    // Route received a request to adapter for processing.
     adapter.processActivity(req, res, async (turnContext) => {
         // route to bot activity handler.
         await bot.run(turnContext);
     });
 });
 
-// Create and initialize the skill classes
+// Create and initialize the skill classes.
 const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');

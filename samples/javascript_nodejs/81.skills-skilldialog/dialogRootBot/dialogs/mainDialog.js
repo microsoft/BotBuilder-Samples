@@ -34,14 +34,15 @@ class MainDialog extends ComponentDialog {
         this.skillsConfig = skillsConfig;
         this.selectedSkillKey = `${ MAIN_DIALOG }.selectedSkillKey`;
 
+        // Use helper method to add SkillDialog instances for the configured skills.
         this.addSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, process.env.MicrosoftAppId);
 
         // Define the main dialog and its related components.
         // Add ChoicePrompt to render available skills.
         this.addDialog(new ChoicePrompt(SKILL_PROMPT))
-            // Add ChoicePrompt to render skill actions
+            // Add ChoicePrompt to render skill actions.
             .addDialog(new ChoicePrompt(SKILL_ACTION_PROMPT, this.skillActionPromptValidator))
-            // Add main waterfall dialog for this bot
+            // Add main waterfall dialog for this bot.
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [
                 this.selectSkillStep.bind(this),
                 this.selectSkillActionStep.bind(this),
@@ -73,9 +74,9 @@ class MainDialog extends ComponentDialog {
         const activeSkill = await this.activeSkillProperty.get(innerDc.context, () => null);
         const activity = innerDc.context.activity;
         if (activeSkill != null && activity.type === ActivityTypes.Message && activity.text.toLowerCase() === 'abort') {
-            // Cancel all dialogs when the user says "abort"
+            // Cancel all dialogs when the user says "abort".
             // SkillDialog automatically sends an EndOfConversation message to the skill to let the
-            //   skill know that it needs to end the current dialogs, too
+            //   skill know that it needs to end the current dialogs, too.
             await innerDc.cancelAllDialogs();
             return await innerDc.replaceDialog(this.initialDialogId, { text: 'Canceled! \n\n What skill would you like to call?' });
         }
@@ -87,7 +88,7 @@ class MainDialog extends ComponentDialog {
      * Render a prompt to select the skill to call.
      */
     async selectSkillStep(stepContext) {
-        // Create the PromptOptions from the skill configuration which contains the list of configured skills
+        // Create the PromptOptions from the skill configuration which contains the list of configured skills.
         const messageText = stepContext.options && stepContext.options.text ? stepContext.options.text : 'What skill would you like to call?';
         const repromptMessageText = 'That was not a valid choice, please select a valid skill.';
         const options = {
@@ -104,26 +105,26 @@ class MainDialog extends ComponentDialog {
      * Render a prompt to select the action for the skill.
      */
     async selectSkillActionStep(stepContext) {
-        // Get the skill info based on the selected skill
+        // Get the skill info based on the selected skill.
         const selectedSkillId = stepContext.result.value;
         const selectedSkill = this.skillsConfig.skills[selectedSkillId];
 
-        // Remember the skill selected by the user
+        // Remember the skill selected by the user.
         stepContext.values[this.selectedSkillKey] = selectedSkill;
 
-        // Create the PromptOptions with the actions supported by the selected skill
+        // Create the PromptOptions with the actions supported by the selected skill.
         const messageText = `Select an action # to send to **${ selectedSkill.id }** or just type in a message and it will be forwarded to the skill`;
         const options = {
             prompt: MessageFactory.text(messageText, messageText, InputHints.ExpectingInput),
             choices: this.getSkillActions(selectedSkill)
         };
 
-        // Prompt the user to select a skill action
+        // Prompt the user to select a skill action.
         return await stepContext.prompt(SKILL_ACTION_PROMPT, options);
     }
 
     /**
-     * Starts SkillDialog based on the user's selections
+     * Starts the SkillDialog based on the user's selections.
      */
     async callSkillActionStep(stepContext) {
         const selectedSkill = stepContext.values[this.selectedSkillKey];
@@ -133,47 +134,47 @@ class MainDialog extends ComponentDialog {
         case 'DialogSkillBot':
             skillActivity = this.createDialogSkillBotActivity(stepContext.result.value, stepContext.context);
             break;
-        // We can add other case statements here if we support more than one skill
+        // We can add other case statements here if we support more than one skill.
         default:
             throw new Error(`Unknown target skill id: ${ selectedSkill.id }`);
         }
 
-        // Create the BeginSkillDialogOptions and assign the activity to send
+        // Create the BeginSkillDialogOptions and assign the activity to send.
         const skillDialogArgs = { activity: skillActivity };
 
-        // Save active skill in state
+        // Save active skill in state.
         await this.activeSkillProperty.set(stepContext.context, selectedSkill);
 
-        // Start the skillDialog instance with the arguments
+        // Start the skillDialog instance with the arguments.
         return await stepContext.beginDialog(selectedSkill.id, skillDialogArgs);
     }
 
     /**
-     * The SkillDialog has ended, render the results (if any) and restart MainDialog
+     * The SkillDialog has ended, render the results (if any) and restart MainDialog.
      * @param {*} stepContext
      */
     async finalStep(stepContext) {
         const activeSkill = await this.activeSkillProperty.get(stepContext.context, () => null);
 
-        // Check if the skill returned any results and display them
+        // Check if the skill returned any results and display them.
         if (stepContext.result != null) {
             let message = `Skill "${ activeSkill.id }" invocation complete.`;
             message += `\nResult: ${ JSON.stringify(stepContext.result, null, 2) }`;
             await stepContext.context.sendActivity(MessageFactory.text(message, message, InputHints.IgnoringInput));
         }
 
-        // Clear the skill selected by the user
+        // Clear the skill selected by the user.
         stepContext.values[this.selectedSkillKey] = null;
 
-        // Clear active skill in state
+        // Clear active skill in state.
         await this.activeSkillProperty.delete(stepContext.context);
 
-        // Restart the main dialog with a different message the second time around
+        // Restart the main dialog with a different message the second time around.
         return await stepContext.replaceDialog(this.initialDialogId, { text: `Done with "${ activeSkill.id }". \n\n What skill would you like to call?` });
     }
 
     /**
-     * Helper method that creates and adds SkillDialog instances for the configured skills
+     * Helper method that creates and adds SkillDialog instances for the configured skills.
      */
     async addSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, botId) {
         Object.keys(skillsConfig.skills).forEach((skillId) => {
@@ -188,16 +189,17 @@ class MainDialog extends ComponentDialog {
                 skillClient
             };
 
+            // Add a SkillDialog for the selected skill.
             this.addDialog(new SkillDialog(skillOptions, skillInfo.id));
         });
     }
 
     /**
-     * Helper method to create Choice elements for the actions supported by the skill
+     * Helper method to create Choice elements for the actions supported by the skill.
      */
     getSkillActions(skill) {
-        // Note: the bot would probably render this by reading the skill manifest
-        // We are just using hardcoded skill actions here for simplicity
+        // Note: the bot would probably render this by reading the skill manifest.
+        // We are just using hardcoded skill actions here for simplicity.
         const choices = [];
         switch (skill.id) {
         case 'DialogSkillBot':
@@ -211,26 +213,26 @@ class MainDialog extends ComponentDialog {
     }
 
     /**
-     * // Helper method to create the activity to be sent to the DialogSkillBot using selected type and values
+     * Helper method to create the activity to be sent to the DialogSkillBot using selected type and values.
      */
     createDialogSkillBotActivity(selectedOption, turnContext) {
-        // Note: in a real bot, the dialogArgs will be created dynamically based on the conversation
-        // and what each action requires, here we hardcode the values to make things simpler.
+        // Note: In a real bot, the dialogArgs will be created dynamically based on the conversation
+        // and what each action requires; here we hardcode the values to make things simpler.
 
         // Just forward the message activity to the skill with whatever the user said.
         if (selectedOption.toLowerCase() === SKILL_ACTION_MESSAGE.toLowerCase()) {
-            // Note: Message activities also support input parameters but we are not using them in this sample
+            // Note: Message activities also support input parameters but we are not using them in this sample.
             return turnContext.activity;
         }
 
         let activity = null;
 
-        // Send an event activity to the skill with "BookFlight" in the name
+        // Send an event activity to the skill with "BookFlight" in the name.
         if (selectedOption.toLowerCase() === SKILL_ACTION_BOOK_FLIGHT.toLowerCase()) {
             activity = { type: ActivityTypes.Event, name: SKILL_ACTION_BOOK_FLIGHT };
         }
 
-        // Send an event activity to the skill "BookFlight" in the name and some testing values
+        // Send an event activity to the skill "BookFlight" in the name and some testing values.
         if (selectedOption.toLowerCase() === SKILL_ACTION_BOOK_FLIGHT_WITH_INPUT_PARAMETERS.toLowerCase()) {
             activity = {
                 type: ActivityTypes.Event,
@@ -242,7 +244,7 @@ class MainDialog extends ComponentDialog {
             };
         }
 
-        // Send an activity to the skill with "GetWeather" in the name and some testing values
+        // Send an activity to the skill with "GetWeather" in the name and some testing values.
         if (selectedOption.toLowerCase() === SKILL_ACTION_GET_WEATHER.toLowerCase()) {
             activity = {
                 type: ActivityTypes.Event,
@@ -258,7 +260,7 @@ class MainDialog extends ComponentDialog {
             throw new Error(`Unable to create dialogArgs for ${ selectedOption }`);
         }
 
-        // We are manually creating the activity to send to the skill, ensure we add the ChannelData and Properties
+        // We are manually creating the activity to send to the skill; ensure we add the ChannelData and Properties
         // from the original activity so the skill gets them.
         // Note: this is not necessary if we are just forwarding the current activity from context.
         activity.channelData = turnContext.activity.channelData;
@@ -268,7 +270,7 @@ class MainDialog extends ComponentDialog {
     }
 
     /**
-     * This validator defaults to Message if the user doesn't select an existing option
+     * This validator defaults to Message if the user doesn't select an existing option.
      */
     async skillActionPromptValidator(promptContext) {
         if (!promptContext.recognized.succeeded) {

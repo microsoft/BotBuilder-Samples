@@ -21,10 +21,10 @@ const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer')
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
-// Import Skills modules
+// Import Skills modules.
 const { allowedSkillsClaimsValidator: allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
 
-// Define our authentication configuration
+// Define our authentication configuration.
 const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator);
 
 // Create adapter, passing in authConfig so that we can use skills.
@@ -42,7 +42,7 @@ const onTurnErrorHandler = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
-    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    // Send a trace activity, which will be displayed in Bot Framework Emulator.
     await context.sendTraceActivity(
         'OnTurnError Trace',
         `${ error }`,
@@ -50,12 +50,12 @@ const onTurnErrorHandler = async (context, error) => {
         'TurnError'
     );
 
-    // Send a message to the user
+    // Send a message to the user.
     let onTurnErrorMessage = 'The bot encountered an error or bug.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    // Clear out state
+    // Clear out state.
     await conversationState.delete(context);
 
     const endOfConversation = {
@@ -78,7 +78,7 @@ adapter.onTurnError = onTurnErrorHandler;
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
-// Initialize LUIS Recognizer
+// Initialize LUIS Recognizer.
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
 const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
 
@@ -88,7 +88,7 @@ const luisRecognizer = new FlightBookingRecognizer(luisConfig);
 const activityRouterDialog = new ActivityRouterDialog(conversationState, luisRecognizer);
 const bot = new SkillBot(conversationState, activityRouterDialog);
 
-// Create HTTP server
+// Create HTTP server.
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3979, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
@@ -96,7 +96,7 @@ server.listen(process.env.port || process.env.PORT || 3979, function() {
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
-// Expose the manifest
+// Expose the manifest.
 server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
 
 // Listen for incoming activities and route them to your bot main dialog.

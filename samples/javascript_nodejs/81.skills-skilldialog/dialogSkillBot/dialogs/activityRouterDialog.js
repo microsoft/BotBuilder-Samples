@@ -12,7 +12,7 @@ const WATERFALL_DIALOG = 'waterfallDialog';
 const BOOKING_DIALOG = 'bookingDialog';
 
 /**
- * A root dialog that can route activities sent to the skill by different dialogs
+ * A root dialog that can route activities sent to the skill to different sub-dialogs.
  */
 class ActivityRouterDialog extends ComponentDialog {
     constructor(conversationState, luisRecognizer = undefined) {
@@ -33,7 +33,7 @@ class ActivityRouterDialog extends ComponentDialog {
     }
 
     async processActivity(stepContext) {
-        // A skill can send trace activities if needed
+        // A skill can send trace activities, if needed.
         const traceActivity = {
             type: ActivityTypes.Trace,
             timestamp: new Date(),
@@ -60,7 +60,7 @@ class ActivityRouterDialog extends ComponentDialog {
     }
 
     /**
-     * This method performs different tasks based on event name
+     * This method performs different tasks based on event name.
      */
     async onEventActivity(stepContext) {
         const activity = stepContext.context.activity;
@@ -72,14 +72,14 @@ class ActivityRouterDialog extends ComponentDialog {
         };
         await stepContext.context.sendActivity(traceActivity);
 
-        // Resolve what to execute based on the event name
+        // Resolve what to execute based on the event name.
         switch (activity.name) {
             case 'BookFlight':
                 return await this.beginBookFlight(stepContext);
             case 'GetWeather':
                 return await this.beginGetWeather(stepContext);
             default:
-                // We didn't get an event name we can handle
+                // We didn't get an event name we can handle.
                 await stepContext.context.sendActivity(
                     MessageFactory.text(
                         `Unrecognized EventName: "${ stepContext.context.activity.name }".`,
@@ -110,11 +110,11 @@ class ActivityRouterDialog extends ComponentDialog {
                 InputHints.IgnoringInput
             ));
         } else {
-            // Call LUIS with the utterance
+            // Call LUIS with the utterance.
             const luisResult = await this.luisRecognizer.executeLuisQuery(stepContext.context);
             const topIntent = LuisRecognizer.topIntent(luisResult);
 
-            // Create a message showing the LUIS result
+            // Create a message showing the LUIS result.
             let resultString = '';
             resultString += `LUIS results for "${ activity.text }":\n`;
             resultString += `Intent: "${ topIntent }", Score: ${ luisResult.intents[topIntent].score }\n`;
@@ -127,7 +127,7 @@ class ActivityRouterDialog extends ComponentDialog {
                 case 'GetWeather':
                     return await this.beginGetWeather(stepContext);
                 default:
-                    // Catch all for unhandled intents
+                    // Catch all for unhandled intents.
                     const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${ topIntent.intent })`;
                     const didntUnderstandMessage = MessageFactory.text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                     await stepContext.context.sendActivity(didntUnderstandMessage);
@@ -142,7 +142,7 @@ class ActivityRouterDialog extends ComponentDialog {
         const activity = stepContext.context.activity;
         const location = activity.value || {};
 
-        // We haven't implemented the GetWeatherDialog so we just display a TODO message
+        // We haven't implemented the GetWeatherDialog so we just display a TODO message.
         const getWeatherMessageText = `TODO: get weather for here (lat: ${ location.latitude }, long: ${ location.longitude })`;
         const getWeatherMessage = MessageFactory.text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
         await stepContext.context.sendActivity(getWeatherMessage);
@@ -153,7 +153,7 @@ class ActivityRouterDialog extends ComponentDialog {
         const activity = stepContext.context.activity;
         const bookingDetails = activity.value || {};
 
-        // Start the booking dialog
+        // Start the booking dialog.
         const bookingDialog = this.findDialog(BOOKING_DIALOG);
         return await stepContext.beginDialog(bookingDialog.id, bookingDetails);
     }

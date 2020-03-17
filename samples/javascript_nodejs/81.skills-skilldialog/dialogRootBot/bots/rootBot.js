@@ -21,7 +21,7 @@ class RootBot extends ActivityHandler {
 
         this.onTurn(async (turnContext, next) => {
             if (turnContext.activity.type !== ActivityTypes.ConversationUpdate) {
-                // Run the Dialog with the activity
+                // Run the Dialog with the activity.
                 await runDialog(this.dialog, turnContext, this.conversationState.createProperty('DialogState'));
             }
 
