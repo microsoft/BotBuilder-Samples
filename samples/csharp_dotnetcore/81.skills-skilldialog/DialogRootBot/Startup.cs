@@ -33,17 +33,18 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
             services.AddControllers()
                 .AddNewtonsoftJson();
 
-            // Register credential provider
+            // Register credential provider.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-            // Register the skills configuration class
+            // Register the skills configuration class.
             services.AddSingleton<SkillsConfiguration>();
 
             // Register AuthConfiguration to enable custom claim validation.
             services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedSkillsClaimsValidator(sp.GetService<SkillsConfiguration>()) });
 
             // Register the Bot Framework Adapter with error handling enabled.
-            // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
+            // Note: some classes expect a BotAdapter and some expect a BotFrameworkHttpAdapter, so
+            // register the same adapter instance for both types.
             services.AddSingleton<BotFrameworkHttpAdapter, AdapterWithErrorHandler>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
@@ -76,7 +77,8 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
-            //app.UseHttpsRedirection(); Enable this to support https
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 

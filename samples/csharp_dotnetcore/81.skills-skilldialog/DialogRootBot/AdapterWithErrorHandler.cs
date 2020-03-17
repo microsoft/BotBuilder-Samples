@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
         {
             try
             {
-                // Send a message to the user
+                // Send a message to the user.
                 var errorMessageText = "The bot encountered an error or bug.";
                 var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.IgnoringInput);
                 await turnContext.SendActivityAsync(errorMessage);
@@ -62,7 +62,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                 errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
                 await turnContext.SendActivityAsync(errorMessage);
 
-                // Send a trace activity, which will be displayed in the Bot Framework Emulator
+                // Send a trace activity, which will be displayed in the Bot Framework Emulator.
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
             }
             catch (Exception ex)
@@ -80,10 +80,9 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
             try
             {
-                // Inform the active skill that the conversation is ended so that it has
-                // a chance to clean up.
-                // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
-                // forwarded to a Skill.
+                // Inform the active skill that the conversation is ended so that it has a chance to clean up.
+                // Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
+                // has an active conversation with a skill.
                 var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(MainDialog.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
                 if (activeSkill != null)
                 {
@@ -111,7 +110,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                 {
                     // Delete the conversationState for the current conversation to prevent the
                     // bot from getting stuck in a error-loop caused by being in a bad state.
-                    // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
+                    // ConversationState should be thought of as similar to "cookie-state" for a Web page.
                     await _conversationState.DeleteAsync(turnContext);
                 }
                 catch (Exception ex)

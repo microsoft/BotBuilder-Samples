@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Bots
             }
             else
             {
-                // let the base class handle the activity.
+                // Let the base class handle the activity.
                 await base.OnTurnAsync(turnContext, cancellationToken);
             }
 
@@ -46,7 +46,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Bots
             foreach (var member in membersAdded)
             {
                 // Greet anyone that was not the target (recipient) of this message.
-                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
+                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     var welcomeCard = CreateAdaptiveCardAttachment();
