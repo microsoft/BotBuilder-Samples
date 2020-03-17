@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// index.js is used to setup and configure your bot
+// index.js is used to setup and configure your bot.
 
-// Import required packages
+// Import required packages.
 const path = require('path');
 const restify = require('restify');
 
@@ -37,8 +37,8 @@ const adapter = new BotFrameworkAdapter({
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
-    // This check writes out errors to console log .vs. app insights.
-    // NOTE: In production environment, you should consider logging this to Azure
+    // This check writes out errors to the console log, instead of to app insights.
+    // NOTE: In a production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -61,7 +61,7 @@ const onTurnErrorHandler = async (context, error) => {
     const endOfConversation = {
         type: ActivityTypes.EndOfConversation,
         code: 'SkillError',
-        text: error
+        text: JSON.stringify(error)
     };
     await context.sendActivity(endOfConversation);
 };
@@ -101,9 +101,9 @@ server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest',
 
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    // Route received a request to adapter for processing
+    // Route received requests to the adapter for processing
     adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
+        // Route requests to bot activity handler.
         await bot.run(turnContext);
     });
 });

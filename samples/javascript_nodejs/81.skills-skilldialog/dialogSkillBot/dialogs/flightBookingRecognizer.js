@@ -7,7 +7,7 @@ class FlightBookingRecognizer {
     constructor(config) {
         const luisIsConfigured = config && config.applicationId && config.endpointKey && config.endpoint;
         if (luisIsConfigured) {
-            // Set the recognizer options depending on which endpoint version you want to use e.g v2 or v3.
+            // Set the recognizer options depending on which endpoint version you want to use, such as v2 or v3.
             // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3.
             const recognizerOptions = {
                 apiVersion: 'v3'
@@ -54,8 +54,8 @@ class FlightBookingRecognizer {
     }
 
     /**
-     * This value will be a TIMEX. And we are only interested in a Date so grab the first result and drop the Time part.
-     * TIMEX is a format that represents DateTime expressions that include some ambiguity. e.g. missing a Year.
+     * This value will be a TIMEX. We are only interested in a Date so grab the first result and drop the Time part.
+     * TIMEX is a format that represents DateTime expressions that include some ambiguity, such as missing a Year.
      */
     getTravelDate(result) {
         const datetimeEntity = result.entities.datetime;
