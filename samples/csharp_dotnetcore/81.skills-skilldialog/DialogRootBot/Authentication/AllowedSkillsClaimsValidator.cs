@@ -14,11 +14,11 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Authentication
     /// Sample claims validator that loads an allowed list from configuration if present
     /// and checks that responses are coming from configured skills.
     /// </summary>
-    public class AllowedCallersClaimsValidator : ClaimsValidator
+    public class AllowedSkillsClaimsValidator : ClaimsValidator
     {
         private readonly List<string> _allowedSkills;
 
-        public AllowedCallersClaimsValidator(SkillsConfiguration skillsConfig)
+        public AllowedSkillsClaimsValidator(SkillsConfiguration skillsConfig)
         {
             if (skillsConfig == null)
             {
