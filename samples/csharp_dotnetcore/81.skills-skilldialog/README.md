@@ -35,6 +35,7 @@ The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skil
     - Event activities are routed to specific dialogs using the parameters provided in the `Values` property of the activity.
     - Message activities are sent to LUIS if configured and trigger the desired tasks if the intent is recognized.
   - A sample [ActivityHandler](DialogSkillBot/Bots/SkillBot.cs) that uses the `RunAsync` method on `ActivityRouterDialog`.
+    
     Note: Starting in Bot Framework 4.8, the `RunAsync` method adds support to automatically send `EndOfConversation` with return values when the bot is running as a skill and the current dialog ends. It also handles reprompt messages to resume a skill where it left of.
   - A sample [SkillAdapterWithErrorHandler](DialogSkillBot/SkillAdapterWithErrorHandler.cs) adapter that shows how to handle errors, terminate the skills, send traces back to the emulator to help debugging the bot and send `EndOfConversation` messages to the parent bot with details of the error.
   - A sample [AllowedCallersClaimsValidator](DialogSkillBot/Authentication/AllowedCallersClaimsValidator.cs) that shows how to validate that the skill is only invoked from a list of allowed callers
