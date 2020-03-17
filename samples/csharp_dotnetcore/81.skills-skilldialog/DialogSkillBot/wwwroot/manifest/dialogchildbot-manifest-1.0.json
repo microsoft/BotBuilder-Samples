@@ -21,7 +21,7 @@
       "protocol": "BotFrameworkV3",
       "description": "Default endpoint for the skill",
       "endpointUrl": "https://dialogskillbot.contoso.com/api/messages",
-      "msAppId": "f3fe8762-e50c-4688-b202-a040f522d916"
+      "msAppId": "00000000-0000-0000-0000-000000000000"
     }
   ],
   "activities": {
@@ -56,15 +56,6 @@
     }
   },
   "definitions": {
-    "localeValue": {
-      "type": "object",
-      "properties": {
-        "locale": {
-          "type": "string",
-          "description": "The current user's locale ISO code"
-        }
-      }
-    },
     "bookingInfo": {
       "type": "object",
       "required": [
