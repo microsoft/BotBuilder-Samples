@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Diagnostics;
 using System.Net;
 using System.Net.Http;
@@ -46,16 +47,23 @@ namespace Microsoft.Bot.Sample.EchoBot
             {
                 Trace.TraceInformation($"EndOfConversation: {message}");
 
-                // Clear the dialog stack if the root bot has ended the conversation.
-                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+                try
                 {
-                    var botData = scope.Resolve<IBotData>();
-                    await botData.LoadAsync(default(CancellationToken));
+                    // Clear the dialog stack if the root bot has ended the conversation.
+                    using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, message))
+                    {
+                        var botData = scope.Resolve<IBotData>();
+                        await botData.LoadAsync(default(CancellationToken));
 
-                    var stack = scope.Resolve<IDialogStack>();
-                    stack.Reset();
+                        var stack = scope.Resolve<IDialogStack>();
+                        stack.Reset();
 
-                    await botData.FlushAsync(default(CancellationToken));
+                        await botData.FlushAsync(default(CancellationToken));
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError(ex.Message);
                 }
             }
             else if (messageType == ActivityTypes.DeleteUserData)

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Concurrent;
 using System.Configuration;
+using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 using Autofac;
@@ -54,20 +55,27 @@ namespace Microsoft.Bot.Sample.PizzaBot
         /// <param name="activity">The incoming activity to use for scoping the Conversation.Container.</param>
         internal static async Task ClearState(Activity activity)
         {
-            using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+            try
             {
-                var botData = scope.Resolve<IBotData>();
-                await botData.LoadAsync(default(CancellationToken));
+                using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
+                {
+                    var botData = scope.Resolve<IBotData>();
+                    await botData.LoadAsync(default(CancellationToken));
 
-                // Some skills might persist data between invokations.
-                botData.UserData.Clear();
-                botData.ConversationData.Clear();
-                botData.PrivateConversationData.Clear();
+                    // Some skills might persist data between invocations.
+                    botData.UserData.Clear();
+                    botData.ConversationData.Clear();
+                    botData.PrivateConversationData.Clear();
 
-                var stack = scope.Resolve<IDialogStack>();
-                stack.Reset();
-                
-                await botData.FlushAsync(default(CancellationToken));
+                    var stack = scope.Resolve<IDialogStack>();
+                    stack.Reset();
+
+                    await botData.FlushAsync(default(CancellationToken));
+                }
+            }
+            catch (Exception ex)
+            {
+                Trace.TraceError(ex.Message);
             }
         }
     }
