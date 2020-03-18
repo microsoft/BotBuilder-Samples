@@ -6,12 +6,12 @@ This bot has been created using [Bot Framework](https://dev.botframework.com); i
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [Node.js](https://nodejs.org) version 10.14 or higher
 
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
+    ```bash
+    # determine node version
+    node --version
+    ```
 
 ## Key concepts in this sample
 
