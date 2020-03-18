@@ -8,10 +8,10 @@
 - S'il vous plaît entrez votre nom.
 
 # AckName
-- merci @{CapitalizeFirstLetter(Result)}.
+- merci ${CapitalizeFirstLetter(Result)}.
 
 # CapitalizeFirstLetter (arg) 
-- @{concat(toUpper(substring(arg, 0, 1)), substring(arg, 1))}
+- ${concat(toUpper(substring(arg, 0, 1)), substring(arg, 1))}
 
 # AgeConfirmPrompt
 - Souhaitez-vous donner votre âge?
@@ -26,16 +26,16 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 
 # AgeReadBack (userAge)
-- IF: @{userAge == null}
+- IF: ${userAge == null}
    - Et, pas d'âge donné.
 - ELSE: 
-   - Et, j'ai votre âge comme @{userAge}.
+   - Et, j'ai votre âge comme ${userAge}.
 
 # ConfirmPrompt
 - C'est bon ?
 
 # SummaryReadout
-- J'ai votre mode de transport comme @{Transport} et votre nom comme @{Name}. @{AgeReadBack(Age)}
+- J'ai votre mode de transport comme ${Transport} et votre nom comme ${Name}. ${AgeReadBack(Age)}
 
 # NoProfileReadBack
 - merci. Votre profil ne sera pas conservé.

@@ -1,18 +1,14 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { CardFactory } = require('botbuilder');
 const { DialogBot } = require('./dialogBot');
-const WelcomeCard = require('./resources/welcomeCard.json');
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
+const { ActivityFactory } = require('botbuilder');
+const { Templates } = require('botbuilder-lg');
 class DialogAndWelcomeBot extends DialogBot {
     constructor(conversationState, userState, dialog) {
         super(conversationState, userState, dialog);
 
-        const templateEngine = new TemplateEngine().addFile('./resources/welcomeCard.lg');
+        const lgTemplates = Templates.parseFile('./resources/welcomeCard.lg');
 
         // Actions to include in the welcome card. These are passed to LG and are then included in the generated Welcome card.
         const actions = {
@@ -36,7 +32,7 @@ class DialogAndWelcomeBot extends DialogBot {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
-                    const welcomeCard = ActivityFactory.createActivity(templateEngine.evaluateTemplate('WelcomeCard', actions))
+                    const welcomeCard = ActivityFactory.fromObject(lgTemplates.evaluate('WelcomeCard', actions))
                     await context.sendActivity(welcomeCard);
                     await dialog.run(context, conversationState.createProperty('DialogState'));
                 }

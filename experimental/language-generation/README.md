@@ -1,6 +1,6 @@
 # Language Generation ***_[PREVIEW]_***
 
-<!--> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.-->
+> See [here](#Change-Log) for what's new in **4.8.0 PREVIEW** release.
 
 Language Generation (LG) was created to let developers extract embedded strings from their code and resource files and manage them through a LG runtime and file format. Developers can now create a more natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
 
@@ -23,67 +23,56 @@ Below is a sample of a simple greeting LG template. Notice that all of the greet
 - Good day ${user.name}. What can I do for you today?
 ```
 
-<!--
 ## Language Generation in action
 
-You can use Language Generation in a variety of ways when developing bots. To start, analyze your current bot's code (or the new bot you plan to develop) and create [.lg file][3] to cover all possible scenarios where you would use the language generation sub-system with your bot's replies to user.
+You can use Language Generation in a variety of ways when developing bots. To start, create one or more [.lg file(s)][3] to cover all possible scenarios where you would use the language generation sub-system with your bot's replies to user.
 
 Then make sure you include the platform specific Language Generation library.
 
 For C#, add Microsoft.Bot.Builder.LanguageGeneration.
 For NodeJS, add botbuilder-lg
 
-Load the template manager with your .lg file(s)
+Parse and load templates in your .lg file
 
 For C#
 
 ```c#
-    // multi lg files
-    TemplateEngine lgEngine = new TemplateEngine().AddFiles(filePaths, importResolver?);
-
-    // single lg file
-    TemplateEngine lgEngine = new TemplateEngine().AddFile(filePath, importResolver?);
+    Templates _lgTemplates = Templates.ParseFile(filePath, importResolver?);
 ```
 
 For NodeJS
 
 ```typescript
-    // multi lg files
-    let lgEngine = new TemplateEngine().addFiles(filePaths, importResolver?);
-
-    // single lg file
-    let lgEngine = new TemplateEngine().addFile(filePath, importResolver?);
+     let lgTemplates = Templates.parseFile(filePath, importResolver?);
 ```
 
-When you need template expansion, call the templateEngine and pass in the relevant template name
+When you need template expansion, use `Evaluate` and pass in the relevant template name
 
 For C#
 
 ```c#
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("<TemplateName>", entitiesCollection));
+    var lgOutput = _lgTemplates.Evaluate("<TemplateName>", evalData);
 ```
 
 For NodeJS
 
 ```typescript
-    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("<TemplateName>", entitiesCollection)));
+    let lgOutput = _lgTemplates.evaluate("<TemplateName>", evalData)
 ```
 
-If your template needs specific entity values to be passed for resolution/ expansion, you can pass them in on the call to `evaluateTemplate`
+If your template needs specific properties to be passed for resolution/ expansion, you can pass them in on the call to `Evaluate`
 
 For C#
 
 ```c#
-    await turnContext.SendActivityAsync(lgEngine.EvaluateTemplate("WordGameReply", new { GameName = "MarcoPolo" } ));
-
+    var lgOutput = _lgTemplates.Evaluate("WordGameReply", new { GameName = "MarcoPolo" } );
 ```
 
 For NodeJS
 
 ```typescript
-    await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
+    let lgOutput = _lgTemplates.evaluate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
--->
 
 ## Multi-lingual generation and language fallback policy
 
@@ -93,23 +82,22 @@ Your bot might target more than one spoken/display language. To do this, you can
 
 The current library does not include any capabilities for grammar check or correction.
 
-<!--
 ## Expand api
 
-If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
+To get all possible expansions of a template, you can use `ExpandTemplate`.
 For C#
 
 ```c#
-    var results = lgEngine.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    var results = _lgTemplates.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
 For NodeJS
 
 ```typescript
-    const results = lgEngine.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    const results = _lgTemplates.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
-For example:
+As an example, given this LG content,
 
 ```
 # Greeting
@@ -132,30 +120,47 @@ For example:
     - ${Greeting()} Afternoon
 ```
 
-If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
+The call `ExpandTemplate("FinalGreeting")`, results in 4 evaluations: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
 
-If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
--->
+The call `ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, results in 2 expansions: `"Hi Evening", "Hello Evening"`
 
 ## Packages
 
-Stable release packages:
+Preview packages:
 
 - C# -> [NuGet][14]
 - JS -> [npm][15]
 
-Nightly release packages:
+Nightlies:
 
 - C# -> [BotBuilder MyGet feed][12]
 - JS -> [BotBuilder MyGet feed][13]
 
 ## Additional resources
 
-- Language Generation [API reference][2]
-- Language Generation in [Bot Framework Composer](https://docs.microsoft.com/composer/concept-language-generation)
+- [API reference][2]
+- [.lg file format][3]
 
-<!--
 ## Change Log
+### 4.8 PREVIEW
+- \[**BREAKING CHANGES**\]:
+    - `ActivityFactory` 
+        - has been moved to `Microsoft.Bot.Builder`
+        - `CreateActivity` renamed to `FromObject`
+    - `TemplateEngine` 
+        - has been renamed to `Templates`
+        - `EvaluateTemplate` renamed to `Evaluate`
+        - `Evaluate` renamed to `EvaluateText`
+        - `AddFile` has been replaced by `ParseFile`
+        - `AddFiles` has been deprecated. You no longer can load multiple .lg files. Instead, you should use [import][50] support in your .lg files.
+    - Bounding character for expressions has been changed from **@**{expression} to **$**{expression}
+
+    |  Old  | New |
+    |-------|-----|
+    |  # myTemplate <br/> - I have @{user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
+    | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello |
+    | # myTemplate <br/> - IF : @{user.name == null} <br/>&nbsp;&nbsp;&nbsp;&nbsp;- hello<br/>- ELSE : <br/>&nbsp;&nbsp;&nbsp;&nbsp;- null | # myTemplate <br/> - IF : ${user.name == null} <br/>&nbsp;&nbsp;&nbsp;&nbsp;- hello<br/>- ELSE : <br/>&nbsp;&nbsp;&nbsp;&nbsp;- null |
+
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
     - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `${TemplateName()}` notation. There are no changes to how structured response templates are defined.
@@ -164,8 +169,8 @@ Nightly release packages:
 
     |  Old  | New |
     |-------|-----|
-    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
-    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
 
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
@@ -192,17 +197,17 @@ Nightly release packages:
 
 ### 4.5 PREVIEW
 - Initial preview release
--->
+
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md
 [3]:./docs/lg-file-format.md
-[6]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown
-[7]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
-[8]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Chatdown/Examples/CardExamples.chat
-[9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
-[10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
-[11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
+[6]:https://github.com/microsoft/botframework-cli/tree/master/packages/chatdown
+[7]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md
+[8]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/examples/CardExamples.chat
+[9]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-commands
+[10]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-cards
+[11]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-attachments
 [12]:https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json
 [13]:https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily
 [14]:https://www.nuget.org/packages/Microsoft.Bot.Builder.LanguageGeneration/4.7.0-preview
@@ -213,3 +218,4 @@ Nightly release packages:
 [23]:https://github.com/microsoft/botbuilder-tools/tree/V.Future/packages/MSLG
 [25]:./csharp_dotnetcore/05.a.multi-turn-prompt-with-language-fallback/
 [26]:./javascript_nodejs/
+[50]:./docs/lg-file-format.md#importing-external-references

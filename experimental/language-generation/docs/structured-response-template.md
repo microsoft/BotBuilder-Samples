@@ -46,7 +46,7 @@ Here's an example of a basic Text template composition:
 - what is your age?
 ```
 
-Here's an example of text with suggested action
+Here's an example of text with suggested action. `|` is used to denote a list.
 
 ```markdown
 # AskForAge.prompt
@@ -278,7 +278,7 @@ Note that this style of composition can only exists at the root level. If there 
 1. fromFile(fileAbsoluteOrRelativePath) prebuilt function that can load a file specified. Content returned by this function will support evaluation of content. Template references and properties/ expressions are evaluated.
 2. ActivityAttachment(content, contentType) prebuilt function that can set the ‘contentType’ if it is not already specified in content). ContentType can be one of the types here.
  
-With these two prebuilt functions, I should be able to externally define any content (including all card types) and use the following structured LG to compose an activity –
+With these two prebuilt functions, you can pull in any externally defined (including all card types) and use the following structured LG to compose an activity –
 ```
 # AdaptiveCard
 [Activity
@@ -398,7 +398,7 @@ Here's an example:
 
 [more test samples][4]
 
-[1]:https://github.com/microsoft/botbuilder-tools/tree/master/packages/Chatdown
+[1]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/
 [2]:https://github.com/Microsoft/botframework-sdk/blob/master/specs/botframework-activity/botframework-activity.md
 [3]:https://github.com/microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language
 [4]:https://github.com/microsoft/botbuilder-dotnet/blob/master/tests/Microsoft.Bot.Builder.Dialogs.Adaptive.Templates.Tests/lg/NormalStructuredLG.lg
