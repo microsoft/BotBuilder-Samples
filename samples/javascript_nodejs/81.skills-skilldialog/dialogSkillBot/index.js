@@ -59,7 +59,7 @@ const onTurnErrorHandler = async (context, error) => {
     const endOfConversation = {
         type: ActivityTypes.EndOfConversation,
         code: 'SkillError',
-        text: JSON.stringify(error)
+        text: error.toString()
     };
     await context.sendActivity(endOfConversation);
 
