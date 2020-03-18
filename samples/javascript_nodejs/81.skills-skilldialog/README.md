@@ -23,23 +23,19 @@ The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skil
     - Send message activities
     - Cancel a `SkillDialog` using `CancelAllDialogsAsync` that automatically sends an `EndOfConversation` activity to remotely let a skill know that it needs to end a conversation.
   - A sample [AllowedSkillsClaimsValidator](dialogRootBot/authentication/allowedSkillsClaimsValidator.js) class that shows how to validate that responses sent to the bot are coming from the configured skills.
-  - A [Logger Middleware](DialogRootBot/Middleware/LoggerMiddleware.cs) that shows how to handle and log activities coming from a skill.
-  - A [SkillConversationIdFactory](DialogRootBot/SkillConversationIdFactory.cs) based on `IStorage` used to create and maintain conversation IDs to interact with a skill.
-  - A [SkillsConfiguration](DialogRootBot/SkillsConfiguration.cs) class that can load skill definitions from the appsettings.json file.
-  - A [startup](DialogRootBot/Startup.cs) class that shows how to register the different root bot components for dependency injection.
-  - A [SkillController](DialogRootBot/Controllers/SkillController.cs) that handles skill responses.
+  - A [Logger Middleware](dialogRootBot/middleware/loggerMiddleware.js) that shows how to handle and log activities coming from a skill.
+  - A [SkillConversationIdFactory](dialogRootBot/skillConversationIdFactory.js) used to create and maintain conversation IDs to interact with a skill.
+  - A [SkillsConfiguration](dialogRootBot/skillsConfiguration.js) class that can load skill definitions from the `.env`` file.
 
 - `DialogSkillBot`: this project shows a modified CoreBot that acts as a skill. It receives event and message activities from the parent bot and executes the requested tasks. This project includes:
-  - An [ActivityRouterDialog](DialogSkillBot/Dialogs/ActivityRouterDialog.cs) that handles Event and Message activities coming from a parent and performs different tasks.
-    - Event activities are routed to specific dialogs using the parameters provided in the `Values` property of the activity.
+  - An [ActivityRouterDialog](dialogSkillBot/dialogs/activityRouterDialog.js) that handles Event and Message activities coming from a parent and performs different tasks.
+    - Event activities are routed to specific dialogs using the parameters provided in the `values` property of the activity.
     - Message activities are sent to LUIS if configured and trigger the desired tasks if the intent is recognized.
-  - A sample [ActivityHandler](DialogSkillBot/Bots/SkillBot.cs) that uses the `RunAsync` method on `ActivityRouterDialog`.
+  - A sample [activityHandler](dialogSkillBot/bots/skillBot.js) that uses the `runDialog` method on `ActivityRouterDialog`.
 
-    Note: Starting in Bot Framework 4.8, the `RunAsync` method adds support to automatically send `EndOfConversation` with return values when the bot is running as a skill and the current dialog ends. It also handles reprompt messages to resume a skill where it left of.
-  - A sample [SkillAdapterWithErrorHandler](DialogSkillBot/SkillAdapterWithErrorHandler.cs) adapter that shows how to handle errors, terminate the skills, send traces back to the emulator to help debugging the bot and send `EndOfConversation` messages to the parent bot with details of the error.
-  - A sample [AllowedCallersClaimsValidator](DialogSkillBot/Authentication/AllowedCallersClaimsValidator.cs) that shows how to validate that the skill is only invoked from a list of allowed callers
-  - A [startup](DialogSkillBot/Startup.cs) class that shows how to register the different skill components for dependency injection.
-  - A [sample skill manifest](DialogSkillBot/wwwroot/manifest/dialogchildbot-manifest-1.0.json) that describes what the skill can do.
+    Note: Starting in Bot Framework 4.8, the `runDialog` helper method adds support to automatically send `EndOfConversation` with return values when the bot is running as a skill and the current dialog ends. It also handles reprompt messages to resume a skill where it left of.
+  - A sample [AllowedCallersClaimsValidator](dialogSkillBot/authentication/allowedCallersClaimsValidator.js) that shows how to validate that the skill is only invoked from a list of allowed callers
+  - A [sample skill manifest](dialogSkillBot/manifest/dialogchildbot-manifest-1.0.json) that describes what the skill can do.
 
 ## To try this sample
 
