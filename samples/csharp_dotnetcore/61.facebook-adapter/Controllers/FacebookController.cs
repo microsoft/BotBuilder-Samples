@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Facebook;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-namespace FacebookAdapterBot.Controllers
+namespace Microsoft.BotBuilderSamples.Controllers
 {
     [Route("api/facebook")]
     [ApiController]

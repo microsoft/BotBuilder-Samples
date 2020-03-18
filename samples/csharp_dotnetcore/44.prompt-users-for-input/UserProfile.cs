@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Microsoft.BotBuilderSamples
+﻿namespace Microsoft.BotBuilderSamples
 {
     public class UserProfile
     {
