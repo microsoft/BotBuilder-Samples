@@ -55,8 +55,6 @@ const onTurnErrorHandler = async (context, error) => {
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    // Clear out state.
-    await conversationState.delete(context);
 
     const endOfConversation = {
         type: ActivityTypes.EndOfConversation,
@@ -64,6 +62,13 @@ const onTurnErrorHandler = async (context, error) => {
         text: JSON.stringify(error)
     };
     await context.sendActivity(endOfConversation);
+
+    try {
+        // Clear out state
+        await conversationState.delete(context);
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
+    }
 };
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
