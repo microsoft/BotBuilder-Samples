@@ -76,7 +76,6 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[bool](#bool)	|Return Boolean representation of the specified string. Bool('true'), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
 |[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
-|[array](#array)| Return an array from a single specified input. For multiple inputs, see [createArray](#createArray). |
 |[base64](#base64) | Return the base64-encoded version for a string. |
 |[base64ToBinary](#base64ToBinary) | Return the binary version for a base64-encoded string. |
 |[base64ToString](#base64ToString) | Return thr string version for a base64-encoded string. |
@@ -157,7 +156,18 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 ### Regex functions
 |Function	|Explanation|
 |-----------|-----------|
-|[isMatch](#isMatch)	|test a given string ia match a common regex pattern	|
+|[isMatch](#isMatch)	|test a given string is match a common regex pattern	|
+
+###Type checking Functions
+|Function	|Explanation|
+|-----------|-----------|
+|[isInteger](#isInteger)	| determine whether a given input is an integer number	|
+|[isFloat](#isFloat)	| determine whether a given input is a float point number	|
+|[isBoolean](#isBoolean)	|determine whether a given input is a boolean	|
+|[isArray](#isArray)	|determine whether a given input is an array	|
+|[isObject](#isObject)	|determine whether a given input is an object	|
+|[isDateTime](#isDateTime)	|determine whether a given input is a UTC ISO format	timestamp|
+|[isString](#isString)	|determine whether a given input is a string |
 
 <a name="alphabetical-list"></a>
 
@@ -2031,6 +2041,185 @@ intersection(createArray(1, 2, 3), createArray(101, 2, 1, 10), createArray(6, 8,
 
 And returns an array with only these items: `[1, 2]`
 
+<a name="isArray"></a>
+
+### isArray
+
+return a given input is an array
+
+```
+isArray('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is an array |
+||||
+
+*Examples*
+
+
+```
+isArray('hello')
+isArray(createArray('hello', 'world'))
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="isBoolean"></a>
+
+### isBoolean
+
+return a given input is a boolean
+
+```
+isBoolean('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is either true or false |
+||||
+
+*Examples*
+
+
+```
+isBoolean('hello')
+isBoolean(32 > 16)
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="isDateTime"></a>
+
+### isDateTime
+
+return a given input is a UTC ISO format timestamp string
+
+```
+isDateTime('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is a UTC ISO format timestamp string |
+||||
+
+*Examples*
+
+
+```
+isDateTime('hello world!')
+isDateTime('2019-03-01T00:00:00.000Z')
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="isFloat"></a>
+
+### isFloat
+
+return a given input is a float point number. Due to the alignment between DotNet and JavaScript, a number with an non-zero residue of its modulo 1 will be treated as a float point number.
+
+```
+isFloat('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is a float point number |
+||||
+
+*Examples*
+
+
+```
+isFloat('hello world!')
+isFloat(1.0)
+isFloat(12.01)
+```
+
+And return the results:
+
+```
+false
+false
+true
+```
+
+<a name="isInteger"></a>
+
+### isInteger
+
+return a given input is an integer number. Due to the alignment between DotNet and JavaScript, a number with an zero residue of its modulo 1 will be treated as an integer number.
+
+```
+isInteger('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is an integer number |
+||||
+
+*Examples*
+
+
+```
+isInteger('hello world!')
+isInteger(1.0)
+isInteger(12)
+```
+
+And return the results:
+
+```
+false
+true
+true
+```
+
 <a name="isMatch"></a>
 
 ### isMatch
@@ -2063,6 +2252,76 @@ isMatch('abacaxc', 'ab.*?c')
 ```
 
 And returns the same result: `true`
+
+<a name="isObject"></a>
+
+### isObject
+
+return a given input is an object. In DotNet, it means, the input is neither a value type nor a string. In JavaScript, it reflects to the input is not a primitive data types.
+
+```
+isObject('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is an object |
+||||
+
+*Examples*
+
+
+```
+isObject('hello world!')
+isObject({userName: "Sam"})
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="isString"></a>
+
+### isString
+
+return a given input is a string.
+
+```
+isString('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Any | the input to be tested |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | Is the input is a string |
+||||
+
+*Examples*
+
+
+```
+isString('hello world!')
+isString(3.14)
+```
+
+And return the results:
+
+```
+true
+false
+```
 
 <a name="join"></a>
 
