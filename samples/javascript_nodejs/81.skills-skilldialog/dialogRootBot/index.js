@@ -86,27 +86,35 @@ const onTurnErrorHandler = async (context, error) => {
     onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 
-    // If the Root Bot throws an error while a skill is active, send an EndOfConversation activity to the skill.
     try {
-        const activeSkill = conversationState.get(context)[mainDialog.activeSkillPropertyName];
+        // Inform the active skill that the conversation is ended so that it has
+        // a chance to clean up.
+        // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
+        // forwarded to a Skill.
+        const activeSkill = await conversationState.createProperty(RootBot.ActiveSkillPropertyName).get(context);
         if (activeSkill) {
             const botId = process.env.MicrosoftAppId;
 
-            const endOfConversation = {
+            let endOfConversation = {
                 type: ActivityTypes.EndOfConversation,
                 code: 'RootSkillError'
-            }
+            };
+            endOfConversation = TurnContext.applyConversationReference(
+                endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
-            await conversationState.saveChanges(context);
-            await skillClient.postToSkill(botId, process.env.SkillHostEndpoint, endOfConversation);
+            await conversationState.saveChanges(context, true);
+            await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
         }
     } catch (err) {
-        console.error('Exception caught on attempting to send EndOfConversation');
-        console.error(err);
+        console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
     }
 
-    // Clear out state.
-    await conversationState.delete(context);
+    try {
+        // Clear out state
+        await conversationState.delete(context);
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
+    }
 };
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
