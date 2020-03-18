@@ -6,10 +6,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com); i
 
 ## Prerequisites
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+- [Node.js](https://nodejs.org) version 10.14 or higher.
 
     ```bash
-    # determine node version
+    # Determine node version.
     node --version
     ```
 
