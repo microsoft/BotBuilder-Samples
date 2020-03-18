@@ -1,0 +1,5 @@
+﻿# sqrtReadBack
+- You said '${turn.activity.text}'. ${sqrtTemplate()}.
+
+# sqrtTemplate
+- It's square root is : ${coalesce(contoso.sqrt(turn.activity.text), 'NaN')}
