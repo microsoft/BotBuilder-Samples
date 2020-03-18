@@ -63,16 +63,9 @@ adapter.onTurnError = async (context, error) => {
     const endOfConversation = {
         type: ActivityTypes.EndOfConversation,
         code: 'SkillError',
-        text: JSON.stringify(error)
+        text: error.toString()
     };
     await context.sendActivity(endOfConversation);
-
-    try {
-        // Clear out state
-        await conversationState.delete(context);
-    } catch (err) {
-        console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
-    }
 };
 
 // Create the main dialog.
