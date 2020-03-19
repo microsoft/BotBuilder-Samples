@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
@@ -14,10 +14,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.8.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.1.5" />
   </ItemGroup>
 

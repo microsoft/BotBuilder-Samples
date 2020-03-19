@@ -63,7 +63,7 @@ adapter.onTurnError = async (context, error) => {
     const endOfConversation = {
         type: ActivityTypes.EndOfConversation,
         code: 'SkillError',
-        text: error
+        text: error.toString()
     };
     await context.sendActivity(endOfConversation);
 };

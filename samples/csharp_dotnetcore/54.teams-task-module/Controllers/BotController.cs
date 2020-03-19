@@ -3,16 +3,10 @@
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.5.0
 
-using System.Diagnostics;
-using System.IO;
-using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Handlers;
-using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Controllers
 {

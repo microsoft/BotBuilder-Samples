@@ -1,37 +1,34 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.
+<!--> See [here](#Change-Log) for what's new in **4.7.0 PREVIEW** release.-->
 
-Learning from our customers experiences and bringing together capabilities first implemented by Cortana and Cognition teams, we are introducing Language Generation; which allows the developer to extract the embedded strings from their code and resource files and manage them through a Language Generation runtime and file format.  Language Generation enable customers to define multiple variations on a phrase, execute simple expressions based on context, refer to conversational memory, and over time will enable us to bring additional capabilities all leading to a more natural conversational experience.
+Language Generation (LG) was created to let developers extract embedded strings from their code and resource files and manage them through a LG runtime and file format. Developers can now create a more natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
 
-At the core of language generation lies template expansion and entity substitution. You can provide one-of variation for expansion as well as conditionally expand a template. The output from language generation can be a simple text string or multi-line response or a complex object payload that a layer above language generation will use to construct a full blown [activity][1].
+LG can be used to enhance the entire conversational experience. Using LG one can:
 
-Language generation is achieved through:
+- achieve a coherent personality, tone of voice for their bot
+- separate business logic from presentation
+- include variations and sophisticated composition based resolution for any of their bot's replies
+- construct speak .vs. display adaptations
+- construct cards, suggested actions and attachments
 
-- markdown based .lg file that describes the templates and their composition. See [here][3] for the .lg file format.
-- full access to current bots memory so you can data bind language to the state of memory.
-- parser and runtime libraries that help achieve runtime resolution. See [here][2] for API-reference.
+At the core of LG lies template expansion and entity substitution. You can provide one-off variation for expansion as well as conditionally expand a template. The output from LG can be a simple text string, multi-line response or a complex object payload that a layer above LG will use to construct an [activity][1].
+
+Below is a sample of a simple greeting LG template. Notice that all of the greetings reference the user's name in memory with the variable `${user.name}`.
 
 ```markdown
 # greetingTemplate
-- Hello @{user.name}, how are you?
-- Good morning @{user.name}. It's nice to see you again.
-- Good day @{user.name}. What can I do for you today?
+- Hello ${user.name}, how are you?
+- Good morning ${user.name}.It's nice to see you again.
+- Good day ${user.name}. What can I do for you today?
 ```
 
-You can use language generation to:
-
-- achieve a coherent personality, tone of voice for your bot
-- separate business logic from presentation
-- include variations and sophisticated composition based resolution for any of your bot's replies
-- construct speak .vs. display adaptations
-- construct cards, suggested actions and attachments.
-
+<!--
 ## Language Generation in action
 
-When building a bot, you can use language generation in several different ways. To start with, examine your current bot's code (or the new bot you plan to write) and create [.lg file][3] to cover all possible scenarios where you would like to use the language generation sub-system with your bot's replies to user.
+You can use Language Generation in a variety of ways when developing bots. To start, analyze your current bot's code (or the new bot you plan to develop) and create [.lg file][3] to cover all possible scenarios where you would use the language generation sub-system with your bot's replies to user.
 
-Then make sure you include the platform specific language generation library.
+Then make sure you include the platform specific Language Generation library.
 
 For C#, add Microsoft.Bot.Builder.LanguageGeneration.
 For NodeJS, add botbuilder-lg
@@ -86,14 +83,17 @@ For NodeJS
 ```typescript
     await turnContext.sendActivity(ActivityFactory.createActivity(lgEngine.evaluateTemplate("WordGameReply", { GameName = "MarcoPolo" } )));
 ```
+-->
 
 ## Multi-lingual generation and language fallback policy
-Quite often your bot might target more than one spoken/ display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See [here][25] for an example.
+
+Your bot might target more than one spoken/display language. To do this, you can manage separate instances of TemplateEngine, one per target language. See the [05.a.multi-turn-prompt-with-language-fallback sample][25] for an example of how to add language fallback to your bot.
 
 ## Grammar check and correction
 
 The current library does not include any capabilities for grammar check or correction.
 
+<!--
 ## Expand api
 
 If you need to know the expand result of the evaluation of a template, `ExpandTemplate` is what you want.
@@ -121,41 +121,51 @@ For example:
 - Evening
 
 # FinalGreeting
-- @{Greeting()} @{TimeOfDay()}
+- ${Greeting()} ${TimeOfDay()}
 
 # TimeOfDayWithCondition
-- IF: @{time == 'morning'}
-    - @{Greeting()} Morning
-- ELSEIF: @{time == 'evening'}
-    - @{Greeting()} Evening
+- IF: ${time == 'morning'}
+    - ${Greeting()} Morning
+- ELSEIF: ${time == 'evening'}
+    - ${Greeting()} Evening
 - ELSE:
-    - @{Greeting()} Afternoon
+    - ${Greeting()} Afternoon
 ```
 
 If you call `lgEngine.ExpandTemplate("FinalGreeting")`, you would get four items: `"Hi Morning", "Hi Evening", "Hello Morning", "Hello Evening"`,
 
 If you call `lgFile.ExpandTemplate("TimeOfDayWithCondition", new { time = "evening" })` with scope, you would get two expanded results: `"Hi Evening", "Hello Evening"`
+-->
 
 ## Packages
-Latest preview packages are available here
+
+Stable release packages:
+
 - C# -> [NuGet][14]
 - JS -> [npm][15]
 
-Nightly packages for C# are available here
+Nightly release packages:
+
 - C# -> [BotBuilder MyGet feed][12]
 - JS -> [BotBuilder MyGet feed][13]
 
+## Additional resources
+
+- Language Generation [API reference][2]
+- Language Generation in [Bot Framework Composer](https://docs.microsoft.com/composer/concept-language-generation)
+
+<!--
 ## Change Log
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
-    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `@{TemplateName()}` notation. There are no changes to how structured response templates are defined.
-    - All expressions must now be enclosed within `@{<expression>}`. The old notation `{<expression>}` is no longer supported.
+    - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `${TemplateName()}` notation. There are no changes to how structured response templates are defined.
+    - All expressions must now be enclosed within `${<expression>}`. The old notation `{<expression>}` is no longer supported.
     - `ActivityBuilder` has been deprecated and removed in favor of `ActivityFactory`. Note that by stable release, functionality offered by `ActivityFactory` is likely to move into `MessageFactory`.
 
     |  Old  | New |
     |-------|-----|
-    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have @{user.name} as your name |
-    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
+    | # myTemplate <br/> - I have {user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
+    | # myTemplate <br/> - [ackPhrase] <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | 
 
 - \[**NEW**\]:
     - Language generation preview is now available for JavaScript as well. Checkout packages [here][15]. Samples are [here][26]
@@ -182,6 +192,7 @@ Nightly packages for C# are available here
 
 ### 4.5 PREVIEW
 - Initial preview release
+-->
 
 [1]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md
 [2]:./docs/api-reference.md

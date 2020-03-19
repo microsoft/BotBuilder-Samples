@@ -54,6 +54,11 @@ namespace Microsoft.Bot.Sample.PizzaBot
         /// <param name="activity">The incoming activity to use for scoping the Conversation.Container.</param>
         internal static async Task ClearState(Activity activity)
         {
+            // This is required for PVA manifest validation.
+            // PVA will send an EOC activity with null Recipient.
+            if (activity.Recipient == null)
+                return;
+
             using (var scope = DialogModule.BeginLifetimeScope(Conversation.Container, activity))
             {
                 var botData = scope.Resolve<IBotData>();
