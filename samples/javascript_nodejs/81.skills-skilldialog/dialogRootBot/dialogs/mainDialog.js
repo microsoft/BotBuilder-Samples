@@ -159,7 +159,7 @@ class MainDialog extends ComponentDialog {
         if (stepContext.result != null) {
             let message = `Skill "${ activeSkill.id }" invocation complete.`;
             message += `\nResult: ${ JSON.stringify(stepContext.result, null, 2) }`;
-            await stepContext.context.sendActivity(MessageFactory.text(message, message, InputHints.IgnoringInput));
+            await stepContext.context.sendActivity(message, message, InputHints.IgnoringInput);
         }
 
         // Clear the skill selected by the user.
