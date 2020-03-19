@@ -13,7 +13,11 @@ const allowedSkills = Object.values(skillsConfig.skills).map(skill => skill.appI
  * and checks that responses are coming from configured skills.
  */
 const allowedSkillsClaimsValidator = async (claims) => {
-    if (SkillValidation.isSkillClaim(claims)) {
+    // For security, developer must specify allowedSkills.
+    if (!allowedSkills || allowedSkills.length === 0) {
+        throw new Error('AllowedCallers not specified in .env.');
+    }
+    if (!allowedSkills.includes('*') && SkillValidation.isSkillClaim(claims)) {
         // Check that the appId claim in the skill request is in the list of skills configured for this bot.
         const appId = JwtTokenValidation.getAppIdFromClaims(claims);
         if (!allowedSkills.includes(appId)) {

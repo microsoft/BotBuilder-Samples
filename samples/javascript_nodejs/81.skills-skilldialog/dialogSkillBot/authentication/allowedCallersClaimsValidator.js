@@ -16,8 +16,12 @@ const allowedCallers = process.env.AllowedCallers ? process.env.AllowedCallers.s
  * @param claims An array of Claims decoded from the HTTP request's auth header.
  */
 const allowedCallersClaimsValidator = async (claims) => {
-    // If allowedCallers is undefined or contains '*', we allow all calls.
-    if (allowedCallers && !allowedCallers.includes('*') && SkillValidation.isSkillClaim(claims)) {
+    // For security, developer must specify allowedCallers.
+    if (!allowedCallers || allowedCallers.length === 0) {
+        throw new Error('AllowedCallers not specified in .env.');
+    }
+    // If allowedCallers contains '*', we allow all calls.
+    if (!allowedCallers.includes('*') && SkillValidation.isSkillClaim(claims)) {
         // Check that the appId claim in the skill request is in the list of skills configured for this bot.
         const appId = JwtTokenValidation.getAppIdFromClaims(claims);
         if (!allowedCallers.includes(appId)) {

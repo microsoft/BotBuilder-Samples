@@ -25,7 +25,7 @@ The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skil
   - A sample [AllowedSkillsClaimsValidator](dialogRootBot/authentication/allowedSkillsClaimsValidator.js) class that shows how to validate that responses sent to the bot are coming from the configured skills.
   - A [Logger Middleware](dialogRootBot/middleware/loggerMiddleware.js) that shows how to handle and log activities coming from a skill.
   - A [SkillConversationIdFactory](dialogRootBot/skillConversationIdFactory.js) used to create and maintain conversation IDs to interact with a skill.
-  - A [SkillsConfiguration](dialogRootBot/skillsConfiguration.js) class that can load skill definitions from the `.env`` file.
+  - A [SkillsConfiguration](dialogRootBot/skillsConfiguration.js) class that can load skill definitions from the `.env` file.
 
 - `DialogSkillBot`: this project shows a modified CoreBot that acts as a skill. It receives event and message activities from the parent bot and executes the requested tasks. This project includes:
   - An [ActivityRouterDialog](dialogSkillBot/dialogs/activityRouterDialog.js) that handles Event and Message activities coming from a parent and performs different tasks.
