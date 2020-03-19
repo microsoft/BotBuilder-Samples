@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
         }
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var reply = ProcessInput(turnContext);
+            var reply = await ProcessInput(turnContext, cancellationToken);
             await turnContext.SendActivityAsync("HI");
             // Respond to the user.
             await turnContext.SendActivityAsync(reply, cancellationToken);
@@ -75,7 +75,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Given the input from the message, create the response.
-        private static IMessageActivity ProcessInput(ITurnContext turnContext)
+        private static async Task<IMessageActivity> ProcessInput(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var activity = turnContext.Activity;
             IMessageActivity reply = null;
@@ -89,14 +89,14 @@ namespace Microsoft.BotBuilderSamples
             else
             {
                 // Send at attachment to the user.
-                reply = HandleOutgoingAttachment(turnContext, activity);
+                reply = await HandleOutgoingAttachment(turnContext, activity, cancellationToken);
             }
 
             return reply;
         }
 
         // Returns a reply with the requested Attachment
-        private static IMessageActivity HandleOutgoingAttachment(ITurnContext turnContext, IMessageActivity activity)
+        private static async Task<IMessageActivity> HandleOutgoingAttachment(ITurnContext turnContext, IMessageActivity activity, CancellationToken cancellationToken)
         {
             // Look at the user input, and figure out what kind of attachment to send.
             IMessageActivity reply = null;
@@ -115,7 +115,7 @@ namespace Microsoft.BotBuilderSamples
                 reply = MessageFactory.Text("This is an uploaded attachment.");
 
                 // Get the uploaded attachment.
-                var uploadedAttachment = GetUploadedAttachmentAsync(turnContext, activity.ServiceUrl, activity.Conversation.Id).Result;
+                var uploadedAttachment = await GetUploadedAttachmentAsync(turnContext, activity.ServiceUrl, activity.Conversation.Id, cancellationToken);
                 reply.Attachments = new List<Attachment>() { uploadedAttachment };
             }
             else
@@ -178,7 +178,7 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Creates an "Attachment" to be sent from the bot to the user from an uploaded file.
-        private static async Task<Attachment> GetUploadedAttachmentAsync(ITurnContext turnContext, string serviceUrl, string conversationId)
+        private static async Task<Attachment> GetUploadedAttachmentAsync(ITurnContext turnContext, string serviceUrl, string conversationId, CancellationToken cancellationToken)
         {
             if (string.IsNullOrWhiteSpace(serviceUrl))
             {
