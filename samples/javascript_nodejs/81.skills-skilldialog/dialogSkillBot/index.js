@@ -42,34 +42,62 @@ const onTurnErrorHandler = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
-    // Send a trace activity, which will be displayed in Bot Framework Emulator.
-    await context.sendTraceActivity(
-        'OnTurnError Trace',
-        `${ error }`,
-        'https://www.botframework.com/schemas/error',
-        'TurnError'
-    );
+    await sendErrorMessage(context, error);
+    await sendEoCToParent(context, error);
+    await clearConversationState(context);
+}
 
-    // Send a message to the user.
-    let onTurnErrorMessage = 'The bot encountered an error or bug.';
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
-    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-
-    const endOfConversation = {
-        type: ActivityTypes.EndOfConversation,
-        code: 'SkillError',
-        text: error.toString()
-    };
-    await context.sendActivity(endOfConversation);
-
+async function sendErrorMessage(context, error) {
     try {
-        // Clear out state
+        // Send a trace activity, which will be displayed in Bot Framework Emulator.
+        await context.sendTraceActivity(
+            'OnTurnError Trace',
+            `${ error }`,
+            'https://www.botframework.com/schemas/error',
+            'TurnError'
+        );
+    
+        // Send a message to the user.
+        let onTurnErrorMessage = 'The skill encountered an error or bug.';
+        await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+    
+        onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
+        await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+    
+        // Send a trace activity, which will be displayed in the Bot Framework Emulator.
+        // Note: we return the entire exception in the value property to help the developer;
+        // this should not be done in production.
+        await context.sendTraceActivity('OnTurnError Trace', error.toString(), 'https://www.botframework.com/schemas/error', 'TurnError');
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught in sendErrorMessage: ${ err }`);
+    }
+}
+
+async function sendEoCToParent(context, error) {
+    try {
+        // Send an EndOfConversation activity to the skill caller with the error to end the conversation,
+        // and let the caller decide what to do.
+        const endOfConversation = {
+            type: ActivityTypes.EndOfConversation,
+            code: 'SkillError',
+            text: error.toString()
+        };
+        await context.sendActivity(endOfConversation);
+    } catch (err) {
+        console.error(`\n [onTurnError] Exception caught in sendEoCToParent: ${ err }`);
+    }
+}
+
+async function clearConversationState(context) {
+    try {
+        // Delete the conversationState for the current conversation to prevent the
+        // bot from getting stuck in a error-loop caused by being in a bad state.
+        // ConversationState should be thought of as similar to "cookie-state" for a Web page.
         await conversationState.delete(context);
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
     }
-};
+}
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;

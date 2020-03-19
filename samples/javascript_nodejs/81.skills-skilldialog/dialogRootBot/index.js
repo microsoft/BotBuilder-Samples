@@ -47,10 +47,17 @@ const onTurnErrorHandler = async (context, error) => {
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
+    await sendErrorMessage(context, error);
+    await endSkillConversation(context);
+    await clearConversationState(context);
+};
+
+async function sendErrorMessage(context, error) {
     try {
         // Send a message to the user.
         let onTurnErrorMessage = 'The bot encountered an error or bug.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
+        
         onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 
@@ -62,9 +69,11 @@ const onTurnErrorHandler = async (context, error) => {
             'TurnError'
         );
     } catch (err) {
-        console.error(`\n [onTurnError] Exception caught in SendErrorMessageAsync : ${ err }`);
+        console.error(`\n [onTurnError] Exception caught in sendErrorMessage: ${ err }`);
     }
+}
 
+async function endSkillConversation(context) {
     try {
         // Inform the active skill that the conversation is ended so that it has
         // a chance to clean up.
@@ -87,14 +96,18 @@ const onTurnErrorHandler = async (context, error) => {
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
     }
+}
 
+async function clearConversationState(context) {
     try {
-        // Clear out state
+        // Delete the conversationState for the current conversation to prevent the
+        // bot from getting stuck in a error-loop caused by being in a bad state.
+        // ConversationState should be thought of as similar to "cookie-state" for a Web page.
         await conversationState.delete(context);
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
     }
-};
+}
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;
