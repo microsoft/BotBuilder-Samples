@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
 
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null, SkillHttpClient skillClient = null, SkillsConfiguration skillsConfig = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState, SkillHttpClient skillClient = null, SkillsConfiguration skillsConfig = null)
             : base(configuration, logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
@@ -73,7 +73,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
         private async Task EndSkillConversationAsync(ITurnContext turnContext)
         {
-            if (_conversationState == null || _skillClient == null || _skillsConfig == null)
+            if (_skillClient == null || _skillsConfig == null)
             {
                 return;
             }
@@ -104,19 +104,16 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
         private async Task ClearConversationStateAsync(ITurnContext turnContext)
         {
-            if (_conversationState != null)
+            try
             {
-                try
-                {
-                    // Delete the conversationState for the current conversation to prevent the
-                    // bot from getting stuck in a error-loop caused by being in a bad state.
-                    // ConversationState should be thought of as similar to "cookie-state" for a Web page.
-                    await _conversationState.DeleteAsync(turnContext);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
-                }
+                // Delete the conversationState for the current conversation to prevent the
+                // bot from getting stuck in a error-loop caused by being in a bad state.
+                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+                await _conversationState.DeleteAsync(turnContext);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
             }
         }
     }
