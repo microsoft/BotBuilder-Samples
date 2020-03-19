@@ -108,7 +108,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [ts#5]:samples/typescript_nodejs/05.multi-turn-prompt
 [ts#6]:samples/typescript_nodejs/06.using-cards
 [ts#13]:samples/typescript_nodejs/13.core-bot
-[ts#16]:samples/typescript_nodejs/16.proactive-message
+[ts#16]:samples/typescript_nodejs/16.proactive-messages
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 
