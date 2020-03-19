@@ -30,7 +30,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |13.core-bot.tests            | Unit test project Core bot shows how to use use Bot Framework testing framework.                         |[View][cs#13.b]|   |   |             |  |
 |14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |            | |[View][py#14]
 |15.handling-attachments| Demonstrates how to listen for/handle user provided attachments.                |[View][cs#15]|[View][js#15]|              |             | |[View][py#15]
-|16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | |[View][py#16]
+|16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | [View][ts#16]|[View][py#16]
 |17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |[View][py#17]
 |18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |[View][py#18]
 |19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |[View][py#19]
@@ -108,6 +108,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [ts#5]:samples/typescript_nodejs/05.multi-turn-prompt
 [ts#6]:samples/typescript_nodejs/06.using-cards
 [ts#13]:samples/typescript_nodejs/13.core-bot
+[ts#16]:samples/typescript_nodejs/16.proactive-message
 [ts#52]:https://github.com/Microsoft/AI/tree/master/templates/Enterprise-Template
 
 
