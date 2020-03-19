@@ -2,7 +2,9 @@
 
 Bot Builder v4 proactive messaging sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts API requests and sends them to the user:
+
+![proactive messages demo](./assets/16-proactive-messages.gif)
 
 ## Prerequisites
 
@@ -37,6 +39,18 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
+
+## Send notifaction to the user
+
+Use a tool like Postman or CURL to send notifcations to your bot using a Post request to the endpoint http://localhost:3978/api/notify with the following json body:
+
+``` json
+{ 
+  "Notification1": "this should be the first notification", 
+  "Notification2": "this should be the second notification",
+  "Notification3": "this should be the LAST notification 😀" 
+}
+```
 
 ## Deploy the bot to Azure
 
