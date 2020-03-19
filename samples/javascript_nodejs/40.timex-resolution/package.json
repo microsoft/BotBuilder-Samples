@@ -16,8 +16,8 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
-        "@microsoft/recognizers-text-date-time": "^1.1.4"
+        "@microsoft/recognizers-text-data-types-timex-expression": "^1.3.0",
+        "@microsoft/recognizers-text-date-time": "^1.3.0"
     },
     "devDependencies": {
         "eslint": "^6.6.0",
