@@ -136,7 +136,7 @@ namespace Microsoft.BotBuilderSamples
         // <see ref="https://support.skype.com/en/faq/FA34644/skype-file-sharing-file-types-size-and-time-limits"/>.
         private static IMessageActivity HandleIncomingAttachment(IMessageActivity activity)
         {
-            string replyText = string.Empty;
+            var replyText = string.Empty;
             foreach (var file in activity.Attachments)
             {
                 // Determine where the file is hosted.
@@ -201,7 +201,8 @@ namespace Microsoft.BotBuilderSamples
                     Name = @"Resources\architecture-resize.png",
                     OriginalBase64 = File.ReadAllBytes(imagePath),
                     Type = "image/png",
-                });
+                },
+                cancellationToken);
 
             var attachmentUri = attachments.GetAttachmentUri(response.Id);
 
