@@ -20,32 +20,42 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public CustomFunctionBot()
         {
-            var lgFilePath = Path.Join(".", "resources", "main.lg");
+            var lgFilePath = Path.Join(Directory.GetCurrentDirectory(), "Resources", "main.lg");
+
+            // prefix all functions with your namespace to avoid collisions.
             const string mySqrtFnName = "contoso.sqrt";
 
+            // define evaluator for the custom function.
             ExpressionEvaluator sqrtDelegate = new ExpressionEvaluator(
                     mySqrtFnName,
                     ExpressionFunctions.Apply(
                         args =>
                         {
                             object retValue = null;
-                            double dblValue;
-                            if(double.TryParse(args[0], out dblValue))
+                            if (args[0] != null)
                             {
-                                retValue = Math.Sqrt(dblValue);
+                                double dblValue;
+                                if (double.TryParse(args[0], out dblValue))
+                                {
+                                    retValue = Math.Sqrt(dblValue);
+                                }
                             }
                             return retValue;
-                        }, ExpressionFunctions.VerifyContainer),
+                        },
+                        ExpressionFunctions.VerifyStringOrNull),
                     ReturnType.Number,
                     ExpressionFunctions.ValidateUnary);
 
+            // add the custom function
             Expression.Functions.Add(mySqrtFnName, sqrtDelegate);
+
+            // by default this uses Expression.Functions which would include the custom function added above.
             _lgTemplates = Templates.ParseFile(lgFilePath);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var replyText = _lgTemplates.Evaluate("sqrtReadBack");
+            var replyText = _lgTemplates.Evaluate("sqrtReadBack", turnContext.Activity);
             await turnContext.SendActivityAsync(ActivityFactory.FromObject(replyText), cancellationToken);
         }
 
