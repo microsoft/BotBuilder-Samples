@@ -37,8 +37,8 @@ Here's an example of a basic Text template composition:
 ```markdown
 # AskForAge.prompt
 [Activity
-    Text = @{GetAge()}
-    Speak = @{GetAge()}
+    Text = ${GetAge()}
+    Speak = ${GetAge()}
 ]
 
 # GetAge
@@ -51,7 +51,7 @@ Here's an example of text with suggested action. `|` is used to denote a list.
 ```markdown
 # AskForAge.prompt
 [Activity
-    Text = @{GetAge()}
+    Text = ${GetAge()}
     SuggestedActions = 10 | 20 | 30
 ]
 
@@ -65,7 +65,7 @@ Here's an example of a Hero card definition
 ```markdown
 # HeroCard (params)
 [Herocard   
-    title = @{params.title}
+    title = ${params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
     images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
@@ -78,9 +78,9 @@ Here is a richer example that puts them all together including a hero card can b
 ```markdown
 # AskForAge.prompt
 [Activity
-    Text = @{GetAge()}
-    Speak = @{GetAge()}
-    Attachments = @{HeroCard()}
+    Text = ${GetAge()}
+    Speak = ${GetAge()}
+    Attachments = ${HeroCard()}
     SuggestedActions = 10 | 20 | 30
     InputHint = expecting
 ]
@@ -91,7 +91,7 @@ Here is a richer example that puts them all together including a hero card can b
 
 # HeroCard (params)
 [Herocard   
-    title = @{params.title}
+    title = ${params.title}
     subtitle = Microsoft Bot Framework
     text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
     images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
@@ -106,8 +106,8 @@ As an example, this returns the same resolution text for both `Speak` and `Text`
 ```markdown
 # AskForAge.prompt
 [Activity
-    Text = @{GetAge()}
-    Speak = @{GetAge()}
+    Text = ${GetAge()}
+    Speak = ${GetAge()}
 ]
 
 # GetAge
@@ -121,8 +121,8 @@ In this example, `Speak` and `Text` could come back with different resolutions b
 
 ```markdown
 [Activity
-    Text = @{GetAge()}
-    Speak = @{GetAge!()}
+    Text = ${GetAge()}
+    Speak = ${GetAge!()}
 ]
 
 # GetAge
@@ -136,21 +136,21 @@ Some times you might want to come back with a carousel of cards. Here's an examp
 # AskForAge.prompt
 [Activity
 > Defaults to carousel layout in case of list of cards
-    Attachments = @{foreach($cardValues, item, HeroCard(item)}
+    Attachments = ${foreach($cardValues, item, HeroCard(item)}
 ]
 
 # AskForAge.prompt_2
 [Activity
 > Explicitly specify an attachment layout
-    Attachments = @{foreach($cardValues, item, HeroCard(item)}
+    Attachments = ${foreach($cardValues, item, HeroCard(item)}
     AttachmentLayout = list    
 ]
 
 # HeroCard (title, subtitle, text)
 [Herocard   
-    title = @{title}
-    subtitle = @{subtitle}
-    text = @{text}
+    title = ${title}
+    subtitle = ${subtitle}
+    text = ${text}
     images = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
     buttons = Show more cards
 ]
@@ -162,7 +162,7 @@ Use of '|' will make a definition a list. You can use '\\' as the escape charact
 # AskForAge.prompt
 [Activity
 > With '|' you are making attachments a list. 
-        Attachments = @{HeroCard()} |
+        Attachments = ${HeroCard()} |
 > You can use '\' as an escape character
         Suggestions = 10 \\| cards | 20 \\| cards
 ]
@@ -172,18 +172,15 @@ The following composition behavior is supported with structured template -
 
 1. Composition will be structure context aware, if the target template being referred is also a structured template, then 
     - the structure type must match e.g. ActivityTemplate can be referred to in another ActivityTemplate etc. 
-    - the specific property under holds the template reference must exist in the target template.
 2. References to simple or conditional response template can exist anywhere inside a structured template. 
-
-As an example, reference to another structured template in `Speak` property, will result in resolution against that specific property and would result in a `property not found in template` error if the property does not exist in the target structured template. 
 
 Here's an example: With this template definitions,  
 
 ```markdown
 # T1
 [Activity
-    Text = @{T2()}
-    Speak = foo bar @{T3().speak}
+    Text = ${T2()}
+    Speak = foo bar ${T3().speak}
 ]
 
 # T2
@@ -204,19 +201,6 @@ Call to `evaluateTemplate('T1')` would result in the following internal structur
 ]
 ```
 
-As another example, `evaluateTemplate('T4')` with the following definition will result in `Property 'Text' not found in structured template 'T5'`
-
-```markdown
-# T4
-[Activity
-    Text = @{T5()}
-]
-
-# T5
-[Activity
-    Speak = I can also speak!
-]
-```
 # Full reference to another structured template
 You can include reference to a full structured template 
     - as a property in another structured template
@@ -228,7 +212,7 @@ Here is an example of this style of reference in action:
 # ST1
 [MyStruct
     Text = foo
-    @{ST2()}
+    ${ST2()}
 ]
 # ST2
 [MyStruct
@@ -254,7 +238,7 @@ Here is an example:
 # ST1
 [MyStruct
     Text = foo
-    @{ST2()}
+    ${ST2()}
 ]
 # ST2
 [MyStruct
@@ -282,12 +266,12 @@ With these two prebuilt functions, you can pull in any externally defined (inclu
 ```
 # AdaptiveCard
 [Activity
-                Attachments = @{ActivityAttachment(json(fromFile('../../card.json')), 'adaptiveCard')}
+                Attachments = ${ActivityAttachment(json(fromFile('../../card.json')), 'adaptiveCard')}
 ]
  
 # HeroCard
 [Activity
-                Attachments = @{ActivityAttachment(json(fromFile('../../card.json')), 'heroCard')}
+                Attachments = ${ActivityAttachment(json(fromFile('../../card.json')), 'heroCard')}
 ]
 ```
 
@@ -296,13 +280,13 @@ or use attachment
 # AdaptiveCard
 [Attachment
     contenttype = adaptivecard
-    content = @{json(fromFile('../../card.json'))}
+    content = ${json(fromFile('../../card.json'))}
 ]
 
 # HeroCard
 [Attachment
     contenttype = herocard
-    content = @{json(fromFile('../../card.json'))}
+    content = ${json(fromFile('../../card.json'))}
 ]
 ```
 
@@ -334,11 +318,11 @@ It is a natural extension to also define full [chatdown][1] style templates usin
 # CardAction (title, type, value)
 [CardAction
 > type can be 'openUrl', 'imBack', 'postBack', 'messageBack' 
-    Type = @{if(type == null, 'imBack', type)}
+    Type = ${if(type == null, 'imBack', type)}
 > description that appears on button
-    Title = @{title}
+    Title = ${title}
 > payload to return as object.
-    Value = @{value}
+    Value = ${value}
 ]
 ```
 
@@ -348,7 +332,7 @@ Suggestions can now support a full blown CardAction structure.
 ```markdown
 # AskForColor
 [Activity
-    SuggestedActions = @{CardAction('red')} | @{CardAction('blue') | @{CardAction('See all choices', 'openUrl', 'http://contoso.com/color/choices')}}
+    SuggestedActions = ${CardAction('red')} | ${CardAction('blue') | ${CardAction('See all choices', 'openUrl', 'http://contoso.com/color/choices')}}
 ]
 ```
 
@@ -359,7 +343,7 @@ Adaptive cards today are rendered via `[Attachment=cardpath.json adaptive]` nota
 ```markdown
     # GetColor.prompt
     [Activity
-        Attachments = @{json(GetColor.adaptive.card())
+        Attachments = ${json(GetColor.adaptive.card())
     ]
 
     # GetColor.adaptive.card

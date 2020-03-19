@@ -20,7 +20,7 @@
 - [Parametrization of templates](#parametrization-of-templates)
 - [Importing external references](#importing-external-references)
 - [LG specific adaptive expression functions](#functions-injected-by-LG)
-
+- [Strict option](#strict-option)
 ## Comments
 
 Comments are prefixed with `>` character. All lines that have this prefix will be skipped by the parser.
@@ -304,6 +304,26 @@ All templates defined in the target file will be pulled in. Ensure that your tem
 ```markdown
 [Shared](../shared/common.lg)
 ```
+
+## Strict option
+Sometimes user does not want to tolerate null result for the null evaluated result, if so, you could add the strict option command at the beginning of the lg file, such as:
+
+```
+> !# @strict = true
+# template
+- hi
+```
+
+If the strict option is on, null errors would be thrown by friendly message. for example:
+
+```
+# welcome
+- hi ${name}
+```
+
+If name is null, the diagnostic would be: `'name' evaluated to null. [welcome] Error occurred when evaluating '- hi ${name}'.`
+
+Otherwise, if strict is not set, or set to false, a compatible result will be given. The above sample would get the result "hi null"
 
 ## Additional Resources
 
