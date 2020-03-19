@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { ActivityTypes, BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { ActivityTypes, BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient, TurnContext } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
 // This bot's main dialog.
@@ -57,7 +57,7 @@ async function sendErrorMessage(context, error) {
         // Send a message to the user.
         let onTurnErrorMessage = 'The bot encountered an error or bug.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
-        
+
         onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 

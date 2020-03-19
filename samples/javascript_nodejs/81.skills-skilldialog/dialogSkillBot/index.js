@@ -45,7 +45,7 @@ const onTurnErrorHandler = async (context, error) => {
     await sendErrorMessage(context, error);
     await sendEoCToParent(context, error);
     await clearConversationState(context);
-}
+};
 
 async function sendErrorMessage(context, error) {
     try {
@@ -56,14 +56,14 @@ async function sendErrorMessage(context, error) {
             'https://www.botframework.com/schemas/error',
             'TurnError'
         );
-    
+
         // Send a message to the user.
         let onTurnErrorMessage = 'The skill encountered an error or bug.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    
+
         onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
-    
+
         // Send a trace activity, which will be displayed in the Bot Framework Emulator.
         // Note: we return the entire exception in the value property to help the developer;
         // this should not be done in production.
