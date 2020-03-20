@@ -59,7 +59,7 @@ namespace LivePersonConnector
                                 new Lp_Sdes {
                                     type = "personal",
                                     //personal = new Personal { firstname = "Alice", lastname = "Doe", gender = "FEMALE" }
-                                    personal = new Personal { firstname = userName + (new Random()).Next(0,100).ToString()}
+                                    personal = new Personal { firstname = userName }
                                 }
                             } }
                         } },
