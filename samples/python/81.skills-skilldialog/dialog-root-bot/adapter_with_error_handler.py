@@ -98,8 +98,8 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             # Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
             # has an active conversation with a skill.
             active_skill = await self._conversation_state.create_property(
-                MainDialog.ACTIVE_SKILL_PROPERTY_NAME
-            )
+                               MainDialog.ACTIVE_SKILL_PROPERTY_NAME
+                           ).get(turn_context)
 
             if active_skill:
                 bot_id = self._config.APP_ID

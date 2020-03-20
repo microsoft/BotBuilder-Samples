@@ -12,12 +12,9 @@ class DefaultConfig:
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
 
-    CONNECTION_NAME = ""
-
-    # If ALLOWED_CALLERS is empty, any bot can call this Skill.  Add MicrosoftAppIds to restrict
-    # callers to only those specified.
-    # Example: os.environ.get("AllowedCallers", ["54d3bb6a-3b6d-4ccd-bbfd-cad5c72fb53a"])
-    ALLOWED_CALLERS = os.environ.get("AllowedCallers", [])
+    # Callers to only those specified, '*' allows any caller.
+    # Example: os.environ.get("AllowedCallers", ["aaaaaaaa-1111-aaaa-aaaa-aaaaaaaa"])
+    ALLOWED_CALLERS = os.environ.get("AllowedCallers", ["*"])
 
     LUIS_APP_ID = os.environ.get("LuisAppId", "")
     LUIS_API_KEY = os.environ.get("LuisAPIKey", "")

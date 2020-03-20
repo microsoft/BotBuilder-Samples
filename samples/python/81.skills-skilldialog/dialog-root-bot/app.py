@@ -52,7 +52,7 @@ DIALOG = MainDialog(CONVERSATION_STATE, ID_FACTORY, CLIENT, SKILL_CONFIG, CONFIG
 BOT = RootBot(CONVERSATION_STATE, DIALOG)  # , SKILL_CONFIG, ID_FACTORY, CLIENT, CONFIG)
 
 AUTH_CONFIG = AuthenticationConfiguration(
-    claims_validator=AllowedSkillsClaimsValidator(CONFIG).validate_claims
+    claims_validator=AllowedSkillsClaimsValidator(CONFIG).claims_validator
 )
 
 SKILL_HANDLER = SkillHandler(ADAPTER, BOT, ID_FACTORY, CREDENTIAL_PROVIDER, AUTH_CONFIG)

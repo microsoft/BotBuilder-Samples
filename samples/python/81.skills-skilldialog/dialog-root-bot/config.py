@@ -22,6 +22,10 @@ class DefaultConfig:
         },
     ]
 
+    # Callers to only those specified, '*' allows any caller.
+    # Example: os.environ.get("AllowedCallers", ["aaaaaaaa-1111-aaaa-aaaa-aaaaaaaa"])
+    ALLOWED_CALLERS = os.environ.get("AllowedCallers", ["*"])
+
 
 class SkillConfiguration:
     SKILL_HOST_ENDPOINT = DefaultConfig.SKILL_HOST_ENDPOINT

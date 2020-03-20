@@ -142,7 +142,7 @@ class MainDialog(ComponentDialog):
         )
 
         # Prompt the user to select a skill.
-        return await step_context.prompt(ChoicePrompt.__name__, options)
+        return await step_context.prompt("SkillPrompt", options)
 
     async def _select_skill_action_step(
         self, step_context: WaterfallStepContext
@@ -164,7 +164,7 @@ class MainDialog(ComponentDialog):
         )
 
         # Prompt the user to select a skill action.
-        return await step_context.prompt(ChoicePrompt.__name__, options)
+        return await step_context.prompt("SkillActionPrompt", options)
 
     async def _call_skill_action_step(
         self, step_context: WaterfallStepContext
@@ -303,6 +303,6 @@ class MainDialog(ComponentDialog):
         # from the original activity so the skill gets them.
         # Note: this is not necessary if we are just forwarding the current activity from context.
         activity.channel_data = turn_context.activity.channel_data
-        activity.Properties = turn_context.activity.Properties
+        activity.additional_properties = turn_context.activity.additional_properties
 
         return activity

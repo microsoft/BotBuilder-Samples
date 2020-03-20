@@ -12,12 +12,11 @@ from botbuilder.dialogs import (
 from botbuilder.core import MessageFactory
 from botbuilder.schema import ActivityTypes, InputHints
 
-from dialogs import (
-    DialogSkillBotRecognizer,
-    BookingDialog,
-    BookingDetails,
-    Location,
-)
+from .dialog_skill_bot_recognizer import DialogSkillBotRecognizer
+from .booking_dialog import BookingDialog
+from .booking_details import BookingDetails
+from .location import Location
+
 
 
 class ActivityRouterDialog(ComponentDialog):
@@ -69,17 +68,17 @@ class ActivityRouterDialog(ComponentDialog):
     ) -> DialogTurnResult:
         activity = step_context.context.activity
 
-        # Resolve what to execute based on the event type.
-        if activity.type == "BookFlight":
+        # Resolve what to execute based on the event name.
+        if activity.name == "BookFlight":
             return await self._begin_book_flight(step_context)
 
-        if activity.type == "GetWeather":
+        if activity.name == "GetWeather":
             return await self._begin_get_weather(step_context)
 
-        # We didn't get an activity type we can handle.
+        # We didn't get an activity name we can handle.
         await step_context.context.send_activity(
             MessageFactory.text(
-                f'Unrecognized ActivityType: "{activity.type}".',
+                f'Unrecognized ActivityName: "{activity.name}".',
                 input_hint=InputHints.ignoring_input,
             )
         )
@@ -142,7 +141,7 @@ class ActivityRouterDialog(ComponentDialog):
         activity = step_context.context.activity
         location = Location()
         if activity.value:
-            location.from_json(json.loads(activity.value))
+            location.from_json(activity.value)
 
         # We haven't implemented the GetWeatherDialog so we just display a TODO message.
         get_weather_message = f"TODO: get weather for here (lat: {location.latitude}, long: {location.longitude}"
@@ -162,7 +161,7 @@ class ActivityRouterDialog(ComponentDialog):
         activity = step_context.context.activity
         booking_details = BookingDetails()
         if activity.value:
-            booking_details.from_json(json.loads(activity.value))
+            booking_details.from_json(activity.value)
 
         # Start the booking dialog
         booking_dialog = await self.find_dialog(BookingDialog.__name__)

@@ -97,7 +97,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             # has an active conversation with a skill.
             active_skill = await self._conversation_state.create_property(
                 ACTIVE_SKILL_PROPERTY_NAME
-            )
+            ).get(turn_context)
 
             if active_skill:
                 bot_id = self._config.APP_ID
