@@ -123,6 +123,9 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
    |-----|-----|
    | return new DialogTurnResult(DialogTurnStatus.Complete, options); | return await dc.EndDialogAsync(options) |
 
+   - `UseLanguageGeneration` moved off adapter to `DialogManager`
+   - `UseResourceExplorer` moved off adapter to `DialogManager`
+   
 - \[**NEW**\] 
    - Adaptive actions: SetProperties, DeleteProperties, TBD
    - Adaptive recognizers: TBD

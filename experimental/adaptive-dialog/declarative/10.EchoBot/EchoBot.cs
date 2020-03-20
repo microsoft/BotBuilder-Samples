@@ -44,8 +44,9 @@ namespace Microsoft.BotBuilderSamples
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
 
             var resource = this.resourceExplorer.GetResource("main.dialog");
-            dialogManager = new DialogManager(DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceMap));
-
+            dialogManager = new DialogManager(resourceExplorer.LoadType<AdaptiveDialog>(resource));
+            dialogManager.UseResourceExplorer(resourceExplorer);
+            dialogManager.UseLanguageGeneration();
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
         }
 

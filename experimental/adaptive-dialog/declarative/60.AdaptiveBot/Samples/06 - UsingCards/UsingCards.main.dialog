@@ -5,11 +5,11 @@
     "autoEndDialog": "false",
     "triggers": [
         {
-            "$kind": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnBeginDialog",
             "actions": [
                 {
                     "$kind": "Microsoft.ChoiceInput",
-                    "prompt": "@{Card-choice()}",
+                    "prompt": "${Card-choice()}",
                     "property": "turn.cardChoice",
                     "outputFormat": "value",
                     "style": "Auto",
@@ -65,7 +65,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{Help-text()}"
+                                    "activity": "${Help-text()}"
                                 }
                             ]
 
@@ -75,7 +75,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{All-cards()}"
+                                    "activity": "${All-cards()}"
                                 }
                             ]
                         },
@@ -84,7 +84,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{HeroCard()}"
+                                    "activity": "${HeroCard()}"
                                 }
                             ]
                         },
@@ -93,7 +93,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{ThumbnailCard()}"
+                                    "activity": "${ThumbnailCard()}"
                                 }
                             ]
                         },
@@ -102,7 +102,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{SigninCard()}"
+                                    "activity": "${SigninCard()}"
                                 }
                             ]
                         },
@@ -111,7 +111,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{AnimationCard()}"
+                                    "activity": "${AnimationCard()}"
                                 }
                             ]
                         },
@@ -120,7 +120,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{VideoCard()}"
+                                    "activity": "${VideoCard()}"
                                 }
                             ]
                         },
@@ -129,7 +129,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{AudioCard()}"
+                                    "activity": "${AudioCard()}"
                                 }
                             ]
                         },
@@ -138,7 +138,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "@{AdaptiveCard()}"
+                                    "activity": "${AdaptiveCard()}"
                                 }
                             ]
                         }
