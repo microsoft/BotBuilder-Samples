@@ -5,7 +5,7 @@ from botbuilder.schema import Activity, ResourceResponse
 
 
 class LoggerMiddleware(Middleware):
-    def __init__(self, label: str):
+    def __init__(self, label: str = None):
         self._label = label or LoggerMiddleware.__name__
 
     async def on_turn(

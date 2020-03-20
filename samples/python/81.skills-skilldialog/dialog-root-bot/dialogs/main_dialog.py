@@ -11,7 +11,7 @@ from botbuilder.dialogs import (
     WaterfallStepContext,
     DialogTurnResult,
 )
-from botbuilder.dialogs.choices import Choice, ListStyle, FoundChoice
+from botbuilder.dialogs.choices import Choice, FoundChoice
 from botbuilder.dialogs.prompts import (
     PromptOptions,
     ChoicePrompt,

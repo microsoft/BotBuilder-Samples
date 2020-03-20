@@ -14,8 +14,7 @@ from botbuilder.integration.aiohttp.skills import SkillHttpClient
 from botbuilder.schema import ActivityTypes, Activity, InputHints
 
 from config import DefaultConfig, SkillConfiguration
-from dialogs import MainDialog
-from middleware import LoggerMiddleware
+from bots.root_bot import ACTIVE_SKILL_PROPERTY_NAME
 
 
 class AdapterWithErrorHandler(BotFrameworkAdapter):
@@ -39,7 +38,6 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
         self._skill_config = skill_config
 
         self.on_turn_error = self._handle_turn_error
-        self.use(LoggerMiddleware())
 
     async def _handle_turn_error(self, turn_context: TurnContext, error: Exception):
         # This check writes out errors to console log
@@ -98,7 +96,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             # Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
             # has an active conversation with a skill.
             active_skill = await self._conversation_state.create_property(
-                MainDialog.ACTIVE_SKILL_PROPERTY_NAME
+                ACTIVE_SKILL_PROPERTY_NAME
             )
 
             if active_skill:

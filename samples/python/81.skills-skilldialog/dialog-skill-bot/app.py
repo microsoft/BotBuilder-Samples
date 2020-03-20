@@ -14,10 +14,10 @@ from botbuilder.schema import Activity
 from botframework.connector.auth import AuthenticationConfiguration
 
 from authentication import AllowedCallersClaimsValidator
-from bots import SkillBot, ActivityRouterDialog
+from bots import SkillBot
 from config import DefaultConfig
-from dialogs import DialogSkillBotRecognizer
-from skill_adapter_with_error_handler import SkillAdapterWithErrorHandler
+from dialogs import ActivityRouterDialog, DialogSkillBotRecognizer
+from skill_adapter_with_error_handler import AdapterWithErrorHandler
 
 CONFIG = DefaultConfig()
 
@@ -34,11 +34,11 @@ SETTINGS = BotFrameworkAdapterSettings(
     CONFIG.APP_PASSWORD,
     auth_configuration=AuthenticationConfiguration(claims_validator=VALIDATOR),
 )
-ADAPTER = SkillAdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
+ADAPTER = AdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
 
 # Create the Bot
 RECOGNIZER = DialogSkillBotRecognizer(CONFIG)
-ROUTER = ActivityRouterDialog(RECOGNIZER, CONFIG)
+ROUTER = ActivityRouterDialog(RECOGNIZER)
 BOT = SkillBot(CONVERSATION_STATE, ROUTER)
 
 

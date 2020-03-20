@@ -31,6 +31,7 @@ from skill_conversation_id_factory import SkillConversationIdFactory
 from authentication import AllowedSkillsClaimsValidator
 from bots import RootBot
 from config import DefaultConfig, SkillConfiguration
+from adapter_with_error_handler import AdapterWithErrorHandler
 
 CONFIG = DefaultConfig()
 SKILL_CONFIG = SkillConfiguration()
@@ -48,71 +49,15 @@ SETTINGS = BotFrameworkAdapterSettings(
     app_password=CONFIG.APP_PASSWORD,
     auth_configuration=AUTH_CONFIG,
 )
-ADAPTER = BotFrameworkAdapter(SETTINGS)
 
 STORAGE = MemoryStorage()
-
 CONVERSATION_STATE = ConversationState(STORAGE)
+
 ID_FACTORY = SkillConversationIdFactory(STORAGE)
 CREDENTIAL_PROVIDER = SimpleCredentialProvider(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
 CLIENT = SkillHttpClient(CREDENTIAL_PROVIDER, ID_FACTORY)
 
-
-# Catch-all for errors.
-async def on_error(context: TurnContext, error: Exception):
-    # This check writes out errors to console log .vs. app insights.
-    # NOTE: In production environment, you should consider logging this to Azure
-    #       application insights.
-    print(f"\n [on_turn_error] unhandled error: {error}", file=sys.stderr)
-    traceback.print_exc()
-
-    # Send a message to the user
-    await context.send_activity("The bot encountered an error or bug.")
-    await context.send_activity(
-        "To continue to run this bot, please fix the bot source code."
-    )
-
-    # Send a trace activity if we're talking to the Bot Framework Emulator
-    if context.activity.channel_id == "emulator":
-        # Create a trace activity that contains the error object
-        trace_activity = Activity(
-            label="TurnError",
-            name="on_turn_error Trace",
-            timestamp=datetime.utcnow(),
-            type=ActivityTypes.trace,
-            value=f"{error}",
-            value_type="https://www.botframework.com/schemas/error",
-        )
-        await context.send_activity(trace_activity)
-
-    # Inform the active skill that the conversation is ended so that it has
-    # a chance to clean up.
-    # Note: ActiveSkillPropertyName is set by the RooBot while messages are being
-    # forwarded to a Skill.
-    active_skill_id = await CONVERSATION_STATE.create_property(ACTIVE_SKILL_PROPERTY_NAME).get(context)
-    if active_skill_id:
-        end_of_conversation = Activity(
-            type=ActivityTypes.end_of_conversation, code="RootSkillError"
-        )
-        TurnContext.apply_conversation_reference(
-            end_of_conversation,
-            TurnContext.get_conversation_reference(context.activity),
-            is_incoming=True
-        )
-
-        await CONVERSATION_STATE.save_changes(context, True)
-        await CLIENT.post_activity(
-            CONFIG.APP_ID,
-            SKILL_CONFIG.SKILLS[active_skill_id],
-            SKILL_CONFIG.SKILL_HOST_ENDPOINT,
-            end_of_conversation,
-        )
-
-    # Clear out state
-    await CONVERSATION_STATE.delete(context)
-
-
-ADAPTER.on_turn_error = on_error
+ADAPTER = AdapterWithErrorHandler(SETTINGS, CONFIG, CONVERSATION_STATE, CLIENT, SKILL_CONFIG)
 
 # Create the Bot
 BOT = RootBot(CONVERSATION_STATE, SKILL_CONFIG, CLIENT, CONFIG)

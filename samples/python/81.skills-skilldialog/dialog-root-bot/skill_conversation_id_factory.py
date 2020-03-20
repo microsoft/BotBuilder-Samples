@@ -60,7 +60,7 @@ class SkillConversationIdFactory(ConversationIdFactoryBase):
         # Return the generated skill_conversation_id (that will be also used as the conversation ID to call the skill).
         return skill_conversation_id
 
-    async def get_skill_conversation_reference(
+    async def get_conversation_reference(
         self, skill_conversation_id: str
     ) -> Union[SkillConversationReference, ConversationReference]:
         if not skill_conversation_id:
