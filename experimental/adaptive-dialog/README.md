@@ -29,27 +29,6 @@ To get started, you can check out the various samples [here][5]. The following a
 11. [Reporting issues](#Reporting-issues)
 12. [Change Log](#change-log)
 
-## Quick Start
-This section describes how to quickly setup the latest [composer](https://github.com/Microsoft/BotFramework-Composer), [bf cli tool](https://github.com/microsoft/botframework-cli) and [.net SDK](https://github.com/microsoft/BotBuilder-dotnet).  If you do not use the myget feed, you will get the latest published versions instead.
-
-1. Install the Composer. 
-   1. `git clone https://github.com/microsoft/BotFramework-Composer.git`
-   2. `cd Composer`
-   3. `yarn`
-   4. `yarn build`
-   5. `yarn startall`
-2. This is enough to build and test bots with composer, but it is useful to have the cli tool bf from the [myget](https://botbuilder.myget.org/gallery) feed.  The tool supports lots of Bot Framework commands including the ability to create custom runtimes or generate dialogs from JSON schema.
-   1.  `npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/`
-   2.  `npm install -g @microsoft/botframework-cli`
-   3.  `npm config set registry https://registry.npmjs.org/`
-3. If you also want to create a custom runtime you will need to add add references to the latest .net SDK.
-   1. `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`
-   2. Start Visual Studio, create your project and add references to the SDK features you need.  
-      1. `Microsoft.Bot.Builder.Adaptive` for adaptive dialog support.
-      2. `Microsoft.Bot.Builder.Declarative` if you want support for declarative dialogs.
-      3. You can also install the [Visual studio code debugger extension][18] to help debug declarative dialogs.
-      4. If you want to edit .dialog files directly Visual Studio Code works better than Visual Studio because it provides Intellisense and schema error checking.
-
 ## Packages and source code
 Packages for C# are available on [BotBuilder MyGet][14]. We will update this section once packages for JS is available.
 Source code: 
