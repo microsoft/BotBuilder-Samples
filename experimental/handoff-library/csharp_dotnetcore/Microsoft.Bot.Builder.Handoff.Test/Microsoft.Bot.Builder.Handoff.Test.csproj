@@ -15,9 +15,5 @@
     <PackageReference Include="Microsoft.Bot.Schema" Version="4.7.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Builder.Handoff\Microsoft.Bot.Builder.Handoff.csproj" />
-  </ItemGroup>
-
 </Project>
 

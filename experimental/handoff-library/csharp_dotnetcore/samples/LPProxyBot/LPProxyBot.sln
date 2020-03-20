@@ -6,8 +6,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LPProxyBot", "LPProxyBot.cs
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiverPersonConnector", "LiverPersonConnector\LiverPersonConnector.csproj", "{04B738C3-0193-48A8-A326-C1AA867CD0D6}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.Handoff", "..\..\Microsoft.Bot.Builder.Handoff\Microsoft.Bot.Builder.Handoff.csproj", "{65796117-81D0-4F7F-B087-2802B3DC5257}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -22,10 +20,6 @@ Global
 		{04B738C3-0193-48A8-A326-C1AA867CD0D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{04B738C3-0193-48A8-A326-C1AA867CD0D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{04B738C3-0193-48A8-A326-C1AA867CD0D6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{65796117-81D0-4F7F-B087-2802B3DC5257}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65796117-81D0-4F7F-B087-2802B3DC5257}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65796117-81D0-4F7F-B087-2802B3DC5257}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65796117-81D0-4F7F-B087-2802B3DC5257}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
