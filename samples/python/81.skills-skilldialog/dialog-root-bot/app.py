@@ -44,7 +44,7 @@ CLIENT = SkillHttpClient(CREDENTIAL_PROVIDER, ID_FACTORY)
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
 SETTINGS = BotFrameworkAdapterSettings(CONFIG.APP_ID, CONFIG.APP_PASSWORD)
-ADAPTER = AdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
+ADAPTER = AdapterWithErrorHandler(SETTINGS, CONFIG, CONVERSATION_STATE, CLIENT, SKILL_CONFIG)
 
 DIALOG = MainDialog(CONVERSATION_STATE, ID_FACTORY, CLIENT, SKILL_CONFIG, CONFIG)
 
