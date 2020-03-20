@@ -1,6 +1,6 @@
-# Adaptive Dialog *[Preview]*
+# Adaptive Dialog *[RC0]*
 
-> See [here](#Change-Log) for what's new in **4.8 RC0** release.
+> See [here](#Change-Log) for what's new in **4.8 RC0** release. RC0 = Release Candidate 0.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -45,6 +45,15 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 
 ## Change Log
 ### 4.8 RC
+- \[**NEW**\] 
+   - New samples: 
+      - [C#][s1-c#] Getting waterfall, custom and adaptive dialogs to work in harmony
+      - [C#][s2-c#] Integrating [Composer][composer] generated dialogs with existing V4 bots.
+   - [Adaptive actions][aa]: SetProperties, DeleteProperties, BreakLoop, ContinueLoop, DeleteActivity, GetActivityMembers, GetConversationMembers, GotoAction, SignOutUser, UpdateActivity 
+   - [Adaptive recognizers][ar]: CrossTrainedRecognizerSet, RecognizerSet, ValueRecognizer, QnAMakerRecognizer
+   - New triggers - OnQnAMatch, OnChooseIntent.
+   - Adaptive dialogs now participate in being able instrument runtime operations to telemetry client.
+   - You can now simply use `SetProperty` or `SetProperties` action to initialize and empty array or object. Set to `={}` for object and `=[]` for array.
 - \[**BREAKING CHANGES**\]
    - See [here][b1] for breaking changes related to language generation and adaptive expressions.
    - Bounding character for expressions has been changed from **@**{expression} to **$**{expression}
@@ -104,10 +113,9 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 
    - `UseLanguageGeneration` moved off adapter to `DialogManager`
    - `UseResourceExplorer` moved off adapter to `DialogManager`
+   - Use `LuisAdaptiveRecognizer` when for LUIS recognizer in adaptive dialogs
    
-- \[**NEW**\] 
-   - Adaptive actions: SetProperties, DeleteProperties, TBD
-   - Adaptive recognizers: TBD
+
 
 ### 4.7 PREVIEW
 - \[**New\] Language Generation integration has been refactored to work better with Adaptive dialogs.
@@ -165,3 +173,7 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [32]:../language-generation/README.md#4.7-PREVIEW
 [33]:./docs/generating-dialogs.md
 [b1]:../language-generation/README.md#Change-Log
+[ar]:./docs/recognizers-rules-steps-reference.md#Recognizers
+[aa]:./docs/recognizers-rules-steps-reference.md#Actions
+[s1-c#]:./csharp_dotnetcore/19.waterfall-or-custom-dialog-with-adaptive/README.md
+[s2-c#]:./declarative/19.integrating-composer-dialogs/README.md
