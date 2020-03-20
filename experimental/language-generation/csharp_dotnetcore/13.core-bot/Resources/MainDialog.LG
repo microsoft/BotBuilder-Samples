@@ -2,7 +2,7 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 # BookingConfirmation
-- I have you booked to @{Destination} from @{Origin} on @{travelDateMsg}.
+- I have you booked to ${Destination} from ${Origin} on ${travelDateMsg}.
 
 # IntroPrompt
 - What can I help you with today?

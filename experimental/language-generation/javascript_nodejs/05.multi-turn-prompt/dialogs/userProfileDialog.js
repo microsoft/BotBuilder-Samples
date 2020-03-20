@@ -13,11 +13,8 @@ const {
     WaterfallDialog
 } = require('botbuilder-dialogs');
 
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
-
+const { Templates } = require('botbuilder-lg');
+const { ActivityFactory } = require('botbuilder');
 const { UserProfile } = require('../userProfile');
 
 const CHOICE_PROMPT = 'CHOICE_PROMPT';
@@ -49,7 +46,7 @@ class UserProfileDialog extends ComponentDialog {
 
         this.initialDialogId = WATERFALL_DIALOG;
 
-        this.templateEngine = new TemplateEngine().addFile('./Resources/UserProfileDialog.LG');
+        this.lgTemplates = Templates.parseFile('./Resources/UserProfileDialog.lg');
     }
 
     /**
@@ -73,24 +70,24 @@ class UserProfileDialog extends ComponentDialog {
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
         // Running a prompt here means the next WaterfallStep will be run when the users response is received.
         return await step.prompt(CHOICE_PROMPT, {
-            prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ModeOfTransportPrompt')),
+            prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('ModeOfTransportPrompt')),
             choices: ChoiceFactory.toChoices(['Car', 'Bus', 'Bicycle'])
         });
     }
 
     async nameStep(step) {
         step.values.transport = step.result.value;
-        return await step.prompt(NAME_PROMPT, ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AskForName')));
+        return await step.prompt(NAME_PROMPT, ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForName')));
     }
 
     async nameConfirmStep(step) {
         step.values.name = step.result;
         
         // We can send messages to the user at any point in the WaterfallStep.
-        await step.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AckName', step.values)));
+        await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AckName', step.values)));
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
-        return await step.prompt(CONFIRM_PROMPT, ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AgeConfirmPrompt')), ['yes', 'no']);
+        return await step.prompt(CONFIRM_PROMPT, ActivityFactory.fromObject(this.lgTemplates.evaluate('AgeConfirmPrompt')), ['yes', 'no']);
     }
 
     async ageStep(step) {
@@ -98,8 +95,8 @@ class UserProfileDialog extends ComponentDialog {
             // User said "yes" so we will be prompting for the age.
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             const promptOptions = { 
-                prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AskForAge')), 
-                retryPrompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AskForAge.reprompt')) 
+                prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge')), 
+                retryPrompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge.reprompt')) 
             };
 
             return await step.prompt(NUMBER_PROMPT, promptOptions);
@@ -113,12 +110,12 @@ class UserProfileDialog extends ComponentDialog {
         step.values.age = step.result;
 
         // We can send messages to the user at any point in the WaterfallStep.
-        await step.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AgeReadBack', {
+        await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AgeReadBack', {
             userAge:step.values.age
         })));
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-        return await step.prompt(CONFIRM_PROMPT, { prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ConfirmPrompt')) });
+        return await step.prompt(CONFIRM_PROMPT, { prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('ConfirmPrompt')) });
     }
 
     async summaryStep(step) {
@@ -130,9 +127,9 @@ class UserProfileDialog extends ComponentDialog {
             userProfile.name = step.values.name;
             userProfile.age = step.values.age;
 
-            await step.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('SummaryReadout', userProfile)));
+            await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('SummaryReadout', userProfile)));
         } else {
-            await step.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('NoProfileReadBack')));
+            await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('NoProfileReadBack')));
         }
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is the end.

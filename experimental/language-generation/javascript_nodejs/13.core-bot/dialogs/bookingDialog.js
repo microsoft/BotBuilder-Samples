@@ -2,14 +2,11 @@
 // Licensed under the MIT License.
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
-const { InputHints, MessageFactory } = require('botbuilder');
+const { ActivityFactory } = require('botbuilder');
 const { ConfirmPrompt, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
 const { CancelAndHelpDialog } = require('./cancelAndHelpDialog');
 const { DateResolverDialog } = require('./dateResolverDialog');
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
+const { Templates } = require('botbuilder-lg');
 const path = require('path');
 const CONFIRM_PROMPT = 'confirmPrompt';
 const DATE_RESOLVER_DIALOG = 'dateResolverDialog';
@@ -33,7 +30,7 @@ class BookingDialog extends CancelAndHelpDialog {
 
         this.initialDialogId = WATERFALL_DIALOG;
 
-        this.templateEngine = new TemplateEngine().addFile(path.join(__dirname, '../resources/BookingDialog.lg'));
+        this.lgTemplates = Templates.parseFile(path.join(__dirname, '../resources/BookingDialog.lg'));
     }
 
     /**
@@ -43,7 +40,7 @@ class BookingDialog extends CancelAndHelpDialog {
         const bookingDetails = stepContext.options;
 
         if (!bookingDetails.destination) {
-            const msg = ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('PromptForMissingInformation', bookingDetails));
+            const msg = ActivityFactory.fromObject(this.lgTemplates.evaluate('PromptForMissingInformation', bookingDetails));
             return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
         return await stepContext.next(bookingDetails.destination);
@@ -58,7 +55,7 @@ class BookingDialog extends CancelAndHelpDialog {
         // Capture the response to the previous step's prompt
         bookingDetails.destination = stepContext.result;
         if (!bookingDetails.origin) {
-            const msg = ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('PromptForMissingInformation', bookingDetails));
+            const msg = ActivityFactory.fromObject(this.lgTemplates.evaluate('PromptForMissingInformation', bookingDetails));
             return await stepContext.prompt(TEXT_PROMPT, { prompt: msg });
         }
         return await stepContext.next(bookingDetails.origin);
@@ -87,7 +84,7 @@ class BookingDialog extends CancelAndHelpDialog {
 
         // Capture the results of the previous step
         bookingDetails.travelDate = stepContext.result;
-        const msg = ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ConfirmBooking', bookingDetails));
+        const msg = ActivityFactory.fromObject(this.lgTemplates.evaluate('ConfirmBooking', bookingDetails));
 
         // Offer a YES/NO prompt.
         return await stepContext.prompt(CONFIRM_PROMPT, { prompt: msg });

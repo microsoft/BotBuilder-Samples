@@ -1,4 +1,4 @@
-# Common Expression Language
+# Adaptive expressions ***_[PREVIEW]_***
 ## Pre-built functions 
 This document lists the available prebuilt functions ordered by their general purpose,
 or you can browse the functions based on [alphabetical order](#alphabetical-list).

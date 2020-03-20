@@ -10,15 +10,15 @@
  
 # WelcomeCard
 [Activity
-    Attachments = @{json(AdaptiveCard())}
+    Attachments = ${json(AdaptiveCard())}
 ]
 
 > This template is called by AdaptiveCard template to put together the list of buttons in the adaptive card based on the object passed in via the EvaluateTemplate call.
 # cardActionTemplate(title, url, type)
 - ```{
-    "type" : "@{if(type == null, 'Action.OpenUrl', type)}",
-    "title" : "@{title}",
-    "url" : "@{url}"
+    "type" : "${if(type == null, 'Action.OpenUrl', type)}",
+    "title" : "${title}",
+    "url" : "${url}"
 }```
 
 # AdaptiveCard
@@ -38,7 +38,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "@{HeaderText()}",
+      "text": "${HeaderText()}",
       "wrap": true,
       "maxLines": 0
     },
@@ -52,7 +52,7 @@
     }
   ],
   "actions": [
-    @{join(foreach(actions, item, cardActionTemplate(item.title, item.url, item.type)), ',')}
+    ${join(foreach(actions, item, cardActionTemplate(item.title, item.url, item.type)), ',')}
   ]
 }
 ```
