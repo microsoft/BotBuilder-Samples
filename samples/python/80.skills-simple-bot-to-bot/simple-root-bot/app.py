@@ -19,6 +19,7 @@ from botbuilder.core.integration import (
     aiohttp_error_middleware,
 )
 from botbuilder.core.skills import SkillHandler
+from botbuilder.integration.aiohttp.skills import SkillHttpClient
 from botbuilder.schema import Activity, ActivityTypes
 from botframework.connector.auth import (
     AuthenticationConfiguration,
@@ -26,7 +27,6 @@ from botframework.connector.auth import (
 )
 
 from bots.root_bot import ACTIVE_SKILL_PROPERTY_NAME
-from skill_http_client import SkillHttpClient
 from skill_conversation_id_factory import SkillConversationIdFactory
 from authentication import AllowedSkillsClaimsValidator
 from bots import RootBot
@@ -38,7 +38,7 @@ SKILL_CONFIG = SkillConfiguration()
 
 # Whitelist skills from SKILL_CONFIG
 AUTH_CONFIG = AuthenticationConfiguration(
-    claims_validator=AllowedSkillsClaimsValidator(CONFIG).validate_claims
+    claims_validator=AllowedSkillsClaimsValidator(CONFIG).claims_validator
 )
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.

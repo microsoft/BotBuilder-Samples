@@ -5,14 +5,14 @@ from botframework.connector.auth import JwtTokenValidation, SkillValidation
 from config import DefaultConfig
 
 
-class AllowedCallersClaimsValidator:
+class AllowedSkillsClaimsValidator:
 
     config_key = "ALLOWED_CALLERS"
 
     def __init__(self, config: DefaultConfig):
         if not config:
             raise TypeError(
-                "AllowedCallersClaimsValidator: config object cannot be None."
+                "AllowedSkillsClaimsValidator: config object cannot be None."
             )
 
         # ALLOWED_CALLERS is the setting in config.py file

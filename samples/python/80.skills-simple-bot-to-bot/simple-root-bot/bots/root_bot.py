@@ -11,7 +11,7 @@ from botbuilder.core import (
 )
 from botbuilder.core.skills import BotFrameworkSkill
 from botbuilder.schema import ActivityTypes, ChannelAccount
-from botbuilder.integration.aiohttp import BotFrameworkHttpClient
+from botbuilder.integration.aiohttp.skills import SkillHttpClient
 
 from config import DefaultConfig, SkillConfiguration
 
@@ -24,7 +24,7 @@ class RootBot(ActivityHandler):
         self,
         conversation_state: ConversationState,
         skills_config: SkillConfiguration,
-        skill_client: BotFrameworkHttpClient,
+        skill_client: SkillHttpClient,
         config: DefaultConfig,
     ):
         self._bot_id = config.APP_ID
@@ -39,12 +39,12 @@ class RootBot(ActivityHandler):
         # Forward all activities except EndOfConversation to the active skill.
         if turn_context.activity.type != ActivityTypes.end_of_conversation:
             # If there is an active skill
-            active_skill_id: str = await self._active_skill_property.get(turn_context)
+            active_skill: BotFrameworkSkill = await self._active_skill_property.get(turn_context)
 
-            if active_skill_id:
+            if active_skill:
                 # If there is an active skill, forward the Activity to it.
                 await self.__send_to_skill(
-                    turn_context, self._skills_config.SKILLS[active_skill_id]
+                    turn_context, active_skill
                 )
                 return
 
@@ -57,12 +57,13 @@ class RootBot(ActivityHandler):
                 MessageFactory.text("Got it, connecting you to the skill...")
             )
 
+            skill = self._skills_config.SKILLS[TARGET_SKILL_ID]
             # Save active skill in state
-            await self._active_skill_property.set(turn_context, TARGET_SKILL_ID)
+            await self._active_skill_property.set(turn_context, skill)
 
             # Send the activity to the skill
             await self.__send_to_skill(
-                turn_context, self._skills_config.SKILLS[TARGET_SKILL_ID]
+                turn_context, skill
             )
         else:
             # just respond
@@ -115,7 +116,7 @@ class RootBot(ActivityHandler):
         await self._conversation_state.save_changes(turn_context, force=True)
 
         # route the activity to the skill
-        await self._skill_client.post_activity(
+        await self._skill_client.post_activity_to_skill(
             self._bot_id,
             target_skill,
             self._skills_config.SKILL_HOST_ENDPOINT,

@@ -24,7 +24,7 @@ class AllowedSkillsClaimsValidator:
             raise TypeError(
                 f"\"{self.config_key}\" not found in configuration."
             )
-        self._allowed_callers = caller_list
+        self._allowed_callers = frozenset(caller_list)
 
     @property
     def claims_validator(self) -> Callable[[List[Dict]], Awaitable]:

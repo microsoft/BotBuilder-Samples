@@ -6,8 +6,6 @@ import os
 from typing import Dict
 from botbuilder.core.skills import BotFrameworkSkill
 
-""" Bot Configuration """
-
 
 class DefaultConfig:
     """ Bot Configuration """
@@ -27,6 +25,10 @@ class DefaultConfig:
             "skill_endpoint": "http://localhost:39783/api/messages",
         },
     ]
+
+    # Callers to only those specified, '*' allows any caller.
+    # Example: os.environ.get("AllowedCallers", ["54d3bb6a-3b6d-4ccd-bbfd-cad5c72fb53a"])
+    ALLOWED_CALLERS = os.environ.get("AllowedCallers", ["*"])
 
 
 class SkillConfiguration:

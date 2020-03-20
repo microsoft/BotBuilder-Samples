@@ -20,9 +20,9 @@ from config import DefaultConfig
 from authentication import AllowedCallersClaimsValidator
 
 CONFIG = DefaultConfig()
-CLAIMS_VALIDATOR = AllowedCallersClaimsValidator(frozenset(CONFIG.ALLOWED_CALLERS))
+CLAIMS_VALIDATOR = AllowedCallersClaimsValidator(CONFIG)
 AUTH_CONFIG = AuthenticationConfiguration(
-    claims_validator=CLAIMS_VALIDATOR.validate_claims
+    claims_validator=CLAIMS_VALIDATOR.claims_validator
 )
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
