@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActivityTypes, InputHints, MessageFactory } = require('botbuilder');
+const { ActivityTypes, InputHints } = require('botbuilder');
 const { ComponentDialog, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { BookingDialog } = require('./bookingDialog');
@@ -49,11 +49,10 @@ class ActivityRouterDialog extends ComponentDialog {
             default:
                 // We didn't get an activity type we can handle.
                 await stepContext.context.sendActivity(
-                    MessageFactory.text(
-                        `Unrecognized ActivityType: "${ stepContext.context.activity.type }".`,
-                        undefined,
-                        InputHints.IgnoringInput
-                    ));
+                    `Unrecognized ActivityType: "${ stepContext.context.activity.type }".`,
+                    undefined,
+                    InputHints.IgnoringInput
+                );
                 return { status: DialogTurnStatus.complete };
         }
     }
@@ -80,11 +79,10 @@ class ActivityRouterDialog extends ComponentDialog {
             default:
                 // We didn't get an event name we can handle.
                 await stepContext.context.sendActivity(
-                    MessageFactory.text(
-                        `Unrecognized EventName: "${ stepContext.context.activity.name }".`,
-                        undefined,
-                        InputHints.IgnoringInput
-                    ));
+                    `Unrecognized EventName: "${ stepContext.context.activity.name }".`,
+                    undefined,
+                    InputHints.IgnoringInput
+                );
                 return { status: DialogTurnStatus.complete };
         }
     }
@@ -103,11 +101,11 @@ class ActivityRouterDialog extends ComponentDialog {
         await stepContext.context.sendActivity(traceActivity);
 
         if (!this.luisRecognizer || !this.luisRecognizer.isConfigured) {
-            await stepContext.context.sendActivity(MessageFactory.text(
+            await stepContext.context.sendActivity(
                 'NOTE: LUIS is not configured. To enable all capabilities, please add \'LuisAppId\', \'LuisAPIKey\' and \'LuisAPIHostName\' to the appsettings.json file.',
                 undefined,
                 InputHints.IgnoringInput
-            ));
+            );
         } else {
             // Call LUIS with the utterance.
             const luisResult = await this.luisRecognizer.executeLuisQuery(stepContext.context);
@@ -118,19 +116,19 @@ class ActivityRouterDialog extends ComponentDialog {
             resultString += `LUIS results for "${ activity.text }":\n`;
             resultString += `Intent: "${ topIntent }", Score: ${ luisResult.intents[topIntent].score }\n`;
 
-            await stepContext.context.sendActivity(MessageFactory.text(resultString, undefined, InputHints.IgnoringInput));
+            await stepContext.context.sendActivity(resultString, undefined, InputHints.IgnoringInput);
 
             switch (topIntent.intent) {
                 case 'BookFlight':
                     return await this.beginBookFlight(stepContext);
                 case 'GetWeather':
                     return await this.beginGetWeather(stepContext);
-                default:
+                default: {
                     // Catch all for unhandled intents.
                     const didntUnderstandMessageText = `Sorry, I didn't get that. Please try asking in a different way (intent was ${ topIntent.intent })`;
-                    const didntUnderstandMessage = MessageFactory.text(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
-                    await stepContext.context.sendActivity(didntUnderstandMessage);
+                    await stepContext.context.sendActivity(didntUnderstandMessageText, didntUnderstandMessageText, InputHints.IgnoringInput);
                     break;
+                }
             }
         }
 
@@ -143,8 +141,7 @@ class ActivityRouterDialog extends ComponentDialog {
 
         // We haven't implemented the GetWeatherDialog so we just display a TODO message.
         const getWeatherMessageText = `TODO: get weather for here (lat: ${ location.latitude }, long: ${ location.longitude })`;
-        const getWeatherMessage = MessageFactory.text(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
-        await stepContext.context.sendActivity(getWeatherMessage);
+        await stepContext.context.sendActivity(getWeatherMessageText, getWeatherMessageText, InputHints.IgnoringInput);
         return { status: DialogTurnStatus.complete };
     }
 
