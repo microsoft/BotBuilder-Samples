@@ -15,13 +15,11 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
 {
     public class SkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
 
-        public SkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+        public SkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger)
             : base(configuration, credentialProvider, authConfig, logger: logger)
         {
-            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             OnTurnError = HandleTurnError;
         }
@@ -33,7 +31,6 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
 
             await SendErrorMessageAsync(turnContext, exception);
             await SendEoCToParentAsync(turnContext, exception);
-            await ClearConversationStateAsync(turnContext);
         }
 
         private async Task SendErrorMessageAsync(ITurnContext turnContext, Exception exception)
@@ -74,21 +71,6 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
             catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception caught in SendEoCToParentAsync : {ex}");
-            }
-        }
-
-        private async Task ClearConversationStateAsync(ITurnContext turnContext)
-        {
-            try
-            {
-                // Delete the conversationState for the current conversation to prevent the
-                // bot from getting stuck in a error-loop caused by being in a bad state.
-                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
-                await _conversationState.DeleteAsync(turnContext);
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
             }
         }
     }
