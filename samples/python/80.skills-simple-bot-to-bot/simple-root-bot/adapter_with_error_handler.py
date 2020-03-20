@@ -85,10 +85,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
     async def _end_skill_conversation(
         self, turn_context: TurnContext, error: Exception
     ):
-        if (
-            not self._skill_client
-            or not self._skill_config
-        ):
+        if not self._skill_client or not self._skill_config:
             return
 
         try:

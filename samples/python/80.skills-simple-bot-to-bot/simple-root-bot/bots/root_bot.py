@@ -39,13 +39,13 @@ class RootBot(ActivityHandler):
         # Forward all activities except EndOfConversation to the active skill.
         if turn_context.activity.type != ActivityTypes.end_of_conversation:
             # If there is an active skill
-            active_skill: BotFrameworkSkill = await self._active_skill_property.get(turn_context)
+            active_skill: BotFrameworkSkill = await self._active_skill_property.get(
+                turn_context
+            )
 
             if active_skill:
                 # If there is an active skill, forward the Activity to it.
-                await self.__send_to_skill(
-                    turn_context, active_skill
-                )
+                await self.__send_to_skill(turn_context, active_skill)
                 return
 
         await super().on_turn(turn_context)
@@ -62,9 +62,7 @@ class RootBot(ActivityHandler):
             await self._active_skill_property.set(turn_context, skill)
 
             # Send the activity to the skill
-            await self.__send_to_skill(
-                turn_context, skill
-            )
+            await self.__send_to_skill(turn_context, skill)
         else:
             # just respond
             await turn_context.send_activity(
