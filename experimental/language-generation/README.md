@@ -46,7 +46,7 @@ For NodeJS
      let lgTemplates = Templates.parseFile(filePath, importResolver?);
 ```
 
-When you need template expansion, use `Evaluate` and pass in the relevant template name
+When you need template expansion, use `Evaluate` and pass in the relevant template nam.
 
 For C#
 
@@ -160,8 +160,8 @@ Nightlies:
     |  # myTemplate <br/> - I have @{user.name} as your name |  # myTemplate <br/> - I have ${user.name} as your name |
     | # myTemplate <br/> - @{ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello | # myTemplate <br/> - ${ackPhrase()} <br/><br/> # ackPhrase <br/> - hi <br/>- hello |
     | # myTemplate <br/> - IF : @{user.name == null} <br/>&nbsp;&nbsp;&nbsp;&nbsp;- hello<br/>- ELSE : <br/>&nbsp;&nbsp;&nbsp;&nbsp;- null | # myTemplate <br/> - IF : ${user.name == null} <br/>&nbsp;&nbsp;&nbsp;&nbsp;- hello<br/>- ELSE : <br/>&nbsp;&nbsp;&nbsp;&nbsp;- null |
-- New sample ([C#]][s1-c#], [JS][s1-JS]) that demonstrates how to extend the set of prebuilt expression functions and using custom functions in LG.
-
+- New sample [C#][100], [JS][101] that demonstrates how to extend the set of prebuilt expression functions and using custom functions in LG.
+- You can now use back-quote for string interpolation. e.g. \`=json({'user': ${user.name}})`
 ### 4.7 PREVIEW
 - \[**BREAKING CHANGES**\]:
     - Old way to refer to a template via `[TemplateName]` notation is deprecated in favor of `${TemplateName()}` notation. There are no changes to how structured response templates are defined.
@@ -220,5 +220,5 @@ Nightlies:
 [25]:./csharp_dotnetcore/05.a.multi-turn-prompt-with-language-fallback/
 [26]:./javascript_nodejs/
 [50]:./docs/lg-file-format.md#importing-external-references
-[s1-c#]:./csharp_dotnetcore/20.extending-with-custom-functions/README.md
-[s1-JS]:./javascript_nodejs/20.custom-functions/README.md
+[100]:./csharp_dotnetcore/20.extending-with-custom-functions/README.md
+[101]:./javascript_nodejs/20.custom-functions/README.md
