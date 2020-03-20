@@ -99,7 +99,7 @@ namespace Microsoft.BotBuilderSamples
                             // shoe size must be between 0-16
                             "int(this.value) >= 0 && int(this.value) <= 16",
                             // can only have half size
-                            //"isMatch(this.value, '[0-9]+(\\.5)')"
+                            "isMatch(this.value, '[0-9]+(.5)')"
                         },
                         AllowInterruptions = false
                     },
