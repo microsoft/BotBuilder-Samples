@@ -4,11 +4,18 @@ Bot Framework v4 custom dialogs bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it starts with [19.custom-dialogs][s1] sample and shows how to get adaptive dialogs and custom/ waterfall dialogs work together.
 
-## Steps to add adaptive dialog to a V4 bot
+## Steps to add composer dialogs to a V4 bot
 1. Update all packages to 4.8.x from Nuget
-2. Add `Microsoft.Bot.Builder.Dialogs.Adaptive` package
-3. Add and configure **DialogManager** in `DialogBot.cs`. This internally takes care of saving state on each turn.
-4. Update adapter to use storage, conversation state and user state.
+2. Add the following packages
+    - `Microsoft.Bot.Builder.Dialogs.Declarative`
+    - `Microsoft.Bot.Builder.Dialogs.Adaptive`
+3. Update startup.cs and add resource explorer to find and load declarative assets.
+4. Add and configure **DialogManager** in `DialogBot.cs`. This internally takes care of saving state on each turn.
+5. Update adapter to use storage, conversation state and user state.
+6. Use BotFramework Composer to build a bot. 
+    - Navigate to the folder on your local machine where your composer bot is. 
+    - Locate and copy over contents of `composerBot` folder.
+7. Add the composer dialog to your RootDialog.
 
 ## Prerequisites
 
@@ -18,6 +25,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   # determine dotnet version
   dotnet --version
   ```
+
+  [Bot framework composer][composer]
 
 ## To try this sample
 
@@ -89,4 +98,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
+
 [s1]:../../../../samples/csharp_dotnetcore/19.custom-dialogs/README.md
+[composer]:https://github.com/microsoft/botframework-composer
