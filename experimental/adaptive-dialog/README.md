@@ -1,6 +1,6 @@
 # Adaptive Dialog *[Preview]*
 
-> See [here](#Change-Log) for what's new in **4.7 PREVIEW** release.
+> See [here](#Change-Log) for what's new in **4.8 RC0** release.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -65,6 +65,68 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
+### 4.8 RC
+- \[**BREAKING CHANGES**\]
+   - See [here][b1] for breaking changes related to language generation and adaptive expressions.
+   - Bounding character for expressions has been changed from **@**{expression} to **$**{expression}
+
+    |  Old  | New |
+    |-------|-----|
+    | new SendActivity("I have @{user.name}") | new SendActivity("I have ${user.name}") |
+    | new SendActivity("@{lgTemplateFoo()}") | new SendActivity("${lgTemplateFoo()}") |
+
+   - Properties that accept expressions now have updated usage pattern 
+
+   ```C#
+      // user.name set to string `vishwac`
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "Vishwac"
+      }
+
+      // user.name set to string `@userName`
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "@userName"
+      }
+
+      // user.name set to the outcome of evaluating the expression '@userName'. 
+      // If expression evaluates to 
+      //    - string, user.name is set to that string; 
+      //    - object, then user.name set to that object etc.
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "=@userName"
+      }
+
+      // user.name set to string interpolated value contained in @userName. 
+      // Note: If @userName evaluated to an object, user.name will have the **string** represenatation of the object
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "${@userName}"
+      }
+
+      // string interpolation
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "${name : @userName}"
+      }
+   ```
+   - CodeActions now expected to call endDialog when they are done.
+
+   | Old | New | 
+   |-----|-----|
+   | return new DialogTurnResult(DialogTurnStatus.Complete, options); | return await dc.EndDialogAsync(options) |
+
+- \[**NEW**\] 
+   - Adaptive actions: SetProperties, DeleteProperties, TBD
+   - Adaptive recognizers: TBD
+
 ### 4.7 PREVIEW
 - \[**New\] Language Generation integration has been refactored to work better with Adaptive dialogs.
 - \[**BREAKING CHANGES**\]
@@ -120,3 +182,4 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
 [32]:../language-generation/README.md#4.7-PREVIEW
 [33]:./docs/generating-dialogs.md
+[b1]:../language-generation/README.md#Change-Log

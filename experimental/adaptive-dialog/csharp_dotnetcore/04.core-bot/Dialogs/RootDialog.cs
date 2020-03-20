@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.LanguageGeneration;
@@ -18,13 +19,13 @@ namespace Microsoft.BotBuilderSamples
     public class RootDialog : ComponentDialog
     {
         protected readonly IConfiguration Configuration;
-        private TemplateEngine _lgEngine;
+        private Templates _lgTemplates;
 
         public RootDialog(IConfiguration configuration)
            : base(nameof(RootDialog))
         {
             Configuration = configuration;
-            _lgEngine = new TemplateEngine().AddFile(Path.Combine(".", "Dialogs", "RootDialog.lg"));
+            _lgTemplates = Templates.ParseFile(Path.Combine(".", "Dialogs", "RootDialog.lg"));
             
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
@@ -38,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
                 Recognizer = CreateRecognizer(configuration),
                 // Add rules to respond to different events of interest
                 //Rules = CreateRules()
-                Generator = new TemplateEngineLanguageGenerator(_lgEngine),
+                Generator = new TemplateEngineLanguageGenerator(_lgTemplates),
                 Triggers = new List<OnCondition>()
                 {
                     // Add a rule to welcome user
@@ -65,7 +66,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "#Help.Score >= 0.8",
                         Actions = new List<Dialog> ()
                         {
-                            new SendActivity("@{BotOverview()}")
+                            new SendActivity("${BotOverview()}")
                         }
                     },
                     new OnIntent()
@@ -73,13 +74,13 @@ namespace Microsoft.BotBuilderSamples
                         Intent = "Greeting",
                         Actions = new List<Dialog> ()
                         {
-                            new SendActivity("@{BotOverview()}")
+                            new SendActivity("${BotOverview()}")
                         }
                     },
                     new OnUnknownIntent() 
                     {
                         Actions = new List<Dialog>() {
-                            new SendActivity("@{UnknownIntent()}")
+                            new SendActivity("${UnknownIntent()}")
                         }
                     },
                     new OnIntent("Book_flight")
@@ -87,23 +88,35 @@ namespace Microsoft.BotBuilderSamples
                         Actions = new List<Dialog>()
                         {
                             // Save any entities returned by LUIS.
-                            // We will only save any geography city entities that explicitly have been classified as either fromCity or toCity.
-                            new SetProperty()
+                            new SetProperties()
                             {
-                                Property = "conversation.flightBooking.departureCity",
-                                // Value is an expresson. @entityName is short hand to refer to the value of an entity recognized.
-                                // @xxx is same as turn.recognized.entities.xxx
-                                Value = "@fromCity.location"
-                            },
-                            new SetProperty()
-                            {
-                                Property = "conversation.flightBooking.destinationCity",
-                                Value = "@toCity.location"
-                            },
-                            new SetProperty()
-                            {
-                                Property = "conversation.flightBooking.departureDate",
-                                Value = "@datetime.timex[0]"
+                                Assignments = new List<PropertyAssignment>()
+                                {
+                                    new PropertyAssignment()
+                                    {
+                                        Property = "conversation.flightBooking",
+                                        Value = "={}"
+                                    },
+
+                                    // We will only save any geography city entities that explicitly have been classified as either fromCity or toCity.
+                                    new PropertyAssignment()
+                                    {
+                                        Property = "conversation.flightBooking.departureCity",
+                                        // Value is an expresson. @entityName is shorthand to refer to the value of an entity recognized.
+                                        // @xxx is same as turn.recognized.entities.xxx
+                                        Value = "=@fromCity.location"
+                                    },
+                                    new PropertyAssignment()
+                                    {
+                                        Property = "conversation.flightBooking.destinationCity",
+                                        Value = "=@toCity.location"
+                                    },
+                                    new PropertyAssignment()
+                                    {
+                                        Property = "conversation.flightBooking.departureDate",
+                                        Value = "=@datetime.timex[0]"
+                                    }
+                                }
                             },
                             // Steps to book flight
                             // Help and Cancel intents are always available since TextInput will always initiate
@@ -114,34 +127,40 @@ namespace Microsoft.BotBuilderSamples
                                 // Prompt property supports full language generation resolution.
                                 // See here to learn more about language generation
                                 // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                Prompt = new ActivityTemplate("${PromptForMissingInformation()}"),
                                 // We will allow interruptions as long as the user did not explicitly answer the question
                                 // This property supports an expression so you can examine presence of an intent via #intentName, 
                                 //    detect presence of an entity via @entityName etc. Interruption is allowed if the expression
                                 //    evaluates to `true`. This property defaults to `true`.
                                 AllowInterruptions = "!@fromCity || !@geographyV2",
-                                // Value is an expression. Take any recognized city name as fromCity
-                                Value = "@geographyV2.location"
+                                // Value is an expression. Take first non null value. 
+                                Value = "=coalesce(@fromCity.location, @geographyV2.location)"
+                            },
+                            // delete entity so it is not overconsumed as destination as well
+                            new DeleteProperty()
+                            {
+                                Property = "turn.recognized.entities.geographyV2"
                             },
                             new TextInput()
                             {
                                 Property = "conversation.flightBooking.destinationCity",
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                Prompt = new ActivityTemplate("${PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@toCity || !@geographyV2",
                                 // Value is an expression. Take any recognized city name as fromCity
-                                Value = "@geographyV2.location"                            },
+                                Value = "=coalesce(@toCity.location, @geographyV2.location)"
+                            },
                             new DateTimeInput()
                             {
                                 Property = "conversation.flightBooking.departureDate",
-                                Prompt = new ActivityTemplate("@{PromptForMissingInformation()}"),
+                                Prompt = new ActivityTemplate("${PromptForMissingInformation()}"),
                                 AllowInterruptions = "!@datetime",
                                 // Value is an expression. Take any date time entity recognition as deparature date.
-                                Value = "@datetime.timex[0]"
+                                Value = "=@datetime.timex[0]"
                             },
                             new ConfirmInput()
                             {
                                 Property = "turn.bookingConfirmation",
-                                Prompt = new ActivityTemplate("@{ConfirmBooking()}"),
+                                Prompt = new ActivityTemplate("${ConfirmBooking()}"),
                                 // You can use this flag to control when a specific input participates in consultation bubbling and can be interrupted.
                                 // 'false' means intteruption is not allowed when this input is active.
                                 AllowInterruptions = "false"
@@ -154,7 +173,7 @@ namespace Microsoft.BotBuilderSamples
                                 Actions = new List<Dialog>()
                                 {
                                     // TODO: book flight.
-                                    new SendActivity("@{BookingConfirmation()}")
+                                    new SendActivity("${BookingConfirmation()}")
                                 },
                                 ElseActions = new List<Dialog>()
                                 {
@@ -190,7 +209,7 @@ namespace Microsoft.BotBuilderSamples
                             Condition = "$foreach.value.name != turn.activity.recipient.name",
                             Actions = new List<Dialog>()
                             {
-                                new SendActivity("@{WelcomeCard()}")
+                                new SendActivity("${WelcomeCard()}")
                             }
                         }
                     }
@@ -198,21 +217,19 @@ namespace Microsoft.BotBuilderSamples
             };
         }
 
-        private static IRecognizer CreateRecognizer(IConfiguration configuration)
+        private static Recognizer CreateRecognizer(IConfiguration configuration)
         {
             if (string.IsNullOrEmpty(configuration["LuisAppId"]) || string.IsNullOrEmpty(configuration["LuisAPIKey"]) || string.IsNullOrEmpty(configuration["LuisAPIHostName"]))
             {
                 throw new Exception("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.");
             }
-            // Create the LUIS settings from configuration.
-            var luisApplication = new LuisApplication(
-                configuration["LuisAppId"],
-                configuration["LuisAPIKey"],
-                "https://" + configuration["LuisAPIHostName"]
-            );
 
-            var luisRecognizerOptions = new LuisRecognizerOptionsV2(luisApplication);
-            return new LuisRecognizer(luisRecognizerOptions);
+            return new LuisAdaptiveRecognizer()
+            {
+                ApplicationId = configuration["LuisAppId"],
+                EndpointKey = configuration["LuisAPIKey"],
+                Endpoint = configuration["LuisAPIHostName"]
+            };
         }
     }
 }
