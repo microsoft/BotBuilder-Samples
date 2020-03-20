@@ -1,6 +1,7 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+import jsonpickle
 from datatypes_date_time.timex import Timex
 
 from botbuilder.dialogs import WaterfallDialog, WaterfallStepContext, DialogTurnResult
@@ -128,7 +129,7 @@ class BookingDialog(CancelAndHelpDialog):
         if step_context.result:
             booking_details = step_context.options
 
-            return await step_context.end_dialog(booking_details)
+            return await step_context.end_dialog(jsonpickle.encode(booking_details))
         return await step_context.end_dialog()
 
     def is_ambiguous(self, timex: str) -> bool:

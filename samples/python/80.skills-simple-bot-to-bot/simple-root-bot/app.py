@@ -1,18 +1,12 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
-import sys
-import traceback
-from datetime import datetime
-
 from aiohttp import web
 from aiohttp.web import Request, Response
 from botbuilder.core import (
     BotFrameworkAdapterSettings,
     ConversationState,
     MemoryStorage,
-    TurnContext,
-    BotFrameworkAdapter,
 )
 from botbuilder.core.integration import (
     aiohttp_channel_service_routes,
@@ -20,13 +14,12 @@ from botbuilder.core.integration import (
 )
 from botbuilder.core.skills import SkillHandler
 from botbuilder.integration.aiohttp.skills import SkillHttpClient
-from botbuilder.schema import Activity, ActivityTypes
+from botbuilder.schema import Activity
 from botframework.connector.auth import (
     AuthenticationConfiguration,
     SimpleCredentialProvider,
 )
 
-from bots.root_bot import ACTIVE_SKILL_PROPERTY_NAME
 from skill_conversation_id_factory import SkillConversationIdFactory
 from authentication import AllowedSkillsClaimsValidator
 from bots import RootBot

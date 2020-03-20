@@ -195,7 +195,7 @@ class MainDialog(ComponentDialog):
 
         if step_context.result:
             message = f"Skill {active_skill.id} invocation complete."
-            message += f" Result: {encode(step_context.result)}"
+            message += f" Result: {step_context.result}"
             await step_context.context.send_activity(
                 MessageFactory.text(message, input_hint=InputHints.ignoring_input)
             )

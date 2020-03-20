@@ -56,7 +56,9 @@ async def messages(req: Request) -> Response:
     response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
     if response:
         return json_response(data=response.body, status=response.status)
-    return Response(status=201)
+    # TODO: The body argument on the response below is a temporal workaround
+    # for more information go to https://github.com/microsoft/botbuilder-python/issues/878
+    return Response(status=201, body='{"foo":"bar"}'.encode("utf-8"))
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
