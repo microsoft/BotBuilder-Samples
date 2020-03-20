@@ -65,9 +65,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             )
             traceback.print_exc()
 
-    async def _send_eoc_to_parent(
-        self, turn_context: TurnContext, error: Exception
-    ):
+    async def _send_eoc_to_parent(self, turn_context: TurnContext, error: Exception):
         try:
             # Send an EndOfConversation activity to the skill caller with the error to end the conversation,
             # and let the caller decide what to do.

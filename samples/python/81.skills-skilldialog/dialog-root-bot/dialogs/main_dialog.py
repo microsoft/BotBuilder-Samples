@@ -1,9 +1,8 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
-import json
+
 from typing import List
 
-from jsonpickle import encode
 from botbuilder.dialogs import (
     ComponentDialog,
     DialogContext,
@@ -24,7 +23,7 @@ from botbuilder.dialogs.skills import (
 )
 from botbuilder.core import ConversationState, MessageFactory, TurnContext
 from botbuilder.core.skills import BotFrameworkSkill, ConversationIdFactoryBase
-from botbuilder.schema import Activity, ActivityTypes, InputHints, DeliveryModes
+from botbuilder.schema import Activity, ActivityTypes, InputHints
 from botbuilder.integration.aiohttp.skills import SkillHttpClient
 
 from config import SkillConfiguration, DefaultConfig

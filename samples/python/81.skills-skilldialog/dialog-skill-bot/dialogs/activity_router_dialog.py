@@ -18,15 +18,12 @@ from .booking_details import BookingDetails
 from .location import Location
 
 
-
 class ActivityRouterDialog(ComponentDialog):
     """
     A root dialog that can route activities sent to the skill to different sub-dialogs.
     """
 
-    def __init__(
-        self, luis_recognizer: DialogSkillBotRecognizer
-    ):
+    def __init__(self, luis_recognizer: DialogSkillBotRecognizer):
         super().__init__(ActivityRouterDialog.__name__)
 
         self._luis_recognizer = luis_recognizer
@@ -123,7 +120,7 @@ class ActivityRouterDialog(ComponentDialog):
 
             if top_intent == "GetWeather":
                 return await self._begin_get_weather(step_context)
-            
+
             didnt_understand_message_text = f"Sorry, I didn't get that. Please try asking in a different way (intent was {top_intent})"
             await step_context.context.send_activity(
                 MessageFactory.text(
@@ -147,9 +144,7 @@ class ActivityRouterDialog(ComponentDialog):
         get_weather_message = f"TODO: get weather for here (lat: {location.latitude}, long: {location.longitude}"
         await step_context.context.send_activity(
             MessageFactory.text(
-                get_weather_message,
-                get_weather_message,
-                InputHints.ignoring_input,
+                get_weather_message, get_weather_message, InputHints.ignoring_input,
             )
         )
 

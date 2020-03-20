@@ -87,10 +87,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
     async def _end_skill_conversation(
         self, turn_context: TurnContext, error: Exception
     ):
-        if (
-            not self._skill_client
-            or not self._skill_config
-        ):
+        if not self._skill_client or not self._skill_config:
             return
 
         try:
@@ -98,8 +95,8 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             # Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
             # has an active conversation with a skill.
             active_skill = await self._conversation_state.create_property(
-                               MainDialog.ACTIVE_SKILL_PROPERTY_NAME
-                           ).get(turn_context)
+                MainDialog.ACTIVE_SKILL_PROPERTY_NAME
+            ).get(turn_context)
 
             if active_skill:
                 bot_id = self._config.APP_ID

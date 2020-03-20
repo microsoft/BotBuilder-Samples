@@ -21,16 +21,16 @@ class AllowedSkillsClaimsValidator:
         # the parent bot's microsoft app id to the list
         caller_list = getattr(config, self.config_key)
         if caller_list is None:
-            raise TypeError(
-                f"\"{self.config_key}\" not found in configuration."
-            )
+            raise TypeError(f'"{self.config_key}" not found in configuration.')
         self._allowed_callers = frozenset(caller_list)
 
     @property
     def claims_validator(self) -> Callable[[List[Dict]], Awaitable]:
         async def allow_callers_claims_validator(claims: Dict[str, object]):
             # if allowed_callers is None we allow all calls
-            if "*" not in self._allowed_callers and SkillValidation.is_skill_claim(claims):
+            if "*" not in self._allowed_callers and SkillValidation.is_skill_claim(
+                claims
+            ):
                 # Check that the appId claim in the skill request is in the list of skills configured for this bot.
                 app_id = JwtTokenValidation.get_app_id_from_claims(claims)
                 if app_id not in self._allowed_callers:
