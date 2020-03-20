@@ -19,13 +19,13 @@ namespace Microsoft.BotBuilderSamples
     public class RootDialog : ComponentDialog
     {
         protected readonly IConfiguration Configuration;
-        private Templates _lgTemplates;
+        private Templates _templates;
 
         public RootDialog(IConfiguration configuration)
            : base(nameof(RootDialog))
         {
             Configuration = configuration;
-            _lgTemplates = Templates.ParseFile(Path.Combine(".", "Dialogs", "RootDialog.lg"));
+            _templates = Templates.ParseFile(Path.Combine(".", "Dialogs", "RootDialog.lg"));
             
             // Create instance of adaptive dialog. 
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
@@ -39,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
                 Recognizer = CreateRecognizer(configuration),
                 // Add rules to respond to different events of interest
                 //Rules = CreateRules()
-                Generator = new TemplateEngineLanguageGenerator(_lgTemplates),
+                Generator = new TemplateEngineLanguageGenerator(_templates),
                 Triggers = new List<OnCondition>()
                 {
                     // Add a rule to welcome user

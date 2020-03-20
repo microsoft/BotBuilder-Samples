@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private Templates _lgTemplates;
+        private Templates _templates;
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
             UserState userState, ConversationState conversationState, IConfiguration configuration)
             : base(credentialProvider)
@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
 
             string[] paths = { ".", "AdapterWithErrorHandler.lg" };
             string fullPath = Path.Combine(paths);
-            _lgTemplates = Templates.ParseFile(fullPath);
+            _templates = Templates.ParseFile(fullPath);
 
             OnTurnError = async (turnContext, exception) =>
             {
@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
                 logger.LogError($"Exception caught : {exception.Message}");
 
                 // Send a catch-all apology to the user.
-                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("SomethingWentWrong", exception)));
+                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("SomethingWentWrong", exception)));
 
                 if (conversationState != null)
                 {
