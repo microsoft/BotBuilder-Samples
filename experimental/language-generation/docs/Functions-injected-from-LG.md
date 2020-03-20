@@ -36,7 +36,7 @@ Suppose we have a template:
 ```
 # externalHeroCardActivity(type, title, value)
 [Activity
-    attachments = @{ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')}
+    attachments = ${ActivityAttachment(json(fromFile('.\\herocard.json')), 'herocard')}
 ]
 ```
 
@@ -55,10 +55,10 @@ The content in herocard.json:
     }
   ],
   "tap": {
-    "type": "@{type}",
-    "title": "@{title}",
-    "text": "@{title}",
-    "value": "@{value}"
+    "type": "${type}",
+    "title": "${title}",
+    "text": "${title}",
+    "value": "${value}"
   }
 }
 ```
@@ -124,11 +124,11 @@ Suppose we have template:
 ```    
     # welcome(userName)
 
-    - Hi @{userName}
+    - Hi ${userName}
 
-    - Hello @{userName}
+    - Hello ${userName}
 
-    - Hey @{userName}
+    - Hey ${userName}
 ```
 
 ```
@@ -174,7 +174,7 @@ Suppose we have a file whose filepath is:
 The content of the file is 
 
 
-`you have @{add(1,2)} alarms`
+`you have ${add(1,2)} alarms`
 
 ```
 fromFile('/home/user/test.txt')

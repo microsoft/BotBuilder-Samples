@@ -2,7 +2,7 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
 
 # SomethingWentWrong
-- @{ErrorPrefix()}, @{ErrorSuffix()}\nError:@{message}
+- ${ErrorPrefix()}, ${ErrorSuffix()}\nError:${message}
 
 # ErrorSuffix
 - it looks like something went wrong.

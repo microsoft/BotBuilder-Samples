@@ -17,10 +17,10 @@ namespace Microsoft.BotBuilderSamples
         public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
             : base(credentialProvider)
         {
-            Dictionary<string, List<string>> lgFilesPerLocale = new Dictionary<string, List<string>>() 
+            Dictionary<string, string> lgFilesPerLocale = new Dictionary<string, string>() 
             {
-                {"", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")}},
-                {"fr", new List<string>() {Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}}
+                {"", Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")},
+                {"fr", Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}
             };
             _lgManager = new MultiLingualTemplateEngine(lgFilesPerLocale);
             OnTurnError = async (turnContext, exception) =>

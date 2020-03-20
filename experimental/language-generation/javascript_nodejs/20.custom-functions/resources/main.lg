@@ -1,0 +1,8 @@
+﻿# sqrtReadBack
+- You said '${text}'. ${sqrtTemplate()}.
+
+# sqrtTemplate
+- IF : ${contoso.sqrt(text) != null}
+    - It's square root is ${coalesce(contoso.sqrt(text), 'NaN')}
+- ELSE : 
+    - Sqrt not possible.

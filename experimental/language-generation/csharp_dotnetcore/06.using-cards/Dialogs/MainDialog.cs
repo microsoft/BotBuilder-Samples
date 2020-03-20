@@ -9,16 +9,16 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Builder;
 using System.IO;
 using Newtonsoft.Json.Linq;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class MainDialog : ComponentDialog
     {
         protected readonly ILogger _logger;
-        private TemplateEngine _lgEngine;
+        private Templates _templates;
         
         public MainDialog(ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
@@ -28,12 +28,9 @@ namespace Microsoft.BotBuilderSamples
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "MainDialog.lg" };
             string mainDialogLGFile = Path.Combine(paths);
-            paths = new string[] { ".", "Resources", "Cards.lg" };
-            string cardsLGFile = Path.Combine(paths);
-            string[] lgFiles = { mainDialogLGFile, cardsLGFile };
 
-            // For simple LG resolution, we will call the TemplateEngine directly. 
-            _lgEngine = new TemplateEngine().AddFiles(lgFiles);
+            // For simple LG resolution, we will call the Templates directly. 
+            _templates = Templates.ParseFile(mainDialogLGFile);
 
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -53,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
             // Create options for the prompt
             var options = new PromptOptions()
             {
-                Prompt = ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("CardChoice").ToString()),
+                Prompt = ActivityFactory.FromObject(_templates.Evaluate("CardChoice")),
                 Choices = new List<Choice>(),
             };
 
@@ -89,32 +86,32 @@ namespace Microsoft.BotBuilderSamples
             if (text.StartsWith("hero"))
             {
                 // Display a HeroCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("HeroCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("HeroCard")));
             }
             else if (text.StartsWith("thumb"))
             {
                 // Display a ThumbnailCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ThumbnailCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("ThumbnailCard")));
             }
             else if (text.StartsWith("sign"))
             {
                 // Display a SignInCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("SigninCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("SigninCard")));
             }
             else if (text.StartsWith("animation"))
             {
                 // Display an AnimationCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AnimationCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AnimationCard")));
             }
             else if (text.StartsWith("video"))
             {
                 // Display a VideoCard
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("VideoCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("VideoCard")));
             }
             else if (text.StartsWith("audio"))
             {
                 // Display an AudioCard
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AudioCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AudioCard")));
             }
             else if (text.StartsWith("receipt"))
             {
@@ -134,20 +131,20 @@ namespace Microsoft.BotBuilderSamples
                             image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png")),
                     })
                 };
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("ReceiptCard", data).ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("ReceiptCard", data)));
             }
             else if (text.StartsWith("adaptive"))
             {
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AdaptiveCard").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AdaptiveCard")));
             }
             else
             {
                 // Display a carousel of all the rich card types.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("AllCards").ToString()));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AllCards")));
             }
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(ActivityFactory.CreateActivity(_lgEngine.EvaluateTemplate("CardStartOverResponse").ToString()), cancellationToken);
+            await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("CardStartOverResponse")), cancellationToken);
 
             return await stepContext.EndDialogAsync();
         }
