@@ -1,6 +1,6 @@
 # Language Generation ***_[PREVIEW]_***
 
-> See [here](#Change-Log) for what's new in **4.8.0 PREVIEW** release.
+> See [here](#Change-Log) for what's new in **4.8.0 RC1** release.
 
 Language Generation (LG) was created to let developers extract embedded strings from their code and resource files and manage them through a LG runtime and file format. Developers can now create a more natural conversation experience by defining multiple variations on a phrase, executing simple expressions based on context, and referring to conversational memory.
 
@@ -37,7 +37,7 @@ Parse and load templates in your .lg file
 For C#
 
 ```c#
-    Templates _lgTemplates = Templates.ParseFile(filePath, importResolver?);
+    Templates lgTemplates = Templates.ParseFile(filePath, importResolver?);
 ```
 
 For NodeJS
@@ -51,13 +51,13 @@ When you need template expansion, use `Evaluate` and pass in the relevant templa
 For C#
 
 ```c#
-    var lgOutput = _lgTemplates.Evaluate("<TemplateName>", evalData);
+    var lgOutput = lgTemplates.Evaluate("<TemplateName>", evalData);
 ```
 
 For NodeJS
 
 ```typescript
-    let lgOutput = _lgTemplates.evaluate("<TemplateName>", evalData)
+    let lgOutput = lgTemplates.evaluate("<TemplateName>", evalData)
 ```
 
 If your template needs specific properties to be passed for resolution/ expansion, you can pass them in on the call to `Evaluate`
@@ -65,13 +65,13 @@ If your template needs specific properties to be passed for resolution/ expansio
 For C#
 
 ```c#
-    var lgOutput = _lgTemplates.Evaluate("WordGameReply", new { GameName = "MarcoPolo" } );
+    var lgOutput = lgTemplates.Evaluate("WordGameReply", new { GameName = "MarcoPolo" } );
 ```
 
 For NodeJS
 
 ```typescript
-    let lgOutput = _lgTemplates.evaluate("WordGameReply", { GameName = "MarcoPolo" } )
+    let lgOutput = lgTemplates.evaluate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
 ## Multi-lingual generation and language fallback policy
@@ -88,13 +88,13 @@ To get all possible expansions of a template, you can use `ExpandTemplate`.
 For C#
 
 ```c#
-    var results = _lgTemplates.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    var results = lgTemplates.ExpandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
 For NodeJS
 
 ```typescript
-    const results = _lgTemplates.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
+    const results = lgTemplates.expandTemplate("WordGameReply", { GameName = "MarcoPolo" } )
 ```
 
 As an example, given this LG content,
@@ -149,9 +149,9 @@ Nightlies:
         - `CreateActivity` renamed to `FromObject`
     - `TemplateEngine` 
         - has been renamed to `Templates`
-        - `EvaluateTemplate` renamed to `Evaluate`
-        - `Evaluate` renamed to `EvaluateText`
-        - `AddFile` has been replaced by `ParseFile`
+        - `TemplateEngine.EvaluateTemplate` renamed to `Templates.Evaluate`
+        - `TemplateEngine.Evaluate` renamed to `Templates.EvaluateText`
+        - `TemplateEngine().AddFile` has been replaced by `Templates.ParseFile`
         - `AddFiles` has been deprecated. You no longer can load multiple .lg files. Instead, you should use [import][50] support in your .lg files.
     - Bounding character for expressions has been changed from **@**{expression} to **$**{expression}
 

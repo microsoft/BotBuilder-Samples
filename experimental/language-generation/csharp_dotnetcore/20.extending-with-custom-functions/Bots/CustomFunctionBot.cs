@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class CustomFunctionBot : ActivityHandler
     {
-        protected Templates _lgTemplates;
+        protected Templates _templates;
 
         public CustomFunctionBot()
         {
@@ -50,12 +50,12 @@ namespace Microsoft.BotBuilderSamples.Bots
             Expression.Functions.Add(mySqrtFnName, sqrtDelegate);
 
             // by default this uses Expression.Functions which would include the custom function added above.
-            _lgTemplates = Templates.ParseFile(lgFilePath);
+            _templates = Templates.ParseFile(lgFilePath);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var replyText = _lgTemplates.Evaluate("sqrtReadBack", turnContext.Activity);
+            var replyText = _templates.Evaluate("sqrtReadBack", turnContext.Activity);
             await turnContext.SendActivityAsync(ActivityFactory.FromObject(replyText), cancellationToken);
         }
 

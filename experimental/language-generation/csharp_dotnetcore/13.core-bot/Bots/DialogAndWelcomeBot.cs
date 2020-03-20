@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class DialogAndWelcomeBot<T> : DialogBot<T> where T : Dialog
     {
-        private Templates _lgTemplates;
+        private Templates _templates;
 
         public DialogAndWelcomeBot(ConversationState conversationState, UserState userState, T dialog, ILogger<DialogBot<T>> logger)
             : base(conversationState, userState, dialog, logger)
@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "welcomeCard.lg" };
             string fullPath = Path.Combine(paths);
-            _lgTemplates = Templates.ParseFile(fullPath);
+            _templates = Templates.ParseFile(fullPath);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -52,7 +52,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("WelcomeCard", actions)));
+                    await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("WelcomeCard", actions)));
                 }
             }
         }       

@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class DateResolverDialog : CancelAndHelpDialog
     {
-        private Templates _lgTemplates;
+        private Templates _templates;
 
         public DateResolverDialog(string id = null)
             : base(id ?? nameof(DateResolverDialog))
@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "BookingDialog.lg" };
             string fullPath = Path.Combine(paths);
-            _lgTemplates = Templates.ParseFile(fullPath);
+            _templates = Templates.ParseFile(fullPath);
 
             AddDialog(new DateTimePrompt(nameof(DateTimePrompt), DateTimePromptValidator));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -40,8 +40,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             var bookingDetails = (BookingDetails)stepContext.Options;
             var timex = bookingDetails.TravelDate;
 
-            var promptMsg = _lgTemplates.Evaluate("PromptForTravelDate");
-            var repromptMsg = _lgTemplates.Evaluate("InvalidDateReprompt");
+            var promptMsg = _templates.Evaluate("PromptForTravelDate");
+            var repromptMsg = _templates.Evaluate("InvalidDateReprompt");
 
             if (timex == null)
             {

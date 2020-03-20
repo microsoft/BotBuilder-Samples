@@ -12,7 +12,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class BookingDialog : CancelAndHelpDialog
     {
-        private Templates _lgTemplates;
+        private Templates _templates;
         
         public BookingDialog()
             : base(nameof(BookingDialog))
@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "BookingDialog.lg" };
             string fullPath = Path.Combine(paths);
-            _lgTemplates = Templates.ParseFile(fullPath);
+            _templates = Templates.ParseFile(fullPath);
 
             AddDialog(new TextPrompt(nameof(TextPrompt)));
             AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Destination == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_lgTemplates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_templates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
             }
             else
             {
@@ -60,7 +60,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             if (bookingDetails.Origin == null)
             {
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_lgTemplates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_templates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
             }
             else
             {
@@ -89,7 +89,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
             bookingDetails.TravelDate = (string)stepContext.Result;
 
-            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_lgTemplates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = ActivityFactory.FromObject(_templates.Evaluate("PromptForMissingInformation", bookingDetails)) }, cancellationToken);
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)

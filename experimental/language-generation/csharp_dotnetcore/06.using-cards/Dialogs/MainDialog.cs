@@ -18,7 +18,7 @@ namespace Microsoft.BotBuilderSamples
     public class MainDialog : ComponentDialog
     {
         protected readonly ILogger _logger;
-        private Templates _lgTemplates;
+        private Templates _templates;
         
         public MainDialog(ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
             string mainDialogLGFile = Path.Combine(paths);
 
             // For simple LG resolution, we will call the Templates directly. 
-            _lgTemplates = Templates.ParseFile(mainDialogLGFile);
+            _templates = Templates.ParseFile(mainDialogLGFile);
 
             AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[]
@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
             // Create options for the prompt
             var options = new PromptOptions()
             {
-                Prompt = ActivityFactory.FromObject(_lgTemplates.Evaluate("CardChoice")),
+                Prompt = ActivityFactory.FromObject(_templates.Evaluate("CardChoice")),
                 Choices = new List<Choice>(),
             };
 
@@ -86,32 +86,32 @@ namespace Microsoft.BotBuilderSamples
             if (text.StartsWith("hero"))
             {
                 // Display a HeroCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("HeroCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("HeroCard")));
             }
             else if (text.StartsWith("thumb"))
             {
                 // Display a ThumbnailCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("ThumbnailCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("ThumbnailCard")));
             }
             else if (text.StartsWith("sign"))
             {
                 // Display a SignInCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("SigninCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("SigninCard")));
             }
             else if (text.StartsWith("animation"))
             {
                 // Display an AnimationCard.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("AnimationCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AnimationCard")));
             }
             else if (text.StartsWith("video"))
             {
                 // Display a VideoCard
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("VideoCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("VideoCard")));
             }
             else if (text.StartsWith("audio"))
             {
                 // Display an AudioCard
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("AudioCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AudioCard")));
             }
             else if (text.StartsWith("receipt"))
             {
@@ -131,20 +131,20 @@ namespace Microsoft.BotBuilderSamples
                             image: new CardImage(url: "https://github.com/amido/azure-vector-icons/raw/master/renders/cloud-service.png")),
                     })
                 };
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("ReceiptCard", data)));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("ReceiptCard", data)));
             }
             else if (text.StartsWith("adaptive"))
             {
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("AdaptiveCard")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AdaptiveCard")));
             }
             else
             {
                 // Display a carousel of all the rich card types.
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("AllCards")));
+                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("AllCards")));
             }
 
             // Give the user instructions about what to do next
-            await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgTemplates.Evaluate("CardStartOverResponse")), cancellationToken);
+            await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("CardStartOverResponse")), cancellationToken);
 
             return await stepContext.EndDialogAsync();
         }
