@@ -37,10 +37,8 @@ CONFIG = DefaultConfig()
 SKILL_CONFIG = SkillConfiguration()
 
 # Whitelist skills from SKILL_CONFIG
-ALLOWED_CALLER_IDS = {s.app_id for s in [*SKILL_CONFIG.SKILLS.values()]}
-CLAIMS_VALIDATOR = AllowedSkillsClaimsValidator(ALLOWED_CALLER_IDS)
 AUTH_CONFIG = AuthenticationConfiguration(
-    claims_validator=CLAIMS_VALIDATOR.validate_claims
+    claims_validator=AllowedSkillsClaimsValidator(CONFIG).validate_claims
 )
 # Create adapter.
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.

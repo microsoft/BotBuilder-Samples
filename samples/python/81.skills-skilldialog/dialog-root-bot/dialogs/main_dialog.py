@@ -28,8 +28,6 @@ from botbuilder.schema import Activity, ActivityTypes, InputHints, DeliveryModes
 from botbuilder.integration.aiohttp.skills import SkillHttpClient
 
 from config import SkillConfiguration, DefaultConfig
-from .booking_details import BookingDetails
-from .tangent_dialog import TangentDialog
 
 
 class MainDialog(ComponentDialog):
