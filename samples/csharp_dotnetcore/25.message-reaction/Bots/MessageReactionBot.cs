@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class MessageReactionBot : ActivityHandler
     {
-        private ActivityLog _log;
+        private readonly ActivityLog _log;
 
         public MessageReactionBot(ActivityLog log)
         {

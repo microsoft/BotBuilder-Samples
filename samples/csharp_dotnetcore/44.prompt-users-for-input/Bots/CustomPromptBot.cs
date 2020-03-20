@@ -31,60 +31,60 @@ namespace Microsoft.BotBuilderSamples
         {
            
             var conversationStateAccessors = _conversationState.CreateProperty<ConversationFlow>(nameof(ConversationFlow));
-            var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow());
+            var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow(), cancellationToken);
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
-            var profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile());
+            var profile = await userStateAccessors.GetAsync(turnContext, () => new UserProfile(), cancellationToken);
 
-            await FillOutUserProfileAsync(flow, profile, turnContext);
+            await FillOutUserProfileAsync(flow, profile, turnContext, cancellationToken);
 
             // Save changes.
-            await _conversationState.SaveChangesAsync(turnContext);
-            await _userState.SaveChangesAsync(turnContext);
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        private static async Task FillOutUserProfileAsync(ConversationFlow flow, UserProfile profile, ITurnContext turnContext)
+        private static async Task FillOutUserProfileAsync(ConversationFlow flow, UserProfile profile, ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            string input = turnContext.Activity.Text?.Trim();
+            var input = turnContext.Activity.Text?.Trim();
             string message;
 
             switch (flow.LastQuestionAsked)
             {
                 case ConversationFlow.Question.None:
-                    await turnContext.SendActivityAsync("Let's get started. What is your name?");
+                    await turnContext.SendActivityAsync("Let's get started. What is your name?", null, null, cancellationToken);
                     flow.LastQuestionAsked = ConversationFlow.Question.Name;
                     break;
                 case ConversationFlow.Question.Name:
-                    if (ValidateName(input, out string name, out message))
+                    if (ValidateName(input, out var name, out message))
                     {
                         profile.Name = name;
-                        await turnContext.SendActivityAsync($"Hi {profile.Name}.");
-                        await turnContext.SendActivityAsync("How old are you?");
+                        await turnContext.SendActivityAsync($"Hi {profile.Name}.", null, null, cancellationToken);
+                        await turnContext.SendActivityAsync("How old are you?", null, null, cancellationToken);
                         flow.LastQuestionAsked = ConversationFlow.Question.Age;
                         break;
                     }
                     else
                     {
-                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.");
+                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.", null, null, cancellationToken);
                         break;
                     }
                 case ConversationFlow.Question.Age:
-                    if (ValidateAge(input, out int age, out message))
+                    if (ValidateAge(input, out var age, out message))
                     {
                         profile.Age = age;
-                        await turnContext.SendActivityAsync($"I have your age as {profile.Age}.");
-                        await turnContext.SendActivityAsync("When is your flight?");
+                        await turnContext.SendActivityAsync($"I have your age as {profile.Age}.", null, null, cancellationToken);
+                        await turnContext.SendActivityAsync("When is your flight?", null, null, cancellationToken);
                         flow.LastQuestionAsked = ConversationFlow.Question.Date;
                         break;
                     }
                     else
                     {
-                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.");
+                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.", null, null, cancellationToken);
                         break;
                     }
 
                 case ConversationFlow.Question.Date:
-                    if (ValidateDate(input, out string date, out message))
+                    if (ValidateDate(input, out var date, out message))
                     {
                         profile.Date = date;
                         await turnContext.SendActivityAsync($"Your cab ride to the airport is scheduled for {profile.Date}.");
@@ -96,7 +96,7 @@ namespace Microsoft.BotBuilderSamples
                     }
                     else
                     {
-                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.");
+                        await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.", null, null, cancellationToken);
                         break;
                     }
             }
@@ -135,7 +135,7 @@ namespace Microsoft.BotBuilderSamples
                 foreach (var result in results)
                 {
                     // The result resolution is a dictionary, where the "value" entry contains the processed string.
-                    if (result.Resolution.TryGetValue("value", out object value))
+                    if (result.Resolution.TryGetValue("value", out var value))
                     {
                         age = Convert.ToInt32(value);
                         if (age >= 18 && age <= 120)
@@ -179,10 +179,10 @@ namespace Microsoft.BotBuilderSamples
                     {
                         // The processed input contains a "value" entry if it is a date-time value, or "start" and
                         // "end" entries if it is a date-time range.
-                        if (resolution.TryGetValue("value", out string dateString)
+                        if (resolution.TryGetValue("value", out var dateString)
                             || resolution.TryGetValue("start", out dateString))
                         {
-                            if (DateTime.TryParse(dateString, out DateTime candidate)
+                            if (DateTime.TryParse(dateString, out var candidate)
                                 && earliest < candidate)
                             {
                                 date = candidate.ToShortDateString();

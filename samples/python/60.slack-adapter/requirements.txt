@@ -1,3 +1,2 @@
-aiohttp
-botbuilder-core
-botbuilder-adapters-slack>=4.7.1
+botbuilder-integration-aiohttp>=4.8.0
+botbuilder-adapters-slack>=4.8.0
