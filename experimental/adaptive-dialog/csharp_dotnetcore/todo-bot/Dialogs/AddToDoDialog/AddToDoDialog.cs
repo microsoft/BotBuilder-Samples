@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var AddToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
                 // Create and use a regex recognizer on the child
                 // Each child adaptive dialog can have its own recognizer. 
                 // This sample demonstrates use of a regex recognizer in a child dialog. 
@@ -43,22 +43,22 @@ namespace Microsoft.BotBuilderSamples
                             //     $PropertyName is a short-hand for dialog.<PropertyName>
                             new SetProperty() {
                                 Property = "turn.todoTitle",
-                                Value = "@todoTitle"
+                                Value = "=@todoTitle"
                             },
                             // TextInput by default will skip the prompt if the property has value.
                             new TextInput()
                             {
                                 Property = "turn.todoTitle",
-                                Prompt = new ActivityTemplate("@{Get-ToDo-Title()}")
+                                Prompt = new ActivityTemplate("${Get-ToDo-Title()}")
                             },
                             // Add the new todo title to the list of todos. Keep the list of todos in the user scope.
                             new EditArray()
                             {
-                                Value = "turn.todoTitle",
                                 ItemsProperty = "user.todos",
-                                ChangeType = EditArray.ArrayChangeType.Push
+                                ChangeType = EditArray.ArrayChangeType.Push,
+                                Value = "=turn.todoTitle"
                             },
-                            new SendActivity("@{Add-ToDo-ReadBack()}")
+                            new SendActivity("${Add-ToDo-ReadBack()}")
                             // All child dialogs will automatically end if there are no additional steps to execute. 
                             // If you wish for a child dialog to not end automatically, you can set 
                             // AutoEndDialog property on the Adaptive Dialog to 'false'
@@ -73,7 +73,7 @@ namespace Microsoft.BotBuilderSamples
                             new SetProperty() 
                             {
                                 Property = "turn.todoTitle",
-                                Value = "turn.activity.text"
+                                Value = "=turn.activity.text"
                             }
                         }
                     },
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<Dialog>()
                         {
-                            new SendActivity("@{Help-Add-ToDo()}")
+                            new SendActivity("${Help-Add-ToDo()}")
                         }
                     },
                     new OnIntent("Cancel")
@@ -92,18 +92,18 @@ namespace Microsoft.BotBuilderSamples
                             new ConfirmInput()
                             {
                                 Property = "turn.addTodo.cancelConfirmation",
-                                Prompt = new ActivityTemplate("@{Confirm-cancellation()}"),
+                                Prompt = new ActivityTemplate("${Confirm-cancellation()}"),
                                 // Allow interruptions is an expression. So you can write any expression to determine if an interruption should be allowed.
                                 // In this case, we will disallow interruptions since this is a cancellation confirmation. 
                                 AllowInterruptions = "false",
                                 // Controls the number of times user is prompted for this input.
                                 MaxTurnCount = 1,
                                 // Default value to use if we have hit the MaxTurnCount
-                                DefaultValue = "false",
+                                DefaultValue = "=false",
                                 // You can refer to properties of this input via %propertyName notation. 
                                 // The default response is sent if we have prompted the user for MaxTurnCount number of times
                                 // and if a default value is assumed for the property.
-                                DefaultValueResponse = new ActivityTemplate("Sorry, I do not recognize '@{this.value}'. I'm going with '@{%DefaultValue}' for now to be safe.")
+                                DefaultValueResponse = new ActivityTemplate("Sorry, I do not recognize '${this.value}'. I'm going with '${%DefaultValue}' for now to be safe.")
                             },
                             new IfCondition()
                             {
@@ -112,12 +112,12 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = "turn.addTodo.cancelConfirmation == true",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("@{Cancel-add-todo()}"),
+                                    new SendActivity("${Cancel-add-todo()}"),
                                     new EndDialog()
                                 },
                                 ElseActions = new List<Dialog>()
                                 {
-                                    new SendActivity("@{Help-prefix()}, let's get right back to adding a todo.")
+                                    new SendActivity("${Help-prefix()}, let's get right back to adding a todo.")
                                 }
                                 // We do not need to specify an else block here since if user said no,
                                 // the control flow will automatically return to the last active step (if any)
@@ -134,7 +134,7 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static IRecognizer CreateRegeExRecognizer()
+        private static Recognizer CreateRegeExRecognizer()
         {
             return new RegexRecognizer()
             {

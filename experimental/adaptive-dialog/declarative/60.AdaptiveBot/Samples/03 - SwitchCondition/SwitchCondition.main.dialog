@@ -8,7 +8,7 @@
                 {
                     "$kind": "Microsoft.SetProperty",
                     "property": "user.age",
-                    "value": "22"
+                    "value": "=22"
                 },
                 {
                     "$kind": "Microsoft.SwitchCondition",

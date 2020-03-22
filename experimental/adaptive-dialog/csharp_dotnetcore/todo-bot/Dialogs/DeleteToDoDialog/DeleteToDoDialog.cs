@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var DeleteToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
                 Triggers = new List<OnCondition>()
                 {
                     new OnBeginDialog() 
@@ -38,8 +38,8 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = "user.todos == null || count(user.todos) <= 0",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("@{Delete-Empty-List()}"),
-                                    new SendActivity("@{Welcome-Actions()}"),
+                                    new SendActivity("${Delete-Empty-List()}"),
+                                    new SendActivity("${Welcome-Actions()}"),
                                     new EndDialog()
                                 }
                             },
@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
                                     new TextInput()
                                     {
                                         Property = "turn.todoTitle",
-                                        Prompt = new ActivityTemplate("@{Get-ToDo-Title-To-Delete()}"),
+                                        Prompt = new ActivityTemplate("${Get-ToDo-Title-To-Delete()}"),
                                         // Allow interruptions enable interruptions while the user is in the middle of this prompt
                                         // The value to allow interruptions is an expression so you can examine any property to decide if 
                                         // interruptions are allowed or not. In this sample, we are not allowing interruptions 
@@ -78,7 +78,7 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = "contains(user.todos, turn.todoTitle) == false",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("@{Todo-not-found()}"),
+                                    new SendActivity("${Todo-not-found()}"),
                                     new DeleteProperty()
                                     {
                                         Property = "turn.todoTitle"
@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                                 Value = "turn.todoTitle",
                                 ChangeType = EditArray.ArrayChangeType.Clear
                             },
-                            new SendActivity("@{Delete-readBack()}"),
+                            new SendActivity("${Delete-readBack()}"),
                             new EndDialog()
                         }
                     }
@@ -126,7 +126,7 @@ namespace Microsoft.BotBuilderSamples
                 // Set the todo title in turn.todoTitle scope.
                 dc.GetState().SetValue("turn.todoTitle", todoTitleStr);
             }
-            return new DialogTurnResult(DialogTurnStatus.Complete, options);
+            return await dc.EndDialogAsync(options);
         }
     }
 }

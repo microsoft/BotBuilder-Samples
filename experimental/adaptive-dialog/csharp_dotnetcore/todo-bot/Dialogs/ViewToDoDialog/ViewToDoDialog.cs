@@ -19,14 +19,14 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog. 
             var ViewToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
                 Triggers = new List<OnCondition>()
                 {
                     new OnBeginDialog() 
                     {
                         Actions = new List<Dialog>() 
                         {
-                            new SendActivity("@{View-ToDos()}")
+                            new SendActivity("${View-ToDos()}")
                         }
                     }
                 }

@@ -17,18 +17,15 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration, IHostingEnvironment env)
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             this.Configuration = configuration;
             this.HostingEnvironment = env;
-
-            // TODO get rid of this dependency
-            TypeFactory.Configuration = Configuration;
         }
 
         private IConfiguration Configuration { get; set; }
 
-        private IHostingEnvironment HostingEnvironment { get; set; }
+        private IWebHostEnvironment HostingEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -50,14 +47,11 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            var resourceExplorer = ResourceExplorer.LoadProject(this.HostingEnvironment.ContentRootPath);
+            var resourceExplorer = new ResourceExplorer().LoadProject(this.HostingEnvironment.ContentRootPath);
             services.AddSingleton(resourceExplorer);
 
             // Create the bot  In this case the ASP Controller is expecting an IBot.
             services.AddSingleton<IBot, EchoBot>();
-
-            // Add this so settings memory scope is populated correctly.
-            services.AddSingleton<IConfiguration>(this.Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -67,14 +61,19 @@ namespace Microsoft.BotBuilderSamples
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseMvc();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseWebSockets()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+
+            //app.UseHttpsRedirection();
+            //app.UseMvc();
         }
     }
 }

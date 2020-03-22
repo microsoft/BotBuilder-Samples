@@ -11,18 +11,18 @@
 
 # Delete-readBack
 [Activity
-    Text = @{Delete-readBack-Text()}
-    @{View-ToDos()}
+    Text = ${Delete-readBack-Text()}
+    ${View-ToDos()}
 ]
 
 # Delete-readBack-Text
 - ```
-Ok, I've removed your todo titled "@{turn.todoTitle}".
-@{View-ToDos().Text}
+Ok, I've removed your todo titled "${turn.todoTitle}".
+${View-ToDos().Text}
 ```
 
 # Delete-Empty-List
 - You do not have any items in your todo list.
 
 # Todo-not-found
-- Sorry, I did not find a todo titled @{turn.todoTitle} in your todos list.
+- Sorry, I did not find a todo titled ${turn.todoTitle} in your todos list.

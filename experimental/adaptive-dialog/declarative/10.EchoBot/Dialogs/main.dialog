@@ -7,7 +7,7 @@
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
-          "activity":  "You said '@{turn.activity.text}'"
+          "activity":  "You said '${turn.activity.text}'"
         }
       ]
     }

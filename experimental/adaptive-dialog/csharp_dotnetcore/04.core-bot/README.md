@@ -63,10 +63,10 @@ This bot has been created using [Bot Framework][1], it shows how to:
 
 ## LUIS Setup
 ### Using LUIS portal
-- Navigate and sign in to [Luis.ai][11]
+- Navigate and sign in to [preview.luis.ai][11]
 - Under "My apps", click on "Import new app"
 - Click on "Choose app file (JSON format) ..."
-- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot/CognitiveModels/CoreBot.luis.json
+- Select `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot/Dialogs/RootDialog.lu.json
 - Once the application is imported
     - Click on 'Train' to train the application
     - Click on 'Publish' to publish the application.
@@ -78,7 +78,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 - Install [nodejs][2] version 10.14 or higher
 - Install required CLI tools
 ```bash
-> npm i -g luis-apis @microsoft/botframework-cli
+> npm i -g @microsoft/botframework-cli
 ```
 - In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/csharp_dotnetcore/04.core-bot`
 - To parse RootDialog.lu to a LUIS json model
@@ -87,13 +87,13 @@ This bot has been created using [Bot Framework][1], it shows how to:
 ```
 - To create a new LUIS application using this model. Note: You see [here][9] for instructions on getting your authoirng key.
 ```bash
-> luis import application --in ./CognitiveModels/CoreBot.luis.json --authoringKey <YOUR-AUTHORING-KEY>
+> bf luis:application:import --in ./CognitiveModels/CoreBot.luis.json --authoringKey <YOUR-AUTHORING-KEY>
 ```
 - Copy the relevant Application Id, endpoint information as well as your authoring key to appsettings.json.
 - To train and publish the LUIS application,
 ```bash
-> luis train version --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
-> luis publish version --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
+> bf luis:version:train --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
+> bf luis:version:publish --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
 ```
 
 [1]: https://dev.botframework.com
@@ -103,7 +103,7 @@ This bot has been created using [Bot Framework][1], it shows how to:
 [6]: https://github.com/Microsoft/BotFramework-Emulator/releases
 [9]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings
 [10]: https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
-[11]: https://www.luis.ai
+[11]: https://preview.luis.ai
 [20]: https://docs.botframework.com
 [21]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [22]: https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0
