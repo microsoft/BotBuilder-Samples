@@ -3,52 +3,70 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
+using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.SimpleRootBot.Dialogs
 {
-    //public class MainDialog : ComponentDialog
-    //{
-    //    public MainDialog(IConfiguration configuration)
-    //        : base(nameof(MainDialog))
-    //    {
-    //        var connectionName = configuration.GetSection("ConnectionName")?.Value ?? throw new ArgumentNullException("Connection name is needed in configuration");
+    public class MainDialog : ComponentDialog
+    {
+        protected readonly ILogger Logger;
 
-    //        var steps = new WaterfallStep[]
-    //            {
-    //                SignInStepAsync,
-    //                ShowTokenResponseAsync
-    //            };
-    //        AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-    //        AddDialog(new OAuthPrompt(
-    //            nameof(OAuthPrompt),
-    //            new OAuthPromptSettings()
-    //            {
-    //                ConnectionName = connectionName,
-    //                Text = "Sign In to AAD",
-    //                Title = "Sign In"
-    //            }));
-    //    }
+        public MainDialog(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration, SkillConversationIdFactoryBase conversationIdFactory, ILogger<MainDialog> logger)
+            : base(nameof(MainDialog))
+        {
+            Logger = logger;
 
-    //    private async Task<DialogTurnResult> SignInStepAsync(WaterfallStepContext context, CancellationToken cancellationToken)
-    //    {
-    //        return await context.BeginDialogAsync(nameof(OAuthPrompt), null, cancellationToken).ConfigureAwait(false);
-    //    }
+            AddDialog(new SignInDialog(configuration));
+            AddDialog(new SignOutDialog(configuration));
+            AddDialog(new DisplayTokenDialog(configuration));
 
-    //    private async Task<DialogTurnResult> ShowTokenResponseAsync(WaterfallStepContext context, CancellationToken cancellationToken)
-    //    {
-    //        var result = context.Result as TokenResponse;
-    //        if (result == null)
-    //        {
-    //            await context.Context.SendActivityAsync(MessageFactory.Text("Skill: No token response from OAuthPrompt"));
-    //        }
-    //        else
-    //        {
-    //            await context.Context.SendActivityAsync(MessageFactory.Text($"Skill: Your token is {result.Token}"));
-    //        }
+            var botId = configuration.GetSection("MicrosoftAppId")?.Value;
 
-    //        return await context.EndDialogAsync(null, cancellationToken);
-    //    }
-    //}
+            skillsConfig.Skills.TryGetValue("EchoSkillBot", out var skill);
+            AddDialog(new SkillDialog(
+                new SkillDialogOptions()
+                {
+                    BotId = botId,
+                    ConversationIdFactory = conversationIdFactory,
+                    ConversationState = conversationState,
+                    Skill = skill,
+                    SkillClient = skillClient,
+                    SkillHostEndpoint = skillsConfig.SkillHostEndpoint
+                },
+                nameof(SkillDialog)));
+        }
+
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var text = innerDc.Context.Activity.Text.ToLowerInvariant();
+
+                // Top level commands
+                if (text == "signin" || text == "login" || text == "sign in" || text == "log in")
+                {
+                    return await innerDc.BeginDialogAsync(nameof(SignInDialog), null, cancellationToken);
+                }
+                else if (text == "signout" || text == "logout" || text == "sign out" || text == "log out")
+                {
+                    return await innerDc.BeginDialogAsync(nameof(SignOutDialog), null, cancellationToken);
+                }
+                else if (text == "token" || text == "get token" || text == "gettoken")
+                {
+                    return await innerDc.BeginDialogAsync(nameof(DisplayTokenDialog), null, cancellationToken);
+                }
+                else
+                {
+                    var skillResult = await innerDc.BeginDialogAsync(nameof(SkillDialog), new BeginSkillDialogOptions() { Activity = innerDc.Context.Activity }, cancellationToken);
+                    return skillResult;
+                }
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
+        }
+    }
 }

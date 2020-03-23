@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.SimpleRootBot.Authentication;
 using Microsoft.BotBuilderSamples.SimpleRootBot.Bots;
+using Microsoft.BotBuilderSamples.SimpleRootBot.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -47,7 +49,9 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
 
             // Register Conversation state (used by the Dialog system itself).
             services.AddSingleton<ConversationState>();
+            services.AddSingleton<UserState>();
 
+            services.AddSingleton<Dialog, MainDialog>();
             // Register the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, RootBot>();
         }

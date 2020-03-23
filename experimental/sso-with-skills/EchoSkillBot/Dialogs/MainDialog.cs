@@ -7,55 +7,82 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.EchoSkillBot.Dialogs
 {
     public class MainDialog : ComponentDialog
     {
-        public MainDialog(IConfiguration configuration)
+        protected readonly ILogger Logger;
+
+        public MainDialog(IConfiguration configuration, ILogger<MainDialog> logger)
             : base(nameof(MainDialog))
         {
-            var connectionName = configuration.GetSection("ConnectionName")?.Value ?? throw new ArgumentNullException("Connection name is needed in configuration");
+            Logger = logger;
 
-            var steps = new WaterfallStep[]
-                {
-                    SignInStepAsync,
-                    ShowTokenResponseAsync
-                };
-            AddDialog(new WaterfallDialog(nameof(MainDialog), steps));
-            AddDialog(new OAuthPrompt(
-                nameof(OAuthPrompt),
-                new OAuthPromptSettings()
-                {
-                    ConnectionName = connectionName,
-                    Text = "Sign In to AAD",
-                    Title = "Sign In"
-                }));
+            AddDialog(new SignInDialog(configuration));
+            AddDialog(new SignOutDialog(configuration));
+            AddDialog(new DisplayTokenDialog(configuration));
         }
 
-        private async Task<DialogTurnResult> SignInStepAsync(WaterfallStepContext context, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnBeginDialogAsync(DialogContext innerDc, object options, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return await context.BeginDialogAsync(nameof(OAuthPrompt), null, cancellationToken).ConfigureAwait(false);
+            if (innerDc.Context.Activity.Type == ActivityTypes.Message)
+            {
+                var text = innerDc.Context.Activity.Text.ToLowerInvariant();
+                DialogTurnResult dialogResult;
+
+                text = text.Replace("skill ", string.Empty).Replace("skill: ", string.Empty); ;
+
+                // Top level commands
+                if (text == "signin" || text == "login" || text == "sign in" || text == "log in")
+                {
+                    dialogResult = await innerDc.BeginDialogAsync(nameof(SignInDialog), null, cancellationToken);
+                }
+                else if (text == "signout" || text == "logout" || text == "sign out" || text == "log out")
+                {
+                    dialogResult = await innerDc.BeginDialogAsync(nameof(SignOutDialog), null, cancellationToken);
+                }
+                else if (text == "token" || text == "get token" || text == "gettoken")
+                {
+                    dialogResult = await innerDc.BeginDialogAsync(nameof(DisplayTokenDialog), null, cancellationToken);
+                }
+                else
+                {
+                    await innerDc.Context.SendActivityAsync(MessageFactory.Text($"Skill echo: {text}"), cancellationToken);
+                    dialogResult = new DialogTurnResult(DialogTurnStatus.Complete);
+                }
+
+                if (dialogResult.Status == DialogTurnStatus.Complete)
+                {
+                    // Send End of conversation at the end.
+                    var endOfConversation = innerDc.Context.Activity.CreateReply();
+                    endOfConversation.Type = ActivityTypes.EndOfConversation;
+                    endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
+                    await innerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
+                }
+
+                return dialogResult;
+            }
+
+            return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
         }
 
-        private async Task<DialogTurnResult> ShowTokenResponseAsync(WaterfallStepContext context, CancellationToken cancellationToken)
+        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
         {
-            if (context.Context.Activity.DeliveryMode == DeliveryModes.ExpectReplies)
+
+            var result = await base.OnContinueDialogAsync(innerDc, cancellationToken);
+
+            if (result.Status == DialogTurnStatus.Complete)
             {
-                context.Context.Activity.DeliveryMode = null;
+                // Send End of conversation at the end.
+                var endOfConversation = innerDc.Context.Activity.CreateReply();
+                endOfConversation.Type = ActivityTypes.EndOfConversation;
+                endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
+                await innerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
             }
 
-            var result = context.Result as TokenResponse;
-            if (result == null)
-            {
-                await context.Context.SendActivityAsync(MessageFactory.Text("Skill: No token response from OAuthPrompt"));
-            }
-            else
-            {
-                await context.Context.SendActivityAsync(MessageFactory.Text($"Skill: Your token is {result.Token}"));
-            }
-
-            return await context.EndDialogAsync(null, cancellationToken);
+            return result;
         }
     }
 }

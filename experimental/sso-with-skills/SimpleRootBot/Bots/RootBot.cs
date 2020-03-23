@@ -7,6 +7,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
@@ -21,15 +22,20 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
+        private readonly UserState _userState;
+        private readonly Dialog _dialog;
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
 
         public const string ActiveSkillPropertyName = "activeSkillProperty";
 
-        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
+        public RootBot(ConversationState conversationState, UserState userState, Dialog dialog, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
+            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
+            _dialog = dialog ?? throw new ArgumentNullException(nameof(dialog));
+
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillsConfig));
             if (configuration == null)
@@ -56,42 +62,42 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
-            // Forward all activities except EndOfConversation to the skill.
-            if (turnContext.Activity.Type != ActivityTypes.EndOfConversation)
-            {
-                // Try to get the active skill
-                var activeSkill = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken);
-
-                if (activeSkill != null)
-                {
-                    // Send the activity to the skill
-                    await SendToSkill(turnContext, activeSkill, cancellationToken);
-                    return;
-                }
-            }
-
             await base.OnTurnAsync(turnContext, cancellationToken);
+
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
+        }
+
+        protected override async Task OnTokenResponseEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
+        {
+            await _conversationState.LoadAsync(turnContext, true, cancellationToken);
+            await _userState.LoadAsync(turnContext, true, cancellationToken);
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.Text.Contains("skill"))
-            {
-                await turnContext.SendActivityAsync(MessageFactory.Text("Got it, connecting you to the skill..."), cancellationToken);
+            //if (turnContext.Activity.Text.Contains("skill"))
+            //{
+            //    await turnContext.SendActivityAsync(MessageFactory.Text("Got it, connecting you to the skill..."), cancellationToken);
 
-                // Save active skill in state
-                await _activeSkillProperty.SetAsync(turnContext, _targetSkill, cancellationToken);
+            //    // Save active skill in state
+            //    await _activeSkillProperty.SetAsync(turnContext, _targetSkill, cancellationToken);
 
-                // Send the activity to the skill
-                await SendToSkill(turnContext, _targetSkill, cancellationToken);
-                return;
-            }
+            //    // Send the activity to the skill
+            //    await SendToSkill(turnContext, _targetSkill, cancellationToken);
+            //    return;
+            //}
 
-            // just respond
-            await turnContext.SendActivityAsync(MessageFactory.Text("Me no nothin'. Say \"skill\" and I'll patch you through"), cancellationToken);
+            //// just respond
+            //await turnContext.SendActivityAsync(MessageFactory.Text("Me no nothin'. Say \"skill\" and I'll patch you through"), cancellationToken);
 
-            // Save conversation state
-            await _conversationState.SaveChangesAsync(turnContext, force: true, cancellationToken: cancellationToken);
+            //// Save conversation state
+            //await _conversationState.SaveChangesAsync(turnContext, force: true, cancellationToken: cancellationToken);
+
+            await _conversationState.LoadAsync(turnContext, true, cancellationToken);
+            await _userState.LoadAsync(turnContext, true, cancellationToken);
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
