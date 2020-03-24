@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using System.IO;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
@@ -27,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
             var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 // Add a generator. This is how all Language Generation constructs specified for this dialog are resolved.
-                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
                 // Create a LUIS recognizer.
                 // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(),
@@ -43,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
                     { 
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("@{Help-Root-Dialog()}") 
+                            new SendActivity("${Help-Root-Dialog()}") 
                             } 
                     },
                     new OnIntent("AddToDoDialog")    
@@ -80,7 +81,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "#Help.Score >= 0.8",
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("@{Help-Root-Dialog()}") 
+                            new SendActivity("${Help-Root-Dialog()}") 
                         } 
                     },
                     new OnIntent("Cancel")           
@@ -93,7 +94,7 @@ namespace Microsoft.BotBuilderSamples
                             // SendActivity supports full language generation resolution.
                             // See here to learn more about language generation
                             // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                            new SendActivity("@{Welcome-Actions()}"),
+                            new SendActivity("${Welcome-Actions()}"),
                             new CancelAllDialogs(),
                         }
                     }
@@ -129,7 +130,7 @@ namespace Microsoft.BotBuilderSamples
                             Condition = "$foreach.value.name != turn.activity.recipient.name",
                             Actions = new List<Dialog>()
                             {
-                                new SendActivity("@{Intro-message()}")
+                                new SendActivity("${Intro-message()}")
                             }
                         }
                     }
@@ -137,18 +138,18 @@ namespace Microsoft.BotBuilderSamples
             };
         }
 
-        public static IRecognizer CreateRecognizer()
+        public static Recognizer CreateRecognizer()
         {
             if (string.IsNullOrEmpty(Configuration["LuisAppId"]) || string.IsNullOrEmpty(Configuration["LuisAPIKey"]) || string.IsNullOrEmpty(Configuration["LuisAPIHostName"]))
             {
                 throw new Exception("Your LUIS application is not configured. Please see README.MD to set up a LUIS application.");
             }
-            return new LuisRecognizer(new LuisApplication()
+            return new LuisAdaptiveRecognizer()
             {
                 Endpoint = Configuration["LuisAPIHostName"],
                 EndpointKey = Configuration["LuisAPIKey"],
                 ApplicationId = Configuration["LuisAppId"]
-            });
+            };
         }
     }
 }

@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "10.EchoBot\EchoB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveBot", "60.AdaptiveBot\AdaptiveBot.csproj", "{C34E1A09-FF28-4F62-89C3-053D9B4F8BCE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Composer-dialogs", "19.integrating-composer-dialogs\Composer-dialogs.csproj", "{0431ABF1-94F0-48E6-A4F6-820087E8D57B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C34E1A09-FF28-4F62-89C3-053D9B4F8BCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C34E1A09-FF28-4F62-89C3-053D9B4F8BCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C34E1A09-FF28-4F62-89C3-053D9B4F8BCE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0431ABF1-94F0-48E6-A4F6-820087E8D57B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0431ABF1-94F0-48E6-A4F6-820087E8D57B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0431ABF1-94F0-48E6-A4F6-820087E8D57B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0431ABF1-94F0-48E6-A4F6-820087E8D57B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { AttachmentLayoutTypes, CardFactory } = require('botbuilder');
+const { ActivityFactory } = require('botbuilder');
 const { ChoicePrompt, ComponentDialog, DialogSet, DialogTurnStatus, WaterfallDialog } = require('botbuilder-dialogs');
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
+const { Templates } = require('botbuilder-lg');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
@@ -24,10 +21,7 @@ class MainDialog extends ComponentDialog {
         // The initial child Dialog to run.
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
 
-        this.templateEngine = new TemplateEngine().addFiles([
-            "./resources/MainDialog.LG",
-            "./resources/Cards.lg"
-        ]);
+        this.lgTemplates = Templates.parseFile("./resources/MainDialog.lg");
     }
 
     /**
@@ -59,8 +53,8 @@ class MainDialog extends ComponentDialog {
         // Create the PromptOptions which contain the prompt and re-prompt messages.
         // PromptOptions also contains the list of choices available to the user.
         const options = {
-            prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('CardChoice')),
-            retryPrompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('CardChoice.Invalid.Prompt')),
+            prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('CardChoice')),
+            retryPrompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('CardChoice.Invalid.Prompt')),
             choices: this.getChoices()
         };
 
@@ -78,16 +72,16 @@ class MainDialog extends ComponentDialog {
 
         switch (stepContext.result.value) {
         case 'Adaptive Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AdaptiveCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AdaptiveCard')));
             break;
         case 'Animation Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AnimationCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AnimationCard')));
             break;
         case 'Audio Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AudioCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AudioCard')));
             break;
         case 'Hero Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('HeroCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('HeroCard')));
             break;
         case 'Receipt Card':
             var data = {
@@ -106,19 +100,19 @@ class MainDialog extends ComponentDialog {
                     }
                 ]
             };
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate("ReceiptCard", data)));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate("ReceiptCard", data)));
             break;
         case 'Signin Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('SigninCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('SigninCard')));
             break;
         case 'Thumbnail Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('ThumbnailCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('ThumbnailCard')));
             break;
         case 'Video Card':
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('VideoCard')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('VideoCard')));
             break;
         default:
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('AllCards')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AllCards')));
             break;
         }
 

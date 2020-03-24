@@ -14,8 +14,8 @@ namespace Microsoft.BotBuilderSamples
 {
     public class DispatchBot : ActivityHandler
     {
-        private ILogger<DispatchBot> _logger;
-        private IBotServices _botServices;
+        private readonly ILogger<DispatchBot> _logger;
+        private readonly IBotServices _botServices;
 
         public DispatchBot(IBotServices botServices, ILogger<DispatchBot> logger)
         {

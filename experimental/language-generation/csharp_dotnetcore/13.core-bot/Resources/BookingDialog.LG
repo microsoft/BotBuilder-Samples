@@ -15,11 +15,11 @@
 - Does this sound righ to you? 
 
 # ConfirmMessage
-- I have you traveling to: @{Destination} from: @{Origin} on: @{TravelDate}
-- on @{TravelDate}, travelling from @{Origin} to @{Destination}
+- I have you traveling to: ${Destination} from: ${Origin} on: ${TravelDate}
+- on ${TravelDate}, travelling from ${Origin} to ${Destination}
 
 # ConfirmBooking
-- @{ConfirmPrefix()} @{ConfirmMessage()}
+- ${ConfirmPrefix()} ${ConfirmMessage()}
 
 # PromptForTravelDate
 - When would you like to travel?
@@ -29,18 +29,18 @@
 > This template uses inline expressions. Expressions are defined using the common expression language. 
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # PromptForMissingInformation
-- IF: @{Destination == null}
-  - @{PromptForDestinationCity()}
-- ELSEIF: @{Origin == null} 
-  - @{PromptForDepartureCity()}
-- ELSEIF: @{TravelDate == null}
-  - @{PromptForTravelDate()}
+- IF: ${Destination == null}
+  - ${PromptForDestinationCity()}
+- ELSEIF: ${Origin == null} 
+  - ${PromptForDepartureCity()}
+- ELSEIF: ${TravelDate == null}
+  - ${PromptForTravelDate()}
 - ELSE: 
-  - @{ConfirmBooking()}
+  - ${ConfirmBooking()}
 
   # ApologyPrefix
   - I'm sorry,
   - Unfortunately that does not work. 
 
   # InvalidDateReprompt
-  - @{ApologyPrefix()} to make your booking please enter a full travel date including Day Month and Year.
+  - ${ApologyPrefix()} to make your booking please enter a full travel date including Day Month and Year.

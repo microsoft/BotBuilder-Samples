@@ -1,7 +1,7 @@
 # .LG file format
 
 .lg files help describe Language Generation templates with entity references and their composition. This document covers the various concepts expressed via the .lg file format.
-<!--
+
 **Concepts:**
 - [.LG file format](#lg-file-format)
 - [Comments](#comments)
@@ -19,11 +19,11 @@
   - [Multi-line text in variations](#multi-line-text-in-variations)
 - [Parametrization of templates](#parametrization-of-templates)
 - [Importing external references](#importing-external-references)
--->
-
+- [LG specific adaptive expression functions](#functions-injected-by-LG)
+- [Strict option](#strict-option)
 ## Comments
 
-Comments are prefixed with '>' or '$' character. All lines that have this prefix will be skipped by the parser.
+Comments are prefixed with `>` character. All lines that have this prefix will be skipped by the parser.
 
 ```markdown
 > this is a comment.
@@ -31,7 +31,7 @@ Comments are prefixed with '>' or '$' character. All lines that have this prefix
 
 ## Escape character
 
-Use '\\' as escape character.
+Use `\` as escape character.
 
 ```markdown
 # TemplateName
@@ -221,9 +221,9 @@ Entities are expressed as `entityName`. - e.g. ${entityName == null} - when used
 
 The example uses the [join][5] pre-built function to list all values in the `recentTasks` collection.
 
-If the template name is the same as the built-in function's, the template will be executed first, without automatically executing one according to the parameter variable. <!--what does the last line mean?-->
+Given templates and prebuilt functions share the same invocation signature, a template name cannot be the same as a prebuilt function name. See [here][4] for list of prebuilt functions. 
 
-In cases where you must have the template name be the same as a pre-built function name you can use `prebuilt.xxx`, as seen in the example below, to refer to the pre-built function and avoid possible collisions with your own template name.
+In cases where you must have the template name be the same as a pre-built function name you can use `lg.xxx`, as seen in the example below, to refer to the LG template and avoid possible collisions with pre-built functions.
 
 ```markdown
 > Custom length function with one parameter.
@@ -231,13 +231,17 @@ In cases where you must have the template name be the same as a pre-built functi
 - This is use's customized length function
 
 # myfunc1
-> will call template length, and return 'This is use's customized length function'
+> will call prebuilt function length, and return 2
 - ${length('hi')}
 
 # mufunc2
-> builtin function 'length' would be called, and output 2
-- ${prebuilt.length('hi')}
+> this calls the lg template and output 'This is use's customized length function'
+- ${lg.length('hi')}
 ```
+
+## Functions injected by LG
+[Adaptive expressions][3] provide an ability to inject custom set of functions. Language generation takes advantage of this facility and adds [these functions][13]
+
 ## Multi-line text in variations
 Each one-of variation can include multi-line text enclosed in triple quotes.
 
@@ -266,46 +270,6 @@ Multi-line variation can request template expansion and entity substitution by e
 ```
 
 With multi-line support, you can have the language generation sub-system fully resolve a complex JSON or XML (e.g. SSML wrapped text to control bot's spoken reply).
-
-Here is an example of complex object (defined in the `ImageGalleryTemplate` template) that your bot's code will parse out and render appropriately. Calling the `ImageGalleryTemplate` for template resolution will result in a JSON string that has a _titleText_, _subTitle_ and randomly selected images from the `CardImages` template.
-
-```markdown
-    # TitleText
-    - Here are some [TitleSuffix]
-
-    # TitleSuffix
-    - cool photos
-    - pictures
-    - nice snaps
-
-    # SubText
-    - What is your favorite? 
-    - Don't they all look great?
-    - sorry, some of them are repeats
-
-    # CardImages
-    - https://picsum.photos/200/200?image=100
-    - https://picsum.photos/300/200?image=200
-    - https://picsum.photos/200/200?image=400
-
-    # ImageGalleryTemplate
-    - ```
-    {
-        "titleText": "${TitleText()}",
-        "subTitle": "${SubText()}",
-        "images": [
-            {
-                "type": "Image",
-                "url": "${CardImages()}"
-            },
-            {
-                "type": "Image",
-                "url": "${CardImages()}"
-            }
-        ]
-    }
-    ```
-```
 
 ## Parametrization of templates
 
@@ -341,21 +305,41 @@ All templates defined in the target file will be pulled in. Ensure that your tem
 [Shared](../shared/common.lg)
 ```
 
+## Strict option
+Sometimes user does not want to tolerate null result for the null evaluated result, if so, you could add the strict option command at the beginning of the lg file, such as:
+
+```
+> !# @strict = true
+# template
+- hi
+```
+
+If the strict option is on, null errors would be thrown by friendly message. for example:
+
+```
+# welcome
+- hi ${name}
+```
+
+If name is null, the diagnostic would be: `'name' evaluated to null. [welcome] Error occurred when evaluating '- hi ${name}'.`
+
+Otherwise, if strict is not set, or set to false, a compatible result will be given. The above sample would get the result "hi null"
+
 ## Additional Resources
 
 - Language Generation [API reference][2]
-- Language Generation in [Bot Framework Composer](https://docs.microsoft.com/composer/concept-language-generation))
+
 
 [1]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Ludown/docs/lu-file-format.md
 [2]:./api-reference.md
 [3]:../../common-expression-language#readme
 [4]:../../common-expression-language/prebuilt-functions.md
 [5]:../../common-expression-language/prebuilt-functions.md#join
-[6]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown
-[7]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
-[8]:https://github.com/Microsoft/botbuilder-tools/blob/master/packages/Chatdown/Examples/CardExamples.chat
-[9]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
-[10]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-cards
-[11]:https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-attachments
-[12]:https://github.com/microsoft/botbuilder-tools/tree/master/packages/Chatdown#chat-file-format
-
+[6]:https://github.com/microsoft/botframework-cli/tree/master/packages/chatdown
+[7]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md
+[8]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/examples/CardExamples.chat
+[9]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-commands
+[10]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-cards
+[11]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md#message-attachments
+[12]:https://github.com/microsoft/botframework-cli/blob/master/packages/chatdown/docs/chatdown-format.md
+[13]:./Functions-injected-from-LG.md

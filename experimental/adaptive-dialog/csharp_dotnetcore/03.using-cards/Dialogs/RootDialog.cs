@@ -40,7 +40,7 @@ namespace Microsoft.BotBuilderSamples
                         Actions = OnBeginDialogSteps()
                     }
                 },
-                Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath))
+                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath))
             };
 
             // Add named dialogs to the DialogSet. These names are saved in the dialog state.
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                 // Present choices for card types
                 new ChoiceInput()
                 {
-                    Prompt = new ActivityTemplate("@{CardChoice()}"),
+                    Prompt = new ActivityTemplate("${CardChoice()}"),
                     Property = "turn.cardChoice",
                     Style = ListStyle.Auto,
                     // Inputs will skip the prompt if the property (turn.cardChoice in this case) already has value.
@@ -109,18 +109,18 @@ namespace Microsoft.BotBuilderSamples
                         // SendActivity supports full language generation resolution.
                         // See here to learn more about language generation
                         // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                        new Case("Adaptive card",  new List<Dialog>() { new SendActivity("@{AdaptiveCard()}") } ),
-                        new Case("Animation card", new List<Dialog>() { new SendActivity("@{AnimationCard()}") } ),
-                        new Case("Audio card",     new List<Dialog>() { new SendActivity("@{AudioCard()}") } ),
-                        new Case("Hero card",      new List<Dialog>() { new SendActivity("@{HeroCard()}") } ),
-                        new Case("Signin card",    new List<Dialog>() { new SendActivity("@{SigninCard()}") } ),
-                        new Case("Thumbnail card", new List<Dialog>() { new SendActivity("@{ThumbnailCard()}") } ),
-                        new Case("Video card",     new List<Dialog>() { new SendActivity("@{VideoCard()}") } ),
+                        new Case("Adaptive card",  new List<Dialog>() { new SendActivity("${AdaptiveCard()}") } ),
+                        new Case("Animation card", new List<Dialog>() { new SendActivity("${AnimationCard()}") } ),
+                        new Case("Audio card",     new List<Dialog>() { new SendActivity("${AudioCard()}") } ),
+                        new Case("Hero card",      new List<Dialog>() { new SendActivity("${HeroCard()}") } ),
+                        new Case("Signin card",    new List<Dialog>() { new SendActivity("${SigninCard()}") } ),
+                        new Case("Thumbnail card", new List<Dialog>() { new SendActivity("${ThumbnailCard()}") } ),
+                        new Case("Video card",     new List<Dialog>() { new SendActivity("${VideoCard()}") } ),
                         new Case("Cancel",         new List<Dialog>() { new SendActivity("Sure."), new EndDialog() } ),
                     },
                     Default = new List<Dialog>()
                     {
-                        new SendActivity("@{AllCards()}")
+                        new SendActivity("${AllCards()}")
                     }
                 },
                 // Go back and repeat this dialog. User can choose 'cancel' to cancel the dialog.

@@ -20,6 +20,8 @@ Here are the different memory scopes available -
   - [Turn scope](#turn-scope)
     - [Turn sub-scopes](#turn-sub-scopes)
   - [Settings scope](#settings-scope)
+  - [This scope](#this-scope)
+  - [Class scope](#class-scope)
   - [Memory short-hand notations](#memory-short-hand-notations)
 
 ## User scope
@@ -78,6 +80,8 @@ Examples:
 - `turn.dialogEvent` - The payload of an event raised by the system (or via user code) is available under turn.dialogEvent.\<eventName\>.value scope.
 - `turn.lastresult` - The result from the last dialog that was called.
 - `turn.activityProcessed` - Bool property which if set means that the turncontet.activity has been consumed by some component in the system.
+- `turn.interrupted` - set to true if an interruption has occurred. 
+
 
 ## Settings scope
 This represents any settings that are made available to the bot via the platform specific settings configuration system - e.g. appsettings.json, .env, dynamic environment setting in Azure etc. 
@@ -88,6 +92,23 @@ Examples:
     settings.qna.kbId
 ```
 
+## This scope
+`This` scope pertains the active action's property bag. This is helpful for input actions since their lifetype typically lasts beyond a single turn of the conversation.
+- `this.value` holds the current recognized value for the input. 
+- `this.turnCount` holds the number of times the missing information has been prompted for this input. 
+
+## Class scope
+This holds the instance properties of the active dialog. e.g. Helpful for something like an input to refer to instance properties within LG
+
+```C#
+new TextInput()
+{
+  Property = "user.age"
+  Prompt = new ActivityTemplate("What is your age?"),
+  DefaultValue = "30",
+  DefaultValueResponse = new ActivityTemplate("Sorry, I'm not getting it inspite of you trying ${this.turnCount} number of times. \n I'm going with ${class.defaultValue} for now.")
+}
+```
 
 ## Memory short-hand notations
 There are few short-hand notations supported to access specific memory scopes. 
