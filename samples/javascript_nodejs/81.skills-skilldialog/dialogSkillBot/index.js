@@ -49,14 +49,6 @@ const onTurnErrorHandler = async (context, error) => {
 
 async function sendErrorMessage(context, error) {
     try {
-        // Send a trace activity, which will be displayed in Bot Framework Emulator.
-        await context.sendTraceActivity(
-            'OnTurnError Trace',
-            `${ error }`,
-            'https://www.botframework.com/schemas/error',
-            'TurnError'
-        );
-
         // Send a message to the user.
         let onTurnErrorMessage = 'The skill encountered an error or bug.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
