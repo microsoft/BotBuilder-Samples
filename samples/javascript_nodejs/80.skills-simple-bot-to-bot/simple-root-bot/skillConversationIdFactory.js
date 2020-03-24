@@ -18,8 +18,8 @@ class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
             conversationReference: TurnContext.getConversationReference(options.activity),
             oAuthScope: options.fromBotOAuthScope
         };
-        // This key has a 100 character limit.
-        const key = `${ options.fromBotId }-${ skillConversationReference.conversationReference.conversation.id }-skillconvo`;
+        // This key has a 100 character limit by default. Increase with `restify.createServer({ maxParamLength: 1000 });` in index.js.
+        const key = `${ options.fromBotId }-${ options.botFrameworkSkill.appId }-${ skillConversationReference.conversationReference.conversation.id }-${ skillConversationReference.conversationReference.channelId }-skillconvo`;
         this.refs[key] = skillConversationReference;
         return key;
     }
