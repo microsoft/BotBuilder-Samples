@@ -31,7 +31,7 @@ class DialogBot extends ActivityHandler {
         });
     }
 
-     /**
+    /**
      * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
      */
     async run(context) {

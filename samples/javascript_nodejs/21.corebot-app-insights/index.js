@@ -18,6 +18,8 @@ const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer')
 // This bot's main dialog.
 const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
 const { MainDialog } = require('./dialogs/mainDialog');
+
+// the bot's booking dialog
 const { BookingDialog } = require('./dialogs/bookingDialog');
 const BOOKING_DIALOG = 'bookingDialog';
 
@@ -61,8 +63,8 @@ adapter.onTurnError = onTurnErrorHandler;
 
 // Add telemetry middleware to the adapter middleware pipeline
 var telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
-var telemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient, true);
-var initializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware, true);
+var telemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+var initializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 adapter.use(initializerMiddleware);
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -82,7 +84,7 @@ const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint
 const luisRecognizer = new FlightBookingRecognizer(luisConfig, telemetryClient); 
 
 // Create the main dialog.
-const bookingDialog = new BookingDialog();
+const bookingDialog = new BookingDialog(BOOKING_DIALOG);
 const dialog = new MainDialog(luisRecognizer, bookingDialog);
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
@@ -116,3 +118,20 @@ function getTelemetryClient(instrumentationKey) {
     }
     return new NullTelemetryClient();
 }
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
+        await bot.run(context);
+    });
+});
