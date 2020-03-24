@@ -31,10 +31,11 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             turnContext.Activity.RemoveRecipientMention();
+            var text = turnContext.Activity.Text.Trim().ToLower();
 
-            switch (turnContext.Activity.Text.Trim())
+            switch (text)
             {
-                case "MentionMe":
+                case "mentionme":
                     await MentionActivityAsync(turnContext, cancellationToken);
                     break;
 
@@ -42,15 +43,15 @@ namespace Microsoft.BotBuilderSamples.Bots
                     await GetSingleMemberAsync(turnContext, cancellationToken);
                     break;
 
-                case "UpdateCardAction":
+                case "updatecardaction":
                     await CardActivityAsync(turnContext, true, cancellationToken);
                     break;
 
-                case "Delete":
+                case "delete":
                     await DeleteCardActivityAsync(turnContext, cancellationToken);
                     break;
 
-                case "MessageAllMembers":
+                case "messageallmembers":
                     await MessageAllMembersAsync(turnContext, cancellationToken);
                     break;
 
@@ -110,7 +111,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task GetSingleMemberAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            TeamsChannelAccount member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+            var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
 
             var message = MessageFactory.Text($"You are: {member.Name}.");
 
@@ -133,12 +134,12 @@ namespace Microsoft.BotBuilderSamples.Bots
             var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
             ConversationReference conversationReference = null;
 
-            List<TeamsChannelAccount> members = new List<TeamsChannelAccount>();
+            var members = new List<TeamsChannelAccount>();
             string continuationToken = null;
 
             do
             {
-                TeamsPagedMembersResult currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, 100, continuationToken, cancellationToken);
+                var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, 100, continuationToken, cancellationToken);
                 continuationToken = currentPage.ContinuationToken;
                 members = members.Concat(currentPage.Members).ToList();
             }
