@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.BotBuilderSamples.EchoSkillBot;
+using Microsoft.BotBuilderSamples.SkillBot;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 

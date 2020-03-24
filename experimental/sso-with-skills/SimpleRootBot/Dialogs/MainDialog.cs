@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Dialogs
 
             var botId = configuration.GetSection("MicrosoftAppId")?.Value;
 
-            skillsConfig.Skills.TryGetValue("EchoSkillBot", out var skill);
+            skillsConfig.Skills.TryGetValue("SkillBot", out var skill);
             AddDialog(new SkillDialog(
                 new SkillDialogOptions()
                 {

@@ -7,7 +7,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
+namespace Microsoft.BotBuilderSamples.SkillBot.Bots
 {
     public class ChildBot : ActivityHandler
     {

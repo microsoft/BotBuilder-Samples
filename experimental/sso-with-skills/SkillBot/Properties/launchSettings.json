@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EchoSkillBot": {
+    "SkillBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:1205/",
