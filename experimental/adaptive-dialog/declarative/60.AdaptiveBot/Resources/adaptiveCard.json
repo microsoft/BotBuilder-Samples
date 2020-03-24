@@ -15,17 +15,17 @@
       },
       {
         "type": "TextBlock",
-        "text": "@{PassengerName()}",
+        "text": "${PassengerName()}",
         "separator": true
       },
       {
         "type": "TextBlock",
-        "text": "@{PassengerName()}",
+        "text": "${PassengerName()}",
         "spacing": "none"
       },
       {
         "type": "TextBlock",
-        "text": "@{PassengerName()}",
+        "text": "${PassengerName()}",
         "spacing": "none"
       },
       {

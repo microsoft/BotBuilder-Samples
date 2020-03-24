@@ -2,13 +2,10 @@
 // Licensed under the MIT License.
 
 const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
-const { MessageFactory, InputHints } = require('botbuilder');
+const { ActivityFactory } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
+const { Templates } = require('botbuilder-lg');
 const path = require('path');
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
@@ -33,7 +30,7 @@ class MainDialog extends ComponentDialog {
 
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
 
-        this.templateEngine = new TemplateEngine().addFile(path.join(__dirname, '../resources/MainDialog.lg'));
+        this.lgTemplates = Templates.parseFile(path.join(__dirname, '../resources/MainDialog.lg'));
     }
 
     /**
@@ -60,11 +57,11 @@ class MainDialog extends ComponentDialog {
      */
     async introStep(stepContext) {
         if (!this.luisRecognizer.isConfigured) {
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('Sample.Missing.Configuration')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('Sample.Missing.Configuration')));
             return await stepContext.next();
         }
 
-        return await stepContext.prompt('TextPrompt', { prompt: ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('IntroPrompt', stepContext.options)) });
+        return await stepContext.prompt('TextPrompt', { prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('IntroPrompt', stepContext.options)) });
     }
 
     /**
@@ -102,13 +99,13 @@ class MainDialog extends ComponentDialog {
 
         case 'GetWeather': {
             // We haven't implemented the GetWeatherDialog so we just display a TODO message.
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('GetWeather')));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('GetWeather')));
             break;
         }
 
         default: {
             // Catch all for unhandled intents
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('Unknown.intent', {
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('Unknown.intent', {
                 intent : `${ LuisRecognizer.topIntent(luisResult) }`
             })));
         }
@@ -133,7 +130,7 @@ class MainDialog extends ComponentDialog {
         }
 
         if (unsupportedCities.length) {
-            await context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('UnsupportedCities', {
+            await context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('UnsupportedCities', {
                 cities : unsupportedCities
             })));
         }
@@ -155,7 +152,7 @@ class MainDialog extends ComponentDialog {
             const timeProperty = new TimexProperty(result.travelDate);
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
             const msg = `I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }.`;
-            await stepContext.context.sendActivity(ActivityFactory.createActivity(this.templateEngine.evaluateTemplate('BookingConfirmation', {
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('BookingConfirmation', {
                 Destination : result.destination, 
                 Origin : result.origin,
                 DateMessage : travelDateMsg

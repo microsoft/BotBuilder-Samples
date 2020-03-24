@@ -8,27 +8,26 @@ using System;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class MultiLingualTemplateEngine
     {
-        public Dictionary<string, TemplateEngine> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, TemplateEngine>();
+        public Dictionary<string, Templates> TemplateEnginesPerLocale { get; set; } = new Dictionary<string, Templates>();
         private LanguagePolicy LangFallBackPolicy;
 
-        public MultiLingualTemplateEngine(Dictionary<string, List<string>> lgFilesPerLocale)
+        public MultiLingualTemplateEngine(Dictionary<string, string> lgFilesPerLocale)
         {
             if (lgFilesPerLocale == null)
             {
                 throw new ArgumentNullException(nameof(lgFilesPerLocale));
             }
 
-            foreach (KeyValuePair<string, List<string>> filesPerLocale in lgFilesPerLocale)
+            foreach (KeyValuePair<string, string> filesPerLocale in lgFilesPerLocale)
             {
-                TemplateEnginesPerLocale[filesPerLocale.Key] = new TemplateEngine();
-                TemplateEnginesPerLocale[filesPerLocale.Key].AddFiles(filesPerLocale.Value);
+                TemplateEnginesPerLocale[filesPerLocale.Key] = Templates.ParseFile(filesPerLocale.Value);
             }
+
             LangFallBackPolicy = new LanguagePolicy();        
         }
 
@@ -105,7 +104,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (TemplateEnginesPerLocale.ContainsKey(iLocale))
             {
-                return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[locale].EvaluateTemplate(templateName, data).ToString());
+                return ActivityFactory.FromObject(TemplateEnginesPerLocale[locale].Evaluate(templateName, data));
             }
             var locales = new string[] { string.Empty };
             if (!LangFallBackPolicy.TryGetValue(iLocale, out locales))
@@ -120,7 +119,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 if (TemplateEnginesPerLocale.ContainsKey(fallBackLocale))
                 {
-                    return ActivityFactory.CreateActivity(TemplateEnginesPerLocale[fallBackLocale].EvaluateTemplate(templateName, data).ToString());
+                    return ActivityFactory.FromObject(TemplateEnginesPerLocale[fallBackLocale].Evaluate(templateName, data));
                 }
             }
             return new Activity();

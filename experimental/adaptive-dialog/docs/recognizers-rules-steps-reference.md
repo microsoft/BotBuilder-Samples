@@ -15,6 +15,10 @@ Adaptive Dialogs support the following recognizers -
 - [RegEx recognizer](#RegEx-recognizer)
 - [LUIS recognizer](#LUIS-recognizer)
 - [Multi-language recogizer](#Multi-language-recognizer)
+- [CrossTrainedRecognizerSet](#cross-trained-recognizer-set)
+- [RecognizerSet](#recognizer-set)
+- [ValueRecognizer](#value-recognizer)
+- [QnA recognizer](#qna-maker-recognizer)
 
 ### RegEx recognizer
 RegEx recognizer enables you to extract intent and entities based on regular expression patterns. 
@@ -61,9 +65,105 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 ``` C#
 var rootDialog = new AdaptiveDialog("rootDialog")
 {
-    Recognizer = new LuisRecognizer(new LuisApplication("<LUIS-APP-ID>", "<AUTHORING-SUBSCRIPTION-KEY>", "<ENDPOINT-URI>"))
+    Recognizer = new LuisAdaptiveRecognizer() 
+    {
+        ApplicationId = "<LUIS-APP-ID>",
+        EndpointKey = "<ENDPOINT-KEY>",
+        Endpoint = "<ENDPOINT-URI>"
+    }
 }
 ```
+# QnA Maker Recognizer
+[QnAMaker.ai](https://qnamaker.ai) is one of the cognitive services that enables you to create rich question-answer pairs from existing content - documents, urls, pdfs etc. You can use the QnA Maker recognizer to integrate with the service. 
+
+```C#
+var adaptiveDialog = new AdaptiveDialog()
+{
+    Recognizer = new QnAMakerRecognizer()
+    {
+        KnowledgeBaseId = "<KBID>",
+        HostName = "<HostName>",
+        EndpointKey = "<Key>"
+    }
+};
+```
+
+**Note:** This recognizer will return `QnAMatch` intent with the top answer promoted as an entity as well as the entire qna maker response available under `answer` property in the recognition result.
+
+# Value recognizer
+
+When using post back option with [adaptive cards](https://adaptivecards.io), the bot recieves an activity with a value property set to the actual payload returned by the card. Value recognizer looks at the `value` property in an activity and transforms it to a recognition result that includes `intent` and `entities`. 
+
+Given this adaptive card json, with the value recognizer, you can simply handle user clicking on submit button like any other intent.
+
+```json
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "size": "Medium",
+            "weight": "Bolder",
+            "text": " Info Form",
+            "horizontalAlignment": "Center"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Name",
+            "style": "text",
+            "maxLength": 0,
+            "id": "SimpleVal"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Homepage",
+            "style": "Url",
+            "maxLength": 0,
+            "id": "UrlVal"
+        },
+        {
+            "type": "Input.Text",
+            "placeholder": "Email",
+            "style": "Email",
+            "maxLength": 0,
+            "id": "EmailVal"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit",
+            "data": {
+                "id": "1234567890",
+                "intent": "userProfile-card"
+            }
+        }
+    ]
+}
+```
+
+```C#
+var adaptiveDialog = new AdaptiveDialog()
+{
+    Recognizer = new ValueRecognizer(),
+    Triggers = new List<OnCondition>()
+    {
+        new OnIntent()
+        {
+            Intent = "userProfile-card",
+            Actions = new List<Dialog>()
+            {
+                // All properties posted back by adaptive card are transformed to entiies.
+                // You can refer to entities using the @entityName shortcut or the long form turn.recognized.entities.entityName
+                new SendActivity("I have ID: ${@id} \n Name : ${@SimpleVal} \n Homepage: ${@UrlVal} \n Email : ${@EmailVal}")
+            }
+        }
+    }
+};
+```
+
 
 ### Multi-language recognizer
 When building a sophisticated multi-lingual bot, you will typically have one recognizer tied to a specific language x locale. The Multi-language recognizer enables you to easily specify the recognizer to use based on the [locale][2] property on the incoming activity from a user. 
@@ -73,10 +173,11 @@ var rootDialog = new AdaptiveDialog("rootDialog")
 {
     Recognizer = new MultiLanguageRecognizer()
     {
-        Recognizers = new Dictionary<string, Bot.Builder.IRecognizer>()
+        Recognizers = new Dictionary<string, Recognizer>()
         {
             {
-                "en", new RegexRecognizer()
+                "en",
+                new RegexRecognizer()
                 {
                     Intents = new List<IntentPattern>()
                     {
@@ -105,12 +206,73 @@ var rootDialog = new AdaptiveDialog("rootDialog")
                 }
             },
             {
-                "fr", new LuisRecognizer(new LuisApplication("<LUIS-APP-ID>", "<AUTHORING-SUBSCRIPTION-KEY>", "<ENDPOINT-URI>"))
+                "fr",
+                new LuisAdaptiveRecognizer()
+                {
+                    ApplicationId = "<LUIS-APP-ID>",
+                    EndpointKey = "<ENDPOINT-KEY>",
+                    Endpoint = "<ENDPOINT-URI>"
+                }
             }
         }
     }
 };
 ```
+
+# Recognizer set
+
+Sometimes you might need to run more than one recognizer on every turn of the conversation. Recognizer set does exactly that. All recognizer are run on each turn of the conversation and the result is a union of all recognition results. 
+
+```C#
+var adaptiveDialog = new AdaptiveDialog()
+{
+    Recognizer = new RecognizerSet()
+    {
+        Recognizers = new List<Recognizer>()
+        {
+            new ValueRecognizer(),
+            new QnAMakerRecognizer()
+            {
+                KnowledgeBaseId = "<KBID>",
+                HostName = "<HostName>",
+                EndpointKey = "<Key>"
+            }
+        }
+    }
+};
+```
+
+# Cross trained recognizer set
+
+Cross trained recognizer set compares recognition results from more than one recognizer to decide a winner. Given a collection of recognizers, cross-trained recognizer will 
+    - Promote the recognition result of one of the recognizer if all other recognizers defer recognition to a single recognizer. To defer recognition, a recognizer can return `None` intent or an explicit `DeferToRecognizer_recognizerId` as intent.
+    - Returns an `OnChooseIntent` intent which denotes confusability among recognizers. Each recognizer's results are returned via `turn.recognized.candidates`. This enables you to then use rules or other disambiguation techniques to decide an actual winner.
+
+```C#
+var adaptiveDialog = new AdaptiveDialog()
+{
+    Recognizer = new CrossTrainedRecognizerSet()
+    {
+        Recognizers = new List<Recognizer>()
+        {
+            new LuisAdaptiveRecognizer()
+            {
+                Id = "Luis-main-dialog",
+                ApplicationId = "<LUIS-APP-ID>",
+                EndpointKey = "<ENDPOINT-KEY>",
+                Endpoint = "<ENDPOINT-URI>"
+            },
+            new QnAMakerRecognizer()
+            {
+                Id = "qna-main-dialog",
+                KnowledgeBaseId = "<KBID>",
+                HostName = "<HostName>",
+                EndpointKey = "<Key>"
+            }
+        }
+    }
+};
+``` 
 
 ## Generator
 _Generator_ ties a specific language generation system to an Adaptive Dialog. This, along with Recognizer enables clean separation and encapsulation of a specific dialog's language understanding and language generation assets. With the [Language Generation][10] PREVIEW feature, you can set the generator to a _.lg_ file or set the generator to a [TemplateEngine][11] instance where you explicitly manage the one or more _.lg_ files that power this specific adaptive dialog. 
@@ -136,6 +298,8 @@ See table below for all triggers and their base events supported by Adaptive dia
 | **_Recognizer events_**      |                                      |                  |                                        |
 | OnIntent                     | Intent event handler                 | RecognizedIntent | turn.recognized.intent == 'IntentName' |
 | OnUnknownIntent              | Unknown intent event handler         | UnknownIntent    |                                        |
+| OnQnAMatch | QnA Match intent. Only available if QnA recognizer is configured on the dialog | RecognizedIntent | turn.recognized.intent == 'QnAMatch' |
+| OnChooseIntent | Only available if a cross trained recognizer is configured on the dialog. | RecognizedIntent | turn.recognized.intent == 'ChooseIntent' |
 | **_Dialog events_**          |                                      |                  |                                        |
 | OnBeginDialog                | Begin dialog handler                 | BeginDialog      | N/A                                    |
 | OnRepromptDialog             | On reprompt                          | RepromptDialog   | N/A                                    |
@@ -253,7 +417,7 @@ var myDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
     Triggers = new List<OnCondition>() {
         new OnConversationUpdateActivity() {
             Actions = new List<Dialog>() {
-                new SendActivity("@{Welcome-user()}")
+                new SendActivity("${Welcome-user()}")
             }
         }
     }
@@ -409,7 +573,7 @@ var ConfirmationDialog = new AdaptiveDialog("ConfirmationDialog") {
                     // string to that location before calling the "ConfirmationDialog".
                     // All prompts support rich language generation based resolution for output generation. 
                     // See ../../language-generation/README.md to learn more.
-                    Prompt = new ActivityTemplate("@{turn.contoso.travelBot.confirmPromptMessage}")
+                    Prompt = new ActivityTemplate("${turn.contoso.travelBot.confirmPromptMessage}")
                 }
             }
         }
@@ -460,7 +624,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     InvalidPrompt = new ActivityTemplate("Sorry, {this.value} does not work. Can you give me a different number that is between 1-10?"),
                     MaxTurnCount = 2,
                     DefaultValue = "9",
-                    DefaultValueResponse = new ActivityTemplate("Sorry, we have tried for '@{%MaxTurnCount}' number of times and I'm still not getting it. For now, I'm setting '@{%property}' to '@{%DefaultValue}'"),
+                    DefaultValueResponse = new ActivityTemplate("Sorry, we have tried for '${%MaxTurnCount}' number of times and I'm still not getting it. For now, I'm setting '${%property}' to '${%DefaultValue}'"),
                     AllowInterruptions = "false",
                     AlwaysPrompt = true,
                     OutputFormat = NumberOutputFormat.Integer
@@ -505,7 +669,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     Property = "$userDate",
                     Prompt = new ActivityTemplate("Give me a date"),
                 },
-                new SendActivity("You gave me @{$userDate}")
+                new SendActivity("You gave me ${$userDate}")
             }
         }
     }
@@ -546,7 +710,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     // Property path to store the authorization token.
                     TokenProperty = "user.authToken"
                 },
-                new SendActivity("You are signed in with token = @{user.authToken}")
+                new SendActivity("You are signed in with token = ${user.authToken}")
             }
         }
     }
@@ -586,7 +750,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     Prompt = new ActivityTemplate("Please give me an image of your car. Drag drop the image to the chat canvas."),
                     OutputFormat = AttachmentOutputFormat.All
                 },
-                new SendActivity("You gave me @{$userAttachmentCarImage}")
+                new SendActivity("You gave me ${$userAttachmentCarImage}")
             }
         }
     }
@@ -606,6 +770,8 @@ Adaptive dialogs support the following actions -
     - [InitProperty](#InitProperty)
     - [SetProperty](#SetProperty)
     - [DeleteProperty](#DeleteProperty)
+    - [DeleteProperties](#DeleteProperties)
+    - [SetProperties](#SetProperties)
 - Conversational flow and dialog management
     - [IfCondition](#IfCondition)
     - [SwitchCondition](#SwitchCondition)
@@ -619,12 +785,20 @@ Adaptive dialogs support the following actions -
     - [EmitEvent](#EmitEvent)
     - [ForEach](#ForEach)
     - [ForEachPage](#ForEachPage)
+    - [BreakLoop](#break-loop)
+    - [ContinueLoop](#continue-loop)
+    - [DeleteActivity](#delete-activity)
+    - [GetActivityMembers](#get-activity-members)
+    - [GetConversationMembers](#get-conversation-members)
+    - [GotoAction](#goto-action)
+    - [SignOutUser](#signout-user)
+    - [UpdateActivity](#update-activity)
 - Roll your own code
     - [CodeAction](#CodeStep)
     - [HttpRequest](#HttpRequest)
 - Tracing and logging
     - [TraceActivity](#TraceActivity)
-    - [LogStep](#LogStep)
+    - [LogAction](#LogStep)
 
 ### SendActivity
 Used to send an activity to user. 
@@ -652,7 +826,7 @@ greetUserDialog.Triggers.Add(new OnIntent()
             Property = "user.name",
             Prompt = new ActivityTemplate("What is your name?")
         },
-        new SendActivity("Hello, @{user.name}")
+        new SendActivity("Hello, ${user.name}")
     }
 });
 ```
@@ -678,11 +852,11 @@ addToDoDialog.Triggers.Add(new OnIntent()
         new EditArray() 
         {
             ItemsProperty = "user.todos",
-            Value = "dialog.addTodo.title"
+            Value = "=dialog.addTodo.title"
             ChangeType = EditArray.ArrayChangeType.Push
         },
-        new SendActivity("Ok, I have added @{dialog.addTodo.title} to your todos."),
-        new SendActivity("You now have @{count(user.todos)} items in your todo.")
+        new SendActivity("Ok, I have added ${dialog.addTodo.title} to your todos."),
+        new SendActivity("You now have ${count(user.todos)} items in your todo.")
 }));
 ```
 
@@ -705,7 +879,7 @@ new SetProperty()
 {
     Property = "user.firstName",
     // If user name is Vishwac Kannan, this sets first name to 'Vishwac'
-    Value = "split(user.name, ' ')[0]"
+    Value = "=split(user.name, ' ')[0]"
 },
 ```
 
@@ -719,6 +893,41 @@ new DeleteProperty
 }
 ```
 
+### DeleteProperties
+Delete more than one property in a single action. 
+
+```C#
+new DeleteProperties()
+{
+    Properties = new List<StringExpression>()
+    {
+        new StringExpression("user.name"),
+        new StringExpression("user.age")
+    }
+}
+```
+### SetProperties
+
+Initialize one or more properties in a single action. 
+
+```C#
+new SetProperties()
+{
+    Assignments = new List<PropertyAssignment>()
+    {
+        new PropertyAssignment()
+        {
+            Property = "user.name",
+            Value = "Vishwac"
+        },
+        new PropertyAssignment()
+        {
+            Property = "user.age",
+            Value = "=coalesce($age, 30)"
+        }
+    }
+}
+```
 ### IfCondition
 Used to represent a branch in the conversational flow based on a specific condition. Conditions are expressed using the common expression language. See [here][5] to learn more about the common expression language.
 
@@ -740,10 +949,10 @@ addToDoDialog.Triggers.Add(new OnIntent()
         new EditArray() 
         {
             ItemsProperty = "user.todos",
-            Value = "dialog.addTodo.title"
+            Value = "=dialog.addTodo.title"
             ChangeType = EditArray.ArrayChangeType.Push
         },
-        new SendActivity("Ok, I have added @{dialog.addTodo.title} to your todos."),
+        new SendActivity("Ok, I have added ${dialog.addTodo.title} to your todos."),
         new IfCondition()
         {
             Condition = "toLower(dialog.addTodo.title) == 'call santa'",
@@ -752,7 +961,7 @@ addToDoDialog.Triggers.Add(new OnIntent()
                 new SendActivity("Yes master. On it right now \\[You have unlocked an easter egg] :)")
             }
         },
-        new SendActivity("You now have @{count(user.todos)} items in your todo.")
+        new SendActivity("You now have ${count(user.todos)} items in your todo.")
     }
 });
 ```
@@ -788,9 +997,9 @@ cardDialog.Triggers.Add(new OnIntent()
             Condition = "turn.cardDialog.cardChoice",
             Cases = new List<Case>() 
             {
-                new Case("Adaptive card",  new List<Dialog>() { new SendActivity("@{AdativeCardRef()}") } ),
-                new Case("Hero card", new List<Dialog>() { new SendActivity("@{HeroCard()}") } ),
-                new Case("Video card",     new List<Dialog>() { new SendActivity("@{VideoCard()}") } ),
+                new Case("Adaptive card",  new List<Dialog>() { new SendActivity("${AdativeCardRef()}") } ),
+                new Case("Hero card", new List<Dialog>() { new SendActivity("${HeroCard()}") } ),
+                new Case("Video card",     new List<Dialog>() { new SendActivity("${VideoCard()}") } ),
             },
             Default = new List<Dialog>()
             {
@@ -828,7 +1037,7 @@ Ends the active dialog.
 new EndDialog()
 {
     // Value property indicates value to return to the caller.
-    Value = "$userName"
+    Value = "=$userName"
 }
 ```
 
@@ -858,7 +1067,7 @@ getUserName.Triggers.Add(new OnIntent()
             Property = "user.name",
             Prompt = new ActivityTemplate("What is your name?")
         },
-        new SendActivity("Hello @{user.name}, nice to meet you!")
+        new SendActivity("Hello ${user.name}, nice to meet you!")
     }
 });
 
@@ -928,7 +1137,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 new EditArray()
                 {
                     ArrayProperty = "user.favColors",
-                    ItemProperty = "turn.favColor",
+                    Value = "=turn.favColor",
                     ChangeType = EditArray.ArrayChangeType.Push
                 },
                 // This is required because TextInput will skip prompt if the property exists - which it will from the previous turn. 
@@ -944,7 +1153,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
         {
             Actions = new List<Dialog>()
             {
-                new SendActivity("You have @{count(user.favColors)} favorite colors - @{join(user.favColors, ',', 'and')}"),
+                new SendActivity("You have ${count(user.favColors)} favorite colors - ${join(user.favColors, ',', 'and')}"),
                 new EndDialog()
             }
         }
@@ -968,7 +1177,6 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
 };
 ```
 
-
 ### CodeAction
 As the name implies, this action enables you to call a custom piece of code. 
 
@@ -978,7 +1186,7 @@ private async Task<DialogTurnResult> CodeActionSampleFn(DialogContext dc, System
 {
     await dc.Context.SendActivityAsync(MessageFactory.Text("In custom code step"));
     // This code step decided to just return the input payload as the result.
-    return new DialogTurnResult(DialogTurnStatus.Complete, options);
+    return dc.EndDialogAsync(options)
 }
 
 // Adaptive dialog that calls a code step.
@@ -1151,16 +1359,16 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                         Prompt = new ActivityTemplate("What's your name?"),
                         Property = "user.name",
                         AlwaysPrompt = true,
-                        OutputFormat = TextOutputFormat.Lowercase
+                        OutputFormat = "toLower(this.value)"
                     },
                     new EmitEvent()
                     {
                         EventName = "contoso.custom",
-                        EventValue = "user.name",
+                        EventValue = "=user.name",
                         BubbleEvent = true,
                     },
-                    new SendActivity("Your name is @{user.name}"),
-                    new SendActivity("And you are @{$userType}")
+                    new SendActivity("Your name is ${user.name}"),
+                    new SendActivity("And you are ${$userType}")
                 }
             },
             new OnCustomEvent()
@@ -1171,11 +1379,11 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 Condition = "turn.dialogEvent.value && (substring(turn.dialogEvent.value, 0, 1) == 'v')",
                 Actions = new List<Dialog>()
                 {
-                    new SendActivity("In custom event: '@{turn.dialogEvent.name}' with the following value '@{turn.dialogEvent.value}'"),
+                    new SendActivity("In custom event: '${turn.dialogEvent.name}' with the following value '${turn.dialogEvent.value}'"),
                     new SetProperty()
                     {
                         Property = "$userType",
-                        Value = "'VIP'"
+                        Value = "VIP"
                     }
                 }
             },
@@ -1187,11 +1395,11 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 Condition = "turn.dialogEvent.value && (substring(turn.dialogEvent.value, 0, 1) == 's')",
                 Actions = new List<Dialog>()
                 {
-                    new SendActivity("In custom event: '@{turn.dialogEvent.name}' with the following value '@{turn.dialogEvent.value}'"),
+                    new SendActivity("In custom event: '${turn.dialogEvent.name}' with the following value '${turn.dialogEvent.value}'"),
                     new SetProperty()
                     {
                         Property = "$userType",
-                        Value = "'Special'"
+                        Value = "Special"
                     }
                 }
             },
@@ -1200,11 +1408,11 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 Event = "contoso.custom",
                 Actions = new List<Dialog>()
                 {
-                    new SendActivity("In custom event: '@{turn.dialogEvent.name}' with the following value '@{turn.dialogEvent.value}'"),
+                    new SendActivity("In custom event: '${turn.dialogEvent.name}' with the following value '${turn.dialogEvent.value}'"),
                     new SetProperty()
                     {
                         Property = "$userType",
-                        Value = "'regular customer'"
+                        Value = "regular customer"
                     }
                 }
             }
@@ -1227,7 +1435,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 new SetProperty()
                 {
                     Property = "turn.colors",
-                    Value = "createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                    Value = "=createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
                 },
                 new Foreach()
                 {
@@ -1239,7 +1447,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                         // You can use short hands to refer to these via 
                         //      $foreach.value
                         //      $foreach.index
-                        new SendActivity("@{$foreach.index}: Found '@{$foreach.value}' in the collection!")
+                        new SendActivity("${$foreach.index}: Found '${$foreach.value}' in the collection!")
                     }
                 }
             }
@@ -1264,7 +1472,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                 new SetProperty()
                 {
                     Property = "turn.colors",
-                    Value = "createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                    Value = "=createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
                 },
                 new ForeachPage()
                 {
@@ -1274,7 +1482,7 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
                     {
                         // By default, dialog.foreach.page holds the value of the page
                         //      $foreach.page
-                        new SendActivity("Page content: @{join($foreach.page, ', ')}")
+                        new SendActivity("Page content: ${join($foreach.page, ', ')}")
                     }
                 }
             }
@@ -1282,6 +1490,187 @@ var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
     }
 };
 ```
+
+### Break Loop
+
+Break out of a loop
+
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Triggers = new List<OnCondition>()
+    {
+        new OnUnknownIntent()
+        {
+            Actions = new List<Dialog>()
+            {
+                new SetProperty()
+                {
+                    Property = "turn.colors",
+                    Value = "=createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                },
+                new Foreach()
+                {
+                    ItemsProperty = "turn.colors",
+                    Actions = new List<Dialog>()
+                    {
+                        new IfCondition()
+                        {
+                            Condition = "$foreach.value == 'green'",
+                            Actions = new List<Dialog>()
+                            {
+                                new BreakLoop()
+                            },
+                            ElseActions = new List<Dialog>()
+                            {
+                                // By default, dialog.foreach.value holds the value of the item
+                                // dialog.foreach.index holds the index of the item.
+                                // You can use short hands to refer to these via 
+                                //      $foreach.value
+                                //      $foreach.index
+                                new SendActivity("${$foreach.index}: Found '${$foreach.value}' in the collection!")
+                            }
+                        },
+                    }
+                }
+            }
+        }
+    }
+};
+```
+
+### Continue Loop
+
+Continue current loop without processing rest of the statements within the loop.
+
+```C#
+var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
+{
+    Generator = new TemplateEngineLanguageGenerator(),
+    Triggers = new List<OnCondition>()
+    {
+        new OnUnknownIntent()
+        {
+            Actions = new List<Dialog>()
+            {
+                new SetProperty()
+                {
+                    Property = "turn.colors",
+                    Value = "=createArray('red', 'blue', 'green', 'yellow', 'orange', 'indigo')"
+                },
+                new Foreach()
+                {
+                    ItemsProperty = "turn.colors",
+                    Actions = new List<Dialog>()
+                    {
+                        new IfCondition()
+                        {
+                            // Skip items at even position in the collection.
+                            Condition = "$foreach.index % 2 == 0",
+                            Actions = new List<Dialog>()
+                            {
+                                new ContinueLoop()
+                            },
+                            ElseActions = new List<Dialog>()
+                            {
+                                // By default, dialog.foreach.value holds the value of the item
+                                // dialog.foreach.index holds the index of the item.
+                                // You can use short hands to refer to these via 
+                                //      $foreach.value
+                                //      $foreach.index
+                                new SendActivity("${$foreach.index}: Found '${$foreach.value}' in the collection!")
+                            }
+                        },
+                    }
+                }
+            }
+        }
+    }
+};
+```
+
+### Goto action
+Jump to a labelled action within the current action scope.
+
+```C#
+var adaptiveDialog = new AdaptiveDialog()
+{
+    Triggers = new List<OnCondition>()
+    {
+        new OnBeginDialog()
+        {
+            Actions = new List<Dialog>()
+            {
+                new GotoAction()
+                {
+                    ActionId = "end"
+                },
+                new SendActivity("this will be skipped."),
+                new SendActivity()
+                {
+                    Id = "end",
+                    Activity = new ActivityTemplate("The End.")
+                }
+            }
+        }
+    }
+};
+```
+
+### Sign out user
+Sign out current signed in user.
+
+```C#
+new SignOutUser()
+{
+    UserId = "userid",
+    ConnectionName = "connection-name"
+}
+```
+
+### Delete act
+Delete a activity that was sent. 
+
+```C#
+new DeleteActivity ()
+{
+    ActivityId = "id"
+}
+```
+
+### Update activity
+Update an activity that was sent. 
+
+```C#
+new UpdateActivity ()
+{
+    ActivityId = "id",
+    Activity = new ActivityTemplate("updated value")
+}
+```
+
+### Get activity members
+Calls BotFrameworkAdapter.GetActivityMembers() and sets the result to a memory property.
+
+```C#
+new GetActivityMembers()
+{
+    Property = "turn.activityMemebrs"
+}
+```
+
+### Get conversation members
+Calls BotFrameworkAdapter.GetConversationMembers () and sets the result to a memory property.
+
+```C#
+new GetConversationMembers()
+{
+    Property = "turn.convMembers"
+}
+```
+
+
 
 [1]:https://luis.ai
 [2]:https://github.com/Microsoft/BotBuilder/blob/master/specs/botframework-activity/botframework-activity.md#locale

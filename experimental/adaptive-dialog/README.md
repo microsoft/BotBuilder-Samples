@@ -1,6 +1,6 @@
-# Adaptive Dialog *[Preview]*
+# Adaptive Dialog *[RC0]*
 
-> See [here](#Change-Log) for what's new in **4.7 PREVIEW** release.
+> See [here](#Change-Log) for what's new in **4.8 RC0** release. RC0 = Release Candidate 0.
 
 **Pre-read:** [Dialogs library][1] in Bot Framework V4 SDK.
 
@@ -29,27 +29,6 @@ To get started, you can check out the various samples [here][5]. The following a
 11. [Reporting issues](#Reporting-issues)
 12. [Change Log](#change-log)
 
-## Quick Start
-This section describes how to quickly setup the latest [composer](https://github.com/Microsoft/BotFramework-Composer), [bf cli tool](https://github.com/microsoft/botframework-cli) and [.net SDK](https://github.com/microsoft/BotBuilder-dotnet).  If you do not use the myget feed, you will get the latest published versions instead.
-
-1. Install the Composer. 
-   1. `git clone https://github.com/microsoft/BotFramework-Composer.git`
-   2. `cd Composer`
-   3. `yarn`
-   4. `yarn build`
-   5. `yarn startall`
-2. This is enough to build and test bots with composer, but it is useful to have the cli tool bf from the [myget](https://botbuilder.myget.org/gallery) feed.  The tool supports lots of Bot Framework commands including the ability to create custom runtimes or generate dialogs from JSON schema.
-   1.  `npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/`
-   2.  `npm install -g @microsoft/botframework-cli`
-   3.  `npm config set registry https://registry.npmjs.org/`
-3. If you also want to create a custom runtime you will need to add add references to the latest .net SDK.
-   1. `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`
-   2. Start Visual Studio, create your project and add references to the SDK features you need.  
-      1. `Microsoft.Bot.Builder.Adaptive` for adaptive dialog support.
-      2. `Microsoft.Bot.Builder.Declarative` if you want support for declarative dialogs.
-      3. You can also install the [Visual studio code debugger extension][18] to help debug declarative dialogs.
-      4. If you want to edit .dialog files directly Visual Studio Code works better than Visual Studio because it provides Intellisense and schema error checking.
-
 ## Packages and source code
 Packages for C# are available on [BotBuilder MyGet][14]. We will update this section once packages for JS is available.
 Source code: 
@@ -65,6 +44,79 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 You can use this [Visual studio code debugger extension][18] to debug both code based as well as declaratively defined Adaptive Dialogs.
 
 ## Change Log
+### 4.8 RC
+- \[**NEW**\] 
+   - New samples: 
+      - [C#][s1-c#] Getting waterfall, custom and adaptive dialogs to work in harmony
+      - [C#][s2-c#] Integrating [Composer][composer] generated dialogs with existing V4 bots.
+   - [Adaptive actions][aa]: SetProperties, DeleteProperties, BreakLoop, ContinueLoop, DeleteActivity, GetActivityMembers, GetConversationMembers, GotoAction, SignOutUser, UpdateActivity 
+   - [Adaptive recognizers][ar]: CrossTrainedRecognizerSet, RecognizerSet, ValueRecognizer, QnAMakerRecognizer
+   - New triggers - OnQnAMatch, OnChooseIntent.
+   - Adaptive dialogs now participate in being able instrument runtime operations to telemetry client.
+   - You can now simply use `SetProperty` or `SetProperties` action to initialize and empty array or object. Set to `={}` for object and `=[]` for array.
+- \[**BREAKING CHANGES**\]
+   - See [here][b1] for breaking changes related to language generation and adaptive expressions.
+   - Bounding character for expressions has been changed from **@**{expression} to **$**{expression}
+
+    |  Old  | New |
+    |-------|-----|
+    | new SendActivity("I have @{user.name}") | new SendActivity("I have ${user.name}") |
+    | new SendActivity("@{lgTemplateFoo()}") | new SendActivity("${lgTemplateFoo()}") |
+
+   - Properties that accept expressions now have updated usage pattern 
+
+   ```C#
+      // user.name set to string `vishwac`
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "Vishwac"
+      }
+
+      // user.name set to string `@userName`
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "@userName"
+      }
+
+      // user.name set to the outcome of evaluating the expression '@userName'. 
+      // If expression evaluates to 
+      //    - string, user.name is set to that string; 
+      //    - object, then user.name set to that object etc.
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "=@userName"
+      }
+
+      // user.name set to string interpolated value contained in @userName. 
+      // Note: If @userName evaluated to an object, user.name will have the **string** represenatation of the object
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "${@userName}"
+      }
+
+      // string interpolation
+      new SetProperty()
+      {
+         Property = "user.name",
+         Value = "${name : @userName}"
+      }
+   ```
+   - CodeActions now expected to call endDialog when they are done.
+
+   | Old | New | 
+   |-----|-----|
+   | return new DialogTurnResult(DialogTurnStatus.Complete, options); | return await dc.EndDialogAsync(options) |
+
+   - `UseLanguageGeneration` moved off adapter to `DialogManager`
+   - `UseResourceExplorer` moved off adapter to `DialogManager`
+   - Use `LuisAdaptiveRecognizer` when for LUIS recognizer in adaptive dialogs
+   
+
+
 ### 4.7 PREVIEW
 - \[**New\] Language Generation integration has been refactored to work better with Adaptive dialogs.
 - \[**BREAKING CHANGES**\]
@@ -120,3 +172,8 @@ You can use this [Visual studio code debugger extension][18] to debug both code 
 [31]:https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
 [32]:../language-generation/README.md#4.7-PREVIEW
 [33]:./docs/generating-dialogs.md
+[b1]:../language-generation/README.md#Change-Log
+[ar]:./docs/recognizers-rules-steps-reference.md#Recognizers
+[aa]:./docs/recognizers-rules-steps-reference.md#Actions
+[s1-c#]:./csharp_dotnetcore/19.waterfall-or-custom-dialog-with-adaptive/README.md
+[s2-c#]:./declarative/19.integrating-composer-dialogs/README.md

@@ -23,9 +23,6 @@ namespace Microsoft.BotBuilderSamples
             this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseStorage(storage);
             this.UseState(userState, conversationState);
-            this.UseResourceExplorer(resourceExplorer);
-            this.UseLanguageGeneration(resourceExplorer);
-            this.UseAdaptiveDialogs();
             this.UseDebugger(configuration.GetValue<int>("debugport", 4712), events: new Events<AdaptiveEvents>());
 
             this.OnTurnError = async (turnContext, exception) =>
