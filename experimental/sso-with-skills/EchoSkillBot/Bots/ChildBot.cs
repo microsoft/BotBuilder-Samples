@@ -9,13 +9,13 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
 {
-    public class EchoBot : ActivityHandler
+    public class ChildBot : ActivityHandler
     {
         private readonly Dialog _dialog;
         private readonly ConversationState _conversationState;
         private readonly UserState _userState;
 
-        public EchoBot(Dialog dialog, ConversationState conversationState, UserState userState)
+        public ChildBot(Dialog dialog, ConversationState conversationState, UserState userState)
         {
             _dialog = dialog;
             _conversationState = conversationState;
@@ -56,12 +56,9 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
             }
             else
             {
-                //await turnContext.SendActivityAsync(MessageFactory.Text($"Echo (dotnet) : {turnContext.Activity.Text}"), cancellationToken);
-                //await turnContext.SendActivityAsync(MessageFactory.Text("Say \"end\" or \"stop\" and I'll end the conversation and back to the parent."), cancellationToken);
                 await _conversationState.LoadAsync(turnContext, true, cancellationToken);
                 await _userState.LoadAsync(turnContext, true, cancellationToken);
                 await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-
             }
         }
 

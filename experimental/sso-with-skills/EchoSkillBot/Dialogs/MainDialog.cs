@@ -53,36 +53,10 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Dialogs
                     dialogResult = new DialogTurnResult(DialogTurnStatus.Complete);
                 }
 
-                if (dialogResult.Status == DialogTurnStatus.Complete)
-                {
-                    // Send End of conversation at the end.
-                    var endOfConversation = innerDc.Context.Activity.CreateReply();
-                    endOfConversation.Type = ActivityTypes.EndOfConversation;
-                    endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
-                    await innerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
-                }
-
                 return dialogResult;
             }
 
             return await base.OnBeginDialogAsync(innerDc, options, cancellationToken);
-        }
-
-        protected override async Task<DialogTurnResult> OnContinueDialogAsync(DialogContext innerDc, CancellationToken cancellationToken = default(CancellationToken))
-        {
-
-            var result = await base.OnContinueDialogAsync(innerDc, cancellationToken);
-
-            if (result.Status == DialogTurnStatus.Complete)
-            {
-                // Send End of conversation at the end.
-                var endOfConversation = innerDc.Context.Activity.CreateReply();
-                endOfConversation.Type = ActivityTypes.EndOfConversation;
-                endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
-                await innerDc.Context.SendActivityAsync(endOfConversation, cancellationToken);
-            }
-
-            return result;
         }
     }
 }

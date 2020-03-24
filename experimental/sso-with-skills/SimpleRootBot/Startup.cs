@@ -42,7 +42,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
             // Register the skills client and skills request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
-            services.AddSingleton<ChannelServiceHandler, SkillHandler>();
+            services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
 
             // Register the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();

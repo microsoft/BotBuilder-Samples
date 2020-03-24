@@ -23,6 +23,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
         private readonly SkillsConfiguration _skillsConfig;
         private readonly SkillHttpClient _skillClient;
         private readonly string _botId;
+        private readonly string _connectionName;
         private readonly SkillConversationIdFactoryBase _conversationIdFactory;
         private IExtendedUserTokenProvider _tokenExchangeProvider;
 
@@ -51,6 +52,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
             _conversationIdFactory = conversationIdFactory;
 
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
+            _connectionName = configuration.GetSection("ConnectionName")?.Value;
         }
 
         protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
@@ -106,7 +108,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                                 // AAD token exchange
                                 var result = await _tokenExchangeProvider.ExchangeTokenAsync(
                                     context,
-                                    "blah",
+                                    _connectionName,
                                     activity.Recipient.Id,
                                     new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
 
