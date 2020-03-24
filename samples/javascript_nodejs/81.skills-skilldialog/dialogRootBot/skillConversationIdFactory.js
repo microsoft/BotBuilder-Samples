@@ -11,22 +11,20 @@ class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     constructor() {
         super();
         this.refs = {};
-        this.skillId = process.env.SkillId;
-        this.disableCreateWithOptions = false;
-        this.disableGetSkillConversationReference = false;
     }
 
     async createSkillConversationIdWithOptions(options) {
-        if (this.disableCreateWithOptions) super.createSkillConversationIdWithOptions();
-        this.refs[this.skillId] = {
+        const skillConversationReference = {
             conversationReference: TurnContext.getConversationReference(options.activity),
             oAuthScope: options.fromBotOAuthScope
         };
-        return this.skillId;
+        // This key has a 100 character limit.
+        const key = `${ options.fromBotId }-${ skillConversationReference.conversationReference.conversation.id }-skillconvo`;
+        this.refs[key] = skillConversationReference;
+        return key;
     }
 
     async getSkillConversationReference(skillConversationId) {
-        if (this.disableGetSkillConversationReference) super.createSkillConversationIdWithOptions();
         return this.refs[skillConversationId];
     }
 
