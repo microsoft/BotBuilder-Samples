@@ -5,36 +5,33 @@ const { SkillConversationIdFactoryBase, TurnContext } = require('botbuilder');
 
 /**
  * A SkillConversationIdFactory that uses an in memory dictionary
- *   to store and retrieve ConversationReference instances.
+ * to store and retrieve ConversationReference instances.
  */
 class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     constructor() {
         super();
         this.refs = {};
         this.skillId = process.env.SkillId;
+        this.disableCreateWithOptions = false;
+        this.disableGetSkillConversationReference = false;
     }
 
-    async createSkillConversationId(conversationReference) {
-        const key = `${ conversationReference.conversation.id }-${ conversationReference.channelId }-skillconvo`;
-        this.refs[key] = conversationReference;
-        return key;
-    }
-
-    async createSkillConversationIdWithOptions(opts) {
-        this.refs[this.skillId] = { oAuthScope: opts.fromOAuthScope, conversationReference: TurnContext.getConversationReference(opts.activity) };
+    async createSkillConversationIdWithOptions(options) {
+        if (this.disableCreateWithOptions) super.createSkillConversationIdWithOptions();
+        this.refs[this.skillId] = {
+            conversationReference: TurnContext.getConversationReference(options.activity),
+            oAuthScope: options.fromBotOAuthScope
+        };
         return this.skillId;
     }
 
-    async getConversationReference(skillConversationId) {
+    async getSkillConversationReference(skillConversationId) {
+        if (this.disableGetSkillConversationReference) super.createSkillConversationIdWithOptions();
         return this.refs[skillConversationId];
     }
 
     async deleteConversationReference(skillConversationId) {
         this.refs[skillConversationId] = undefined;
-    }
-
-    async getSkillConversationReference(skillConversationId) {
-        return await this.getConversationReference(skillConversationId);
     }
 }
 
