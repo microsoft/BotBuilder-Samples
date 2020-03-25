@@ -16,7 +16,7 @@ The goal of this library is not to offer a universal solution for integration wi
 
 ## Protocol
 
-The protocol is centered around three distinct events for initiation, acknowledgement, and completion.
+The protocol is centered around events for initiation (sent by the bot to the channel) and status update (sent by the channel to the bot).
 
 ### Handoff Initiation
 

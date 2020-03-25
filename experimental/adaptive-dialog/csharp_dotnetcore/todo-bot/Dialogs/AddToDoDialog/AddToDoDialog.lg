@@ -6,7 +6,7 @@
 [Root LG](../RootDialog/RootDialog.lg)
 
 # Help-Add-ToDo
-- @{Help-prefix()}, you can simply say the title of your todo to add it.
+- ${Help-prefix()}, you can simply say the title of your todo to add it.
 
 # Help-prefix
 - Sure
@@ -26,12 +26,12 @@
 
 # Add-ToDo-ReadBack
 [Activity
-    Text = @{Help-prefix()}, I have added "@{turn.todoTitle}" to your todo list. You have @{count(user.todos)} items in your Todo list.
-    @{Welcome-Actions()}
+    Text = ${Help-prefix()}, I have added "${turn.todoTitle}" to your todo list. You have ${count(user.todos)} items in your Todo list.
+    ${Welcome-Actions()}
 ]
 
 # Cancel-add-todo
 [Activity
-    Text = @{Help-prefix()}, I've cancelled that.
-    @{Welcome-Actions()}
+    Text = ${Help-prefix()}, I've cancelled that.
+    ${Welcome-Actions()}
 ]

@@ -50,12 +50,10 @@ namespace Microsoft.BotBuilderSamples
         {
             System.Diagnostics.Trace.TraceInformation("Loading resources...");
 
-            // normally you just look up your root dialog and load it
-            //var resource = this.resourceExplorer.GetResource("myroot.dialog");
-            //this.rootDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, this.resourceExplorer, DebugSupport.SourceRegistry);
-
-            // but for this sample we enumerate all of the .main.dialog files and build a ChoiceInput as our rootidialog.
+            //For this sample we enumerate all of the .main.dialog files and build a ChoiceInput as our rootidialog.
             this.dialogManager = new DialogManager(CreateChoiceInputForAllMainDialogs());
+            this.dialogManager.UseResourceExplorer(this.resourceExplorer);
+            this.dialogManager.UseLanguageGeneration();
 
             System.Diagnostics.Trace.TraceInformation("Done loading resources.");
         }
@@ -68,7 +66,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(resource.Id));
                 dialogChoices.Add(new Choice(name));
-                var subDialog = DeclarativeTypeLoader.Load<AdaptiveDialog>(resource, resourceExplorer, DebugSupport.SourceMap);
+                var subDialog = resourceExplorer.LoadType<AdaptiveDialog>(resource);
                 dialogCases.Add(new Case($"{name}", new List<Dialog>() { subDialog }));
             }
 
@@ -85,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
                                 Style = ListStyle.List,
                                 Choices = new ChoiceSet(dialogChoices)
                             },
-                            new SendActivity("# Running @{conversation.dialogChoice}.main.dialog"),
+                            new SendActivity("# Running ${conversation.dialogChoice}.main.dialog"),
                             new SwitchCondition(){
                                 Condition = "conversation.dialogChoice",
                                 Cases = dialogCases

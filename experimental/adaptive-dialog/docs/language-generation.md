@@ -8,19 +8,13 @@ Once you have authored your .lg files for your Adaptive dialogs (or your bot pro
 
 All [sample projects][2] follow the exact same pattern.
 
-
-In adapter
-```C#
-    this.Use(new RegisterClassMiddleware<Microsoft.Bot.Builder.Dialogs.Adaptive.IActivityGenerator>(new ActivityBuilder()));
-```
-
 In any Adaptive Dialog
 ```C#
 string[] paths = { ".", "Dialogs", "RootDialog", "RootDialog.lg" };
 string fullPath = Path.Combine(paths);
 var adaptiveDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
 { 
-    Generator = new TemplateEngineLanguageGenerator(new TemplateEngine().AddFile(fullPath)),
+    Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
     Triggers = new List<OnCondition> () {
         // Triggers
     }    
@@ -30,7 +24,7 @@ var adaptiveDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
 With this, you can simply refer to a LG template anywhere in your bot's response. 
 
 ``` C#
-new SendActivity("@{MyLGTemplateName()}")
+new SendActivity("${MyLGTemplateName()}")
 ```
 
 **Note:** By default, your bot's entire state is passed to the LG sub-system for resolution. So your teamplates can refer all properties that are available in memory just the way your code does.
@@ -38,7 +32,7 @@ new SendActivity("@{MyLGTemplateName()}")
 ``` markdown
 # EchoTemplate
 > The reference to {turn.Activity.Text} is valid in the LG template because bot state is passed in on all template evaluation calls.
-- @{EchoPrefix()}, "@{turn.Activity.Text}"
+- ${EchoPrefix()}, "${turn.Activity.Text}"
 
 # EchoPrefix
 - I heard you say

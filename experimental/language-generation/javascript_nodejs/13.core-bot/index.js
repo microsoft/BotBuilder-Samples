@@ -6,10 +6,7 @@
 // Import required packages
 const path = require('path');
 const restify = require('restify');
-const {
-    ActivityFactory,
-    TemplateEngine
-} = require('botbuilder-lg');
+const { Templates } = require('botbuilder-lg');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -38,14 +35,14 @@ const adapter = new BotFrameworkAdapter({
 
 // Create template engine for language generation.
 console.log(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'))
-const templateEngine = new TemplateEngine().addFile(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'));
+const lgTemplates = Templates.parseFile(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'));
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(templateEngine.evaluateTemplate('SomethingWentWrong', {
+    console.error(lgTemplates.evaluate('SomethingWentWrong', {
         message : `${error}`
     }));
     

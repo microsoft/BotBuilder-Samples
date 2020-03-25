@@ -1,6 +1,7 @@
 {
     "$schema": "../../app.schema",
     "$kind": "Microsoft.AdaptiveDialog",
+    "autoEndDialog": "false",
     "recognizer": {
         "$kind": "Microsoft.RegexRecognizer",
         "intents": [
@@ -20,7 +21,7 @@
     },
     "triggers": [
         {
-            "$kind": "Microsoft.OnUnknownIntent",
+            "$kind": "Microsoft.OnBeginDialog",
             "actions": [
                 {
                     "$kind": "Microsoft.IfCondition",
@@ -35,7 +36,7 @@
                 },
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "Hello @{user.name}, nice to talk to you!"
+                    "activity": "Hello ${user.name}, nice to talk to you!"
                 },
                 {
                     "$kind": "Microsoft.SendActivity",
@@ -58,15 +59,15 @@
             ]
         },
         {
-            "$kind":"Microsoft.OnIntent",
+            "$kind": "Microsoft.OnIntent",
             "intent": "CancelIntent",
-            "actions":[
+            "actions": [
                 {
-                    "$kind":"Microsoft.SendActivity",
-                    "activity":"OK, see ya"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "OK, see ya"
                 },
                 {
-                    "$kind":"Microsoft.EndDialog"
+                    "$kind": "Microsoft.EndDialog"
                 }
             ]
         },

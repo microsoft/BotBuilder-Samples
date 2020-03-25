@@ -5,36 +5,31 @@ const { SkillConversationIdFactoryBase, TurnContext } = require('botbuilder');
 
 /**
  * A SkillConversationIdFactory that uses an in memory dictionary
- *   to store and retrieve ConversationReference instances.
+ * to store and retrieve ConversationReference instances.
  */
 class SkillConversationIdFactory extends SkillConversationIdFactoryBase {
     constructor() {
         super();
         this.refs = {};
-        this.skillId = process.env.SkillId;
     }
 
-    async createSkillConversationId(conversationReference) {
-        const key = `${ conversationReference.conversation.id }-${ conversationReference.channelId }-skillconvo`;
-        this.refs[key] = conversationReference;
+    async createSkillConversationIdWithOptions(options) {
+        const skillConversationReference = {
+            conversationReference: TurnContext.getConversationReference(options.activity),
+            oAuthScope: options.fromBotOAuthScope
+        };
+        // This key has a 100 character limit by default. Increase with `restify.createServer({ maxParamLength: 1000 });` in index.js.
+        const key = `${ options.fromBotId }-${ options.botFrameworkSkill.appId }-${ skillConversationReference.conversationReference.conversation.id }-${ skillConversationReference.conversationReference.channelId }-skillconvo`;
+        this.refs[key] = skillConversationReference;
         return key;
     }
 
-    async createSkillConversationIdWithOptions(opts) {
-        this.refs[this.skillId] = { oAuthScope: opts.fromOAuthScope, conversationReference: TurnContext.getConversationReference(opts.activity) };
-        return this.skillId;
-    }
-
-    async getConversationReference(skillConversationId) {
+    async getSkillConversationReference(skillConversationId) {
         return this.refs[skillConversationId];
     }
 
     async deleteConversationReference(skillConversationId) {
         this.refs[skillConversationId] = undefined;
-    }
-
-    async getSkillConversationReference(skillConversationId) {
-        return await this.getConversationReference(skillConversationId);
     }
 }
 

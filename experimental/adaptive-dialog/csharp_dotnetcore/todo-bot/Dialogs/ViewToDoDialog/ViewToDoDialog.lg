@@ -8,12 +8,12 @@
 > See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
 # View-ToDos
 [Activity
-    Text = @{Items-readback()}
-    @{Welcome-Actions()}
+    Text = ${Items-readback()}
+    ${Welcome-Actions()}
 ]
 
 # Items-Ordinality
-- IF: @{user.todos != null && count(user.todos) == 1}
+- IF: ${user.todos != null && count(user.todos) == 1}
     - item
 - ELSE:
     - items
@@ -21,10 +21,10 @@
 > This template uses a foreach prebuilt function to call a template. The template helps with putting together each item in a line prefixed with `-`
 > This way, clients that support multi-line markdown for text can render the items as a list. 
 # Items-readback
-- IF: @{user.todos != null && count(user.todos) != 0}
+- IF: ${user.todos != null && count(user.todos) != 0}
     - ```
-You have @{count(user.todos)} @{Items-Ordinality()} in your collection.
-    - @{join(foreach(user.todos, item, todo-line(item)), '')}
+You have ${count(user.todos)} ${Items-Ordinality()} in your collection.
+    - ${join(foreach(user.todos, item, todo-line(item)), '')}
 ```
 - ELSE: 
     - ```
@@ -33,4 +33,4 @@ You do not have any Todos in your collection.
 
 # todo-line (item)
 - ```
-- @{item}```
+- ${item}```
