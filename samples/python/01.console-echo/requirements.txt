@@ -1,4 +1,4 @@
 asyncio>=3.4.3
-botbuilder-core>=4.7.0
-botbuilder-schema>=4.7.0
-botframework-connector>=4.7.0
+botbuilder-core>=4.8.0
+botbuilder-schema>=4.8.0
+botframework-connector>=4.8.0
