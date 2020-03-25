@@ -23,7 +23,7 @@
   "dependencies": {
     "base64url": "^2.0.0",
     "bluebird": "^3.5.0",
-    "botbuilder": "^3.13.1",
+    "botbuilder": "^3.30.0",
     "dotenv-extended": "^1.0.4",
     "lodash": "^4.17.4",
     "restify": "^4.3.0",

@@ -18,7 +18,7 @@ app.listen(port, function () {
 // Default store: volatile in-memory store - Only for prototyping!
 // We provide adapters for Azure Table, CosmosDb, SQL Azure, or you can implement your own!
 // For samples and documentation, see: https://github.com/Microsoft/BotBuilder-Azure
-var inMemoryStorage = new builder.MemoryBotStorage();
+var inMemoryStorage = new botbuilder.MemoryBotStorage();
 
 //create a chat connector for the bot
 var connector = new botbuilder.ChatConnector({

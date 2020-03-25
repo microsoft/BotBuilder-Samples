@@ -4,7 +4,8 @@
   "description": "demonstrate proactive starting of a new dialog",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   },
   "homepage": "https://github.com/MicrosoftDX/botFramework-proactiveMessages#readme",
   "dependencies": {
-    "botbuilder": "^3.13.1",
+    "botbuilder": "^3.30.0",
     "restify": "^4.3.0"
   }
 }
