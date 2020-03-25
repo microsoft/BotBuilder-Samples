@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, TurnContext, ActivityTypes, EndOfConversationCodes, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
+const { BotFrameworkAdapter, TurnContext, ActivityTypes, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
 const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
 
 // Import required bot configuration.
@@ -32,19 +32,26 @@ const adapter = new BotFrameworkAdapter({
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
-    // This check writes out errors to console log .vs. app insights.
+    // This check writes out errors to the console log, instead of to app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
+    await sendErrorMessage(context, error);
+    await endSkillConversation(context);
+    await clearConversationState(context);
+};
+
+async function sendErrorMessage(context, error) {
     try {
-        // Send a message to the user
+        // Send a message to the user.
         let onTurnErrorMessage = 'The bot encountered an error or bug.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.IgnoringInput);
+
         onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
         await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
 
-        // Send a trace activity, which will be displayed in Bot Framework Emulator
+        // Send a trace activity, which will be displayed in Bot Framework Emulator.
         await context.sendTraceActivity(
             'OnTurnError Trace',
             `${ error }`,
@@ -52,9 +59,11 @@ adapter.onTurnError = async (context, error) => {
             'TurnError'
         );
     } catch (err) {
-        console.error(`\n [onTurnError] Exception caught in SendErrorMessageAsync : ${ err }`);
+        console.error(`\n [onTurnError] Exception caught in sendErrorMessage: ${ err }`);
     }
+}
 
+async function endSkillConversation(context) {
     try {
         // Inform the active skill that the conversation is ended so that it has
         // a chance to clean up.
@@ -77,14 +86,18 @@ adapter.onTurnError = async (context, error) => {
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
     }
+}
 
+async function clearConversationState(context) {
     try {
-        // Clear out state
+        // Delete the conversationState for the current conversation to prevent the
+        // bot from getting stuck in a error-loop caused by being in a bad state.
+        // ConversationState should be thought of as similar to "cookie-state" in a Web page.
         await conversationState.delete(context);
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
     }
-};
+}
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
@@ -110,8 +123,10 @@ const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactor
 // Create the main dialog.
 const bot = new RootBot(conversationState, skillsConfig, skillClient);
 
-// Create HTTP server
-const server = restify.createServer();
+// Create HTTP server.
+// maxParamLength defaults to 100, which is too short for the conversationId created in skillConversationIdFactory.
+// See: https://github.com/microsoft/BotBuilder-Samples/issues/2194.
+const server = restify.createServer({ maxParamLength: 1000 });
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');

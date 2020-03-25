@@ -18,7 +18,7 @@
     "dependencies": {
         "botbuilder": "~4.8.0",
         "botframework-connector": "~4.8.0",
-        "dotenv": "^8.2.0",
+        "dotenv": "~8.2.0",
         "restify": "~8.4.0"
     },
     "devDependencies": {
