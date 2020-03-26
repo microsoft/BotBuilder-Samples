@@ -70,17 +70,6 @@ namespace LivePersonConnector.Controllers
             return true;
         }
 
-#if DEBUG
-        [HttpPost]
-        [Route("test")]
-        public async Task PostTest()
-        {
-            var conversationRec = _conversationMap.ConversationRecords.Values.First();
-            var evnt = EventFactory.CreateHandoffStatus(conversationRec.ConversationReference.Conversation, "test") as Activity;
-            await _adapter.ProcessActivityAsync(evnt, _creds.MsAppId, conversationRec.ConversationReference, _bot.OnTurnAsync, default(CancellationToken));
-        }
-#endif
-
         [HttpPost]
         [Route("AcceptStatusEvent")]
         public async Task PostAcceptStatusEventAsync()
