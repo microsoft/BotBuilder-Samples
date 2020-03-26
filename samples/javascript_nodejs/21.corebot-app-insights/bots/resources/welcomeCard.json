@@ -30,7 +30,7 @@
     {
       "type": "Action.OpenUrl",
       "title": "Get an overview",
-      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+      "url": "https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0"
     },
     {
       "type": "Action.OpenUrl",
