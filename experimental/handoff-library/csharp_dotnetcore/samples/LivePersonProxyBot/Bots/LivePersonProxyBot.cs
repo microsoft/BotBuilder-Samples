@@ -13,14 +13,14 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
-namespace LPProxyBot.Bots
+namespace LivePersonProxyBot.Bots
 {
-    public class LPProxyBot : ActivityHandler
+    public class LivePersonProxyBot : ActivityHandler
     {
         private readonly BotState _conversationState;
-        private readonly ICredentialsProvider _creds;
+        private readonly ILivePersonCredentialsProvider _creds;
 
-        public LPProxyBot(ConversationState conversationState, ICredentialsProvider creds)
+        public LivePersonProxyBot(ConversationState conversationState, ILivePersonCredentialsProvider creds)
         {
             _conversationState = conversationState;
             _creds = creds;
@@ -47,7 +47,15 @@ namespace LPProxyBot.Bots
 
                 var transcript = new Transcript(conversationData.ConversationLog.Where(a => a.Type == ActivityTypes.Message).ToList());
 
-                var evnt = EventFactory.CreateHandoffInitiation(turnContext, new { Skill = "Credit Cards" }, transcript);
+                var evnt = EventFactory.CreateHandoffInitiation(turnContext,
+                    new { Skill = "Credit Cards",
+                          EngagementAttributes = new EngagementAttribute[]
+                          {
+                              new EngagementAttribute { Type = "ctmrinfo", CustomerType = "vip", SocialId = "123456789"},
+                              new EngagementAttribute { Type = "personal", FirstName = turnContext.Activity.From.Name }
+                          }
+                    },
+                    transcript);
 
                 await turnContext.SendActivityAsync(evnt);
             }

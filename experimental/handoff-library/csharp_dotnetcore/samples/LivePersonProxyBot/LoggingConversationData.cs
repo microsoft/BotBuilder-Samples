@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Microsoft.Bot.Schema;
 
-namespace LPProxyBot.Bots
+namespace LivePersonProxyBot.Bots
 {
     internal class LoggingConversationData
     {

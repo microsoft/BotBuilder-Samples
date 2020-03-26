@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 
-namespace LPProxyBot
+namespace LivePersonProxyBot
 {
     public class Program
     {

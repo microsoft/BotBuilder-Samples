@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,9 +16,9 @@ namespace LivePersonConnector
     {
         private readonly BotState _conversationState;
         private readonly ConversationMap _conversationMap;
-        private readonly ICredentialsProvider _creds;
+        private readonly ILivePersonCredentialsProvider _creds;
 
-        public HandoffMiddleware(ConversationState conversationState, ConversationMap conversationMap, ICredentialsProvider creds)
+        public HandoffMiddleware(ConversationState conversationState, ConversationMap conversationMap, ILivePersonCredentialsProvider creds)
         {
             _conversationState = conversationState;
             _conversationMap = conversationMap;
@@ -28,18 +29,18 @@ namespace LivePersonConnector
         {
             // Route the conversation based on whether it's been escalated
             var conversationStateAccessors = _conversationState.CreateProperty<EscalationsConversationData>(nameof(EscalationsConversationData));
-            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new EscalationsConversationData());
+            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new EscalationsConversationData()).ConfigureAwait(false);
 
             if (turnContext.Activity.Type == ActivityTypes.Message && conversationData.EscalationRecord != null)
             {
                 var account = _creds.LpAccount;
-                var message = LivePersonConnector.MakeLivePersonMessage(0 /*?*/, conversationData.EscalationRecord.ConversationId, turnContext.Activity.Text);
+                var message = LivePersonConnector.MakeLivePersonMessage(0, conversationData.EscalationRecord.ConversationId, turnContext.Activity.Text);
 
-                await LivePersonConnector.SendMessageToConversation(account,
-                    conversationData.EscalationRecord.MsgDomain,
+                await LivePersonConnector.SendMessageToConversationAsync(account,
+                    conversationData.EscalationRecord.MessageDomain,
                     conversationData.EscalationRecord.AppJWT,
                     conversationData.EscalationRecord.ConsumerJWS,
-                    message);
+                    message).ConfigureAwait(false);
                 return;
             }
 
@@ -51,7 +52,7 @@ namespace LivePersonConnector
                     if (state == "completed")
                     {
                         conversationData.EscalationRecord = null;
-                        await _conversationState.SaveChangesAsync(turnContext);
+                        await _conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                     }
                 }
                 catch { }
@@ -67,8 +68,8 @@ namespace LivePersonConnector
                 if (handoffEvents.Count() == 1)
                 {
                     var handoffEvent = handoffEvents.First();
-                    conversationData.EscalationRecord = await Escalate(sendTurnContext, handoffEvent);
-                    await _conversationState.SaveChangesAsync(turnContext);
+                    conversationData.EscalationRecord = await Escalate(sendTurnContext, handoffEvent).ConfigureAwait(false);
+                    await _conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                 }
 
                 // run full pipeline
@@ -76,7 +77,7 @@ namespace LivePersonConnector
                 return responses;
             });
 
-            await next(cancellationToken);
+            await next(cancellationToken).ConfigureAwait(false);
         }
 
         private Task<LivePersonConversationRecord> Escalate(ITurnContext turnContext, IEventActivity handoffEvent)
@@ -85,7 +86,7 @@ namespace LivePersonConnector
             var clientId = _creds.LpAppId;
             var clientSecret = _creds.LpAppSecret;
 
-            return LivePersonConnector.EscalateToAgent(turnContext, handoffEvent, account, clientId, clientSecret, _conversationMap);
+            return LivePersonConnector.EscalateToAgenAsync(turnContext, handoffEvent, account, clientId, clientSecret, _conversationMap);
         }
     }
 }

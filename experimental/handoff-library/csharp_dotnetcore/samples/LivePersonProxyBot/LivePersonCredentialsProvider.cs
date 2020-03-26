@@ -5,20 +5,15 @@ using System.Threading.Tasks;
 using LivePersonConnector;
 using Microsoft.Extensions.Configuration;
 
-namespace LPProxyBot
+namespace LivePersonProxyBot
 {
-    public class LPCredentialsProvider : ICredentialsProvider
+    public class LivePersonCredentialsProvider : ILivePersonCredentialsProvider
     {
-        public LPCredentialsProvider(IConfiguration configuration)
+        public LivePersonCredentialsProvider(IConfiguration configuration)
         {
             LpAccount = configuration["LivePersonAccount"];
-#if RELEASE
-            LpAppId = configuration["LivePersonClientId_Release"];
-            LpAppSecret = configuration["LivePersonClientSecret_Release"];
-#else
             LpAppId = configuration["LivePersonClientId"];
             LpAppSecret = configuration["LivePersonClientSecret"];
-#endif
             MsAppId = configuration["MicrosoftAppId"];
 
             // If the channel is the Emulator, and authentication is not in use,

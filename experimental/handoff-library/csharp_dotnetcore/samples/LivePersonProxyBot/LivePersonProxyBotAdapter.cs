@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using LivePersonConnector;
@@ -13,11 +13,11 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace LPProxyBot
+namespace LivePersonProxyBot
 {
-    public class LPProxyBotAdapter : LivePersonAdapter
+    public class LivePersonProxyBotAdapter : LivePersonAdapter
     {
-        public LPProxyBotAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware, LoggingMiddleware loggingMiddleware)
+        public LivePersonProxyBotAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware, LoggingMiddleware loggingMiddleware)
             : base(configuration, logger, handoffMiddleware)
         {
             Use(loggingMiddleware);

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Net.Http;
 using Newtonsoft.Json;
 
-namespace LivePersonConnector
+namespace LivePersonConnector.Models
 {
     public class DomainInfo
     {

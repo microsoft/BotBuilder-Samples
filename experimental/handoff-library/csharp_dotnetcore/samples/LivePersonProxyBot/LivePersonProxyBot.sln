@@ -2,9 +2,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29806.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LPProxyBot", "LPProxyBot.csproj", "{A65B5191-08F6-47AD-A0E9-59C2AD5B4D38}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LivePersonProxyBot", "LivePersonProxyBot.csproj", "{A65B5191-08F6-47AD-A0E9-59C2AD5B4D38}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiverPersonConnector", "LiverPersonConnector\LiverPersonConnector.csproj", "{04B738C3-0193-48A8-A326-C1AA867CD0D6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LivePersonConnector", "LivePersonConnector\LivePersonConnector.csproj", "{04B738C3-0193-48A8-A326-C1AA867CD0D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LPProxyBot
+namespace LivePersonProxyBot
 {
     public class Startup
     {
@@ -35,14 +35,14 @@ namespace LPProxyBot
             services.AddSingleton(conversationState);
 
             // Create the Bot Framework Adapter.
-            services.AddSingleton<IBotFrameworkHttpAdapter, LPProxyBotAdapter>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, LivePersonProxyBotAdapter>();
 
             services.AddSingleton<LivePersonConnector.ConversationMap>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, Bots.LPProxyBot>();
+            services.AddTransient<IBot, Bots.LivePersonProxyBot>();
 
-            services.AddTransient<LivePersonConnector.ICredentialsProvider, LPCredentialsProvider>();
+            services.AddTransient<LivePersonConnector.ILivePersonCredentialsProvider, LivePersonCredentialsProvider>();
 
             services.AddSingleton<LivePersonConnector.HandoffMiddleware>();
 

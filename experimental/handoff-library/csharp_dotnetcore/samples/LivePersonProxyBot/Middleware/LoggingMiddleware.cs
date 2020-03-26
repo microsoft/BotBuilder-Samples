@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
-using LPProxyBot.Bots;
+using LivePersonProxyBot.Bots;
 using System.Net.Http;
 using Newtonsoft.Json;
 using System.Text;
 using System.Collections.Concurrent;
 
-namespace LPProxyBot
+namespace LivePersonProxyBot
 {
     public class LoggingMiddleware : Microsoft.Bot.Builder.IMiddleware
     {
@@ -26,21 +26,21 @@ namespace LPProxyBot
         {
             // Route the conversation based on whether it's been escalated
             var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
-            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData());
+            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData()).ConfigureAwait(false);
 
             conversationData.ConversationLog.Add(turnContext.Activity);
-            await _conversationState.SaveChangesAsync(turnContext);
+            await _conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
 
             turnContext.OnSendActivities(async (sendTurnContext, activities, nextSend) =>
             {
                 conversationData.ConversationLog.AddRange(activities);
-                await _conversationState.SaveChangesAsync(turnContext);
+                await _conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
                 // run full pipeline
                 var responses = await nextSend().ConfigureAwait(false);
                 return responses;
             });
 
-            await next(cancellationToken);
+            await next(cancellationToken).ConfigureAwait(false);
         }
     }
 }

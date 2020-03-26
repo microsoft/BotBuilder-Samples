@@ -25,12 +25,12 @@ namespace LivePersonConnector.Controllers
     {
         private readonly LivePersonAdapter _adapter;
         private readonly IBot _bot;
-        private readonly ICredentialsProvider _creds;
+        private readonly ILivePersonCredentialsProvider _creds;
 
         // This must be a durable storage in multi-instance scenario
         private readonly ConversationMap _conversationMap;
 
-        public LivePersonController(IBotFrameworkHttpAdapter adapter, ICredentialsProvider creds, IBot bot, ConversationMap conversationMap)
+        public LivePersonController(IBotFrameworkHttpAdapter adapter, ILivePersonCredentialsProvider creds, IBot bot, ConversationMap conversationMap)
         {
             _adapter = (LivePersonAdapter)adapter;
             _bot = bot;
@@ -93,7 +93,7 @@ namespace LivePersonConnector.Controllers
 
                 try
                 {
-                    var wbhookData = JsonConvert.DeserializeObject<AcceptStatusEvent.WebhookData>(body);
+                    var wbhookData = JsonConvert.DeserializeObject<Models.AcceptStatusEvent.WebhookData>(body);
                     foreach (var change in wbhookData.body.changes)
                     {
                         if (change?.originatorMetadata?.role == "ASSIGNED_AGENT")
@@ -103,7 +103,7 @@ namespace LivePersonConnector.Controllers
                             ConversationRecord conversationRec;
                             if (_conversationMap.ConversationRecords.TryGetValue(convId, out conversationRec))
                             {
-                                if (conversationRec.IsAcked || conversationRec.IsClosed)
+                                if (conversationRec.IsAcknowledged || conversationRec.IsClosed)
                                 {
                                     // Already acked this one
                                     break;
@@ -113,7 +113,7 @@ namespace LivePersonConnector.Controllers
                                 {
                                     ConversationReference = conversationRec.ConversationReference,
                                     IsClosed = conversationRec.IsClosed,
-                                    IsAcked = true
+                                    IsAcknowledged = true
                                 };
 
                                 // Update atomically -- only one will succeed
@@ -143,7 +143,7 @@ namespace LivePersonConnector.Controllers
 
                 try
                 {
-                    var wbhookData = JsonConvert.DeserializeObject<ChatStateEvent.WebhookData>(body);
+                    var wbhookData = JsonConvert.DeserializeObject<Models.ChatStateEvent.WebhookData>(body);
                     foreach (var change in wbhookData.body.changes)
                     {
                         if (change?.@event?.chatState == "COMPOSING")
@@ -173,7 +173,7 @@ namespace LivePersonConnector.Controllers
 
                 if (!Authenticate(Request, body)) return;
 
-                var wbhookData = JsonConvert.DeserializeObject<Webhook.WebhookData>(body);
+                var wbhookData = JsonConvert.DeserializeObject<Models.Webhook.WebhookData>(body);
 
                 foreach (var change in wbhookData.body.changes)
                 {
@@ -222,7 +222,7 @@ namespace LivePersonConnector.Controllers
 
                 try
                 {
-                    var wbhookData = JsonConvert.DeserializeObject<Webhook.WebhookData>(body);
+                    var wbhookData = JsonConvert.DeserializeObject<Models.Webhook.WebhookData>(body);
                 }
                 catch { }
             }
@@ -241,7 +241,7 @@ namespace LivePersonConnector.Controllers
 
                 try
                 {
-                    var wbhookData = JsonConvert.DeserializeObject<ExConversationChangeNotification.WebhookData>(body);
+                    var wbhookData = JsonConvert.DeserializeObject<Models.ExConversationChangeNotification.WebhookData>(body);
 
                     foreach (var change in wbhookData.body.changes)
                     {
