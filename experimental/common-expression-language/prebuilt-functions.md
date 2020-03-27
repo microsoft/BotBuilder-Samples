@@ -1317,7 +1317,7 @@ And it returns the result: `true`
 
 *Example 2*
 
-This example checks whether the "hello world" string ends with the "world" string:
+This example checks whether the "hello world" string ends with the "universe" string:
 
 ```
 endsWith('hello world', 'universe')
@@ -3591,7 +3591,7 @@ startsWith('<text>', '<searchText>')
 
 *Example 1*
 
-This example checks whether the "hello world" string starts with the "world" string:
+This example checks whether the "hello world" string starts with the "hello" string:
 
 ```
 startsWith('hello world', 'hello')
@@ -3601,7 +3601,7 @@ And it returns the result: `true`
 
 *Example 2*
 
-This example checks whether the "hello world" string starts with the "world" string:
+This example checks whether the "hello world" string starts with the "greeting" string:
 
 ```
 startsWith('hello world', 'greeting')
