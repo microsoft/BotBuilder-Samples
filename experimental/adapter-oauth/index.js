@@ -28,35 +28,33 @@ require('dotenv').config({ path: ENV_FILE });
 
 const adapter = new OAuthAdapter(
 {
-    onTurnError: async (context, error) => {
-        // This check writes out errors to console log .vs. app insights.
-        // NOTE: In production environment, you should consider logging this to Azure
-        //       application insights.
-        console.error(`\n [onTurnError] unhandled error: ${ error }`);
-    
-        // Send a trace activity, which will be displayed in Bot Framework Emulator
-        await context.sendTraceActivity(
-            'OnTurnError Trace',
-            `${ error }`,
-            'https://www.botframework.com/schemas/error',
-            'TurnError'
-        );
-    
-        // Send a message to the user
-        await context.sendActivity('The bot encountered an error or bug.');
-        await context.sendActivity('To continue to run this bot, please fix the bot source code.');
-        // Clear out state
-        await conversationState.delete(context);
-    },
     appId: process.env.MicrosoftAppId,
     password: process.env.MicrosoftAppPassword,
     fb_verify_token: process.env.fb_verify_token,
     fb_password: process.env.fb_password,
     fb_access_token: process.env.fb_access_token
+});
 
-}
-);
+adapter.onTurnError = async (context, error) => {
+    // This check writes out errors to console log .vs. app insights.
+    // NOTE: In production environment, you should consider logging this to Azure
+    //       application insights.
+    console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
+    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
+
+    // Send a message to the user
+    await context.sendActivity('The bot encountered an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
+    // Clear out state
+    await conversationState.delete(context);
+};
 
 // Define the state store for your bot.
 // See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -94,7 +92,7 @@ server.get('/api/messages', (req, res) => {
     //console.log(req.query['hub.mode'])
     //console.log(req)
      if (req.query['hub.mode'] === 'subscribe') {
-          if (req.query['hub.verify_token'] === FB_VERIFY_TOKEN) {
+          if (req.query['hub.verify_token'] === process.env.fb_verify_token) {
                const val = req.query['hub.challenge'];
                res.sendRaw(200, val);
           } else {
