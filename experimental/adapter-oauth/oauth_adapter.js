@@ -1,3 +1,8 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+// index.js is used to setup and configure your bot
+
 const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 
 const OAUTH_ENDPOINT = 'https://api.botframework.com';
@@ -111,9 +116,8 @@ class OAuthAdapter extends FacebookAdapter{
                 throw new Error('BotFrameworkAdapter.getSiginInResource(): cannot get signin resource for a user that is different from the conversation');
             }
 
-            let botbuilder_core_1 = botbuilder_1;
             const client = new botframework_connector_1.TokenApiClient(this.credentials, { baseUri: OAUTH_ENDPOINT, userAgent: exports.USER_AGENT });
-            const conversation = botbuilder_core_1.TurnContext.getConversationReference(context.activity);
+            const conversation = botbuilder_1.TurnContext.getConversationReference(context.activity);
             const state = {
                 ConnectionName: connectionName,
                 Conversation: conversation,

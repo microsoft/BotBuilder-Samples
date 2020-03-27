@@ -1,10 +1,10 @@
-# bot authentication
+# OAuth using adapter
 
-Bot Framework v4 bot authentication sample
+OAuth authentication using adapter sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use authentication in your bot using OAuth.
+This bot uses the [facebook adapter] (https://www.npmjs.com/package/botbuilder-adapter-facebook) to demonstrate the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com). This makes it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
-The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+This example extends the Facebook adapter in oauth_adapter.js. The OAuthAdapter class adds the necessary methods and overrides the activityToFacebook method to add the signin card per Facebook's requirements.
 
 ## Prerequisites
 
@@ -23,10 +23,10 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a console, navigate to `samples/javascript_nodejs/18.bot-authentication`
+- In a console, navigate to `experimental/adapter-oauth`
 
     ```bash
-    cd samples/javascript_nodejs/18.bot-authentication
+    cd experimental/adapter-oauth
     ```
 
 - Install modules
@@ -40,18 +40,6 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 - [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
-
-## Testing the bot using Bot Framework Emulator
-
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `https://<YOUR_BOTS_URI_ON_AZURE>`
 
 ## Authentication
 
