@@ -15,7 +15,6 @@ We set out with the following goals for Adaptive dialogs -
 * It was designed to be **declarative** from the start
 
 ## Declarative properties
-- See [here][5] for documentation on available properties for Rules, Recognizers, Steps and Inputs. 
 - See [here][6] for the anatomy and runtime behavior for adaptive dialogs.
 
 ## Debugging Adaptive dialogs
@@ -38,7 +37,6 @@ You can report any issues you find or feature suggestions on our GitHub reposito
 [2]:./10.EchoBot
 [3]:./AdaptiveBot
 [4]:https://botbuilder.myget.org/gallery/botbuilder-declarative
-[5]:./declarative-schema.md
 [6]:../docs/anatomy-and-runtime-behavior.md
 [7]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
 [12]:https://github.com/microsoft/botbuilder-dotnet/issues
