@@ -16,38 +16,24 @@ class TeamsConversationBot extends TeamsActivityHandler {
         super();
         this.onMessage(async (context, next) => {
             TurnContext.removeRecipientMention(context.activity);
-            switch (context.activity.text.trim()) {
-            case 'MentionMe':
+            switch (context.activity.text.trim().toLocaleLowerCase()) {
+            case 'mentionme':
                 await this.mentionActivityAsync(context);
                 break;
-            case 'UpdateCardAction':
-                await this.updateCardActivityAsync(context);
+            case 'updatecardaction':
+                await this.cardActivityAsync(context, true);
                 break;
-            case 'Delete':
+            case 'delete':
                 await this.deleteCardActivityAsync(context);
                 break;
-            case 'MessageAllMembers':
+            case 'messageallmembers':
                 await this.messageAllMembersAsync(context);
                 break;
+            case 'whoami':
+                await this.getSingleMember(context);
+                break;
             default:
-                const value = { count: 0 };
-                const card = CardFactory.heroCard(
-                    'Welcome Card',
-                    null,
-                    [
-                        {
-                            type: ActionTypes.MessageBack,
-                            title: 'Update Card',
-                            value: value,
-                            text: 'UpdateCardAction'
-                        },
-                        {
-                            type: ActionTypes.MessageBack,
-                            title: 'Message all members',
-                            value: null,
-                            text: 'MessageAllMembers'
-                        }]);
-                await context.sendActivity({ attachments: [card] });
+                await this.cardActivityAsync(context, false)
                 break;
             }
             await next();
@@ -63,6 +49,95 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
     }
 
+    async cardActivityAsync(context, isUpdate) {
+        const cardActions = [                       
+                {
+                    type: ActionTypes.MessageBack,
+                    title: 'Message all members',
+                    value: null,
+                    text: 'MessageAllMembers'
+                },
+                {
+                    type: ActionTypes.MessageBack,
+                    title: 'Who am I?',
+                    value: null,
+                    text: 'whoami'
+                },
+                {
+                    type: ActionTypes.MessageBack,
+                    title: 'Delete card',
+                    value: null,
+                    text: 'Delete'
+                }
+        ];
+
+        if(isUpdate) {
+            await this.sendUpdateCard(context, cardActions);
+        }
+        else {
+            await this.sendWelcomeCard(context, cardActions);
+        }
+    }
+
+    async sendUpdateCard(context, cardActions) {
+        const data = context.activity.value;
+        data.count += 1;
+        cardActions.push({
+            type: ActionTypes.MessageBack,
+            title: 'Update Card',
+            value: data,
+            text: 'UpdateCardAction'
+        });
+        const card = CardFactory.heroCard(
+            'Updated card',
+            `Update count: ${data.count}`,
+            null,
+            cardActions
+        );
+        card.id = context.activity.replyToId;
+        const message = MessageFactory.attachment(card);
+        message.id = context.activity.replyToId;
+        await context.updateActivity(message);
+    }
+
+    async sendWelcomeCard(context, cardActions) {
+        const initialValue = {
+            count: 0
+        };
+        cardActions.push({
+            type: ActionTypes.MessageBack,
+            title: 'Update Card',
+            value: initialValue,
+            text: 'UpdateCardAction'
+        });
+        const card = CardFactory.heroCard(
+            'Welcome card',
+            '',
+            null,
+            cardActions
+        );
+        await context.sendActivity(MessageFactory.attachment(card));
+    }
+
+    async getSingleMember(context) {
+        var member;
+        try {
+            member = await TeamsInfo.getMember(context, "banana");
+        }
+        catch (e) {
+            if(e.code === 'MemberNotFoundInConversation') {
+                context.sendActivity(MessageFactory.text('Member not found.'));
+                return;
+            }
+            else {
+                console.log(e);
+                throw e;
+            }
+        }
+        const message = MessageFactory.text(`You are: ${member.name}`);
+        await context.sendActivity(message);
+    }
+
     async mentionActivityAsync(context) {
         const mention = {
             mentioned: context.activity.from,
@@ -75,39 +150,6 @@ class TeamsConversationBot extends TeamsActivityHandler {
         await context.sendActivity(replyActivity);
     }
 
-    async updateCardActivityAsync(context) {
-        const data = context.activity.value;
-        data.count += 1;
-
-        const card = CardFactory.heroCard(
-            'Welcome Card',
-            `Updated count - ${ data.count }`,
-            null,
-            [
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Update Card',
-                    value: data,
-                    text: 'UpdateCardAction'
-                },
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Message all members',
-                    value: null,
-                    text: 'MessageAllMembers'
-                },
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Delete card',
-                    value: null,
-                    text: 'Delete'
-                }
-            ]);
-
-        card.id = context.activity.replyToId;
-        await context.updateActivity({ attachments: [card], id: context.activity.replyToId, type: 'message' });
-    }
-
     async deleteCardActivityAsync(context) {
         await context.deleteActivity(context.activity.replyToId);
     }
@@ -115,7 +157,15 @@ class TeamsConversationBot extends TeamsActivityHandler {
     // If you encounter permission-related errors when sending this message, see
     // https://aka.ms/BotTrustServiceUrl
     async messageAllMembersAsync(context) {
-        const members = await TeamsInfo.getMembers(context);
+        var continuationToken;
+        var members = [];
+
+        do {
+            var pagedMembers = await TeamsInfo.getPagedMembers(context, 100, continuationToken);
+            continuationToken = pagedMembers.continuationToken;
+            members.push(...pagedMembers.members);
+        }
+        while(continuationToken !== undefined)
 
         members.forEach(async (teamMember) => {
             const message = MessageFactory.text(`Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.`);
