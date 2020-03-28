@@ -122,7 +122,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async getSingleMember(context) {
         var member;
         try {
-            member = await TeamsInfo.getMember(context, "banana");
+            member = await TeamsInfo.getMember(context, context.activity.from.id);
         }
         catch (e) {
             if(e.code === 'MemberNotFoundInConversation') {
@@ -157,15 +157,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     // If you encounter permission-related errors when sending this message, see
     // https://aka.ms/BotTrustServiceUrl
     async messageAllMembersAsync(context) {
-        var continuationToken;
-        var members = [];
-
-        do {
-            var pagedMembers = await TeamsInfo.getPagedMembers(context, 100, continuationToken);
-            continuationToken = pagedMembers.continuationToken;
-            members.push(...pagedMembers.members);
-        }
-        while(continuationToken !== undefined)
+        var members = await this.getPagedMembers(context);
 
         members.forEach(async (teamMember) => {
             const message = MessageFactory.text(`Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.`);
@@ -183,6 +175,17 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
 
         await context.sendActivity(MessageFactory.text('All messages have been sent.'));
+    }
+
+    async getPagedMembers(context) {
+        var continuationToken;
+        var members = [];
+        do {
+            var pagedMembers = await TeamsInfo.getPagedMembers(context, 100, continuationToken);
+            continuationToken = pagedMembers.continuationToken;
+            members.push(...pagedMembers.members);
+        } while (continuationToken !== undefined);
+        return members;
     }
 }
 
