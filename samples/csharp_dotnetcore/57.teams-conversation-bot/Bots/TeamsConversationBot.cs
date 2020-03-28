@@ -111,12 +111,27 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task GetSingleMemberAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+            TeamsChannelAccount member = new TeamsChannelAccount();
+
+            try
+            {
+                member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+            }
+            catch (ErrorResponseException e)
+            {
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                {
+                    await turnContext.SendActivityAsync("Member not found.");
+                    return;
+                }
+                else
+                {
+                    throw e;
+                }
+            }
 
             var message = MessageFactory.Text($"You are: {member.Name}.");
-
-            await turnContext.SendActivityAsync(message);
-
+            var res = await turnContext.SendActivityAsync(message);
 
         }
 
@@ -142,42 +157,45 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, 100, continuationToken, cancellationToken);
                 continuationToken = currentPage.ContinuationToken;
                 members = members.Concat(currentPage.Members).ToList();
+                await turnContext.SendActivityAsync(MessageFactory.Text("Member count is: " + members.Count.ToString()));
             }
             while (continuationToken != null);
 
-            foreach (var teamMember in members)
-            {
-                var proactiveMessage = MessageFactory.Text($"Hello {teamMember.GivenName} {teamMember.Surname}. I'm a Teams conversation bot.");
 
-                var conversationParameters = new ConversationParameters
-                {
-                    IsGroup = false,
-                    Bot = turnContext.Activity.Recipient,
-                    Members = new ChannelAccount[] { teamMember },
-                    TenantId = turnContext.Activity.Conversation.TenantId,
-                };
 
-                await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
-                    teamsChannelId,
-                    serviceUrl,
-                    credentials,
-                    conversationParameters,
-                    async (t1, c1) =>
-                    {
-                        conversationReference = t1.Activity.GetConversationReference();
-                        await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
-                            _appId,
-                            conversationReference,
-                            async (t2, c2) =>
-                            {
-                                await t2.SendActivityAsync(proactiveMessage, c2);
-                            },
-                            cancellationToken);
-                    },
-                    cancellationToken);
-            }
+            //foreach (var teamMember in members)
+            //{
+            //    var proactiveMessage = MessageFactory.Text($"Hello {teamMember.GivenName} {teamMember.Surname}. I'm a Teams conversation bot.");
 
-            await turnContext.SendActivityAsync(MessageFactory.Text("All messages have been sent."), cancellationToken);
+            //    var conversationParameters = new ConversationParameters
+            //    {
+            //        IsGroup = false,
+            //        Bot = turnContext.Activity.Recipient,
+            //        Members = new ChannelAccount[] { teamMember },
+            //        TenantId = turnContext.Activity.Conversation.TenantId,
+            //    };
+
+            //    await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
+            //        teamsChannelId,
+            //        serviceUrl,
+            //        credentials,
+            //        conversationParameters,
+            //        async (t1, c1) =>
+            //        {
+            //            conversationReference = t1.Activity.GetConversationReference();
+            //            await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+            //                _appId,
+            //                conversationReference,
+            //                async (t2, c2) =>
+            //                {
+            //                    await t2.SendActivityAsync(proactiveMessage, c2);
+            //                },
+            //                cancellationToken);
+            //        },
+            //        cancellationToken);
+            //}
+
+            //await turnContext.SendActivityAsync(MessageFactory.Text("All messages have been sent."), cancellationToken);
         }
 
         private static async Task SendWelcomeCard(ITurnContext<IMessageActivity> turnContext, HeroCard card, CancellationToken cancellationToken)
