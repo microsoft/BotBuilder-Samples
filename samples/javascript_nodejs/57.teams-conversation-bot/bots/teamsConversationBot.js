@@ -16,27 +16,20 @@ class TeamsConversationBot extends TeamsActivityHandler {
         super();
         this.onMessage(async (context, next) => {
             TurnContext.removeRecipientMention(context.activity);
-            switch (context.activity.text.trim().toLocaleLowerCase()) {
-            case 'mentionme':
+            const text = context.activity.text.trim().toLocaleLowerCase()
+            if (text.includes("mention")) {
                 await this.mentionActivityAsync(context);
-                break;
-            case 'updatecardaction':
+            } else if(text.includes("update")) {
                 await this.cardActivityAsync(context, true);
-                break;
-            case 'delete':
+            } else if (text.includes("delete")) {
                 await this.deleteCardActivityAsync(context);
-                break;
-            case 'messageallmembers':
+            } else if (text.includes("message")) {
                 await this.messageAllMembersAsync(context);
-                break;
-            case 'whoami':
+            } else if (text.includes("who")) {
                 await this.getSingleMember(context);
-                break;
-            default:
+            } else {
                 await this.cardActivityAsync(context, false)
-                break;
-            }
-            await next();
+            }   
         });
 
         this.onMembersAddedActivity(async (context, next) => {
@@ -157,7 +150,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     // If you encounter permission-related errors when sending this message, see
     // https://aka.ms/BotTrustServiceUrl
     async messageAllMembersAsync(context) {
-        var members = await this.getPagedMembers(context);
+        const members = await this.getPagedMembers(context);
 
         members.forEach(async (teamMember) => {
             const message = MessageFactory.text(`Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.`);
