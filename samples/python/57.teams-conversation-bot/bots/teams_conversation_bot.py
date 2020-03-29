@@ -6,6 +6,7 @@ from botbuilder.core.teams import TeamsActivityHandler, TeamsInfo
 from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParameters
 from botbuilder.schema._connector_client_enums import ActionTypes
 
+import sys
 
 class TeamsConversationBot(TeamsActivityHandler):
     def __init__(self, app_id: str, app_password: str):
@@ -14,44 +15,29 @@ class TeamsConversationBot(TeamsActivityHandler):
 
     async def on_message_activity(self, turn_context: TurnContext):
         TurnContext.remove_recipient_mention(turn_context.activity)
-        turn_context.activity.text = turn_context.activity.text.strip()
+        text = turn_context.activity.text.strip().lower()
 
-        if turn_context.activity.text == "MentionMe":
+        if "mention" in text:
             await self._mention_activity(turn_context)
             return
 
-        if turn_context.activity.text == "UpdateCardAction":
-            await self._update_card_activity(turn_context)
+        if "update" in text:
+            await self._send_card(turn_context, True)
             return
 
-        if turn_context.activity.text == "MessageAllMembers":
+        if "message" in text:
             await self._message_all_members(turn_context)
             return
 
-        if turn_context.activity.text == "Delete":
+        if "who" in text:
+            await self._get_member(turn_context)
+            return
+
+        if "delete" in text:
             await self._delete_card_activity(turn_context)
             return
 
-        card = HeroCard(
-            title="Welcome Card",
-            text="Click the buttons to update this card",
-            buttons=[
-                CardAction(
-                    type=ActionTypes.message_back,
-                    title="Update Card",
-                    text="UpdateCardAction",
-                    value={"count": 0},
-                ),
-                CardAction(
-                    type=ActionTypes.message_back,
-                    title="Message all memebers",
-                    text="MessageAllMembers",
-                ),
-            ],
-        )
-        await turn_context.send_activity(
-            MessageFactory.attachment(CardFactory.hero_card(card))
-        )
+        await self._send_card(turn_context, False)
         return
 
     async def _mention_activity(self, turn_context: TurnContext):
@@ -65,41 +51,82 @@ class TeamsConversationBot(TeamsActivityHandler):
         reply_activity.entities = [Mention().deserialize(mention.serialize())]
         await turn_context.send_activity(reply_activity)
 
-    async def _update_card_activity(self, turn_context: TurnContext):
-        data = turn_context.activity.value
-        data["count"] += 1
+    async def _send_card(self, turn_context: TurnContext, isUpdate):
+        buttons = [
+                CardAction(
+                    type=ActionTypes.message_back,
+                    title="Message all members",
+                    text="messageallmembers",
+                ),
+                CardAction(
+                    type=ActionTypes.message_back,
+                    title="Who am I?",
+                    text="whoami"
+                ),
+                CardAction(
+                    type=ActionTypes.message_back,
+                    title="Delete card",
+                    text="deletecard"
+                )
+            ]
+        if (isUpdate):
+            await self._send_update_card(turn_context, buttons)
+        else:
+            await self._send_welcome_card(turn_context, buttons)
 
-        card = CardFactory.hero_card(
-            HeroCard(
-                title="Welcome Card",
-                text=f"Updated count - {data['count']}",
-                buttons=[
-                    CardAction(
-                        type=ActionTypes.message_back,
-                        title="Update Card",
-                        value=data,
-                        text="UpdateCardAction",
-                    ),
-                    CardAction(
-                        type=ActionTypes.message_back,
-                        title="Message all members",
-                        text="MessageAllMembers",
-                    ),
-                    CardAction(
-                        type=ActionTypes.message_back,
-                        title="Delete card",
-                        text="Delete",
-                    ),
-                ],
+    async def _send_welcome_card(self, turn_context: TurnContext, buttons):
+        buttons.append(
+            CardAction(
+                type=ActionTypes.message_back,
+                title="Update Card",
+                text="updatecardaction",
+                value={"count": 0},
             )
         )
+        card = HeroCard(
+            title="Welcome Card",
+            text="Click the buttons.",
+            buttons=buttons
+        )
+        await turn_context.send_activity(
+            MessageFactory.attachment(CardFactory.hero_card(card))
+        )
 
-        updated_activity = MessageFactory.attachment(card)
+    async def _send_update_card(self, turn_context: TurnContext, buttons):
+        data = turn_context.activity.value
+        data["count"] += 1
+        buttons.append(
+            CardAction(
+                type=ActionTypes.message_back,
+                title="Update Card",
+                text="updatecardaction",
+                value=data,
+            )
+        )
+        card = HeroCard(
+            title="Updated card",
+            text=f"Update count {data['count']}",
+            buttons=buttons
+        )
+
+        updated_activity = MessageFactory.attachment(CardFactory.hero_card(card))
         updated_activity.id = turn_context.activity.reply_to_id
         await turn_context.update_activity(updated_activity)
 
+    async def _get_member(self, turn_context: TurnContext):
+        TeamsChannelAccount: member = None 
+        try:
+            member = await TeamsInfo.get_member(turn_context, turn_context.activity.from_property.id)
+        except Exception as e:
+            if("MemberNotFoundInConversation" in e.args[0]):
+                await turn_context.send_activity("Member not found.")
+            else:
+                raise
+        else:
+            await turn_context.send_activity(f"You are: {member.name}")       
+
     async def _message_all_members(self, turn_context: TurnContext):
-        team_members = await TeamsInfo.get_members(turn_context)
+        team_members = await self._get_paged_members(turn_context)
 
         for member in team_members:
             conversation_reference = TurnContext.get_conversation_reference(
@@ -133,6 +160,18 @@ class TeamsConversationBot(TeamsActivityHandler):
         await turn_context.send_activity(
             MessageFactory.text("All messages have been sent")
         )
+
+    async def _get_paged_members(self, turn_context: TurnContext) -> []:
+        page = await TeamsInfo.get_paged_members(turn_context, 500, None)
+        team_members = page.members
+        cont_token = page.continuation_token
+        
+        while cont_token != None:
+            page = await TeamsInfo.get_paged_members(turn_context, cont_token)
+            cont_token = page.continuation_token
+            team_members += page.members
+            total = len(team_members)
+        return team_members
 
     async def _delete_card_activity(self, turn_context: TurnContext):
         await turn_context.delete_activity(turn_context.activity.reply_to_id)
