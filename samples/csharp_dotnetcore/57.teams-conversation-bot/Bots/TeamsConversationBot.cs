@@ -33,32 +33,18 @@ namespace Microsoft.BotBuilderSamples.Bots
             turnContext.Activity.RemoveRecipientMention();
             var text = turnContext.Activity.Text.Trim().ToLower();
 
-            switch (text)
-            {
-                case "mentionme":
-                    await MentionActivityAsync(turnContext, cancellationToken);
-                    break;
-
-                case "whoami":
-                    await GetSingleMemberAsync(turnContext, cancellationToken);
-                    break;
-
-                case "updatecardaction":
-                    await CardActivityAsync(turnContext, true, cancellationToken);
-                    break;
-
-                case "delete":
-                    await DeleteCardActivityAsync(turnContext, cancellationToken);
-                    break;
-
-                case "messageallmembers":
-                    await MessageAllMembersAsync(turnContext, cancellationToken);
-                    break;
-
-                default:
-                    await CardActivityAsync(turnContext, false, cancellationToken);
-                    break;
-            }
+            if(text.Contains("mention"))
+                await MentionActivityAsync(turnContext, cancellationToken);
+            else if(text.Contains("who"))
+                await GetSingleMemberAsync(turnContext, cancellationToken);
+            else if(text.Contains("update"))
+                await CardActivityAsync(turnContext, true, cancellationToken);
+            else if(text.Contains("message"))
+                await MessageAllMembersAsync(turnContext, cancellationToken);
+            else if(text.Contains("delete"))
+                await DeleteCardActivityAsync(turnContext, cancellationToken);
+            else
+                await CardActivityAsync(turnContext, false, cancellationToken);
         }
 
         protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
