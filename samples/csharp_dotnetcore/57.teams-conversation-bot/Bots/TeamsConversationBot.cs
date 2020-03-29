@@ -97,7 +97,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task GetSingleMemberAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            TeamsChannelAccount member = new TeamsChannelAccount();
+            var member = new TeamsChannelAccount();
 
             try
             {
