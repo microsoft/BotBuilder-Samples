@@ -19,7 +19,7 @@ The API uses the most modern neural machine translation technology, as well as o
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version

@@ -13,7 +13,7 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account (not a guest account)
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
   ```bash
