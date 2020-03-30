@@ -14,7 +14,7 @@ This samples **requires** prerequisites in order to run.
 
 This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version

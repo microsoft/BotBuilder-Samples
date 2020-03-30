@@ -6,7 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Prerequisites
 
-* [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+* [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
 * Access to a Slack workspace with sufficient permissions to login to create / manage applications at  [https://api.slack.com/apps](https://api.slack.com/apps). If you do not have access to a Slack environment you can create a workspace for free at https://www.slack.com
 
