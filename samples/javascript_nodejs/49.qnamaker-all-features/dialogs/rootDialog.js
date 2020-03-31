@@ -9,15 +9,7 @@ const {
 } = require('botbuilder-dialogs');
 
 const {
-    QnAMakerBaseDialog,
-    DefaultCardNoMatchResponse,
-    DefaultCardNoMatchText,
-    DefaultCardTitle,
-    DefaultNoAnswer,
-    DefaultThreshold,
-    DefaultTopN,
-    QnAOptions,
-    QnADialogResponseOptions
+    QnAMakerBaseDialog
 } = require('./qnamakerBaseDialog');
 
 const INITIAL_DIALOG = 'initial-dialog';
@@ -30,8 +22,7 @@ class RootDialog extends ComponentDialog {
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
     constructor(knowledgebaseId, authkey, host) {
-        super(ROOT_DIALOG);
-        console.log('RootDialog constructor')
+        super(ROOT_DIALOG);        
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
@@ -61,7 +52,7 @@ class RootDialog extends ComponentDialog {
     // This is the first step of the WaterfallDialog.
     // It kicks off the dialog with the QnA Maker with provided options.
     async startInitialDialog(step) {
-        console.log('startInitialDialog')
+        
         return await step.beginDialog(QNAMAKER_BASE_DIALOG);
     }
 }
