@@ -4,12 +4,13 @@
   "description": "Bot Build Sample - Simple Task Automation",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "botbuilder": "^3.13.1",
+    "botbuilder": "^3.30.0",
     "restify": "^4.3.0",
     "uuid": "^3.0.1"
   },

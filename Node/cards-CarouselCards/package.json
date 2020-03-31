@@ -21,7 +21,7 @@
     "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
   },
   "dependencies": {
-    "botbuilder": "^3.13.1",
+    "botbuilder": "^3.30.0",
     "dotenv-extended": "^1.0.4",
     "restify": "^4.3.0"
   }
