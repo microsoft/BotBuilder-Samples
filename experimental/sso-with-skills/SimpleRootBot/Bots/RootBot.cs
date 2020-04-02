@@ -87,25 +87,9 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             // forget skill invocation
             await _activeSkillProperty.DeleteAsync(turnContext, cancellationToken);
 
-            // Show status message, text and value returned by the skill
-            var eocActivityMessage = $"Received {ActivityTypes.EndOfConversation}.\n\nCode: {turnContext.Activity.Code}";
-            if (!string.IsNullOrWhiteSpace(turnContext.Activity.Text))
-            {
-                eocActivityMessage += $"\n\nText: {turnContext.Activity.Text}";
-            }
-
-            if ((turnContext.Activity as Activity)?.Value != null)
-            {
-                eocActivityMessage += $"\n\nValue: {JsonConvert.SerializeObject((turnContext.Activity as Activity)?.Value)}";
-            }
-
-            await turnContext.SendActivityAsync(MessageFactory.Text(eocActivityMessage), cancellationToken);
-
-            // We are back at the root
-            await turnContext.SendActivityAsync(MessageFactory.Text("Back in the root bot. Say \"skill\" and I'll patch you through"), cancellationToken);
-
-            // Save conversation state
-            await _conversationState.SaveChangesAsync(turnContext, cancellationToken: cancellationToken);
+            await _conversationState.LoadAsync(turnContext, true, cancellationToken);
+            await _userState.LoadAsync(turnContext, true, cancellationToken);
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

@@ -20,11 +20,11 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`SkillBot`
 
 - `SimpleRootBot`: this project is a simple skill consumer bot, and supports:
     - `login` command that gets the user to sign into the skill consumer bot's aad application.
-    - `show` command that gets displays the user's token
+    - `token` command that gets displays the user's token
     - `logout` command that logs the user out of the parent bot
 - `SkillBot`: this project shows a simple skill that supports OAuth for AADV2 and can respond to the following commands
     - `skill login` command that gets the skill consumer bot to signin into the skill's aadV2 app, on behalf of the user. The user is not shown a signin card, unless SSO fails.
-    - `skill show` command that gets displays the user's token from the skill
+    - `skill token` command that gets displays the user's token from the skill
     - `skill logout` command that logs the user out of the skill
 
 ## To try this sample

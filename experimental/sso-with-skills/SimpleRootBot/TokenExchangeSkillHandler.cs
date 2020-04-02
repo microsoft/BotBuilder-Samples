@@ -106,16 +106,24 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                                 context.TurnState.Add<IIdentity>("BotIdentity", claimsIdentity);
 
                                 // AAD token exchange
-                                var result = await _tokenExchangeProvider.ExchangeTokenAsync(
-                                    context,
-                                    _connectionName,
-                                    activity.Recipient.Id,
-                                    new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
-
-                                if (!string.IsNullOrEmpty(result.Token))
+                                try
                                 {
-                                    // Send an Invoke back to the Skill
-                                    return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default(CancellationToken)).ConfigureAwait(false);
+                                    var result = await _tokenExchangeProvider.ExchangeTokenAsync(
+                                        context,
+                                        _connectionName,
+                                        activity.Recipient.Id,
+                                        new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
+
+                                    if (!string.IsNullOrEmpty(result.Token))
+                                    {
+                                        // Send an Invoke back to the Skill
+                                        return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default(CancellationToken)).ConfigureAwait(false);
+                                    }
+                                }
+                                catch
+                                {
+                                    // Show oauth card if token exchange fails.
+                                    return false;
                                 }
 
                                 return false;
