@@ -1,0 +1,1 @@
+{"version":3,"file":"dataStorage.js","sourceRoot":"","sources":["../src/dataStorage.ts"],"names":[],"mappings":";AAAA;;;GAGG;;AAKH,MAAa,WAAW;;AAAxB,kCAEC;AADiB,wBAAY,GAAiC,IAAI,GAAG,EAA2B,CAAC,CAAC,yBAAyB;AAG5H,MAAa,eAAe;IACxB,YAAmB,GAAe,EAAE,SAAoB;QACpD,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACnB,CAAC;CAGJ;AAPD,0CAOC"}

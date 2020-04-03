@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Language Generation Tester</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style type="text/css"> 
+    h1 {
+      font-weight: normal;
+      padding: 0;
+      margin: 0;
+    }
+
+    input[type="button"] {
+      border: none;
+      width: 80px;
+      height: 32px;
+      text-align: center; 
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      border-radius: 8px;
+    }
+
+    textarea, input[type="text"] {
+      width: 100%;
+      font-size: 1rem;
+    }
+
+    .panes > div {
+      flex-basis: 50%;
+      margin: 1rem;
+    }
+
+    .TemplateBlock > div {
+      display: inline-block;
+      padding: 5px 0px 5px 30px;
+    }
+
+    .FreeTextBlock > div {
+      display: inline-block;
+      padding: 5px 0px 5px 33px;
+    }
+
+    .operations {
+      margin-top: 0.5rem;
+      float: right;
+      padding-right: 3rem;
+    }
+
+    .results {
+      border-top: 2px solid;
+      padding-top: 1rem;
+      margin: 0;
+      margin-top: 5rem;
+    }
+
+    .panes {
+      border-top: 2px solid;
+      padding-top: 1rem;
+      margin: 5;
+      margin-top: 2rem;
+    }
+
+
+  </style> 
+</head>
+
+<body>
+<script src="https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.5/require.min.js" integrity="sha256-0SGl1PJNDyJwcV5T+weg2zpEMrh7xvlwO4oXgvZCeZk=" crossorigin="anonymous"></script>
+
+  <header>
+      <h1>
+        Language Generation Tester
+      </h1>
+      <p style="font-size: 135%;">
+        Preview the <a href="https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation" target="_new">experimental Bot Framework language generation library</a> 
+        with this interactive tool.
+      </p>
+    </header>
+    <div class="panes">
+    <div>
+        <p>
+          <div id="NumOfVariants">
+          <label for="iterations">Generate <input type="number" id="iterations" name="iterations" value="3" min="1" max="100"/>  variants for:</label>
+          </div>
+        </p>
+      <div class="TemplateBlock" id="TemplateBlock">
+        <INPUT TYPE="Radio" Name="source" Value="Template" onclick="getTemplateList()">Template: 
+          <div id="getTemplates">
+            <select name="templates" id="templates"  style="width: 403px; height: 24px">
+            </select> 
+          </div>
+      </div>
+      <p>
+        <label for="json">Configure values used to evaluate expressions:</label>
+        <div id="json" style="width:600px;height:200px;border:1px solid grey"></div>
+      </p>
+      <div class="operations" id="operations">
+        <input type="button" value="Reset" onclick="reset()">
+        <input type="button" onclick="submitScope()" value="Generate">
+      </div>
+
+      <div class="results" style="display: block">
+        <label for="evaluateresults">Generated variations:</label>
+        <div id="evaluateresults" style="width:600px;height:200px;border:1px solid grey;margin-top: 15px;"></div>
+      </div>
+    </div>
+  </div>
+  <script>
+      require.config({ paths: { 'vs': 'https://microsoft.github.io/monaco-editor/node_modules/monaco-editor/min/vs' }});
+      require(['vs/editor/editor.main'], function() {
+        window.editor = monaco.editor.create(document.getElementById('json'), {
+          value: "{}",
+          language: 'json',
+          theme: 'vs'
+        });
+
+        window.editorOutput = monaco.editor.create(document.getElementById('evaluateresults'), {
+          value: "",
+          language: 'text',
+          theme: 'vs'
+        });
+      });
+  </script>
+  <script>
+        var vscode = undefined;
+        
+        function submitScope() {
+
+            const sourceOptions = document.getElementsByName("source");
+            let source = "";
+            for (var i = 0; i < sourceOptions.length; i++){
+              if (sourceOptions[i].checked) {
+                source = sourceOptions[i].value;
+              }
+            }
+            const scopeValue = window.editor.getValue();
+            const iterations = document.getElementById('iterations').value;
+            let templateName = "";
+            if (source === "Template") {
+              const selections = document.getElementById('TemplateName');
+              templateName = selections.options[selections.selectedIndex].text;
+
+            }
+            
+            if (source !== "Select the template you want to evaluate") {
+              if(vscode === undefined) {
+                vscode = acquireVsCodeApi();
+              }
+
+              vscode.postMessage({
+                  command: 'passScope',
+                  scopeValue: scopeValue,
+                  templateName: templateName,
+                  iterations: iterations
+              });
+            }
+            
+        }
+
+        function getTemplateList() {
+          let resultList = document.getElementById('getTemplates');
+          let resultFreeText = document.getElementById('getFreeText');
+          resultList.innerHTML = "";
+          resultFreeText.innerHTML = "";
+          if(vscode === undefined) {
+              vscode = acquireVsCodeApi();
+          }
+          
+          resultList = undefined;
+
+          vscode.postMessage({
+            command: 'getTemplates'
+          });
+        }
+
+        function reset() {
+          curLGFiles = [];
+          // reset number of variants to 3
+          const resultVariantInput = document.getElementById("iterations");
+          const resultTempalteBlock = document.getElementById('TemplateBlock');
+          resultVariantInput.value = resultVariantInput.defaultValue;;
+          resultTempalteBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Template' onclick='getTemplateList()'>Template: <div id='getTemplates'><select name='templates' id='templates'  style='width: 403px; height: 24px'></select></div>";
+          window.editor.setValue("{}");
+          if (window.editorOutput !== undefined) {
+            window.editorOutput.setValue("");
+          }
+        }
+
+        // Handle the message inside the webview
+        window.addEventListener('message', event => {
+            const resultEl = document.getElementById('evaluateresults');
+            const resultList = document.getElementById('getTemplates');
+            const resultLGFileList = document.getElementById("LGFileList");
+            const message = event.data; // The JSON data our extension sent
+
+            switch (message.command) {
+                case 'evaluateResults': {
+                  var arr = message.results;
+                  const resultStr = arr.join('\n');
+                  console.log(resultStr);
+                  window.editorOutput.setValue(resultStr);
+                  break;
+                }
+
+                case 'TemplateName': {
+                  var arr = message.results;   
+                  resultList.innerHTML = "";
+                  let tempStr = "<select id='TemplateName' style='width: 403px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
+                  arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
+                  resultList.innerHTML = tempStr + "</select>";
+                  break;
+                }
+            }
+        });
+    </script>
+</body>
+</html>

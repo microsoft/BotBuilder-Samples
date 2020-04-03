@@ -1,0 +1,119 @@
+{
+	"$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+	"name": "LG",
+	"patterns": [
+		{"include": "#template_name_line"},
+		{"include": "#comments"},
+		{"include": "#imports"},
+		{"include": "#template_body"},
+		{"include": "#Structure_LG"}
+	],
+	"repository": {
+		"comments": {
+			"begin": "^\\s*>",
+			"end":"\n",
+			"name":"comment.line.keywords"
+		},
+		"imports": {
+			"captures": {
+				"1": {
+					"name": "string.other.link.title.lg"
+				},
+				"2": {
+					"name": "markup.underline.link.lg"
+				}
+			},
+			"match": "\\[([\\w\\W]+?)\\]\\(([\\w\\W]+?)\\)",
+			"name": "meta.link.reference.def.lg"
+		},
+		"fence_block": {
+			"begin": "(`{3})\\s*",
+			"end": "(`{3})\\s*$",
+			"contentName": "constant.character.escape.multiline",
+			"patterns": [
+				{
+					"include": "#expression_in_fence_block"
+				}]
+		},
+		"expression": {
+			"contentName": "entity.name.function.expression",
+			"begin": "{",
+			"end": "}",
+			"patterns": [
+				{"include": "#params"}
+			]
+		},
+		"inline_string": {
+			"match": "(\").+?(\")",
+			"name":"string.quoted.double.lg"
+		},
+		"template_ref": {
+			"match": "\\[(.*?)(\\(.*?(\\[.+\\])?\\))?\\]",
+			"captures": {
+				"1": {
+					"name": "entity.name.function.functionName"
+				},
+				"2": {
+					"name": "variable.parameter.parameters"
+				}
+			}
+		},
+		"keyword": {
+			"name": "keyword.control.keyword",
+			"match": "(?i)(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\\s*:"
+		},
+		"template_name_line":{
+			"begin": "^\\s*#",
+			"end":"\n",
+			"name":"markup.bold.lg",
+			"patterns": [
+				{"include": "#params"}
+			]
+		},
+		"template_body": {
+			"begin":"^\\s*-",
+			"end":"\n",
+			"patterns": [
+				{"include": "#fence_block"},
+				{"include": "#template_ref"},
+				{"include": "#expression"},
+				{"include": "#keyword"}
+			]
+		},
+		"params": {
+			"begin": "\\(",
+			"end": "\\)",
+			"name":"variable.parameter.parameters"
+		},
+		"expression_in_fence_block": {
+			"contentName": "entity.name.function.expression",
+			"begin": "@{",
+			"end": "}",
+			"patterns": [
+				{"include": "#params"}
+			]
+		},
+		"Structure_LG" : {
+			"name" : "Structure_LG",
+			"begin": "(?:^\\s*\\[\\s*)",
+			"end": "(?:\\s*\\]\\s*\\n)",
+			"patterns": [
+				{"match":"\\s*[a-zA-Z0-9]+\\s*\\n",
+				"name": "markup.heading.structure_name"},
+				{
+				"match": "([a-zA-Z0-9_]+\\s*)=([^\\n]+)\\n",
+				"name": "entity.name.expression",
+				"captures": {
+					"1": {
+						"name": "markup.bold.property"
+					},
+					"2": {
+						"name": "markup.italic.value"
+					}
+				}
+				}
+			]
+		}
+	},
+	"scopeName": "source.lg"
+}
