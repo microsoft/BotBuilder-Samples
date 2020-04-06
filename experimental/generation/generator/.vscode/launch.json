@@ -4,24 +4,23 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-        {
+    {
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Tests",
-            "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/packages/generate/node_modules/mocha/bin/_mocha",
-            "cwd": "${workspaceFolder}/packages/generate",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}",
             "args": [
                 "--timeout",
                 "999999",
                 "--colors",
                 "-g",
-                "generate.*"
+                "dialog:generate.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
             "outFiles": [
-                "./package/dialog/lib/**"
+                "./lib/**"
             ]
         },
         {
@@ -29,14 +28,14 @@
             "request": "launch",
             "name": "Generate Sandwich",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/packages/generate/bin/run",
+            "program": "${workspaceFolder}/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./packages/generate/lib/**"
+                "./lib/**"
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/generate/test/commands/dialog/forms/sandwich.schema",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
                 "-o",
                 "${env:TEMP}/sandwich.out",
                 "--force",
@@ -49,14 +48,14 @@
             "request": "launch",
             "name": "Generate Unit Test",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/packages/generate/bin/run",
+            "program": "${workspaceFolder}/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./packages/generate/lib/**"
+                "./lib/**"
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/generate/test/commands/dialog/forms/unittests.schema",
+                "${workspaceFolder}/test/commands/dialog/forms/unittests.schema",
                 "-o",
                 "${env:TEMP}/unittests.out",
                 "--force",

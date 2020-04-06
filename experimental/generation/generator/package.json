@@ -1,0 +1,84 @@
+{
+  "name": "@microsoft/bf-generate",
+  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema.",
+  "version": "1.0.0",
+  "author": "Microsoft",
+  "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
+  "dependencies": {
+    "@microsoft/bf-cli-command": "^4.9.0-preview.117662",
+    "@oclif/command": "^1.5.19",
+    "@oclif/config": "^1.14.0",
+    "tslib": "^1.11.1",
+    "@oclif/errors": "~1.2.2",
+    "@types/lru-cache": "^5.1.0",
+    "@types/semver": "^6.0.1",
+    "@types/xml2js": "^0.4.4",
+    "ajv": "^6.9.1",
+    "chalk": "^2.4.2",
+    "clone": "^2.1.2",
+    "fs-extra": "^8.1.0",
+    "get-json": "^1.0.1",
+    "globby": "^9.2.0",
+    "json-schema-merge-allof": "^0.6.0",
+    "json-schema-ref-parser": "^7.1.0",
+    "os": "~0.1.1",
+    "path": "^0.12.7",
+    "seedrandom": "~3.0.5",
+    "semver": "^5.7.0",
+    "xml2js": "^0.4.19",
+    "adaptive-expressions": "^4.8.0-preview",
+    "botbuilder-lg": "^4.8.0-preview"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.2",
+    "@types/fs-extra": "^8.0.0",
+    "@oclif/plugin-help": "^2.2.3",
+    "@oclif/test": "^1.2.5",
+    "@oclif/tslint": "^3.1.1",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.18",
+    "@types/seedrandom": "~2.4.28",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-config-oclif": "^3.1.0",
+    "eslint-config-oclif-typescript": "^0.1.0",
+    "globby": "^10.0.2",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.8.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.8.3"
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/yarn.lock"
+  ],
+  "homepage": "https://github.com/Microsoft/BotBuilder-Samples",
+  "keywords": [
+    "oclif-plugin"
+  ],
+  "license": "MIT",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "bf",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "https://github.com/Microsoft/BotBuilder-Samples",
+  "scripts": {
+    "build": "tsc -b",
+    "postpack": "rimraf oclif.manifest.json",
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
+    "version": "oclif-dev readme && git add README.md"
+  }
+}
