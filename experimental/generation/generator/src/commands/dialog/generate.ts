@@ -21,7 +21,7 @@ export default class DialogGenerate extends Command {
         force: flags.boolean({ char: 'f', description: 'Force overwriting generated files.' }),
         help: flags.help({ char: 'h' }),
         locale: flags.string({ char: 'l', description: 'Locales to generate. [default: en-us]', multiple: true }),
-        output: flags.string({ char: 'o', description: 'Output path for where to put generated .lu, .lg, .qna and .dialog files. [default: .]', default: '.', required: false }),
+        output: flags.string({ char: 'o', description: 'Output path for where to put generated .lu, .lg, .qna and .dialog files.', default: '.', required: false }),
         prefix: flags.string({ char: 'p', description: 'Prefix to use for generated files. [default: schema name]' }),
         schema: flags.string({ char: 's', description: 'Path to your app.schema file.', required: false }),
         templates: flags.string({ char: 't', description: 'Directory with templates to use for generating assets.  With multiple directories, the first definition found wins.  To include the standard templates, just use "standard" as a template directory name.', multiple: true }),
