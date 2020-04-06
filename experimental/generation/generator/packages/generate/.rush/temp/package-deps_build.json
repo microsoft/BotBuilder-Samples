@@ -1,6 +1,4 @@
 {
-  "files": {
-    "packages/generate/.rush/temp/shrinkwrap-deps.json": "5189f1ae11fc466eabac0d0a520c27bdb267e97c"
-  },
+  "files": {},
   "arguments": "tsc -b "
 }

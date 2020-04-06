@@ -16,10 +16,10 @@ import * as assert from 'assert';
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'sandwich.out')
-    let schemaPath = 'test/commands/dialog/forms/sandwich.schema'
-    let badSchema = 'test/commands/dialog/forms/bad-schema.schema'
-    let notObject = 'test/commands/dialog/forms/not-object.schema'
-    let override = 'test/commands/dialog/templates/override'
+    let schemaPath = 'test/commands/generate/forms/sandwich.schema'
+    let badSchema = 'test/commands/generate/forms/bad-schema.schema'
+    let notObject = 'test/commands/generate/forms/not-object.schema'
+    let override = 'test/commands/generate/templates/override'
 
     beforeEach(async () => {
         await fs.remove(output)
