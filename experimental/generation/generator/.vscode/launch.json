@@ -16,7 +16,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*dialog:generate.*"
+                "generate.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

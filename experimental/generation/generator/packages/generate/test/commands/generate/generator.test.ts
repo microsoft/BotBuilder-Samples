@@ -14,7 +14,7 @@ import * as ft from '../../../src/library/schema'
 import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
 
-describe('dialog:generate', async () => {
+describe('generate', async () => {
     let output = ppath.join(os.tmpdir(), 'sandwich.out')
     let schemaPath = 'test/commands/generate/forms/sandwich.schema'
     let badSchema = 'test/commands/generate/forms/bad-schema.schema'
@@ -70,7 +70,7 @@ describe('dialog:generate', async () => {
     test
         .stdout()
         .stderr()
-        .command(['dialog:generate', `${badSchema}`])
+        .command(['generate', `${badSchema}`])
         .it('Detect bad schema', ctx => {
             expect(ctx.stderr)
                 .to.contain('not a valid JSON Schema')
@@ -79,7 +79,7 @@ describe('dialog:generate', async () => {
     test
         .stdout()
         .stderr()
-        .command(['dialog:generate', `${schemaPath}`, '-o', `${output}`, '--verbose'])
+        .command(['generate', `${schemaPath}`, '-o', `${output}`, '--verbose'])
         .it('Detect success', ctx => {
             expect(ctx.stderr)
                 .to.contain('Generating')

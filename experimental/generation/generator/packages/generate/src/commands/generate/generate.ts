@@ -6,11 +6,11 @@
 import { Command, flags } from '@microsoft/bf-cli-command';
 import * as gen from '../../library/dialogGenerator'
 
-export default class GenerateDialog extends Command {
+export default class Generate extends Command {
     static description = '[PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.'
 
     static examples = [`
-      $ bf dialog:generate sandwich.schema --output c:/tmp
+      $ bf generate sandwich.schema --output c:/tmp
     `]
 
     static args = [
@@ -29,7 +29,7 @@ export default class GenerateDialog extends Command {
     }
 
     async run() {
-        const { args, flags } = this.parse(GenerateDialog)
+        const { args, flags } = this.parse(Generate)
         try {
             await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force,
                 (type, msg) => {

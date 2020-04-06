@@ -14,7 +14,7 @@
   ],
   "homepage": "https://github.com/microsoft/botframework-cli",
   "keywords": [
-    "oclif-plugin"
+    "oclif-plugin", "bot-framework", "botbuilder", "adaptive-dialogs"
   ],
   "license": "MIT",
   "oclif": {
