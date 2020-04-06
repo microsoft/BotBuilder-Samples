@@ -1,0 +1,9 @@
+# filename
+- ${builtinEntityFilename('money')}
+
+# template
+- ```
+@ prebuilt money ${roles()}
+${propertyName()}
+```
+[generator.lg](generator.lg)

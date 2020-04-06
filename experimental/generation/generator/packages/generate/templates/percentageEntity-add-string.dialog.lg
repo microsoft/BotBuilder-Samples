@@ -1,0 +1,7 @@
+# filename
+- ${addFilename('percentage')}
+
+# template
+- ${addDialog('percentage')}
+
+[generator.lg](generator.lg)

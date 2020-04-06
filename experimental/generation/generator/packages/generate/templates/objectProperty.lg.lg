@@ -1,0 +1,29 @@
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${AskTemplate()}
+${nameTemplate()}
+${ValueTemplate()}
+
+${importLG('library')}
+${importLG('library-Missing')}
+```
+
+# AskTemplate
+- ```
+# Ask${property}
+- \${askString('${property}')\}
+```
+
+# ValueTemplate
+-```
+# ${property}(val)
+- IF: \${val}
+- \${join(foreach(indicesAndValues(val), entry, entry.value), ' ')}
+- ELSE:
+- no value
+```
+
+[generator.lg](generator.lg)

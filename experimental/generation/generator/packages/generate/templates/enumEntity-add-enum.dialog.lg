@@ -1,0 +1,7 @@
+# filename
+- ${addFilename(`${property}Entity`)}
+
+# template
+- ${addDialog(`${property}Entity`)}
+
+[generator.lg](generator.lg)

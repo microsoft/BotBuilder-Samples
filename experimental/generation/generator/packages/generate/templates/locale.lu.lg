@@ -1,0 +1,6 @@
+# filename
+- luis/${prefix}.${locale}.lu
+
+# template
+-${join(foreach(templates.lu, lu, concat('[', lu.fullName, '](../', locale, '/', lu.fullName, ')')), '\n')}
+

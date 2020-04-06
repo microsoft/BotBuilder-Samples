@@ -1,0 +1,15 @@
+# filename
+- ${locale}/${prefix}-booleanEntity.${locale}.lg
+
+# template
+- ```
+# booleanEntity(value)
+- SWITCH: \${value}
+- CASE: \${'true'}
+    - true  
+- CASE: \${'false'}
+    - false
+- DEFAULT:
+    - no value
+```    
+[generator.lg](generator.lg)

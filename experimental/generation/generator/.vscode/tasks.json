@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "rush build",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "command": "rush build",
+            "windows": {
+                "command": "rush.cmd build"
+            }
+        },
+        {
+            "type": "typescript",
+            "tsconfig": "packages/lu/tsconfig.json",
+            "problemMatcher": [
+                "$tsc"
+            ],
+            "group": "build"
+        }
+    ]
+}

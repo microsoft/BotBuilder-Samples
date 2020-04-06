@@ -1,0 +1,17 @@
+{
+    "compilerOptions": {
+        "composite": true,
+        "declaration": true,
+        "importHelpers": true,
+        "module": "commonjs",
+        "outDir": "lib",
+        "rootDir": "src",
+        "sourceMap": true,
+        "strict": true,
+        "target": "es2017",
+        "noImplicitAny": false
+    },
+    "include": [
+        "src/**/*"
+    ]
+}

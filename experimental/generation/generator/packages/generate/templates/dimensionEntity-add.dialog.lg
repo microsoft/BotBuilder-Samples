@@ -1,0 +1,31 @@
+# filename
+- ${addFilename('dimension')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "dimension",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setObjectPropertyMessage('${property}',concat(string(@dimension.number), ' ', @dimension.units))}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.number",
+            "value": "=@dimension.number"          
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.units",
+            "value": "=@dimension.units"          
+        }
+    ]               
+}
+```
+
+[generator.lg](generator.lg)

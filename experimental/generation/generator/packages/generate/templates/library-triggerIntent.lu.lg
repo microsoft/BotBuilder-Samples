@@ -1,0 +1,15 @@
+# filename
+- ${locale}/${prefix}-trigger.en-us.lu
+
+# template
+-```
+# ${triggerIntent}
+${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)), entity, entityPattern(entity)), '\n')}
+- {PROPERTYName}
+```
+
+# entityPattern(entity)
+- IF: ${entity == 'datetime'}
+- - {datetimeV2}
+- ELSE:
+- - {${entity}}

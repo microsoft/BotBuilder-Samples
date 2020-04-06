@@ -1,0 +1,10 @@
+# filename
+- ${builtinEntityFilename('dimension')}
+
+# template
+- ```
+@ prebuilt dimension ${roles()}
+${propertyName()}
+```
+
+[generator.lg](generator.lg)

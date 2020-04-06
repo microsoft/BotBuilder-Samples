@@ -1,0 +1,7 @@
+# filename
+- ${showFilename()}
+
+# template
+- ${showDialog()}
+
+[generator.lg](generator.lg)

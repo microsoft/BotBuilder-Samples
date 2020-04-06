@@ -1,0 +1,10 @@
+# filename
+- ${builtinEntityFilename('percentage')}
+
+# template
+- ```
+@ prebuilt percentage ${roles()}
+${propertyName()}
+```
+
+[generator.lg](generator.lg)

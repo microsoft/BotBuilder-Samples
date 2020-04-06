@@ -1,0 +1,7 @@
+# filename
+- ${removeFilename('utterance')}
+
+# template
+- ${removeDialog('utterance')}
+
+[generator.lg](generator.lg)

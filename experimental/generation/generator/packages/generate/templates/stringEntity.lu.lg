@@ -1,0 +1,10 @@
+# filename
+- ${entityLUFilename()}
+
+# template
+- ```
+@ ml ${property}Entity
+${propertyName()}
+```
+
+[generator.lg](generator.lg)

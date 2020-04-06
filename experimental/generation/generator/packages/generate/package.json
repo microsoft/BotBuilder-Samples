@@ -1,0 +1,83 @@
+{
+  "name": "@microsoft/bf-generate",
+  "version": "1.0.0",
+  "author": "Microsoft",
+  "bugs": "https://github.com/microsoft/botframework-cli/issues",
+  "engines": {
+    "node": ">=8.0.0"
+  },
+  "files": [
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/oclif.manifest.json",
+    "/templates"
+  ],
+  "homepage": "https://github.com/microsoft/botframework-cli",
+  "keywords": [
+    "oclif-plugin"
+  ],
+  "license": "MIT",
+  "oclif": {
+    "commands": "./lib/commands",
+    "bin": "bf",
+    "devPlugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "repository": "microsoft/botframework-cli",
+  "scripts": {
+    "postpack": "rimraf oclif.manifest.json",
+    "posttest": "tslint -p test -t stylish",
+    "build": "tsc -b",
+    "clean": "rimraf ./.nyc_output ./lib ./package-lock.json ./tsconfig.tsbuildinfo",
+    "test": "mocha",
+    "coverage": "nyc npm run test",
+    "report:coverage": "npm run coverage && nyc report --reporter=text-lcov | coveralls",
+    "doc": "npm run build && npm run doc:readme && rimraf oclif.manifest.json",
+    "doc:readme": "oclif-dev manifest && oclif-dev readme",
+    "version": "npm run doc:readme && git add README.md"
+  },
+  "dependencies": {
+    "@microsoft/bf-cli-command": "~4.8.0",
+    "@oclif/command": "~1.5.19",
+    "@oclif/config": "~1.13.3",
+    "@oclif/errors": "~1.2.2",
+    "@types/lru-cache": "^5.1.0",
+    "@types/semver": "^6.0.1",
+    "@types/xml2js": "^0.4.4",
+    "ajv": "^6.9.1",
+    "chalk": "^2.4.2",
+    "clone": "^2.1.2",
+    "fs-extra": "^8.1.0",
+    "get-json": "^1.0.1",
+    "globby": "^9.2.0",
+    "json-schema-merge-allof": "^0.6.0",
+    "json-schema-ref-parser": "^7.1.0",
+    "os": "~0.1.1",
+    "path": "^0.12.7",
+    "seedrandom": "~3.0.5",
+    "semver": "^5.7.0",
+    "tslib": "^1.10.0",
+    "xml2js": "^0.4.19",
+    "adaptive-expressions": "^4.8.0-preview",
+    "botbuilder-lg": "^4.8.0-preview"
+  },
+  "devDependencies": {
+    "@oclif/dev-cli": "^1.22.0",
+    "@oclif/plugin-help": "^2.2.0",
+    "@oclif/test": "^1.2.5",
+    "@oclif/tslint": "^3.1.1",
+    "@types/chai": "^4.2.0",
+    "@types/fs-extra": "^8.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.14.15",
+    "@types/seedrandom": "~2.4.28",
+    "chai": "^4.2.0",
+    "mocha": "^6.2.2",
+    "nyc": "^14.1.1",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.3.0",
+    "tslint": "^5.18.0",
+    "typescript": "^3.5.3"
+  }
+}

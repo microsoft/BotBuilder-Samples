@@ -1,0 +1,14 @@
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "Help",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${help(@PropertyName)}"           
+        }
+    ]
+}
+```

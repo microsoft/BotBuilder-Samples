@@ -1,0 +1,48 @@
+> This file contains the generic templates to use for properties of particular types.
+
+# welcome
+- Welcome!
+
+# name(property)
+- ${template(`${property}Name`)}
+
+# value(property, val)
+- ${template(property, val)}
+
+# enumEntityValue(property, val)
+- ${template(`${property}Entity`, val)}
+
+# publicProperties
+-${dialogClass.schema.$public}
+
+# requiredProperties
+- IF: ${count(dialogClass.schema.required) > 0}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, name(property)), ',')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, name(property)), ', ')}\n
+- ELSE:
+- 
+
+# possibleValues(property)
+- ${foreach(dialogClass.schema.properties[property].enum, enum, value(property, enum))}
+
+# possibleArrayValues(property)
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, value(property, enum))}
+
+# cancel
+- Do you want to end the conversation? (yes/no)
+
+# confirmChange
+- Is there any property you want to change? (no or the property name)
+
+# chooseProperty
+- Which property do you want to change?
+
+# notUnderstood
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
+
+[library-PROPERTYName.en-us.lg]

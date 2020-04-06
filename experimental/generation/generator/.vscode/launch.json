@@ -1,0 +1,259 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Public bf cli",
+            "program": "C:/Users/chrimc/AppData/Roaming/npm/node_modules/@microsoft/botframework-cli/bin/run",
+            "args": [
+                "dialog:generate",
+                "c:/tmp/sandwich/sandwich.schema",
+                "-o",
+                "${env:TEMP}/cli.out"
+            ],
+            "outFiles": [
+                "C:/Users/chrimc/AppData/Roaming/npm/node_modules/@microsoft/botframework-cli/node_modules/@microsoft/bf-dialog/lib"
+            ],
+            "skipFiles": [
+                "<node_internals>/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Dialog Merge Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/dialog",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*Test schema merge.*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./package/dialog/lib/**"
+            ],
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Dialog Verify Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/dialog",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*dialog:verify.*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./package/dialog/lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Dialog Generator Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/dialog",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*dialog:generate.*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./package/dialog/lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LUIS Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/luis/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/luis",
+            "args": [
+                "test/",
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outFiles": [
+                "./lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LU Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/luis/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/lu",
+            "args": [
+                "test/",
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/lu/lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LUIS Build Tests",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/lu/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/lu",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*luis:build.*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/lu/lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "BotBuilder schema",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/dialog/lib/**"
+            ],
+            "args": [
+                "dialog:merge",
+                "../libraries/**/*.schema",
+                "-o",
+                "sdk.schema",
+                "--verbose",
+                "-u"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceFolder}/../botbuilder-dotnet/schemas"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LUIS Build Sandwich",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/luis/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/luis/lib/**",
+                "./packages/lu/lib/**"
+            ],
+            "args": [
+                "luis:build",
+                "--in",
+                ".",
+                "--authoringKey",
+                "${env:LUIS_AUTHORING_KEY}",
+                "--botName",
+                "sandwich",
+                "--dialog",
+                "--suffix",
+                "${env:USERNAME}",
+                "--out", "."
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${env:TEMP}/sandwich.out/luis"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "LUIS Build DynamicLists",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/lu/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/lu/lib/**",
+                "./pacakges/luis/lib/**"
+            ],
+            "args": [
+                "luis:build",
+                "--in",
+                ".",
+                "--authoringKey",
+                "${env:LUIS_AUTHORING_KEY}",
+                "--botName",
+                "dynamicLists",
+                "--dialog"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "cwd": "${workspaceFolder}/../botbuilder-dotnet/tests/Microsoft.Bot.Builder.Dialogs.Adaptive.Tests/tests/LUISRecognizerTests"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Sandwich",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/dialog/lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/forms/sandwich.schema",
+                "-o",
+                "${env:TEMP}/sandwich.out",
+                "--force",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Unit Test",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/dialog/lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/forms/unittests.schema",
+                "-o",
+                "${env:TEMP}/unittests.out",
+                "--force",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        }
+    ]
+}

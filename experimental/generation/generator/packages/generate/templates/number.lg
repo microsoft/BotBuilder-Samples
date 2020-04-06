@@ -1,0 +1,7 @@
+# entities
+- ${roleEntities('number')}
+
+# templates
+- ${propertyTemplates()}
+
+[generator.lg](generator.lg)
