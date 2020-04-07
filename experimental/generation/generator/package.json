@@ -5,7 +5,7 @@
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-cli-command": "^4.9.0-preview.117662",
+    "@microsoft/bf-cli-command": "^4.8.0",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.14.0",
     "tslib": "^1.11.1",
