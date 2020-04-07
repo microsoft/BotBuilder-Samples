@@ -1,0 +1,15 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "PropertyToRemember",
+    "entity": "PROPERTYName",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$PropertyToRemember",
+            "value": "=@PROPERTYName"
+        }
+    ],
+    "$Generator": "529b14f5054deab0fc20d70b67360ef9"
+}

@@ -62,6 +62,31 @@
                 "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
-        }
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integrate Assets",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/dialog/lib/**"
+            ],
+            "args": [
+                "dialog:integrate",
+                "sandwichBuy",
+                "-o",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy1",
+                "-n",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy2",
+                "-m",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy3",
+                "-l",
+                "en-us",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
     ]
 }

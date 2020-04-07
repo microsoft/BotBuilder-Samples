@@ -3,13 +3,15 @@
  * Licensed under the MIT License.
  */
 
-import { Templates, SwitchCaseBodyContext } from 'botbuilder-lg';
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
 import * as os from 'os';
-import * as LuParser from '../../../lu/src/parser/lufile/LuParser';
-import * as sectionOperator from '../../../lu/src/parser/lufile/sectionOperator';
-import * as LUSectionTypes from '../../../lu/src/parser/utils/enums/lusectiontypes';
+
+const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
+const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
+const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOperator');
+const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectiontypes')
+
 import * as gen from './dialogGenerator'
 
 export enum FeedbackType {
@@ -161,12 +163,12 @@ async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: str
 async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
 
     let oldText = await fs.readFile(ppath.join(oldPath, 'luis', schemaName + '.' + locale + '.lu'), 'utf8')
-    let oldLUResource = LuParser.parse(oldText)
-    let oldImportSections = oldLUResource.Sections.filter(s => s.SectionType === LUSectionTypes.IMPORTSECTION)
+    let oldLUResource = LUParser.parse(oldText)
+    let oldImportSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
 
     let newText = await fs.readFile(ppath.join(newPath, 'luis', schemaName + '.' + locale + '.lu'), 'utf8')
-    let newLUResource = LuParser.parse(newText)
-    let newImportSections = newLUResource.Sections.filter(s => s.SectionType === LUSectionTypes.IMPORTSECTION)
+    let newLUResource = LUParser.parse(newText)
+    let newImportSections = newLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
 
     let resultRefs: string[] = []
     let oldRefSet = new Set<string>()
@@ -249,12 +251,12 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
  */
 async function changeEntityEnumLU(oldPath: string, newPath: string, mergedPath: string, filename: string, locale: string, feedback: Feedback): Promise<void> {
     let text = await fs.readFile(ppath.join(newPath, locale, filename), 'utf8')
-    let newLUResource = LuParser.parse(text)
-    let newEntitySections = newLUResource.Sections.filter(s => s.SectionType === LUSectionTypes.NEWENTITYSECTION)
+    let newLUResource = LUParser.parse(text)
+    let newEntitySections = newLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
 
     text = await fs.readFile(ppath.join(oldPath, locale, filename), 'utf8')
-    let oldLUResource = LuParser.parse(text)
-    let oldEntitySections = oldLUResource.Sections.filter(s => s.SectionType === LUSectionTypes.NEWENTITYSECTION)
+    let oldLUResource = LUParser.parse(text)
+    let oldEntitySections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
     let odlSectionOp = new sectionOperator(oldLUResource)
     let updatedLUResource: any = null
 

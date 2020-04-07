@@ -287,3 +287,5 @@ appsettings.Development.json
 # Python
 __pycache__/
 env/
+
+/experimental/common/temp

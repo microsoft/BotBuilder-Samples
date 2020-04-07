@@ -1,0 +1,33 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "CompleteConfirmation",
+    "entity": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$CompleteConfirmation",
+            "value": "=@boolean"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$CompleteConfirmation == 'false'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.Ask",
+                    "activity": "${chooseProperty()}",
+                    "expectedProperties": [
+                        "PropertyToChange"
+                    ]
+                }
+            ]
+        }
+    ],
+    "$Generator": "5ca608dacef53f2f4664e612e2d967c0"
+}

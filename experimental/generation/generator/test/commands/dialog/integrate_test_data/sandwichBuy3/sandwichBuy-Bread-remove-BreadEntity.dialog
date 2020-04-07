@@ -1,0 +1,24 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operator": "RemoveFromProperty",
+    "property": "Bread",
+    "entity": "BreadEntity",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$Bread == $BreadEntity",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${removePropertyMessage('Bread', @BreadEntity)}"
+                },
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "Bread"
+                }
+            ]
+        }
+    ],
+    "$Generator": "fb42beaee70f81b016be1c94e9635b7b"
+}
