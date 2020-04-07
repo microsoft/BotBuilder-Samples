@@ -28,10 +28,8 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         if (!util.isLgFile(document.fileName)) {
             return;
         }
-        
+
         const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
-        const lineTextAfter = document.lineAt(position.line).text.substring(position.character);
-        
 
         if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // []() import suggestion

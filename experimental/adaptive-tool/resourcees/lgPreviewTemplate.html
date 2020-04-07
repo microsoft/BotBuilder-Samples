@@ -206,7 +206,7 @@
                 }
 
                 case 'TemplateName': {
-                  var arr = message.results;   
+                  var arr = message.results;
                   resultList.innerHTML = "";
                   let tempStr = "<select id='TemplateName' style='width: 403px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
                   arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
