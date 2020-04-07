@@ -1,0 +1,23 @@
+
+# PROPERTYName(value) 
+- SWITCH: ${value}
+
+ - CASE: ${'Quantity'} 
+  - quantity,
+ - CASE: ${'Length'} 
+  - length,
+ - CASE: ${'Name'} 
+  - name,
+ - CASE: ${'Bread'} 
+  - bread,
+ - CASE: ${'Cheese'} 
+  - cheese,
+ - CASE: ${'Hobby'} 
+  - hobby,
+ - CASE: ${'Price'} 
+  - price
+
+ - DEFAULT: 
+  - I don't understand ${value}
+
+> Generator: 41bf9e95dfc05d3ee2df88fae3ebd9fd

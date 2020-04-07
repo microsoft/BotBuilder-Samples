@@ -1,0 +1,12 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnBeginDialog",
+    "$comment": "TODO: This is a hack to work around the lack of a way to remit activity or not when invoked.",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${welcome()}"
+        }
+    ],
+    "$Generator": "64c9134f0538c8dbef74398b1b2f5850"
+}

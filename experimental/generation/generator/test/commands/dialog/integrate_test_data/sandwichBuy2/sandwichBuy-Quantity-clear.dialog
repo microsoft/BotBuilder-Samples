@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "ClearProperty",
+    "property": "Quantity",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${clearPropertyMessage('Quantity')}"
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$Quantity"
+        }
+    ],
+    "$Generator": "b9a320256978c535cb601a4e0d0aa7b0"
+}

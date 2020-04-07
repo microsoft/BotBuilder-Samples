@@ -1,0 +1,28 @@
+
+@ list boolean =
+    - true :
+        - sure
+        - yeah
+        - you bet
+        - yes please
+        - ture
+        - done
+        - yes
+        - positive
+        - 1
+    - false :
+        - no way
+        - no thank you
+        - never
+        - not now
+        - false
+        - not yet
+        - no
+        - negative
+        - 0
+
+@ list PROPERTYName
+    - PropertyToRemember:
+
+
+> Generator: 03f6d72cefb72d194355b8e4ede4b511

@@ -1,0 +1,19 @@
+
+
+# AskQuantity
+- ${askNumber('Quantity')}
+
+
+# QuantityName
+- quantity
+
+
+# Quantity(val)
+- ${QuantityEntity(val)}
+
+
+[sandwichBuy-QuantityEntity.en-us.lg](sandwichBuy-QuantityEntity.en-us.lg)
+[sandwichBuy-library.en-us.lg](sandwichBuy-library.en-us.lg)
+[sandwichBuy-library-Missing.en-us.lg](sandwichBuy-library-Missing.en-us.lg)
+
+> Generator: 2e23ffa8487e35524450fa4fd809ddcf

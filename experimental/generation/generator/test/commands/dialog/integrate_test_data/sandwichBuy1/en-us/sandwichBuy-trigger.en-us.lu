@@ -1,0 +1,10 @@
+
+# sandwichBuy
+- {number}
+- {dimension}
+- {BreadEntity}
+- {MeatEntity}
+- {money}
+- {PROPERTYName}
+
+> Generator: e14e50af5f978424ac29a34382819134

@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "ClearProperty",
+    "property": "Name",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${clearPropertyMessage('Name')}"
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$Name"
+        }
+    ],
+    "$Generator": "bee9e52a540bfbb6649dc3205b28814d"
+}

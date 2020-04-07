@@ -1,0 +1,17 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "ClearProperty",
+    "property": "Hobby",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${clearPropertyMessage('Hobby')}"
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$Hobby"
+        }
+    ],
+    "$Generator": "6c6393d4e317cd5a9f22d18a6010587b"
+}
