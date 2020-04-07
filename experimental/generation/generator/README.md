@@ -1,3 +1,4 @@
+<!-- omit in TOC -->
 @microsoft/bf-generate
 ======================
 
@@ -8,19 +9,37 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 [![Downloads/week](https://img.shields.io/npm/dw/@microsoft/bf-generate.svg)](https://npmjs.org/package/@microsoft/bf-generate)
 [![License](https://img.shields.io/npm/l/@microsoft/bf-generate.svg)](https://github.com/Microsoft/https://github.com/Microsoft/BotBuilder-Samples/blob/master/package.json)
 
-<!-- toc -->
-# Usage
-To use this plugin you need to install it into the bf CLI tool.  
-1. Install the latest version of the [bf] dlkj kljd [bf cli tool](https://github.com/microsoft/botframework-cli) from the [myget](https://botbuilder.myget.org/gallery) feed.  
+- [Setup](#setup)
+- [Usage](#usage)
+  - [dialog:generate Arguments](#dialoggenerate-arguments)
+  - [Example](#example)
+  - [Defining JSON Schema](#defining-json-schema)
+  - [Templates](#templates)
+    - [Default templates](#default-templates)
+
+# Setup
+This requires Node.js version 12 or higher.  You can check your version with `node --version` and download the latest from [node](https://nodejs.org/en/download/) if needed.  
+
+To use this plugin you need to install it into the [bf cli tool].  To do so:
+1. If you don't already have the [bf cli tool] install it using: `npm i -g @microsoft/botframework-cli`
+2. Add the `@microsoft\bf-generate` plugin from the [myget] feed.  
    1.  `npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/`
-   2.  `npm install -g @microsoft/botframework-cli`
+   2.  `npm install -g @microsoft/bf-generate`
    3.  `npm config set registry https://registry.npmjs.org/`
 
-<!-- usage -->
-# Commands
-## Generate
+If you want to easily execute the resulting dialogs you can optionally install the [runbot] CLI.  Alternatively you can setup your own Bot Framework runtime which provides the ability to extend the framework using code.
 
-The generate command generates .lu, .lg, .qna and .dialog assets from a schema defined using JSON Schema. The parameters to the command are:
+# Usage
+
+The overall workflow for generation is to:
+1. Define your [JSON schema](#defining-json-schema) with optional extensions.
+2. Generate your dialog assets using [dialog:generate](#dialog:generate-arguments).
+3. You can test the resulting assests in your own runtime using Bot Framework Adaptive dialogs or use the [runbot][runbot] CLI if you use standard Bot Framework SDK components.
+4. You can modify the generated assests using vs code which supports validation according to your runtime schema. Eventually you will also be able to edit using [composer][composer].
+5. [Coming soon] If you change your schema you can update the generated assets using the --integrate switch.
+
+## dialog:generate Arguments
+The dialog:generate command generates .lu, .lg, .qna and .dialog assets from a schema defined using JSON Schema. The parameters to the command are:
 
 - **--force, -f** Force overwriting generated files.
 - **--help, -h** Generate help.
@@ -30,7 +49,17 @@ The generate command generates .lu, .lg, .qna and .dialog assets from a schema d
 - **--templates, -t** Directories with templates to use for generating assets.  First definition wins.  A directory of "standard" includes the standard templates included with the tool.
 - **--verbose, -v** Verbose logging of generated files.
 
-### Schema
+## Example
+1. Download an [example sandwich JSON schema](https://raw.githubusercontent.com/microsoft/botframework-cli/master/packages/dialog/test/commands/dialog/forms/sandwich.schema)
+2. `bf dialog:generate sandwich.schema -o bot`
+3. This will generate .lg, .lu and .dialog assets in the bot directory.  In order to run them, you will need to build a LUIS model.
+   1. `bf luis:build --in bot\luis --authoringKey <yourKey> --botName sandwich --dialog --suffix %USERNAME%`
+4. At this point you have a complete bot rooted in `bot\sandwich.main.dialog`.
+5. If you have installed [runbot](runbot), you can run this bot and test in the emulator like this:
+   1. Start the web server `dotnet <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <dialogFolder>`
+   2. Connect emulator to `http://localhost:5000/api/messages` and interact with your bot.
+
+## Defining JSON Schema
 
 Schemas are specified using JSON Schema. You can use the normal JSON Schema mechanisms including \$ref and allOf which will be resolved into a single schema which also includes \$entities for all properties. This makes the schema easier to use for things like language generation. You can  use expression syntax, i.e. `${<expr>}` to compute schema, either initially or after generation is done if there are properties that are only available at the end. `<schemaName>.schema.dialog` will have the resulting schema with all references resolved and expanded to simplify usage in language generation and dialogs.
 
@@ -38,18 +67,18 @@ Globally there are a few extra keywords including:
 - **\$public** List of the public properties in the schema. By default these are the top-level properties in the root schema and this will be automatically generated if missing.
 - **\$requires** A list of JSON Schema to include.  This is different than $ref in that you can either use a URL or just a filename which will be looked for in the template directories.  If you want to include the standard confirmation/cancel/navigation functionality you should include include `standard.schema`.
 - **\$expectedOnly** A global list of entities which will only be bound to properties if the property is expected.  This can be overriden for specific properties as well.
-- **\$triggerIntent** Name of the trigger intent or by default the name of the schema.
+- **\$triggerIntent** Name of the trigger intent--by default the name of the schema.
 - **\$templates** Global templates to include.
 - **\$defaultOperation** Default operation to use for assigning entities to properties.  This is overriden for a given Ask by setting `$dialog.expectedOperation`.
 
- The final schema and all of the required schemas will have the top-level `properties`, `definitions`, `required`, `$expectedOnly`, `$public` and `$templates` merged.  
+ The final schema and all of the required schemas will have the top-level `properties`, `definitions`, `required`, `$expectedOnly`, `$public` and `$templates` merged. For other properties, last definition is included.
 
 In addition there are a few extra keywords per-property including:
 - **\$entities** List of entity names that can map to a property. The order of the entities also defines the precedence to use when resolving entities. If not present, \$entities can be specified in a `# entities` in a type template file.
 - **\$templates** The template names to use for generating assets. If not specified, the templates are: `["<type>Entity.lu", "<type>Entity.lg", "<type>Property.lg", "<type>Ask.dialog"]` plus for each entity `<type>Set<entity>.dialog` and if an enum `enumSetenum.dialog`.
 - **\$expectedOnly** A list of entities that are only possible if they are expected.  This overrides the top-level \$expectedOnly.
 
-### Templates
+## Templates
 
 Each entity or property can have associated .lu, .lg, .qna and .dialog files that are generated by
 copying or instantiating templates found in the template directories. If a template name matches exactly it is just copied. If the template ends with .lg then it is analyzed to check for these template names:
@@ -80,13 +109,21 @@ The generation process at a high-level:
 - Per-locale
   - Per-property
     - Look for `<propertyType>.lg` which usually defines `# entities` and `# templates`.
-    - Per-template in `\$templates` or in `# templates` generate .lg, .lu, .qna, .dialog files.
-  - Evaluate templates defined in a root level `\$templates` of the merged schema.
+    - Per-template in the property schema `$templates` or in `# templates` generate .lg, .lu, .qna, .dialog files.
+  - Evaluate templates defined in the schema root level `\$templates` of the merged schema.
 - Evaluate schema expressions and write the full schema out to `<prefix>.schema.dialog`.
+
+All generated assets are named using a standard pattern which is what enables updating generated files when changing the schema. 
+In the below, $italics$ are place holders. 
+* $schema$-library -- Defines library files that are either common building blocks like [library.lg.lg](templates/library.lg.lg) or are internal mechanisms like [library-help.lg.lg](templates/library-Help.lg.lg).
+* $schema$-$entity$Entity -- Defines entity specific files.
+* $schema$-$property$ -- Defines property related files when $property$ is found in the schema.
+* $locale$/ -- Assets for a particular locale that follows the above naming patterns and adds $locale$ to the file extension, an example would be `en-us/sandwich-Bread.en-us.lg` which would be a localized .lg asset for the `Bread` property in the `sandwich` schema. 
+You can define your own templates that add to the naming conventions, but they must extend these conventions.
 
 ### Default templates
 
-The tool includes a standard set of templates. They make use of a common set of definitions in `generator.lg` which can be included.  Current functionality includes:
+The tool includes a standard set of templates. You can find out more about them in the [templates readme](templates/readme.md).  They can be extended or overridden by your own templates. Current functionality includes:
 - Generating .lg, .lu and .dialog files that robustly handle out of order and multiple responses for simple and array properties.
 - Add, remove, clear and show for properties.
 - Support for choosing between ambiguous entity values and entity property mappings.
@@ -95,22 +132,7 @@ The tool includes a standard set of templates. They make use of a common set of 
 - Cancel
 - Confirmation
 
-### Dialog Generation Example
-
-To see dialog generation in action:
-1. Install the latest version of the [bf cli tool](https://github.com/microsoft/botframework-cli) from the [myget](https://botbuilder.myget.org/gallery) feed.  
-   1.  `npm config set registry https://botbuilder.myget.org/F/botframework-cli/npm/`
-   2.  `npm install -g @microsoft/botframework-cli`
-   3.  `npm config set registry https://registry.npmjs.org/`
-3. Download an [example sandwich JSON schema](https://raw.githubusercontent.com/microsoft/botframework-cli/master/packages/dialog/test/commands/dialog/forms/sandwich.schema)
-4. `bf dialog:generate sandwich.schema -o bot`
-5. This will generate .lg, .lu and .dialog assets in the bot directory.  In order to run them, you will need to build a LUIS model.
-   1. `bf luis:build --in bot\luis --authoringKey <yourKey> --botName sandwich --dialog --suffix %USERNAME%`
-6. At this point you have a complete bot rooted in `bot\sandwich.main.dialog`.
-7. You can run this bot and test in the emulator either through the composer or like this:
-   1. Add your LUIS authoring key to your user secrets like this: `dotnet user-secrets set luis:endpointKey <yourKey> --id TestBot`
-   2. Copy TestBot to your local machine. `xcopy /s \\chrimc3\tools\TestBot\* TestBot\`
-   3. Start the web server `dotnet Microsoft.Bot.Builder.TestBot.Json.dll --root <dialogFolder>`
-   4. Connect emulator to `http://localhost:5000/api/messages`.
-
-[bf cli tool]:https://github.com/microsoft/botframework-cli "bf cli tool"
+[bf cli tool]:https://github.com/microsoft/botframework-cli
+[myget]:https://botbuilder.myget.org/gallery
+[runbot]:../runbot/readme.md
+[composer]:https://github.com/Microsoft/BotFramework-Composer
