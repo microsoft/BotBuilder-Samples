@@ -1,0 +1,39 @@
+# filename
+- ${addFilename('number')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "number",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"or(less(@number, dialogClass.schema.properties['${property}'].minimum), greater(@number, dialogClass.schema.properties['${property}'].maximum))",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${numberValidation('${property}', @number)}"
+                }                    
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${setPropertyMessage('${property}', @number)}"
+                },
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "$${property}",
+                    "value": "=@number"          
+                }
+            ]
+        }
+        
+    ]               
+}
+```
+
+[generator.lg](generator.lg)

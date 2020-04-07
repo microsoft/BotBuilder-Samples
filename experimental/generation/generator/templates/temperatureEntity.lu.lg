@@ -1,0 +1,10 @@
+# filename
+- ${builtinEntityFilename('temperature')}
+
+# template
+- ```
+@ prebuilt temperature ${roles()}
+${propertyName()}
+```
+
+[generator.lg](generator.lg)

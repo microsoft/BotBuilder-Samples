@@ -1,0 +1,24 @@
+# filename
+- ${locale}/${prefix}-library-PROPERTYName.${locale}.lg
+
+# template
+- ${join(createArray(namePlusSwitch(), cases(), default()), '\n')}
+
+# namePlusSwitch
+-```
+# PROPERTYName(value) 
+- SWITCH: \${value\}```
+
+# case(option)
+-```
+ - CASE: \${'${option}'\} 
+  - ${phrase(option)}```
+
+# cases
+- ${foreach(properties, prop, case(prop))}
+
+# default
+-```
+ - DEFAULT: 
+  - I don't understand \${value\}
+```

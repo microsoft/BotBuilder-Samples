@@ -1,0 +1,14 @@
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "ShowForm",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${showForm('${prefix}', dialogClass.schema.$public)}"           
+        }
+    ]
+}
+```

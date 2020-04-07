@@ -1,0 +1,7 @@
+# filename
+- ${clearFilename()}
+
+# template
+- ${clearDialog()}
+
+[generator.lg](generator.lg)

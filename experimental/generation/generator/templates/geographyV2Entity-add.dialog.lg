@@ -1,0 +1,31 @@
+# filename
+- ${addFilename('geographyV2')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "geographyV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setObjectPropertyMessage('${property}', concat(@geographyV2.type, ' ', @geographyV2.location))}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.type",
+            "value": "=@geographyV2.type"          
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.location",
+            "value": "=@geographyV2.location"          
+        }
+    ]               
+}
+```
+
+[generator.lg](generator.lg)

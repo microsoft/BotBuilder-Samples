@@ -1,0 +1,10 @@
+# filename
+- ${builtinEntityFilename('geographyV2')}
+
+# template
+- ```
+@ prebuilt geographyV2 ${roles()}
+${propertyName()}
+```
+
+[generator.lg](generator.lg)

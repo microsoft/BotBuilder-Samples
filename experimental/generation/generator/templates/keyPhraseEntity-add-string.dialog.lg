@@ -1,0 +1,7 @@
+# filename
+- ${addFilename('keyPhrase')}
+
+# template
+- ${addDialog('keyPhrase')}
+
+[generator.lg](generator.lg)

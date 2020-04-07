@@ -1,0 +1,31 @@
+# filename
+- ${addFilename('datetime')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "datetime",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setObjectPropertyMessage('${property}', concat(@datetime.type, ' ', string(@datetime.timex)))}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.type",
+            "value": "=@datetime.type"          
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}.timex",
+            "value": "=join(@datetime.timex, ' ')"          
+        }
+    ]               
+}
+```
+
+[generator.lg](generator.lg)

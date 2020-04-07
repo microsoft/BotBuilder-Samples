@@ -1,0 +1,7 @@
+# entities
+- ${roleEntities('string')}
+
+# templates
+- ${flatten(createArray('stringEntity.lg', 'stringEntity.lu', propertyTemplates()))}
+
+[generator.lg](generator.lg)

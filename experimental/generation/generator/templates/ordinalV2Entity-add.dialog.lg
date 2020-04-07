@@ -1,0 +1,7 @@
+# filename
+- ${addFilename('ordinalV2')}
+
+# template
+- ${addDialog('ordinalV2')}
+
+[generator.lg](generator.lg)

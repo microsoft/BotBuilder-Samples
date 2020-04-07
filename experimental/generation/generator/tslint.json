@@ -1,0 +1,26 @@
+{
+    "extends": "@oclif/tslint",
+    "rules": {
+        "file-name-casing": false,
+        "forin": false,
+        "no-for-in": false,
+        "ter-indent": false,
+        "no-console": false,
+        "no-object-literal-type-assertion": false,
+        "whitespace": false,
+        "object-curly-spacing": false,
+        "no-trailing-whitespace": false,
+        "ordered-imports": false,
+        "no-empty-line-after-opening-brace": false,
+        "semicolon": false,
+        "file-header": [
+            true,
+            {
+              "match": "Copyright \\(c\\) Microsoft Corporation\\.*",
+              "allow-single-line-comments": false,
+              "default": "Copyright (c) Microsoft Corporation. All rights reserved.\nLicensed under the MIT License.",
+              "enforce-trailing-newline": false
+            }
+          ]
+    }
+}

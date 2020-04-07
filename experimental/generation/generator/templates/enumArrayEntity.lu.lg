@@ -1,0 +1,15 @@
+# filename
+- ${entityLUFilename()}
+
+# template
+- ```
+@ list ${property}Entity =
+${join(foreach(schema.properties[property].items.enum, enum, concat('  - ', enum, ' :\n', synonyms(enum))), '\n')}
+${propertyName()}
+${operations(`${property}Entity`, allSynonyms())}
+```
+
+# allSynonyms
+- ${flatten(foreach(schema.properties[property].items.enum, enum, phrases(enum)))}
+
+[generator.lg](generator.lg)

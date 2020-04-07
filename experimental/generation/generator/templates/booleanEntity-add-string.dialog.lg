@@ -1,0 +1,7 @@
+# filename
+- ${addFilename('boolean')}
+
+# template
+- ${addDialog('boolean')}
+
+[generator.lg](generator.lg)

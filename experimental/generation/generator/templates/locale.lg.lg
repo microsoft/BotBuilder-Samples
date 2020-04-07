@@ -1,0 +1,6 @@
+# filename
+- ${locale}/${prefix}.${locale}.lg
+
+# template
+- ${join(foreach(templates.lg, lg, concat('[', lg.fullName, '](', lg.fullName, ')')), '\n')}
+
