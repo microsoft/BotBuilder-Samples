@@ -4,7 +4,7 @@
  */
 
 import * as vscode from 'vscode';
-import { Templates, DiagnosticSeverity } from 'botbuilder-lg';
+import { Templates } from 'botbuilder-lg';
 import * as path from 'path';
 import * as fs from 'fs';
 import { DataStorage, TemplatesEntity } from '../dataStorage';
@@ -78,34 +78,28 @@ export class LGDebugPanel {
 
         // receive maeeage from webview
         this._panel.webview.onDidReceiveMessage(message => {
-            const currentUri = vscode.window.visibleTextEditors[0].document.uri;
             switch (message.command) {
-                case 'passScope':{
+                case 'evaluate':{
                     try {
                         const scope:any = JSON.parse(message.scopeValue);
                         const templateName: string = message.templateName;
                         const iterations:number = message.iterations;
                         let results = [];
 
-                        const fsPath = currentUri.fsPath;
-                        if (!DataStorage.templatesMap.has(fsPath)) {
-                            vscode.window.showErrorMessage("something was wrong.");
+                        let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                        if (engineEntity === undefined || engineEntity.templates === undefined) {
+                            vscode.window.showErrorMessage("Sorry, something is wrong.");
                         } else {
-                            let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(fsPath);
-                            if (engineEntity.templates.diagnostics.some(u => u.severity === DiagnosticSeverity.Error)) {
-                                vscode.window.showErrorMessage("please fix errors first.");
-                            } else {
-                                const engine: Templates = engineEntity.templates;
+                            const templates = engineEntity.templates;
 
-                                const evaledResults = engine.expandTemplate(templateName, scope);
-                                if (iterations >= evaledResults.length) {
-                                    results = evaledResults;
-                                } else {
-                                    results = evaledResults.slice(0, iterations);
-                                }
-                                // send result to webview
-                                this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
+                            const evaledResults = templates.expandTemplate(templateName, scope);
+                            if (iterations >= evaledResults.length) {
+                                results = evaledResults;
+                            } else {
+                                results = evaledResults.slice(0, iterations);
                             }
+
+                            this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                         }
                     } catch(e){
                         vscode.window.showErrorMessage(e.message);
@@ -116,13 +110,12 @@ export class LGDebugPanel {
             
                 case 'getTemplates': {
                     try {
-                        const source: any = message.source;
                         let result: string[] = [];
-                        let templates = util.getAllTemplatesFromCurrentLGFile(currentUri).toArray();
-                        if (templates.length === 0) {
-                            vscode.window.showErrorMessage(`there is no valid template in ${currentUri.fsPath}.`);
+                        let allTemplates = util.getTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri).allTemplates;
+                        if (allTemplates.length === 0) {
+                            vscode.window.showErrorMessage("Sorry, something is wrong.");
                         } else {
-                            for (const template of templates) {
+                            for (const template of allTemplates) {
                                 if (!result.includes(template.name)) {
                                     result.push(template.name);
                                 }
@@ -133,7 +126,6 @@ export class LGDebugPanel {
                     } catch (e) {
                         vscode.window.showErrorMessage(e.message);
                     }
-
                     break;
                 }
             }

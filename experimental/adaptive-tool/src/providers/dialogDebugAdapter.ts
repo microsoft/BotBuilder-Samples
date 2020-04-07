@@ -7,15 +7,14 @@ import * as vscode from 'vscode';
 import * as cp from 'child_process';
 import * as readline from 'readline';
 
-const DebugType1 = 'json';
-const DebugType2 = 'lg';
+const DebugType = 'bot';
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider(DebugType1, new DialogConfigurationProvider()));
+    context.subscriptions.push(vscode.debug.registerDebugConfigurationProvider(DebugType, new DialogConfigurationProvider()));
 
-    const factory1 = new DialogDebugAdapterDescriptorFactory();
-    context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory(DebugType1, factory1));
-    context.subscriptions.push(factory1);
+    const factory = new DialogDebugAdapterDescriptorFactory();
+    context.subscriptions.push(vscode.debug.registerDebugAdapterDescriptorFactory(DebugType, factory));
+    context.subscriptions.push(factory);
 }
 
 // make sure these are kept in sync with contributes.debuggers from the extension's package.json.

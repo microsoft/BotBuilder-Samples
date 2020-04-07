@@ -37,11 +37,6 @@
       padding: 5px 0px 5px 30px;
     }
 
-    .FreeTextBlock > div {
-      display: inline-block;
-      padding: 5px 0px 5px 33px;
-    }
-
     .operations {
       margin-top: 0.5rem;
       float: right;
@@ -87,10 +82,11 @@
           </div>
         </p>
       <div class="TemplateBlock" id="TemplateBlock">
-        <INPUT TYPE="Radio" Name="source" Value="Template" onclick="getTemplateList()">Template: 
+          Template: 
           <div id="getTemplates">
-            <select name="templates" id="templates"  style="width: 403px; height: 24px">
-            </select> 
+            <select name="templates" id="templates" style="width: 403px; height: 24px">
+            </select>
+            <input type="button" value="refresh" onclick="getTemplateList()">
           </div>
       </div>
       <p>
@@ -128,48 +124,34 @@
         var vscode = undefined;
         
         function submitScope() {
-
-            const sourceOptions = document.getElementsByName("source");
-            let source = "";
-            for (var i = 0; i < sourceOptions.length; i++){
-              if (sourceOptions[i].checked) {
-                source = sourceOptions[i].value;
-              }
-            }
             const scopeValue = window.editor.getValue();
             const iterations = document.getElementById('iterations').value;
-            let templateName = "";
-            if (source === "Template") {
-              const selections = document.getElementById('TemplateName');
-              templateName = selections.options[selections.selectedIndex].text;
 
-            }
+            const selections = document.getElementById('TemplateName');
+            let templateName = selections.options[selections.selectedIndex].text;
             
-            if (source !== "Select the template you want to evaluate") {
+            if (templateName !== 'Select the template you want to evaluate') {
               if(vscode === undefined) {
                 vscode = acquireVsCodeApi();
               }
 
               vscode.postMessage({
-                  command: 'passScope',
+                  command: 'evaluate',
                   scopeValue: scopeValue,
                   templateName: templateName,
                   iterations: iterations
               });
             }
-            
         }
 
         function getTemplateList() {
-          let resultList = document.getElementById('getTemplates');
-          let resultFreeText = document.getElementById('getFreeText');
-          resultList.innerHTML = "";
-          resultFreeText.innerHTML = "";
+          let templateNamesEl = document.getElementById('getTemplates');
+          templateNamesEl.innerHTML = "";
           if(vscode === undefined) {
               vscode = acquireVsCodeApi();
           }
           
-          resultList = undefined;
+          templateNamesEl = undefined;
 
           vscode.postMessage({
             command: 'getTemplates'
@@ -182,7 +164,7 @@
           const resultVariantInput = document.getElementById("iterations");
           const resultTempalteBlock = document.getElementById('TemplateBlock');
           resultVariantInput.value = resultVariantInput.defaultValue;;
-          resultTempalteBlock.innerHTML = "<INPUT TYPE='Radio' Name='source' Value='Template' onclick='getTemplateList()'>Template: <div id='getTemplates'><select name='templates' id='templates'  style='width: 403px; height: 24px'></select></div>";
+          resultTempalteBlock.innerHTML = 'Template: <div id="getTemplates"><select name="templates" id="templates" style="width: 403px; height: 24px"></select><input type="button" value="refresh" onclick="getTemplateList()"></div>';
           window.editor.setValue("{}");
           if (window.editorOutput !== undefined) {
             window.editorOutput.setValue("");
@@ -192,7 +174,7 @@
         // Handle the message inside the webview
         window.addEventListener('message', event => {
             const resultEl = document.getElementById('evaluateresults');
-            const resultList = document.getElementById('getTemplates');
+            const templateNamesEl = document.getElementById('getTemplates');
             const resultLGFileList = document.getElementById("LGFileList");
             const message = event.data; // The JSON data our extension sent
 
@@ -207,10 +189,10 @@
 
                 case 'TemplateName': {
                   var arr = message.results;
-                  resultList.innerHTML = "";
+                  templateNamesEl.innerHTML = "";
                   let tempStr = "<select id='TemplateName' style='width: 403px; height:24px'><option value='default'>Select the template you want to evaluate</option>";
                   arr.forEach((e) => tempStr = tempStr + `<option value=${e}> ${e} </option>`);
-                  resultList.innerHTML = tempStr + "</select>";
+                  templateNamesEl.innerHTML = tempStr + "</select>" + '<input type="button" value="refresh" onclick="getTemplateList()">';
                   break;
                 }
             }

@@ -34,7 +34,7 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
     }
 }
 
-export function getAllTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
+export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
 
     let result = new Templates();
     let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(lgFileUri.fsPath);
@@ -64,8 +64,7 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
         functions.set(func[0],func[1]);
     }
 
-    const templates: Templates = getAllTemplatesFromCurrentLGFile(lgFileUri);
-    const s = DataStorage.templatesMap;
+    const templates: Templates = getTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates) {
         var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
