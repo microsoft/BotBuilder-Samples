@@ -27,7 +27,7 @@ describe('dialog:integrate', async () => {
 
     it('integrate: Merge dialog files', async () => {
         try {
-            await integ.integrateAssets(schemaName, oldPath, newPath, output_dir, locale, (type, msg) => {console.log(`${type}: ${msg}`)})
+            await integ.integrateAssets(schemaName, oldPath, newPath, output_dir, locale, (type, msg) => { console.log(`${type}: ${msg}`) })
 
             let resultDialog = `${output_dir}/sandwichBuy.main.dialog`
             let dialog = await fs.readFile(resultDialog)
@@ -37,22 +37,10 @@ describe('dialog:integrate', async () => {
         }
     })
 
-    // it('integrate: Merge other files', async () => {
-    //     try {
-    //         await integ.integrateAssets(schemaName, oldPath, newPath, output_dir, locale, (type, msg) => {console.log(`${type}: ${msg}`)})
-
-    //         let resultOther = `${output_dir}/sandwichBuy-Bread.qna`
-    //         let other = await fs.readFile(resultOther)
-    //         assert.ok(other.toString().includes('old sandwich Bread'), 'Did not merge otehr files, e.g. .qna')
-    //     } catch (e) {
-    //         assert.fail(e.message)
-    //     }
-    // })
-
     it('integrate: Merge lg files', async () => {
         try {
             await integ.integrateAssets(schemaName, oldPath, newPath, output_dir, locale)
-            
+
             let resultLG = `${output_dir}/${locale}/sandwichBuy-BreadEntity.en-us.lg`
             let lg = await fs.readFile(resultLG)
             assert.ok(lg.toString().includes('black'), 'Did not merge lg files')

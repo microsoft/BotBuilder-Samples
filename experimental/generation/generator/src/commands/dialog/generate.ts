@@ -29,7 +29,7 @@ export default class GenerateDialog extends Command {
         schema: flags.string({ char: 's', description: 'Path to your app.schema file.', required: false }),
         templates: flags.string({ char: 't', description: 'Directory with templates to use for generating assets.  With multiple directories, the first definition found wins.  To include the standard templates, just use "standard" as a template directory name.', multiple: true }),
         verbose: flags.boolean({ description: 'Output verbose logging of files as they are processed', default: false }),
-        integrate: flags.boolean({ description: 'if merge or not', default: false })
+        integrate: flags.boolean({ description: 'If merge two assets or not', default: false })
     }
 
     async run() {
