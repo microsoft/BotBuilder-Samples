@@ -61,9 +61,24 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
+var endpointHostName = process.env.QnAEndpointHostName;
+if (!endpointHostName.startsWith('https://')) {
+    endpointHostName = 'https://' + endpointHostName;
+}
+
+if (!endpointHostName.endsWith('/qnamaker')) {
+    endpointHostName = endpointHostName + '/qnamaker';
+}
+
+const qnaService = new QnAMaker({
+    knowledgeBaseId: process.env.QnAKnowledgebaseId,
+    endpointKey: process.env.QnAEndpointKey,
+    host: endpointHostName
+});
+
 
 // Create the main dialog.
-const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, process.env.QnAEndpointHostName);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, endpointHostName);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);
