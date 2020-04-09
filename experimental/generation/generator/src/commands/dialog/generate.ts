@@ -61,7 +61,7 @@ export default class GenerateDialog extends Command {
             }
 
             try {
-                await integ.integrateAssets(schemaName, tempOldPath, tempNewPath, flags.output, 'en-us', (type, msg) => {
+                await integ.integrateAssets(schemaName, tempOldPath, tempNewPath, flags.output, flags.locale, (type, msg) => {
                     if (type === integ.FeedbackType.message
                         || (type === integ.FeedbackType.info && flags.verbose)) {
                         this.info(msg)
