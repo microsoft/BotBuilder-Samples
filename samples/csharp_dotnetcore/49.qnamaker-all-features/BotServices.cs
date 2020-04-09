@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
                 hostname = string.Concat("https://", hostname);
             }
 
-            if (!hostname.EndsWith("/qnamaker"))
+            if (!hostname.EndsWith("/v5.0-preview.1") && !hostname.EndsWith("/qnamaker"))
             {
                 hostname = string.Concat(hostname, "/qnamaker");
             }
