@@ -22,4 +22,3 @@
 
 ## Expansion/ test UI for .lg documents
 - template evaluation
-- inline evaluation
