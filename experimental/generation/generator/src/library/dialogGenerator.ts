@@ -32,23 +32,32 @@ function computeHash(val: string): string {
     return crypto.createHash('md5').update(val).digest('hex')
 }
 
-function computeJSONHash(json: any): string {
-    return computeHash(JSON.stringify(json, null, 4))
+function stringify(val: any): string {
+    if (typeof val === 'object') {
+        val = JSON.stringify(val, null, 4)
+    }
+    return val
 }
 
-const commentHash = ['.lg', '.lu', '.qna']
-const jsonHash = ['.dialog']
+function computeJSONHash(json: any): string {
+    return computeHash(stringify(json))
+}
+
+const CommentHashExtensions = ['.lg', '.lu', '.qna']
+const JSONHashExtensions = ['.dialog']
 function addHash(path: string, val: any): any {
     let ext = ppath.extname(path)
-    if (commentHash.includes(ext)) {
+    if (CommentHashExtensions.includes(ext)) {
+        val = val.replace(GeneratorPattern, '')
         if (!val.endsWith(os.EOL)) {
             val += os.EOL
         }
         val += `${os.EOL}> Generator: ${computeHash(val)}`
-    } else if (jsonHash.includes(ext)) {
+    } else if (JSONHashExtensions.includes(ext)) {
         let json = JSON.parse(val)
+        delete json.$Generator
         json.$Generator = computeJSONHash(json)
-        val = JSON.stringify(json, null, 4)
+        val = stringify(json)
     }
     return val
 }
@@ -58,15 +67,15 @@ export async function isUnchanged(path: string): Promise<boolean> {
     let result = false
     let ext = ppath.extname(path)
     let file = await fs.readFile(path, 'utf8')
-    if (commentHash.includes(ext)) {
+    if (CommentHashExtensions.includes(ext)) {
         let match = file.match(GeneratorPattern)
         if (match) {
             let oldHash = match[1]
-            file = file.substring(0, match.index)
+            file = file.replace(GeneratorPattern, '')
             let hash = computeHash(file)
             result = oldHash === hash
         }
-    } else if (jsonHash.includes(ext)) {
+    } else if (JSONHashExtensions.includes(ext)) {
         let json = JSON.parse(file)
         let oldHash = json.$Generator
         if (oldHash) {
@@ -78,7 +87,7 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
-export async function writeFile(path: string, val: any, feedback: Feedback) {
+export async function writeFile(path: string, val: string, feedback: Feedback) {
     try {
         let dir = ppath.dirname(path)
         await fs.ensureDir(dir)
@@ -235,7 +244,7 @@ async function processTemplate(
                                     result = existing
                                 }
 
-                                await writeFile(outPath, result, feedback)
+                                await writeFile(outPath, result as string, feedback)
                                 scope.templates[ppath.extname(outPath).substring(1)].push(ref)
 
                             } else {

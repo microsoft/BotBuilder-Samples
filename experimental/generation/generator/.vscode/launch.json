@@ -15,7 +15,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                "dialog:generate.*"
+                "dialog:integrate.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
@@ -24,7 +24,7 @@
             ]
         },
         {
-            "type": "node",
+            "type": "node",~
             "request": "launch",
             "name": "Generate Sandwich",
             "preLaunchTask": "${defaultBuildTask}",

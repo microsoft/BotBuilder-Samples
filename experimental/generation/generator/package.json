@@ -44,7 +44,6 @@
     "eslint": "^5.16.0",
     "eslint-config-oclif": "^3.1.0",
     "eslint-config-oclif-typescript": "^0.1.0",
-    "globby": "^10.0.2",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.2",

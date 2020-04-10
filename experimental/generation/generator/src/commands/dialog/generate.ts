@@ -34,6 +34,16 @@ export default class GenerateDialog extends Command {
 
     async run() {
         const { args, flags } = this.parse(GenerateDialog)
+        let feedback = (type: gen.FeedbackType, msg: string) => {
+            if (type === gen.FeedbackType.message
+                || (type === gen.FeedbackType.info && flags.verbose)) {
+                this.info(msg)
+            } else if (type === gen.FeedbackType.warning) {
+                this.warning(msg)
+            } else if (type === gen.FeedbackType.error) {
+                this.errorMsg(msg)
+            }
+        }
         if (flags.integrate && fs.pathExists(flags.output)) {
             let start = args.schema.lastIndexOf('/')
             let end = args.schema.lastIndexOf('.')
@@ -45,32 +55,14 @@ export default class GenerateDialog extends Command {
                 fs.emptyDirSync(tempOldPath)
                 fs.copySync(flags.output, tempOldPath)
                 fs.emptyDirSync(flags.output)
-                await gen.generate(args.schema, flags.prefix, tempNewPath, flags.schema, flags.locale, flags.templates, flags.force,
-                    (type, msg) => {
-                        if (type === gen.FeedbackType.message
-                            || (type === gen.FeedbackType.info && flags.verbose)) {
-                            this.info(msg)
-                        } else if (type === gen.FeedbackType.warning) {
-                            this.warning(msg)
-                        } else if (type === gen.FeedbackType.error) {
-                            this.errorMsg(msg)
-                        }
-                    })
+                await gen.generate(args.schema, flags.prefix, tempNewPath,
+                    flags.schema, flags.locale, flags.templates, flags.force, feedback)
             } catch (e) {
                 this.thrownError(e)
             }
 
             try {
-                await integ.integrateAssets(schemaName, tempOldPath, tempNewPath, flags.output, flags.locale, (type, msg) => {
-                    if (type === integ.FeedbackType.message
-                        || (type === integ.FeedbackType.info && flags.verbose)) {
-                        this.info(msg)
-                    } else if (type === integ.FeedbackType.warning) {
-                        this.warning(msg)
-                    } else if (type === integ.FeedbackType.error) {
-                        this.errorMsg(msg)
-                    }
-                })
+                await integ.integrateAssets(schemaName, tempOldPath, tempNewPath, flags.output, flags.locale, feedback)
                 return true;
             } catch (e) {
                 this.thrownError(e)
@@ -78,17 +70,8 @@ export default class GenerateDialog extends Command {
 
         } else {
             try {
-                await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force,
-                    (type, msg) => {
-                        if (type === gen.FeedbackType.message
-                            || (type === gen.FeedbackType.info && flags.verbose)) {
-                            this.info(msg)
-                        } else if (type === gen.FeedbackType.warning) {
-                            this.warning(msg)
-                        } else if (type === gen.FeedbackType.error) {
-                            this.errorMsg(msg)
-                        }
-                    })
+                await gen.generate(args.schema, flags.prefix, flags.output,
+                    flags.schema, flags.locale, flags.templates, flags.force, feedback)
                 return true;
             } catch (e) {
                 this.thrownError(e)

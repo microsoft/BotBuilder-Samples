@@ -4,7 +4,8 @@
  */
 
 import { Command, flags } from '@microsoft/bf-cli-command';
-import * as integ from '../../library/integration'
+import { integrateAssets } from '../../library/integration'
+import { FeedbackType } from '../../library/dialogGenerator'
 
 export default class DialogIntegrate extends Command {
 
@@ -28,13 +29,13 @@ export default class DialogIntegrate extends Command {
     async run() {
         const { args, flags } = this.parse(DialogIntegrate)
         try {
-            await integ.integrateAssets(args.schema, flags.oldPath, flags.newPath, flags.mergedPath, flags.locale, (type, msg) => {
-                if (type === integ.FeedbackType.message
-                    || (type === integ.FeedbackType.info && flags.verbose)) {
+            await integrateAssets(args.schema, flags.oldPath, flags.newPath, flags.mergedPath, flags.locale, (type, msg) => {
+                if (type === FeedbackType.message
+                    || (type === FeedbackType.info && flags.verbose)) {
                     this.info(msg)
-                } else if (type === integ.FeedbackType.warning) {
+                } else if (type === FeedbackType.warning) {
                     this.warning(msg)
-                } else if (type === integ.FeedbackType.error) {
+                } else if (type === FeedbackType.error) {
                     this.errorMsg(msg)
                 }
             })

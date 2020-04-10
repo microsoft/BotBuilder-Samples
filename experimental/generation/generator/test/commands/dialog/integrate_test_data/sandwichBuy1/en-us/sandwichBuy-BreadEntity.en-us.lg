@@ -1,5 +1,5 @@
 
- 
+> This has been changed
 # BreadEntity(value) 
 - SWITCH: ${value}
   - CASE: ${'multiGrainWheat'} 
@@ -10,6 +10,7 @@
     - white
   - CASE: ${'wholeWheat'} 
     - whole wheat
+    - whole bread
   - DEFAULT: 
     - I don't understand ${value}
 
