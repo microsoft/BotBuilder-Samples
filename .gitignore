@@ -288,4 +288,10 @@ appsettings.Development.json
 __pycache__/
 env/
 
+
+# rush
+rush.json
 /experimental/common/temp
+/experimental/common/config/rush
+/experimental/common/scripts
+/experimental/generation/generator/.rush

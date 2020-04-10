@@ -13,6 +13,7 @@
         "ordered-imports": false,
         "no-empty-line-after-opening-brace": false,
         "semicolon": false,
+        "no-string-literal": false,
         "file-header": [
             true,
             {
