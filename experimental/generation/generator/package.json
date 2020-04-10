@@ -27,7 +27,8 @@
     "semver": "^5.7.0",
     "xml2js": "^0.4.19",
     "adaptive-expressions": "^4.8.0-preview",
-    "botbuilder-lg": "^4.8.0-preview"
+    "botbuilder-lg": "^4.8.0-preview",
+    "@microsoft/bf-lu": "^4.8.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",

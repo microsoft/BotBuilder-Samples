@@ -1,0 +1,29 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "Cheese",
+    "entity": "CheeseEntity",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${setPropertyMessage('Cheese', @CheeseEntity)}"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$Cheese",
+            "value": "=@CheeseEntity"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "PropertyToChange == 'Cheese'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "PropertyToChange"
+                }
+            ]
+        }
+    ],
+    "$Generator": "5e8e78416f43b7c10ef544d306be5f0c"
+}

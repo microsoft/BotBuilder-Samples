@@ -1,0 +1,29 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "Hobby",
+    "entity": "utterance",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${setPropertyMessage('Hobby', @utterance)}"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$Hobby",
+            "value": "=@utterance"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "PropertyToChange == 'Hobby'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "PropertyToChange"
+                }
+            ]
+        }
+    ],
+    "$Generator": "add1bb383104ce6f678bab5009ab6e3b"
+}

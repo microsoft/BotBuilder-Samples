@@ -1,0 +1,51 @@
+> This file contains the generic templates to use for properties of particular types.
+
+# welcome
+- Welcome!
+
+# name(property)
+- ${template(concat(property, 'Name'))}
+
+# value(property, val)
+- ${template(property, val)}
+
+# enumEntityValue(property, val)
+- ${template(concat(property, 'Entity'), val)}
+
+# requiredProperties
+- IF: ${count(dialogClass.schema.required) > 0}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, name(property)), ',')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, name(property)), ', ')}\n
+- ELSE:
+- 
+
+# possibleValues(property)
+- ${foreach(dialogClass.schema.properties[property].enum, enum, value(property, enum))}
+
+# cancel
+- Do you want to end the conversation? (yes/no)
+
+# confirmChangeProperty(property)
+- IF: ${dialog[property]}
+- Do you want to change the value of ${toLower(property)}? (yes or no)
+- ELSE: 
+- Do you want to add a value for ${toLower(property)}? (yes or no)
+
+# confirmChange
+- Is there any property you want to change? (no or the property name)
+
+# chooseProperty
+- Which property do you want to change?
+
+# notUnderstood
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, concat("'", chunk, "'")), ' or ')}
+
+[sandwichBuy-library-PROPERTYName.en-us.lg](sandwichBuy-library-PROPERTYName.en-us.lg)
+
+
+> Generator: bcd020cf756d874f12e1b3f175282050

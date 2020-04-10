@@ -1,0 +1,16 @@
+[sandwichBuy-Quantity-number.en-us.lu](../en-us/sandwichBuy-Quantity-number.en-us.lu)
+[sandwichBuy-Length-dimension.en-us.lu](../en-us/sandwichBuy-Length-dimension.en-us.lu)
+[sandwichBuy-NameEntity.en-us.lu](../en-us/sandwichBuy-NameEntity.en-us.lu)
+[sandwichBuy-Name-personName.en-us.lu](../en-us/sandwichBuy-Name-personName.en-us.lu)
+[sandwichBuy-BreadEntity.en-us.lu](../en-us/sandwichBuy-BreadEntity.en-us.lu)
+[sandwichBuy-MeatEntity.en-us.lu](../en-us/sandwichBuy-MeatEntity.en-us.lu)
+[sandwichBuy-Price-money.en-us.lu](../en-us/sandwichBuy-Price-money.en-us.lu)
+[sandwichBuy-booleanEntity.en-us.lu](../en-us/sandwichBuy-booleanEntity.en-us.lu)
+[sandwichBuy-library-HelpIntent.en-us.lu](../en-us/sandwichBuy-library-HelpIntent.en-us.lu)
+[sandwichBuy-library-CancelIntent.en-us.lu](../en-us/sandwichBuy-library-CancelIntent.en-us.lu)
+[sandwichBuy-library-NoneIntent.en-us.lu](../en-us/sandwichBuy-library-NoneIntent.en-us.lu)
+[sandwichBuy-trigger.en-us.lu](../en-us/sandwichBuy-trigger.en-us.lu)
+[sandwichBuy-library-ReadPropertyIntent.en-us.lu](../en-us/sandwichBuy-library-ReadPropertyIntent.en-us.lu)
+[sandwichBuy-library-PROPERTYName.en-us.lu](../en-us/sandwichBuy-library-PROPERTYName.en-us.lu)
+
+> Generator: 71281575d85596bd3c26d2780cde017b

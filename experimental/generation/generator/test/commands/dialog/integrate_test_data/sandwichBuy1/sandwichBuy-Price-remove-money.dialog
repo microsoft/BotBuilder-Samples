@@ -1,0 +1,24 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operator": "RemoveFromProperty",
+    "property": "Price",
+    "entity": "money",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$Price == $money",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${removePropertyMessage('Price', @money)}"
+                },
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "Price"
+                }
+            ]
+        }
+    ],
+    "$Generator": "f64281a722ae7b7abb66314512e8be54"
+}

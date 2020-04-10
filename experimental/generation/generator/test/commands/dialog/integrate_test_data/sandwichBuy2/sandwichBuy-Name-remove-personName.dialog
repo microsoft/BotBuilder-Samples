@@ -1,0 +1,24 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operator": "RemoveFromProperty",
+    "property": "Name",
+    "entity": "personName",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$Name == $personName",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${removePropertyMessage('Name', @personName)}"
+                },
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "Name"
+                }
+            ]
+        }
+    ],
+    "$Generator": "dd8e350a39cd9f447f92dfb02eebf1aa"
+}

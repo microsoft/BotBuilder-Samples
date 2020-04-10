@@ -1,0 +1,11 @@
+
+# boolean(value)
+- SWITCH: ${value}
+- CASE: ${'true'}
+    - true  
+- CASE: ${'false'}
+    - false
+- DEFAULT:
+    - Unknown boolean value
+
+> Generator: f75131d1ad0aeeaa55831ad64adb294e

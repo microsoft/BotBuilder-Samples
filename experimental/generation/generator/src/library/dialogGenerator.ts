@@ -78,7 +78,7 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
-async function writeFile(path: string, val: any, feedback: Feedback) {
+export async function writeFile(path: string, val: any, feedback: Feedback) {
     try {
         let dir = ppath.dirname(path)
         await fs.ensureDir(dir)

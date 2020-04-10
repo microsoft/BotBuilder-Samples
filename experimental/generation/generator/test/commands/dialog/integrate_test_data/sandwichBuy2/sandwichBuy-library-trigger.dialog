@@ -1,0 +1,13 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "sandwichBuy",
+    "condition": "count(turn.recognizedentities) == 0",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "${notUnderstood()}"
+        }
+    ],
+    "$Generator": "9bcdc02886fe0de2f7336e2e197a3ab6"
+}
