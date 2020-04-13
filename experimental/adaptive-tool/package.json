@@ -188,6 +188,7 @@
     },
     "activationEvents": [
         "onCommand:lgLiveTest.start",
+        "onCommand:lg.extension.onEnterKey",
         "onWebviewPanel:lgLiveTest",
         "onDebug"
     ],
