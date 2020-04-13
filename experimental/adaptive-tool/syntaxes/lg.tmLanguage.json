@@ -39,7 +39,7 @@
 			"contentName": "expression",
 			"begin": "\\$\\{",
 			"end": "\\}",
-			"name":"variable.parameter",
+			"name":"entity.other",
 			"patterns": [
 				{
 					"match": "([a-zA-Z0-9_]+\\s*)\\(",
@@ -51,6 +51,10 @@
 							"name":"entity.other"
 						}
 					}
+				},
+				{
+					"name":"variable.parameter",
+					"match": "[a-zA-Z_][a-zA-Z0-9_]*"
 				}
 			]
 		},
