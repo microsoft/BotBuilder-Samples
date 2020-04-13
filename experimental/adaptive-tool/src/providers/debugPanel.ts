@@ -4,7 +4,6 @@
  */
 
 import * as vscode from 'vscode';
-import { Templates } from 'botbuilder-lg';
 import * as path from 'path';
 import * as fs from 'fs';
 import { DataStorage, TemplatesEntity } from '../dataStorage';
