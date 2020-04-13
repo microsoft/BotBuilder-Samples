@@ -5,7 +5,7 @@
 
 >>> To generate text instead of card, use this
 # formText
-- ${join(foreach(dialog.requiredProperties, property, textProperty(property)), '\n')}
+- ${join(foreach(dialog.requiredProperties, property, textProperty(property)), EOL())}
 
 # textProperty(property)
 - The value of ${name(property)} is ${value(property, dialog[property])}.

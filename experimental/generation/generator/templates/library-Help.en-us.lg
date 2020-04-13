@@ -1,6 +1,6 @@
 # askHelp
 - IF: ${$retries > 0 && $lastIntent != 'Help'}
-- ${join(foreach($expectedProperties, expected, help1(expected)), '\n')}
+- ${join(foreach($expectedProperties, expected, help1(expected)), EOL())}
 - ELSE:
 - 
 
@@ -8,7 +8,7 @@
 - IF: ${property}
 - ${help1(property)}
 - ELSEIF: ${$expectedProperties}
-- ${join(foreach($expectedProperties, expected, help1(expected)), '\n')}
+- ${join(foreach($expectedProperties, expected, help1(expected)), EOL())}
 - ELSE:
 -```
 ${requiredProperties()}

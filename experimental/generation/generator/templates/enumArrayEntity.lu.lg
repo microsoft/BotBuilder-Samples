@@ -4,7 +4,7 @@
 # template
 - ```
 @ list ${property}Entity =
-${join(foreach(schema.properties[property].items.enum, enum, concat('  - ', enum, ' :\n', synonyms(enum))), '\n')}
+${join(foreach(schema.properties[property].items.enum, enum, concat('  - ', enum, ' :', EOL(), synonyms(enum))), EOL())}
 ${propertyName()}
 ${operations(`${property}Entity`, allSynonyms())}
 ```

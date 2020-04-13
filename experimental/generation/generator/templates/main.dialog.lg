@@ -10,7 +10,9 @@
     "generator": "${prefix}.lg",
     "schema": "${prefix}.schema",
     "triggers": [ 
-        ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), ',\n')} 
+        ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
         ]
 }
 ```
+
+[generator.lg](generator.lg)

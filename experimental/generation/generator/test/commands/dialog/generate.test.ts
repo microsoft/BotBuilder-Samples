@@ -31,14 +31,14 @@ describe('dialog:generate', async () => {
     })
 
     it('Hash text', async () => {
-        let lu = `> LU File${os.EOL}# Intent${os.EOL}- This is an .lu file`
+        let lu = `> LU File${gen.EOL}# Intent${gen.EOL}- This is an .lu file`
         let lufile = ppath.join(os.tmpdir(), 'test.lu')
 
         await gen.writeFile(lufile, lu, feedback)
         assert(await gen.isUnchanged(lufile))
 
         lu = await fs.readFile(lufile, 'utf-8')
-        lu += `${os.EOL}- another line`
+        lu += `${gen.EOL}- another line`
         await fs.writeFile(lufile, lu)
         assert(!await gen.isUnchanged(lufile))
 
@@ -67,7 +67,7 @@ describe('dialog:generate', async () => {
 
     it('Generation with override', async () => {
         try {
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'sandwich-Bread-missing.dialog'))
@@ -79,7 +79,7 @@ describe('dialog:generate', async () => {
 
     it('Generation', async () => {
         try {
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, feedback)
         } catch (e) {
             assert.fail(e.message)
         }

@@ -16,7 +16,7 @@ ${importLG('library-Choose')}
 ```
 
 # propertyEntity
-- ${join(createArray(namePlusSwitch(), cases(), default()), '\n')}\n
+- ${join(createArray(namePlusSwitch(), cases(), default()), EOL())}${EOL()}
 
 # namePlusSwitch
 -```

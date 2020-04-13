@@ -4,7 +4,7 @@
 # template
 -```
 # ${triggerIntent}
-${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)), entity, entityPattern(entity)), '\n')}
+${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)), entity, entityPattern(entity)), EOL())}
 - {PROPERTYName}
 ```
 
@@ -13,3 +13,5 @@ ${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)),
 - - {datetimeV2}
 - ELSE:
 - - {${entity}}
+
+[generator.lg](generator.lg)

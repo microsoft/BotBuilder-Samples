@@ -1,0 +1,62 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Quantity": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10
+        },
+        "Length": {
+            "$ref": "template:dimension.schema#/dimension"
+        },
+        "Name": {
+            "type": "string",
+            "$entities": [
+                "personName",
+                "utterance"
+            ]
+        },
+        "Bread": {
+            "type": "string",
+            "enum": [
+                "multiGrainWheat",
+                "rye",
+                "wholeWheat",
+                "black"
+            ]
+        },
+        "Cheese": {
+            "type": "string",
+            "enum": [
+                "american",
+                "cheddar",
+                "feta",
+                "gouda",
+                "pepper jack",
+                "provolone",
+                "swiss",
+                "none"
+            ]
+        },
+        "Hobby": {
+            "type": "string",
+            "$entities": [
+                "utterance"
+            ]
+        },
+        "Price": {
+            "$ref": "template:money.schema#/money"
+        }
+    },
+    "required": [
+        "Name",
+        "Bread",
+        "Cheese",
+        "Hobby",
+        "Price"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

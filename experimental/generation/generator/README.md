@@ -63,7 +63,7 @@ The overall workflow for generation is to:
 4. You can modify the generated assests using [Visual Studio Code][vscode] which
    supports intellisense and validation according to your runtime schema.
    Eventually you will also be able to edit using [Bot Framework Composer][composer].
-5. **Coming soon** If you change your schema you can update the generated assets
+5. If you change your schema you can update the generated assets
    using the --integrate switch.
 
 ## dialog:generate Arguments

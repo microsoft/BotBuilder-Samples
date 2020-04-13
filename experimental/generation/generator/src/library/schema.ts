@@ -7,10 +7,9 @@
 /* tslint:disable:no-unused */
 export * from './schema'
 import * as Validator from 'ajv'
-import * as os from 'os'
 import * as ppath from 'path'
 import * as ps from './processSchemas'
-import { stringify } from 'querystring'
+import { EOL } from './dialogGenerator'
 let allof: any = require('json-schema-merge-allof')
 let parser: any = require('json-schema-ref-parser')
 
@@ -55,7 +54,7 @@ export class Schema {
         if (!validator.validateSchema(schema)) {
             let message = ''
             for (let error in validator.errors) {
-                message = message + error + os.EOL
+                message = message + error + EOL
             }
             throw new Error(message)
         }
