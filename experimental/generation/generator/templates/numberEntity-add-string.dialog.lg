@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('number')}
 
@@ -36,4 +38,3 @@
 }
 ```
 
-[generator.lg](generator.lg)

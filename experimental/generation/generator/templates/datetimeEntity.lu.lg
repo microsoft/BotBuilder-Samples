@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${builtinEntityFilename('datetimeV2')}
 
@@ -7,4 +9,3 @@
 ${propertyName()}
 ```
 
-[generator.lg](generator.lg)

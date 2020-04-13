@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${locale}/${prefix}-trigger.en-us.lu
 
@@ -14,4 +16,3 @@ ${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)),
 - ELSE:
 - - {${entity}}
 
-[generator.lg](generator.lg)

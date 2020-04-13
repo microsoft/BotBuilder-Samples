@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${propertyFilename()}
 
@@ -18,4 +20,3 @@ ${importLG('library-Missing')}
 - \${askBoolean('${property}')\}
 ```
 
-[generator.lg](generator.lg)

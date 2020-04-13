@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${prefix}.main.dialog
 
@@ -15,4 +17,3 @@
 }
 ```
 
-[generator.lg](generator.lg)

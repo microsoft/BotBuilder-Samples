@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${builtinEntityFilename('money')}
 
@@ -6,4 +8,3 @@
 @ prebuilt money ${roles()}
 ${propertyName()}
 ```
-[generator.lg](generator.lg)

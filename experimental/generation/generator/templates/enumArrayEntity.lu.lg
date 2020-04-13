@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${entityLUFilename()}
 
@@ -12,4 +14,3 @@ ${operations(`${property}Entity`, allSynonyms())}
 # allSynonyms
 - ${flatten(foreach(schema.properties[property].items.enum, enum, phrases(enum)))}
 
-[generator.lg](generator.lg)

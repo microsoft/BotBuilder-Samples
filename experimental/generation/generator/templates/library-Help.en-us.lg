@@ -1,3 +1,5 @@
+[library.en-us.lg]
+
 # askHelp
 - IF: ${$retries > 0 && $lastIntent != 'Help'}
 - ${join(foreach($expectedProperties, expected, help1(expected)), EOL())}
@@ -28,4 +30,3 @@ You can find out about a specific property by doing 'help <property>'.
 - ELSE:
 - No help available.
 
-[library.en-us.lg]

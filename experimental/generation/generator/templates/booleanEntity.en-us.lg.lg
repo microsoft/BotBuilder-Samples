@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${locale}/${prefix}-booleanEntity.${locale}.lg
 
@@ -12,4 +14,4 @@
 - DEFAULT:
     - no value
 ```    
-[generator.lg](generator.lg)
+

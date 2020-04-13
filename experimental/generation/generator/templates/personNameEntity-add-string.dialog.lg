@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('personName')}
 
 # template
 - ${addDialog('personName')}
 
-[generator.lg](generator.lg)

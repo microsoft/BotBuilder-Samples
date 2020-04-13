@@ -1,3 +1,6 @@
+[library.en-us.lg]
+[library-Help.en-us.lg]
+
 # chooseEnumEntity(property)
 - ```
 ${askHelp()}
@@ -15,6 +18,3 @@ Please choose a value for ${name(property)} from \[${join(foreach(turn.dialogEve
 
 # choosePropertyEntity(property)
 - "${property.entity.text}" as ${name(property.property)}
-
-[library.en-us.lg]
-[library-Help.en-us.lg]

@@ -1,4 +1,5 @@
 > This file contains the generic templates to use for properties of particular types.
+[library-PROPERTYName.en-us.lg]
 
 > This is to provide consistent line endings in templates using Windows standard
 # EOL
@@ -49,4 +50,3 @@
 # notUnderstood
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
-[library-PROPERTYName.en-us.lg]

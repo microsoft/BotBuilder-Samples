@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${propertyFilename()}
 
@@ -21,4 +23,3 @@ ${importLG('library-Missing')}
 # ${property}(values)
 - \${enumArrayValue('${property}', values)}```
 
-[generator.lg](generator.lg)

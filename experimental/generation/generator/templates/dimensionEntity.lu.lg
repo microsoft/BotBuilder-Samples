@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${builtinEntityFilename('dimension')}
 
@@ -7,4 +9,3 @@
 ${propertyName()}
 ```
 
-[generator.lg](generator.lg)

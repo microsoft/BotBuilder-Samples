@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - luis/${prefix}.${locale}.lu
 
 # template
 -${join(foreach(templates.lu, lu, `[${lu.fullName}](../${locale}/${lu.fullName})`), EOL())}
 
-[generator.lg](generator.lg)

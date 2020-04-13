@@ -255,7 +255,7 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 - [${join(foreach(values, value, `"${value}"`), ', ')}]
 
 # synonyms(value)
-- ${join(foreach(phrases(value), phrase, concat('\t\t- ', phrase)), EOL())}
+- ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
 
 > Top-level template support
 # roleEntities(entity)

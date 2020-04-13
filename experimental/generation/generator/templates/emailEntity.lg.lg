@@ -1,7 +1,3 @@
-# filename
-- ${entityLGFilename()}
-
-# template
-- ${entityDisplay()}
-
 [generator.lg](generator.lg)
+
+

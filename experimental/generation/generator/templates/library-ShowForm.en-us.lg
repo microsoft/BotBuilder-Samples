@@ -1,3 +1,5 @@
+[library.en-us.lg]
+
 # showForm(name, properties)
 [Activity
     Attachments=${json(formCard(name, properties))}
@@ -35,5 +37,3 @@
 
 # fact(property)
 - {"title": "${name(property)}", "value": "${value(property, dialog[property])}"}
-
-[library.en-us.lg]
