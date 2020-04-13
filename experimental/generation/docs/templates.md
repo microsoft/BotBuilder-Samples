@@ -79,14 +79,32 @@ All generated assets are named using a standard pattern which is what enables
 updating generated files when changing the schema. In the below, $italics$ are
 place holders.
 
-- $schema$-library -- Defines library files that are either common building
+- `$schema$-library` -- Defines library files that are either common building
   blocks like [library.lg.lg](templates/library.lg.lg) or are internal
   mechanisms like [library-help.lg.lg](templates/library-Help.lg.lg).
-- $schema$-$entity$Entity -- Defines entity specific files.
-- $schema$-$property$ -- Defines property related files when $property$ is found
+- `$schema$-$entity$Entity` -- Defines entity specific files.
+- `$schema$-$property$` -- Defines property related files when $property$ is found
   in the schema.
-- $locale$/ -- Assets for a particular locale that follows the above naming
-  patterns and adds $locale$ to the file extension, an example would be
-  `en-us/sandwich-Bread.en-us.lg` which would be a localized .lg asset for the
+- `$locale$/` -- Assets for a particular locale that follows the above naming
+  patterns and adds `$locale$` to the file extension, an example would be
+  `en-us/sandwich-Bread.en-us.lg` which would be a localized `.lg` asset for the
   `Bread` property in the `sandwich` schema. You can define your own templates
   that add to the naming conventions, but they must extend these conventions.
+
+## Documentation Index
+
+1. [Get started][start]
+1. Working with schema
+    1. [Writing schemas][schema]
+    1. [Sample schemas][sample-schemas]
+1. Working with templates
+    1. [Writing templates][templates-overview]
+    1. [Pre-built templates][templates]
+1. [Presentation (pptx)](2020%20Feb%20MVP%20Generated%20Dialogs.pptx)
+1. [White paper (docx)](Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
+
+[schema]:bot-schema.md
+[templates]:../generator/templates
+[templates-overview]:templates.md
+[start]:get-stared.md
+[sample-schemas]:example-schemas

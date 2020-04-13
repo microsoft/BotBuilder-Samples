@@ -28,13 +28,11 @@ An example skeleton schema:
 
 The `properties` object defines a single piece of information your bot needs to collect.
 You can either define the object in the file using the properties listed below, or use the `$ref` keyword to point to an alternative file.
-When using one of the pre-built template definitions, use `$ref": "template:{template-name}#/{property}".
+When using one of the pre-built template definitions, use `$ref": "template:{template-name}#/{property}"`.
 
-**`type`**
+The `type` parameter of the `properties` object defines the type of expected input. It should be one of `string`, `number`, or `array`. In advanced scenarios you can also define a complex object with `object` that concatenates multiple properties into a single top-level property.
 
-The type of expected input. One of `string`, `number`, or `array`. In advanced scenarios you can also define a complex object with `object` that concatenates multiple properties into a single top-level property.
-
-With `string` you can define an `enum` array of allowed values.
+With `"type": "string"` you can define an `enum` array of allowed values.
 
 ```json
 "Bread": {
@@ -46,7 +44,7 @@ With `string` you can define an `enum` array of allowed values.
 }
 ```
 
-With `number` you can define a range of expected values using `minimum` and `maximum`.
+With `"type": "number"` you can define a range of expected values using `minimum` and `maximum`.
 
 ```json
 "Quantity": {
@@ -56,7 +54,7 @@ With `number` you can define a range of expected values using `minimum` and `max
 }
 ```
 
-With `array` you define the `items` object that defines the items in the array.
+With `type": "array"` you define the `items` object that defines the items in the array.
 
 ```json
 "Toppings": {
@@ -88,16 +86,29 @@ It makes use of the `template:` protocol which looks in your template files for 
 
 The `required` array is used to list all of the `properties` that are required. Any property included here will need to be successfully completed to proceed to the confirmation flow.
 
+```json
+"required": [
+  "Name",
+  "Bread"
+]
+```
+
 ### `$requires`
 
 The `$requires` section is used to provide an additional array of JSON schemas that should be included.
 This is different than `$ref` in that you can either use a URL or just a filename which will be looked for in the template directories.
-If you want to include the standard confirmation/cancel/navigation functionality you should include include `standard.schema`.
+If you want to include the standard confirmation/cancel/navigation functionality you should include include `standard.schema`, as in the following example.
+
+```json
+"$requires": [
+  "standard.schema"
+]
+```
 
 ## Advanced JSON Schema
 
 Globally there are a few extra keywords you can add to your schema.
-Most of these keywords are automatically filled during generation and you do not need to worry about them if you make use of [standard.schema](../generator/templates/standard.schema).
+Most of these keywords are automatically filled during generation and will not use them if you make use of [standard.schema](../generator/templates/standard.schema).
 
 Extra keywords include:
 
@@ -105,7 +116,7 @@ Extra keywords include:
   By default these are the top-level properties in the root schema and this will be automatically generated if missing.
 - **\$expectedOnly** A global list of entities which will only be bound to properties if the property is expected.
   This can be overridden for specific properties as well.
-- **\$triggerIntent** Name of the trigger intent--by default the name of the schema.
+- **\$triggerIntent** Name of the trigger intent - by default the name of the schema.
 - **\$templates** Global templates to include.
 - **\$defaultOperation** Default operation to use for assigning entities to properties.
   This is overridden for a given Ask by setting `$dialog.expectedOperation`.
@@ -124,3 +135,21 @@ In addition there are a few extra keywords per-property including:
 
 You can use expression syntax, i.e. `${<expr>}` to dynamically generate schema, either before generation or after generation is done if there are properties that are only available at the end.
 `<schemaName>.schema.dialog` will have the resulting schema with all references resolved and expanded to simplify usage in language generation and dialogs.
+
+## Documentation Index
+
+1. [Get started][start]
+1. Working with schema
+    1. [Writing schemas][schema]
+    1. [Sample schemas][sample-schemas]
+1. Working with templates
+    1. [Writing templates][templates-overview]
+    1. [Pre-built templates][templates]
+1. [Presentation (pptx)](2020%20Feb%20MVP%20Generated%20Dialogs.pptx)
+1. [White paper (docx)](Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
+
+[schema]:bot-schema.md
+[templates]:../generator/templates
+[templates-overview]:templates.md
+[start]:get-stared.md
+[sample-schemas]:example-schemas

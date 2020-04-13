@@ -44,3 +44,21 @@ which provides the ability to extend the framework using code.
       <pathToRepo>/experimental/generation/runbot/runbot.csproj --root
       <dialogFolder>`
    2. Connect emulator to `http://localhost:5000/api/messages` and interact with your bot.
+
+## Documentation Index
+
+1. [Get started][start]
+1. Working with schema
+    1. [Writing schemas][schema]
+    1. [Sample schemas][sample-schemas]
+1. Working with templates
+    1. [Writing templates][templates-overview]
+    1. [Pre-built templates][templates]
+1. [Presentation (pptx)](2020%20Feb%20MVP%20Generated%20Dialogs.pptx)
+1. [White paper (docx)](Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
+
+[schema]:bot-schema.md
+[templates]:../generator/templates
+[templates-overview]:templates.md
+[start]:get-stared.md
+[sample-schemas]:example-schemas

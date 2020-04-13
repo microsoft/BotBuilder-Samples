@@ -1,8 +1,8 @@
 # Dialog Generation
 
 The Bot Framework has a rich collection of conversational building blocks, but creating a bot that feels natural to converse with requires understanding and coordinating across language understanding, language generation and dialog management.
-To simplify this process and capture best practices, we have created the [bf-generate][bf-generate] plugin for the [bf clitool][bf].
-The generated dialogs make use of event-driven adaptive dialogs to support a rich and evolving set of capabilities including:
+To simplify this process and capture best practices, we've created the [bf-generate][bf-generate] plugin for the [BotFramework CLI tool][bf].
+The generated dialogs make use of event-driven adaptive dialogs with a rich and evolving set of capabilities including:
 
 - Handle out of order and multiple responses for simple and array properties.
 - Add, remove, clear and show properties.
@@ -12,26 +12,28 @@ The generated dialogs make use of event-driven adaptive dialogs to support a ric
 - Cancel
 - Confirmation
 
+**Ready to [Get Started][start]?** If not, keep reading for more information.
+
 We welcome your feedback as we work through this feature - see the [Feedback](#feedback) section for details on how you can help shape the future of this tool.
 
 ## Overview
 
 The `bf-generate` plugin is an experimental plugin for the `bf cli` tool that generates adaptive dialog assets.
-The overall workflow for generation is (see [Get started][start] for detailed instructions):
+The overall workflow for generation is (see [Get Started][start] for detailed instructions):
 
 1. Define your [schema](#schema-file) with optional extensions.
 2. Generate your dialog assets using [dialog:generate][bf-generate].
-3. Test the generated assets in your own runtime using Bot Framework adaptive dialogs, or use the [runbot][runbot] runtime if you use standard Bot Framework SDK components.
-4. You can modify the generated assets using [Visual Studio Code][vscode] which supports IntelliSense and validation according to your runtime schema.  
-  Eventually you will also be able to edit using [Bot Framework Composer][composer].
+3. Test the generated assets in your own runtime using Bot Framework adaptive dialogs, or use the [RunBot][runbot] runtime if you use standard Bot Framework SDK components.
+4. You can modify the generated assets using [Visual Studio Code][vscode] which supports IntelliSense and validation according to your runtime schema.
+Eventually you will also be able to edit using [Bot Framework Composer][composer].
 5. **Coming soon** If you change your schema you can update the generated assets using the `--integrate` option.
 
 There are three key components to understand, which are outlined below.
 
 ### Schema file
 
-A JSON schema file defines the properties your bot needs to collect, and (optionally) the entity definitions (defined either in the templates or a [LUIS pre-built entitie][luis-prebuilt] those properties map to.
-Schemas are specified using [JSON Schema][JSONSchema].
+A JSON schema file defines the properties your bot needs to collect, and (optionally) the entity definitions those properties map to.
+Schemas are written using [JSON Schema][JSONSchema].
 You can use the normal mechanisms including `$ref` and `allOf` which will be resolved into a single schema.
 
 For additional information see:
@@ -42,7 +44,7 @@ For additional information see:
 ### Templates
 
 Templates are `.lg` files the generation tool uses to inject intelligence into your generated dialogs.
-They handle things like ambiguity resolution, interruption, cancellation and more, as well as allowing you to map entity types to your properties.
+They handle things like ambiguity resolution, interruption, cancellation and more, as well as allowing you to map complex pre-built entity types to your properties.
 
 In general, you won't need to understand how they work, or write any yourself - the tool comes with a set of pre-built templates that are sufficient for most cases.
 However, you may need to know what templates are available for you when creating your schema in order to map your properties to entities.
@@ -100,12 +102,11 @@ Open a [new issue](https://github.com/microsoft/BotBuilder-Samples/issues/new/ch
 [JSONSchema]:https://json-schema.org/
 [bf]:https://github.com/microsoft/botframework-cli
 [myget]:https://botbuilder.myget.org/gallery
-[runbot]:../runbot/readme.md
+[runbot]:runbot/
 [composer]:https://github.com/Microsoft/BotFramework-Composer
 [vscode]:https://code.visualstudio.com/Download
 [bf-generate]:generator/README.md
 [bf]:https://github.com/microsoft/botframework-cli
-[runbot]:runbot/readme.md
 [composer]:https://github.com/Microsoft/BotFramework-Composer
 [sample-schemas]:docs/example-schemas
 [luis-prebuilt]:https://docs.microsoft.com/azure/cognitive-services/LUIS/luis-reference-prebuilt-entities#english-american-entity-support
