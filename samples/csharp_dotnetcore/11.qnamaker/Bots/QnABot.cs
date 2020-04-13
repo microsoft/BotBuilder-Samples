@@ -28,6 +28,7 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient();
+            httpClient.DefaultRequestHeaders.Add("Ocp-Apim-Subscription-Key", _configuration["QnAEndpointKey"]);
 
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
