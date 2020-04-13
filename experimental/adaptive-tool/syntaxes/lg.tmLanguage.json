@@ -32,31 +32,31 @@
 			"contentName": "constant.character.escape.multiline",
 			"patterns": [
 				{
-					"include": "#expression_in_fence_block"
+					"include": "#expression"
 				}]
 		},
 		"expression": {
-			"contentName": "entity.name.function.expression",
-			"begin": "{",
-			"end": "}",
+			"contentName": "expression",
+			"begin": "\\$\\{",
+			"end": "\\}",
+			"name":"variable.parameter",
 			"patterns": [
-				{"include": "#params"}
+				{
+					"match": "([a-zA-Z0-9_]+\\s*)\\(",
+					"captures": {
+						"1": {
+							"name":"support.function"
+						},
+						"2": {
+							"name":"entity.other"
+						}
+					}
+				}
 			]
 		},
 		"inline_string": {
 			"match": "(\").+?(\")",
 			"name":"string.quoted.double.lg"
-		},
-		"template_ref": {
-			"match": "\\[(.*?)(\\(.*?(\\[.+\\])?\\))?\\]",
-			"captures": {
-				"1": {
-					"name": "entity.name.function.functionName"
-				},
-				"2": {
-					"name": "variable.parameter.parameters"
-				}
-			}
 		},
 		"keyword": {
 			"name": "keyword.control.keyword",
@@ -65,32 +65,15 @@
 		"template_name_line":{
 			"begin": "^\\s*#",
 			"end":"\n",
-			"name":"markup.bold.lg",
-			"patterns": [
-				{"include": "#params"}
-			]
+			"name":"markup.bold.lg"
 		},
 		"template_body": {
 			"begin":"^\\s*-",
 			"end":"\n",
 			"patterns": [
 				{"include": "#fence_block"},
-				{"include": "#template_ref"},
 				{"include": "#expression"},
 				{"include": "#keyword"}
-			]
-		},
-		"params": {
-			"begin": "\\(",
-			"end": "\\)",
-			"name":"variable.parameter.parameters"
-		},
-		"expression_in_fence_block": {
-			"contentName": "entity.name.function.expression",
-			"begin": "@{",
-			"end": "}",
-			"patterns": [
-				{"include": "#params"}
 			]
 		},
 		"Structure_LG" : {
@@ -99,16 +82,18 @@
 			"end": "(?:\\s*\\]\\s*\\n)",
 			"patterns": [
 				{"match":"\\s*[a-zA-Z0-9]+\\s*\\n",
-				"name": "markup.heading.structure_name"},
+				"name":"support.class"},
 				{
 				"match": "([a-zA-Z0-9_]+\\s*)=([^\\n]+)\\n",
 				"name": "entity.name.expression",
 				"captures": {
 					"1": {
-						"name": "markup.bold.property"
+						"name":"support.class"
 					},
 					"2": {
-						"name": "markup.italic.value"
+						"patterns": [
+							{"include": "#expression"}
+						]
 					}
 				}
 				}
