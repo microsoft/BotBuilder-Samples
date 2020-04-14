@@ -5,8 +5,6 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { Template, Templates } from 'botbuilder-lg';
-import { FunctionEntity } from '../buildinFunctions';
 
 /**
  * Hovers show information about the symbol/object that's below the mouse cursor. This is usually the type of the symbol and a description.
@@ -36,7 +34,7 @@ class LGHoverProvider implements vscode.HoverProvider {
 
         if (functionEntity !== undefined) {
             const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
-            const functionIntroduction = `${name}(${functionEntity.params.join(", ")}): ${returnType}`;
+            const functionIntroduction = `${wordName}(${functionEntity.params.join(", ")}): ${returnType}`;
 
             const contents = [];
             contents.push(new vscode.MarkdownString(functionIntroduction));
