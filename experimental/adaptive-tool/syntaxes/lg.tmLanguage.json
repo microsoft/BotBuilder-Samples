@@ -85,11 +85,8 @@
 			"match": "(?i)(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\\s*:"
 		},
 		"template_name_line":{
-			"begin": "^\\s*#",
-			"end":"\n",
-			"name":"entity.other",
 			"patterns": [{
-				"match": "([a-zA-Z0-9_]+)(\\(.*\\))?",
+				"match": "(^\\s*#\\s*[a-zA-Z0-9_]+)(\\(.*\\))?",
 				"captures": {
 					"1": {
 						"name":"markup.bold.templateName"
