@@ -5,6 +5,7 @@
 
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
+import * as os from 'os';
 import { Feedback, FeedbackType, isUnchanged, writeFile, EOL } from './dialogGenerator'
 
 const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
@@ -66,6 +67,14 @@ function changedMessage(newPath: string, fileName: string, feedback: Feedback) {
 export async function mergeAssets(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locales: string[], feedback?: Feedback): Promise<boolean> {
     if (!feedback) {
         feedback = (_info, _message) => true
+    }
+
+    if(oldPath === mergedPath){
+        let tempOldPath = `${os.tmpdir}/tempOld/`
+        await fs.emptyDir(tempOldPath)
+        fs.copySync(oldPath, tempOldPath)
+        fs.emptyDirSync(oldPath)
+        oldPath = tempOldPath
     }
 
     try {
@@ -186,11 +195,11 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
                 let luFile = refStr[0].replace('[', '')
                 // handle with lu file has enums 
                 if (luFile.match(extractedProperty + 'Entity')) {
-                    if (await isOldUnchanged(localeOldPath, luFile)) {
-                        await copySingleFile(localeOldPath, localeMergedPath, luFile, feedback)
-                    } else {
+                    // if (await isOldUnchanged(localeOldPath, luFile)) {
+                    //     await copySingleFile(localeOldPath, localeMergedPath, luFile, feedback)
+                    // } else {
                         await changeEntityEnumLU(oldPath, newPath, mergedPath, luFile, locale, feedback)
-                    }
+                    // }
                 } else {
                     if (await isOldUnchanged(localeOldPath, luFile)) {
                         await copySingleFile(localeOldPath, localeMergedPath, luFile, feedback)
@@ -225,7 +234,7 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
     let library = resultRefs.join(EOL)
 
     // write merged root lu file
-    await writeFile(ppath.join(mergedPath, 'luis', schemaName + '.' + locale + '.lu'), library, feedback)
+    await writeFile(ppath.join(mergedPath, 'luis', schemaName + '.' + locale + '.lu'), library, feedback, true)
     feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lu`)
 
     // copy .lu.dialog file
@@ -330,10 +339,10 @@ async function changeEntityEnumLU(oldPath: string, newPath: string, mergedPath: 
         }
     }
     if (updatedLUResource === null) {
-        await writeFile(ppath.join(mergedPath, locale, filename), oldLUResource.Content, feedback)
+        await writeFile(ppath.join(mergedPath, locale, filename), oldLUResource.Content, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
     } else {
-        await writeFile(ppath.join(mergedPath, locale, filename), updatedLUResource.Content, feedback)
+        await writeFile(ppath.join(mergedPath, locale, filename), updatedLUResource.Content, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
     }
 }
@@ -378,11 +387,11 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
                 let refStr = ref.split('.lg')
                 let lgFile = refStr[0].replace('[', '') + '.lg'
                 if (lgFile.match(extractedProperty + 'Entity')) {
-                    if (await isOldUnchanged(localeOldPath, lgFile)) {
-                        await copySingleFile(localeOldPath, localeMergedPath, lgFile, feedback)
-                    } else {
+                    // if (await isOldUnchanged(localeOldPath, lgFile)) {
+                    //     await copySingleFile(localeOldPath, localeMergedPath, lgFile, feedback)
+                    // } else {
                         await changeEntityEnumLG(oldPath, newPath, mergedPath, lgFile, locale, feedback)
-                    }
+                    // }
                 } else {
                     if (await isOldUnchanged(localeOldPath, lgFile)) {
                         await copySingleFile(localeOldPath, localeMergedPath, lgFile, feedback)
@@ -421,7 +430,7 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
     }
 
     let val = resultRefs.join(EOL)
-    await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lg'), val, feedback)
+    await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lg'), val, feedback, true)
     feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lg`)
 }
 
@@ -501,10 +510,10 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
             mergedStatements = mergedStatements.concat(arr)
         }
         let val = mergedStatements.join(EOL)
-        await writeFile(ppath.join(mergedPath, locale, filename), val, feedback)
+        await writeFile(ppath.join(mergedPath, locale, filename), val, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
     } else {
-        await writeFile(ppath.join(mergedPath, locale, filename), oldText, feedback)
+        await writeFile(ppath.join(mergedPath, locale, filename), oldText, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
     }
 }
@@ -653,7 +662,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     }
 
     oldObj['triggers'] = mergedTriggers
-    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), JSON.stringify(oldObj), feedback)
+    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), JSON.stringify(oldObj), feedback, true)
     feedback(FeedbackType.info, `Generating ${schemaName}.main.dialog`)
 }
 
