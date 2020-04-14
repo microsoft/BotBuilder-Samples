@@ -34,7 +34,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
             let templateName = document.getText(wordRange);
             if (templateName.startsWith('lg.')) {
-                templateName.substr('lg.'.length);
+                templateName = templateName.substr('lg.'.length);
             }
 
             const templates: Templates = util.getTemplatesFromCurrentLGFile(document.uri);
