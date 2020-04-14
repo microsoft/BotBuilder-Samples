@@ -38,13 +38,30 @@ function changedMessage(newPath: string, fileName: string, feedback: Feedback) {
 }
 
 /**
- * @description: Merge two bot assets to generate one merged bot asset.
+ * Merge two bot assets to generate one merged bot asset. 
+ *
+ * Rules for merging:
+ * 1) A file unchanged since last generated will be overwritten by the new file.
+ * 2) A changed file will have its .lg/.lu enum or .dialog triggers overwritten,
+ *    but nothing else and its hash code should not be updated.
+ * 3) If a property existed in the old schema, but does not exist in the new
+ *    schema all files for that property should be deleted and have references
+ *    removed.
+ * 4) If a property exists in both old and new schema, but a file is not present
+ *    in the new directory, the file should not be copied over again and
+ *    references should not be added.
+ * 5) The order of .dialog triggers should be respected, i.e. if changed by the
+ *    user it should remain the same. 
+ * 6) If a file has changed and cannot be updated there will be a message to
+ *    merge manually.
+ *
  * @param schemaName Name of the .schema file.
  * @param oldPath Path to the folder of the old asset.
  * @param newPath Path to the folder of the new asset.
  * @param mergedPath Path to the folder of the merged asset.
  * @param locale Locale.
  * @param feedback Callback function for progress and errors.
+ *
  */
 export async function mergeAssets(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locales: string[], feedback?: Feedback): Promise<boolean> {
     if (!feedback) {

@@ -97,11 +97,13 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
-export async function writeFile(path: string, val: string, feedback: Feedback) {
+export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
         let dir = ppath.dirname(path)
         await fs.ensureDir(dir)
-        val = addHash(path, val)
+        if (!skipHash) {
+            val = addHash(path, val)
+        }
         await fs.writeFile(path, val)
     } catch (e) {
         let match = /position ([0-9]+)/.exec(e.message)

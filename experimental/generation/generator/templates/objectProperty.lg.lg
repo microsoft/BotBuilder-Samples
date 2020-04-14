@@ -5,12 +5,11 @@
 
 # template
 - ```
+${importLG('library')}
+${importLG('library-Missing')}
 ${AskTemplate()}
 ${nameTemplate()}
 ${ValueTemplate()}
-
-${importLG('library')}
-${importLG('library-Missing')}
 ```
 
 # AskTemplate

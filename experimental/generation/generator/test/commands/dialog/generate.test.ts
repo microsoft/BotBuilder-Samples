@@ -42,6 +42,9 @@ describe('dialog:generate', async () => {
         await fs.writeFile(lufile, lu)
         assert(!await gen.isUnchanged(lufile))
 
+        await gen.writeFile(lufile, lu, feedback, true)
+        assert(!await gen.isUnchanged(lufile))
+        
         await gen.writeFile(lufile, lu, feedback)
         assert(await gen.isUnchanged(lufile))
         lu = await fs.readFile(lufile, 'utf-8')

@@ -5,13 +5,12 @@
 
 # template
 - ```
-${AskTemplate()}
-${nameTemplate()}
-${valueTemplate()}
-
 ${importLG(`${property}Entity`)}
 ${importLG('library')}
 ${importLG('library-Missing')}
+${AskTemplate()}
+${nameTemplate()}
+${valueTemplate()}
 ```
 
 # AskTemplate

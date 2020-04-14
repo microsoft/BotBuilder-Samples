@@ -17,6 +17,7 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
   - [Defining JSON Schema](#defining-json-schema)
     - [Advanced JSON Schema](#advanced-json-schema)
   - [Writing Templates](#writing-templates)
+  - [Merging](#merging)
 
 # Intro
 The Bot Framework has a rich collection of building blocks, but creating a bot
@@ -64,7 +65,7 @@ The overall workflow for generation is to:
    supports intellisense and validation according to your runtime schema.
    Eventually you will also be able to edit using [Bot Framework Composer][composer].
 5. If you change your schema you can update the generated assets
-   using the --integrate switch.
+   using the --merge switch.
 
 ## dialog:generate Arguments
 The dialog:generate command generates .lu, .lg, .qna and .dialog assets from a
@@ -74,12 +75,13 @@ command are:
 - **--force, -f** Force overwriting generated files.
 - **--help, -h** Generate help.
 - **--locale, -l** Locales to generate. By default en-us.
+- **--merge, -m** Merge the newly generated assets into the output directory.
 - **--output, -o** Output directory.
 - **--schema, -s** Path to your app.schema file. By default is the standard SDK app.schema.
 - **--templates, -t** Directories with templates to use for generating assets.
   First definition wins.  A directory of "standard" includes the standard
-  templates included with the tool.  You can also use the "template:<file>" URI to refer to files found
-  in template directories.
+  templates included with the tool.  You can also use the "template:<file>" URI
+  to refer to files found in template directories.
 - **--verbose, -v** Verbose logging of generated files.
 
 ## Example
@@ -219,6 +221,26 @@ place holders.
   `en-us/sandwich-Bread.en-us.lg` which would be a localized .lg asset for the
   `Bread` property in the `sandwich` schema. You can define your own templates
   that add to the naming conventions, but they must extend these conventions.
+
+## Merging
+Once you have generated a bot and customized it, you might want to change your
+schema and generate again.  In order to support this, the --merge flag will
+merge the newly generated assets into your existing assets.  The merge should
+not overwrite any of your work, but it is a good idea to commit before merging.
+Rules for merging:
+ 1) A file unchanged since last generated will be overwritten by the new file.
+ 2) A changed file will have its .lg/.lu enum or .dialog triggers overwritten,
+    but nothing else and its hash code should not be updated.
+ 3) If a property existed in the old schema, but does not exist in the new
+    schema all files for that property should be deleted and have references
+    removed.
+ 4) If a property exists in both old and new schema, but a file is not present
+    in the new directory, the file should not be copied over again and
+    references should not be added.
+ 5) The order of .dialog triggers should be respected, i.e. if changed by the
+    user it should remain the same. 
+ 6) If a file has changed and cannot be updated there will be a message to merge
+    manually.
 
 [JSONSchema]:https://json-schema.org/
 [bf]:https://github.com/microsoft/botframework-cli

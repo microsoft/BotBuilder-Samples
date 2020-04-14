@@ -5,10 +5,11 @@
 
 # template
 - ```
-${propertyEntity()}
-${chooseEntity()}
 ${importLG('library')}
 ${importLG('library-Choose')}
+${propertyEntity()}
+${chooseEntity()}
+
 ```
 
 # chooseEntity
