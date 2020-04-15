@@ -64,7 +64,7 @@
                 "extensions": [
                     ".lg"
                 ],
-                "configuration": "./lg-language-configuration.json"
+                "configuration": "./resources/lg/lg-language-configuration.json"
             },
             {
                 "id": "lu",
@@ -87,7 +87,7 @@
             {
                 "language": "lg",
                 "scopeName": "source.lg",
-                "path": "./syntaxes/lg.tmLanguage.json"
+                "path": "./resources/lg/lg.tmLanguage.json"
             }
         ],
         "keybindings": [

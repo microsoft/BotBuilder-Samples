@@ -137,7 +137,7 @@ export class LGDebugPanel {
     }
 
     private _getHtmlForWebview(): string {
-        const htmlFilePath: string = path.join(this._extensionPath, 'resources', 'lgPreviewTemplate.html');
+        const htmlFilePath: string = path.join(this._extensionPath, 'resources', 'lg', 'lgPreviewTemplate.html');
         const htmlContent: string = fs.readFileSync(htmlFilePath, 'utf-8');
         return htmlContent;
     }
