@@ -4,8 +4,7 @@
  */
 
 import * as vscode from 'vscode';
-import * as lgExtension from './lg/lgExtension';
-import * as debuggerExtension from './debugger/debuggerExtension';
+import * as dialogDebugAdapter from './dialogDebugAdapter';
 
 /**
  * Main vs code Extension code part
@@ -14,6 +13,5 @@ import * as debuggerExtension from './debugger/debuggerExtension';
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) {
-    lgExtension.activate(context);
-    debuggerExtension.activate(context);
+    dialogDebugAdapter.activate(context);
 }
