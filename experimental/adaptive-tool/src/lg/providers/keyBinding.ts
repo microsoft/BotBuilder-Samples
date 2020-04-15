@@ -23,7 +23,14 @@ function onEnterKey(modifiers?: string) {
     let lineBreakPos = cursorPos;
 
     let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
-    if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
+    if ((matches = /^(\s*-)\s?(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\s*:.*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
+        // -IF: new line would indent 
+        return editor.edit(editBuilder => {
+            var emptyNumber  = matches as RegExpExecArray;
+            var dashIndex = '\n    ' + emptyNumber[1];
+            editBuilder.insert(lineBreakPos, dashIndex);
+        }).then(() => { editor.revealRange(editor.selection); });
+    } else if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
         // in '- ' or '# ' line
         return editor.edit(editBuilder => {
             const replacedStr = `\n${matches[1].replace('#', '-')} `;

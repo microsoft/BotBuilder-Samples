@@ -92,3 +92,29 @@ export function getFunctionEntity(lgFileUri: vscode.Uri, name: string): Function
     }
     return undefined;
 }
+
+export const cardPropDict = {
+    CardAction: ['title', 'type', 'value'],
+    Suggestions: ['SuggestionActions'],
+    Cards: ['title', 'subtitle', 'text', 'image', 'buttons'],
+    Attachment: ['contenttype', 'content'],
+    Others: ['type', 'name', 'value'],
+  };
+
+export const cardTypes = [
+'Typing',
+'Suggestions',
+'HeroCard',
+'SigninCard',
+'ThumbnailCard',
+'AudioCard',
+'VideoCard',
+'AnimationCard',
+'MediaCard',
+'OAuthCard',
+'Attachment',
+'AttachmentLayout',
+'CardAction',
+'AdaptiveCard',
+'Activity',
+];
