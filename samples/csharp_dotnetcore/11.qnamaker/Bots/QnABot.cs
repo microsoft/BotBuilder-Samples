@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient();
-            
+
             var qnaMaker = new QnAMaker(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
