@@ -26,7 +26,7 @@ export function isLuFile(fileName: string): boolean {
 
 export function isInFencedCodeBlock(doc: TextDocument, position: Position): boolean {
     let textBefore = doc.getText(new Range(new Position(0, 0), position));
-    let matches = textBefore.match(/```[\w ]*$/gm);
+    let matches = textBefore.match(/```/gm);
     if (matches == null) {
         return false;
     } else {
