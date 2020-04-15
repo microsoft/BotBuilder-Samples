@@ -18,13 +18,8 @@
         }, 
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.type",
-            "value": "=@datetime.type"          
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.timex",
-            "value": "=join(@datetime.timex, ' ')"          
+            "property": "$${property}",
+            "value": "=@datetime"          
         }
     ]               
 }

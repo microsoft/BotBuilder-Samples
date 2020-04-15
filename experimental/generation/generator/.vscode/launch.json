@@ -15,7 +15,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*"
+                ".*merge.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

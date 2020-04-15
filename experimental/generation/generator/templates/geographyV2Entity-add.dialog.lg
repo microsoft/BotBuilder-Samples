@@ -18,13 +18,8 @@
         }, 
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.type",
-            "value": "=@geographyV2.type"          
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.location",
-            "value": "=@geographyV2.location"          
+            "property": "$${property}",
+            "value": "=@geographyV2"          
         }
     ]               
 }
