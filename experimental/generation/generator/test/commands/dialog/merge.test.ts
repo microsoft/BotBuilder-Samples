@@ -242,7 +242,7 @@ describe('dialog:merge', async () => {
             await assertContains('en-us/sandwichMerge-BreadEntity.en-us.lu', /black/, errors)
             await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
             //sandwichMerge
-            //await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
+            await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lu', /brie/, errors)
 
@@ -275,7 +275,6 @@ describe('dialog:merge', async () => {
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('en-us/sandwichMerge-BreadEntity.en-us.lg', false, errors)
             await assertUnchanged('en-us/sandwichMerge-BreadEntity.en-us.lu', false, errors)
-            await assertUnchanged('en-us/sandwichMerge-Bread.en-us.lg', false, errors)
             await assertUnchanged('sandwichMerge.main.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged ???
@@ -294,7 +293,7 @@ describe('dialog:merge', async () => {
             await assertContains('en-us/sandwichMerge-BreadEntity.en-us.lu', /black/, errors)
             await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
             //sandwichMerge
-            //await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
+            await assertMissing('en-us/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lu', /brie/, errors)
 
