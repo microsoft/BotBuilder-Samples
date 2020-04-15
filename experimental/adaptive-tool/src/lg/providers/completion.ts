@@ -5,7 +5,7 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+import { TemplatesStatus } from '../templatesStatus';
 import * as path from 'path';
 
 /**
@@ -34,10 +34,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // []() import suggestion
             return new Promise((res, _) => {
-                let paths: string[] = [];
-
-                DataStorage.templatesMap.forEach(u => paths = paths.concat(u.templates.toArray().map(u => u.source)));
-                paths = Array.from(new Set(paths));
+                const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
                 const headingCompletions = paths.reduce((prev, curr) => {
                     var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
@@ -58,6 +55,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 const returnType = util.getreturnTypeStrFromReturnType(value.returntype);
                 completionItem.detail = `${key}(${value.params.join(", ")}): ${returnType}`;
                 completionItem.documentation = value.introduction;
+                completionItem.insertText = `${key}(${value.params.map(u => u.split(':')[0].trim()).join(", ")})`;
                 items.push(completionItem);
             });
 

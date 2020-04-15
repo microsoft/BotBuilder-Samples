@@ -4,9 +4,9 @@
  */
 
 import * as vscode from 'vscode';
-import { Templates, DiagnosticSeverity} from 'botbuilder-lg';
+import { DiagnosticSeverity} from 'botbuilder-lg';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+import { TemplatesStatus } from '../templatesStatus';
 
 /**
  * Diagnostics are a way to indicate issues with the code.
@@ -46,12 +46,12 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 function updateDiagnostics(document: vscode.TextDocument, collection: vscode.DiagnosticCollection): void {
-    if(!util.isLgFile(document.fileName) || !DataStorage.templatesMap.has(document.uri.fsPath)) {
+    if(!util.isLgFile(document.fileName) || !TemplatesStatus.templatesMap.has(document.uri.fsPath)) {
         collection.clear();
         return;
     }
 
-    const templateEntity = DataStorage.templatesMap.get(document.uri.fsPath);
+    const templateEntity = TemplatesStatus.templatesMap.get(document.uri.fsPath);
 
     var diagnostics = templateEntity.templates.diagnostics;
     var vscodeDiagnostics: vscode.Diagnostic[] = [];
@@ -89,8 +89,8 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
             if (ignored === false){
                 const diagItem = new vscode.Diagnostic(
                     new vscode.Range(
-                        new vscode.Position(u.range.start.line - 1, u.range.start.character),
-                        new vscode.Position(u.range.end.line - 1, u.range.end.character)),
+                        new vscode.Position(u.range.start.line - 1 < 0 ? 0 : u.range.start.line - 1, u.range.start.character),
+                        new vscode.Position(u.range.end.line - 1 < 0 ? 0 : u.range.end.line - 1, u.range.end.character)),
                     u.message,
                     u.severity
                 );
@@ -99,15 +99,14 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
         } else {
             const diagItem = new vscode.Diagnostic(
                 new vscode.Range(
-                    new vscode.Position(u.range.start.line - 1, u.range.start.character),
-                    new vscode.Position(u.range.end.line - 1, u.range.end.character)),
+                    new vscode.Position(u.range.start.line - 1 < 0 ? 0 : u.range.start.line - 1, u.range.start.character),
+                    new vscode.Position(u.range.end.line - 1 < 0 ? 0 : u.range.end.line - 1, u.range.end.character)),
                 u.message,
                 u.severity
             );
             vscodeDiagnostics.push(diagItem);
         }
     });
-
     collection.set(document.uri, vscodeDiagnostics);
 }
 

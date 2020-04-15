@@ -5,7 +5,7 @@
 
 import { TextDocument, Range, Position } from "vscode";
 import { Templates, } from "botbuilder-lg";
-import { DataStorage, TemplatesEntity } from "./dataStorage";
+import { TemplatesStatus, TemplatesEntity } from "./templatesStatus";
 import * as vscode from 'vscode';
 import { ReturnType } from "adaptive-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
@@ -37,7 +37,7 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
 export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
 
     let result = new Templates();
-    let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(lgFileUri.fsPath);
+    let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
     if (engineEntity !== undefined && engineEntity.templates.toArray().length > 0) {
         result = engineEntity.templates;
     }
@@ -68,7 +68,11 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
 
     for (const template of templates) {
         var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
-        functions.set('lg.' + template.name, functionEntity);
+        let templateName = template.name;
+        if (buildInfunctionsMap.has(template.name)) {
+            templateName = 'lg.' + template.name;
+        }
+        functions.set(templateName, functionEntity);
     }
 
     return functions;

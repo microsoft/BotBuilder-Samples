@@ -5,6 +5,7 @@
 
 import { commands, ExtensionContext, Position, window, workspace} from 'vscode';
 import { isInFencedCodeBlock } from '../util';
+import * as vscode from 'vscode';
 
 export function activate(context: ExtensionContext) {
     context.subscriptions.push(
@@ -25,9 +26,16 @@ function onEnterKey(modifiers?: string) {
     if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
         // in '- ' or '# ' line
         return editor.edit(editBuilder => {
-            editBuilder.insert(lineBreakPos, `\n${matches[1].replace('#', '-')}`);
+            const replacedStr = `\n${matches[1].replace('#', '-')} `;
+            editBuilder.insert(lineBreakPos, replacedStr);
         }).then(() => { editor.revealRange(editor.selection); });
-    }  else {
+    } else if ((matches = /^(\s*-)\s*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
+        // in '-' empty line, enter would delete the head dash
+        return editor.edit(editBuilder => {
+            const range = new vscode.Range(lineBreakPos.line, 0, lineBreakPos.line, lineBreakPos.character);
+            editBuilder.delete(range);
+        }).then(() => { editor.revealRange(editor.selection); });
+    } else {
         return asNormal('enter', modifiers);
     }
 }
