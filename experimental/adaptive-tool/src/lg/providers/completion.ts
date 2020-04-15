@@ -63,15 +63,13 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         }  else if (/\[[^\]]*$/.test(lineTextBefore)
                     && position.line > 0 
                     && document.lineAt(position.line - 1).text.trimLeft().startsWith('#')) {
-
-            
-            // buildin function prompt in expression
+            // structure name and key suggestion
             let items: vscode.CompletionItem[] = [];
             util.cardTypes.forEach(value => {
                 let completionItem = new vscode.CompletionItem(value);
-                completionItem.detail = `value`;
+                completionItem.detail = `creatre ${value} structure`;
                 let insertTextArray = util.cardPropDict.Others;
-                if (value === 'CardAction' || value === 'Suggestions' || value === 'Suggestions' || value === 'Attachment') {
+                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment') {
                     insertTextArray = util.cardPropDict[value];
                 } else if (value.endsWith('Card')){
                     insertTextArray = util.cardPropDict.Cards;

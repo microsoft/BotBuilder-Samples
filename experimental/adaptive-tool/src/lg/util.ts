@@ -84,6 +84,11 @@ export function getFunctionEntity(lgFileUri: vscode.Uri, name: string): Function
 
     if (allFunctions.has(name)) {
         return allFunctions.get(name);
+    } else if (name.startsWith('lg.')){
+        const pureName = name.substr('lg.'.length);
+        if (allFunctions.has(pureName)) {
+            return allFunctions.get(pureName);
+        }
     } else {
         const lgWordName = 'lg.' + name;
         if (allFunctions.has(lgWordName)) {
@@ -102,19 +107,19 @@ export const cardPropDict = {
   };
 
 export const cardTypes = [
-'Typing',
-'Suggestions',
-'HeroCard',
-'SigninCard',
-'ThumbnailCard',
-'AudioCard',
-'VideoCard',
-'AnimationCard',
-'MediaCard',
-'OAuthCard',
-'Attachment',
-'AttachmentLayout',
-'CardAction',
-'AdaptiveCard',
-'Activity',
+    'Typing',
+    'Suggestions',
+    'HeroCard',
+    'SigninCard',
+    'ThumbnailCard',
+    'AudioCard',
+    'VideoCard',
+    'AnimationCard',
+    'MediaCard',
+    'OAuthCard',
+    'Attachment',
+    'AttachmentLayout',
+    'CardAction',
+    'AdaptiveCard',
+    'Activity',
 ];
