@@ -19,7 +19,7 @@
         "botbuilder": "~4.8.0",
         "botbuilder-ai": "~4.8.0",
         "botbuilder-dialogs": "~4.8.0",
-        "dotenv": "^8.2.0,
+        "dotenv": "^8.2.0",
         "restify": "^8.4.0"
     },
     "devDependencies": {
