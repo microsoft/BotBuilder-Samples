@@ -16,9 +16,9 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "4.9.0-preview-119754",
-        "botbuilder-ai": "4.9.0-preview-119754",
-        "botbuilder-dialogs": "4.9.0-preview-119754",
+        "botbuilder": "4.8.0",
+        "botbuilder-ai": "4.8.0",
+        "botbuilder-dialogs": "4.8.0",
         "dotenv": "^8.2.0",
         "restify": "^8.4.0"
     },
