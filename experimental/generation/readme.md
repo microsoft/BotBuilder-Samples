@@ -6,7 +6,7 @@ The generated dialogs make use of event-driven adaptive dialogs with a rich and 
 
 - Handle out of order and multiple responses for simple and array properties.
 - Add, remove, clear and show properties.
-- Response ambiguity with entity values and property mappings.
+- Support for choosing between ambiguous entity values and entity property mappings.
 - Recognizing and mapping for all LUIS prebuilt entities.
 - Help function, including auto-help on multiple retries.
 - Cancel

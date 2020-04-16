@@ -45,26 +45,3 @@ EXAMPLES
 ```
 
 _See [source code](src/commands/generate.ts).
-
-<!-->
-## `bf dialog:integrate`
-
-asdf
-
-```
-USAGE
-
-asdf
-
-OPTIONS
-
-adfs
-
-EXAMPLES
-
-asdf
-
-```
-
-_See [source code](src/commands/integrate.ts).
--->
