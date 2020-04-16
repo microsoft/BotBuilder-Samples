@@ -6,8 +6,9 @@
 import { Templates } from 'botbuilder-lg';
 import * as vscode from 'vscode';
 
-export class DataStorage {
-    public static templatesMap: Map<string, TemplatesEntity> = new Map<string, TemplatesEntity>(); // file path -> templates
+export class TemplatesStatus {
+    public static templatesMap: Map<string, TemplatesEntity> = new Map<string, TemplatesEntity>();
+    public static lgFilesOfWorkspace: string[] = [];
 }
 
 export class TemplatesEntity {

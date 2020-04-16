@@ -5,7 +5,7 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+import { TemplatesStatus } from '../templatesStatus';
 import * as path from 'path';
 
 /**
@@ -34,10 +34,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // []() import suggestion
             return new Promise((res, _) => {
-                let paths: string[] = [];
-
-                DataStorage.templatesMap.forEach(u => paths = paths.concat(u.templates.toArray().map(u => u.source)));
-                paths = Array.from(new Set(paths));
+                const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
                 const headingCompletions = paths.reduce((prev, curr) => {
                     var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
@@ -58,11 +55,32 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 const returnType = util.getreturnTypeStrFromReturnType(value.returntype);
                 completionItem.detail = `${key}(${value.params.join(", ")}): ${returnType}`;
                 completionItem.documentation = value.introduction;
+                completionItem.insertText = `${key}(${value.params.map(u => u.split(':')[0].trim()).join(", ")})`;
                 items.push(completionItem);
             });
 
             return items;
-        }  else {
+        }  else if (/\[[^\]]*$/.test(lineTextBefore)
+                    && position.line > 0 
+                    && document.lineAt(position.line - 1).text.trimLeft().startsWith('#')) {
+            // structure name and key suggestion
+            let items: vscode.CompletionItem[] = [];
+            util.cardTypes.forEach(value => {
+                let completionItem = new vscode.CompletionItem(value);
+                completionItem.detail = `creatre ${value} structure`;
+                let insertTextArray = util.cardPropDict.Others;
+                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment') {
+                    insertTextArray = util.cardPropDict[value];
+                } else if (value.endsWith('Card')){
+                    insertTextArray = util.cardPropDict.Cards;
+                }
+
+                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u} = `).join('\r\n') + '\r\n';
+                items.push(completionItem);
+            });
+
+            return items;
+        } else  {
             return [];
         }
     }
