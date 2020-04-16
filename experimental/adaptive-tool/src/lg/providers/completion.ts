@@ -75,7 +75,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     insertTextArray = util.cardPropDict.Cards;
                 }
 
-                completionItem.insertText = '\r\n' + insertTextArray.map(u => `\t${u} = `).join('\r\n') + '\r\n';
+                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u} = `).join('\r\n') + '\r\n';
                 items.push(completionItem);
             });
 
