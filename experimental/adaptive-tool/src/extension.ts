@@ -16,6 +16,6 @@ import * as debuggerExtension from './debugger/debuggerExtension';
  */
 export async function activate(context: vscode.ExtensionContext) {
     lgExtension.activate(context);
-    await luExtension.activate(context);
+    luExtension.activate(context);
     debuggerExtension.activate(context);
 }

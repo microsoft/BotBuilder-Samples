@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import * as completion from './providers/completion';
 import * as diagnostics from './providers/diagnostics';
-import * as luParser from './providers/luParser';
+import * as eventsTrigger from './providers/eventsTrigger';
 
 /**
  * Main vs code Extension code part
@@ -14,8 +14,8 @@ import * as luParser from './providers/luParser';
  * @export
  * @param {vscode.ExtensionContext} context
  */
-export async function activate(context: vscode.ExtensionContext) {
-    await luParser.activate(context);
+export function activate(context: vscode.ExtensionContext) {
     completion.activate(context);
     diagnostics.activate(context);
+    eventsTrigger.activate(context);
 }

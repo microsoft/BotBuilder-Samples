@@ -5,71 +5,65 @@
 
 import * as vscode from 'vscode';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+
+const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luPaser').LUParser;
 
 /**
  * Diagnostics are a way to indicate issues with the code.
  * @see https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics
  */
 export function activate(context: vscode.ExtensionContext) {
-    const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lu');
+  const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
+  if (vscode.window.activeTextEditor) {
+    if (util.isLuFile(vscode.window.activeTextEditor.document.fileName)) {
+      updateDiagnostics(vscode.window.activeTextEditor.document, collection);
+    }
+  }
 
-    setInterval(() => {
-        const editer = vscode.window.activeTextEditor;
-        if (editer !== undefined && util.isLuFile(editer.document.fileName)) {
-            updateDiagnostics(editer.document, collection);
-         }
-    }, 3000);
+  context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
+    if (e && util.isLuFile(e.document.fileName)) {
+      updateDiagnostics(e.document, collection);
+    }
+  }));
 
-    // if you want to trigger the event for each text change, use: vscode.workspace.onDidChangeTextDocument
-    context.subscriptions.push(vscode.workspace.onDidOpenTextDocument(e => {
-        if (util.isLuFile(vscode.window.activeTextEditor.document.fileName))
-        {
-            updateDiagnostics(e, collection);
-        }
-    }));
-    
-    context.subscriptions.push(vscode.workspace.onDidSaveTextDocument(e => {
-        if (util.isLuFile(e.fileName))
-        {
-            updateDiagnostics(e, collection);
-        }
-    }));
+  context.subscriptions.push(vscode.workspace.onDidChangeTextDocument(e => {
+    if (e && util.isLuFile(e.document.fileName)) {
+      updateDiagnostics(e.document, collection);
+    }
+  }));
 
-    context.subscriptions.push(vscode.window.onDidChangeActiveTextEditor(e => {
-        if (util.isLuFile(e.document.fileName))
-        {
-            updateDiagnostics(e.document, collection);
-        }
-    }));
+  context.subscriptions.push(vscode.workspace.onDidCloseTextDocument(doc => {
+    if (doc && util.isLuFile(doc.fileName)) {
+      collection.delete(doc.uri)
+    }
+  }));
 }
 
 function updateDiagnostics(document: vscode.TextDocument, collection: vscode.DiagnosticCollection): void {
-    if(!util.isLuFile(document.fileName) || !DataStorage.LuResourceMap.has(document.uri.fsPath)) {
-        collection.clear();
-        return;
-    }
+  if (!util.isLuFile(document.fileName)) {
+    collection.clear();
+    return;
+  }
 
-    const luResource: any = DataStorage.LuResourceMap.get(document.uri.fsPath);
+  let luResource: any = LUParser.parse(document.getText());
+  let diagnostics = luResource.Errors;
+  let vscodeDiagnostics: vscode.Diagnostic[] = [];
 
-    var diagnostics = luResource.Errors;
-    var vscodeDiagnostics: vscode.Diagnostic[] = [];
+  const severityConverter = {
+    ERROR: 'Error',
+    WARN: 'Warning'
+  }
 
-    const severityConverter = {
-        ERROR: 'Error',
-        WARN: 'Warning' 
-    }
+  diagnostics.forEach(u => {
+    const diagItem = new vscode.Diagnostic(
+      new vscode.Range(
+        new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
+        new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
+      u.Message,
+      severityConverter[u.Severity]
+    );
+    vscodeDiagnostics.push(diagItem);
+  });
 
-    diagnostics.forEach(u => {
-        const diagItem = new vscode.Diagnostic(
-            new vscode.Range(
-                new vscode.Position(u.Range.Start.Line - 1, u.Range.Start.Character),
-                new vscode.Position(u.Range.End.Line - 1, u.Range.End.Character)),
-            u.Message,
-            severityConverter[u.Severity]
-        );
-        vscodeDiagnostics.push(diagItem);
-    });
-
-    collection.set(document.uri, vscodeDiagnostics);
+  collection.set(document.uri, vscodeDiagnostics);
 }
