@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import * as util from '../util';
 
-const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luPaser').LUParser;
+const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser').LUParser;
 
 /**
  * Diagnostics are a way to indicate issues with the code.
