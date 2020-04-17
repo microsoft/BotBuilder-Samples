@@ -6,14 +6,14 @@
 import * as vscode from 'vscode';
 import * as util from '../util';
 
-const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser').LUParser;
+const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
 
 /**
  * Diagnostics are a way to indicate issues with the code.
  * @see https://code.visualstudio.com/api/language-extensions/programmatic-language-features#provide-diagnostics
  */
 export function activate(context: vscode.ExtensionContext) {
-  const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lg');
+  const collection: vscode.DiagnosticCollection = vscode.languages.createDiagnosticCollection('lu');
   if (vscode.window.activeTextEditor) {
     if (util.isLuFile(vscode.window.activeTextEditor.document.fileName)) {
       updateDiagnostics(vscode.window.activeTextEditor.document, collection);
@@ -45,13 +45,14 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     return;
   }
 
-  let luResource: any = LUParser.parse(document.getText());
+  let luResource = LUParser.parse(document.getText());
+  
   let diagnostics = luResource.Errors;
   let vscodeDiagnostics: vscode.Diagnostic[] = [];
 
   const severityConverter = {
-    ERROR: 'Error',
-    WARN: 'Warning'
+    ERROR: 0,
+    WARN: 1
   }
 
   diagnostics.forEach(u => {

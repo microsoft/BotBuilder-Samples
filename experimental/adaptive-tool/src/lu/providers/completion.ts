@@ -21,7 +21,7 @@ const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.
  */
 
 export function activate(context: vscode.ExtensionContext) {
-  context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LUCompletionItemProvider(), '{', '(', '[', '.'));
+  context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LUCompletionItemProvider(), '@', '(', '['));
 }
 
 class LUCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -72,8 +72,6 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
 
         completionList.push(item);
       });
-    } else {
-      return [];
     }
 
     if (matchingPattern.isPrebuiltEntity(curLineContent)) {
