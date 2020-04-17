@@ -190,7 +190,9 @@
         "onCommand:lgLiveTest.start",
         "onCommand:lg.extension.onEnterKey",
         "onWebviewPanel:lgLiveTest",
-        "onDebug"
+        "onDebug",
+        "onLanguage:lg",
+        "onLanguage:lu"
     ],
     "main": "./lib/extension.js",
     "scripts": {
