@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import { Templates, Template} from 'botbuilder-lg';
 import * as util from '../util';
-import { DataStorage } from '../dataStorage';
+import { TemplatesStatus } from '../templatesStatus';
 
 
 export function activate(context: vscode.ExtensionContext) {
@@ -47,7 +47,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
-            DataStorage.templatesMap.forEach((value, key) => {
+            TemplatesStatus.templatesMap.forEach((value, key) => {
                 if (template.source === key) {
                     definitionUri = value.uri;
                 }

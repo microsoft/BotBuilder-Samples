@@ -5,7 +5,7 @@
 
 import { TextDocument, Range, Position } from "vscode";
 import { Templates, } from "botbuilder-lg";
-import { DataStorage, TemplatesEntity } from "./dataStorage";
+import { TemplatesStatus, TemplatesEntity } from "./templatesStatus";
 import * as vscode from 'vscode';
 import { ReturnType } from "adaptive-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
@@ -26,7 +26,7 @@ export function isLuFile(fileName: string): boolean {
 
 export function isInFencedCodeBlock(doc: TextDocument, position: Position): boolean {
     let textBefore = doc.getText(new Range(new Position(0, 0), position));
-    let matches = textBefore.match(/```[\w ]*$/gm);
+    let matches = textBefore.match(/```/gm);
     if (matches == null) {
         return false;
     } else {
@@ -37,7 +37,7 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
 export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
 
     let result = new Templates();
-    let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(lgFileUri.fsPath);
+    let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
     if (engineEntity !== undefined && engineEntity.templates.toArray().length > 0) {
         result = engineEntity.templates;
     }
@@ -68,7 +68,11 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
 
     for (const template of templates) {
         var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
-        functions.set('lg.' + template.name, functionEntity);
+        let templateName = template.name;
+        if (buildInfunctionsMap.has(template.name)) {
+            templateName = 'lg.' + template.name;
+        }
+        functions.set(templateName, functionEntity);
     }
 
     return functions;
@@ -80,6 +84,11 @@ export function getFunctionEntity(lgFileUri: vscode.Uri, name: string): Function
 
     if (allFunctions.has(name)) {
         return allFunctions.get(name);
+    } else if (name.startsWith('lg.')){
+        const pureName = name.substr('lg.'.length);
+        if (allFunctions.has(pureName)) {
+            return allFunctions.get(pureName);
+        }
     } else {
         const lgWordName = 'lg.' + name;
         if (allFunctions.has(lgWordName)) {
@@ -88,3 +97,29 @@ export function getFunctionEntity(lgFileUri: vscode.Uri, name: string): Function
     }
     return undefined;
 }
+
+export const cardPropDict = {
+    CardAction: ['title', 'type', 'value'],
+    Suggestions: ['SuggestionActions'],
+    Cards: ['title', 'subtitle', 'text', 'image', 'buttons'],
+    Attachment: ['contenttype', 'content'],
+    Others: ['type', 'name', 'value'],
+  };
+
+export const cardTypes = [
+    'Typing',
+    'Suggestions',
+    'HeroCard',
+    'SigninCard',
+    'ThumbnailCard',
+    'AudioCard',
+    'VideoCard',
+    'AnimationCard',
+    'MediaCard',
+    'OAuthCard',
+    'Attachment',
+    'AttachmentLayout',
+    'CardAction',
+    'AdaptiveCard',
+    'Activity',
+];

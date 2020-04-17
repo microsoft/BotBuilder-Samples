@@ -6,7 +6,7 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
 import * as fs from 'fs';
-import { DataStorage, TemplatesEntity } from '../dataStorage';
+import { TemplatesStatus, TemplatesEntity } from '../templatesStatus';
 import * as util from '../util';
 
 export function activate(context: vscode.ExtensionContext) {
@@ -85,7 +85,7 @@ export class LGDebugPanel {
                         const iterations:number = message.iterations;
                         let results = [];
 
-                        let engineEntity: TemplatesEntity = DataStorage.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                        let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                         if (engineEntity === undefined || engineEntity.templates === undefined) {
                             vscode.window.showErrorMessage("Sorry, something is wrong.");
                         } else {
