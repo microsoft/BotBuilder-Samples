@@ -18,10 +18,7 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 
 <!-- commands -->
 
-- [Relevant docs](#relevant-docs)
-- [Commands](#commands)
-  - [`bf dialog:generate`](#bf-dialoggenerate)
-<!-- - [bf dialog:integrate](#bf-dialogintegrate) -->
+- [bf dialog:generate](#bf-dialoggenerate)
 
 ## `bf dialog:generate`
 
@@ -45,7 +42,6 @@ OPTIONS
 EXAMPLES
 
   bf dialog:generate {JSON SCHEMA FILE} -o {OUTPUT LOCATION}
-
 ```
 
 _See [source code](src/commands/generate.ts).
