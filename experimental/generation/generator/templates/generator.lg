@@ -270,3 +270,6 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 > This is useful when importing another .lg file in order to add prefix/locale
 # importLG(name)
 -\[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
+
+# luHeader
+-> !# @app.culture = ${locale}

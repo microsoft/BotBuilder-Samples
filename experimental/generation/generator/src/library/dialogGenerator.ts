@@ -252,7 +252,7 @@ async function processTemplate(
 
                                 // See if generated file has been overridden in templates
                                 let existing = await findTemplate(filename, templateDirs)
-                                if (existing) {
+                                if (existing && typeof existing !== 'object') {
                                     result = existing
                                 }
 

@@ -1,12 +1,12 @@
 # filename
-- luis/${prefix}.${locale}.lu.dialog
+- ${prefix}.${locale}.lu.dialog
 
 # template
 -```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.LuisRecognizer",
-    "applicationId": "=settings.luis.${prefix}_${locale}_lu",
+    "applicationId": "=settings.luis.${prefix}_${replace(locale, '-', '_')}_lu",
     "endpoint": "=settings.luis.endpoint",
     "endpointKey": "=settings.luis.endpointKey",
     "predictionOptions": {
