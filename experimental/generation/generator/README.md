@@ -35,9 +35,10 @@ OPTIONS
 - **--force, -f** Force overwriting generated files. (optional)
 - **--help, -h** Generate help. (optional)
 - **--locale, -l** Locales to generate. (optional, default: en-us)
-- **--merge, -m** Merge the newly generated assets into the output directory.
+- **--merge, -m** Merge the newly generated assets into the output directory. (optional)
 - **--output, -o** Output directory. (optional)
-- **--schema, -s** Path to your app.schema file. (optional, default: https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema)
+- **--prefix, -p** Prefix for generated files. (optional, default: schema name)
+- **--schema, -s** Path to your app.schema file. (optional, default: https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema)
 - **--templates, -t** Directories with templates to use for generating assets. First definition wins.  
 - **--verbose, -v** Verbose logging of generated files. (optional, default: standard)
 

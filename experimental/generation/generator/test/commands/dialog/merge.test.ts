@@ -135,13 +135,7 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
 }
 
 
-//
-// TODO:
-// 1) If a property is removed from a new schema, all of the related files need to be removed.
-// 2) If any file has not been changed according to hash you can overwrite the whole thing--whatever is there. 
-//    If it has been changed, you can still modify enum and triggers, but hash should remain unchanged so
-//    that file is still considered to be changed.
-describe('dialog:merge', async () => {
+xdescribe('dialog:merge', async () => {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = `test/commands/dialog/merge_data`
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
