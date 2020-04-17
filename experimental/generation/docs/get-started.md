@@ -48,7 +48,7 @@ Once you've got the tool installed, you can use the plugin.
 [schema]:bot-schema.md
 [templates]:../generator/templates
 [templates-overview]:templates.md
-[start]:get-stared.md
+[start]:get-started.md
 [sample-schemas]:example-schemas
 [bf]:https://github.com/microsoft/botframework-cli
 [myget]:https://botbuilder.myget.org/gallery
