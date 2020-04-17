@@ -1,0 +1,4 @@
+.vscode-test/**
+vsc-extension-quickstart.md
+node_modules/**
+lib/**
