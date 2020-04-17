@@ -26,7 +26,7 @@ export enum FeedbackType {
 export type Feedback = (type: FeedbackType, message: string) => void
 
 // This is the Windows EOL
-export const EOL = `\r\n`
+export const EOL = '\r\n'
 
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
@@ -56,9 +56,7 @@ function addHash(path: string, val: any): any {
     if (CommentHashExtensions.includes(ext)) {
         // TODO: Remove this test
         if (val.match(ReplaceGeneratorPattern)) {
-            let buffer = [...Buffer.from(val)]
             val = val.replace(ReplaceGeneratorPattern, '')
-            let newBuffer = [...Buffer.from(val)]
         }
         if (!val.endsWith(EOL)) {
             val += EOL
