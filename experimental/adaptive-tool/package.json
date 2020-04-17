@@ -74,7 +74,8 @@
                 ],
                 "extensions": [
                     ".lu"
-                ]
+                ],
+                "configuration": "./resources/lu/lu-language-configuration.json"
             },
             {
                 "id": "json",
@@ -88,6 +89,11 @@
                 "language": "lg",
                 "scopeName": "source.lg",
                 "path": "./resources/lg/lg.tmLanguage.json"
+            },
+            {
+                "language": "lu",
+                "scopeName": "source.lu",
+                "path": "./resources/lu/lu.tmLanguage.json"
             }
         ],
         "keybindings": [
