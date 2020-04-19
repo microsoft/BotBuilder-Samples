@@ -135,7 +135,7 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
 }
 
 
-xdescribe('dialog:merge', async () => {
+describe('dialog:merge', async () => {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = `test/commands/dialog/merge_data`
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
@@ -240,7 +240,7 @@ xdescribe('dialog:merge', async () => {
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
             await assertContains('en-us/sandwichMerge-CheeseEntity.en-us.lu', /brie/, errors)
 
-            // Unchanged hash + optional enum fixes = hash updated ???
+            // Unchanged hash + optional enum fixes = hash updated
             await assertUnchanged('en-us/sandwichMerge-BreadEntity.en-us.lg', false, errors)
             await assertUnchanged('en-us/sandwichMerge-BreadEntity.en-us.lu', false, errors)
             await assertUnchanged('en-us/sandwichMerge-NameEntity.en-us.lg', true, errors)
@@ -271,7 +271,7 @@ xdescribe('dialog:merge', async () => {
             await assertUnchanged('en-us/sandwichMerge-BreadEntity.en-us.lu', false, errors)
             await assertUnchanged('sandwichMerge.main.dialog', false, errors)
 
-            // Despite enum update, hash updated so unchanged ???
+            // Despite enum update, hash updated so unchanged
             await assertUnchanged('en-us/sandwichMerge-CheeseEntity.en-us.lu', false, errors)
             await assertUnchanged('en-us/sandwichMerge-CheeseEntity.en-us.lg', false, errors)
 
