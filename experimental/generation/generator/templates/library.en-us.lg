@@ -1,4 +1,9 @@
 > This file contains the generic templates to use for properties of particular types.
+[library-PROPERTYName.en-us.lg]
+
+> This is to provide consistent line endings in templates using Windows standard
+# EOL
+-\r\n
 
 # welcome
 - Welcome!
@@ -23,7 +28,7 @@
 
 # optionalProperties
 - IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, name(property)), ', ')}\n
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, name(property)), ', ')}${EOL()}
 - ELSE:
 - 
 
@@ -45,4 +50,3 @@
 # notUnderstood
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
-[library-PROPERTYName.en-us.lg]

@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('money')}
 
@@ -16,16 +18,10 @@
         }, 
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.number",
-            "value": "=@money.number"          
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.units",
-            "value": "=@money.units"          
+            "property": "$${property}",
+            "value": "=@money"          
         }
     ]               
 }
 ```
 
-[generator.lg](generator.lg)

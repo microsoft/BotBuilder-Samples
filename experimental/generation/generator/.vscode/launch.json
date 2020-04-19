@@ -15,7 +15,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                "dialog:generate.*"
+                ".*merge.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

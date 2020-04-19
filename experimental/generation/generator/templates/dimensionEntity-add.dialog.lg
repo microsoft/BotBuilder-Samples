@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('dimension')}
 
@@ -16,16 +18,10 @@
         }, 
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.number",
-            "value": "=@dimension.number"          
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.units",
-            "value": "=@dimension.units"          
+            "property": "$${property}",
+            "value": "=@dimension"          
         }
     ]               
 }
 ```
 
-[generator.lg](generator.lg)

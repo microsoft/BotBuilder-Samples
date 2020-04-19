@@ -106,5 +106,5 @@ place holders.
 [schema]:bot-schema.md
 [templates]:../generator/templates
 [templates-overview]:templates.md
-[start]:get-stared.md
+[start]:get-started.md
 [sample-schemas]:example-schemas

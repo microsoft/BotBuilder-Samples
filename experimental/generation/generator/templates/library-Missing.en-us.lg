@@ -1,3 +1,6 @@
+[library.en-us.lg]
+[library-Help.en-us.lg]
+
 # askEnum(property)
 - ```
 ${askHelp()}
@@ -33,7 +36,4 @@ Enter a value for ${name(property)}: true or false
 ```
 
 # enumArrayValue(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(property + 'Entity', value)), ', '), template(property + 'Entity', values))}
-
-[library.en-us.lg]
-[library-Help.en-us.lg]
+- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity`, value)), ', '), template(`${property}Entity`, values))}

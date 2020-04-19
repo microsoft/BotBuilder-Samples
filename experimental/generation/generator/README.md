@@ -19,7 +19,6 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 <!-- commands -->
 
 - [bf dialog:generate](#bf-dialoggenerate)
-<!-- - [bf dialog:integrate](#bf-dialogintegrate) -->
 
 ## `bf dialog:generate`
 
@@ -33,15 +32,16 @@ OPTIONS
 - **--force, -f** Force overwriting generated files. (optional)
 - **--help, -h** Generate help. (optional)
 - **--locale, -l** Locales to generate. (optional, default: en-us)
+- **--merge, -m** Merge the newly generated assets into the output directory. (optional)
 - **--output, -o** Output directory. (optional)
-- **--schema, -s** Path to your app.schema file. (required)
-- **--templates, -t** Directories with templates to use for generating assets. First definition wins.  A directory of "standard" includes the standard templates included with the tool.  You can also use the "template:<file>" URI to refer to files found in template directories.
+- **--prefix, -p** Prefix for generated files. (optional, default: schema name)
+- **--schema, -s** Path to your app.schema file. (optional, default: https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema)
+- **--templates, -t** Directories with templates to use for generating assets. First definition wins.  
 - **--verbose, -v** Verbose logging of generated files. (optional, default: standard)
 
 EXAMPLES
 
-  bf dialog:generate -s {SCHEMA FILE} -o {OUTPUT LOCATION}
-
+  bf dialog:generate {JSON SCHEMA FILE} -o {OUTPUT LOCATION}
 ```
 
 _See [source code](src/commands/generate.ts).

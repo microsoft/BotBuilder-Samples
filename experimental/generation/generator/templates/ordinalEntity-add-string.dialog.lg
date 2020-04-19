@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('ordinal')}
 
 # template
 - ${addDialog('ordinal')}
 
-[generator.lg](generator.lg)

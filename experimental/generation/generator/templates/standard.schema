@@ -73,7 +73,7 @@
         "library.lg",
         "locale.lu",
         "locale.lg",
-        "luis.lu",
+        "luis.lu.dialog",
         "library-BeginDialog.dialog",
         "library-CancelIntent.dialog",
         "library-ChooseProperty.dialog",
@@ -81,6 +81,9 @@
         "library-NotUnderstood.dialog",
         "library-triggerIntent.dialog",
         "library-ShowFormIntent.dialog",
-        "main.dialog"     
+        "main.dialog",
+        "luconfig.json",
+        "build.cmd",
+        "run.cmd"     
     ]
 }

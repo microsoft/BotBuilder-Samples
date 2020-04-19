@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('temperature')}
 
@@ -16,16 +18,10 @@
         },
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.number",
-            "value": "=@temperature.number"          
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}.units",
-            "value": "=@temperature.units"          
+            "property": "$${property}",
+            "value": "=@temperature"          
         }
     ]               
 }
 ```
 
-[generator.lg](generator.lg)

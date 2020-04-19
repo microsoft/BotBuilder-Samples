@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${removeFilename('number')}
 
 # template
 - ${removeDialog('number')}
 
-[generator.lg](generator.lg)

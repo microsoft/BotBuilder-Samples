@@ -1,3 +1,5 @@
+[library.en-us.lg]
+
 # numberValidation(property, number)
 - IF: ${less(number, dialogClass.schema.properties[property].minimum)}
 - ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${name(property)}.
@@ -71,4 +73,3 @@
 # showPropertyMessage(property)
 - ${name(property)}: ${value(property, dialog[property])}
 
-[library.en-us.lg]

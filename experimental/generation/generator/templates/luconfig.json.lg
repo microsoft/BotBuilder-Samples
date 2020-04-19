@@ -1,0 +1,13 @@
+# filename
+- luconfig.json
+
+# template
+-```
+{
+    "name": "${prefix}",
+    "deleteOldVersion": true, 
+    "out": ".",
+    "writeDialogFiles": true,
+    "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.lu"`), ', ')}]
+}
+```

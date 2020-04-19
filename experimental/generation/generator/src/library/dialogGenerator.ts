@@ -8,6 +8,7 @@ import * as s from './schema'
 import * as crypto from 'crypto'
 import * as expressions from 'adaptive-expressions'
 import * as fs from 'fs-extra'
+import * as merger from './mergeAssets'
 import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
@@ -24,6 +25,9 @@ export enum FeedbackType {
 
 export type Feedback = (type: FeedbackType, message: string) => void
 
+// This is the Windows EOL
+export const EOL = '\r\n'
+
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
 }
@@ -32,41 +36,54 @@ function computeHash(val: string): string {
     return crypto.createHash('md5').update(val).digest('hex')
 }
 
-function computeJSONHash(json: any): string {
-    return computeHash(JSON.stringify(json, null, 4))
-}
-
-const commentHash = ['.lg', '.lu', '.qna']
-const jsonHash = ['.dialog']
-function addHash(path: string, val: any): any {
-    let ext = ppath.extname(path)
-    if (commentHash.includes(ext)) {
-        if (!val.endsWith(os.EOL)) {
-            val += os.EOL
-        }
-        val += `${os.EOL}> Generator: ${computeHash(val)}`
-    } else if (jsonHash.includes(ext)) {
-        let json = JSON.parse(val)
-        json.$Generator = computeJSONHash(json)
-        val = JSON.stringify(json, null, 4)
+function stringify(val: any): string {
+    if (typeof val === 'object') {
+        val = JSON.stringify(val, null, 4)
     }
     return val
 }
 
-const GeneratorPattern = /\r?\n> Generator: (.*)/m
+function computeJSONHash(json: any): string {
+    return computeHash(stringify(json))
+}
+
+const CommentHashExtensions = ['.lg', '.lu', '.qna']
+const JSONHashExtensions = ['.dialog']
+const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
+const ReplaceGeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/g
+function addHash(path: string, val: any): any {
+    let ext = ppath.extname(path)
+    if (CommentHashExtensions.includes(ext)) {
+        // TODO: Remove this test
+        if (val.match(ReplaceGeneratorPattern)) {
+            val = val.replace(ReplaceGeneratorPattern, '')
+        }
+        if (!val.endsWith(EOL)) {
+            val += EOL
+        }
+        val += `${EOL}> Generator: ${computeHash(val)}`
+    } else if (JSONHashExtensions.includes(ext)) {
+        let json = JSON.parse(val)
+        delete json.$Generator
+        json.$Generator = computeJSONHash(json)
+        val = stringify(json)
+    }
+    return val
+}
+
 export async function isUnchanged(path: string): Promise<boolean> {
     let result = false
     let ext = ppath.extname(path)
     let file = await fs.readFile(path, 'utf8')
-    if (commentHash.includes(ext)) {
+    if (CommentHashExtensions.includes(ext)) {
         let match = file.match(GeneratorPattern)
         if (match) {
             let oldHash = match[1]
-            file = file.substring(0, match.index)
+            file = file.replace(GeneratorPattern, '')
             let hash = computeHash(file)
             result = oldHash === hash
         }
-    } else if (jsonHash.includes(ext)) {
+    } else if (JSONHashExtensions.includes(ext)) {
         let json = JSON.parse(file)
         let oldHash = json.$Generator
         if (oldHash) {
@@ -78,11 +95,13 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
-export async function writeFile(path: string, val: any, feedback: Feedback) {
+export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
         let dir = ppath.dirname(path)
         await fs.ensureDir(dir)
-        val = addHash(path, val)
+        if (!skipHash) {
+            val = addHash(path, val)
+        }
         await fs.writeFile(path, val)
     } catch (e) {
         let match = /position ([0-9]+)/.exec(e.message)
@@ -90,7 +109,7 @@ export async function writeFile(path: string, val: any, feedback: Feedback) {
             let offset = Number(match[1])
             val = `${val.substring(0, offset)}^^^${val.substring(offset)}`
         }
-        feedback(FeedbackType.error, `${e.message}${os.EOL}${val}`)
+        feedback(FeedbackType.error, `${e.message}${EOL}${val}`)
     }
 }
 
@@ -134,11 +153,11 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
 }
 
 // Add prefix to [] imports in constant .lg files
-const RefPattern = /^[ \t]*\[[^\]\n]*\][ \t]*$/gm
+const RefPattern = /^[ \t]*\[[^\]\n\r]*\][ \t]*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
         let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
-        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${os.EOL}`
+        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${EOL}`
     })
 }
 
@@ -225,17 +244,17 @@ async function processTemplate(
                                     process.chdir(ppath.dirname(template.allTemplates[0].source))
                                     result = template.evaluate('template', scope) as string
                                     if (Array.isArray(result)) {
-                                        result = result.join('\n')
+                                        result = result.join(EOL)
                                     }
                                 }
 
                                 // See if generated file has been overridden in templates
                                 let existing = await findTemplate(filename, templateDirs)
-                                if (existing) {
+                                if (existing && typeof existing !== 'object') {
                                     result = existing
                                 }
 
-                                await writeFile(outPath, result, feedback)
+                                await writeFile(outPath, result as string, feedback)
                                 scope.templates[ppath.extname(outPath).substring(1)].push(ref)
 
                             } else {
@@ -381,6 +400,7 @@ function expandStandard(dirs: string[]): string[] {
  * @param allLocales Locales to generate.
  * @param templateDirs Where templates are found.
  * @param force True to force overwriting existing files.
+ * @param merge Merge generated results into target directory.
  * @param feedback Callback function for progress and errors.
  */
 export async function generate(
@@ -391,6 +411,7 @@ export async function generate(
     allLocales?: string[],
     templateDirs?: string[],
     force?: boolean,
+    merge?: boolean,
     feedback?: Feedback)
     : Promise<void> {
 
@@ -407,7 +428,7 @@ export async function generate(
     }
 
     if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema'
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema'
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
@@ -421,18 +442,42 @@ export async function generate(
         templateDirs = ['standard']
     }
 
-    let op = 'Regenerating'
-    if (!force) {
-        force = false
-        op = 'Generating'
+    if (force) {
+        merge = false
     }
-    feedback(FeedbackType.message, `${op} resources for ${ppath.basename(schemaPath, '.schema')} in ${outDir}`)
-    feedback(FeedbackType.message, `Locales: ${JSON.stringify(allLocales)} `)
-    feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
-    feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
+
     try {
+        if (!await fs.pathExists(outDir)) {
+            // If directory is new, no force or merge necessary
+            force = false
+            merge = false
+            await fs.ensureDir(outDir)
+        }
+
+        let op = 'Regenerating'
+        if (!force) {
+            force = false
+            if (merge) {
+                op = 'Merging'
+            } else {
+                merge = false
+                op = 'Generating'
+            }
+        }
+        feedback(FeedbackType.message, `${op} resources for ${ppath.basename(schemaPath, '.schema')} in ${outDir}`)
+        feedback(FeedbackType.message, `Locales: ${JSON.stringify(allLocales)} `)
+        feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
+        feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
+
+        let outPath = outDir
+        if (merge) {
+            // Redirect to temporary path
+            outPath = ppath.join(os.tmpdir(), 'tempNew')
+            await fs.emptyDir(outPath)
+        }
+
         templateDirs = expandStandard(templateDirs)
-        await fs.ensureDir(outDir)
+
         let schema = await processSchemas(schemaPath, templateDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
@@ -445,14 +490,18 @@ export async function generate(
             triggerIntent: schema.triggerIntent(),
             appSchema: metaSchema
         }
-        await processTemplates(schema, templateDirs, allLocales, outDir, scope, force, feedback)
+        await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         // Write final schema
         let body = JSON.stringify(expanded, (key, val) => (key === '$templates' || key === '$requires') ? undefined : val, 4)
-        await generateFile(ppath.join(outDir, `${prefix}.schema.dialog`), body, force, feedback)
+        await generateFile(ppath.join(outPath, `${prefix}.schema.dialog`), body, force, feedback)
+
+        if (merge) {
+            await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+        }
     } catch (e) {
         feedback(FeedbackType.error, e.message)
     }

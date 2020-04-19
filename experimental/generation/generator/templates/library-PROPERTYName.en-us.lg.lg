@@ -1,8 +1,10 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${locale}/${prefix}-library-PROPERTYName.${locale}.lg
 
 # template
-- ${join(createArray(namePlusSwitch(), cases(), default()), '\n')}
+- ${join(createArray(namePlusSwitch(), cases(), default()), EOL())}
 
 # namePlusSwitch
 -```
@@ -22,3 +24,4 @@
  - DEFAULT: 
   - I don't understand \${value\}
 ```
+

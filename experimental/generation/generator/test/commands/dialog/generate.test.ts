@@ -13,6 +13,11 @@ import * as ppath from 'path'
 import * as ft from '../../../src/library/schema'
 import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
+import { fileURLToPath } from 'url';
+
+function feedback(type: gen.FeedbackType, msg: string) {
+    console.log(`${type}: ${msg}`)
+}
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'sandwich.out')
@@ -25,11 +30,47 @@ describe('dialog:generate', async () => {
         await fs.remove(output)
     })
 
+    it('Hash text', async () => {
+        let lu = `> LU File${gen.EOL}# Intent${gen.EOL}- This is an .lu file`
+        let lufile = ppath.join(os.tmpdir(), 'test.lu')
+
+        await gen.writeFile(lufile, lu, feedback)
+        assert(await gen.isUnchanged(lufile))
+
+        lu = await fs.readFile(lufile, 'utf-8')
+        lu += `${gen.EOL}- another line`
+        await fs.writeFile(lufile, lu)
+        assert(!await gen.isUnchanged(lufile))
+
+        await gen.writeFile(lufile, lu, feedback, true)
+        assert(!await gen.isUnchanged(lufile))
+        
+        await gen.writeFile(lufile, lu, feedback)
+        assert(await gen.isUnchanged(lufile))
+        lu = await fs.readFile(lufile, 'utf-8')
+        assert((lu.match(/Generator:/g) || []).length === 1)
+    })
+
+    it('Hash JSON', async () => {
+        let dialog = { $comment: 'this is a .dialog file' }
+        let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
+
+        await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
+        assert(await gen.isUnchanged(dialogFile))
+
+        // Test json hashing
+        dialog = JSON.parse(await fs.readFile(dialogFile, 'utf-8'))
+        dialog['foo'] = 3
+        await fs.writeFile(dialogFile, JSON.stringify(dialog))
+        assert(!await gen.isUnchanged(dialogFile))
+
+        await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
+        assert(await gen.isUnchanged(dialogFile))
+    })
+
     it('Generation with override', async () => {
         try {
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, (type, msg) => {
-                console.log(`${type}: ${msg}`)
-            })
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'sandwich-Bread-missing.dialog'))
@@ -41,9 +82,7 @@ describe('dialog:generate', async () => {
 
     it('Generation', async () => {
         try {
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, (type, msg) => {
-                console.log(`${type}: ${msg}`)
-            })
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, feedback)
         } catch (e) {
             assert.fail(e.message)
         }

@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${locale}/${prefix}-booleanEntity.${locale}.lu
 
@@ -27,4 +29,3 @@
 ${propertyName()}
 ```
 
-[generator.lg](generator.lg)

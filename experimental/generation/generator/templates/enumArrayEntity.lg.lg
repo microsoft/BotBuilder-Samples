@@ -1,12 +1,15 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${entityLGFilename()}
 
 # template
 - ```
-${propertyEntity()}
-${chooseEntity()}
 ${importLG('library')}
 ${importLG('library-Choose')}
+${propertyEntity()}
+${chooseEntity()}
+
 ```
 
 # chooseEntity
@@ -16,7 +19,7 @@ ${importLG('library-Choose')}
 ```
 
 # propertyEntity
-- ${join(createArray(namePlusSwitch(), cases(), default()), '\n')}\n
+- ${join(createArray(namePlusSwitch(), cases(), default()), EOL())}${EOL()}
 
 # namePlusSwitch
 -```
@@ -37,4 +40,3 @@ ${importLG('library-Choose')}
     - no value
 ```
 
-[generator.lg](generator.lg)

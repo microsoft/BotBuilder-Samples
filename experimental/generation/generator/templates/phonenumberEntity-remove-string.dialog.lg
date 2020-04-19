@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${removeFilename('phonenumber')}
 
 # template
 - ${removeDialog('phonenumber')}
 
-[generator.lg](generator.lg)

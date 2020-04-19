@@ -1,7 +1,8 @@
+[generator.lg](generator.lg)
+
 # filename
 - ${addFilename('url')}
 
 # template
 - ${addDialog('url')}
 
-[generator.lg](generator.lg)
