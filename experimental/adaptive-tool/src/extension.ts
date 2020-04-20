@@ -14,7 +14,7 @@ import * as debuggerExtension from './debugger/debuggerExtension';
  * @export
  * @param {vscode.ExtensionContext} context
  */
-export async function activate(context: vscode.ExtensionContext) {
+export function activate(context: vscode.ExtensionContext) {
     lgExtension.activate(context);
     luExtension.activate(context);
     debuggerExtension.activate(context);
