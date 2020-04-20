@@ -4,9 +4,9 @@
  */
 
 import * as vscode from 'vscode';
-import * as lgExtension from './lg/lgExtension';
-import * as luExtension from './lu/luExtension';
-import * as debuggerExtension from './debugger/debuggerExtension';
+import * as completion from './providers/completion';
+import * as diagnostics from './providers/diagnostics';
+import * as eventsTrigger from './providers/eventsTrigger';
 
 /**
  * Main vs code Extension code part
@@ -15,7 +15,7 @@ import * as debuggerExtension from './debugger/debuggerExtension';
  * @param {vscode.ExtensionContext} context
  */
 export function activate(context: vscode.ExtensionContext) {
-    lgExtension.activate(context);
-    luExtension.activate(context);
-    debuggerExtension.activate(context);
+    completion.activate(context);
+    diagnostics.activate(context);
+    eventsTrigger.activate(context);
 }

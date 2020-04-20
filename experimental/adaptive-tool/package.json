@@ -190,7 +190,9 @@
         "onCommand:lgLiveTest.start",
         "onCommand:lg.extension.onEnterKey",
         "onWebviewPanel:lgLiveTest",
-        "onDebug"
+        "onDebug",
+        "onLanguage:lg",
+        "onLanguage:lu"
     ],
     "main": "./lib/extension.js",
     "scripts": {
@@ -206,6 +208,7 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "botbuilder-lg": "4.8.0-preview"
+        "botbuilder-lg": "4.8.0-preview",
+        "@microsoft/bf-lu": "4.8.0"
     }
 }
