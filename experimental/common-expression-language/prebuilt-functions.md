@@ -671,7 +671,7 @@ bianry('<value>')
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*binary-for-input-value*> | Byte Array | The binary version for the specified string |
+| <*binary-for-input-value*> | Byte array | The binary version for the specified string |
 ||||
 
 *Example*
