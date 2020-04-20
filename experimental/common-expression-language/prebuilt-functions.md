@@ -3789,17 +3789,17 @@ subtractFromTime('<timestamp>', <interval>, '<timeUnit>', '<format>'?)
 This example subtracts one day from this timestamp:
 
 ```
-subtractFromTime('2018-01-02T00:00:00Z', 1, 'Day')
+subtractFromTime('2018-01-02T00:00.000Z', 1, 'Day')
 ```
 
-And returns this result: `"2018-01-01T00:00:00:000Z"`
+And returns this result: `"2018-01-01T00:00:00.000Z"`
 
 *Example 2*
 
 This example subtracts one day from this timestamp:
 
 ```
-subtractFromTime('2018-01-02T00:00:00Z', 1, 'Day', 'D')
+subtractFromTime('2018-01-02T00:00.000Z', 1, 'Day', 'D')
 ```
 
 And returns this result using the optional "D" format: `"Monday, January, 1, 2018"`
