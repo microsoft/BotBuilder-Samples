@@ -75,8 +75,8 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
     if (oldPath === mergedPath) {
         let tempOldPath = `${os.tmpdir}/tempOld/`
         await fs.emptyDir(tempOldPath)
-        fs.copySync(oldPath, tempOldPath)
-        fs.emptyDirSync(oldPath)
+        await fs.copy(oldPath, tempOldPath)
+        await fs.emptyDir(oldPath)
         oldPath = tempOldPath
     }
 
