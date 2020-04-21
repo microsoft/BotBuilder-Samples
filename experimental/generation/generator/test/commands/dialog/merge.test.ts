@@ -261,6 +261,7 @@ describe('dialog:merge', async () => {
             await copyToMerged('en-us/*-BreadEntity.*')
             await copyToMerged('sandwichMerge.main.dialog')
             await copyToMerged('sandwichMerge-foo-missing.dialog')
+            await copyToMerged('en-us/sandwichMerge-Bread.en-us.lg')
             await deleteMerged('sandwichMerge-price-remove-money.dialog')
             await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, feedback)
             let comparison = await compareDirs(originalDir, mergedDir)
@@ -277,7 +278,7 @@ describe('dialog:merge', async () => {
 
             // Main should still be updated
             await assertContains('sandwichMerge.main.dialog', /sandwichMerge-foo/, errors)
-            await assertMissing('sandwichMerge.main.dialog', /sandwich-price-remove-money/, errors)
+            await assertMissing('sandwichMerge.main.dialog', /sandwichMerge-price-remove-money/, errors)
 
             // Removed should stay removed
             assertRemoved(comparison, 'sandwichMerged-price-remove-money.dialog', errors)

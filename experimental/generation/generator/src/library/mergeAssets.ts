@@ -37,8 +37,8 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
     feedback(FeedbackType.info, `Copying ${fileName} from ${sourcePath}`)
 }
 
-function changedMessage(newPath: string, fileName: string, feedback: Feedback) {
-    feedback(FeedbackType.message, `*** Old and new both changed, manually merge from ${ppath.join(newPath, fileName)} ***`)
+function changedMessage(path: string, fileName: string, feedback: Feedback) {
+    feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${ppath.join(path, fileName)} ***`)
 }
 
 /**
@@ -642,15 +642,6 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
 
     let mergedTriggers: string[] = []
 
-    for (let trigger of newObj['triggers']) {
-        if (typeof trigger !== 'string') {
-            // todo inline object
-            continue
-        }
-        newTriggers.push(trigger)
-        newTriggerSet.add(trigger)
-    }
-
     for (let trigger of oldObj['triggers']) {
         if (typeof trigger !== 'string') {
             // todo inline object
@@ -666,6 +657,19 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
             reducedOldTriggers.push(trigger)
             reducedOldTriggerSet.add(trigger)
         }
+    }
+
+    for (let trigger of newObj['triggers']) {
+        if (typeof trigger !== 'string') {
+            // todo inline object
+            continue
+        }
+        let extractedProperty = equalPattern(trigger, oldPropertySet, schemaName)
+        if (extractedProperty !== undefined && !reducedOldTriggerSet.has(trigger)) {
+            continue 
+        }
+        newTriggers.push(trigger)
+        newTriggerSet.add(trigger)
     }
 
     let i = 0
