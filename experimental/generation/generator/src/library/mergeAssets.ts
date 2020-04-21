@@ -362,14 +362,14 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
             let intentBodyStatements = oldIntentSection.Body.split(EOL)
             let intentResult: string[] = []
             for (let intentBodyStatement of intentBodyStatements) {
-                let match = false
+                let matching = false
                 for (let enumSyn of removedEnumValue) {
                     if (intentBodyStatement.match(enumSyn)) {
-                        match = true
+                        matching = true
                         break
                     }
                 }
-                if (!match) {
+                if (!matching) {
                     intentResult.push(intentBodyStatement)
                 }
             }
@@ -572,7 +572,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             startIndex = state.start.line - 1;
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
-            while (i < oldStatements.length && !oldStatements[i].match('CASE') && !oldStatements[i].match('DEFAULT')) {
+            while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
                 newSwitchStatements.push(oldStatements[i])
                 i++
             }
@@ -583,7 +583,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                 let k = state.start.line - 1
                 newSwitchStatements.push(oldStatements[k])
                 k++
-                while (k < oldStatements.length && !oldStatements[k].match('CASE') && !oldStatements[k].match('DEFAULT')) {
+                while (k < oldStatements.length && !oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
                     newSwitchStatements.push(oldStatements[k])
                     k++
                 }
@@ -594,7 +594,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                     let k = value - 1
                     newSwitchStatements.push(newStatements[k])
                     k++
-                    while (k < newStatements.length && !newStatements[k].match('CASE') && !newStatements[k].match('DEFAULT')) {
+                    while (k < newStatements.length && !newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
                         newSwitchStatements.push(newStatements[k])
                         k++
                     }
@@ -604,7 +604,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             let m = state.start.line - 1
             newSwitchStatements.push(oldStatements[m])
             m++
-            while (!oldStatements[m].match('#') && !oldStatements[m].startsWith('[')) {
+            while (m < oldStatements.length && !oldStatements[m].match('#') && !oldStatements[m].startsWith('[')) {
                 newSwitchStatements.push(oldStatements[m])
                 m++
             }
