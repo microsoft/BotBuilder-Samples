@@ -1,0 +1,35 @@
+# showResponse(response)
+- IF : ${response.statusCode == 200 && startsWith(response.content,"<?xml")}
+- The response is ${response.content}
+- ELSEIF : ${response.statusCode == 200}
+- ${cardResponse(response.content)}
+- ELSE : 
+- Your input is invalid. 
+
+# cardResponse(content)
+[Activity
+    Attachments=${json(formResponseCard(content))}
+]
+
+# formResponseCard(content)
+-```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Response",
+            "size": "large"
+        },
+        {
+            "type": "FactSet",
+            "facts": [${generateJson(content)}]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```
+
+# generateJson(content)
+- ${join(foreach(content, i, addProperty(addProperty(json('{}'), 'title', i.key), 'value', string(i.value))), ',')}

@@ -1,0 +1,47 @@
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "CompleteConfirmation",
+    "entity": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$CompleteConfirmation",
+            "value": "=@boolean"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$CompleteConfirmation == 'false'",
+            "actions": [
+                {
+                  "$kind": "Microsoft.HttpRequest",
+                  "method": "${swaggerMethod}",
+                  "url": "${swaggerApi}",
+                  "responseType": "Json",
+                  "resultProperty": "${swaggerResponse}",
+                  "body": ${swaggerBody}
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "activity": "\${showResponse(${swaggerResponse})}"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog"
+                }
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.Ask",
+                    "activity": "\${chooseProperty()}",
+                    "expectedProperties": [
+                        "PropertyToChange"
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```

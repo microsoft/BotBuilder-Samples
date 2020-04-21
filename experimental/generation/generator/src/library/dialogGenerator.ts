@@ -412,6 +412,7 @@ export async function generate(
     templateDirs?: string[],
     force?: boolean,
     merge?: boolean,
+    jsonProperties?: string,
     feedback?: Feedback)
     : Promise<void> {
 
@@ -469,6 +470,10 @@ export async function generate(
         feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
+        if (jsonProperties) {
+            feedback(FeedbackType.message, `Additional Json Properties to include: ${jsonProperties}`)
+        }
+
         let outPath = outDir
         if (merge) {
             // Redirect to temporary path
@@ -490,6 +495,19 @@ export async function generate(
             triggerIntent: schema.triggerIntent(),
             appSchema: metaSchema
         }
+
+        // copy the additional properties to the scope
+        if (jsonProperties) {
+            let fileContent = await fs.readFile(jsonProperties, 'utf8')
+            let jsonContent = JSON.parse(fileContent)
+            for (let key in jsonContent) {
+                let value = jsonContent[key]
+                if (!scope[key]) {
+                    scope[key] = value
+                }
+            }
+        }
+
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand schema expressions
