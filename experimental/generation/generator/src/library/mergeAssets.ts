@@ -572,7 +572,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             startIndex = state.start.line - 1;
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
-            while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
+            while (i < oldStatements.length && !oldStatements[i].match('CASE') && !oldStatements[i].match('DEFAULT')) {
                 newSwitchStatements.push(oldStatements[i])
                 i++
             }
@@ -583,7 +583,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                 let k = state.start.line - 1
                 newSwitchStatements.push(oldStatements[k])
                 k++
-                while (k < oldStatements.length && !oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
+                while (k < oldStatements.length && !oldStatements[k].match('CASE') && !oldStatements[k].match('DEFAULT')) {
                     newSwitchStatements.push(oldStatements[k])
                     k++
                 }
@@ -594,7 +594,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                     let k = value - 1
                     newSwitchStatements.push(newStatements[k])
                     k++
-                    while (k < newStatements.length && !newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
+                    while (k < newStatements.length && !newStatements[k].match('CASE') && !newStatements[k].match('DEFAULT')) {
                         newSwitchStatements.push(newStatements[k])
                         k++
                     }
