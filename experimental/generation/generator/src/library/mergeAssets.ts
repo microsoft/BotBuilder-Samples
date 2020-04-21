@@ -594,7 +594,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                     let k = value - 1
                     newSwitchStatements.push(newStatements[k])
                     k++
-                    while (!newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
+                    while (k < newStatements.length && !newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
                         newSwitchStatements.push(newStatements[k])
                         k++
                     }
