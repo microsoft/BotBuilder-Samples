@@ -772,10 +772,6 @@
                     "type": "integer",
                     "format": "int32"
                 },
-                "shipDate": {
-                    "type": "string",
-                    "format": "date-time"
-                },
                 "status": {
                     "type": "string",
                     "description": "Order Status",
