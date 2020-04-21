@@ -572,7 +572,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             startIndex = state.start.line - 1;
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
-            while (!oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
+            while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
                 newSwitchStatements.push(oldStatements[i])
                 i++
             }
@@ -583,7 +583,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                 let k = state.start.line - 1
                 newSwitchStatements.push(oldStatements[k])
                 k++
-                while (!oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
+                while (k < oldStatements.length && !oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
                     newSwitchStatements.push(oldStatements[k])
                     k++
                 }
@@ -666,7 +666,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
         }
         let extractedProperty = equalPattern(trigger, oldPropertySet, schemaName)
         if (extractedProperty !== undefined && !reducedOldTriggerSet.has(trigger)) {
-            continue 
+            continue
         }
         newTriggers.push(trigger)
         newTriggerSet.add(trigger)
