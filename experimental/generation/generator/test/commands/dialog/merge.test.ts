@@ -220,19 +220,19 @@ describe('dialog:merge', async () => {
     })
 
     // Ensure merge with no changes is unchanged
-    // it('merge: self', async () => {
-    //     try {
-    //         await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
-    //         let comparison = await compareDirs(originalDir, mergedDir)
-    //         let value = comparison['same'] as string[]
-    //         //console.log(JSON.stringify(value))
-    //         let errors: string[] = []
-    //         assertCompare(comparison, errors, comparison.originalFiles.length)
-    //         assertCheck(comparison, errors)
-    //     } catch (e) {
-    //         assert.fail(e.message)
-    //     }
-    // })
+    it('merge: self', async () => {
+        try {
+            await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
+            let comparison = await compareDirs(originalDir, mergedDir)
+            let value = comparison['same'] as string[]
+            //console.log(JSON.stringify(value))
+            let errors: string[] = []
+            assertCompare(comparison, errors, comparison.originalFiles.length)
+            assertCheck(comparison, errors)
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
 
     // // Ensure merge with modified schema changes as expected
     // it('merge: modified', async () => {
