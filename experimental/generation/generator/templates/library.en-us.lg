@@ -3,7 +3,7 @@
 
 > This is to provide consistent line endings in templates using Windows standard
 # EOL
--\r\n
+-\n
 
 # welcome
 - Welcome!
