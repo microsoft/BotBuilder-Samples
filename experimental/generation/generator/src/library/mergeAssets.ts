@@ -487,6 +487,18 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
     let newStatements = newText.toString().split(EOL)
     let newTemplates = Templates.parseText(newText)
 
+
+    if(filename.match('BreadEntity.en-us.lg')){
+       console.log('oldstatements')
+       console.log(oldStatements)
+       console.log('oldText')
+       console.log(`>>>${oldText}<<<`)
+       console.log('newstatements')
+       console.log(newStatements)
+       console.log('newText')
+       console.log(`>>>${newText}<<<`)
+    }
+
     let mergedStatements: string[] = []
 
     let recordPart: object[] = []
