@@ -13,24 +13,33 @@ import * as os from 'os'
 import * as assert from 'assert';
 import * as gen from '../../../src/library/dialogGenerator';
 
+type Diff = {
+    file: string,
+    position: number
+}
 type Comparison = {
     original: string, originalFiles: string[], originalOnly: string[],
     merged: string, mergedFiles: string[], mergedOnly: string[],
-    same: string[], different: string[]
+    same: string[],
+    different: Diff[]
+}
+
+function filePaths(files: string[], base: string): string {
+    return files.map((f) => ppath.resolve(base, f)).join('\n    ')
 }
 
 function displayCompare(comparison: Comparison) {
     console.log(`Compare ${comparison.original} to ${comparison.merged}`)
-    console.log(`  originalOnly:\n    ${comparison.originalOnly.join(',\n    ')}`)
-    console.log(`  mergedOnly:\n    ${comparison.mergedOnly.join(',\n    ')}`)
-    console.log(`  same:\n    ${comparison.same.join(',\n    ')}`)
-    console.log(`  different:\n    ${comparison.different.join(',\n    ')}`)
+    console.log(`  originalOnly:\n    ${filePaths(comparison.originalOnly, comparison.original)}`)
+    console.log(`  mergedOnly:\n    ${filePaths(comparison.mergedOnly, comparison.merged)}`)
+    console.log(`  same:\n    ${comparison.same.join('\n    ')}`)
+    console.log(`  different:\n    ${comparison.different.map((d) => `${d.position}: ${ppath.resolve(comparison.original, d.file)} != ${ppath.resolve(comparison.merged, d.file)}`).join('\n    ')}`)
 }
 
 function assertCheck(comparison: Comparison, errors: string[]) {
     if (errors.length > 0) {
         displayCompare(comparison)
-        assert.fail(gen.EOL + errors.join(gen.EOL))
+        assert.fail(os.EOL + errors.join(os.EOL))
     }
 }
 
@@ -61,7 +70,14 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
-                comparison.different.push(file1)
+                let pos = 0;
+                while (pos < originalVal.length && pos < mergedVal.length) {
+                    if (originalVal[pos] != mergedVal[pos]) {
+                        break
+                    }
+                    ++pos
+                }
+                comparison.different.push({ file: file1, position: pos })
             }
         } else {
             comparison.originalOnly.push(file1)
@@ -134,7 +150,7 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
     return found;
 }
 
-describe('dialog:merge', async function () {
+describe('dialog:generate --merge', async function () {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = 'test/commands/dialog/merge_data'
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
@@ -191,8 +207,11 @@ describe('dialog:merge', async function () {
 
     before(async function () {
         try {
+            console.log('Deleting output directory')
             await fs.remove(output_dir)
+            console.log('Generating original files')
             await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, errorOnly)
+            console.log('Generating updated files')
             await gen.generate(modifiedSchema, 'sandwichMerge', modifiedDir, undefined, locales, undefined, undefined, false, errorOnly)
         } catch (e) {
             assert.fail(e.message)
@@ -201,6 +220,7 @@ describe('dialog:merge', async function () {
 
     beforeEach(async function () {
         try {
+            console.log('\n\nCopying original generated to merged')
             await fs.remove(mergedDir)
             await fs.copy(originalDir, mergedDir)
         } catch (e) {
@@ -211,6 +231,7 @@ describe('dialog:merge', async function () {
     // Ensure merge with no changes is unchanged
     it('merge: self', async function () {
         try {
+            console.log('Self merging')
             await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
             let comparison = await compareDirs(originalDir, mergedDir)
             let errors: string[] = []
@@ -224,6 +245,7 @@ describe('dialog:merge', async function () {
     // Ensure merge with modified schema changes as expected
     it('merge: modified', async function () {
         try {
+            console.log('Modified merge')
             await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, feedback)
             let comparison = await compareDirs(originalDir, mergedDir)
             let errors = []
@@ -257,6 +279,7 @@ describe('dialog:merge', async function () {
             // Remove a dialog file and it should not come back
             // Modify an .lu file and it should have enum updated, but not hash
             // Modify an .lg file and it should have enum updated, but not hash
+            console.log('Respect changes merge')
             await copyToMerged('en-us/*-BreadEntity.*')
             await copyToMerged('sandwichMerge.main.dialog')
             await copyToMerged('sandwichMerge-foo-missing.dialog')

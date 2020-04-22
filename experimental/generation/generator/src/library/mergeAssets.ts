@@ -6,7 +6,7 @@
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
 import * as os from 'os';
-import { Feedback, FeedbackType, isUnchanged, writeFile, EOL } from './dialogGenerator'
+import { Feedback, FeedbackType, isUnchanged, writeFile, stringify } from './dialogGenerator'
 
 const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
 const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
@@ -222,19 +222,19 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
-    let library = resultRefs.join(EOL)
+    let library = resultRefs.join(os.EOL)
 
     if (oldText.match(CommentPattern)) {
-        library = `${EOL}> !# @app.culture = ${locale}${EOL}` + library
+        library = `${os.EOL}> !# @app.culture = ${locale}${os.EOL}` + library
     }
 
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
-        library = library + EOL + oldText.substring(patternIndex)
+        library = library + os.EOL + oldText.substring(patternIndex)
     }
     // write merged root lu file
     await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lu'), library, feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lu`)
+    feedback(FeedbackType.info, `Merging ${schemaName}.${locale}.lu`)
 }
 
 /**
@@ -341,9 +341,9 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
             }
 
             // update content 
-            let entityLUContent = resultStatements.join(EOL)
+            let entityLUContent = resultStatements.join(os.EOL)
             let entityLUName = '@ ' + oldListEntitySection.Type + ' ' + oldListEntitySection.Name + ' ='
-            let sectionBody = entityLUName + EOL + entityLUContent
+            let sectionBody = entityLUName + os.EOL + entityLUContent
             updatedLUResource = odlSectionOp.updateSection(oldListEntitySection.Id, sectionBody)
 
             // update intent content
@@ -359,7 +359,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
                 }
             }
 
-            let intentBodyStatements = oldIntentSection.Body.split(EOL)
+            let intentBodyStatements = oldIntentSection.Body.split(os.EOL)
             let intentResult: string[] = []
             for (let intentBodyStatement of intentBodyStatements) {
                 let matching = false
@@ -374,18 +374,14 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
                 }
             }
 
-            let intentSectionBody = '# ' + schemaName + EOL + intentResult.join(EOL)
+            let intentSectionBody = '# ' + schemaName + os.EOL + intentResult.join(os.EOL)
             let updateSectionOp = new sectionOperator(updatedLUResource)
             updatedLUResource = updateSectionOp.updateSection(oldIntentSection.Id, intentSectionBody)
         }
     }
-    if (updatedLUResource === null) {
-        await writeFile(ppath.join(mergedPath, locale, filename), oldLUResource.Content, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
-    } else {
-        await writeFile(ppath.join(mergedPath, locale, filename), updatedLUResource.Content, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
-    }
+    let content = (updatedLUResource || oldLUResource).Content
+    await writeFile(ppath.join(mergedPath, locale, filename), content, feedback, true)
+    feedback(FeedbackType.info, `Merging ${filename}`)
 }
 
 /**
@@ -401,9 +397,9 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
  */
 async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, schemaName + '.' + locale + '.lg'), 'utf8')
-    let oldRefs = oldText.split(EOL)
+    let oldRefs = oldText.split(os.EOL)
     let newText = await fs.readFile(ppath.join(newPath, locale, schemaName + '.' + locale + '.lg'), 'utf8')
-    let newRefs = newText.split(EOL)
+    let newRefs = newText.split(os.EOL)
 
     let localeOldPath = ppath.join(oldPath, locale)
     let localeNewPath = ppath.join(newPath, locale)
@@ -458,15 +454,15 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
-    let val = resultRefs.join(EOL)
+    let val = resultRefs.join(os.EOL)
 
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
-        val = val + EOL + oldText.substring(patternIndex)
+        val = val + os.EOL + oldText.substring(patternIndex)
     }
 
     await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lg'), val, feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lg`)
+    feedback(FeedbackType.info, `Merging ${schemaName}.${locale}.lg`)
 }
 
 /**
@@ -480,11 +476,11 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
  */
 async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: string, filename: string, locale: string, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, filename), 'utf8')
-    let oldStatements = oldText.split(EOL)
+    let oldStatements = oldText.split(os.EOL)
     let oldTemplates = Templates.parseText(oldText)
 
     let newText = await fs.readFile(ppath.join(newPath, locale, filename), 'utf8')
-    let newStatements = newText.split(EOL)
+    let newStatements = newText.split(os.EOL)
     let newTemplates = Templates.parseText(newText)
 
     let mergedStatements: string[] = []
@@ -544,12 +540,12 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
         for (let arr of arrList) {
             mergedStatements = mergedStatements.concat(arr)
         }
-        let val = mergedStatements.join(EOL)
+        let val = mergedStatements.join(os.EOL)
         await writeFile(ppath.join(mergedPath, locale, filename), val, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
+        feedback(FeedbackType.info, `Merging ${filename}`)
     } else {
         await writeFile(ppath.join(mergedPath, locale, filename), oldText, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
+        feedback(FeedbackType.info, `Merging ${filename}`)
     }
 }
 
@@ -701,8 +697,8 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     }
 
     oldObj['triggers'] = mergedTriggers
-    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), JSON.stringify(oldObj, null, 4), feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.main.dialog`)
+    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), stringify(oldObj), feedback, true)
+    feedback(FeedbackType.info, `Merging ${schemaName}.main.dialog`)
 
     await copySingleFile(newPath, mergedPath, schemaName + '.' + locale + '.lu.dialog', feedback)
 }
