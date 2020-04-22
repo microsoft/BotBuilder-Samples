@@ -64,13 +64,13 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
-                if(file1.match('BreadEntity.en-us.lg')){
+                if(file1.endsWith('sandwichMerge.en-us.lu')){
                     console.log(`>>${originalVal.length}<<`)
                     console.log(`>>${originalVal}<<`)
                     console.log('***')
                     console.log(`>>${mergedVal.length}<<`)
                     console.log(`>>${mergedVal}<<`)
-                }
+                } 
                 comparison.different.push(file1)
             }
         } else {
@@ -221,17 +221,13 @@ describe('dialog:merge', async () => {
     // Ensure merge with no changes is unchanged
     it('merge: self', async () => {
         try {
-            console.log('init')
             await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
-            console.log('generate')
             let comparison = await compareDirs(originalDir, mergedDir)
             let value = comparison['same'] as string[]
-            console.log(JSON.stringify(value))
+            //console.log(JSON.stringify(value))
             let errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
-            console.log('assertCompare')
             assertCheck(comparison, errors)
-            console.log('assertCheck')
         } catch (e) {
             assert.fail(e.message)
         }

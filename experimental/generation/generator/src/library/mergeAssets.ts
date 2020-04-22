@@ -489,14 +489,14 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
 
 
     if(filename.match('BreadEntity.en-us.lg')){
-       console.log('oldstatements')
-       console.log(oldStatements)
-       console.log('oldText')
-       console.log(`>>>${oldText}<<<`)
-       console.log('newstatements')
-       console.log(newStatements)
-       console.log('newText')
-       console.log(`>>>${newText}<<<`)
+    //    console.log('oldstatements')
+    //    console.log(oldStatements)
+    //    console.log('oldText')
+    //    console.log(`>>>${oldText}<<<`)
+    //    console.log('newstatements')
+    //    console.log(newStatements)
+    //    console.log('newText')
+    //    console.log(`>>>${newText}<<<`)
     }
 
     let mergedStatements: string[] = []
@@ -559,10 +559,10 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
 
         let val = mergedStatements.join(EOL)
         if(filename.match('BreadEntity.en-us.lg')){
-            console.log('breadbreadbread')
-            console.log(mergedStatements)
-            console.log(`>>>>${val}<<<<`)
-            console.log(`>>>>${val.length}<<<<`)
+            // console.log('breadbreadbread')
+            // console.log(mergedStatements)
+            // console.log(`>>>>${val}<<<<`)
+            // console.log(`>>>>${val.length}<<<<`)
         }
         await writeFile(ppath.join(mergedPath, locale, filename), val, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
