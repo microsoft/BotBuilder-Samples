@@ -62,6 +62,11 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
+                if(file1.match('BreadEntity')){
+                    console.log(originalVal)
+                    console.log('***')
+                    console.log(mergedVal)
+                }
                 comparison.different.push(file1)
             }
         } else {
