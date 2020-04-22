@@ -26,7 +26,7 @@ export enum FeedbackType {
 export type Feedback = (type: FeedbackType, message: string) => void
 
 // This is the Windows EOL
-export const EOL = '\r'
+export const EOL = '\r\n'
 
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
