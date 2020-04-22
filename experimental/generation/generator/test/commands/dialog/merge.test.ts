@@ -5,7 +5,6 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 
-import { expect, test } from '@oclif/test';
 import * as fs from 'fs-extra'
 import * as glob from 'globby'
 import 'mocha'
@@ -47,7 +46,7 @@ async function allFiles(base: string, path: string, files: Set<string>) {
 }
 
 async function compareDirs(original: string, merged: string): Promise<Comparison> {
-    let comparison: Comparison = { original: original, originalFiles: [], merged: merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: [] }
+    let comparison: Comparison = { original, originalFiles: [], merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: [] }
     let originalFiles = new Set<string>()
     let mergedFiles = new Set<string>()
     await allFiles(original, original, originalFiles)
@@ -89,7 +88,8 @@ function entryCompare(comparison: Comparison, name: string, expected: number | s
     }
 }
 
-function assertCompare(comparison: Comparison,
+function assertCompare(
+    comparison: Comparison,
     errors: string[],
     same?: number | string[],
     different?: number | string[],
@@ -134,10 +134,9 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
     return found;
 }
 
-
 describe('dialog:merge', async () => {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
-    let merge_data = `test/commands/dialog/merge_data`
+    let merge_data = 'test/commands/dialog/merge_data'
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
     let modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.schema')
     let locales = ['en-us']
@@ -171,7 +170,7 @@ describe('dialog:merge', async () => {
     }
 
     async function assertUnchanged(file: string, expected: boolean, errors: string[]) {
-        var unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
+        let unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
         if (unchanged !== expected) {
             errors.push(`${file} is unexpectedly ${expected ? 'changed' : 'unchanged'}`)
         }
