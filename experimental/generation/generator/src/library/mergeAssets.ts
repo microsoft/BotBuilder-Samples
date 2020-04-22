@@ -545,6 +545,11 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
             mergedStatements = mergedStatements.concat(arr)
         }
         let val = mergedStatements.join(EOL)
+        if(filename.match('BreadEntity.en-us.lg')){
+            console.log('breadbreadbread')
+            console.log(`>>>>${val}<<<<`)
+            console.log(`>>>>${val.length}<<<<`)
+        }
         await writeFile(ppath.join(mergedPath, locale, filename), val, feedback, true)
         feedback(FeedbackType.info, `Generating ${filename}`)
     } else {
