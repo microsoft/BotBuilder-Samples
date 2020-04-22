@@ -224,6 +224,9 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
 
     let library = resultRefs.join(EOL)
 
+    console.log('resultRefs')
+    console.log(resultRefs)
+
     if (oldText.match(CommentPattern)) {
         library = `${EOL}> !# @app.culture = ${locale}${EOL}` + library
     }
@@ -232,6 +235,10 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
     if (patternIndex !== -1) {
         library = library + EOL + oldText.substring(patternIndex)
     }
+    
+    console.log('library')
+    console.log(library)
+
     // write merged root lu file
     await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lu'), library, feedback, true)
     feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lu`)
