@@ -57,15 +57,19 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
     for (let file1 of originalFiles) {
         if (mergedFiles.has(file1)) {
             // See if files are the same
+            
             let originalVal = await fs.readFile(ppath.join(original, file1), 'utf-8')
             let mergedVal = await fs.readFile(ppath.join(merged, file1), 'utf-8')
+
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
-                if(file1.match('BreadEntity')){
-                    console.log(originalVal)
+                if(file1.match('BreadEntity.en-us.lg')){
+                    console.log(`>>${originalVal.length}<<`)
+                    console.log(`>>${originalVal}<<`)
                     console.log('***')
-                    console.log(mergedVal)
+                    console.log(`>>${mergedVal.length}<<`)
+                    console.log(`>>${mergedVal}<<`)
                 }
                 comparison.different.push(file1)
             }
