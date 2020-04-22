@@ -216,6 +216,8 @@ describe('dialog:merge', async () => {
             await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
             console.log('generate')
             let comparison = await compareDirs(originalDir, mergedDir)
+            let value = comparison['same'] as string[]
+            console.log(JSON.stringify(value))
             let errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
             console.log('assertCompare')
