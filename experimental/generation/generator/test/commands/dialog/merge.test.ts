@@ -134,7 +134,7 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
     return found;
 }
 
-describe('dialog:merge', async () => {
+describe('dialog:merge', async function () {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = 'test/commands/dialog/merge_data'
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
@@ -189,7 +189,7 @@ describe('dialog:merge', async () => {
         }
     }
 
-    before(async () => {
+    before(async function () {
         try {
             await fs.remove(output_dir)
             await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, errorOnly)
@@ -199,7 +199,7 @@ describe('dialog:merge', async () => {
         }
     })
 
-    beforeEach(async () => {
+    beforeEach(async function () {
         try {
             await fs.remove(mergedDir)
             await fs.copy(originalDir, mergedDir)
@@ -209,7 +209,7 @@ describe('dialog:merge', async () => {
     })
 
     // Ensure merge with no changes is unchanged
-    it('merge: self', async () => {
+    it('merge: self', async function () {
         try {
             await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, feedback)
             let comparison = await compareDirs(originalDir, mergedDir)
@@ -222,7 +222,7 @@ describe('dialog:merge', async () => {
     })
 
     // Ensure merge with modified schema changes as expected
-    it('merge: modified', async () => {
+    it('merge: modified', async function () {
         try {
             await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, feedback)
             let comparison = await compareDirs(originalDir, mergedDir)
@@ -251,7 +251,7 @@ describe('dialog:merge', async () => {
     })
 
     // Respect user changes
-    it('merge: respect changes', async () => {
+    it('merge: respect changes', async function () {
         try {
             // Modify a dialog file it should stay unchanged except for main.dialog which should be updated, but not hash updated
             // Remove a dialog file and it should not come back

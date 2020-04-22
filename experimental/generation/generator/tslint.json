@@ -14,6 +14,7 @@
         "no-empty-line-after-opening-brace": false,
         "semicolon": false,
         "no-string-literal": false,
+        "no-floating-promises": true,
         "file-header": [
             true,
             {
