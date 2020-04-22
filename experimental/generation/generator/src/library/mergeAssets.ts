@@ -544,9 +544,11 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
         for (let arr of arrList) {
             mergedStatements = mergedStatements.concat(arr)
         }
-        let val = mergedStatements.join('\n')
+
+        let val = mergedStatements.join(EOL)
         if(filename.match('BreadEntity.en-us.lg')){
             console.log('breadbreadbread')
+            console.log(mergedStatements)
             console.log(`>>>>${val}<<<<`)
             console.log(`>>>>${val.length}<<<<`)
         }
