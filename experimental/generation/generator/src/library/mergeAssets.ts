@@ -480,11 +480,11 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
  */
 async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: string, filename: string, locale: string, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, filename), 'utf8')
-    let oldStatements = oldText.split(EOL)
+    let oldStatements = oldText.toString().split(EOL)
     let oldTemplates = Templates.parseText(oldText)
 
     let newText = await fs.readFile(ppath.join(newPath, locale, filename), 'utf8')
-    let newStatements = newText.split(EOL)
+    let newStatements = newText.toString().split(EOL)
     let newTemplates = Templates.parseText(newText)
 
     let mergedStatements: string[] = []
