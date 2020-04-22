@@ -25,9 +25,6 @@ export enum FeedbackType {
 
 export type Feedback = (type: FeedbackType, message: string) => void
 
-// This is the Windows EOL
-export const EOL = '\r\n'
-
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
 }
@@ -36,9 +33,19 @@ function computeHash(val: string): string {
     return crypto.createHash('md5').update(val).digest('hex')
 }
 
-function stringify(val: any): string {
+// Normalize to OS line endings
+function normalizeEOL(val: string): string {
+    if (os.EOL === '\r\n') {
+        val = val.replace(/(^|[^\r])\n/g, `$1${os.EOL}`)
+    } else {
+        val = val.replace(/\r\n/g, os.EOL)
+    }
+    return val
+}
+
+export function stringify(val: any, replacer?: any): string {
     if (typeof val === 'object') {
-        val = JSON.stringify(val, null, 4)
+        val = normalizeEOL(JSON.stringify(val, replacer, '\t'))
     }
     return val
 }
@@ -54,14 +61,11 @@ const ReplaceGeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/g
 function addHash(path: string, val: any): any {
     let ext = ppath.extname(path)
     if (CommentHashExtensions.includes(ext)) {
-        // TODO: Remove this test
-        if (val.match(ReplaceGeneratorPattern)) {
-            val = val.replace(ReplaceGeneratorPattern, '')
+        val = val.replace(ReplaceGeneratorPattern, '')
+        if (!val.endsWith(os.EOL)) {
+            val += os.EOL
         }
-        if (!val.endsWith(EOL)) {
-            val += EOL
-        }
-        val += `${EOL}> Generator: ${computeHash(val)}`
+        val += `${os.EOL}> Generator: ${computeHash(val)}`
     } else if (JSONHashExtensions.includes(ext)) {
         let json = JSON.parse(val)
         delete json.$Generator
@@ -99,6 +103,7 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
     try {
         let dir = ppath.dirname(path)
         await fs.ensureDir(dir)
+        val = normalizeEOL(val)
         if (!skipHash) {
             val = addHash(path, val)
         }
@@ -109,7 +114,7 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
             let offset = Number(match[1])
             val = `${val.substring(0, offset)}^^^${val.substring(offset)}`
         }
-        feedback(FeedbackType.error, `${e.message}${EOL}${val}`)
+        feedback(FeedbackType.error, `${e.message}${os.EOL}${val}`)
     }
 }
 
@@ -157,7 +162,7 @@ const RefPattern = /^[ \t]*\[[^\]\n\r]*\][ \t]*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
         let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
-        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${EOL}`
+        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${os.EOL}`
     })
 }
 
@@ -244,7 +249,7 @@ async function processTemplate(
                                     process.chdir(ppath.dirname(template.allTemplates[0].source))
                                     result = template.evaluate('template', scope) as string
                                     if (Array.isArray(result)) {
-                                        result = result.join(EOL)
+                                        result = result.join(os.EOL)
                                     }
                                 }
 
@@ -496,7 +501,7 @@ export async function generate(
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         // Write final schema
-        let body = JSON.stringify(expanded, (key, val) => (key === '$templates' || key === '$requires') ? undefined : val, 4)
+        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.schema.dialog`), body, force, feedback)
 
         if (merge) {

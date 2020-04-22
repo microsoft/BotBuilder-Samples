@@ -5,8 +5,8 @@
  */
 import * as expr from 'adaptive-expressions'
 import * as fs from 'fs-extra'
+import * as os from 'os'
 import * as random from 'seedrandom'
-import { EOL } from './dialogGenerator'
 
 /**
  * Return the result of replicating lines from a source file and substituting random values 
@@ -24,7 +24,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     }
     let result: string[] = []
     let rand = random(seed)
-    let lines = fs.readFileSync(path).toString().split(EOL)
+    let lines = fs.readFileSync(path).toString().split(os.EOL)
     for (let line of lines) {
         if (line.startsWith('>') || line.trim() === '') { // Copy comments
             result.push(line)
@@ -43,7 +43,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
             }
         }
     }
-    return result.join(EOL)
+    return result.join(os.EOL)
 }
 
 export let SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
