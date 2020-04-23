@@ -14,7 +14,6 @@ const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOpera
 const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectiontypes')
 
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
-const CommentPattern = /\r?\n> !# @app.culture = /
 
 /**
  * @description：Detect if the old file was not changed.
@@ -222,12 +221,10 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
+    let index = oldText.indexOf(`${os.EOL}[`)
+    let startLines = oldText.substring(0, index)
     let library = resultRefs.join(os.EOL)
-
-    if (oldText.match(CommentPattern)) {
-        library = `${os.EOL}> !# @app.culture = ${locale}${os.EOL}` + library
-    }
-
+    library = startLines + os.EOL + library
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
         library = library + os.EOL + oldText.substring(patternIndex)
@@ -630,47 +627,41 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     let newObj = JSON.parse(template)
 
     let newTriggers: string[] = []
-    let newTriggerSet = new Set<string>()
+    let newTriggerMap = new Map<string, any>()
 
     // remove triggers whose property does not exist in new property set
     let reducedOldTriggers: string[] = []
-    let reducedOldTriggerSet = new Set<string>()
+    let reducedOldTriggerMap = new Map<string, any>()
 
-    let mergedTriggers: string[] = []
+    let mergedTriggers: any[] = []
 
     for (let trigger of oldObj['triggers']) {
-        if (typeof trigger !== 'string') {
-            // todo inline object
-            continue
-        }
-        let extractedProperty = equalPattern(trigger, oldPropertySet, schemaName)
+        let triggerName = getTriggerName(trigger)
+        let extractedProperty = equalPattern(triggerName, oldPropertySet, schemaName)
         if (extractedProperty !== undefined) {
             if (newPropertySet.has(extractedProperty)) {
-                reducedOldTriggers.push(trigger)
-                reducedOldTriggerSet.add(trigger)
+                reducedOldTriggers.push(triggerName)
+                reducedOldTriggerMap.set(triggerName, trigger)
             }
         } else {
-            reducedOldTriggers.push(trigger)
-            reducedOldTriggerSet.add(trigger)
+            reducedOldTriggers.push(triggerName)
+            reducedOldTriggerMap.set(triggerName, trigger)
         }
     }
 
     for (let trigger of newObj['triggers']) {
-        if (typeof trigger !== 'string') {
-            // todo inline object
+        let triggerName = getTriggerName(trigger)
+        let extractedProperty = equalPattern(triggerName, oldPropertySet, schemaName)
+        if (extractedProperty !== undefined && !reducedOldTriggerMap.has(trigger)) {
             continue
         }
-        let extractedProperty = equalPattern(trigger, oldPropertySet, schemaName)
-        if (extractedProperty !== undefined && !reducedOldTriggerSet.has(trigger)) {
-            continue
-        }
-        newTriggers.push(trigger)
-        newTriggerSet.add(trigger)
+        newTriggers.push(triggerName)
+        newTriggerMap.set(triggerName, trigger)
     }
 
     let i = 0
-    while (!reducedOldTriggerSet.has(newTriggers[i]) && i < newTriggers.length) {
-        mergedTriggers.push(newTriggers[i])
+    while (!reducedOldTriggerMap.has(newTriggers[i]) && i < newTriggers.length) {
+        mergedTriggers.push(newTriggerMap.get(newTriggers[i]))
         await copySingleFile(newPath, mergedPath, newTriggers[i] + '.dialog', feedback)
         i++
     }
@@ -678,7 +669,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     let j = 0
 
     while (j < reducedOldTriggers.length) {
-        mergedTriggers.push(reducedOldTriggers[j])
+        mergedTriggers.push(reducedOldTriggerMap.get(reducedOldTriggers[j]))
         if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldPath, reducedOldTriggers[j] + '.dialog')) {
             changedMessage(oldPath, reducedOldTriggers[j] + '.dialog', feedback)
         } else {
@@ -687,8 +678,8 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
         let index = newTriggers.indexOf(reducedOldTriggers[j])
         if (index !== -1) {
             index++
-            while (index < newTriggers.length && !reducedOldTriggerSet.has(newTriggers[index])) {
-                mergedTriggers.push(newTriggers[index])
+            while (index < newTriggers.length && !reducedOldTriggerMap.has(newTriggers[index])) {
+                mergedTriggers.push(newTriggerMap.get(newTriggers[index]))
                 await copySingleFile(newPath, mergedPath, newTriggers[index] + '.dialog', feedback)
                 index++
             }
@@ -701,6 +692,20 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     feedback(FeedbackType.info, `Merging ${schemaName}.main.dialog`)
 
     await copySingleFile(newPath, mergedPath, schemaName + '.' + locale + '.lu.dialog', feedback)
+}
+
+/**
+ * @description: Get the trigger name
+ * @param trigger trigger from main.dialog file
+ */
+function getTriggerName(trigger: any): string {
+    let triggerName: string
+    if (typeof trigger !== 'string') {
+        triggerName = trigger['id']
+    } else {
+        triggerName = trigger
+    }
+    return triggerName
 }
 
 /**
