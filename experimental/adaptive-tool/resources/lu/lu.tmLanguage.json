@@ -35,7 +35,7 @@
         {
           "comment": "intent definition",
           "name": "markup.heading.lu",
-          "match": "(^# .*$)"
+          "match": "(^#{1,2} .*$)"
         }
       ]
     },
