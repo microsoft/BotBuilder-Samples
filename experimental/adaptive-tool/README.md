@@ -21,7 +21,7 @@
 
 ### Syntax highlighting, auto-suggest, auto complete functionality
 #### .lu documents
-- coming soon
+- Syntax highlighting
 
 #### .lg documents
 - Syntax highlighting
