@@ -13,7 +13,7 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = req
 
 const { AuthBot } = require('./bots/authBot');
 const { MainDialog } = require('./dialogs/mainDialog');
-const { OAuthAdapter } = require('./oauth_adapter');
+const { FacebookOAuthAdapter } = require('./facebook_oauth_adapter');
 
 // Read botFilePath and botFileSecret from .env file.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -26,7 +26,7 @@ require('dotenv').config({ path: ENV_FILE });
 //     appPassword: process.env.MicrosoftAppPassword
 // });
 
-const adapter = new OAuthAdapter(
+const adapter = new FacebookOAuthAdapter(
 {
     appId: process.env.MicrosoftAppId,
     password: process.env.MicrosoftAppPassword,
