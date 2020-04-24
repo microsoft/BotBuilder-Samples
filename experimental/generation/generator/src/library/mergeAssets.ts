@@ -709,7 +709,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
  */
 function getTriggerName(trigger: any): string {
     let triggerName: string
-    if (typeof trigger === 'object') {
+    if (typeof trigger !== 'string') {
         triggerName = trigger['$id']
     } else {
         triggerName = trigger
