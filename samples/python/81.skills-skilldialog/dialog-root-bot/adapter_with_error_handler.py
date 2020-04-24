@@ -56,7 +56,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             return
         try:
             # Send a message to the user.
-            error_message_text = "The skill encountered an error or bug."
+            error_message_text = "The bot encountered an error or bug."
             error_message = MessageFactory.text(
                 error_message_text, error_message_text, InputHints.ignoring_input
             )
@@ -85,7 +85,7 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             traceback.print_exc()
 
     async def _end_skill_conversation(
-        self, turn_context: TurnContext, error: Exception
+        self, turn_context: TurnContext, error: Exception  # pylint: disable=unused-argument
     ):
         if not self._skill_client or not self._skill_config:
             return
