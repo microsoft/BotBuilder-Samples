@@ -4,7 +4,7 @@ OAuth authentication using adapter sample
 
 This bot uses the [facebook adapter] (https://www.npmjs.com/package/botbuilder-adapter-facebook) to demonstrate the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com). This makes it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
-This example extends the Facebook adapter in oauth_adapter.js. The OAuthAdapter class adds the necessary methods and overrides the activityToFacebook method to add the signin card per Facebook's requirements.
+This example extends the Facebook adapter in facebook_oauth_adapter.js. The FacebookOAuthAdapter class adds the necessary methods and overrides the activityToFacebook method to add the signin card per Facebook's requirements.
 
 ## Prerequisites
 
