@@ -661,26 +661,35 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
 
     let i = 0
     while (!reducedOldTriggerMap.has(newTriggers[i]) && i < newTriggers.length) {
-        mergedTriggers.push(newTriggerMap.get(newTriggers[i]))
-        await copySingleFile(newPath, mergedPath, newTriggers[i] + '.dialog', feedback)
+        let resultMergedTrigger = newTriggerMap.get(newTriggers[i])
+        mergedTriggers.push(resultMergedTrigger)
+        if (typeof resultMergedTrigger === 'string') {
+            await copySingleFile(newPath, mergedPath, newTriggers[i] + '.dialog', feedback)
+        }
         i++
     }
 
     let j = 0
 
     while (j < reducedOldTriggers.length) {
-        mergedTriggers.push(reducedOldTriggerMap.get(reducedOldTriggers[j]))
-        if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldPath, reducedOldTriggers[j] + '.dialog')) {
-            changedMessage(oldPath, reducedOldTriggers[j] + '.dialog', feedback)
-        } else {
-            await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', feedback)
+        let resultReducedOldTrigger = reducedOldTriggerMap.get(reducedOldTriggers[j])
+        mergedTriggers.push(resultReducedOldTrigger)
+        if (typeof resultReducedOldTrigger === 'string') {
+            if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldPath, reducedOldTriggers[j] + '.dialog')) {
+                changedMessage(oldPath, reducedOldTriggers[j] + '.dialog', feedback)
+            } else {
+                await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', feedback)
+            }
         }
         let index = newTriggers.indexOf(reducedOldTriggers[j])
         if (index !== -1) {
             index++
             while (index < newTriggers.length && !reducedOldTriggerMap.has(newTriggers[index])) {
-                mergedTriggers.push(newTriggerMap.get(newTriggers[index]))
-                await copySingleFile(newPath, mergedPath, newTriggers[index] + '.dialog', feedback)
+                let resultMergedTrigger = newTriggerMap.get(newTriggers[index])
+                mergedTriggers.push(resultMergedTrigger)
+                if (typeof resultMergedTrigger === 'string') {
+                    await copySingleFile(newPath, mergedPath, newTriggers[index] + '.dialog', feedback)
+                }
                 index++
             }
         }
@@ -700,8 +709,8 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
  */
 function getTriggerName(trigger: any): string {
     let triggerName: string
-    if (typeof trigger !== 'string') {
-        triggerName = trigger['id']
+    if (typeof trigger === 'object') {
+        triggerName = trigger['$id']
     } else {
         triggerName = trigger
     }
