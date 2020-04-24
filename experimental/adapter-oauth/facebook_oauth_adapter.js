@@ -7,7 +7,7 @@ const { FacebookAdapter } = require('botbuilder-adapter-facebook');
 
 const OAUTH_ENDPOINT = 'https://api.botframework.com';
 const US_GOV_OAUTH_ENDPOINT = 'https://api.botframework.azure.us';
-const botframework_connector = require("botframework-connector"); // --> move into the constructor / get rid of _1's
+const botframework_connector = require("botframework-connector");
 const botbuilder = require("botbuilder");
 
 class FacebookOAuthAdapter extends FacebookAdapter{
