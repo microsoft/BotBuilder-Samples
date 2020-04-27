@@ -8,6 +8,7 @@ from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParamet
 from botbuilder.schema.teams import TeamsChannelAccount
 from botbuilder.schema._connector_client_enums import ActionTypes
 
+
 class TeamsConversationBot(TeamsActivityHandler):
     def __init__(self, app_id: str, app_password: str):
         self._app_id = app_id
@@ -53,23 +54,17 @@ class TeamsConversationBot(TeamsActivityHandler):
 
     async def _send_card(self, turn_context: TurnContext, isUpdate):
         buttons = [
-                CardAction(
-                    type=ActionTypes.message_back,
-                    title="Message all members",
-                    text="messageallmembers",
-                ),
-                CardAction(
-                    type=ActionTypes.message_back,
-                    title="Who am I?",
-                    text="whoami"
-                ),
-                CardAction(
-                    type=ActionTypes.message_back,
-                    title="Delete card",
-                    text="deletecard"
-                )
-            ]
-        if (isUpdate):
+            CardAction(
+                type=ActionTypes.message_back,
+                title="Message all members",
+                text="messageallmembers",
+            ),
+            CardAction(type=ActionTypes.message_back, title="Who am I?", text="whoami"),
+            CardAction(
+                type=ActionTypes.message_back, title="Delete card", text="deletecard"
+            ),
+        ]
+        if isUpdate:
             await self._send_update_card(turn_context, buttons)
         else:
             await self._send_welcome_card(turn_context, buttons)
@@ -84,9 +79,7 @@ class TeamsConversationBot(TeamsActivityHandler):
             )
         )
         card = HeroCard(
-            title="Welcome Card",
-            text="Click the buttons.",
-            buttons=buttons
+            title="Welcome Card", text="Click the buttons.", buttons=buttons
         )
         await turn_context.send_activity(
             MessageFactory.attachment(CardFactory.hero_card(card))
@@ -104,9 +97,7 @@ class TeamsConversationBot(TeamsActivityHandler):
             )
         )
         card = HeroCard(
-            title="Updated card",
-            text=f"Update count {data['count']}",
-            buttons=buttons
+            title="Updated card", text=f"Update count {data['count']}", buttons=buttons
         )
 
         updated_activity = MessageFactory.attachment(CardFactory.hero_card(card))
@@ -114,16 +105,18 @@ class TeamsConversationBot(TeamsActivityHandler):
         await turn_context.update_activity(updated_activity)
 
     async def _get_member(self, turn_context: TurnContext):
-        TeamsChannelAccount: member = None 
+        TeamsChannelAccount: member = None
         try:
-            member = await TeamsInfo.get_member(turn_context, turn_context.activity.from_property.id)
+            member = await TeamsInfo.get_member(
+                turn_context, turn_context.activity.from_property.id
+            )
         except Exception as e:
-            if("MemberNotFoundInConversation" in e.args[0]):
+            if "MemberNotFoundInConversation" in e.args[0]:
                 await turn_context.send_activity("Member not found.")
             else:
                 raise
         else:
-            await turn_context.send_activity(f"You are: {member.name}")       
+            await turn_context.send_activity(f"You are: {member.name}")
 
     async def _message_all_members(self, turn_context: TurnContext):
         team_members = await self._get_paged_members(turn_context)
@@ -161,18 +154,22 @@ class TeamsConversationBot(TeamsActivityHandler):
             MessageFactory.text("All messages have been sent")
         )
 
-    async def _get_paged_members(self, turn_context: TurnContext) -> List[TeamsChannelAccount]:
+    async def _get_paged_members(
+        self, turn_context: TurnContext
+    ) -> List[TeamsChannelAccount]:
         paged_members = []
         continuation_token = None
 
-        while True:  
-            current_page = await TeamsInfo.get_paged_members(turn_context, continuation_token, 100)
+        while True:
+            current_page = await TeamsInfo.get_paged_members(
+                turn_context, continuation_token, 100
+            )
             continuation_token = current_page.continuation_token
             paged_members.extend(current_page.members)
 
             if continuation_token is None:
                 break
-        
+
         return paged_members
 
     async def _delete_card_activity(self, turn_context: TurnContext):
