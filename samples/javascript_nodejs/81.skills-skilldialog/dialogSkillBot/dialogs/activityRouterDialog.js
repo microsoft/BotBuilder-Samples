@@ -47,7 +47,7 @@ class ActivityRouterDialog extends ComponentDialog {
             case ActivityTypes.Message:
                 return await this.onMessageActivity(stepContext);
             default:
-                // We didn't get an activity type we can handle.
+                // Catch all for unhandled intents.
                 await stepContext.context.sendActivity(
                     `Unrecognized ActivityType: "${ stepContext.context.activity.type }".`,
                     undefined,
