@@ -25,7 +25,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             |[View][ts#6] |[View][py#6]
 |7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |[View][py#7]
 |8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |[View][py#8]
-|11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
+|11.qnamaker            | Demonstrates how to use QnA Maker to have  conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
 |13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|[View][py#13]
 |13.core-bot.tests            | Unit test project Core bot shows how to use use Bot Framework testing framework.                         |[View][cs#13.b]|   |   |             |  |
 |14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |            | |[View][py#14]
@@ -44,8 +44,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |[View][py#45]
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |[View][py#46]
 |47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |[View][py#47]
-|48.qnamaker-active-learning-bot     | Demonstrates how to integrate Active Learning in a QnA Maker bot.|[View][cs#48]|[View][js#48]          |              |     |     |
-|49.qnamaker-all-features     | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.|[View][cs#49]|[View][js#49]          |              |     |     |
 |50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |[View][py#50]
 |51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |[View][py#51]
 |52.teams-messaging-extensions-search-auth-config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[View][cs#52]|[View][js#52]          |              |     |     |
@@ -54,7 +52,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |55.teams-link-unfurling     | A Messaging Extension that performs link unfurling.|[View][cs#55]|[View][js#55]          |              |     |     |[View][py#55]
 |56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |[View][py#56]
 |57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |[View][py#57]
-|70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
+
 |80.skills-simple-bot-to-bot     | This sample shows how to connect a skill to a skill consumer.| [View][cs#80] | [View][js#80]       |              |   |     |[View][py#80]
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
