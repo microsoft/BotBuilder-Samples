@@ -1,12 +1,12 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+from typing import List
 from botbuilder.core import CardFactory, TurnContext, MessageFactory
 from botbuilder.core.teams import TeamsActivityHandler, TeamsInfo
 from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParameters
+from botbuilder.schema.teams import TeamsChannelAccount
 from botbuilder.schema._connector_client_enums import ActionTypes
-
-import sys
 
 class TeamsConversationBot(TeamsActivityHandler):
     def __init__(self, app_id: str, app_password: str):
@@ -161,17 +161,19 @@ class TeamsConversationBot(TeamsActivityHandler):
             MessageFactory.text("All messages have been sent")
         )
 
-    async def _get_paged_members(self, turn_context: TurnContext) -> []:
-        page = await TeamsInfo.get_paged_members(turn_context, 500, None)
-        team_members = page.members
-        cont_token = page.continuation_token
+    async def _get_paged_members(self, turn_context: TurnContext) -> List[TeamsChannelAccount]:
+        paged_members = []
+        continuation_token = None
+
+        while True:  
+            current_page = await TeamsInfo.get_paged_members(turn_context, continuation_token, 100)
+            continuation_token = current_page.continuation_token
+            paged_members.extend(current_page.members)
+
+            if continuation_token is None:
+                break
         
-        while cont_token != None:
-            page = await TeamsInfo.get_paged_members(turn_context, cont_token)
-            cont_token = page.continuation_token
-            team_members += page.members
-            total = len(team_members)
-        return team_members
+        return paged_members
 
     async def _delete_card_activity(self, turn_context: TurnContext):
         await turn_context.delete_activity(turn_context.activity.reply_to_id)
