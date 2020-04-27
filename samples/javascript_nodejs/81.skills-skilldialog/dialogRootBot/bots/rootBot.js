@@ -31,6 +31,7 @@ class RootBot extends ActivityHandler {
         this.onMembersAdded(async (context, next) => {
             const membersAdded = context.activity.membersAdded;
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards.
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
                     await context.sendActivity({ attachments: [welcomeCard] }, 'Welcome to the Dialog Skill Sample!');
