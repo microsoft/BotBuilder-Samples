@@ -74,9 +74,9 @@ class MainDialog extends ComponentDialog {
         const activeSkill = await this.activeSkillProperty.get(innerDc.context, () => null);
         const activity = innerDc.context.activity;
         if (activeSkill != null && activity.type === ActivityTypes.Message && activity.text.toLowerCase() === 'abort') {
-            // Cancel all dialogs when the user says "abort".
-            // SkillDialog automatically sends an EndOfConversation message to the skill to let the
-            //   skill know that it needs to end the current dialogs, too.
+            // Cancel all dialogs when the user says abort.
+            // The SkillDialog automatically sends an EndOfConversation message to the skill to let the
+            // skill know that it needs to end its current dialogs, too.
             await innerDc.cancelAllDialogs();
             return await innerDc.replaceDialog(this.initialDialogId, { text: 'Canceled! \n\n What skill would you like to call?' });
         }
@@ -197,8 +197,8 @@ class MainDialog extends ComponentDialog {
      * Helper method to create Choice elements for the actions supported by the skill.
      */
     getSkillActions(skill) {
-        // Note: The bot would probably render this by reading the skill manifest;
-        //   we are just using hardcoded skill actions here for simplicity.
+        // Note: The bot would probably render this by reading the skill manifest.
+        // We are just using hardcoded skill actions here for simplicity.
         const choices = [];
         switch (skill.id) {
             case 'DialogSkillBot':
