@@ -63,6 +63,10 @@ class ActivityRouterDialog(ComponentDialog):
     async def _on_event_activity(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
+        """
+        This method performs different tasks based on the event name.
+        """
+
         activity = step_context.context.activity
 
         # Resolve what to execute based on the event name.
@@ -84,6 +88,10 @@ class ActivityRouterDialog(ComponentDialog):
     async def _on_message_activity(
         self, step_context: WaterfallStepContext
     ) -> DialogTurnResult:
+        """
+        This method just gets a message activity and runs it through LUIS.
+        """
+
         activity = step_context.context.activity
 
         if not self._luis_recognizer.is_configured:
@@ -121,6 +129,7 @@ class ActivityRouterDialog(ComponentDialog):
             if top_intent == "GetWeather":
                 return await self._begin_get_weather(step_context)
 
+            # Catch all for unhandled intents.
             didnt_understand_message_text = f"Sorry, I didn't get that. Please try asking in a different way (intent was {top_intent})"
             await step_context.context.send_activity(
                 MessageFactory.text(

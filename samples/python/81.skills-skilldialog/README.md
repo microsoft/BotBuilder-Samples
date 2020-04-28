@@ -30,7 +30,7 @@ It demonstrates how to post activities from the parent bot to the skill bot and 
     - Event activities are routed to specific dialogs using the parameters provided in the `Values` property of the activity.
     - Message activities are sent to LUIS if configured and trigger the desired tasks if the intent is recognized.
   - A sample [ActivityHandler](dialog-skill-bot/bots/skill_bot.py) that uses the `run_dialog` method on `DialogExtensions`.
-    
+
     Note: Starting in Bot Framework 4.8, the `DialogExtensions` class was introduced to provide a `run_dialog` method wich adds support to automatically send `EndOfConversation` with return values when the bot is running as a skill and the current dialog ends. It also handles reprompt messages to resume a skill where it left of.
   - A sample [SkillAdapterWithErrorHandler](dialog-skill-bot/skill_adapter_with_error_handler.py) adapter that shows how to handle errors, terminate the skills, send traces back to the emulator to help debugging the bot and send `EndOfConversation` messages to the parent bot with details of the error.
   - A sample [AllowedCallersClaimsValidator](dialog-skill-bot/authentication/allow_callers_claims_validation.py) that shows how to validate that the skill is only invoked from a list of allowed callers
