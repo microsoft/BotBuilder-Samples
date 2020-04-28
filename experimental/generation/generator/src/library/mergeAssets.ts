@@ -164,30 +164,34 @@ async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: str
  */
 async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, schemaName + '.' + locale + '.lu'), 'utf8')
-    let oldLUResource = LUParser.parse(oldText)
-    let oldImportSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
-
+    let oldRefs = oldText.split(os.EOL)
     let newText = await fs.readFile(ppath.join(newPath, locale, schemaName + '.' + locale + '.lu'), 'utf8')
-    let newLUResource = LUParser.parse(newText)
-    let newImportSections = newLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
-
-    let resultRefs: string[] = []
-    let oldRefSet = new Set<string>()
+    let newRefs = newText.split(os.EOL)
 
     let localeOldPath = ppath.join(oldPath, locale)
     let localeNewPath = ppath.join(newPath, locale)
     let localeMergedPath = ppath.join(mergedPath, locale)
 
-    for (let oldImportSection of oldImportSections) {
-        let oldRef = oldImportSection.Description
-        oldRefSet.add(oldRef)
-        let extractedProperty = equalPattern(oldRef, oldPropertySet, schemaName)
+    let resultRefs: string[] = []
+    let oldRefSet = new Set<string>()
+    for (let ref of oldRefs) {
+        if (ref.match('> Generator:')) {
+            if (resultRefs.length !== 0 && resultRefs[resultRefs.length - 1] === '') {
+                resultRefs.pop()
+            }
+            break
+        }
+        if (!ref.startsWith('[')) {
+            resultRefs.push(ref)
+            continue
+        }
+        oldRefSet.add(ref)
+        let extractedProperty = equalPattern(ref, oldPropertySet, schemaName)
         if (extractedProperty !== undefined) {
             if (newPropertySet.has(extractedProperty)) {
-                resultRefs.push(oldRef + '(' + oldImportSection.Path + ')')
-                let refStr = oldRef.split(']')
-                let luFile = refStr[0].replace('[', '')
-                // handle with lu file has enums 
+                resultRefs.push(ref)
+                let refStr = ref.split('.lu')
+                let luFile = refStr[0].replace('[', '') + '.lu'
                 if (luFile.match(extractedProperty + 'Entity')) {
                     await changeEntityEnumLU(schemaName, oldPath, newPath, mergedPath, luFile, locale, feedback)
                 } else {
@@ -199,9 +203,9 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
                 }
             }
         } else {
-            resultRefs.push(oldRef + '(' + oldImportSection.Path + ')')
-            let refStr = oldRef.split(']')
-            let luFile = refStr[0].replace('[', '')
+            resultRefs.push(ref)
+            let refStr = ref.split('.lu')
+            let luFile = refStr[0].replace('[', '') + '.lu'
             if (newText.match(luFile) && !await isOldUnchanged(localeOldPath, luFile)) {
                 changedMessage(localeOldPath, luFile, feedback)
             } else {
@@ -210,27 +214,26 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
-    // integrate new lu files which do not exist in old lu assets
-    for (let newImportSection of newImportSections) {
-        let newRef = newImportSection.Description
-        if (!oldRefSet.has(newRef)) {
-            resultRefs.push(newRef + '(' + newImportSection.Path + ')')
-            let refStr = newRef.split(']')
-            let luFile = refStr[0].replace('[', '')
+    for (let ref of newRefs) {
+        if (!ref.startsWith('[')) {
+            continue
+        }
+        if (!oldRefSet.has(ref)) {
+            resultRefs.push(ref)
+            let refStr = ref.split('.lu')
+            let luFile = refStr[0].replace('[', '') + '.lu'
             await copySingleFile(localeNewPath, localeMergedPath, luFile, feedback)
         }
     }
 
-    let index = oldText.indexOf(`${os.EOL}[`)
-    let startLines = oldText.substring(0, index)
-    let library = resultRefs.join(os.EOL)
-    library = startLines + os.EOL + library
+    let val = resultRefs.join(os.EOL)
+
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
-        library = library + os.EOL + oldText.substring(patternIndex)
+        val = val + os.EOL + oldText.substring(patternIndex)
     }
-    // write merged root lu file
-    await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lu'), library, feedback, true)
+
+    await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lu'), val, feedback, true)
     feedback(FeedbackType.info, `Merging ${schemaName}.${locale}.lu`)
 }
 
@@ -405,10 +408,16 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
     let resultRefs: string[] = []
     let oldRefSet = new Set<string>()
     for (let ref of oldRefs) {
+        if (ref.match('> Generator:')) {
+            if (resultRefs.length !== 0 && resultRefs[resultRefs.length - 1] === '') {
+                resultRefs.pop()
+            }
+            break
+        }
         if (!ref.startsWith('[')) {
+            resultRefs.push(ref)
             continue
         }
-        // ref = ref.replace('\r', '')
         oldRefSet.add(ref)
         let extractedProperty = equalPattern(ref, oldPropertySet, schemaName)
         if (extractedProperty !== undefined) {
@@ -442,7 +451,6 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
         if (!ref.startsWith('[')) {
             continue
         }
-        // ref = ref.replace('\r', '')
         if (!oldRefSet.has(ref)) {
             resultRefs.push(ref)
             let refStr = ref.split('.lg')
@@ -710,7 +718,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
 function getTriggerName(trigger: any): string {
     let triggerName: string
     if (typeof trigger !== 'string') {
-        triggerName = trigger['$id']
+        triggerName = trigger['id']
     } else {
         triggerName = trigger
     }
