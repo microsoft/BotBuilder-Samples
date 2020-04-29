@@ -19,6 +19,7 @@
         "botbuilder": "4.9.0-preview-125669",
         "botbuilder-dialogs": "4.9.0-preview-125669",
         "botbuilder-dialogs-adaptive": "4.9.0-preview-125669",
+        "botbuilder-lg": "4.9.0-preview-125669",
         "dotenv": "^8.2.0",
         "path": "^0.12.7",
         "restify": "~8.4.0"
