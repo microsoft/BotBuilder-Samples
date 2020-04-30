@@ -8,6 +8,8 @@ const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
 const { TemplateEngineLanguageGenerator, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
 const { DialogManager, ListStyle } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
+const { Case } = require('botbuilder-dialogs-adaptive/lib/actions/case');
+const adaptive = require('botbuilder-dialogs-adaptive');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -71,37 +73,38 @@ const userState = new UserState(memoryStorage);
 
 let myBot;
 
-const createChoiceInputForAllAdaptiveDialogs = () => {
-    let rootDialog = new AdaptiveDialog(AdaptiveDialog.name);
-    let choices = new Array();
-    let switchCases = new Array();
+function createChoiceInputForAllAdaptiveDialogs() {
+    const rootDialog = new AdaptiveDialog(AdaptiveDialog.name);
+    const choices = [];
+    const switchCases = [];
     (resourceExplorer.getResources('.dialog') || []).forEach(resource => {
         if (resource.resourceId !== undefined && resource.resourceId.endsWith('.main.dialog')) {
             let dialogName = path.basename(resource.resourceId, '.main.dialog');
-            var subDialog = resourceExplorer.loadType(resource);
+            const subDialog = resourceExplorer.loadType(resource);
             choices.push({value : dialogName});
-            switchCases.push({value : dialogName, actions : [subDialog]});
+            switchCases.push(new Case(dialogName, [subDialog]));
         }
     });
     rootDialog.generator = new TemplateEngineLanguageGenerator();
-    let rootChoiceInput = new ChoiceInput();
-    rootChoiceInput.property = "turn.userChoice";
-    rootChoiceInput.prompt = "Choose a declarative sample to run..";
-    rootChoiceInput.style = ListStyle.list;
-    rootChoiceInput.choices = choices;
-    rootChoiceInput.alwaysPrompt = true;
-    let rootSwitchCondition = new SwitchCondition();
-    rootSwitchCondition.condition = "turn.userChoice";
-    rootSwitchCondition.cases = switchCases;
     rootDialog.triggers.push(new OnBeginDialog([
-        rootChoiceInput,
+        new ChoiceInput().configure({
+            property: 'turn.userChoice',
+            prompt: `Choose a declarative sample to run..`,
+            style: ListStyle.list,
+            choices: choices,
+            alwaysPrompt: true
+        }),
         new SendActivity("# Running ${turn.userChoice}.main.dialog"),
-        rootSwitchCondition,
+        new SwitchCondition().configure({
+            condition: 'turn.userChoice',
+            cases: switchCases
+        }),
         new RepeatDialog()
     ]));
     return rootDialog;
 }
-const loadRootDialog = () => {
+
+function loadRootDialog() {
     // Load root dialog
     myBot = new DialogManager();
     myBot.userState = userState;
