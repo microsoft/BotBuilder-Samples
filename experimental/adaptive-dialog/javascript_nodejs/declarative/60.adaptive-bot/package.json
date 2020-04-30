@@ -20,6 +20,7 @@
         "botbuilder-dialogs-declarative": "4.9.0-preview-126748",
         "botbuilder-dialogs-adaptive": "4.9.0-preview-126748",
         "botbuilder-dialogs": "4.9.0-preview-126748",
+        "adaptive-expressions": "4.9.0-preview-126748",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
     },

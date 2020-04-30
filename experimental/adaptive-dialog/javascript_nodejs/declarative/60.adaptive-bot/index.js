@@ -5,11 +5,11 @@ const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { TemplateEngineLanguageGenerator, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
+const { TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
 const { DialogManager, ListStyle } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 const { Case } = require('botbuilder-dialogs-adaptive/lib/actions/case');
-const adaptive = require('botbuilder-dialogs-adaptive');
+const { StringExpression, ArrayExpression, BoolExpression, EnumExpression } = require('adaptive-expressions');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -88,17 +88,14 @@ function createChoiceInputForAllAdaptiveDialogs() {
     rootDialog.generator = new TemplateEngineLanguageGenerator();
     rootDialog.triggers.push(new OnBeginDialog([
         new ChoiceInput().configure({
-            property: 'turn.userChoice',
-            prompt: `Choose a declarative sample to run..`,
-            style: ListStyle.list,
-            choices: choices,
-            alwaysPrompt: true
+            property: new StringExpression('turn.userChoice'),
+            prompt: new ActivityTemplate(`Choose a declarative sample to run..`),
+            style: new EnumExpression(ListStyle.list),
+            choices: new ArrayExpression(choices),
+            alwaysPrompt: new BoolExpression(true)
         }),
         new SendActivity("# Running ${turn.userChoice}.main.dialog"),
-        new SwitchCondition().configure({
-            condition: 'turn.userChoice',
-            cases: switchCases
-        }),
+        new SwitchCondition('turn.userChoice', switchCases),
         new RepeatDialog()
     ]));
     return rootDialog;
