@@ -56,7 +56,7 @@
 - Please enter your mode of transport.
 
 # AskForImage
-- Please attach a profile picture (or type any message to skip).
+- Please attach a profile picture.
 
 # AskForImage.Invalid
 - The attachment must be a jpeg/png image file.
