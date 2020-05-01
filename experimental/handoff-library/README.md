@@ -6,7 +6,7 @@ The library implements the additions to the Bot Framework SDK to support handoff
 
 Integrations with specific agent hubs are not part of the library. 
 
-The library is into be merged in a future release of the Bot Framework SDK.
+The library will be merged in a future release of the Bot Framework SDK.
 
 ## Introduction
 
