@@ -23,7 +23,7 @@
 # AskForAge.unRecognized
 - Sorry, I do not recognized '${this.value}'. ${AskForAge()}
 
-# NoName
+# NoAge
 - No age given.
 
 # UserAgeReadBack 
@@ -54,3 +54,9 @@
 # ModeOfTransportPrompt.Text
 - What is your favoriate mode of transportion?
 - Please enter your mode of transport.
+
+# AskForImage
+- Please attach a profile picture (or type any message to skip).
+
+# AskForImage.Invalid
+- The attachment must be a jpeg/png image file.
