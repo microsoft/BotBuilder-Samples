@@ -49,8 +49,15 @@
             "intent": "JokeIntent",
             "actions": [
                 {
-                    "$kind":"Microsoft.BeginDialog",
-                    "dialog": "BeginDialog.TellJokeDialog"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Why did the chicken cross the road?"
+                },
+                {
+                    "$kind": "Microsoft.EndTurn"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "To get to the other side"
                 }
             ]
         },
@@ -59,8 +66,16 @@
             "intent": "FortuneTellerIntent",
             "actions": [
                 {
-                    "$kind": "Microsoft.BeginDialog",
-                    "dialog": "BeginDialog.FortuneTellerDialog"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Seeing into the future..."
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "I see great things happening..."
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Perhaps even a successful bot demo"
                 }
             ]
         },

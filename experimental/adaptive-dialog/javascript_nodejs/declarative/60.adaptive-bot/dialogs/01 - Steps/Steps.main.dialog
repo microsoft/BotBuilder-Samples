@@ -1,0 +1,23 @@
+{
+    "$schema": "../../app.schema",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnBeginDialog",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Step 1"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Step 2"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "Step 3"
+                }
+            ]
+        }
+    ]
+}
