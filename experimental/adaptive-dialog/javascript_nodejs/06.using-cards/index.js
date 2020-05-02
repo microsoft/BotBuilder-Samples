@@ -11,7 +11,7 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
 
-// This bot's main dialog.
+// Import our custom bot class that provides a turn handling function.
 const { RichCardsBot } = require('./bots/richCardsBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
