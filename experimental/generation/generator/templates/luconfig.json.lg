@@ -4,10 +4,10 @@
 # template
 -```
 {
-    "name": "${prefix}",
+    "botName": "${prefix}",
     "deleteOldVersion": true, 
     "out": ".",
-    "writeDialogFiles": true,
+    "dialog": "multiLanguage",
     "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.lu"`), ', ')}]
 }
 ```
