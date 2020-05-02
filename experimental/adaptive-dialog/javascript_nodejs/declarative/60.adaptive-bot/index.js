@@ -5,10 +5,9 @@ const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { CancelAllDialogs, OnIntent, IntentPattern, RegexRecognizer, TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
+const { Case, CancelAllDialogs, OnIntent, IntentPattern, RegexRecognizer, TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
 const { DialogManager, ListStyle } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
-const { Case } = require('botbuilder-dialogs-adaptive/lib/actions/case');
 const { StringExpression, ArrayExpression, BoolExpression, EnumExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 

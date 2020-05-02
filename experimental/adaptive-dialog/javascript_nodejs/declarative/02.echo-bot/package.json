@@ -16,10 +16,10 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "4.9.0-preview-125669",
-        "botbuilder-dialogs-declarative": "4.9.0-preview-125669",
-        "botbuilder-dialogs-adaptive": "4.9.0-preview-125669",
-        "botbuilder-dialogs": "4.9.0-preview-125669",
+        "botbuilder": "4.9.0-preview-127492",
+        "botbuilder-dialogs-declarative": "4.9.0-preview-127492",
+        "botbuilder-dialogs-adaptive": "4.9.0-preview-127492",
+        "botbuilder-dialogs": "4.9.0-preview-127492",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
     },

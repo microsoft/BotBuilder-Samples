@@ -9,10 +9,9 @@
             "actions": [
                 {
                     "$kind": "Microsoft.ChoiceInput",
-                    "prompt": "${Card-choice()}",
+                    "prompt": "${CardChoice()}",
                     "property": "turn.cardChoice",
                     "outputFormat": "value",
-                    "style": "Auto",
                     "alwaysPrompt": true,
                     "choices": [
                         {
@@ -65,7 +64,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "${Help-text()}"
+                                    "activity": "${HelpText()}"
                                 }
                             ]
 
@@ -75,7 +74,7 @@
                             "actions": [
                                 {
                                     "$kind": "Microsoft.SendActivity",
-                                    "activity": "${All-cards()}"
+                                    "activity": "${AllCards()}"
                                 }
                             ]
                         },

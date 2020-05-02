@@ -20,7 +20,7 @@ class UserProfileDialog extends ComponentDialog {
                     {
                         // Set the output of the text input to this property in memory.
                         property: new StringExpression("user.userProfile.Transport"),
-                        prompt: new ActivityTemplate("${ModeOfTransportPrompt.Text()}")
+                        prompt: new ActivityTemplate("${ModeOfTransportPrompt()}")
                     }),
                     new TextInput().configure(
                     {
