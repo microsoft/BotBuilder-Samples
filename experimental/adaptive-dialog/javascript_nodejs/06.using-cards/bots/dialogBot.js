@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
+const { DialogManager } = require('botbuilder-dialogs');
 
 /**
  * This IBot implementation can run any type of Dialog. The use of type parameterization is to allows multiple different bots
@@ -23,31 +24,17 @@ class DialogBot extends ActivityHandler {
         if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');
         if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
 
-        this.conversationState = conversationState;
-        this.userState = userState;
-        this.dialog = dialog;
-        this.dialogState = this.conversationState.createProperty('DialogState');
+        this.dialogManager = new DialogManager(dialog);
+        this.dialogManager.conversationState = conversationState;
+        this.dialogManager.userState = userState;
+        
+        this.onTurn(async (context, next) => {
+            console.log('Running dialog with activity.');
 
-        this.onMessage(async (context, next) => {
-            console.log('Running dialog with Message Activity.');
+            await this.dialogManager.onTurn(context);
 
-            // Run the Dialog with the new message Activity.
-            await this.dialog.run(context, this.dialogState);
-
-            // By calling next() you ensure that the next BotHandler is run.
             await next();
-        });
-    }
-
-    /**
-     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
-     */
-    async run(context) {
-        await super.run(context);
-
-        // Save any state changes. The load happened during the execution of the Dialog.
-        await this.conversationState.saveChanges(context, false);
-        await this.userState.saveChanges(context, false);
+        })
     }
 }
 
