@@ -4,7 +4,7 @@
 > Multi-line text can include inline expressions enclosed in ${expression}.
 > ${TemplateName()} is how you can refer to another languge genration template in multi-line resolution.
 
-# Card-choice
+# CardChoice
 - What card would you like to see?
 
 # HeroCard
@@ -74,7 +74,7 @@
 - carousel
 - list
 
-# All-cards
+# AllCards
 [Activity
     Attachments = ${HeroCard()} | ${ThumbnailCard()} | ${SigninCard()} | ${AnimationCard()} | ${VideoCard()} | ${AudioCard()} | ${json(AdaptiveCard.Definition())}
     AttachmentLayout = ${AttachmentLayoutType()}

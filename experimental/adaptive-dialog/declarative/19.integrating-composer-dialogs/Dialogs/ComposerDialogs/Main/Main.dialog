@@ -1,5 +1,5 @@
 {
-  "$type": "Microsoft.AdaptiveDialog",
+  "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
     "$designer": {
       "name": "waterfall-integration",
@@ -10,28 +10,28 @@
   "defaultResultProperty": "dialog.result",
   "triggers": [
     {
-      "$type": "Microsoft.OnBeginDialog",
+      "$kind": "Microsoft.OnBeginDialog",
       "$designer": {
         "id": "552011"
       },
       "actions": [
         {
-          "$type": "Microsoft.SendActivity",
+          "$kind": "Microsoft.SendActivity",
           "$designer": {
             "id": "883263",
             "name": "Send a response"
           },
-          "activity": "${bfdactivity-883263()}"
+          "activity": "${bfdactivity_883263()}"
         },
         {
-          "$type": "Microsoft.NumberInput",
+          "$kind": "Microsoft.NumberInput",
           "$designer": {
             "id": "089479",
             "name": "Number input"
           },
-          "prompt": "${bfdprompt-089479()}",
-          "unrecognizedPrompt": "${bfdunrecognizedPrompt-089479()}",
-          "invalidPrompt": "${bfdinvalidPrompt-089479()}",
+          "prompt": "${bfdprompt_089479()}",
+          "unrecognizedPrompt": "${bfdunrecognizedPrompt_089479()}",
+          "invalidPrompt": "${bfdinvalidPrompt_089479()}",
           "maxTurnCount": "3",
           "validations": [
             "this.value >= 0",
@@ -41,18 +41,18 @@
           "defaultValue": "30",
           "allowInterruptions": "false",
           "defaultLocale": "en-us",
-          "defaultValueResponse": "${bfddefaultValueResponse-089479()}"
+          "defaultValueResponse": "${bfddefaultValueResponse_089479()}"
         },
         {
-          "$type": "Microsoft.NumberInput",
+          "$kind": "Microsoft.NumberInput",
           "$designer": {
             "id": "799023",
             "name": "Number input"
           },
-          "prompt": "${bfdprompt-799023()}",
-          "unrecognizedPrompt": "${bfdunrecognizedPrompt-799023()}",
-          "invalidPrompt": "${bfdinvalidPrompt-799023()}",
-          "defaultValueResponse": "${bfddefaultValueResponse-799023()}",
+          "prompt": "${bfdprompt_799023()}",
+          "unrecognizedPrompt": "${bfdunrecognizedPrompt_799023()}",
+          "invalidPrompt": "${bfdinvalidPrompt_799023()}",
+          "defaultValueResponse": "${bfddefaultValueResponse_799023()}",
           "maxTurnCount": "3",
           "validations": [
             "this.value >= 0 && this.value <= 16",
@@ -64,7 +64,7 @@
           "defaultLocale": "en-us"
         },
         {
-          "$type": "Microsoft.EndDialog",
+          "$kind": "Microsoft.EndDialog",
           "$designer": {
             "id": "680042",
             "name": "End this dialog"

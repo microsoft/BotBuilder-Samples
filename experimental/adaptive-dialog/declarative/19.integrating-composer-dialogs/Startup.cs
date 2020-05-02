@@ -4,6 +4,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
@@ -14,9 +19,10 @@ namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        public Startup(IWebHostEnvironment env)
+        public Startup(IWebHostEnvironment env, IConfiguration configuration)
         {
             this.HostingEnvironment = env;
+            HostContext.Current.Set<IConfiguration>(configuration);
         }
 
         private IWebHostEnvironment HostingEnvironment { get; set; }
@@ -25,6 +31,22 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            // Register dialog. This sets up memory paths for adaptive.
+            ComponentRegistration.Add(new DialogsComponentRegistration());
+
+            // Register adaptive component
+            ComponentRegistration.Add(new AdaptiveComponentRegistration());
+
+            // Register to use language generation.
+            ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
+
+            // Register declarative components for adaptive dialogs.
+            ComponentRegistration.Add(new DeclarativeComponentRegistration());
+
+            // Register LUIS, QnA components.
+            ComponentRegistration.Add(new LuisComponentRegistration());
+            ComponentRegistration.Add(new QnAMakerComponentRegistration());
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
