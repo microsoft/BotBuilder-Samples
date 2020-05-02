@@ -5,33 +5,33 @@
 > You can now add reference to other .lg files.
 [Root LG](../RootDialog/RootDialog.lg)
 
-# Help-Add-ToDo
-- ${Help-prefix()}, you can simply say the title of your todo to add it.
+# Help_Add_ToDo
+- ${Help_prefix()}, you can simply say the title of your todo to add it.
 
-# Help-prefix
+# Help_prefix
 - Sure
 - You bet
 - Absolutely
 
-# Confirm-cancellation
-- Are you suare you want to cancel? 
+# Confirm_cancellation
+- Are you sure you want to cancel? 
 - Just double checking; you want to cancel this right? 
 
 > Structured template
-# Get-ToDo-Title
+# Get_ToDo_Title
 [Activity
     Text = Ok, what is the title of your todo?
     SuggestedActions = Help | Cancel
 ]
 
-# Add-ToDo-ReadBack
+# Add_ToDo_ReadBack
 [Activity
-    Text = ${Help-prefix()}, I have added "${turn.todoTitle}" to your todo list. You have ${count(user.todos)} items in your Todo list.
-    ${Welcome-Actions()}
+    Text = ${Help_prefix()}, I have added "${turn.todoTitle}" to your todo list. You have ${count(user.todos)} items in your Todo list.
+    ${Welcome_Actions()}
 ]
 
-# Cancel-add-todo
+# Cancel_add_todo
 [Activity
-    Text = ${Help-prefix()}, I've cancelled that.
-    ${Welcome-Actions()}
+    Text = ${Help_prefix()}, I've cancelled that.
+    ${Welcome_Actions()}
 ]

@@ -38,9 +38,9 @@ namespace Microsoft.BotBuilderSamples
                             // This is the title entity defined in ../RootDialog/RootDialog.lu.
                             // There is one LUIS application for this bot. So any entity captured by the rootDialog
                             // will be automatically available to child dialog.
-                            // @EntityName is a short-hand for turn.entities.<EntityName>. Other useful short-hands are 
-                            //     #IntentName is a short-hand for turn.intents.<IntentName>
-                            //     $PropertyName is a short-hand for dialog.<PropertyName>
+                            // @EntityName is a short_hand for turn.entities.<EntityName>. Other useful short_hands are 
+                            //     #IntentName is a short_hand for turn.intents.<IntentName>
+                            //     $PropertyName is a short_hand for dialog.<PropertyName>
                             new SetProperty() {
                                 Property = "turn.todoTitle",
                                 Value = "=@todoTitle"
@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples
                             new TextInput()
                             {
                                 Property = "turn.todoTitle",
-                                Prompt = new ActivityTemplate("${Get-ToDo-Title()}")
+                                Prompt = new ActivityTemplate("${Get_ToDo_Title()}")
                             },
                             // Add the new todo title to the list of todos. Keep the list of todos in the user scope.
                             new EditArray()
@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
                                 ChangeType = EditArray.ArrayChangeType.Push,
                                 Value = "=turn.todoTitle"
                             },
-                            new SendActivity("${Add-ToDo-ReadBack()}")
+                            new SendActivity("${Add_ToDo_ReadBack()}")
                             // All child dialogs will automatically end if there are no additional steps to execute. 
                             // If you wish for a child dialog to not end automatically, you can set 
                             // AutoEndDialog property on the Adaptive Dialog to 'false'
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<Dialog>()
                         {
-                            new SendActivity("${Help-Add-ToDo()}")
+                            new SendActivity("${Help_Add_ToDo()}")
                         }
                     },
                     new OnIntent("Cancel")
@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                             new ConfirmInput()
                             {
                                 Property = "turn.addTodo.cancelConfirmation",
-                                Prompt = new ActivityTemplate("${Confirm-cancellation()}"),
+                                Prompt = new ActivityTemplate("${Confirm_cancellation()}"),
                                 // Allow interruptions is an expression. So you can write any expression to determine if an interruption should be allowed.
                                 // In this case, we will disallow interruptions since this is a cancellation confirmation. 
                                 AllowInterruptions = "false",
@@ -108,16 +108,16 @@ namespace Microsoft.BotBuilderSamples
                             new IfCondition()
                             {
                                 // All conditions are expressed using the common expression language.
-                                // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
+                                // See https://github.com/Microsoft/BotBuilder_Samples/tree/master/experimental/common_expression_language to learn more
                                 Condition = "turn.addTodo.cancelConfirmation == true",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Cancel-add-todo()}"),
+                                    new SendActivity("${Cancel_add_todo()}"),
                                     new EndDialog()
                                 },
                                 ElseActions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Help-prefix()}, let's get right back to adding a todo.")
+                                    new SendActivity("${Help_prefix()}, let's get right back to adding a todo.")
                                 }
                                 // We do not need to specify an else block here since if user said no,
                                 // the control flow will automatically return to the last active step (if any)
@@ -149,9 +149,9 @@ namespace Microsoft.BotBuilderSamples
                         Pattern = "(?i)cancel|never mind" 
                     }
                 },
-                // Regex recognizer now supports pre-built entity types as well. 
-                // See here for a list of supported entity recognizers - 
-                // https://github.com/microsoft/botbuilder-dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
+                // Regex recognizer now supports pre_built entity types as well. 
+                // See here for a list of supported entity recognizers _ 
+                // https://github.com/microsoft/botbuilder_dotnet/tree/master/libraries/Microsoft.Bot.Builder.Dialogs.Adaptive/Recognizers/EntityRecognizers
                 // Entities = new List<EntityRecognizer>() {
                 //     new DateTimeEntityRecognizer(),
                 //     new NumberEntityRecognizer(),

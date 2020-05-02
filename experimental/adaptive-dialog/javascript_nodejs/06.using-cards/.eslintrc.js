@@ -1,6 +1,6 @@
 module.exports = {
     "extends": "standard",
-    "rules": {
+    "rules": {    
         "semi": [2, "always"],
         "indent": [2, 4],
         "no-return-await": 0,

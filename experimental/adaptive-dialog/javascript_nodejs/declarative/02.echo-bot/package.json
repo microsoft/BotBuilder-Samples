@@ -16,12 +16,12 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "4.9.0-preview-125669",
-        "botbuilder-dialogs-declarative": "4.9.0-preview-125669",
-        "botbuilder-dialogs-adaptive": "4.9.0-preview-125669",
-        "botbuilder-dialogs": "4.9.0-preview-125669",
+        "botbuilder": "../../../../../../../botbuilder-js/libraries/botbuilder",
+        "botbuilder-dialogs": "../../../../../../../botbuilder-js/libraries/botbuilder-dialogs",
+        "botbuilder-dialogs-adaptive": "../../../../../../../botbuilder-js/libraries/botbuilder-dialogs-adaptive",
+        "botbuilder-dialogs-declarative": "../../../../../../../botbuilder-js/libraries/botbuilder-dialogs-declarative",
         "dotenv": "^8.2.0",
-        "restify": "~8.4.0"
+        "restify": "^8.4.1"
     },
     "devDependencies": {
         "eslint": "^6.6.0",

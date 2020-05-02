@@ -3,26 +3,26 @@
 
 [View todo](../ViewToDoDialog/ViewToDoDialog.lg)
 
-# Get-ToDo-Title-To-Delete
+# Get_ToDo_Title_To_Delete
 [Activity
     Text = Ok, give me the exact title of the todo you would like to delete..
     SuggestedActions = Help | Cancel
 ]
 
-# Delete-readBack
+# Delete_readBack
 [Activity
-    Text = ${Delete-readBack-Text()}
-    ${View-ToDos()}
+    Text = ${Delete_readBack_Text()}
+    ${View_ToDos()}
 ]
 
-# Delete-readBack-Text
+# Delete_readBack_Text
 - ```
 Ok, I've removed your todo titled "${turn.todoTitle}".
-${View-ToDos().Text}
+${View_ToDos().Text}
 ```
 
-# Delete-Empty-List
+# Delete_Empty_List
 - You do not have any items in your todo list.
 
-# Todo-not-found
+# Todo_not_found
 - Sorry, I did not find a todo titled ${turn.todoTitle} in your todos list.

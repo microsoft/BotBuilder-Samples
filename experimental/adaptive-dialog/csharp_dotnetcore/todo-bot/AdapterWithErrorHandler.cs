@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
                 // Log any leaked exception from the application.
                 logger.LogError($"Exception caught : {exception.Message}");
 
-                // Send a catch-all apology to the user.
+                // Send a catch_all apology to the user.
                 await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("SomethingWentWrong", exception)));
 
                 if (conversationState != null)
@@ -40,8 +40,8 @@ namespace Microsoft.BotBuilderSamples
                     try
                     {
                         // Delete the conversationState for the current conversation to prevent the
-                        // bot from getting stuck in a error-loop caused by being in a bad state.
-                        // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
+                        // bot from getting stuck in a error_loop caused by being in a bad state.
+                        // ConversationState should be thought of as similar to "cookie_state" in a Web pages.
                         await conversationState.DeleteAsync(turnContext);
                     }
                     catch (Exception e)

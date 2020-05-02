@@ -1,31 +1,43 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-// index.js is used to setup and configure your bot
-
-// Import required packages
+const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
+const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
+const { AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare } = require('botbuilder-dialogs-adaptive');
+const { DialogManager } = require('botbuilder-dialogs');
+const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = require('botbuilder');
+const { BotFrameworkAdapter } = require('botbuilder');
 
-// This bot's main dialog.
-const { RichCardsBot } = require('./bots/richCardsBot');
-const { MainDialog } = require('./dialogs/mainDialog');
-
+// Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
+dotenv.config({ path: ENV_FILE });
 
-// Create adapter. See https://aka.ms/about-bot-adapter to learn more about adapters.
+// Set up resource explorer
+const resourceExplorer = new ResourceExplorer().addFolder(__dirname, true, true);
+resourceExplorer.addComponent(new AdaptiveDialogComponentRegistration(resourceExplorer));
+
+// Create HTTP server
+const server = restify.createServer();
+server.listen(process.env.port || process.env.PORT || 3978, () => {
+    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
+});
+
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about how bots work.
 const adapter = new BotFrameworkAdapter({
     appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -42,37 +54,69 @@ adapter.onTurnError = async (context, error) => {
     // Send a message to the user
     await context.sendActivity('The bot encountered an error or bug.');
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
-    // Clear out state
-    await conversationState.delete(context);
 };
 
-// Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
-// A bot requires a state store to persist the dialog and user state between messages.
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
+adapter.use(new LanguageGeneratorMiddleWare(resourceExplorer));
 
-// For local development, in-memory storage is used.
-// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
-// is restarted, anything stored in memory will be gone.
+// Define the state store for your bot.
+// See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
+// A bot requires a state storage system to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
+
+// Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-// Create the main dialog.
-const dialog = new MainDialog();
-const bot = new RichCardsBot(conversationState, userState, dialog);
+let myBot;
 
-// Create HTTP server.
-const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
-    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
-    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
-});
+const loadRootDialog = () => {
+    console.log('(Re)Loading dialogs...');
+    // Load root dialog
+    let rootDialogResource = resourceExplorer.getResource('echo.dialog');
+    myBot = new DialogManager();
+    myBot.userState = userState;
+    myBot.conversationState = conversationState;
+    myBot.rootDialog = resourceExplorer.loadType(rootDialogResource);
+}
 
-// Listen for incoming activities and route them to your bot main dialog.
+loadRootDialog();
+
+// Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
-    // Route received a request to adapter for processing
-    adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
+    adapter.processActivity(req, res, async (context) => {
+        // Route to main dialog.
+        await myBot.onTurn(context);
     });
 });
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
+        await myBot.onTurn(context);
+    });
+});
+
+const handleResourceChange = (resources) => {
+    if (Array.isArray(resources)) {
+        if((resources || []).find(r => r.resourceId.endsWith('.dialog')) !== undefined) loadRootDialog();
+    } else {
+        if (resources.resourceId && resources.resourceId.endsWith('.dialog')) loadRootDialog()
+    }
+};
+
+// Add a resource change handler to resource explorer.
+resourceExplorer.emitter.on('changed', handleResourceChange);
+
+

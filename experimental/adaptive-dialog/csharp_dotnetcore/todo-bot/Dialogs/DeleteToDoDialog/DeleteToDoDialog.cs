@@ -34,12 +34,12 @@ namespace Microsoft.BotBuilderSamples
                             new IfCondition()
                             {
                                 // All conditions are expressed using the common expression language.
-                                // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
+                                // See https://github.com/Microsoft/BotBuilder_Samples/tree/master/experimental/common_expression_language to learn more
                                 Condition = "user.todos == null || count(user.todos) <= 0",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Delete-Empty-List()}"),
-                                    new SendActivity("${Welcome-Actions()}"),
+                                    new SendActivity("${Delete_Empty_List()}"),
+                                    new SendActivity("${Welcome_Actions()}"),
                                     new EndDialog()
                                 }
                             },
@@ -65,7 +65,7 @@ namespace Microsoft.BotBuilderSamples
                                     new TextInput()
                                     {
                                         Property = "turn.todoTitle",
-                                        Prompt = new ActivityTemplate("${Get-ToDo-Title-To-Delete()}"),
+                                        Prompt = new ActivityTemplate("${Get_ToDo_Title_To_Delete()}"),
                                         // Allow interruptions enable interruptions while the user is in the middle of this prompt
                                         // The value to allow interruptions is an expression so you can examine any property to decide if 
                                         // interruptions are allowed or not. In this sample, we are not allowing interruptions 
@@ -78,7 +78,7 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = "contains(user.todos, turn.todoTitle) == false",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Todo-not-found()}"),
+                                    new SendActivity("${Todo_not_found()}"),
                                     new DeleteProperty()
                                     {
                                         Property = "turn.todoTitle"
@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                                 Value = "turn.todoTitle",
                                 ChangeType = EditArray.ArrayChangeType.Clear
                             },
-                            new SendActivity("${Delete-readBack()}"),
+                            new SendActivity("${Delete_readBack()}"),
                             new EndDialog()
                         }
                     }
@@ -109,12 +109,12 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> GetToDoTitleToDelete(DialogContext dc, System.Object options)
         {
             // Demonstrates using a custom code step to extract entities and set them in state.
-            var todoList = dc.GetState().GetValue<string[]>("user.todos");
+            var todoList = dc.State.GetValue<string[]>("user.todos");
             string todoTitleStr = null;
             string[] todoTitle;
             // By default, recognized intents from a recognizer are available under turn.intents scope. 
             // Recognized entities are available under turn.entities scope. 
-            dc.GetState().TryGetValue("turn.entities.todoTitle", out todoTitle);
+            dc.State.TryGetValue("turn.entities.todoTitle", out todoTitle);
             if (todoTitle != null && todoTitle.Length != 0)
             {
                 if (Array.Exists(todoList, e => e == todoTitle[0])) {
@@ -124,7 +124,7 @@ namespace Microsoft.BotBuilderSamples
             if (todoTitleStr != null)
             {
                 // Set the todo title in turn.todoTitle scope.
-                dc.GetState().SetValue("turn.todoTitle", todoTitleStr);
+                dc.State.SetValue("turn.todoTitle", todoTitleStr);
             }
             return await dc.EndDialogAsync(options);
         }

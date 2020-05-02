@@ -1,8 +1,8 @@
-# Using-Cards
+# echo-bot
 
-Bot Framework v4 using cards bot sample
+Bot Framework v4 echo bot sample using declarative form of [adaptive dialogs][1]
 
-This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses rich cards to enhance your bot design.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
 ## Prerequisites
 
@@ -10,7 +10,7 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 
     ```bash
     # determine node version
-    node -v
+    node --version
     ```
 
 ## To try this sample
@@ -21,10 +21,10 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/06.using-cards`
+- In a terminal, navigate to `samples/javascript_nodejs/02.echo-bot`
 
     ```bash
-    cd samples/javascript_nodejs/06.using-cards
+    cd samples/javascript_nodejs/02.echo-bot
     ```
 
 - Install modules
@@ -51,20 +51,6 @@ This bot has been created using [Microsoft Bot Framework][1], it shows how to cr
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Rich Cards
-
-Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
-
-- Animation Card
-- Audio Card
-- Hero Card
-- Receipt Card
-- Sign In Card
-- Thumbnail Card
-- Video Card
-
-When [designing the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards) developers should consider adding visual elements such as Rich Cards.
-
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
@@ -73,9 +59,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Design the user experience](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-design-user-experience?view=azure-bot-service-4.0#cards)
-- [Add media to messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-add-media-attachments?view=azure-bot-service-4.0)
-- [Rich card types](https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-connector-add-rich-cards?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
@@ -85,3 +68,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+[1]:https://aka.ms/adaptive-dialogs

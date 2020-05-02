@@ -1,7 +1,7 @@
 {
-    "name": "using-cards",
+    "name": "echobot",
     "version": "1.0.0",
-    "description": "Bot Builder v4 using cards sample",
+    "description": "Bot Builder v4 echo bot sample",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
@@ -13,14 +13,13 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
+        "url": "https://github.com"
     },
     "dependencies": {
         "botbuilder": "4.9.0-preview-126748",
-        "botbuilder-dialogs": "4.9.0-preview-126748",
+        "botbuilder-dialogs-declarative": "4.9.0-preview-126748",
         "botbuilder-dialogs-adaptive": "4.9.0-preview-126748",
-        "botbuilder-lg": "4.9.0-preview-126748",
-        "adaptive-expressions": "4.9.0-preview-126748",
+        "botbuilder-dialogs": "4.9.0-preview-126748",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
     },

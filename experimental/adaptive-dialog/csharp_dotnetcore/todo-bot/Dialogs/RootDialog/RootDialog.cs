@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples
                     { 
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("${Help-Root-Dialog()}") 
+                            new SendActivity("${Help_Root_Dialog()}") 
                             } 
                     },
                     new OnIntent("AddToDoDialog")    
@@ -81,7 +81,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "#Help.Score >= 0.8",
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("${Help-Root-Dialog()}") 
+                            new SendActivity("${Help_Root_Dialog()}") 
                         } 
                     },
                     new OnIntent("Cancel")           
@@ -93,8 +93,8 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("Cancelling all dialogs.."),
                             // SendActivity supports full language generation resolution.
                             // See here to learn more about language generation
-                            // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                            new SendActivity("${Welcome-Actions()}"),
+                            // https://github.com/Microsoft/BotBuilder_Samples/tree/master/experimental/language_generation
+                            new SendActivity("${Welcome_Actions()}"),
                             new CancelAllDialogs(),
                         }
                     }
@@ -123,14 +123,14 @@ namespace Microsoft.BotBuilderSamples
                     ItemsProperty = "turn.activity.membersAdded",
                     Actions = new List<Dialog>()
                     {
-                        // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
+                        // Note: Some channels send two conversation update events _ one for the Bot added to the conversation and another for user.
                         // Filter cases where the bot itself is the recipient of the message. 
                         new IfCondition()
                         {
                             Condition = "$foreach.value.name != turn.activity.recipient.name",
                             Actions = new List<Dialog>()
                             {
-                                new SendActivity("${Intro-message()}")
+                                new SendActivity("${Intro_message()}")
                             }
                         }
                     }
