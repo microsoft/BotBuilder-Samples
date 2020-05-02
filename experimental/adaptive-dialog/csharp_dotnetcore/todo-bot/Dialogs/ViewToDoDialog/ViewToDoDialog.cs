@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<Dialog>() 
                         {
-                            new SendActivity("${View-ToDos()}")
+                            new SendActivity("${ViewToDos()}")
                         }
                     }
                 }

@@ -60,7 +60,7 @@
     SuggestedActions = Book flight | Help | Cancel
 ]
 
-# Disambiguate-city
+# DisambiguateCity
 - Sure, what should I use ${@geographyV2[0]} as?
 
 # UnknownIntent

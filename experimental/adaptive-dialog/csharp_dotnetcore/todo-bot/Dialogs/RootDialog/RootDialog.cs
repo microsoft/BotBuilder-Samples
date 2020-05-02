@@ -4,11 +4,9 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using System.IO;
 using Microsoft.Bot.Builder.LanguageGeneration;
 
@@ -44,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
                     { 
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("${Help-Root-Dialog()}") 
+                            new SendActivity("${HelpRootDialog()}") 
                             } 
                     },
                     new OnIntent("AddToDoDialog")    
@@ -81,7 +79,7 @@ namespace Microsoft.BotBuilderSamples
                         Condition = "#Help.Score >= 0.8",
                         Actions = new List<Dialog>() 
                         { 
-                            new SendActivity("${Help-Root-Dialog()}") 
+                            new SendActivity("${HelpRootDialog()}") 
                         } 
                     },
                     new OnIntent("Cancel")           
@@ -94,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                             // SendActivity supports full language generation resolution.
                             // See here to learn more about language generation
                             // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
-                            new SendActivity("${Welcome-Actions()}"),
+                            new SendActivity("${WelcomeActions()}"),
                             new CancelAllDialogs(),
                         }
                     }
@@ -130,7 +128,7 @@ namespace Microsoft.BotBuilderSamples
                             Condition = "$foreach.value.name != turn.activity.recipient.name",
                             Actions = new List<Dialog>()
                             {
-                                new SendActivity("${Intro-message()}")
+                                new SendActivity("${IntroMessage()}")
                             }
                         }
                     }

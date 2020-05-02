@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
@@ -18,6 +21,18 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+            // Register dialog. This sets up memory paths for adaptive.
+            ComponentRegistration.Add(new DialogsComponentRegistration());
+
+            // Register adaptive component
+            ComponentRegistration.Add(new AdaptiveComponentRegistration());
+
+            // Register to use language generation.
+            ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
+
+            // Register luis component
+            ComponentRegistration.Add(new LuisComponentRegistration());
 
             // Create the credential provider to be used with the Bot Framework Adapter.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();

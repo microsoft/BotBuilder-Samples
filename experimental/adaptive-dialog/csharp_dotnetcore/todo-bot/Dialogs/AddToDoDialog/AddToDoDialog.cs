@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples
                             new TextInput()
                             {
                                 Property = "turn.todoTitle",
-                                Prompt = new ActivityTemplate("${Get-ToDo-Title()}")
+                                Prompt = new ActivityTemplate("${GetToDoTitle()}")
                             },
                             // Add the new todo title to the list of todos. Keep the list of todos in the user scope.
                             new EditArray()
@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
                                 ChangeType = EditArray.ArrayChangeType.Push,
                                 Value = "=turn.todoTitle"
                             },
-                            new SendActivity("${Add-ToDo-ReadBack()}")
+                            new SendActivity("${AddToDoReadBack()}")
                             // All child dialogs will automatically end if there are no additional steps to execute. 
                             // If you wish for a child dialog to not end automatically, you can set 
                             // AutoEndDialog property on the Adaptive Dialog to 'false'
@@ -82,7 +82,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<Dialog>()
                         {
-                            new SendActivity("${Help-Add-ToDo()}")
+                            new SendActivity("${HelpAddToDo()}")
                         }
                     },
                     new OnIntent("Cancel")
@@ -92,10 +92,10 @@ namespace Microsoft.BotBuilderSamples
                             new ConfirmInput()
                             {
                                 Property = "turn.addTodo.cancelConfirmation",
-                                Prompt = new ActivityTemplate("${Confirm-cancellation()}"),
+                                Prompt = new ActivityTemplate("${ConfirmCancellation()}"),
                                 // Allow interruptions is an expression. So you can write any expression to determine if an interruption should be allowed.
                                 // In this case, we will disallow interruptions since this is a cancellation confirmation. 
-                                AllowInterruptions = "false",
+                                AllowInterruptions = false,
                                 // Controls the number of times user is prompted for this input.
                                 MaxTurnCount = 1,
                                 // Default value to use if we have hit the MaxTurnCount
@@ -112,12 +112,12 @@ namespace Microsoft.BotBuilderSamples
                                 Condition = "turn.addTodo.cancelConfirmation == true",
                                 Actions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Cancel-add-todo()}"),
+                                    new SendActivity("${CancelAddTodo()}"),
                                     new EndDialog()
                                 },
                                 ElseActions = new List<Dialog>()
                                 {
-                                    new SendActivity("${Help-prefix()}, let's get right back to adding a todo.")
+                                    new SendActivity("${HelpPrefix()}, let's get right back to adding a todo.")
                                 }
                                 // We do not need to specify an else block here since if user said no,
                                 // the control flow will automatically return to the last active step (if any)

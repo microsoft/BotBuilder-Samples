@@ -10,9 +10,9 @@
       <Publish Condition="'%(PackageReference.Version)' == ''">true</Publish>
     </PackageReference>
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.8.0-rc0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.8.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.8.0-rc0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.9.0-preview-200501-127441" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.0-preview-200501-127441" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.9.0-preview-200501-127441" />
   </ItemGroup>
 
   <ItemGroup>

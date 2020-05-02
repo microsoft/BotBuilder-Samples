@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
@@ -110,7 +111,7 @@ namespace Microsoft.BotBuilderSamples
                              Prompt = new ActivityTemplate("${AskForAge()}"),
                              Property = "user.userProfile.Age",
                              // Add validations
-                             Validations = new List<String>()
+                             Validations = new List<BoolExpression>()
                              {
                                  // Age must be greater than or equal 1
                                  "int(this.value) >= 1",

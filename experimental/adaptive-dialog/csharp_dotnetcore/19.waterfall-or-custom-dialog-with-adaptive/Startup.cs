@@ -4,6 +4,8 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -16,6 +18,15 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
+
+            // Register dialog. This sets up memory paths for adaptive.
+            ComponentRegistration.Add(new DialogsComponentRegistration());
+
+            // Register adaptive component
+            ComponentRegistration.Add(new AdaptiveComponentRegistration());
+
+            // Register to use language generation.
+            ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();

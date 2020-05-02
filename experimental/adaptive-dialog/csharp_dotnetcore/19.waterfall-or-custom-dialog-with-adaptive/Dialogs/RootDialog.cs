@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -77,7 +78,7 @@ namespace Microsoft.BotBuilderSamples
 
                         // use information passed in to the adaptive dialog.
                         Prompt = new ActivityTemplate("Hello ${dialog.fullname.first}, what is your age?"),
-                        Validations = new List<string>()
+                        Validations = new List<BoolExpression>()
                         {
                             "int(this.value) >= 1",
                             "int(this.value) <= 150"
@@ -93,13 +94,13 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Property = "dialog.shoesize",
                         Prompt = new ActivityTemplate("Please enter your shoe size."),
-                        InvalidPrompt = new ActivityTemplate("You must enter a size between 0 and 16. Half sizes are acceptable."),
-                        Validations = new List<string>()
+                        InvalidPrompt = new ActivityTemplate("Sorry ${this.value} does not work. You must enter a size between 0 and 16. Half sizes are acceptable."),
+                        Validations = new List<BoolExpression>()
                         {
-                            // shoe size must be between 0-16
+                            // size can only between 0-16
                             "int(this.value) >= 0 && int(this.value) <= 16",
-                            // can only have half size
-                            "isMatch(this.value, '[0-9]+(.5)')"
+                            // can only full or half size
+                            "isMatch(string(this.value), '^[0-9]+(\\.5)*$')"
                         },
                         AllowInterruptions = false
                     },

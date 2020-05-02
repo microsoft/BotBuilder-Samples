@@ -122,9 +122,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         new SendActivity("${AllCards()}")
                     }
-                },
-                // Go back and repeat this dialog. User can choose 'cancel' to cancel the dialog.
-                new RepeatDialog()
+                }
             };
         }
     }
