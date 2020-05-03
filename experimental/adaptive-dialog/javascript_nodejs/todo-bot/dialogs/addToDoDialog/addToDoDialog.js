@@ -75,7 +75,7 @@ class AddToDoDialog extends ComponentDialog {
                         // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                         condition: new BoolExpression('turn.addTodo.cancelConfirmation == true'),
                         actions: [
-                            new SendActivity('${HelpAddToDo()}'),
+                            new SendActivity('${CancelAddTodo()}'),
                             new EndDialog()
                         ],
                         elseActions: [new SendActivity("${HelpPrefix()}, let's get right back to adding a todo.")]

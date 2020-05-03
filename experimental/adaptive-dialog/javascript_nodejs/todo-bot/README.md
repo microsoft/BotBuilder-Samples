@@ -1,12 +1,8 @@
-# multi turn prompt sample
+# todo sample
 
-This sample demonstrates using [Adaptive dialog][1] and [Language Generation][2] PREVIEW features to achieve the same functionality that the waterfall based cards sample [here][3].
+This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] PREVIEW features with [LUIS][5] to demonstrate an end-to-end ToDo bot in action.
 
 This sample uses preview packages available on [npmjs][4].
-
-Bot Framework v4 multi-turn prompt bot sample
-
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use the prompts classes included in `botbuilder-dialogs`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to store and retrieve values.
 
 ## Prerequisites
 
@@ -25,10 +21,10 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/05.multi-turn-prompt`
+- In a terminal, navigate to `experimental/adaptive-dialog/javascript_nodejs/todo-bot`
 
     ```bash
-    cd samples/javascript_nodejs/05.multi-turn-prompt
+    cd experimental/adaptive-dialog/javascript_nodejs/todo-bot
     ```
 
 - Install modules
@@ -55,15 +51,40 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Prompts
+## LUIS Setup
+### Using LUIS portal
+- Navigate and sign in to [Luis.ai][5]
+- Under "My apps", click on "Import new app"
+- Click on "Choose app file (JSON format) ..."
+- Select `botbuilder-samples/experimental/adaptive-dialog/javascript_nodejs/todo-bot/CognitiveModels/ToDoLuisBot.luis.json
+- Once the application is imported
+    - Click on 'Train' to train the application
+    - Click on 'Publish' to publish the application.
+- Update appsettings.json
+    - You can get your 'Authoring key' by following instructions [here][9]
+    - You can get your application id and endpoint region by following instructions [here][10]
 
-A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,
-and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types
-included in the [botbuilder-dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0) library
-and supported by the SDK.
-
-The `botbuilder-dialogs` library includes a variety of pre-built prompt classes, including text, number, and datetime types. This
-sample demonstrates using a text prompt to collect the user's name, then using a number prompt to collect an age.
+### Using CLI
+- Install [nodejs][2] version 10.14 or higher
+- Install required CLI tools
+```bash
+> npm i -g luis-apis @microsoft/botframework-cli
+```
+- In a command prompt, navigate to `botbuilder-samples/experimental/adaptive-dialog/javascript_nodejs/todo-bot`
+- To parse RootDialog.lu to a LUIS json model
+```bash
+> bf luis:convert --in ./Dialogs/RootDialog/RootDialog.lu --out ./CognitiveModels/ToDoLuisBot.luis.json --force
+```
+- To create a new LUIS application using this model. Note: You see [here][9] for instructions on getting your authoirng key.
+```bash
+> luis import application --in ./CognitiveModels/ToDoLuisBot.luis.json --authoringKey <YOUR-AUTHORING-KEY>
+```
+- Copy the relevant Application Id, endpoint information as well as your authoring key to appsettings.json.
+- To train and publish the LUIS application,
+```bash
+> luis train version --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
+> luis publish version --appId <YOUR-APP-ID> --versionId 0.1 --wait --authoringKey <YOUR-AUTHORING-KEY>
+```
 
 ## Deploy the bot to Azure
 
@@ -87,5 +108,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 [1]:https://aka.ms/adaptive-dialogs
 [2]:https://aka.ms/language-generation
-[3]:../../../samples/javascript_nodejs/05.multi-turn-prompt
 [4]:https://www.npmjs.com/search?q=botbuilder

@@ -46,8 +46,8 @@ class DeleteToDoDialog extends ComponentDialog {
                                 property: new StringExpression('turn.todoTitle'),
                                 prompt: new ActivityTemplate('${GetToDoTitleToDelete()}'),
                                 // Allow interruptions enable interruptions while the user is in the middle of this prompt
-                                // The value to allow interruptions is an expression so you can examine any property to decide if 
-                                // interruptions are allowed or not. In this sample, we are not allowing interruptions 
+                                // The value to allow interruptions is an expression so you can examine any property to decide if
+                                // interruptions are allowed or not. In this sample, we are not allowing interruptions
                                 allowInterruptions: new BoolExpression(false)
                             })
                         ]
@@ -80,19 +80,21 @@ class DeleteToDoDialog extends ComponentDialog {
         this.initialDialogId = DIALOG_ID;
     }
 
-    getToDoTitleToDelete(dc, options) {
+    async getToDoTitleToDelete(dc, options) {
         // Demonstrates using a custom code step to extract entities and set them in state.
         const todoList = dc.state.getValue('user.todos');
-        let todoTitleStr = '';
-        let todoTitle = dc.state.getValue('turn.entities.todoTitle');
+        const todoTitle = dc.state.getValue('turn.entities.todoTitle');
 
         // By default, recognized intents from a recognizer are available under turn.intents scope.
         // Recognized entities are available under turn.entities scope.
         if (todoTitle) {
-
+            if (todoList.includes(todoTitle[0])) {
+                // Set the todo title in turn.todoTitle scope.
+                dc.state.setValue('turn.todoTitle', todoTitle[0]);
+            }
         }
 
-        dc.endDialog(options);
+        return await dc.endDialog(options);
     }
 }
 
