@@ -21,11 +21,11 @@ class RootDialog extends ComponentDialog {
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
                 new OnIntent('Greeting', [], [new SendActivity('${HelpRootDialog()}')]),
-                new OnIntent('AddToDoDialog', [], [new BeginDialog('ADD_TO_DO_DIALOG')]), // new BoolExpression('#AddToDoDialog.Score >= 0.5')
-                new OnIntent('DeleteToDoDialog', [], [new BeginDialog('DELETE_TO_DO_DIALOG')]), // new BoolExpression('#DeleteToDoDialog.Score >= 0.5')
-                new OnIntent('ViewToDoDialog', [], [new BeginDialog('VIEW_TO_DO_DIALOG')]), // new BoolExpression('#ViewToDoDialog.Score >= 0.5"')
+                new OnIntent('AddToDoDialog', [], [new BeginDialog('ADD_TO_DO_DIALOG')], '#AddToDoDialog.Score >= 0.5'),
+                new OnIntent('DeleteToDoDialog', [], [new BeginDialog('DELETE_TO_DO_DIALOG')], '#DeleteToDoDialog.Score >= 0.5'),
+                new OnIntent('ViewToDoDialog', [], [new BeginDialog('VIEW_TO_DO_DIALOG')], '#ViewToDoDialog.Score >= 0.5'),
                 // Come back with LG template based readback for global help
-                new OnIntent('Help', [], [new SendActivity('${HelpRootDialog()}')]), // new BoolExpression('#Help.Score >= 0.8"')
+                new OnIntent('Help', [], [new SendActivity('${HelpRootDialog()}')], '#Help.Score >= 0.8'),
                 new OnIntent('Cancel', [], [
                     // This is the global cancel in case a child dialog did not explicit handle cancel.
                     new SendActivity('Cancelling all dialogs..'),
@@ -34,7 +34,7 @@ class RootDialog extends ComponentDialog {
                     // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
                     new SendActivity('${WelcomeActions()}'),
                     new CancelAllDialogs()
-                ]) // new BoolExpression('#Cancel.Score >= 0.8"')
+                ], '#Cancel.Score >= 0.8')
             ]
         });
 
