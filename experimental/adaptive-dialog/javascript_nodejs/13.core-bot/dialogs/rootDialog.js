@@ -7,7 +7,7 @@ const { LuisRecognizer } = require('botbuilder-ai');
 
 const path = require('path');
 const { ComponentDialog, ListStyle } = require('botbuilder-dialogs');
-const { ActivityTemplate, AdaptiveDialog, Case, ChoiceInput, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnUnknownIntent, RepeatDialog, SendActivity, SwitchCondition, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
+const { ActivityTemplate, AdaptiveDialog, CancelAllDialogs, Case, ChoiceInput, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, RepeatDialog, SendActivity, SwitchCondition, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
 const { ArrayExpression, BoolExpression, EnumExpression, StringExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
@@ -28,6 +28,14 @@ class RootDialog extends ComponentDialog {
             recognizer: this.createLuisRecognizer(),
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
+                new OnIntent('Greeting', [], [ new SendActivity("${BotOverview()}")]),
+                new OnIntent('Help', [], [ new SendActivity("${BotOverview()}") ], "#Help.Score >= 0.8"),
+                new OnIntent('Cancel', [], [
+                    // This is the global cancel in case a child dialog did not explicitly handle cancelling.
+                    new SendActivity('Sure, cancelling that...'),
+                    new CancelAllDialogs(),
+                    new EndDialog()
+                ]),
             ]
         });
         
