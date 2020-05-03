@@ -8,7 +8,7 @@ const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialo
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
-class MainDialog extends ComponentDialog {
+class RootDialog extends ComponentDialog {
     constructor(luisRecognizer, bookingDialog) {
         super('MainDialog');
 
@@ -159,4 +159,4 @@ class MainDialog extends ComponentDialog {
     }
 }
 
-module.exports.MainDialog = MainDialog;
+module.exports.MainDialog = RootDialog;
