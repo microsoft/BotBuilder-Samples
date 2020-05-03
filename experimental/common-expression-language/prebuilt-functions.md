@@ -1891,7 +1891,7 @@ hasValidDate('<input>')
 
 ```
 hasvalidDate('2020-12')
-hasFullDate('xxxx-12-21')
+hasvalidDate('xxxx-12-21')
 ```
 
 And return the results:
@@ -1992,8 +1992,8 @@ hasValidTime('<input>')
 *Examples*
 
 ```
-hasValidDuration('PT30M')
-hasValidDuration('2012-02-21T12:30:45')
+hasValidTime('PT30M')
+hasValidTime('2012-02-21T12:30:45')
 ```
 
 And return the results:
