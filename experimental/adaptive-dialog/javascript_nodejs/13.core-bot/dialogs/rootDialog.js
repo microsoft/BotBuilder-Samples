@@ -1,14 +1,10 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-expression');
-const { MessageFactory, InputHints } = require('botbuilder');
-const { LuisRecognizer } = require('botbuilder-ai');
-
 const path = require('path');
-const { ComponentDialog, ListStyle } = require('botbuilder-dialogs');
-const { ActivityTemplate, AdaptiveDialog, CancelAllDialogs, Case, ChoiceInput, ConfirmInput, DateTimeInput, DeleteProperty, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, PropertyAssignment, RepeatDialog, SendActivity, SetProperties, SwitchCondition, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
-const { ArrayExpression, BoolExpression, EnumExpression, StringExpression, ValueExpression, ValueExpressionConverter } = require('adaptive-expressions');
+const { ComponentDialog } = require('botbuilder-dialogs');
+const { ActivityTemplate, AdaptiveDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
+const { BoolExpression, EnumExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
 const ROOT_DIALOG = 'mainWaterfallDialog';
