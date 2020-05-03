@@ -1,5 +1,9 @@
 # core-bot
 
+This sample demonstrates using [Adaptive dialog][1] and [Language Generation][2] PREVIEW features to achieve the same functionality that the waterfall based cards sample [here][3].
+
+This sample uses preview packages available on [npmjs][4].
+
 Bot Framework v4 core bot sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to:
@@ -97,3 +101,8 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+[1]:https://aka.ms/adaptive-dialogs
+[2]:https://aka.ms/language-generation
+[3]:../../../samples/javascript_nodejs/05.multi-turn-prompt
+[4]:https://www.npmjs.com/search?q=botbuilder

@@ -17,12 +17,12 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
-        "botbuilder": "4.9.0-preview-126748",
-        "botbuilder-dialogs": "4.9.0-preview-126748",
-        "botbuilder-dialogs-adaptive": "4.9.0-preview-126748",
-        "botbuilder-lg": "4.9.0-preview-126748",
-        "adaptive-expressions": "4.9.0-preview-126748",
-        "botbuilder-ai": "4.9.0-preview-126748",
+        "botbuilder": "4.9.0-preview-127525",
+        "botbuilder-dialogs": "4.9.0-preview-127525",
+        "botbuilder-dialogs-adaptive": "4.9.0-preview-127525",
+        "botbuilder-lg": "4.9.0-preview-127525",
+        "adaptive-expressions": "4.9.0-preview-127525",
+        "botbuilder-ai": "4.9.0-preview-127525",
         "botbuilder-testing": "~4.8.0",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
