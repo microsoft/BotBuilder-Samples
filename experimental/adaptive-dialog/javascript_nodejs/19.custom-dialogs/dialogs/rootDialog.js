@@ -13,7 +13,7 @@ const {
 const { SlotDetails } = require('./slotDetails');
 const { SlotFillingDialog } = require('./slotFillingDialog');
 
-const { ActivityTemplate, AdaptiveDialog, BeginDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, NumberInput, OnBeginDialog, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
+const { ActivityTemplate, AdaptiveDialog, BeginDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, DialogExpression, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, NumberInput, OnBeginDialog, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
 const { BoolExpression, EnumExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
@@ -53,13 +53,13 @@ class RootDialog extends ComponentDialog {
             new SlotDetails('address', 'address')
         ];
 
-        // define adaptive dialog        
+        // define adaptive dialog
         const adaptiveSlotFillingDialog = new AdaptiveDialog(ADAPTIVE_DIALOG);
 
         // Set a language generator
         // You can see other adaptive dialog samples to learn how to externalize generation resources into .lg files.
         adaptiveSlotFillingDialog.generator = new TemplateEngineLanguageGenerator();
-        
+
         // add set of actions to perform when the adaptive dialog begins.
         adaptiveSlotFillingDialog.triggers = [
             new OnBeginDialog([
@@ -93,15 +93,15 @@ class RootDialog extends ComponentDialog {
                     allowInterruptions: new BoolExpression(false)
                 }),
                 new BeginDialog().configure({
-                    dialog: new StringExpression('address'),
+                    dialog: new DialogExpression('address'),
                     resultProperty: new StringExpression('dialog.address')
                 }),
-                // return everything under dialog scope. 
+                // return everything under dialog scope.
                 new EndDialog().configure({
                     value: new ValueExpression('=dialog')
                 })
             ])
-        ]
+        ];
 
         // Add the various dialogs that will be used to the DialogSet.
         this.addDialog(new SlotFillingDialog('address', addressSlots));
