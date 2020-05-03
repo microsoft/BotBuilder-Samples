@@ -1,10 +1,11 @@
 # custom dialogs
-
 Bot Framework v4 custom dialogs bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to sub-class the `Dialog` class to create different bot control mechanism like simple slot filling.
+This sample demonstrates using [Bot Framework's](https://dev.botframework.com) [Adaptive dialog][1] and [Language Generation][2] PREVIEW features to achieve the same functionality that the waterfall based cards sample [here][3].
 
-BotFramework provides a built-in base class called `Dialog`. By subclassing `Dialog`, developers can create new ways to define and control dialog flows used by the bot.
+This sample uses preview packages available on [npmjs][4].
+
+This sample shows how to sub-class the `Dialog` class to create different bot control mechanism like simple slot filling.
 
 ## Prerequisites
 
@@ -85,3 +86,8 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Restify](https://www.npmjs.com/package/restify)
 - [dotenv](https://www.npmjs.com/package/dotenv)
+
+[1]:https://aka.ms/adaptive-dialogs
+[2]:https://aka.ms/language-generation
+[3]:../../../samples/javascript_nodejs/05.multi-turn-prompt
+[4]:https://www.npmjs.com/search?q=botbuilder
