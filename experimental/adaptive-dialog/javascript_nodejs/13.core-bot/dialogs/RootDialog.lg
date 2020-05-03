@@ -1,0 +1,130 @@
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+# PromptForDestinationCity
+- Where would you like to travel to?
+- What is your destination city?
+
+# PromptForDepartureCity
+- Where are you traveling from?
+- What is your departure city?
+
+# ConfirmPrefix
+- Please confirm,
+- Can you please confirm this is right?
+- Does this sound righ to you? 
+
+# ConfirmMessage
+- I have you traveling to: ${conversation.flightBooking.destinationCity} from: ${conversation.flightBooking.departureCity} on: ${conversation.flightBooking.departureDate[0].value}
+- on ${conversation.flightBooking.departureDate[0].value}, travelling from ${conversation.flightBooking.departureCity} to ${conversation.flightBooking.destinationCity}
+
+# ConfirmBooking
+- ${ConfirmPrefix()} ${ConfirmMessage()}
+
+# PromptForTravelDate
+- When would you like to travel?
+- What is your departure date? 
+- Can you please give me your intended date of departure? 
+
+> This template uses inline expressions. Expressions are defined using the common expression language. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
+
+# PromptForMissingInformation
+- IF: ${conversation.flightBooking.departureCity == null} 
+  - ${PromptForDepartureCity()}
+- ELSEIF: ${conversation.flightBooking.destinationCity == null}
+  - ${PromptForDestinationCity()}
+- ELSEIF: ${conversation.flightBooking.departureDate == null}
+  - ${PromptForTravelDate()}
+- ELSE: 
+  - ${ConfirmBooking()}
+
+# ApologyPrefix
+- I'm sorry,
+- Unfortunately that does not work. 
+
+# InvalidDateReprompt
+- ${ApologyPrefix()} to make your booking please enter a full travel date including Day Month and Year.
+
+
+# BookingConfirmation
+- I have you booked to ${conversation.flightBooking.destinationCity} from ${conversation.flightBooking.departureCity} on ${conversation.flightBooking.departureDate[0].value}.
+
+# IntroPrompt
+- What can I help you with today?
+
+> Structured template definition.
+# BotOverview
+[Activity
+    Text = Hello, I'm the core bot. How can I be of help today? 
+    SuggestedActions = Book flight | Help | Cancel
+]
+
+# DisambiguateCity
+- Sure, what should I use ${@geographyV2[0]} as?
+
+# UnknownIntent
+[Activity
+    Text = Sorry, I do not understand that. Can you try and re-phrase?
+    SuggestedActions = Book flight | Hi | I need help | Exit
+]
+
+# HeaderText
+- Welcome to Bot Framework!
+- Welcome to core bot with Language Generation!
+
+> Structured template definition.
+# WelcomeCard
+[Activity
+    Attachments = ${json(AdaptiveCard.Definition())}
+]
+
+# AdaptiveCard.Definition
+- ```
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+      "size": "stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "medium",
+      "size": "default",
+      "weight": "bolder",
+      "text": "${HeaderText()}",
+      "wrap": true,
+      "maxLines": 0
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "isSubtle": true,
+      "text": "Now that you have successfully run your bot, follow the links in this Adaptive Card to expand your knowledge of Bot Framework.",
+      "wrap": true,
+      "maxLines": 0
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Get an overview",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Ask a question",
+      "url": "https://stackoverflow.com/questions/tagged/botframework"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Learn how to deploy",
+      "url": "https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0"
+    }
+  ]
+}
+```

@@ -9,7 +9,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 
 // This bot's main dialog.
 const { DialogBot } = require('./bots/dialogBot');
@@ -58,7 +58,7 @@ const userState = new UserState(memoryStorage);
 const dialog = new RootDialog();
 const bot = new DialogBot(conversationState, userState, dialog);
 
-// Create HTTP server
+// Create HTTP server.
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);

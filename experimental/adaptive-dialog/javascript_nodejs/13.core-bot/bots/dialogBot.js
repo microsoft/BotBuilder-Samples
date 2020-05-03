@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
+const { DialogManager } = require('botbuilder-dialogs');
 
 class DialogBot extends ActivityHandler {
     /**
