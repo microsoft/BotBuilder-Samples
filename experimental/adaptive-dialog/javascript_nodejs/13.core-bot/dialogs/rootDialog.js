@@ -7,7 +7,7 @@ const { LuisRecognizer } = require('botbuilder-ai');
 
 const path = require('path');
 const { ComponentDialog, ListStyle } = require('botbuilder-dialogs');
-const { ActivityTemplate, AdaptiveDialog, Case, ChoiceInput, ForEach, IfCondition, OnConversationUpdateActivity, OnUnknownIntent, RepeatDialog, SendActivity, SwitchCondition, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
+const { ActivityTemplate, AdaptiveDialog, Case, ChoiceInput, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnUnknownIntent, RepeatDialog, SendActivity, SwitchCondition, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
 const { ArrayExpression, BoolExpression, EnumExpression, StringExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
@@ -18,8 +18,14 @@ class RootDialog extends ComponentDialog {
         super(ROOT_DIALOG);
         
         const lgFile = Templates.parseFile(path.join(__dirname, "rootDialog.lg"));
+        // There are no steps associated with this dialog.
+        // This dialog will react to user input using its own Recognizer's output and Rules.
         const rootDialog = new AdaptiveDialog(ROOT_DIALOG).configure({
             generator: new TemplateEngineLanguageGenerator(lgFile),
+            // Add a recognizer to this adaptive dialog.
+            // For this dialog, we will use the LUIS recognizer based on the FlightBooking.json
+            // found under CognitiveModels folder.
+            recognizer: this.createLuisRecognizer(),
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
             ]
@@ -49,6 +55,16 @@ class RootDialog extends ComponentDialog {
                 ]
             })
         ];
+    }
+
+    createLuisRecognizer() {
+        return new LuisAdaptiveRecognizer().configure(
+            {
+                endpoint: new StringExpression(process.env.LuisAPIHostName),
+                endpointKey: new StringExpression(process.env.LuisAPIKey),
+                applicationId: new StringExpression(process.env.LuisAppId)
+            }
+        );
     }
 
     // /**
