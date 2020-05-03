@@ -26,8 +26,7 @@ const adapter = new BotFrameworkAdapter({
     appPassword: process.env.MicrosoftAppPassword
 });
 
-// Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
+const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
@@ -48,6 +47,9 @@ adapter.onTurnError = async (context, error) => {
     await conversationState.delete(context);
 };
 
+// Catch-all for errors.
+adapter.onTurnError = onTurnErrorHandler;
+
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state store to persist the dialog and user state between messages.
 const memoryStorage = new MemoryStorage();
@@ -55,7 +57,7 @@ const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
 // Create the main dialog.
-const dialog = new RootDialog();
+const dialog = new RootDialog(userState);
 const bot = new DialogBot(conversationState, userState, dialog);
 
 // Create HTTP server.

@@ -6,11 +6,19 @@ const {
     DialogSet,
     DialogTurnStatus,
     NumberPrompt,
+    PromptCultureModels,
     TextPrompt,
     WaterfallDialog
 } = require('botbuilder-dialogs');
 const { SlotDetails } = require('./slotDetails');
 const { SlotFillingDialog } = require('./slotFillingDialog');
+
+const { ActivityTemplate, AdaptiveDialog, BeginDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, NumberInput, OnBeginDialog, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
+const { BoolExpression, EnumExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
+const { Templates } = require('botbuilder-lg');
+
+const ROOT_DIALOG = 'RootDialog'
+const ADAPTIVE_DIALOG = 'AdaptiveDialog'
 
 class RootDialog extends ComponentDialog {
     /**
@@ -18,26 +26,26 @@ class RootDialog extends ComponentDialog {
      * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
      */
     constructor(userState) {
-        super('root');
-        // Create a property used to store dialog state.
-        // See https://aka.ms/about-bot-state-accessors to learn more about bot state and state accessors.
+        super(ROOT_DIALOG);
+
         this.userStateAccessor = userState.createProperty('result');
 
-        // Set up a series of questions for collecting the user's name.
+        // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
+        // In this example we will want two text prompts to run, one for the first name and one for the last.
         const fullnameSlots = [
             new SlotDetails('first', 'text', 'Please enter your first name.'),
             new SlotDetails('last', 'text', 'Please enter your last name.')
         ];
 
-        // Set up a series of questions to collect a street address.
+        // This defines an address dialog that collects street, city and zip properties.
         const addressSlots = [
             new SlotDetails('street', 'text', 'Please enter your street address.'),
             new SlotDetails('city', 'text', 'Please enter the city.'),
-            new SlotDetails('zip', 'text', 'Please enter your zipcode.')
+            new SlotDetails('zip', 'text', 'Please enter the zip.')
         ];
 
-        // Link the questions together into a parent group that contains references
-        // to both the fullname and address questions defined above.
+        // Dialogs can be nested and the slot filling dialog makes use of that. In this example some of the child
+        // dialogs are slot filling dialogs themselves.
         const slots = [
             new SlotDetails('fullname', 'fullname'),
             new SlotDetails('age', 'number', 'Please enter your age.'),
@@ -45,47 +53,94 @@ class RootDialog extends ComponentDialog {
             new SlotDetails('address', 'address')
         ];
 
-        // Add the individual child dialogs and prompts used.
-        // Note that the built-in prompts work hand-in-hand with our custom SlotFillingDialog class
-        // because they are both based on the provided Dialog class.
+        // define adaptive dialog        
+        const adaptiveSlotFillingDialog = new AdaptiveDialog(ADAPTIVE_DIALOG);
+
+        // Set a language generator
+        // You can see other adaptive dialog samples to learn how to externalize generation resources into .lg files.
+        adaptiveSlotFillingDialog.generator = new TemplateEngineLanguageGenerator();
+        
+        // add set of actions to perform when the adaptive dialog begins.
+        adaptiveSlotFillingDialog.triggers = [
+            new OnBeginDialog([
+                // any options passed into adaptive dialog is automatically available under dialog.xxx
+                // get user age
+                new NumberInput().configure({
+                    property: new StringExpression('dialog.userage'),
+                    // use information passed in to the adaptive dialog.
+                    prompt: new ActivityTemplate('Hello ${dialog.fullname.first}, what is your age?'),
+                    validations: [
+                        'int(this.value) >= 1',
+                        'int(this.value) <= 150'
+                    ],
+                    invalidPrompt: new ActivityTemplate('Sorry, ${this.value} does not work. Looking for age to be between 1-150. What is your age?'),
+                    unrecognizedPrompt: new ActivityTemplate('Sorry, I did not understand ${this.value}. What is your age?'),
+                    maxTurnCount: new NumberExpression(3),
+                    defaultValue: new ValueExpression('=30'),
+                    defaultValueResponse: new ActivityTemplate("Sorry, this is not working. For now, I'm setting your age to ${this.defaultValue}"),
+                    allowInterruptions: new BoolExpression(false)
+                }),
+                new NumberInput().configure({
+                    property: new StringExpression('dialog.shoesize'),
+                    prompt: new ActivityTemplate('Please enter your shoe size.'),
+                    invalidPrompt: new ActivityTemplate('Sorry ${this.value} does not work. You must enter a size between 0 and 16. Half sizes are acceptable.'),
+                    validations: [
+                        // size can only between 0-16
+                        "int(this.value) >= 0 && int(this.value) <= 16",
+                        // can only full or half size
+                        "isMatch(string(this.value), '^[0-9]+(\\.5)*$')"
+                    ],
+                    allowInterruptions: new BoolExpression(false)
+                }),
+                new BeginDialog().configure({
+                    dialog: new StringExpression('address'),
+                    resultProperty: new StringExpression('dialog.address')
+                }),
+                // return everything under dialog scope. 
+                new EndDialog().configure({
+                    value: new ValueExpression('=dialog')
+                })
+            ])
+        ]
+
+        // Add the various dialogs that will be used to the DialogSet.
         this.addDialog(new SlotFillingDialog('address', addressSlots));
         this.addDialog(new SlotFillingDialog('fullname', fullnameSlots));
         this.addDialog(new TextPrompt('text'));
-        this.addDialog(new NumberPrompt('number'));
-        this.addDialog(new NumberPrompt('shoesize', this.shoeSizeValidator));
-        this.addDialog(new SlotFillingDialog('slot-dialog', slots));
+        this.addDialog(new NumberPrompt('number')); // PromptCultureModels.English.locale
+        this.addDialog(new NumberPrompt('shoesize', this.shoeSizeValidator)); // PromptCultureModels.English.locale
 
-        // Finally, add a 2-step WaterfallDialog that will initiate the SlotFillingDialog,
-        // and then collect and display the results.
-        this.addDialog(new WaterfallDialog('root', [
+        // We will instead have adaptive dialog do the slot filling by invoking the custom dialog
+        // AddDialog(new SlotFillingDialog("slot-dialog", slots));
+
+        // Add adaptive dialog
+        this.addDialog(adaptiveSlotFillingDialog);
+
+        // Defines a simple two step Waterfall to test the slot dialog.
+        this.addDialog(new WaterfallDialog('waterfall', [
             this.startDialog.bind(this),
+            this.doAdaptiveDialog(this),
             this.processResults.bind(this)
         ]));
 
-        this.initialDialogId = 'root';
+        // The initial child Dialog to run.
+        this.initialDialogId = 'waterfall';
     }
 
-    /**
-     * The run method handles the incoming activity (in the form of a DialogContext) and passes it through the dialog system.
-     * If no dialog is active, it will start the default dialog.
-     * @param {*} dialogContext
-     */
-    async run(context, accessor) {
-        const dialogSet = new DialogSet(accessor);
-        dialogSet.add(this);
-
-        const dialogContext = await dialogSet.createContext(context);
-        const results = await dialogContext.continueDialog();
-        if (results.status === DialogTurnStatus.empty) {
-            await dialogContext.beginDialog(this.id);
-        }
-    }
-
-    // This is the first step of the WaterfallDialog.
-    // It kicks off the dialog with the multi-question SlotFillingDialog,
-    // then passes the aggregated results on to the next step.
     async startDialog(step) {
-        return await step.beginDialog('slot-dialog');
+        // Start the child dialog. This will just get the user's first and last name.
+        return await step.beginDialog('fullname');
+    }
+    
+    async doAdaptiveDialog(step) {
+        let adaptiveOptions;
+        if (step.result) {
+            adaptiveOptions = { fullName: step.result };
+        }
+
+        // begin the adaptive dialog. This in-turn will get user's age, shoe-size using adaptive inputs and subsequently
+        // call the custom slot filling dialog to fill user address.
+        return await step.beginDialog(ADAPTIVE_DIALOG, adaptiveOptions)
     }
 
     // This is the second step of the WaterfallDialog.
