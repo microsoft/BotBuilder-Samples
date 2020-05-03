@@ -68,7 +68,7 @@ class RootDialog extends ComponentDialog {
                         // This property supports an expression so you can examine presence of an intent via #intentName, 
                         //    detect presence of an entity via @entityName etc. Interruption is allowed if the expression
                         //    evaluates to `true`. This property defaults to `true`.
-                        allowInterruptions: new BoolExpression('!@fromCity || !@geographyV2'),
+                        allowInterruptions: new BoolExpression('!#Book_flight && (!@fromCity || !@geographyV2)'),
                         // value is an expression. Take first non-null value.
                         value: new ValueExpression('=coalesce(@fromCity.location, @geographyV2.location)')
                     }),
@@ -77,14 +77,14 @@ class RootDialog extends ComponentDialog {
                     new TextInput().configure({
                         property: new StringExpression('conversation.flightBooking.destinationCity'),
                         prompt: new ActivityTemplate('${PromptForMissingInformation()}'),
-                        allowInterruptions: new BoolExpression('!@toCity || !@geographyV2'),
+                        allowInterruptions: new BoolExpression('!#Book_flight && (!@toCity || !@geographyV2)'),
                         // value is an expression. Take any recognized city name as fromCity.
                         value: new ValueExpression('=coalesce(@toCity.location, @geographyV2.location)')
                     }),
                     new DateTimeInput().configure({
                         property: new StringExpression('conversation.flightBooking.departureDate'),
                         prompt: new ActivityTemplate('${PromptForMissingInformation()}'),
-                        allowInterruptions: new BoolExpression('!@datetime'),
+                        allowInterruptions: new BoolExpression('!#Book_flight && !@datetime'),
                         // value is an expression. Take any date time entity recognition as departure date.
                         value: new ValueExpression('=@datetime.timex[0]')
                     }),
