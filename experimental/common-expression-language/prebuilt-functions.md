@@ -1589,7 +1589,7 @@ formatDateTime('<timestamp>', '<format>'?)
 
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*timestamp*> | Yes | String | The string that contains the timestamp |
+| <*timestamp*> | Yes | String or number | The string that contains the timestamp |
 | <*format*> | No | String | A [custom format pattern](https://docs.microsoft.com/dotnet/standard/base-types/custom-date-and-time-format-strings). The default format for the timestamp is UTC ISO format like YYYY-MM-DDTHH:mm:ss.fffZ, which complies with [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). |
 |||||
 
@@ -1598,15 +1598,16 @@ formatDateTime('<timestamp>', '<format>'?)
 | <*reformatted-timestamp*> | String | The updated timestamp in the specified format |
 ||||
 
-*Example*
+*Examples*
 
-This example converts a timestamp to the specified format:
+These examples convert a timestamp or a Unix timestamp to the specified format:
 
 ```
 formatDateTime('03/15/2018 12:00:00', 'yyyy-MM-ddTHH:mm:ss')
+formatDateTime(1521118800,, 'yyyy-MM-ddTHH:mm:ss.fffZ)'
 ```
 
-And returns this result: `"2018-03-15T12:00:00"`
+And return the results: `"2018-03-15T12:00:00"` and `"2018-03-15T12:00:00.000Z"`
 
 <a name="getFutureTime"></a>
 
