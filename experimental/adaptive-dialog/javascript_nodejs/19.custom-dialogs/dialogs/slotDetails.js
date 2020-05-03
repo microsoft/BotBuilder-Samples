@@ -18,7 +18,9 @@ class SlotDetails {
                 retryPrompt: reprompt
             };
         } else {
-            this.options = prompt;
+            this.options = {
+                prompt: prompt
+            };
         }
     }
 }
