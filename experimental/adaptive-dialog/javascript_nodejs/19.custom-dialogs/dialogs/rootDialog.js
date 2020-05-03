@@ -28,8 +28,6 @@ class RootDialog extends ComponentDialog {
     constructor(userState) {
         super(ROOT_DIALOG);
 
-        this.userStateAccessor = userState.createProperty('result');
-
         // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
         // In this example we will want two text prompts to run, one for the first name and one for the last.
         const fullnameSlots = [
