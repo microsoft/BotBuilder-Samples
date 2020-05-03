@@ -28,17 +28,6 @@ class DialogBot extends ActivityHandler {
             await next();
         });
     }
-
-    /**
-     * Override the ActivityHandler.run() method to save state changes after the bot logic completes.
-     */
-    async run(context) {
-        await super.run(context);
-
-        // Save any state changes. The load happened during the execution of the Dialog.
-        await this.conversationState.saveChanges(context, false);
-        await this.userState.saveChanges(context, false);
-    }
 }
 
 module.exports.DialogBot = DialogBot;
