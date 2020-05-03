@@ -1,0 +1,31 @@
+﻿> Language Generation definition file. 
+> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+
+> Structured template with composition
+# HelpRootDialog
+[Activity
+    Text = ${WelcomePrefix()}, I'm the Todo sample bot. ${WelcomeSuffix()}
+    ${WelcomeActions()}
+]
+
+> Structured template
+# WelcomeActions
+[Activity
+    SuggestedActions = Add todo | View Todo | Remove Todo | Cancel | Help
+]
+
+# WelcomeSuffix
+- How can I be of help today?
+- What can I do for you today?
+ 
+# WelcomePrefix
+- Hi
+- Hello
+- Hiya
+
+> Structured template with composition
+# IntroMessage
+[Activity
+    Text = Hi, nice to meet you! I'm the todo bot. Here are some things I can help with
+    ${WelcomeActions()}
+]
