@@ -29,8 +29,8 @@ class RootDialog extends ComponentDialog {
                 new OnIntent('Cancel', [], [
                     new SendActivity('Sure, cancelling that...'),
                     new CancelAllDialogs(),
-                    new EndDialog()
-                ]),
+                    new EndDialog(),
+                ], '#Cancel.Score >= 0.8'),
                 new OnUnknownIntent([ new SendActivity("${UnknownIntent()}") ]),
                 new OnIntent('Book_flight', [], [
                     // Save any entities returned by LUIS.
@@ -42,7 +42,7 @@ class RootDialog extends ComponentDialog {
                         // We will only save any geography city entities that explicitly have been classified as either fromCity or toCity.
                         {
                             property: new StringExpression('conversation.flightBooking.departureCity'),
-                            // `value` is an expression. @entityName is shorthand to refer to the value of an entity recognized.
+                            // value is an expression. @entityName is shorthand to refer to the value of an entity recognized.
                             // @xxx is same as turn.recognized.entities.xxx
                             value: new ValueExpression('=@fromCity.location')
                         },

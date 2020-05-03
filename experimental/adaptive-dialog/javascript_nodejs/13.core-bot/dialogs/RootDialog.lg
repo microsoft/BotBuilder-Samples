@@ -12,7 +12,7 @@
 # ConfirmPrefix
 - Please confirm,
 - Can you please confirm this is right?
-- Does this sound righ to you? 
+- Does this sound right to you? 
 
 # ConfirmMessage
 - I have you traveling to: ${conversation.flightBooking.destinationCity} from: ${conversation.flightBooking.departureCity} on: ${conversation.flightBooking.departureDate[0].value}
