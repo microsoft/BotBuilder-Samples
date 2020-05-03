@@ -131,6 +131,16 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[startOfMonth](#startOfMonth)  | Return the start of the month for a timestamp. |
 |[ticks](#ticks)    | Return the ticks property value for a specified timestamp. |
 
+### Timex functions
+|Function	|Explanation|
+|[isPresent](#isPresent)    | Return if the TimexProperty or timex expression refers to the present. |
+|[hasValidDuration](#hasValidDuration)    | Return if the TimexProperty or timex expression refers to a duration. |
+|[hasValidTime](#hasValidTime)    | Return if the TimexProperty or timex expression refers to a time. |
+|[hasValidDate](#hasValidDate)    | Return if the TimexProperty or timex expression refers to a date. |
+|[hasValidTimeRange](#hasValidTimeRange)    | Return if the TimexProperty or timex expression refers to a time range. |
+|[hasValidDateRange](#hasValidDateRange)    | Return if the TimexProperty or timex expression refers to a date range. |
+|[hasFullDate](#hasFullDate)    | Return if the TimexProperty or timex expression refers to a definite day. |
+
 ### URI parsing functions
 |Function	|Explanation|
 |-----------|-----------|
@@ -1822,6 +1832,212 @@ And return these results:
 * First example: `true`
 * Second example: `false`
 
+<a name="hasFullDate"></a>
+
+### hasFullDate
+
+return if a given TimexProperty or timex expression refers to a valid date(contains year, month and dayOfMonth).
+
+```
+hasFullDate('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid full date. |
+||||
+
+*Examples*
+Suppose we have an TimexProperty object and set the Now property to true, `validFullDate = new TimexProperty("2020-02-20")`
+
+```
+hasFullDate('xxxx-12-21')
+hasFullDate(validFullDate)
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="hasValidDate"></a>
+
+### hasValidDate
+
+return if a given TimexProperty or timex expression refers to a valid date(contains month and dayOfMonth, or contains dayOfWeek).
+
+```
+hasValidDate('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid date. |
+||||
+
+*Examples*
+
+```
+hasvalidDate('2020-12')
+hasFullDate('xxxx-12-21')
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="hasValidDateRange"></a>
+
+### hasValidDateRange
+
+return if a given TimexProperty or timex expression refers to a valid date range.
+
+```
+hasValidDateRange('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid date range. |
+||||
+
+*Examples*
+
+```
+hasValidDateRange('PT30M')
+hasValidDateRange('2012-02')
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="hasValidDuration"></a>
+
+### hasValidDuration
+
+return if a given TimexProperty or timex expression refers to a valid duration.
+
+```
+hasValidDuration('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid duration. |
+||||
+
+*Examples*
+
+```
+hasValidDuration('PT30M')
+hasValidDuration('2012-02')
+```
+
+And return the results:
+
+```
+true
+false
+```
+
+<a name="hasValidTime"></a>
+
+### hasValidTime
+
+return if a given TimexProperty or timex expression refers to a valid time(contains hour, minutes and seconds).
+
+```
+hasValidTime('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid time. |
+||||
+
+*Examples*
+
+```
+hasValidDuration('PT30M')
+hasValidDuration('2012-02-21T12:30:45')
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="hasValidTimeRange"></a>
+
+### hasValidTimeRange
+
+return if a given TimexProperty or timex expression refers to a valid time range(contains partOfDay).
+
+```
+hasValidTime('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string. |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to a valid time range. |
+||||
+
+*Examples*
+Suppose we have an TimexProperty object and set the Now property to true, ` validTimeRange = new TimexProperty() { PartOfDay = "morning" } `
+
+```
+hasValidTimeRange('PT30M')
+hasValidTimeRange(validTimeRange)
+```
+
+And return the results:
+
+```
+false
+true
+```
+
 <a name="if"></a>
 
 ### if
@@ -2290,6 +2506,41 @@ isObject('<input>')
 ```
 isObject('hello world!')
 isObject({userName: "Sam"})
+```
+
+And return the results:
+
+```
+false
+true
+```
+
+<a name="isPresent"></a>
+
+### isPresent
+
+return if a given TimexProperty or timex expression refers to the present.
+
+```
+isPresent('<input>')
+```
+
+| Parameter | Required | Type | Description |
+| --------- | -------- | ---- | ----------- |
+| <*input*> | Yes | Object or string | the input TimexProperty object a timex expression string |
+|||||
+
+| Return value | Type | Description |
+| ------------ | ---- | ----------- |
+| <*boolean-result*> | Boolean | If the input refers to the present |
+||||
+
+*Examples*
+Suppose we have an TimexProperty object and set the Now property to true, `validNow = new TimexProperty() { Now = true }`
+
+```
+isPresent('PT30M')
+isPresent(validNow)
 ```
 
 And return the results:
