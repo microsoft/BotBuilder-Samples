@@ -16,7 +16,11 @@ class DialogBot extends ActivityHandler {
         if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
         if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');
         if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
-        
+
+        this.dialogManager = new DialogManager(dialog);
+        this.dialogManager.conversationState = conversationState;
+        this.dialogManager.userState = userState;
+
         this.onTurn(async (context, next) => {
             console.log('Running dialog with activity.');
 
