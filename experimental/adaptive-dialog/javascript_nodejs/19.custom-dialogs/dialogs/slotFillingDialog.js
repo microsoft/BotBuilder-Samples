@@ -37,6 +37,7 @@ class SlotFillingDialog extends Dialog {
         // Don't do anything for non-message activities.
         if (dc.context.activity.type !== ActivityTypes.Message) {
             return dc.endDialog();
+            // return dc.endDialog();
         }
 
         // Initialize a spot to store these values.

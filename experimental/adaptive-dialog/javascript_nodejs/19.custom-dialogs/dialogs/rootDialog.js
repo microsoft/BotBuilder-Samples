@@ -21,12 +21,10 @@ const ROOT_DIALOG = 'RootDialog';
 const ADAPTIVE_DIALOG = 'AdaptiveDialog';
 
 class RootDialog extends ComponentDialog {
-    /**
-     * SampleBot defines the core business logic of this bot.
-     * @param {ConversationState} conversationState A ConversationState object used to store dialog state.
-     */
     constructor(userState) {
         super(ROOT_DIALOG);
+        
+        this.userStateAccessor = userState.createProperty('result');
 
         // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
         // In this example we will want two text prompts to run, one for the first name and one for the last.
