@@ -1,0 +1,560 @@
+{
+  "intents": [
+    {
+      "name": "Help"
+    },
+    {
+      "name": "Greeting"
+    },
+    {
+      "name": "Cancel"
+    },
+    {
+      "name": "AddToDoDialog"
+    },
+    {
+      "name": "DeleteToDoDialog"
+    },
+    {
+      "name": "ViewToDoDialog"
+    }
+  ],
+  "entities": [
+    {
+      "name": "todoTitle",
+      "roles": []
+    },
+    {
+      "name": "todoIdx",
+      "roles": []
+    }
+  ],
+  "composites": [],
+  "closedLists": [],
+  "regex_entities": [],
+  "model_features": [
+    {
+      "name": "todoItem",
+      "words": "todo,todos,to dos,todo list,todos list,item list,items collection,collection,list",
+      "mode": true,
+      "activated": true
+    }
+  ],
+  "regex_features": [],
+  "utterances": [
+    {
+      "text": "What can I say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Who are you?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I need help",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "Not sure what I can do",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What do you want me to say?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can you do?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What can you help with?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "help please",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "What are my options?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "well, I do not know what my todo's title is",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "I do not know",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "can you please help?",
+      "intent": "Help",
+      "entities": []
+    },
+    {
+      "text": "hi",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hello",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "hiya",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how are you?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "how do you do?",
+      "intent": "Greeting",
+      "entities": []
+    },
+    {
+      "text": "cancel",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel all",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "stop that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "do not do it",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "abort",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "please stop what you are doing",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I changed my mind",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel add todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel that",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not want to add a todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "No todo for me",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Cancel this",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "cancel delete todo",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Let's just leave it as is",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "I do not wish to delete my todo anymore",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Keep my todos as is",
+      "intent": "Cancel",
+      "entities": []
+    },
+    {
+      "text": "Add todo",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "add a to do item",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Please remind me to buy milk",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 20,
+          "endPos": 27
+        }
+      ]
+    },
+    {
+      "text": "Please remember that I need to buy milk",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 31,
+          "endPos": 38
+        }
+      ]
+    },
+    {
+      "text": "I need you to remember that my wife's birthday is Jan 9th",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 28,
+          "endPos": 56
+        }
+      ]
+    },
+    {
+      "text": "Add a todo named send report over this weekend",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 17,
+          "endPos": 45
+        }
+      ]
+    },
+    {
+      "text": "Add get a new car to the todo list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 16
+        }
+      ]
+    },
+    {
+      "text": "Add write a spec to the list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 15
+        }
+      ]
+    },
+    {
+      "text": "Add finish this demo to my todo list",
+      "intent": "AddToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 4,
+          "endPos": 19
+        }
+      ]
+    },
+    {
+      "text": "add another one",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "add",
+      "intent": "AddToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Remove todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Mark buy milk as complete",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 5,
+          "endPos": 12
+        }
+      ]
+    },
+    {
+      "text": "Flag first one as done",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 5,
+          "endPos": 13
+        }
+      ]
+    },
+    {
+      "text": "Remove finish this demo from the todo list",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 7,
+          "endPos": 22
+        }
+      ]
+    },
+    {
+      "text": "remove another one",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "remove",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "clear my todo named get a new car",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoTitle",
+          "startPos": 20,
+          "endPos": 32
+        }
+      ]
+    },
+    {
+      "text": "I'm done with the first todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I finished the last todo",
+      "intent": "DeleteToDoDialog",
+      "entities": [
+        {
+          "entity": "todoIdx",
+          "startPos": 15,
+          "endPos": 18
+        }
+      ]
+    },
+    {
+      "text": "Remove the first todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Delete todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Clear my todos",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Delete all my todos",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Remove all my todo",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Forget the list",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "Purge the todo list",
+      "intent": "DeleteToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "show my todo",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "can you please show my todos?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "please show my todo list",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "todo list please",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I need to see my todo list",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "can you show me the list?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "please show the list",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "what do i have on my todo?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "what is on my list?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "do i have anything left on my todo list?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I hope I do not have any todo left",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "do i have any tasks left?",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "hit me up with more items",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "view my todos",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "can you show my todo",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "see todo",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    },
+    {
+      "text": "I would like to see my todos list",
+      "intent": "ViewToDoDialog",
+      "entities": []
+    }
+  ],
+  "patterns": [
+    {
+      "pattern": "Please remember [to] {todoTitle}",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "I need you to remember [that] {todoTitle}",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "Add a todo named {todoTitle}",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "Add {todoTitle} to the list",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "[Please] add {todoTitle} to the todo list",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "Add {todoTitle} to my todo",
+      "intent": "AddToDoDialog"
+    },
+    {
+      "pattern": "I did {todoTitle}",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "I completed {todoTitle}",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "Delete {todoTitle}",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "Mark {todoTitle} as complete",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "Remove {todoTitle} from my [todo] list",
+      "intent": "DeleteToDoDialog"
+    },
+    {
+      "pattern": "[Please] delete {todoTitle} from the list",
+      "intent": "DeleteToDoDialog"
+    }
+  ],
+  "patternAnyEntities": [],
+  "prebuiltEntities": [],
+  "name": "ToDo-Bot-Sample-With-Adaptive-Dialogs",
+  "desc": "Todo bot sample from BotBuilder-Samples - Adaptive dialogs",
+  "culture": "en-us",
+  "luis_schema_version": "3.2.0",
+  "versionId": "0.1"
+}
