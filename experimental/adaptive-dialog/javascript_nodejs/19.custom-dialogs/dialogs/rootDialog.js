@@ -133,7 +133,7 @@ class RootDialog extends ComponentDialog {
     async doAdaptiveDialog(step) {
         let adaptiveOptions;
         if (step.result) {
-            adaptiveOptions = { fullName: step.result };
+            adaptiveOptions = { fullname: step.result.values };
         }
 
         // begin the adaptive dialog. This in-turn will get user's age, shoe-size using adaptive inputs and subsequently
@@ -146,9 +146,9 @@ class RootDialog extends ComponentDialog {
     async processResults(step) {
         // Each "slot" in the SlotFillingDialog is represented by a field in step.result.values.
         // The complex that contain subfields have their own .values field containing the sub-values.
-        const values = step.result.values;
+        const values = step.result;
 
-        const fullname = values.fullname.values;
+        const fullname = values.fullname;
         await step.context.sendActivity(`Your name is ${ fullname.first } ${ fullname.last }.`);
 
         await step.context.sendActivity(`You wear a size ${ values.shoesize } shoes.`);

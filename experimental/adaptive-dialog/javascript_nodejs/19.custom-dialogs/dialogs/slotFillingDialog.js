@@ -34,8 +34,8 @@ class SlotFillingDialog extends Dialog {
      * @param {DialogContext} dc A handle on the runtime.
      */
     async beginDialog(dc) {
-        // Don't do anything for non-message activities.
-        if (dc.context.activity.type !== ActivityTypes.Message) {
+        // Don't do anything for non-message and non-ConversationUpdate activities.
+        if (dc.context.activity.type !== ActivityTypes.Message && dc.context.activity.type !== ActivityTypes.ConversationUpdate) {
             return dc.endDialog();
         }
 
@@ -62,9 +62,9 @@ class SlotFillingDialog extends Dialog {
 
     /**
      * Resume is called when a child dialog completes and we need to carry on processing in this class.
-     * @param {DialogContext} dc 
-     * @param {DialogReason} reason 
-     * @param {object} result 
+     * @param {DialogContext} dc
+     * @param {DialogReason} reason
+     * @param {object} result
      */
     async resumeDialog(dc, reason, result) {
         // Update the state with the result from the child prompt.
@@ -83,20 +83,20 @@ class SlotFillingDialog extends Dialog {
     /**
      * This helper function contains the core logic of this dialog. The main idea is to compare the state we have gathered with the
      * list of slots we have been asked to fill. When we find an empty slot we execute the corresponding prompt.
-     * @param {DialogContext} dc 
+     * @param {DialogContext} dc
      */
     async runPrompt(dc) {
         // runPrompt finds the next slot to fill, then calls the appropriate prompt to fill it.
         const state = dc.activeDialog.state;
         const values = state[PersistedValues];
-            
+
         // Run through the list of slots until we find one that hasn't been filled yet.
         const unfilledSlot = this.slots.filter(function(slot) { return !Object.keys(values).includes(slot.name); });
 
         // If we have an unfilled slot we will try to fill it
         if (unfilledSlot.length) {
             state[SlotName] = unfilledSlot[0].name;
-            
+
             // If the slot contains prompt text create the PromptOptions.
 
             // Run the child dialog
