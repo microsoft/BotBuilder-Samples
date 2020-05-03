@@ -17,8 +17,8 @@ const { ActivityTemplate, AdaptiveDialog, BeginDialog, CancelAllDialogs, Confirm
 const { BoolExpression, EnumExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
-const ROOT_DIALOG = 'RootDialog'
-const ADAPTIVE_DIALOG = 'AdaptiveDialog'
+const ROOT_DIALOG = 'RootDialog';
+const ADAPTIVE_DIALOG = 'AdaptiveDialog';
 
 class RootDialog extends ComponentDialog {
     /**
@@ -119,7 +119,7 @@ class RootDialog extends ComponentDialog {
         // Defines a simple two step Waterfall to test the slot dialog.
         this.addDialog(new WaterfallDialog('waterfall', [
             this.startDialog.bind(this),
-            this.doAdaptiveDialog(this),
+            this.doAdaptiveDialog.bind(this),
             this.processResults.bind(this)
         ]));
 
@@ -131,7 +131,7 @@ class RootDialog extends ComponentDialog {
         // Start the child dialog. This will just get the user's first and last name.
         return await step.beginDialog('fullname');
     }
-    
+
     async doAdaptiveDialog(step) {
         let adaptiveOptions;
         if (step.result) {
@@ -140,7 +140,7 @@ class RootDialog extends ComponentDialog {
 
         // begin the adaptive dialog. This in-turn will get user's age, shoe-size using adaptive inputs and subsequently
         // call the custom slot filling dialog to fill user address.
-        return await step.beginDialog(ADAPTIVE_DIALOG, adaptiveOptions)
+        return await step.beginDialog(ADAPTIVE_DIALOG, adaptiveOptions);
     }
 
     // This is the second step of the WaterfallDialog.
