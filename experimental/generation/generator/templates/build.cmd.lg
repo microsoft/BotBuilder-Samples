@@ -20,6 +20,6 @@ goto done
 :help
 echo build.cmd [region] [authoringKey]
 echo Region defaults to westus.
-echo Must have an explicit key or set it using "bf config:set:luis:authoringKey"
+echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
 :done
 ```
