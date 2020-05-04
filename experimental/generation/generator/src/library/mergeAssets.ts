@@ -82,7 +82,6 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 
     try {
         for (let locale of locales) {
-
             await fs.ensureDir(ppath.join(mergedPath, locale))
             feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
 
@@ -736,10 +735,10 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
     let oldPropertySet = new Set<string>()
     let newPropertySet = new Set<string>()
 
-    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.schema.dialog'), 'utf8')
+    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.json'), 'utf8')
     let oldObj = JSON.parse(template)
 
-    template = await fs.readFile(ppath.join(newPath, schemaName + '.schema.dialog'), 'utf8')
+    template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     let newObj = JSON.parse(template)
 
     for (let property in oldObj['properties']) {
@@ -749,6 +748,6 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
         newPropertySet.add(property)
     }
 
-    await copySingleFile(newPath, mergedPath, schemaName + '.schema.dialog', feedback)
+    await copySingleFile(newPath, mergedPath, schemaName + '.json', feedback)
     return { oldPropertySet, newPropertySet }
 }

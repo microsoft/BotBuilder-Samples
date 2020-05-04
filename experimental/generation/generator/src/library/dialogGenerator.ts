@@ -502,7 +502,7 @@ export async function generate(
 
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires') ? undefined : val)
-        await generateFile(ppath.join(outPath, `${prefix}.schema.dialog`), body, force, feedback)
+        await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         if (merge) {
             await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
