@@ -1,0 +1,79 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "waterfall-integration",
+      "id": "807808"
+    }
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "552011"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "883263",
+            "name": "Send a response"
+          },
+          "activity": "${bfdactivity_883263()}"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "id": "089479",
+            "name": "Number input"
+          },
+          "prompt": "${bfdprompt_089479()}",
+          "unrecognizedPrompt": "${bfdunrecognizedPrompt_089479()}",
+          "invalidPrompt": "${bfdinvalidPrompt_089479()}",
+          "maxTurnCount": "3",
+          "validations": [
+            "this.value >= 0",
+            "this.value <= 150"
+          ],
+          "property": "dialog.userage",
+          "defaultValue": "30",
+          "allowInterruptions": "false",
+          "defaultLocale": "en-us",
+          "defaultValueResponse": "${bfddefaultValueResponse_089479()}"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "id": "799023",
+            "name": "Number input"
+          },
+          "prompt": "${bfdprompt_799023()}",
+          "unrecognizedPrompt": "${bfdunrecognizedPrompt_799023()}",
+          "invalidPrompt": "${bfdinvalidPrompt_799023()}",
+          "defaultValueResponse": "${bfddefaultValueResponse_799023()}",
+          "maxTurnCount": "3",
+          "validations": [
+            "this.value >= 0 && this.value <= 16",
+            "isMatch(string(this.value), '[0-9]+(\\.5)')"
+          ],
+          "property": "dialog.shoesize",
+          "defaultValue": "8",
+          "allowInterruptions": "false",
+          "defaultLocale": "en-us"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "680042",
+            "name": "End this dialog"
+          },
+          "value": "=dialog"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "Main.lg"
+}
