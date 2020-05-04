@@ -21,8 +21,8 @@ class DeleteToDoDialog extends ComponentDialog {
                         // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                         condition: new BoolExpression('user.todos == null || count(user.todos) <= 0'),
                         actions: [
-                            new SendActivity("${DeleteEmptyList()}"),
-                            new SendActivity("${WelcomeActions()}"),
+                            new SendActivity('${DeleteEmptyList()}'),
+                            new SendActivity('${WelcomeActions()}'),
                             new EndDialog()
                         ]
                     }),
@@ -34,8 +34,8 @@ class DeleteToDoDialog extends ComponentDialog {
 
                     // As a demonstration for this example, use a code step to understand entities returned by LUIS.
                     // You could have easily replaced the code step with these two steps
-                    // new SaveEntity("@todoTitle[0]", "turn.todoTitle"),
-                    // new SaveEntity("@todoTitle_patternAny[0]", "turn.todoTitle"),
+                    // new SaveEntity('@todoTitle[0]', 'turn.todoTitle'),
+                    // new SaveEntity('@todoTitle_patternAny[0]', 'turn.todoTitle'),
                     new CodeAction(this.getToDoTitleToDelete),
                     new IfCondition().configure({
                         condition: new BoolExpression('turn.todoTitle == null'),

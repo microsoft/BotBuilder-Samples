@@ -71,7 +71,7 @@ class RootDialog extends ComponentDialog {
                     new IfCondition().configure({
                         condition: new BoolExpression('$foreach.value.name != turn.activity.recipient.name'),
                         actions: [
-                            new SendActivity("${IntroMessage()}")
+                            new SendActivity('${IntroMessage()}')
                         ]
                     })
                 ]

@@ -1,7 +1,7 @@
+const { BoolExpression, EnumExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 const { ComponentDialog } = require('botbuilder-dialogs');
-const { EndDialog, OnIntent, RegexRecognizer, IntentPattern, ArrayChangeType, EditArray, SetProperty, ArrayExpression, LuisAdaptiveRecognizer, ForEach, OnConversationUpdateActivity, NumberInput, AttachmentInput, ConfirmInput, IfCondition, ActivityTemplate, AdaptiveDialog, TextInput, ChoiceInput, OnUnknownIntent, SendActivity, TemplateEngineLanguageGenerator, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
+const { AdaptiveDialog, ActivityTemplate, ArrayChangeType, ConfirmInput, EditArray, EndDialog, IfCondition, IntentPattern, OnBeginDialog, OnIntent, RegexRecognizer, SendActivity, SetProperty, TextInput, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
 const { Templates } = require('botbuilder-lg');
-const { StringExpression, BoolExpression, EnumExpression, NumberExpression, ValueExpression } = require('adaptive-expressions');
 
 const path = require('path');
 
