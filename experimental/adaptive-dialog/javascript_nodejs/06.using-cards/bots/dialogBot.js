@@ -27,14 +27,14 @@ class DialogBot extends ActivityHandler {
         this.dialogManager = new DialogManager(dialog);
         this.dialogManager.conversationState = conversationState;
         this.dialogManager.userState = userState;
-        
+
         this.onTurn(async (context, next) => {
             console.log('Running dialog with activity.');
 
             await this.dialogManager.onTurn(context);
 
             await next();
-        })
+        });
     }
 }
 

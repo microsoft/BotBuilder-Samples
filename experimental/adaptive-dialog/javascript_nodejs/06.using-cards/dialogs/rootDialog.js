@@ -12,14 +12,14 @@ const ROOT_DIALOG = 'rootDialog';
 class RootDialog extends ComponentDialog {
     constructor() {
         super(ROOT_DIALOG);
-        
-        const lgFile = Templates.parseFile(path.join(__dirname, "rootDialog.lg"));
+
+        const lgFile = Templates.parseFile(path.join(__dirname, 'rootDialog.lg'));
         const rootDialog = new AdaptiveDialog(ROOT_DIALOG).configure({
             generator: new TemplateEngineLanguageGenerator(lgFile),
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
                 // Respond to user on message activity
-                new OnUnknownIntent(this.onBeginDialogSteps()),
+                new OnUnknownIntent(this.onBeginDialogSteps())
             ]
         });
 
@@ -30,7 +30,7 @@ class RootDialog extends ComponentDialog {
 
     welcomeUserSteps() {
         // Iterate through membersAdded list and greet user added to the conversation.
-        return [ 
+        return [
             new ForEach().configure({
                 itemsProperty: new StringExpression('turn.activity.membersAdded'),
                 actions: [
@@ -39,7 +39,7 @@ class RootDialog extends ComponentDialog {
                     new IfCondition().configure({
                         condition: new BoolExpression('$foreach.value.name != turn.activity.recipient.name'),
                         actions: [
-                            new SendActivity("${IntroMessage()}")
+                            new SendActivity('${IntroMessage()}')
                         ]
                     })
                 ]
@@ -48,30 +48,30 @@ class RootDialog extends ComponentDialog {
     }
 
     onBeginDialogSteps() {
-       return [
-           new ChoiceInput().configure({
+        return [
+            new ChoiceInput().configure({
                 property: new StringExpression('turn.userChoice'),
-                prompt: new ActivityTemplate("${CardChoice()}"),
+                prompt: new ActivityTemplate('${CardChoice()}'),
                 style: new EnumExpression(ListStyle.auto),
                 choices: new ArrayExpression(this.getChoices()),
                 alwaysPrompt: new BoolExpression(true)
             }),
-            new SwitchCondition('turn.userChoice', [ new SendActivity("${AllCards()}") ], this.getSwitchCases()),
+            new SwitchCondition('turn.userChoice', [new SendActivity('${AllCards()}')], this.getSwitchCases()),
             new RepeatDialog()
-        ]
+        ];
     }
-    
+
     getSwitchCases() {
         return [
-            new Case('Adaptive Card', [ new SendActivity("${AdaptiveCard()}") ]),
-            new Case('Animation Card', [ new SendActivity("${AnimationCard()}") ]),
-            new Case('Audio Card', [ new SendActivity("${AudioCard()}") ]),
-            new Case('Hero Card', [ new SendActivity("${HeroCard()}") ]), 
-            new Case('Signin Card', [ new SendActivity("${SigninCard()}") ]),
-            new Case('Thumbnail Card', [ new SendActivity("${ThumbnailCard()}") ]),
-            new Case('Video Card', [ new SendActivity("${VideoCard()}") ]),
-            new Case('All Cards', [ new SendActivity("${AllCards()}") ]),
-        ]
+            new Case('Adaptive Card', [new SendActivity('${AdaptiveCard()}')]),
+            new Case('Animation Card', [new SendActivity('${AnimationCard()}')]),
+            new Case('Audio Card', [new SendActivity('${AudioCard()}')]),
+            new Case('Hero Card', [new SendActivity('${HeroCard()}')]),
+            new Case('Signin Card', [new SendActivity('${SigninCard()}')]),
+            new Case('Thumbnail Card', [new SendActivity('${ThumbnailCard()}')]),
+            new Case('Video Card', [new SendActivity('${VideoCard()}')]),
+            new Case('All Cards', [new SendActivity('${AllCards()}')])
+        ];
     }
 
     getChoices() {
@@ -91,10 +91,6 @@ class RootDialog extends ComponentDialog {
             {
                 value: 'Hero Card',
                 synonyms: ['hero']
-            },
-            {
-                value: 'Receipt Card',
-                synonyms: ['receipt']
             },
             {
                 value: 'Signin Card',
