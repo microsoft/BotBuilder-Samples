@@ -1,0 +1,28 @@
+[import](common.lg)
+
+# bfdprompt_089479()
+- Hello ${dialog.fullname.first}, please enter your age.
+
+# bfdactivity_883263()
+- In composer generated dialog.
+
+# bfdunrecognizedPrompt_089479()
+- Sorry, I do not understand ${this.value}. What is your age?
+
+# bfdinvalidPrompt_089479()
+- Sorry, ${this.value} does not work. I'm looking for value between 1-150. What is your age?
+
+# bfddefaultValueResponse_089479()
+- Sorry, I'm having a hard time understanding you. For now, I'm setting your age to ${class.defaultValue}
+
+# bfdprompt_799023()
+- What is your shoe size?
+
+# bfdunrecognizedPrompt_799023()
+- Sorry, I'm looking for a number. What is your shoe size?
+
+# bfdinvalidPrompt_799023()
+- Sorry, ${this.value} does not work. I'm looking for value between 0-16 and half point increments are ok. What is your shoe size?
+
+# bfddefaultValueResponse_799023()
+- Sorry, this is not working. For now, I'm assuming your shoe size to be ${class.defaultValue}
