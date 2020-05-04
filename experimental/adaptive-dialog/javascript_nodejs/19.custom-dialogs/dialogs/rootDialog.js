@@ -3,19 +3,15 @@
 
 const {
     ComponentDialog,
-    DialogSet,
-    DialogTurnStatus,
     NumberPrompt,
-    PromptCultureModels,
     TextPrompt,
     WaterfallDialog
 } = require('botbuilder-dialogs');
 const { SlotDetails } = require('./slotDetails');
 const { SlotFillingDialog } = require('./slotFillingDialog');
 
-const { ActivityTemplate, AdaptiveDialog, BeginDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, DialogExpression, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, NumberInput, OnBeginDialog, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
-const { BoolExpression, EnumExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
-const { Templates } = require('botbuilder-lg');
+const { ActivityTemplate, AdaptiveDialog, BeginDialog, DialogExpression, EndDialog, NumberInput, OnBeginDialog, TemplateEngineLanguageGenerator } = require('botbuilder-dialogs-adaptive');
+const { BoolExpression, NumberExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 
 const ROOT_DIALOG = 'RootDialog';
 const ADAPTIVE_DIALOG = 'AdaptiveDialog';
@@ -23,7 +19,7 @@ const ADAPTIVE_DIALOG = 'AdaptiveDialog';
 class RootDialog extends ComponentDialog {
     constructor(userState) {
         super(ROOT_DIALOG);
-        
+
         this.userStateAccessor = userState.createProperty('result');
 
         // Rather than explicitly coding a Waterfall we have only to declare what properties we want collected.
@@ -38,15 +34,6 @@ class RootDialog extends ComponentDialog {
             new SlotDetails('street', 'text', 'Please enter your street address.'),
             new SlotDetails('city', 'text', 'Please enter the city.'),
             new SlotDetails('zip', 'text', 'Please enter the zip.')
-        ];
-
-        // Dialogs can be nested and the slot filling dialog makes use of that. In this example some of the child
-        // dialogs are slot filling dialogs themselves.
-        const slots = [
-            new SlotDetails('fullname', 'fullname'),
-            new SlotDetails('age', 'number', 'Please enter your age.'),
-            new SlotDetails('shoesize', 'shoesize', 'Please enter your shoe size.', 'You must enter a size between 0 and 16. Half sizes are acceptable.'),
-            new SlotDetails('address', 'address')
         ];
 
         // define adaptive dialog
@@ -82,7 +69,7 @@ class RootDialog extends ComponentDialog {
                     invalidPrompt: new ActivityTemplate('Sorry ${this.value} does not work. You must enter a size between 0 and 16. Half sizes are acceptable.'),
                     validations: [
                         // size can only between 0-16
-                        "int(this.value) >= 0 && int(this.value) <= 16",
+                        'int(this.value) >= 0 && int(this.value) <= 16',
                         // can only full or half size
                         "isMatch(string(this.value), '^[0-9]+(\\.5)*$')"
                     ],

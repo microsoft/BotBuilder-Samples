@@ -29,7 +29,6 @@ class DialogBot extends ActivityHandler {
             await next();
         });
     }
-
 }
 
 module.exports.DialogBot = DialogBot;

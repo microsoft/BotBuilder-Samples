@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityTypes } = require('botbuilder');
-const { Dialog, DialogReason } = require('botbuilder-dialogs');
+const { Dialog } = require('botbuilder-dialogs');
 
 // Custom dialogs might define their own custom state.
 // Similarly to the Waterfall dialog we will have a set of values in the ConversationState. However, rather than persisting
