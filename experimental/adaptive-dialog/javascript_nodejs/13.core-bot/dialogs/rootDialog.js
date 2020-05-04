@@ -4,7 +4,7 @@
 const path = require('path');
 const { ComponentDialog } = require('botbuilder-dialogs');
 const { ActivityTemplate, AdaptiveDialog, CancelAllDialogs, ConfirmInput, DateTimeInput, DeleteProperty, EndDialog, ForEach, IfCondition, LuisAdaptiveRecognizer, OnConversationUpdateActivity, OnIntent, OnUnknownIntent, SendActivity, SetProperties, TemplateEngineLanguageGenerator, TextInput } = require('botbuilder-dialogs-adaptive');
-const { BoolExpression, EnumExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
+const { BoolExpression, StringExpression, ValueExpression } = require('adaptive-expressions');
 const { Templates } = require('botbuilder-lg');
 
 const ROOT_DIALOG = 'mainWaterfallDialog';
@@ -12,7 +12,7 @@ const ROOT_DIALOG = 'mainWaterfallDialog';
 class RootDialog extends ComponentDialog {
     constructor() {
         super(ROOT_DIALOG);
-        
+
         const lgFile = Templates.parseFile(path.join(__dirname, 'rootDialog.lg'));
         // There are no steps associated with this dialog.
         // This dialog will react to user input using its own Recognizer's output and Rules.
@@ -24,14 +24,14 @@ class RootDialog extends ComponentDialog {
             recognizer: this.createLuisRecognizer(),
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
-                new OnIntent('Greeting', [], [ new SendActivity('${BotOverview()}')]),
-                new OnIntent('Help', [], [ new SendActivity('${BotOverview()}') ], '#Help.Score >= 0.8'),
+                new OnIntent('Greeting', [], [new SendActivity('${BotOverview()}')]),
+                new OnIntent('Help', [], [new SendActivity('${BotOverview()}')], '#Help.Score >= 0.8'),
                 new OnIntent('Cancel', [], [
                     new SendActivity('Sure, cancelling that...'),
                     new CancelAllDialogs(),
-                    new EndDialog(),
+                    new EndDialog()
                 ], '#Cancel.Score >= 0.8'),
-                new OnUnknownIntent([ new SendActivity("${UnknownIntent()}") ]),
+                new OnUnknownIntent([new SendActivity('${UnknownIntent()}')]),
                 new OnIntent('Book_flight', [], [
                     // Save any entities returned by LUIS.
                     new SetProperties([
@@ -51,13 +51,13 @@ class RootDialog extends ComponentDialog {
                             value: new ValueExpression('=@toCity.location')
                         },
                         {
-                            property: new StringExpression ('conversation.flightBooking.departureDate'),
-                            value: new ValueExpression ('=@datetime.timex[0]')
-                        },
+                            property: new StringExpression('conversation.flightBooking.departureDate'),
+                            value: new ValueExpression('=@datetime.timex[0]')
+                        }
                     ]),
                     // Steps to book A flight.
                     // Help and Cancel intents are always available since TextInput will always initiate
-                        // consultation up the parent dialog chain to see if anyone else wants to take the user input.
+                    // consultation up the parent dialog chain to see if anyone else wants to take the user input.
                     new TextInput().configure({
                         property: new StringExpression('conversation.flightBooking.departureCity'),
                         // Prompt property supports full language generation resolution.
@@ -65,7 +65,7 @@ class RootDialog extends ComponentDialog {
                         // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
                         prompt: new ActivityTemplate('${PromptForMissingInformation()}'),
                         // We will allow interruptions as long as the user did not explicitly answer the question
-                        // This property supports an expression so you can examine presence of an intent via #intentName, 
+                        // This property supports an expression so you can examine presence of an intent via #intentName,
                         //    detect presence of an entity via @entityName etc. Interruption is allowed if the expression
                         //    evaluates to `true`. This property defaults to `true`.
                         allowInterruptions: new BoolExpression('!#Book_flight && (!@fromCity || !@geographyV2)'),
@@ -99,13 +99,13 @@ class RootDialog extends ComponentDialog {
                         // All conditions are expressed using the common expression language.
                         // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
                         condition: new BoolExpression('turn.bookingConfirmation == true'),
-                        actions: [ new SendActivity('${BookingConfirmation()}')],
-                        elseActions: [ new SendActivity('Thank you.') ]
+                        actions: [new SendActivity('${BookingConfirmation()}')],
+                        elseActions: [new SendActivity('Thank you.')]
                     })
-                ]),
+                ])
             ]
         });
-        
+
         // Add named dialogs to the DialogSet. These names are saved in the dialog state.
         this.addDialog(rootDialog);
 
@@ -115,7 +115,7 @@ class RootDialog extends ComponentDialog {
 
     welcomeUserSteps() {
         // Iterate through membersAdded list and greet user added to the conversation.
-        return [ 
+        return [
             new ForEach().configure({
                 itemsProperty: new StringExpression('turn.activity.membersAdded'),
                 actions: [
@@ -124,7 +124,7 @@ class RootDialog extends ComponentDialog {
                     new IfCondition().configure({
                         condition: new BoolExpression('$foreach.value.name != turn.activity.recipient.name'),
                         actions: [
-                            new SendActivity("${WelcomeCard()}")
+                            new SendActivity('${WelcomeCard()}')
                         ]
                     })
                 ]
