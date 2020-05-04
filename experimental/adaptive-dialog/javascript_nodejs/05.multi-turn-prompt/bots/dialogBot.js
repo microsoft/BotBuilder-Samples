@@ -25,7 +25,7 @@ class DialogBot extends ActivityHandler {
             await this.dialogManager.onTurn(context);
 
             await next();
-        })
+        });
     }
 }
 
