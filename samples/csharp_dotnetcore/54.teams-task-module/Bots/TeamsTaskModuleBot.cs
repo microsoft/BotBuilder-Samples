@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text("OnTeamsTaskModuleFetchAsync Value: " + JsonConvert.SerializeObject(taskModuleRequest));
+            var reply = MessageFactory.Text("OnTeamsTaskModuleSubmitAsync Value: " + JsonConvert.SerializeObject(taskModuleRequest));
             await turnContext.SendActivityAsync(reply);
 
             return new TaskModuleResponse
