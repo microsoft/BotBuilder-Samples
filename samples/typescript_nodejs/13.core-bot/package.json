@@ -38,6 +38,7 @@
         "botbuilder-ai": "~4.8.0",
         "botbuilder-dialogs": "~4.8.0",
         "botbuilder-testing": "~4.8.0",
+        "moment-timezone": "^0.5.28",
         "dotenv": "^8.2.0",
         "replace": "~1.1.1",
         "restify": "~8.4.0"
