@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
             : base(configuration, logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _conversationState = conversationState  ?? throw new ArgumentNullException(nameof(conversationState));;
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _skillClient = skillClient;
             _skillsConfig = skillsConfig;

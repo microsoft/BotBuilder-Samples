@@ -2,11 +2,10 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.BotBuilderSamples.SimpleRootBot;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.SimpleRootBot
 {
     public class Program
     {
