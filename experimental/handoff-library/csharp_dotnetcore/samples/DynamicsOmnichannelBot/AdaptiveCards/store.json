@@ -1,0 +1,48 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "speak": "Microsoft Store in Bellevue",
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "auto",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "Microsoft Store",
+                            "weight": "Bolder",
+                            "size": "Medium",
+                            "spacing": "None"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "★★★★☆ Yelp (129)",
+                            "isSubtle": true,
+                            "spacing": "None"
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "116 Bellevue Sq, Bellevue, WA 98004",
+                            "wrap": true
+                        },
+                        {
+                            "type": "TextBlock",
+                            "text": "(425) 519-3580"
+                        }
+                    ]
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.OpenUrl",
+            "title": "More Info",
+            "url": "https://www.yelp.com/biz/microsoft-store-bellevue-2"
+        }
+    ]
+}
