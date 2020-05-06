@@ -433,7 +433,7 @@ export async function generate(
     }
 
     if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema'
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/experimental/generation/runbot/runbot.schema'
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
