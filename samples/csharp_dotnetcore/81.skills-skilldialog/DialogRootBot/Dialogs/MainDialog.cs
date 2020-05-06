@@ -247,14 +247,14 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // Note: in a real bot, the dialogArgs will be created dynamically based on the conversation
             // and what each action requires; here we hardcode the values to make things simpler.
 
+            Activity activity = null;
             // Just forward the message activity to the skill with whatever the user said. 
             if (selectedOption.Equals(SkillActionMessage, StringComparison.CurrentCultureIgnoreCase))
             {
                 // Note message activities also support input parameters but we are not using them in this example.
-                return turnContext.Activity;
+                // Return a deep clone of the activity so we don't risk altering the original one 
+                activity = ObjectPath.Clone(turnContext.Activity);
             }
-
-            Activity activity = null;
 
             // Send an event activity to the skill with "BookFlight" in the name.
             if (selectedOption.Equals(SkillActionBookFlight, StringComparison.CurrentCultureIgnoreCase))
@@ -277,12 +277,11 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionGetWeather;
                 activity.Value = JObject.Parse("{ \"latitude\": 47.614891, \"longitude\": -122.195801}");
-                return activity;
             }
 
             if (activity == null)
             {
-                throw new Exception($"Unable to create dialogArgs for \"{selectedOption}\".");
+                throw new Exception($"Unable to create a skill activity for \"{selectedOption}\".");
             }
 
             // We are manually creating the activity to send to the skill; ensure we add the ChannelData and Properties 
