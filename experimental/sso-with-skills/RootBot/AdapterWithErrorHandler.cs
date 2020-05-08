@@ -11,11 +11,10 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.BotBuilderSamples.SimpleRootBot.Bots;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples.SimpleRootBot
+namespace Microsoft.BotBuilderSamples.RootBot
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
@@ -63,7 +62,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.ToString(), "https://www.botframework.com/schemas/error", "TurnError");
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception caught in SendErrorMessageAsync : {ex}");
             }
@@ -82,7 +81,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                 // a chance to clean up.
                 // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
                 // forwarded to a Skill.
-                var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(RootBot.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
+                var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(Bots.RootBot.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
                 if (activeSkill != null)
                 {
                     var botId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
@@ -95,7 +94,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
                     await _skillClient.PostActivityAsync(botId, activeSkill, _skillsConfig.SkillHostEndpoint, (Activity)endOfConversation, CancellationToken.None);
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, $"Exception caught on attempting to send EndOfConversation : {ex}");
             }

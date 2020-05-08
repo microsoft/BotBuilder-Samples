@@ -35,15 +35,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Bots
         {
             await _conversationState.LoadAsync(turnContext, true, cancellationToken);
             await _userState.LoadAsync(turnContext, true, cancellationToken);
-            try
-            {
-                await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
-            }
-            catch
-            {
-                // TODO: remove try/catch once the service is no longer throwing for 'consent required' during ExchangeTokenAsync.
-                await turnContext.SendActivityAsync(new Activity { Value = new InvokeResponse() { Status = (int)HttpStatusCode.Conflict }, Type = ActivityTypesEx.InvokeResponse }, cancellationToken).ConfigureAwait(false);
-            }
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnTokenResponseEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)

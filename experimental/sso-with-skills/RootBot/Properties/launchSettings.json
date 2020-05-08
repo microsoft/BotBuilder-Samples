@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "SimpleRootBot": {
+    "RootBot": {
       "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "http://localhost:3978",

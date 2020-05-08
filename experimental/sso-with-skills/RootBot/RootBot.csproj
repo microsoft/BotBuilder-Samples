@@ -4,8 +4,8 @@
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <LangVersion>latest</LangVersion>
     <UserSecretsId>6310bd04-2272-4a74-82fa-6791f5c7e115</UserSecretsId>
-    <AssemblyName>Microsoft.BotBuilderSamples.SimpleRootBot</AssemblyName>
-    <RootNamespace>Microsoft.BotBuilderSamples.SimpleRootBot</RootNamespace>
+    <AssemblyName>Microsoft.BotBuilderSamples.RootBot</AssemblyName>
+    <RootNamespace>Microsoft.BotBuilderSamples.RootBot</RootNamespace>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

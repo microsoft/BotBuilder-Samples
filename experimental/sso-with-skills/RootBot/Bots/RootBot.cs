@@ -15,7 +15,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 
-namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
+namespace Microsoft.BotBuilderSamples.RootBot.Bots
 {
     public class RootBot : ActivityHandler
     {

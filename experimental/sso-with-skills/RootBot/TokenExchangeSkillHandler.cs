@@ -1,5 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
@@ -15,7 +17,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.BotBuilderSamples.SimpleRootBot
+namespace Microsoft.BotBuilderSamples.RootBot
 {
     public class TokenExchangeSkillHandler : SkillHandler
     {
@@ -89,45 +91,43 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
 
         private async Task<bool> InterceptOAuthCards(ClaimsIdentity claimsIdentity, Activity activity)
         {
-            if (activity.Attachments != null)
+            var oauthCardAttachment = activity.Attachments?.FirstOrDefault(a => a?.ContentType == OAuthCard.ContentType);
+            if (oauthCardAttachment != null)
             {
-                foreach (var attachment in activity.Attachments.Where(a => a?.ContentType == OAuthCard.ContentType))
+                var targetSkill = GetCallingSkill(claimsIdentity);
+                if (targetSkill != null)
                 {
-                    var targetSkill = GetCallingSkill(claimsIdentity);
+                    var oauthCard = ((JObject)oauthCardAttachment.Content).ToObject<OAuthCard>();
 
-                    if (targetSkill != null)
+                    if (!string.IsNullOrWhiteSpace(oauthCard?.TokenExchangeResource?.Uri))
                     {
-                        var oauthCard = ((JObject)attachment.Content).ToObject<OAuthCard>();
-
-                        if (oauthCard.TokenExchangeResource != null /*&& _tokenExchangeConfig.ProviderId == oauthCard.TokenExchangeResource.ProviderId*/)
+                        using (var context = new TurnContext(_adapter, activity))
                         {
-                            using (var context = new TurnContext(_adapter, activity))
+                            context.TurnState.Add<IIdentity>("BotIdentity", claimsIdentity);
+
+                            // AAD token exchange
+                            try
                             {
-                                context.TurnState.Add<IIdentity>("BotIdentity", claimsIdentity);
+                                var result = await _tokenExchangeProvider.ExchangeTokenAsync(
+                                    context,
+                                    _connectionName,
+                                    activity.Recipient.Id,
+                                    new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
 
-                                // AAD token exchange
-                                try
+                                if (!string.IsNullOrEmpty(result?.Token))
                                 {
-                                    var result = await _tokenExchangeProvider.ExchangeTokenAsync(
-                                        context,
-                                        _connectionName,
-                                        activity.Recipient.Id,
-                                        new TokenExchangeRequest() { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
-
-                                    if (!string.IsNullOrEmpty(result.Token))
-                                    {
-                                        // Send an Invoke back to the Skill
-                                        return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default(CancellationToken)).ConfigureAwait(false);
-                                    }
+                                    // If token above is null, then SSO has failed and hence we return false.
+                                    // If not, send an invoke to the skill with the token. 
+                                    return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default).ConfigureAwait(false);
                                 }
-                                catch
-                                {
-                                    // Show oauth card if token exchange fails.
-                                    return false;
-                                }
-
+                            }
+                            catch
+                            {
+                                // Show oauth card if token exchange fails.
                                 return false;
                             }
+
+                            return false;
                         }
                     }
                 }

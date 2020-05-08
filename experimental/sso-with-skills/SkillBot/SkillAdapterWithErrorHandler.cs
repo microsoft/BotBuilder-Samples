@@ -21,7 +21,6 @@ namespace Microsoft.BotBuilderSamples.SkillBot
     {
         private readonly BotState _conversationState;
         private readonly BotState _userState;
-        private ConcurrentDictionary<string, string> _conversationMap = new ConcurrentDictionary<string, string>();
 
         public SkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState, UserState userState)
             : base(configuration, credentialProvider, authConfig, logger: logger)
@@ -66,30 +65,6 @@ namespace Microsoft.BotBuilderSamples.SkillBot
                     logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
                 }
             };
-        }
-
-        public override async Task<InvokeResponse> ProcessActivityAsync(ClaimsIdentity claimsIdentity, Activity activity, BotCallbackHandler callback, CancellationToken cancellationToken)
-        {
-            if (!claimsIdentity.Claims.Any(x => x.Type == "azp"))
-            {
-                if (_conversationMap.TryGetValue(activity.Conversation.Id, out string appId))
-                {
-                    claimsIdentity.AddClaim(new Claim("azp", appId));
-                    claimsIdentity.AddClaim(new Claim("ver", "2.0"));
-                }
-            }
-            else
-            {
-                var appId = JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims);
-                _conversationMap.AddOrUpdate(activity.Conversation.Id, appId, (id, a) => appId);
-            }
-
-            if (activity.Type == ActivityTypes.EndOfConversation)
-            {
-                _conversationMap.TryRemove(activity.Conversation.Id, out var conversation);
-            }
-
-            return await base.ProcessActivityAsync(claimsIdentity, activity, callback, cancellationToken).ConfigureAwait(false);
         }
 
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)

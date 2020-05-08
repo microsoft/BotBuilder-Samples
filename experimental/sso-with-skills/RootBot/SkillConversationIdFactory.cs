@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.BotBuilderSamples.SimpleRootBot
+namespace Microsoft.BotBuilderSamples.RootBot
 {
     /// <summary>
     /// A <see cref="SkillConversationIdFactory"/> that uses <see cref="IStorage"/> to store and retrieve <see cref="ConversationReference"/> instances.
