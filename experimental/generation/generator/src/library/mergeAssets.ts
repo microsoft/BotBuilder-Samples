@@ -6,7 +6,7 @@
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
 import * as os from 'os';
-import { Feedback, FeedbackType, isUnchanged, writeFile, EOL } from './dialogGenerator'
+import { Feedback, FeedbackType, isUnchanged, writeFile, stringify } from './dialogGenerator'
 
 const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
 const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
@@ -14,6 +14,7 @@ const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOpera
 const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectiontypes')
 
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
+const CommentPattern = /\r?\n> !# @app.culture = /
 
 /**
  * @description：Detect if the old file was not changed.
@@ -36,8 +37,8 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
     feedback(FeedbackType.info, `Copying ${fileName} from ${sourcePath}`)
 }
 
-function changedMessage(newPath: string, fileName: string, feedback: Feedback) {
-    feedback(FeedbackType.error, `*** Old and new both changed, manually merge from ${ppath.join(newPath, fileName)}***`)
+function changedMessage(path: string, fileName: string, feedback: Feedback) {
+    feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${ppath.join(path, fileName)} ***`)
 }
 
 /**
@@ -74,21 +75,19 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
     if (oldPath === mergedPath) {
         let tempOldPath = `${os.tmpdir}/tempOld/`
         await fs.emptyDir(tempOldPath)
-        fs.copySync(oldPath, tempOldPath)
-        fs.emptyDirSync(oldPath)
+        await fs.copy(oldPath, tempOldPath)
+        await fs.emptyDir(oldPath)
         oldPath = tempOldPath
     }
 
     try {
         for (let locale of locales) {
-
             await fs.ensureDir(ppath.join(mergedPath, locale))
-            await fs.ensureDir(ppath.join(mergedPath, 'luis'))
             feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
 
             const { oldPropertySet, newPropertySet } = await parseSchemas(schemaName, oldPath, newPath, mergedPath, feedback)
 
-            await mergeDialogs(schemaName, oldPath, newPath, mergedPath, oldPropertySet, newPropertySet, feedback)
+            await mergeDialogs(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeLUFiles(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeLGFiles(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeOtherFiles(oldPath, newPath, mergedPath, locale, feedback)
@@ -109,16 +108,13 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
  * @param feedback Callback function for progress and errors.
  */
 async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
-    let dirList = [oldPath, oldPath + '/luis', oldPath + '/' + locale]
+    let dirList = [oldPath, oldPath + '/' + locale]
     let fileSet = new Set<string>()
 
     for (let dir of dirList) {
         let tempDir = mergedPath
         let compareDir = newPath
-        if (dir.endsWith('luis')) {
-            tempDir = mergedPath + '/luis'
-            compareDir = newPath + '/luis'
-        } else if (dir.endsWith(locale)) {
+        if (dir.endsWith(locale)) {
             tempDir = mergedPath + '/' + locale
             compareDir = newPath + '/' + locale
         }
@@ -128,9 +124,7 @@ async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: str
             if (stat.isFile()) {
                 if (!file.endsWith('.dialog') && !file.endsWith('.lu') && !file.endsWith('.lg')) {
                     let newFile = ppath.join(compareDir, file)
-                    if (fs.existsSync(newFile) && !await isOldUnchanged(dir, file)) {
-                        changedMessage(tempDir, file, feedback)
-                    } else {
+                    if (fs.existsSync(newFile)) {
                         await copySingleFile(dir, tempDir, file, feedback)
                     }
                     fileSet.add(file)
@@ -139,12 +133,10 @@ async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: str
         }
     }
 
-    let newDirList = [newPath, newPath + '/luis', newPath + '/' + locale]
+    let newDirList = [newPath, newPath + '/' + locale]
     for (let dir of newDirList) {
         let tempDir = mergedPath
-        if (dir.endsWith('luis')) {
-            tempDir = mergedPath + '/luis'
-        } else if (dir.endsWith(locale)) {
+        if (dir.endsWith(locale)) {
             tempDir = mergedPath + '/' + locale
         }
         let files = await fs.readdir(dir)
@@ -171,11 +163,11 @@ async function mergeOtherFiles(oldPath: string, newPath: string, mergedPath: str
  * @param feedback Callback function for progress and errors.
  */
 async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
-    let oldText = await fs.readFile(ppath.join(oldPath, 'luis', schemaName + '.' + locale + '.lu'), 'utf8')
+    let oldText = await fs.readFile(ppath.join(oldPath, locale, schemaName + '.' + locale + '.lu'), 'utf8')
     let oldLUResource = LUParser.parse(oldText)
     let oldImportSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
 
-    let newText = await fs.readFile(ppath.join(newPath, 'luis', schemaName + '.' + locale + '.lu'), 'utf8')
+    let newText = await fs.readFile(ppath.join(newPath, locale, schemaName + '.' + locale + '.lu'), 'utf8')
     let newLUResource = LUParser.parse(newText)
     let newImportSections = newLUResource.Sections.filter(s => s.SectionType === lusectiontypes.IMPORTSECTION)
 
@@ -197,11 +189,7 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
                 let luFile = refStr[0].replace('[', '')
                 // handle with lu file has enums 
                 if (luFile.match(extractedProperty + 'Entity')) {
-                    // if (await isOldUnchanged(localeOldPath, luFile)) {
-                    //     await copySingleFile(localeOldPath, localeMergedPath, luFile, feedback)
-                    // } else {
                     await changeEntityEnumLU(schemaName, oldPath, newPath, mergedPath, luFile, locale, feedback)
-                    // }
                 } else {
                     if (await isOldUnchanged(localeOldPath, luFile)) {
                         await copySingleFile(localeOldPath, localeMergedPath, luFile, feedback)
@@ -233,18 +221,19 @@ async function mergeLUFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
-    let library = resultRefs.join(EOL)
+    let library = resultRefs.join(os.EOL)
+
+    if (oldText.match(CommentPattern)) {
+        library = `${os.EOL}> !# @app.culture = ${locale}${os.EOL}` + library
+    }
 
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
-        library = library + EOL + oldText.substring(patternIndex)
+        library = library + os.EOL + oldText.substring(patternIndex)
     }
     // write merged root lu file
-    await writeFile(ppath.join(mergedPath, 'luis', schemaName + '.' + locale + '.lu'), library, feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lu`)
-
-    // copy .lu.dialog file
-    await copySingleFile(ppath.join(newPath, 'luis'), ppath.join(mergedPath, 'luis'), schemaName + '.' + locale + '.lu.dialog', feedback)
+    await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lu'), library, feedback, true)
+    feedback(FeedbackType.info, `Merging ${schemaName}.${locale}.lu`)
 }
 
 /**
@@ -351,9 +340,9 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
             }
 
             // update content 
-            let entityLUContent = resultStatements.join(EOL)
+            let entityLUContent = resultStatements.join(os.EOL)
             let entityLUName = '@ ' + oldListEntitySection.Type + ' ' + oldListEntitySection.Name + ' ='
-            let sectionBody = entityLUName + EOL + entityLUContent
+            let sectionBody = entityLUName + os.EOL + entityLUContent
             updatedLUResource = odlSectionOp.updateSection(oldListEntitySection.Id, sectionBody)
 
             // update intent content
@@ -369,33 +358,29 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
                 }
             }
 
-            let intentBodyStatements = oldIntentSection.Body.split(EOL)
+            let intentBodyStatements = oldIntentSection.Body.split(os.EOL)
             let intentResult: string[] = []
             for (let intentBodyStatement of intentBodyStatements) {
-                let match = false
+                let matching = false
                 for (let enumSyn of removedEnumValue) {
                     if (intentBodyStatement.match(enumSyn)) {
-                        match = true
+                        matching = true
                         break
                     }
                 }
-                if (!match) {
+                if (!matching) {
                     intentResult.push(intentBodyStatement)
                 }
             }
 
-            let intentSectionBody = '# ' + schemaName + EOL + intentResult.join(EOL)
+            let intentSectionBody = '# ' + schemaName + os.EOL + intentResult.join(os.EOL)
             let updateSectionOp = new sectionOperator(updatedLUResource)
             updatedLUResource = updateSectionOp.updateSection(oldIntentSection.Id, intentSectionBody)
         }
     }
-    if (updatedLUResource === null) {
-        await writeFile(ppath.join(mergedPath, locale, filename), oldLUResource.Content, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
-    } else {
-        await writeFile(ppath.join(mergedPath, locale, filename), updatedLUResource.Content, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
-    }
+    let content = (updatedLUResource || oldLUResource).Content
+    await writeFile(ppath.join(mergedPath, locale, filename), content, feedback, true)
+    feedback(FeedbackType.info, `Merging ${filename}`)
 }
 
 /**
@@ -411,9 +396,9 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
  */
 async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, schemaName + '.' + locale + '.lg'), 'utf8')
-    let oldRefs = oldText.split(EOL)
+    let oldRefs = oldText.split(os.EOL)
     let newText = await fs.readFile(ppath.join(newPath, locale, schemaName + '.' + locale + '.lg'), 'utf8')
-    let newRefs = newText.split(EOL)
+    let newRefs = newText.split(os.EOL)
 
     let localeOldPath = ppath.join(oldPath, locale)
     let localeNewPath = ppath.join(newPath, locale)
@@ -434,11 +419,7 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
                 let refStr = ref.split('.lg')
                 let lgFile = refStr[0].replace('[', '') + '.lg'
                 if (lgFile.match(extractedProperty + 'Entity')) {
-                    // if (await isOldUnchanged(localeOldPath, lgFile)) {
-                    //     await copySingleFile(localeOldPath, localeMergedPath, lgFile, feedback)
-                    // } else {
                     await changeEntityEnumLG(oldPath, newPath, mergedPath, lgFile, locale, feedback)
-                    // }
                 } else {
                     if (await isOldUnchanged(localeOldPath, lgFile)) {
                         await copySingleFile(localeOldPath, localeMergedPath, lgFile, feedback)
@@ -472,15 +453,15 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
         }
     }
 
-    let val = resultRefs.join(EOL)
+    let val = resultRefs.join(os.EOL)
 
     let patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
-        val = val + EOL + oldText.substring(patternIndex)
+        val = val + os.EOL + oldText.substring(patternIndex)
     }
 
     await writeFile(ppath.join(mergedPath, locale, schemaName + '.' + locale + '.lg'), val, feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.${locale}.lg`)
+    feedback(FeedbackType.info, `Merging ${schemaName}.${locale}.lg`)
 }
 
 /**
@@ -494,11 +475,11 @@ async function mergeLGFiles(schemaName: string, oldPath: string, newPath: string
  */
 async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: string, filename: string, locale: string, feedback: Feedback): Promise<void> {
     let oldText = await fs.readFile(ppath.join(oldPath, locale, filename), 'utf8')
-    let oldStatements = oldText.split(EOL)
+    let oldStatements = oldText.split(os.EOL)
     let oldTemplates = Templates.parseText(oldText)
 
     let newText = await fs.readFile(ppath.join(newPath, locale, filename), 'utf8')
-    let newStatements = newText.split(EOL)
+    let newStatements = newText.split(os.EOL)
     let newTemplates = Templates.parseText(newText)
 
     let mergedStatements: string[] = []
@@ -558,12 +539,12 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
         for (let arr of arrList) {
             mergedStatements = mergedStatements.concat(arr)
         }
-        let val = mergedStatements.join(EOL)
+        let val = mergedStatements.join(os.EOL)
         await writeFile(ppath.join(mergedPath, locale, filename), val, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
+        feedback(FeedbackType.info, `Merging ${filename}`)
     } else {
         await writeFile(ppath.join(mergedPath, locale, filename), oldText, feedback, true)
-        feedback(FeedbackType.info, `Generating ${filename}`)
+        feedback(FeedbackType.info, `Merging ${filename}`)
     }
 }
 
@@ -586,7 +567,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             startIndex = state.start.line - 1;
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
-            while (!oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
+            while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
                 newSwitchStatements.push(oldStatements[i])
                 i++
             }
@@ -597,7 +578,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                 let k = state.start.line - 1
                 newSwitchStatements.push(oldStatements[k])
                 k++
-                while (!oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
+                while (k < oldStatements.length && !oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
                     newSwitchStatements.push(oldStatements[k])
                     k++
                 }
@@ -608,7 +589,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
                     let k = value - 1
                     newSwitchStatements.push(newStatements[k])
                     k++
-                    while (!newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
+                    while (k < newStatements.length && !newStatements[k].toLowerCase().match('case') && !newStatements[k].toLowerCase().match('default')) {
                         newSwitchStatements.push(newStatements[k])
                         k++
                     }
@@ -618,7 +599,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             let m = state.start.line - 1
             newSwitchStatements.push(oldStatements[m])
             m++
-            while (!oldStatements[m].match('#') && !oldStatements[m].startsWith('[')) {
+            while (m < oldStatements.length && !oldStatements[m].match('#') && !oldStatements[m].startsWith('[')) {
                 newSwitchStatements.push(oldStatements[m])
                 m++
             }
@@ -639,7 +620,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
  * @param newPropertySet Property Set from the new .schema file.
  * @param feedback Callback function for progress and errors.
  */
-async function mergeDialogs(schemaName: string, oldPath: string, newPath: string, mergedPath: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
+async function mergeDialogs(schemaName: string, oldPath: string, newPath: string, mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     let template = await fs.readFile(ppath.join(oldPath, schemaName + '.main.dialog')
         , 'utf8')
     let oldObj = JSON.parse(template)
@@ -656,15 +637,6 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
 
     let mergedTriggers: string[] = []
 
-    for (let trigger of newObj['triggers']) {
-        if (typeof trigger !== 'string') {
-            // todo inline object
-            continue
-        }
-        newTriggers.push(trigger)
-        newTriggerSet.add(trigger)
-    }
-
     for (let trigger of oldObj['triggers']) {
         if (typeof trigger !== 'string') {
             // todo inline object
@@ -680,6 +652,19 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
             reducedOldTriggers.push(trigger)
             reducedOldTriggerSet.add(trigger)
         }
+    }
+
+    for (let trigger of newObj['triggers']) {
+        if (typeof trigger !== 'string') {
+            // todo inline object
+            continue
+        }
+        let extractedProperty = equalPattern(trigger, oldPropertySet, schemaName)
+        if (extractedProperty !== undefined && !reducedOldTriggerSet.has(trigger)) {
+            continue
+        }
+        newTriggers.push(trigger)
+        newTriggerSet.add(trigger)
     }
 
     let i = 0
@@ -711,8 +696,10 @@ async function mergeDialogs(schemaName: string, oldPath: string, newPath: string
     }
 
     oldObj['triggers'] = mergedTriggers
-    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), JSON.stringify(oldObj, null, 4), feedback, true)
-    feedback(FeedbackType.info, `Generating ${schemaName}.main.dialog`)
+    await writeFile(ppath.join(mergedPath, schemaName + '.main.dialog'), stringify(oldObj), feedback, true)
+    feedback(FeedbackType.info, `Merging ${schemaName}.main.dialog`)
+
+    await copySingleFile(newPath, mergedPath, schemaName + '.' + locale + '.lu.dialog', feedback)
 }
 
 /**
@@ -748,10 +735,10 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
     let oldPropertySet = new Set<string>()
     let newPropertySet = new Set<string>()
 
-    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.schema.dialog'), 'utf8')
+    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.json'), 'utf8')
     let oldObj = JSON.parse(template)
 
-    template = await fs.readFile(ppath.join(newPath, schemaName + '.schema.dialog'), 'utf8')
+    template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     let newObj = JSON.parse(template)
 
     for (let property in oldObj['properties']) {
@@ -761,6 +748,6 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
         newPropertySet.add(property)
     }
 
-    await copySingleFile(newPath, mergedPath, schemaName + '.schema.dialog', feedback)
+    await copySingleFile(newPath, mergedPath, schemaName + '.json', feedback)
     return { oldPropertySet, newPropertySet }
 }

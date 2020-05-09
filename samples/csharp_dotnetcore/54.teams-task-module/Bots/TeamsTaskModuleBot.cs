@@ -2,9 +2,9 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
@@ -38,7 +38,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Card = this.GetTaskModuleAdaptiveCard(),
+                        Card = CreateAdaptiveCardAttachment(),
                         Height = 200,
                         Width = 400,
                         Title = "Adaptive Card: Inputs",
@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<TaskModuleResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TaskModuleRequest taskModuleRequest, CancellationToken cancellationToken)
         {
-            var reply = MessageFactory.Text("OnTeamsTaskModuleFetchAsync Value: " + JsonConvert.SerializeObject(taskModuleRequest));
+            var reply = MessageFactory.Text("OnTeamsTaskModuleSubmitAsync Value: " + JsonConvert.SerializeObject(taskModuleRequest));
             await turnContext.SendActivityAsync(reply);
 
             return new TaskModuleResponse
@@ -74,32 +74,18 @@ namespace Microsoft.BotBuilderSamples.Bots
             }.ToAttachment();
         }
 
-        private Attachment GetTaskModuleAdaptiveCard()
+        private static Attachment CreateAdaptiveCardAttachment()
         {
-            var card = new AdaptiveCard(new AdaptiveSchemaVersion("1.0"))
-            {
-                Body = new List<AdaptiveElement>()
-                {
-                    new AdaptiveTextBlock() { Text = "Enter Text Here" },
-                    new AdaptiveTextInput()
-                    {
-                        Id = "usertext",
-                        Spacing = AdaptiveSpacing.None,
-                        IsMultiline = true,
-                        Placeholder = "add some text and submit",
-                    },
-                },
-                Actions = new List<AdaptiveAction>()
-                {
-                    new AdaptiveSubmitAction() { Title = "Submit" },
-                },
-            };
+            // combine path for cross platform support
+            string[] paths = { ".", "Resources", "adaptiveCard.json" };
+            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
 
-            return new Attachment
+            var adaptiveCardAttachment = new Attachment()
             {
-                Content = card,
-                ContentType = AdaptiveCards.AdaptiveCard.ContentType,
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
             };
+            return adaptiveCardAttachment;
         }
     }
 }

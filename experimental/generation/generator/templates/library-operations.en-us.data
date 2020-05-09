@@ -1,7 +1,10 @@
 > Add only
 - add {@AddToProperty=${entity}}
+- with {@AddToProperty=${entity}}
 - add {@AddToProperty=${entity} and ${entity}}
+- with {@AddToProperty=${entity} and ${entity}}
 - add {@AddToProperty=${entity}, ${entity} and ${entity}}
+- with {@AddToProperty=${entity}, ${entity} and ${entity}}
 > Remove only
 - remove {@RemoveFromProperty=${entity}}
 - remove {@RemoveFromProperty=${entity} and ${entity}}
@@ -9,6 +12,12 @@
 - delete {@RemoveFromProperty=${entity}}
 - delete {@RemoveFromProperty=${entity} and ${entity}}
 - delete {@RemoveFromProperty=${entity}, ${entity} and ${entity}}
+- without {@RemoveFromProperty=${entity}}
+- without {@RemoveFromProperty=${entity} and ${entity}}
+- without {@RemoveFromProperty=${entity}, ${entity} and ${entity}}
+- with no {@RemoveFromProperty=${entity}}
+- with no {@RemoveFromProperty=${entity} and ${entity}}
+- with no {@RemoveFromProperty=${entity}, ${entity} and ${entity}}
 > Clear only
 - clear {@ClearProperty=${property}}
 - remove {@ClearProperty=${property}}

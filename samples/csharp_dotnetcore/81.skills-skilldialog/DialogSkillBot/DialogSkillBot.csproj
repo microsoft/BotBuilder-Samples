@@ -7,10 +7,6 @@
     <RootNamespace>Microsoft.BotBuilderSamples.DialogSkillBot</RootNamespace>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(RunConfiguration)' == 'DialogSkillBot' ">
-    <StartAction>Project</StartAction>
-    <ApplicationURL>http://localhost:1205/</ApplicationURL>
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.0" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.8.0" />

@@ -6,6 +6,10 @@ from config import DefaultConfig
 
 
 class AllowedCallersClaimsValidator:
+    """
+    Sample claims validator that loads an allowed list from configuration if present
+    and checks that requests are coming from allowed parent bots.
+    """
 
     config_key = "ALLOWED_CALLERS"
 
@@ -15,10 +19,11 @@ class AllowedCallersClaimsValidator:
                 "AllowedCallersClaimsValidator: config object cannot be None."
             )
 
-        # ALLOWED_CALLERS is the setting in config.py file
-        # that consists of the list of parent bot ids that are allowed to access the skill
-        # to add a new parent bot simply go to the AllowedCallers and add
-        # the parent bot's microsoft app id to the list
+        # AllowedCallers is the setting in the appsettings.json file
+        # that consists of the list of parent bot IDs that are allowed to access the skill.
+        # To add a new parent bot, simply edit the AllowedCallers and add
+        # the parent bot's Microsoft app ID to the list.
+        # In this sample, we allow all callers if AllowedCallers contains an "*".
         caller_list = getattr(config, self.config_key)
         if caller_list is None:
             raise TypeError(f'"{self.config_key}" not found in configuration.')
@@ -27,11 +32,11 @@ class AllowedCallersClaimsValidator:
     @property
     def claims_validator(self) -> Callable[[List[Dict]], Awaitable]:
         async def allow_callers_claims_validator(claims: Dict[str, object]):
-            # if allowed_callers is None we allow all calls
+            # If _allowed_callers contains an "*", we allow all callers.
             if "*" not in self._allowed_callers and SkillValidation.is_skill_claim(
                 claims
             ):
-                # Check that the appId claim in the skill request is in the list of skills configured for this bot.
+                # Check that the appId claim in the skill request is in the list of callers configured for this bot.
                 app_id = JwtTokenValidation.get_app_id_from_claims(claims)
                 if app_id not in self._allowed_callers:
                     raise PermissionError(

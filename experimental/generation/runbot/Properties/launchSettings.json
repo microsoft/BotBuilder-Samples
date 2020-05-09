@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "--root C:\\Users\\chrim\\AppData\\Local\\Temp\\sandwich.out ",
+      "commandLineArgs": "--root C:\\tmp\\sandwichWithQnA",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

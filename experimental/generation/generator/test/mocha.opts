@@ -3,5 +3,6 @@
 --watch-extensions ts
 --recursive
 --reporter spec
---timeout 100000
+--timeout 0
+--slow 10000
 test/**/*.test.{ts,js}

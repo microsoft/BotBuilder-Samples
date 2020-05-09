@@ -27,7 +27,7 @@ class DialogSkillBotRecognizer(Recognizer):
 
     @property
     def is_configured(self) -> bool:
-        # Returns true if luis is configured in the config.py and initialized.
+        # Returns true if LUIS is configured in config.py and initialized.
         return self._recognizer is not None
 
     async def recognize(self, turn_context: TurnContext) -> RecognizerResult:

@@ -1,0 +1,128 @@
+{
+  "name": "LU",
+  "scopeName": "source.lu",
+  "fileTypes": [
+    "lu"
+  ],
+  "patterns": [
+    {
+      "include": "#markdown"
+    },
+    {
+      "include": "#intents"
+    },
+    {
+      "include": "#entities"
+    },
+    {
+      "include": "#utterances"
+    },
+    {
+      "include": "#configuration"
+    },
+    {
+      "include": "#conventions"
+    }
+  ],
+  "repository": {
+    "markdown": {
+      "patterns": {
+        "include": "text.html.markdown"
+      }
+    },
+    "intents": {
+      "patterns": [
+        {
+          "comment": "intent definition",
+          "name": "markup.heading.lu",
+          "match": "(^#{1,2} .*$)"
+        }
+      ]
+    },
+    "utterances": {
+      "patterns": [
+        {
+          "comment": "utterance",
+          "name": "markup.heading.lu",
+          "match": "([*+-]\\s)"
+        },
+        {
+          "comment": "utterance label",
+          "name": "support.type.lu",
+          "match": "((?<=\\{)[A-Za-z]*(?!=\\=))"
+        },
+        {
+          "comment": "utterance wild card",
+          "name": "support.type.lu",
+          "match": "(?<=\\#).+?(?=\\))"
+        }
+      ]
+    },
+    "entities": {
+      "patterns": [
+        {
+          "comment": "entity definition",
+          "name": "keyword.control.lu",
+          "match": "(\\@.?[a-zA-Z0-9&_\\.-]+\\s)"
+        },
+        {
+          "comment": "entity roles",
+          "name": "string.lu",
+          "match": "((?<=\\[).+?(?=\\]))"
+        },
+        {
+          "comment": "role in utterance",
+          "name": "keyword.control.lu",
+          "match": "(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)"
+        },
+        {
+          "comment": "implicit role",
+          "name": "variable.lu",
+          "match": "(?<=:)([A-Za-z]*)"
+        },
+        {
+          "comment": "entity with parser directive",
+          "name": "keyword.control.lu",
+          "match": "\\$([A-Za-z]*)"
+        }
+      ]
+    },
+    "configuration": {
+      "patterns": [
+        {
+          "comment": "application configuration information",
+          "match": "(>.*)(!# )(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)",
+          "captures": {
+            "1": {
+              "name": "comment.lu"
+            },
+            "2": {
+              "name": "entity.name.function.lu"
+            },
+            "3": {
+              "name": "entity.name.function.lu"
+            }
+          }
+        }
+      ]
+    },
+    "conventions": {
+      "patterns": [
+        {
+          "comment": "comment",
+          "name": "comment.lu",
+          "match": "(^>.*$)"
+        },
+        {
+          "comment": "regex",
+          "match": "(\\/)(.*)(\\/)",
+          "captures": {
+            "2": {
+              "name": "string.lu"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
