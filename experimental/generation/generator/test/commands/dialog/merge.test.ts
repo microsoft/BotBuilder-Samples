@@ -25,7 +25,7 @@ type Comparison = {
 }
 
 function filePaths(files: string[], base: string): string {
-    return files.map((f) => ppath.resolve(base, f)).join('\n    ')
+    return files.map(f => ppath.resolve(base, f)).join('\n    ')
 }
 
 function displayCompare(comparison: Comparison) {
@@ -33,7 +33,7 @@ function displayCompare(comparison: Comparison) {
     console.log(`  originalOnly:\n    ${filePaths(comparison.originalOnly, comparison.original)}`)
     console.log(`  mergedOnly:\n    ${filePaths(comparison.mergedOnly, comparison.merged)}`)
     console.log(`  same:\n    ${comparison.same.join('\n    ')}`)
-    console.log(`  different:\n    ${comparison.different.map((d) => `${d.position}: ${ppath.resolve(comparison.original, d.file)} != ${ppath.resolve(comparison.merged, d.file)}`).join('\n    ')}`)
+    console.log(`  different:\n    ${comparison.different.map(d => `${d.position}: ${ppath.resolve(comparison.original, d.file)} != ${ppath.resolve(comparison.merged, d.file)}`).join('\n    ')}`)
 }
 
 function assertCheck(comparison: Comparison, errors: string[]) {
@@ -72,7 +72,7 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             } else {
                 let pos = 0;
                 while (pos < originalVal.length && pos < mergedVal.length) {
-                    if (originalVal[pos] != mergedVal[pos]) {
+                    if (originalVal[pos] !== mergedVal[pos]) {
                         break
                     }
                     ++pos
@@ -157,13 +157,7 @@ describe('dialog:generate --merge', async function () {
     let modifiedSchema = ppath.join(merge_data, 'sandwichMerge_modified.schema')
     let locales = ['en-us']
     let originalDir = ppath.join(output_dir, 'sandwichMerge_original')
-    let modifiedDir = ppath.join(output_dir, 'sandwichMerge_modified')
     let mergedDir = ppath.join(output_dir, 'sandwichMerge_merged')
-    let errorOnly = (type: gen.FeedbackType, msg: string): void => {
-        if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
-            assert.fail(`${type}: ${msg}`)
-        }
-    }
     let feedback = (type: gen.FeedbackType, msg: string): void => {
         console.log(`${type}: ${msg}`)
         if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
@@ -206,6 +200,7 @@ describe('dialog:generate --merge', async function () {
     }
 
     before(async function () {
+    /* TODO: Restore
         try {
             console.log('Deleting output directory')
             await fs.remove(output_dir)
@@ -216,6 +211,7 @@ describe('dialog:generate --merge', async function () {
         } catch (e) {
             assert.fail(e.message)
         }
+        */
     })
 
     beforeEach(async function () {

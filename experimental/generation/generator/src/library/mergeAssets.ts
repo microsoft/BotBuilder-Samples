@@ -3,14 +3,14 @@
  * Licensed under the MIT License.
  */
 
-import * as fs from 'fs-extra';
-import * as ppath from 'path';
-import * as os from 'os';
+import * as fs from 'fs-extra'
+import * as ppath from 'path'
+import * as os from 'os'
 import { Feedback, FeedbackType, isUnchanged, writeFile, stringify } from './dialogGenerator'
 
-const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
-const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
-const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOperator');
+const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg')
+const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser')
+const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOperator')
 const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectiontypes')
 
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
@@ -82,11 +82,13 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 
     try {
         for (let locale of locales) {
+             // Ensure no - in filenames
+            locale = locale.replace(/-/g, '_') 
+            
             await fs.ensureDir(ppath.join(mergedPath, locale))
-            feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
+            feedback(FeedbackType.message, `Create output dir: ${mergedPath} `)
 
             const { oldPropertySet, newPropertySet } = await parseSchemas(schemaName, oldPath, newPath, mergedPath, feedback)
-
             await mergeDialogs(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeLUFiles(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeLGFiles(schemaName, oldPath, newPath, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
@@ -564,7 +566,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
     for (let rule of oldRules) {
         let state = rule.switchCaseStat()
         if (state.text.match('\s*-\s*SWITCH')) {
-            startIndex = state.start.line - 1;
+            startIndex = state.start.line - 1
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
             while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
@@ -712,9 +714,9 @@ function equalPattern(filename: string, propertySet: Set<string>, schemaName: st
     let result: string | undefined
 
     for (let property of propertySet) {
-        let pattern1 = schemaName + '-' + property + '-'
-        let pattern2 = schemaName + '-' + property + 'Entity'
-        let pattern3 = schemaName + '-' + property + '.'
+        let pattern1 = schemaName + '_' + property + '_'
+        let pattern2 = schemaName + '_' + property + 'Entity'
+        let pattern3 = schemaName + '_' + property + '.'
         if (filename.match(pattern1) || filename.match(pattern2) || filename.match(pattern3)) {
             result = property
             break

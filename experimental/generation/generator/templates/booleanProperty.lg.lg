@@ -18,4 +18,3 @@ ${valueTemplate()}
 \# Ask${property}
 - \${askBoolean('${property}')\}
 ```
-

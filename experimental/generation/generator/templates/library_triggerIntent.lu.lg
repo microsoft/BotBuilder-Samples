@@ -15,4 +15,3 @@ ${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)),
 - - {datetimeV2}
 - ELSE:
 - - {${entity}}
-

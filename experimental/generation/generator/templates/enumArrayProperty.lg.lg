@@ -22,4 +22,3 @@ ${ValueTemplate()}
 - ```
 \# ${property}(values)
 - \${enumArrayValue('${property}', values)}```
-
