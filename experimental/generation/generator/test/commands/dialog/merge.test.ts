@@ -157,7 +157,13 @@ describe('dialog:generate --merge', async function () {
     let modifiedSchema = ppath.join(merge_data, 'sandwichMerge_modified.schema')
     let locales = ['en-us']
     let originalDir = ppath.join(output_dir, 'sandwichMerge_original')
+    let modifiedDir = ppath.join(output_dir, 'sandwichMerge_modified')
     let mergedDir = ppath.join(output_dir, 'sandwichMerge_merged')
+    let errorOnly = (type: gen.FeedbackType, msg: string): void => {
+        if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
+            assert.fail(`${type}: ${msg}`)
+        }
+    }
     let feedback = (type: gen.FeedbackType, msg: string): void => {
         console.log(`${type}: ${msg}`)
         if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
@@ -200,7 +206,6 @@ describe('dialog:generate --merge', async function () {
     }
 
     before(async function () {
-    /* TODO: Restore
         try {
             console.log('Deleting output directory')
             await fs.remove(output_dir)
@@ -211,7 +216,6 @@ describe('dialog:generate --merge', async function () {
         } catch (e) {
             assert.fail(e.message)
         }
-        */
     })
 
     beforeEach(async function () {
