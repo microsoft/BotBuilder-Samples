@@ -489,7 +489,7 @@ export async function generate(
 
         // Process templates
         let scope: any = {
-            locales: allLocales,
+            locales: allLocales.map(l => l.replace(/-/g, '_')),
             prefix: prefix || schema.name(),
             schema: schema.schema,
             properties: schema.schema.$public,
