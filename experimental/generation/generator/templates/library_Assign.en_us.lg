@@ -1,0 +1,75 @@
+[library.en_us.lg]
+
+# numberValidation(property, number)
+- IF: ${less(number, dialogClass.schema.properties[property].minimum)}
+- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${name(property)}.
+- ELSEIF: ${greater(number, dialogClass.schema.properties[property].maximum)}
+- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${name(property)}.
+- ELSE:
+-
+
+# unitsAlert(property)
+- IF: ${dialogClass.schema.properties[property].$units}
+- Required response for ${name(property)} should be in ${dialogClass.schema.properties[property].$units}.
+- ELSE:
+- Unit for ${name(property)} are not defined in the schema.
+
+# setObjectPropertyMessage(property, val)
+- IF: ${contains($expectedProperties, property)}
+- 
+- ELSEIF: ${dialog[property]} 
+- ${name(property)} is changed from ${value(property, dialog[property])} to ${value(property, val)}.
+- ELSE: 
+- ${name(property)} is set as ${value(property, val)}.
+
+# setPropertyMessage(property, val)
+- IF: ${contains($expectedProperties, property)}
+- 
+- ELSE:
+- ${setUnexpectedPropertyMessage(property, val)}
+
+# setUnexpectedPropertyMessage(property, val)
+- IF:${dialog[property]}
+- ${unexpectedPropertyChange(property, val, dialog[property])}
+- ELSE:
+- ${unexpectedPropertySet(property, val)}
+
+# unexpectedPropertySet(property, val)
+- ${name(property)} is set to ${value(property, val)}.
+
+# unexpectedPropertyChange(property, val, oldVal)
+- ${name(property)} is changed from ${value(property, oldVal)} to ${value(property, val)}.
+
+# setArrayPropertyMessage(property, val)
+- IF: ${contains($expectedProperties, property)}
+- 
+- ELSE:
+- Added ${value(property, val)} to ${name(property)}
+
+# clearPropertyMessage(property)
+- ${name(property)} has been cleared.
+
+# removePropertyMessage(property, val)
+- IF: ${contains($expectedProperties, property) && $expectedOperation == 'RemoveFromProperty'}
+- 
+- ELSE:
+- ${removeUnexpectedPropertyMessage(property, val)}
+
+# removeUnexpectedPropertyMessage(property, val)
+- Removed ${value(property, val)} from ${name(property)}.
+
+# removeArrayPropertyMessage(property, val)
+- IF: ${contains($expectedProperties, property) && $expectedOperation == 'RemoveFromProperty'}
+- 
+- ELSE:
+- ${removeUnexpectedArrayPropertyMessage(property, val)}
+
+# removeUnexpectedArrayPropertyMessage(property, val)
+- IF: ${contains(dialog[property], val)}
+- Removed ${value(property, val)} from ${name(property)}
+- ELSE:
+- ${value(property, val)} is not in ${name(property)}
+
+# showPropertyMessage(property)
+- ${name(property)}: ${value(property, dialog[property])}
+

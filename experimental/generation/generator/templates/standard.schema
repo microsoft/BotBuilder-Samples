@@ -8,8 +8,8 @@
                 "boolean"
             ],
             "$templates": [
-                "library-CancelIntent.dialog",
-                "CancelConfirmation-add-boolean.dialog"
+                "library_CancelIntent.dialog",
+                "CancelConfirmation_add_boolean.dialog"
             ]
         },
         "ChangePropertyConfirmation": {
@@ -18,7 +18,7 @@
                 "boolean"
             ],
             "$templates": [
-                "ChangePropertyConfirmation-add-boolean.dialog"
+                "ChangePropertyConfirmation_add_boolean.dialog"
             ]
         },
         "CompleteConfirmation": {
@@ -27,21 +27,21 @@
                 "boolean", "PROPERTYName"
             ],
             "$templates": [
-                "library-CompleteConfirmation.dialog",
-                "CompleteConfirmation-add-boolean.dialog",
-                "CompleteConfirmation-add-PROPERTYName.dialog"
+                "library_CompleteConfirmation.dialog",
+                "CompleteConfirmation_add_boolean.dialog",
+                "CompleteConfirmation_add_PROPERTYName.dialog"
             ]
         },
         "PropertyToChange": {
             "$ref": "#/definitions/PROPERTYName",
             "$templates": [
-                "PropertyToChange-add-PROPERTYName.dialog"
+                "PropertyToChange_add_PROPERTYName.dialog"
             ]
         },
         "PropertyToRemember": {
             "$ref": "#/definitions/PROPERTYName",
             "$templates": [
-                "PropertyToRemember-add-PROPERTYName.dialog"
+                "PropertyToRemember_add_PROPERTYName.dialog"
             ]
         }
     },
@@ -58,29 +58,29 @@
     "$entities": ["PROPERTYName"],
     "$templates": [
         "booleanEntity",
-        "library-HelpIntent.lu",
-        "library-CancelIntent.lu",
-        "library-NoneIntent.lu",
-        "library-triggerIntent.lu",
-        "library-ShowFormIntent.lu",
-        "library-PROPERTYName.lu",
-        "library-PROPERTYName.lg",
-        "library-Missing.lg",
-        "library-Assign.lg",
-        "library-Choose.lg",
-        "library-Help.lg",
-        "library-ShowForm.lg",
+        "library_HelpIntent.lu",
+        "library_CancelIntent.lu",
+        "library_NoneIntent.lu",
+        "library_triggerIntent.lu",
+        "library_ShowFormIntent.lu",
+        "library_PROPERTYName.lu",
+        "library_PROPERTYName.lg",
+        "library_Missing.lg",
+        "library_Assign.lg",
+        "library_Choose.lg",
+        "library_Help.lg",
+        "library_ShowForm.lg",
         "library.lg",
         "locale.lu",
         "locale.lg",
         "luis.lu.dialog",
-        "library-BeginDialog.dialog",
-        "library-CancelIntent.dialog",
-        "library-ChooseProperty.dialog",
-        "library-HelpIntent.dialog",
-        "library-NotUnderstood.dialog",
-        "library-triggerIntent.dialog",
-        "library-ShowFormIntent.dialog",
+        "library_BeginDialog.dialog",
+        "library_CancelIntent.dialog",
+        "library_ChooseProperty.dialog",
+        "library_HelpIntent.dialog",
+        "library_NotUnderstood.dialog",
+        "library_triggerIntent.dialog",
+        "library_ShowFormIntent.dialog",
         "main.dialog",
         "luconfig.json",
         "build.cmd",

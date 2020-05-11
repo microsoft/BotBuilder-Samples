@@ -12,6 +12,6 @@
             }
         },
         "required": ["type", "location"],
-        "$templates": ["geographyV2Entity.lu","objectProperty.lg", "string-missing.dialog","geographyV2Entity-add.dialog", "geographyV2Entity-remove.dialog", "geographyV2Entity-clear.dialog", "geographyV2Entity-show.dialog"]
+        "$templates": ["geographyV2Entity.lu","objectProperty.lg", "string_missing.dialog","geographyV2Entity_add.dialog", "geographyV2Entity_remove.dialog", "geographyV2Entity_clear.dialog", "geographyV2Entity_show.dialog"]
     }
 }

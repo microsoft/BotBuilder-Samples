@@ -12,6 +12,6 @@
             }
         },
         "required": ["number", "units"],
-        "$templates": ["ageEntity.lu","objectProperty.lg", "string-missing.dialog","ageEntity-add.dialog", "ageEntity-remove.dialog", "ageEntity-clear.dialog", "ageEntity-show.dialog"]
+        "$templates": ["ageEntity.lu","objectProperty.lg", "string_missing.dialog","ageEntity_add.dialog", "ageEntity_remove.dialog", "ageEntity_clear.dialog", "ageEntity_show.dialog"]
     }
 }

@@ -1,0 +1,31 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${locale}/${prefix}_booleanEntity.${locale}.lu
+
+# template
+- ```
+@ list boolean =
+    - true :
+        - sure
+        - yeah
+        - you bet
+        - yes please
+        - true
+        - done
+        - yes
+        - positive
+        - 1
+    - false :
+        - no way
+        - no thank you
+        - never
+        - not now
+        - false
+        - not yet
+        - no
+        - negative
+        - 0
+${propertyName()}
+```
+

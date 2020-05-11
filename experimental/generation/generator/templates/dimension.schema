@@ -12,6 +12,6 @@
             }
         },
         "required": ["number", "units"],
-        "$templates": ["dimensionEntity.lu","objectProperty.lg", "string-missing.dialog","dimensionEntity-add.dialog", "dimensionEntity-remove.dialog", "dimensionEntity-clear.dialog", "dimensionEntity-show.dialog"]
+        "$templates": ["dimensionEntity.lu","objectProperty.lg", "string_missing.dialog","dimensionEntity_add.dialog", "dimensionEntity_remove.dialog", "dimensionEntity_clear.dialog", "dimensionEntity_show.dialog"]
     }
 }

@@ -24,9 +24,9 @@ Templates provide a lot of flexibility so the patterns below might have addition
 
 Most property types have template files for:
 
-- `$type$-missing.dialog.lg` -- Ask for a missing property of $type$.
-- `$type$-clear.dialog.lg` -- Clear a property of $type$.
-- `$type$-show.dialog.lg` -- Show a property of $type$.
+- `$type$_missing.dialog.lg` -- Ask for a missing property of $type$.
+- `$type$_clear.dialog.lg` -- Clear a property of $type$.
+- `$type$_show.dialog.lg` -- Show a property of $type$.
 - `$type$Property.lg.lg` -- Define the .lg resources to name, ask for and show a property of $type$.
 
 There are also template files for the entities that are defined in a `# entities` template, or a schema `$entities`.  
@@ -34,10 +34,10 @@ For each entity there is usually:
 
 - `$entity$Entity.lg.lg` -- Define the .lg resources for showing an `$entity$` value.
 - `$entity$Entity.lu.lg` -- Define the .lu resources need for recognizing an `$entity$` value and its property.
-- `$entity$Entity-$type$.lg` -- Define the templates needed for mapping `$entity$` to a property of $type$.
-- `$entity$Entity-add-$type$.dialog.lg` -- Define how to add an `$entity$` to a property of $type$.
-- `$entity$Entity-remove-$type$.dialog.lg` -- Define how to remove an `$entity$` from a property of `$type$`.
+- `$entity$Entity_$type$.lg` -- Define the templates needed for mapping `$entity$` to a property of $type$.
+- `$entity$Entity_add_$type$.dialog.lg` -- Define how to add an `$entity$` to a property of $type$.
+- `$entity$Entity_remove_$type$.dialog.lg` -- Define how to remove an `$entity$` from a property of `$type$`.
 
 In addition to property and entity templates there are also schema files like [standard.schema](standard.schema) or [age.schema](age.schema) that can be explicitly included into your schema in order to bring in more advanced functionality.
 
-The standard templates extend the naming conventions to add `-$operation$` to the end of files to reflect a particular built-in operation.  
+The standard templates extend the naming conventions to add `_$operation$` to the end of files to reflect a particular built-in operation.  

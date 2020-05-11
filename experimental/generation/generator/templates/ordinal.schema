@@ -12,6 +12,6 @@
             }
         },
         "required": ["offset", "relativeTo"],
-        "$templates": ["ordinalV2Entity.lu","objectProperty.lg", "string-missing.dialog","ordinalV2Entity-add.dialog", "ordinalV2Entity-remove.dialog", "ordinalV2Entity-clear.dialog", "ordinalV2Entity-show.dialog"]
+        "$templates": ["ordinalV2Entity.lu","objectProperty.lg", "string_missing.dialog","ordinalV2Entity_add.dialog", "ordinalV2Entity_remove.dialog", "ordinalV2Entity_clear.dialog", "ordinalV2Entity_show.dialog"]
     }
 }

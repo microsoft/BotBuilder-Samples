@@ -1,0 +1,22 @@
+[sandwichMerge_library.en_us.lg](sandwichMerge_library.en_us.lg)
+[sandwichMerge_library_Choose.en_us.lg](sandwichMerge_library_Choose.en_us.lg)
+
+# BreadEntity(value) 
+- SWITCH: ${value}
+  - CASE: ${'multiGrainWheat'} 
+    - multi grain wheat
+  - CASE: ${'rye'} 
+    - rye
+  - CASE: ${'white'} 
+    - white
+    - light
+  - CASE: ${'wholeWheat'} 
+    - whole wheat
+    - wheaty
+  - DEFAULT: 
+    - no value
+ 
+# chooseBreadEntity
+- ${chooseEnumEntity('Bread')}
+
+> Generator: 386d5713fd53e8e895e905ebe8d619af

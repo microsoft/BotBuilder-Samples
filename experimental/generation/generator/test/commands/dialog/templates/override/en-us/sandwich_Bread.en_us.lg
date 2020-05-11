@@ -1,0 +1,12 @@
+# AskBread
+- What kind of bread?
+
+# BreadName
+- bread
+
+# Bread(val)
+- ${BreadEntity(val)}
+
+[sandwich_BreadEntity.lg](sandwich_BreadEntity.lg)
+
+[sandwich_common.lg](sandwich_common.lg)

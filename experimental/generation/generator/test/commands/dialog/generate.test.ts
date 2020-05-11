@@ -13,7 +13,6 @@ import * as ppath from 'path'
 import * as ft from '../../../src/library/schema'
 import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
-import { fileURLToPath } from 'url';
 
 function feedback(type: gen.FeedbackType, msg: string) {
     console.log(`${type}: ${msg}`)
@@ -72,9 +71,9 @@ describe('dialog:generate', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, feedback)
-            let lg = await fs.readFile(ppath.join(output, 'en-us', 'sandwich-Bread.en-us.lg'))
+            let lg = await fs.readFile(ppath.join(output, 'en-us', 'sandwich_Bread.en_us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'sandwich-Bread-missing.dialog'))
+            let dialog = await fs.readFile(ppath.join(output, 'sandwich_Bread_missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
             assert.fail(e.message)

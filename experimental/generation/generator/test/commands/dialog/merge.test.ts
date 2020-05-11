@@ -154,11 +154,11 @@ describe('dialog:generate --merge', async function () {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = 'test/commands/dialog/merge_data'
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
-    let modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.schema')
+    let modifiedSchema = ppath.join(merge_data, 'sandwichMerge_modified.schema')
     let locales = ['en-us']
-    let originalDir = ppath.join(output_dir, 'sandwichMerge-original')
-    let modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
-    let mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
+    let originalDir = ppath.join(output_dir, 'sandwichMerge_original')
+    let modifiedDir = ppath.join(output_dir, 'sandwichMerge_modified')
+    let mergedDir = ppath.join(output_dir, 'sandwichMerge_merged')
     let errorOnly = (type: gen.FeedbackType, msg: string): void => {
         if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
             assert.fail(`${type}: ${msg}`)

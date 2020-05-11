@@ -7,7 +7,7 @@
 - ```
 ${importLG(`${property}Entity`)}
 ${importLG('library')}
-${importLG('library-Missing')}
+${importLG('library_Missing')}
 ${AskTemplate()}
 ${nameTemplate()}
 ${ValueTemplate()}
@@ -15,11 +15,11 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
-# Ask${property}
+\# Ask${property}
 - \${askEnumArray('${property}')\}```
 
 # ValueTemplate
 - ```
-# ${property}(values)
+\# ${property}(values)
 - \${enumArrayValue('${property}', values)}```
 

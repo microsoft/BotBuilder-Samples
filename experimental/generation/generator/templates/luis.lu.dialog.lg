@@ -6,7 +6,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.LuisRecognizer",
-    "applicationId": "=settings.luis.${prefix}_${replace(locale, '-', '_')}_lu",
+    "applicationId": "=settings.luis.${prefix}_${replace(locale, '_', '_')}_lu",
     "endpoint": "=settings.luis.endpoint",
     "endpointKey": "=settings.luis.endpointKey",
     "predictionOptions": {

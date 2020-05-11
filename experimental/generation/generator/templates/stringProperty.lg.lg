@@ -7,7 +7,7 @@
 - ```
 ${importLG(`${property}Entity`)}
 ${importLG('library')}
-${importLG('library-Missing')}
+${importLG('library_Missing')}
 ${AskTemplate()}
 ${nameTemplate()}
 ${valueTemplate()}
@@ -15,9 +15,6 @@ ${valueTemplate()}
 
 # AskTemplate
 - ```
-# Ask${property}
+\# Ask${property}
 - \${askString('${property}')\}
 ```
-
-
-

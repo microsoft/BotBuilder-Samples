@@ -1,0 +1,18 @@
+# filename
+- ${prefix}_${property}Entity_choose.dialog
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnChooseEntity",
+    "entity": "${property}Entity",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${choose${property}Entity()}",
+            "expectedProperties": ["${property}"]
+        }
+    ]
+}
+```

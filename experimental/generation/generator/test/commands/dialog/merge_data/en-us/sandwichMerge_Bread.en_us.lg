@@ -1,0 +1,14 @@
+[sandwichMerge_BreadEntity.en_us.lg](sandwichMerge_BreadEntity.en_us.lg)
+[sandwichMerge_library.en_us.lg](sandwichMerge_library.en_us.lg)
+[sandwichMerge_library_Missing.en_us.lg](sandwichMerge_library_Missing.en_us.lg)
+
+# AskBread
+- ${askEnum('Bread')}
+
+# BreadName
+- doughy stuff
+
+# Bread(val)
+- ${BreadEntity(val)}
+
+> Generator: 7abd4b82b74fd5b534e909147af4db05

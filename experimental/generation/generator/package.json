@@ -5,15 +5,17 @@
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-cli-command": "^4.8.0",
+    "@microsoft/bf-cli-command": "^4.9.0-RC6",
+    "@microsoft/bf-lu": "^4.9.0-RC6",
     "@oclif/command": "^1.5.19",
     "@oclif/config": "^1.14.0",
-    "tslib": "^1.11.1",
     "@oclif/errors": "~1.2.2",
     "@types/lru-cache": "^5.1.0",
     "@types/semver": "^6.0.1",
     "@types/xml2js": "^0.4.4",
+    "adaptive-expressions": "^4.9.0-rc42",
     "ajv": "^6.9.1",
+    "botbuilder-lg": "^4.9.0-rc42",
     "chalk": "^2.4.2",
     "clone": "^2.1.2",
     "fs-extra": "^8.1.0",
@@ -25,10 +27,8 @@
     "path": "^0.12.7",
     "seedrandom": "~3.0.5",
     "semver": "^5.7.0",
-    "xml2js": "^0.4.19",
-    "adaptive-expressions": "^4.8.0-preview",
-    "botbuilder-lg": "^4.8.0-preview",
-    "@microsoft/bf-lu": "^4.8.0"
+    "tslib": "^1.11.1",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",

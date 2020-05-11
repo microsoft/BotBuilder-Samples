@@ -12,6 +12,6 @@
             }
         },
         "required": ["number", "units"],
-        "$templates": ["moneyEntity.lu","objectProperty.lg", "string-missing.dialog","moneyEntity-add.dialog", "moneyEntity-remove.dialog", "moneyEntity-clear.dialog", "moneyEntity-show.dialog"]
+        "$templates": ["moneyEntity.lu","objectProperty.lg", "string_missing.dialog","moneyEntity_add.dialog", "moneyEntity_remove.dialog", "moneyEntity_clear.dialog", "moneyEntity_show.dialog"]
     }
 }

@@ -12,6 +12,6 @@
             }
         },
         "required": ["type", "timex"],
-        "$templates": ["datetimeEntity.lu","objectProperty.lg", "string-missing.dialog","datetimeEntity-add.dialog", "datetimeEntity-remove.dialog", "datetimeEntity-clear.dialog", "datetimeEntity-show.dialog"]
+        "$templates": ["datetimeEntity.lu","objectProperty.lg", "string_missing.dialog","datetimeEntity_add.dialog", "datetimeEntity_remove.dialog", "datetimeEntity_clear.dialog", "datetimeEntity_show.dialog"]
     }
 }

@@ -1,0 +1,19 @@
+# filename
+- ${prefix}_library_trigger.dialog
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "${triggerIntent}",
+    "condition": "count(turn.recognizedentities) == 0",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${notUnderstood()}"           
+        }
+    ]
+}
+```
+ 

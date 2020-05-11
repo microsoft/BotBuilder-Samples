@@ -11,19 +11,19 @@
     -
 
 # propertyFilename
-- ${locale}/${prefix}-${property}.${locale}.lg
+- ${locale}/${prefix}_${property}.${locale}.lg
 
 # entityLGFilename
-- ${locale}/${prefix}-${property}Entity.${locale}.lg
+- ${locale}/${prefix}_${property}Entity.${locale}.lg
 
 # nameTemplate
 -```
-# ${property}Name
+\# ${property}Name
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
-# ${property}(val)
+\# ${property}(val)
  - IF: \${val}
  - \${val\}
  - ELSE:
@@ -32,7 +32,7 @@
 
 # entityDisplay
 -```
-# ${property}Entity(val)
+\# ${property}Entity(val)
  - IF: \${val}
  - \${val\}
  - ELSE:
@@ -40,25 +40,25 @@
 ```
 
 # entityLUFilename
-- ${locale}/${prefix}-${property}Entity.${locale}.lu
+- ${locale}/${prefix}_${property}Entity.${locale}.lu
 
 # missingFilename
-- ${prefix}-${property}-missing.dialog
+- ${prefix}_${property}_missing.dialog
 
 # builtinEntityFilename(entity)
-- ${locale}/${prefix}-${property}-${entity}.${locale}.lu
+- ${locale}/${prefix}_${property}_${entity}.${locale}.lu
 
 # addFilename(entity)
-- ${prefix}-${property}-add-${entity}.dialog
+- ${prefix}_${property}_add_${entity}.dialog
 
 # removeFilename(entity)
-- ${prefix}-${property}-remove-${entity}.dialog
+- ${prefix}_${property}_remove_${entity}.dialog
 
 # clearFilename
-- ${prefix}-${property}-clear.dialog
+- ${prefix}_${property}_clear.dialog
 
 # showFilename
-- ${prefix}-${property}-show.dialog
+- ${prefix}_${property}_show.dialog
 
 # addDialog(entity)
 -```
@@ -246,8 +246,8 @@
 @composite RemoveFromProperty = [${entity}]
 @composite ClearProperty = [PROPERTYName]
 @composite ShowProperty = [PROPERTYName]
-# ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
+\# ${triggerIntent}
+${substitutions(`library_operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
 - ${property}
 ```
 
@@ -262,14 +262,14 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 - ${createArray(`${entity}:${property}`, entity)}
 
 # propertyTemplates
-- ${createArray(`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`)}
+- ${createArray(`${type}Property.lg`, `${type}_missing.dialog`, `${type}_clear.dialog`, `${type}_show.dialog`)}
 
 # entityTemplates
-- ${createArray(`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`)}
+- ${createArray(`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity_add_${type}.dialog`, `${entity}Entity_remove_${type}.dialog`)}
 
 > This is useful when importing another .lg file in order to add prefix/locale
 # importLG(name)
--\[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
+-\[${prefix}_${name}.${locale}.lg](${prefix}_${name}.${locale}.lg)
 
 # luHeader
 -> !# @app.culture = ${locale}

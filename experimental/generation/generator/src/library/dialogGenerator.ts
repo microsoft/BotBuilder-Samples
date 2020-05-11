@@ -162,12 +162,12 @@ const RefPattern = /^[ \t]*\[[^\]\n\r]*\][ \t]*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
         let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
-        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${os.EOL}`
+        return `[${scope.prefix}_${ref}](${scope.prefix}_${ref})${os.EOL}`
     })
 }
 
 function addPrefix(prefix: string, name: string): string {
-    return `${prefix}-${name}`
+    return `${prefix}_${name}`
 }
 
 // Add entry to the .lg generation context and return it.  
@@ -246,7 +246,7 @@ async function processTemplate(
                                 feedback(FeedbackType.info, `Generating ${outPath}`)
                                 let result = template
                                 if (typeof template === 'object') {
-                                    process.chdir(ppath.dirname(template.allTemplates[0].source))
+                                    process.chdir(ppath.dirname(template.allTemplates[0].sourceRange.source))
                                     result = template.evaluate('template', scope) as string
                                     if (Array.isArray(result)) {
                                         result = result.join(os.EOL)
@@ -308,7 +308,8 @@ async function processTemplates(
     feedback: Feedback): Promise<void> {
     scope.templates = {}
     for (let locale of locales) {
-        scope.locale = locale
+        // This is necessary because file names can be expressions and - is an operation
+        scope.locale = locale.replace(/-/g, '_')
         for (let property of schema.schemaProperties()) {
             scope.property = property.path
             scope.type = property.typeName()
@@ -330,7 +331,7 @@ async function processTemplates(
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
-                    await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
+                    await processTemplate(`${entityName}Entity_${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
             }
         }

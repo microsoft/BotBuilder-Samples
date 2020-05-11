@@ -12,6 +12,6 @@
             }
         },
         "required": ["number", "units"],
-        "$templates": ["temperatureEntity.lu","objectProperty.lg", "string-missing.dialog","temperatureEntity-add.dialog", "temperatureEntity-remove.dialog", "temperatureEntity-clear.dialog", "temperatureEntity-show.dialog"]
+        "$templates": ["temperatureEntity.lu","objectProperty.lg", "string_missing.dialog","temperatureEntity_add.dialog", "temperatureEntity_remove.dialog", "temperatureEntity_clear.dialog", "temperatureEntity_show.dialog"]
     }
 }

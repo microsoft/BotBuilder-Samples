@@ -28,7 +28,7 @@
             "request": "launch",
             "name": "Generate Sandwich",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/bin/run",
+            "program": "${workspaceFolder}/lib/commands/dialog/generate.js",
             "outputCapture": "std",
             "outFiles": [
                 "./lib/**"
