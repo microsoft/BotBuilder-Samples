@@ -15,7 +15,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*merge.*self.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
@@ -88,5 +88,25 @@
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug bf",
+            "program": "${env:TEMP}/../../Roaming/npm/node_modules/@microsoft/botframework-cli/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
+                "-o",
+                "test5",
+                "--force",
+                "--verbose"
+            ],
+            "cwd": "c:/tmp/bot3",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
     ]
 }
