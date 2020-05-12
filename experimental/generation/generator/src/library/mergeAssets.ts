@@ -487,7 +487,7 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
     let recordPart: object[] = []
 
     for (let oldTemplate of oldTemplates) {
-        let oldBody = oldTemplate.parseTree.templateBody()
+        let oldBody = oldTemplate.templateBodyParseTree
         if (oldBody === undefined) {
             continue
         }
@@ -496,7 +496,7 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
                 if (newTemplate.name !== oldTemplate.name) {
                     continue
                 }
-                let newBody = newTemplate.parseTree.templateBody()
+                let newBody = newTemplate.templateBodyParseTree
                 if (newBody instanceof SwitchCaseBodyContext) {
                     let newSwitchStatements: string[] = []
                     let newEnumValueMap = new Map<string, number>()
