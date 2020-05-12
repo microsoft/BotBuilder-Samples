@@ -13,7 +13,6 @@ import * as ppath from 'path'
 import * as ft from '../../../src/library/schema'
 import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
-import { fileURLToPath } from 'url';
 
 function feedback(type: gen.FeedbackType, msg: string) {
     console.log(`${type}: ${msg}`)

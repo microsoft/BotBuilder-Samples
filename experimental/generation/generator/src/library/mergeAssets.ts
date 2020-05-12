@@ -256,7 +256,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
     let oldEntitySections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
     let oldIntentSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.SIMPLEINTENTSECTION && s.Name === schemaName)
 
-    let odlSectionOp = new sectionOperator(oldLUResource)
+    let oldSectionOp = new sectionOperator(oldLUResource)
     let updatedLUResource: any = null
 
     let oldListEntitySections = oldEntitySections.filter(s => s.Type === 'list')
@@ -341,9 +341,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
 
             // update content 
             let entityLUContent = resultStatements.join(os.EOL)
-            let entityLUName = '@ ' + oldListEntitySection.Type + ' ' + oldListEntitySection.Name + ' ='
-            let sectionBody = entityLUName + os.EOL + entityLUContent
-            updatedLUResource = odlSectionOp.updateSection(oldListEntitySection.Id, sectionBody)
+            updatedLUResource = oldSectionOp.updateSection(oldListEntitySection.Id, entityLUContent)
 
             // update intent content
             if (oldIntentSections.length === 0) {
@@ -487,7 +485,7 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
     let recordPart: object[] = []
 
     for (let oldTemplate of oldTemplates) {
-        let oldBody = oldTemplate.parseTree.templateBody()
+        let oldBody = oldTemplate.templateBodyParseTree
         if (oldBody === undefined) {
             continue
         }
@@ -496,7 +494,7 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
                 if (newTemplate.name !== oldTemplate.name) {
                     continue
                 }
-                let newBody = newTemplate.parseTree.templateBody()
+                let newBody = newTemplate.templateBodyParseTree
                 if (newBody instanceof SwitchCaseBodyContext) {
                     let newSwitchStatements: string[] = []
                     let newEnumValueMap = new Map<string, number>()
@@ -507,11 +505,11 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
                         // get enumEntity and its following statements
                         if (state.text.match('\s*-\s*CASE:')) {
                             let enumEntity = state.text.replace('-CASE:${', '').replace('}', '')
-                            let start = state.start.line
+                            let start = state.start.line + newTemplate.sourceRange.range.start.line
                             newEnumValueMap.set(enumEntity, start)
                         }
                     }
-                    const { startIndex, endIndex } = parseLGTemplate(oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
+                    const { startIndex, endIndex } = parseLGTemplate(oldTemplate, oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
                     let statementInfo = {
                         start: startIndex, end: endIndex, newSStatements: newSwitchStatements
                     }
@@ -550,21 +548,22 @@ async function changeEntityEnumLG(oldPath: string, newPath: string, mergedPath: 
 
 /**
  * @description: Update old LG Template which has SWITCH ENUM.
- * @param oldBody  Template Body from the old .lg file.
+ * @param oldTemplate Template from the old .lg file. 
+ * @param oldBody   Body from the old .lg file.
  * @param oldStatements Statement array from the old .lg file.
  * @param newStatements Statement array from the new .lg file.
  * @param newEnumValueMap Map for Enum Entity key-value pair from the new .lg file.
  * @param oldEnumEntitySet Set for Enum Entity from the old .lg file.
  * @param newSwitchStatements Merged switch statement array.
  */
-function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: string[], newEnumValueMap: Map<string, number>, oldEnumEntitySet: Set<string>, newSwitchStatements: string[]): { startIndex: number, endIndex: number } {
+function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[], newStatements: string[], newEnumValueMap: Map<string, number>, oldEnumEntitySet: Set<string>, newSwitchStatements: string[]): { startIndex: number, endIndex: number } {
     let startIndex = 0
     let endIndex = 0
     let oldRules = oldBody.switchCaseTemplateBody().switchCaseRule()
     for (let rule of oldRules) {
         let state = rule.switchCaseStat()
         if (state.text.match('\s*-\s*SWITCH')) {
-            startIndex = state.start.line - 1;
+            startIndex = state.start.line + oldTemplate.sourceRange.range.start.line - 1
             newSwitchStatements.push(oldStatements[startIndex])
             let i = startIndex + 1
             while (i < oldStatements.length && !oldStatements[i].toLowerCase().match('case') && !oldStatements[i].toLowerCase().match('default')) {
@@ -575,7 +574,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
             let enumEntity = state.text.replace('-CASE:${', '').replace('}', '')
             oldEnumEntitySet.add(enumEntity)
             if (newEnumValueMap.has(enumEntity)) {
-                let k = state.start.line - 1
+                let k = state.start.line + oldTemplate.sourceRange.range.start.line - 1
                 newSwitchStatements.push(oldStatements[k])
                 k++
                 while (k < oldStatements.length && !oldStatements[k].toLowerCase().match('case') && !oldStatements[k].toLowerCase().match('default')) {
@@ -596,7 +595,7 @@ function parseLGTemplate(oldBody: any, oldStatements: string[], newStatements: s
 
                 }
             }
-            let m = state.start.line - 1
+            let m = state.start.line + oldTemplate.sourceRange.range.start.line - 1
             newSwitchStatements.push(oldStatements[m])
             m++
             while (m < oldStatements.length && !oldStatements[m].match('#') && !oldStatements[m].startsWith('[')) {

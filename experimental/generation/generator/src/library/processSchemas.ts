@@ -147,6 +147,10 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     }
     let formSchema = await getSchema(schemaPath, feedback, resolver)
     let required = {}
+    if (!formSchema.$requires) {
+        // Default to standard schema
+        formSchema.$requires = ['standard.schema']
+    }
     await findRequires(formSchema, allRequired, required, resolver, feedback)
     let allSchema = clone(formSchema)
     addMissing(allSchema)
