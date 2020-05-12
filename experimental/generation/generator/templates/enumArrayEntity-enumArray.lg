@@ -1,0 +1,2 @@
+# templates
+- ${createArray('enumArrayEntity.lg', 'enumArrayEntity.lu', 'enumArrayEntity-choose.dialog', 'enumArrayEntity-add-enumArray.dialog', `enumArrayEntity-remove-enumArray.dialog`)}

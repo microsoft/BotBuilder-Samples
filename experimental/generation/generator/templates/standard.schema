@@ -1,0 +1,89 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "CancelConfirmation": {
+            "type": "boolean",
+            "$entities": [
+                "boolean"
+            ],
+            "$templates": [
+                "library-CancelIntent.dialog",
+                "CancelConfirmation-add-boolean.dialog"
+            ]
+        },
+        "ChangePropertyConfirmation": {
+            "type": "boolean",
+            "$entities": [
+                "boolean"
+            ],
+            "$templates": [
+                "ChangePropertyConfirmation-add-boolean.dialog"
+            ]
+        },
+        "CompleteConfirmation": {
+            "type": "string",
+            "$entities": [
+                "boolean", "PROPERTYName"
+            ],
+            "$templates": [
+                "library-CompleteConfirmation.dialog",
+                "CompleteConfirmation-add-boolean.dialog",
+                "CompleteConfirmation-add-PROPERTYName.dialog"
+            ]
+        },
+        "PropertyToChange": {
+            "$ref": "#/definitions/PROPERTYName",
+            "$templates": [
+                "PropertyToChange-add-PROPERTYName.dialog"
+            ]
+        },
+        "PropertyToRemember": {
+            "$ref": "#/definitions/PROPERTYName",
+            "$templates": [
+                "PropertyToRemember-add-PROPERTYName.dialog"
+            ]
+        }
+    },
+    "definitions": {
+        "PROPERTYName": {
+            "type": "string",
+            "enum": "${properties}",
+            "$entities": ["PROPERTYName"]
+        }
+    },
+    "$operations": ["AddToProperty", "RemoveFromProperty", "ClearProperty", "ShowProperty"],
+    "$defaultOperation": "AddToProperty",
+    "$expectedOnly": ["boolean", "PROPERTYName", "utterance", "keyPhrase", "personName"],
+    "$entities": ["PROPERTYName"],
+    "$templates": [
+        "booleanEntity",
+        "library-HelpIntent.lu",
+        "library-CancelIntent.lu",
+        "library-NoneIntent.lu",
+        "library-triggerIntent.lu",
+        "library-ShowFormIntent.lu",
+        "library-PROPERTYName.lu",
+        "library-PROPERTYName.lg",
+        "library-Missing.lg",
+        "library-Assign.lg",
+        "library-Choose.lg",
+        "library-Help.lg",
+        "library-ShowForm.lg",
+        "library.lg",
+        "locale.lu",
+        "locale.lg",
+        "luis.lu.dialog",
+        "library-BeginDialog.dialog",
+        "library-CancelIntent.dialog",
+        "library-ChooseProperty.dialog",
+        "library-HelpIntent.dialog",
+        "library-NotUnderstood.dialog",
+        "library-triggerIntent.dialog",
+        "library-ShowFormIntent.dialog",
+        "main.dialog",
+        "luconfig.json",
+        "build.cmd",
+        "run.cmd"     
+    ]
+}

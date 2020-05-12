@@ -1,0 +1,11 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${entityLGFilename()}
+
+# template
+-```
+${'#'} ${property}Entity(val)
+- \${val}
+```
+

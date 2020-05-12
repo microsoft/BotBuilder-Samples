@@ -12,7 +12,7 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version

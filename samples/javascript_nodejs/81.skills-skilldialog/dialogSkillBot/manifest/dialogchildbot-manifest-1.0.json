@@ -64,11 +64,11 @@
       "properties": {
         "origin": {
           "type": "string",
-          "description": "this is the origin city for the flight."
+          "description": "This is the origin city for the flight."
         },
         "destination": {
           "type": "string",
-          "description": "this is the destination city for the flight."
+          "description": "This is the destination city for the flight."
         },
         "travelDate": {
           "type": "string",

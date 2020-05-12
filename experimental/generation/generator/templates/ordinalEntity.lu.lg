@@ -1,0 +1,11 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${builtinEntityFilename('ordinal')}
+
+# template
+- ```
+@ prebuilt ordinal ${roles()}
+${propertyName()}
+```
+

@@ -9,37 +9,27 @@ const {
 } = require('botbuilder-dialogs');
 
 const {
-    QnAMakerBaseDialog,
-    QNAMAKER_BASE_DIALOG,
-    DefaultCardNoMatchResponse,
-    DefaultCardNoMatchText,
-    DefaultCardTitle,
-    DefaultNoAnswer,
-    DefaultThreshold,
-    DefaultTopN,
-    QnAOptions,
-    QnADialogResponseOptions
+    QnAMakerBaseDialog
 } = require('./qnamakerBaseDialog');
 
 const INITIAL_DIALOG = 'initial-dialog';
 const ROOT_DIALOG = 'root-dialog';
+const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dailog';
 
 class RootDialog extends ComponentDialog {
     /**
      * Root dialog for this bot.
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
-    constructor(qnaService) {
-        super(ROOT_DIALOG);
-
+    constructor(knowledgebaseId, authkey, host) {
+        super(ROOT_DIALOG);        
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
-
-        this.addDialog(new QnAMakerBaseDialog(qnaService));
-
+        this.addDialog(new QnAMakerBaseDialog(knowledgebaseId, authkey, host));
         this.initialDialogId = INITIAL_DIALOG;
+
     }
 
     /**
@@ -62,26 +52,8 @@ class RootDialog extends ComponentDialog {
     // This is the first step of the WaterfallDialog.
     // It kicks off the dialog with the QnA Maker with provided options.
     async startInitialDialog(step) {
-        // Set values for generate answer options.
-        var qnamakerOptions = {
-            scoreThreshold: DefaultThreshold,
-            top: DefaultTopN,
-            context: {}
-        };
-
-        // Set values for dialog responses.
-        var qnaDialogResponseOptions = {
-            noAnswer: DefaultNoAnswer,
-            activeLearningCardTitle: DefaultCardTitle,
-            cardNoMatchText: DefaultCardNoMatchText,
-            cardNoMatchResponse: DefaultCardNoMatchResponse
-        };
-
-        var dialogOptions = {};
-        dialogOptions[QnAOptions] = qnamakerOptions;
-        dialogOptions[QnADialogResponseOptions] = qnaDialogResponseOptions;
-
-        return await step.beginDialog(QNAMAKER_BASE_DIALOG, dialogOptions);
+        
+        return await step.beginDialog(QNAMAKER_BASE_DIALOG);
     }
 }
 

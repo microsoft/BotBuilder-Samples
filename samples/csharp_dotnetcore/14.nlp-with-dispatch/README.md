@@ -20,7 +20,7 @@ This bot uses the Dispatch service to route utterances as it demonstrates the us
 
 ### Install .NET Core CLI
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version

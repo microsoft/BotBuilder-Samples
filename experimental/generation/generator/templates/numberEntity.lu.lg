@@ -1,0 +1,11 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${builtinEntityFilename('number')}
+
+# template
+- ```
+@ prebuilt number ${roles()}
+${propertyName()}
+```
+

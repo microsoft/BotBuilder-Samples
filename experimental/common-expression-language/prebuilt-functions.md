@@ -76,7 +76,7 @@ or you can browse the functions based on [alphabetical order](#alphabetical-list
 |[bool](#bool)	|Return Boolean representation of the specified string. Bool('true'), bool(1)	|
 |[createArray](#createArray)	|Create an array from multiple inputs	|
 |[json](#json)  | Return the JavaScript Object Notation (JSON) type value or object for a string or XML.    |
-|[base64](#base64) | Return the base64-encoded version for a string. |
+|[base64](#base64) | Return the base64-encoded version for a string or byte array. |
 |[base64ToBinary](#base64ToBinary) | Return the binary version for a base64-encoded string. |
 |[base64ToString](#base64ToString) | Return thr string version for a base64-encoded string. |
 |[binary](#binary) | Return the binary version for an input value. |
@@ -558,7 +558,7 @@ And it returns the result: `2`
 
 ### base64
 
-Return the base64-encoded version for a string.
+Return the base64-encoded version for a string or byte array.
 
 ```
 base64('<value>')
@@ -566,7 +566,7 @@ base64('<value>')
  
 | Parameter | Required | Type | Description |
 | --------- | -------- | ---- | ----------- |
-| <*value*> | Yes | String | The input string |
+| <*value*> | Yes | String or byte array | The input string |
 |||||
 
 | Return value | Type | Description |
@@ -574,7 +574,7 @@ base64('<value>')
 | <*base64-string*> | String | The base64-encoded version for the input string |
 ||||
 
-*Example*
+*Example1*
 
 This example converts the "hello" string to a base64-encoded string:
 
@@ -584,11 +584,21 @@ base64('hello')
 
 And returns this result: `"aGVsbG8="`
 
+*Example2*
+
+Suppose we have a byte array named byteArr, equals `new byte[] { 3, 5, 1, 12 }`
+
+```
+base64('byteArr')
+```
+
+And returns this result: `"AwUBDA=="`
+
 <a name="base64ToBinary"></a>
 
 ### base64ToBinary
 
-Return the binary version for a base64-encoded string.
+Return the binary array for a base64-encoded string.
 
 ```
 base64ToBinary('<value>')
@@ -601,18 +611,18 @@ base64ToBinary('<value>')
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*binary-for-base64-string*> | String | The binary version for the base64-encoded string |
+| <*binary-for-base64-string*> | Byte Array | The binary version for the base64-encoded string |
 ||||
 
 *Example*
 
-This example converts the "aGVsbG8=" base64-encoded string to a binary string:
+This example converts the "AwUBDA==" base64-encoded string to a binary string:
 
 ```
-base64ToBinary('aGVsbG8=')
+base64ToBinary('AwUBDA==')
 ```
 
-And returns this result: `"0110000101000111010101100111001101100010010001110011100000111101"`
+And returns this result: `new byte[] { 3, 5, 1, 12 }`
 
 <a name="base64ToString"></a>
 
@@ -661,7 +671,7 @@ bianry('<value>')
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| <*binary-for-input-value*> | String | The binary version for the specified string |
+| <*binary-for-input-value*> | Byte array | The binary version for the specified string |
 ||||
 
 *Example*
@@ -672,7 +682,7 @@ This example converts the "hello" string to a binary string:
 binary('hello')
 ```
 
-And returns this result: `"0110100001100101011011000110110001101111"`
+And returns this result: `new byte[] { 104, 101, 108, 108, 111 }`
 
 <a name="bool"></a>
 
@@ -1013,7 +1023,7 @@ dataUriToBinary('<value>')
 
 | Return value | Type | Description |
 | ------------ | ---- | ----------- |
-| [<*binary-for-data-uri*>] | String | The binary version for the data URI |
+| [<*binary-for-data-uri*>] | Byte array | The binary version for the data URI |
 ||||
 
 *Example*
@@ -1021,12 +1031,12 @@ dataUriToBinary('<value>')
 This example creates a binary version for this data URI:
 
 ```
-dataUriToBinary('data:text/plain;charset=utf-8;base64,aGVsbG8=')
+dataUriToBinary('aGVsbG8=')
 ```
 
 And returns this result:
 
-`"01100100011000010111010001100001001110100111010001100101011110000111010000101111011100000 1101100011000010110100101101110001110110110001101101000011000010111001001110011011001010111 0100001111010111010101110100011001100010110100111000001110110110001001100001011100110110010 10011011000110100001011000110000101000111010101100111001101100010010001110011100000111101"`
+`new byte[] { 97, 71, 86, 115, 98, 71, 56, 61 }`
 
 <a name="dataUriToString"></a>
 
@@ -1317,7 +1327,7 @@ And it returns the result: `true`
 
 *Example 2*
 
-This example checks whether the "hello world" string ends with the "world" string:
+This example checks whether the "hello world" string ends with the "universe" string:
 
 ```
 endsWith('hello world', 'universe')
@@ -3591,7 +3601,7 @@ startsWith('<text>', '<searchText>')
 
 *Example 1*
 
-This example checks whether the "hello world" string starts with the "world" string:
+This example checks whether the "hello world" string starts with the "hello" string:
 
 ```
 startsWith('hello world', 'hello')
@@ -3601,7 +3611,7 @@ And it returns the result: `true`
 
 *Example 2*
 
-This example checks whether the "hello world" string starts with the "world" string:
+This example checks whether the "hello world" string starts with the "greeting" string:
 
 ```
 startsWith('hello world', 'greeting')
@@ -3779,17 +3789,17 @@ subtractFromTime('<timestamp>', <interval>, '<timeUnit>', '<format>'?)
 This example subtracts one day from this timestamp:
 
 ```
-subtractFromTime('2018-01-02T00:00:00Z', 1, 'Day')
+subtractFromTime('2018-01-02T00:00.000Z', 1, 'Day')
 ```
 
-And returns this result: `"2018-01-01T00:00:00:000Z"`
+And returns this result: `"2018-01-01T00:00:00.000Z"`
 
 *Example 2*
 
 This example subtracts one day from this timestamp:
 
 ```
-subtractFromTime('2018-01-02T00:00:00Z', 1, 'Day', 'D')
+subtractFromTime('2018-01-02T00:00.000Z', 1, 'Day', 'D')
 ```
 
 And returns this result using the optional "D" format: `"Monday, January, 1, 2018"`

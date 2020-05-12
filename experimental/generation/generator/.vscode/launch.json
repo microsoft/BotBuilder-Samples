@@ -1,0 +1,92 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Dialog Generator Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*merge.*self.*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Sandwich",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
+                "-o",
+                "${env:TEMP}/sandwich.out",
+                "--force",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Unit Test",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/unittests.schema",
+                "-o",
+                "${env:TEMP}/unittests.out",
+                "--force",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Integrate Assets",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/dialog/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./packages/dialog/lib/**"
+            ],
+            "args": [
+                "dialog:integrate",
+                "sandwichBuy",
+                "-o",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy1",
+                "-n",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy2",
+                "-m",
+                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy3",
+                "-l",
+                "en-us",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+    ]
+}

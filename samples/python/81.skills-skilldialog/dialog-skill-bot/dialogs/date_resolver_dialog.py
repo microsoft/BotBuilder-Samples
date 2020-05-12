@@ -74,9 +74,14 @@ class DateResolverDialog(CancelAndHelpDialog):
     @staticmethod
     async def datetime_prompt_validator(prompt_context: PromptValidatorContext) -> bool:
         if prompt_context.recognized.succeeded:
+            # This value will be a TIMEX. We are only interested in the Date part, so grab the first
+            # result and drop the Time part.
+            # TIMEX is a format that represents DateTime expressions that include some ambiguity,
+            # such as a missing Year.
             timex = prompt_context.recognized.value[0].timex.split("T")[0]
 
-            # TODO: Needs TimexProperty
+            # If this is a definite Date that includes year, month and day we are good; otherwise, reprompt.
+            # A better solution might be to let the user know what part is actually missing.
             return "definite" in Timex(timex).types
 
         return False

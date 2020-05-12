@@ -1,0 +1,27 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${addFilename('temperature')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "temperature",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@temperature.number), ' ', @temperature.units))}"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=@temperature"          
+        }
+    ]               
+}
+```
+

@@ -1,0 +1,106 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {      
+        "Personname": {
+            "type": "string",
+            "$entities": [
+                "personName"
+            ]
+        },
+        "Age": {
+            "$ref": "template:age.schema#/age"
+        },
+        "Ordinalv2": {
+            "$ref": "template:ordinal.schema#/ordinalV2"
+        },
+        "Geographyv2": {
+            "$ref": "template:geography.schema#/geographyV2"
+        },
+        "Keyphraseproperty": {
+            "type": "string",
+            "$entities": [
+                "keyPhrase"
+            ]
+        },
+        "Money": {
+            "$ref": "template:money.schema#/money"
+        },
+        "Percentage": {
+            "type": "string",
+            "$entities": [
+                "percentage"
+            ]
+        },
+        "Temperature": {
+            "$ref": "template:temperature.schema#/temperature"
+        },
+        "Url": {
+            "type": "string",
+            "$entities": [
+                "url"
+            ]
+        },       
+        "Quantity": {
+            "type": "number",
+            "$entities": [
+                "number"
+            ],
+            "minimum": 1,
+            "maximum": 10
+        },
+        "Utteranceproperty": {
+            "type": "string",
+            "$entities": [
+                "utterance"
+            ],
+            "$comment": "This indicates the whole string is what maps to this."
+        },
+        "Dimension": {
+            "$ref": "template:dimension.schema#/dimension"
+        },
+        "Enum1": {
+            "type": "string",
+            "enum": [
+                "multiGrainWheat",
+                "rye",
+                "white",
+                "wholeWheat"
+            ]
+        },
+        "Enum2": {
+            "type": "string",
+            "enum": [
+                "american",
+                "cheddar",
+                "feta",
+                "gouda",
+                "pepper jack",
+                "provolone",
+                "swiss",
+                "none"
+            ]
+        },
+        "Zipcodepattern": { 
+            "type": "string",
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "$entities": ["utterance","number"]
+        },
+        "Email": {
+            "type": "string",
+            "$entities": ["email"]
+        },
+        "Phonenumber": {
+            "type": "string",
+            "$entities": ["phonenumber"]
+        },
+        "Datetimev2": {
+            "$ref": "template:datetime.schema#/datetime"
+        }
+    },
+    "required": 
+         ["Personname", "Age", "Ordinalv2", "Geographyv2", "Keyphraseproperty", "Money", "Percentage", "Temperature", "Url", "Quantity", "Utteranceproperty", "Dimension", "Enum1", "Enum2", "Zipcodepattern","Email", "Phonenumber", "Datetimev2"],
+    "$requires": [
+        "standard.schema"
+    ]
+}

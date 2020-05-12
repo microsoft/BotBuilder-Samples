@@ -54,8 +54,8 @@ class FlightBookingRecognizer {
     }
 
     /**
-     * This value will be a TIMEX. We are only interested in a Date so grab the first result and drop the Time part.
-     * TIMEX is a format that represents DateTime expressions that include some ambiguity, such as missing a Year.
+     * This value will be a TIMEX. We are only interested in the Date part, so grab the first result and drop the Time part.
+     * TIMEX is a format that represents DateTime expressions that include some ambiguity, such as a missing Year.
      */
     getTravelDate(result) {
         const datetimeEntity = result.entities.datetime;

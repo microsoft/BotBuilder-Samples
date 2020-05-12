@@ -1,0 +1,11 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${builtinEntityFilename('url')}
+
+# template
+- ```
+@ prebuilt url ${roles()}
+${propertyName()}
+```
+
