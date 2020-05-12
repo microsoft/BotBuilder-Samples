@@ -21,6 +21,7 @@ namespace RunBotServer
             ResourceExplorer resourceExplorer)
             : base(configuration, credentialProvider)
         {
+            this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseStorage(storage);
             this.UseBotState(userState, conversationState);
             this.UseDebugger(configuration.GetValue("debugport", 4712), logger: logger);
