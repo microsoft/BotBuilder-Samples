@@ -15,6 +15,6 @@ ${valueTemplate()}
 
 # AskTemplate
 - ```
-\# Ask${property}
+${'#'} Ask${property}
 - \${askBoolean('${property}')\}
 ```

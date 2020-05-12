@@ -15,10 +15,10 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
-\# Ask${property}
+${'#'} Ask${property}
 - \${askEnumArray('${property}')\}```
 
 # ValueTemplate
 - ```
-\# ${property}(values)
+${'#'} ${property}(values)
 - \${enumArrayValue('${property}', values)}```

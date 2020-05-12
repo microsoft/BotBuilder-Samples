@@ -5,6 +5,6 @@
 
 # template
 -```
-\# ${property}Entity(val)
+${'#'} ${property}Entity(val)
 - \${val\}
 ```

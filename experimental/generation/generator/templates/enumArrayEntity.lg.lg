@@ -14,7 +14,7 @@ ${chooseEntity()}
 
 # chooseEntity
 - ```
-\# choose${property}Entity
+${'#'} choose${property}Entity
 - \${chooseEnumArrayEntity(${concat("'", property, "'")})\}
 ```
 
@@ -23,7 +23,7 @@ ${chooseEntity()}
 
 # namePlusSwitch
 -```
-\# ${property}Entity(value) 
+${'#'} ${property}Entity(value) 
 - SWITCH: \${value\}```
 
 # case(option)

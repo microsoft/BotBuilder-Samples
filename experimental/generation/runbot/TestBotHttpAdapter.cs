@@ -22,10 +22,8 @@ namespace RunBotServer
             : base(configuration, credentialProvider)
         {
             this.UseStorage(storage);
-            this.UseState(userState, conversationState);
+            this.UseBotState(userState, conversationState);
             this.UseDebugger(configuration.GetValue("debugport", 4712), logger: logger);
-
-            HostContext.Current.Set<IConfiguration>(configuration);
 
             this.OnTurnError = async (turnContext, exception) =>
             {

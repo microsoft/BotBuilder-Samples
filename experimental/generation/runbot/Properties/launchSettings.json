@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "--root C:\\Users\\chrimc\\AppData\\Local\\Temp\\mergeTest\\sandwichMerge_original",
+      "commandLineArgs": "--root C:\\Users\\chrimc\\AppData\\Local\\Temp\\sandwich.out",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

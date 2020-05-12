@@ -18,12 +18,12 @@
 
 # nameTemplate
 -```
-\# ${property}Name
+${'#'} ${property}Name
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
-\# ${property}(val)
+${'#'} ${property}(val)
  - IF: \${val}
  - \${val\}
  - ELSE:
@@ -32,7 +32,7 @@
 
 # entityDisplay
 -```
-\# ${property}Entity(val)
+${'#'} ${property}Entity(val)
  - IF: \${val}
  - \${val\}
  - ELSE:
@@ -246,7 +246,7 @@
 @composite RemoveFromProperty = [${entity}]
 @composite ClearProperty = [PROPERTYName]
 @composite ShowProperty = [PROPERTYName]
-\# ${triggerIntent}
+${'#'} ${triggerIntent}
 ${substitutions(`library_operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
 - ${property}
 ```
