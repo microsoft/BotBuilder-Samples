@@ -5,7 +5,7 @@
 
 # template
 - ```
-# booleanEntity(value)
+${'#'} booleanEntity(value)
 - SWITCH: \${value}
 - CASE: \${'true'}
     - true  

@@ -246,7 +246,7 @@ async function processTemplate(
                                 feedback(FeedbackType.info, `Generating ${outPath}`)
                                 let result = template
                                 if (typeof template === 'object') {
-                                    process.chdir(ppath.dirname(template.allTemplates[0].source))
+                                    process.chdir(ppath.dirname(template.allTemplates[0].sourceRange.source))
                                     result = template.evaluate('template', scope) as string
                                     if (Array.isArray(result)) {
                                         result = result.join(os.EOL)

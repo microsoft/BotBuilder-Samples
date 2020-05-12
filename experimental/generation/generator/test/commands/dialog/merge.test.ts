@@ -25,7 +25,7 @@ type Comparison = {
 }
 
 function filePaths(files: string[], base: string): string {
-    return files.map((f) => ppath.resolve(base, f)).join('\n    ')
+    return files.map(f => ppath.resolve(base, f)).join('\n    ')
 }
 
 function displayCompare(comparison: Comparison) {
@@ -33,7 +33,7 @@ function displayCompare(comparison: Comparison) {
     console.log(`  originalOnly:\n    ${filePaths(comparison.originalOnly, comparison.original)}`)
     console.log(`  mergedOnly:\n    ${filePaths(comparison.mergedOnly, comparison.merged)}`)
     console.log(`  same:\n    ${comparison.same.join('\n    ')}`)
-    console.log(`  different:\n    ${comparison.different.map((d) => `${d.position}: ${ppath.resolve(comparison.original, d.file)} != ${ppath.resolve(comparison.merged, d.file)}`).join('\n    ')}`)
+    console.log(`  different:\n    ${comparison.different.map(d => `${d.position}: ${ppath.resolve(comparison.original, d.file)} != ${ppath.resolve(comparison.merged, d.file)}`).join('\n    ')}`)
 }
 
 function assertCheck(comparison: Comparison, errors: string[]) {
@@ -72,7 +72,7 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             } else {
                 let pos = 0;
                 while (pos < originalVal.length && pos < mergedVal.length) {
-                    if (originalVal[pos] != mergedVal[pos]) {
+                    if (originalVal[pos] !== mergedVal[pos]) {
                         break
                     }
                     ++pos

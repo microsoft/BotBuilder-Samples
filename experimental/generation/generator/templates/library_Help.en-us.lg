@@ -1,4 +1,4 @@
-[library.en-us.lg]
+[library.en_us.lg]
 
 # askHelp
 - IF: ${$retries > 0 && $lastIntent != 'Help'}
