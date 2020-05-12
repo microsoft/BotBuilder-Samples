@@ -30,8 +30,6 @@ namespace RunBotServer
 
         public RunBot(ConversationState conversationState, ResourceExplorer resourceExplorer, BotFrameworkClient skillClient, SkillConversationIdFactoryBase conversationIdFactory)
         {
-            HostContext.Current.Set(skillClient);
-            HostContext.Current.Set(conversationIdFactory);
             this.dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
             this.resourceExplorer = resourceExplorer;
 

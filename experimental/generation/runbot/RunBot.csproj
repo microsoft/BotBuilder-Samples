@@ -30,9 +30,9 @@
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.12.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.9.0-rc1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.9.0-rc1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.9.0-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.9.0-rc42" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.9.0-rc42" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.9.0-rc42" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.9.0-rc1-preview" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.0-rc1" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.1.0-beta1-final" />
