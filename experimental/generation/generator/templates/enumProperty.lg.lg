@@ -16,7 +16,7 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 ${'#'} Ask${property}
-- \${askEnum('${property}')\}
+- \${askEnum('${property}')}
 ```
 
 # ValueTemplate

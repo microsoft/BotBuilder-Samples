@@ -308,8 +308,7 @@ async function processTemplates(
     feedback: Feedback): Promise<void> {
     scope.templates = {}
     for (let locale of locales) {
-        // This is necessary because file names can be expressions and - is an operation
-        scope.locale = locale.replace(/-/g, '_')
+        scope.locale = locale
         for (let property of schema.schemaProperties()) {
             scope.property = property.path
             scope.type = property.typeName()
@@ -489,7 +488,7 @@ export async function generate(
 
         // Process templates
         let scope: any = {
-            locales: allLocales.map(l => l.replace(/-/g, '_')),
+            locales: allLocales,
             prefix: prefix || schema.name(),
             schema: schema.schema,
             properties: schema.schema.$public,

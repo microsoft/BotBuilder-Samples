@@ -8,4 +8,3 @@
 @ ml ${property}Entity
 ${propertyName()}
 ```
-

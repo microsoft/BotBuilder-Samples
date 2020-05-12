@@ -5,5 +5,3 @@
 
 # template
 - ${join(foreach(templates.lg, lg, `[${lg.fullName}](${lg.fullName})`), EOL())}
-
-

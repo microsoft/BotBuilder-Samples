@@ -15,7 +15,7 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 ${'#'} Ask${property}
-- \${askString('${property}')\}
+- \${askString('${property}')}
 ```
 
 # ValueTemplate
