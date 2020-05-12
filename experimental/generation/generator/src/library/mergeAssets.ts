@@ -256,7 +256,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
     let oldEntitySections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
     let oldIntentSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.SIMPLEINTENTSECTION && s.Name === schemaName)
 
-    let odlSectionOp = new sectionOperator(oldLUResource)
+    let oldSectionOp = new sectionOperator(oldLUResource)
     let updatedLUResource: any = null
 
     let oldListEntitySections = oldEntitySections.filter(s => s.Type === 'list')
@@ -341,7 +341,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, newPath: 
 
             // update content 
             let entityLUContent = resultStatements.join(os.EOL)
-            updatedLUResource = odlSectionOp.updateSection(oldListEntitySection.Id, entityLUContent)
+            updatedLUResource = oldSectionOp.updateSection(oldListEntitySection.Id, entityLUContent)
 
             // update intent content
             if (oldIntentSections.length === 0) {
