@@ -1,18 +1,16 @@
-﻿# Interruptions Bot
+﻿# Todo bot with LUIS
 
-Bot Framework v4 Interruption bot sample.
-
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses [LUIS](https://luis.ai) and adaptive dialogs to achieve advanced LU concepts such as interruption handling, flexible entity extraction.
+This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with [LUIS][5] to demonstrate an end-to-end ToDo bot in action including support for interruptions. 
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
 
   ```bash
   # determine dotnet version
   dotnet --version
   ```
-- Install required [Luis applications](#LUIS-Setup) required for this sample.
+- Configure the necessary [LUIS applications](#LUIS-Setup) required to run this sample
 
 ## To try this sample
 
@@ -21,8 +19,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/05.interruptions-bot`
+- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -36,17 +33,18 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/adaptive-dialog/05.interruptions-bot` folder
-  - Select `InterruptionsBot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot` folder
+  - Select `ToDoBotWithLUIS.csproj` file
   - Press `F5` to run the project
 
+  
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
@@ -59,15 +57,21 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ```bash
 > npm i -g @microsoft/botframework-cli
 ```
-- Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
-- In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/05.interruptions-bot`
-- Run luis:build to create/ update, train and publish LUIS applications for each .lu file for this bot. 
+- In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot`
+- In order for interruption to work effectively, you need to generate LU models that are cross-trained. 
+  - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
 ```bash
-> bf luis:build --in Dialogs --out generated --log --botName InterruptionBotSample --authoringKey <your-key>
+> cd Dialogs
+> bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
+```
+- Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
+- To create, train and pubish LUIS applications for this bot
+```bash
+> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuis --authoringKey <Your LUIS Authoring key> 
 ```
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file. 
-- Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.
-- Add your API key (typically the authoring key or endpoint key) as well as endpoint to appsettings.
+- Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.json.
+- Add endpoint and APIKey to appsettings.json.
 
 # Further reading
 - [Adaptive dialogs](https://aka.ms/adaptive-dialogs)
@@ -87,3 +91,14 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
+[1]:https://aka.ms/adaptive-dialogs
+[2]:https://aka.ms/language-generation
+[3]:../../../../samples/csharp_dotnetcore/06.using-cards
+[4]:https://botbuilder.myget.org/gallery/botbuilder-declarative
+[5]:https://luis.ai
+[6]:#LUIS-Setup
+[7]:https://github.com/Microsoft/botbuilder-tools
+[8]:https://nodejs.org/en/
+[9]:https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-how-to-account-settings#authoring-key
+[10]:https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-concept-keys
+[extension]:https://marketplace.visualstudio.com/items?itemName=tomlm.vscode-dialog-debugger
