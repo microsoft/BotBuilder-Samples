@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+ï»¿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using System;
@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Dictionary<string, string> endConversationContext = new Dictionary<string, string>();
                     if (conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text)) { endConversationContext = conversation.EscalationDictionary[turnContext.Activity.Text]; }
 
-                    await turnContext.SendActivityAsync("Transferring  to an agent, who can help you with this. Please remain online…");
+                    await turnContext.SendActivityAsync("TransferringÂ  to an agent, who can help you with this. Please remain onlineâ€¦");
 
                     Dictionary<string, object> handOffContext = new Dictionary<string, object>()
                     {
@@ -73,56 +73,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
         }
-
-        /*protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
-        {
-            if (turnContext.Activity.Text != null)
-            {
-                if (turnContext.Activity.Text.Contains("agent") | conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text))
-                {
-                    Dictionary<string, string> endConversationContext = new Dictionary<string, string>();
-                    if (conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text)) { endConversationContext = conversation.EscalationDictionary[turnContext.Activity.Text]; }
-                    
-                    await turnContext.SendActivityAsync(endConversationContext.ContainsKey("EscalationMessage") ? endConversationContext["EscalationMessage"] : "Your request will be escalated to a human agent");
-
-                    Dictionary<string, object> handOffContext = new Dictionary<string, object>()
-                    {
-                        { "BotHandoffContext", "Specialist request" },
-                        { "skill", "service" }
-                    };
-
-                    var handoffevent = EventFactory.CreateHandoffInitiation(turnContext, new
-                    {
-                        MessageToAgent = endConversationContext.ContainsKey("IssueSummary") ? endConversationContext["IssueSummary"] : "Service request for a VIP customer",
-                        Context = handOffContext
-                    }); // Transcript is persisted by Omnichannel
-
-                    await turnContext.SendActivityAsync(handoffevent);
-                }
-                else if (turnContext.Activity.Text.ToLower().Contains("end"))
-                {
-                    await turnContext.SendActivityAsync("Thanks for talking with me. Have a good day. Bye.");
-                    IEndOfConversationActivity endOfConversationActivity = Activity.CreateEndOfConversationActivity();
-                    await turnContext.SendActivityAsync(endOfConversationActivity);
-                }
-                else
-                {
-                    await HandleConversation(turnContext, cancellationToken);
-                }
-            }
-        }
-
-        protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
-        {
-            var welcomeText = $"{conversation.WelcomeMessage}";
-            foreach (var member in membersAdded)
-            {
-                if (member.Id == turnContext.Activity.Recipient.Id)
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text(welcomeText, welcomeText), cancellationToken);
-                }
-            }
-        }*/
 
         private async Task HandleConversation(ITurnContext turnContext, CancellationToken cancellationToken)
         {
