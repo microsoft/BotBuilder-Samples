@@ -1,0 +1,44 @@
+> Application description
+> !# @app.name = 04.core-bot-with-adaptive-dialogs
+> !# @app.desc = Core bot sample from BotBuilder-Samples - Adaptive dialogs
+> !# @app.culture = en-us
+
+> # Intent definitions
+## Book flight
+- Book flight
+- book flight from {@fromCity = london} to {@toCity = paris} on {@fromDate = feb 14th}
+- book flight to {@toCity = berlin} on {@fromDate = feb 14th}
+- book me a flight from {@fromCity = london} to {@toCity = paris}
+- flight to {@toCity = paris}
+- flight to {@toCity = paris} from {@fromCity = london} on {@fromDate = feb 14th}
+- fly from {@fromCity = berlin} to {@toCity = paris} on {@fromDate = may 5th}
+- go to {@toCity = paris}
+- going from {@fromCity = paris} to {@toCity = berlin}
+- travel to {@toCity = paris}
+- book a flight {@toCity = new york}
+> Add some patterns
+- book a flight to {@toCity}
+- book a flight from {@fromCity}
+- book a flight from {@fromCity} to {@toCity}
+- book a flight to {@toCity = london}
+
+## Cancel
+- bye
+- cancel booking
+- exit
+- ignore
+
+## Help
+- What can I say
+- What can I do
+- I need help
+- please help me
+
+## Greeting
+- Hi
+- Hello
+- Hiya
+
+> # Entity definitions
+@ prebuilt datetimeV2 hasRoles fromDate, toDate
+@ prebuilt geographyV2 hasRoles fromCity, toCity
