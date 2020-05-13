@@ -87,6 +87,17 @@ This bot has been created using [Bot Framework][1], it shows how to:
   - Unless you assign a subscription key to your LUIS application, endpoint key is the same as the authoring key.
   - endpoint is usually https://\<region>.api.cognitive.microsoft.com. e.g. https://westus.api.cognitive.microsoft.com
 
+# Further reading
+- [Adaptive dialogs](https://aka.ms/adaptive-dialogs)
+- [Language generation](https://aka.ms/language-generation)
+- [Adaptive Expressions](https://aka.ms/adaptive-expressions)
+- [.lu file format](https://aka.ms/lu-file-format)
+- [.lg file format](https://aka.ms/lg-file-format)
+- [.qna file format](https://aka.ms/qna-file-format)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction)
+- [Bot basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
+- [Channels and Bot Connector service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
+- [Activity processing](https://docs.microsoft.com/azure/bot-service/bot-builder-concept-activity-processing)
 
 [1]: https://dev.botframework.com
 [2]: https://nodejs.org/en/download/
