@@ -1,5 +1,5 @@
 ﻿> Language Generation definition file. 
-> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+> See https://aka.ms/language-generation to learn more
 
 # AskForName
 - Please enter your name.
@@ -36,8 +36,8 @@
 # ConfirmPrompt
 - Is this ok?
 
-> This template uses inline expressions. Expressions are defined using the common expression language. 
-> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more.
+> This template uses inline expressions. Expressions are defined using adaptive expressions. 
+> See https://aka.ms/adaptive-expressions to learn more.
 # FinalUserProfileReadOut
 - IF: ${turn.finalConfirmation == true}
     - I have your mode of transport as **${user.userProfile.Transport}** and your name as **${CapitalizeName(user.userProfile.Name)}**. ${UserAgeReadBack()}

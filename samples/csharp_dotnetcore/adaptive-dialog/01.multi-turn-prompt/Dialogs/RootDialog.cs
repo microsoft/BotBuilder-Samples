@@ -92,7 +92,7 @@ namespace Microsoft.BotBuilderSamples
                 },
                 // SendActivity supports full language generation resolution.
                 // See here to learn more about language generation
-                // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                // https://aka.ms/language-generation
                 new SendActivity("${AckName()}"),
                 new ConfirmInput()
                 {
@@ -101,8 +101,8 @@ namespace Microsoft.BotBuilderSamples
                 },
                 new IfCondition()
                 {
-                    // All conditions are expressed using the common expression language.
-                    // See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/common-expression-language to learn more
+                    // All conditions are expressed using adaptive expressions.
+                    // See https://aka.ms/adaptive-expressions to learn more
                     Condition = "turn.ageConfirmation == true",
                     Actions = new List<Dialog>()
                     {
