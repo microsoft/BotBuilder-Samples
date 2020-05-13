@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples
             this.UseBotState(userState);
             this.UseBotState(conversationState);
 
-            string[] paths = { ".", "AdapterWithErrorHandler.lg" };
+            string[] paths = { ".", $"{nameof(AdapterWithErrorHandler)}.lg" };
             string fullPath = Path.Combine(paths);
             _templates = Templates.ParseFile(fullPath);
 
