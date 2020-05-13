@@ -10,7 +10,7 @@
     "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": "${prefix}.lu",
     "generator": "${prefix}.lg",
-    "schema": "${prefix}.schema",
+    "schema": "${prefix}.json",
     "triggers": [ 
         ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
         ]

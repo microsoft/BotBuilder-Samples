@@ -51,7 +51,9 @@ class AdapterWithErrorHandler(BotFrameworkAdapter):
             )
             await turn_context.send_activity(error_message)
 
-            # Send a trace activity, which will be displayed in Bot Framework Emulator.
+            # Send a trace activity, which will be displayed in the BotFramework Emulator.
+            # Note: we return the entire exception in the value property to help the developer;
+            # this should not be done in production.
             await turn_context.send_trace_activity(
                 label="TurnError",
                 name="on_turn_error Trace",

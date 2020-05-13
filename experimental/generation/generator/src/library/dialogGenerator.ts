@@ -246,8 +246,9 @@ async function processTemplate(
                                 feedback(FeedbackType.info, `Generating ${outPath}`)
                                 let result = template
                                 if (typeof template === 'object') {
-                                    process.chdir(ppath.dirname(template.allTemplates[0].source))
+                                    process.chdir(ppath.dirname(template.allTemplates[0].sourceRange.source))
                                     result = template.evaluate('template', scope) as string
+                                    process.chdir(oldDir)
                                     if (Array.isArray(result)) {
                                         result = result.join(os.EOL)
                                     }
@@ -433,7 +434,7 @@ export async function generate(
     }
 
     if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema'
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/experimental/generation/runbot/runbot.schema'
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
@@ -502,7 +503,7 @@ export async function generate(
 
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires') ? undefined : val)
-        await generateFile(ppath.join(outPath, `${prefix}.schema.dialog`), body, force, feedback)
+        await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         if (merge) {
             await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)

@@ -22,8 +22,7 @@ class RootBot(ActivityHandler):
 
     async def on_turn(self, turn_context: TurnContext):
         if turn_context.activity.type != ActivityTypes.conversation_update:
-            # Handle end of conversation back from the skill
-            # forget skill invocation
+            # Run the Dialog with the Activity.
             await DialogExtensions.run_dialog(
                 self._main_dialog,
                 turn_context,
@@ -54,6 +53,10 @@ class RootBot(ActivityHandler):
                 )
 
     def _create_adaptive_card_attachment(self) -> Attachment:
+        """
+        Load attachment from embedded resource.
+        """
+
         relative_path = os.path.abspath(os.path.dirname(__file__))
         path = os.path.join(relative_path, "../cards/welcomeCard.json")
         with open(path) as in_file:

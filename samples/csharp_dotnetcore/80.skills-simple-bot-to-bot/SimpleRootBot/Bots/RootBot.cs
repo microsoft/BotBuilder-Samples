@@ -18,14 +18,13 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
 {
     public class RootBot : ActivityHandler
     {
+        public static readonly string ActiveSkillPropertyName = $"{typeof(RootBot).FullName}.ActiveSkillProperty";
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
-
-        public const string ActiveSkillPropertyName = "activeSkillProperty";
 
         public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
         {
@@ -61,7 +60,6 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             {
                 // Try to get the active skill
                 var activeSkill = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken);
-
                 if (activeSkill != null)
                 {
                     // Send the activity to the skill
@@ -71,6 +69,9 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             }
 
             await base.OnTurnAsync(turnContext, cancellationToken);
+
+            // Save any state changes that might have occured during the turn.
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -138,7 +139,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             await _conversationState.SaveChangesAsync(turnContext, force: true, cancellationToken: cancellationToken);
 
             // route the activity to the skill
-            var response = await _skillClient.PostActivityAsync(_botId, targetSkill, _skillsConfig.SkillHostEndpoint, (Activity)turnContext.Activity, cancellationToken);
+            var response = await _skillClient.PostActivityAsync(_botId, targetSkill, _skillsConfig.SkillHostEndpoint, turnContext.Activity, cancellationToken);
 
             // Check response status
             if (!(response.Status >= 200 && response.Status <= 299))
