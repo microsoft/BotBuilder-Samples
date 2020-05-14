@@ -1,5 +1,7 @@
+[generator.lg](generator.lg)
+
 # filename
-- ${prefix}-${property}Entity-choose.dialog
+- ${chooseEntityFilename()}
 
 # template
 - ```

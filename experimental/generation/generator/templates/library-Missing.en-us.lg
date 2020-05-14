@@ -4,35 +4,35 @@
 # askEnum(property)
 - ```
 ${askHelp()}
-Which value do you want for ${name(property)}?
+Which value do you want for ${displayName(property)}?
 ```
 
 # askEnumArray(property)
 - ```
 ${askHelp()}
-What values do you want to add for ${name(property)}?
+What values do you want to add for ${displayName(property)}?
 ```
 
 # askNumber(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
-- Enter a number for ${name(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${displayName(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
-- Enter a number for ${name(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
+- Enter a number for ${displayName(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
 - ELSEIF: ${dialogClass.schema.properties[property].maximum}
-- Enter a number for ${name(property)} that is less than ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${displayName(property)} that is less than ${dialogClass.schema.properties[property].maximum}
 - ELSE:
-- Enter a number for ${name(property)}
+- Enter a number for ${displayName(property)}
 
 # askString(property)
 - ```
 ${askHelp()}
-Enter a value for ${name(property)}
+Enter a value for ${displayName(property)}
 ```
 
 # askBoolean(property)
 - ```
 ${askHelp()}
-Enter a value for ${name(property)}: true or false
+Enter a value for ${displayName(property)}: true or false
 ```
 
 # enumArrayValue(property, values)
