@@ -1,7 +1,7 @@
 [generator.lg](generator.lg)
 
 # filename
-- ${libraryFilename(`PropertyToRemember-add-${entity}.dialog`)}
+- ${libraryFilename('PropertyToRemember-add-PROPERTYName.dialog')}
 
 # template
 - ```
