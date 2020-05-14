@@ -229,7 +229,7 @@ ${'#'} ${property}Entity(val)
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition":"!$${property} || $PropertyToChange == '${property}'",
-    "priority": "indexOf(dialog.requiredProperties, '${property}')",
+    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
