@@ -1,6 +1,6 @@
-﻿# EchoBot Declarative sample
+﻿# AdaptiveBot
 
-Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using declaratively defined [adaptive dialog][1].
+A sample bot that demonstrates various declaratively defined [adaptive dialogs][1].
 
 ## Prerequisites
 - [.NET Core SDK][4] version 3.1
@@ -10,10 +10,10 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 	```
 
 # To try this sample
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/20.EchoBot-declarative`
+- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/21.AdaptiveBot-declarative`
     ```bash
     # change into project folder
-	cd # EchoBot
+	cd # AdaptiveBot
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
@@ -26,8 +26,8 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 	B) Or from Visual Studio
 	- Launch Visual Studio
 	- File -> Open -> Project/Solution
-	- Navigate to `samples/csharp_dotnetcore/adaptive-dialog/20.EchoBot-declarative` folder
-	- Select `EchoBot.csproj` file
+	- Navigate to `samples/csharp_dotnetcore/adaptive-dialog/21.AdaptiveBot-declarative` folder
+	- Select `AdaptiveBot.csproj` file
 	- Press `F5` to run the project
 
 # Testing the bot using Bot Framework Emulator
@@ -40,14 +40,13 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-
-## Further reading
-
+# Further reading
 - [Adaptive dialogs](https://aka.ms/adaptive-dialogs)
 - [Language generation](https://aka.ms/language-generation)
 - [Adaptive Expressions](https://aka.ms/adaptive-expressions)
 - [.lu file format](https://aka.ms/lu-file-format)
 - [.lg file format](https://aka.ms/lg-file-format)
 - [.qna file format](https://aka.ms/qna-file-format)
- 
+
 [1]:https://aka.ms/adaptive-dialogs
+ 

@@ -1,0 +1,153 @@
+{
+    "$schema": "../../app.schema",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "generator": "usingCards.lg",
+    "autoEndDialog": "false",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnBeginDialog",
+            "actions": [
+                {
+                    "$kind": "Microsoft.ChoiceInput",
+                    "prompt": "${CardChoice()}",
+                    "property": "turn.cardChoice",
+                    "outputFormat": "value",
+                    "style": "Auto",
+                    "alwaysPrompt": true,
+                    "choices": [
+                        {
+                            "value": "Cancel"
+                        },
+                        {
+                            "value": "All cards"
+                        },
+                        {
+                            "value": "Hero card"
+                        },
+                        {
+                            "value": "Thumbnail card"
+                        },
+                        {
+                            "value": "Signin card"
+                        },
+                        {
+                            "value": "Animation card"
+                        },
+                        {
+                            "value": "Video card"
+                        },
+                        {
+                            "value": "Audio card"
+                        },
+                        {
+                            "value": "Adaptive card"
+                        }
+                    ]
+                },
+                {
+                    "$kind": "Microsoft.SwitchCondition",
+                    "condition": "turn.cardChoice",
+                    "cases": [
+                        {
+                            "value": "Cancel",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "Cancelling.."
+                                },
+                                {
+                                    "$kind": "Microsoft.EndDialog"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Help",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${HelpText()}"
+                                }
+                            ]
+
+                        },
+                        {
+                            "value": "All cards",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${AllCards()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Hero card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${HeroCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Thumbnail card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${ThumbnailCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Signin card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${SigninCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Animation card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${AnimationCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Video card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${VideoCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Audio card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${AudioCard()}"
+                                }
+                            ]
+                        },
+                        {
+                            "value": "Adaptive card",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "${AdaptiveCard()}"
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    "$kind": "Microsoft.RepeatDialog"
+                }
+            ]
+        }
+    ]
+}

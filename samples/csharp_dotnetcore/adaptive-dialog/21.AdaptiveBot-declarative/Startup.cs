@@ -48,7 +48,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Create the Bot Framework Adapter with error handling enabled.
-            services.AddSingleton<IBotFrameworkHttpAdapter, EchoBotAdapter>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, AdaptiveBotHttpAdapter>();
 
             // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton(resourceExplorer);
 
             // Create the bot  In this case the ASP Controller is expecting an IBot.
-            services.AddSingleton<IBot, EchoBot>();
+            services.AddSingleton<IBot, AdaptiveBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -83,6 +83,9 @@ namespace Microsoft.BotBuilderSamples
                 {
                     endpoints.MapControllers();
                 });
+
+            //app.UseHttpsRedirection();
+            //app.UseMvc();
         }
     }
 }
