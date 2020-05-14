@@ -222,6 +222,10 @@ async function processTemplate(
                     if (typeof template !== 'object' || template.allTemplates.some(f => f.name === 'template')) {
                         // Constant file or .lg template so output
                         let filename = addPrefix(scope.prefix, templateName)
+                        if (templateName.startsWith('library')) {
+                            // Put library stuff in its own folder by default
+                            filename = `library/${filename}`
+                        }
                         if (typeof template === 'object' && template.allTemplates.some(f => f.name === 'filename')) {
                             try {
                                 filename = template.evaluate('filename', scope) as string
