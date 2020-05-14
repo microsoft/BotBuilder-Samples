@@ -222,6 +222,10 @@ async function processTemplate(
                     if (typeof template !== 'object' || template.allTemplates.some(f => f.name === 'template')) {
                         // Constant file or .lg template so output
                         let filename = addPrefix(scope.prefix, templateName)
+                        if (templateName.startsWith('library')) {
+                            // Put library stuff in its own folder by default
+                            filename = `library/${filename}`
+                        }
                         if (typeof template === 'object' && template.allTemplates.some(f => f.name === 'filename')) {
                             try {
                                 filename = template.evaluate('filename', scope) as string
@@ -230,7 +234,7 @@ async function processTemplate(
                             }
                         } else if (filename.includes(scope.locale)) {
                             // Move constant files into locale specific directories
-                            filename = `${scope.locale}/${filename}`
+                            filename = `${scope.locale}/${scope.property}/${filename}`
                         }
 
                         // Add prefix to constant imports
@@ -257,6 +261,7 @@ async function processTemplate(
                                 // See if generated file has been overridden in templates
                                 let existing = await findTemplate(filename, templateDirs)
                                 if (existing && typeof existing !== 'object') {
+                                    feedback(FeedbackType.info, '  Overridden')
                                     result = existing
                                 }
 
