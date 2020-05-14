@@ -137,6 +137,29 @@ const expressionEngine = new expressions.ExpressionParser((func: string): any =>
     }
 })
 
+// Walk over JSON object, stopping if true from walker.
+// Walker gets the current value, the parent object and full path to that object
+// and returns false to continue, true to stop going deeper.
+async function walkJSON(elt: any, fun: (val: any, obj?: any, path?: string) => Promise<boolean>, obj?: any, path?: any): Promise<void> {
+    let done = await fun(elt, obj, path)
+    if (!done) {
+        if (typeof elt === 'object' || Array.isArray(elt)) {
+            for (let key in elt) {
+                await walkJSON(elt[key], fun, elt, pathName(path, key))
+            }
+        }
+    }
+}
+
+function pathName(path: string | undefined, extension: string): string {
+    return path ? `${path}/${extension}` : extension
+}
+
+function setPath(obj: any, path: string, value: any) {
+    let key = path.substring(path.lastIndexOf('/') + 1)
+    obj[key] = value
+}
+
 type Template = lg.Templates | string | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -222,10 +245,6 @@ async function processTemplate(
                     if (typeof template !== 'object' || template.allTemplates.some(f => f.name === 'template')) {
                         // Constant file or .lg template so output
                         let filename = addPrefix(scope.prefix, templateName)
-                        if (templateName.startsWith('library')) {
-                            // Put library stuff in its own folder by default
-                            filename = `library/${filename}`
-                        }
                         if (typeof template === 'object' && template.allTemplates.some(f => f.name === 'filename')) {
                             try {
                                 filename = template.evaluate('filename', scope) as string
@@ -234,7 +253,11 @@ async function processTemplate(
                             }
                         } else if (filename.includes(scope.locale)) {
                             // Move constant files into locale specific directories
-                            filename = `${scope.locale}/${scope.property}/${filename}`
+                            let prop = templateName.startsWith('library') ? 'library' : scope.property
+                            filename = `${scope.locale}/${prop}/${filename}`
+                        } else if (filename.includes('library-')) {
+                            // Put library stuff in its own folder by default
+                            filename = `library/${filename}`
                         }
 
                         // Add prefix to constant imports
@@ -401,6 +424,55 @@ function expandStandard(dirs: string[]): string[] {
     return expanded
 }
 
+// Get all files recursively in root
+async function allFiles(root: string): Promise<Map<string, string>> {
+    let files = new Map<string, string>()
+    async function walker(dir: string) {
+        if ((await fs.lstat(dir)).isDirectory()) {
+            for (let child of await fs.readdir(dir)) {
+                await walker(ppath.join(dir, child))
+            }
+        } else {
+            files.set(ppath.basename(dir), dir)
+        }
+    }
+    await walker(root)
+    return files
+}
+
+// Generate a singleton dialog by pulling in all dialog refs
+// NOTE: This does not pull in the recognizers in part because they are only generated when
+// publishing.
+async function generateSingleton(schema: string, inDir: string, outDir: string) {
+    let files = await allFiles(inDir)
+    let mainName = `${schema}.main.dialog`
+    let main = await fs.readJSON(files.get(mainName) as string)
+    let used = new Set<string>()
+    await walkJSON(main, async (elt, obj, key) => {
+        if (typeof elt === 'string') {
+            let ref = `${elt}.dialog`
+            let path = files.get(ref)
+            if (path && key) {
+                // Replace reference with inline object
+                let newElt = await fs.readJSON(path)
+                setPath(obj, key, newElt)
+                used.add(ref)
+            }
+        }
+        return false
+    })
+    for (let [name, path] of files) {
+        if (!used.has(name)) {
+            let outPath = ppath.join(outDir, ppath.relative(inDir, path))
+            if (name === mainName && path) {
+                await fs.writeJSON(outPath, main, { spaces: '\t' })
+            } else {
+                await fs.copy(path, outPath)
+            }
+        }
+    }
+}
+
 /**
  * Iterate through the locale templates and generate per property/locale files.
  * Each template file will map to <filename>_<property>.<ext>.
@@ -412,6 +484,7 @@ function expandStandard(dirs: string[]): string[] {
  * @param templateDirs Where templates are found.
  * @param force True to force overwriting existing files.
  * @param merge Merge generated results into target directory.
+ * @param singleton Merge .dialog into a single .dialog.
  * @param feedback Callback function for progress and errors.
  */
 export async function generate(
@@ -423,6 +496,7 @@ export async function generate(
     templateDirs?: string[],
     force?: boolean,
     merge?: boolean,
+    singleton?: boolean,
     feedback?: Feedback)
     : Promise<void> {
 
@@ -481,7 +555,7 @@ export async function generate(
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
         let outPath = outDir
-        if (merge) {
+        if (merge || singleton) {
             // Redirect to temporary path
             outPath = ppath.join(os.tmpdir(), 'tempNew')
             await fs.emptyDir(outPath)
@@ -510,6 +584,14 @@ export async function generate(
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
+        // Merge together all dialog files
+        if (singleton) {
+            feedback(FeedbackType.info, 'Combining into singleton .dialog')
+            await generateSingleton(scope.prefix, outPath, outDir)
+        }
+
+        // Merge old and new directories
+        // TODO: Merge does not work with singleton
         if (merge) {
             await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
         }
