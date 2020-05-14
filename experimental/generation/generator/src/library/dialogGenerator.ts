@@ -234,7 +234,7 @@ async function processTemplate(
                             }
                         } else if (filename.includes(scope.locale)) {
                             // Move constant files into locale specific directories
-                            filename = `${scope.locale}/${filename}`
+                            filename = `${scope.locale}/${scope.property}/${filename}`
                         }
 
                         // Add prefix to constant imports
@@ -261,6 +261,7 @@ async function processTemplate(
                                 // See if generated file has been overridden in templates
                                 let existing = await findTemplate(filename, templateDirs)
                                 if (existing && typeof existing !== 'object') {
+                                    feedback(FeedbackType.info, '  Overridden')
                                     result = existing
                                 }
 
