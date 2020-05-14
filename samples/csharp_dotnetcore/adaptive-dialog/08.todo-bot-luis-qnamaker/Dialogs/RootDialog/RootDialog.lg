@@ -1,0 +1,64 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+[Common](../Common/Common.lg)
+
+> Structured template with composition
+# HelpRootDialog
+[Activity
+    Text = ${WelcomePrefix()}, I'm the sample bot. ${WelcomeSuffix()}
+    ${WelcomeActions()}
+]
+
+# WelcomeSuffix
+- How can I be of help today?
+- What can I do for you today?
+ 
+# WelcomePrefix
+- Hi
+- Hello
+- Hiya
+
+> Structured template with composition
+# IntroMessage
+[Activity
+    Text = Hi, nice to meet you! I'm a sample bot. Here are some things I can help with
+    ${WelcomeActions()}
+]
+
+# Cancel.prompt
+- Are you sure you want to cancel? 
+
+# CancelAllDialogs
+- Sure, cancelling all dialogs...
+
+# CancelCancelled
+- No worries!
+
+> OnChooseIntent
+> You can control how to render disambiguation.
+> Here is an example with adaptive card
+# chooseIntentResponseWithCard
+[Activity
+    Attachments = ${json(fromFile('./OnChooseIntentAdaptiveCard.json'))}
+]
+
+> Templates for OnChooseIntentAdaptiveCard
+# whichOneDidYouMean
+- I'm not sure which one you mean.
+- Hmmm, I find that to be ambiguous.
+
+# pickOne
+- Can you pick one?
+- Can you help clarify by choosing one?
+
+> This template comes back with friendly descriptions for various intents configured in your LUIS application
+# getIntentReadBack
+- SWITCH : ${toLower(dialog.luisResult.intent)}
+- CASE : ${'GetUserProfile'}
+    - Start filling in your profile (GetUserProfile intent)
+- DEFAULT :
+    - ${dialog.luisResult.intent}
+
+# getAnswerReadBack
+- See an answer from the Knowledge Base
