@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Extensions.Configuration;
 
@@ -13,24 +14,32 @@ namespace Microsoft.BotBuilderSamples.Dialog
     public class BotQnAMakerDialog : QnAMakerDialog
     {
         public BotQnAMakerDialog(IConfiguration configuration)
-            :base(configuration["QnAKnowledgebaseId"], configuration["QnAEndpointKey"], BotQnAMakerDialog.GetHostname(configuration["QnAEndpointHostName"]))
+            :base(configuration["QnAKnowledgebaseId"], configuration["QnAEndpointKey"], BotQnAMakerDialog.GetHostPath(configuration["QnAEndpointHostName"]))
         {
 
         }
 
-        private static string GetHostname(string hostname)
+        // validates and creates (if needed) a full QnA maker url.
+        // if the value already contains a Scheme and Path no changes are made, otherwise the
+        // Scheme is set to HTTPS and the Path to "/qnamaker"
+        private static string GetHostPath(string hostname)
         {
-            if (!hostname.StartsWith("http"))
+            // we'll take any Scheme, otherwise https
+            var result = hostname;
+            var protoSep = hostname.IndexOf("://");
+            if (protoSep == -1)
             {
-                hostname = string.Concat("https://", hostname);
+                result = "https://" + hostname;
             }
 
-            if (!hostname.EndsWith("/qnamaker"))
+            // we'll take any path, including root, othwerwise add the default qnamaker path
+            var pathSep = hostname.IndexOf("/", protoSep != -1 ? protoSep + 3 : 0);
+            if (pathSep == -1)
             {
-                hostname = string.Concat(hostname, "/qnamaker");
+                result += "/qnamaker";
             }
 
-            return hostname;
+            return (new Uri(result)).ToString();
         }
     }
 }
