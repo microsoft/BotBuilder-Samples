@@ -13,7 +13,7 @@ export default class DialogTransform extends Command {
         help: flags.help({ char: 'h' }),
         schemaName: flags.string({ char: 's', description: 'schemaName' }),
         input: flags.string({ char: 'i', description: 'input path' }),
-        output: flags.string({ char: 'o', description: 'output path'}),
+        output: flags.string({ char: 'o', description: 'output path' }),
     }
 
     async run() {
@@ -22,14 +22,35 @@ export default class DialogTransform extends Command {
         await this.transformDialog(flags.schemaName, flags.input, flags.output)
     }
 
+    /**
+    feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${ppath.join(path, fileName)} ***`)	 * @description：Get all file paths from the specific dir.
+ * @param dir Root dir.
+ * @param fileList List of file paths.
+ */
+    getFiles(dir: string, fileList: string[]) {
+        fileList = fileList || []
+        let files = fs.readdirSync(dir)
+        for (let file of files) {
+            let name = dir + '/' + file
+            if (fs.statSync(name).isDirectory()) {
+                this.getFiles(name, fileList)
+            } else {
+                fileList.push(name)
+            }
+        }
+        return fileList
+    }
+
     async  transformDialog(schemaName: string, input: string, output: string): Promise<boolean> {
-        fs.ensureDir(ppath.join(output, 'en-us'))
         let template = await fs.readFile(ppath.join(input, schemaName + '.main.dialog'), 'utf8')
         let objDialog = JSON.parse(template)
-        let listTriggers : any[] = []
-        
-        for(let trigger of objDialog['triggers']){
-            let content = await fs.readFile(ppath.join(input, trigger + '.dialog'), 'utf8')
+        let listTriggers: any[] = []
+        let fileList: string[] = []
+        this.getFiles(input, fileList)
+
+        for (let trigger of objDialog['triggers']) {
+            let path = fileList.filter(file => file.match(trigger + '.dialog'))[0]
+            let content = await fs.readFile(path, 'utf8')
             let objTrigger = JSON.parse(content)
             objTrigger['id'] = trigger
             listTriggers.push(objTrigger)
@@ -37,9 +58,6 @@ export default class DialogTransform extends Command {
 
         objDialog['triggers'] = listTriggers
         await fs.writeFile(ppath.join(output, schemaName + '.main.dialog'), JSON.stringify(objDialog))
-        fs.copyFileSync(ppath.join(input,  schemaName + '.schema.dialog'), ppath.join(output,  schemaName + '.schema.dialog'))
-        fs.copySync(ppath.join(input, 'en-us'), ppath.join(output, 'en-us'))
-        
         return true
     }
 
