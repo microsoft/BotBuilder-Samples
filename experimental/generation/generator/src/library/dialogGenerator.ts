@@ -455,12 +455,20 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
             if (path && key) {
                 // Replace reference with inline object
                 let newElt = await fs.readJSON(path)
+                let id = ppath.basename(path)
+                id = id.substring(0, id.indexOf('.dialog'))
+                delete newElt.$schema
+                delete newElt.$Generator
+                newElt.id = id
+                newElt.$Generator = computeJSONHash(newElt)
                 setPath(obj, key, newElt)
                 used.add(ref)
             }
         }
         return false
     })
+    delete main.$Generator
+    main.$Generator = computeJSONHash(main)
     for (let [name, path] of files) {
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
