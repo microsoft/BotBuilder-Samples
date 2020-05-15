@@ -93,7 +93,7 @@ namespace Microsoft.BotBuilderSamples
                             new SendActivity("Cancelling all dialogs.."),
                             // SendActivity supports full language generation resolution.
                             // See here to learn more about language generation
-                            // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                            // https://aka.ms/language-generation
                             new SendActivity("${Welcome-Actions()}"),
                             new CancelAllDialogs(),
                         }

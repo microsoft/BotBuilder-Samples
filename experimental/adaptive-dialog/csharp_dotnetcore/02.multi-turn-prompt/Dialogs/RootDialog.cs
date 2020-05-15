@@ -91,7 +91,7 @@ namespace Microsoft.BotBuilderSamples
                 },
                 // SendActivity supports full language generation resolution.
                 // See here to learn more about language generation
-                // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                // https://aka.ms/language-generation
                 new SendActivity("${AckName()}"),
                 new ConfirmInput()
                 {

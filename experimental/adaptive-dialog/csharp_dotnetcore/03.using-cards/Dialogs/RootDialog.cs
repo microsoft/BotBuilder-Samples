@@ -108,7 +108,7 @@ namespace Microsoft.BotBuilderSamples
                     Cases = new List<Case>() {
                         // SendActivity supports full language generation resolution.
                         // See here to learn more about language generation
-                        // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                        // https://aka.ms/language-generation
                         new Case("Adaptive card",  new List<Dialog>() { new SendActivity("${AdaptiveCard()}") } ),
                         new Case("Animation card", new List<Dialog>() { new SendActivity("${AnimationCard()}") } ),
                         new Case("Audio card",     new List<Dialog>() { new SendActivity("${AudioCard()}") } ),

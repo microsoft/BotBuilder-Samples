@@ -126,7 +126,7 @@ namespace Microsoft.BotBuilderSamples
                                 Property = "conversation.flightBooking.departureCity",
                                 // Prompt property supports full language generation resolution.
                                 // See here to learn more about language generation
-                                // https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation
+                                // https://aka.ms/language-generation
                                 Prompt = new ActivityTemplate("${PromptForMissingInformation()}"),
                                 // We will allow interruptions as long as the user did not explicitly answer the question
                                 // This property supports an expression so you can examine presence of an intent via #intentName, 
