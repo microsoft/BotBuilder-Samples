@@ -479,6 +479,19 @@ function normalize(path: string): string {
     return ppath.normalize(path)
 }
 
+function expandStandard(dirs: string[]): string[] {
+    let expanded: string[] = []
+    for (let dir of dirs) {
+        if (dir === 'standard') {
+            dir = ppath.join(__dirname, '../../templates')
+        } else {
+            dir = ppath.resolve(dir)
+        }
+        expanded.push(normalize(dir))
+    }
+    return expanded
+}
+
 /**
  * Iterate through the locale templates and generate per property/locale files.
  * Each template file will map to <filename>_<property>.<ext>.
@@ -566,12 +579,19 @@ export async function generate(
             await fs.emptyDir(outPath)
         }
 
-        // template: only refers to standard templates, otherwise use standard URI
-        let schema = await processSchemas(schemaPath, [ppath.join(__dirname, '../../templates')], feedback)
+        let standard = normalize(ppath.join(__dirname, '../../templates'))
+        templateDirs = expandStandard(templateDirs)
+
+        // User templates + cli templates to find schemas
+        let startDirs = [...templateDirs]
+        if (!startDirs.includes(standard)) {
+            startDirs.push(standard)
+        }
+
+        let schema = await processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
-        // Include template dirs of any schemas after any explicit template dirs
-        templateDirs = templateDirs.map(d => normalize(d))
+        // User templates + schema template directories
         let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
         templateDirs = [
             ...templateDirs,
