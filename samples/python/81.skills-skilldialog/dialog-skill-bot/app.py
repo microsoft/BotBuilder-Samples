@@ -1,5 +1,6 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
+from http import HTTPStatus
 
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
@@ -48,17 +49,15 @@ async def messages(req: Request) -> Response:
     if "application/json" in req.headers["Content-Type"]:
         body = await req.json()
     else:
-        return Response(status=415)
+        return Response(status=HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
 
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
-    if response:
-        return json_response(data=response.body, status=response.status)
-    # TODO: The body argument on the response below is a temporal workaround
-    # for more information go to https://github.com/microsoft/botbuilder-python/issues/878
-    return Response(status=201, body='{"foo":"bar"}'.encode("utf-8"))
+    invoke_response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
+    if invoke_response:
+        return json_response(data=invoke_response.body, status=invoke_response.status)
+    return Response(status=HTTPStatus.OK)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
