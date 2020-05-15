@@ -411,19 +411,6 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
     return newSchema
 }
 
-function expandStandard(dirs: string[]): string[] {
-    let expanded: string[] = []
-    for (let dir of dirs) {
-        if (dir === 'standard') {
-            dir = ppath.join(__dirname, '../../templates')
-        } else {
-            dir = ppath.resolve(dir)
-        }
-        expanded.push(dir)
-    }
-    return expanded
-}
-
 // Get all files recursively in root
 async function allFiles(root: string): Promise<Map<string, string>> {
     let files = new Map<string, string>()
@@ -481,6 +468,17 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     }
 }
 
+// Convert to the right kind of slash. 
+// ppath.normalize did not do this properly on the mac.
+function normalize(path: string): string {
+    if (ppath.sep === '/') {
+        path = path.replace(/\\/g, ppath.sep)
+    } else {
+        path = path.replace(/\//g, ppath.sep)
+    }
+    return ppath.normalize(path)
+}
+
 /**
  * Iterate through the locale templates and generate per property/locale files.
  * Each template file will map to <filename>_<property>.<ext>.
@@ -507,7 +505,6 @@ export async function generate(
     singleton?: boolean,
     feedback?: Feedback)
     : Promise<void> {
-
     if (!feedback) {
         feedback = (_info, _message) => true
     }
@@ -532,7 +529,7 @@ export async function generate(
     }
 
     if (!templateDirs) {
-        templateDirs = ['standard']
+        templateDirs = []
     }
 
     if (force) {
@@ -569,10 +566,17 @@ export async function generate(
             await fs.emptyDir(outPath)
         }
 
-        templateDirs = expandStandard(templateDirs)
-
-        let schema = await processSchemas(schemaPath, templateDirs, feedback)
+        // template: only refers to standard templates, otherwise use standard URI
+        let schema = await processSchemas(schemaPath, [ppath.join(__dirname, '../../templates')], feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
+
+        // Include template dirs of any schemas after any explicit template dirs
+        templateDirs = templateDirs.map(d => normalize(d))
+        let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
+        templateDirs = [
+            ...templateDirs,
+            ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
+        ]
 
         // Process templates
         let scope: any = {
@@ -589,7 +593,7 @@ export async function generate(
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         // Write final schema
-        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires') ? undefined : val)
+        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         // Merge together all dialog files

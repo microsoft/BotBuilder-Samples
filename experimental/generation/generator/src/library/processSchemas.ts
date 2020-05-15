@@ -23,6 +23,9 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
+                if (!schema.$templateDirs) {
+                    schema.$templateDirs = [ppath.dirname(file)]
+                }
             }
         }
     }
@@ -75,6 +78,7 @@ function mergeSchemas(allSchema: any, schemas: any[]) {
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$templates) allSchema.$templates = allSchema.$templates.concat(schema.$templates)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
+        if (schema.$templateDirs) allSchema.$templateDirs = allSchema.$templateDirs.concat(schema.$templateDirs)
         // Last definition wins
         if (schema.$defaultOperation) allSchema.$defaultOperation = schema.$defaultOperation
         if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
@@ -158,6 +162,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
     if (!allSchema.$templates) allSchema.$templates = []
     if (!allSchema.$operations) allSchema.$operations = []
+    if (!allSchema.$templateDirs) allSchema.$templateDirs = []
     if (formSchema.$public) {
         allSchema.$public = formSchema.$public
     } else {
