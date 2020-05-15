@@ -70,26 +70,6 @@ namespace LivePersonProxyBot.Bots
                 {
                     replyText = $"Version 1.3. AppId: {_creds.LpAppId}";
                 }
-                if (userText.Contains("disneyland"))
-                {
-                    await turnContext.SendActivityAsync("Sorry I cannot answer your questoin but an agent will be with you shortly");
-
-                    var channelData = @"
-  {
-    ""action"": {
-        ""name"": ""TRANSFER"",
-        ""parameters"": {
-          ""skill"": ""Fallback-Skill""
-        }
-    }
-  }";
-                    var activity = new Activity("message");
-                    activity.Text = "";
-                    activity.ChannelData = JObject.Parse(channelData);
-
-                    await turnContext.SendActivityAsync(activity);
-                    return;
-                }
                 else
                 {
                     foreach (var country in Capitals.Keys)
