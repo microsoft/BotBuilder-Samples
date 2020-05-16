@@ -7,6 +7,7 @@ import * as expr from 'adaptive-expressions'
 import * as fs from 'fs-extra'
 import * as os from 'os'
 import * as random from 'seedrandom'
+import { generateKeyPairSync } from 'crypto'
 
 /**
  * Return the result of replicating lines from a source file and substituting random values 
@@ -35,6 +36,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         if (line.startsWith('>') || line.trim() === '') { // Copy comments
             result.push(line)
         } else {
+            let generated = new Set<string>()
             for (let i = 0; i < copies; ++i) {
                 let newline = line.replace(/\${([^}]*)\}/g,
                     (_, key) => {
@@ -45,7 +47,10 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
                         }
                         return choice
                     })
-                result.push(newline)
+                if (!generated.has(newline)) {
+                    generated.add(newline)
+                    result.push(newline)
+                }
             }
         }
     }

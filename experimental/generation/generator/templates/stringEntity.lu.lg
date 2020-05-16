@@ -7,5 +7,5 @@
 - ```
 @ ml ${property}Entity
 ${propertyName()}
+${operations(`${property}Entity`, [`${property}Entity`])}
 ```
-

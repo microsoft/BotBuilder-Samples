@@ -5,6 +5,9 @@
 - with {@AddToProperty=${entity} and ${entity}}
 - add {@AddToProperty=${entity}, ${entity} and ${entity}}
 - with {@AddToProperty=${entity}, ${entity} and ${entity}}
+- {@AddToPropery=${property} is ${entity}}
+- {@AddToProperty=${property} are ${entity} and ${entity}}
+- {@AddToProperty=${property} are ${entity}, ${entity} and ${entity}}
 > Remove only
 - remove {@RemoveFromProperty=${entity}}
 - remove {@RemoveFromProperty=${entity} and ${entity}}

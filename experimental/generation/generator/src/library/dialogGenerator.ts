@@ -446,7 +446,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
                 id = id.substring(0, id.indexOf('.dialog'))
                 delete newElt.$schema
                 delete newElt.$Generator
-                newElt.id = id
+                newElt.$source = id
                 newElt.$Generator = computeJSONHash(newElt)
                 setPath(obj, key, newElt)
                 used.add(ref)

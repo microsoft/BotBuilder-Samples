@@ -244,14 +244,18 @@ ${'#'} ${property}Entity(val)
 
 # propertyName
 - ```
+> Define how ${property} is recognized as a property name
 @ list PROPERTYName
     - ${property}:
+${if(schema.properties[property].title,
+`\t\t- ${schema.properties[property].title}`,
+synonyms(property))}
 ```
 
 > Define operations over an entity that can take on values
 # operations(entity, values)
 -```
-@composite AddToProperty = [${entity}]
+@composite AddToProperty = [${entity}, PROPERTYName]
 @composite RemoveFromProperty = [${entity}]
 @composite ClearProperty = [PROPERTYName]
 @composite ShowProperty = [PROPERTYName]

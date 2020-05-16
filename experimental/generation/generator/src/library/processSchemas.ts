@@ -155,6 +155,10 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         // Default to standard schema
         formSchema.$requires = ['standard.schema']
     }
+    if (!formSchema.$templateDirs) {
+        // Default to including schema directory
+        formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
+    }
     await findRequires(formSchema, allRequired, required, resolver, feedback)
     let allSchema = clone(formSchema)
     addMissing(allSchema)
@@ -162,7 +166,6 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
     if (!allSchema.$templates) allSchema.$templates = []
     if (!allSchema.$operations) allSchema.$operations = []
-    if (!allSchema.$templateDirs) allSchema.$templateDirs = []
     if (formSchema.$public) {
         allSchema.$public = formSchema.$public
     } else {
