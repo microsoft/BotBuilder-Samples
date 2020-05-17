@@ -70,20 +70,21 @@ describe('dialog:generate', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, feedback)
-            let lg = await fs.readFile(ppath.join(output, 'en-us', 'sandwich-Bread.en-us.lg'))
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, feedback)
+            let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'sandwich-Bread-missing.dialog'))
+            let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
             assert.fail(e.message)
         }
     })
 
-    it('Generation', async () => {
+    it('Singleton', async () => {
         try {
             console.log('\n\nGeneration')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton')
         } catch (e) {
             assert.fail(e.message)
         }

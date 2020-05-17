@@ -1,3 +1,8 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${libraryFilename('ChangePropertyConfirmation-add-boolean.dialog')}
+
 # template
 - ```
 {

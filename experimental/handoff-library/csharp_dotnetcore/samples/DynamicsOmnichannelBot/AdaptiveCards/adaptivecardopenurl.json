@@ -1,0 +1,38 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "type": "AdaptiveCard",
+  "version": "1.0",
+  "body": [
+    {
+      "type": "Image",
+      "url": "http://icons.iconarchive.com/icons/pelfusion/folded-flat/256/Air-Plane-icon.png",
+      "size": "Stretch"
+    },
+    {
+      "type": "TextBlock",
+      "spacing": "Medium",
+      "size": "default",
+      "weight": "Bolder",
+      "text": "Welcome to Flight booking bot",
+      "wrap": true
+    },
+    {
+      "type": "TextBlock",
+      "size": "default",
+      "text": "Click below to book directly at the website",
+      "wrap": true
+    }
+  ],
+  "actions": [
+    {
+      "type": "Action.OpenUrl",
+      "title": "Emirates",
+      "url": "https://www.emirates.com"
+    },
+    {
+      "type": "Action.OpenUrl",
+      "title": "Lufthansa",
+      "url": "https://www.lufthansa.com/"
+    }
+  ]
+}

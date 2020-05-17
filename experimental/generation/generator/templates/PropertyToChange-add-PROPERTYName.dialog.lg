@@ -1,3 +1,9 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${libraryFilename(`PropertyToChange-add-PROPERTYName.dialog`)}
+
+
 # template
 - ```
 {
