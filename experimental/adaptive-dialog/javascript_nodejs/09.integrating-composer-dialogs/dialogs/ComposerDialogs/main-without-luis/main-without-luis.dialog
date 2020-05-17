@@ -1,0 +1,79 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "main-without-luis",
+      "id": "GTIPqA"
+    }
+  },
+  "autoEndDialog": "true",
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "7H0QFg"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "mkTbuW"
+          },
+          "activity": "${SendActivity_mkTbuW()}"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "id": "fXIpgb"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "defaultLocale": "en-us",
+          "prompt": "${NumberInput_Prompt_fXIpgb()}",
+          "property": "dialog.userage",
+          "validations": [
+            "int(this.value) >= 0",
+            "int(this.value) <= 150"
+          ],
+          "invalidPrompt": "${NumberInput_InvalidPrompt_fXIpgb()}",
+          "unrecognizedPrompt": "${NumberInput_UnrecognizedPrompt_fXIpgb()}",
+          "defaultValue": 30,
+          "defaultValueResponse": "${NumberInput_DefaultValueResponse_fXIpgb()}"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "id": "68xAY7"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "defaultLocale": "en-us",
+          "prompt": "${NumberInput_Prompt_68xAY7()}",
+          "invalidPrompt": "${NumberInput_InvalidPrompt_68xAY7()}",
+          "validations": [
+            "int(this.value) >= 0 && int(this.value) <= 16",
+            "isMatch(string(this.value), '^[0-9]+(\\.5)*$')"
+          ],
+          "unrecognizedPrompt": "${NumberInput_UnrecognizedPrompt_68xAY7()}",
+          "defaultValueResponse": "${NumberInput_DefaultValueResponse_68xAY7()}",
+          "defaultValue": 8,
+          "property": "dialog.shoesize"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "o1v2B6"
+          },
+          "value": "={age:dialog.userage, shoeSize:dialog.shoeSize, fullname:dialog.fullname}"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "main-without-luis.lg"
+}

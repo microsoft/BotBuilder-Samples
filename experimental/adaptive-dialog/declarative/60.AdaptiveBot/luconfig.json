@@ -1,7 +1,0 @@
-{
-    "name": "AdaptiveBot",
-    "defaultLanguage": "en-us",
-    "models": [
-        "Samples/08-CoreBot/CoreBot.lu"
-    ]
-}
