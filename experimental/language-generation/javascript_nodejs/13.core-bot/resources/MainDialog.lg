@@ -1,5 +1,5 @@
 ﻿> Language Generation definition file. 
-> See https://github.com/Microsoft/BotBuilder-Samples/tree/master/experimental/language-generation to learn more
+> See https://aka.ms/language-generation to learn more
 
 # BookingConfirmation
 - I have you booked to ${Destination} from ${Origin} on ${DateMessage}.
