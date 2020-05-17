@@ -1,0 +1,27 @@
+﻿> Language Understanding definition.
+> See https://aka.ms/lu-file-format to learn more
+
+# GetListType
+- todo list
+- shopping list
+- how about the to do list?
+
+@ list listType = 
+- all : 
+	- everything
+	- all items
+- todo :
+	- to do
+    - todos
+    - laundry            
+- grocery :
+    - groceries
+    - fruits
+    - vegetables
+    - household items
+    - house hold items
+- shopping : 
+    - shopping 
+    - shop
+    - shoppers
+

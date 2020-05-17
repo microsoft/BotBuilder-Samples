@@ -4,6 +4,7 @@
 import sys
 import traceback
 from datetime import datetime
+from http import HTTPStatus
 
 from aiohttp import web
 from aiohttp.web import Request, Response, json_response
@@ -67,7 +68,7 @@ async def messages(req: Request) -> Response:
     if "application/json" in req.headers["Content-Type"]:
         body = await req.json()
     else:
-        return Response(status=415)
+        return Response(status=HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
 
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
@@ -75,7 +76,7 @@ async def messages(req: Request) -> Response:
     response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
     if response:
         return json_response(data=response.body, status=response.status)
-    return Response(status=201)
+    return Response(status=HTTPStatus.OK)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
