@@ -50,8 +50,10 @@ namespace LivePersonAgentBot
                     activity.ChannelData = JObject.Parse(channelData);
 #else // nicer
                     var channelData = new { action =
-                        new { name = "TRANSFER"},
-                        parameters = new { skill }
+                        new {
+                            name = "TRANSFER",
+                            parameters = new { skill }
+                        }
                     };
 
                     var activity = new Activity("message");
