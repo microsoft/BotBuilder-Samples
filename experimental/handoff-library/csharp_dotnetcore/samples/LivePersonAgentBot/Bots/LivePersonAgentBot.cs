@@ -45,7 +45,7 @@ namespace LivePersonAgentBot.Bots
                 var transcript = new Transcript(conversationData.ConversationLog.Where(a => a.Type == ActivityTypes.Message).ToList());
 
                 var evnt = EventFactory.CreateHandoffInitiation(turnContext,
-                    new { Skill = "Credit Cards" },
+                    new { Skill = "credit-cards" },
                     transcript);
 
                 await turnContext.SendActivityAsync(evnt);
