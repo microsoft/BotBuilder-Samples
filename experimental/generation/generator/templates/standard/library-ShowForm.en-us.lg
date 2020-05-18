@@ -10,7 +10,7 @@
 - ${join(foreach(dialog.requiredProperties, property, textProperty(property)), EOL())}
 
 # textProperty(property)
-- The value of ${name(property)} is ${value(property, dialog[property])}.
+- The value of ${displayName(property)} is ${displayValue(property, dialog[property])}.
 
 # formCard(name, properties)
 -```
@@ -36,4 +36,4 @@
 - ${join(foreach(properties, property, fact(property)), ', ')}
 
 # fact(property)
-- {"title": "${name(property)}", "value": "${value(property, dialog[property])}"}
+- {"title": "${displayName(property)}", "value": "${displayValue(property, dialog[property])}"}

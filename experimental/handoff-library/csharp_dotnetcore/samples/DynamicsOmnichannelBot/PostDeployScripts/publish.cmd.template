@@ -1,0 +1,3 @@
+nuget restore
+msbuild {SOLUTION_NAME} -p:DeployOnBuild=true -p:PublishProfile={PUBLISH_PROFILE} -p:Password={PASSWORD}
+

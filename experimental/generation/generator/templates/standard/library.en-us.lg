@@ -8,10 +8,10 @@
 # welcome
 - Welcome!
 
-# name(property)
+# displayName(property)
 - ${template(`${property}Name`)}
 
-# value(property, val)
+# displayValue(property, val)
 - ${template(property, val)}
 
 # enumEntityValue(property, val)
@@ -22,21 +22,21 @@
 
 # requiredProperties
 - IF: ${count(dialogClass.schema.required) > 0}
-- Required properties include: ${join(foreach(dialogClass.schema.required, property, name(property)), ',')}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, displayName(property)), ',')}
 - ELSE:
 - 
 
 # optionalProperties
 - IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, name(property)), ', ')}${EOL()}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, displayName(property)), ', ')}${EOL()}
 - ELSE:
 - 
 
 # possibleValues(property)
-- ${foreach(dialogClass.schema.properties[property].enum, enum, value(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].enum, enum, displayValue(property, enum))}
 
 # possibleArrayValues(property)
-- ${foreach(dialogClass.schema.properties[property].items.enum, enum, value(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, displayValue(property, enum))}
 
 # cancel
 - Do you want to end the conversation? (yes/no)
