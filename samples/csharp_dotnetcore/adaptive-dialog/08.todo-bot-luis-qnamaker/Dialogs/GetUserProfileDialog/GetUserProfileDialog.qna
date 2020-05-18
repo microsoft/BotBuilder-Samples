@@ -1,0 +1,33 @@
+﻿> QnA definition.
+> See https://aka.ms/qna-file-format to learn more.
+
+[ChitChat](./ChitChat.qna)
+
+# ?Why do you need my name?
+- why do you ask for my name?
+- explain why you need my name
+```
+${NameJustification()}
+```
+
+# ?why do you need my age?
+- why do you ask for my age?
+- explain why you need my age..
+```
+${AgeJustification()}
+```
+
+# ?why
+- may i know why?
+- please explain
+```
+${NameJustification()}
+${AgeJustification()}
+${PrivacyPolicy()}
+```
+
+# ?what is your privacy policy?
+- privacy policy
+```
+${PrivacyPolicy()}
+```
