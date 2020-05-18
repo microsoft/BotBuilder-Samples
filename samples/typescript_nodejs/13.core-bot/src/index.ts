@@ -26,7 +26,6 @@ const BOOKING_DIALOG = 'bookingDialog';
 // The helper-class recognizer that calls LUIS
 import { FlightBookingRecognizer } from './dialogs/flightBookingRecognizer';
 
-
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new BotFrameworkAdapter({
