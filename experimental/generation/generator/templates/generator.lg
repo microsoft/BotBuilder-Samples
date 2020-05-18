@@ -74,8 +74,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "AddTo${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -106,8 +105,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "AddTo${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -139,8 +137,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "RemoveFrom${property}",
     "entity": "${entity}",
     "actions": [
 
@@ -167,8 +164,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "RemoveFrom${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -190,9 +186,8 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ClearProperty",
+    "operation": "Clear${property}",
     "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -255,12 +250,12 @@ synonyms(property))}
 > Define operations over an entity that can take on values
 # operations(entity, values)
 -```
-@composite AddToProperty = [${entity}, PROPERTYName]
-@composite RemoveFromProperty = [${entity}]
-@composite ClearProperty = [PROPERTYName]
-@composite ShowProperty = [PROPERTYName]
+@composite AddTo${property} = [${entity}]
+@composite RemoveFrom${property} = [${entity}]
+@composite Clear${property} = [PROPERTYName]
+@composite Show${property} = [PROPERTYName]
 ${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
+${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}", "value": ${list(values)}, "property": "${property}"}`), 3)}
 - ${property}
 ```
 

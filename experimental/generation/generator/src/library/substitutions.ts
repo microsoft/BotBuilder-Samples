@@ -7,7 +7,7 @@ import * as expr from 'adaptive-expressions'
 import * as fs from 'fs-extra'
 import * as os from 'os'
 import * as random from 'seedrandom'
-import { generateKeyPairSync } from 'crypto'
+import {generateKeyPairSync} from 'crypto'
 
 /**
  * Return the result of replicating lines from a source file and substituting random values 
@@ -21,7 +21,10 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     if (!copies) copies = 1
     if (!seed) seed = '0'
     for (let binding of Object.keys(bindings)) {
-        bindings[binding] = bindings[binding].flat()
+        let value = bindings[binding]
+        if (Array.isArray(value)) {
+            bindings[binding] = (value as any).flat()
+        }
     }
     let result: string[] = []
     let rand = random(seed)
@@ -43,7 +46,11 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
                         let choice = '**MISSING**'
                         let choices = bindings[key]
                         if (choices) {
-                            choice = choices[Math.abs(rand.int32()) % choices.length]
+                            if (Array.isArray(choices)) {
+                                choice = choices[Math.abs(rand.int32()) % choices.length]
+                            } else {
+                                choice = choices
+                            }
                         }
                         return choice
                     })

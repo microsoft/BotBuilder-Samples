@@ -8,8 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "CompleteConfirmation",
+    "operation": "AddTo${property}",
     "entity": "boolean",
     "actions": [
         {
