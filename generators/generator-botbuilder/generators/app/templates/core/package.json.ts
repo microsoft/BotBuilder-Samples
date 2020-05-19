@@ -27,7 +27,6 @@
         "restify": "~8.5.1"
     },
     "devDependencies": {
-        "@types/dotenv": "8.2.0",
         "@types/mocha": "^7.0.2",
         "@types/restify": "8.4.2",
         "mocha": "^7.1.2",
