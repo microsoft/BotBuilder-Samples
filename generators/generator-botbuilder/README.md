@@ -246,6 +246,44 @@ Now when `yo botbuilder` is run, it will use the development build.  To remove t
 npm uninstall -g generator-botbuilder
 ```
 
+## Creating a Local Development Environment
+
+To work on the template, evolve it, fix bugs in it, you need to create a local development environment.  This setup process entails clone the repository, installing dependencies and creating a symlink that allows the local generated to be run by Yeoman.  Here are the steps to create and use a local development environment for development:
+
+```bash
+# clone the repository
+git clone https://github.com/microsoft/BotBuilder-Samples.git
+```
+
+```bash
+# change into the generator-botbuilder folder
+cd BotBuilder-Samples/generators/generator-botbuilder
+```
+
+```bash
+# install the generators npm dependencies
+npm install
+```
+
+```bash
+# create a symlink to your local package folder
+npm link
+```
+
+At this point you have everything setup to make changes to the sources.  The steps that follow show how to run the changed generator using Yeoman, and when you're finished, deleting the symlink.
+
+```bash
+# run the local copy of the generator
+yo botbuilder
+```
+
+```bash
+# delete the symlink to your local package folder
+npm unlink
+```
+
+
+
 ## Logging Issues and Providing Feedback
 
 Issues and feedback about the botbuilder generator can be submitted through the project's [GitHub Issues](https://github.com/Microsoft/botbuilder-samples/issues) page.
