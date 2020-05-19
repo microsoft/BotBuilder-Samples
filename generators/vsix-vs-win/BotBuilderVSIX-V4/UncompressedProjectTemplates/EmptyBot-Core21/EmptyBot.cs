@@ -9,7 +9,7 @@ using Microsoft.Bot.Schema;
 
 namespace $safeprojectname$
 {
-    public class EmptyBot : ActivityHandler
+    public class $safeprojectname$ : ActivityHandler
     {
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
