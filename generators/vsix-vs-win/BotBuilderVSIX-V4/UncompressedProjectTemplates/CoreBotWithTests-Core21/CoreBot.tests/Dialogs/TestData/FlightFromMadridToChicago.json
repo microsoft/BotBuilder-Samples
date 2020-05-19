@@ -1,0 +1,53 @@
+{
+  "Text": "flight from madrid to chicago",
+  "AlteredText": null,
+  "Intents": {
+    "BookFlight": {
+      "score": 0.8837919
+    }
+  },
+  "Entities": {
+    "datetime": null,
+    "Airport": null,
+    "From": [
+      {
+        "Airport": null,
+        "$instance": {
+          "Airport": null
+        }
+      }
+    ],
+    "To": [
+      {
+        "Airport": null,
+        "$instance": {
+          "Airport": null
+        }
+      }
+    ],
+    "$instance": {
+      "datetime": null,
+      "Airport": null,
+      "From": [
+        {
+          "startIndex": 12,
+          "endIndex": 18,
+          "text": "madrid",
+          "score": 0.888236344,
+          "type": "From",
+          "subtype": null
+        }
+      ],
+      "To": [
+        {
+          "startIndex": 22,
+          "endIndex": 29,
+          "text": "chicago",
+          "score": 0.640484631,
+          "type": "To",
+          "subtype": null
+        }
+      ]
+    }
+  }
+}
