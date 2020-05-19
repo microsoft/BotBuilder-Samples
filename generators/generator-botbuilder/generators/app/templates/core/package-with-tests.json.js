@@ -16,7 +16,7 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
+        "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
         "botbuilder": "~4.9.0",
         "botbuilder-ai": "~4.9.0",
         "botbuilder-dialogs": "~4.9.0",
