@@ -38,23 +38,23 @@
     },
     "dependencies": {
       "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-      "botbuilder": "~4.7.0",
-      "botbuilder-ai": "~4.7.0",
-      "botbuilder-dialogs": "~4.7.0",
-      "botbuilder-testing": "~4.7.0",
+      "botbuilder": "~4.9.0",
+      "botbuilder-ai": "~4.9.0",
+      "botbuilder-dialogs": "~4.9.0",
+      "botbuilder-testing": "~4.9.0",
       "dotenv": "^8.2.0",
-      "replace": "~1.1.1",
-      "restify": "~8.4.0"
-  },
+      "replace": "~1.2.0",
+      "restify": "~8.5.1"
+},
   "devDependencies": {
-      "@types/dotenv": "6.1.1",
-      "@types/mocha": "^5.2.7",
-      "@types/restify": "8.4.1",
-      "mocha": "^6.2.2",
-      "nodemon": "~1.19.4",
-      "nyc": "^14.1.1",
-      "ts-node": "^8.4.1",
-      "tslint": "~5.20.0",
-      "typescript": "~3.6.4"
+      "@types/dotenv": "8.2.0",
+      "@types/mocha": "^7.0.2",
+      "@types/restify": "8.4.2",
+      "mocha": "^7.1.2",
+      "nodemon": "~2.0.4",
+      "nyc": "^15.0.1",
+      "ts-node": "^8.10.1",
+      "tslint": "~6.1.2",
+      "typescript": "~3.9.2"
   }
 }
