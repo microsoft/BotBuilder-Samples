@@ -46,6 +46,26 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Generate simple",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/simple.schema",
+                "-o",
+                "${env:TEMP}/simple.out",
+                "--force",
+                "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Generate Unit Test",
             "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/bin/run",

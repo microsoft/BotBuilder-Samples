@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
-import { processSchemas } from './processSchemas'
+import {SubstitutionsEvaluator} from './substitutions'
+import {processSchemas} from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -137,6 +137,8 @@ const expressionEngine = new expressions.ExpressionParser((func: string): any =>
     }
 })
 
+const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates', 'generator.lg'), undefined, expressionEngine)
+
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
 // and returns false to continue, true to stop going deeper.
@@ -195,7 +197,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -361,8 +363,12 @@ async function processTemplates(
                     }
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
+                delete scope.entity
+                delete scope.role
             }
         }
+        delete scope.property
+        delete scope.type
 
         // Process templates found at the top
         if (schema.schema.$templates) {
@@ -372,6 +378,7 @@ async function processTemplates(
             }
         }
     }
+    delete scope.locale
 }
 
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
@@ -379,9 +386,24 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
     let newSchema = schema
     if (Array.isArray(schema)) {
         newSchema = []
+        let isExpanded = false
         for (let val of schema) {
+            let isExpr = typeof val === 'string' && val.startsWith('${')
             let newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
+            isExpanded = isExpanded || (isExpr && (typeof newVal !== 'string' || !val.startsWith('${')))
             newSchema.push(newVal)
+        }
+        if (isExpanded && newSchema.length > 0 && !path.includes('.')) {
+            // Assume top-level arrays are merged across schemas
+            newSchema = Array.from(new Set(newSchema.flat(1)))
+            if (typeof newSchema[0] === 'object') {
+                // Merge into single object
+                let obj = {}
+                for (let elt of newSchema) {
+                    obj = {...obj, ...elt}
+                }
+                newSchema = obj
+            }
         }
     } else if (typeof schema === 'object') {
         newSchema = {}
@@ -390,22 +412,23 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
             }
-            let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+            let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
             newSchema[key] = newVal
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
-        let expr = schema.substring(2, schema.length - 1)
         try {
-            let { value, error } = expressionEngine.parse(expr).tryEvaluate(scope)
-            if (!error && value) {
+            let value = generatorTemplate.evaluateText(schema, scope)
+            if (value && value !== "null") {
                 newSchema = value
             } else {
                 if (missingIsError) {
-                    feedback(FeedbackType.error, `${expr}: ${error}`)
+                    feedback(FeedbackType.error, `Could not evaluate ${schema}`)
                 }
             }
         } catch (e) {
-            feedback(FeedbackType.error, `${expr}: ${e.message}`)
+            if (missingIsError) {
+                feedback(FeedbackType.error, e.message)
+            }
         }
     }
     return newSchema
@@ -460,7 +483,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '\t' })
+                await fs.writeJSON(outPath, main, {spaces: '\t'})
             } else {
                 await fs.copy(path, outPath)
             }

@@ -24,7 +24,8 @@
         "CompleteConfirmation": {
             "type": "string",
             "$entities": [
-                "boolean", "PROPERTYName"
+                "boolean",
+                "PROPERTYName"
             ],
             "$templates": [
                 "library-CompleteConfirmation.dialog",
@@ -49,13 +50,50 @@
         "PROPERTYName": {
             "type": "string",
             "enum": "${properties}",
-            "$entities": ["PROPERTYName"]
+            "$entities": [
+                "PROPERTYName"
+            ]
         }
     },
-    "$operations": ["AddToProperty", "RemoveFromProperty", "ClearProperty", "ShowProperty"],
-    "$defaultOperation": "AddToProperty",
-    "$expectedOnly": ["boolean", "PROPERTYName", "utterance", "keyPhrase", "personName"],
-    "$entities": ["PROPERTYName"],
+    "$operations": [
+        "SetCancelConfirmation",
+        "SetChangePropertyConfirmation",
+        "SetCompleteConfirmation",
+        "SetPropertyToChange",
+        "SetPropertyToRemember",
+        "${schemaOperations()}"
+    ],
+    "$defaultOperation": [
+        {
+            "CancelConfirmation": {
+                "boolean": "SetCancelConfirmation"
+            },
+            "ChangePropertyConfirmation": {
+                "boolean": "SetChangePropertyConfirmation"
+            },
+            "CompleteConfirmation": {
+                "boolean": "SetCompleteConfirmation",
+                "PROPERTYName": "SetCompleteConfirmation"
+            },
+            "PropertyToChange": {
+                "PROPERTYName": "SetPropertyToChange"
+            },
+            "PropertyToRemember": {
+                "PROPERTYName": "SetPropertyToRemember"
+            }
+        },
+        "${schemaDefaultOperation()}"
+    ],
+    "$expectedOnly": [
+        "boolean",
+        "PROPERTYName",
+        "utterance",
+        "keyPhrase",
+        "personName"
+    ],
+    "$entities": [
+        "PROPERTYName"
+    ],
     "$templates": [
         "booleanEntity",
         "library-HelpIntent.lu",
@@ -84,6 +122,6 @@
         "main.dialog",
         "luconfig.json",
         "build.cmd",
-        "run.cmd"     
+        "run.cmd"
     ]
 }

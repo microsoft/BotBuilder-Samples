@@ -244,7 +244,7 @@ ${'#'} ${property}Entity(val)
     - ${property}:
 ${if(schema.properties[property].title,
 `\t\t- ${schema.properties[property].title}`,
-synonyms(property))}
+synonyms('property'))}
 ```
 
 > Define operations over an entity that can take on values
@@ -281,3 +281,14 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}
 
 # luHeader
 -> !# @app.culture = ${locale}
+
+> Schema definitions
+
+# schemaOperations
+- ${flatten(foreach(properties, property, [`AddTo${property}`, `RemoveFrom${property}`, `Clear${property}`, `Show${property}`]))}
+
+# schemaDefaultOperation
+- ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
+
+# schemaDefaultOperationEntities(property)
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "AddTo${property}"`), ','), '}')}

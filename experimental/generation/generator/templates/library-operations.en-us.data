@@ -25,6 +25,12 @@
 - clear {@Clear${property}=${property}}
 - remove {@Clear${property}=${property}}
 - empty {@Clear${property}=${property}}
+- please clear {@Clear${property}=${property}}
+- please remove {@Clear${property}=${property}}
+- please empty {@Clear${property}=${property}}
+- can you clear {@Clear${property}=${property}}
+- can you remove {@Clear${property}=${property}}
+- can you empty {@Clear${property}=${property}}
 > Show only
 - value of {@Show${property}=${property}}
 - value for {@Show${property}=${property}}
