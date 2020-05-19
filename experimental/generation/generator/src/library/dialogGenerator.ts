@@ -169,11 +169,13 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         if (await fs.pathExists(loc)) {
             // Direct file
             template = await fs.readFile(loc, 'utf8')
+            break
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
             if (await fs.pathExists(loc)) {
                 template = lg.Templates.parseFile(loc, undefined, expressionEngine)
+                break
             }
         }
     }

@@ -97,7 +97,6 @@
     ],
     "$requires": [
         "professional.schema",
-        "standard.schema",
-
+        "standard.schema"
     ]
 }

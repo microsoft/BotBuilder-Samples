@@ -1,0 +1,284 @@
+> This file contains templates to help with the generation process
+
+> TODO: Remove this when EOL is part of expressions, then it will be os specific as opposed to windows specifice.
+# EOL
+-\r\n
+
+# roles
+- IF: ${role}
+    - hasRole ${role}
+- ELSE:
+    -
+
+# propertyFilename
+- ${locale}/${property}/${prefix}-${property}.${locale}.lg
+
+# entityLGFilename
+- ${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
+
+# entityLUFilename
+- ${locale}/${property}/${prefix}-${property}Entity.${locale}.lu
+
+# missingFilename
+- ${property}/${prefix}-${property}-missing.dialog
+
+# builtinEntityFilename(entity)
+- ${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
+
+# addFilename(entity)
+- ${property}/${prefix}-${property}-add-${entity}.dialog
+
+# removeFilename(entity)
+- ${property}/${prefix}-${property}-remove-${entity}.dialog
+
+# clearFilename
+- ${property}/${prefix}-${property}-clear.dialog
+
+# showFilename
+- ${property}/${prefix}-${property}-show.dialog
+
+# chooseEntityFilename
+- ${property}/${prefix}-${property}Entity-choose.dialog
+
+# libraryFilename(name)
+- library/${prefix}-${name}
+
+# localePath(path)
+- ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
+
+# nameTemplate
+-```
+${'#'} ${property}Name
+- ${phrase(property, locale)}```
+
+# valueTemplate
+-```
+${'#'} ${property}(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+# entityDisplay
+-```
+${'#'} ${property}Entity(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+# addDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setPropertyMessage('${property}', @${entity})}"
+        },
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=@${entity}"          
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind":"Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
+        }
+    ]               
+}
+```
+
+# addArrayDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddToProperty",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setArrayPropertyMessage('${property}', @${entity})}"
+        },
+        {
+            "$kind": "Microsoft.EditArray",
+            "changeType": "push",
+            "itemsProperty": "$${property}",
+            "value": "=@${entity}"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind":"Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
+        }
+    ]               
+}
+```
+
+# removeDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "RemoveFromProperty",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$${property} == @${entity}",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${removePropertyMessage('${property}', @${entity})}"
+                },  
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "${property}"
+                }
+            ]
+        }
+    ]               
+}
+```
+
+# removeArrayDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "RemoveFromProperty",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${removeArrayPropertyMessage('${property}', @${entity})}"
+        },
+        {
+            "$kind": "Microsoft.EditArray",
+            "changeType": "remove",
+            "itemsProperty": "$${property}",
+            "value": "=@${entity}"
+        }
+    ]               
+}
+```
+
+# clearDialog
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "ClearProperty",
+    "entity": "PROPERTYName",
+    "condition": "@PROPERTYName == '${property}'",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${clearPropertyMessage('${property}')}"
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$${property}"
+        }
+    ]               
+}
+```
+
+# showDialog
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "ShowProperty",
+    "entity": "PROPERTYName",
+    "condition": "@PROPERTYName == '${property}'",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${showPropertyMessage(@PROPERTYName)}"
+        }
+    ]               
+}
+```
+
+# missingDialog
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition":"!$${property} || $PropertyToChange == '${property}'",
+    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
+    "actions": [       
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${Ask${property}()}",
+            "expectedProperties": [
+                "${property}"
+            ]
+        }
+    ]
+}
+```
+
+# propertyName
+- ```
+@ list PROPERTYName
+    - ${property}:
+```
+
+> Define operations over an entity that can take on values
+# operations(entity, values)
+-```
+@composite AddToProperty = [${entity}]
+@composite RemoveFromProperty = [${entity}]
+@composite ClearProperty = [PROPERTYName]
+@composite ShowProperty = [PROPERTYName]
+${'#'} ${triggerIntent}
+${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
+- ${property}
+```
+
+# list(values)
+- [${join(foreach(values, value, `"${value}"`), ', ')}]
+
+# synonyms(value)
+- ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
+
+> Top-level template support
+# roleEntities(entity)
+- ${createArray(`${entity}:${property}`, entity)}
+
+# propertyTemplates
+- ${createArray(`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`)}
+
+# entityTemplates
+- ${createArray(`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`)}
+
+> This is useful when importing another .lg file in order to add prefix/locale
+# importLG(name)
+-[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
+
+# luHeader
+-> !# @app.culture = ${locale}
