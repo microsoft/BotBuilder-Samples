@@ -1,6 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>Echo Bot (Bot Framework v4)</Name>
+    <Name>Echo Bot (Bot Framework v4 - .NET Core 3.1)</Name>
     <Description>Echo Bot Template for Bot Framework v4.  A good template if you want a little more than "Hello World!".  Echo Bot simply "echoes" back to the user anything the user says to the bot.
     </Description>
     <ProjectType>CSharp</ProjectType>
@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.1"/>
     </CustomParameters>
     <Project File="EchoBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">

@@ -25,6 +25,7 @@ export default class GenerateDialog extends Command {
         output: flags.string({ char: 'o', description: 'Output path for where to put generated .lu, .lg, .qna and .dialog files.', default: '.', required: false }),
         prefix: flags.string({ char: 'p', description: 'Prefix to use for generated files. [default: schema name]' }),
         schema: flags.string({ char: 's', description: 'Path to your app.schema file.', required: false }),
+        singleton: flags.boolean({ description: 'Specify to generate a single .dialog file.'}),
         templates: flags.string({ char: 't', description: 'Directory with templates to use for generating assets.  With multiple directories, the first definition found wins.  To include the standard templates, just use "standard" as a template directory name.', multiple: true }),
         verbose: flags.boolean({ description: 'Output verbose logging of files as they are processed', default: false }),
         jsonProperties: flags.string({ char: 'j', description: 'The additional json properties to be added into the scope', required: false})
@@ -43,8 +44,8 @@ export default class GenerateDialog extends Command {
             }
         }
         try {
-            await gen.generate(args.schema, flags.prefix, flags.output,
-                flags.schema, flags.locale, flags.templates, flags.force, flags.merge, flags.jsonProperties, feedback)
+            await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force, flags.merge,  flags.singleton, flags.jsonProperties, feedback)
+
             return true;
         } catch (e) {
             this.thrownError(e)

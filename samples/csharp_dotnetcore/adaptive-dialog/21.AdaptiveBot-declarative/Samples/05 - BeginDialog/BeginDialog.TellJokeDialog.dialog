@@ -1,0 +1,20 @@
+{
+  "$schema": "../../app.schema",
+  "$kind": "Microsoft.AdaptiveDialog",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "prompt": "Why did the chicken cross the road?",
+          "property": "turn.userReply"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "To get to the other side"
+        }
+      ]
+    }
+  ]
+}

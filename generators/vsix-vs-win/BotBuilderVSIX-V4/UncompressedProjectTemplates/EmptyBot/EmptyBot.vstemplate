@@ -1,6 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>Empty Bot (Bot Framework v4)</Name>
+    <Name>Empty Bot (Bot Framework v4 - .NET Core 3.1)</Name>
     <Description>Empty Bot Template for Bot Framework v4.  A good template if you want a skeleton project or want to take sample code from the documentation and paste it into a minimal bot in order to learn.
     </Description>
     <ProjectType>CSharp</ProjectType>
@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.1"/>
     </CustomParameters>
     <Project File="EmptyBot.csproj" ReplaceParameters="true">
       <Folder Name="controllers" TargetFolderName="Controllers">

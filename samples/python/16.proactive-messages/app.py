@@ -5,6 +5,7 @@ import sys
 import traceback
 import uuid
 from datetime import datetime
+from http import HTTPStatus
 from typing import Dict
 
 from aiohttp import web
@@ -77,7 +78,7 @@ async def messages(req: Request) -> Response:
     if "application/json" in req.headers["Content-Type"]:
         body = await req.json()
     else:
-        return Response(status=415)
+        return Response(status=HTTPStatus.UNSUPPORTED_MEDIA_TYPE)
 
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
@@ -85,20 +86,20 @@ async def messages(req: Request) -> Response:
     response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
     if response:
         return json_response(data=response.body, status=response.status)
-    return Response(status=201)
+    return Response(status=HTTPStatus.OK)
 
 
 # Listen for requests on /api/notify, and send a messages to all conversation members.
 async def notify(req: Request) -> Response:  # pylint: disable=unused-argument
     await _send_proactive_message()
-    return Response(status=201, text="Proactive messages have been sent")
+    return Response(status=HTTPStatus.OK, text="Proactive messages have been sent")
 
 
 # Send a message to all conversation members.
 # This uses the shared Dictionary that the Bot adds conversation references to.
 async def _send_proactive_message():
     for conversation_reference in CONVERSATION_REFERENCES.values():
-        return await ADAPTER.continue_conversation(
+        await ADAPTER.continue_conversation(
             conversation_reference,
             lambda turn_context: turn_context.send_activity("proactive hello"),
             APP_ID,

@@ -1,0 +1,94 @@
+﻿> Language Understanding definition.
+> See https://aka.ms/lu-file-format to learn more
+
+# GetListType
+- todo list
+- shopping list
+- how about the to do list?
+
+@ list listType = 
+- todo :
+	- to do
+    - todos
+    - laundry            
+- grocery :
+    - groceries
+    - fruits
+    - vegetables
+    - household items
+    - house hold items
+- shopping : 
+    - shopping 
+    - shop
+    - shoppers
+
+# GetTitleToDelete
+- Remove todo
+- first one
+- last one
+- Mark {itemTitle = buy milk} as complete
+- Flag {itemTitle = first one} as done
+- Remove {itemTitle = finish this demo} from the todo list
+- remove another one
+- remove
+- clear my todo named {itemTitle = get a new car}
+- I'm done with the first todo
+- I finished the las todo
+- Remove the first todo
+- Delete todo
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+- can you delete {itemTitle=todo1}
+- can you delete {itemTitle=xxx} item
+- delete {itemTitle=eggs} from list
+- delete off {itemTitle=pancake mix} on the shopping list
+- delete {itemTitle=shampoo} from shopping list
+- delete {itemTitle=shirts} from list
+- delete task {itemTitle=go fishing}
+- delete task {itemTitle=go to cinema tonight}
+- delete the item {itemTitle=buy socks} from my todo list
+- delete the second task in my shopping list
+- delete the task {itemTitle=house cleanup this weekend}
+- delete the task that {itemTitle=hit the gym every morning}
+- delete the to do {itemTitle=meet my friends tomorrow}
+- delete the to do that {itemTitle=daily practice piano}
+- delete the to do that {itemTitle=meet john when he come here the next friday}
+- delete to do {itemTitle=buy milk}
+- delete to do {itemTitle=go shopping}
+- delete to do that {itemTitle=go hiking tomorrow}
+- erase {itemTitle=bananas} from shopping list
+- erase {itemTitle=peanuts} on the shopping list
+- remove {itemTitle=asprin} from shopping list
+- remove {itemTitle=black shoes} from shopping list
+- remove {itemTitle=class} from todo list
+- remove {itemTitle=salad vegetables} from grocery list
+- remove task {itemTitle=buy dog food}
+- remove task {itemTitle=go shopping}
+- remove task that {itemTitle=go hiking this weekend}
+- remove task that {itemTitle=lawn mowing}
+- remove the item {itemTitle=paris} from my list
+- remove the task that {itemTitle=go to library after work}
+- remove the to do {itemTitle=physical examination}
+- remove the to do that {itemTitle=pick tom up at six p.m.}
+- remove to do {itemTitle=go to the gym}
+- remove to do that {itemTitle=go to the dentist tomorrow morning}
+> Add patterns
+- I did {itemTitle}
+- I completed {itemTitle}
+- Delete {itemTitle}
+- Mark {itemTitle} as complete
+- Remove {itemTitle} from my [todo] list
+- [Please] delete {itemTitle} from the list
+
+> entity definitions
+@ ml itemTitle
+
+> phrase list definitions
+@ phraseList deleteItem(interchangeable) = 
+	- remove
+	- delete
+	- get
+	- erase

@@ -1,19 +1,19 @@
 [generator.lg](generator.lg)
 
 # filename
-- ${locale}/${prefix}-library-PROPERTYName.${locale}.lg
+- ${locale}/library/${prefix}-library-PROPERTYName.${locale}.lg
 
 # template
 - ${join(createArray(namePlusSwitch(), cases(), default()), EOL())}
 
 # namePlusSwitch
 -```
-# PROPERTYName(value) 
-- SWITCH: \${value\}```
+${'#'} PROPERTYName(value) 
+- SWITCH: \${value}```
 
 # case(option)
 -```
- - CASE: \${'${option}'\} 
+ - CASE: \${'${option}'} 
   - ${phrase(option)}```
 
 # cases
@@ -22,6 +22,6 @@
 # default
 -```
  - DEFAULT: 
-  - I don't understand \${value\}
+  - I don't understand \${value}
 ```
 

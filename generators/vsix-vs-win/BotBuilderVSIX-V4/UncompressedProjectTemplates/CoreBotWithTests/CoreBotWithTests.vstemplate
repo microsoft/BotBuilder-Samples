@@ -1,6 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="ProjectGroup">
   <TemplateData>
-    <Name>Core Bot with Tests (Bot Framework v4)</Name>
+    <Name>Core Bot with Tests (Bot Framework v4 - .NET Core 3.1)</Name>
     <Description>Core Bot Template with Unit Tests for Bot Framework v4.  Same features as Core Bot, plus a full unit test project.
     </Description>
     <ProjectType>CSharp</ProjectType>
@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.1"/>
     </CustomParameters>
     <ProjectCollection>
       <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$">

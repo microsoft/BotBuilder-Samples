@@ -1,11 +1,11 @@
 [generator.lg](generator.lg)
 
 # filename
-- ${locale}/${prefix}-trigger.en-us.lu
+- ${locale}/library/${prefix}-trigger.en-us.lu
 
 # template
 -```
-# ${triggerIntent}
+${'#'} ${triggerIntent}
 ${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)), entity, entityPattern(entity)), EOL())}
 - {PROPERTYName}
 ```

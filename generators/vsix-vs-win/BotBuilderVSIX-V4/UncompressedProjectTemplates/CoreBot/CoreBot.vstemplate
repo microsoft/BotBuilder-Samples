@@ -1,6 +1,6 @@
 <VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
   <TemplateData>
-    <Name>Core Bot (Bot Framework v4)</Name>
+    <Name>Core Bot (Bot Framework v4 - .NET Core 3.1)</Name>
     <Description>Core Bot Template for Bot Framework v4.  Our most feature rich template, it shows how to use LUIS and multi-turn conversational patterns.
     </Description>
     <ProjectType>CSharp</ProjectType>
@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.1"/>
     </CustomParameters>
     <Project File="CoreBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">

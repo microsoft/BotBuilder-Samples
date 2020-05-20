@@ -4,17 +4,17 @@
 # chooseEnumEntity(property)
 - ```
 ${askHelp()}
-Please choose a value for ${name(property)} from \[${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}\]
+Please choose a value for ${displayName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}\]
 ```
 
 # chooseEnumArrayEntity(property)
 - ```
 ${askHelp()}
-Please choose a value for ${name(property)} from \[${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}\]
+Please choose a value for ${displayName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}\]
 ``` 
 
 # chooseProperties
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, choosePropertyEntity(choice)), " or ")}
 
 # choosePropertyEntity(property)
-- "${property.entity.text}" as ${name(property.property)}
+- "${property.entity.text}" as ${displayName(property.property)}

@@ -15,13 +15,13 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
-# Ask${property}
-- \${askEnum('${property}')\}
+${'#'} Ask${property}
+- \${askEnum('${property}')}
 ```
 
 # ValueTemplate
 - ```
-# ${property}(val)
+${'#'} ${property}(val)
 - \${${property}Entity(val)}
 ```
 

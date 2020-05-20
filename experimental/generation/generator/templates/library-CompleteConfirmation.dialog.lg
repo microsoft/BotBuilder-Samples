@@ -4,7 +4,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition": "empty(where(dialog.requiredProperties, property, !dialog[property]))",
-    "priority": "1000",
+    "priority": 1000,
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",

@@ -24,7 +24,13 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     }
     let result: string[] = []
     let rand = random(seed)
-    let lines = fs.readFileSync(path).toString().split(os.EOL)
+    let file = fs.readFileSync(path, 'utf8')
+    let lines = file.split(os.EOL)
+    if (lines.length < 2) {
+        // Windows uses CRLF and that is how it is checked-in, but when an npm
+        // package is built it switches to just LF.
+        lines = file.split('\n')
+    }
     for (let line of lines) {
         if (line.startsWith('>') || line.trim() === '') { // Copy comments
             result.push(line)

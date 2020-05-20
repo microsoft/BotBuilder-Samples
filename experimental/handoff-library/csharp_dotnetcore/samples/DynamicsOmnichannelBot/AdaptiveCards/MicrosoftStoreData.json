@@ -1,0 +1,27 @@
+{
+  "@context": "http://schema.org/",
+  "@type": "Business",
+  "name": "Microsoft Store",
+  "url": "https://www.yelp.com/biz/microsoft-store-bellevue-2",
+  "address": {
+    "addressLocality": "Bellevue",
+    "addressRegion": "WA",
+    "streetAddress": "116 Bellevue Way SE",
+    "postalCode": "98004",
+    "addressCountry": "US"
+  },
+  "image": "https://s3-media0.fl.yelpcdn.com/bphoto/BMXXi3CehWFZt-vDUK6amA/o.jpg",
+  "telephone": "+(425) 519-3580",
+  "aggregateRating": {
+    "reviewCount": 129,
+    "@type": "AggregateRating",
+    "ratingValue": 4.5
+  },
+  "review": [
+    {
+      "reviewRating": {
+        "ratingValue": 4
+      }
+    }
+  ]
+}
