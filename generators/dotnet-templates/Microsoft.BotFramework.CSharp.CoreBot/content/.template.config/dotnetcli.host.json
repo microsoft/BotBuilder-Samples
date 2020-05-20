@@ -1,9 +1,6 @@
 {
     "$schema": "http://json.schemastore.org/dotnetcli.host",
     "symbolInfo": {
-        "Framework": {
-            "longName": "framework"
-        },
         "IncludeTests": {
             "longName": "include-tests",
             "shortname": ""
@@ -14,7 +11,6 @@
         }
     },
     "usageExamples": [
-        "--framework netcoreapp2.1",
         "--include-tests true",
         "--no-restore true"
     ]
