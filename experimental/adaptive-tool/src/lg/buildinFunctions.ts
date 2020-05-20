@@ -145,7 +145,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       'Return a string that has all the items from an array and has each character separated by a delimiter.'
     ),
   ],
-  ['empty', new FunctionEntity(['collection: any'], ReturnType.Boolean, 'Check if the collection is empty')],
+  ['empty', new FunctionEntity(['collection: any'], ReturnType.Boolean, 'Check if the target is empty.')],
   ['newGuid', new FunctionEntity([], ReturnType.String, 'Return new guid string')],
   [
     'min',
@@ -779,6 +779,8 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
   ),
 ],
 ['isString', new FunctionEntity(['input: any'], ReturnType.Boolean, 'determine whether a given input is a string.')],
+['formatEpoch', new FunctionEntity(['epoch: number', 'format?: string'], ReturnType.String, 'Return a timestamp from UNIX Epoch time (Unix time, POSIX time).')],
+['formatTicks', new FunctionEntity(['ticks: number', 'format?: string'], ReturnType.String, 'Return a timestamp from ticks.')],
 
   // Functions injected from LG library
   // https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/Functions-injected-from-LG.md

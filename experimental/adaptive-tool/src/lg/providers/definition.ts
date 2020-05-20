@@ -42,13 +42,13 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             if (template === undefined)
                 return undefined;
 
-            const lineNumber: number = template.parseTree.start.line - 1;
-            const columnNumber: number = template.parseTree.start.charPositionInLine;
+            const lineNumber: number = template.sourceRange.range.start.line - 1;
+            const columnNumber: number = template.sourceRange.range.start.character;
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
             TemplatesStatus.templatesMap.forEach((value, key) => {
-                if (template.source === key) {
+                if (template.sourceRange.source === key) {
                     definitionUri = value.uri;
                 }
             });

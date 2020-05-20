@@ -214,7 +214,7 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "botbuilder-lg": "4.8.0-preview",
+        "botbuilder-lg": "^4.9.0",
         "@microsoft/bf-lu": "4.8.0"
     }
 }
