@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.Bot.Framework.CSharp.EchoBot</id>
-    <version>4.7.0</version>
+    <version>4.9.0</version>
     <description>
       A .NET Core Template for Microsoft Bot Framework v4.  Will let you quickly set up a bot that simply "echoes" back to the user anything the user says to the bot.
       This is a little more than "Hello World!"
@@ -11,9 +11,8 @@
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <title>.NET Core Template - EchoBot</title>
     <projectUrl>https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/dotnet-templates/</projectUrl>
-    <!-- license type="expression">MIT</license -->
-    <licenseUrl>https://github.com/Microsoft/BotBuilder-Samples/blob/master/generators/dotnet-templates/LICENSE</licenseUrl>
-    <iconUrl>https://github.com/Microsoft/BotBuilder-Samples/blob/master/generators/dotnet-templates/nuget_icon.png</iconUrl>
+    <license type="file">LICENSE.txt</license>
+    <icon>nuget_icon.png</icon>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <packageTypes>
       <packageType name="Template" />
