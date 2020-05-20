@@ -1,10 +1,8 @@
 # showResponse(response)
-- IF : ${response.statusCode == 200 && startsWith(response.content,"<?xml")}
-- The response is ${response.content}
-- ELSEIF : ${response.statusCode == 200}
-- ${cardResponse(response.content)}
+- IF : ${response.statusCode == 200}
+- The response is ${response} .
 - ELSE : 
-- Your input is invalid. 
+- The response code is ${response.statusCode} . 
 
 # cardResponse(content)
 [Activity

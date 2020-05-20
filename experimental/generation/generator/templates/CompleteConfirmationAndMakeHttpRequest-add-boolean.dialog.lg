@@ -22,7 +22,8 @@
                   "url": "${swaggerApi}",
                   "responseType": "Json",
                   "resultProperty": "${swaggerResponse}",
-                  "body": ${swaggerBody}
+                  "body": ${swaggerBody},
+                  "headers": ${swaggerHeaders}
                 },
                 {
                   "$kind": "Microsoft.SendActivity",
