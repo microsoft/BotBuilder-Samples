@@ -3,11 +3,11 @@
 - with {@AddTo${property}=${value}}
 - add {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
 - with {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- add {{@AddTo${property}=${value}}, {{@AddTo${property}=${value}} and {{@AddTo${property}=${value}}
+- add {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
 - with {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- {@AddTo${property}=${property} is ${value}}
-- {@AddTo${property}=${property}} are {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- {@AddTo${property}=${property}} are {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
+- {@AddTo${property}={@PROPERTYName=${property}} is ${value}}
+- {@AddTo${property}={@PROPERTYName=${property}} are {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
+- {@AddTo${property}={@PROPERTYName=${property}} are {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
 > Remove only
 - remove {@RemoveFrom${property}=${value}}
 - remove {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}

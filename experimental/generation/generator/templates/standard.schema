@@ -121,7 +121,9 @@
         "library-ShowFormIntent.dialog",
         "main.dialog",
         "luconfig.json",
+        "build",
         "build.cmd",
+        "run",
         "run.cmd"
     ]
 }

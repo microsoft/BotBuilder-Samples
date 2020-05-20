@@ -248,19 +248,35 @@ synonyms('property'))}
 ```
 
 > Define operations over an entity that can take on values
+> Composites
+> @composite AddTo${property} = [${entity}]
+> @composite RemoveFrom${property} = [${entity}]
+> @composite Clear${property} = [PROPERTYName]
+> @composite Show${property} = [PROPERTYName]
+> @ml AddTo${property} = 
+>     - @${entity} ${entity}
+>     - @PROPERTYName PROPERTYName
+> @ml RemoveFrom${property} = 
+>     - @${entity} ${entity}
+>    - @PROPERTYName PROPERTYName
+> @ml Clear${property} =
+>    - @PROPERTYName PROPERTYName
+> @ml Show${property} =
+>     - @PROPERTYName PROPERTYName
+    
 # operations(entity, values)
 -```
-@composite AddTo${property} = [${entity}]
-@composite RemoveFrom${property} = [${entity}]
+@composite AddTo${property} = [${entity}, PROPERTYName]
+@composite RemoveFrom${property} = [${entity}, PROPERTYName]
 @composite Clear${property} = [PROPERTYName]
 @composite Show${property} = [PROPERTYName]
 ${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}", "value": ${list(values)}, "property": "${property}"}`), 3)}
+${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}", "value": ${list(entity, values)}, "property": "${property}"}`), 3)}
 - ${property}
 ```
 
-# list(values)
-- [${join(foreach(values, value, `"${value}"`), ', ')}]
+# list(entity, values)
+- [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
 
 # synonyms(value)
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
