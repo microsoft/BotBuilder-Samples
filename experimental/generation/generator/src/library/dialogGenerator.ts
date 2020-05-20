@@ -515,8 +515,8 @@ export async function generate(
     templateDirs?: string[],
     force?: boolean,
     merge?: boolean,
-    jsonProperties?: string,
     singleton?: boolean,
+    jsonProperties?: string,
     feedback?: Feedback)
     : Promise<void> {
     if (!feedback) {

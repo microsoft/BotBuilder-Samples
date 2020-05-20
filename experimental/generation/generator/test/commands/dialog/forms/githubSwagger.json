@@ -4,7 +4,7 @@
         "https"
     ],
     "host": "api.github.com",
-    "basePath": "/",
+    "basePath": "",
     "info": {
         "description": "Powerful collaboration, code review, and code management for open source and private projects.\n",
         "termsOfService": "https://help.github.com/articles/github-terms-of-service/#b-api-terms",

@@ -28,7 +28,7 @@
             ],
             "$templates": [
                 "library-CompleteConfirmation.dialog",
-                "CompleteConfirmationAndMakeHttpRequest-add-boolean.dialog",
+                "CompleteConfirmation-MakeHttpRequest-add-boolean.dialog",
                 "CompleteConfirmation-add-PROPERTYName.dialog"
             ]
         },
