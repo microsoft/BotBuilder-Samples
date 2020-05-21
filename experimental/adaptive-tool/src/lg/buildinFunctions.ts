@@ -782,6 +782,14 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
 ['formatEpoch', new FunctionEntity(['epoch: number', 'format?: string'], ReturnType.String, 'Return a timestamp from UNIX Epoch time (Unix time, POSIX time).')],
 ['formatTicks', new FunctionEntity(['ticks: number', 'format?: string'], ReturnType.String, 'Return a timestamp from ticks.')],
 
+['isPresent', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to the present.')],
+['isDuration', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a duration.')],
+['isTime', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a time.')],
+['isDate', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a date.')],
+['isTimeRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a time range.')],
+['isDateRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a date range.')],
+['isDefinite', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, '	Return true if the TimexProperty or Timex expression refers to a definite day.')],
+
   // Functions injected from LG library
   // https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/Functions-injected-from-LG.md
   [

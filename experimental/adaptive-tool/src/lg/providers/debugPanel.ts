@@ -81,25 +81,55 @@ export class LGDebugPanel {
                 case 'evaluate':{
                     try {
                         const scope:any = JSON.parse(message.scopeValue);
-                        const templateName: string = message.templateName;
                         const iterations:number = message.iterations;
                         let results = [];
-
-                        let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
-                        if (engineEntity === undefined || engineEntity.templates === undefined) {
-                            vscode.window.showErrorMessage("Sorry, something is wrong.");
-                        } else {
-                            const templates = engineEntity.templates;
-
-                            const evaledResults = templates.expandTemplate(templateName, scope);
-                            if (iterations >= evaledResults.length) {
-                                results = evaledResults;
+                        if (message.templateName)
+                        {
+                            const templateName = message.templateName; 
+                            let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                            if (engineEntity === undefined || engineEntity.templates === undefined) {
+                                vscode.window.showErrorMessage("Sorry, something is wrong.");
                             } else {
-                                results = evaledResults.slice(0, iterations);
+                                const templates = engineEntity.templates;
+    
+                                const evaledResults = templates.expandTemplate(templateName, scope);
+                                if (iterations >= evaledResults.length) {
+                                    results = evaledResults;
+                                } else {
+                                    results = evaledResults.slice(0, iterations);
+                                }
+    
+                                this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                             }
+                        } else if (message.freetext) {
+                            let inlineStr = message.freetext;
+                            let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                            if (engineEntity === undefined || engineEntity.templates === undefined) {
+                                vscode.window.showErrorMessage("Sorry, something is wrong.");
+                            } else {
+                                const templates = engineEntity.templates;
+    
 
-                            this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
+                                const fakeTemplateId = '__temp__';
+                                const multiLineMark = '```';
+                        
+                                inlineStr = !(inlineStr.trim().startsWith(multiLineMark) && inlineStr.includes('\n'))
+                                    ? `- ${ multiLineMark }${ inlineStr }${ multiLineMark }` : `- ${inlineStr}`;
+                        
+                                const newTemplates = templates.addTemplate(fakeTemplateId, undefined, inlineStr);
+
+                                const evaledResults = newTemplates.expandTemplate(fakeTemplateId, scope);
+                                if (iterations >= evaledResults.length) {
+                                    results = evaledResults;
+                                } else {
+                                    results = evaledResults.slice(0, iterations);
+                                }
+
+                                templates.deleteTemplate(fakeTemplateId);
+                                this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
+                            }
                         }
+
                     } catch(e){
                         vscode.window.showErrorMessage(e.message);
                    }

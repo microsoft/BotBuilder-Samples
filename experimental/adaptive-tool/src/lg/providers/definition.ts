@@ -25,10 +25,9 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         if (!util.isLgFile(document.fileName)) {
             return;
         }
-        
-        // get template definition
+
         try {
-            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
+            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_\.]+/);
             if (!wordRange) {
                 return undefined;
             }
