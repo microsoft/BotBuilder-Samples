@@ -238,7 +238,8 @@ ${'#'} ${property}Entity(val)
 ```
 
 # propertyName
-- ```
+- IF: ${property}
+-```
 > Define how ${property} is recognized as a property name
 @ list PROPERTYName
     - ${property}:
@@ -246,30 +247,22 @@ ${if(schema.properties[property].title,
 `\t\t- ${schema.properties[property].title}`,
 synonyms('property'))}
 ```
+- ELSE:
+-
 
 > Define operations over an entity that can take on values
-> Composites
-> @composite AddTo${property} = [${entity}]
-> @composite RemoveFrom${property} = [${entity}]
-> @composite Clear${property} = [PROPERTYName]
-> @composite Show${property} = [PROPERTYName]
-> @ml AddTo${property} = 
->     - @${entity} ${entity}
->     - @PROPERTYName PROPERTYName
-> @ml RemoveFrom${property} = 
->     - @${entity} ${entity}
->    - @PROPERTYName PROPERTYName
-> @ml Clear${property} =
->    - @PROPERTYName PROPERTYName
-> @ml Show${property} =
->     - @PROPERTYName PROPERTYName
-    
 # operations(entity, values)
 -```
-@composite AddTo${property} = [${entity}, PROPERTYName]
-@composite RemoveFrom${property} = [${entity}, PROPERTYName]
-@composite Clear${property} = [PROPERTYName]
-@composite Show${property} = [PROPERTYName]
+@ml AddTo${property} = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+@ml RemoveFrom${property} = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+@ml Clear${property} =
+    - @PROPERTYName PROPERTYName
+@ml Show${property} =
+    - @PROPERTYName PROPERTYName
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}", "value": ${list(entity, values)}, "property": "${property}"}`), 3)}
 - ${property}

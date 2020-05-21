@@ -13,7 +13,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@age.number), ' ', @age.units))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @age)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",

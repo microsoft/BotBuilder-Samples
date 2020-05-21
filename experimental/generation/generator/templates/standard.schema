@@ -73,7 +73,7 @@
             },
             "CompleteConfirmation": {
                 "boolean": "SetCompleteConfirmation",
-                "PROPERTYName": "SetCompleteConfirmation"
+                "PROPERTYName": "SetPropertyToChange"
             },
             "PropertyToChange": {
                 "PROPERTYName": "SetPropertyToChange"

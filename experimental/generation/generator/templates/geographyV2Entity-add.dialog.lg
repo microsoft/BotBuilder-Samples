@@ -13,7 +13,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(@geographyV2.type, ' ', @geographyV2.location))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @geographyV2)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",

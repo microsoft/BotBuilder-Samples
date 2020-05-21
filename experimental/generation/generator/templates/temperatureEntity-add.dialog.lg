@@ -13,7 +13,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@temperature.number), ' ', @temperature.units))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @temperature)}"
         },
         {
             "$kind": "Microsoft.SetProperty",

@@ -4,6 +4,19 @@
     "properties": {
         "age": {
             "type": "number"
+        },
+        "Meat": {
+            "type": "string",
+            "enum": [
+                "bacon",
+                "chicken",
+                "ham",
+                "pulled pork",
+                "roast beef",
+                "salami",
+                "turkey",
+                "none"
+            ]
         }
     },
     "required": [

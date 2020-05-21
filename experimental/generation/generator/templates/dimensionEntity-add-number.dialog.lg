@@ -17,7 +17,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${setObjectPropertyMessage('${property}',string(@dimension.number))}"
+                    "activity": "\${setObjectPropertyMessage('${property}', @dimension)}"
                 }, 
                 {
                     "$kind": "Microsoft.SetProperty",
