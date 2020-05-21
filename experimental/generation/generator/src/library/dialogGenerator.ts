@@ -470,6 +470,22 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     }
 }
 
+async function generateQnA(schema: string, allLocales: string[], inDir: string) {
+    let files = fs.readdirSync(inDir)
+    for (let locale of allLocales) {
+        let qnaText = ""
+        for (let file of files) {
+            if (file.endsWith('qna')) {
+                let content = await fs.readFile(ppath.join(inDir, file), 'utf-8')
+                qnaText = qnaText + os.EOL + content.toString().replace(ReplaceGeneratorPattern, '')
+                await fs.unlink(ppath.join(inDir, file))
+            }
+        }
+        let qnaName = `${schema}.${locale}.qna`
+        qnaText += `${os.EOL}> Generator: ${computeHash(qnaText)}`
+        await fs.writeFile(ppath.join(`${inDir}/${locale}`, qnaName), qnaText)
+    }
+}
 // Convert to the right kind of slash. 
 // ppath.normalize did not do this properly on the mac.
 function normalize(path: string): string {
@@ -518,6 +534,7 @@ export async function generate(
     force?: boolean,
     merge?: boolean,
     singleton?: boolean,
+    qna?: boolean,
     feedback?: Feedback)
     : Promise<void> {
     if (!feedback) {
@@ -622,6 +639,11 @@ export async function generate(
         if (singleton) {
             feedback(FeedbackType.info, 'Combining into singleton .dialog')
             await generateSingleton(scope.prefix, outPath, outDir)
+        }
+
+        if (qna) {
+            feedback(FeedbackType.info, 'Merging qna files')
+            await generateQnA(scope.prefix, allLocales, outDir)
         }
 
         // Merge old and new directories

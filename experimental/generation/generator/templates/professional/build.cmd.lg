@@ -18,14 +18,8 @@ set alias=%4
 
 set botName=%5
 
-echo Running cross train
-bf cross-train --in .
-
-echo Building LUIS models
-bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName%  --dialog --force 
-
-echo Building QnA models
-bf qnamaker:build --subscriptionKey %qnakey% --in ./cross-trained/ --out . --suffix %alias% --botName %botName%  --dialog --force 
+echo Building Models
+bf cross-train --in . && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName%  --dialog --force && bf qnamaker:build --subscriptionKey %qnakey% --in ./cross-trained/ --out . --suffix %alias% --botName %botName%  --dialog --force 
 
 goto done
 
