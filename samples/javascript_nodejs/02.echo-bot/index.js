@@ -17,7 +17,6 @@ const { BotFrameworkAdapter } = require('botbuilder');
 // This bot's main dialog.
 const { EchoBot } = require('./bot');
 
-
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
