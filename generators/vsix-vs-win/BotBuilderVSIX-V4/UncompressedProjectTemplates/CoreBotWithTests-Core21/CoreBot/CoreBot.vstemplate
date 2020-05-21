@@ -60,7 +60,6 @@
 
       <ProjectItem ReplaceParameters="true">AdapterWithErrorHandler.cs</ProjectItem>
 
-      <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
       <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
 
       <ProjectItem ReplaceParameters="true">BookingDetails.cs</ProjectItem>
