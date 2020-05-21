@@ -1,0 +1,37 @@
+# filename
+-build.cmd
+
+# template
+-```
+@echo off
+setlocal
+
+set region=%1
+if "%region%" EQU "" set region=westus
+
+set key=%2
+if "%2" NEQ "" set key=--authoringKey %2
+
+set qnakey=%3
+
+set alias=%4
+
+set botName=%5
+
+echo Running cross train
+bf cross-train --in .
+
+echo Building LUIS models
+bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName%  --dialog --force 
+
+echo Building QnA models
+bf qnamaker:build --subscriptionKey %qnakey% --in ./cross-trained/ --out . --suffix %alias% --botName %botName%  --dialog --force 
+
+goto done
+
+:help
+echo build.cmd [region] [authoringKey]
+echo Region defaults to westus.
+echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
+:done
+```
