@@ -14,7 +14,7 @@ const {
     TextPrompt,
     WaterfallDialog
 } = require('botbuilder-dialogs');
-const { channels } = require('botbuilder-dialogs/lib/choices/channel');
+const { Channels } = require('botbuilder-core');
 const { UserProfile } = require('../userProfile');
 
 const ATTACHMENT_PROMPT = 'ATTACHMENT_PROMPT';
@@ -112,7 +112,7 @@ class UserProfileDialog extends ComponentDialog {
         // We can send messages to the user at any point in the WaterfallStep.
         await step.context.sendActivity(msg);
 
-        if (step.context.activity.channelId === channels.msteams) {
+        if (step.context.activity.channelId === Channels.msteams) {
             // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
             await step.context.sendActivity('Skipping attachment prompt in Teams channel...');
             return await step.next(undefined);
