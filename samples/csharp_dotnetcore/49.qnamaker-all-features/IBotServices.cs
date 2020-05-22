@@ -8,5 +8,7 @@ namespace Microsoft.BotBuilderSamples
     public interface IBotServices
     {
         QnAMaker QnAMakerService { get; }
+        bool EnablePreciseAnswer { get; set; }
+        string ContentChoice { get; set; }
     }
 }

@@ -43,11 +43,13 @@ namespace Microsoft.BotBuilderSamples.Dialog
             return Task.FromResult(new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
-                Top = DefaultTopN,
+                Top = 3,
                 QnAId = 0,
                 RankerType = "Default",
-                IsTest = false
-            });
+                IsTest = false,
+                EnablePreciseAnswer = _services.EnablePreciseAnswer
+
+            }); 
         }
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
@@ -63,6 +65,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 CardNoMatchText = DefaultCardNoMatchText,
                 NoAnswer = noAnswer,
                 CardNoMatchResponse = cardNoMatchResponse,
+                ContentChoice = _services.ContentChoice
             };
 
             return responseOptions;
