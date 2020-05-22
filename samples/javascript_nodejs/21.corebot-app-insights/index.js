@@ -81,7 +81,7 @@ const userState = new UserState(memoryStorage);
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
 const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
 
-const luisRecognizer = new FlightBookingRecognizer(luisConfig, telemetryClient); 
+const luisRecognizer = new FlightBookingRecognizer(luisConfig, telemetryClient);
 
 // Create the main dialog.
 const bookingDialog = new BookingDialog(BOOKING_DIALOG);

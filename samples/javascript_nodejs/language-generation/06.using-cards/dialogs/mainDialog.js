@@ -21,7 +21,7 @@ class MainDialog extends ComponentDialog {
         // The initial child Dialog to run.
         this.initialDialogId = MAIN_WATERFALL_DIALOG;
 
-        this.lgTemplates = Templates.parseFile("./resources/MainDialog.lg");
+        this.lgTemplates = Templates.parseFile('./resources/MainDialog.lg');
     }
 
     /**
@@ -85,7 +85,7 @@ class MainDialog extends ComponentDialog {
             break;
         case 'Receipt Card':
             var data = {
-                receiptItems : [
+                receiptItems: [
                     {
                         title: 'Data Transfer',
                         price: '$38.45',
@@ -100,7 +100,7 @@ class MainDialog extends ComponentDialog {
                     }
                 ]
             };
-            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate("ReceiptCard", data)));
+            await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('ReceiptCard', data)));
             break;
         case 'Signin Card':
             await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('SigninCard')));
