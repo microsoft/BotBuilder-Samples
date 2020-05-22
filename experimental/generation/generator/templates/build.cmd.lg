@@ -13,7 +13,7 @@ set key=%2
 if "%key%" NEQ "" set key=--authoringKey %key%
 
 echo Building LUIS models
-call bf luis:build --foo --luConfig luconfig.json --region=%region% %key%
+call bf luis:build --luConfig luconfig.json --region=%region% %key%
 if %errorlevel% EQ 0 goto done
 
 :help

@@ -12,8 +12,8 @@
         },
         "Name": {
             "type": "string",
+            "$comment": "TODO: Need to restore personName below.",
             "$entities": [
-                "personName",
                 "utterance"
             ]
         },

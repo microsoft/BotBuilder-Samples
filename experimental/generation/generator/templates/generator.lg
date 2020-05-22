@@ -264,11 +264,14 @@ synonyms('property'))}
 @ml Show${property} =
     - @PROPERTYName PROPERTYName
 ${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": "${entity}", "value": ${list(entity, values)}, "property": "${property}"}`), 3)}
+${substitutions(`library-operations.${locale}.data`, json(`{"propertyName": ${propertyList(property)}, "value": ${valueList(entity, values)}, "property": "${property}"}`), 3)}
 - ${property}
 ```
 
-# list(entity, values)
+# propertyList(property)
+- [${join(foreach(phrases(property), phrase, `"{@PROPERTYName=${phrase}}"`), ', ')}]
+
+# valueList(entity, values)
 - [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
 
 # synonyms(value)
