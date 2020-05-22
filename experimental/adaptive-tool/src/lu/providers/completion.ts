@@ -43,21 +43,17 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
 
     let completionList: vscode.CompletionItem[] = [];
 
-    if (/\[[^\]]*\]\([^\)]*$/.test(curLineContent) && !util.isInFencedCodeBlock(document, position)) {
+    if (/\[[^\]]*\]\([^\)]*$/.test(curLineContent)) {
       // []() import suggestion
-      return new Promise((res, _) => {
-        const paths = Array.from(new Set(LuFilesStatus.luFilesOfWorkspace));
+      const paths = Array.from(new Set(LuFilesStatus.luFilesOfWorkspace));
 
-        const headingCompletions = paths.reduce((prev, curr) => {
-          var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
-          let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
-          item.detail = curr;
-          prev.push(item);
-          return prev;
-        }, []);
-
-        res(headingCompletions);
-      });
+      return paths.filter(u => u !== document.uri.fsPath).reduce((prev, curr) => {
+        var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
+        let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
+        item.detail = curr;
+        prev.push(item);
+        return prev;
+      }, []);
     }
 
     if (matchingPattern.isEntityType(curLineContent)) {

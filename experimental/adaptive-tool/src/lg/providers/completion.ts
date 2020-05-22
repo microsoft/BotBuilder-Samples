@@ -33,19 +33,15 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
         if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // []() import suggestion
-            return new Promise((res, _) => {
-                const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
+            const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
-                const headingCompletions = paths.reduce((prev, curr) => {
-                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
+            return paths.filter(u => document.uri.fsPath !== u).reduce((prev, curr) => {
+                var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
                     let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
                     item.detail = curr;
                     prev.push(item);
                     return prev;
-                }, []);
-
-                res(headingCompletions);
-            });
+            }, []);
         } else if (/\$\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
             let items: vscode.CompletionItem[] = [];
@@ -69,7 +65,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 let completionItem = new vscode.CompletionItem(value);
                 completionItem.detail = `creatre ${value} structure`;
                 let insertTextArray = util.cardPropDict.Others;
-                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment') {
+                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment' || value === 'Activity') {
                     insertTextArray = util.cardPropDict[value];
                 } else if (value.endsWith('Card')){
                     insertTextArray = util.cardPropDict.Cards;

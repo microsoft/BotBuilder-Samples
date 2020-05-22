@@ -38,7 +38,7 @@ export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates
 
     let result = new Templates();
     let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
-    if (engineEntity !== undefined && engineEntity.templates.toArray().length > 0) {
+    if (engineEntity !== undefined && engineEntity.templates.allTemplates.length > 0) {
         result = engineEntity.templates;
     }
 
@@ -52,6 +52,7 @@ export function getreturnTypeStrFromReturnType(returnType: ReturnType): string {
         case ReturnType.Number: result = "number";break;
         case ReturnType.Object: result = "any";break;
         case ReturnType.String: result = "string";break;
+        case ReturnType.Array: result = "array";break;
     }
 
     return result;
@@ -66,7 +67,7 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
 
     const templates: Templates = getTemplatesFromCurrentLGFile(lgFileUri);
 
-    for (const template of templates) {
+    for (const template of templates.allTemplates) {
         var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
         let templateName = template.name;
         if (buildInfunctionsMap.has(template.name)) {
@@ -104,6 +105,7 @@ export const cardPropDict = {
     Cards: ['title', 'subtitle', 'text', 'image', 'buttons'],
     Attachment: ['contenttype', 'content'],
     Others: ['type', 'name', 'value'],
+    Activity: ['text', 'speak', 'inputHint', 'attachments', 'attachmentLayout']
   };
 
 export const cardTypes = [
