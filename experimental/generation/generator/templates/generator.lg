@@ -187,7 +187,7 @@ ${'#'} ${property}Entity(val)
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Clear${property}",
-    "entity": "PROPERTYName",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -206,9 +206,8 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ShowProperty",
-    "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
+    "operation": "Show${Property}",
+    "property": "${Property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
