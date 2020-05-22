@@ -37,7 +37,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
 
             const templates: Templates = util.getTemplatesFromCurrentLGFile(document.uri);
-            let template: Template = templates.toArray().find(u=>u.name === templateName);
+            let template: Template = templates.allTemplates.find(u=>u.name === templateName);
             if (template === undefined)
                 return undefined;
 

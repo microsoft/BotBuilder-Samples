@@ -31,7 +31,6 @@
 - template reference suggestion
 - template definition
 - error check
-- Builtin function signature
 
 ### Expansion/ test UI for .lg documents
 - template evaluation

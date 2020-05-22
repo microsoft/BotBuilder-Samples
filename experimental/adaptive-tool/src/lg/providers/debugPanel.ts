@@ -85,6 +85,7 @@ export class LGDebugPanel {
                         let results = [];
                         if (message.templateName)
                         {
+                            // evaluate template
                             const templateName = message.templateName; 
                             let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                             if (engineEntity === undefined || engineEntity.templates === undefined) {
@@ -102,6 +103,7 @@ export class LGDebugPanel {
                                 this._panel.webview.postMessage({ command: 'evaluateResults', results: results });
                             }
                         } else if (message.freetext) {
+                            // evaluate inline free text
                             let inlineStr = message.freetext;
                             let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                             if (engineEntity === undefined || engineEntity.templates === undefined) {
