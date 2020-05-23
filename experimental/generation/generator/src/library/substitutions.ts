@@ -17,7 +17,7 @@ function increment(bindings: State): boolean {
     let overflow = 0
     bindings.forEach(binding => binding.index < 0 || ++fixed);
     if (fixed > 0) {
-        for (let [binding, variable] of bindings) {
+        for (let variable of bindings.values()) {
             if (variable.index >= 0) {
                 ++variable.index
                 if (variable.index < variable.values.length) {
@@ -35,7 +35,7 @@ function increment(bindings: State): boolean {
 // Given a key either return the current value or a random one
 function binding(key: string, bindings: State, rand: random.prng): string {
     let variable = bindings.get(key)
-    let value: any = undefined
+    let value: any
     if (variable) {
         if (variable.index < 0) {
             value = variable.values[Math.abs(rand.int32()) % variable.values.length]
