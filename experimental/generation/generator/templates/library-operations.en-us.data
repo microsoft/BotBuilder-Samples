@@ -1,26 +1,26 @@
 > Add only
-- add {@AddTo${property}=${value}}
-- with {@AddTo${property}=${value}}
-- add {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- with {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- add {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- with {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- {@AddTo${property}=${propertyName} is ${value}}
-- {@AddTo${property}=${propertyName} are ${value} and ${value}}
-- {@AddTo${property}=${propertyName} are ${value}, ${value} and ${value}}
+- add {@AddTo${property}=${label}}
+- with {@AddTo${property}=${label}}
+- add {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- with {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- add {@AddTo${property}=${label}}, {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- with {@AddTo${property}=${label}}, {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- {@AddTo${property}=${propertyName} is ${label}}
+- {@AddTo${property}=${propertyName} are ${label} and ${label}}
+- {@AddTo${property}=${propertyName} are ${label}, ${label} and ${label}}
 > Remove only
-- remove {@RemoveFrom${property}=${value}}
-- remove {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- remove {@RemoveFrom${property}=${value}}, {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- delete {@RemoveFrom${property}=${value}}
-- delete {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- delete {@RemoveFrom${property}=${value}}, {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- without {@RemoveFrom${property}=${value}}
-- without {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- without {@RemoveFrom${property}=${value}}, {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- with no {@RemoveFrom${property}=${value}}
-- with no {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
-- with no {@RemoveFrom${property}=${value}}, {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}}
+- remove {@RemoveFrom${property}=${label}}
+- remove {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- remove {@RemoveFrom${property}=${label}}, {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- delete {@RemoveFrom${property}=${label}}
+- delete {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- delete {@RemoveFrom${property}=${label}}, {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- without {@RemoveFrom${property}=${label}}
+- without {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- without {@RemoveFrom${property}=${label}}, {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- with no {@RemoveFrom${property}=${label}}
+- with no {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
+- with no {@RemoveFrom${property}=${label}}, {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}}
 > Clear only
 - clear {@Clear${property}=${propertyName}}
 - remove {@Clear${property}=${propertyName}}
@@ -44,18 +44,19 @@
 - {@Show${property}=${propertyName}} values
 - {@Show${property}=${propertyName}} selection
 > Combinations
-- add {@AddTo${property}=${value}} and remove {@RemoveFrom${property}=${value}}
-- add {@AddTo${property}=${value}} remove {@RemoveFrom${property}=${value}}
-- add {@AddTo${property}=${value}}, remove {@RemoveFrom${property}=${value}}
-- add {@AddTo${property}=${value}} and {@AddTo${property}=${value}} and remove {@RemoveFrom${property}=${value}}
-- add {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}} and remove {@RemoveFrom${property}=${value} and ${value}}
-- add {@AddTo${property}=${value}}, {@AddTo${property}=${value}} and {@AddTo${property}=${value}} remove {@RemoveFrom${property}=${value} and ${value}}
-- add {@AddTo${property}=${value}}, remove {@RemoveFrom${property}=${value}} and show {@Show${property}=${propertyName}}
-- remove {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}}
-- remove {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}}
-- remove {@RemoveFrom${property}=${value}}, {@RemoveFrom${property}=${value}} and {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- remove {@RemoveFrom${property}=${value}}, add {@AddTo${property}=${value}} and show {@Show${property}=${propertyName}}
-- display {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}}
-- show {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}} and {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}}
-- show {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}}, {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}} and {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}} and add {@AddTo${property}=${value}} and {@AddTo${property}=${value}}
-- display {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${value}}, add {@AddTo${property}=${value}} 
+- add {@AddTo${property}=${label}} and remove {@RemoveFrom${property}=${label}}
+- add {@AddTo${property}=${label}} remove {@RemoveFrom${property}=${label}}
+- add {@AddTo${property}=${label}}, remove {@RemoveFrom${property}=${label}}
+- add {@AddTo${property}=${label}} and {@AddTo${property}=${label}} and remove {@RemoveFrom${property}=${label}}
+- add {@AddTo${property}=${label}}, {@AddTo${property}=${label}} and {@AddTo${property}=${label}} and remove {@RemoveFrom${property}=${label} and ${label}}
+- add {@AddTo${property}=${label}}, {@AddTo${property}=${label}} and {@AddTo${property}=${label}} remove {@RemoveFrom${property}=${label} and ${label}}
+- add {@AddTo${property}=${label}}, remove {@RemoveFrom${property}=${label}} and show {@Show${property}=${propertyName}}
+- remove {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}}
+- remove {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}}
+- remove {@RemoveFrom${property}=${label}}, {@RemoveFrom${property}=${label}} and {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- remove {@RemoveFrom${property}=${label}}, add {@AddTo${property}=${label}} and show {@Show${property}=${propertyName}}
+- display {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}}
+- show {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}} and {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}}
+- show {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}}, {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}} and {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}} and add {@AddTo${property}=${label}} and {@AddTo${property}=${label}}
+- display {@Show${property}=${propertyName}} remove {@RemoveFrom${property}=${label}}, add {@AddTo${property}=${label}} 
+- ${value*}
