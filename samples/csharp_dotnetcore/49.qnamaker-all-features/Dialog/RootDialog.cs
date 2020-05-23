@@ -5,6 +5,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Dialog
 {
@@ -22,10 +23,10 @@ namespace Microsoft.BotBuilderSamples.Dialog
         /// Initializes a new instance of the <see cref="RootDialog"/> class.
         /// </summary>
         /// <param name="services">Bot Services.</param>
-        public RootDialog(IBotServices services)
+        public RootDialog(IBotServices services, IConfiguration config)
             : base("root")
         {
-            AddDialog(new QnAMakerBaseDialog(services));
+            AddDialog(new QnAMakerBaseDialog(services, config));
 
             AddDialog(new WaterfallDialog(InitialDialog)
                .AddStep(InitialStepAsync));

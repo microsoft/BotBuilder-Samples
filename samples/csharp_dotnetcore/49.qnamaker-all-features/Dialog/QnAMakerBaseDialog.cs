@@ -1,12 +1,14 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Dialog
 {
@@ -22,15 +24,18 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
 
         private readonly IBotServices _services;
+        private readonly IConfiguration _config;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
         /// Dialog helper to generate dialogs.
         /// </summary>
         /// <param name="services">Bot Services.</param>
-        public QnAMakerBaseDialog(IBotServices services): base()
+        public QnAMakerBaseDialog(IBotServices services, IConfiguration config): base()
         {
             this._services = services;
+            this._config = config;
+
         }
 
         protected async override Task<IQnAMakerClient> GetQnAMakerClientAsync(DialogContext dc)
@@ -40,14 +45,15 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected override Task<QnAMakerOptions> GetQnAMakerOptionsAsync(DialogContext dc)
         {
+
             return Task.FromResult(new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
-                Top = 3,
+                Top = DefaultTopN,
                 QnAId = 0,
                 RankerType = "Default",
                 IsTest = false,
-                EnablePreciseAnswer = _services.EnablePreciseAnswer
+                EnablePreciseAnswer = this.EnablePreciseAnser
 
             }); 
         }
@@ -65,10 +71,52 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 CardNoMatchText = DefaultCardNoMatchText,
                 NoAnswer = noAnswer,
                 CardNoMatchResponse = cardNoMatchResponse,
-                ContentChoice = _services.ContentChoice
+                DisplayPreciseAnswerOnly = this.DisplayPreciseAnswerOnly
             };
 
             return responseOptions;
+        }
+
+        private bool EnablePreciseAnser
+        {
+            get
+            {
+                var qnaServiceType = _config["QnAServiceType"];
+                if (string.Equals("v2",qnaServiceType, StringComparison.OrdinalIgnoreCase))
+                {
+                    var rawEnablePreciseAnswer = _config["EnablePreciseAnswer"];
+                    if (!string.IsNullOrWhiteSpace(rawEnablePreciseAnswer))
+                    {
+                        return bool.Parse(rawEnablePreciseAnswer);
+                    }
+                    else
+                    {
+                        return true;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        //DisplayPreciseAnswerOnly
+
+        private bool DisplayPreciseAnswerOnly
+        {
+            get
+            {               
+                var rawDisplayPreciseAnswerOnly = _config["DisplayPreciseAnswerOnly"];
+                if (!string.IsNullOrWhiteSpace(rawDisplayPreciseAnswerOnly))
+                {
+                    return bool.Parse(rawDisplayPreciseAnswerOnly);
+                }
+                else
+                {
+                    return true;
+                }                
+            }
         }
     }
 }

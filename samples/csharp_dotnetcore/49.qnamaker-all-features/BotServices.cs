@@ -14,18 +14,11 @@ namespace Microsoft.BotBuilderSamples
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
                 EndpointKey = configuration["QnAEndpointKey"],
-                Host = GetHostname(configuration["QnAEndpointHostName"])
-            });
-
-            this.EnablePreciseAnswer = bool.Parse(configuration["EnablePreciseAnswer"]);
-            this.ContentChoice = configuration["ContentChoice "];
-
+                Host = GetHostname(configuration["QnAEndpointHostName"]),                
+            });         
         }
 
         public QnAMaker QnAMakerService { get; private set; }
-        public bool EnablePreciseAnswer { get; set; }
-        public string ContentChoice { get; set; }
-        
 
         private static string GetHostname(string hostname)
         {
