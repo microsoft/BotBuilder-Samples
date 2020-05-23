@@ -92,8 +92,8 @@ export async function generate(
   feedback: Feedback) {
   // need to dereference the swagger file
   let swfile = await sw.dereference(path) as OpenAPIV2.Document
-  await fs.remove(output)
-  await fs.ensureDir(output)
+  //await fs.remove(output)
+  //await fs.ensureDir(output)
 
   let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://';
 
@@ -162,7 +162,7 @@ export async function generate(
   feedback(FeedbackType.info, `Output Schema ${ppath.join(output, projectName)}`);
   feedback(FeedbackType.info, `Output Json Properties ${propertiesFile}`);
 
-  await fs.ensureDir(output)
+  //await fs.ensureDir(output)
   await fs.writeFile(ppath.join(output, projectName), JSON.stringify(result, null, 4))
   await fs.writeFile(propertiesFile, JSON.stringify(jsonProperties, null, 4))
 }
