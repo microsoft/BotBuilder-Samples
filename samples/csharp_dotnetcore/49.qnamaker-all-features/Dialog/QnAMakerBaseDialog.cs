@@ -22,7 +22,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardTitle = "Did you mean:";
         public const string DefaultCardNoMatchText = "None of the above.";
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
-
         private readonly IBotServices _services;
         private readonly IConfiguration _config;
 
@@ -35,7 +34,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
         {
             this._services = services;
             this._config = config;
-
         }
 
         protected async override Task<IQnAMakerClient> GetQnAMakerClientAsync(DialogContext dc)
@@ -54,7 +52,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 RankerType = "Default",
                 IsTest = false,
                 EnablePreciseAnswer = this.EnablePreciseAnser
-
             }); 
         }
 
@@ -100,8 +97,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 }
             }
         }
-
-        //DisplayPreciseAnswerOnly
 
         private bool DisplayPreciseAnswerOnly
         {
