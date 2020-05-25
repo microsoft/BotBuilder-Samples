@@ -59,5 +59,8 @@
     ],
     "$requires": [
         "standard.schema"
+    ],
+    "$templates": [
+        "sandwichMerge-foo-missing.dialog"
     ]
 }

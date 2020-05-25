@@ -23,7 +23,7 @@ const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
 async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<boolean> {
     let filePaths = oldFileList.filter(file => file.endsWith(fileName))
     let FilePath = filePaths[0]
-    return isUnchanged(FilePath)
+    return !FilePath || isUnchanged(FilePath)
 }
 
 /**

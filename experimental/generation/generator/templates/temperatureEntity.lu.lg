@@ -7,5 +7,5 @@
 - ```
 @ prebuilt temperature ${roles()}
 ${propertyName()}
+${operations('temperature', ["32 degrees", "52 celsius", "200 kelvin"])}
 ```
-

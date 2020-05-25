@@ -7,5 +7,5 @@
 - ```
 @ prebuilt ordinal ${roles()}
 ${propertyName()}
+${operations('ordinal', ["1st", "second", "third"])}
 ```
-

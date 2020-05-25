@@ -8,8 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "AddTo${property}",
     "entity": "dimension",
     "actions": [
         {
@@ -18,7 +17,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${setObjectPropertyMessage('${property}',string(@dimension.number))}"
+                    "activity": "\${setObjectPropertyMessage('${property}', @dimension)}"
                 }, 
                 {
                     "$kind": "Microsoft.SetProperty",

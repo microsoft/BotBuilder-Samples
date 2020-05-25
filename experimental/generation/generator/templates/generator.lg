@@ -48,11 +48,13 @@
 
 # nameTemplate
 -```
+> How to display the name of ${property}
 ${'#'} ${property}Name
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
+> How to display a ${property} value
 ${'#'} ${property}(val)
  - IF: \${val}
  - \${val}
@@ -62,6 +64,7 @@ ${'#'} ${property}(val)
 
 # entityDisplay
 -```
+> How to display an ${property}Entiy value
 ${'#'} ${property}Entity(val)
  - IF: \${val}
  - \${val}
@@ -74,8 +77,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "AddTo${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -106,8 +108,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "AddTo${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -139,8 +140,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "RemoveFrom${property}",
     "entity": "${entity}",
     "actions": [
 
@@ -167,8 +167,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "RemoveFrom${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -190,9 +189,8 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ClearProperty",
-    "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
+    "operation": "Clear${property}",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -211,9 +209,8 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ShowProperty",
-    "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
+    "operation": "Show${Property}",
+    "property": "${Property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -243,24 +240,49 @@ ${'#'} ${property}Entity(val)
 ```
 
 # propertyName
-- ```
+- IF: ${property}
+-```
+> Define how ${property} is recognized as a property name
 @ list PROPERTYName
     - ${property}:
+${if(schema.properties[property].title,
+`\t\t- ${schema.properties[property].title}`,
+synonyms(property))}
 ```
+- ELSE:
+-
 
 > Define operations over an entity that can take on values
 # operations(entity, values)
 -```
-@composite AddToProperty = [${entity}]
-@composite RemoveFromProperty = [${entity}]
-@composite ClearProperty = [PROPERTYName]
-@composite ShowProperty = [PROPERTYName]
+> Define operations for property
+@ml AddTo${property} = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+@ml RemoveFrom${property} = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+@ml Clear${property} =
+    - @PROPERTYName PROPERTYName
+@ml Show${property} =
+    - @PROPERTYName PROPERTYName
 ${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
+${substitutions(`library-operations.${locale}.data`, 
+    json(`{"propertyName": ${propertyList(property)}, 
+           "value": ${valueList(values)}, 
+           "label": ${labelList(entity, values)}, 
+           "property": "${property}"}`), 
+    3)}
 - ${property}
 ```
 
-# list(values)
+# propertyList(property)
+- [${join(foreach(phrases(property), phrase, `"{@PROPERTYName=${phrase}}"`), ', ')}]
+
+# labelList(entity, values)
+- [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
+
+# valueList(values)
 - [${join(foreach(values, value, `"${value}"`), ', ')}]
 
 # synonyms(value)
@@ -282,3 +304,14 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 
 # luHeader
 -> !# @app.culture = ${locale}
+
+> Schema definitions
+
+# schemaOperations
+- ${flatten(foreach(properties, property, [`AddTo${property}`, `RemoveFrom${property}`, `Clear${property}`, `Show${property}`]))}
+
+# schemaDefaultOperation
+- ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
+
+# schemaDefaultOperationEntities(property)
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "AddTo${property}"`), ','), '}')}

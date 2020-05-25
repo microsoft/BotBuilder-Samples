@@ -78,6 +78,7 @@ function mergeSchemas(allSchema: any, schemas: any[]) {
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$templates) allSchema.$templates = allSchema.$templates.concat(schema.$templates)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
+        if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
         if (schema.$templateDirs) allSchema.$templateDirs = allSchema.$templateDirs.concat(schema.$templateDirs)
         // Last definition wins
         if (schema.$defaultOperation) allSchema.$defaultOperation = schema.$defaultOperation
@@ -155,6 +156,10 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         // Default to standard schema
         formSchema.$requires = ['standard.schema']
     }
+    if (!formSchema.$templateDirs) {
+        // Default to including schema directory
+        formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
+    }
     await findRequires(formSchema, allRequired, required, resolver, feedback)
     let allSchema = clone(formSchema)
     addMissing(allSchema)
@@ -162,7 +167,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
     if (!allSchema.$templates) allSchema.$templates = []
     if (!allSchema.$operations) allSchema.$operations = []
-    if (!allSchema.$templateDirs) allSchema.$templateDirs = []
+    if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
     if (formSchema.$public) {
         allSchema.$public = formSchema.$public
     } else {

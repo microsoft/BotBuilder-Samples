@@ -9,8 +9,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "PropertyToChange",
+    "operation": "SetPropertyToChange",
     "entity": "PROPERTYName",
     "actions": [
         {

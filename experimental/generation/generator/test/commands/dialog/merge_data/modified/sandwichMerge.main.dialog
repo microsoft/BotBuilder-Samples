@@ -1,10 +1,10 @@
 {
-    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-dotnet/master/schemas/sdk.schema",
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/experimental/generation/runbot/runbot.schema",
     "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": "sandwichMerge.lu",
     "generator": "sandwichMerge.lg",
     "schema": "sandwichMerge.schema",
-    "$comment" : "Something changed",
+    "$comment": "Something changed",
     "triggers": [
         "sandwichMerge-foo-missing",
         "sandwichMerge-Quantity-missing",

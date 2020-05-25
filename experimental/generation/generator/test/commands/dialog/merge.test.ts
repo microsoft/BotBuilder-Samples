@@ -154,7 +154,7 @@ describe('dialog:generate --merge', async function () {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = 'test/commands/dialog/merge_data'
     let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
-    let modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.schema')
+    let modifiedSchema = ppath.join(merge_data, 'modified/sandwichMerge-modified.schema')
     let locales = ['en-us']
     let originalDir = ppath.join(output_dir, 'sandwichMerge-original')
     let modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
@@ -213,7 +213,7 @@ describe('dialog:generate --merge', async function () {
             await fs.remove(output_dir)
             console.log('Generating original files')
             await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, undefined, errorOnly)
-            console.log('Generating updated files')
+            console.log('Generating modified files')
             await gen.generate(modifiedSchema, 'sandwichMerge', modifiedDir, undefined, locales, undefined, undefined, false, undefined, errorOnly)
         } catch (e) {
             assert.fail(e.message)

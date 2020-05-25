@@ -50,7 +50,7 @@
 - ${displayName(property)} has been cleared.
 
 # removePropertyMessage(property, val)
-- IF: ${contains($expectedProperties, property) && $expectedOperation == 'RemoveFromProperty'}
+- IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
 - 
 - ELSE:
 - ${removeUnexpectedPropertyMessage(property, val)}
@@ -59,7 +59,7 @@
 - Removed ${displayValue(property, val)} from ${displayName(property)}.
 
 # removeArrayPropertyMessage(property, val)
-- IF: ${contains($expectedProperties, property) && $expectedOperation == 'RemoveFromProperty'}
+- IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
 - 
 - ELSE:
 - ${removeUnexpectedArrayPropertyMessage(property, val)}

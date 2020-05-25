@@ -3,9 +3,10 @@
 # filename
 - ${entityLUFilename()}
 
+> There is nothing we can put in as values
 # template
 - ```
 @ ml ${property}Entity
 ${propertyName()}
+${operations(`${property}Entity`, [`**${property}Entity**`])}
 ```
-

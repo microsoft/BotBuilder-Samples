@@ -5,14 +5,7 @@
 
 # template
 -```
+> This is where you would put utterances that should trigger ${triggerIntent}
 ${'#'} ${triggerIntent}
-${join(foreach(where(entities, entity, !contains(schema.$expectedOnly, entity)), entity, entityPattern(entity)), EOL())}
-- {PROPERTYName}
+- ${prefix}
 ```
-
-# entityPattern(entity)
-- IF: ${entity == 'datetime'}
-- - {datetimeV2}
-- ELSE:
-- - {${entity}}
-
