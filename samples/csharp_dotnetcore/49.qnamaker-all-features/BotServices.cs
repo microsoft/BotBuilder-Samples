@@ -14,7 +14,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
                 EndpointKey = configuration["QnAEndpointKey"],
-                Host = GetHostname(configuration["QnAEndpointHostName"]),                
+                Host = GetHostname(configuration["QnAEndpointHostName"]), 
             });         
         }
 
