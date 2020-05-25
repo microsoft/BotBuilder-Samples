@@ -22,6 +22,7 @@
 ### Syntax highlighting, auto-suggest, auto complete functionality
 #### .lu documents
 - Syntax highlighting
+- error check
 
 #### .lg documents
 - Syntax highlighting
@@ -29,11 +30,12 @@
 - builtin function hover
 - buildin function suggestion
 - template reference suggestion
+- structure property suggestion
 - template definition
 - error check
 
 ### Expansion/ test UI for .lg documents
-- template evaluation
+- template/free text evaluation
 
 ## Contribute
 - `npm install` to install packages
