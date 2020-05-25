@@ -43,7 +43,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected override Task<QnAMakerOptions> GetQnAMakerOptionsAsync(DialogContext dc)
         {
-
             return Task.FromResult(new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
@@ -73,7 +72,6 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
             return responseOptions;
         }
-
         private bool EnablePreciseAnser
         {
             get
