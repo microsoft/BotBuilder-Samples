@@ -17,7 +17,7 @@ import * as path from 'path';
  */
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.'));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.', '\n'));
 }
 
 class LGCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -56,14 +56,12 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             });
 
             return items;
-        }  else if (/\[[^\]]*$/.test(lineTextBefore)
-                    && position.line > 0 
-                    && document.lineAt(position.line - 1).text.trimLeft().startsWith('#')) {
+        }  else if (this.isStartStructure(document, position)) {
             // structure name and key suggestion
             let items: vscode.CompletionItem[] = [];
             util.cardTypes.forEach(value => {
                 let completionItem = new vscode.CompletionItem(value);
-                completionItem.detail = `creatre ${value} structure`;
+                completionItem.detail = `create ${value} structure`;
                 let insertTextArray = util.cardPropDict.Others;
                 if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment' || value === 'Activity') {
                     insertTextArray = util.cardPropDict[value];
@@ -71,14 +69,77 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     insertTextArray = util.cardPropDict.Cards;
                 }
 
-                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u} = `).join('\r\n') + '\r\n';
+                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u.name}=${u.placeHolder}`).join('\r\n') + '\r\n';
                 items.push(completionItem);
             });
 
             return items;
-        } else  {
+        } else if (this.isInStructure(document, position).isInStruct && /^\s*$/.test(lineTextBefore)) {
+            const structureName = this.isInStructure(document, position).struType;
+            let items: vscode.CompletionItem[] = [];
+
+            const nameToPropertiesMapping = Object.entries(util.cardPropDictFull);
+            const propertiesMapping = nameToPropertiesMapping.find(u => u[0].toLowerCase() === structureName.toLowerCase());
+            if (propertiesMapping !== undefined) {
+                const properties = propertiesMapping[1];
+                properties.forEach(propertyItem => {
+                    let completionItem = new vscode.CompletionItem(propertyItem.name);
+                    completionItem.detail = `create property`;
+                    const placeHolder = 'placeHolder' in propertyItem ? propertyItem['placeHolder'] : `{${propertyItem.name}}`
+                    completionItem.insertText = propertyItem.name + '=' + placeHolder;
+                    items.push(completionItem);
+                })
+                return items;
+            }
+        } else {
             return [];
         }
+    }
+
+    isStartStructure(document: vscode.TextDocument,
+        position: vscode.Position) {
+            const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
+            if (util.isInFencedCodeBlock(document, position)
+                    || !(/\[[^\]]*$/.test(lineTextBefore))
+                    || position.line <= 0)
+                return false;
+            
+            var previourLine = position.line - 1;
+            while(previourLine >= 0) {
+                var previousLineText = document.lineAt(previourLine).text.trim();
+                if (previousLineText === '') {
+                    previourLine--;
+                    continue;
+                } else if (previousLineText.startsWith('#')){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+    }
+
+    isInStructure(document: vscode.TextDocument,
+        position: vscode.Position): { isInStruct:boolean; struType:string } {
+            if (util.isInFencedCodeBlock(document, position)
+                    || position.line <= 0)
+                return {isInStruct:false, struType:undefined};
+
+            var previourLine = position.line - 1;
+            while(previourLine >= 0) {
+                var previousLineText = document.lineAt(previourLine).text.trim();
+                if (previousLineText.startsWith('#')
+                || previousLineText === ']'
+                || previousLineText.startsWith('-')
+                || previousLineText.endsWith('```')) {
+                    return {isInStruct:false, struType:undefined};
+                } else if (previousLineText.startsWith('[')){
+                    const structureType = previousLineText.substr(1).trim();
+                    return {isInStruct:true, struType:structureType};
+                }
+                previourLine--;
+            }
+            return {isInStruct:false, struType:undefined};
     }
 }
 
