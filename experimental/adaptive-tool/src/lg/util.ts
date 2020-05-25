@@ -114,8 +114,7 @@ export const cardPropDict = {
         {name:'type', placeHolder:'{typename}'},
         {name:'value', placeHolder:'{value}'}],
     Activity: [
-        {name:'text', placeHolder:'{text_result}'},
-        {name:'speak', placeHolder:'{speak_result}'}]
+        {name:'text', placeHolder:'{text_result}'}]
   };
 
 

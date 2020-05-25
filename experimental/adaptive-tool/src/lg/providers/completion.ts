@@ -100,7 +100,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         position: vscode.Position) {
             const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
             if (util.isInFencedCodeBlock(document, position)
-                    || !(/\[[^\]]*$/.test(lineTextBefore))
+                    || !(/^\s*\[[^\]]*$/.test(lineTextBefore))
                     || position.line <= 0)
                 return false;
             
