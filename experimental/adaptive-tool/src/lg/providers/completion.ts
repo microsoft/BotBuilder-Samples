@@ -76,7 +76,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             return items;
         } else if (this.isInStructure(document, position).isInStruct && /^\s*$/.test(lineTextBefore)) {
             const structureName = this.isInStructure(document, position).struType;
-            let items: vscode.CompletionItem[] = [];
+            let items: vscode.CompletionItem[] = []; 
 
             const nameToPropertiesMapping = Object.entries(util.cardPropDictFull);
             const propertiesMapping = nameToPropertiesMapping.find(u => u[0].toLowerCase() === structureName.toLowerCase());
@@ -84,7 +84,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 const properties = propertiesMapping[1];
                 properties.forEach(propertyItem => {
                     let completionItem = new vscode.CompletionItem(propertyItem.name);
-                    completionItem.detail = `create property`;
+                    completionItem.detail = `create property ${propertyItem.name}`;
                     const placeHolder = 'placeHolder' in propertyItem ? propertyItem['placeHolder'] : `{${propertyItem.name}}`
                     completionItem.insertText = propertyItem.name + '=' + placeHolder;
                     items.push(completionItem);
