@@ -51,7 +51,7 @@ class QnACardBuilder {
             [],
             CardFactory.actions(cardActions));
 
-            return { text: cardTitle, attachments: [heroCard] };
+        return { text: cardTitle, attachments: [heroCard] };
     }
 }
 

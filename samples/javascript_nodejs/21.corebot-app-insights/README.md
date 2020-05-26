@@ -16,7 +16,7 @@ This sample **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding 
+This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding
 and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices), an extensible Application Performance Management (APM) service for web developers on multiple platforms.
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
@@ -76,7 +76,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 

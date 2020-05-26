@@ -106,7 +106,7 @@ class MainDialog extends ComponentDialog {
         default: {
             // Catch all for unhandled intents
             await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('Unknown.intent', {
-                intent : `${ LuisRecognizer.topIntent(luisResult) }`
+                intent: `${ LuisRecognizer.topIntent(luisResult) }`
             })));
         }
         }
@@ -131,7 +131,7 @@ class MainDialog extends ComponentDialog {
 
         if (unsupportedCities.length) {
             await context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('UnsupportedCities', {
-                cities : unsupportedCities
+                cities: unsupportedCities
             })));
         }
     }
@@ -151,11 +151,10 @@ class MainDialog extends ComponentDialog {
             // If the call to the booking service was successful tell the user.
             const timeProperty = new TimexProperty(result.travelDate);
             const travelDateMsg = timeProperty.toNaturalLanguage(new Date(Date.now()));
-            const msg = `I have you booked to ${ result.destination } from ${ result.origin } on ${ travelDateMsg }.`;
             await stepContext.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('BookingConfirmation', {
-                Destination : result.destination, 
-                Origin : result.origin,
-                DateMessage : travelDateMsg
+                Destination: result.destination,
+                Origin: result.origin,
+                DateMessage: travelDateMsg
             })));
         }
 

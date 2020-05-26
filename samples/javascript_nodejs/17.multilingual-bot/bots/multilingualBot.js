@@ -48,7 +48,6 @@ class MultilingualBot extends ActivityHandler {
         });
 
         this.onMessage(async (context, next) => {
-
             if (isLanguageChangeRequested(context.activity.text)) {
                 const currentLang = context.activity.text.toLowerCase();
                 const lang = currentLang === englishEnglish || currentLang === spanishEnglish ? englishEnglish : englishSpanish;

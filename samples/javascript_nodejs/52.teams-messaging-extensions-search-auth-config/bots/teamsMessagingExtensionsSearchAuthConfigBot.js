@@ -144,7 +144,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 body: [
                     {
                         type: 'TextBlock',
-                        text: `You have been signed out.`
+                        text: 'You have been signed out.'
                     }
                 ],
                 actions: [
