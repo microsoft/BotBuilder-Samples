@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# SendActivity_Welcome
+- ${WelcomeUser()}
+
+# SendActivity_GtiXhJ()
+- In composer dialog, using LUIS
+
+# TextInput_Prompt_WrBkPQ()
+[Activity
+    Text = Hello, ${dialog.fullname.first}, what is your age?
+    SuggestedActions = Why do you need my age? | Not giving you my age
+]
+
+# TextInput_Prompt_f8PInm()
+[Activity
+    Text = What is your shoe size?
+    SuggestedActions = Why do you need my shoe size? | Not giving you my shoe size
+]
+# TextInput_InvalidPrompt_WrBkPQ()
+- Sorry ${this.value} is invalid! I'm looking for a value between 1-150. What is your age?
+# TextInput_DefaultValueResponse_WrBkPQ()
+- Sorry. It is not working. For now, I'm setting your age to ${class.defaultValue}
+# TextInput_InvalidPrompt_f8PInm()
+- Sorry ${this.value} does not work. I'm looking for value between 0 - 16. What is your shoe size?
+# TextInput_DefaultValueResponse_f8PInm()
+- Sorry, this is not working. For now, I'm setting your shoe size to ${class.defaultValue}
+# SendActivity_xp4X0s()
+- ```
+- ## Returning the following values from composer dialog
+- User age : ${dialog.userage}
+- Shoe size: ${dialog.shoesize}
+```
+# SendActivity_1pawbz()
+- I need that info to just complete the sample
+# SendActivity_lMaQaT()
+- No worries. I've set some defaults for now.

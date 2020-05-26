@@ -18,6 +18,7 @@ It starts with [19.custom-dialogs][s1] sample and shows how to get adaptive dial
     - Navigate to the folder on your local machine where your composer bot is. 
     - Locate and copy over contents of `composerBot` folder.
 9. Add the composer dialog to your RootDialog.
+10. If your composer dialog uses LUIS in any of its recognizers, set up the necessary [LUIS configuration](#luis-configuration)
 
 ## Prerequisites
 

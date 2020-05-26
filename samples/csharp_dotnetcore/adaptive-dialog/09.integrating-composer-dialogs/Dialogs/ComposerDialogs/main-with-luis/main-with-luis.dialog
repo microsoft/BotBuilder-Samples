@@ -1,0 +1,169 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "main-with-luis",
+      "id": "Nvd6dj"
+    }
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "859266",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_Welcome()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "hfxHUQ"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "GtiXhJ"
+          },
+          "activity": "${SendActivity_GtiXhJ()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "WrBkPQ"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": "=!@age",
+          "prompt": "${TextInput_Prompt_WrBkPQ()}",
+          "property": "dialog.userage",
+          "value": "=@age",
+          "validations": [
+            "int(this.value) >= 1",
+            "int(this.value) <= 150"
+          ],
+          "invalidPrompt": "${TextInput_InvalidPrompt_WrBkPQ()}",
+          "defaultValue": "30",
+          "defaultValueResponse": "${TextInput_DefaultValueResponse_WrBkPQ()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "f8PInm"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": "=!@shoesize",
+          "prompt": "${TextInput_Prompt_f8PInm()}",
+          "value": "=@shoeSize",
+          "validations": [
+            "int(this.value) >= 0 && int(this.value) <= 16",
+            "isMatch(string(this.value), '^[0-9]+(\\.5)*$')"
+          ],
+          "invalidPrompt": "${TextInput_InvalidPrompt_f8PInm()}",
+          "defaultValue": "10",
+          "defaultValueResponse": "${TextInput_DefaultValueResponse_f8PInm()}",
+          "property": "dialog.shoesize"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "xp4X0s"
+          },
+          "activity": "${SendActivity_xp4X0s()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "6MeuRC"
+          },
+          "value": "={age:dialog.userage, shoeSize:dialog.shoesize, fullname:dialog.fullname}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "TJznq3"
+      },
+      "intent": "Why",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "1pawbz"
+          },
+          "activity": "${SendActivity_1pawbz()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "YRMvgn"
+      },
+      "intent": "No",
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "1B8YfC"
+          },
+          "assignments": [
+            {
+              "property": "dialog.userage",
+              "value": "=coalesce(dialog.userage, 30)"
+            },
+            {
+              "property": "dialog.shoesize",
+              "value": "=coalesce(dialog.shoesize, 10)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "lMaQaT"
+          },
+          "activity": "${SendActivity_lMaQaT()}"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "main-with-luis.lg",
+  "recognizer": "main-with-luis.lu"
+}

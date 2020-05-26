@@ -1,0 +1,41 @@
+
+# Why
+- why do you need my age?
+- Why do you ask?
+- why ask for my shoe size?
+
+@ list infoType = 
+	- age :
+    - shoeSize :
+	    - shoe
+        - size             
+
+# No
+- not giving you that information
+- no age
+- no shoe size
+- not comfortable giving you that
+- sorry not giving it to you.
+
+@ list infoType = 
+	- age :
+    - shoeSize :
+	    - shoe
+        - size        
+
+
+
+# TextInput_Response_WrBkPQ
+- I'm 30 years old
+
+@ prebuilt age
+
+
+
+# TextInput_Response_f8PInm
+- My shoe size is {@shoeSize = 10}
+- it is {@shoeSize = 11.5}
+- {@shoeSize = 13}
+
+@ prebuilt number hasRoles shoeSize
+
