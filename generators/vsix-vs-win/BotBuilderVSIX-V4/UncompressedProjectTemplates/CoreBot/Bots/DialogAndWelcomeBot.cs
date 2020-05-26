@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -42,7 +43,7 @@ namespace $safeprojectname$.Bots
         // Load attachment from embedded resource.
         private Attachment CreateAdaptiveCardAttachment()
         {
-            var cardResourcePath = "$safeprojectname$.Cards.welcomeCard.json";
+            var cardResourcePath = GetType().Assembly.GetManifestResourceNames().First(name => name.EndsWith("welcomeCard.json"));
 
             using (var stream = GetType().Assembly.GetManifestResourceStream(cardResourcePath))
             {
