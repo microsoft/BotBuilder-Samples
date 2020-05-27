@@ -1,15 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace LivePersonAgentBot.Bots
@@ -57,26 +54,6 @@ namespace LivePersonAgentBot.Bots
                 {
                     replyText = "Hello!";
                 }
-                if (userText.Contains("disneyland"))
-                {
-                    await turnContext.SendActivityAsync("Sorry I cannot answer your questoin but an agent will be with you shortly");
-
-                    var channelData = @"
-  {
-    ""action"": {
-        ""name"": ""TRANSFER"",
-        ""parameters"": {
-          ""skill"": ""Fallback-Skill""
-        }
-    }
-  }";
-                    var activity = new Activity("message");
-                    activity.Text = "";
-                    activity.ChannelData = JObject.Parse(channelData);
-
-                    await turnContext.SendActivityAsync(activity);
-                    return;
-                }
                 else
                 {
                     foreach (var country in Capitals.Keys)
@@ -94,14 +71,14 @@ namespace LivePersonAgentBot.Bots
 
         protected override async Task OnEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            if(turnContext.Activity.Name == "handoff.status")
+            if(turnContext.Activity.Name == HandoffEventNames.HandoffStatus)
             {
                 var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
                 var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData());
 
                 Activity replyActivity;
                 var state = (turnContext.Activity.Value as JObject)?.Value<string>("state");
-                if (state == "typing")
+                if (state == HandoffStates.Typing)
                 {
                     replyActivity = new Activity
                     {
@@ -109,12 +86,12 @@ namespace LivePersonAgentBot.Bots
                         Text = "agent is typing",
                     };
                 }
-                else if (state == "accepted")
+                else if (state == HandoffStates.Accepted)
                 {
                     replyActivity = MessageFactory.Text("An agent has accepted the conversation and will respond shortly.");
                     await _conversationState.SaveChangesAsync(turnContext);
                 }
-                else if (state == "completed")
+                else if (state == HandoffStates.Completed)
                 {
                     replyActivity = MessageFactory.Text("The agent has closed the conversation.");
                 }
