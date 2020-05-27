@@ -9,7 +9,7 @@ set region=%1
 if "%region%" EQU "" set region=westus
 
 if exist luis.settings.* goto run
-call build.cmd %1 %2
+call %dp0build.cmd %1 %2
 if not exist luis.settings.* goto done
 
 :run
