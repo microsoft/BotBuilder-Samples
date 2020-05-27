@@ -24,7 +24,8 @@
 ![lu_syntax_highlighting](./resources/images/lu_syntax_highlighting.png)
 - diagnostic check
 ![lu_diagnostic](./resources/images/lu_diagnostic.png)
-
+- completion 
+![lu_completion](./resources/images/lu_completion.gif)
 #### .lg documents
 - syntax highlighting
 ![lg_syntax_highlighting](./resources/images/lg_syntax_highlighting.png)
