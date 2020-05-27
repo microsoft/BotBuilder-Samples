@@ -2,7 +2,10 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "temperature": {
         "type": "object",
-        "$entities": ["${concat('temperature:', property)}", "temperature"],
+        "$entities": [
+            "${concat('temperature:', property)}",
+            "temperature"
+        ],
         "properties": {
             "number": {
                 "type": "number"
@@ -11,7 +14,18 @@
                 "type": "string"
             }
         },
-        "required": ["number", "units"],
-        "$templates": ["temperatureEntity.lu","objectProperty.lg", "string-missing.dialog","temperatureEntity-add.dialog", "temperatureEntity-remove.dialog", "temperatureEntity-clear.dialog", "temperatureEntity-show.dialog"]
+        "required": [
+            "number",
+            "units"
+        ],
+        "$templates": [
+            "temperatureEntity.lu",
+            "objectProperty.lg",
+            "string-missing.dialog",
+            "temperatureEntity-add.dialog",
+            "temperatureEntity-remove.dialog",
+            "temperatureEntity-clear.dialog",
+            "temperatureEntity-show.dialog"
+        ]
     }
 }

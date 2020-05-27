@@ -245,6 +245,11 @@ async function processTemplate(
             outPath = ppath.join(outDir, ref.relative)
         } else {
             let foundTemplate = await findTemplate(templateName, templateDirs)
+            if (foundTemplate === undefined && templateName.includes('Entity')) {
+                // If we can't find an entity, try for a generic definition
+                templateName = templateName.replace(/.*Entity/, 'generic')
+                foundTemplate = await findTemplate(templateName, templateDirs)
+            }
             if (foundTemplate !== undefined) {
                 let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
@@ -363,10 +368,24 @@ async function processTemplates(
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
+
+                    // Look for examples in global $examples
+                    if (schema.schema.$examples) {
+                        scope.examples = schema.schema.$examples[entityName]
+                    }
+
+                    // Pick up examples from property schema
+                    if (!scope.examples && property.schema.examples && entities.length === 1) {
+                        scope.examples = property.schema.examples
+                    }
+
+                    // If neither specify, then it is up to templates
+
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
                 delete scope.entity
                 delete scope.role
+                delete scope.examples
             }
         }
         delete scope.property
