@@ -259,7 +259,7 @@ async function processTemplate(
                 if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
-                    
+
                     let filename = addPrefix(scope.prefix, templateName)
                     if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
                         try {
