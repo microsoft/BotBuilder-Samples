@@ -68,7 +68,7 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
     const templates: Templates = getTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates.allTemplates) {
-        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
+        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, `Template reference\r\n ${template.body}`);
         let templateName = template.name;
         if (buildInfunctionsMap.has(template.name)) {
             templateName = 'lg.' + template.name;
