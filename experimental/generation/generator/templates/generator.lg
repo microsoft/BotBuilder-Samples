@@ -258,7 +258,7 @@ synonyms(property))}
 - ${generateOperations(entity, examples)}
 - ELSEIF: ${values}
 - ${generateOperations(entity, values)}
-- ELSE
+- ELSE:
 - ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`])}
 
 # generateOperations(entity, values)

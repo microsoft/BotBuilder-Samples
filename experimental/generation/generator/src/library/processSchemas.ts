@@ -76,15 +76,13 @@ function mergeSchemas(allSchema: any, schemas: any[]) {
         allSchema.properties = {...allSchema.properties, ...schema.properties}
         allSchema.definitions = {...allSchema.definitions, ...schema.definitions}
         if (schema.required) allSchema.required = allSchema.required.concat(schema.required)
-        if (schema.$defaultOperation) allSchema.$defaultOperation = {...allSchema.$defaultOperation, ...schema.$defaultOperation}
+        if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
         if (schema.$examples) allSchema.$examples = {...allSchema.$examples, ...schema.$examples}
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
+        if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
         if (schema.$templateDirs) allSchema.$templateDirs = allSchema.$templateDirs.concat(schema.$templateDirs)
         if (schema.$templates) allSchema.$templates = allSchema.$templates.concat(schema.$templates)
-        
-        // Last definition wins
-        if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
     }
 }
 
@@ -111,6 +109,8 @@ function addMissingEntities(property: any, path: string) {
         let type = typeName(property)
         if (type === 'number') {
             entities = [`number:${path}`, 'number']
+        } else if (type === 'integer') {
+            entities = [`integer:${path}`, 'integer']
         } else if (type === 'string') {
             entities = [path + 'Entity', 'utterance']
         } else if (type === 'object') {
@@ -170,6 +170,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     if (!allSchema.$templates) allSchema.$templates = []
     if (!allSchema.$operations) allSchema.$operations = []
     if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
+    if (!allSchema.$examples) allSchema.$examples = []
     if (formSchema.$public) {
         allSchema.$public = formSchema.$public
     } else {

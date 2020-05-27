@@ -20,7 +20,8 @@ export enum FeedbackType {
     message,
     info,
     warning,
-    error
+    error,
+    debug
 }
 
 export type Feedback = (type: FeedbackType, message: string) => void
@@ -242,6 +243,7 @@ async function processTemplate(
         let ref = existingRef(templateName, scope.templates)
         if (ref) {
             // Simple file already existed
+            feedback(FeedbackType.debug, `Reusing ${templateName}`)
             outPath = ppath.join(outDir, ref.relative)
         } else {
             let foundTemplate = await findTemplate(templateName, templateDirs)
@@ -256,6 +258,8 @@ async function processTemplate(
                 // Ignore templates that are defined, but are empty
                 if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
+                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
+                    
                     let filename = addPrefix(scope.prefix, templateName)
                     if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
                         try {
@@ -315,9 +319,13 @@ async function processTemplate(
                         }
                     }
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
+                        feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
                         if (!Array.isArray(generated)) {
                             generated = [generated]
+                        }
+                        for (let generate of generated as any as string[]) {
+                            feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (let generate of generated as any as string[]) {
                             await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false)
@@ -657,7 +665,7 @@ export async function generate(
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         // Write final schema
-        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs') ? undefined : val)
+        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         // Merge together all dialog files
