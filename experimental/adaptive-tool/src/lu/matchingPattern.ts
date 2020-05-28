@@ -84,8 +84,8 @@ export function getMLEntities(text: string): string[] {
   }
   
   export function isEntityName(content: string): boolean {
-    const hasNameEntifyDef = /^\s*@\s*(ml|list|regex|prebuilt|composite|patternany|phraselist)\s*([\w._]+|"[\w._\s]+")\s*$/;
-    const hasTypeEntityDef = /^\s*@\s*(ml|list|regex|prebuilt|composite|patternany|phraselist|intent)\s*$/;
+    const hasNameEntifyDef = /^\s*@\s*(ml|list|regex|prebuilt|composite|patternany|phraseList)\s*([\w._]+|"[\w._\s]+")\s*$/;
+    const hasTypeEntityDef = /^\s*@\s*(ml|list|regex|prebuilt|composite|patternany|phraseList|intent)\s*$/;
     const hasNameEntifyDef2 = /^\s*@\s*([\w._]+|"[\w._\s]+")\s*$/;
     return hasNameEntifyDef.test(content) || (!hasTypeEntityDef.test(content) && hasNameEntifyDef2.test(content));
   }
@@ -112,6 +112,11 @@ export function getMLEntities(text: string): string[] {
     const regexRolesEntityPatternDef2 = /^\s*-.*{\s*@\s*}\s*$/;
     return regexRolesEntityPatternDef.test(content) || regexRolesEntityPatternDef2.test(content);
   }
+
+  export function isPhraseListEntity(content: string): boolean {
+    const phraseListEntityPatternDef = /^\s*@\s*phraselist\s*[\w]+\s*\(\s*$/i;
+    return phraseListEntityPatternDef.test(content);
+  }
   
   export function getRegexEntities(luisJson: any): string[] {
     const suggestionRegexList: string[] = [];
@@ -132,14 +137,14 @@ export function getMLEntities(text: string): string[] {
       suggestionEntityTypes.forEach(entityType => {
         if (luisJson[entityType] !== undefined && luisJson[entityType].length > 0) {
           luisJson[entityType].forEach(entity => {
-            if (entity) {
+            if (entity.name) {
               suggestionEntityList.push(entity.name);
             }
           });
         }
       });
     }
-  
+
     return suggestionEntityList;
   }
   
