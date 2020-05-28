@@ -29,11 +29,20 @@ ${askHelp()}
 Enter a value for ${displayName(property)}
 ```
 
+# askStringArray(property)
+-```
+${askHelp()}
+What values do you want to add for ${displayName(property)}?
+```
+
 # askBoolean(property)
 - ```
 ${askHelp()}
 Enter a value for ${displayName(property)}: true or false
 ```
+
+# arrayValue(property, values)
+- ${if(isArray(values), join(values, ', '), values)}
 
 # enumArrayValue(property, values)
 - ${if(isArray(values), join(foreach(values, value, template(`${property}Entity`, value)), ', '), template(`${property}Entity`, values))}

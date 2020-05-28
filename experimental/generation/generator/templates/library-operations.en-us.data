@@ -87,7 +87,7 @@
 - {@AddTo${property}=add ${label}, ${label} and ${label} ${propertyName}} {@RemoveFrom${property}=remove ${label} and ${label} ${propertyName}}
 - {@AddTo${property}=add ${label} ${propertyName}}{@RemoveFrom${property}=, remove ${label} ${propertyName}} {@Show${property}=and show ${propertyName}}
 - {@RemoveFrom${property}=remove ${label} ${propertyName}} {@AddTo${property}=and add ${label} ${propertyName}}
-- {@RemoveFrom${property}=remove ${label} and ${label} ${propertyName}} {@AddTo${property}=and add ${label ${propertyName}}
+- {@RemoveFrom${property}=remove ${label} and ${label} ${propertyName}} {@AddTo${property}=and add ${label} ${propertyName}}
 - {@RemoveFrom${property}=remove ${label}, ${label} and ${label} ${propertyName}} {@AddTo${property}=and add ${label} and ${label} ${propertyName}}
 - {@RemoveFrom${property}=remove ${label} ${propertyName}}{@AddTo${property}=, add ${label} ${propertyName}} {@Show${property}=and show ${propertyName}}
 - {@Show${property}=display ${propertyName}} {@RemoveFrom${property}=remove ${label} ${propertyName}} {@AddTo${property}=and add ${label} ${propertyName}}

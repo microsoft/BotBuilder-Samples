@@ -1,0 +1,25 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${importLG(`${property}Entity`)}
+${importLG('library')}
+${importLG('library-Missing')}
+${AskTemplate()}
+${nameTemplate()}
+${ValueTemplate()}
+```
+
+# AskTemplate
+- ```
+${'#'} Ask${property}
+- \${askArray('${property}')}```
+
+# ValueTemplate
+- ```
+${'#'} ${property}(values)
+- \${arrayValue('${property}', values)}```
+

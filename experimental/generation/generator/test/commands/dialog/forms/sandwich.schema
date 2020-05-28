@@ -2,6 +2,16 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "properties": {
+        "Friends": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "$entities": [
+                "personName",
+                "utterance"
+            ]
+        },
         "Quantity": {
             "type": "integer",
             "minimum": 1,
