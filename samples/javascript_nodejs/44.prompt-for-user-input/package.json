@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-suite": "~1.3.0",
-        "botbuilder": "~4.9.0",
+        "botbuilder": "~4.9.1",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },
