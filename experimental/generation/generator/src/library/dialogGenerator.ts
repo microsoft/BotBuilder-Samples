@@ -20,7 +20,8 @@ export enum FeedbackType {
     message,
     info,
     warning,
-    error
+    error,
+    debug
 }
 
 export type Feedback = (type: FeedbackType, message: string) => void
@@ -242,15 +243,23 @@ async function processTemplate(
         let ref = existingRef(templateName, scope.templates)
         if (ref) {
             // Simple file already existed
+            feedback(FeedbackType.debug, `Reusing ${templateName}`)
             outPath = ppath.join(outDir, ref.relative)
         } else {
             let foundTemplate = await findTemplate(templateName, templateDirs)
+            if (foundTemplate === undefined && templateName.includes('Entity')) {
+                // If we can't find an entity, try for a generic definition
+                templateName = templateName.replace(/.*Entity/, 'generic')
+                foundTemplate = await findTemplate(templateName, templateDirs)
+            }
             if (foundTemplate !== undefined) {
                 let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
                 if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
+                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
+
                     let filename = addPrefix(scope.prefix, templateName)
                     if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
                         try {
@@ -310,9 +319,13 @@ async function processTemplate(
                         }
                     }
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
+                        feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
                         if (!Array.isArray(generated)) {
                             generated = [generated]
+                        }
+                        for (let generate of generated as any as string[]) {
+                            feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (let generate of generated as any as string[]) {
                             await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false)
@@ -363,10 +376,24 @@ async function processTemplates(
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
+
+                    // Look for examples in global $examples
+                    if (schema.schema.$examples) {
+                        scope.examples = schema.schema.$examples[entityName]
+                    }
+
+                    // Pick up examples from property schema
+                    if (!scope.examples && property.schema.examples && entities.length === 1) {
+                        scope.examples = property.schema.examples
+                    }
+
+                    // If neither specify, then it is up to templates
+
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
                 delete scope.entity
                 delete scope.role
+                delete scope.examples
             }
         }
         delete scope.property
@@ -638,7 +665,7 @@ export async function generate(
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         // Write final schema
-        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs') ? undefined : val)
+        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         // Merge together all dialog files

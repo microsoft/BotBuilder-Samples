@@ -2,7 +2,10 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "money": {
         "type": "object",
-        "$entities": ["${concat('money:', property)}", "money"],
+        "$entities": [
+            "${concat('money:', property)}",
+            "money"
+        ],
         "properties": {
             "number": {
                 "type": "number"
@@ -11,7 +14,18 @@
                 "type": "string"
             }
         },
-        "required": ["number", "units"],
-        "$templates": ["moneyEntity.lu","objectProperty.lg", "string-missing.dialog","moneyEntity-add.dialog", "moneyEntity-remove.dialog", "moneyEntity-clear.dialog", "moneyEntity-show.dialog"]
+        "required": [
+            "number",
+            "units"
+        ],
+        "$templates": [
+            "moneyEntity.lu",
+            "objectProperty.lg",
+            "string-missing.dialog",
+            "moneyEntity-add.dialog",
+            "moneyEntity-remove.dialog",
+            "moneyEntity-clear.dialog",
+            "moneyEntity-show.dialog"
+        ]
     }
 }

@@ -95,7 +95,11 @@
         "Sauces",
         "Price"
     ],
-    "$requires": [
-        "standard.schema"
-    ]
+    "$examples": {
+        "personName": [
+            "Bart Simpson",
+            "Thomas Matthews",
+            "Christopher Robin"
+        ]
+    }
 }

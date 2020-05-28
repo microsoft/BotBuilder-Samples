@@ -4,7 +4,7 @@
 - ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
 
 # template
-- ${join(flatten(createArray(namePlusSwitch(), allCases(), default())), EOL())}
+- ${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
 
 # namePlusSwitch
 -```

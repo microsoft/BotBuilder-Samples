@@ -4,6 +4,7 @@
 # template
 -```#!/bin/sh
 region=$1
+thisdir="$(dirname $0)"
 if [ -z "$region" ]; then
     region="westus"
 fi
@@ -13,7 +14,7 @@ if [ -n "$key" ]; then
     key="--authoringKey $key"
 fi
 
-bf luis:build --luConfig luconfig.json --region=$region $key
+bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir
 res=$?
 
 if [ $res != 0 ]; then

@@ -18,7 +18,7 @@ ${'#'} choose${property}Entity
 ```
 
 # propertyEntity
-- ${join(createArray(namePlusSwitch(), cases(), default()), '')}
+- ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch
 -```

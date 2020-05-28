@@ -5,7 +5,7 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 
-import { expect, test } from '@oclif/test';
+import {expect, test} from '@oclif/test';
 import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
@@ -15,7 +15,9 @@ import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
 
 function feedback(type: gen.FeedbackType, msg: string) {
-    console.log(`${type}: ${msg}`)
+    if (type !== gen.FeedbackType.debug) {
+        console.log(`${type}: ${msg}`)
+    }
 }
 
 describe('dialog:generate', async () => {
@@ -43,7 +45,7 @@ describe('dialog:generate', async () => {
 
         await gen.writeFile(lufile, lu, feedback, true)
         assert(!await gen.isUnchanged(lufile))
-        
+
         await gen.writeFile(lufile, lu, feedback)
         assert(await gen.isUnchanged(lufile))
         lu = await fs.readFile(lufile, 'utf-8')
@@ -51,7 +53,7 @@ describe('dialog:generate', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = { $comment: 'this is a .dialog file' }
+        let dialog = {$comment: 'this is a .dialog file'}
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)

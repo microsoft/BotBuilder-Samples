@@ -4,19 +4,20 @@
 # template
 -```#!/bin/sh
 result=1
+thisdir="$( cd "$( dirname "$0" )" && pwd )"
 if [ -n "$REPOS" ]; then
-    set region=%1
+    set region=$1
     if [ -z "$region" ]; then
         set region=westus
     fi
 
-    if [ !-f luis.settings.* ]; then
-        ./build %1 %2
+    if [ ! -f luis.settings.* ]; then
+        ($thisdir/build $1 $2)
     fi
 
     if [ -f luis.settings.* ]; then
-        nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet > /dev/null
-        dotnet run --project $REPOS/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj --root $PWD --region $region
+        nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet > /dev/null 2>&1
+        dotnet run --project $REPOS/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj --root $thisdir --region $region
         result = $?
     fi
 fi

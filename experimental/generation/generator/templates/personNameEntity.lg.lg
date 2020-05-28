@@ -4,8 +4,4 @@
 - ${entityLGFilename()}
 
 # template
--```
-${'#'} ${property}Entity(val)
-- \${val}
-```
-
+- ${entityDisplay()}

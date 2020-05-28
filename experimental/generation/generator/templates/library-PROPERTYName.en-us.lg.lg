@@ -4,7 +4,7 @@
 - ${locale}/library/${prefix}-library-PROPERTYName.${locale}.lg
 
 # template
-- ${join(createArray(namePlusSwitch(), cases(), default()), EOL())}
+- ${join([namePlusSwitch(), cases(), default()], EOL())}
 
 # namePlusSwitch
 -```

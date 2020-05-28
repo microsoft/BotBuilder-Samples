@@ -9,14 +9,14 @@ set region=%1
 if "%region%" EQU "" set region=westus
 
 if exist luis.settings.* goto run
-call build.cmd %1 %2
+call %~dp0build.cmd %1 %2
 if not exist luis.settings.* goto done
 
 :run
 call nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet 2> nul
 dotnet run --project %REPOS%/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj --root %~dp0 --region %region%
 
-if %errorlevel% EQ 0 goto done
+if %errorlevel% EQU 0 goto done
 
 :help
 echo In order to use this script you must:

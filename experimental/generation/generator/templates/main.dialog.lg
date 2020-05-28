@@ -7,6 +7,7 @@
 - ```
 {
     "$schema": "${appSchema}",
+    "id": "${prefix}",
     "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": "${prefix}.lu",
     "generator": "${prefix}.lg",
