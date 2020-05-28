@@ -1,0 +1,52 @@
+> This file contains the generic templates to use for properties of particular types.
+[library-PROPERTYName.en-us.lg]
+
+> This is to provide consistent line endings in templates using Windows standard
+# EOL
+-\n
+
+# welcome
+- Welcome!
+
+# displayName(property)
+- ${template(`${property}Name`)}
+
+# displayValue(property, val)
+- ${template(property, val)}
+
+# enumEntityValue(property, val)
+- ${template(`${property}Entity`, val)}
+
+# publicProperties
+-${dialogClass.schema.$public}
+
+# requiredProperties
+- IF: ${count(dialogClass.schema.required) > 0}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, displayName(property)), ',')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, displayName(property)), ', ')}${EOL()}
+- ELSE:
+- 
+
+# possibleValues(property)
+- ${foreach(dialogClass.schema.properties[property].enum, enum, displayValue(property, enum))}
+
+# possibleArrayValues(property)
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, displayValue(property, enum))}
+
+# cancel
+- Do you want to end the conversation? (yes/no)
+
+# confirmChange
+- Is there any property you want to change? (no or the property name)
+
+# chooseProperty
+- Which property do you want to change?
+
+# notUnderstood
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
+

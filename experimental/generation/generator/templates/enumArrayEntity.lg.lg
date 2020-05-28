@@ -1,0 +1,42 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${entityLGFilename()}
+
+# template
+- ```
+${importLG('library')}
+${importLG('library-Choose')}
+${propertyEntity()}
+${chooseEntity()}
+
+```
+
+# chooseEntity
+- ```
+${'#'} choose${property}Entity
+- \${chooseEnumArrayEntity(${concat("'", property, "'")})}
+```
+
+# propertyEntity
+- ${join([namePlusSwitch(), cases(), default()], EOL())}${EOL()}
+
+# namePlusSwitch
+-```
+${'#'} ${property}Entity(value) 
+- SWITCH: \${value}```
+
+# case(option)
+-```
+  - CASE: \${'${option}'} 
+    - ${phrase(option)}```
+
+# cases
+- ${join(foreach(schema.properties[property].items.enum, enum, case(enum)), '')}
+
+# default
+- ```
+  - DEFAULT: 
+    - no value
+```
+

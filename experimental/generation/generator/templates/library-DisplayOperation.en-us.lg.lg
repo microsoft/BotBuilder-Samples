@@ -1,0 +1,26 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
+
+# template
+- ${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
+
+# namePlusSwitch
+-```
+${'#'} displayOperation(op) 
+- SWITCH: \${op}```
+
+# case(option)
+-```    - CASE: \${'${option}'} 
+        - ${phrase(option)}```
+
+# cases(property)
+- ${[case(`AddTo${property}`), case(`RemoveFrom${property}`), case(`Show${property}`), case(`Clear${property}`)]}
+
+# allCases
+- ${foreach(properties, property, cases(property))}
+
+# default
+-```    - DEFAULT: 
+        - I don't understand \${op}```

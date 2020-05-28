@@ -6,26 +6,20 @@ const { DialogBot } = require('./dialogBot');
 const WelcomeCard = require('./resources/welcomeCard.json');
 
 class DialogAndWelcomeBot extends DialogBot {
-    /**
-     * @param {ConversationState} conversationState
-     * @param {UserState} userState
-     * @param {Dialog} dialog
-     */
     constructor(conversationState, userState, dialog) {
         super(conversationState, userState, dialog);
 
-        this.onMembersAdded(async (turnContext, next) => {
-            const membersAdded = turnContext.activity.membersAdded;
-
-            for (let pos = 0; pos < membersAdded.length; pos++) {
-                if (membersAdded[pos].id !== turnContext.activity.recipient.id) {
+        this.onMembersAdded(async (context, next) => {
+            const membersAdded = context.activity.membersAdded;
+            for (let cnt = 0; cnt < membersAdded.length; cnt++) {
+                if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const welcomeCard = CardFactory.adaptiveCard(WelcomeCard);
-
-                    await turnContext.sendActivity({ attachments: [welcomeCard] });
-                    await dialog.run(turnContext, conversationState.createProperty('DialogState'));
+                    await context.sendActivity({ attachments: [welcomeCard] });
+                    await dialog.run(context, conversationState.createProperty('DialogState'));
                 }
             }
-            // Ensure next BotHandler is executed.
+
+            // By calling next() you ensure that the next BotHandler is run.
             await next();
         });
     }

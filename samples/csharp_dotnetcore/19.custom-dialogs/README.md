@@ -8,7 +8,7 @@ BotFramework provides a built-in base class called `Dialog`. By subclassing `Dia
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version

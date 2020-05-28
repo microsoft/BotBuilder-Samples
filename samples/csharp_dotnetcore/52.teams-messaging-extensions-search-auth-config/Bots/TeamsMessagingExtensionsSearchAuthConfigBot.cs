@@ -3,16 +3,17 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -251,15 +252,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     {
                         Value = new TaskModuleTaskInfo
                         {
-                            Card = new Attachment
-                            {
-                                Content = new AdaptiveCard(new AdaptiveSchemaVersion("1.0"))
-                                {
-                                    Body = new List<AdaptiveElement>() { new AdaptiveTextBlock() { Text = "You have been signed out." } },
-                                    Actions = new List<AdaptiveAction>() { new AdaptiveSubmitAction() { Title = "Close" } },
-                                },
-                                ContentType = AdaptiveCard.ContentType,
-                            },
+                            Card = CreateAdaptiveCardAttachment(),
                             Height = 200,
                             Width = 400,
                             Title = "Adaptive Card: Inputs",
@@ -268,6 +261,20 @@ namespace Microsoft.BotBuilderSamples.Bots
                 };
             }
             return null;
+        }
+
+        private static Attachment CreateAdaptiveCardAttachment()
+        {
+            // combine path for cross platform support
+            string[] paths = { ".", "Resources", "adaptiveCard.json" };
+            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
+
+            var adaptiveCardAttachment = new Attachment()
+            {
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
+            };
+            return adaptiveCardAttachment;
         }
 
         // Generate a set of substrings to illustrate the idea of a set of results coming back from a query. 

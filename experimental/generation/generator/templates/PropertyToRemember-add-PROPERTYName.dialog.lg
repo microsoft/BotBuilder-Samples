@@ -1,0 +1,21 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${libraryFilename('PropertyToRemember-add-PROPERTYName.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "SetPropertyToRemember",
+    "entity": "PROPERTYName",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$PropertyToRemember",
+            "value": "=@PROPERTYName"        
+        }
+    ]
+}
+```

@@ -1,0 +1,8 @@
+[generator.lg](generator.lg)
+
+# entities
+- ${roleEntities('string')}
+
+# templates
+- ${flatten(['stringEntity.lg', 'stringEntity.lu', propertyTemplates()])}
+

@@ -1,0 +1,15 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# SomethingWentWrong
+- ${ErrorPrefix()}, ${ErrorSuffix()}\nError:${Message}
+
+# ErrorSuffix
+- on dirait que quelque chose s'est mal passé.
+- J'ai l'air d'avoir rencontré un hic. Il faut tout recommencer. 
+- quelque chose ne va pas. Il faut tout recommencer. 
+
+# ErrorPrefix
+- Oups
+- Pardon
+- Je m'excuse

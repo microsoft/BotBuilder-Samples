@@ -75,10 +75,9 @@ async function sendErrorMessage(context, error) {
 
 async function endSkillConversation(context) {
     try {
-        // Inform the active skill that the conversation is ended so that it has
-        // a chance to clean up.
-        // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
-        // forwarded to a Skill.
+        // Inform the active skill that the conversation is ended so that it has a chance to clean up.
+        // Note: the root bot manages the ActiveSkillPropertyName, which has a value while the root bot
+        // has an active conversation with a skill.
         const activeSkill = await conversationState.createProperty(mainDialog.ActiveSkillPropertyName).get(context);
         if (activeSkill) {
             const botId = process.env.MicrosoftAppId;
@@ -102,7 +101,7 @@ async function clearConversationState(context) {
     try {
         // Delete the conversationState for the current conversation to prevent the
         // bot from getting stuck in a error-loop caused by being in a bad state.
-        // ConversationState should be thought of as similar to "cookie-state" in a Web page.
+        // ConversationState should be thought of as similar to "cookie-state" for a Web page.
         await conversationState.delete(context);
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);

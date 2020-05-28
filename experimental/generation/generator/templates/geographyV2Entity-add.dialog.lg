@@ -1,0 +1,26 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${addFilename('geographyV2')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "AddTo${property}",
+    "entity": "geographyV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${setObjectPropertyMessage('${property}', @geographyV2)}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=@geographyV2"          
+        }
+    ]               
+}
+```
+

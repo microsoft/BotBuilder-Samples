@@ -1,8 +1,12 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import { config } from 'dotenv';
 import * as path from 'path';
+
+import { config } from 'dotenv';
+const ENV_FILE = path.join(__dirname, '..', '.env');
+config({ path: ENV_FILE });
+
 import * as restify from 'restify';
 
 // Import required bot services.
@@ -12,8 +16,6 @@ import { BotFrameworkAdapter } from 'botbuilder';
 // This bot's main dialog.
 import { EchoBot } from './bot';
 
-const ENV_FILE = path.join(__dirname, '..', '.env');
-config({ path: ENV_FILE });
 
 // Create HTTP server.
 const server = restify.createServer();

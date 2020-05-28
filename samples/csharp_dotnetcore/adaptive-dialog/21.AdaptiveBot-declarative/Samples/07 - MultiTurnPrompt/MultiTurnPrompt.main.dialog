@@ -1,0 +1,67 @@
+{
+    "$schema": "../../app.schema",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "generator": "multiTurnPrompt.lg",
+    "autoEndDialog": "false",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnBeginDialog",
+            "actions": [
+                {
+                    "$kind":"Microsoft.TextInput",
+                    "prompt": "${ModeOfTransportPrompt()}",
+                    "property": "user.userProfile.Transport"
+                },
+                {
+                    "$kind": "Microsoft.TextInput",
+                    "prompt": "${AskForName()}",
+                    "property": "user.userProfile.Name"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${AckName()}"
+                },
+                {
+                    "$kind": "Microsoft.ConfirmInput",
+                    "prompt": "${AgeConfirmPrompt()}",
+                    "property": "turn.ageConfirmation"
+                },
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "turn.ageConfirmation == true",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.NumberInput",
+                            "prompt": "${AskForAge()}",
+                            "property": "user.userProfile.Age",
+                            "validations": [
+                                "int(this.value) >= 1",
+                                "int(this.value) <= 150"
+                            ],
+                            "invalidPrompt": "${AskForAge.invalid()}",
+                            "unrecognizedPrompt": "${AskForAge.unRecognized()}"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "${NoAge()}"
+                        }
+                    ]
+                },
+                {
+                    "$kind": "Microsoft.ConfirmInput",
+                    "prompt": "${ConfirmPrompt()}",
+                    "property": "turn.finalConfirmation"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${FinalUserProfileReadOut()}"
+                },
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ]
+        }
+    ]
+}

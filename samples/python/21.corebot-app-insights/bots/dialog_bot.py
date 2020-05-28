@@ -10,7 +10,7 @@ from botbuilder.core import (
     BotTelemetryClient,
     NullTelemetryClient,
 )
-from botbuilder.dialogs import Dialog
+from botbuilder.dialogs import Dialog, DialogExtensions
 from helpers.dialog_helper import DialogHelper
 
 
@@ -38,19 +38,16 @@ class DialogBot(ActivityHandler):
         self.dialog = dialog
         self.telemetry_client = telemetry_client
 
-    async def on_turn(self, turn_context: TurnContext):
-        await super().on_turn(turn_context)
-
-        # Save any state changes that might have occured during the turn.
-        await self.conversation_state.save_changes(turn_context, False)
-        await self.user_state.save_changes(turn_context, False)
-
     async def on_message_activity(self, turn_context: TurnContext):
-        await DialogHelper.run_dialog(
+        await DialogExtensions.run_dialog(
             self.dialog,
             turn_context,
             self.conversation_state.create_property("DialogState"),
         )
+
+        # Save any state changes that might have occured during the turn.
+        await self.conversation_state.save_changes(turn_context, False)
+        await self.user_state.save_changes(turn_context, False)
 
     @property
     def telemetry_client(self) -> BotTelemetryClient:
