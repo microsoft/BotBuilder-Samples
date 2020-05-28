@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.9.1"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.2"/>
     </CustomParameters>
     <Project File="EmptyBot.csproj" ReplaceParameters="true">
       <Folder Name="controllers" TargetFolderName="Controllers">
@@ -43,7 +43,7 @@
       <ProjectItem ReplaceParameters="false">appsettings.Development.json</ProjectItem>
       <ProjectItem ReplaceParameters="false">appsettings.json</ProjectItem>
 
-      <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.cs">EmptyBot.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">EmptyBot.cs</ProjectItem>
 
       <ProjectItem ReplaceParameters="true">Program.cs</ProjectItem>
       <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
