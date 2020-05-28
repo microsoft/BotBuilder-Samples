@@ -64,7 +64,7 @@ ${'#'} ${property}(val)
 
 # entityDisplay
 -```
-> How to display an ${property}Entiy value
+> How to display an ${property}Entity value
 ${'#'} ${property}Entity(val)
  - IF: \${val}
  - \${val}
@@ -77,7 +77,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddTo${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -108,7 +108,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddTo${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -140,7 +140,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFrom${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
 
@@ -167,7 +167,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFrom${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -189,8 +189,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Clear${property}",
-    "property": "${property}",
+    "operation": "Clear(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -209,8 +208,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Show${Property}",
-    "property": "${Property}",
+    "operation": "Show(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -264,15 +262,15 @@ synonyms(property))}
 # generateOperations(entity, values)
 -```
 > Define operations for property
-@ml AddTo${property} = 
+@ml Add(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
-@ml RemoveFrom${property} = 
+@ml Remove(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
-@ml Clear${property} =
+@ml Clear(${property}) =
     - @PROPERTYName PROPERTYName
-@ml Show${property} =
+@ml Show(${property}) =
     - @PROPERTYName PROPERTYName
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
@@ -316,10 +314,10 @@ ${substitutions(`library-operations.${locale}.data`,
 > Schema definitions
 
 # schemaOperations
-- ${flatten(foreach(properties, property, [`AddTo${property}`, `RemoveFrom${property}`, `Clear${property}`, `Show${property}`]))}
+- ${flatten(foreach(properties, property, [`Add(${property})`, `Remove(${property})`, `Clear(${property})`, `Show(${property})`]))}
 
 # schemaDefaultOperation
 - ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
 
 # schemaDefaultOperationEntities(property)
-- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "AddTo${property}"`), ','), '}')}
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}

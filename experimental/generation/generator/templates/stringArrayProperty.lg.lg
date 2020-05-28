@@ -16,7 +16,7 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 ${'#'} Ask${property}
-- \${askArray('${property}')}```
+- \${askStringArray('${property}')}```
 
 # ValueTemplate
 - ```

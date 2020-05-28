@@ -42,7 +42,7 @@ Enter a value for ${displayName(property)}: true or false
 ```
 
 # arrayValue(property, values)
-- ${if(isArray(values), join(values, ', '), values)}
+- ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
 # enumArrayValue(property, values)
 - ${if(isArray(values), join(foreach(values, value, template(`${property}Entity`, value)), ', '), template(`${property}Entity`, values))}
