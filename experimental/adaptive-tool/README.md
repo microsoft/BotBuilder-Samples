@@ -1,24 +1,14 @@
 # Bot Framework Adaptive Tool
 
-## Get started
-- `npm install`
-- `npm run build`
-- `npm install -g vsce`, if `vsce` is not installed globally.
-- run `vsce package` to export vsix file
-- open vscode and navigate to extension tab
-- select 'install from VSIX...'
-- pick exported vsix file, and restart vscode if needed
-- edit a lg file, try some features
-- press `F1` then type `LG live test` to start LG webview test
-
 ## Features
-### Debugging
+### Debug adaptive dialogs
 [Setting up](#set_up)
-- supporting adaptive dialog breaking point
-- support LG template breaking points
-- support Expression breaking points
 
-### Syntax highlighting, auto-suggest, auto complete functionality
+- Supports break points in .dialog files (adaptive dialog)
+- Supports break points in .lg files
+- Supports break points in adaptive expressions
+
+### Syntax highlighting, diagnostic check, auto-suggest, functionality
 #### .lu documents
 - syntax highlighting
 ![lu_syntax_highlighting](./resources/images/lu_syntax_highlighting.png)
@@ -26,6 +16,7 @@
 ![lu_diagnostic](./resources/images/lu_diagnostic.png)
 - completion 
 ![lu_completion](./resources/images/lu_completion.gif)
+
 #### .lg documents
 - syntax highlighting
 ![lg_syntax_highlighting](./resources/images/lg_syntax_highlighting.png)
@@ -65,7 +56,32 @@ You can do that by the **add a configuration** in the debug panel.
 There should be 2 configuration templates available:
 
 * **Bot: Launch .NET Core Configuration** - Configuration for building and launching your bot via **dotnet run** and connecting to it
+Example is:
+```json
+        {
+            "type": "bot",
+            "request": "launch",
+            "name": "Debug Bot (.NET Core)",
+            "command": "dotnet",
+            "args": [
+                "run",
+                "--no-build",
+                "--",
+                "--debugport",
+                "0"
+            ]
+        }
+```
 * **Bot: Attach Configuration** - Configuration for attaching to the debug port of an already running bot (such as IIS express)
+Example is:
+```json
+        {
+            "type": "bot",
+            "request": "attach",
+            "name": "Attach to Dialog",
+            "debugServer": 4712
+        }
+```
 
 ### Using
 
@@ -73,6 +89,7 @@ There should be 2 configuration templates available:
 * Hit F5 to start debugger.
 
 As you interact with the bot your breakpoint should hit and you should be able to inspect memory, call context, etc.
+![debugging state](./resources/images/debugging.png)
 
 ### Troubleshooting
 There are 2 places your bot can be running depending on the tools you are using.
@@ -82,9 +99,4 @@ There are 2 places your bot can be running depending on the tools you are using.
 
 If you are switching between environments make sure you are talking to the right instance of your bot.
 
-## Contribute
-- `npm install` to install packages
-- `npm run build`
-- press `F5` to start debug
-- reference doc: [vscode extension](https://code.visualstudio.com/api/language-extensions/overview)
 
