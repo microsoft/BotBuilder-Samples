@@ -22,7 +22,7 @@ ${'#'} ${property}_Prompt
 
 # ValueTemplate
 - ```
-> Template for generating display text for the value of '${property}' property.
+> Template for generating display text for the value of the '${property}' property.
 ${'#'} ${property}_DisplayValue(val)
 - \${${property}Entity_DisplayValue(val)}
 ```
