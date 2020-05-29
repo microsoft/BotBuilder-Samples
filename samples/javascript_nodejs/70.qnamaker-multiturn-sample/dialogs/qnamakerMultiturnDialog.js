@@ -30,7 +30,7 @@ const PreviousQnAId = 'prevQnAId';
 
 /// QnA Maker dialog.
 const QNAMAKER_DIALOG = 'qnamaker-dialog';
-const QNAMAKER_MULTITURN_DIALOG = 'qnamaker-multiturn-dailog';
+const QNAMAKER_MULTITURN_DIALOG = 'qnamaker-multiturn-dialog';
 
 class QnAMakerMultiturnDialog extends ComponentDialog {
     /**
