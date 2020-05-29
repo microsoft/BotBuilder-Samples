@@ -283,7 +283,7 @@ synonyms(property))}
 @ml Show(${property}) =
     - @PROPERTYName PROPERTYName
 
-> Add operations for the '${property}' property to the operation intent '${triggerIntent}'.
+> Add examples for operations on the '${property}' property to the operation intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
     json(`{"propertyName": ${propertyList(property)}, 
