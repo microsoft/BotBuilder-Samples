@@ -161,7 +161,7 @@ describe('dialog:generate --merge', async function () {
     let mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
 
     function errorOnly(type: gen.FeedbackType, msg: string): void {
-        if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
+        if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
             assert.fail(`${type}: ${msg}`)
         }
     }
@@ -170,7 +170,7 @@ describe('dialog:generate --merge', async function () {
         if (type !== gen.FeedbackType.debug) {
             console.log(`${type}: ${msg}`)
         }
-        if (type === gen.FeedbackType.warning || type === gen.FeedbackType.error) {
+        if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
             assert.fail(`${type}: ${msg}`)
         }
     }
