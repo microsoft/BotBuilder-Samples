@@ -106,7 +106,7 @@ export class Schema {
     }
 
     triggerIntent(): string {
-        return this.schema.$triggerIntent || `${this.name()}Operation`;
+        return this.schema.$triggerIntent || this.name();
     }
 
     /**
