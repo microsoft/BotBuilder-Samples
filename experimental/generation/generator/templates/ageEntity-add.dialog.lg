@@ -20,7 +20,8 @@
             "property": "$${property}",
             "value": "=@age"          
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'age')}
 }
 ```
 

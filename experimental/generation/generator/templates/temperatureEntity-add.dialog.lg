@@ -21,6 +21,7 @@
             "value": "=@temperature"          
         }
     ]               
+    ${designerOpEntity('Add', 'temperature')}     
 }
 ```
 

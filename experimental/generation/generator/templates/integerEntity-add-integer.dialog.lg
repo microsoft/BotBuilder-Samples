@@ -32,8 +32,8 @@
                 }
             ]
         }
-        
     ]               
+    ${designerOpEntity('Add', number)}     
 }
 ```
 

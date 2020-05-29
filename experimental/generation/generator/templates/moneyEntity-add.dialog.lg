@@ -21,6 +21,7 @@
             "value": "=@money"          
         }
     ]               
+    ${designerOpEntity('Add', 'money')}     
 }
 ```
 

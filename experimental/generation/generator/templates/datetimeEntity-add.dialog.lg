@@ -20,7 +20,8 @@
             "property": "$${property}",
             "value": "=@datetime"          
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'datetime')}
 }
 ```
 

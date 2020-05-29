@@ -21,6 +21,7 @@
             "value": "=@geographyV2"          
         }
     ]               
+    ${designerOpEntity('Add', 'geographyV2')}     
 }
 ```
 

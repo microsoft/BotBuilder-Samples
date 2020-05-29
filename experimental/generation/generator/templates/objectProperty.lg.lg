@@ -14,13 +14,13 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
-${'#'} Ask${property}
+${'#'} ${property}_Prompt
 - \${askString('${property}')}
 ```
 
 # ValueTemplate
 -```
-${'#'} ${property}(val)
+${'#'} ${property}_DisplayValue(val)
 - IF: \${val}
 - \${join(foreach(indicesAndValues(val), entry, entry.value), ' ')}
 - ELSE:

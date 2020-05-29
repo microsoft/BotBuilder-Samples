@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # template
 - ```
 {
@@ -10,5 +12,6 @@
             "expectedProperties": ["PropertyToChange"]
         }
     ]
+    ${designerChooseProperty('PropertyToChange')}
 }
 ```

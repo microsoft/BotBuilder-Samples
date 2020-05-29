@@ -32,7 +32,8 @@
                 }
             ]
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'number')}             
 }
 ```
 

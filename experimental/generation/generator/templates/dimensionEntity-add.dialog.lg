@@ -21,6 +21,7 @@
             "value": "=@dimension"          
         }
     ]               
+    ${designerOpEntity('Add', 'dimension')}      
 }
 ```
 

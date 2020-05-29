@@ -9,7 +9,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "SetPropertyToChange",
+    "operation": "Set(PropertyToChange)",
     "entity": "PROPERTYName",
     "actions": [
         {
@@ -17,5 +17,6 @@
             "property": "dialog[@PROPERTYName]"            
         }
     ]
+    ${designerOpEntityProperty('Set', 'PROPERTYName', 'PropertyToChange')}     
 }
 ```

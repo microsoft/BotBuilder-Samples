@@ -9,13 +9,13 @@
 - Welcome!
 
 # displayName(property)
-- ${template(`${property}Name`)}
+- ${template(`${property}_DisplayName`)}
 
 # displayValue(property, val)
-- ${template(property, val)}
+- ${template(`${property}_DisplayValue`, val)}
 
 # enumEntityValue(property, val)
-- ${template(`${property}Entity`, val)}
+- ${template(`${property}Entity_DisplayValue`, val)}
 
 # publicProperties
 -${dialogClass.schema.$public}
