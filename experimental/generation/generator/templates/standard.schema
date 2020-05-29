@@ -56,30 +56,30 @@
         }
     },
     "$operations": [
-        "SetCancelConfirmation",
-        "SetChangePropertyConfirmation",
-        "SetCompleteConfirmation",
-        "SetPropertyToChange",
-        "SetPropertyToRemember",
+        "Set(CancelConfirmation)",
+        "Set(ChangePropertyConfirmation)",
+        "Set(CompleteConfirmation)",
+        "Set(PropertyToChange)",
+        "Set(PropertyToRemember)",
         "${schemaOperations()}"
     ],
     "$defaultOperation": [
         {
             "CancelConfirmation": {
-                "boolean": "SetCancelConfirmation"
+                "boolean": "Set(CancelConfirmation)"
             },
             "ChangePropertyConfirmation": {
-                "boolean": "SetChangePropertyConfirmation"
+                "boolean": "Set(ChangePropertyConfirmation)"
             },
             "CompleteConfirmation": {
-                "boolean": "SetCompleteConfirmation",
-                "PROPERTYName": "SetPropertyToChange"
+                "boolean": "Set(CompleteConfirmation)",
+                "PROPERTYName": "Set(PropertyToChange)"
             },
             "PropertyToChange": {
-                "PROPERTYName": "SetPropertyToChange"
+                "PROPERTYName": "Set(PropertyToChange)"
             },
             "PropertyToRemember": {
-                "PROPERTYName": "SetPropertyToRemember"
+                "PROPERTYName": "Set(PropertyToRemember)"
             }
         },
         "${schemaDefaultOperation()}"

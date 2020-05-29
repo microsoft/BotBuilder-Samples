@@ -49,13 +49,13 @@
 # nameTemplate
 -```
 > How to display the name of ${property}
-${'#'} ${property}Name
+${'#'} ${property}_DisplayName
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > How to display a ${property} value
-${'#'} ${property}(val)
+${'#'} ${property}_DisplayValue(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -64,8 +64,8 @@ ${'#'} ${property}(val)
 
 # entityDisplay
 -```
-> How to display an ${property}Entiy value
-${'#'} ${property}Entity(val)
+> How to display an ${property}Entity value
+${'#'} ${property}Entity_DisplayValue(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -77,7 +77,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddTo${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -100,6 +100,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Add', entity)}      
 }
 ```
 
@@ -108,7 +109,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddTo${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -132,6 +133,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Add', entity)}     
 }
 ```
 
@@ -140,7 +142,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFrom${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
 
@@ -159,6 +161,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Remove', entity)}     
 }
 ```
 
@@ -167,7 +170,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFrom${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
         {
@@ -181,6 +184,7 @@ ${'#'} ${property}Entity(val)
             "value": "=@${entity}"
         }
     ]               
+    ${designerOpEntity('Remove', entity)}     
 }
 ```
 
@@ -189,8 +193,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Clear${property}",
-    "property": "${property}",
+    "operation": "Clear(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -201,6 +204,7 @@ ${'#'} ${property}Entity(val)
             "property": "$${property}"
         }
     ]               
+    ${designerOp('Clear')}     
 }
 ```
 
@@ -209,14 +213,14 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Show${Property}",
-    "property": "${Property}",
+    "operation": "Show(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
             "activity": "\${showPropertyMessage(@PROPERTYName)}"
         }
     ]               
+    ${designerOp('Show')}     
 }
 ```
 
@@ -230,12 +234,13 @@ ${'#'} ${property}Entity(val)
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${Ask${property}()}",
+            "activity": "\${${property}_Prompt()}",
             "expectedProperties": [
                 "${property}"
             ]
         }
     ]
+    ${designerMissing(property)}     
 }
 ```
 
@@ -264,15 +269,15 @@ synonyms(property))}
 # generateOperations(entity, values)
 -```
 > Define operations for property
-@ml AddTo${property} = 
+@ml Add(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
-@ml RemoveFrom${property} = 
+@ml Remove(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
-@ml Clear${property} =
+@ml Clear(${property}) =
     - @PROPERTYName PROPERTYName
-@ml Show${property} =
+@ml Show(${property}) =
     - @PROPERTYName PROPERTYName
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
@@ -316,10 +321,34 @@ ${substitutions(`library-operations.${locale}.data`,
 > Schema definitions
 
 # schemaOperations
-- ${flatten(foreach(properties, property, [`AddTo${property}`, `RemoveFrom${property}`, `Clear${property}`, `Show${property}`]))}
+- ${flatten(foreach(properties, property, [`Add(${property})`, `Remove(${property})`, `Clear(${property})`, `Show(${property})`]))}
 
 # schemaDefaultOperation
 - ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
 
 # schemaDefaultOperationEntities(property)
-- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "AddTo${property}"`), ','), '}')}
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}
+
+# designerName(name)
+-, "$designer": {"name": "${name}"}
+
+# designerOp(op)
+- ${designerName(`${property} - ${op}()`)}
+
+# designerOpEntity(op, entity)
+- ${designerOpEntityProperty(op, entity, property)}
+
+# designerOpEntityProperty(op, entity, property)
+- ${designerName(`${property} - ${op}(@${entity})`)}
+
+# designerChooseEntity()
+- ${designerName(`${property}Entity - Choose()`)}
+
+# designerChooseProperty(property)
+- ${designerName(`${property} - ChooseProperty()`)}
+
+# designerMissing(property)
+- ${designerName(`${property} - Missing()`)}
+
+# designerIntent(intent)
+- ${designerName(`On${intent}`)}

@@ -15,14 +15,14 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
-${'#'} Ask${property}
+${'#'} ${property}_Prompt
 - \${askEnum('${property}')}
 ```
 
 # ValueTemplate
 - ```
-${'#'} ${property}(val)
-- \${${property}Entity(val)}
+${'#'} ${property}_DisplayValue(val)
+- \${${property}Entity_DisplayValue(val)}
 ```
 
 

@@ -8,7 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "SetPropertyToRemember",
+    "operation": "Set(PropertyToRemember)",
     "entity": "PROPERTYName",
     "actions": [
         {
@@ -17,5 +17,6 @@
             "value": "=@PROPERTYName"        
         }
     ]
+    ${designerOpEntityProperty('Set', 'PROPERTYName', 'PropertyToRemember')}     
 }
 ```

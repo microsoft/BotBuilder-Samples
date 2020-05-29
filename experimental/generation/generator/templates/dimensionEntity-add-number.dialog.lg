@@ -8,7 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddTo${property}",
+    "operation": "Add(${property})",
     "entity": "dimension",
     "actions": [
         {
@@ -32,7 +32,8 @@
                 }
             ]
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'number')}             
 }
 ```
 

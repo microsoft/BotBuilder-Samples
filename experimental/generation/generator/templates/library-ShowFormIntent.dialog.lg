@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # template
 - ```
 {
@@ -11,5 +13,6 @@
             "activity": "\${showForm('${prefix}', dialogClass.schema.$public)}"           
         }
     ]
+    ${designerIntent('ShowForm')}
 }
 ```
