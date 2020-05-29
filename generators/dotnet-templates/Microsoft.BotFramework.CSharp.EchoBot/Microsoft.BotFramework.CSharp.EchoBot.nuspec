@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Microsoft.Bot.Framework.CSharp.EchoBot</id>
-    <version>4.9.0</version>
+    <version>4.9.2</version>
     <description>
       A .NET Core Template for Microsoft Bot Framework v4.  Will let you quickly set up a bot that simply "echoes" back to the user anything the user says to the bot.
       This is a little more than "Hello World!"
