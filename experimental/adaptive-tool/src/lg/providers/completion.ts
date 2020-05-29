@@ -17,7 +17,7 @@ import * as path from 'path';
  */
 
 export function activate(context: vscode.ExtensionContext) {
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.'));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.', '\n'));
 }
 
 class LGCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -33,19 +33,15 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
 
         if (/\[[^\]]*\]\([^\)]*$/.test(lineTextBefore) && !util.isInFencedCodeBlock(document, position)) {
             // []() import suggestion
-            return new Promise((res, _) => {
-                const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
+            const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
-                const headingCompletions = paths.reduce((prev, curr) => {
-                    var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
+            return paths.filter(u => document.uri.fsPath !== u).reduce((prev, curr) => {
+                var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
                     let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
                     item.detail = curr;
                     prev.push(item);
                     return prev;
-                }, []);
-
-                res(headingCompletions);
-            });
+            }, []);
         } else if (/\$\{[^\}]*$/.test(lineTextBefore)) {
             // buildin function prompt in expression
             let items: vscode.CompletionItem[] = [];
@@ -60,29 +56,90 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             });
 
             return items;
-        }  else if (/\[[^\]]*$/.test(lineTextBefore)
-                    && position.line > 0 
-                    && document.lineAt(position.line - 1).text.trimLeft().startsWith('#')) {
+        }  else if (this.isStartStructure(document, position)) {
             // structure name and key suggestion
             let items: vscode.CompletionItem[] = [];
             util.cardTypes.forEach(value => {
                 let completionItem = new vscode.CompletionItem(value);
-                completionItem.detail = `creatre ${value} structure`;
+                completionItem.detail = `create ${value} structure`;
                 let insertTextArray = util.cardPropDict.Others;
-                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment') {
+                if (value === 'CardAction' || value === 'Suggestions' || value === 'Attachment' || value === 'Activity') {
                     insertTextArray = util.cardPropDict[value];
                 } else if (value.endsWith('Card')){
                     insertTextArray = util.cardPropDict.Cards;
                 }
 
-                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u} = `).join('\r\n') + '\r\n';
+                completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u.name}=${u.placeHolder}`).join('\r\n') + '\r\n';
                 items.push(completionItem);
             });
 
             return items;
-        } else  {
+        } else if (this.isInStructure(document, position).isInStruct && /^\s*$/.test(lineTextBefore)) {
+            const structureName = this.isInStructure(document, position).struType;
+            let items: vscode.CompletionItem[] = []; 
+
+            const nameToPropertiesMapping = Object.entries(util.cardPropDictFull);
+            const propertiesMapping = nameToPropertiesMapping.find(u => u[0].toLowerCase() === structureName.toLowerCase());
+            if (propertiesMapping !== undefined) {
+                const properties = propertiesMapping[1];
+                properties.forEach(propertyItem => {
+                    let completionItem = new vscode.CompletionItem(propertyItem.name);
+                    completionItem.detail = `create property ${propertyItem.name}`;
+                    const placeHolder = 'placeHolder' in propertyItem ? propertyItem['placeHolder'] : `{${propertyItem.name}}`
+                    completionItem.insertText = propertyItem.name + '=' + placeHolder;
+                    items.push(completionItem);
+                })
+                return items;
+            }
+        } else {
             return [];
         }
+    }
+
+    isStartStructure(document: vscode.TextDocument,
+        position: vscode.Position) {
+            const lineTextBefore = document.lineAt(position.line).text.substring(0, position.character);
+            if (util.isInFencedCodeBlock(document, position)
+                    || !(/^\s*\[[^\]]*$/.test(lineTextBefore))
+                    || position.line <= 0)
+                return false;
+            
+            var previourLine = position.line - 1;
+            while(previourLine >= 0) {
+                var previousLineText = document.lineAt(previourLine).text.trim();
+                if (previousLineText === '') {
+                    previourLine--;
+                    continue;
+                } else if (previousLineText.startsWith('#')){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+            return false;
+    }
+
+    isInStructure(document: vscode.TextDocument,
+        position: vscode.Position): { isInStruct:boolean; struType:string } {
+            if (util.isInFencedCodeBlock(document, position)
+                    || position.line <= 0)
+                return {isInStruct:false, struType:undefined};
+
+            var previourLine = position.line - 1;
+            while(previourLine >= 0) {
+                var previousLineText = document.lineAt(previourLine).text.trim();
+                if (previousLineText.startsWith('#')
+                || previousLineText === ']'
+                || previousLineText.startsWith('-')
+                || previousLineText.endsWith('```')) {
+                    return {isInStruct:false, struType:undefined};
+                } else if (previousLineText.startsWith('[')){
+                    const structureType = previousLineText.substr(1).trim();
+                    return {isInStruct:true, struType:structureType};
+                }
+                previourLine--;
+            }
+            return {isInStruct:false, struType:undefined};
     }
 }
 

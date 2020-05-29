@@ -99,7 +99,7 @@ async def notify(req: Request) -> Response:  # pylint: disable=unused-argument
 # This uses the shared Dictionary that the Bot adds conversation references to.
 async def _send_proactive_message():
     for conversation_reference in CONVERSATION_REFERENCES.values():
-        return await ADAPTER.continue_conversation(
+        await ADAPTER.continue_conversation(
             conversation_reference,
             lambda turn_context: turn_context.send_activity("proactive hello"),
             APP_ID,

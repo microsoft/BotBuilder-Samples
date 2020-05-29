@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.7.0" />
-    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.2.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.9.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.9.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.2" />
+    <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.3.2" />
   </ItemGroup>
 
   <ItemGroup>

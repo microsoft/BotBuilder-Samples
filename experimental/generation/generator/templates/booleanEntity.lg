@@ -1,2 +1,2 @@
 # templates
-- ${createArray(`booleanEntity.${locale}.lu`, `booleanEntity.${locale}.lg`)}
+- ${[`booleanEntity.${locale}.lu`, `booleanEntity.${locale}.lg`]}

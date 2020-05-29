@@ -1,0 +1,22 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# BookingConfirmation
+- I have you booked to ${Destination} from ${Origin} on ${DateMessage}.
+
+> This template uses inline expressions. Expressions are defined using Adaptive Expressions. 
+> See https://aka.ms/adaptive-expressions to learn more.
+# IntroPrompt
+- ${if(restartMsg, restartMsg, 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"')}
+
+# Sample.Missing.Configuration
+- NOTE: LUIS is not configured. To enable all capabilities, add `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName` to the .env file.
+
+# GetWeather
+- TODO: get weather flow here
+
+# Unknown.intent
+- Sorry, I didn't get that. Please try asking in a different way (intent was ${intent})
+
+# UnsupportedCities
+- Sorry but the following airports are not supported: ${join(cities, ', ')}

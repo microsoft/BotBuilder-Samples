@@ -5,9 +5,9 @@
 
 // @ts-check
 
-const botbuilderCore = require("botbuilder-core");
+const botbuilderCore = require('botbuilder-core');
 const { BotAdapter, TurnContext, ActivityTypes } = botbuilderCore;
-const readline = require("readline");
+const readline = require('readline');
 
 /**
  * Lets a user communicate with a bot from a console window.
@@ -34,11 +34,11 @@ class ConsoleAdapter extends BotAdapter {
         super();
         this.nextId = 0;
         this.reference = {
-            channelId: "console",
-            user: { id: "user", name: "User1" },
-            bot: { id: "bot", name: "Bot" },
-            conversation: { id: "convo1", name: "", isGroup: false },
-            serviceUrl: "",
+            channelId: 'console',
+            user: { id: 'user', name: 'User1' },
+            bot: { id: 'bot', name: 'Bot' },
+            conversation: { id: 'convo1', name: '', isGroup: false },
+            serviceUrl: '',
             ...reference
         };
     }
@@ -77,7 +77,7 @@ class ConsoleAdapter extends BotAdapter {
             output: process.stdout,
             terminal: false
         });
-        rl.on("line", line => {
+        rl.on('line', line => {
             // Initialize activity
             const activity = TurnContext.applyConversationReference(
                 {
@@ -153,26 +153,26 @@ class ConsoleAdapter extends BotAdapter {
             responses.push({});
 
             switch (activity.type) {
-                case "delay":
-                    await this.sleep(activity.value);
-                    break;
-                case ActivityTypes.Message:
-                    if (
-                        activity.attachments &&
-                        activity.attachments.length > 0
-                    ) {
-                        const append =
-                            activity.attachments.length === 1
-                                ? `(1 attachment)`
-                                : `(${activity.attachments.length} attachments)`;
-                        this.print(`${activity.text} ${append}`);
-                    } else {
-                        this.print(activity.text || "");
-                    }
-                    break;
-                default:
-                    this.print(`[${activity.type}]`);
-                    break;
+            case 'delay':
+                await this.sleep(activity.value);
+                break;
+            case ActivityTypes.Message:
+                if (
+                    activity.attachments &&
+                    activity.attachments.length > 0
+                ) {
+                    const append =
+                        activity.attachments.length === 1
+                            ? '(1 attachment)'
+                            : `(${ activity.attachments.length } attachments)`;
+                    this.print(`${ activity.text } ${ append }`);
+                } else {
+                    this.print(activity.text || '');
+                }
+                break;
+            default:
+                this.print(`[${ activity.type }]`);
+                break;
             }
         }
         return responses;

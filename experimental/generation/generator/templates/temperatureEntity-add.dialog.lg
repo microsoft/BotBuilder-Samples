@@ -8,13 +8,12 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "temperature",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@temperature.number), ' ', @temperature.units))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @temperature)}"
         },
         {
             "$kind": "Microsoft.SetProperty",
@@ -22,6 +21,7 @@
             "value": "=@temperature"          
         }
     ]               
+    ${designerOpEntity('Add', 'temperature')}     
 }
 ```
 

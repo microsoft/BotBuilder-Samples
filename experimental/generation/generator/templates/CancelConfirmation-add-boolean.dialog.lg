@@ -8,8 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "CancelConfirmation",
+    "operation": "Set(CancelConfirmation)",
     "entity": "boolean",
     "actions": [
         {
@@ -27,5 +26,6 @@
             ]
         }
     ]
+    ${designerOpEntityProperty('Set', 'boolean', 'CancelConfirmation')}
 }
 ```

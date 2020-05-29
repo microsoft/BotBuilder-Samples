@@ -56,7 +56,7 @@ This sample is intended to be run and tested locally and is not designed to be d
 
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the Bot Framework Emulator version 4.9.0 or greater from [here][6]
 
 ### Connect to the bot using Bot Framework Emulator
 

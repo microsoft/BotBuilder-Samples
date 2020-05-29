@@ -3,9 +3,12 @@
 # filename
 - ${entityLUFilename()}
 
+> There is nothing we can put in as values
 # template
 - ```
+> This is a ML entity for ${property}.  
+> You should replace the ** expressions below with actual values or add example or $examples to your schema.
 @ ml ${property}Entity
 ${propertyName()}
+${operations(`${property}Entity`, null)}
 ```
-

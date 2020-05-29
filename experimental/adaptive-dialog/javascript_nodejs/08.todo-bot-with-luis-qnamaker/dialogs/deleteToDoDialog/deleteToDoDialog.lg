@@ -1,0 +1,34 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+[Common](../Common/Common.lg)
+
+# NoItemsInList
+[Activity
+    Text = Sorry, you do not have any items in the ${dialog.listType}. Add item(s) before you can delete them :)
+    ${WelcomeActions()}
+]
+
+# GetListType
+[Activity
+    Text = Which list would you like to remove an item from?
+    SuggestedActions = Todo | Grocery | Shopping
+]
+
+# GetListType.Invalid
+[Activity
+    Text = Sorry, '${this.value}' does not work. Which list would you like to remove an item from?
+    SuggestedActions = Todo | Grocery | Shopping
+]
+
+# DeleteConfirmationReadBack
+- Sure, I have removed **${dialog.itemTitle}** from ${dialog.listType} list. You now have ${count(user.lists[dialog.listType])} items in your ${dialog.listType} list.
+
+# DeleteEmptyList
+[Activity
+    Text = Sorry, you do not have any items in any of your lists. 
+    ${WelcomeActions()}
+]
+
+# GetItemTitleToDelete
+- Pick the item you wish to delete (you can also say 'cancel')

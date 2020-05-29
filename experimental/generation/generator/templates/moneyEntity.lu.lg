@@ -7,4 +7,5 @@
 - ```
 @ prebuilt money ${roles()}
 ${propertyName()}
+${operations('money', ["$3.50", "12 euros", "8 dollars and 25 cents"])}
 ```

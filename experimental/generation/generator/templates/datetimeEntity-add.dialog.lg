@@ -8,20 +8,20 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "datetime",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(@datetime.type, ' ', string(@datetime.timex)))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @datetime.type)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
             "value": "=@datetime"          
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'datetime')}
 }
 ```
 
