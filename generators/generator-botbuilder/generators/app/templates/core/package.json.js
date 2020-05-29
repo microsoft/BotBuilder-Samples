@@ -17,9 +17,9 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "~4.9.2",
-        "botbuilder-ai": "~4.9.2",
-        "botbuilder-dialogs": "~4.9.2",
+        "botbuilder": "~4.9.1",
+        "botbuilder-ai": "~4.9.1",
+        "botbuilder-dialogs": "~4.9.1",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },
