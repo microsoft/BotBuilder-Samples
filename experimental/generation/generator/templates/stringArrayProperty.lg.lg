@@ -15,11 +15,13 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
+> Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_Prompt
 - \${askStringArray('${property}')}```
 
 # ValueTemplate
 - ```
+> Template for displaying the value of the '${property}' property.
 ${'#'} ${property}_DisplayValue(values)
 - \${arrayValue('${property}', values)}```
 

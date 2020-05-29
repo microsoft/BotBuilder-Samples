@@ -15,12 +15,14 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
+> Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_Prompt
 - \${askEnum('${property}')}
 ```
 
 # ValueTemplate
 - ```
+> Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_DisplayValue(val)
 - \${${property}Entity_DisplayValue(val)}
 ```
