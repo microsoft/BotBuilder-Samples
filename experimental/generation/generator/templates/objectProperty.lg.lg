@@ -21,9 +21,5 @@ ${'#'} ${property}_Prompt
 # ValueTemplate
 -```
 ${'#'} ${property}_DisplayValue(val)
-- IF: \${val}
-- \${join(foreach(indicesAndValues(val), entry, entry.value), ' ')}
-- ELSE:
-- no value
+- \${displayStructuredValue(val)}
 ```
-
