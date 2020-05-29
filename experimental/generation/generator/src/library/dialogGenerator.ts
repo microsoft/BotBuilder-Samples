@@ -635,10 +635,13 @@ export async function generate(
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
         let outPath = outDir
+        let outPathSingle = outDir
         if (merge || singleton) {
             // Redirect to temporary path
             outPath = ppath.join(os.tmpdir(), 'tempNew')
+            outPathSingle = ppath.join(os.tmpdir(), 'tempNewSingle')
             await fs.emptyDir(outPath)
+            await fs.emptyDir(outPathSingle)
         }
 
         let standard = normalize(ppath.join(__dirname, '../../templates'))
@@ -680,14 +683,21 @@ export async function generate(
 
         // Merge together all dialog files
         if (singleton) {
-            feedback(FeedbackType.info, 'Combining into singleton .dialog')
-            await generateSingleton(scope.prefix, outPath, outDir)
+            if (!merge) {
+                feedback(FeedbackType.info, 'Combining into singleton .dialog')
+                await generateSingleton(scope.prefix, outPath, outDir)
+            } else {
+                await generateSingleton(scope.prefix, outPath, outPathSingle)
+            }
         }
 
         // Merge old and new directories
-        // TODO: Merge does not work with singleton
         if (merge) {
-            await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+            if (singleton) {
+               await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+            } else {
+                await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+            }
         }
     } catch (e) {
         feedback(FeedbackType.error, e.message)

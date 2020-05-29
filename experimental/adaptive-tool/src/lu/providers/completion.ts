@@ -21,7 +21,7 @@ const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.
  */
 
 export function activate(context: vscode.ExtensionContext) {
-  context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LUCompletionItemProvider(), '@', '(', '['));
+  context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LUCompletionItemProvider(), '@', ' ', '{', ':', '[', '('));
 }
 
 class LUCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -114,15 +114,41 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
       completionList.push(item2);
     }
 
-    // completion for entities and patterns, use the text without current line due to usually it will cause parser errors, the luisjson will be undefined
+    if (matchingPattern.isPhraseListEntity(curLineContent)) {
+      const item = {
+        label: 'interchangeable synonyms?',
+        kind: vscode.CompletionItemKind.Keyword,
+        insertText: `interchangeable`,
+        documentation: `interchangeable synonyms as part of the entity definition`,
+      };
 
-    let luisJson = this.extractLUISContent(fullContent);
-    if (!luisJson) {
-      luisJson = this.extractLUISContent(textExceptCurLine);
+      completionList.push(item);
     }
 
+    // completion for entities and patterns, use the text without current line due to usually it will cause parser errors, the luisjson will be undefined
+    if (completionList.length === 0){
+      return this.extractLUISContent(fullContent).then(
+        luisJson => {
+          if (!luisJson) {
+            this.extractLUISContent(textExceptCurLine).then(
+              newluisJson => {
+                return this.processSuggestions(newluisJson, curLineContent, fullContent);}
+            )
+          } else {
+            return this.processSuggestions(luisJson, curLineContent, fullContent)
+          }
+        }
+      );
+    }
+
+    return completionList;
+    }
+    
+
+  private processSuggestions(luisJson: any, curLineContent: string, fullContent: string) {
     const suggestionEntityList = matchingPattern.getSuggestionEntities(luisJson, matchingPattern.suggestionAllEntityTypes);
     const regexEntityList = matchingPattern.getRegexEntities(luisJson);
+    const completionList: vscode.CompletionItem[] = []
 
     //suggest a regex pattern for seperated line definition
     if (matchingPattern.isSeperatedEntityDef(curLineContent)) {
@@ -175,6 +201,7 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
 
     if (matchingPattern.isCompositeEntity(curLineContent)) {
       matchingPattern.getSuggestionEntities(luisJson, matchingPattern.suggestionNoCompositeEntityTypes).forEach(entity => {
+        
         const item = {
           label: entity,
           kind: vscode.CompletionItemKind.Property,
@@ -258,18 +285,18 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
     return completionList;
   }
 
-  private extractLUISContent(text: string): Promise<any> {
+   private async extractLUISContent(text: string): Promise<any> {
     let parsedContent: any;
     const log = false;
     const locale = 'en-us';
     try {
-      parsedContent = parseFile(text, log, locale);
+      parsedContent = await parseFile(text, log, locale);
     } catch (e) {
       // nothing to do in catch block
     }
 
     if (parsedContent !== undefined) {
-      return Promise.resolve(parsedContent.LUISJsonStructure);
+      return parsedContent.LUISJsonStructure;
     } else {
       return undefined;
     }

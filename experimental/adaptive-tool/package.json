@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {
@@ -214,7 +214,7 @@
         "typescript": "^3.5.3"
     },
     "dependencies": {
-        "botbuilder-lg": "^4.9.0",
-        "@microsoft/bf-lu": "4.8.0"
+        "botbuilder-lg": "4.9.0",
+        "@microsoft/bf-lu": "4.9.0"
     }
 }

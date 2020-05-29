@@ -86,7 +86,7 @@
 		},
 		"template_name_line":{
 			"patterns": [{
-				"match": "(^\\s*#\\s*[a-zA-Z0-9_]+)(\\(.*\\))?",
+				"match": "(^\\s*#\\s*[a-zA-Z0-9_.]+)(\\(.*\\))?",
 				"captures": {
 					"1": {
 						"name":"markup.bold.templateName"
