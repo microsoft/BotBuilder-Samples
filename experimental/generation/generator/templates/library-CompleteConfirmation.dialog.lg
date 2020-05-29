@@ -1,3 +1,5 @@
+[generator.lg](generator.lg)
+
 # template
 - ```
 {
@@ -18,5 +20,6 @@
             ]
         }
     ]
+    ${designerMissing('PropertyToChange')}
 }
 ```

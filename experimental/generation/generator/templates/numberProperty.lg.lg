@@ -15,7 +15,7 @@ ${valueTemplate()}
 
 # AskTemplate
 - ```
-${'#'} Ask${property}
+${'#'} ${property}_Prompt
 - \${askNumber('${property}')}
 ```
 

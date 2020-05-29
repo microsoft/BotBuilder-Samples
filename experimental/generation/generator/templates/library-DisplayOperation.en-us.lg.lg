@@ -16,7 +16,7 @@ ${'#'} displayOperation(op)
         - ${phrase(option)}```
 
 # cases(property)
-- ${[case(`AddTo${property}`), case(`RemoveFrom${property}`), case(`Show${property}`), case(`Clear${property}`)]}
+- ${[case(`Add(${property})`), case(`Remove(${property})`), case(`Show(${property})`), case(`Clear(${property})`)]}
 
 # allCases
 - ${foreach(properties, property, cases(property))}

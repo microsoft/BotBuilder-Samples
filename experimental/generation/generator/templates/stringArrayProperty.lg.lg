@@ -10,12 +10,16 @@ ${importLG('library')}
 ${importLG('library-Missing')}
 ${AskTemplate()}
 ${nameTemplate()}
-${valueTemplate()}
+${ValueTemplate()}
 ```
 
 # AskTemplate
 - ```
 ${'#'} ${property}_Prompt
-- \${askBoolean('${property}')}
-```
+- \${askStringArray('${property}')}```
+
+# ValueTemplate
+- ```
+${'#'} ${property}_DisplayValue(values)
+- \${arrayValue('${property}', values)}```
 

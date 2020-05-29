@@ -249,6 +249,7 @@ async function processTemplate(
             let foundTemplate = await findTemplate(templateName, templateDirs)
             if (foundTemplate === undefined && templateName.includes('Entity')) {
                 // If we can't find an entity, try for a generic definition
+                feedback(FeedbackType.debug, `Generic of ${templateName}`)
                 templateName = templateName.replace(/.*Entity/, 'generic')
                 foundTemplate = await findTemplate(templateName, templateDirs)
             }
@@ -304,7 +305,16 @@ async function processTemplate(
                                 result = existing.template
                             }
 
-                            await writeFile(outPath, result as string, feedback)
+                            let resultString = result as string
+                            if (resultString.includes('**MISSING**')) {
+                                feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
+                            } else {
+                                let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
+                                if (match) {
+                                    feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
+                                }
+                            }
+                            await writeFile(outPath, resultString, feedback)
                             scope.templates[ppath.extname(outPath).substring(1)].push(ref)
 
                         } else {
