@@ -21,7 +21,7 @@ ${'#'} ${property}_Prompt
 
 # ValueTemplate
 - ```
-> Template for display the value of the '${property}' property.
+> Template for generating display text for the value of '${property}' property.
 ${'#'} ${property}_DisplayValue(values)
 - \${enumArrayValue('${property}', values)}```
 

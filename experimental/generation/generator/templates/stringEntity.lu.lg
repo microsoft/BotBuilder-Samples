@@ -11,7 +11,7 @@
 > Search and replace the **xxEntityN** with suitable examples, or update your schema
 > to have example utterances.
 
-> Define the entity for reocgnizing the '${property}' property. You can add synonyms here.  
+> Define the entity for recognizing the '${property}' property. You can add synonyms here.  
 @ ml ${property}Entity
 ${propertyName()}
 ${operations(`${property}Entity`, null)}

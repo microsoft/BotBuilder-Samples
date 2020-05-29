@@ -48,13 +48,13 @@
 
 # nameTemplate
 -```
-> Template for getting display text for the name of '${property}'
+> Template for generating display text for the name of '${property}' property.
 ${'#'} ${property}_DisplayName
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
-> Template for getting display text for the value of '${property}'
+> Template for generating display text for the value of '${property}' property.
 ${'#'} ${property}_DisplayValue(val)
  - IF: \${val}
  - \${val}
@@ -64,7 +64,7 @@ ${'#'} ${property}_DisplayValue(val)
 
 # entityDisplay
 -```
-> Template for getting display text for the value an '${property}Entity'
+> Template for generating display text for the value of '${property}Entity' entity.
 ${'#'} ${property}Entity_DisplayValue(val)
  - IF: \${val}
  - \${val}
@@ -257,7 +257,7 @@ synonyms(property))}
 - ELSE:
 -
 
-> Define entity operations for property '${property}'
+> Define entity operations for '${property}' property.
 # operations(entity, values)
 - IF: ${examples}
 - ${generateOperations(entity, examples)}
@@ -268,7 +268,7 @@ synonyms(property))}
 
 # generateOperations(entity, values)
 -```
-> Define entity operations for property '${property}'
+> Define entity operations for '${property}' property.
 @ml Add(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
