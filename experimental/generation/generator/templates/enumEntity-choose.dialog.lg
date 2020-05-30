@@ -12,7 +12,7 @@
     "actions": [
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}Entity_Choose()}",
+            "activity": "\${getChooseEntity_${property}Entity()}",
             "expectedProperties": ["${property}"]
         }
     ]

@@ -234,7 +234,7 @@ ${'#'} getEntityValueText_${property}Entity(val)
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}_Prompt()}",
+            "activity": "\${getPromptText_${property}}",
             "expectedProperties": [
                 "${property}"
             ]

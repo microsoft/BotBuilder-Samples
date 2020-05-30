@@ -14,7 +14,7 @@ ${chooseEntity()}
 
 # chooseEntity
 - ```
-${'#'} ${property}Entity_Choose
+${'#'} getChooseEntityText_${property}Entity
 - \${getChooseEnumArrayEntityText(${concat("'", property, "'")})}
 ```
 
