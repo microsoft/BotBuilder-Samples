@@ -48,13 +48,13 @@
 
 # nameTemplate
 -```
-> How to display the name of ${property}
+> Template for generating display text for the name of the '${property}' property.
 ${'#'} ${property}_DisplayName
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
-> How to display a ${property} value
+> Template for generating display text for the value of the '${property}' property.
 ${'#'} ${property}_DisplayValue(val)
  - IF: \${val}
  - \${val}
@@ -64,7 +64,7 @@ ${'#'} ${property}_DisplayValue(val)
 
 # entityDisplay
 -```
-> How to display an ${property}Entity value
+> Template for generating display text for the value of the '${property}Entity' entity.
 ${'#'} ${property}Entity_DisplayValue(val)
  - IF: \${val}
  - \${val}
@@ -247,7 +247,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
 # propertyName
 - IF: ${property}
 -```
-> Define how ${property} is recognized as a property name
+> Define the entity recognition of the '${property}' property.
 @ list PROPERTYName
     - ${property}:
 ${if(schema.properties[property].title,
@@ -257,7 +257,7 @@ synonyms(property))}
 - ELSE:
 -
 
-> Define operations over an entity that can take on values
+> Define operation entities for '${property}' property.
 # operations(entity, values)
 - IF: ${examples}
 - ${generateOperations(entity, examples)}
@@ -268,17 +268,22 @@ synonyms(property))}
 
 # generateOperations(entity, values)
 -```
-> Define operations for property
+> Define operation entities for '${property}' property.
 @ml Add(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
+
 @ml Remove(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
+
 @ml Clear(${property}) =
     - @PROPERTYName PROPERTYName
+    
 @ml Show(${property}) =
     - @PROPERTYName PROPERTYName
+
+> Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
     json(`{"propertyName": ${propertyList(property)}, 

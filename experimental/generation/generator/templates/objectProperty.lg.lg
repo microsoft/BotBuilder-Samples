@@ -14,12 +14,14 @@ ${ValueTemplate()}
 
 # AskTemplate
 - ```
+> Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_Prompt
 - \${askString('${property}')}
 ```
 
 # ValueTemplate
 -```
+> Template for generating display text for the value of the '${property}' property.
 ${'#'} ${property}_DisplayValue(val)
 - IF: \${val}
 - \${join(foreach(indicesAndValues(val), entry, entry.value), ' ')}
