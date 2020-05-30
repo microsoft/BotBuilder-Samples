@@ -49,13 +49,13 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-${'#'} getDisplayNameText_${property}
+${'#'} getPropertyName_${property}
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} getDisplayValueText_${property}(val)
+${'#'} getPropertyValueText_${property}(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -65,7 +65,7 @@ ${'#'} getDisplayValueText_${property}(val)
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} getDisplayValueText_${property}Entity(val)
+${'#'} getEntityValueText_${property}Entity(val)
  - IF: \${val}
  - \${val}
  - ELSE:

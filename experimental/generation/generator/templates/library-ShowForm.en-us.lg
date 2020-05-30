@@ -10,7 +10,7 @@
 - ${join(foreach(dialog.getRequiredPropertiesText, property, getPropertyValueDescriptionText(property)), EOL())}
 
 # getPropertyValueDescriptionText(property)
-- The value of ${getDisplayNameText(property)} is ${getDisplayValueText(property, dialog[property])}.
+- The value of ${getPropertyName(property)} is ${getPropertyValueText(property, dialog[property])}.
 
 # getFormAsCard(name, properties)
 -```
@@ -36,4 +36,4 @@
 - ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
 
 # getPropertyAsFact(property)
-- {"title": "${getDisplayNameText(property)}", "value": "${getDisplayValueText(property, dialog[property])}"}
+- {"title": "${getPropertyName(property)}", "value": "${getPropertyValueText(property, dialog[property])}"}

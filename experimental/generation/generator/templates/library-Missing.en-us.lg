@@ -4,45 +4,45 @@
 # getAskForEnumText(property)
 - ```
 ${getAskForHelpText()}
-Which value do you want for ${getDisplayNameText(property)}?
+Which value do you want for ${getPropertyName(property)}?
 ```
 
 # getAskForEnumArrayText(property)
 - ```
 ${getAskForHelpText()}
-What values do you want to add for ${getDisplayNameText(property)}?
+What values do you want to add for ${getPropertyName(property)}?
 ```
 
 # getAskForNumberText(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
-- Enter a number for ${getDisplayNameText(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${getPropertyName(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
-- Enter a number for ${getDisplayNameText(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
+- Enter a number for ${getPropertyName(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
 - ELSEIF: ${dialogClass.schema.properties[property].maximum}
-- Enter a number for ${getDisplayNameText(property)} that is less than ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${getPropertyName(property)} that is less than ${dialogClass.schema.properties[property].maximum}
 - ELSE:
-- Enter a number for ${getDisplayNameText(property)}
+- Enter a number for ${getPropertyName(property)}
 
 # getAskForStringText(property)
 - ```
 ${getAskForHelpText()}
-Enter a value for ${getDisplayNameText(property)}
+Enter a value for ${getPropertyName(property)}
 ```
 
 # getAskForStringArray(property)
 -```
 ${getAskForHelpText()}
-What values do you want to add for ${getDisplayNameText(property)}?
+What values do you want to add for ${getPropertyName(property)}?
 ```
 
 # getAskForBooleanText(property)
 - ```
 ${getAskForHelpText()}
-Enter a value for ${getDisplayNameText(property)}: true or false
+Enter a value for ${getPropertyName(property)}: true or false
 ```
 
 # getArrayValueText(property, values)
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
 # getEnumArrayValueText(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`getDisplayValueText_${property}`, value)), ', '), template(`getDisplayValueText_${property}`, values))}
+- ${if(isArray(values), join(foreach(values, value, template(`getPropertyValueText_${property}`, value)), ', '), template(`getPropertyValueText_${property}`, values))}

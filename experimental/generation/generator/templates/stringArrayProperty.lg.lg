@@ -22,6 +22,6 @@ ${'#'} ${property}_Prompt
 # ValueTemplate
 - ```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} getDisplayValueText_${property}(values)
+${'#'} getPropertValueText_${property}(values)
 - \${getArrayValueText('${property}', values)}```
 

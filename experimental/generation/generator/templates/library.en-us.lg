@@ -8,14 +8,14 @@
 # getWelcomeText
 - Welcome!
 
-# getDisplayNameText(property)
-- ${template(`getDisplayNameText_${property}`)}
+# getPropertyName(property)
+- ${template(`getPropertyName_${property}`)}
 
-# getDisplayValueText(property, val)
-- ${template(`getDisplayValueText_${property}`, val)}
+# getPropertyValueText(property, val)
+- ${template(`getPropertyValueText_${property}`, val)}
 
-# getEnumEntityValueText(property, val)
-- ${template(`getDisplayValueText_${property}Entity`, val)}
+# getEntityValueText(property, val)
+- ${template(`getEntityValueText_${property}Entity`, val)}
 
 > Display a value handling arrays and objects
 # getValueText(val)
@@ -35,21 +35,21 @@
 
 # getRequiredPropertiesText
 - IF: ${count(dialogClass.schema.required) > 0}
-- Required properties include: ${join(foreach(dialogClass.schema.required, property, getDisplayNameText(property)), ',')}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, getPropertyName(property)), ',')}
 - ELSE:
 - 
 
 # getOptionalPropertiesText
 - IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getDisplayNameText(property)), ', ')}${EOL()}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getPropertyName(property)), ', ')}${EOL()}
 - ELSE:
 - 
 
 # getPossibleValuesText(property)
-- ${foreach(dialogClass.schema.properties[property].enum, enum, getDisplayValueText(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].enum, enum, getPropertyValueText(property, enum))}
 
 # getPossibleArrayValuesText(property)
-- ${foreach(dialogClass.schema.properties[property].items.enum, enum, getDisplayValueText(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, getPropertyValueText(property, enum))}
 
 # getCancelText
 - Do you want to end the conversation? (yes/no)
