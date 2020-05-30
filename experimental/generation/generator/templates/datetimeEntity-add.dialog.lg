@@ -13,7 +13,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', @datetime.type)}"
+            "activity": "\${getSetObjectPropertyText('${property}', @datetime.type)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",

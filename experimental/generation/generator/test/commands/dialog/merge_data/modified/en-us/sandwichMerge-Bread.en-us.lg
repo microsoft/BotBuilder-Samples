@@ -3,7 +3,7 @@
 [sandwichMerge-library-Missing.en-us.lg](sandwichMerge-library-Missing.en-us.lg)
 
 # AskBread
-- ${askEnum('Bread')}
+- ${getAskForEnumText('Bread')}
 
 # BreadName
 - doughy stuff

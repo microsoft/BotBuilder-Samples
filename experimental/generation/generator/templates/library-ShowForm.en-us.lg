@@ -1,18 +1,18 @@
 [library.en-us.lg]
 
-# showForm(name, properties)
+# getFormAsActivity(name, properties)
 [Activity
-    Attachments=${json(formCard(name, properties))}
+    Attachments=${json(getFormAsCard(name, properties))}
 ]
 
 >>> To generate text instead of card, use this
-# formText
-- ${join(foreach(dialog.requiredProperties, property, textProperty(property)), EOL())}
+# getFormAsText
+- ${join(foreach(dialog.getRequiredPropertiesText, property, getPropertyValueDescriptionText(property)), EOL())}
 
-# textProperty(property)
-- The value of ${displayName(property)} is ${displayValue(property, dialog[property])}.
+# getPropertyValueDescriptionText(property)
+- The value of ${getDisplayNameText(property)} is ${getDisplayValueText(property, dialog[property])}.
 
-# formCard(name, properties)
+# getFormAsCard(name, properties)
 -```
 {
     "type": "AdaptiveCard",
@@ -25,15 +25,15 @@
         },
         {
             "type": "FactSet",
-            "facts": [${facts(properties)}]
+            "facts": [${getPropertiesAsFacts(properties)}]
         }
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
 }
 ```
 
-# facts(properties)
-- ${join(foreach(properties, property, fact(property)), ', ')}
+# getPropertiesAsFacts(properties)
+- ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
 
-# fact(property)
-- {"title": "${displayName(property)}", "value": "${displayValue(property, dialog[property])}"}
+# getPropertyAsFact(property)
+- {"title": "${getDisplayNameText(property)}", "value": "${getDisplayValueText(property, dialog[property])}"}

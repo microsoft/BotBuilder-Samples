@@ -5,7 +5,7 @@
 
 # template
 - ```
-${'#'} booleanEntity_DisplayValue(value)
+${'#'} getDisplayValueText_booleanEntity(value)
 - SWITCH: \${value}
 - CASE: \${'true'}
     - true  

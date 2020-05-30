@@ -1,75 +1,72 @@
 [library.en-us.lg]
 
-# numberValidation(property, number)
+# getNumberValidatationText(property, number)
 - IF: ${less(number, dialogClass.schema.properties[property].minimum)}
-- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${displayName(property)}.
+- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${getDisplayNameText(property)}.
 - ELSEIF: ${greater(number, dialogClass.schema.properties[property].maximum)}
-- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${displayName(property)}.
+- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${getDisplayNameText(property)}.
 - ELSE:
 -
 
-# unitsAlert(property)
+# getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
-- Required response for ${displayName(property)} should be in ${dialogClass.schema.properties[property].$units}.
+- Required response for ${getDisplayNameText(property)} should be in ${dialogClass.schema.properties[property].$units}.
 - ELSE:
-- Unit for ${displayName(property)} are not defined in the schema.
+- Unit for ${getDisplayNameText(property)} are not defined in the schema.
 
-# setObjectPropertyMessage(property, val)
+# getSetObjectPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
 - 
 - ELSEIF: ${dialog[property]} 
-- ${displayName(property)} is changed from ${displayValue(property, dialog[property])} to ${displayValue(property, val)}.
+- ${getDisplayNameText(property)} is changed from ${getDisplayValueText(property, dialog[property])} to ${getDisplayValueText(property, val)}.
 - ELSE: 
-- ${displayName(property)} is set as ${displayValue(property, val)}.
+- ${getDisplayNameText(property)} is set as ${getDisplayValueText(property, val)}.
 
-# setPropertyMessage(property, val)
+# getSetPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
 - 
 - ELSE:
-- ${setUnexpectedPropertyMessage(property, val)}
+- ${getSetUnexpectedPropertyText(property, val)}
 
-# setUnexpectedPropertyMessage(property, val)
+# getSetUnexpectedPropertyText(property, val)
 - IF:${dialog[property]}
-- ${unexpectedPropertyChange(property, val, dialog[property])}
+- ${getSetUnexpectedPropertyChangedText(property, val, dialog[property])}
 - ELSE:
-- ${unexpectedPropertySet(property, val)}
+- ${getDisplayNameText(property)} is set to ${getDisplayValueText(property, val)}.
 
-# unexpectedPropertySet(property, val)
-- ${displayName(property)} is set to ${displayValue(property, val)}.
+# getSetUnexpectedPropertyChangedText(property, val, oldVal)
+- ${getDisplayNameText(property)} is changed from ${getDisplayValueText(property, oldVal)} to ${getDisplayValueText(property, val)}.
 
-# unexpectedPropertyChange(property, val, oldVal)
-- ${displayName(property)} is changed from ${displayValue(property, oldVal)} to ${displayValue(property, val)}.
-
-# setArrayPropertyMessage(property, val)
+# getSetArrayPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
 - 
 - ELSE:
-- Added ${displayValue(property, val)} to ${displayName(property)}
+- Added ${getDisplayValueText(property, val)} to ${getDisplayNameText(property)}
 
-# clearPropertyMessage(property)
-- ${displayName(property)} has been cleared.
+# getClearPropertyText(property)
+- ${getDisplayNameText(property)} has been cleared.
 
-# removePropertyMessage(property, val)
+# getRemovePropertyText(property, val)
 - IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
 - 
 - ELSE:
-- ${removeUnexpectedPropertyMessage(property, val)}
+- ${getRemoveUnexpectedPropertyText(property, val)}
 
-# removeUnexpectedPropertyMessage(property, val)
-- Removed ${displayValue(property, val)} from ${displayName(property)}.
+# getRemoveUnexpectedPropertyText(property, val)
+- Removed ${getDisplayValueText(property, val)} from ${getDisplayNameText(property)}.
 
-# removeArrayPropertyMessage(property, val)
+# getRemoveArrayPropertyText(property, val)
 - IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
 - 
 - ELSE:
-- ${removeUnexpectedArrayPropertyMessage(property, val)}
+- ${getRemoveUnexpectedArrayPropertyText(property, val)}
 
-# removeUnexpectedArrayPropertyMessage(property, val)
+# getRemoveUnexpectedArrayPropertyText(property, val)
 - IF: ${contains(dialog[property], val)}
-- Removed ${displayValue(property, val)} from ${displayName(property)}
+- Removed ${getDisplayValueText(property, val)} from ${getDisplayNameText(property)}
 - ELSE:
-- ${displayValue(property, val)} is not in ${displayName(property)}
+- ${getDisplayValueText(property, val)} is not in ${getDisplayNameText(property)}
 
-# showPropertyMessage(property)
-- ${displayName(property)}: ${displayValue(property, dialog[property])}
+# getShowPropertyText(property)
+- ${getDisplayNameText(property)}: ${getDisplayValueText(property, dialog[property])}
 

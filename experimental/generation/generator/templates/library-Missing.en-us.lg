@@ -1,48 +1,48 @@
 [library.en-us.lg]
 [library-Help.en-us.lg]
 
-# askEnum(property)
+# getAskForEnumText(property)
 - ```
-${askHelp()}
-Which value do you want for ${displayName(property)}?
+${getAskForHelpText()}
+Which value do you want for ${getDisplayNameText(property)}?
 ```
 
-# askEnumArray(property)
+# getAskForEnumArrayText(property)
 - ```
-${askHelp()}
-What values do you want to add for ${displayName(property)}?
+${getAskForHelpText()}
+What values do you want to add for ${getDisplayNameText(property)}?
 ```
 
-# askNumber(property)
+# getAskForNumberText(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
-- Enter a number for ${displayName(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${getDisplayNameText(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
-- Enter a number for ${displayName(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
+- Enter a number for ${getDisplayNameText(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
 - ELSEIF: ${dialogClass.schema.properties[property].maximum}
-- Enter a number for ${displayName(property)} that is less than ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${getDisplayNameText(property)} that is less than ${dialogClass.schema.properties[property].maximum}
 - ELSE:
-- Enter a number for ${displayName(property)}
+- Enter a number for ${getDisplayNameText(property)}
 
-# askString(property)
+# getAskForStringText(property)
 - ```
-${askHelp()}
-Enter a value for ${displayName(property)}
+${getAskForHelpText()}
+Enter a value for ${getDisplayNameText(property)}
 ```
 
-# askStringArray(property)
+# getAskForStringArray(property)
 -```
-${askHelp()}
-What values do you want to add for ${displayName(property)}?
+${getAskForHelpText()}
+What values do you want to add for ${getDisplayNameText(property)}?
 ```
 
-# askBoolean(property)
+# getAskForBooleanText(property)
 - ```
-${askHelp()}
-Enter a value for ${displayName(property)}: true or false
+${getAskForHelpText()}
+Enter a value for ${getDisplayNameText(property)}: true or false
 ```
 
-# arrayValue(property, values)
+# getArrayValueText(property, values)
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
-# enumArrayValue(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity_DisplayValue`, value)), ', '), template(`${property}Entity_DisplayValue`, values))}
+# getEnumArrayValueText(property, values)
+- ${if(isArray(values), join(foreach(values, value, template(`getDisplayValueText_${property}`, value)), ', '), template(`getDisplayValueText_${property}`, values))}

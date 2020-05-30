@@ -13,7 +13,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${notUnderstood()}"           
+            "activity": "\${getNotUnderstoodText()}"           
         }
     ]
     ${designerIntent(triggerIntent)}
