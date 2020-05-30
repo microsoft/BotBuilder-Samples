@@ -18,4 +18,4 @@ Please choose a value for ${displayName(property)} from [${join(foreach(turn.dia
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, choosePropertyEntity(choice)), " or ")}?
 
 # choosePropertyEntity(property)
-- "${property.entity.text}" as ${displayOperation(property.operation)}
+- ${displayOperation(property.operation, property.entity.text)}
