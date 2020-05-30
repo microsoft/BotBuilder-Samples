@@ -4,19 +4,27 @@
 - ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
 
 # template
-- ${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
+-```
+${'#'} displayOperation(op, text)
+- \${operationName(op)} "\${text}"" to \${operationProperty(op)}
+
+${'#'} operationProperty(op)
+- \${substring(op, indexOf(op, '(') + 1, length(op) - indexOf(op, '(') - 2)}
+
+${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
+```
 
 # namePlusSwitch
 -```
-${'#'} displayOperation(op) 
+${'#'} operationName(op) 
 - SWITCH: \${op}```
 
-# case(option)
--```    - CASE: \${'${option}'} 
-        - ${phrase(option)}```
+# case(op, property)
+-```    - CASE: \${'${op}(${property})'} 
+        - ${phrase(op)}```
 
 # cases(property)
-- ${[case(`Add(${property})`), case(`Remove(${property})`), case(`Show(${property})`), case(`Clear(${property})`)]}
+- ${[case('Add', property), case('Remove', property), case('Show', property), case('Clear', property)]}
 
 # allCases
 - ${foreach(properties, property, cases(property))}

@@ -23,9 +23,5 @@ ${'#'} ${property}_Prompt
 -```
 > Template for generating display text for the value of the '${property}' property.
 ${'#'} getDisplayValueText_${property}(val)
-- IF: \${val}
-- \${join(foreach(indicesAndValues(val), entry, entry.value), ' ')}
-- ELSE:
-- no value
+- \${displayStructuredValue(val)}
 ```
-

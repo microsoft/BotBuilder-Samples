@@ -5,17 +5,17 @@
 # getChooseEnumEntityText(property)
 - ```
 ${getAskForHelpText()}
-Please choose a value for ${getDisplayNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}]
+Please choose a value for ${getDisplayNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEnumEntityValueText(property, val)), ', ')}]
 ```
 
 # getChooseEnumArrayEntityText(property)
 - ```
 ${getAskForHelpText()}
-Please choose a value for ${getDisplayNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}]
+Please choose a value for ${getDisplayNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEnumEntityValueText(property, val)), ', ')}]
 ``` 
 
 # getChoosePropertiesText
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, getChoosePropertyEntityText(choice)), " or ")}?
 
 # getChoosePropertyEntityText(property)
-- "${property.entity.text}" as ${displayOperation(property.operation)}
+- ${displayOperation(property.operation, property.entity.text)}
