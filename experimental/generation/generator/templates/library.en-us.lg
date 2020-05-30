@@ -18,13 +18,13 @@
 - ${template(`getDisplayValueText_${property}Entity`, val)}
 
 > Display a value handling arrays and objects
-# displayStructuredValue(val)
+# getValueText(val)
 - IF: ${isArray(val)}
-- [${join(foreach(val, elt, displayStructuredValue(elt)), ', ')}]
+- [${join(foreach(val, elt, getValueText(elt)), ', ')}]
 - ELSEIF: ${isObject(val)}
 > TODO: Use curly braces instead of ()
 > BUG in emulator 4.9.1: https://github.com/microsoft/BotFramework-Emulator/issues/2154
-- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${displayStructuredValue(elt.value)}`), ', ')})
+- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${getValueText(elt.value)}`), ', ')})
 - ELSEIF: ${val}
 - ${val}
 - ELSE:
