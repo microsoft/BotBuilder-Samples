@@ -5,13 +5,13 @@
 # getChooseEnumEntityText(property)
 - ```
 ${getAskForHelpText()}
-Please choose a value for ${getPropertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
+Please choose a value for ${getPropertyNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
 ```
 
 # getChooseEnumArrayEntityText(property)
 - ```
 ${getAskForHelpText()}
-Please choose a value for ${getPropertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
+Please choose a value for ${getPropertyNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
 ``` 
 
 # getChoosePropertiesText

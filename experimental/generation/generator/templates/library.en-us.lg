@@ -8,7 +8,7 @@
 # getWelcomeText
 - Welcome!
 
-# getPropertyName(property)
+# getPropertyNameText(property)
 - ${template(`getPropertyName_${property}`)}
 
 # getPropertyValueText(property, val)
@@ -35,13 +35,13 @@
 
 # getRequiredPropertiesText
 - IF: ${count(dialogClass.schema.required) > 0}
-- Required properties include: ${join(foreach(dialogClass.schema.required, property, getPropertyName(property)), ',')}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, getPropertyNameText(property)), ',')}
 - ELSE:
 - 
 
 # getOptionalPropertiesText
 - IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getPropertyName(property)), ', ')}${EOL()}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getPropertyNameText(property)), ', ')}${EOL()}
 - ELSE:
 - 
 

@@ -20,13 +20,13 @@ You can find out about a specific property by asking for 'help <property>'.
 
 # internal_getPropertyHelpText(property)
 - IF: ${dialogClass.schema.properties[property].enum}
-- Possible values for ${getPropertyName(property)} include: [${join(getPossibleValuesText(property), ', ')}]
+- Possible values for ${getPropertyNameText(property)} include: [${join(getPossibleValuesText(property), ', ')}]
 - ELSEIF: ${dialogClass.schema.properties[property].type == 'number'}
-- Expect a number for ${getPropertyName(property)}
+- Expect a number for ${getPropertyNameText(property)}
 - ELSEIF: ${dialogClass.schema.properties[property].type == 'string'}
-- Enter any string for ${getPropertyName(property)}
+- Enter any string for ${getPropertyNameText(property)}
 - ELSEIF: ${dialogClass.schema.properties[property].type == 'array'}
-- ${getPropertyName(property)} is a list from: [${join(getPossibleArrayValuesText(property), ', ')}]
+- ${getPropertyNameText(property)} is a list from: [${join(getPossibleArrayValuesText(property), ', ')}]
 - ELSE:
 - No help available.
 
