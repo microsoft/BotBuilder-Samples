@@ -82,7 +82,7 @@ class UserProfileDialog extends ComponentDialog {
 
     async nameConfirmStep(step) {
         step.values.name = step.result;
-        
+
         // We can send messages to the user at any point in the WaterfallStep.
         await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AckName', step.values)));
 
@@ -94,9 +94,9 @@ class UserProfileDialog extends ComponentDialog {
         if (step.result) {
             // User said "yes" so we will be prompting for the age.
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
-            const promptOptions = { 
-                prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge')), 
-                retryPrompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge.reprompt')) 
+            const promptOptions = {
+                prompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge')),
+                retryPrompt: ActivityFactory.fromObject(this.lgTemplates.evaluate('AskForAge.reprompt'))
             };
 
             return await step.prompt(NUMBER_PROMPT, promptOptions);
@@ -111,7 +111,7 @@ class UserProfileDialog extends ComponentDialog {
 
         // We can send messages to the user at any point in the WaterfallStep.
         await step.context.sendActivity(ActivityFactory.fromObject(this.lgTemplates.evaluate('AgeReadBack', {
-            userAge:step.values.age
+            userAge: step.values.age
         })));
 
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.

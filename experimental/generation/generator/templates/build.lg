@@ -1,0 +1,27 @@
+# filename
+-build
+
+# template
+-```#!/bin/sh
+region=$1
+thisdir="$(dirname $0)"
+if [ -z "$region" ]; then
+    region="westus"
+fi
+
+key=$2
+if [ -n "$key" ]; then
+    key="--authoringKey $key"
+fi
+
+bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir
+res=$?
+
+if [ $res != 0 ]; then
+    echo build [region] [authoringKey]
+    echo Region defaults to westus.
+    echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
+fi
+
+exit $res
+```

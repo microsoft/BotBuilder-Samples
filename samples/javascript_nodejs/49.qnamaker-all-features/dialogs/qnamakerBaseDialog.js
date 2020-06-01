@@ -19,7 +19,6 @@ const DefaultCardTitle = 'Did you mean:';
 const DefaultCardNoMatchText = 'None of the above.';
 const DefaultCardNoMatchResponse = 'Thanks for the feedback.';
 
-
 /// QnA Maker dialog.
 const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dailog';
 
@@ -29,14 +28,12 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
     constructor(knowledgebaseId, authkey, host) {
-
         var noAnswer = ActivityFactory.DefaultNoAnswer;
         var filters = [];
         super(knowledgebaseId, authkey, host, noAnswer, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
         this.id = QNAMAKER_BASE_DIALOG;
     }
-       
 }
 
 module.exports.QnAMakerBaseDialog = QnAMakerBaseDialog;
@@ -47,4 +44,3 @@ module.exports.DefaultNoAnswer = DefaultNoAnswer;
 module.exports.DefaultCardTitle = DefaultCardTitle;
 module.exports.DefaultCardNoMatchText = DefaultCardNoMatchText;
 module.exports.DefaultCardNoMatchResponse = DefaultCardNoMatchResponse;
-

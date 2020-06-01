@@ -8,8 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "ChangePropertyConfirmation",
+    "operation": "Set(ChangePropertyConfirmation)",
     "entity": "boolean",
     "actions": [
         {
@@ -24,10 +23,11 @@
                 {
                     "$kind": "Microsoft.Ask",
                     "activity": "\${template(concat('Ask',$PropertyToRemember))}",
-                    "expectedProperties": "createArray($PropertyToRemember)"
+                    "expectedProperties": "[$PropertyToRemember]"
                 }
             ]
         }
     ]
+    ${designerOpEntityProperty('Set', 'boolean', 'ChangePropertyConfirmation')}
 }
 ```

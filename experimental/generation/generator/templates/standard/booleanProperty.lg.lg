@@ -15,7 +15,8 @@ ${valueTemplate()}
 
 # AskTemplate
 - ```
-${'#'} Ask${property}
+> Template for prompting the user for the '${property}' property.
+${'#'} ${property}_Prompt
 - \${askBoolean('${property}')}
 ```
 

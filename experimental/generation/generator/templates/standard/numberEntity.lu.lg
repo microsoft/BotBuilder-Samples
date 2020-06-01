@@ -7,5 +7,5 @@
 - ```
 @ prebuilt number ${roles()}
 ${propertyName()}
+${operations('number', [1, 32.4, 99, 215, 1000])}
 ```
-

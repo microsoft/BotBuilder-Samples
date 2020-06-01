@@ -6,7 +6,7 @@
 // Import required packages
 const path = require('path');
 const restify = require('restify');
-const {Templates} = require('botbuilder-lg');
+const { Templates } = require('botbuilder-lg');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -34,7 +34,7 @@ adapter.onTurnError = async (context, error) => {
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(lgTemplates.evaluate('SomethingWentWrong', {
-        message : `${error}`
+        message: `${ error }`
     }));
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator

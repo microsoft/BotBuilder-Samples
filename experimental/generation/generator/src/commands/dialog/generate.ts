@@ -18,6 +18,7 @@ export default class GenerateDialog extends Command {
     ]
 
     static flags: flags.Input<any> = {
+        debug: flags.boolean({ description: 'Show extra debugging information.'}),
         force: flags.boolean({ char: 'f', description: 'Force overwriting generated files.' }),
         help: flags.help({ char: 'h' }),
         locale: flags.string({ char: 'l', description: 'Locales to generate. [default: en-us]', multiple: true }),
@@ -41,6 +42,8 @@ export default class GenerateDialog extends Command {
                 this.warning(msg)
             } else if (type === gen.FeedbackType.error) {
                 this.errorMsg(msg)
+            } else if (type === gen.FeedbackType.debug && flags.debug) {
+                this.info(msg)
             }
         }
         try {

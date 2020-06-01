@@ -4,5 +4,5 @@
 - ${roleEntities('string')}
 
 # templates
-- ${flatten(createArray('stringEntity.lg', 'stringEntity.lu', propertyTemplates()))}
+- ${flatten(['stringEntity.lg', 'stringEntity.lu', propertyTemplates()])}
 

@@ -8,13 +8,12 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "money",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@money.number), ' ', @money.units))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @money)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",
@@ -22,6 +21,7 @@
             "value": "=@money"          
         }
     ]               
+    ${designerOpEntity('Add', 'money')}     
 }
 ```
 

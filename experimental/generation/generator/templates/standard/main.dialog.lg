@@ -7,6 +7,7 @@
 - ```
 {
     "$schema": "${appSchema}",
+    "id": "${prefix}",
     "$kind": "Microsoft.AdaptiveDialog",
     "recognizer": "${prefix}.lu",
     "generator": "${prefix}.lg",
@@ -14,6 +15,6 @@
     "triggers": [ 
         ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
         ]
+    ${designerName(`${prefix} main dialog`)}
 }
 ```
-

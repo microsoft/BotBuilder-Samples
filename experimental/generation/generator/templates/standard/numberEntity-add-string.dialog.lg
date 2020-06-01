@@ -8,13 +8,12 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "number",
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition":"or(less(@number, dialogClass.schema.properties['${property}'].minimum), greater(@number, dialogClass.schema.properties['${property}'].maximum))",
+            "condition":"@number < dialogClass.schema.properties['${property}'].minimum || @number > dialogClass.schema.properties['${property}'].maximum",
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
@@ -33,8 +32,8 @@
                 }
             ]
         }
-        
     ]               
+    ${designerOpEntity('Add', 'number')}
 }
 ```
 

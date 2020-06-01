@@ -8,20 +8,20 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "age",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setObjectPropertyMessage('${property}', concat(string(@age.number), ' ', @age.units))}"
+            "activity": "\${setObjectPropertyMessage('${property}', @age)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
             "value": "=@age"          
         }
-    ]               
+    ]
+    ${designerOpEntity('Add', 'age')}
 }
 ```
 

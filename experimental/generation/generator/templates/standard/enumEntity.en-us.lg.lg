@@ -13,16 +13,16 @@ ${chooseEntity()}
 
 # chooseEntity
 -```
-${'#'} choose${property}Entity
+${'#'} ${property}Entity_Choose
 - \${chooseEnumEntity(${concat("'", property, "'")})}
 ```
 
 # propertyEntity
-- ${join(createArray(namePlusSwitch(), cases(), default()), '')}
+- ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch
 -```
-${'#'} ${property}Entity(value) 
+${'#'} ${property}Entity_DisplayValue(value) 
 - SWITCH: \${value}```
 
 # case(option)

@@ -26,4 +26,3 @@ class DialogAndWelcomeBot extends DialogBot {
 }
 
 module.exports.DialogAndWelcomeBot = DialogAndWelcomeBot;
-

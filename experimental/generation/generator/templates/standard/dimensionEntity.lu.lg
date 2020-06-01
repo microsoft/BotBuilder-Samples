@@ -7,5 +7,5 @@
 - ```
 @ prebuilt dimension ${roles()}
 ${propertyName()}
+${operations('dimension', ["2 feet", "19 inches", "2.5 meters", "200 sq feet"])}
 ```
-
