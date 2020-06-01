@@ -16,12 +16,12 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 > Template for prompting the user for the '${property}' property.
-${'#'} ${property}_Prompt
-- \${askEnumArray('${property}')}```
+${'#'} ${property}_getPromptText
+- \${getAskForEnumArrayText('${property}')}```
 
 # ValueTemplate
 - ```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_DisplayValue(values)
-- \${enumArrayValue('${property}', values)}```
+${'#'} ${property}_getPropertyValueText(values)
+- \${getEnumArrayValueText('${property}', values)}```
 

@@ -10,11 +10,11 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${showForm('${prefix}', publicProperties())}"
+            "activity": "\${getPropertiesAsActivity('${prefix}', getPublicPropertiesText())}"
         },
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${confirmChange()}",
+            "activity": "\${getConfirmChangeText()}",
             "expectedProperties": [
                 "CompleteConfirmation"
             ]

@@ -5,14 +5,14 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnIntent",
-    "intent": "ShowForm",
+    "intent": "ShowProperties",
     "condition": "turn.recognized.score > 0.5",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${showForm('${prefix}', dialogClass.schema.$public)}"           
+            "activity": "\${getPropertiesAsActivity('${prefix}', dialogClass.schema.$public)}"           
         }
     ]
-    ${designerIntent('ShowForm')}
+    ${designerIntent('ShowProperties')}
 }
 ```
