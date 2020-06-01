@@ -9,13 +9,13 @@
 - Welcome!
 
 # getPropertyNameText(property)
-- ${template(`getPropertyName_${property}`)}
+- ${template(`${property}_getPropertyName`)}
 
 # getPropertyValueText(property, val)
-- ${template(`getPropertyValueText_${property}`, val)}
+- ${template(`${property}_getPropertyValueText`, val)}
 
 # getEntityValueText(property, val)
-- ${template(`getEntityValueText_${property}Entity`, val)}
+- ${template(`${property}Entity_getEntityValueText`, val)}
 
 > Display a value handling arrays and objects
 # getValueText(val)

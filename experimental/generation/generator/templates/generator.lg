@@ -49,13 +49,13 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-${'#'} getPropertyName_${property}
+${'#'} ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} getPropertyValueText_${property}(val)
+${'#'} ${property}_getPropertyValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -65,7 +65,7 @@ ${'#'} getPropertyValueText_${property}(val)
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} getEntityValueText_${property}Entity(val)
+${'#'} ${property}Entity_getEntityValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -234,7 +234,7 @@ ${'#'} getEntityValueText_${property}Entity(val)
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${getPromptText_${property}}",
+            "activity": "\${${property}_getPromptText}",
             "expectedProperties": [
                 "${property}"
             ]

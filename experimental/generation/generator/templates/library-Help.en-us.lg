@@ -1,6 +1,6 @@
 [library.en-us.lg]
 
-# getAskHelpText
+# getAutoHelpText
 - IF: ${$retries > 0 && $lastIntent != 'Help'}
 - ${join(foreach($expectedProperties, expected, internal_getPropertyHelpText(expected)), EOL())}
 - ELSE:

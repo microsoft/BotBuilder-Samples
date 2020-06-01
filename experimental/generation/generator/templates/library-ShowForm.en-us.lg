@@ -1,18 +1,18 @@
 [library.en-us.lg]
 
-# getFormAsActivity(name, properties)
+# getPropertiesAsActivity(name, properties)
 [Activity
-    Attachments=${json(getFormAsCard(name, properties))}
+    Attachments=${json(getPropertiesAsCard(name, properties))}
 ]
 
 >>> To generate text instead of card, use this
-# getFormAsText
+# getPropertiesAsText
 - ${join(foreach(dialog.getRequiredPropertiesText, property, getPropertyValueDescriptionText(property)), EOL())}
 
 # getPropertyValueDescriptionText(property)
 - The value of ${getPropertyNameText(property)} is ${getPropertyValueText(property, dialog[property])}.
 
-# getFormAsCard(name, properties)
+# getPropertiesAsCard(name, properties)
 -```
 {
     "type": "AdaptiveCard",
