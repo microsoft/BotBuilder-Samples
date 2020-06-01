@@ -17,7 +17,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getNumberValidatationText('${property}', @number)}"
+                    "activity": "\${getNumberValidationText('${property}', @number)}"
                 }                    
             ],
             "elseActions":[

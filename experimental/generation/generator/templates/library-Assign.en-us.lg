@@ -1,6 +1,6 @@
 [library.en-us.lg]
 
-# getNumberValidatationText(property, number)
+# getNumberValidationText(property, number)
 - IF: ${less(number, dialogClass.schema.properties[property].minimum)}
 - ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${getPropertyNameText(property)}.
 - ELSEIF: ${greater(number, dialogClass.schema.properties[property].maximum)}

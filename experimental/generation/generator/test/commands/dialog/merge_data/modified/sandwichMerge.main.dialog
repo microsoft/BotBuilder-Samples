@@ -70,7 +70,7 @@
         "sandwichMerge-library-HelpIntent",
         "sandwichMerge-library-NotUnderstood",
         "sandwichMerge-library-trigger",
-        "sandwichMerge-library-ShowFormIntent"
+        "sandwichMerge-library-ShowPropertiesIntent"
     ],
     "$Generator": "e4b36e68ccefb6713b1b3236a5bc74ba"
 }
