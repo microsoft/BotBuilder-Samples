@@ -141,7 +141,7 @@ const expressionEngine = new expressions.ExpressionParser((func: string): any =>
     }
 })
 
-const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates', 'generator.lg'), undefined, expressionEngine)
+const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates/standard', 'generator.lg'), undefined, expressionEngine)
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -562,7 +562,7 @@ function expandStandard(dirs: string[]): string[] {
     let expanded: string[] = []
     for (let dir of dirs) {
         if (dir === 'standard') {
-            dir = ppath.join(__dirname, '../../templates')
+            dir = ppath.join(__dirname, '../../templates/standard')
         } else {
             dir = ppath.resolve(dir)
         }
@@ -662,7 +662,7 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        let standard = normalize(ppath.join(__dirname, '../../templates'))
+        let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
         templateDirs = expandStandard(templateDirs)
 
         // User templates + cli templates to find schemas
