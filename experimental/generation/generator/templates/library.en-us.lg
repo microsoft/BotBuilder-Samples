@@ -9,7 +9,7 @@
 - Welcome!
 
 # getPropertyNameText(property)
-- ${template(`${property}_getPropertyName`)}
+- ${template(`${property}_getPropertyNameText`)}
 
 # getPropertyValueText(property, val)
 - ${template(`${property}_getPropertyValueText`, val)}
@@ -70,5 +70,5 @@
 # isMissingProperty(propertyName)
 - !dialog[propertyName] || $PropertyToChange == `${propertyName}`
 
-# isExpectingProperty(propertyName)
+# isRequiredProperty(propertyName)
 - =indexOf(dialog.getRequiredPropertiesTextText, propertyName)

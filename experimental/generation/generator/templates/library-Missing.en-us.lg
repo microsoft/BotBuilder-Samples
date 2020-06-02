@@ -7,13 +7,16 @@ ${getAskForHelpText()}
 Which value do you want for ${getPropertyNameText(property)}?
 ```
 
-# getAskForEnumArrayText(property)
+# getEnumArrayPromptText(property)
 - ```
 ${getAskForHelpText()}
 What values do you want to add for ${getPropertyNameText(property)}?
 ```
 
-# getAskForNumberText(property)
+# getIntegerPromptText(property)
+- ${getNumberPromptText(property)}
+
+# getNumberPromptText(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
 - Enter a number for ${getPropertyNameText(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
@@ -23,19 +26,19 @@ What values do you want to add for ${getPropertyNameText(property)}?
 - ELSE:
 - Enter a number for ${getPropertyNameText(property)}
 
-# getAskForStringText(property)
+# getStringPromptText(property)
 - ```
 ${getAskForHelpText()}
 Enter a value for ${getPropertyNameText(property)}
 ```
 
-# getAskForStringArray(property)
+# getStringArrayPromptText(property)
 -```
 ${getAskForHelpText()}
 What values do you want to add for ${getPropertyNameText(property)}?
 ```
 
-# getAskForBooleanText(property)
+# getBooleanPromptText(property)
 - ```
 ${getAskForHelpText()}
 Enter a value for ${getPropertyNameText(property)}: true or false
