@@ -12,10 +12,10 @@
 - ${template(`${property}_getPropertyNameText`)}
 
 # getPropertyValueText(property, val)
-- ${template(`${property}_getPropertyValueText`, val)}
+- ${template(`${property}_getValueText`, val)}
 
 # getEntityValueText(property, val)
-- ${template(`${property}Entity_getEntityValueText`, val)}
+- ${template(`${property}Entity_getValueText`, val)}
 
 > Display a value handling arrays and objects
 # getValueText(val)

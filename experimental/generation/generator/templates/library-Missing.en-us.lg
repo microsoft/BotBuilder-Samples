@@ -48,4 +48,4 @@ Enter a value for ${getPropertyNameText(property)}: true or false
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
 # getEnumArrayValueText(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`${property}_getPropertyValueText`, value)), ', '), template(`${property}_getPropertyValueText`, values))}
+- ${if(isArray(values), join(foreach(values, value, template(`${property}_getValueText`, value)), ', '), template(`${property}_getValueText`, values))}
