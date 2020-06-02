@@ -23,7 +23,7 @@ ${'#'} ${property}Entity_getChooseEntityText
 
 # namePlusSwitch
 -```
-${'#'} ${property}Entity_getEntityValueText(value) 
+${'#'} ${property}Entity_getValueText(value) 
 - SWITCH: \${value}```
 
 # case(option)
