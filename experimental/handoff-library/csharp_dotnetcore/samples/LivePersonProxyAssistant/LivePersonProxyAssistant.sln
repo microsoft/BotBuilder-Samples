@@ -1,0 +1,42 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30114.105
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivePersonProxyAssistant", "LivePersonProxyAssistant\LivePersonProxyAssistant\LivePersonProxyAssistant.csproj", "{65228F0C-FC1B-4C27-BA5C-F20DA11F60B2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LivePersonProxyAssistant.Tests", "LivePersonProxyAssistant\LivePersonProxyAssistant.Tests\LivePersonProxyAssistant.Tests.csproj", "{0B3E71FE-BCE3-4F77-B06A-87EB629A4BDE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LivePersonConnector", "LivePersonConnector\LivePersonConnector.csproj", "{45A26A3C-B767-4749-9F88-68CBE45505C6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2AAA2400-AAFE-471C-8B69-9D7FF401C3A9}"
+	ProjectSection(SolutionItems) = preProject
+		readme.md = readme.md
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{65228F0C-FC1B-4C27-BA5C-F20DA11F60B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65228F0C-FC1B-4C27-BA5C-F20DA11F60B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65228F0C-FC1B-4C27-BA5C-F20DA11F60B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65228F0C-FC1B-4C27-BA5C-F20DA11F60B2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0B3E71FE-BCE3-4F77-B06A-87EB629A4BDE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B3E71FE-BCE3-4F77-B06A-87EB629A4BDE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B3E71FE-BCE3-4F77-B06A-87EB629A4BDE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B3E71FE-BCE3-4F77-B06A-87EB629A4BDE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{45A26A3C-B767-4749-9F88-68CBE45505C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{45A26A3C-B767-4749-9F88-68CBE45505C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{45A26A3C-B767-4749-9F88-68CBE45505C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{45A26A3C-B767-4749-9F88-68CBE45505C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DA2F006D-70E1-4FA0-9129-D4407906F3D3}
+	EndGlobalSection
+EndGlobal
