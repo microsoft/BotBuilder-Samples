@@ -49,7 +49,7 @@ function normalizeEOL(val: string): string {
 
 export function stringify(val: any, replacer?: any): string {
     if (typeof val === 'object') {
-        val = normalizeEOL(JSON.stringify(val, replacer, '\t'))
+        val = normalizeEOL(JSON.stringify(val, replacer, '  '))
     }
     return val
 }
@@ -522,7 +522,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '\t'})
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
