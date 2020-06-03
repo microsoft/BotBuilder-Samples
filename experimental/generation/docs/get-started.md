@@ -55,4 +55,4 @@ Once you've got the tool installed, you can use the plugin.
 [bf]:https://github.com/microsoft/botframework-cli
 [myget]:https://botbuilder.myget.org/gallery
 [emulator]:https://github.com/Microsoft/BotFramework-Emulator
-[runbot]:../runbot/
+[runbot]:../runbot/readme.md
