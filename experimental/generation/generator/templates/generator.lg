@@ -244,19 +244,6 @@ ${'#'} ${property}Entity_getEntityValueText(val)
 }
 ```
 
-# propertyName
-- IF: ${property}
--```
-> Define the entity recognition of the '${property}' property.
-@ list PROPERTYName
-    - ${property}:
-${if(schema.properties[property].title,
-`\t\t- ${schema.properties[property].title}`,
-synonyms(property))}
-```
-- ELSE:
--
-
 > Define operation entities for '${property}' property.
 # operations(entity, values)
 - IF: ${examples}
@@ -268,19 +255,35 @@ synonyms(property))}
 
 # generateOperations(entity, values)
 -```
-> Define operation entities for '${property}' property.
+> Define the entity for identifying '${property}' property.
+@ml ${property}
+
+> Define operations on '${property}' property.
+
+>> Show the current value of '${property}' property.
+@ml Show()
+    - @${property} ${property}
+
+>> Clear the current value of '${property}' property.
+@ml Clear()
+    - @${property} ${property}
+
+>> Provide help for the '${property}' property.
+@ ml Help()
+    - @${property} ${property}
+
+>> Change the current value of the '${property}' property.
+@ ml Change()
+    - @${property} ${property}
+
+>> Add a value to '${property}' property.
 @ml Add(${property}) = 
     - @${entity} ${entity}
     - @PROPERTYName PROPERTYName
 
+>> Remove a value from '${property}' property.
 @ml Remove(${property}) = 
     - @${entity} ${entity}
-    - @PROPERTYName PROPERTYName
-
-@ml Clear(${property}) =
-    - @PROPERTYName PROPERTYName
-    
-@ml Show(${property}) =
     - @PROPERTYName PROPERTYName
 
 > Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
@@ -291,11 +294,10 @@ ${substitutions(`library-operations.${locale}.data`,
            "label": ${labelList(entity, values)}, 
            "property": "${property}"}`), 
     3)}
-- ${property}
 ```
 
 # propertyList(property)
-- [${join(foreach(phrases(property), phrase, `"{@PROPERTYName=${phrase}}"`), ', ')}]
+- [${join(foreach(phrases(property), phrase, `"{@${property}=${phrase}}"`), ', ')}]
 
 # labelList(entity, values)
 - [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]

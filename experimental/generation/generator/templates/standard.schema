@@ -101,7 +101,6 @@
         "library-NoneIntent.lu",
         "library-triggerIntent.lu",
         "library-ShowPropertiesIntent.lu",
-        "library-PROPERTYName.lu",
         "library-PROPERTYName.lg",
         "library-Assign.lg",
         "library-Choose.lg",
