@@ -17,6 +17,6 @@ ${valueTemplate()}
 - ```
 > Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_getPromptText
-- \${getAskForBooleanText('${property}')}
+- \${getBooleanPromptText('${property}')}
 ```
 

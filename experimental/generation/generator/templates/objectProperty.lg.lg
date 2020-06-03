@@ -16,12 +16,12 @@ ${ValueTemplate()}
 - ```
 > Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_getPromptText
-- \${getAskForStringText('${property}')}
+- \${getStringPromptText('${property}')}
 ```
 
 # ValueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getPropertyValueText(val)
+${'#'} ${property}_getValueText(val)
 - \${getValueText(val)}
 ```

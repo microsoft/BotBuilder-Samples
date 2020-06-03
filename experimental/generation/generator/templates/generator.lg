@@ -55,7 +55,7 @@ ${'#'} ${property}_getPropertyNameText
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getPropertyValueText(val)
+${'#'} ${property}_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -65,7 +65,7 @@ ${'#'} ${property}_getPropertyValueText(val)
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} ${property}Entity_getEntityValueText(val)
+${'#'} ${property}Entity_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -229,12 +229,12 @@ ${'#'} ${property}Entity_getEntityValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!$${property} || $PropertyToChange == '${property}'",
-    "priority": "=indexOf(dialog.getRequiredPropertiesText, '${property}')",
+    "condition":"=!$${property} || $PropertyToChange == '${property}'",
+    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}_getPromptText}",
+            "activity": "\${${property}_getPromptText()}",
             "expectedProperties": [
                 "${property}"
             ]

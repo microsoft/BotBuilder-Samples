@@ -3,17 +3,20 @@
 
 # getEnumPromptText(property)
 - ```
-${getAskForHelpText()}
+${getAutoHelpText()}
 Which value do you want for ${getPropertyNameText(property)}?
 ```
 
-# getAskForEnumArrayText(property)
+# getEnumArrayPromptText(property)
 - ```
-${getAskForHelpText()}
+${getAutoHelpText()}
 What values do you want to add for ${getPropertyNameText(property)}?
 ```
 
-# getAskForNumberText(property)
+# getIntegerPromptText(property)
+- ${getNumberPromptText(property)}
+
+# getNumberPromptText(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
 - Enter a number for ${getPropertyNameText(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
@@ -23,21 +26,21 @@ What values do you want to add for ${getPropertyNameText(property)}?
 - ELSE:
 - Enter a number for ${getPropertyNameText(property)}
 
-# getAskForStringText(property)
+# getStringPromptText(property)
 - ```
-${getAskForHelpText()}
+${getAutoHelpText()}
 Enter a value for ${getPropertyNameText(property)}
 ```
 
-# getAskForStringArray(property)
+# getStringArrayPromptText(property)
 -```
-${getAskForHelpText()}
+${getAutoHelpText()}
 What values do you want to add for ${getPropertyNameText(property)}?
 ```
 
-# getAskForBooleanText(property)
+# getBooleanPromptText(property)
 - ```
-${getAskForHelpText()}
+${getAutoHelpText()}
 Enter a value for ${getPropertyNameText(property)}: true or false
 ```
 
@@ -45,4 +48,4 @@ Enter a value for ${getPropertyNameText(property)}: true or false
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
 # getEnumArrayValueText(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`${property}_getPropertyValueText`, value)), ', '), template(`${property}_getPropertyValueText`, values))}
+- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity_getValueText`, value)), ', '), template(`${property}Entity_getValueText`, values))}

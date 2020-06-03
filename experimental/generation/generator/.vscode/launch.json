@@ -39,7 +39,8 @@
                 "-o",
                 "${env:TEMP}/sandwich.out",
                 "--force",
-                "--verbose"
+                "--verbose",
+                "--singleton"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
