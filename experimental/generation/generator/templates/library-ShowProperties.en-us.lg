@@ -7,7 +7,7 @@
 
 >>> To generate text instead of card, use this
 # getPropertiesAsText
-- ${join(foreach(dialog.getRequiredPropertiesText, property, getPropertyValueDescriptionText(property)), EOL())}
+- ${join(foreach(dialog.requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
 
 # getPropertyValueDescriptionText(property)
 - The value of ${getPropertyNameText(property)} is ${getPropertyValueText(property, dialog[property])}.

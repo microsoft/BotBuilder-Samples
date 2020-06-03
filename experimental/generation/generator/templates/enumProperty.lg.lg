@@ -24,7 +24,7 @@ ${'#'} ${property}_getPromptText
 - ```
 > Template for generating display text for the value of the '${property}' property.
 ${'#'} ${property}_getValueText(val)
-- \${getValueText(val)}
+- \${${property}Entity_getValueText(val)}
 ```
 
 

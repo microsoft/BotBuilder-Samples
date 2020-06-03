@@ -229,12 +229,12 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!$${property} || $PropertyToChange == '${property}'",
-    "priority": "=indexOf(dialog.getRequiredPropertiesText, '${property}')",
+    "condition":"=!$${property} || $PropertyToChange == '${property}'",
+    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}_getPromptText}",
+            "activity": "\${${property}_getPromptText()}",
             "expectedProperties": [
                 "${property}"
             ]
