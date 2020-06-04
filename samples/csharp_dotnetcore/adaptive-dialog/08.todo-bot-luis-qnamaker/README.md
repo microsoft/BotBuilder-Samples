@@ -61,12 +61,12 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - In order for interruption to work effectively, you need to generate LU models that are cross-trained. 
   - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
 > cd Dialogs
-> bf luis:cross-train --in . --out generated --config DialogLuHierarchy.config.json
+> bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
 ```
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
 - To create, train and pubish LUIS applications for this bot
 ```bash
-> bf luis:build --in ..\generated --out ..\generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key> 
+> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key> 
 ```
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file. 
 - Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.
