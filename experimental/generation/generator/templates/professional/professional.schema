@@ -13,7 +13,6 @@
         "library-CrossTrain.lg",
         "library-QnAIntent.dialog",
         "library-ChooseIntent.dialog",
-        "config.json",
-        "build.cmd"   
-    ]
+        "config.json"
+        ]
 }

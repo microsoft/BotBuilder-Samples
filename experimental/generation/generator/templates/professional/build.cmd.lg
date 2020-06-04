@@ -9,23 +9,26 @@ setlocal
 set region=%1
 if "%region%" EQU "" set region=westus
 
-set key=%2
-if "%2" NEQ "" set key=--authoringKey %2
+set locale=%2
 
-set qnakey=%3
+set key=%3
+if "%3" NEQ "" set key=--authoringKey %3
 
-set alias=%4
+set qnaKey=%4
 
-set botName=%5
+set alias=%5
+
+set botName=%6
+
+set schemaName=%7
 
 echo Building Models
-bf cross-train --in . && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName%  --dialog --force && bf qnamaker:build --subscriptionKey %qnakey% --in ./cross-trained/ --out . --suffix %alias% --botName %botName%  --dialog --force 
+bf luis:cross-train --in . && copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force && bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
 
 goto done
 
 :help
-echo build.cmd [region] [authoringKey]
+echo build.cmd [region] [locale] [authoringKey] [qnaKey] [alias] [botName] [schemaName]
 echo Region defaults to westus.
-echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
 :done
 ```
