@@ -74,7 +74,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - Get your [QnA Maker subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
 - Run qnamaker:build to create/ update, train and publish QnA Maker KBs required to run this bot. The content for the KB comes from .qna files under dialogs.
 ```bash
-> bf qnamaker:build --in ..\generated --out ..\generated --botName TodoBotWithLuisAndQnA --log --subscriptionKey <Your QnA subscription key>
+> bf qnamaker:build --in ../generated --out ../generated --botName TodoBotWithLuisAndQnA --log --subscriptionKey <Your QnA subscription key>
 ```
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as qnamaker.settings.\<youralias>.\<region>.json file. 
 - Add the KB IDs for the created applications from qnamaker.settings.\<youralias>.\<region>.json to appsettings.json.
