@@ -18,7 +18,7 @@ In order to setup runbot:
 
 ## Usage
 
-The simplest way to use runbot is to execute the `run.cmd` script in the output generated dialog directory.  If you want to execute it directly, you can execute the command `dotnet run <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <directoryWithDeclarativeAssets>`.
+The simplest way to use runbot is to execute the `run.cmd` script in the output generated dialog directory.  If you want to execute it directly, you can execute the command `dotnet run --project <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <directoryWithDeclarativeAssets>`.
 At that point you can connect to your bot using `http://localhost:5000/api/messages` in the [Bot Framework Emulator][emulator].
 
 Command line args:

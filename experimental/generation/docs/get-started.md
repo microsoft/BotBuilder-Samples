@@ -16,8 +16,10 @@ Open a bash window / command prompt and:
 2. Install the CLI tool: `npm install -g @microsoft/botframework-cli`
 3. Install the plugin: `bf plugins:install @microsoft/bf-generate`
 4. Point npm back to the default: `npm config set registry https://registry.npmjs.org/`
+5. To use the generated `run` script, you need to setup [RunBot][runbot] and also set the environment variable `REPOS` to the parent directory where `botbuilder-samples` is cloned. 
+   1. `set REPOS=<botbuilder-samples parent>`
+   2. If you want the setting to persist, `setx REPOS <botbuilder-samples parent>`
 
-If you want to easily execute your generated dialogs you can clone the [RunBot][runbot] bot runtime and use it to initiate your dialogs.
 Alternatively, you can setup your own Bot Framework runtime which provides the ability to extend the framework using code.  Currently, generated dialogs work best with the current SDK bits in master.
 
 ## Using the plugin
