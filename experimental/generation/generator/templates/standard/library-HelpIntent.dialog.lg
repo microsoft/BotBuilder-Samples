@@ -10,7 +10,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${help(@PropertyName)}"           
+            "activity": "\${getPropertyHelpText(@PropertyName)}"           
         }
     ]
     ${designerIntent('Help')}

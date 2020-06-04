@@ -16,8 +16,8 @@ ${valueTemplate()}
 # AskTemplate
 - ```
 > Template for prompting the user for the '${property}' property.
-${'#'} ${property}_Prompt
-- \${askNumber('${property}')}
+${'#'} ${property}_getPromptText
+- \${getIntegerPromptText('${property}')}
 ```
 
 

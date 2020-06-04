@@ -2,20 +2,20 @@
 [library-DisplayOperation.en-us.lg]
 [library-Help.en-us.lg]
 
-# chooseEnumEntity(property)
+# getChooseEnumEntityText(property)
 - ```
-${askHelp()}
-Please choose a value for ${displayName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}]
+${getAutoHelpText()}
+Please choose a value for ${getPropertyNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
 ```
 
-# chooseEnumArrayEntity(property)
+# getChooseEnumArrayEntityText(property)
 - ```
-${askHelp()}
-Please choose a value for ${displayName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, enumEntityValue(property, val)), ', ')}]
+${getAutoHelpText()}
+Please choose a value for ${getPropertyNameText(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, getEntityValueText(property, val)), ', ')}]
 ``` 
 
-# chooseProperties
-- Did you mean ${join(foreach(turn.dialogevent.value, choice, choosePropertyEntity(choice)), " or ")}?
+# getChoosePropertiesText
+- Did you mean ${join(foreach(turn.dialogevent.value, choice, getChoosePropertyEntityText(choice)), " or ")}?
 
-# choosePropertyEntity(property)
+# getChoosePropertyEntityText(property)
 - ${displayOperation(property.operation, property.entity.text)}

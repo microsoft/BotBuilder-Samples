@@ -49,13 +49,13 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-${'#'} ${property}_DisplayName
+${'#'} ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_DisplayValue(val)
+${'#'} ${property}_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -65,7 +65,7 @@ ${'#'} ${property}_DisplayValue(val)
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} ${property}Entity_DisplayValue(val)
+${'#'} ${property}Entity_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -82,7 +82,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getSetPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.SetProperty",
@@ -114,7 +114,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setArrayPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getSetArrayPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -152,7 +152,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${removePropertyMessage('${property}', @${entity})}"
+                    "activity": "\${getRemovePropertyText('${property}', @${entity})}"
                 },  
                 {
                     "$kind": "Microsoft.DeleteProperty",
@@ -175,7 +175,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${removeArrayPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getRemoveArrayPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -197,7 +197,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${clearPropertyMessage('${property}')}"
+            "activity": "\${getClearPropertyText('${property}')}"
         },
         {
             "$kind": "Microsoft.DeleteProperty",
@@ -217,7 +217,7 @@ ${'#'} ${property}Entity_DisplayValue(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${showPropertyMessage(@PROPERTYName)}"
+            "activity": "\${getShowPropertyText(@PROPERTYName)}"
         }
     ]               
     ${designerOp('Show')}     
@@ -229,12 +229,12 @@ ${'#'} ${property}Entity_DisplayValue(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!$${property} || $PropertyToChange == '${property}'",
+    "condition":"=!$${property} || $PropertyToChange == '${property}'",
     "priority": "=indexOf(dialog.requiredProperties, '${property}')",
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}_Prompt()}",
+            "activity": "\${${property}_getPromptText()}",
             "expectedProperties": [
                 "${property}"
             ]
