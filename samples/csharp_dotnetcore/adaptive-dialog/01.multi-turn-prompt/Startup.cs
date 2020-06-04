@@ -47,11 +47,8 @@ namespace Microsoft.BotBuilderSamples
             // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
 
-            // The Dialog that will be run by the bot.
-            services.AddSingleton<RootDialog>();
-
             // Create the bot. the ASP Controller is expecting an IBot.
-            services.AddSingleton<IBot, DialogBot<RootDialog>>();
+            services.AddSingleton<IBot, DialogBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
