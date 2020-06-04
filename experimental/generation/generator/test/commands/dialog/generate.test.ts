@@ -5,7 +5,7 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 
-import {expect, test} from '@oclif/test';
+import { expect, test } from '@oclif/test';
 import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
@@ -53,7 +53,7 @@ describe('dialog:generate', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = {$comment: 'this is a .dialog file'}
+        let dialog = { $comment: 'this is a .dialog file' }
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -72,7 +72,7 @@ describe('dialog:generate', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, undefined, feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
@@ -85,7 +85,7 @@ describe('dialog:generate', async () => {
     it('Singleton', async () => {
         try {
             console.log('\n\nGeneration')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, undefined, feedback)
             assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton')
         } catch (e) {
             assert.fail(e.message)

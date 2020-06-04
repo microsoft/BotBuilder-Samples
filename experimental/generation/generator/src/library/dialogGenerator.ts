@@ -534,7 +534,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
 async function generateQnA(schema: string, allLocales: string[], inDir: string) {
     let files = fs.readdirSync(inDir)
     for (let locale of allLocales) {
-        let qnaText = ""
+        let qnaText = ''
         for (let file of files) {
             if (file.endsWith('qna')) {
                 let content = await fs.readFile(ppath.join(inDir, file), 'utf-8')
