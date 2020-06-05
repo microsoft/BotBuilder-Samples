@@ -190,7 +190,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = new List<Dialog>()
                         {
-                            new SendActivity("${@Answer}")
+                            new CodeAction(ResolveAndSendQnAAnswer)
                         }
                     }
                 }
@@ -206,7 +206,7 @@ namespace Microsoft.BotBuilderSamples
         private async Task<DialogTurnResult> ResolveAndSendQnAAnswer(DialogContext dc, System.Object options)
         {
             var exp1 = Expression.Parse("@answer").TryEvaluate(dc.State).value;
-            var resVal = await this._getUserProfileDialog.Generator.Generate(dc, exp1.ToString(), dc.State);
+            var resVal = await this._getUserProfileDialog.Generator.GenerateAsync(dc, exp1.ToString(), dc.State);
             await dc.Context.SendActivityAsync(ActivityFactory.FromObject(resVal));
             return await dc.EndDialogAsync(options);
         }
