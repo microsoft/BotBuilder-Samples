@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using LivePersonConnector;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -35,7 +36,7 @@ namespace LivePersonProxyBot
             services.AddSingleton(conversationState);
 
             // Create the Bot Framework Adapter.
-            services.AddSingleton<IBotFrameworkHttpAdapter, LivePersonProxyBotAdapter>();
+            services.AddSingleton<BotFrameworkHttpAdapter, LivePersonAdapter>();
 
             services.AddSingleton<LivePersonConnector.ConversationMap>();
 
@@ -45,9 +46,6 @@ namespace LivePersonProxyBot
             services.AddTransient<LivePersonConnector.ILivePersonCredentialsProvider, LivePersonCredentialsProvider>();
 
             services.AddSingleton<LivePersonConnector.HandoffMiddleware>();
-
-            services.AddSingleton<LoggingMiddleware>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

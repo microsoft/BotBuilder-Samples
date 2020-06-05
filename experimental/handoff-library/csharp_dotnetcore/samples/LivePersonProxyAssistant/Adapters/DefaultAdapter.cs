@@ -47,7 +47,6 @@ namespace LivePersonProxyAssistant.Adapters
             TelemetryInitializerMiddleware telemetryMiddleware,
             IBotTelemetryClient telemetryClient,
             ILogger<BotFrameworkHttpAdapter> logger,
-            LoggingMiddleware loggingMiddleware,
             HandoffMiddleware handoffMiddleware,
             SkillsConfiguration skillsConfig = null,
             SkillHttpClient skillClient = null)
@@ -64,7 +63,6 @@ namespace LivePersonProxyAssistant.Adapters
             OnTurnError = HandleTurnErrorAsync;
 
             Use(telemetryMiddleware);
-            Use(loggingMiddleware);
             Use(handoffMiddleware);
 
             // Uncomment the following line for local development without Azure Storage

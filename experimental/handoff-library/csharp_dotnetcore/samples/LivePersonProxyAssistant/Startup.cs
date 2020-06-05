@@ -164,7 +164,6 @@ namespace LivePersonProxyAssistant
             // LivePerson dependency injection
             services.AddTransient<ILivePersonCredentialsProvider, LivePersonCredentialsProvider>();
             services.AddSingleton<HandoffMiddleware>();
-            services.AddSingleton<LoggingMiddleware>();
             services.AddSingleton<LivePersonConnector.ConversationMap>();
         }
 
