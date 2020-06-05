@@ -35,7 +35,7 @@ namespace LivePersonProxyBot
             services.AddSingleton(conversationState);
 
             // Create the Bot Framework Adapter.
-            services.AddSingleton<BotFrameworkHttpAdapter, LivePersonProxyBotAdapter>();
+            services.AddSingleton<IBotFrameworkHttpAdapter, LivePersonProxyBotAdapter>();
 
             services.AddSingleton<LivePersonConnector.ConversationMap>();
 
