@@ -3,6 +3,20 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+# Bot files
+*.bot
+
+# Virtual Assistant & Skill deployment files
+code.zip
+.deployment
+**/Deployment/deploy_cognitive_models_log.txt
+**/Deployment/deploy_log.txt
+**/Deployment/publish_log.txt
+**/Deployment/Resources/**/*.json
+
+# Virtual Assistant & Skill Dispatch folder
+**/Deployment/Resources/Dispatch/
+
 # User-specific files
 *.rsuser
 *.suo

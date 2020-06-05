@@ -25,7 +25,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LivePersonConnector\LivePersonConnector.csproj" />
+    <ProjectReference Include="..\LivePersonConnector\LivePersonConnector.csproj" />
   </ItemGroup>
 
   <ItemGroup>
