@@ -8,13 +8,7 @@
 - Thanks, ${CapitalizeName(user.userProfile.Name)}.
 
 # CapitalizeName(param)
-- IF : ${count(param) != 1}
-    - ${concat(CapitalizeFirstLetter(param), substring(param, 1))}
-- ELSE :
-    - ${CapitalizeFirstLetter(param)}
-
-# CapitalizeFirstLetter(param)
-- ${concat(toUpper(substring(param, 0, 1)))}
+- ${toUpper(substring(param, 0, 1))}${if((count(param) != 1), substring(param, 1), '')}
 
 # AgeConfirmPrompt
 - Would you like to give your age?
