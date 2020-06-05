@@ -238,4 +238,5 @@ ModelManifest.xml
 
 # Files with secrets
 
+appsettings.json
 deploy.cmd

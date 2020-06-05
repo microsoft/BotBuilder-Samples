@@ -12,6 +12,7 @@ code.zip
 **/Deployment/deploy_cognitive_models_log.txt
 **/Deployment/deploy_log.txt
 **/Deployment/publish_log.txt
+**/Deployment/Resources/**/*.json
 
 # Virtual Assistant & Skill Dispatch folder
 **/Deployment/Resources/Dispatch/
