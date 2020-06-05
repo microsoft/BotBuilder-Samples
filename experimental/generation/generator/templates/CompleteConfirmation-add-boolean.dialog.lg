@@ -1,0 +1,40 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${libraryFilename('CompleteConfirmation-add-boolean.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Set(CompleteConfirmation)",
+    "entity": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$CompleteConfirmation",
+            "value": "=@boolean"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$CompleteConfirmation == 'false'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.Ask",
+                    "activity": "\${getChoosePropertyText()}",
+                    "expectedProperties": [
+                        "PropertyToChange"
+                    ]
+                }
+            ]
+        }
+    ]
+    ${designerOpEntityProperty('Set', 'boolean', 'CompleteConfirmation')}
+}
+```

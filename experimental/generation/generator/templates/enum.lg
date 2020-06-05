@@ -1,0 +1,8 @@
+[generator.lg](generator.lg)
+
+# entities
+- ${[`${property}Entity`]}
+
+# templates
+- ${propertyTemplates()}
+

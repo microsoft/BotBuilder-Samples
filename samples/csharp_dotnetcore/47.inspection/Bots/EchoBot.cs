@@ -11,8 +11,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class EchoBot : ActivityHandler
     {
-        private ConversationState _conversationState;
-        private UserState _userState;
+        private readonly ConversationState _conversationState;
+        private readonly UserState _userState;
 
         public EchoBot(ConversationState conversationState, UserState userState)
         {

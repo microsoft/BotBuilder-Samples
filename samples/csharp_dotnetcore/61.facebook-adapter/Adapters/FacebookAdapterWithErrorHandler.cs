@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace FacebookAdapterBot.Adapters
+namespace Microsoft.BotBuilderSamples.Adapters
 {
     public class FacebookAdapterWithErrorHandler : FacebookAdapter
     {

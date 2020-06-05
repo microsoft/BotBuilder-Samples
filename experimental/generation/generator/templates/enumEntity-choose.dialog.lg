@@ -1,0 +1,21 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${chooseEntityFilename()}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnChooseEntity",
+    "entity": "${property}Entity",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${${property}Entity_getChooseEntityText()}",
+            "expectedProperties": ["${property}"]
+        }
+    ]
+    ${designerChooseEntity()}
+}
+```

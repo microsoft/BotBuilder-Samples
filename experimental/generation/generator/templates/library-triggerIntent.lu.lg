@@ -1,0 +1,11 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${locale}/library/${prefix}-trigger.en-us.lu
+
+# template
+-```
+> This is where you would put utterances that should trigger ${triggerIntent}
+${'#'} ${triggerIntent}
+- ${prefix}
+```

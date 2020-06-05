@@ -1,0 +1,20 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${prefix}.main.dialog
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "id": "${prefix}",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "recognizer": "${prefix}.lu",
+    "generator": "${prefix}.lg",
+    "schema": "${prefix}.json",
+    "triggers": [ 
+        ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
+        ]
+    ${designerName(`${prefix} main dialog`)}
+}
+```

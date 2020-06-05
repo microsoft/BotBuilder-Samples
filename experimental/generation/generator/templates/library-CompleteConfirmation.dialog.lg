@@ -1,0 +1,25 @@
+[generator.lg](generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "empty(where(dialog.requiredProperties, property, !dialog[property]))",
+    "priority": 1000,
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${getPropertiesAsActivity('${prefix}', publicProperties())}"
+        },
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${getConfirmChangeText()}",
+            "expectedProperties": [
+                "CompleteConfirmation"
+            ]
+        }
+    ]
+    ${designerMissing('PropertyToChange')}
+}
+```

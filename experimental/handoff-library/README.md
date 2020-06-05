@@ -6,7 +6,7 @@ The library implements the additions to the Bot Framework SDK to support handoff
 
 Integrations with specific agent hubs are not part of the library. 
 
-The library is intto be merged in a future release of the Bot Framework SDK.
+The library will be merged in a future release of the Bot Framework SDK.
 
 ## Introduction
 
@@ -16,7 +16,7 @@ The goal of this library is not to offer a universal solution for integration wi
 
 ## Protocol
 
-The protocol is centered around three distinct events for initiation, acknowledgement, and completion.
+The protocol is centered around events for initiation (sent by the bot to the channel) and status update (sent by the channel to the bot).
 
 ### Handoff Initiation
 

@@ -1,3 +1,4 @@
+/* eslint no-extra-boolean-cast: 0 */
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
@@ -81,7 +82,7 @@ class QnAMakerMultiturnDialog extends ComponentDialog {
                 qnaMakerOptions.context = {
                     previousQnAId: prevQnAId
                 };
-                
+
                 qnaMakerOptions.qnaId = 0;
                 if (previousContextData[stepContext.context.activity.text.toLowerCase()] !== null) {
                     qnaMakerOptions.qnaId = previousContextData[stepContext.context.activity.text.toLowerCase()];

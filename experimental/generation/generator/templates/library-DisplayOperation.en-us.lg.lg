@@ -1,0 +1,34 @@
+[generator.lg](generator.lg)
+
+# filename
+- ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
+
+# template
+-```
+${'#'} displayOperation(op, text)
+- \${operationName(op)} "\${text}"" to \${operationProperty(op)}
+
+${'#'} operationProperty(op)
+- \${substring(op, indexOf(op, '(') + 1, length(op) - indexOf(op, '(') - 2)}
+
+${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
+```
+
+# namePlusSwitch
+-```
+${'#'} operationName(op) 
+- SWITCH: \${op}```
+
+# case(op, property)
+-```    - CASE: \${'${op}(${property})'} 
+        - ${phrase(op)}```
+
+# cases(property)
+- ${[case('Add', property), case('Remove', property), case('Show', property), case('Clear', property)]}
+
+# allCases
+- ${foreach(properties, property, cases(property))}
+
+# default
+-```    - DEFAULT: 
+        - I don't understand \${op}```

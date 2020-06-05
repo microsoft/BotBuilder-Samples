@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace SlackAdapterBot.Adapters
+namespace Microsoft.BotBuilderSamples.Adapters
 {
     public class BotFrameworkAdapterWithErrorHandler : BotFrameworkHttpAdapter
     {

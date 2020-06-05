@@ -1,0 +1,18 @@
+[generator.lg](generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "ShowProperties",
+    "condition": "turn.recognized.score > 0.5",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${getPropertiesAsActivity('${prefix}', dialogClass.schema.$public)}"           
+        }
+    ]
+    ${designerIntent('ShowProperties')}
+}
+```

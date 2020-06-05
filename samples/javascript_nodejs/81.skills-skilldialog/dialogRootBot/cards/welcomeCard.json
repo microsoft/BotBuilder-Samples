@@ -1,0 +1,29 @@
+{
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+        "type": "Image",
+        "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+        "size": "stretch"
+        },
+        {
+            "type": "TextBlock",
+            "spacing": "Medium",
+            "size": "Medium",
+            "weight": "Bolder",
+            "text": "Welcome to the Dialog Skill Sample!",
+            "wrap": true,
+            "maxLines": 0,
+            "color": "Accent"
+        },
+        {
+            "type": "TextBlock",
+            "size": "default",
+            "text": "This sample allows you to connect to a skill using a SkillDialog to invoke several actions.",
+            "wrap": true,
+            "maxLines": 0
+        }
+    ]
+  }

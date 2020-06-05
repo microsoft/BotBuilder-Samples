@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Twilio;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
-namespace TwilioAdapterBot.Controllers
+namespace Microsoft.BotBuilderSamples.Controllers
 {
     [Route("api/twilio")]
     [ApiController]

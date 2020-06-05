@@ -9,7 +9,6 @@ const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
-const { QnAMaker } = require('botbuilder-ai');
 
 const { QnABot } = require('./bots/QnABot');
 const { RootDialog } = require('./dialogs/rootDialog');
@@ -66,18 +65,12 @@ if (!endpointHostName.startsWith('https://')) {
     endpointHostName = 'https://' + endpointHostName;
 }
 
-if (!endpointHostName.endsWith('/qnamaker')) {
+if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker')) {
     endpointHostName = endpointHostName + '/qnamaker';
 }
 
-const qnaService = new QnAMaker({
-    knowledgeBaseId: process.env.QnAKnowledgebaseId,
-    endpointKey: process.env.QnAEndpointKey,
-    host: endpointHostName
-});
-
 // Create the main dialog.
-const dialog = new RootDialog(qnaService);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, endpointHostName);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);

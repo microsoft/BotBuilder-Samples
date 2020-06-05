@@ -6,7 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version
@@ -21,7 +21,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
    ```
 
-- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/55.facebook-adapter`
+- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/61.facebook-adapter`
 
 - Connect the bot with Facebook by following the instructions below.
 
@@ -38,7 +38,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/55.facebook-adapter` folder
+  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/61.facebook-adapter` folder
   - Select `FacebookAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 

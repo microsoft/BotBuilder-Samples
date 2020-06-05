@@ -18,6 +18,8 @@ const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer')
 // This bot's main dialog.
 const { DialogAndWelcomeBot } = require('./bots/dialogAndWelcomeBot');
 const { MainDialog } = require('./dialogs/mainDialog');
+
+// the bot's booking dialog
 const { BookingDialog } = require('./dialogs/bookingDialog');
 const BOOKING_DIALOG = 'bookingDialog';
 
@@ -33,22 +35,36 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Catch-all for errors.
-adapter.onTurnError = async (context, error) => {
-    // This check writes out errors to console log
+const onTurnErrorHandler = async (context, error) => {
+    // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError]: ${ error }`);
+    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+
+    // Send a trace activity, which will be displayed in Bot Framework Emulator
+    await context.sendTraceActivity(
+        'OnTurnError Trace',
+        `${ error }`,
+        'https://www.botframework.com/schemas/error',
+        'TurnError'
+    );
+
     // Send a message to the user
-    const onTurnErrorMessage = 'Sorry, it looks like something went wrong!';
+    let onTurnErrorMessage = 'The bot encountered an error or bug.';
+    await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
+    onTurnErrorMessage = 'To continue to run this bot, please fix the bot source code.';
     await context.sendActivity(onTurnErrorMessage, onTurnErrorMessage, InputHints.ExpectingInput);
     // Clear out state
     await conversationState.delete(context);
 };
 
+// Set the onTurnError for the singleton BotFrameworkAdapter.
+adapter.onTurnError = onTurnErrorHandler;
+
 // Add telemetry middleware to the adapter middleware pipeline
 var telemetryClient = getTelemetryClient(process.env.InstrumentationKey);
-var telemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient, true);
-var initializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware, true);
+var telemetryLoggerMiddleware = new TelemetryLoggerMiddleware(telemetryClient);
+var initializerMiddleware = new TelemetryInitializerMiddleware(telemetryLoggerMiddleware);
 adapter.use(initializerMiddleware);
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -65,25 +81,21 @@ const userState = new UserState(memoryStorage);
 const { LuisAppId, LuisAPIKey, LuisAPIHostName } = process.env;
 const luisConfig = { applicationId: LuisAppId, endpointKey: LuisAPIKey, endpoint: `https://${ LuisAPIHostName }` };
 
-const luisRecognizer = new FlightBookingRecognizer(luisConfig);
+const luisRecognizer = new FlightBookingRecognizer(luisConfig, telemetryClient);
 
 // Create the main dialog.
-const bookingDialog = new BookingDialog();
+const bookingDialog = new BookingDialog(BOOKING_DIALOG);
 const dialog = new MainDialog(luisRecognizer, bookingDialog);
-dialog.telemetryClient = telemetryClient;
-
 const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
+
+dialog.telemetryClient = telemetryClient;
 
 // Create HTTP server
 const server = restify.createServer();
-
-// Enable the Application Insights middleware, which helps correlate all activity
-// based on the incoming request.
-server.use(restify.plugins.bodyParser());
-
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
@@ -95,6 +107,10 @@ server.post('/api/messages', (req, res) => {
     });
 });
 
+// Enable the Application Insights middleware, which helps correlate all activity
+// based on the incoming request.
+server.use(restify.plugins.bodyParser());
+
 // Creates a new TelemetryClient based on a instrumentation key
 function getTelemetryClient(instrumentationKey) {
     if (instrumentationKey) {
@@ -102,3 +118,20 @@ function getTelemetryClient(instrumentationKey) {
     }
     return new NullTelemetryClient();
 }
+
+// Listen for Upgrade requests for Streaming.
+server.on('upgrade', (req, socket, head) => {
+    // Create an adapter scoped to this WebSocket connection to allow storing session data.
+    const streamingAdapter = new BotFrameworkAdapter({
+        appId: process.env.MicrosoftAppId,
+        appPassword: process.env.MicrosoftAppPassword
+    });
+    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    streamingAdapter.onTurnError = onTurnErrorHandler;
+
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+        // After connecting via WebSocket, run this logic for every request sent over
+        // the WebSocket connection.
+        await bot.run(context);
+    });
+});

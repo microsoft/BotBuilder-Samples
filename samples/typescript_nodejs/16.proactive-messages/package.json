@@ -1,0 +1,33 @@
+{
+    "name": "016.proactive-messages",
+    "version": "1.0.0",
+    "description": "Bot Builder v4 proactive messaging sample",
+    "author": "Generated using Microsoft Bot Builder Yeoman generator v4.7.0",
+    "license": "MIT",
+    "main": "./lib/index.js",
+    "scripts": {
+        "build": "tsc --build",
+        "lint": "tslint -c tslint.json 'src/**/*.ts'",
+        "postinstall": "npm run build && node ./deploymentScripts/webConfigPrep.js",
+        "start": "tsc --build && node ./lib/index.js",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com"
+    },
+    "dependencies": {
+        "botbuilder": "~4.9.1",
+        "dotenv": "^8.2.0",
+        "replace": "~1.1.1",
+        "restify": "~8.5.1"
+    },
+    "devDependencies": {
+        "@types/dotenv": "6.1.1",
+        "@types/restify": "8.4.2",
+        "nodemon": "~1.19.4",
+        "tslint": "~5.20.0",
+        "typescript": "~3.6.4"
+    }
+}

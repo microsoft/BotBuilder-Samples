@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
@@ -29,53 +31,20 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             turnContext.Activity.RemoveRecipientMention();
+            var text = turnContext.Activity.Text.Trim().ToLower();
 
-            switch (turnContext.Activity.Text.Trim())
-            {
-                case "MentionMe":
-                    await MentionActivityAsync(turnContext, cancellationToken);
-                    break;
-
-                case "UpdateCardAction":
-                    await UpdateCardActivityAsync(turnContext, cancellationToken);
-                    break;
-
-                case "Delete":
-                    await DeleteCardActivityAsync(turnContext, cancellationToken);
-                    break;
-
-                case "MessageAllMembers":
-                    await MessageAllMembersAsync(turnContext, cancellationToken);
-                    break;
-
-                default:
-                    var value = new JObject { { "count", 0 } };
-                    
-                    var card = new HeroCard
-                    {
-                        Title = "Welcome Card",
-                        Text = "Click the buttons below to update this card",
-                        Buttons = new List<CardAction>
-                        {
-                            new CardAction
-                            {
-                                Type= ActionTypes.MessageBack,
-                                Title = "Update Card",
-                                Text = "UpdateCardAction",
-                                Value = value
-                            },
-                            new CardAction
-                            {
-                                Type = ActionTypes.MessageBack,
-                                Title = "Message all members",
-                                Text = "MessageAllMembers"
-                            }
-                        }
-                    };
-
-                    await turnContext.SendActivityAsync(MessageFactory.Attachment(card.ToAttachment()));
-                    break;
-            }
+            if(text.Contains("mention"))
+                await MentionActivityAsync(turnContext, cancellationToken);
+            else if(text.Contains("who"))
+                await GetSingleMemberAsync(turnContext, cancellationToken);
+            else if(text.Contains("update"))
+                await CardActivityAsync(turnContext, true, cancellationToken);
+            else if(text.Contains("message"))
+                await MessageAllMembersAsync(turnContext, cancellationToken);
+            else if(text.Contains("delete"))
+                await DeleteCardActivityAsync(turnContext, cancellationToken);
+            else
+                await CardActivityAsync(turnContext, false, cancellationToken);
         }
 
         protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -84,6 +53,72 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
             }
+        }
+
+        private async Task CardActivityAsync(ITurnContext<IMessageActivity> turnContext, bool update, CancellationToken cancellationToken)
+        {
+
+            var card = new HeroCard
+            {
+                Buttons = new List<CardAction>
+                        {
+                            new CardAction
+                            {
+                                Type = ActionTypes.MessageBack,
+                                Title = "Message all members",
+                                Text = "MessageAllMembers"
+                            },
+                            new CardAction
+                            {
+                                Type = ActionTypes.MessageBack,
+                                Title = "Who am I?",
+                                Text = "whoami"
+                            },
+                            new CardAction
+                            {
+                                Type = ActionTypes.MessageBack,
+                                Title = "Delete card",
+                                Text = "Delete"
+                            }
+                        }
+            };
+
+
+            if (update)
+            {
+                await SendUpdatedCard(turnContext, card, cancellationToken);
+            }
+            else
+            {
+                await SendWelcomeCard(turnContext, card, cancellationToken);
+            }
+
+        }
+
+        private async Task GetSingleMemberAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var member = new TeamsChannelAccount();
+
+            try
+            {
+                member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+            }
+            catch (ErrorResponseException e)
+            {
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                {
+                    await turnContext.SendActivityAsync("Member not found.");
+                    return;
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+
+            var message = MessageFactory.Text($"You are: {member.Name}.");
+            var res = await turnContext.SendActivityAsync(message);
+
         }
 
         private async Task DeleteCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -100,7 +135,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
             ConversationReference conversationReference = null;
 
-            var members = await TeamsInfo.GetMembersAsync(turnContext, cancellationToken);
+            var members = await GetPagedMembers(turnContext, cancellationToken);
 
             foreach (var teamMember in members)
             {
@@ -137,43 +172,60 @@ namespace Microsoft.BotBuilderSamples.Bots
             await turnContext.SendActivityAsync(MessageFactory.Text("All messages have been sent."), cancellationToken);
         }
 
-        private async Task UpdateCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        private static async Task<List<TeamsChannelAccount>> GetPagedMembers(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var data = turnContext.Activity.Value as JObject;
-            data["count"] = data["count"].Value<int>() + 1;
-            data = JObject.FromObject(data);
+            var members = new List<TeamsChannelAccount>();
+            string continuationToken = null;
 
-            var card = new HeroCard
+            do
             {
-                Title = "Welcome Card",
-                Text = $"Update count - {data["count"].Value<int>()}",
-                Buttons = new List<CardAction>
-                        {
-                            new CardAction
-                            {
-                                Type= ActionTypes.MessageBack,
-                                Title = "Update Card",
-                                Text = "UpdateCardAction",
-                                Value = data
-                            },
-                            new CardAction
-                            {
-                                Type = ActionTypes.MessageBack,
-                                Title = "Message all members",
-                                Text = "MessageAllMembers"
-                            },
-                            new CardAction
-                            {
-                                Type = ActionTypes.MessageBack,
-                                Title = "Delete card",
-                                Text = "Delete"
-                            }
-                        }
-            };
+                var currentPage = await TeamsInfo.GetPagedMembersAsync(turnContext, 100, continuationToken, cancellationToken);
+                continuationToken = currentPage.ContinuationToken;
+                members = members.Concat(currentPage.Members).ToList();
+            }
+            while (continuationToken != null);
 
-            var updatedActivity = MessageFactory.Attachment(card.ToAttachment());
-            updatedActivity.Id = turnContext.Activity.ReplyToId;
-            await turnContext.UpdateActivityAsync(updatedActivity, cancellationToken);            
+            return members;
+        }
+
+        private static async Task SendWelcomeCard(ITurnContext<IMessageActivity> turnContext, HeroCard card, CancellationToken cancellationToken)
+        {
+            var initialValue = new JObject { { "count", 0 } };
+            card.Title = "Welcome!";
+            card.Buttons.Add(new CardAction
+            {
+                Type = ActionTypes.MessageBack,
+                Title = "Update Card",
+                Text = "UpdateCardAction",
+                Value = initialValue
+            });
+
+            var activity = MessageFactory.Attachment(card.ToAttachment());
+
+            await turnContext.SendActivityAsync(activity, cancellationToken);
+        }
+
+        private static async Task SendUpdatedCard(ITurnContext<IMessageActivity> turnContext, HeroCard card, CancellationToken cancellationToken)
+        {
+            card.Title = "I've been updated";
+
+            var data = turnContext.Activity.Value as JObject;
+            data = JObject.FromObject(data);
+            data["count"] = data["count"].Value<int>() + 1;
+            card.Text = $"Update count - {data["count"].Value<int>()}";
+
+            card.Buttons.Add(new CardAction
+            {
+                Type = ActionTypes.MessageBack,
+                Title = "Update Card",
+                Text = "UpdateCardAction",
+                Value = data
+            });
+
+            var activity = MessageFactory.Attachment(card.ToAttachment());
+            activity.Id = turnContext.Activity.ReplyToId;
+
+            await turnContext.UpdateActivityAsync(activity, cancellationToken);
         }
 
         private async Task MentionActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

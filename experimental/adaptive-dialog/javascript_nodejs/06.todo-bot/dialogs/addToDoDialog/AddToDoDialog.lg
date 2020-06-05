@@ -1,0 +1,35 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+[Root LG](../RootDialog/RootDialog.lg)
+
+# HelpAddToDo
+- ${HelpPrefix()}, you can simply say the title of your todo to add it.
+
+# HelpPrefix
+- Sure
+- You bet
+- Absolutely
+
+# ConfirmCancellation
+- Are you suare you want to cancel? 
+- Just double checking; you want to cancel this right? 
+
+> Structured template
+# GetToDoTitle
+[Activity
+    Text = Ok, what is the title of your todo?
+    SuggestedActions = Help | Cancel
+]
+
+# AddToDoReadBack
+[Activity
+    Text = ${HelpPrefix()}, I have added "${turn.todoTitle}" to your todo list. You have ${count(user.todos)} items in your Todo list.
+    ${WelcomeActions()}
+]
+
+# CancelAddTodo
+[Activity
+    Text = ${HelpPrefix()}, I've cancelled that.
+    ${WelcomeActions()}
+]

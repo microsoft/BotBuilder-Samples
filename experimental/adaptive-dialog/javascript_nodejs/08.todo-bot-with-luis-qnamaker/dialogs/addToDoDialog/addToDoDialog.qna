@@ -1,0 +1,8 @@
+﻿> QnA definition.
+> See https://aka.ms/qna-file-format to learn more.
+
+# ?Can I add multiple items?
+- more than one item at a time
+```
+No, I do not support that yet. But I will let the development team know you are looking for it!
+```

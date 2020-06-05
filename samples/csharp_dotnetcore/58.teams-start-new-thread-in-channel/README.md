@@ -9,7 +9,7 @@ how to incorporate basic conversational flow into a Teams application. It also i
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample

@@ -1,0 +1,80 @@
+﻿> Language Understanding definition.
+> See https://aka.ms/lu-file-format to learn more
+
+# GetItemTitle
+- Please remind me to {itemTitle=buy milk}
+- Please remember that I need to {itemTitle=buy milk}
+- I need you to remember that {itemTitle=my wife's birthday is Jan 9th}
+- Add a todo named {itemTitle=send report over this weekend}
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo item {itemTitle=vacuuming by october 3rd}
+- add {itemTitle=call my mother} to my todo list
+- add {itemTitle=due date august to peanut butter jelly bread milk} on todos list
+- add {itemTitle=go running} to my todos
+- add to my todos list {itemTitle=mail the insurance forms out by saturday}
+- can i add {itemTitle=shirts} on the todos list
+- could i add {itemTitle=medicine} to the todos list
+- would you add {itemTitle=heavy cream} to the todos list
+- add a to do that {itemTitle=purchase a nice sweater}
+- add a to do to {itemTitle=buy shoes}
+- add an task of {itemTitle=chores to do around the house}
+- add {itemTitle=go to whole foods} in my to do list
+- add {itemTitle=reading} to my to do list
+- add this thing in to do list
+- add to my to do list {itemTitle=pick up clothes}
+- add to my to do list {itemTitle=print papers for 10 copies this afternoon}
+- create to do that {itemTitle=read a book tonight}
+- create to do to {itemTitle=go running in the park}
+- put {itemTitle=hikes} on my to do list
+- remind me to {itemTitle = pick up dry cleaning}
+> Add patterns
+- Please remember [to] {itemTitle}
+- I need you to remember [that] {itemTitle}
+- Add a todo named {itemTitle}
+- Add {itemTitle} to the list
+- [Please] add {itemTitle} to the todo list
+- Add {itemTitle} to my todo
+- add {itemTitle} to my to do list
+- add {itemTitle} to my to dos
+- add a to do that buy {itemTitle}
+- add a to do that purchase {itemTitle}
+- add a to do that shop {itemTitle}
+- add a to do to {itemTitle}
+- add to do that {itemTitle}
+- add to do to {itemTitle}
+- create a to do to {itemTitle}
+- create to do to {itemTitle}
+- remind me to {itemTitle}
+- add {itemTitle} to my todo list
+
+@ ml itemTitle
+
+# GetListType
+- todo list
+- shopping list
+- how about the to do list?
+
+@ list listType = 
+- todo :
+	- to do
+    - todos
+    - laundry            
+- grocery :
+    - groceries
+    - fruits
+    - vegetables
+    - household items
+    - house hold items
+- shopping : 
+    - shopping 
+    - shop
+    - shoppers
+
+# Help
+- Help
+- I need help
+- what can I say?
+- what can I say as item tile? 
+- can I add another list type?

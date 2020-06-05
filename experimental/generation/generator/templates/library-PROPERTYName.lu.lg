@@ -1,0 +1,5 @@
+# filename
+- ${locale}/library/${prefix}-library-PROPERTYName.${locale}.lu
+
+# template
+- @ list PROPERTYName

@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples
         {
             // combine path for cross platform support
             string[] paths = { ".", "Cards", "welcomeCard.json" };
-            string fullPath = Path.Combine(paths);
+            var fullPath = Path.Combine(paths);
             var adaptiveCard = File.ReadAllText(fullPath);
             return new Attachment()
             {
