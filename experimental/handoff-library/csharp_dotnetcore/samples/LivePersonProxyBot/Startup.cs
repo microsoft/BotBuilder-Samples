@@ -46,6 +46,10 @@ namespace LivePersonProxyBot
             services.AddTransient<LivePersonConnector.ILivePersonCredentialsProvider, LivePersonCredentialsProvider>();
 
             services.AddSingleton<LivePersonConnector.HandoffMiddleware>();
+            // Add transcription logging so agent gets conversation history.  If
+            // you don't want agent to see conversation history, comment out or
+            // delete this next line of code.
+            services.AddSingleton<LoggingMiddleware>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

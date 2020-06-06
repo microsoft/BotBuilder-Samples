@@ -164,6 +164,10 @@ namespace LivePersonProxyAssistant
             // LivePerson dependency injection
             services.AddTransient<ILivePersonCredentialsProvider, LivePersonCredentialsProvider>();
             services.AddSingleton<HandoffMiddleware>();
+            // Add transcription logging so agent gets conversation history.  If
+            // you don't want agent to see conversation history, comment out or
+            // delete this next line of code.
+            services.AddSingleton<LoggingMiddleware>();
             services.AddSingleton<LivePersonConnector.ConversationMap>();
         }
 
