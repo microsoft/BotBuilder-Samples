@@ -10,6 +10,7 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using LivePersonProxyBot;
 
 namespace LivePersonConnector
 {
