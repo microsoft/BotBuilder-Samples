@@ -15,10 +15,11 @@ namespace LivePersonConnector
 {
     public class LivePersonAdapter : BotFrameworkHttpAdapter, ILivePersonAdapter
     {
-        public LivePersonAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware)
+        public LivePersonAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware, LoggingMiddleware loggingMiddleware)
             : base(configuration, logger)
         {
             Use(handoffMiddleware);
+            Use(loggingMiddleware);
 
             OnTurnError = async (turnContext, exception) =>
             {
