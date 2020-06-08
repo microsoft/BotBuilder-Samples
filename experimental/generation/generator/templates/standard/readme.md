@@ -18,7 +18,7 @@ See the complete [dialog generation documentation](https://github.com/microsoft/
 ## Organization
 
 Each possible JSON Schema type has a root template file, like [string.lg](string.lg) or [enum.lg](enum.lg) which defines the default `# entities` and `# templates` for that type.
-The templates make use of a generation time library [generator.lg](generator.lg) which defines template commands that are useful when writing generation templates.
+The templates make use of a generation time library [generator.lg](../generator.lg) which defines template commands that are useful when writing generation templates.
 In the template descriptions below, italics are place holders that are defined by entity or property types.
 Templates provide a lot of flexibility so the patterns below might have additional templates.
 

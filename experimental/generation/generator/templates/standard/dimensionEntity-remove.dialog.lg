@@ -1,4 +1,4 @@
-[generator.lg](generator.lg)
+[generator.lg](../generator.lg)
 
 # filename
 - ${removeFilename('dimension')}

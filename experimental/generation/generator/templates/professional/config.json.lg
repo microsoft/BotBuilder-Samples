@@ -6,7 +6,7 @@
 {
     "./en-us/${prefix}.en-us.lu": {
         "rootDialog": true,
-		"triggers": {
+		"triggers": {"":""
 		}
     }
 }

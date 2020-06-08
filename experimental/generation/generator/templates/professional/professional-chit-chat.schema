@@ -1,6 +1,4 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
     "$templates": [
         "AboutBot.qna",
         "AboutUser.qna",
@@ -10,6 +8,7 @@
         "Dialog.qna",
         "Greeting.qna",
         "Relationship.qna",
+        "locale.qna",
         "library-CrossTrain.lg",
         "library-QnAIntent.dialog",
         "library-ChooseIntent.dialog",

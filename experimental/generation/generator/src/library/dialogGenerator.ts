@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import {SubstitutionsEvaluator} from './substitutions'
-import {processSchemas} from './processSchemas'
+import { SubstitutionsEvaluator } from './substitutions'
+import { processSchemas } from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -141,7 +141,7 @@ const expressionEngine = new expressions.ExpressionParser((func: string): any =>
     }
 })
 
-const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates/standard', 'generator.lg'), undefined, expressionEngine)
+const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates/', 'generator.lg'), undefined, expressionEngine)
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -166,7 +166,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = {source: string, template: string}
+type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,7 +175,8 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
+            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            break
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
@@ -203,7 +204,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -258,12 +259,12 @@ async function processTemplate(
                 let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
-                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
+                if (plainTemplate ?.source || lgTemplate ?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
-                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
+                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate ?.id}`)
 
                     let filename = addPrefix(scope.prefix, templateName)
-                    if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
+                    if (lgTemplate ?.allTemplates.some(f => f.name === 'filename')) {
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
@@ -276,6 +277,8 @@ async function processTemplate(
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
                         filename = `library/${filename}`
+                    } else if (filename.includes('qna')) {
+                        filename = `${scope.locale}/${filename}`
                     }
 
                     // Add prefix to constant imports
@@ -289,7 +292,7 @@ async function processTemplate(
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
                             feedback(FeedbackType.info, `Generating ${outPath}`)
-                            let result = plainTemplate?.template
+                            let result = plainTemplate ?.template
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
                                 result = lgTemplate.evaluate('template', scope) as string
@@ -301,7 +304,7 @@ async function processTemplate(
 
                             // See if generated file has been overridden in templates
                             let existing = await findTemplate(filename, templateDirs) as Plain
-                            if (existing?.source) {
+                            if (existing ?.source) {
                                 feedback(FeedbackType.info, `  Overridden by ${existing.source}`)
                                 result = existing.template
                             }
@@ -440,7 +443,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = {...obj, ...elt}
+                    obj = { ...obj, ...elt }
                 }
                 newSchema = obj
             }
@@ -452,7 +455,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
             }
-            let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
+            let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
             newSchema[key] = newVal
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
@@ -523,7 +526,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '\t'})
+                await fs.writeJSON(outPath, main, { spaces: '\t' })
             } else {
                 await fs.copy(path, outPath)
             }
@@ -531,22 +534,6 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     }
 }
 
-async function generateQnA(schema: string, allLocales: string[], inDir: string) {
-    let files = fs.readdirSync(inDir)
-    for (let locale of allLocales) {
-        let qnaText = ''
-        for (let file of files) {
-            if (file.endsWith('qna')) {
-                let content = await fs.readFile(ppath.join(inDir, file), 'utf-8')
-                qnaText = qnaText + os.EOL + content.toString().replace(ReplaceGeneratorPattern, '')
-                await fs.unlink(ppath.join(inDir, file))
-            }
-        }
-        let qnaName = `${schema}.${locale}.qna`
-        qnaText += `${os.EOL}> Generator: ${computeHash(qnaText)}`
-        await fs.writeFile(ppath.join(`${inDir}/${locale}`, qnaName), qnaText)
-    }
-}
 // Convert to the right kind of slash. 
 // ppath.normalize did not do this properly on the mac.
 function normalize(path: string): string {
@@ -556,19 +543,6 @@ function normalize(path: string): string {
         path = path.replace(/\//g, ppath.sep)
     }
     return ppath.normalize(path)
-}
-
-function expandStandard(dirs: string[]): string[] {
-    let expanded: string[] = []
-    for (let dir of dirs) {
-        if (dir === 'standard') {
-            dir = ppath.join(__dirname, '../../templates/standard')
-        } else {
-            dir = ppath.resolve(dir)
-        }
-        expanded.push(normalize(dir))
-    }
-    return expanded
 }
 
 /**
@@ -595,7 +569,6 @@ export async function generate(
     force?: boolean,
     merge?: boolean,
     singleton?: boolean,
-    qna?: boolean,
     feedback?: Feedback)
     : Promise<void> {
     if (!feedback) {
@@ -663,7 +636,6 @@ export async function generate(
         }
 
         let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
-        templateDirs = expandStandard(templateDirs)
 
         // User templates + cli templates to find schemas
         let startDirs = [...templateDirs]
@@ -709,15 +681,10 @@ export async function generate(
             }
         }
 
-        if (qna) {
-            feedback(FeedbackType.info, 'Merging qna files')
-            await generateQnA(scope.prefix, allLocales, outDir)
-        }
-
         // Merge old and new directories
         if (merge) {
             if (singleton) {
-               await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
             } else {
                 await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
             }

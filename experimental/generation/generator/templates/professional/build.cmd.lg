@@ -23,7 +23,7 @@ set botName=%6
 set schemaName=%7
 
 echo Building Models
-bf luis:cross-train --in . && copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force && bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
+bf luis:cross-train --config ./config.json --in . && copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force && bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
 
 goto done
 
