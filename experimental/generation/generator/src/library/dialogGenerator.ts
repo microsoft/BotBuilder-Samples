@@ -270,15 +270,15 @@ async function processTemplate(
                         } catch (e) {
                             throw new Error(`${templateName}: ${e.message}`)
                         }
-                    } else if (filename.includes(scope.locale)) {
+                    } else if (filename.includes(scope.locale) && !filename.includes('qna')) {
                         // Move constant files into locale specific directories
                         let prop = templateName.startsWith('library') ? 'library' : scope.property
                         filename = `${scope.locale}/${prop}/${filename}`
+                    } else if (filename.includes(scope.locale)) {
+                        filename = `${scope.locale}/QnA/${filename}`
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
                         filename = `library/${filename}`
-                    } else if (filename.includes('qna')) {
-                        filename = `${scope.locale}/${filename}`
                     }
 
                     // Add prefix to constant imports
@@ -534,6 +534,15 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     }
 }
 
+function resolveDir(dirs: string[]): string[] {
+    let expanded: string[] = []
+    for (let dir of dirs) {
+        dir = ppath.resolve(dir)
+        expanded.push(normalize(dir))
+    }
+    return expanded
+}
+
 // Convert to the right kind of slash. 
 // ppath.normalize did not do this properly on the mac.
 function normalize(path: string): string {
@@ -636,6 +645,7 @@ export async function generate(
         }
 
         let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
+        templateDirs = resolveDir(templateDirs)
 
         // User templates + cli templates to find schemas
         let startDirs = [...templateDirs]
