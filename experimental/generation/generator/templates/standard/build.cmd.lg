@@ -2,6 +2,12 @@
 -build.cmd
 
 # template
+- IF: ${templates.qna}
+    - ${templateBuildWithQnA()}
+- ELSE:
+    - ${templateBuild()}
+
+# templateBuild
 -```
 @echo off
 setlocal
@@ -21,5 +27,37 @@ echo build.cmd [region] [authoringKey]
 echo Region defaults to westus.
 echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
 
+:done
+```
+
+# templateBuildWithQnA
+-```
+@echo off
+setlocal
+
+set region=%1
+if "%region%" EQU "" set region=westus
+
+set locale=%2
+
+set key=%3
+if "%3" NEQ "" set key=--authoringKey %3
+
+set qnaKey=%4
+
+set alias=%5
+
+set botName=%6
+
+set schemaName=%7
+
+echo Building Models
+bf luis:cross-train --config ./config.json --in . && copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y && bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force && bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
+
+goto done
+
+:help
+echo build.cmd [region] [locale] [authoringKey] [qnaKey] [alias] [botName] [schemaName]
+echo Region defaults to westus.
 :done
 ```
