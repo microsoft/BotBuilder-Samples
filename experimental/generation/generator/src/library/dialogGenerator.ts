@@ -292,7 +292,7 @@ async function processTemplate(
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
                             feedback(FeedbackType.info, `Generating ${outPath}`)
-                            let result = plainTemplate ?.template
+                            let result = plainTemplate?.template
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
                                 result = lgTemplate.evaluate('template', scope) as string
