@@ -1,5 +1,5 @@
 ﻿
-# Teams Start Thread In A Team
+# Microsoft Teams - Start Thread In A Specific Channel of a Team
 
 Bot Framework v4 Conversation Bot sample for Teams.
 
