@@ -40,7 +40,7 @@
                 "${env:TEMP}/sandwich.out",
                 "--force",
                 "--verbose",
-                "--singleton"
+                "--debug"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
