@@ -34,7 +34,7 @@ export default class GenerateDialog extends Command {
     async run() {
         const { args, flags } = this.parse(GenerateDialog)
         let feedback = (type: gen.FeedbackType, msg: string) => {
-            if (type === gen.FeedbackType.message
+            if (type === gen.FeedbackType.messageqna
                 || (type === gen.FeedbackType.info && flags.verbose)) {
                 this.info(msg)
             } else if (type === gen.FeedbackType.warning) {

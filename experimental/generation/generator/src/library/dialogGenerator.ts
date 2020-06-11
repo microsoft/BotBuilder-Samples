@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
-import { processSchemas } from './processSchemas'
+import {SubstitutionsEvaluator} from './substitutions'
+import {processSchemas} from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -166,7 +166,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,7 +175,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
             break
         } else {
             // LG file
@@ -204,7 +204,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -259,23 +259,21 @@ async function processTemplate(
                 let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
-                if (plainTemplate ?.source || lgTemplate ?.allTemplates.some(f => f.name === 'template')) {
+                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
-                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate ?.id}`)
+                    feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
                     let filename = addPrefix(scope.prefix, templateName)
-                    if (lgTemplate ?.allTemplates.some(f => f.name === 'filename')) {
+                    if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
                             throw new Error(`${templateName}: ${e.message}`)
                         }
-                    } else if (filename.includes(scope.locale) && !filename.includes('qna')) {
-                        // Move constant files into locale specific directories
-                        let prop = templateName.startsWith('library') ? 'library' : scope.property
-                        filename = `${scope.locale}/${prop}/${filename}`
                     } else if (filename.includes(scope.locale)) {
-                        filename = `${scope.locale}/QnA/${filename}`
+                        // Move constant files into locale specific directories
+                        let prop = templateName.startsWith('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
+                        filename = `${scope.locale}/${prop}/${filename}`
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
                         filename = `library/${filename}`
@@ -304,7 +302,7 @@ async function processTemplate(
 
                             // See if generated file has been overridden in templates
                             let existing = await findTemplate(filename, templateDirs) as Plain
-                            if (existing ?.source) {
+                            if (existing?.source) {
                                 feedback(FeedbackType.info, `  Overridden by ${existing.source}`)
                                 result = existing.template
                             }
@@ -443,7 +441,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -455,7 +453,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
             }
-            let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+            let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
             newSchema[key] = newVal
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
@@ -526,7 +524,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '\t' })
+                await fs.writeJSON(outPath, main, {spaces: '\t'})
             } else {
                 await fs.copy(path, outPath)
             }
