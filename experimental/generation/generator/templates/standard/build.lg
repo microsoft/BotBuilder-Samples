@@ -3,11 +3,11 @@
 
 # template
 - IF: ${templates.qna}
-    - ${templateBashBuildWithQnA()}
+    - ${setParamsForLUIS()} ${setParamsForQnA()} ${crossTrainCmd()} ${luisBuildCmd()} ${qnaMakerBuildCmd()} ${helpForQnA()}
 - ELSE:
-    - ${templateBashBuild()}
+    - ${setParamsForLUIS()} ${luisBuildCmd()} ${helpForLUIS()}
 
-# templateBashBuild
+# setParamsForLUIS
 -```#!/bin/sh
 region=$1
 thisdir="$(dirname $0)"
@@ -20,47 +20,53 @@ if [ -n "$key" ]; then
     key="--authoringKey $key"
 fi
 
-bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir
-res=$?
+alias=$3
 
+botName=$4
+```
+
+# setParamsForQnA
+-```
+locale=$5
+
+qnaKey=$6
+
+schemaName=$7
+``` 
+
+# crossTrainCmd
+-```
+bf luis:cross-train --config ./config.json --in . 
+cp ./cross-trained/$schemaName.$locale.lu ./$locale/  
+```
+
+# luisBuildCmd
+-```
+bf luis:build --luConfig luconfig.json --region=$region $key --suffix $alias --botName $botName --out . --log --force
+```
+
+# qnaMakerBuildCmd
+-```
+bf qnamaker:build --subscriptionKey $qnaKey --in ./cross-trained/ --suffix $alias --botName $botName --out . --log --force 
+```
+
+# helpForLUIS
+-```
+res=$?
 if [ $res != 0 ]; then
-    echo build [region] [authoringKey]
+    echo build.cmd [region] [authoringKey] [alias] [botName]
     echo Region defaults to westus.
-    echo Must have an explicit key or set it using "bf config:set:luis --authoringKey <LUISKEY>"
 fi
 
 exit $res
 ```
 
-# templateBashBuildWithQnA
--```#!/bin/sh
-region=$1
-thisdir="$(dirname $0)"
-if [ -z "$region" ]; then
-    region="westus"
-fi
-
-set locale=$2
-
-key=$3
-if [ -n "$key" ]; then
-    key="--authoringKey $key"
-fi
-
-set qnaKey=$4
-
-set alias=$5
-
-set botName=$6
-
-set schemaName=$7
-
-bf luis:cross-train --config ./config.json --in . && copy .\cross-trained\$schemaName.$locale.lu .\$locale\ /y && bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir --suffix $alias --botName $botName --out . --log --force && bf qnamaker:build --subscriptionKey $qnaKey --in .\cross-trained\ --suffix $alias --botName $botName --out . --log --force 
+# helpForQnA
+-```
 res=$?
-
 if [ $res != 0 ]; then
-echo build.cmd [region] [locale] [authoringKey] [qnaKey] [alias] [botName] [schemaName]
-echo Region defaults to westus.
+    echo build.cmd [region] [authoringKey] [alias] [botName] [locale] [qnaKey] [schemaName]
+    echo Region defaults to westus.
 fi
 
 exit $res
