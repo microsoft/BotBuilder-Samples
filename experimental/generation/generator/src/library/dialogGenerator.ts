@@ -141,7 +141,7 @@ const expressionEngine = new expressions.ExpressionParser((func: string): any =>
     }
 })
 
-const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates', 'generator.lg'), undefined, expressionEngine)
+const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../../templates/', 'generator.lg'), undefined, expressionEngine)
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -176,11 +176,13 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         if (await fs.pathExists(loc)) {
             // Direct file
             template = {source: loc, template: await fs.readFile(loc, 'utf8')}
+            break
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
             if (await fs.pathExists(loc)) {
                 template = lg.Templates.parseFile(loc, undefined, expressionEngine)
+                break
             }
         }
     }
@@ -270,7 +272,7 @@ async function processTemplate(
                         }
                     } else if (filename.includes(scope.locale)) {
                         // Move constant files into locale specific directories
-                        let prop = templateName.startsWith('library') ? 'library' : scope.property
+                        let prop = templateName.startsWith('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
                         filename = `${scope.locale}/${prop}/${filename}`
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
@@ -530,6 +532,15 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     }
 }
 
+function resolveDir(dirs: string[]): string[] {
+    let expanded: string[] = []
+    for (let dir of dirs) {
+        dir = ppath.resolve(dir)
+        expanded.push(normalize(dir))
+    }
+    return expanded
+}
+
 // Convert to the right kind of slash. 
 // ppath.normalize did not do this properly on the mac.
 function normalize(path: string): string {
@@ -539,19 +550,6 @@ function normalize(path: string): string {
         path = path.replace(/\//g, ppath.sep)
     }
     return ppath.normalize(path)
-}
-
-function expandStandard(dirs: string[]): string[] {
-    let expanded: string[] = []
-    for (let dir of dirs) {
-        if (dir === 'standard') {
-            dir = ppath.join(__dirname, '../../templates')
-        } else {
-            dir = ppath.resolve(dir)
-        }
-        expanded.push(normalize(dir))
-    }
-    return expanded
 }
 
 /**
@@ -644,8 +642,8 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        let standard = normalize(ppath.join(__dirname, '../../templates'))
-        templateDirs = expandStandard(templateDirs)
+        let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
+        templateDirs = resolveDir(templateDirs)
 
         // User templates + cli templates to find schemas
         let startDirs = [...templateDirs]
@@ -694,7 +692,7 @@ export async function generate(
         // Merge old and new directories
         if (merge) {
             if (singleton) {
-               await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
             } else {
                 await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
             }

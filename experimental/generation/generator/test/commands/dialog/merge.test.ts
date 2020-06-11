@@ -55,7 +55,7 @@ async function allFiles(base: string, path: string, files: Set<string>) {
 }
 
 async function compareDirs(original: string, merged: string): Promise<Comparison> {
-    let comparison: Comparison = {original, originalFiles: [], merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: []}
+    let comparison: Comparison = { original, originalFiles: [], merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: [] }
     let originalFiles = new Set<string>()
     let mergedFiles = new Set<string>()
     await allFiles(original, original, originalFiles)
@@ -77,7 +77,7 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
                     }
                     ++pos
                 }
-                comparison.different.push({file: file1, position: pos})
+                comparison.different.push({ file: file1, position: pos })
             }
         } else {
             comparison.originalOnly.push(file1)

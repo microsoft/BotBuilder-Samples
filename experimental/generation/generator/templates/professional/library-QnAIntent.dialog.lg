@@ -1,0 +1,13 @@
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnQnAMatch",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${qna_answer()}"
+        }
+    ]
+}
+```
