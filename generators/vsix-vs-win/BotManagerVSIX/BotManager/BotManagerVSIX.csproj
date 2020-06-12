@@ -13,8 +13,8 @@
     <ProjectGuid>{541220FF-D6DB-4840-A614-F76653CF4C9F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>VSIXQnADeployment</RootNamespace>
-    <AssemblyName>VSIXQnADeployment</AssemblyName>
+    <RootNamespace>BotManagerVSIX</RootNamespace>
+    <AssemblyName>BotManagerVSIX</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <GeneratePkgDefFile>true</GeneratePkgDefFile>
     <UseCodebase>true</UseCodebase>
