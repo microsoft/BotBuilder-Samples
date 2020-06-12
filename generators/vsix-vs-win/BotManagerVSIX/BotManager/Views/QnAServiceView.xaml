@@ -1,0 +1,67 @@
+﻿<UserControl x:Class="BotManagerVSIX.QnAServiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BotManagerVSIX"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" d:DesignHeight="476"
+             Style="{DynamicResource baseLayout}">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{DynamicResource title}" Text="QnA Service" />
+            <TextBlock Style="{DynamicResource description}" Text="Cloud-based API service to create a conversational question-and-answer layer over existing data." />
+
+            <TextBlock Style="{DynamicResource description}" Text="Name" />
+            <TextBox Template="{StaticResource TextBoxHint}" Style="{DynamicResource textBoxBase}" Tag="test-qna-service"></TextBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="App Service Name" />
+            <TextBox Template="{StaticResource TextBoxHint}" Style="{DynamicResource textBoxBase}" Tag="test-qna-app-service"></TextBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="App Service Location" /> 
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem Content="East US"/>
+                <ComboBoxItem IsSelected="True" Content="West US"/>
+            </ComboBox>
+            
+            <TextBlock Style="{DynamicResource description}" Text="Resource Group" />
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="ResourceGroupCombo" Style="{DynamicResource comboBox}" Grid.Column="0">
+                    <ComboBoxItem IsSelected="True" Content="test-resource-group"/>
+                </ComboBox>
+                <Button Name="ResourceGroupButton" Grid.Column="1" Style="{DynamicResource LinkButton}" Content="New..." Click="ResourceGroupButton_Click"/>
+            </Grid>
+
+            <TextBlock Style="{DynamicResource description}" Text="Pricing Tier" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem IsSelected="True" Content="Free F0"/>
+                <ComboBoxItem Content="Standard S0"/>
+            </ComboBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Azure Search Pricing Tier" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem IsSelected="True" Content="Free F (3 Indexes)"/>
+                <ComboBoxItem Content="Basic B (15 Indexes)"/>
+                <ComboBoxItem Content="Standard S (50 Indexes)"/>
+                <ComboBoxItem Content="L2 (10 Indexes, High Storage)"/>
+            </ComboBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Azure Search Location" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem Content="East US"/>
+                <ComboBoxItem IsSelected="True" Content="West US"/>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

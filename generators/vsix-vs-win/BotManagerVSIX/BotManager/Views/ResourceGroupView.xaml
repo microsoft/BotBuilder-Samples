@@ -1,0 +1,47 @@
+﻿<Window x:Class="BotManagerVSIX.ResourceGroupView"
+            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:local="clr-namespace:BotManagerVSIX"
+            mc:Ignorable="d" 
+            WindowStyle="SingleBorderWindow"
+            AllowsTransparency="False"
+            ResizeMode="CanResizeWithGrip" 
+            MinHeight="165" 
+            MinWidth="400" 
+            Height="165" 
+            Width="400"
+            WindowStartupLocation="CenterOwner">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid Style="{DynamicResource grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="5"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="5"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+            <RowDefinition Height="5"/>
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="2">
+            <TextBlock Style="{DynamicResource description}" Text="New resource group name" />
+            <TextBox Name="NameText"  Style="{DynamicResource textBoxBase}" Text="" KeyUp="NameText_KeyUp"  />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="OK" Name="Confirm" Click="Confirm_Click" />
+            <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Name="Cancel" Click="Cancel_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

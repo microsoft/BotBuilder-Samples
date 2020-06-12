@@ -1,0 +1,120 @@
+﻿<Window x:Class="BotManagerVSIX.BotManagerMainView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BotManagerVSIX"
+             mc:Ignorable="d" 
+             d:DesignWidth="800" d:DesignHeight="540" 
+             MinWidth="800" MinHeight="540"
+             Width="800" Height="540" 
+             WindowStyle="SingleBorderWindow"
+             AllowsTransparency="False"
+             ResizeMode="CanResizeWithGrip"
+             WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.Close"
+                        Executed="CloseCommandHandler"/>
+    </Window.CommandBindings>
+    <Grid Style="{DynamicResource grid}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="20"/>
+            <ColumnDefinition Width="Auto" MinWidth="180"/>
+            <ColumnDefinition Width="Auto" MinWidth="5"/>
+            <ColumnDefinition Width="Auto" MinWidth="91"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition/>
+            <ColumnDefinition Width="15"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="15"/>
+        </Grid.RowDefinitions>
+        <TextBlock Style="{DynamicResource title}" Text="Bot Manager" Margin="0" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="3"/>
+
+        <StackPanel Style="{DynamicResource azureAccountPanel}" Grid.Column="5" Grid.Row="1" Orientation="Horizontal" Width="181">
+            <Image Source="/Resources/azure.png" />
+            <StackPanel>
+                <TextBlock Style="{DynamicResource azureAccountText}">Testing Account</TextBlock>
+                <Button Style="{DynamicResource LinkButton}">Add an account</Button>
+            </StackPanel>
+        </StackPanel>
+
+        <!--#region Side Menu-->
+        <Menu Style="{DynamicResource leftMenu}" Grid.ColumnSpan="1" Margin="0,0,3,50" Grid.RowSpan="5" Name="menuItems">
+            <Menu.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <VirtualizingStackPanel Orientation="Vertical"/>
+                </ItemsPanelTemplate>
+            </Menu.ItemsPanel>
+
+            <MenuItem Style="{DynamicResource menuItem}" Command="" Header="Azure Subscription" Tag="TabAzure"/>
+            <MenuItem Name="MenuQnAService" Style="{DynamicResource menuItem}" Command="" Header="QnA Service"  Tag="TabQnAService"/>
+            <MenuItem Name="MenuQnAKB" Style="{DynamicResource menuItem}" Command="" Header="QnA Knowlegde Base"  Tag="TabQnAKB"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="" Header="App Service"  Tag="TabAppService"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="" Header="Channel Registration" Tag="TabChannelRegistration"/>
+            <MenuItem Style="{DynamicResource menuItem}" Command="" Header="Summary" Tag="TabSummary" Visibility="Collapsed"/>
+        </Menu>
+        <!--#endregion-->
+        <Rectangle Style="{DynamicResource separator}" Margin="2,0,0,50" Grid.Column="2"/>
+
+        <!--#region DownButtons-->
+        <Canvas Style="{DynamicResource downBar}">
+            <StackPanel Style="{DynamicResource panelButtons}">
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Back" Name="BackButton" Click="BackButton_Click"/>
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Next" Name="NextButton" Click="NextButton_Click"/>
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Create and Deploy" Width="Auto" Name="CreateButton" Click="CreateButton_Click"/>
+                <Button Style="{DynamicResource downBarButton}" Template="{DynamicResource ButtonsTemplate}" Content="Cancel" Name="CancelButton" Command="ApplicationCommands.Close"
+        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, 
+                           AncestorType={x:Type Window}}}" />
+            </StackPanel>
+        </Canvas>
+        <TabControl Grid.Column="3" Padding="0" Margin="5,0,5,50" Grid.Row="6" Grid.ColumnSpan="3" Name="ControlMenuItems" Background="{x:Null}" BorderBrush="{x:Null}" SelectionChanged="ControlMenuItems_SelectionChanged">
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabAzure" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:AzureSubscriptionView></local:AzureSubscriptionView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabQnAService">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:QnAServiceView></local:QnAServiceView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabQnAKB">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:QnAKnowledgeBaseView></local:QnAKnowledgeBaseView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabAppService">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:AppServiceView></local:AppServiceView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabChannelRegistration">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:ChannelRegistrationView></local:ChannelRegistrationView>
+                </ScrollViewer>
+            </TabItem>
+            <TabItem Header="TabItem" Visibility="Collapsed" Name="TabSummary">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <local:SummaryView></local:SummaryView>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        <!--#endregion-->
+    </Grid>
+</Window>

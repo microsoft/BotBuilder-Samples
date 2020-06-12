@@ -1,0 +1,221 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:vs_shell="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0">
+
+    <Style x:Key="baseLayout" TargetType="UserControl">
+        <Setter Property="MinWidth" Value="400"/>
+        <Setter Property="Width" Value="Auto"/>
+        <Setter Property="Margin" Value="10,0,10,10"/>
+    </Style>
+
+    <Style x:Key="grid" TargetType="Grid">
+        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+    </Style>
+
+    <Style TargetType="TextBlock">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+    </Style>
+
+    <Style TargetType="TextBox">
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowBackgroundBrushKey}}"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="FontWeight" Value="Thin"/>
+    </Style>
+
+    <Style x:Key="title" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="Padding" Value="0"/>
+        <Setter Property="FontSize" Value="24" />
+        <Setter Property="Margin" Value="5,10,0,1"/>
+    </Style>
+
+    <Style x:Key="textBoxBase" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" >
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5,0" />
+        <Setter Property="Padding" Value="5,3" />
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="MaxLength" Value="70"/>
+        <Setter Property="FontWeight" Value="Thin"/>
+    </Style>
+
+    <Style x:Key="textBoxFilePicker" TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}" >
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="5,0" />
+        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="MaxLength" Value="70"/>
+        <Setter Property="FontWeight" Value="Thin"/>
+        <Setter Property="Foreground" Value="Gray"/>
+        <Setter Property="Grid.Column" Value="0"/>
+    </Style>
+
+    <Style x:Key="buttonFilePicker" TargetType="Button">
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="26"/>
+        <Setter Property="Margin" Value="0,0,5,0" />
+    </Style>
+
+    <Style x:Key="description" TargetType="TextBlock" BasedOn="{StaticResource {x:Type TextBlock}}">
+        <Setter Property="Margin" Value="5,7,5,5"/>
+        <Setter Property="TextWrapping" Value="Wrap"/>
+    </Style>
+
+    <Style x:Key="leftMenu" TargetType="Menu">
+        <Setter Property="Grid.Column" Value="1"/>
+        <Setter Property="Grid.Row" Value="2"/>
+        <Setter Property="Grid.ColumnSpan" Value="2"/>
+        <Setter Property="Grid.RowSpan" Value="4"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="BorderBrush" Value="Transparent"/>
+    </Style>
+
+    <Style x:Key="menuItem" TargetType="MenuItem">
+        <Setter Property="Padding" Value="8"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+    </Style>
+
+    <Style x:Key="separator" TargetType="Rectangle">
+        <Setter Property="Grid.Column" Value="3"/>
+        <Setter Property="Grid.Row" Value="2"/>
+        <Setter Property="Grid.RowSpan" Value="5"/>
+        <Setter Property="Stroke" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.PageSideBarExpanderSeparatorBrushKey}}"/>
+        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Width"  Value="1" />
+        <Setter Property="Margin" Value="2,0,0,50"/>
+    </Style>
+
+    <Style x:Key="azureAccountPanel" TargetType="StackPanel">
+        <Setter Property="Margin" Value="0,0,0,10"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="Orientation" Value="Vertical"/>
+    </Style>
+
+    <Style x:Key="azureAccountText" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="18"/>
+        <Setter Property="Margin" Value="0,0,5,5"/>
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+
+    <Style x:Key="optionsCheckBox" TargetType="CheckBox">
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+        <Setter Property="Margin" Value="5,0,5,5"/>
+    </Style>
+
+    <Style x:Key="comboBox" TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}" >
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="Auto" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="Margin" Value="5,0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="FontWeight" Value="Thin"/>
+        <Setter Property="Foreground" Value="Gray"/>
+    </Style>
+
+    <Style x:Key="downBar" TargetType="Canvas">
+        <Setter Property="Grid.Column"  Value="0"/>
+        <Setter Property="Grid.Row" Value="6"/>
+        <Setter Property="Grid.RowSpan" Value="2"/>
+        <Setter Property="Grid.ColumnSpan" Value="7"/>
+        <Setter Property="Height" Value="60" />
+        <Setter Property="VerticalAlignment" Value="Bottom" />
+        <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.BrandedUIBackgroundBrushKey}}"/>
+    </Style>
+
+    <Style x:Key="panelButtons" TargetType="StackPanel">
+        <Setter Property="Orientation" Value="Horizontal"/>
+        <Setter Property="Canvas.Right" Value="15"/>
+        <Setter Property="Canvas.Bottom" Value="15"/>
+    </Style>
+
+    <Style x:Key="dataGrid" TargetType="DataGrid">
+        <Setter Property="AutoGenerateColumns" Value="False"/>
+        <Setter Property="CanUserAddRows" Value="False"/>
+        <Setter Property="CanUserResizeColumns" Value="False"/>
+        <Setter Property="CanUserSortColumns" Value="False"/>
+        <Setter Property="IsReadOnly" Value="True"/>
+        <Setter Property="HeadersVisibility" Value="Column"/>
+    </Style>
+
+    <Style x:Key="downBarButton" TargetType="Button">
+        <Style.Setters>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemButtonTextBrushKey}}"/>
+            <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.SystemButtonShadowBrushKey}}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.StartPageButtonBorderBrushKey}}"/>
+            <Setter Property="Padding" Value="8,4" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="Height" Value="25"/>
+            <Setter Property="Width" Value="75" />
+            <Setter Property="Margin" Value="5" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="VerticalAlignment" Value="Top" />
+        </Style.Setters>
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="False">
+                <Setter Property="Foreground" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowTextBrushKey}}"/>
+                <Setter Property="Background" Value="Transparent"/>
+                <Setter Property="BorderBrush" Value="Gray"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="ButtonsTemplate" TargetType="Button">
+        <Border x:Name="border" Height="{TemplateBinding Height}" Width="{TemplateBinding Width}"
+                    Background="{TemplateBinding Background}" 
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="1">
+            <ContentPresenter Content="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        </Border>
+        <ControlTemplate.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="BorderBrush" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.ToolWindowButtonHoverActiveBorderBrushKey}}"/>
+                <Setter Property="Background" Value="{DynamicResource {x:Static vs_shell:EnvironmentColors.CommandBarMenuItemMouseOverBrushKey}}"/>
+            </Trigger>
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="TextBoxHint" TargetType="TextBox">
+        <Grid>
+            <TextBox Name="NameText" Margin="0" Style="{TemplateBinding Style}" Text="{TemplateBinding Text}" />
+            <TextBlock IsHitTestVisible="False" Text="{TemplateBinding Property=Tag}" VerticalAlignment="Center" HorizontalAlignment="Left" Margin="8,0,0,0" Foreground="DarkGray" FontWeight="Thin">
+                <TextBlock.Style>
+                    <Style TargetType="{x:Type TextBlock}">
+                        <Setter Property="Visibility" Value="Collapsed"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Text, ElementName=NameText}" Value="">
+                                <Setter Property="Visibility" Value="Visible"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+        </Grid>
+    </ControlTemplate>
+
+    <Style x:Key="LinkButton" TargetType="Button">
+        <Setter Property="Margin" Value="0,0,5,0"></Setter>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <TextBlock VerticalAlignment="Center" Foreground="#1C78C4">
+                        <ContentPresenter />
+                    </TextBlock>
+                </ControlTemplate> 
+            </Setter.Value>
+        </Setter>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="Hand"/>
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+</ResourceDictionary>

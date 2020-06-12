@@ -1,0 +1,54 @@
+﻿<UserControl x:Class="BotManagerVSIX.QnAKnowledgeBaseView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BotManagerVSIX"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" d:DesignHeight="343" 
+             Style="{DynamicResource baseLayout}">
+    
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{DynamicResource title}" Text="QnA Knowledge Base" />
+            <TextBlock Style="{DynamicResource description}" Text="A knowledge base consists of question and answer pairs brought in by public URLs and files." />
+            
+            <TextBlock Style="{DynamicResource description}" Text="Name" />
+            <TextBox Template="{StaticResource TextBoxHint}" Style="{DynamicResource textBoxBase}" Tag="QnAKnowledgeBase1234"></TextBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Language" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem IsSelected="true">English</ComboBoxItem>
+                <ComboBoxItem>Spanish</ComboBoxItem>
+                <ComboBoxItem>French</ComboBoxItem>
+            </ComboBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Question-Answer Pairs" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBox Style="{DynamicResource textBoxBase}" Grid.Column="0" Text="C:/Files/testing.tsv" Name="FileTextBox"/>
+                <Button Style="{DynamicResource buttonFilePicker}" Grid.Column="1" Click="PickFileClick">...</Button>
+            </Grid>
+
+            <TextBlock Style="{DynamicResource description}" Text="Chit-Chat Option" />
+            <ComboBox  Style="{DynamicResource comboBox}">
+                <ComboBoxItem IsSelected="true">None</ComboBoxItem>
+                <ComboBoxItem>Friendly</ComboBoxItem>
+                <ComboBoxItem>Professional</ComboBoxItem>
+            </ComboBox>
+
+            <CheckBox Style="{DynamicResource optionsCheckBox}" Margin="5,10" IsChecked="True">Publish and Train the KB</CheckBox>
+        </StackPanel>
+    </Grid>
+</UserControl>

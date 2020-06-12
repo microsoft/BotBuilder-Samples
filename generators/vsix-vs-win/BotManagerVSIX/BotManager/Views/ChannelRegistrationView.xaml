@@ -1,0 +1,50 @@
+﻿<UserControl x:Class="BotManagerVSIX.ChannelRegistrationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BotManagerVSIX"
+             xmlns:PlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" d:DesignHeight="320" 
+             Style="{DynamicResource baseLayout}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{DynamicResource title}" Text="Channel Registration" />
+            <TextBlock Style="{DynamicResource description}" Text="Connect with your users wherever they are, from your app or website to Cortana, Skype, Microsoft Teams and many other services." />
+
+            <TextBlock Style="{DynamicResource description}" Text="Resource Group" />
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="ResourceGroupCombo" Style="{DynamicResource comboBox}" Grid.Column="0">
+                    <ComboBoxItem IsSelected="True" Content="test-resource-group"/>
+                </ComboBox>
+                <Button Name="ResourceGroupButton" Grid.Column="1" Style="{DynamicResource LinkButton}" Content="New..." Click="ResourceGroupButton_Click"/>
+            </Grid>
+
+            <TextBlock Style="{DynamicResource description}" Text="Location" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem Content="East US"/>
+                <ComboBoxItem IsSelected="True" Content="West US"/>
+            </ComboBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Pricing Tier" />
+            <ComboBox Style="{DynamicResource comboBox}">
+                <ComboBoxItem IsSelected="True" Content="F0 (10K Premium Messages)"/>
+                <ComboBoxItem Content="S1 (1K Premium Messages/Unit)"/>
+            </ComboBox>
+        </StackPanel>
+    </Grid>
+</UserControl>
+

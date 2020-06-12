@@ -1,0 +1,70 @@
+﻿<UserControl x:Class="BotManagerVSIX.AppServiceView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:BotManagerVSIX"
+             xmlns:PlatformUI="clr-namespace:Microsoft.VisualStudio.PlatformUI;assembly=Microsoft.VisualStudio.Shell.15.0"
+             mc:Ignorable="d" 
+             d:DesignWidth="400" d:DesignHeight="320" 
+             Style="{DynamicResource baseLayout}">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="BotManagerStyles.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <Grid>
+        <StackPanel>
+            <TextBlock Style="{DynamicResource title}" Text="App Service" />
+            <TextBlock Style="{DynamicResource description}" Text="A fully managed platform for building, deploying and scaling your web apps."  />
+
+            <TextBlock Style="{DynamicResource description}" Text="Name" />
+            <TextBox Template="{StaticResource TextBoxHint}" Style="{DynamicResource textBoxBase}" Tag="test-app-service"></TextBox>
+
+            <TextBlock Style="{DynamicResource description}" Text="Resource Group" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="ResourceGroupCombo" Style="{DynamicResource comboBox}" Grid.Column="0">
+                    <ComboBoxItem IsSelected="True" Content="test-resource-group"/>
+                </ComboBox>
+                <Button Name="ResourceGroupButton" Grid.Column="1" Style="{DynamicResource LinkButton}" Content="New..." Click="ResourceGroupButton_Click"/>
+            </Grid>
+
+            <TextBlock Style="{DynamicResource description}" Text="Hosting Plan" />
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Style="{DynamicResource comboBox}" Grid.Column="0">
+                    <ComboBoxItem IsSelected="True" Content="default (West US, S0)"/>
+                    <ComboBoxItem Content="basic-bot (West US, F1)"/>
+                    <ComboBoxItem Content="test (West US, B1)"/>
+                </ComboBox>
+                <Button Name="HostingPlanButton" Grid.Column="1" Style="{DynamicResource LinkButton}" Content="New..."/>
+            </Grid>
+
+            <TextBlock Style="{DynamicResource description}" Text="App Registration" />
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Style="{DynamicResource comboBox}" Grid.Column="0">
+                    <ComboBoxItem IsSelected="True" Content="app-registration"/>
+                    <ComboBoxItem Content="other-app-registration"/>
+                </ComboBox>
+                <Button Name="AppRegistrationButton" Grid.Column="1" Style="{DynamicResource LinkButton}" Content="New..."/>
+            </Grid>
+
+        </StackPanel>
+    </Grid>
+</UserControl>
