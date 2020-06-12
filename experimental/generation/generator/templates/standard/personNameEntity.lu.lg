@@ -6,6 +6,5 @@
 # template
 - ```
 @ prebuilt personName ${roles()}
-${propertyName()}
 ${operations('personName', ["Mike Smith", "John", "tom"])}
 ```

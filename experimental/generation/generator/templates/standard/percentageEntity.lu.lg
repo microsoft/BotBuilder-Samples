@@ -6,6 +6,6 @@
 # template
 - ```
 @ prebuilt percentage ${roles()}
-${propertyName()}
+${operations('boolean', ['3%', '20 percent', '45.3 %'])}
 ```
 

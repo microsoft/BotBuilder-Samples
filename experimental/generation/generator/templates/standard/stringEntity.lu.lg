@@ -13,6 +13,5 @@
 
 > Define the entity for recognizing the '${property}' property. You can add synonyms here.  
 @ ml ${property}Entity
-${propertyName()}
 ${operations(`${property}Entity`, null)}
 ```

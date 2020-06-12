@@ -253,38 +253,39 @@ ${'#'} ${property}Entity_getValueText(val)
 - ELSE:
 - ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`])}
 
+# propertyName()
+-```
+> Define a phrase list for identifying '${property}'
+@phraseList ${property}List(interchangeable)=
+${join(foreach(phrases(property), phrase, `  - ${phrase}`), EOL())}
+
+> Define the entity for identifying '${property}' property.
+@ml ${property} usesFeature ${property}List
+
 # generateOperations(entity, values)
 -```
-> Define the entity for identifying '${property}' property.
-@ml ${property}
-
 > Define operations on '${property}' property.
+${propertyName()}
 
 >> Show the current value of '${property}' property.
-@ml Show()
-    - @${property} ${property}
+@ml Show(${property}) usesFeature ${property}
 
 >> Clear the current value of '${property}' property.
-@ml Clear()
-    - @${property} ${property}
+@ml Clear(${property}) usesFeature ${property}
 
 >> Provide help for the '${property}' property.
-@ ml Help()
-    - @${property} ${property}
+@ ml Help(${property}) usesFeature ${property}
 
 >> Change the current value of the '${property}' property.
-@ ml Change()
-    - @${property} ${property}
+@ ml Change() usesFeature ${property}
 
 >> Add a value to '${property}' property.
-@ml Add(${property}) = 
+@ml Add(${property}) usesFeature ${property}=
     - @${entity} ${entity}
-    - @PROPERTYName PROPERTYName
 
 >> Remove a value from '${property}' property.
-@ml Remove(${property}) = 
+@ml Remove(${property}) usesFeature ${property} = 
     - @${entity} ${entity}
-    - @PROPERTYName PROPERTYName
 
 > Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
@@ -297,7 +298,7 @@ ${substitutions(`library-operations.${locale}.data`,
 ```
 
 # propertyList(property)
-- [${join(foreach(phrases(property), phrase, `"{@${property}=${phrase}}"`), ', ')}]
+- [${join(foreach(phrases(property), phrase, `"${phrase}"`), ', ')}]
 
 # labelList(entity, values)
 - [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]

@@ -6,6 +6,5 @@
 # template
 - ```
 @ prebuilt datetimeV2 ${roles()}
-${propertyName()}
 ${operations('datetimeV2', ["March 3rd", "12:15pm", "1-1-2020", "Monday"])}
 ```
