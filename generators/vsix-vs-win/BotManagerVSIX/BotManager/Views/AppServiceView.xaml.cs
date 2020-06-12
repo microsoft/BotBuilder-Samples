@@ -18,7 +18,7 @@ namespace BotManagerVSIX
 
         private void ResourceGroupButton_Click(object sender, RoutedEventArgs e)
         {
-            ResourceGroupView.OpenAndSyncResourceGroupView(ResourceGroupCombo);
+            ResourceGroupView.OpenAndSyncResourceGroupView(ResourceGroupCombo,this);
         }
     }
 }

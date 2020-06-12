@@ -29,12 +29,12 @@ namespace BotManagerVSIX
             Close();
         }
 
-        public static bool OpenAndSyncResourceGroupView(ComboBox resourceGroupCombo)
+        public static bool OpenAndSyncResourceGroupView(ComboBox resourceGroupCombo,DependencyObject owner)
         {
             try
             {
                 ResourceGroupView w = new ResourceGroupView();
-                w.Owner = Application.Current.MainWindow;
+                w.Owner = Window.GetWindow(owner);
 
                 if (w.ShowDialog() == false)
                 {
