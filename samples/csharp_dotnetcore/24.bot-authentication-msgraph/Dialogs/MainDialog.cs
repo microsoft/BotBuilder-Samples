@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
             if (tokenResponse != null)
             {
                 await stepContext.Context.SendActivityAsync(MessageFactory.Text("You are now logged in."), cancellationToken);
-                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to do? (type 'me', 'send <EMAIL>' or 'recent')") }, cancellationToken);
+                return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to do? (type 'me', or 'email')") }, cancellationToken);
             }
 
             await stepContext.Context.SendActivityAsync(MessageFactory.Text("Login was not successful please try again."), cancellationToken);
@@ -100,13 +100,9 @@ namespace Microsoft.BotBuilderSamples
                     {
                         await OAuthHelpers.ListMeAsync(stepContext.Context, tokenResponse);
                     }
-                    else if (command.StartsWith("send"))
+                    else if (command.StartsWith("email"))
                     {
-                        await OAuthHelpers.SendMailAsync(stepContext.Context, tokenResponse, parts[1]);
-                    }
-                    else if (command.StartsWith("recent"))
-                    {
-                        await OAuthHelpers.ListRecentMailAsync(stepContext.Context, tokenResponse);
+                        await OAuthHelpers.ListEmailAddressAsync(stepContext.Context, tokenResponse);
                     }
                     else
                     {
