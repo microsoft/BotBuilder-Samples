@@ -92,9 +92,7 @@ namespace Microsoft.BotBuilderSamples
                 // If we have the token use the user is authenticated so we may use it to make API calls.
                 if (tokenResponse?.Token != null)
                 {
-                    var parts = ((string)stepContext.Values["command"] ?? string.Empty).ToLowerInvariant().Split(' ');
-
-                    var command = parts[0];
+                    var command = ((string)stepContext.Values["command"] ?? string.Empty).ToLowerInvariant();
 
                     if (command == "me")
                     {
