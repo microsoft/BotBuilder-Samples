@@ -48,7 +48,7 @@
         <ProjectItem ReplaceParameters="true">DateResolverDialogTestsDataGenerator.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightFromCdgToJfk.json.</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightFromMadridToChicago.json</ProjectItem>
-        <ProjectItem ReplaceParameters="false">FlightFromParisTonewYork.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightFromParisToNewYork.json</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightToMadrid.json</ProjectItem>
         <ProjectItem ReplaceParameters="false">README.md</ProjectItem>
         </Folder>
