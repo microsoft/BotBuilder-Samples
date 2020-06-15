@@ -1,0 +1,27 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${addFilename('dimension')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add(${property})",
+    "entity": "dimension",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${getSetObjectPropertyText('${property}', @dimension)}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=@dimension"          
+        }
+    ]               
+    ${designerOpEntity('Add', 'dimension')}      
+}
+```
+

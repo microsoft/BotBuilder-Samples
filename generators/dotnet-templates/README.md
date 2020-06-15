@@ -3,7 +3,7 @@
 using core AI capabilities.
 
 ## About
-.NET Core Templates will help you to quickly build new conversational AI bots using [Bot Framework v4][1].
+.NET Core Templates will help you to quickly build new conversational AI bots using [Bot Framework v4][1].  As of May 2020, these templates and the code they generate **require** [.NET Core 3.1][60].  
 
 ## Templates
 There are three different template options.  The table below can help guide which template is right for you.
@@ -58,7 +58,7 @@ The Empty Bot template is the minimal skeleton code for a bot.  It provides a st
 
 
 ## Installation
-1.  Install [.NET Core SDK][4] version 2.1 or higher
+1.  Install [.NET Core SDK][4] version 3.1 or higher
 	```bash
 	# determine dotnet version
 	dotnet --version
@@ -139,23 +139,6 @@ dotnet new corebot -n MyCoreBotWithTests --include-tests
 dotnet new emptybot -n MyEmptyBot
 ```
 
-## Overridding .NET Core 2.2 Dependencies
-The templates default to using .NET Core 2.2.x.  This can be overridden on the command line by using the `--framework` option. The current templates support `netcoreapp2.1` and `netcoreapp2.2` (the default).
-
-Here are some different examples that show how to specify different .NET Core dependencies:
-
-### Example Creating EchoBot Using .NET Core 2.1
-```bash
-# Generate an Echo Bot (netcoreapp2.1)
-dotnet new echobot --framework netcoreapp2.1 -n MyEchoBot
-```
-
-### Example Creating CoreBot and CoreBot.Tests Using .NET Core 2.1
-```bash
-# Generate an Core Bot and Core Bot Tests (netcoreapp2.1)
-dotnet new corebot --framework netcoreapp2.1 -n MyCoreBotWithTests --include-tests
-```
-
 ## Running Your Bot
 ### Running Your Bot Locally
 To run your bot locally, type the following in your console:
@@ -217,8 +200,6 @@ You can get the latest development builds from the [BotBuilder MyGet][51] feed. 
 | Core&nbsp;Bot | https://aka.ms/dotnetcore-corebot-daily |
 | Empty&nbsp;Bot | https://aka.ms/dotnetcore-emptybot-daily |
 
-
-
 To install the latest development build:
 ```bash
 # install the development build of Echo Bot template
@@ -234,6 +215,64 @@ dotnet new --list
 To uninstall the development build:
 ```bash
 # uninstall the development build of Echo Bot template
+dotnet new -u Microsoft.Bot.Framework.CSharp.EchoBot
+```
+
+## Creating a Local Development Environment
+
+To work on the templates you need to package, install, and test locally build source code.  This setup process entails clone the repository, creating a NuGet Package, installing that package, and running the locally installed package templates.  Here are the steps to create and use a local development environment to work on the .NET Templates for Bot Framework:
+
+Install [NuGet CLI][70] version 3.3 or higher:
+```bash
+# determine nuget cli version
+nuget 
+```
+
+```bash
+# clone the repository
+git clone https://github.com/microsoft/BotBuilder-Samples.git
+```
+
+```bash
+# change into the dotnet-templates folder
+cd BotBuilder-Samples/generators/dotnet-templates
+```
+
+At this point you have everything setup to make changes to the template source files.  The steps that follow show how to create a NuGet Package, install that locally built package, create a new project by running the template, and finally, remove the locally built and installed package.
+
+```bash
+# build one or more of the .nupkg's (NuGet packages)
+nuget pack Microsoft.BotFramework.CSharp.EchoBot
+nuget pack Microsoft.BotFramework.CSharp.EmptyBot
+nuget pack Microsoft.BotFramework.CSharp.CoreBot
+```
+
+The `nuget pack` command will build a package using a filename convention that includes the value of the `version` tag of the project's `.nuspec` file.  For example, a `.nuspec` file that has the following `version` tag specified:
+```xml
+  <version>4.9.0</version>
+```
+Given the example above with `.nuspec` `version` of 4.9.0, running `nuget pack Microsoft.BotFramework.CSharp.EchoBot` will create a NuGet package named `Microsoft.Bot.Framework.CSharp.EchoBot.4.9.0.nupkg`. We'll use this NuGet package name in subsequent steps.
+
+```bash
+# install the locally built .nupkg (EchoBot template, assuming 4.9.0 version tag)
+dotnet new -i ./Microsoft.Bot.Framework.CSharp.EchoBot.4.9.0.nupkg
+```
+
+To see a list of currently installed templates.  With this command you should now see the locally build and installed NuGet package.  
+```bash
+# list installed templates
+dotnet new --list
+```
+
+```bash
+# Generate an Empty Bot using the locally built template
+dotnet new echobot -n MyEchoBot
+```
+
+Build and test the newly generated project.  
+
+```bash
+# uninstall the locally built .nupkg (EchoBot template)
 dotnet new -u Microsoft.Bot.Framework.CSharp.EchoBot
 ```
 
@@ -257,3 +296,5 @@ Issues and feedback about the .NET Core Templates can be submitted through the p
 [47]: https://aka.ms/cs-unit-test-docs
 [50]: https://aka.ms/azuredeployment
 [51]: https://botbuilder.myget.org/gallery/aitemplates
+[60]: https://dotnet.microsoft.com/download
+[70]: https://docs.microsoft.com/en-us/nuget/reference/nuget-exe-cli-reference

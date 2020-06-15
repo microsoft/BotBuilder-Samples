@@ -57,11 +57,13 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
             const fileContent = Buffer.from(fs.readFileSync(fname, 'binary'), 'binary');
             await axios.put(
                 fileConsentCardResponse.uploadInfo.uploadUrl,
-                fileContent,
-                { headers: {
-                    'Content-Type': 'image/png',
-                    'Content-Length': fileInfo.size,
-                    'Content-Range': `bytes 0-${ fileInfo.size - 1 }/${ fileInfo.size }` } });
+                fileContent, {
+                    headers: {
+                        'Content-Type': 'image/png',
+                        'Content-Length': fileInfo.size,
+                        'Content-Range': `bytes 0-${ fileInfo.size - 1 }/${ fileInfo.size }`
+                    }
+                });
             await this.fileUploadCompleted(context, fileConsentCardResponse);
         } catch (e) {
             await this.fileUploadFailed(context, e.message);

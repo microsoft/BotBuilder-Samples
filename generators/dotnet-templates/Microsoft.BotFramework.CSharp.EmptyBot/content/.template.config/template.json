@@ -4,13 +4,14 @@
   "classifications": [
     "Bot",
     "Bot Framework",
-    "AI",
-    "Empty Bot"
+    "Empty Bot",
+    "Conversational AI",
+    "AI"
   ],
   "defaultName": "EmptyBot",
   "groupIdentity": "Microsoft.BotFramework.CSharp.EmptyBot",
   "identity": "Microsoft.BotFramework.CSharp.EmptyBot",
-  "name": "Bot Framework Empty Bot (v4.7.0)",
+  "name": "Bot Framework Empty Bot (v4.9.2)",
   "preferNameDirectory": true,
   "sourceName": "Microsoft.BotFramework.EmptyBot",
   "shortName": "emptybot",
@@ -24,7 +25,7 @@
       "type": "generated",
       "generator": "constant",
       "parameters": {
-        "value": "v4.7.0"
+        "value": "v4.9.2"
       },
       "replaces": "__vX.X.X__"
     },
@@ -44,6 +45,10 @@
       "datatype": "choice",
       "choices": [
         {
+          "choice": "netcoreapp3.1",
+          "description": "Target netcoreapp3.1"
+        },
+        {
           "choice": "netcoreapp2.2",
           "description": "Target netcoreapp2.2"
         },
@@ -53,7 +58,7 @@
         }
       ],
       "replaces": "__NETCOREAPP_VERSION__",
-      "defaultValue": "netcoreapp2.2"
+      "defaultValue": "netcoreapp3.1"
     },
     "AspCoreAssemblyVersion": {
       "type":"generated",
@@ -82,6 +87,10 @@
       "parameters": {
         "evaluator": "C++",
         "cases": [
+          {
+            "condition": "(Framework==\"netcoreapp3.1\")",
+            "value": "3.1"
+          },
           {
             "condition": "(Framework==\"netcoreapp2.2\")",
             "value": "2.2"

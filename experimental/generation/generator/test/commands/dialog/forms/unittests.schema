@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "properties": {      
-        "Personname": {
+        "PersonName": {
+            "title": "name",
             "type": "string",
             "$entities": [
                 "personName"
@@ -11,13 +12,13 @@
         "Age": {
             "$ref": "template:age.schema#/age"
         },
-        "Ordinalv2": {
+        "OrdinalV2": {
             "$ref": "template:ordinal.schema#/ordinalV2"
         },
-        "Geographyv2": {
+        "GeographyV2": {
             "$ref": "template:geography.schema#/geographyV2"
         },
-        "Keyphraseproperty": {
+        "KeyphraseProperty": {
             "type": "string",
             "$entities": [
                 "keyPhrase"
@@ -49,7 +50,7 @@
             "minimum": 1,
             "maximum": 10
         },
-        "Utteranceproperty": {
+        "UtteranceProperty": {
             "type": "string",
             "$entities": [
                 "utterance"
@@ -81,7 +82,7 @@
                 "none"
             ]
         },
-        "Zipcodepattern": { 
+        "ZipcodePattern": { 
             "type": "string",
             "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
             "$entities": ["utterance","number"]
@@ -90,16 +91,16 @@
             "type": "string",
             "$entities": ["email"]
         },
-        "Phonenumber": {
+        "PhoneNumber": {
             "type": "string",
             "$entities": ["phonenumber"]
         },
-        "Datetimev2": {
+        "DatetimeV2": {
             "$ref": "template:datetime.schema#/datetime"
         }
     },
     "required": 
-         ["Personname", "Age", "Ordinalv2", "Geographyv2", "Keyphraseproperty", "Money", "Percentage", "Temperature", "Url", "Quantity", "Utteranceproperty", "Dimension", "Enum1", "Enum2", "Zipcodepattern","Email", "Phonenumber", "Datetimev2"],
+         ["PersonName", "Age", "OrdinalV2", "GeographyV2", "KeyphraseProperty", "Money", "Percentage", "Temperature", "Url", "Quantity", "UtteranceProperty", "Dimension", "Enum1", "Enum2", "ZipcodePattern","Email", "PhoneNumber", "DatetimeV2"],
     "$requires": [
         "standard.schema"
     ]

@@ -23,7 +23,7 @@ const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
 async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<boolean> {
     let filePaths = oldFileList.filter(file => file.endsWith(fileName))
     let FilePath = filePaths[0]
-    return isUnchanged(FilePath)
+    return !FilePath || isUnchanged(FilePath)
 }
 
 /**
@@ -622,7 +622,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
     for (let trigger of newObj['triggers']) {
         let triggerName = getTriggerName(trigger)
         let extractedProperty = equalPattern(triggerName, oldPropertySet, schemaName)
-        if (extractedProperty !== undefined && !reducedOldTriggerMap.has(trigger)) {
+        if (extractedProperty !== undefined && !reducedOldTriggerMap.has(triggerName)) {
             continue
         }
         newTriggers.push(triggerName)
@@ -678,7 +678,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
 function getTriggerName(trigger: any): string {
     let triggerName: string
     if (typeof trigger !== 'string') {
-        triggerName = trigger['id']
+        triggerName = trigger['$source']
     } else {
         triggerName = trigger
     }

@@ -24,7 +24,7 @@ class LGHoverProvider implements vscode.HoverProvider {
             return;
         }
 
-        const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
+        const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_\.]+/);
         if (!wordRange) {
             return undefined;
         }

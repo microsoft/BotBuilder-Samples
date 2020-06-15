@@ -1,0 +1,75 @@
+# filename
+-build.cmd
+
+# template
+- IF: ${templates.qna}
+    - ${setParamsForLUIS()} ${setParamsForQnA()} ${echoBuild()} ${crossTrainCmd()} ${luisBuildCmd()} ${qnaMakerBuildCmd()} ${echoGotoDone()} ${helpForQnA()}
+- ELSE:
+    - ${setParamsForLUIS()} ${echoBuild()} ${luisBuildCmd()} ${echoGotoDone()} ${helpForLUIS()}
+
+# setParamsForLUIS
+-```
+@echo off
+setlocal
+
+set region=%1
+if "%region%" EQU "" set region=westus
+
+set key=%2
+if "%2" NEQ "" set key=--authoringKey %2
+
+set alias=%3
+
+set botName=%4
+```
+
+# setParamsForQnA
+-```
+set locale=%5
+
+set qnaKey=%6
+
+set schemaName=%7
+```
+
+# echoBuild
+-```
+echo Building Models
+```
+
+# echoGotoDone
+-```
+goto done
+```
+
+# crossTrainCmd
+-```
+call bf luis:cross-train --config ./config.json --in . 
+call copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y 
+```
+
+# luisBuildCmd
+-```
+call bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force
+```
+
+# qnaMakerBuildCmd
+-```
+call bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
+```
+
+# helpForLUIS
+-```
+:help
+echo build.cmd [region] [authoringKey] [alias] [botName]
+echo Region defaults to westus.
+:done
+```
+
+# helpForQnA
+-```
+:help
+echo build.cmd [region] [authoringKey] [alias] [botName] [locale] [qnaKey] [schemaName]
+echo Region defaults to westus.
+:done
+```

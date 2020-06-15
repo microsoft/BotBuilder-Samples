@@ -15,7 +15,9 @@ import * as gen from '../../../src/library/dialogGenerator'
 import * as assert from 'assert';
 
 function feedback(type: gen.FeedbackType, msg: string) {
-    console.log(`${type}: ${msg}`)
+    if (type !== gen.FeedbackType.debug) {
+        console.log(`${type}: ${msg}`)
+    }
 }
 
 describe('dialog:generate', async () => {
@@ -43,7 +45,7 @@ describe('dialog:generate', async () => {
 
         await gen.writeFile(lufile, lu, feedback, true)
         assert(!await gen.isUnchanged(lufile))
-        
+
         await gen.writeFile(lufile, lu, feedback)
         assert(await gen.isUnchanged(lufile))
         lu = await fs.readFile(lufile, 'utf-8')
@@ -70,7 +72,7 @@ describe('dialog:generate', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined,  feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))

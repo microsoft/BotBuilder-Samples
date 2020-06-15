@@ -4,7 +4,7 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Microsoft Bot Framework][1], it shows how to create a bot that uses rich cards to enhance your bot design.
 
-In this sample, we will demonstrate use of [Language Generation][41] to generate all responses from the bot. 
+In this sample, we will demonstrate use of [Language Generation][41] to generate all responses from the bot.
 
 
 ## Prerequisites
@@ -46,7 +46,7 @@ In this sample, we will demonstrate use of [Language Generation][41] to generate
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 

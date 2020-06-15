@@ -34,7 +34,7 @@ const adapter = new BotFrameworkAdapter({
 });
 
 // Create template engine for language generation.
-console.log(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'))
+console.log(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'));
 const lgTemplates = Templates.parseFile(path.join(__dirname, './resources/AdapterWithErrorHandler.lg'));
 
 // Catch-all for errors.
@@ -43,9 +43,9 @@ adapter.onTurnError = async (context, error) => {
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(lgTemplates.evaluate('SomethingWentWrong', {
-        message : `${error}`
+        message: `${ error }`
     }));
-    
+
     // Send a trace activity, which will be displayed in Bot Framework Emulator
     await context.sendTraceActivity(
         'OnTurnError Trace',

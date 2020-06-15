@@ -1,8 +1,0 @@
-[generator.lg](generator.lg)
-
-# entities
-- ${roleEntities('number')}
-
-# templates
-- ${propertyTemplates()}
-
