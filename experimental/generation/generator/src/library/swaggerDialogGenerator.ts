@@ -19,10 +19,6 @@ export type Feedback = (type: FeedbackType, message: string) => void
 // generate the parameter of the http request step
 function generateParam(obj: any) {
   switch (obj.type) {
-    case 'object':
-      // todo: handle complex scenarios
-      return undefined
-
     case 'integer':
       return {
         type: 'number',
@@ -30,12 +26,11 @@ function generateParam(obj: any) {
       }
 
     case 'string':
-      if (obj.format == 'date-time') {
+      if (obj.format === 'date-time') {
         return {
-          '$ref': 'template:datetime.schema#/datetime'
+          $ref: 'template:datetime.schema#/datetime'
         }
-      }
-      else if ('enum' in obj) {
+      } else if ('enum' in obj) {
         let struct_type = {}
         struct_type['type'] = 'string'
         struct_type['enum'] = obj['enum']
@@ -47,10 +42,6 @@ function generateParam(obj: any) {
         }
       }
 
-    case 'array':
-      // todo: handle arry
-      return undefined
-
     case 'boolean':
       return {
         type: 'string',
@@ -61,7 +52,7 @@ function generateParam(obj: any) {
 
 function generateJsonSchema() {
   return {
-    $schema: 'http://json-schema.org/draft-07/schema',
+    $schema: 'https://json-schema.org/draft-07/schema',
     type: 'object',
     properties: {
     },
@@ -92,10 +83,7 @@ export async function generate(
   feedback: Feedback) {
   // need to dereference the swagger file
   let swfile = await sw.dereference(path) as OpenAPIV2.Document
-  //await fs.remove(output)
-  //await fs.ensureDir(output)
-
-  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://';
+  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'https://';
 
   // the name of output schema file to be used in dialogGenerator
   let url = protocol + swfile.host as string + swfile.basePath as string + route;
@@ -115,7 +103,7 @@ export async function generate(
           let subGenerated = generateParam(subVal)
           if (subGenerated) {
             result.properties[subParam] = generateParam(subVal)
-            if (subVal.format == 'date-time') {
+            if (subVal.format === 'date-time') {
               subBody[subParam] = '${$' + subParam + '.timex' + '}'
             } else {
               subBody[subParam] = '${$' + subParam + '}'
@@ -133,10 +121,10 @@ export async function generate(
         } else {
           url = url + '&' + param.name + '=${$' + param.name + '}'
         }
-      } else if (param.in == 'path'){
+      } else if (param.in === 'path') {
         url = url.replace('{'+param.name, '${$' + param.name)
-      }else {
-        if (param.format == 'date-time') {
+      } else {
+        if (param.format === 'date-time') {
           body[param.name] = '${$' + param.name + '.timex' + '}'
         } else {
           body[param.name] = '${$' + param.name + '}'
@@ -153,7 +141,7 @@ export async function generate(
   } else {
     jsonProperties.swaggerBody = body;
   }
-  let propertiesFile = ppath.join(output, `properties.json`)
+  let propertiesFile = ppath.join(output, 'properties.json')
 
   let headers = 	{'User-Agent': 'PostmanRuntime/7.22.0'}
   jsonProperties.swaggerHeaders = headers
@@ -166,4 +154,3 @@ export async function generate(
   await fs.writeFile(ppath.join(output, projectName), JSON.stringify(result, null, 4))
   await fs.writeFile(propertiesFile, JSON.stringify(jsonProperties, null, 4))
 }
-

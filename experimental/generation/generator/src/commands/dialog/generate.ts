@@ -47,8 +47,7 @@ export default class GenerateDialog extends Command {
             }
         }
         try {
-            await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force, flags.merge,  flags.singleton, flags.jsonProperties, feedback)
-
+            await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force, flags.merge, flags.singleton, flags.jsonProperties, feedback)
             return true;
         } catch (e) {
             this.thrownError(e)
