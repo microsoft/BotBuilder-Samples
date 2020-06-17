@@ -642,13 +642,16 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
         templateDirs = resolveDir(templateDirs)
 
         // User templates + cli templates to find schemas
         let startDirs = [...templateDirs]
-        if (!startDirs.includes(standard)) {
-            startDirs.push(standard)
+        let templates = normalize(ppath.join(__dirname, '../../templates'))
+        for (let dirName of await fs.readdir(templates)) {
+            let dir = ppath.join(templates, dirName)
+            if (await (await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+                startDirs.push(dir)
+            }
         }
 
         let schema = await processSchemas(schemaPath, startDirs, feedback)
