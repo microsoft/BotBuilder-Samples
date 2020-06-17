@@ -1,0 +1,8 @@
+﻿# NamePrompt
+- Wie heißen Sie?
+- Wie heißt du?
+
+# HaveNameMessage
+- Hallo ${Name}!
+- Hallo ${Name}!
+- Freuen Sie sich auf Sie{ Name}

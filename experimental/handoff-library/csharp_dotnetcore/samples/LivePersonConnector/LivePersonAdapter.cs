@@ -10,15 +10,17 @@ using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using LivePersonProxyBot;
 
 namespace LivePersonConnector
 {
-    public class LivePersonAdapter : BotFrameworkHttpAdapter
+    public class LivePersonAdapter : BotFrameworkHttpAdapter, ILivePersonAdapter
     {
-        public LivePersonAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware)
+        public LivePersonAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, HandoffMiddleware handoffMiddleware, LoggingMiddleware loggingMiddleware)
             : base(configuration, logger)
         {
             Use(handoffMiddleware);
+            Use(loggingMiddleware);
 
             OnTurnError = async (turnContext, exception) =>
             {

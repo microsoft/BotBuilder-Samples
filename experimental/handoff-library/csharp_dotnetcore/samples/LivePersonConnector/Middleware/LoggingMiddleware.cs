@@ -24,10 +24,10 @@ namespace LivePersonProxyBot
 
         public async Task OnTurnAsync(ITurnContext turnContext, NextDelegate next, CancellationToken cancellationToken = default)
         {
-            // Route the conversation based on whether it's been escalated
             var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
             var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData()).ConfigureAwait(false);
 
+            // Log the transcript of the conversation so it can be passed to the agent upon escalation
             conversationData.ConversationLog.Add(turnContext.Activity);
             await _conversationState.SaveChangesAsync(turnContext).ConfigureAwait(false);
 

@@ -23,16 +23,16 @@ namespace LivePersonConnector.Controllers
     [ApiController]
     public class LivePersonController : ControllerBase
     {
-        private readonly LivePersonAdapter _adapter;
+        private readonly ILivePersonAdapter _adapter;
         private readonly IBot _bot;
         private readonly ILivePersonCredentialsProvider _creds;
 
         // This must be a durable storage in multi-instance scenario
         private readonly ConversationMap _conversationMap;
 
-        public LivePersonController(IBotFrameworkHttpAdapter adapter, ILivePersonCredentialsProvider creds, IBot bot, ConversationMap conversationMap)
+        public LivePersonController(BotFrameworkHttpAdapter adapter, ILivePersonCredentialsProvider creds, IBot bot, ConversationMap conversationMap)
         {
-            _adapter = (LivePersonAdapter)adapter;
+            _adapter = (ILivePersonAdapter)adapter;
             _bot = bot;
             _creds = creds;
             _conversationMap = conversationMap;
@@ -179,7 +179,7 @@ namespace LivePersonConnector.Controllers
                                 {
                                     MicrosoftAppCredentials.TrustServiceUrl(conversationRec.ConversationReference.ServiceUrl);
 
-                                    await _adapter.ContinueConversationAsync(
+                                    await ((BotFrameworkHttpAdapter)_adapter).ContinueConversationAsync(
                                         _creds.MsAppId,
                                         conversationRec.ConversationReference,
                                         (ITurnContext turnContext, CancellationToken cancellationToken) =>

@@ -6,7 +6,7 @@ using Microsoft.Bot.Schema;
 
 namespace LivePersonProxyBot.Bots
 {
-    internal class LoggingConversationData
+    public class LoggingConversationData
     {
         public List<Activity> ConversationLog { get; set; } = new List<Activity>();
     }
