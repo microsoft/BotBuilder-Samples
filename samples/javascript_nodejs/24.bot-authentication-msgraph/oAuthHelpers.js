@@ -47,7 +47,7 @@ class OAuthHelpers {
         const client = new SimpleGraphClient(tokenResponse.token);
         const me = await client.getMe();
 
-        await context.sendActivity(`You are ${ me.mail }.`);
+        await context.sendActivity(`Your email: ${ me.mail }.`);
     }
 }
 
