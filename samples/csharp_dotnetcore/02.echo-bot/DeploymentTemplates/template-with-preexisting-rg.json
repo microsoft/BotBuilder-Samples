@@ -97,12 +97,12 @@
             "location": "[variables('resourcesLocation')]",
             "kind": "app",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
             ],
             "name": "[variables('webAppName')]",
             "properties": {
                 "name": "[variables('webAppName')]",
-                "serverFarmId": "[variables('servicePlanName')]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
