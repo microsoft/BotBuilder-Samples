@@ -16,7 +16,7 @@ Before you run the sample, you'll need to set up your LivePerson account and con
 1. Get a LivePerson Subscription and access to the Connector App Hub
 2. In the LiverPerson portal, create an agent and a skill that will be used when the bot user asks to escalate to a 
 human agent.  Configure the LivePerson agent to support the skill you will specify later in step 9:
-![webhook configuration](LivePersonProxyAssistant/LivePersonProxyAssistant/docs/LivePersonAgentView.png)
+![webhook configuration](docs/LivePersonAgentView.png)
 3. Using Visual Studio, create new VA Template bot. All the integration takes place in the Assistant and not in
 the Virtual Assistant Skills and that's why no Virual Assistant Skill project was included in the solution
 for this sample.  You'll add your Virtual Skills as you see fit as you normally do.
@@ -98,7 +98,7 @@ sample into your solution as a sibling project to the Assistant project as was d
 	NOTE: Replace `"<Your Skill Name>"` with the name of your agent's skill.  So you'd set `Skill` to the string
 	`"Expert Help"` if that's how you configured your agent's skill which you can grab from **User Management**
 	as shown in the screen shot below:
-	![webhook configuration](LivePersonProxyAssistant/LivePersonProxyAssistant/docs/LivePersonAgentView.png)
+	![webhook configuration](docs/LivePersonAgentView.png)
 	9.4 Adapters/DefaultAdapter.cs
 	* Add the following using statements:
 		```c#
@@ -226,7 +226,7 @@ your bot.
 	that becomes more stable.
 
 	Here's what the LivePerson configuration looks like for the ContentEvent:
-	![webhook configuration](LivePersonProxyAssistant/LivePersonProxyAssistant/docs/webhooks.png)
+	![webhook configuration](docs/webhooks.png)
 12. Add the following settings to appsetting.json:
 	```
 	"LivePersonAccount": "",
@@ -235,7 +235,7 @@ your bot.
 	```
 13. Copy the **App Id** and **Secret** from the App Hub Connection you just created and paste them into the 
 corresponding values in the **appsetting.json** file and provide your LivePerson account number as show below:
-![webhook configuration](LivePersonProxyAssistant/LivePersonProxyAssistant/docs/AppHubConnection.png)
+![webhook configuration](docs/AppHubConnection.png)
 
 	Your appsettings.json should look something like this:
 	``` c#
@@ -276,4 +276,4 @@ the agent
 That's it! You should have a Virtual Assistant bot that is fully integrated with LivePerson uisng the new bot-as-a-proxy
 Bot Framework Handoff APIs
 
-![demo](LivePersonProxyAssistant/LivePersonProxyAssistant/docs/BotInAction.png)
+![demo](docs/BotInAction.png)
