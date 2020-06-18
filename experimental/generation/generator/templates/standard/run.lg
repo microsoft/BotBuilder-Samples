@@ -6,13 +6,13 @@
 result=1
 thisdir="$( cd "$( dirname "$0" )" && pwd )"
 if [ -n "$REPOS" ]; then
-    set region=$1
+    region=$1
     if [ -z "$region" ]; then
-        set region=westus
+        region=westus
     fi
 
     if [ ! -f luis.settings.* ]; then
-        ($thisdir/build $1 $2)
+        ${IsBuildingWithQnA()}
     fi
 
     if [ -f luis.settings.* ]; then
@@ -26,8 +26,20 @@ if [ $result != 0 ]; then
     echo "In order to use this script you must:"
     echo "1) Setup from https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/generation/docs/get-started.md"
     echo "2) Set the environment variable REPOS to your git repo root."
-    echo "run [region] [luis authoring key]"
+    ${IsBuildingWithQnAEcho()}
     echo "Region defaults to westus."
     echo "Key defaults to LUIS_AUTHORING_KEY environment variable."
 fi
 ```
+
+# IsBuildingWithQnA
+- IF: ${templates.qna}:
+    - ($thisdir/build $1 $2 $3)
+- ELSE:
+    - ($thisdir/build $1 $2)
+
+# IsBuildingWithQnAEcho
+- IF: ${templates.qna}:
+    - echo "run [region] [luis authoring key] [qna subscription key]"
+- ELSE:
+    - echo "run [region] [luis authoring key]"

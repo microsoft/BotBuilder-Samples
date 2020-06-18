@@ -1,3 +1,5 @@
+[generator.lg](../generator.lg)
+
 # filename
 -build.cmd
 
@@ -21,11 +23,8 @@ if "%2" NEQ "" set key=--authoringKey %2
 
 # setParamsForQnA
 -```
-set locale=%5
-
-set qnaKey=%6
-
-set schemaName=%7
+set qnaKey=%3
+if "%3" NEQ "" set qnakey=--subscriptionKey %3
 ```
 
 # echoBuild
@@ -41,7 +40,13 @@ goto done
 # crossTrainCmd
 -```
 call bf luis:cross-train --config ./config.json --in . 
-call copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y 
+${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
+```
+
+# copyForLocale(locale)
+-```
+call copy .\cross-trained\\${prefix}.${locale}.lu .\\${locale}\ /y
+call copy .\cross-trained\\${prefix}.${locale}.qna .\\${locale}\ /y
 ```
 
 # luisBuildCmd
@@ -51,7 +56,7 @@ call bf luis:build --luConfig luconfig.json --region=%region% %key% --out . --lo
 
 # qnaMakerBuildCmd
 -```
-call bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix %alias% --botName %botName% --out . --log --force 
+call bf qnamaker:build --qnaConfig qnaconfig.json %qnakey% --out . --log
 ```
 
 # helpForLUIS
@@ -65,7 +70,7 @@ echo Region defaults to westus.
 # helpForQnA
 -```
 :help
-echo build.cmd [region] [authoringKey] [locale] [qnaKey] 
+echo build.cmd [region] [authoringKey] [qnaKey] 
 echo Region defaults to westus.
 :done
 ```
