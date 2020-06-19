@@ -185,7 +185,7 @@ class MainDialog(ComponentDialog):
     def create_oauth_card(self) -> Attachment:
         card = OAuthCard(
             text="BotFramework OAuth Card",
-            connection_name="test.com",
+            connection_name="OAuth connection",
             buttons=[
                 CardAction(
                     type=ActionTypes.signin,
