@@ -302,7 +302,7 @@ class MainDialog(ComponentDialog):
             Choice(value="Animation Card", synonyms=["animation"]),
             Choice(value="Audio Card", synonyms=["audio"]),
             Choice(value="Hero Card", synonyms=["hero"]),
-            Choice(value="OAuth Card", synonyms=["auth"]),
+            Choice(value="OAuth Card", synonyms=["oauth"]),
             Choice(value="Receipt Card", synonyms=["receipt"]),
             Choice(value="Signin Card", synonyms=["signin"]),
             Choice(value="Thumbnail Card", synonyms=["thumbnail", "thumb"]),
