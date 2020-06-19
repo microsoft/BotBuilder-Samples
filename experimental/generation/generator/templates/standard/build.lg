@@ -19,10 +19,6 @@ key=$2
 if [ -n "$key" ]; then
     key="--authoringKey $key"
 fi
-
-alias=$3
-
-botName=$4
 ```
 
 # setParamsForQnA
@@ -42,7 +38,7 @@ cp ./cross-trained/$schemaName.$locale.lu ./$locale/
 
 # luisBuildCmd
 -```
-bf luis:build --luConfig luconfig.json --region=$region $key --suffix $alias --botName $botName --out . --log --force
+bf luis:build --luConfig luconfig.json --region=$region $key --out . --log
 ```
 
 # qnaMakerBuildCmd
@@ -54,7 +50,7 @@ bf qnamaker:build --subscriptionKey $qnaKey --in ./cross-trained/ --suffix $alia
 -```
 res=$?
 if [ $res != 0 ]; then
-    echo build.cmd [region] [authoringKey] [alias] [botName]
+    echo build.cmd [region] [authoringKey]
     echo Region defaults to westus.
 fi
 

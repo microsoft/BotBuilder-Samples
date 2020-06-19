@@ -17,10 +17,6 @@ if "%region%" EQU "" set region=westus
 
 set key=%2
 if "%2" NEQ "" set key=--authoringKey %2
-
-set alias=%3
-
-set botName=%4
 ```
 
 # setParamsForQnA
@@ -50,7 +46,7 @@ call copy .\cross-trained\%schemaName%.%locale%.lu .\%locale%\ /y
 
 # luisBuildCmd
 -```
-call bf luis:build --luConfig luconfig.json --region=%region% %key% --suffix %alias% --botName %botName% --out . --log --force
+call bf luis:build --luConfig luconfig.json --region=%region% %key% --out . --log
 ```
 
 # qnaMakerBuildCmd
@@ -61,7 +57,7 @@ call bf qnamaker:build --subscriptionKey %qnaKey% --in .\cross-trained\ --suffix
 # helpForLUIS
 -```
 :help
-echo build.cmd [region] [authoringKey] [alias] [botName]
+echo build.cmd [region] [authoringKey]
 echo Region defaults to westus.
 :done
 ```
@@ -69,7 +65,7 @@ echo Region defaults to westus.
 # helpForQnA
 -```
 :help
-echo build.cmd [region] [authoringKey] [alias] [botName] [locale] [qnaKey] [schemaName]
+echo build.cmd [region] [authoringKey] [locale] [qnaKey] 
 echo Region defaults to westus.
 :done
 ```

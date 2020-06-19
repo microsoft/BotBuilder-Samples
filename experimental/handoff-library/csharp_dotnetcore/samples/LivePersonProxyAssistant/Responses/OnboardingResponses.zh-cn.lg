@@ -1,0 +1,8 @@
+﻿# NamePrompt
+- 你叫什么名字？
+- 你叫什么名字？
+
+# HaveNameMessage
+- 你好 ${Name}!
+- 嘿，你好 ${Name}!
+- 很高兴见到你 ${Name}

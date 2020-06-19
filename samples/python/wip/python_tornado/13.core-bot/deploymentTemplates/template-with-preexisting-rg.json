@@ -102,7 +102,7 @@
             "name": "[variables('webAppName')]",
             "location": "[variables('resourcesLocation')]",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
             ],
             "kind": "app,linux",
             "properties": {
