@@ -185,7 +185,7 @@ class MainDialog(ComponentDialog):
     def create_oauth_card(self) -> Attachment:
         card = OAuthCard(
             text="BotFramework OAuth Card",
-            connection_name="OAuth connection",
+            connection_name="OAuth connection", # Replace it with the name of your Azure AD connection.
             buttons=[
                 CardAction(
                     type=ActionTypes.signin,
