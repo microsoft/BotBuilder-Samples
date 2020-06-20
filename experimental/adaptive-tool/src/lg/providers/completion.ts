@@ -158,7 +158,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                         },
                         "markdown": {
                             "detail": " markdown",
-                            "documentation": "Line breaks in multiline text will .",
+                            "documentation": "Line breaks in multiline text will be automatically converted to two lines to create a newline.",
                             "insertText": " markdown"
                         }
                     }
