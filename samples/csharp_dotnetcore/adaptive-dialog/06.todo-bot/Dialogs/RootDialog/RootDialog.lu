@@ -1,6 +1,14 @@
 ﻿> Language Understanding definition.
 > See https://aka.ms/lu-file-format to learn more
 
+# Greeting
+- Hey
+- Hello
+- Hey there
+- Hi
+- Howdy
+- It me
+
 # AddItem
 - Add item
 - Add todo
