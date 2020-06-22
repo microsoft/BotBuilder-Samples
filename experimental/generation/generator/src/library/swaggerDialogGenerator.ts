@@ -11,7 +11,8 @@ export enum FeedbackType {
   message,
   info,
   warning,
-  error
+  error,
+  debug
 }
 
 export type Feedback = (type: FeedbackType, message: string) => void
@@ -31,10 +32,10 @@ function generateParam(obj: any) {
           $ref: 'template:datetime.schema#/datetime'
         }
       } else if ('enum' in obj) {
-        let struct_type = {}
-        struct_type['type'] = 'string'
-        struct_type['enum'] = obj['enum']
-        return struct_type
+        let structType = {}
+        structType['type'] = 'string'
+        structType['enum'] = obj['enum']
+        return structType
       } else {
         return {
           type: 'string',
@@ -123,13 +124,7 @@ export async function generate(
         }
       } else if (param.in === 'path') {
         url = url.replace('{'+param.name, '${$' + param.name)
-      } else {
-        if (param.format === 'date-time') {
-          body[param.name] = '${$' + param.name + '.timex' + '}'
-        } else {
-          body[param.name] = '${$' + param.name + '}'
-        }
-      }
+      } 
       result.properties[param.name] = generateParam(param)
       result.required.push(param.name)
     }
