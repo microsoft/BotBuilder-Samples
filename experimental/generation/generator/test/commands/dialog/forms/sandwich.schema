@@ -94,5 +94,12 @@
         "Toppings",
         "Sauces",
         "Price"
-    ]
+    ],
+    "$examples": {
+        "personName": [
+            "Bart Simpson",
+            "Thomas Matthews",
+            "Christopher Robin"
+        ]
+    }
 }

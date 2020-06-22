@@ -75,10 +75,9 @@ const loadRootDialog = () => {
     console.log('(Re)Loading dialogs...');
     // Load root dialog
     let rootDialogResource = resourceExplorer.getResource('echo.dialog');
-    myBot = new DialogManager();
+    myBot = new DialogManager(resourceExplorer.loadType(rootDialogResource));
     myBot.userState = userState;
     myBot.conversationState = conversationState;
-    myBot.rootDialog = resourceExplorer.loadType(rootDialogResource);
 }
 
 loadRootDialog();

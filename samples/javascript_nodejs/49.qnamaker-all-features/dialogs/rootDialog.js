@@ -22,14 +22,13 @@ class RootDialog extends ComponentDialog {
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
     constructor(knowledgebaseId, authkey, host) {
-        super(ROOT_DIALOG);        
+        super(ROOT_DIALOG);
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
         this.addDialog(new QnAMakerBaseDialog(knowledgebaseId, authkey, host));
         this.initialDialogId = INITIAL_DIALOG;
-
     }
 
     /**
@@ -52,7 +51,6 @@ class RootDialog extends ComponentDialog {
     // This is the first step of the WaterfallDialog.
     // It kicks off the dialog with the QnA Maker with provided options.
     async startInitialDialog(step) {
-        
         return await step.beginDialog(QNAMAKER_BASE_DIALOG);
     }
 }

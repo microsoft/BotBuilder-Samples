@@ -66,7 +66,7 @@ if (!endpointHostName.startsWith('https://')) {
     endpointHostName = 'https://' + endpointHostName;
 }
 
-if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker') ) {
+if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker')) {
     endpointHostName = endpointHostName + '/qnamaker';
 }
 
