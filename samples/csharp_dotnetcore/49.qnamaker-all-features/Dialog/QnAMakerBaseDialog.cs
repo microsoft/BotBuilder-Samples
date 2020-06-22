@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
@@ -43,6 +44,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected override Task<QnAMakerOptions> GetQnAMakerOptionsAsync(DialogContext dc)
         {
+            var enablePreciseAnswer = this.EnablePreciseAnser;
+            this.EnablePreciseAnswer = new BoolExpression(enablePreciseAnswer);
             return Task.FromResult(new QnAMakerOptions
             {
                 ScoreThreshold = DefaultThreshold,
@@ -50,8 +53,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 QnAId = 0,
                 RankerType = "Default",
                 IsTest = false,
-                EnablePreciseAnswer = this.EnablePreciseAnser
-            }); 
+                EnablePreciseAnswer = enablePreciseAnswer
+            });
         }
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
@@ -60,14 +63,15 @@ namespace Microsoft.BotBuilderSamples.Dialog
             noAnswer.Text = DefaultNoAnswer;
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
-
+            var displayPreciseAnswerOnly = this.DisplayPreciseAnswrOnly;
+            this.DisplayPreciseAnswerOnly = new BoolExpression(displayPreciseAnswerOnly);
             var responseOptions = new QnADialogResponseOptions
             {
                 ActiveLearningCardTitle = DefaultCardTitle,
                 CardNoMatchText = DefaultCardNoMatchText,
                 NoAnswer = noAnswer,
                 CardNoMatchResponse = cardNoMatchResponse,
-                DisplayPreciseAnswerOnly = this.DisplayPreciseAnswerOnly
+                DisplayPreciseAnswerOnly = displayPreciseAnswerOnly
             };
 
             return responseOptions;
@@ -96,7 +100,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             }
         }
 
-        private bool DisplayPreciseAnswerOnly
+        private bool DisplayPreciseAnswrOnly
         {
             get
             {               
