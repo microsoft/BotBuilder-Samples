@@ -23,6 +23,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardTitle = "Did you mean:";
         public const string DefaultCardNoMatchText = "None of the above.";
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
+        public const string QnAMakerType_V2 = "v2";
         private readonly IBotServices _services;
         private readonly IConfiguration _config;
 
@@ -31,6 +32,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         /// Dialog helper to generate dialogs.
         /// </summary>
         /// <param name="services">Bot Services.</param>
+        /// <param name="config">Configuration settings.</param>
         public QnAMakerBaseDialog(IBotServices services, IConfiguration config): base()
         {
             this._services = services;
@@ -44,7 +46,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected override Task<QnAMakerOptions> GetQnAMakerOptionsAsync(DialogContext dc)
         {
-            var enablePreciseAnswer = this.EnablePreciseAnser;
+            var enablePreciseAnswer = this.BoolEnablePreciseAnswer;
             this.EnablePreciseAnswer = new BoolExpression(enablePreciseAnswer);
             return Task.FromResult(new QnAMakerOptions
             {
@@ -63,7 +65,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             noAnswer.Text = DefaultNoAnswer;
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
-            var displayPreciseAnswerOnly = this.DisplayPreciseAnswrOnly;
+            var displayPreciseAnswerOnly = this.BoolDisplayPreciseAnswerOnly;
             this.DisplayPreciseAnswerOnly = new BoolExpression(displayPreciseAnswerOnly);
             var responseOptions = new QnADialogResponseOptions
             {
@@ -76,31 +78,26 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
             return responseOptions;
         }
-        private bool EnablePreciseAnser
+
+        private bool BoolEnablePreciseAnswer
         {
             get
             {
                 var qnaServiceType = _config["QnAServiceType"];
-                if (string.Equals("v2",qnaServiceType, StringComparison.OrdinalIgnoreCase))
+                if (QnAMakerType_V2.Equals(qnaServiceType, StringComparison.OrdinalIgnoreCase))
                 {
                     var rawEnablePreciseAnswer = _config["EnablePreciseAnswer"];
                     if (!string.IsNullOrWhiteSpace(rawEnablePreciseAnswer))
                     {
                         return bool.Parse(rawEnablePreciseAnswer);
                     }
-                    else
-                    {
-                        return true;
-                    }
-                }
-                else
-                {
                     return false;
                 }
+                return false;
             }
         }
 
-        private bool DisplayPreciseAnswrOnly
+        private bool BoolDisplayPreciseAnswerOnly
         {
             get
             {               
@@ -109,10 +106,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 {
                     return bool.Parse(rawDisplayPreciseAnswerOnly);
                 }
-                else
-                {
-                    return true;
-                }                
+                return true;
             }
         }
     }
