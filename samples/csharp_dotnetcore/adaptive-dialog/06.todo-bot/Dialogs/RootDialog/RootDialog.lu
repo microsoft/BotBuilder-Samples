@@ -1,6 +1,13 @@
 ﻿> Language Understanding definition.
 > See https://aka.ms/lu-file-format to learn more
 
+# Greeting
+- hi
+- hello
+- good morning
+- good afternoon
+- good evening
+
 # AddItem
 - Add item
 - Add todo
@@ -172,8 +179,6 @@
 - what do i have on my list?
 
 # GetUserProfile
-- Hi
-- Hello
 - get started
 - my name is {@userName}
 - Profile
