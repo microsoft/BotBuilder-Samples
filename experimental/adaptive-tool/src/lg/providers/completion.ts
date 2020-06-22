@@ -170,7 +170,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                         items.push(completionItem);
                     }
                 } else if (/> !# *@Exports *=$/.test(lineTextBefore) || (/> !# *@Exports *=/.test(lineTextBefore) && /, *$/.test(lineTextBefore))) {
-                    var templatesOptions = TemplatesStatus.templatesMap.get(document.uri.fsPath).templates.allTemplates;
+                    var templatesOptions = TemplatesStatus.templatesMap.get(document.uri.fsPath).templates.toArray();
                     for (let template in templatesOptions) {
                         let templateName = templatesOptions[template].name;
                         let completionItem = new vscode.CompletionItem(" " + templateName);
