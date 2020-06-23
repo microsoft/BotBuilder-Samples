@@ -38,7 +38,7 @@ export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates
 
     let result = new Templates();
     let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
-    if (engineEntity !== undefined && engineEntity.templates.toArray().length > 0) {
+    if (engineEntity !== undefined && engineEntity.templates.allTemplates.length > 0) {
         result = engineEntity.templates;
     }
 
@@ -52,6 +52,7 @@ export function getreturnTypeStrFromReturnType(returnType: ReturnType): string {
         case ReturnType.Number: result = "number";break;
         case ReturnType.Object: result = "any";break;
         case ReturnType.String: result = "string";break;
+        case ReturnType.Array: result = "array";break;
     }
 
     return result;
@@ -66,8 +67,8 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
 
     const templates: Templates = getTemplatesFromCurrentLGFile(lgFileUri);
 
-    for (const template of templates) {
-        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, 'Template reference');
+    for (const template of templates.allTemplates) {
+        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, `Template reference\r\n ${template.body}`);
         let templateName = template.name;
         if (buildInfunctionsMap.has(template.name)) {
             templateName = 'lg.' + template.name;
@@ -99,16 +100,138 @@ export function getFunctionEntity(lgFileUri: vscode.Uri, name: string): Function
 }
 
 export const cardPropDict = {
-    CardAction: ['title', 'type', 'value'],
-    Suggestions: ['SuggestionActions'],
-    Cards: ['title', 'subtitle', 'text', 'image', 'buttons'],
-    Attachment: ['contenttype', 'content'],
-    Others: ['type', 'name', 'value'],
+    CardAction: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'type', placeHolder:'imBack'}, 
+        {name:'value', placeHolder:'{your_value}'}],
+    Cards: [
+        {name:'text', placeHolder:'{text}'},
+        {name:'buttons', placeHolder:'{button_list}'}],
+    Attachment: [
+        {name:'contenttype', placeHolder:'herocard'},
+        {name:'content', placeHolder:'{attachment_content}'}],
+    Others: [
+        {name:'type', placeHolder:'{typename}'},
+        {name:'value', placeHolder:'{value}'}],
+    Activity: [
+        {name:'text', placeHolder:'{text_result}'}]
+  };
+
+
+  export const cardPropDictFull = {
+    CardAction: [
+        {name:'type', placeHolder:'imBack'},
+        {name:'title'}, 
+        {name:'image'},
+        {name:'text'},
+        {name:'displayText'},
+        {name:'channelData'},
+        {name:'image'},
+        {name:'image'},
+        {name:'image'}],
+    HeroCard: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'subtitle', placeHolder:'{your_subtitle}'},
+        {name:'text', placeHolder:'{text}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'images', placeHolder:'{image_list}'},
+        {name:'tap', placeHolder:'{tap}'}],
+    ThumbnailCard: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'subtitle', placeHolder:'{your_subtitle}'},
+        {name:'text', placeHolder:'{text}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'images', placeHolder:'{image_list}'},
+        {name:'tap', placeHolder:'{tap}'}],
+    AudioCard: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'subtitle', placeHolder:'{your_subtitle}'},
+        {name:'text', placeHolder:'{text}'},
+        {name:'media', placeHolder:'{media_list}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'shareable', placeHolder:'false'},
+        {name:'autoloop', placeHolder:'false'},
+        {name:'autostart', placeHolder:'false'},
+        {name:'aspect'},
+        {name:'image'},
+        {name:'duration'},
+        {name:'value'}],
+    VideoCard: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'subtitle', placeHolder:'{your_subtitle}'},
+        {name:'text', placeHolder:'{text}'},
+        {name:'media', placeHolder:'{media_list}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'shareable', placeHolder:'false'},
+        {name:'autoloop', placeHolder:'false'},
+        {name:'autostart', placeHolder:'false'},
+        {name:'aspect'},
+        {name:'image'},
+        {name:'duration'},
+        {name:'value'}],
+    AnimationCard: [
+        {name:'title', placeHolder:'{your_title}'},
+        {name:'subtitle', placeHolder:'{your_subtitle}'},
+        {name:'text', placeHolder:'{text}'},
+        {name:'media', placeHolder:'{media_list}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'shareable', placeHolder:'false'},
+        {name:'autoloop', placeHolder:'false'},
+        {name:'autostart', placeHolder:'false'},
+        {name:'aspect'},
+        {name:'image'},
+        {name:'duration'},
+        {name:'value'}],
+    SigninCard: [
+        {name:'text', placeHolder:'{text}'},
+        {name:'buttons', placeHolder:'{button_list}'}],
+    OAuthCard: [
+        {name:'text', placeHolder:'{text}'},
+        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'connectionname'}],
+    ReceiptCard: [
+        {name:'title'},
+        {name:'facts'},
+        {name:'items'},
+        {name:'tap'},
+        {name:'total'},
+        {name:'tax'},
+        {name:'vat'},
+        {name:'buttons'}],
+    Attachment: [
+        {name:'contenttype', placeHolder:'herocard'},
+        {name:'content', placeHolder:'{attachment_content}'}],
+    Others: [
+        {name:'type', placeHolder:'{typename}'},
+        {name:'value', placeHolder:'{value}'}],
+    Activity: [
+        {name:'type'},
+        {name:'textFormat'},
+        {name:'attachmentLayout'},
+        {name:'topicName'},
+        {name:'locale'},
+        {name:'text', placeHolder:'{text_result}'},
+        {name:'speak', placeHolder:'{speak_result}'},
+        {name:'inputHint'},
+        {name:'summary'},
+        {name:'suggestedActions'},
+        {name:'attachments'},
+        {name:'entities'},
+        {name:'channelData'},
+        {name:'action'},
+        {name:'label'},
+        {name:'valueType'},
+        {name:'value'},
+        {name:'name'},
+        {name:'code'},
+        {name:'importance'},
+        {name:'deliveryMode'},
+        {name:'textHighlights'},
+        {name:'semanticAction'},
+    ]
   };
 
 export const cardTypes = [
-    'Typing',
-    'Suggestions',
     'HeroCard',
     'SigninCard',
     'ThumbnailCard',
@@ -118,7 +241,6 @@ export const cardTypes = [
     'MediaCard',
     'OAuthCard',
     'Attachment',
-    'AttachmentLayout',
     'CardAction',
     'AdaptiveCard',
     'Activity',

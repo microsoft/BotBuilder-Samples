@@ -16,18 +16,18 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "~4.9.0",
-        "botbuilder-dialogs": "~4.9.0",
-        "dotenv": "^8.0.0",
-        "restify": "~8.3.3"
+        "botbuilder": "~4.9.1",
+        "botbuilder-dialogs": "~4.9.1",
+        "dotenv": "^8.2.0",
+        "restify": "~8.5.1"
     },
     "devDependencies": {
-        "eslint": "^6.0.1",
-        "eslint-config-standard": "^13.0.1",
-        "eslint-plugin-import": "^2.18.2",
-        "eslint-plugin-node": "^9.1.0",
+        "eslint": "^7.0.0",
+        "eslint-config-standard": "^14.1.1",
+        "eslint-plugin-import": "^2.20.2",
+        "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^4.2.1",
-        "eslint-plugin-standard": "^4.0.0",
-        "nodemon": "~1.19.1"
+        "eslint-plugin-standard": "^4.0.1",
+        "nodemon": "~2.0.4"
     }
 }

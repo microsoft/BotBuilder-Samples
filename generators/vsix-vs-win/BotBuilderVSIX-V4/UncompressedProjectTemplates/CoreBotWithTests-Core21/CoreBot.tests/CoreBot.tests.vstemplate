@@ -24,7 +24,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.6.2"/>
+      <CustomParameter Name="$templateversion$" Value="4.9.2"/>
     </CustomParameters>
     <Project File="CoreBot.Tests.csproj" ReplaceParameters="true" TargetFileName="$projectname$.Tests.csproj">
       <Folder Name="Bots" TargetFolderName="Bots">
@@ -48,7 +48,7 @@
         <ProjectItem ReplaceParameters="true">DateResolverDialogTestsDataGenerator.cs</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightFromCdgToJfk.json.</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightFromMadridToChicago.json</ProjectItem>
-        <ProjectItem ReplaceParameters="false">FlightFromParisTonewYork.json</ProjectItem>
+        <ProjectItem ReplaceParameters="false">FlightFromParisToNewYork.json</ProjectItem>
         <ProjectItem ReplaceParameters="false">FlightToMadrid.json</ProjectItem>
         <ProjectItem ReplaceParameters="false">README.md</ProjectItem>
         </Folder>

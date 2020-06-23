@@ -25,10 +25,9 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         if (!util.isLgFile(document.fileName)) {
             return;
         }
-        
-        // get template definition
+
         try {
-            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_ \-\.]+/);
+            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_\.]+/);
             if (!wordRange) {
                 return undefined;
             }
@@ -38,17 +37,17 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
 
             const templates: Templates = util.getTemplatesFromCurrentLGFile(document.uri);
-            let template: Template = templates.toArray().find(u=>u.name === templateName);
+            let template: Template = templates.allTemplates.find(u=>u.name === templateName);
             if (template === undefined)
                 return undefined;
 
-            const lineNumber: number = template.parseTree.start.line - 1;
-            const columnNumber: number = template.parseTree.start.charPositionInLine;
+            const lineNumber: number = template.sourceRange.range.start.line - 1;
+            const columnNumber: number = template.sourceRange.range.start.character;
             const definitionPosition: vscode.Position = new vscode.Position(lineNumber, columnNumber);
 
             let definitionUri: vscode.Uri = undefined;
             TemplatesStatus.templatesMap.forEach((value, key) => {
-                if (template.source === key) {
+                if (template.sourceRange.source === key) {
                     definitionUri = value.uri;
                 }
             });

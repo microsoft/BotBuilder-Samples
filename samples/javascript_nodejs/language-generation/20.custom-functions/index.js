@@ -40,7 +40,7 @@ const onTurnErrorHandler = async (context, error) => {
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
     console.error(lgTemplates.evaluate('SomethingWentWrong', {
-        message : `${error}`
+        message: `${ error }`
     }));
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator

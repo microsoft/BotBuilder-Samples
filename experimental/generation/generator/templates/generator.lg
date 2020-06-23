@@ -48,12 +48,14 @@
 
 # nameTemplate
 -```
-${'#'} ${property}Name
+> Template for generating display text for the name of the '${property}' property.
+${'#'} ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
-${'#'} ${property}(val)
+> Template for generating display text for the value of the '${property}' property.
+${'#'} ${property}_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -62,7 +64,8 @@ ${'#'} ${property}(val)
 
 # entityDisplay
 -```
-${'#'} ${property}Entity(val)
+> Template for generating display text for the value of the '${property}Entity' entity.
+${'#'} ${property}Entity_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -74,13 +77,12 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getSetPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.SetProperty",
@@ -98,6 +100,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Add', entity)}      
 }
 ```
 
@@ -106,13 +109,12 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "AddToProperty",
-    "property": "${property}",
+    "operation": "Add(${property})",
     "entity": "${entity}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${setArrayPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getSetArrayPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -131,6 +133,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Add', entity)}     
 }
 ```
 
@@ -139,8 +142,7 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
 
@@ -150,7 +152,7 @@ ${'#'} ${property}Entity(val)
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${removePropertyMessage('${property}', @${entity})}"
+                    "activity": "\${getRemovePropertyText('${property}', @${entity})}"
                 },  
                 {
                     "$kind": "Microsoft.DeleteProperty",
@@ -159,6 +161,7 @@ ${'#'} ${property}Entity(val)
             ]
         }
     ]               
+    ${designerOpEntity('Remove', entity)}     
 }
 ```
 
@@ -167,13 +170,12 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "RemoveFromProperty",
-    "property": "${property}",
+    "operation": "Remove(${property})",
     "entity": "${entity}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${removeArrayPropertyMessage('${property}', @${entity})}"
+            "activity": "\${getRemoveArrayPropertyText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -182,6 +184,7 @@ ${'#'} ${property}Entity(val)
             "value": "=@${entity}"
         }
     ]               
+    ${designerOpEntity('Remove', entity)}     
 }
 ```
 
@@ -190,19 +193,18 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ClearProperty",
-    "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
+    "operation": "Clear(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${clearPropertyMessage('${property}')}"
+            "activity": "\${getClearPropertyText('${property}')}"
         },
         {
             "$kind": "Microsoft.DeleteProperty",
             "property": "$${property}"
         }
     ]               
+    ${designerOp('Clear')}     
 }
 ```
 
@@ -211,15 +213,14 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "ShowProperty",
-    "entity": "PROPERTYName",
-    "condition": "@PROPERTYName == '${property}'",
+    "operation": "Show(${property})",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${showPropertyMessage(@PROPERTYName)}"
+            "activity": "\${getShowPropertyText(@PROPERTYName)}"
         }
     ]               
+    ${designerOp('Show')}     
 }
 ```
 
@@ -228,39 +229,78 @@ ${'#'} ${property}Entity(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!$${property} || $PropertyToChange == '${property}'",
+    "condition":"=!$${property} || $PropertyToChange == '${property}'",
     "priority": "=indexOf(dialog.requiredProperties, '${property}')",
     "actions": [       
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${Ask${property}()}",
+            "activity": "\${${property}_getPromptText()}",
             "expectedProperties": [
                 "${property}"
             ]
         }
     ]
+    ${designerMissing(property)}     
 }
 ```
 
 # propertyName
-- ```
+- IF: ${property}
+-```
+> Define the entity recognition of the '${property}' property.
 @ list PROPERTYName
     - ${property}:
+${if(schema.properties[property].title,
+`\t\t- ${schema.properties[property].title}`,
+synonyms(property))}
 ```
+- ELSE:
+-
 
-> Define operations over an entity that can take on values
+> Define operation entities for '${property}' property.
 # operations(entity, values)
+- IF: ${examples}
+- ${generateOperations(entity, examples)}
+- ELSEIF: ${values}
+- ${generateOperations(entity, values)}
+- ELSE:
+- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`])}
+
+# generateOperations(entity, values)
 -```
-@composite AddToProperty = [${entity}]
-@composite RemoveFromProperty = [${entity}]
-@composite ClearProperty = [PROPERTYName]
-@composite ShowProperty = [PROPERTYName]
+> Define operation entities for '${property}' property.
+@ml Add(${property}) = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+
+@ml Remove(${property}) = 
+    - @${entity} ${entity}
+    - @PROPERTYName PROPERTYName
+
+@ml Clear(${property}) =
+    - @PROPERTYName PROPERTYName
+    
+@ml Show(${property}) =
+    - @PROPERTYName PROPERTYName
+
+> Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(values)}, "property": ["${property}"]}`), 3)}
+${substitutions(`library-operations.${locale}.data`, 
+    json(`{"propertyName": ${propertyList(property)}, 
+           "value": ${valueList(values)}, 
+           "label": ${labelList(entity, values)}, 
+           "property": "${property}"}`), 
+    3)}
 - ${property}
 ```
 
-# list(values)
+# propertyList(property)
+- [${join(foreach(phrases(property), phrase, `"{@PROPERTYName=${phrase}}"`), ', ')}]
+
+# labelList(entity, values)
+- [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
+
+# valueList(values)
 - [${join(foreach(values, value, `"${value}"`), ', ')}]
 
 # synonyms(value)
@@ -268,13 +308,13 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 
 > Top-level template support
 # roleEntities(entity)
-- ${createArray(`${entity}:${property}`, entity)}
+- ${[`${entity}:${property}`, entity]}
 
 # propertyTemplates
-- ${createArray(`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`)}
+- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 
 # entityTemplates
-- ${createArray(`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`)}
+- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
 
 > This is useful when importing another .lg file in order to add prefix/locale
 # importLG(name)
@@ -282,3 +322,38 @@ ${substitutions(`library-operations.${locale}.data`, json(`{"entity": ${list(val
 
 # luHeader
 -> !# @app.culture = ${locale}
+
+> Schema definitions
+
+# schemaOperations
+- ${flatten(foreach(properties, property, [`Add(${property})`, `Remove(${property})`, `Clear(${property})`, `Show(${property})`]))}
+
+# schemaDefaultOperation
+- ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
+
+# schemaDefaultOperationEntities(property)
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}
+
+# designerName(name)
+-, "$designer": {"name": "${name}"}
+
+# designerOp(op)
+- ${designerName(`${property} - ${op}()`)}
+
+# designerOpEntity(op, entity)
+- ${designerOpEntityProperty(op, entity, property)}
+
+# designerOpEntityProperty(op, entity, property)
+- ${designerName(`${property} - ${op}(@${entity})`)}
+
+# designerChooseEntity()
+- ${designerName(`${property}Entity - Choose()`)}
+
+# designerChooseProperty(property)
+- ${designerName(`${property} - ChooseProperty()`)}
+
+# designerMissing(property)
+- ${designerName(`${property} - Missing()`)}
+
+# designerIntent(intent)
+- ${designerName(`On${intent}`)}

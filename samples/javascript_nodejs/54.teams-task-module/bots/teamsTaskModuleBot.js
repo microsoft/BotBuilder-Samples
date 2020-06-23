@@ -65,7 +65,7 @@ class TeamsTaskModuleBot extends TeamsActivityHandler {
             body: [
                 {
                     type: 'TextBlock',
-                    text: `Enter Text Here`
+                    text: 'Enter Text Here'
                 },
                 {
                     type: 'Input.Text',

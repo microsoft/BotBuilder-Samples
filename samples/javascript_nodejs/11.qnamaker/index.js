@@ -46,8 +46,8 @@ adapter.onTurnError = async (context, error) => {
     await context.sendActivity(traceActivity);
 
     // Send a message to the user
-    await context.sendActivity(`The bot encountered an error or bug.`);
-    await context.sendActivity(`To continue to run this bot, please fix the bot source code.`);
+    await context.sendActivity('The bot encountered an error or bug.');
+    await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
 // Create the main dialog.
@@ -57,7 +57,7 @@ const bot = new QnABot();
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
-    console.log(`\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
 });
 
 // Listen for incoming activities and route them to your bot main dialog.

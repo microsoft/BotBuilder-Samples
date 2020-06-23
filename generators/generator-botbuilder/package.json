@@ -1,6 +1,6 @@
 {
     "name": "generator-botbuilder",
-    "version": "4.9.0",
+    "version": "4.9.1",
     "description": "A yeoman generator for creating bots built with Bot Framework v4",
     "homepage": "https://github.com/Microsoft/BotBuilder-Samples/tree/master/generators/generator-botbuilder",
     "author": {
@@ -24,7 +24,7 @@
         "Conversational AI"
     ],
     "dependencies": {
-        "botbuilder": "~4.9.0",
+        "botbuilder": "~4.9.1",
         "chalk": "~4.0.0",
         "lodash": "~4.17.15",
         "mkdirp": "^1.0.4",

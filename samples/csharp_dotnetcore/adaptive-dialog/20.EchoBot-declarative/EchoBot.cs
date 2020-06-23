@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
             // auto reload dialogs when file changes
             this.resourceExplorer.Changed += (e, resources) =>
             {
-                if (resources.Any(resource => resource.Id == ".dialog"))
+                if (resources.Any(resource => resource.Id.EndsWith(".dialog")))
                 {
                     Task.Run(() => this.LoadRootDialogAsync());
                 }

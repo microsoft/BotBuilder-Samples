@@ -1,0 +1,16 @@
+{
+    "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/experimental/generation/runbot/runbot.schema",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "!$Bread || $PropertyToChange == 'Bread'",
+    "priority": "indexOf(dialog.requiredProperties, 'Bread')",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "${AskBread()}",
+            "expectedProperties": [
+                "Bread"
+            ]
+        }
+    ],
+    "$Generator": "82e794647f1af8aa2aef6529ca652a85"
+}

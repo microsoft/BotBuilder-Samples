@@ -39,6 +39,48 @@
                 "-o",
                 "${env:TEMP}/sandwich.out",
                 "--force",
+                "--verbose",
+                "--singleton"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate SandwichQnA",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwichQnA.schema",
+                "-o",
+                "${env:TEMP}/sandwichQnA.out",
+                "--force",
+                "--verbose",
+                "--singleton"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate simple",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/simple.schema",
+                "-o",
+                "${env:TEMP}/simple.out",
+                "--force",
                 "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
