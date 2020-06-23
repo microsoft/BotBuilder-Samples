@@ -193,5 +193,17 @@ namespace Microsoft.BotBuilderSamples
 
             return audioCard;
         }
+
+        public static OAuthCard GetOAuthCard()
+        {
+            var oauthCard = new OAuthCard
+            {
+                Text = "BotFramework OAuth Card",
+                ConnectionName = "OAuth connection", // Replace with the name of your Azure AD connection.
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.Signin, "Sign In", value: "https://example.org/signin") },
+            };
+
+            return oauthCard;
+        }
     }
 }
