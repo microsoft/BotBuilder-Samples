@@ -17,26 +17,32 @@ namespace Samples.CoreBot.FunctionalTests
         private static string botId = null;
         private static string fromUser = "DirectLineClientTestUser";
         private static string echoGuid = string.Empty;
-        private static string input = $"Testing Azure Bot GUID: ";
+        //private static string input = $"Testing Azure Bot GUID: ";
 
         [TestMethod]
         public async Task SendDirectLineMessage()
         {
             GetEnvironmentVars();
 
-            echoGuid = Guid.NewGuid().ToString();
-            input += echoGuid;
+            //echoGuid = Guid.NewGuid().ToString();
+            string input = "hi";
+            var botAnswer = await StartBotConversationAsync(input);
+            Assert.AreEqual($"Where are you traveling from?", botAnswer);
 
-            var botAnswer = await StartBotConversationAsync();
+            input = "Seattle";
+            botAnswer = await StartBotConversationAsync(input);
+            Assert.AreEqual($"Where would you like to travel to?", botAnswer);
 
-            Assert.AreEqual($"Echo: {input}", botAnswer);
+            input = "Prague";
+            botAnswer = await StartBotConversationAsync(input);
+            Assert.AreEqual($"When would you like to travel?", botAnswer);
         }
 
         /// <summary>
         /// Starts a conversation with a bot. Sends a message and waits for the response.
         /// </summary>
         /// <returns>Returns the bot's answer.</returns>
-        private static async Task<string> StartBotConversationAsync()
+        private static async Task<string> StartBotConversationAsync(string input)
         {
             // Create a new Direct Line client.
             var client = new DirectLineClient(directLineSecret);
