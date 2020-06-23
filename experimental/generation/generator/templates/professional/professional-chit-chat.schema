@@ -1,0 +1,17 @@
+{
+    "$templates": [
+        "AboutBot.en-us.qna",
+        "AboutUser.en-us.qna",
+        "Command.en-us.qna",
+        "Compliment.en-us.qna",
+        "Criticism.en-us.qna",
+        "Dialog.en-us.qna",
+        "Greeting.en-us.qna",
+        "Relationship.en-us.qna",
+        "locale.qna",
+        "library-CrossTrain.lg",
+        "library-QnAIntent.dialog",
+        "library-ChooseIntent.dialog",
+        "config.json"
+        ]
+}

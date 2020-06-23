@@ -47,7 +47,6 @@ namespace Microsoft.BotBuilderSamples
                         Actions = new List<Dialog>()
                         {
                             // Take todo title if we already have it from root dialog's LUIS model.
-                            // This is the title entity defined in ../RootDialog/RootDialog.lu.
                             // There is one LUIS application for this bot. So any entity captured by the rootDialog
                             // will be automatically available to child dialog.
                             // @EntityName is a short-hand for turn.recognized.entities.<EntityName>. Other useful short-hands are 
@@ -75,7 +74,7 @@ namespace Microsoft.BotBuilderSamples
                                 Property = "dialog.itemTitle",
                                 Prompt = new ActivityTemplate("${GetItemTitle()}"),
                                 // This entity is coming from the local AddToDoDialog's own LUIS recognizer.
-                                // This dialog's .lu file is under \AddToDoDialog\AddToDoDialog.lu
+                                // This dialog's .lu file is under ./AddToDoDialog.lu
                                 Value = "=@itemTitle",
                                 // Allow interruption if we do not have an item title and have a super high confidence classification of an intent.
                                 AllowInterruptions = "!@itemTitle && turn.recognized.score >= 0.7"

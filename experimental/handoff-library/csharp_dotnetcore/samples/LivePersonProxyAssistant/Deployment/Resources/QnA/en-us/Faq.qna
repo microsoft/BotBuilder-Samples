@@ -1,0 +1,66 @@
+> Source: custom editorial
+## ? What is a Virtual Assistant
+
+```markdown
+![Virtual Assistant](https://aka.ms/virtualassistantlogo)
+I'm a Virtual Assistant with the ability to be customized to a customer's brand and made available across a broad range of devices.
+I can help you be more productive, find points of interest, and answer questions.
+Learn more by visiting [here](https://aka.ms/virtualassistant).
+```
+
+> Source: custom editorial
+## ? What is a Skill
+
+```markdown
+Bot Framework Skills are capabilities that can be integrated with a Virtual Assistant.
+Learn more by visiting [here](https://aka.ms/virtualassistant).
+```
+
+> Source: custom editorial
+## ? What can the Calendar Skill do
+
+```markdown
+The Calendar Skill assists with managing the events on your calendar.
+Try saying thigs like "do I have any appointments today", "how long until my next meeting", or "put anniversary on my calendar."
+```
+
+> Source: custom editorial
+## ? What can the Email Skill do
+
+```markdown
+The Email Skill assists with reading and sending your messages to contacts.
+Try saying things like "do I have any new mail", "add a flag to this email", or "respond to my last email."
+```
+
+> Source: custom editorial
+## ? What can the Point of Interest Skill do
+
+```markdown
+The Point of Interest Skill finds nearby points of interest and assists with navigation.
+You can say things like "what's nearby", "I need directions to a cafe", or "where can I get coffee?"
+```
+
+> Source: custom editorial
+## ? What can the ToDo Skill do
+
+```markdown
+## Overview
+The ToDo Skill provides task related capabilities for managing to-do lists.
+You can say things like "what tasks do I have", "add some items to my shopping list", or "check off bananas on my grocery list."
+```
+
+> Source: custom editorial
+## ? What's New
+
+```markdown
+The Virtual Assistant is available as a template, allowing users to easily spin up and deploy their own personalized Assistant.
+Skills are now run as independent applications that a Virtual Assistant can integrate with remotely.
+New Virtual Assistants are ready to support both Microsoft Teams and speech-related scenarios.
+```
+
+> Source: custom editorial
+## ? How do I raise a bug
+
+```markdown
+Raise an issue on the [GitHub repo](https://aka.ms/virtualassistant)
+```
