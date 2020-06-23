@@ -59,6 +59,7 @@ function generateJsonSchema() {
     },
     required: new Array(),
     $requires: [
+      'standard.schema',
       'http.schema'
     ]
   }

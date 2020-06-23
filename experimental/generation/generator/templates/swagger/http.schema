@@ -7,7 +7,9 @@
                 "PROPERTYName"
             ],
             "$templates": [
-                "CompleteConfirmation-MakeHttpRequest-add-boolean.dialog"
+                "library-CompleteConfirmation.dialog",
+                "CompleteConfirmation-MakeHttpRequest-add-boolean.dialog",
+                "CompleteConfirmation-add-PROPERTYName.dialog"
             ]
         }
     },
