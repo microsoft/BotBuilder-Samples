@@ -91,31 +91,10 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                 })
                 return items;
             }
-        } else if (/^> !#/.test(lineTextBefore)) {
+        } else if (/^>\s!#/.test(lineTextBefore)) {
+            // options suggestion following "> !#"
             let items: vscode.CompletionItem[] = [];
-            if (/> !#$/.test(lineTextBefore)) {
-                var options : { [key: string] : { [key: string] : string; }; } = { 
-                    "@strict": {
-                        "detail": " @strict = true",
-                        "documentation": "Developers who do not want to allow a null evaluated result can implement the strict option.", 
-                        "insertText": " @strict"},
-                    "@replaceNull": {
-                        "detail": " @replaceNull = ${path} is undefined",
-                        "documentation": "Developers can create delegates to replace null values in evaluated expressions by using the replaceNull option.",
-                        "insertText": " @replaceNull"},
-                    "@lineBreakStyle": {
-                        "detail": " @lineBreakStyle = markdown",
-                        "documentation": "Developers can set options for how the LG system renders line breaks using the lineBreakStyle option.",
-                        "insertText": " @lineBreakStyle"},
-                    "@Namespace": {
-                        "detail": " @Namespace = foo",
-                        "documentation": "You can register a namespace for the LG templates you want to export.",
-                        "insertText": " @Namespace"},
-                    "@Exports": {
-                        "detail": " @Exports = template1, template2",
-                        "documentation": "You can specify a list of LG templates to export.",
-                        "insertText": " @Exports"}
-                    };
+            if (/>\s!#$/.test(lineTextBefore)) {
                 for (let option in options) {
                     let completionItem = new vscode.CompletionItem(" " + option);
                     completionItem.detail = options[option]["detail"];
@@ -124,19 +103,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                     items.push(completionItem);
                 }
             } else {
-                if (/> !# *@strict *=$/.test(lineTextBefore)) {
-                    var strictOptions : { [key: string] : { [key: string] : string; }; } = {
-                        "true": {
-                            "detail": " true",
-                            "documentation": "Null error will throw a friendly message.",
-                            "insertText": " true"
-                        },
-                        "false": {
-                            "detail": " false",
-                            "documentation": "A compatible result will be given.",
-                            "insertText": " false"
-                        }
-                    }
+                if (/>\s!#\s*@strict\s*=$/.test(lineTextBefore)) {
                     for (let option in strictOptions) {
                         let completionItem = new vscode.CompletionItem(" " + option);
                         completionItem.detail = strictOptions[option]["detail"];
@@ -144,24 +111,12 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                         completionItem.insertText = strictOptions[option]["insertText"];
                         items.push(completionItem);
                     }
-                } else if (/> !# *@replaceNull *=$/.test(lineTextBefore)) {
+                } else if (/>\s!#\s*@replaceNull\s*=$/.test(lineTextBefore)) {
                     let completionItem = new vscode.CompletionItem(" ${path} is undefined");
                     completionItem.detail = "The null input in the path variable would be replaced with ${path} is undefined.";
                     completionItem.insertText = " ${path} is undefined";
                     items.push(completionItem);
-                } else if (/> !# *@lineBreakStyle *=$/.test(lineTextBefore)) {
-                    var lineBreakStyleOptions : { [key: string] : { [key: string] : string; }; } = {
-                        "default": {
-                            "detail": " default",
-                            "documentation": "Line breaks in multiline text create normal line breaks.",
-                            "insertText": " default"
-                        },
-                        "markdown": {
-                            "detail": " markdown",
-                            "documentation": "Line breaks in multiline text will be automatically converted to two lines to create a newline.",
-                            "insertText": " markdown"
-                        }
-                    }
+                } else if (/>\s!#\s*@lineBreakStyle\s*=$/.test(lineTextBefore)) {
                     for (let option in lineBreakStyleOptions) {
                         let completionItem = new vscode.CompletionItem(" " + option);
                         completionItem.detail = lineBreakStyleOptions[option]["detail"];
@@ -169,7 +124,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
                         completionItem.insertText = lineBreakStyleOptions[option]["insertText"];
                         items.push(completionItem);
                     }
-                } else if (/> !# *@Exports *=$/.test(lineTextBefore) || (/> !# *@Exports *=/.test(lineTextBefore) && /, *$/.test(lineTextBefore))) {
+                } else if (/>\s!#\s*@Exports\s*=$/.test(lineTextBefore) || (/>\s!#\s*@Exports\s*=/.test(lineTextBefore) && /,\s*$/.test(lineTextBefore))) {
                     var templatesOptions = TemplatesStatus.templatesMap.get(document.uri.fsPath).templates.toArray();
                     for (let template in templatesOptions) {
                         let templateName = templatesOptions[template].name;
@@ -233,4 +188,51 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
     }
 }
 
+const options : { [key: string] : { [key: string] : string; }; } = { 
+    "@strict": {
+        "detail": " @strict = true",
+        "documentation": "Developers who do not want to allow a null evaluated result can implement the strict option.", 
+        "insertText": " @strict"},
+    "@replaceNull": {
+        "detail": " @replaceNull = ${path} is undefined",
+        "documentation": "Developers can create delegates to replace null values in evaluated expressions by using the replaceNull option.",
+        "insertText": " @replaceNull"},
+    "@lineBreakStyle": {
+        "detail": " @lineBreakStyle = markdown",
+        "documentation": "Developers can set options for how the LG system renders line breaks using the lineBreakStyle option.",
+        "insertText": " @lineBreakStyle"},
+    "@Namespace": {
+        "detail": " @Namespace = foo",
+        "documentation": "You can register a namespace for the LG templates you want to export.",
+        "insertText": " @Namespace"},
+    "@Exports": {
+        "detail": " @Exports = template1, template2",
+        "documentation": "You can specify a list of LG templates to export.",
+        "insertText": " @Exports"}
+    };
 
+const strictOptions : { [key: string] : { [key: string] : string; }; } = {
+    "true": {
+        "detail": " true",
+        "documentation": "Null error will throw a friendly message.",
+        "insertText": " true"
+    },
+    "false": {
+        "detail": " false",
+        "documentation": "A compatible result will be given.",
+        "insertText": " false"
+    }
+}
+
+const lineBreakStyleOptions : { [key: string] : { [key: string] : string; }; } = {
+    "default": {
+        "detail": " default",
+        "documentation": "Line breaks in multiline text create normal line breaks.",
+        "insertText": " default"
+    },
+    "markdown": {
+        "detail": " markdown",
+        "documentation": "Line breaks in multiline text will be automatically converted to two lines to create a newline.",
+        "insertText": " markdown"
+    }
+}
