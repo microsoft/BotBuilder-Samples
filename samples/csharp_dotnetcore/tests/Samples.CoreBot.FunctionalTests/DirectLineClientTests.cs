@@ -25,10 +25,6 @@ namespace Samples.CoreBot.FunctionalTests
             string input = "";
             var botAnswer = await StartBotConversationAsync(input);
             Assert.AreEqual($"Where are you traveling from?", botAnswer);
-
-            //Assert.AreEqual($"Where would you like to travel to?", botAnswer);
-            //Assert.AreEqual($"When would you like to travel?", botAnswer);
-            //Assert.AreEqual($"Please confirm", botAnswer.Substring(0,14));
         }
 
         /// <summary>
