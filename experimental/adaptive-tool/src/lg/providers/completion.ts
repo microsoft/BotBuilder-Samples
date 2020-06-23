@@ -95,35 +95,14 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             // options suggestion following "> !#"
             let items: vscode.CompletionItem[] = [];
             if (/>\s!#$/.test(lineTextBefore)) {
-                for (let option in options) {
-                    let completionItem = new vscode.CompletionItem(" " + option);
-                    completionItem.detail = options[option]["detail"];
-                    completionItem.documentation = options[option]["documentation"];
-                    completionItem.insertText = options[option]["insertText"];
-                    items.push(completionItem);
-                }
+                this.AddToCompletion(optionsMap["options"], items);
             } else {
                 if (/>\s!#\s*@strict\s*=$/.test(lineTextBefore)) {
-                    for (let option in strictOptions) {
-                        let completionItem = new vscode.CompletionItem(" " + option);
-                        completionItem.detail = strictOptions[option]["detail"];
-                        completionItem.documentation = strictOptions[option]["documentation"];
-                        completionItem.insertText = strictOptions[option]["insertText"];
-                        items.push(completionItem);
-                    }
+                    this.AddToCompletion(optionsMap["strictOptions"], items);
                 } else if (/>\s!#\s*@replaceNull\s*=$/.test(lineTextBefore)) {
-                    let completionItem = new vscode.CompletionItem(" ${path} is undefined");
-                    completionItem.detail = "The null input in the path variable would be replaced with ${path} is undefined.";
-                    completionItem.insertText = " ${path} is undefined";
-                    items.push(completionItem);
+                    this.AddToCompletion(optionsMap["replaceNullOptions"], items);
                 } else if (/>\s!#\s*@lineBreakStyle\s*=$/.test(lineTextBefore)) {
-                    for (let option in lineBreakStyleOptions) {
-                        let completionItem = new vscode.CompletionItem(" " + option);
-                        completionItem.detail = lineBreakStyleOptions[option]["detail"];
-                        completionItem.documentation = lineBreakStyleOptions[option]["documentation"];
-                        completionItem.insertText = lineBreakStyleOptions[option]["insertText"];
-                        items.push(completionItem);
-                    }
+                    this.AddToCompletion(optionsMap["lineBreakStyleOptions"], items);
                 } else if (/>\s!#\s*@Exports\s*=$/.test(lineTextBefore) || (/>\s!#\s*@Exports\s*=/.test(lineTextBefore) && /,\s*$/.test(lineTextBefore))) {
                     var templatesOptions = TemplatesStatus.templatesMap.get(document.uri.fsPath).templates.toArray();
                     for (let template in templatesOptions) {
@@ -186,53 +165,70 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
             }
             return {isInStruct:false, struType:undefined};
     }
-}
 
-const options : { [key: string] : { [key: string] : string; }; } = { 
-    "@strict": {
-        "detail": " @strict = true",
-        "documentation": "Developers who do not want to allow a null evaluated result can implement the strict option.", 
-        "insertText": " @strict"},
-    "@replaceNull": {
-        "detail": " @replaceNull = ${path} is undefined",
-        "documentation": "Developers can create delegates to replace null values in evaluated expressions by using the replaceNull option.",
-        "insertText": " @replaceNull"},
-    "@lineBreakStyle": {
-        "detail": " @lineBreakStyle = markdown",
-        "documentation": "Developers can set options for how the LG system renders line breaks using the lineBreakStyle option.",
-        "insertText": " @lineBreakStyle"},
-    "@Namespace": {
-        "detail": " @Namespace = foo",
-        "documentation": "You can register a namespace for the LG templates you want to export.",
-        "insertText": " @Namespace"},
-    "@Exports": {
-        "detail": " @Exports = template1, template2",
-        "documentation": "You can specify a list of LG templates to export.",
-        "insertText": " @Exports"}
-    };
-
-const strictOptions : { [key: string] : { [key: string] : string; }; } = {
-    "true": {
-        "detail": " true",
-        "documentation": "Null error will throw a friendly message.",
-        "insertText": " true"
-    },
-    "false": {
-        "detail": " false",
-        "documentation": "A compatible result will be given.",
-        "insertText": " false"
+    AddToCompletion(options: { [key: string] : { [key: string] : string; }; }, items: vscode.CompletionItem[]) {
+        for (let option in options) {
+            let completionItem = new vscode.CompletionItem(" " + option);
+            completionItem.detail = options[option]["detail"];
+            completionItem.documentation = options[option]["documentation"];
+            completionItem.insertText = options[option]["insertText"];
+            items.push(completionItem);
+        }
     }
 }
 
-const lineBreakStyleOptions : { [key: string] : { [key: string] : string; }; } = {
-    "default": {
-        "detail": " default",
-        "documentation": "Line breaks in multiline text create normal line breaks.",
-        "insertText": " default"
+const optionsMap : { [key: string] : { [key: string] : { [key: string] : string; }; }; } = {
+    "options": { 
+        "@strict": {
+            "detail": " @strict = true",
+            "documentation": "Developers who do not want to allow a null evaluated result can implement the strict option.", 
+            "insertText": " @strict"},
+        "@replaceNull": {
+            "detail": " @replaceNull = ${path} is undefined",
+            "documentation": "Developers can create delegates to replace null values in evaluated expressions by using the replaceNull option.",
+            "insertText": " @replaceNull"},
+        "@lineBreakStyle": {
+            "detail": " @lineBreakStyle = markdown",
+            "documentation": "Developers can set options for how the LG system renders line breaks using the lineBreakStyle option.",
+            "insertText": " @lineBreakStyle"},
+        "@Namespace": {
+            "detail": " @Namespace = foo",
+            "documentation": "You can register a namespace for the LG templates you want to export.",
+            "insertText": " @Namespace"},
+        "@Exports": {
+            "detail": " @Exports = template1, template2",
+            "documentation": "You can specify a list of LG templates to export.",
+            "insertText": " @Exports"}
     },
-    "markdown": {
-        "detail": " markdown",
-        "documentation": "Line breaks in multiline text will be automatically converted to two lines to create a newline.",
-        "insertText": " markdown"
-    }
+    "strictOptions" : {
+        "true": {
+            "detail": " true",
+            "documentation": "Null error will throw a friendly message.",
+            "insertText": " true"
+        },
+        "false": {
+            "detail": " false",
+            "documentation": "A compatible result will be given.",
+            "insertText": " false"
+        }
+    },
+    "replaceNullOptions": {
+        " ${path} is undefined":{
+            "detail": "The null input in the path variable would be replaced with ${path} is undefined.",
+            "documentation": null,
+            "insertText": " ${path} is undefined"
+        }    
+    },
+    "lineBreakStyleOptions": {
+        "default": {
+            "detail": " default",
+            "documentation": "Line breaks in multiline text create normal line breaks.",
+            "insertText": " default"
+        },
+        "markdown": {
+            "detail": " markdown",
+            "documentation": "Line breaks in multiline text will be automatically converted to two lines to create a newline.",
+            "insertText": " markdown"
+        }
+    } 
 }
