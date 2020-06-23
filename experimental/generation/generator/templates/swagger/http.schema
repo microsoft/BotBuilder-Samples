@@ -1,26 +1,5 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "object",
     "properties": {
-        "CancelConfirmation": {
-            "type": "boolean",
-            "$entities": [
-                "boolean"
-            ],
-            "$templates": [
-                "library-CancelIntent.dialog",
-                "CancelConfirmation-add-boolean.dialog"
-            ]
-        },
-        "ChangePropertyConfirmation": {
-            "type": "boolean",
-            "$entities": [
-                "boolean"
-            ],
-            "$templates": [
-                "ChangePropertyConfirmation-add-boolean.dialog"
-            ]
-        },
         "CompleteConfirmation": {
             "type": "string",
             "$entities": [
@@ -28,21 +7,7 @@
                 "PROPERTYName"
             ],
             "$templates": [
-                "library-CompleteConfirmation.dialog",
-                "CompleteConfirmation-MakeHttpRequest-add-boolean.dialog",
-                "CompleteConfirmation-add-PROPERTYName.dialog"
-            ]
-        },
-        "PropertyToChange": {
-            "$ref": "#/definitions/PROPERTYName",
-            "$templates": [
-                "PropertyToChange-add-PROPERTYName.dialog"
-            ]
-        },
-        "PropertyToRemember": {
-            "$ref": "#/definitions/PROPERTYName",
-            "$templates": [
-                "PropertyToRemember-add-PROPERTYName.dialog"
+                "CompleteConfirmation-MakeHttpRequest-add-boolean.dialog"
             ]
         }
     },
@@ -55,77 +20,10 @@
             ]
         }
     },
-    "$operations": [
-        "Set(CancelConfirmation)",
-        "Set(ChangePropertyConfirmation)",
-        "Set(CompleteConfirmation)",
-        "Set(PropertyToChange)",
-        "Set(PropertyToRemember)",
-        "${schemaOperations()}"
-    ],
-    "$defaultOperation": [
-        {
-            "CancelConfirmation": {
-                "boolean": "Set(CancelConfirmation)"
-            },
-            "ChangePropertyConfirmation": {
-                "boolean": "Set(ChangePropertyConfirmation)"
-            },
-            "CompleteConfirmation": {
-                "boolean": "Set(CompleteConfirmation)",
-                "PROPERTYName": "Set(PropertyToChange)"
-            },
-            "PropertyToChange": {
-                "PROPERTYName": "Set(PropertyToChange)"
-            },
-            "PropertyToRemember": {
-                "PROPERTYName": "Set(PropertyToRemember)"
-            }
-        },
-        "${schemaDefaultOperation()}"
-    ],
-    "$expectedOnly": [
-        "boolean",
-        "PROPERTYName",
-        "utterance",
-        "keyPhrase",
-        "personName"
-    ],
     "$entities": [
         "PROPERTYName"
     ],
     "$templates": [
-        "booleanEntity",
-        "library-HelpIntent.lu",
-        "library-CancelIntent.lu",
-        "library-NoneIntent.lu",
-        "library-triggerIntent.lu",
-        "library-ShowPropertiesIntent.lu",
-        "library-PROPERTYName.lu",
-        "library-PROPERTYName.lg",
-        "library-Assign.lg",
-        "library-Choose.lg",
-        "library-DisplayOperation.lg",
-        "library-Help.lg",
-        "library-Missing.lg",
-        "library-ShowProperties.lg",
-        "library-ShowResponse.lg",
-        "library.lg",
-        "locale.lu",
-        "locale.lg",
-        "luis.lu.dialog",
-        "library-BeginDialog.dialog",
-        "library-CancelIntent.dialog",
-        "library-ChooseProperty.dialog",
-        "library-HelpIntent.dialog",
-        "library-NotUnderstood.dialog",
-        "library-triggerIntent.dialog",
-        "library-ShowPropertiesIntent.dialog",
-        "main.dialog",
-        "luconfig.json",
-        "build",
-        "build.cmd",
-        "run",
-        "run.cmd"
+        "library-ShowResponse.lg"
     ]
 }

@@ -7,8 +7,4 @@
 -```
 ${luHeader()}
 ${join(foreach(templates.lu, lu, `[${lu.fullName}](${localePath(lu.relative)})`), EOL())}
-
-${'#'} test 
-- test
 ```
-
