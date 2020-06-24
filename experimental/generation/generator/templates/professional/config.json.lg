@@ -1,13 +1,18 @@
+[generator.lg](../generator.lg)
+
 # filename
 - config.json
 
 # template
 -```
 {
-    "./en-us/${prefix}.en-us.lu": {
-        "rootDialog": true,
-		"triggers": {"":""
-		}
-    }
+${join(foreach(locales, locale, localeTemplate(locale)), ','+EOL())}
 }
 ```
+
+# localeTemplate(locale)
+-```    "./${locale}/${prefix}.${locale}.lu": {
+            "rootDialog": true,
+		    "triggers": {"":""}
+        }```
+
