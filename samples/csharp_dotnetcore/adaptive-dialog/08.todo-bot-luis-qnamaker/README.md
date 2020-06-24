@@ -61,6 +61,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - In order for interruption to work effectively, you need to generate LU models that are cross-trained. 
   - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
 > cd Dialogs
+
 > bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
 ```
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
