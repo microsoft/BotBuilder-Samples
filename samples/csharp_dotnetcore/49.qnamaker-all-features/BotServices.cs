@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
             QnAMakerService = new QnAMaker(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = configuration["QnAEndpointKey"],
+                EndpointKey = GetAuthKey(configuration),
                 Host = GetHostname(configuration["QnAEndpointHostName"])
             });
         }
@@ -33,6 +33,18 @@ namespace Microsoft.BotBuilderSamples
             }
 
             return hostname;
+        }
+
+        private static string GetHostname(IConfiguration configuration)
+        {
+            var authKey = configuration["QnAEndpointKey"];
+            if(string.IsNullOrEmpty(authKey))
+            {
+                authKey = configuration["QnAAuthKey"];
+            }
+
+            return authKey;
+
         }
     }
 }
