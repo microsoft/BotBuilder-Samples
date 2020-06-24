@@ -4,6 +4,7 @@
   "parameters": {
     "groupLocation": {
       "type": "string",
+      "defaultValue": "westus",
       "metadata": {
         "description": "Specifies the location of the Resource Group."
       }
@@ -33,8 +34,8 @@
       }
     },
     "botSku": {
-      "defaultValue": "F0",
       "type": "string",
+      "defaultValue": "F0",
       "metadata": {
         "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
       }
@@ -60,6 +61,7 @@
     },
     "newAppServicePlanLocation": {
       "type": "string",
+      "defaultValue": "westus",
       "metadata": {
         "description": "The location of the App Service Plan. Defaults to \"westus\"."
       }
