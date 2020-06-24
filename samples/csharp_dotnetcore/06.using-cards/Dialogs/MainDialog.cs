@@ -147,4 +147,25 @@ namespace Microsoft.BotBuilderSamples
             return cardOptions;
         }
     }
+
+
+    /// <summary>
+    /// NOTE: This is a temporary class to support ToAttachment for OAuthCards, until the next sdk released.
+    /// </summary>
+    static class OauthCardExtension
+    {
+        public static Attachment ToAttachment(this OAuthCard card)
+        {
+            return CreateAttachment(card, OAuthCard.ContentType);
+        }
+
+        private static Attachment CreateAttachment<T>(T card, string contentType)
+        {
+            return new Attachment
+            {
+                Content = card,
+                ContentType = contentType,
+            };
+        }
+    }
 }
