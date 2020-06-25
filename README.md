@@ -74,7 +74,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
 [cs#18]:samples/csharp_dotnetcore/18.bot-authentication
 [cs#19]:samples/csharp_dotnetcore/19.custom-dialogs
-[cs#21]:samples/csharp_dotnetcore/21.luis-with-appinsights
+[cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
