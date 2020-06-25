@@ -35,7 +35,7 @@ namespace Microsoft.BotBuilderSamples
             return hostname;
         }
 
-        private static string GetHostname(IConfiguration configuration)
+        private static string GetAuthKey(IConfiguration configuration)
         {
             var authKey = configuration["QnAEndpointKey"];
             if(string.IsNullOrEmpty(authKey))
