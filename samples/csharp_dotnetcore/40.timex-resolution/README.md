@@ -33,36 +33,14 @@ TIMEX expressions can be additionally described with a type. The notion of type 
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-
-- In a terminal, navigate to `samples/csharp_dotnetcore/40.timex-resolution`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
-
-  A) From a terminal
-
-  ```bash
-  # run the bot
-  dotnet run
-  ```
-
-  B) Or from Visual Studio
+Unlike many of the other Bot Buildersamples,
+the code in this sample is not a bot. It is a console application that demonstrates some significant aspects of the TIMEX helper library. To run this sample:
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/40.timex-resolution` folder
   - Select `Timex-Resolution.csproj` file
   - Press `F5` to run the project
-
-## Testing the bot using Bot Framework Emulator
-
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Experimenting with Recognizers
 
@@ -366,6 +344,7 @@ So in summary the library can:
 - Generate natural language from the TIMEX expression. (This is logically the reverse of the Recognizer.)
 - Resolve TIMEX expressions to produce example date-times. (This produces the same result as the Recognizer (and therefore LUIS)).
 - Evaluate TIMEX expressions against constraints such that new more precise TIMEX expressions are produced.
+- It make take several steps, but ultimately you can resolve to a datetime instance, which is probably what your application is looking for.
 
 The code of sample 40 includes examples of all these different features.
 
