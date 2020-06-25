@@ -2,6 +2,20 @@
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to use TIMEX expressions.
 
+A number of topics are covered within this readme.
+
+* [Concepts introduced in this sample](#Concepts-introduced-in-this-sample)
+* [To try this sample](#to-try-this-sample)
+* [Testing the bot using Bot Framework Emulator](#Testing-the-bot-using-Bot-Framework-Emulator)
+* [Experimenting with Recognizers](#experimenting-with-recognizers)
+* [Representing ambiguity](#representing-ambiguity)
+* [Representing duration](#representing-duration)
+* [Representing ranges](#representing-ranges)
+* [Special concepts](#special-concepts)
+* [Limitations](#limitations)
+* [Resolution](#resolution)
+* [TIMEX resolution using the TimexExpressions library](#TIMEX-resolution-using-the-TimexExpressions-library)
+
 ## Concepts introduced in this sample
 
 ### What is a TIMEX expression?
@@ -11,6 +25,44 @@ Natural language has many different ways to express ambiguous dates, ranges of d
 Whenever the ISO 8601 representation is sufficient the TIMEX value is identical. TIMEX is often refered to as an expression because unlike a discrete data time value it can represent a set of values. This will be clear when we look at some examples.
 
 TIMEX expressions can be additionally described with a type. The notion of type is more descriptive than it is constraining. You can, for instance, look at a TIMEX expression and infer its type. This can be useful in application logic. For example, if a bot is expecting a datetimerange but only has a daterange then it can prompt the user according. Again this will be clear when when we look at some examples.
+
+## To try this sample
+
+- Clone the repository
+
+    ```bash
+    git clone https://github.com/microsoft/botbuilder-samples.git
+    ```
+
+- In a terminal, navigate to `samples/csharp_dotnetcore/40.timex-resolution`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
+
+  A) From a terminal
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/40.timex-resolution` folder
+  - Select `Timex-Resolution.csproj` file
+  - Press `F5` to run the project
+
+## Testing the bot using Bot Framework Emulator
+
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Experimenting with Recognizers
 
@@ -297,7 +349,7 @@ Can be resolved with the constraint of T14 to get to the specific date time of:
 2020-07-01T14
 ```
 
-## Experimenting with Resolution
+## TIMEX resolution using the TimexExpressions library
 
 The approach to dealing with TIMEX expressions outlines in above is implemented in the [TimexExpressions](https://github.com/microsoft/Recognizers-Text/tree/master/.NET/Microsoft.Recognizers.Text.DataTypes.TimexExpression) library current available for .NET and JavaScript. And examples of its usage are included in this sample.
 
@@ -320,44 +372,6 @@ The code of sample 40 includes examples of all these different features.
 ### Where is the source code?
 
 The TIMEX expression library is contained in the same GitHub repo as the recognizers. Refer to the further reading section below.
-
-## To try this sample
-
-- Clone the repository
-
-    ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
-    ```
-
-- In a terminal, navigate to `samples/csharp_dotnetcore/40.timex-resolution`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
-
-  A) From a terminal
-
-  ```bash
-  # run the bot
-  dotnet run
-  ```
-
-  B) Or from Visual Studio
-
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/40.timex-resolution` folder
-  - Select `Timex-Resolution.csproj` file
-  - Press `F5` to run the project
-
-## Testing the bot using Bot Framework Emulator
-
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Further reading
 
