@@ -8,15 +8,44 @@ The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and
 
 ## Concepts introduced in this sample
 The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
-In this sample, we demonstrate how to use the Active Learning to generate suggestions for knowledge base.
+In this sample, we demonstrate 
+-.how to use the Active Learning to generate suggestions for knowledge base.
+-.how to use the Multiturn experience for the knowledge base .
 
 # Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
+`- Follow instructions` [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation) to create multiturn experience.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import and publish your newly created QnA Maker service.
 - Update [appsettings.json](appsettings.json) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
+
+
+### Create a QnAMaker Application to enable QnA Knowledge Bases
+
+QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+
+# Configure Cognitive Service Model
+- Create a Knowledge Base in QnAMaker Portal.
+- Import "smartLightFAQ.tsv" file, in QnAMaker Portal.
+- Save and Train the model.
+- Create Bot from Publish page.
+- Test bot with Web Chat.
+- Capture values of settings like"QnAAuthKey" from 
+- "Configuration" page of created bot, in Azure Portal.
+- Updated appsettings.json with values as needed.
+- Use value of "QnAAuthKey" for setting "QnAEndpointKey".
+- Capture KnowledgeBase Id, HostName and EndpointKey current published app 
+
+# Try Active Learning
+- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample query: "light"
+- You can observe that, Multiple answers are returned with high score.
+
+# Try Multi-turn prompt
+- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample query: "won't turn on"
+- You can notice a prompt, included as part of  answer to query.
 
 ## To try this sample
 
