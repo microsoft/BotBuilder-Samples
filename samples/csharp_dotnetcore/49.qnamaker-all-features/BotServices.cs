@@ -12,9 +12,9 @@ namespace Microsoft.BotBuilderSamples
         {
             QnAMakerService = new QnAMaker(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = GetAuthKey(configuration),
-                Host = GetHostname(configuration["QnAEndpointHostName"])
+                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],                
+                Host = GetHostname(configuration["QnAEndpointHostName"]),
+                EndpointKey = GetEndpointKey(configuration)
             });
         }
 
@@ -35,16 +35,19 @@ namespace Microsoft.BotBuilderSamples
             return hostname;
         }
 
-        private static string GetAuthKey(IConfiguration configuration)
+        private static string GetEndpointKey(IConfiguration configuration)
         {
-            var authKey = configuration["QnAEndpointKey"];
-            if(string.IsNullOrEmpty(authKey))
+            var endpointKey = configuration["QnAEndpointKey"];
+
+            // To support appsettings key name for code downloaded from Azure Create Bot flow
+            // For reference <ref>https://docs.microsoft.com/en-us/azure/bot-service/abs-quickstart?view=azure-bot-service-4.0#download-code</>
+            if(string.IsNullOrWhiteSpace(endpointKey))
             {
-                authKey = configuration["QnAAuthKey"];
+                endpointKey = configuration["QnAAuthKey"];
             }
 
-            return authKey;
-
+            return endpointKey;
+            
         }
     }
 }
