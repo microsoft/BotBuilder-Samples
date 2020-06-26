@@ -21,7 +21,7 @@
   },
   "variables": {
     "siteHost": "[concat(parameters('botName'), '.azurewebsites.net')]",
-    "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]"
+    "botEndpoint": "[concat('https://', variables('siteHost'), '/api/mybot')]"
   },
   "resources": [
     {
