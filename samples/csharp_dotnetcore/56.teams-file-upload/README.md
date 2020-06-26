@@ -23,9 +23,10 @@ the Teams service needs to call into the bot.
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsFileUpload`
-    - The changes specified here will apply to this project
+   - Launch Visual Studio
+   - File -> Open -> Project/Solution
+   - Navigate to `samples/csharp_dotnetcore/56.teams-file-upload` folder
+   - Select `TeamsFileUpload.csproj` file
 
 1) Run ngrok - point to port 3978
 

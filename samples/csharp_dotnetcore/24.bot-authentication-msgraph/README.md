@@ -33,10 +33,9 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/24.bot-authentication-msgraph`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/24.bot-authentication-msgraph`
 
   ```bash
   # run the bot
@@ -55,7 +54,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 - In Bot Framework Emulator Settings, enable `Use a sign-in verification code for OAuthCards` to receive the magic code
 
 ### Connect to the bot using Bot Framework Emulator
@@ -64,7 +63,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Authentication
+## Interacting with the bot
 
 This sample uses the bot authentication capabilities of Azure Bot Service, providing features to make it easier to develop a bot that
 authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, and so on. These updates also
@@ -75,8 +74,7 @@ It is important to note that the user's token does not need to be stored in the 
 
 This sample demonstrates using Azure Active Directory v2 as the OAuth2 provider and utilizes the Microsoft Graph API.
 Microsoft Graph is a Microsoft developer platform that connects multiple services and devices. Initially released in 2015,
-the Microsoft Graph builds on Office 365 APIs and allows developers to integrate their services with Microsoft products
-including Windows, Office 365, and Azure.
+the Microsoft Graph builds on Office 365 APIs and allows developers to integrate their services with Microsoft products including Windows, Office 365, and Azure.
 
 ## Deploy the bot to Azure
 
@@ -86,8 +84,8 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 This error may confusingly present itself if either of the following are true:
 
-* You're using an email ending in `@microsoft.com`, and/or
-* Your OAuth AAD tenant is `microsoft.onmicrosoft.com`.
+- You're using an email ending in `@microsoft.com`, and/or
+- Your OAuth AAD tenant is `microsoft.onmicrosoft.com`.
 
 ## Further reading
 

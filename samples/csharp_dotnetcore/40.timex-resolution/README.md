@@ -1,4 +1,4 @@
-﻿# timex resolution
+﻿# Timex Resolution
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to use TIMEX expressions.
 
@@ -42,10 +42,9 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/40.timex-resolution`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/40.timex-resolution`
 
   ```bash
   # run the bot
@@ -64,7 +63,7 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -85,5 +84,4 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
