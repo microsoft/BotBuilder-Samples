@@ -71,10 +71,9 @@ if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker
 
 var endpointKey = process.env.QnAEndpointKey;
 
-// To support appsettings key name for code downloaded from Azure Create Bot flow
-// For reference <ref>https://docs.microsoft.com/en-us/azure/bot-service/abs-quickstart?view=azure-bot-service-4.0#download-code</>
 if (!endpointKey || 0 === endpointKey.length)
 {
+   // To support backward compatibility for Key Names
     endpointKey = process.env.QnAAuthKey;
 }
 

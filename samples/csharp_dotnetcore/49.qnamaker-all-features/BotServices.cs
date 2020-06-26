@@ -39,10 +39,9 @@ namespace Microsoft.BotBuilderSamples
         {
             var endpointKey = configuration["QnAEndpointKey"];
 
-            // To support appsettings key name for code downloaded from Azure Create Bot flow
-            // For reference <ref>https://docs.microsoft.com/en-us/azure/bot-service/abs-quickstart?view=azure-bot-service-4.0#download-code</>
             if(string.IsNullOrWhiteSpace(endpointKey))
             {
+                // To support backward compatibility for Key Names
                 endpointKey = configuration["QnAAuthKey"];
             }
 
