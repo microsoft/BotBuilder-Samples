@@ -53,7 +53,8 @@ function generateParam(obj: any) {
 
 function generateJsonSchema() {
   return {
-    $schema: 'https://json-schema.org/draft-07/schema',
+    // tslint:disable-next-line:no-http-string
+    $schema: 'http://json-schema.org/draft-07/schema',
     type: 'object',
     properties: {
     },
@@ -85,7 +86,8 @@ export async function generate(
   feedback: Feedback) {
   // need to dereference the swagger file
   let swfile = await sw.dereference(path) as OpenAPIV2.Document
-  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'https://';
+  // tslint:disable-next-line:no-http-string
+  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://';
 
   // the name of output schema file to be used in dialogGenerator
   let url = protocol + swfile.host as string + swfile.basePath as string + route;
@@ -139,14 +141,13 @@ export async function generate(
   }
   let propertiesFile = ppath.join(output, 'properties.json')
 
-  let headers = 	{'User-Agent': 'PostmanRuntime/7.22.0'}
+  let headers = 	{'User-Agent': 'Mozilla/5.0'}
   jsonProperties.swaggerHeaders = headers
 
   feedback(FeedbackType.info, `Output Dirctory: ${ppath.join(output, projectName)}`);
   feedback(FeedbackType.info, `Output Schema ${ppath.join(output, projectName)}`);
   feedback(FeedbackType.info, `Output Json Properties ${propertiesFile}`);
 
-  //await fs.ensureDir(output)
   await fs.writeFile(ppath.join(output, projectName), JSON.stringify(result, null, 4))
   await fs.writeFile(propertiesFile, JSON.stringify(jsonProperties, null, 4))
 }
