@@ -45,7 +45,7 @@ function generateParam(obj: any) {
 
     case 'boolean':
       return {
-        type: 'string',
+        type: 'boolean',
         $entities: ['boolean']
       }
   }
@@ -59,7 +59,8 @@ function generateJsonSchema() {
     },
     required: new Array(),
     $requires: [
-      'http.schema'
+      'http.schema',
+      'standard.schema'
     ]
   }
 }
