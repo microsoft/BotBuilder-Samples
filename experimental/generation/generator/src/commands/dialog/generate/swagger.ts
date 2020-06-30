@@ -8,11 +8,10 @@ import * as swaggerGen from '../../../library/swaggerDialogGenerator';
 import * as ppath from 'path';
 
 export default class Swagger extends Command {
-  static description = '[PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.'
+  static description = '[PREVIEW] Generate schema given swagger file.'
 
   static examples = [`
-      $ bf dialog:generate:swagger sandwich.schema --output c:/tmp
-    `]
+      $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n petSearch.schema`]
 
   static args = [
     { name: 'path', required: true, description: 'the path to the swagger file' },

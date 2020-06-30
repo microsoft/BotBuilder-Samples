@@ -2,20 +2,11 @@
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
  */
-import { OpenAPIV2 } from 'openapi-types';
+import { OpenAPIV2 } from 'openapi-types'
 import * as ppath from 'path'
 import * as fs from 'fs-extra'
-import * as sw from 'swagger-parser';
-
-export enum FeedbackType {
-  message,
-  info,
-  warning,
-  error,
-  debug
-}
-
-export type Feedback = (type: FeedbackType, message: string) => void
+import * as sw from 'swagger-parser'
+import {Feedback, FeedbackType} from './dialogGenerator'
 
 // generate the parameter of the http request step
 function generateParam(obj: any) {
@@ -45,7 +36,7 @@ function generateParam(obj: any) {
 
     case 'boolean':
       return {
-        type: 'boolean',
+        type: 'string',
         $entities: ['boolean']
       }
   }
