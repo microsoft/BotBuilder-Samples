@@ -55,8 +55,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsAuth", "46.teams-auth\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection\Inspection.csproj", "{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMakerActiveLearningBot", "48.qnamaker-active-learning-bot\QnAMakerActiveLearningBot.csproj", "{0D10F464-E767-4F65-BE97-3AFBD886BCF3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsSearch", "50.teams-messaging-extensions-search\TeamsMessagingExtensionsSearch.csproj", "{C731CEBF-22A1-4F69-8969-604E515A2781}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsAction", "51.teams-messaging-extensions-action\TeamsMessagingExtensionsAction.csproj", "{0EEAC393-3033-4C13-B1C9-9D56EF96E6C9}"
@@ -95,8 +93,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FacebookAdapterBot", "61.facebook-adapter\FacebookAdapterBot.csproj", "{7BAF37EE-FE85-4975-B75D-160359E04381}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsStartNewThreadInTeam", "58.teams-start-new-thread-in-channel\TeamsStartNewThreadInTeam.csproj", "{6F228764-4E4A-46A8-807A-8FC9E36DDA35}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnAMultiturnBot", "70.qnamaker-multiturn-sample\QnAMultiturnBot.csproj", "{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SkillDialog", "Skills-SkillDialog", "{B1D88331-C060-4250-9CED-5B397D3C9835}"
 	ProjectSection(SolutionItems) = preProject
@@ -217,10 +213,6 @@ Global
 		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0D10F464-E767-4F65-BE97-3AFBD886BCF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C731CEBF-22A1-4F69-8969-604E515A2781}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C731CEBF-22A1-4F69-8969-604E515A2781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C731CEBF-22A1-4F69-8969-604E515A2781}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -289,10 +281,6 @@ Global
 		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6F228764-4E4A-46A8-807A-8FC9E36DDA35}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5DD9353B-068F-4CD7-B900-04FC3EB4A6A9}.Release|Any CPU.Build.0 = Release|Any CPU
 		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
