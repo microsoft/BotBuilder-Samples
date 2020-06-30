@@ -1,6 +1,6 @@
 ﻿# Todo bot with LUIS
 
-This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with [LUIS][5] to demonstrate an end-to-end ToDo bot in action including support for interruptions. 
+This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with [LUIS][5] to demonstrate an end-to-end ToDo bot in action including support for interruptions.
 
 ## Prerequisites
 
@@ -19,10 +19,9 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot`
 
   ```bash
   # run the bot
@@ -37,12 +36,12 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
   - Select `ToDoBotWithLUIS.csproj` file
   - Press `F5` to run the project
 
-  
+
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -58,7 +57,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 > npm i -g @microsoft/botframework-cli
 ```
 - In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/06.todo-bot`
-- In order for interruption to work effectively, you need to generate LU models that are cross-trained. 
+- In order for interruption to work effectively, you need to generate LU models that are cross-trained.
   - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
 ```bash
 > cd Dialogs
@@ -67,9 +66,9 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
 - To create, train and pubish LUIS applications for this bot
 ```bash
-> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuis --authoringKey <Your LUIS Authoring key> 
+> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuis --authoringKey <Your LUIS Authoring key>
 ```
-- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file. 
+- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file.
 - Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.json.
 - Add endpoint and APIKey to appsettings.json.
 

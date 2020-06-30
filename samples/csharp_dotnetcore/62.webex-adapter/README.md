@@ -21,13 +21,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/53. WebexAdapterBot`
-
 - Connect the bot with Webex by following the instructions below.
 
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/62.webex-adapter`
 
   ```bash
   # run the bot
@@ -38,7 +36,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/53. WebexAdapterBot` folder
+  - Navigate to `samples/csharp_dotnetcore/62.webex-adapter` folder
   - Select `WebexAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
@@ -46,7 +44,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Webex
 
-Populate settings for Webex Access Token, Public Address, Secret and Webhook Name in appsettings.json file. 
+Populate settings for Webex Access Token, Public Address, Secret and Webhook Name in appsettings.json file.
 
 Instructions about how to create / configure a Webex bot app and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Webex using the Webex adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-adapter-connect-webex?view=azure-bot-service-4.0).
 
@@ -73,5 +71,3 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)

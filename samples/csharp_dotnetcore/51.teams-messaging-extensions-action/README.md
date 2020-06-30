@@ -23,9 +23,10 @@ the Teams service needs to call into the bot.
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsMessagingExtensionsAction`
-    - The changes specified here will apply to this project
+   - Launch Visual Studio
+   - File -> Open -> Project/Solution
+   - Navigate to `samples/csharp_dotnetcore/51.teams-messaging-extensions-action` folder
+   - Select `TeamsMessagingExtensionsAction.csproj` file
 
 1) Run ngrok - point to port 3978
 
@@ -51,11 +52,11 @@ the Teams service needs to call into the bot.
 
 > Note this `manifest.json` specified that the bot will be called from both the `compose` and `message` areas of Teams. Please refer to Teams documentation for more details.
 
-1) Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code. 
+1) Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code.
 
 or
 
-2) Selecting the **Share Message** command from the Message command list.  
+2) Selecting the **Share Message** command from the Message command list.
 
 ## Deploy the bot to Azure
 

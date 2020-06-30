@@ -12,7 +12,7 @@ This samples **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
+- This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
 
 - [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
@@ -33,10 +33,9 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/11a.qnamaker`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/11.qnamaker`
 
   ```bash
   # run the bot
@@ -47,7 +46,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/11a.qnamaker` folder
+  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
   - Select `QnABot.csproj` file
   - Press `F5` to run the project
 
@@ -55,7 +54,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -63,7 +62,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## QnA Maker service
+## Interacting with the bot
 
 QnA Maker enables you to power a question and answer service from your semi-structured content.
 
@@ -85,5 +84,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
