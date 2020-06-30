@@ -1,0 +1,20 @@
+{
+	"name": "botbuilder-lsp-lg-server",
+	"description": "Implementation of a language server in node.",
+	"version": "1.0.0",
+	"author": "Microsoft Corporation",
+	"license": "MIT",
+	"engines": {
+		"node": "*"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/ShYuPe/BotBuilder-lsp-lg"
+	},
+	"dependencies": {
+		"botbuilder-lg": "4.9.0",
+		"vscode-languageserver": "^6.1.1",
+		"vscode-languageserver-textdocument": "^1.0.1"
+	},
+	"scripts": {}
+}
