@@ -34,7 +34,7 @@ namespace LivePersonAgentBot.Bots
             var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
             var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData());
 
-            var userText = turnContext.Activity.Text.ToLower();
+            var userText = turnContext.Activity.Text.ToLowerInvariant();
             if (userText.Contains("agent"))
             {
                 await turnContext.SendActivityAsync("Your request will be escalated to a human agent");
