@@ -69,6 +69,24 @@ export function getAllFunctions(lgFileUri: DocumentUri): Map<string, FunctionEnt
 }
 
 
+export function getFunctionEntity(lgFileUri: DocumentUri, name: string): FunctionEntity|undefined {
+    const allFunctions = getAllFunctions(lgFileUri);
+
+    if (allFunctions.has(name)) {
+        return allFunctions.get(name);
+    } else if (name.startsWith('lg.')){
+        const pureName = name.substr('lg.'.length);
+        if (allFunctions.has(pureName)) {
+            return allFunctions.get(pureName);
+        }
+    } else {
+        const lgWordName = 'lg.' + name;
+        if (allFunctions.has(lgWordName)) {
+            return allFunctions.get(lgWordName);
+        }
+    }
+    return undefined;
+}
 
 export const cardPropDict = {
     CardAction: [

@@ -20,8 +20,9 @@ import {
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
-	Files,	
-	WorkspaceChange
+	Files,
+	MarkedString,
+	HoverParams
 } from 'vscode-languageserver';
 
 import { TemplatesStatus, TemplatesEntity } from './templatesStatus';
@@ -31,8 +32,7 @@ import * as path from 'path';
 import {
 	TextDocument, Position, Range
 } from 'vscode-languageserver-textdocument';
-import { Templates, IfConditionContext } from 'botbuilder-lg';
-// import { Configuration, ConfigurationFeature } from 'vscode-languageserver/lib/configuration';
+import { Templates } from 'botbuilder-lg';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -45,6 +45,49 @@ let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
 let hasDiagnosticRelatedInformationCapability = false;
 
+connection.onHover((params: HoverParams) => {
+
+	const document = documents.get(params.textDocument.uri)!;
+	const position = params.position;
+
+	if (!util.isLgFile(path.basename(document.uri))) {
+        return;
+    }
+
+	const firstPart = /[a-zA-Z0-9_.]+$/.exec(document.getText({start: document.positionAt(0), end: position}));
+	const secondPart = /^[a-zA-Z0-9_.]+/.exec(document.getText({start: position, end: document.positionAt(document.getText().length-1)}));
+	
+	if (!firstPart && !secondPart) {
+		return undefined;
+	}
+
+	const startPosition = firstPart==null?null: document.positionAt(document.offsetAt(position) - firstPart[0].length);
+	const endPosition = secondPart==null?null: document.positionAt(document.offsetAt(position) + secondPart[0].length);
+
+	const wordRange : Range = {
+		start: startPosition==null?position:startPosition,
+		end: endPosition==null?position:endPosition
+	};
+
+	// if (!wordRange) {
+	// 	return undefined;
+	// }
+
+	const wordName = document.getText(wordRange);
+	const functionEntity = util.getFunctionEntity(document.uri, wordName);
+
+	if (functionEntity !== undefined) {
+		const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
+		const functionIntroduction = `${wordName}(${functionEntity.params.join(", ")}): ${returnType}`;
+
+		const contents = [];
+		contents.push(MarkedString.fromPlainText(functionIntroduction));
+		contents.push(MarkedString.fromPlainText(functionEntity.introduction));
+		return {contents, wordRange};
+		// return new vscode.Hover(contents, wordRange);
+	}
+
+});
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
 
@@ -70,6 +113,7 @@ connection.onInitialize((params: InitializeParams) => {
 				// resolveProvider: true,
 				triggerCharacters: [ '{', '(', '[', '.', '#', '=', ',' ]
 			},
+			hoverProvider: true
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
