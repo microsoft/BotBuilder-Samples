@@ -21,8 +21,11 @@ import {
 	TextDocumentSyncKind,
 	InitializeResult,
 	Files,
+	Location,
 	MarkedString,
-	HoverParams
+	HoverParams,
+	TypeDefinitionParams,
+	DefinitionParams
 } from 'vscode-languageserver';
 
 import { TemplatesStatus, TemplatesEntity } from './templatesStatus';
@@ -30,9 +33,9 @@ import * as util from './util';
 import * as path from 'path';
 
 import {
-	TextDocument, Position, Range
+	TextDocument, Position, Range, DocumentUri
 } from 'vscode-languageserver-textdocument';
-import { Templates } from 'botbuilder-lg';
+import { Templates, Template } from 'botbuilder-lg';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -45,49 +48,7 @@ let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
 let hasDiagnosticRelatedInformationCapability = false;
 
-connection.onHover((params: HoverParams) => {
 
-	const document = documents.get(params.textDocument.uri)!;
-	const position = params.position;
-
-	if (!util.isLgFile(path.basename(document.uri))) {
-        return;
-    }
-
-	const firstPart = /[a-zA-Z0-9_.]+$/.exec(document.getText({start: document.positionAt(0), end: position}));
-	const secondPart = /^[a-zA-Z0-9_.]+/.exec(document.getText({start: position, end: document.positionAt(document.getText().length-1)}));
-	
-	if (!firstPart && !secondPart) {
-		return undefined;
-	}
-
-	const startPosition = firstPart==null?null: document.positionAt(document.offsetAt(position) - firstPart[0].length);
-	const endPosition = secondPart==null?null: document.positionAt(document.offsetAt(position) + secondPart[0].length);
-
-	const wordRange : Range = {
-		start: startPosition==null?position:startPosition,
-		end: endPosition==null?position:endPosition
-	};
-
-	// if (!wordRange) {
-	// 	return undefined;
-	// }
-
-	const wordName = document.getText(wordRange);
-	const functionEntity = util.getFunctionEntity(document.uri, wordName);
-
-	if (functionEntity !== undefined) {
-		const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
-		const functionIntroduction = `${wordName}(${functionEntity.params.join(", ")}): ${returnType}`;
-
-		const contents = [];
-		contents.push(MarkedString.fromPlainText(functionIntroduction));
-		contents.push(MarkedString.fromPlainText(functionEntity.introduction));
-		return {contents, wordRange};
-		// return new vscode.Hover(contents, wordRange);
-	}
-
-});
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
 
@@ -111,9 +72,10 @@ connection.onInitialize((params: InitializeParams) => {
 			// Tell the client that this server supports code completion.
 			completionProvider: {
 				// resolveProvider: true,
-				triggerCharacters: [ '{', '(', '[', '.', '#', '=', ',' ]
+				triggerCharacters: [ '{', '(', '[', '.', '\n', '#', '=', ',' ]
 			},
-			hoverProvider: true
+			hoverProvider: true,
+			definitionProvider: true
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
@@ -172,6 +134,102 @@ connection.onDidChangeConfiguration(change => {
 	// Revalidate all open text documents
 	documents.all().forEach(validateTextDocument);
 	documents.all().forEach(updateDiagnostics);
+});
+
+function getWordRangeAtPosition(document: TextDocument, position: Position): Range|null {
+	const firstPart = /[a-zA-Z0-9_.]+$/.exec(document.getText({start: document.positionAt(0), end: position}));
+	const secondPart = /^[a-zA-Z0-9_.]+/.exec(document.getText({start: position, end: document.positionAt(document.getText().length-1)}));
+	
+	if (!firstPart && !secondPart) {
+		return null;
+	}
+
+	const startPosition = firstPart==null?null: document.positionAt(document.offsetAt(position) - firstPart[0].length);
+	const endPosition = secondPart==null?null: document.positionAt(document.offsetAt(position) + secondPart[0].length);
+
+	const wordRange : Range = {
+		start: startPosition==null?position:startPosition,
+		end: endPosition==null?position:endPosition
+	};
+	return wordRange;
+}
+
+connection.onHover((params: HoverParams) => {
+
+	const document = documents.get(params.textDocument.uri)!;
+	const position = params.position;
+
+	if (!util.isLgFile(path.basename(document.uri))) {
+        return;
+    }
+
+	
+	const wordRange = getWordRangeAtPosition(document, position);
+
+	if (!wordRange) {
+		return undefined;
+	}
+
+	const wordName = document.getText(wordRange);
+	const functionEntity = util.getFunctionEntity(document.uri, wordName);
+
+	if (functionEntity !== undefined) {
+		const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
+		const functionIntroduction = `${wordName}(${functionEntity.params.join(", ")}): ${returnType}`;
+
+		const contents = [];
+		contents.push(MarkedString.fromPlainText(functionIntroduction));
+		contents.push(MarkedString.fromPlainText(functionEntity.introduction));
+		return {contents, wordRange};
+		// return new vscode.Hover(contents, wordRange);
+	}
+
+});
+
+connection.onDefinition((params: DefinitionParams) => {
+
+	const document = documents.get(params.textDocument.uri)!;
+	const position = params.position;
+		
+	if (!util.isLgFile(path.basename(document.uri))) {
+		return;
+	}
+
+	try {
+		const wordRange = getWordRangeAtPosition(document, position);
+		if (!wordRange) {
+			return undefined;
+		}
+		let templateName = document.getText(wordRange);
+		if (templateName.startsWith('lg.')) {
+			templateName = templateName.substr('lg.'.length);
+		}
+
+		const templates: Templates = util.getTemplatesFromCurrentLGFile(document.uri);
+		const template: Template|undefined = templates.allTemplates.find(u=>u.name === templateName);
+		if (template === undefined)
+			return undefined;
+
+		const lineNumber: number = template.sourceRange.range.start.line - 1;
+		const columnNumber: number = template.sourceRange.range.start.character;
+		const definitionPosition: Position = {line: lineNumber, character: columnNumber};
+
+		let definitionUri: DocumentUri|undefined = undefined;
+		TemplatesStatus.templatesMap.forEach((value, key) => {
+			if (template.sourceRange.source === key) {
+				definitionUri = value.uri;
+			}
+		});
+
+		if (definitionUri === undefined) {
+			return undefined;
+		}
+
+		// return new Location(definitionUri, definitionPosition);
+		return Location.create(definitionUri, {start: definitionPosition, end: definitionPosition});
+	} catch(e){
+		return undefined;
+   }
 });
 
 function triggerLGFileFinder() {
@@ -501,18 +559,7 @@ connection.onCompletion(
 			return items;
 		}
     
-		return [
-			{
-				label: 'lineTextBefore',
-				kind: CompletionItemKind.Text,
-				data: 1
-			},
-			{
-				label: 'JavaScript',
-				kind: CompletionItemKind.Text,
-				data: 2
-			}
-		];
+		return [];
 	}	
         
 );
