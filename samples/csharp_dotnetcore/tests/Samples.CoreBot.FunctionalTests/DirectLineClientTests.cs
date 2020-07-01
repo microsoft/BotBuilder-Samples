@@ -24,7 +24,8 @@ namespace Samples.CoreBot.FunctionalTests
 
             string input = "";
             var botAnswer = await StartBotConversationAsync(input);
-            Assert.IsTrue(new [] { $"Where would you like to travel to?", $"Where are you traveling from?" }.Contains(botAnswer));
+            Assert.IsTrue(new [] { $"Where would you like to travel to?", $"Where are you traveling from?" }.Contains(botAnswer),
+                $"Expected:<Where would you like to travel to?> or <Where are you traveling from?>. Actual:<{botAnswer}>.");
         }
 
         /// <summary>
