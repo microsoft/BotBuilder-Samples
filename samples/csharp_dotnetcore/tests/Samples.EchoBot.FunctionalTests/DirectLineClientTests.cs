@@ -88,7 +88,7 @@ namespace Samples.EchoBot.FunctionalTests
                 // Analyze each activity in the activity set.
                 foreach (var activity in activities)
                 {
-                    if (activity.Type == ActivityTypes.Message && activity.Text != "Welcome to Echo Bot.")
+                    if (activity.Type == ActivityTypes.Message && !activity.Text.Contains("welcome", StringComparison.OrdinalIgnoreCase))
                     {
                         answer = activity.Text;
                     }
