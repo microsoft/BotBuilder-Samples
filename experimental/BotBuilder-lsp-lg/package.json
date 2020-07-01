@@ -82,7 +82,14 @@
 				"scopeName": "source.lg",
 				"path": "./client/resources/lg/lg.tmLanguage.json"
 			}
-		]
+		],
+        "keybindings": [
+            {
+                "command": "lg.extension.onEnterKey",
+                "key": "enter",
+                "when": "editorTextFocus && !editorReadonly && editorLangId == lg && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
+            }
+        ]
 	},
 	"scripts": {
 		"vscode:prepublish": "npm run compile",

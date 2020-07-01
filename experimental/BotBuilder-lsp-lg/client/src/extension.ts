@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext } from 'vscode';
+import { workspace, ExtensionContext, window } from 'vscode';
 
 import {
 	LanguageClient,
@@ -42,6 +42,16 @@ export function activate(context: ExtensionContext) {
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
+		},
+		middleware: {
+			executeCommand: async (command, args, next) => {
+				const editor = window.activeTextEditor;
+				const cursorPos = editor.selection.active;
+				const uri = editor.document.uri.toString();
+				args.push(uri);
+				args.push(cursorPos);
+				return next(command, args);
+			}
 		}
 	};
 

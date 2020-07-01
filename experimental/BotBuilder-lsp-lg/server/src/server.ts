@@ -24,8 +24,14 @@ import {
 	Location,
 	MarkedString,
 	HoverParams,
-	TypeDefinitionParams,
-	DefinitionParams
+	DefinitionParams,
+	ExecuteCommandParams,
+	SignatureHelpParams,
+	SignatureHelp,
+	ParameterInformation,
+	SignatureInformation,
+	TextEdit,
+	TextDocumentEdit
 } from 'vscode-languageserver';
 
 import { TemplatesStatus, TemplatesEntity } from './templatesStatus';
@@ -36,6 +42,7 @@ import {
 	TextDocument, Position, Range, DocumentUri
 } from 'vscode-languageserver-textdocument';
 import { Templates, Template } from 'botbuilder-lg';
+import { SignPrivateKeyInput } from 'crypto';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -75,7 +82,13 @@ connection.onInitialize((params: InitializeParams) => {
 				triggerCharacters: [ '{', '(', '[', '.', '\n', '#', '=', ',' ]
 			},
 			hoverProvider: true,
-			definitionProvider: true
+			definitionProvider: true,
+			executeCommandProvider: {
+				commands: ['lg.extension.onEnterKey']
+			},
+			signatureHelpProvider: {
+				triggerCharacters: ['(', ',']
+			}
 		}
 	};
 	if (hasWorkspaceFolderCapability) {
@@ -87,7 +100,6 @@ connection.onInitialize((params: InitializeParams) => {
 	}
 	return result;
 });
-
 
 connection.onInitialized(() => {
 	if (hasConfigurationCapability) {
@@ -116,8 +128,8 @@ let globalSettings: ExampleSettings = defaultSettings;
 
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
-// connection.window.createWorkDoneProgress
-// connection.
+
+
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
@@ -180,11 +192,135 @@ connection.onHover((params: HoverParams) => {
 		const contents = [];
 		contents.push(MarkedString.fromPlainText(functionIntroduction));
 		contents.push(MarkedString.fromPlainText(functionEntity.introduction));
+		
 		return {contents, wordRange};
-		// return new vscode.Hover(contents, wordRange);
 	}
 
 });
+
+// connection.onExecuteCommand((params: ExecuteCommandParams) =>{
+	
+// 	const commandName = params.command;
+
+// 	const args = params.arguments;
+
+// 	if(commandName == 'lg.extension.onEnterKey' && args != undefined) {
+// 		onEnterKey(args);
+// 	}
+
+
+// });
+
+// function onEnterKey(args: any[]) {
+	
+// 	const document = documents.get(args[0]);
+//     // const editor = window.document.documentURI;//.activeTextEditor;
+// 	const cursorPos: Position = args[1];
+	
+	
+// 	const textBeforeCursor = document?.getText({
+// 		start: {
+// 			line: cursorPos.line,
+// 			character: 0
+// 		},
+// 		end: cursorPos
+// 	});
+
+//     const lineBreakPos = cursorPos;
+
+//     let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
+//     if ((matches = /^(\s*-)\s?(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\s*:.*/i.exec(textBeforeCursor)) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
+//         // -IF: new line would indent 
+//         return editor.edit(editBuilder => {
+//             const emptyNumber  = matches as RegExpExecArray;
+//             const dashIndex = '\n    ' + emptyNumber[1];
+//             editBuilder.insert(lineBreakPos, dashIndex);
+//         }).then(() => { editor.revealRange(editor.selection); });
+//     } else if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor)) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
+//         // in '- ' or '# ' line
+//         return editor.edit(editBuilder => {
+//             const replacedStr = `\n${matches[1].replace('#', '-')} `;
+//             editBuilder.insert(lineBreakPos, replacedStr);
+//         }).then(() => { editor.revealRange(editor.selection); });
+//     } else if ((matches = /^(\s*-)\s*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
+//         // in '-' empty line, enter would delete the head dash
+//         return editor.edit(editBuilder => {
+//             const range = new vscode.Range(lineBreakPos.line, 0, lineBreakPos.line, lineBreakPos.character);
+//             editBuilder.delete(range);
+//         }).then(() => { editor.revealRange(editor.selection); });
+//     } else {
+//         return commands.executeCommand('type', { source: 'keyboard', text: '\n' });
+//     }
+// }
+
+connection.onSignatureHelp((params: SignatureHelpParams) => {
+	
+	const document = documents.get(params.textDocument.uri)!;
+	const position = params.position;
+
+	if (!util.isLgFile(path.basename(document.uri))) {
+		return;
+	}
+
+	const {functionName, paramIndex} = parseFunction(document, position);
+	const functionEntity = util.getFunctionEntity(document.uri, functionName);
+
+	if (functionEntity === undefined) {
+		return;
+	}
+
+	const paramInfoList: ParameterInformation[] = [];
+	functionEntity.params.forEach(u => paramInfoList.push(ParameterInformation.create(u)));
+	
+	const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
+	const sigLabel = `${functionName}(${functionEntity.params.join(", ")}): ${returnType}`;
+	const sigInfo = SignatureInformation.create(sigLabel);
+	sigInfo.parameters = paramInfoList;
+	
+	const signatureHelp : SignatureHelp = {
+		activeParameter: paramIndex,
+		activeSignature: 0,
+		signatures: [sigInfo]
+	};
+
+	return signatureHelp;
+});
+
+
+
+function parseFunction(document: TextDocument, position: Position) : {functionName:string, paramIndex: number}
+{
+	let functionName = "";
+	let paramIndex = 0;
+	const range: Range = {
+		start: {
+			line: position.line, 
+			character: 0
+		}, 
+		end: position
+	};
+	const text: string = document.getText(range);
+	let bracketsDiffNumber = 0;  // right bracket number - left bracket number, if bracketsDiffNumber === 0, present that is out of param inner scope
+	for (let i = text.length - 1; i >= 0; i--) {
+		const currentChar: string = text.charAt(i);
+		if (currentChar === ',' && bracketsDiffNumber === 0) {
+			paramIndex++;
+		} else if (currentChar === '(' && bracketsDiffNumber === 0 && i > 0) {
+			const wordRange = getWordRangeAtPosition(document, {line: position.line, character: i - 1});
+			if (wordRange !== undefined) {
+				functionName = document.getText(wordRange!);
+				break;
+			}
+		} else if (currentChar === ')') {
+			bracketsDiffNumber++;
+		} else if (currentChar === '(') {
+			bracketsDiffNumber--;
+		}
+	}
+
+	return { functionName, paramIndex };
+}
+
 
 connection.onDefinition((params: DefinitionParams) => {
 
