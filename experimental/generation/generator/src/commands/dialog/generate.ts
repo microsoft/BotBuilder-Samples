@@ -29,7 +29,6 @@ export default class GenerateDialog extends Command {
         singleton: flags.boolean({ description: 'Specify to generate a single .dialog file.' }),
         templates: flags.string({ char: 't', description: 'Directory with templates to use for generating assets.  With multiple directories, the first definition found wins.  To include the standard templates, just use "standard" as a template directory name.', multiple: true }),
         verbose: flags.boolean({ description: 'Output verbose logging of files as they are processed', default: false }),
-        jsonProperties: flags.string({ char: 'j', description: 'The additional json properties to be added into the scope', required: false})
     }
 
     async run() {
@@ -47,7 +46,7 @@ export default class GenerateDialog extends Command {
             }
         }
         try {
-            await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force, flags.merge, flags.singleton, flags.jsonProperties, feedback)
+            await gen.generate(args.schema, flags.prefix, flags.output, flags.schema, flags.locale, flags.templates, flags.force, flags.merge, flags.singleton, feedback)
             return true;
         } catch (e) {
             this.thrownError(e)

@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import {SubstitutionsEvaluator} from './substitutions'
-import {processSchemas} from './processSchemas'
+import { SubstitutionsEvaluator } from './substitutions'
+import { processSchemas } from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -166,7 +166,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = {source: string, template: string}
+type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,7 +175,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
+            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
             break
         } else {
             // LG file
@@ -204,7 +204,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -441,7 +441,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = {...obj, ...elt}
+                    obj = { ...obj, ...elt }
                 }
                 newSchema = obj
             }
@@ -453,8 +453,12 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
             }
-            let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
-            newSchema[key] = newVal
+            if (key === '$parameters') {
+                newSchema[key] = val
+            } else {
+                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                newSchema[key] = newVal
+            }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
@@ -524,7 +528,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '\t'})
+                await fs.writeJSON(outPath, main, { spaces: '\t' })
             } else {
                 await fs.copy(path, outPath)
             }
@@ -576,7 +580,6 @@ export async function generate(
     force?: boolean,
     merge?: boolean,
     singleton?: boolean,
-    jsonProperties?: string,
     feedback?: Feedback)
     : Promise<void> {
     if (!feedback) {
@@ -633,10 +636,6 @@ export async function generate(
         feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
-        if (jsonProperties) {
-            feedback(FeedbackType.message, `Additional Json Properties to include: ${jsonProperties}`)
-        }
-
         let outPath = outDir
         let outPathSingle = outDir
         if (merge || singleton) {
@@ -679,22 +678,16 @@ export async function generate(
             appSchema: metaSchema
         }
 
-        // copy the additional properties to the scope
-        if (jsonProperties) {
-            let fileContent = await fs.readFile(jsonProperties, 'utf8')
-            let jsonContent = JSON.parse(fileContent)
-            for (let key in jsonContent) {
-                let value = jsonContent[key]
-                if (!scope[key]) {
-                    scope[key] = value
-                }
-            }
+        if (schema.schema.$parameters) {
+            scope = { ...scope, ...schema.schema.$parameters }
         }
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
+
+        await generateFile(ppath.join(outPath, `${prefix}_old.json`), stringify(schema.schema), force, feedback)
 
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)

@@ -49,6 +49,8 @@ function generateJsonSchema() {
     type: 'object',
     properties: {
     },
+    $parameters : {}
+    ,
     required: new Array(),
     $requires: [
       'http.schema',
@@ -57,22 +59,30 @@ function generateJsonSchema() {
   }
 }
 
-function generateJsonProperties(url: string, method: string, property: string) {
+function generateJsonProperties(url: string, method: string, dialogResponse: string) {
   return {
     swaggerApi: url,
     swaggerMethod: method,
-    swaggerResponse: property,
+    swaggerResponse: dialogResponse,
     swaggerBody: {},
     swaggerHeaders: {}
   }
 }
 
+/**
+ * Generate JSON schema given the swagger file.
+ * @param path Path to swagger file.
+ * @param output Where to put generated JSON schema.
+ * @param method API method.
+ * @param route Route to the specific api.
+ * @param projectName JSON schema name.
+ * @param feedback Callback function for progress and errors.
+ */
 export async function generate(
   path: string,
   output: string,
   method: string,
   route: string,
-  property: string,
   projectName: string,
   feedback: Feedback) {
   // need to dereference the swagger file
@@ -86,7 +96,8 @@ export async function generate(
 
   // the output schema file structure, pass the swagger related param in
   let result = generateJsonSchema()
-  let jsonProperties = generateJsonProperties(url, method, property)
+  let dialogResponse = 'dialog.response'
+  let jsonProperties = generateJsonProperties(url, method, dialogResponse)
   let body = {}
   
   for (let param of swfile.paths[route][method].parameters) {
@@ -130,15 +141,14 @@ export async function generate(
   } else {
     jsonProperties.swaggerBody = body;
   }
-  let propertiesFile = ppath.join(output, 'properties.json')
 
   let headers = 	{'User-Agent': 'Mozilla/5.0'}
   jsonProperties.swaggerHeaders = headers
 
+  result.$parameters = jsonProperties
+
   feedback(FeedbackType.info, `Output Dirctory: ${ppath.join(output, projectName)}`);
   feedback(FeedbackType.info, `Output Schema ${ppath.join(output, projectName)}`);
-  feedback(FeedbackType.info, `Output Json Properties ${propertiesFile}`);
 
   await fs.writeFile(ppath.join(output, projectName), JSON.stringify(result, null, 4))
-  await fs.writeFile(propertiesFile, JSON.stringify(jsonProperties, null, 4))
 }

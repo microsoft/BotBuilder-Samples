@@ -8,29 +8,28 @@ import * as swaggerGen from '../../../library/swaggerDialogGenerator';
 import * as ppath from 'path';
 
 export default class Swagger extends Command {
-  static description = '[PREVIEW] Generate schema given swagger file.'
+  static description = '[PREVIEW] Generate JSON schema given swagger file.'
 
   static examples = [`
       $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n petSearch.schema`]
 
   static args = [
-    { name: 'path', required: true, description: 'the path to the swagger file' },
+    { name: 'path', required: true, description: 'The path to the swagger file' },
   ]
 
   static flags: flags.Input<any> = {
-    output: flags.string({ char: 'o', description: 'Output path for where to put generated swagger schema files. [default: .]', default: '.', required: false }),
-    verbose: flags.boolean({ description: 'Output verbose logging of files as they are processed', default: false }),
-    route: flags.string({ char: 'r', description: 'Route to the specific api', required: true }),
-    method: flags.string({ char: 'm', description: 'Method of the specific api.', required: true, default: 'GET' }),
-    property: flags.string({ char: 'p', description: 'The property of the response to set in', required: true }),
-    name: flags.string({ char: 'n', description: 'Define schema name', required: true }),
+    method: flags.string({ char: 'm', description: 'API method.', required: true, default: 'GET' }),
+    name: flags.string({ char: 'n', description: 'Define schema name.', required: true }),
+    output: flags.string({ char: 'o', description: 'Output path for generated swagger schema files. [default: .]', default: '.', required: false }),
+    route: flags.string({ char: 'r', description: 'Route to the specific api.', required: true }),
+    verbose: flags.boolean({ description: 'Output verbose logging of files as they are processed.', default: false }),
   }
 
   async run() {
     const { args, flags } = this.parse(Swagger)
     try {
       let projectName = flags.name
-      await swaggerGen.generate(args.path, flags.output, flags.method, flags.route, flags.property, projectName,
+      await swaggerGen.generate(args.path, flags.output, flags.method, flags.route, projectName,
         (type, msg) => {
           if (type === gen.FeedbackType.message
             || type === gen.FeedbackType.error
