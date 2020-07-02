@@ -31,6 +31,8 @@ import * as hover from './providers/hover';
 import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 
+import * as util from './util';
+
 import { TemplatesStatus } from './templatesStatus';
 
 
@@ -133,18 +135,16 @@ connection.onDidChangeConfiguration(change => {
 	}
 
 	// To update templatestatus with only open text documents
-	triggerLGFileFinder(); 
+	util.triggerLGFileFinder(documents); 
 
 	// Revalidate all open text documents
 	documents.all().forEach(document => diagnostics.updateDiagnostics(document, connection));
 });
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion(
-	(_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
+connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
 		return completion.provideCompletionItems(_textDocumentPosition, documents);
-	}        
-);
+});
 
 connection.onHover((params: HoverParams) => {
 	return hover.provideHover(params, documents);
@@ -163,18 +163,11 @@ connection.onDefinition((params: DefinitionParams) => {
 	return definition.provideDefinition(params, documents);
 });
 
-function triggerLGFileFinder() {
-    TemplatesStatus.lgFilesOfWorkspace = [];
-    documents.all().forEach(textDocument => {
-        TemplatesStatus.lgFilesOfWorkspace.push(Files.uriToFilePath(textDocument.uri)!);
-    });
-}
-
 function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
-	triggerLGFileFinder();
+	util.triggerLGFileFinder(documents);
 	let result = documentSettings.get(resource);
 	if (!result) {
 		result = connection.workspace.getConfiguration({
@@ -190,7 +183,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
 	// delete templates from map
-	triggerLGFileFinder();
+	util.triggerLGFileFinder(documents);
 	if(TemplatesStatus.templatesMap.has(Files.uriToFilePath(e.document.uri)!)) {
 		TemplatesStatus.templatesMap.delete(e.document.uri);
 	}
@@ -199,7 +192,7 @@ documents.onDidClose(e => {
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent(change => {
-	triggerLGFileFinder();
+	util.triggerLGFileFinder(documents);
 	diagnostics.updateDiagnostics(change.document, connection);
 });
 

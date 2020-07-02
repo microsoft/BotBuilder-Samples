@@ -1,6 +1,6 @@
 
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
-import { DocumentUri, Files } from 'vscode-languageserver';
+import { DocumentUri, Files, TextDocuments } from 'vscode-languageserver';
 import { Templates, } from "botbuilder-lg";
 import { TemplatesStatus, TemplatesEntity } from "./templatesStatus";
 import { ReturnType } from "adaptive-expressions";
@@ -104,6 +104,13 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
 		end: endPosition==null?position:endPosition
 	};
 	return wordRange;
+}
+
+export function triggerLGFileFinder(documents: TextDocuments<TextDocument>) {
+    TemplatesStatus.lgFilesOfWorkspace = [];
+    documents.all().forEach(textDocument => {
+        TemplatesStatus.lgFilesOfWorkspace.push(Files.uriToFilePath(textDocument.uri)!);
+    });
 }
 
 export const cardPropDict = {
