@@ -31,7 +31,8 @@ import {
 	ParameterInformation,
 	SignatureInformation,
 	TextEdit,
-	TextDocumentEdit
+	TextDocumentEdit,
+	Command
 } from 'vscode-languageserver';
 
 import { TemplatesStatus, TemplatesEntity } from './templatesStatus';
@@ -198,60 +199,75 @@ connection.onHover((params: HoverParams) => {
 
 });
 
-// connection.onExecuteCommand((params: ExecuteCommandParams) =>{
+connection.onExecuteCommand((params: ExecuteCommandParams) =>{
+	const commandName = params.command;
+	const args = params.arguments;
+
+	if(commandName == 'lg.extension.onEnterKey' && args != undefined) {
+		onEnterKey(args);
+	}
+});
+
+function onEnterKey(args: any[]) {
 	
-// 	const commandName = params.command;
-
-// 	const args = params.arguments;
-
-// 	if(commandName == 'lg.extension.onEnterKey' && args != undefined) {
-// 		onEnterKey(args);
-// 	}
-
-
-// });
-
-// function onEnterKey(args: any[]) {
-	
-// 	const document = documents.get(args[0]);
-//     // const editor = window.document.documentURI;//.activeTextEditor;
-// 	const cursorPos: Position = args[1];
+	const document = documents.get(args[0]);
+    // const editor = window.document.documentURI;//.activeTextEditor;
+	const cursorPos: Position = args[1];
 	
 	
-// 	const textBeforeCursor = document?.getText({
-// 		start: {
-// 			line: cursorPos.line,
-// 			character: 0
-// 		},
-// 		end: cursorPos
-// 	});
+	const textBeforeCursor = document?.getText({
+		start: {
+			line: cursorPos.line,
+			character: 0
+		},
+		end: cursorPos
+	});
 
-//     const lineBreakPos = cursorPos;
+    const lineBreakPos = cursorPos;
 
-//     let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
-//     if ((matches = /^(\s*-)\s?(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\s*:.*/i.exec(textBeforeCursor)) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
-//         // -IF: new line would indent 
-//         return editor.edit(editBuilder => {
-//             const emptyNumber  = matches as RegExpExecArray;
-//             const dashIndex = '\n    ' + emptyNumber[1];
-//             editBuilder.insert(lineBreakPos, dashIndex);
-//         }).then(() => { editor.revealRange(editor.selection); });
-//     } else if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor)) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
-//         // in '- ' or '# ' line
-//         return editor.edit(editBuilder => {
-//             const replacedStr = `\n${matches[1].replace('#', '-')} `;
-//             editBuilder.insert(lineBreakPos, replacedStr);
-//         }).then(() => { editor.revealRange(editor.selection); });
-//     } else if ((matches = /^(\s*-)\s*/.exec(textBeforeCursor)) !== null && !isInFencedCodeBlock(editor.document, cursorPos)) {
-//         // in '-' empty line, enter would delete the head dash
-//         return editor.edit(editBuilder => {
-//             const range = new vscode.Range(lineBreakPos.line, 0, lineBreakPos.line, lineBreakPos.character);
-//             editBuilder.delete(range);
-//         }).then(() => { editor.revealRange(editor.selection); });
-//     } else {
-//         return commands.executeCommand('type', { source: 'keyboard', text: '\n' });
-//     }
-// }
+    let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
+    if ((matches = /^(\s*-)\s?(IF|ELSE|SWITCH|CASE|DEFAULT|(ELSE\\s*IF))\s*:.*/i.exec(textBeforeCursor!)!) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
+		// -IF: new line would indent 
+		const emptyNumber  = matches as RegExpExecArray;
+		const dashIndex = '\n    ' + emptyNumber[1];
+		connection.workspace.applyEdit({
+			documentChanges: [
+				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+					TextEdit.insert(lineBreakPos, dashIndex)
+				])
+			]
+		});
+		
+    } else if ((matches = /^(\s*[#-]).*\S+.*/.exec(textBeforeCursor!)!) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
+		// in '- ' or '# ' line
+		const replacedStr = `\n${matches[1].replace('#', '-')} `;
+		connection.workspace.applyEdit({
+			documentChanges: [
+				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+					TextEdit.insert(lineBreakPos, replacedStr)
+				])
+			]
+		});
+	} else if ((matches = /^(\s*-)\s*/.exec(textBeforeCursor!)!) !== null && !util.isInFencedCodeBlock(document!, cursorPos)) {
+        // in '-' empty line, enter would delete the head dash
+		const range = {start: {line: lineBreakPos.line, character: 0}, end: {line: lineBreakPos.line, character: lineBreakPos.character}};
+		connection.workspace.applyEdit({
+			documentChanges: [
+				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+					TextEdit.del(range)
+				])
+			]
+		});
+    } else {
+		connection.workspace.applyEdit({
+			documentChanges: [
+				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+					TextEdit.insert(lineBreakPos, '\n')
+				])
+			]
+		});
+    }
+}
 
 connection.onSignatureHelp((params: SignatureHelpParams) => {
 	
