@@ -6,7 +6,7 @@ import { OpenAPIV2 } from 'openapi-types'
 import * as ppath from 'path'
 import * as fs from 'fs-extra'
 import * as sw from 'swagger-parser'
-import {Feedback, FeedbackType} from './dialogGenerator'
+import { Feedback, FeedbackType } from './dialogGenerator'
 
 // generate the parameter of the http request step
 function generateParam(obj: any) {
@@ -47,9 +47,8 @@ function generateJsonSchema() {
     // tslint:disable-next-line:no-http-string
     $schema: 'http://json-schema.org/draft-07/schema',
     type: 'object',
-    properties: {
-    },
-    $parameters : {}
+    properties: {},
+    $parameters: {}
     ,
     required: new Array(),
     $requires: [
@@ -75,7 +74,7 @@ function generateJsonProperties(url: string, method: string, dialogResponse: str
  * @param output Where to put generated JSON schema.
  * @param method API method.
  * @param route Route to the specific api.
- * @param projectName JSON schema name.
+ * @param schemaName JSON schema name.
  * @param feedback Callback function for progress and errors.
  */
 export async function generate(
@@ -83,7 +82,7 @@ export async function generate(
   output: string,
   method: string,
   route: string,
-  projectName: string,
+  schemaName: string,
   feedback: Feedback) {
   // need to dereference the swagger file
   let swfile = await sw.dereference(path) as OpenAPIV2.Document
@@ -99,7 +98,7 @@ export async function generate(
   let dialogResponse = 'dialog.response'
   let jsonProperties = generateJsonProperties(url, method, dialogResponse)
   let body = {}
-  
+
   for (let param of swfile.paths[route][method].parameters) {
     if (param.type === undefined) {
       if (param.schema !== undefined && param.schema.properties !== undefined) {
@@ -128,8 +127,8 @@ export async function generate(
           url = url + '&' + param.name + '=${$' + param.name + '}'
         }
       } else if (param.in === 'path') {
-        url = url.replace('{'+param.name, '${$' + param.name)
-      } 
+        url = url.replace('{' + param.name, '${$' + param.name)
+      }
       result.properties[param.name] = generateParam(param)
       result.required.push(param.name)
     }
@@ -142,13 +141,17 @@ export async function generate(
     jsonProperties.swaggerBody = body;
   }
 
-  let headers = 	{'User-Agent': 'Mozilla/5.0'}
+  let headers = { 'User-Agent': 'Mozilla/5.0' }
   jsonProperties.swaggerHeaders = headers
 
   result.$parameters = jsonProperties
 
-  feedback(FeedbackType.info, `Output Dirctory: ${ppath.join(output, projectName)}`);
-  feedback(FeedbackType.info, `Output Schema ${ppath.join(output, projectName)}`);
+  if (!await fs.pathExists(output)) {
+    await fs.ensureDir(output)
+  }
 
-  await fs.writeFile(ppath.join(output, projectName), JSON.stringify(result, null, 4))
+  feedback(FeedbackType.info, `Output Dirctory: ${ppath.join(output, schemaName)}`);
+  feedback(FeedbackType.info, `Output Schema ${ppath.join(output, schemaName)}`);
+
+  await fs.writeFile(ppath.join(output, schemaName), JSON.stringify(result, null, 4))
 }

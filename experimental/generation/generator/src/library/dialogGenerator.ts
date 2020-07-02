@@ -687,8 +687,6 @@ export async function generate(
         // Expand schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
-        await generateFile(ppath.join(outPath, `${prefix}_old.json`), stringify(schema.schema), force, feedback)
-
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)

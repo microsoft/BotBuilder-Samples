@@ -28,8 +28,8 @@ export default class Swagger extends Command {
   async run() {
     const { args, flags } = this.parse(Swagger)
     try {
-      let projectName = flags.name
-      await swaggerGen.generate(args.path, flags.output, flags.method, flags.route, projectName,
+      let schemaName = flags.name
+      await swaggerGen.generate(args.path, flags.output, flags.method, flags.route, schemaName,
         (type, msg) => {
           if (type === gen.FeedbackType.message
             || type === gen.FeedbackType.error
@@ -37,8 +37,8 @@ export default class Swagger extends Command {
             this.progress(msg)
           }
         });
-      let schemaName = ppath.join(flags.output, projectName)
-      this.progress(`Schema: ${schemaName}`)
+      let schemaPath = ppath.join(flags.output, schemaName)
+      this.progress(`Schema: ${schemaPath}`)
       return true;
     } catch (e) {
       this.thrownError(e)
