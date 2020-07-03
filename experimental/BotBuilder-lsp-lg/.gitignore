@@ -3,3 +3,5 @@ client/node_modules/**
 client/out/**
 server/node_modules/**
 server/out/**
+.eslintignore
+.eslintrc.json
