@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window } from 'vscode';
+import { workspace, ExtensionContext, window, DiagnosticCollection, languages } from 'vscode';
 
 import {
 	LanguageClient,
@@ -16,6 +16,15 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
+
+    const collection: DiagnosticCollection = languages.createDiagnosticCollection('lg');
+	context.subscriptions.push(workspace.onDidCloseTextDocument(doc => {
+        if (doc && isLgFile(doc.fileName))
+        {
+            collection.delete(doc.uri);
+        }
+	}));
+	
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
 		path.join('server', 'out', 'server.js')
@@ -50,14 +59,19 @@ export function activate(context: ExtensionContext) {
 				const uri = editor.document.uri.toString();
 				args.push(uri);
 				args.push(cursorPos);
-				return next(command, args);
+				next(command, args);
 			},
 			workspace: {
 				didChangeWorkspaceFolders: ((data, next) => {
-					return next(data);
+					next(data);
 				})
+				// ,
+				// didChangeWatchedFile: ((event, next) => {
+				// 	next(event);
+				// })
 			}
-		}
+		},
+		diagnosticCollectionName: 'lg'
 	};
 
 	// Create the language client and start the client.
@@ -77,4 +91,11 @@ export function deactivate(): Thenable<void> | undefined {
 		return undefined;
 	}
 	return client.stop();
+}
+
+function isLgFile(fileName: string): boolean {
+    if(fileName === undefined || !fileName.toLowerCase().endsWith('.lg')) {
+        return false;
+    }
+    return true;
 }

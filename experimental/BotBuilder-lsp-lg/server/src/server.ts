@@ -23,6 +23,11 @@ import {
 	ExecuteCommandParams,
 	SignatureHelpParams,
 	WorkspaceFolder,
+	FileEvent,
+	DidChangeWatchedFilesNotification,
+	DidChangeWorkspaceFoldersNotification,
+	DidChangeWatchedFilesRegistrationOptions,
+	FileChangeType
 } from 'vscode-languageserver';
 
 import * as completion from './providers/completion';
@@ -33,14 +38,13 @@ import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 
 import * as util from './util';
-import * as fs from 'fs';
-
 
 
 import { TemplatesStatus } from './templatesStatus';
 
 
 import { TextDocument, DocumentUri } from 'vscode-languageserver-textdocument';
+import { watchFile } from 'fs';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -53,6 +57,7 @@ let workspaceFolders: WorkspaceFolder[] | null | undefined;
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
 let hasDiagnosticRelatedInformationCapability = false;
+let hasDidChangeWatchedFilesCapability = false;
 
 
 connection.onInitialize((params: InitializeParams) => {
@@ -72,6 +77,9 @@ connection.onInitialize((params: InitializeParams) => {
 		capabilities.textDocument &&
 		capabilities.textDocument.publishDiagnostics &&
 		capabilities.textDocument.publishDiagnostics.relatedInformation
+	);
+	hasDidChangeWatchedFilesCapability = !!(
+		capabilities.workspace && !! capabilities.workspace.didChangeWatchedFiles?.dynamicRegistration
 	);
 
 	const result: InitializeResult = {
@@ -111,6 +119,11 @@ connection.onInitialized(() => {
 	if (hasConfigurationCapability) {
 		// Register for all configuration changes.
 		connection.client.register(DidChangeConfigurationNotification.type, undefined);
+	}
+
+	if(hasDidChangeWatchedFilesCapability) {	
+		const option : DidChangeWatchedFilesRegistrationOptions = {watchers: [{globPattern: '**/*.lg'}]};
+		connection.client.register(DidChangeWatchedFilesNotification.type, option);
 	}
 
 	if (hasWorkspaceFolderCapability) {
@@ -212,8 +225,19 @@ documents.onDidChangeContent(change => {
 });
 
 
+
 connection.onDidChangeWatchedFiles(_change => {
 	// Monitored files have change in VSCode
+	_change.changes.forEach(e => {
+		if(e.type == FileChangeType.Created) {
+			util.triggerLGFileFinder(workspaceFolders!);
+		} else if(e.type == FileChangeType.Deleted) {
+			util.triggerLGFileFinder(workspaceFolders!);
+			if (TemplatesStatus.templatesMap.has(Files.uriToFilePath(e.uri)!)) {
+				TemplatesStatus.templatesMap.delete(Files.uriToFilePath(e.uri)!);
+			}
+		}
+	});
 	connection.console.log('We received an file change event');
 });
 
