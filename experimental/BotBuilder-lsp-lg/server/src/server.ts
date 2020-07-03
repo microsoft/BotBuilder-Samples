@@ -36,11 +36,7 @@ import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 
 import * as util from './util';
-
-
 import { TemplatesStatus } from './templatesStatus';
-
-
 import { TextDocument } from 'vscode-languageserver-textdocument';
 
 // Create a connection for the server, using Node's IPC as a transport.

@@ -269,3 +269,59 @@ export const cardTypes = [
     'AdaptiveCard',
     'Activity',
 ];
+
+export const optionsMap = {
+    options: { 
+        '@strict': {
+            detail: ' @strict = true',
+            documentation: 'Developers who do not want to allow a null evaluated result can implement the strict option.', 
+            insertText: ' @strict'},
+        '@replaceNull': {
+            detail: ' @replaceNull = ${path} is undefined',
+            documentation: 'Developers can create delegates to replace null values in evaluated expressions by using the replaceNull option.',
+            insertText: ' @replaceNull'},
+        '@lineBreakStyle': {
+            detail: ' @lineBreakStyle = markdown',
+            documentation: 'Developers can set options for how the LG system renders line breaks using the lineBreakStyle option.',
+            insertText: ' @lineBreakStyle'},
+        '@Namespace': {
+            detail: ' @Namespace = foo',
+            documentation: 'You can register a namespace for the LG templates you want to export.',
+            insertText: ' @Namespace'},
+        '@Exports': {
+            detail: ' @Exports = template1, template2',
+            documentation: 'You can specify a list of LG templates to export.',
+            insertText: ' @Exports'}
+    },
+    strictOptions : {
+        'true': {
+            detail: ' true',
+            documentation: 'Null error will throw a friendly message.',
+            insertText: ' true'
+        },
+        'false': {
+            detail: ' false',
+            documentation: 'A compatible result will be given.',
+            insertText: ' false'
+        }
+    },
+    replaceNullOptions: {
+        '${path} is undefined':{
+            detail: 'The null input in the path variable would be replaced with ${path} is undefined.',
+            documentation: null,
+            insertText: ' ${path} is undefined'
+        }    
+    },
+    lineBreakStyleOptions: {
+        'default': {
+            detail: ' default',
+            documentation: 'Line breaks in multiline text create normal line breaks.',
+            insertText: ' default'
+        },
+        'markdown': {
+            detail: ' markdown',
+            documentation: 'Line breaks in multiline text will be automatically converted to two lines to create a newline.',
+            insertText: ' markdown'
+        }
+    } 
+};
