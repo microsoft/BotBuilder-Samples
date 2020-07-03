@@ -22,6 +22,7 @@ import {
 	DefinitionParams,
 	ExecuteCommandParams,
 	SignatureHelpParams,
+	WorkspaceFolder,
 } from 'vscode-languageserver';
 
 import * as completion from './providers/completion';
@@ -32,11 +33,14 @@ import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 
 import * as util from './util';
+import * as fs from 'fs';
+
+
 
 import { TemplatesStatus } from './templatesStatus';
 
 
-import { TextDocument } from 'vscode-languageserver-textdocument';
+import { TextDocument, DocumentUri } from 'vscode-languageserver-textdocument';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.
@@ -44,6 +48,7 @@ const connection = createConnection(ProposedFeatures.all);
 
 // Create a simple text document manager. 
 const documents: TextDocuments<TextDocument> = new TextDocuments(TextDocument);
+let workspaceFolders: WorkspaceFolder[] | null | undefined;
 
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
@@ -52,6 +57,8 @@ let hasDiagnosticRelatedInformationCapability = false;
 
 connection.onInitialize((params: InitializeParams) => {
 	const capabilities = params.capabilities;
+	workspaceFolders = params.workspaceFolders;
+	util.triggerLGFileFinder(workspaceFolders!);
 
 	// Does the client support the `workspace/configuration` request?
 	// If not, we fall back using global settings.
@@ -82,6 +89,11 @@ connection.onInitialize((params: InitializeParams) => {
 			},
 			signatureHelpProvider: {
 				triggerCharacters: ['(', ',']
+			},
+			workspace: {
+				workspaceFolders: {
+					supported: true
+				}
 			}
 		}
 	};
@@ -103,7 +115,9 @@ connection.onInitialized(() => {
 
 	if (hasWorkspaceFolderCapability) {
 		connection.workspace.onDidChangeWorkspaceFolders(_event => {
-			// _event.added.forEach(e => path..uri)
+			workspaceFolders = workspaceFolders?.filter(workspaceFolder => !_event.removed.includes(workspaceFolder));
+			_event.added.forEach(folderAdded => workspaceFolders?.push(folderAdded));
+			util.triggerLGFileFinder(workspaceFolders!);
 			connection.console.log('Workspace folder change event received.');
 		});
 	}
@@ -135,7 +149,7 @@ connection.onDidChangeConfiguration(change => {
 	}
 
 	// To update templatestatus with only open text documents
-	util.triggerLGFileFinder(documents); 
+	util.triggerLGFileFinder(workspaceFolders!); 
 
 	// Revalidate all open text documents
 	documents.all().forEach(document => diagnostics.updateDiagnostics(document, connection));
@@ -143,7 +157,7 @@ connection.onDidChangeConfiguration(change => {
 
 // This handler provides the initial list of the completion items.
 connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
-		return completion.provideCompletionItems(_textDocumentPosition, documents);
+	return completion.provideCompletionItems(_textDocumentPosition, documents);
 });
 
 connection.onHover((params: HoverParams) => {
@@ -167,7 +181,7 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	if (!hasConfigurationCapability) {
 		return Promise.resolve(globalSettings);
 	}
-	util.triggerLGFileFinder(documents);
+	util.triggerLGFileFinder(workspaceFolders!);
 	let result = documentSettings.get(resource);
 	if (!result) {
 		result = connection.workspace.getConfiguration({
@@ -179,20 +193,21 @@ function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
 	return result;
 }
 
+documents.onDidOpen(e => {
+	const filePath = Files.uriToFilePath(e.document.uri)!;
+	if(!TemplatesStatus.lgFilesOfWorkspace.includes(filePath)) {
+		TemplatesStatus.lgFilesOfWorkspace.push(filePath);
+	}
+});
+
 // Only keep settings for open documents
 documents.onDidClose(e => {
 	documentSettings.delete(e.document.uri);
-	// delete templates from map
-	util.triggerLGFileFinder(documents);
-	if(TemplatesStatus.templatesMap.has(Files.uriToFilePath(e.document.uri)!)) {
-		TemplatesStatus.templatesMap.delete(e.document.uri);
-	}
 });
 
 // The content of a text document has changed. This event is emitted
 // when the text document first opened or when its content has changed.
 documents.onDidChangeContent(change => {
-	util.triggerLGFileFinder(documents);
 	diagnostics.updateDiagnostics(change.document, connection);
 });
 

@@ -1,10 +1,13 @@
 
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
-import { DocumentUri, Files, TextDocuments } from 'vscode-languageserver';
+import { DocumentUri, Files, TextDocuments, WorkspaceFolder } from 'vscode-languageserver';
 import { Templates, } from "botbuilder-lg";
 import { TemplatesStatus, TemplatesEntity } from "./templatesStatus";
 import { ReturnType } from "adaptive-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
+
+import * as fs from 'fs';
+import * as path from 'path';
 
 export function isLgFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.lg')) {
@@ -106,11 +109,18 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
 	return wordRange;
 }
 
-export function triggerLGFileFinder(documents: TextDocuments<TextDocument>) {
+export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) {
     TemplatesStatus.lgFilesOfWorkspace = [];
-    documents.all().forEach(textDocument => {
-        TemplatesStatus.lgFilesOfWorkspace.push(Files.uriToFilePath(textDocument.uri)!);
-    });
+    workspaceFolders.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
+        if(err) {
+            console.log(err);
+        } else {
+            TemplatesStatus.lgFilesOfWorkspace = [];
+            files.filter(file => isLgFile(file)).forEach(file => {
+                TemplatesStatus.lgFilesOfWorkspace.push(path.join(Files.uriToFilePath(workspaceFolder.uri)!, file));
+            });
+        }
+    }));
 }
 
 export const cardPropDict = {

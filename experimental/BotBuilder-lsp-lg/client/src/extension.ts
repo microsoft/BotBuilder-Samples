@@ -37,7 +37,7 @@ export function activate(context: ExtensionContext) {
 
 	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
+		// Register the server for .lg documents
 		documentSelector: [{ scheme: 'file', language: 'lg' }],
 		synchronize: {
 			// Notify the server about file changes to '.clientrc files contained in the workspace
@@ -51,6 +51,11 @@ export function activate(context: ExtensionContext) {
 				args.push(uri);
 				args.push(cursorPos);
 				return next(command, args);
+			},
+			workspace: {
+				didChangeWorkspaceFolders: ((data, next) => {
+					return next(data);
+				})
 			}
 		}
 	};
