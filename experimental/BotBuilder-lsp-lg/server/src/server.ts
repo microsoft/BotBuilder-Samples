@@ -23,9 +23,7 @@ import {
 	ExecuteCommandParams,
 	SignatureHelpParams,
 	WorkspaceFolder,
-	FileEvent,
 	DidChangeWatchedFilesNotification,
-	DidChangeWorkspaceFoldersNotification,
 	DidChangeWatchedFilesRegistrationOptions,
 	FileChangeType
 } from 'vscode-languageserver';
@@ -43,8 +41,7 @@ import * as util from './util';
 import { TemplatesStatus } from './templatesStatus';
 
 
-import { TextDocument, DocumentUri } from 'vscode-languageserver-textdocument';
-import { watchFile } from 'fs';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.

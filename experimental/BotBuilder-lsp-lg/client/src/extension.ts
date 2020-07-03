@@ -16,14 +16,6 @@ import {
 let client: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-
-    const collection: DiagnosticCollection = languages.createDiagnosticCollection('lg');
-	context.subscriptions.push(workspace.onDidCloseTextDocument(doc => {
-        if (doc && isLgFile(doc.fileName))
-        {
-            collection.delete(doc.uri);
-        }
-	}));
 	
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
@@ -65,10 +57,6 @@ export function activate(context: ExtensionContext) {
 				didChangeWorkspaceFolders: ((data, next) => {
 					next(data);
 				})
-				// ,
-				// didChangeWatchedFile: ((event, next) => {
-				// 	next(event);
-				// })
 			}
 		},
 		diagnosticCollectionName: 'lg'
@@ -84,6 +72,14 @@ export function activate(context: ExtensionContext) {
 
 	// Start the client. This will also launch the server
 	client.start();
+	
+    const collection: DiagnosticCollection = client.diagnostics;
+	context.subscriptions.push(workspace.onDidCloseTextDocument(doc => {
+        if (doc && isLgFile(doc.fileName))
+        {
+            collection.delete(doc.uri);
+        }
+	}));
 }
 
 export function deactivate(): Thenable<void> | undefined {
