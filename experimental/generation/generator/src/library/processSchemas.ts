@@ -78,7 +78,7 @@ function mergeSchemas(allSchema: any, schemas: any[]) {
         if (schema.required) allSchema.required = allSchema.required.concat(schema.required)
         if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
         if (schema.$examples) allSchema.$examples = {...allSchema.$examples, ...schema.$examples}
-        if (schema.$parameters) allSchema.$examples = {...allSchema.$parameters, ...schema.$parameters}
+        if (schema.$parameters) allSchema.$parameters = {...allSchema.$parameters, ...schema.$parameters}
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
         if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
