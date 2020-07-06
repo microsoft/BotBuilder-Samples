@@ -7,8 +7,8 @@
 		"sourceMap": true,
 		"strict": true,
 		"outDir": "out",
-		"rootDir": "src"
+		"rootDir": "./lg/src"
 	},
-	"include": ["src"],
+	"include": ["./lg/src/**/*"],
 	"exclude": ["node_modules", ".vscode-test"]
 }

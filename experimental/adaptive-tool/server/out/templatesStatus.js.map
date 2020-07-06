@@ -1,0 +1,1 @@
+{"version":3,"file":"templatesStatus.js","sourceRoot":"","sources":["../src/templatesStatus.ts"],"names":[],"mappings":";AAAA;;;GAGG;;;AAKH,MAAa,eAAe;;AAA5B,0CAGC;AAFiB,4BAAY,GAAiC,IAAI,GAAG,EAA2B,CAAC;AAChF,kCAAkB,GAAa,EAAE,CAAC;AAGpD,MAAa,eAAe;IACxB,YAAmB,GAAgB,EAAE,SAAoB;QACrD,IAAI,CAAC,SAAS,GAAG,SAAS,CAAC;QAC3B,IAAI,CAAC,GAAG,GAAG,GAAG,CAAC;IACnB,CAAC;CAGJ;AAPD,0CAOC"}

@@ -17,7 +17,7 @@ import * as path from 'path';
  */
 
 export function activate(context: vscode.ExtensionContext): void {
-    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.', '\n', '#', '=', ','));
+    context.subscriptions.push(vscode.languages.registerCompletionItemProvider('*', new LGCompletionItemProvider(), '{', '(', '[', '.', '\n', '#', '=', ',', ' '));
 }
 
 class LGCompletionItemProvider implements vscode.CompletionItemProvider {
@@ -94,7 +94,7 @@ class LGCompletionItemProvider implements vscode.CompletionItemProvider {
         } else if (/^>\s!#/.test(lineTextBefore)) {
             // options suggestion following "> !#"
             const items: vscode.CompletionItem[] = [];
-            if (/>\s!#$/.test(lineTextBefore)) {
+            if (/>\s!#\s*$/.test(lineTextBefore)) {
                 this.AddToCompletion(optionsMap.options, items);
             } else {
                 if (/>\s!#\s*@strict\s*=$/.test(lineTextBefore)) {

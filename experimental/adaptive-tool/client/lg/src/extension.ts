@@ -4,7 +4,7 @@
  * ------------------------------------------------------------------------------------------ */
 
 import * as path from 'path';
-import { workspace, ExtensionContext, window, DiagnosticCollection, languages } from 'vscode';
+import { workspace, ExtensionContext, window, DiagnosticCollection } from 'vscode';
 
 import {
 	LanguageClient,
@@ -13,7 +13,7 @@ import {
 	TransportKind
 } from 'vscode-languageclient';
 
-let client: LanguageClient;
+let lgClient: LanguageClient;
 
 export function activate(context: ExtensionContext) {
 	
@@ -63,7 +63,7 @@ export function activate(context: ExtensionContext) {
 	};
 
 	// Create the language client and start the client.
-	client = new LanguageClient(
+	lgClient = new LanguageClient(
 		'lg',
 		'Language Server For LG',
 		serverOptions,
@@ -71,9 +71,9 @@ export function activate(context: ExtensionContext) {
 	);
 
 	// Start the client. This will also launch the server
-	client.start();
+	lgClient.start();
 	
-    const collection: DiagnosticCollection = client.diagnostics;
+    const collection: DiagnosticCollection = lgClient.diagnostics;
 	context.subscriptions.push(workspace.onDidCloseTextDocument(doc => {
         if (doc && isLgFile(doc.fileName))
         {
@@ -83,10 +83,10 @@ export function activate(context: ExtensionContext) {
 }
 
 export function deactivate(): Thenable<void> | undefined {
-	if (!client) {
+	if (!lgClient) {
 		return undefined;
 	}
-	return client.stop();
+	return lgClient.stop();
 }
 
 function isLgFile(fileName: string): boolean {

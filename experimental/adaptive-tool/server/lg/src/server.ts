@@ -81,7 +81,7 @@ connection.onInitialize((params: InitializeParams) => {
 			// Tell the client that this server supports code completion.
 			completionProvider: {
 				// resolveProvider: true,
-				triggerCharacters: [ '{', '(', '[', '.', '\n', '#', '=', ',' ]
+				triggerCharacters: [ '{', '(', '[', '.', '\n', '#', '=', ',', ' ' ]
 			},
 			hoverProvider: true,
 			definitionProvider: true,
@@ -130,18 +130,18 @@ connection.onInitialized(() => {
 });
 
 // The example settings
-interface ExampleSettings {
+interface LgSettings {
 	maxNumberOfProblems: number;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: ExampleSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: ExampleSettings = defaultSettings;
+const defaultSettings: LgSettings = { maxNumberOfProblems: 1000 };
+let globalSettings: LgSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<ExampleSettings>> = new Map();
+const documentSettings: Map<string, Thenable<LgSettings>> = new Map();
 
 
 connection.onDidChangeConfiguration(change => {
@@ -149,7 +149,7 @@ connection.onDidChangeConfiguration(change => {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <ExampleSettings>(
+		globalSettings = <LgSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
 	}
@@ -182,22 +182,6 @@ connection.onSignatureHelp((params: SignatureHelpParams) => {
 connection.onDefinition((params: DefinitionParams) => {
 	return definition.provideDefinition(params, documents);
 });
-
-function getDocumentSettings(resource: string): Thenable<ExampleSettings> {
-	if (!hasConfigurationCapability) {
-		return Promise.resolve(globalSettings);
-	}
-	util.triggerLGFileFinder(workspaceFolders!);
-	let result = documentSettings.get(resource);
-	if (!result) {
-		result = connection.workspace.getConfiguration({
-			scopeUri: resource,
-			section: 'lg'
-		});
-		documentSettings.set(resource, result);
-	}
-	return result;
-}
 
 documents.onDidOpen(e => {
 	const filePath = Files.uriToFilePath(e.document.uri)!;

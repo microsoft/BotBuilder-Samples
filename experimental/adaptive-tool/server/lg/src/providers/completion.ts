@@ -37,7 +37,6 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 				kind: CompletionItemKind.Reference,
 				detail: curr
 			};
-			item.detail = curr;
 			prev.push(item);
 			return prev;
 		}, []);
@@ -94,16 +93,22 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 	}  else if (/^>\s!#/.test(lineTextBefore!)) {
 		// options suggestion following "> !#"
 		const items: CompletionItem[] = [];
-		if (/>\s!#$/.test(lineTextBefore!)) {
+		const optionDefinitionRegex = />\s!#\s*$/;
+		if (optionDefinitionRegex.test(lineTextBefore!)) {
 			AddToCompletion(util.optionsMap.options, items);
 		} else {
-			if (/>\s!#\s*@strict\s*=$/.test(lineTextBefore!)) {
+			const strictRegex = />\s!#\s*@strict\s*=$/;
+			const replaceNullRegex = />\s!#\s*@replaceNull\s*=$/;
+			const lineBreakStyleRegex = />\s!#\s*@lineBreakStyle\s*=$/;
+			const exportsFirstRegex = />\s!#\s*@Exports\s*=$/;
+			const exportsMidRegex = />\s!#\s*@Exports\s*=/;
+			if (strictRegex.test(lineTextBefore!)) {
 				AddToCompletion(util.optionsMap.strictOptions, items);
-			} else if (/>\s!#\s*@replaceNull\s*=$/.test(lineTextBefore!)) {
+			} else if (replaceNullRegex.test(lineTextBefore!)) {
 				AddToCompletion(util.optionsMap.replaceNullOptions, items);
-			} else if (/>\s!#\s*@lineBreakStyle\s*=$/.test(lineTextBefore!)) {
+			} else if (lineBreakStyleRegex.test(lineTextBefore!)) {
 				AddToCompletion(util.optionsMap.lineBreakStyleOptions, items);
-			} else if (/>\s!#\s*@Exports\s*=$/.test(lineTextBefore!) || (/>\s!#\s*@Exports\s*=/.test(lineTextBefore!) && /,\s*$/.test(lineTextBefore!))) {
+			} else if (exportsFirstRegex.test(lineTextBefore!) || (exportsMidRegex.test(lineTextBefore!) && /,\s*$/.test(lineTextBefore!))) {
 				const templatesOptions = TemplatesStatus.templatesMap.get(fspath!)!.templates.toArray();
 				// const templatesOptions = Templates.parseFile(fspath!).toArray();
 				for (let i=0;i<templatesOptions!.length;++i) {
@@ -128,7 +133,10 @@ function isStartStructure(document: TextDocument,
 				character: 0
 			},
 			end: position
-		}).toString();
+		});
+		if (!lineTextBefore) {
+			return false;
+		}
 		if (util.isInFencedCodeBlock(document, position)
 				|| !(/^\s*\[[^\]]*$/.test(lineTextBefore))
 				|| position.line <= 0)

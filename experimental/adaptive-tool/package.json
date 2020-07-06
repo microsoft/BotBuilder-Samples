@@ -200,11 +200,13 @@
         "onLanguage:lg",
         "onLanguage:lu"
     ],
-    "main": "./lib/extension.js",
+    "main": "./client/out/extension",
     "scripts": {
-        "vscode:prepublish": "npm run build",
-        "build": "tsc -p ./",
-        "watch": "tsc -watch -p ./"
+        "vscode:prepublish": "npm run compile",
+        "compile": "tsc -b",
+        "watch": "tsc -b -w",
+        "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
+        "test": "sh ./scripts/e2e.sh"
     },
     "devDependencies": {
         "@types/mocha": "^7.0.2",
