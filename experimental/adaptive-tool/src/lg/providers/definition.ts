@@ -27,7 +27,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
         }
 
         try {
-            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_\.]+/);
+            const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_.]+/);
             if (!wordRange) {
                 return undefined;
             }
@@ -37,7 +37,7 @@ class LGDefinitionProvider implements vscode.DefinitionProvider{
             }
 
             const templates: Templates = util.getTemplatesFromCurrentLGFile(document.uri);
-            let template: Template = templates.allTemplates.find(u=>u.name === templateName);
+            const template: Template = templates.allTemplates.find(u=>u.name === templateName);
             if (template === undefined)
                 return undefined;
 

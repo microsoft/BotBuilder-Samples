@@ -23,7 +23,7 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
         if (!util.isLgFile(document.fileName)) {
             return;
         }
-        let signatureHelp = new vscode.SignatureHelp();
+        const signatureHelp = new vscode.SignatureHelp();
 
         const {functionName, paramIndex} = this.parseFunction(document, position);
         const functionEntity = util.getFunctionEntity(document.uri, functionName);
@@ -35,12 +35,12 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
         signatureHelp.activeParameter = paramIndex;
         signatureHelp.activeSignature = 0;
 
-        let paramInfoList: vscode.ParameterInformation[] = [];
+        const paramInfoList: vscode.ParameterInformation[] = [];
         functionEntity.params.forEach(u => paramInfoList.push(new vscode.ParameterInformation(u)));
         
         const returnType = util.getreturnTypeStrFromReturnType(functionEntity.returntype);
         const sigLabel = `${functionName}(${functionEntity.params.join(", ")}): ${returnType}`;
-        var sigInfo = new vscode.SignatureInformation(sigLabel);
+        const sigInfo = new vscode.SignatureInformation(sigLabel);
         sigInfo.parameters = paramInfoList;
         
         signatureHelp.signatures = [sigInfo];
@@ -52,13 +52,13 @@ class LGSignatureHelpProvider implements vscode.SignatureHelpProvider  {
 
     parseFunction(document: vscode.TextDocument, position: vscode.Position) : {functionName:string, paramIndex: number}
     {
-        let functionName: string = "";
-        let paramIndex: number = 0;
-        let range: vscode.Range = new vscode.Range(new vscode.Position(position.line, 0), position);
-        var text: string = document.getText(range);
+        let functionName = "";
+        let paramIndex = 0;
+        const range: vscode.Range = new vscode.Range(new vscode.Position(position.line, 0), position);
+        const text: string = document.getText(range);
         let bracketsDiffNumber = 0;  // right bracket number - left bracket number, if bracketsDiffNumber === 0, present that is out of param inner scope
         for (let i = text.length - 1; i >= 0; i--) {
-            var currentChar: string = text.charAt(i);
+            const currentChar: string = text.charAt(i);
             if (currentChar === ',' && bracketsDiffNumber === 0) {
                 paramIndex++;
             } else if (currentChar === '(' && bracketsDiffNumber === 0 && i > 0) {

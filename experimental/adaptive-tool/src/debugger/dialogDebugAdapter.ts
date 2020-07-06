@@ -54,7 +54,7 @@ class DialogDebugAdapterDescriptorFactory implements vscode.DebugAdapterDescript
 
     private launch(session: vscode.DebugSession, executable: vscode.DebugAdapterExecutable | undefined, configuration: LaunchConfiguration): Promise<vscode.DebugAdapterDescriptor> {
         return new Promise<vscode.DebugAdapterDescriptor>((resolve, reject) => {
-            let options: cp.SpawnOptionsWithoutStdio = {};
+            const options: cp.SpawnOptionsWithoutStdio = {};
 
             const { workspaceFolder } = session;
 

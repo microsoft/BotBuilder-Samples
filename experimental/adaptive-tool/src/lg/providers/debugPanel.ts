@@ -87,7 +87,7 @@ export class LGDebugPanel {
                         {
                             // evaluate template
                             const templateName = message.templateName; 
-                            let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                            const engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                             if (engineEntity === undefined || engineEntity.templates === undefined) {
                                 vscode.window.showErrorMessage("Sorry, something is wrong.");
                             } else {
@@ -105,7 +105,7 @@ export class LGDebugPanel {
                         } else if (message.freetext) {
                             // evaluate inline free text
                             let inlineStr = message.freetext;
-                            let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
+                            const engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(vscode.window.visibleTextEditors[0].document.uri.fsPath);
                             if (engineEntity === undefined || engineEntity.templates === undefined) {
                                 vscode.window.showErrorMessage("Sorry, something is wrong.");
                             } else {
@@ -141,8 +141,8 @@ export class LGDebugPanel {
             
                 case 'getTemplates': {
                     try {
-                        let result: string[] = [];
-                        let allTemplates = util.getTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri).allTemplates;
+                        const result: string[] = [];
+                        const allTemplates = util.getTemplatesFromCurrentLGFile(vscode.window.visibleTextEditors[0].document.uri).allTemplates;
                         if (allTemplates.length === 0) {
                             vscode.window.showErrorMessage("Sorry, something is wrong.");
                         } else {

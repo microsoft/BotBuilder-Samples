@@ -10,6 +10,7 @@ import * as util from '../util';
 import * as path from 'path';
 import * as matchingPattern from '../matchingPattern';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.js').parseFile;
 
 /**
@@ -41,15 +42,15 @@ class LUCompletionItemProvider implements vscode.CompletionItemProvider {
       .concat(lines.slice(position.line + 1))
       .join('\n');
 
-    let completionList: vscode.CompletionItem[] = [];
+    const completionList: vscode.CompletionItem[] = [];
 
-    if (/\[[^\]]*\]\([^\)]*$/.test(curLineContent)) {
+    if (/\[[^\]]*\]\([^)]*$/.test(curLineContent)) {
       // []() import suggestion
       const paths = Array.from(new Set(LuFilesStatus.luFilesOfWorkspace));
 
       return paths.filter(u => u !== document.uri.fsPath).reduce((prev, curr) => {
-        var relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
-        let item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
+        const relativePath = path.relative(path.dirname(document.uri.fsPath), curr);
+        const item = new vscode.CompletionItem(relativePath, vscode.CompletionItemKind.Reference);
         item.detail = curr;
         prev.push(item);
         return prev;

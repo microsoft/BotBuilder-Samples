@@ -24,12 +24,12 @@ class LGHoverProvider implements vscode.HoverProvider {
             return;
         }
 
-        const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_\.]+/);
+        const wordRange = document.getWordRangeAtPosition(position, /[a-zA-Z0-9_.]+/);
         if (!wordRange) {
             return undefined;
         }
 
-        let wordName = document.getText(wordRange);
+        const wordName = document.getText(wordRange);
         const functionEntity = util.getFunctionEntity(document.uri, wordName);
 
         if (functionEntity !== undefined) {

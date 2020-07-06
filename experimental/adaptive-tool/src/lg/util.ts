@@ -25,8 +25,8 @@ export function isLuFile(fileName: string): boolean {
 }
 
 export function isInFencedCodeBlock(doc: TextDocument, position: Position): boolean {
-    let textBefore = doc.getText(new Range(new Position(0, 0), position));
-    let matches = textBefore.match(/```/gm);
+    const textBefore = doc.getText(new Range(new Position(0, 0), position));
+    const matches = textBefore.match(/```/gm);
     if (matches == null) {
         return false;
     } else {
@@ -37,7 +37,7 @@ export function isInFencedCodeBlock(doc: TextDocument, position: Position): bool
 export function getTemplatesFromCurrentLGFile(lgFileUri: vscode.Uri) : Templates {
 
     let result = new Templates();
-    let engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
+    const engineEntity: TemplatesEntity = TemplatesStatus.templatesMap.get(lgFileUri.fsPath);
     if (engineEntity !== undefined && engineEntity.templates.allTemplates.length > 0) {
         result = engineEntity.templates;
     }
@@ -68,7 +68,7 @@ export function getAllFunctions(lgFileUri: vscode.Uri): Map<string, FunctionEnti
     const templates: Templates = getTemplatesFromCurrentLGFile(lgFileUri);
 
     for (const template of templates.allTemplates) {
-        var functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, `Template reference\r\n ${template.body}`);
+        const functionEntity = new FunctionEntity(template.parameters, ReturnType.Object, `Template reference\r\n ${template.body}`);
         let templateName = template.name;
         if (buildInfunctionsMap.has(template.name)) {
             templateName = 'lg.' + template.name;

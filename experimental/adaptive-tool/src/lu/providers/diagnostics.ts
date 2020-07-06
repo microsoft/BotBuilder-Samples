@@ -6,6 +6,7 @@
 import * as vscode from 'vscode';
 import * as util from '../util';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
 
 /**
@@ -45,10 +46,10 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
     return;
   }
 
-  let luResource = LUParser.parse(document.getText());
+  const luResource = LUParser.parse(document.getText());
   
-  let diagnostics = luResource.Errors;
-  let vscodeDiagnostics: vscode.Diagnostic[] = [];
+  const diagnostics = luResource.Errors;
+  const vscodeDiagnostics: vscode.Diagnostic[] = [];
 
   const severityConverter = {
     ERROR: 0,
