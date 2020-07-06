@@ -13,7 +13,7 @@ export function activate(context: ExtensionContext) {
     );
 }
 
-function onEnterKey(modifiers?: string) {
+function onEnterKey() {
     let editor = window.activeTextEditor;
     let cursorPos: Position = editor.selection.active;
     let line = editor.document.lineAt(cursorPos.line);

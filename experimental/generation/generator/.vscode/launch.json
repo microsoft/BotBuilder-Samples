@@ -4,7 +4,7 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    {
+        {
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Tests",
@@ -15,7 +15,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*merge.*self.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
@@ -38,6 +38,48 @@
                 "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
                 "-o",
                 "${env:TEMP}/sandwich.out",
+                "--force",
+                "--verbose",
+                "--singleton"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate SandwichQnA",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwichQnA.schema",
+                "-o",
+                "${env:TEMP}/sandwichQnA.out",
+                "--force",
+                "--verbose",
+                "--singleton"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate simple",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/simple.schema",
+                "-o",
+                "${env:TEMP}/simple.out",
                 "--force",
                 "--verbose"
             ],
@@ -88,5 +130,25 @@
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug bf",
+            "program": "${env:TEMP}/../../Roaming/npm/node_modules/@microsoft/botframework-cli/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
+                "-o",
+                "test5",
+                "--force",
+                "--verbose"
+            ],
+            "cwd": "c:/tmp/bot3",
+            "internalConsoleOptions": "openOnSessionStart"
+        }
     ]
 }

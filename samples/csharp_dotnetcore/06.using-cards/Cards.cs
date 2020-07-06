@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
         public static Attachment CreateAdaptiveCardAttachment()
         {
             // combine path for cross platform support
-            string[] paths = { ".", "Resources", "adaptiveCard.json" };
+            var paths = new[] { ".", "Resources", "adaptiveCard.json" };
             var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
 
             var adaptiveCardAttachment = new Attachment()
@@ -21,6 +21,7 @@ namespace Microsoft.BotBuilderSamples
                 ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = JsonConvert.DeserializeObject(adaptiveCardJson),
             };
+
             return adaptiveCardAttachment;
         }
 
@@ -41,7 +42,7 @@ namespace Microsoft.BotBuilderSamples
 
         public static ThumbnailCard GetThumbnailCard()
         {
-            var heroCard = new ThumbnailCard
+            var thumbnailCard = new ThumbnailCard
             {
                 Title = "BotFramework Thumbnail Card",
                 Subtitle = "Microsoft Bot Framework",
@@ -51,7 +52,7 @@ namespace Microsoft.BotBuilderSamples
                 Buttons = new List<CardAction> { new CardAction(ActionTypes.OpenUrl, "Get Started", value: "https://docs.microsoft.com/bot-framework") },
             };
 
-            return heroCard;
+            return thumbnailCard;
         }
 
         public static ReceiptCard GetReceiptCard()
@@ -191,6 +192,18 @@ namespace Microsoft.BotBuilderSamples
             };
 
             return audioCard;
+        }
+
+        public static OAuthCard GetOAuthCard()
+        {
+            var oauthCard = new OAuthCard
+            {
+                Text = "BotFramework OAuth Card",
+                ConnectionName = "OAuth connection", // Replace with the name of your Azure AD connection.
+                Buttons = new List<CardAction> { new CardAction(ActionTypes.Signin, "Sign In", value: "https://example.org/signin") },
+            };
+
+            return oauthCard;
         }
     }
 }

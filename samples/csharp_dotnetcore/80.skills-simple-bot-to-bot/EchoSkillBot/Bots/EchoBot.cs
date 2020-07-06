@@ -15,15 +15,18 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot.Bots
             if (turnContext.Activity.Text.Contains("end") || turnContext.Activity.Text.Contains("stop"))
             {
                 // Send End of conversation at the end.
-                await turnContext.SendActivityAsync(MessageFactory.Text($"ending conversation from the skill..."), cancellationToken);
+                var messageText = $"ending conversation from the skill...";
+                await turnContext.SendActivityAsync(MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput), cancellationToken);
                 var endOfConversation = Activity.CreateEndOfConversationActivity();
                 endOfConversation.Code = EndOfConversationCodes.CompletedSuccessfully;
                 await turnContext.SendActivityAsync(endOfConversation, cancellationToken);
             }
             else
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Echo (dotnet) : {turnContext.Activity.Text}"), cancellationToken);
-                await turnContext.SendActivityAsync(MessageFactory.Text("Say \"end\" or \"stop\" and I'll end the conversation and back to the parent."), cancellationToken);
+                var messageText = $"Echo: {turnContext.Activity.Text}";
+                await turnContext.SendActivityAsync(MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput), cancellationToken);
+                messageText = "Say \"end\" or \"stop\" and I'll end the conversation and back to the parent.";
+                await turnContext.SendActivityAsync(MessageFactory.Text(messageText, messageText, InputHints.ExpectingInput), cancellationToken);
             }
         }
 

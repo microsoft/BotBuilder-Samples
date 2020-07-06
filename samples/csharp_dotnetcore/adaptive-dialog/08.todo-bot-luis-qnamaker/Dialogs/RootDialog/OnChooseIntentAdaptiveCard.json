@@ -1,0 +1,51 @@
+﻿{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "type": "AdaptiveCard",
+  "speak": "",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "${whichOneDidYouMean()}",
+      "weight": "Bolder"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${pickOne()}",
+      "separator": true
+    },
+    {
+      "type": "Input.ChoiceSet",
+      "placeholder": "Placeholder text",
+      "id": "userChosenIntent",
+      "choices": [
+        {
+          "title": "${getIntentReadBack()}",
+          "value": "luisResult"
+        },
+        {
+          "title": "${getAnswerReadBack()}",
+          "value": "qnaResult"
+        },
+        {
+          "title": "None of the above",
+          "value": "none"
+        }
+      ],
+      "style": "expanded",
+      "value": "luis"
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Submit",
+          "title": "Submit",
+          "data": {
+            "intent": "chooseIntentCardResponse"
+          }
+        }
+      ]
+    }
+  ]
+}

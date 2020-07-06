@@ -58,7 +58,7 @@ class MainDialog extends LogoutDialog {
         const tokenResponse = step.result;
         if (tokenResponse) {
             await step.context.sendActivity('You are now logged in.');
-            return await step.prompt(TEXT_PROMPT, { prompt: 'Would you like to do? (type \'me\', \'send <EMAIL>\' or \'recent\')' });
+            return await step.prompt(TEXT_PROMPT, { prompt: 'Would you like to do? (type \'me\' or \'email\')' });
         }
         await step.context.sendActivity('Login was not successful please try again.');
         return await step.endDialog();
@@ -87,19 +87,14 @@ class MainDialog extends LogoutDialog {
 
             // If we have the token use the user is authenticated so we may use it to make API calls.
             if (tokenResponse && tokenResponse.token) {
-                const parts = (step.values.command || '').toLowerCase().split(' ');
-
-                const command = parts[0];
+                const command = (step.values.command || '').toLowerCase();
 
                 switch (command) {
                 case 'me':
                     await OAuthHelpers.listMe(step.context, tokenResponse);
                     break;
-                case 'send':
-                    await OAuthHelpers.sendMail(step.context, tokenResponse, parts[1]);
-                    break;
-                case 'recent':
-                    await OAuthHelpers.listRecentMail(step.context, tokenResponse);
+                case 'email':
+                    await OAuthHelpers.listEmailAddress(step.context, tokenResponse);
                     break;
                 default:
                     await step.context.sendActivity(`Your token is ${ tokenResponse.token }`);

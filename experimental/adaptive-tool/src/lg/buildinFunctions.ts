@@ -145,7 +145,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       'Return a string that has all the items from an array and has each character separated by a delimiter.'
     ),
   ],
-  ['empty', new FunctionEntity(['collection: any'], ReturnType.Boolean, 'Check if the collection is empty')],
+  ['empty', new FunctionEntity(['collection: any'], ReturnType.Boolean, 'Check if the target is empty.')],
   ['newGuid', new FunctionEntity([], ReturnType.String, 'Return new guid string')],
   [
     'min',
@@ -188,7 +188,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'split',
     new FunctionEntity(
       ['text: string', 'delimiter: string'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Returns an array that contains substrings based on the delimiter specified.'
     ),
   ],
@@ -234,7 +234,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'foreach',
     new FunctionEntity(
       ['collection: Array | Object', 'iteratorName: string', 'function: any'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Operate on each element and return the new collection'
     ),
   ],
@@ -354,7 +354,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       'Return Boolean representation of the specified string. Bool(‘true’), bool(1)'
     ),
   ],
-  ['createArray', new FunctionEntity(['...objects: any[]'], ReturnType.Object, 'Create an array from multiple inputs')],
+  ['createArray', new FunctionEntity(['...objects: any[]'], ReturnType.Array, 'Create an array from multiple inputs')],
   [
     'if',
     new FunctionEntity(
@@ -375,7 +375,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'json',
     new FunctionEntity(
       ['value: string|XML'],
-      ReturnType.String,
+      ReturnType.Object,
       'Return the JavaScript Object Notation (JSON) type value or object for a string or XML.'
     ),
   ],
@@ -449,7 +449,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'union',
     new FunctionEntity(
       ['...values: Array[]'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Produces the set union of two sequences by using the default equality comparer.'
     ),
   ],
@@ -457,7 +457,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'intersection',
     new FunctionEntity(
       ['...values: Array[]'],
-      ReturnType.Object,
+      ReturnType.Array,
       ' Produces the set intersection of two sequences by using the default equality comparer to compare values.'
     ),
   ],
@@ -465,7 +465,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'skip',
     new FunctionEntity(
       ['array: Array', 'length: number'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Bypasses a specified number of elements in a sequence and then returns the remaining elements.'
     ),
   ],
@@ -473,7 +473,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'take',
     new FunctionEntity(
       ['array: Array', 'length: number'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Returns a specified number of contiguous elements from the start of a sequence.'
     ),
   ],
@@ -481,12 +481,11 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'subArray',
     new FunctionEntity(
       ['array: Array', 'startIndex: number', 'endIndex: number'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Returns the sub array from start index to end index'
     ),
   ],
-  ['array', new FunctionEntity(['value: any'], ReturnType.Object, 'Create a new array with single value ')],
-  ['binary', new FunctionEntity(['value: string'], ReturnType.String, 'Return the binary version for an input value.')],
+  ['binary', new FunctionEntity(['value: string'], ReturnType.Object, 'Return the binary version for an input value.')],
   [
     'dataUri',
     new FunctionEntity(
@@ -499,7 +498,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'dataUriToBinary',
     new FunctionEntity(
       ['value: string'],
-      ReturnType.String,
+      ReturnType.Boolean,
       'Return the binary version for a data uniform resource identifier (URI). Use this function rather than decodeDataUri(). Although both functions work the same way, dataUriBinary() is preferred.'
     ),
   ],
@@ -517,7 +516,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
   ],
   [
     'base64ToBinary',
-    new FunctionEntity(['value: string'], ReturnType.String, 'Return the binary version for a base64-encoded string.'),
+    new FunctionEntity(['value: string'], ReturnType.Object, 'Return the binary version for a base64-encoded string.'),
   ],
   [
     'base64ToString',
@@ -549,7 +548,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'range',
     new FunctionEntity(
       ['startIndex: number', 'count: number'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Return an integer array that starts from a specified integer.'
     ),
   ],
@@ -695,7 +694,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'select',
     new FunctionEntity(
       ['collection: Array | Object', 'iteratorName: string', 'function: any'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Operate on each element and return the new collection'
     ),
   ],
@@ -703,7 +702,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'where',
     new FunctionEntity(
       ['collection: Array | Object', 'iteratorName: string', 'confitionFunction: any'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Filter on each element and return the new collection of filtered elements which match specific condition'
     ),
   ],
@@ -711,7 +710,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'sortBy',
     new FunctionEntity(
       ['collection: Array', 'property: string'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Sort elements in the collection with ascending order and return the sorted collection.'
     ),
   ],
@@ -719,7 +718,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'sortByDescending',
     new FunctionEntity(
       ['collection: Array', 'property: string'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Sort elements in the collection with descending order and return the sorted collection.'
     ),
   ],
@@ -727,7 +726,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'indicesAndValues',
     new FunctionEntity(
       ['collection: Array'],
-      ReturnType.Object,
+      ReturnType.Array,
       'Turned an array into an array of objects with index (current index) and value property.'
     ),
   ],
@@ -751,7 +750,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'isMatch',
     new FunctionEntity(
       ['targetString: string', 'pattern: string'],
-      ReturnType.Object,
+      ReturnType.Boolean,
       'test a given string ia match a common regex pattern.'
     ),
   ],
@@ -779,6 +778,16 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
   ),
 ],
 ['isString', new FunctionEntity(['input: any'], ReturnType.Boolean, 'determine whether a given input is a string.')],
+['formatEpoch', new FunctionEntity(['epoch: number', 'format?: string'], ReturnType.String, 'Return a timestamp from UNIX Epoch time (Unix time, POSIX time).')],
+['formatTicks', new FunctionEntity(['ticks: number', 'format?: string'], ReturnType.String, 'Return a timestamp from ticks.')],
+
+['isPresent', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to the present.')],
+['isDuration', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a duration.')],
+['isTime', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a time.')],
+['isDate', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a date.')],
+['isTimeRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a time range.')],
+['isDateRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a date range.')],
+['isDefinite', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, '	Return true if the TimexProperty or Timex expression refers to a definite day.')],
 
   // Functions injected from LG library
   // https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/Functions-injected-from-LG.md
@@ -810,7 +819,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     'ActivityAttachment',
     new FunctionEntity(
       ['content: Object', 'type: string'],
-      ReturnType.Boolean,
+      ReturnType.Object,
       'Return an activityAttachment constructed from an object and a type.'
     ),
   ],

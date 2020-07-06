@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "datetime": {
+        "type": "object",
+        "$entities": [
+            "${concat('datetime:', property)}",
+            "datetime"
+        ],
+        "properties": {
+            "type": {
+                "type": "string"
+            },
+            "timex": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "type",
+            "timex"
+        ],
+        "$templates": [
+            "datetimeEntity.lu",
+            "objectProperty.lg",
+            "string-missing.dialog",
+            "datetimeEntity-add.dialog",
+            "datetimeEntity-remove.dialog",
+            "datetimeEntity-clear.dialog",
+            "datetimeEntity-show.dialog"
+        ]
+    }
+}

@@ -68,7 +68,7 @@ namespace LivePersonProxyBot.Bots
                 }
                 else if (userText == "info")
                 {
-                    replyText = $"Version 1.2. AppId: {_creds.LpAppId}";
+                    replyText = $"Version 1.3. AppId: {_creds.LpAppId}";
                 }
                 else
                 {

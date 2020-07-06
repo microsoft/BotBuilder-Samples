@@ -97,7 +97,7 @@ class TeamsFileUploadBot(TeamsActivityHandler):
             file_consent_card_response.upload_info.upload_url, open(file_path, "rb"), headers=headers
         )
 
-        if response.status_code != 200:
+        if response.status_code != 201:
             print(f"Failed to upload, status {response.status_code}, file_path={file_path}")
             await self._file_upload_failed(turn_context, "Unable to upload file.")
         else:

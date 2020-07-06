@@ -16,20 +16,20 @@ class TeamsConversationBot extends TeamsActivityHandler {
         super();
         this.onMessage(async (context, next) => {
             TurnContext.removeRecipientMention(context.activity);
-            const text = context.activity.text.trim().toLocaleLowerCase()
-            if (text.includes("mention")) {
+            const text = context.activity.text.trim().toLocaleLowerCase();
+            if (text.includes('mention')) {
                 await this.mentionActivityAsync(context);
-            } else if(text.includes("update")) {
+            } else if (text.includes('update')) {
                 await this.cardActivityAsync(context, true);
-            } else if (text.includes("delete")) {
+            } else if (text.includes('delete')) {
                 await this.deleteCardActivityAsync(context);
-            } else if (text.includes("message")) {
+            } else if (text.includes('message')) {
                 await this.messageAllMembersAsync(context);
-            } else if (text.includes("who")) {
+            } else if (text.includes('who')) {
                 await this.getSingleMember(context);
             } else {
-                await this.cardActivityAsync(context, false)
-            }   
+                await this.cardActivityAsync(context, false);
+            }
         });
 
         this.onMembersAddedActivity(async (context, next) => {
@@ -43,31 +43,30 @@ class TeamsConversationBot extends TeamsActivityHandler {
     }
 
     async cardActivityAsync(context, isUpdate) {
-        const cardActions = [                       
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Message all members',
-                    value: null,
-                    text: 'MessageAllMembers'
-                },
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Who am I?',
-                    value: null,
-                    text: 'whoami'
-                },
-                {
-                    type: ActionTypes.MessageBack,
-                    title: 'Delete card',
-                    value: null,
-                    text: 'Delete'
-                }
+        const cardActions = [
+            {
+                type: ActionTypes.MessageBack,
+                title: 'Message all members',
+                value: null,
+                text: 'MessageAllMembers'
+            },
+            {
+                type: ActionTypes.MessageBack,
+                title: 'Who am I?',
+                value: null,
+                text: 'whoami'
+            },
+            {
+                type: ActionTypes.MessageBack,
+                title: 'Delete card',
+                value: null,
+                text: 'Delete'
+            }
         ];
 
-        if(isUpdate) {
+        if (isUpdate) {
             await this.sendUpdateCard(context, cardActions);
-        }
-        else {
+        } else {
             await this.sendWelcomeCard(context, cardActions);
         }
     }
@@ -83,7 +82,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
         const card = CardFactory.heroCard(
             'Updated card',
-            `Update count: ${data.count}`,
+            `Update count: ${ data.count }`,
             null,
             cardActions
         );
@@ -116,18 +115,16 @@ class TeamsConversationBot extends TeamsActivityHandler {
         var member;
         try {
             member = await TeamsInfo.getMember(context, context.activity.from.id);
-        }
-        catch (e) {
-            if(e.code === 'MemberNotFoundInConversation') {
+        } catch (e) {
+            if (e.code === 'MemberNotFoundInConversation') {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return;
-            }
-            else {
+            } else {
                 console.log(e);
                 throw e;
             }
         }
-        const message = MessageFactory.text(`You are: ${member.name}`);
+        const message = MessageFactory.text(`You are: ${ member.name }`);
         await context.sendActivity(message);
     }
 

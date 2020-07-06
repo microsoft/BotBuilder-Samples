@@ -4,6 +4,9 @@ Bot Framework v4 handling attachments bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to send outgoing attachments and how to save attachments to disk.
 
+> **NOTE: A specific example for Microsoft Teams, demonstrating how to
+upload files to Teams from a bot and how to receive a file sent to a bot as an attachment, can be found [here](../56.teams-file-upload)**
+
 ## Prerequisites
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
@@ -43,7 +46,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
