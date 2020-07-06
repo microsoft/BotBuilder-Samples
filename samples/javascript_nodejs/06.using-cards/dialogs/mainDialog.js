@@ -81,6 +81,9 @@ class MainDialog extends ComponentDialog {
         case 'Hero Card':
             await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
             break;
+        case 'OAuth Card':
+            await stepContext.context.sendActivity({ attachments: [this.createOAuthCard()] });
+            break;
         case 'Receipt Card':
             await stepContext.context.sendActivity({ attachments: [this.createReceiptCard()] });
             break;
@@ -100,6 +103,7 @@ class MainDialog extends ComponentDialog {
                     this.createAnimationCard(),
                     this.createAudioCard(),
                     this.createHeroCard(),
+                    this.createOAuthCard(),
                     this.createReceiptCard(),
                     this.createSignInCard(),
                     this.createThumbnailCard(),
@@ -133,6 +137,10 @@ class MainDialog extends ComponentDialog {
             {
                 value: 'Audio Card',
                 synonyms: ['audio']
+            },
+            {
+                value: 'OAuth Card',
+                synonyms: ['oauth']
             },
             {
                 value: 'Hero Card',
@@ -214,6 +222,14 @@ class MainDialog extends ComponentDialog {
                     value: 'https://docs.microsoft.com/en-us/azure/bot-service/'
                 }
             ])
+        );
+    }
+
+    createOAuthCard() {
+        return CardFactory.oauthCard(
+            'OAuth connection', // Replace with the name of your Azure AD connection
+            'Sign In',
+            'BotFramework OAuth Card'
         );
     }
 

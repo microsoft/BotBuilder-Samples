@@ -49,15 +49,15 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
         return;
     }
     
-    let engine: Templates = Templates.parseText(document.getText(), document.uri.fsPath);
-    var diagnostics = engine.diagnostics;
+    const engine: Templates = Templates.parseText(document.getText(), document.uri.fsPath);
+    const diagnostics = engine.diagnostics;
 
     TemplatesStatus.templatesMap.set(document.uri.fsPath, new TemplatesEntity(document.uri, engine));
 
-    var vscodeDiagnostics: vscode.Diagnostic[] = [];
+    const vscodeDiagnostics: vscode.Diagnostic[] = [];
     const confDiagLevel = vscode.workspace.getConfiguration().get('LG.Expression.ignoreUnknownFunction');
     const confCustomFuncListSetting: string = vscode.workspace.getConfiguration().get('LG.Expression.customFunctionList');
-    var customFunctionList: string[] = [];
+    let customFunctionList: string[] = [];
     if (confCustomFuncListSetting.length >= 1) {
         customFunctionList = confCustomFuncListSetting.split(",").map(u => u.trim());
     }
@@ -111,6 +111,6 @@ function updateDiagnostics(document: vscode.TextDocument, collection: vscode.Dia
 }
 
 function extractFuncName(errorMessage: string): string {
-    const message = errorMessage.match(/'\.\s([\w][\w0\-\.9_]*)\s+does\snot\shave/)[1];
+    const message = errorMessage.match(/'\.\s([\w][\w0\-.9_]*)\s+does\snot\shave/)[1];
     return message;
 }

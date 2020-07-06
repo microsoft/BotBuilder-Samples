@@ -84,6 +84,10 @@ namespace Microsoft.BotBuilderSamples
                     // Display a HeroCard.
                     reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
                     break;
+                case "OAuth Card":
+                    // Display an OAuthCard
+                    reply.Attachments.Add(Cards.GetOAuthCard().ToAttachment());
+                    break;
                 case "Receipt Card":
                     // Display a ReceiptCard.
                     reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
@@ -107,6 +111,7 @@ namespace Microsoft.BotBuilderSamples
                     reply.Attachments.Add(Cards.GetAnimationCard().ToAttachment());
                     reply.Attachments.Add(Cards.GetAudioCard().ToAttachment());
                     reply.Attachments.Add(Cards.GetHeroCard().ToAttachment());
+                    reply.Attachments.Add(Cards.GetOAuthCard().ToAttachment());
                     reply.Attachments.Add(Cards.GetReceiptCard().ToAttachment());
                     reply.Attachments.Add(Cards.GetSigninCard().ToAttachment());
                     reply.Attachments.Add(Cards.GetThumbnailCard().ToAttachment());
@@ -131,6 +136,7 @@ namespace Microsoft.BotBuilderSamples
                 new Choice() { Value = "Animation Card", Synonyms = new List<string>() { "animation" } },
                 new Choice() { Value = "Audio Card", Synonyms = new List<string>() { "audio" } },
                 new Choice() { Value = "Hero Card", Synonyms = new List<string>() { "hero" } },
+                new Choice() { Value = "OAuth Card", Synonyms = new List<string>() { "oauth" } },
                 new Choice() { Value = "Receipt Card", Synonyms = new List<string>() { "receipt" } },
                 new Choice() { Value = "Signin Card", Synonyms = new List<string>() { "signin" } },
                 new Choice() { Value = "Thumbnail Card", Synonyms = new List<string>() { "thumbnail", "thumb" } },
@@ -139,6 +145,27 @@ namespace Microsoft.BotBuilderSamples
             };
 
             return cardOptions;
+        }
+    }
+
+
+    /// <summary>
+    /// NOTE: This is a temporary class to support ToAttachment for OAuthCards, until the next sdk released.
+    /// </summary>
+    static class OauthCardExtension
+    {
+        public static Attachment ToAttachment(this OAuthCard card)
+        {
+            return CreateAttachment(card, OAuthCard.ContentType);
+        }
+
+        private static Attachment CreateAttachment<T>(T card, string contentType)
+        {
+            return new Attachment
+            {
+                Content = card,
+                ContentType = contentType,
+            };
         }
     }
 }

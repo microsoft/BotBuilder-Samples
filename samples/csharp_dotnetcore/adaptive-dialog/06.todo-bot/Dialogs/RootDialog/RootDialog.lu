@@ -7,7 +7,6 @@
 - Hey there
 - Hi
 - Howdy
-- It me
 
 # AddItem
 - Add item
@@ -180,8 +179,6 @@
 - what do i have on my list?
 
 # GetUserProfile
-- Hi
-- Hello
 - get started
 - my name is {@userName}
 - Profile

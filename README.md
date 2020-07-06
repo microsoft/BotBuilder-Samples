@@ -44,7 +44,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |[View][py#45]
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |[View][py#46]
 |47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |[View][py#47]
-|48.qnamaker-active-learning-bot     | Demonstrates how to integrate Active Learning in a QnA Maker bot.|[View][cs#48]|[View][js#48]          |              |     |     |
 |49.qnamaker-all-features     | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.|[View][cs#49]|[View][js#49]          |              |     |     |
 |50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |[View][py#50]
 |51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |[View][py#51]
@@ -74,7 +73,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
 [cs#18]:samples/csharp_dotnetcore/18.bot-authentication
 [cs#19]:samples/csharp_dotnetcore/19.custom-dialogs
-[cs#21]:samples/csharp_dotnetcore/21.luis-with-appinsights
+[cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
@@ -84,7 +83,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#46]:samples/csharp_dotnetcore/46.teams-auth
 [cs#47]:samples/csharp_dotnetcore/47.inspection
-[cs#48]:samples/csharp_dotnetcore/48.qnamaker-active-learning-bot
 [cs#49]:samples/csharp_dotnetcore/49.qnamaker-all-features
 [cs#50]:samples/csharp_dotnetcore/50.teams-messaging-extensions-search
 [cs#51]:samples/csharp_dotnetcore/51.teams-messaging-extensions-action
@@ -137,7 +135,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#45]:samples/javascript_nodejs/45.state-management
 [js#46]:samples/javascript_nodejs/46.teams-auth
 [js#47]:samples/javascript_nodejs/47.inspection
-[js#48]:samples/javascript_nodejs/48.qnamaker-active-learning-bot
 [js#49]:samples/javascript_nodejs/49.qnamaker-all-features
 [js#50]:samples/javascript_nodejs/50.teams-messaging-extensions-search
 [js#51]:samples/javascript_nodejs/51.teams-messaging-extensions-action

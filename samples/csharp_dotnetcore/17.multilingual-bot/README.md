@@ -32,7 +32,6 @@ The API uses the most modern neural machine translation technology, as well as o
 
     Paste the key in the `TranslatorKey` setting in the `appsettings.json` file, or use your preferred configuration and update the following line in `Translation/MicrosoftTranslator.cs` with your translation key:
 
-
 ## To try this sample
 
 - Clone the repository
@@ -41,10 +40,9 @@ The API uses the most modern neural machine translation technology, as well as o
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/17.multilingual-bot`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/17.multilingual-bot`
 
   ```bash
   # run the bot
@@ -63,7 +61,7 @@ The API uses the most modern neural machine translation technology, as well as o
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -91,7 +89,7 @@ If you used the `appsettings.json` file to store your `TranslatorKey` then you'l
 
 - Log into the [Azure portal](https://portal.azure.com)
 - In the left nav, click on `Bot Services`
-- Click the `<your_bot_name>` Name to display the bot's Web App Settings
+- Click the `<your_bot_name>` Name to display the bots Web App Settings
 - Click the `Application Settings`
 - Scroll to the `Application settings` section
 - Click `+ Add new setting`

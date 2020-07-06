@@ -18,33 +18,9 @@ class SimpleGraphClient:
             token={"access_token": token, "token_type": "Bearer"}
         )
 
-    async def send_mail(self, to_address: str, subject: str, content: str):
-        # Create recipient list in required format.
-        recipient_list = [{"EmailAddress": {"Address": to_address}}]
-
-        # Create email message in required format.
-        email_msg = {
-            "Message": {
-                "Subject": subject,
-                "Body": {"ContentType": "Text", "Content": content},
-                "ToRecipients": recipient_list,
-            }
-        }
-
-        # Do a POST to Graph's sendMail API and return the response.
-        return self.client.post(
-            self.api_endpoint("me/sendMail"),
-            headers={"Content-Type": "application/json"},
-            json=email_msg,
-        )
-
     async def get_me(self) -> {}:
         response = self.client.get(self.api_endpoint("me"))
         return json.loads(response.text)
-
-    async def get_recent_mail(self):
-        response = self.client.get(self.api_endpoint("me/messages"))
-        return json.loads(response.text)["value"]
 
     def api_endpoint(self, url):
         """Convert a relative path such as /me/photo/$value to a full URI based
