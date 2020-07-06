@@ -5,6 +5,7 @@ const { TimexProperty } = require('@microsoft/recognizers-text-data-types-timex-
 const { MessageFactory, InputHints } = require('botbuilder');
 const { LuisRecognizer } = require('botbuilder-ai');
 const { ComponentDialog, DialogSet, DialogTurnStatus, TextPrompt, WaterfallDialog } = require('botbuilder-dialogs');
+const moment = require('moment-timezone');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
@@ -58,8 +59,8 @@ class MainDialog extends ComponentDialog {
             await stepContext.context.sendActivity(messageText, null, InputHints.IgnoringInput);
             return await stepContext.next();
         }
-
-        const messageText = stepContext.options.restartMsg ? stepContext.options.restartMsg : 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"';
+        const weekLaterDate = moment().add(7, 'days').format('MMMM D, YYYY');
+        const messageText = stepContext.options.restartMsg ? stepContext.options.restartMsg : `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${weekLaterDate}"`;
         const promptMessage = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
         return await stepContext.prompt('TextPrompt', { prompt: promptMessage });
     }
