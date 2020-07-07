@@ -70,7 +70,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[Core][cs#24] |[JS][js#24] |[Python][py#24]
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [Core][cs#46] | [JS][js#46]   |[Python][py#46]
 
-### QnAMaker Samples
+### QnA Maker samples
+
 
 | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
