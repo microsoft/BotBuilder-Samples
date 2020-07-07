@@ -29,8 +29,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 ### Bot Essentials
 
-| Sample Name           | Description                                                                    | .NET   | JavaScript  | Python
-|-----------------------|--------------------------------------------------------------------------------|--------|-------------|--------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |2.echo-bot             | Demonstrates how to receive and send messages.                                 |[Core][cs#2] |[JS][js#2], [TS][ts#2]|[Python][py#2]
 |3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[Core][cs#3] |[JS][js#3], [TS][ts#3]|[Python][py#3]
 |5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[Core][cs#5] |[JS][js#5], [TS][ts#5] |[Python][py#5]
@@ -49,8 +49,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 ### Bot Advanced
 
-| Sample Name           | Description                                                                    | .NET   | JavaScript  | Python
-|-----------------------|--------------------------------------------------------------------------------|--------|-------------|---------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[Core][cs#1] |[JS][js#1], [TS][ts#1] |[Python][py#1]
 |1.browser-echo         | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.   |  | [ES6][es#1]  |
 |19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[Core][cs#19]|[JS][js#19]|[Python][py#19]
@@ -62,23 +62,23 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 ### Auth Samples
 
-| Sample Name           | Description                                                                    | .NET   | JavaScript      | Python
-|-----------------------|--------------------------------------------------------------------------------|--------|-----------------|--------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[Core][cs#18]|[JS][js#18]|[Python][py#18]
 |24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[Core][cs#24] |[JS][js#24] |[Python][py#24]
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [Core][cs#46] | [JS][js#46]   |[Python][py#46]
 
 ### QnAMaker Samples
 
-| Sample Name             | Description                                                                    | .NET        | JavaScript      | Python
-|-------------------------|--------------------------------------------------------------------------------|-------------|-----------------|---------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |11.qnamaker              | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[Core][cs#11]|[JS][js#11]      |[Python][py#11]
 |49.qnamaker-all-features | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[Core][cs#49]|[JS][js#49]      |
 
 ### Teams Samples
 
-| Sample Name           | Description                                                                    | .NET   | JavaScript      | Python |
-|-----------------------|--------------------------------------------------------------------------------|--------|-----------------|--------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [Core][cs#46] | [JS][js#46]   |[Python][py#46] |
 |50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[Core][cs#50]|[JS][js#50]          |[Python][py#50] |
 |51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[Core][cs#51]|[JS][js#51]          |[Python][py#51] |
@@ -92,8 +92,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 
 ### Skills Samples
 
-| Sample Name                | Description                                                         | .NET          | JavaScript      | Python  |
-|----------------------------|---------------------------------------------------------------------|---------------|-----------------|---------|
+| Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
 |80.skills-simple-bot-to-bot | This sample shows how to connect a skill to a skill consumer.       | [Core][cs#80] | [JS][js#80]     |[Python][py#80] |
 |81.skills-skilldialog       | This sample shows how to connect a skill to a skill dialog consumer.| [Core][cs#81] | [JS][js#81]     |[Python][py#81] |
 
