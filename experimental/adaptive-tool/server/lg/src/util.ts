@@ -96,22 +96,22 @@ export function getFunctionEntity(lgFileUri: DocumentUri, name: string): Functio
     return undefined;
 }
 
-export function getWordRangeAtPosition(document: TextDocument, position: Position): Range|null {
-	const firstPart = /[a-zA-Z0-9_.]+$/.exec(document.getText({start: document.positionAt(0), end: position}));
-	const secondPart = /^[a-zA-Z0-9_.]+/.exec(document.getText({start: position, end: document.positionAt(document.getText().length-1)}));
-	
-	if (!firstPart && !secondPart) {
-		return null;
-	}
-
-	const startPosition = firstPart==null?null: document.positionAt(document.offsetAt(position) - firstPart[0].length);
-	const endPosition = secondPart==null?null: document.positionAt(document.offsetAt(position) + secondPart[0].length);
-
-	const wordRange : Range = {
-		start: startPosition==null?position:startPosition,
-		end: endPosition==null?position:endPosition
-	};
-	return wordRange;
+export function getWordRangeAtPosition(document: TextDocument, position: Position): Range|undefined {
+    const text = document.getText();
+    const line = position.line;
+    const pos = position.character;
+    const lineText = text.split('\n')[line];
+    let match: RegExpMatchArray | null;
+    const wordDefinition = /[a-zA-Z0-9_/.-]+/g;
+    while ((match = wordDefinition.exec(lineText))) {
+        const matchIndex = match.index || 0;
+        if (matchIndex > pos) {
+            return undefined;
+        } else if (wordDefinition.lastIndex >= pos) {
+            return {start: {line: line, character: matchIndex}, end: {line: line, character: wordDefinition.lastIndex}};
+        }  
+    }
+    return undefined;
 }
 
 export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) {
