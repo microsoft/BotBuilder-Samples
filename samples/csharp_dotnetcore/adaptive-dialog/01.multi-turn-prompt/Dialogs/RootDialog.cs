@@ -31,7 +31,7 @@ namespace MultiTurnPromptBot.Dialogs
                     // Respond to user on message activity
                     new OnUnknownIntent()
                     {
-                        Actions = OnBeginDialogSteps()
+                        Actions = GatheUserInformation()
                     },
                 };
             Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath));
@@ -63,7 +63,7 @@ namespace MultiTurnPromptBot.Dialogs
 
         }
 
-        private static List<Dialog> OnBeginDialogSteps()
+        private static List<Dialog> GatheUserInformation()
         {
             return new List<Dialog>()
             {
