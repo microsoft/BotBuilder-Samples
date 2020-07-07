@@ -94,7 +94,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[Core][cs#57]|[JS][js#57]          |[Python][py#57] |
 |58.teams-start-new-thread-in-channel     | Demonstrates creating a new thread in a channel. |[Core][cs#5]|[JS][js#58]          |[Python][py#58] |
 
-### Skills Samples
+### Skills samples
+
 
 | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
