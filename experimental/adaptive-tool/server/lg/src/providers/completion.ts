@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -26,7 +27,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		end: position
 	}).toString();
 
-	if (/\[[^\]]*\]\([^)]*$/.test(lineTextBefore!) && !util.isInFencedCodeBlock(document!, position)) {
+	if (/\[[^\]]*\]\([^)]*$/.test(lineTextBefore!) && !util.isInFencedCodeBlock(document!, position) && isExpression(lineTextBefore!)) {
 		// []() import suggestion
 		const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
@@ -40,7 +41,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			prev.push(item);
 			return prev;
 		}, []);
-	} else if (/\$\{[^}]*$/.test(lineTextBefore!)) {
+	} else if (/\$\{[^}]*$/.test(lineTextBefore!) && isExpression(lineTextBefore!)) {
 		// buildin function prompt in expression
 		const items: CompletionItem[] = [];
 		const functions = util.getAllFunctions(document!.uri);
@@ -123,6 +124,38 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		return items;
 	}
 	return [];
+}
+
+function isExpression(lineTextBefore: string) {
+    if (!lineTextBefore.trim().startsWith('-')) {
+        return false;
+	}
+	const state : string[] = [];
+	state.push("ROOT");
+    let i = 0;
+    while (i < lineTextBefore.length) {
+		const char = lineTextBefore.charAt(i);
+		if (char === `'`) {
+			if (state[state.length - 1] === "EXPRESSION" || state[state.length - 1] === "DOUBLE") {
+				state.push("SINGLE");
+			} else {
+				state.pop();
+			}
+		}
+		if (char === `"`) {
+			if (state[state.length - 1] === "EXPRESSION" || state[state.length - 1] === "SINGLE") {
+				state.push("DOUBLE");
+			} else {
+				state.pop();
+			}
+		}
+		i++;
+	}
+	if (state.pop() == "ROOT") {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 function isStartStructure(document: TextDocument,
