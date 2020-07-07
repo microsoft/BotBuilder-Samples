@@ -28,7 +28,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 - [Skills samples](#skills-samples)
 
 
-### Bot Essentials
+### Bot essentials
+
 
 | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
