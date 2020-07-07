@@ -48,7 +48,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[Core][cs#44]|[JS][js#44]|[Python][py#44]
 |45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [Core][cs#45] | [JS][js#45]   |[Python][py#45]
 
-### Bot Advanced
+### Advanced bots
+
 
 | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
