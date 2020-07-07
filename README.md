@@ -78,7 +78,8 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 |11.qnamaker              | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[Core][cs#11]|[JS][js#11]      |[Python][py#11]
 |49.qnamaker-all-features | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[Core][cs#49]|[JS][js#49]      |
 
-### Teams Samples
+### Teams samples
+
 
 | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
