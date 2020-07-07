@@ -20,12 +20,13 @@ To use the samples, clone this GitHub repository using Git.
 
 Samples are designed to illustrate scenarios you'll need to implement to build great bots!
 
-- [Bot Essentials](#bot-essentials)
-- [Bot Advanced](#bot-advanced)
-- [Auth Samples](#auth-samples)
-- [QnAMaker Samples](#qnamaker-samples)
-- [Teams Samples](#teams-samples)
-- [Skills Samples](#skills-samples)
+- [Bot essentials](#bot-essentials)
+- [Advanced bots](#advanced-bots)
+- [Authentication samples](#authentication-samples)
+- [QnA Maker samples](#qna-maker-samples)
+- [Teams samples](#teams-samples)
+- [Skills samples](#skills-samples)
+
 
 ### Bot Essentials
 
