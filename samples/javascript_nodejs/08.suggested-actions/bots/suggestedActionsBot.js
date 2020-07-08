@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler, MessageFactory } = require('botbuilder');
+const { ActionTypes } = require('botframework-schema');
 
 class SuggestedActionsBot extends ActivityHandler {
     constructor() {
@@ -59,7 +60,31 @@ class SuggestedActionsBot extends ActivityHandler {
      * @param {TurnContext} turnContext A TurnContext instance containing all the data needed for processing this conversation turn.
      */
     async sendSuggestedActions(turnContext) {
-        var reply = MessageFactory.suggestedActions(['Red', 'Yellow', 'Blue'], 'What is the best color?');
+        const cardActions = [
+            {
+                type: ActionTypes.PostBack,
+                title: 'Red',
+                value: 'Red',
+                image: 'https://via.placeholder.com/20/FF0000?text=R',
+                imageAltText: 'R'
+            },
+            {
+                type: ActionTypes.PostBack,
+                title: 'Yellow',
+                value: 'Yellow',
+                image: 'https://via.placeholder.com/20/FFFF00?text=Y',
+                imageAltText: 'Y'
+            },
+            {
+                type: ActionTypes.PostBack,
+                title: 'Blue',
+                value: 'Blue',
+                image: 'https://via.placeholder.com/20/0000FF?text=B',
+                imageAltText: 'B'
+            }
+        ];
+
+        var reply = MessageFactory.suggestedActions(cardActions, 'What is the best color?');
         await turnContext.sendActivity(reply);
     }
 }
