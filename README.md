@@ -27,7 +27,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 - [Teams samples](#teams-samples)
 - [Skills samples](#skills-samples)
 - [Custom adapter samples](#custom-adapter-samples)
-- [Experimental / preview samples](#experimental-preview-samples)
+- [Experimental / preview samples](#experimental--preview-samples)
 
 ### Bot essentials
 
