@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples
                     {
                         Actions = WelcomeUserSteps()
                     },
-                    // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./Dialogs/Resources/ToDoBot.lu file
+                    // Intent rules for the LUIS model. Each intent here corresponds to an intent defined in ./RootDialog.lu file
                     new OnIntent("Greeting")         
                     { 
                         Actions = new List<Dialog>() 

@@ -61,7 +61,7 @@ class MainDialog(LogoutDialog):
                 TextPrompt.__name__,
                 PromptOptions(
                     prompt=MessageFactory.text(
-                        "Would you like to do? (type 'me', 'send <EMAIL>' or 'recent')"
+                        "Would you like to do? (type 'me' or 'email')"
                     )
                 ),
             )
@@ -103,61 +103,14 @@ class MainDialog(LogoutDialog):
                         f"You are {me_info['displayName']}"
                     )
 
-                # send an email
-                elif command == "send":
+                # display logged in users email
+                elif command == "email":
                     client = SimpleGraphClient(token_response.token)
                     me_info = await client.get_me()
-                    response = await client.send_mail(
-                        parts[1],
-                        "Message from a bot!",
-                        f"Hi there! I had this message sent from a bot. - Your friend, {me_info['displayName']}",
-                    )
-                    if response.status_code == 202:
-                        await step_context.context.send_activity(
-                            f"I sent a message to {parts[1]} from your account."
-                        )
-                    else:
-                        await step_context.context.send_activity(
-                            f"Could not send a message to {parts[1]} from your "
-                            f"account."
-                        )
-
-                # display carousel of 5 most recent messages
-                elif command == "recent":
-                    client = SimpleGraphClient(token_response.token)
-                    messages = await client.get_recent_mail()
-
-                    attachments = []
-                    for message in messages[:5]:
-                        message_from = message["from"] if "from" in message else None
-                        if message_from:
-                            subtitle = (
-                                f"{message['from']['emailAddress']['name']} ,"
-                                f"{message['from']['emailAddress']['address']}>"
-                            )
-                        else:
-                            subtitle = ""
-
-                        attachments.append(
-                            CardFactory.hero_card(
-                                HeroCard(
-                                    title=message["subject"],
-                                    subtitle=subtitle,
-                                    text=message["bodyPreview"],
-                                    images=[
-                                        CardImage(
-                                            url="https://botframeworksamples.blob.core.windows.net/samples"
-                                                "/OutlookLogo.jpg",
-                                            alt="Outlook Logo",
-                                        )
-                                    ],
-                                )
-                            )
-                        )
-
                     await step_context.context.send_activity(
-                        MessageFactory.carousel(attachments)
+                        f"Your email: {me_info['mail']}"
                     )
+
                 else:
                     await step_context.context.send_activity(
                         f"Your token is {token_response.token}"

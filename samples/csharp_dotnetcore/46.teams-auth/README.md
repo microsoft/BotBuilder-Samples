@@ -1,4 +1,4 @@
-﻿# teams-auth bot
+﻿# Teams Auth Bot
 
 Bot Framework v4 bot using Teams authentication
 
@@ -14,12 +14,12 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 - Microsoft Teams is installed and you have an account (not a guest account)
 - [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
-- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
   ```bash
   # determine dotnet version
   dotnet --version
   ```
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample
 
@@ -33,9 +33,10 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsAuth`
-    - The changes specified here will apply to this project
+- Launch Visual Studio
+- File -> Open -> Project/Solution
+- Navigate to `samples/csharp_dotnetcore/46.teams-auth` folder
+- Select `TeamsAuth.csproj` file
 
 1) Run ngrok - point to port 3978
 

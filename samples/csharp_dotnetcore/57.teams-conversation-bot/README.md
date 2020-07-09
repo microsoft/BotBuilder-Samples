@@ -24,9 +24,10 @@ the Teams service needs to call into the bot.
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsConversationBot`
-    - The changes specified here will apply to this project
+   - Launch Visual Studio
+   - File -> Open -> Project/Solution
+   - Navigate to `samples/csharp_dotnetcore/57.teams-conversation-bot` folder
+   - Select `TeamsConversationBot.csproj` file
 
 1) Run ngrok - point to port 3978
 
@@ -50,7 +51,7 @@ the Teams service needs to call into the bot.
 
 ## Interacting with the bot
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings. 
+You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings.
 
 1. **Show Welcome**
   - **Result:** The bot will send the welcome card for you to interact with

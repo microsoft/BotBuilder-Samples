@@ -9,15 +9,11 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 	dotnet --version
 	```
 
-# To try this sample
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/20.EchoBot-declarative`
-    ```bash
-    # change into project folder
-	cd # EchoBot
-    ```
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+## To try this sample
 
-	A) From a terminal
+- Run the bot from a terminal or from Visual Studio:
+
+	A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/20.EchoBot-declarative`
 	```bash
 	# run the bot
 	dotnet run
@@ -30,16 +26,17 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 	- Select `EchoBot.csproj` file
 	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
-
 
 ## Further reading
 
@@ -49,5 +46,5 @@ Bot Framework Adaptive Dialog declarative Echo bot. This bot is built using decl
 - [.lu file format](https://aka.ms/lu-file-format)
 - [.lg file format](https://aka.ms/lg-file-format)
 - [.qna file format](https://aka.ms/qna-file-format)
- 
+
 [1]:https://aka.ms/adaptive-dialogs

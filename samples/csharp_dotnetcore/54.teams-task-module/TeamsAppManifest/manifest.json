@@ -38,5 +38,6 @@
   "permissions": [
     "identity",
     "messageTeamMembers"
-  ]
+  ],
+  "validDomains": [ "YourDeployedBotUrl.com" ]
 }

@@ -1,6 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import { TimexProperty } from '@microsoft/recognizers-text-data-types-timex-expression';
 import { BookingDetails } from './bookingDetails';
 
@@ -19,6 +18,7 @@ import {
 } from 'botbuilder-dialogs';
 import { BookingDialog } from './bookingDialog';
 import { FlightBookingRecognizer } from './flightBookingRecognizer';
+const moment = require('moment');
 
 const MAIN_WATERFALL_DIALOG = 'mainWaterfallDialog';
 
@@ -73,8 +73,8 @@ export class MainDialog extends ComponentDialog {
             await stepContext.context.sendActivity(luisConfigMsg, null, InputHints.IgnoringInput);
             return await stepContext.next();
         }
-
-        const messageText = (stepContext.options as any).restartMsg ? (stepContext.options as any).restartMsg : 'What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on March 22, 2020"';
+        const weekLaterDate = moment().add(7, 'days').format('MMMM D, YYYY');
+        const messageText = (stepContext.options as any).restartMsg ? (stepContext.options as any).restartMsg : `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${weekLaterDate}"`;
         const promptMessage = MessageFactory.text(messageText, messageText, InputHints.ExpectingInput);
         return await stepContext.prompt('TextPrompt', { prompt: promptMessage });
     }

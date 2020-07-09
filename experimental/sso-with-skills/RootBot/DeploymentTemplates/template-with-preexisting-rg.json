@@ -104,7 +104,7 @@
             "location": "[variables('resourcesLocation')]",
             "kind": "app",
             "dependsOn": [
-                "[resourceId('Microsoft.Web/serverfarms/', variables('servicePlanName'))]"
+                "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
             ],
             "name": "[variables('webAppName')]",
             "properties": {

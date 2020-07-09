@@ -21,13 +21,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
    ```
 
-- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/61.facebook-adapter`
-
 - Connect the bot with Facebook by following the instructions below.
 
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/61.facebook-adapter`
 
   ```bash
   # run the bot
@@ -42,10 +40,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
   - Select `FacebookAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
-
 ### Connect the bot with Facebook
 
-Populate settings for Facebook App secret, Access Token and Verify Token in appsettings.json file. 
+Populate settings for Facebook App secret, Access Token and Verify Token in `appsettings.json` file.
 
 Instructions about how to create / configure a Facebook App for your bot and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Facebook using the Facebook adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook?view=azure-bot-service-4.0#connect-a-bot-to-facebook-using-the-facebook-adapter).
 
@@ -63,7 +60,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 
 ### Testing your bot
 
-You can test your bot is connected to Facebook correctly by sending a message via the Facebook Page you associated with your new Facebook App.  
+You can test your bot is connected to Facebook correctly by sending a message via the Facebook Page you associated with your new Facebook App.
 
 1. Navigate to your Facebook Page.
 

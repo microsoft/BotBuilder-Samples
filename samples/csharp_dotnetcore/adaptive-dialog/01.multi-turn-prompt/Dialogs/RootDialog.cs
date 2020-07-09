@@ -1,33 +1,26 @@
-﻿// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
-
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.LanguageGeneration;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
+using Microsoft.Bot.Builder.LanguageGeneration;
 
-namespace Microsoft.BotBuilderSamples
+namespace MultiTurnPromptBot.Dialogs
 {
-    public class RootDialog : ComponentDialog
+    public class RootDialog : AdaptiveDialog
     {
-        public RootDialog()
-            : base(nameof(RootDialog))
+        public RootDialog() : base(nameof(RootDialog))
         {
-            string[] paths = { ".", "Dialogs", $"{nameof(RootDialog)}.lg" };
+            string[] paths = { ".", "Dialogs", $"RootDialog.lg" };
             string fullPath = Path.Combine(paths);
-            // Create instance of adaptive dialog. 
-            var rootDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
-            {
-                // These steps are executed when this Adaptive Dialog begins
-                Triggers = new List<OnCondition>()
+
+            // These steps are executed when this Adaptive Dialog begins
+            Triggers = new List<OnCondition>()
                 {
                     // Add a rule to welcome user
                     new OnConversationUpdateActivity()
@@ -38,17 +31,10 @@ namespace Microsoft.BotBuilderSamples
                     // Respond to user on message activity
                     new OnUnknownIntent()
                     {
-                        Actions = OnBeginDialogSteps()
-                    }
-                },
-                Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath))
-            };
-
-            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
-            AddDialog(rootDialog);
-            
-            // The initial child Dialog to run.
-            InitialDialogId = nameof(AdaptiveDialog);
+                        Actions = GatheUserInformation()
+                    },
+                };
+            Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath));
         }
 
         private static List<Dialog> WelcomeUserSteps()
@@ -77,7 +63,7 @@ namespace Microsoft.BotBuilderSamples
 
         }
 
-        private static List<Dialog> OnBeginDialogSteps()
+        private static List<Dialog> GatheUserInformation()
         {
             return new List<Dialog>()
             {
@@ -128,7 +114,7 @@ namespace Microsoft.BotBuilderSamples
                     },
                     ElseActions = new List<Dialog>()
                     {
-                        new SendActivity("${NoName()}") 
+                        new SendActivity("${NoName()}")
                     }
                 },
                 new ConfirmInput()
@@ -139,7 +125,10 @@ namespace Microsoft.BotBuilderSamples
                 // Use LG template to come back with the final read out.
                 // This LG template is a great example of what logic can be wrapped up in LG sub-system.
                 new SendActivity("${FinalUserProfileReadOut()}"), // examines turn.finalConfirmation
-                new EndDialog()
+                new DeleteProperty() {
+                    Property = "user.userProfile"
+                },
+                new EndDialog(),
             };
         }
     }

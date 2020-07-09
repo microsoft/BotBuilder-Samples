@@ -86,6 +86,9 @@ export class MainDialog extends ComponentDialog {
             case 'Audio Card':
                 await stepContext.context.sendActivity({ attachments: [this.createAudioCard()] });
                 break;
+            case 'OAuth Card':
+                await stepContext.context.sendActivity({ attachments: [this.createOAuthCard()] });
+                break;
             case 'Hero Card':
                 await stepContext.context.sendActivity({ attachments: [this.createHeroCard()] });
                 break;
@@ -108,6 +111,7 @@ export class MainDialog extends ComponentDialog {
                         this.createAdaptiveCard(),
                         this.createAnimationCard(),
                         this.createAudioCard(),
+                        this.createOAuthCard(),
                         this.createHeroCard(),
                         this.createReceiptCard(),
                         this.createSignInCard(),
@@ -145,6 +149,10 @@ export class MainDialog extends ComponentDialog {
             {
                 synonyms: ['hero'],
                 value: 'Hero Card'
+            },
+            {
+                synonyms: ['oauth'],
+                value: 'OAuth Card'
             },
             {
                 synonyms: ['receipt'],
@@ -208,6 +216,14 @@ export class MainDialog extends ComponentDialog {
                 subtitle: 'Star Wars: Episode V - The Empire Strikes Back',
                 text: 'The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back) is a 1980 American epic space opera film directed by Irvin Kershner. Leigh Brackett and Lawrence Kasdan wrote the screenplay, with George Lucas writing the film\'s story and serving as executive producer. The second installment in the original Star Wars trilogy, it was produced by Gary Kurtz for Lucasfilm Ltd. and stars Mark Hamill, Harrison Ford, Carrie Fisher, Billy Dee Williams, Anthony Daniels, David Prowse, Kenny Baker, Peter Mayhew and Frank Oz.'
             }
+        );
+    }
+
+    private createOAuthCard() {
+        return CardFactory.oauthCard(
+            'OAuth connection', // Replace with the name of your Azure AD connection
+            'Sign In',
+            'BotFramework OAuth Card'
         );
     }
 

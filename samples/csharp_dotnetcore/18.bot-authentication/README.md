@@ -1,4 +1,4 @@
-﻿# bot authentication
+﻿# Bot Authentication
 
 Bot Framework v4 bot authentication sample
 
@@ -31,10 +31,9 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
 
   ```bash
   # run the bot
@@ -53,7 +52,7 @@ After Authentication has been configured via Azure Bot Service, you can test the
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -61,7 +60,7 @@ After Authentication has been configured via Azure Bot Service, you can test the
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Authentication
+## Interacting with the bot
 
 This sample uses bot authentication capabilities in Azure Bot Service, providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. These updates also take steps towards an improved user experience by eliminating the magic code verification for some clients.
 
