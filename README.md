@@ -1,7 +1,7 @@
 
 # ![Bot Framework Samples](./docs/media/BotFrameworkSamples_header.png)
 
-## [Click here to find out what's new with Bot Framework](https://github.com/microsoft/botframework-sdk/blob/master/README.md)
+## [Click here to find out what's new with Bot Framework!](https://github.com/microsoft/botframework-sdk/blob/master/README.md)
 
 ## Overview
 
