@@ -41,7 +41,13 @@ namespace Microsoft.BotBuilderSamples
 
             if(string.IsNullOrWhiteSpace(endpointKey))
             {
-                // To support backward compatibility for Key Names
+                // This features sample is copied as is for "azure bot service" default "createbot" template.
+                // Post this sample change merged into "azure bot service" template repo, "Azure Bot Service"
+                // will make the web app config change to use "QnAEndpointKey".But, the the old "QnAAuthkey"
+                // required for backward compact. This is a requirement from docs to keep app setting name
+                // consistent with "QnAEndpointKey". This is tracked in Github issue:
+                // https://github.com/microsoft/BotBuilder-Samples/issues/2532
+
                 endpointKey = configuration["QnAAuthKey"];
             }
 
