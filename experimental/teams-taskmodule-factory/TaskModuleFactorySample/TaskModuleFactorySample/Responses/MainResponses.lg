@@ -1,0 +1,118 @@
+﻿> ------------ Activity templates ------------
+
+# IntroMessage
+[Activity
+    Text = ${IntroText()}
+    SuggestedActions = Help
+    InputHint = acceptingInput
+]
+
+# FirstPromptMessage
+[Activity
+    Text = ${FirstPromptText()}
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Attachments = ${HelpCard()}
+    InputHint = acceptingInput
+]
+
+# CancelledMessage
+[Activity
+    Text = ${CancelledText()}
+    InputHint = acceptingInput
+]
+
+# CompletedMessage
+[Activity
+    Text = ${CompletedText()}
+    InputHint = acceptingInput
+]
+
+# UnsupportedMessage
+[Activity
+    Text = ${UnsupportedText()}
+    InputHint = acceptingInput
+]
+
+# ConfusedMessage
+[Activity
+    Text = ${ConfusedText()}
+    InputHint = acceptingInput
+]
+
+# ErrorMessage
+[Activity
+    Text = ${ErrorText()}
+    InputHint = acceptingInput
+]
+
+# LogoutMessage
+[Activity
+    Text = ${LogoutText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Attachment templates ------------
+
+# HelpCard
+[HeroCard 
+    title= ${HelpTitle()}
+    subtitle= ${HelpSubtitle()}
+    speak = ${HelpSubtitle()}
+]
+
+
+> ------------ Text templates ------------
+
+# IntroText
+- Welcome to your custom skill!
+
+# FirstPromptText
+- What can I help you with today?
+- What can I do for you?
+- Is there anything I can do for you?
+- How can I help you?
+
+# HelpTitle
+- Help
+
+# HelpSubtitle
+- This card can be used to display information to help your user interact with your bot.
+
+# CancelledText
+- OK, I'm cancelling your request. Let me know if I can do anything else for you.
+- OK, cancelling your request. Let me know if I can do anything else for you.
+- No problem, let me know if I can help you with anything else.
+- Sure, I'll cancel your request. Let me know if I can help with anything else
+
+# CompletedText
+- I'm here if you need anything else.
+- Let me know if there's anything else you need.
+- Let me know if I can help you with anything else.
+- All done. Let me know if I can do anything else.
+
+# UnsupportedText
+- I'm sorry, I'm not able to help with that.
+- Sorry, that's not something I can help with yet.
+- Apologies, I don't know how to do that right now.
+- Unfortunately I can't help you with that right now. Apologies.
+
+# ConfusedText
+- I'm sorry, I didn't understand that. Can you give me some more information?
+- Sorry, I didn't get that. Can you tell me more?
+- Apologies, I didn't quite understand. Can you give me more information?
+
+# ErrorText
+- Sorry, it looks like something went wrong. Please try again later.
+- Hmm, it looks like there was an error. Sorry about that. You can try again later.
+- Apologies, it looks like something went wrong. Try your request again later.
+
+# LogoutText
+- OK, you're signed out.
+- Alright, signed out.
+- Sure, you've been signed out.
+- No problem, I've signed you out.

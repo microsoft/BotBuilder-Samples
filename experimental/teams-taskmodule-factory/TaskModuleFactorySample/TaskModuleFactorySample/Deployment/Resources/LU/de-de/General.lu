@@ -1,0 +1,523 @@
+> # Intent definitions
+
+## Cancel
+- Abbrechen
+- App stornieren
+- Absage
+- Absagen
+- Streichung nie
+- Absage
+- Abgebrochen
+- abgebrochen
+- Nichts tun
+- Tu das nicht
+- Das nicht mehr tun
+- Vergessen Sie es
+- Gehen Sie weg
+- Nur absagen
+- Nur absagen
+- Nervendenken
+- Vergessen Sie es
+- Egal, absagen
+- Nichts dagegen, dass
+- Keine Absage
+- Keine Kündigung
+- Kein Absagen
+- Kein Absagen, dass
+- Keine Ahnung
+- Keine Absage
+- Kein Absagen
+- Nichts egal
+- Nichts bitte
+- oh absagen
+- Oh nicht, dass
+- Bitte nichts tun
+- Beenden
+- Tut mir leid, nicht
+
+
+## Confirm
+- Bestätigen
+- Tu es
+- Ende
+- Für die
+- Großartig
+- Ich bin mir sicher
+- Es ist in Ordnung
+- Keine Zweifel
+- Natürlich
+- Oh ja
+- Oh ja
+- Okay
+- OK für jetzt
+- Okay
+- perfekt
+- Perfektes Dankeschön
+- Richting
+- Richtig ja
+- Klingt gut
+- Hört sich gut an
+- Klingt gut
+- Hört sich gut an
+- Klingt großartig
+- Klingt perfekt
+- Sicher
+- Sicher tut
+- Sicher ist
+- Sicher Sache
+- Ja, ja
+- Vielen Dank
+- Danke ja
+- Das ist richtig
+- Das ist richtig
+- Das Recht
+- Das klingt gut
+- Das ist in Ordnung
+- Das ist gut
+- Sehr gut
+- Bereits
+- Ja
+- Ja Liebling
+- Ja bro
+- Ja, Kumpel
+- Ja cool
+- Ja voran
+- Ja, los geht es
+- Ja gut
+- Ja
+
+
+## Escalate
+- Kann ich mit einer Person sprechen
+- Kontaktaufnahme
+- Kontakt zum Kundendienst
+- Kundenservice
+- Menschliche Dienste
+- Ich brauche manuellen Kundenservice
+- Ich brauche echte menschliche Hilfe
+- Ich brauche Unterstützung
+- Ich möchte mit einem Menschen sprechen
+- Ich möchte mit einem echten Menschen sprechen
+- Gibt es jemanden, mit dem ich sprechen kann
+- Gibt es einen echten Menschen
+- Gibt es eine echte Person
+- Sprechen Sie mit einem Menschen
+
+
+## FinishTask
+- Alles fertig
+- Alles gesetzt
+- fertig
+- Beenden
+- Fertig
+- Fertig mit
+- Ich bin fertig
+- Ich bin fertig
+- Es endete
+- Es ist geschafft
+- Es ist fertig
+- Nur nur sein
+- Senden
+- Einreichen
+
+
+## GoBack
+- Zurück
+- Bitte zurück
+- Zurück zu
+- Zurück zum letzten
+- Zurück zum letzten Schritt
+- Ich melde mich wieder
+- Bitte melden Sie sich
+- Endlich wieder
+- Zurück
+- Zurück
+- Gehen Sie bitte zurück
+- Zurück zu
+- Letzter Schritt
+- No go back to
+- No no go back to
+- Bitte zurück
+- Rückgabe
+
+
+## Help
+- Jede Hilfe
+- Können Sie helfen
+- Kannst du mir helfen
+- Geben Sie mir Hilfe
+- Hilfe
+- Wie bekomme ich es
+- Wie es geht
+- Ich brauche Hilfe
+- Ich brauche ein wenig Hilfe
+- Ich brauche Hilfe
+- Gibt es Hilfe
+- Offene Hilfe
+- Bitte helfen
+- Einige Hilfe
+- Wer kann mir helfen
+
+## Logout
+- Unterschrift
+- Vergesst mich
+- Unterschreiben
+- logout
+- Log-out
+
+## None
+- Alle
+- Ich will sie alle
+- Ich möchte sie alle
+
+
+## ReadAloud
+- Können Sie es lesen
+- Können Sie lesen, dass
+- Können Sie das für mich lesen
+- Können Sie Seite laut lesen
+- Könntest du mir sagen, was das sagt
+- Details laut
+- Ich lese das für mich
+- Ich muss diese Seite hören
+- Ich möchte, dass Sie das für mich lesen
+- Lesen Sie diese Seite
+- Lesen Sie
+- Lesen Sie es
+- Lesen Sie mir bitte die Seite
+- Lesen Sie bitte meine neueste E-Mail
+- Lesen Sie hier
+- Bitte lesen Sie das laut
+- Lesen Sie bitte diese Seite
+- Bitte lesen Sie diese Seite laut
+- Bitte lesen Sie diese Seite laut aus
+- Lesen Sie das mir
+- Lesen Sie alle auf dem Bildschirm zu mir
+- Vorlesen
+- Den aktuellen Text auf dem Bildschirm vorlesen
+- Vorlesen Sie die Akte laut
+- Lesen Sie es
+- Vorlesen
+- Lesen Sie es laut
+- Lesen Sie es auslaut
+- Lesen Sie es bitte
+- Lesen Sie es mir
+- Lesen Sie mir diese Seite
+- Lesen Sie meine Liste
+- Vorlesen vorlesen
+- Leseseite
+- Seite laut lesen
+- Seite lesen
+- Satz laut vorgelesen
+- Text gelesen
+- Text laut gelesen
+- Lesen Sie, dass
+- Lesen Sie das laut
+- Lesen Sie die Seite
+- Lesen Sie die Seite auf dem Bildschirm zu mir
+- Die Seite laut vorlesen
+- Lesen Sie die Seite zu mir
+- Text zu mir lesen
+- Lesen Sie die Wörter auf dieser Seite
+- Lesen Sie das bitte für mich
+- Lesen Sie diese Seite
+- Lesen Sie diese Seite laut
+- Diese Seite laut vorlesen
+- Lesen Sie diese Seite zu mir
+- Lesen Sie mir
+- Lesen Sie, was mir gerade auf dem Bildschirm steht
+- Sprechen Sie von dem, was auf dieser Seite ist
+- Lesen Sie damit
+- Erzähl mir die Informationen auf dem Bildschirm
+- Sagen Sie mir den aktuellen Text auf dem Bildschirm
+- Vokalisieren Sie, was s auf der Seite
+- Was sagt die Seite
+- Ich bitte Sie, das für mich zu lesen
+- Würdest du das laut lesen bitte
+- Das würden Sie mir bitte vorlesen
+
+
+## Reject
+- Ich mag es nicht
+- Ich lehne ab
+- Negative
+- Nie
+- Nein
+- Nein, das will ich nicht
+- Spätestens
+- Kein Abschied
+- Nicht mehr nein
+- Oh nein
+- Im Nein auf der
+- Nein danke
+- Nein, das nicht
+- Keine Ablehnung
+- Nein, danke
+- Nein, danke
+- Auf keinen Fall
+- Kein Unrecht
+- Nein
+- Nicht
+- Überhaupt nicht
+- Nicht einmal nah
+- Nicht genau
+- Jetzt nicht
+- Nicht ganz
+- Nicht erst jetzt
+- Nicht das
+- Nicht viel
+- Oh nein
+- Ablehnen
+- Absage
+
+
+## Repeat
+- Wieder
+- Könntest du es noch einmal sagen
+- Ich hörte nicht wieder
+- Ich habe nicht gehört
+- Entschuldigung
+- Wiederholen
+- Wiederholung bitte
+- Wiederholen Sie das
+- Sag noch einmal
+- Sagen Sie bitte noch einmal
+- Sagen Sie das noch einmal
+- Tut mir Leid
+- Was
+- Was hast du gesagt
+- Was war das wieder
+
+
+## SelectAny
+- Eins davon
+- Jeder ist ok
+- Jeder ist in Ordnung
+- Etwas
+- Wählen Sie jemanden
+- Wählen Sie einen von ihm zufällig aus
+- Entscheiden Sie sich für einen zufälligen
+- Entscheiden Sie sich für irgendetwas
+- Wählen Sie eine Zufallswahl aus
+- Wählen Sie einen Zufallsfall aus
+- Wählen Sie eine
+- Wählen Sie jede Wahl
+- Wählen Sie eine davon aus
+
+
+## SelectItem
+- Letzter wählen
+- Wählen Sie die letzte
+- Wählen Sie Nr. 2
+- Wählen Sie die  {DirectionalReference=Unten links} 
+- Die erste Wahl treffen
+- Wählen Sie die vierte
+- Wählen Sie die  {DirectionalReference=Oben links} Wahl
+- Wählen Sie die  {DirectionalReference=Oben rechts} Eine
+- Wählen  {DirectionalReference=Oben rechts} 
+- Wählen  {DirectionalReference=Oben rechts} Eine
+- Ich mag  {DirectionalReference=Links} Eine
+- Ich mag zweite
+- Ich mag den zweiten
+- Ich mag die  {DirectionalReference=Unteres} Eine
+- Ich mag den ersten
+- Ich mag den dritten
+- Ich mag die dritte Wahl
+- Ich mag die  {DirectionalReference=Oben rechts} Eine
+- Ich mag die  {DirectionalReference=Oben rechts} 
+- Ich mag  {DirectionalReference=Oben rechts} 
+- Ich möchte  {DirectionalReference=Unteres} 
+- Ich will Vierter
+- Ich möchte  {DirectionalReference=Links} 
+- Ich möchte  {DirectionalReference=Richting} Eine
+- Ich will den ersten
+- Ich will die vierte Wahl
+- Ich will die  {DirectionalReference=Links} 
+- Ich will die  {DirectionalReference=Niedriger} Wahl
+- Ich will die  {DirectionalReference=Richting} Eine
+- Ich will den zweiten
+- Ich will den dritten
+- Ich möchte wählen  {DirectionalReference=Unteres} Eine
+- Ich möchte wählen  {DirectionalReference=Unteres Recht} 
+- Ich möchte wählen  {DirectionalReference=Richting} 
+- Ich möchte den zweiten wählen
+- Ich möchte die erste auswählen
+- Ich möchte den vierten wählen
+- Ich möchte die letzte Wahl treffen
+- Ich möchte die  {DirectionalReference=Links} Eine
+- Ich möchte die  {DirectionalReference=Niedriger} Wahl
+- Ich möchte die  {DirectionalReference=Richting} 
+- Ich möchte den Dritten wählen
+- Entscheiden Sie sich für den ersten
+- Entscheiden Sie sich für Letzte
+- Entscheiden Sie sich für  {DirectionalReference=Links} 
+- Entscheiden Sie sich für  {DirectionalReference=Richting} Eine
+- Entscheiden Sie sich für den letzten
+- Entscheiden Sie sich für die  {DirectionalReference=Links} Eine
+- Entscheiden Sie sich für die  {DirectionalReference=Niedriger} Wahl
+- Entscheiden Sie sich für die  {DirectionalReference=Richting} 
+- Entscheiden Sie sich für die zweite
+- Für die zweite Wahl entscheiden
+- Wählen Sie den vierten
+- Auswählen  {DirectionalReference=Niedriger} Eine
+- Wählen Sie Nr. 5
+- Wählen Sie die  {DirectionalReference=Unteres} Wahl
+- Wählen Sie die erste
+- Die letzte Wahl wählen
+- Wählen Sie die  {DirectionalReference=Niedriger} Eine
+- Wählen Sie die  {DirectionalReference=Richting} Eine
+- Wählen Sie die dritte
+- Wählen Sie die  {DirectionalReference=Oben rechts} 
+- Dritter auswählen
+- Auswählen  {DirectionalReference=Oberen} 
+- Was ist mit dem letzten
+- Was ist mit dem dritten
+
+
+## SelectNone
+- Ich möchte keinen wählen
+- Ich möchte keine auswählen
+- Ich will keines von beiden
+- Ich will keine von ihnen
+- Weder
+- Keine davon
+- Weder
+- Weder einer von ihnen
+- Weder danke
+- nichts
+- Keine
+- Keiner von ihnen
+- Nichts davon
+- Keiner von ihnen dankt
+- Nichts davon
+- Nichts davon
+- Sie sehen schlecht aus, können Sie mir andere Möglichkeiten geben
+
+
+## ShowNext
+- Und danach
+- Anzeige mehr
+- Displays mehr
+- Geben Sie mir mehr
+- Vorwärts
+- Zum nächsten
+- Gehen Sie zu den nächsten drei Punkten
+- Ich muss zum nächsten
+- Ich will mehr
+- Mehr
+- Zum nächsten
+- nächster
+- Mehr verraten
+- Zeigt mir den Nächsten
+- Mehr zeigen
+- Zeigen Sie die nächsten 3
+- Die nächsten 4 Artikel anzeigen
+- Zeigen Sie die nächste
+- Die nächsten zwei Optionen anzeigen
+- Mehr sagen
+- Mehr sagen
+- Was ist mit dem nächsten
+- Was danach
+- Was danach kommt
+- Mehr dazu
+- Was kommt als nächstes
+- Was ist die nächste 2
+- Was kommt als nächstes
+
+
+## ShowPrevious
+- Zurück zum letzten
+- Die vorherige mitbringen
+- Anzeige vorher
+- Zurück zum letzten
+- Zurück zum letzten
+- Zurück zum vorherigen
+- Zurück zum letzten
+- Gehen Sie vorher
+- Zum vorherigen
+- Zum vorherigen
+- Voriges
+- Vorigen bitte
+- Zurück zum vorherigen
+- Offenbaren
+- Offenlegung zuvor
+- Show früher
+- Zeigen Sie mir die vorherige
+- Show previous
+- Zeigen Sie die vorherige
+- Was davor
+- Was ist die vorherige
+- Was ist da
+
+
+## StartOver
+- Klar und wieder starten
+- Könntest du es überfängt
+- Bitte wieder anfangen
+- Neu starten
+- Neustart
+- Wieder starten
+- Start
+- Start von vorn
+- Anfangen
+- Ein neues Kapitel aufschlagen
+
+
+## Stop
+- Baby einfach nur ruhig sein
+- Sei still
+- Seien Sie jetzt ruhig
+- Kommen Sie zum Halt
+- Entlassen
+- Ende
+- Ende
+- Ausstieg
+- Ausreise-Stopp
+- Gott verschlossen
+- Hey Stop
+- Ich liebe dich, nicht mehr zu reden
+- Ich meine, aufhören zu hören
+- Ich sagte Halt
+- Nur ruhig sein
+- Mein Gott verschlossen
+- Egal, halt
+- Nicht ruhig sein
+- Jetzt nicht ruhig sein
+- No no no no no no no no no no no no not not halt to talking
+- Keine Schließung
+- Kein Halt
+- Niemand interessiert sich nicht mehr zu reden
+- Nirgendwo nur ruhig sein
+- ach mein Gott verschlossen
+- ok Stop
+- ruhig
+- Jetzt ruhig
+- Halten Sie die Klappe
+- Halt den Mund
+- Abschalten ruhig
+- Schweigen
+- Mund zu
+- Halten Sie bitte an
+- hör auf zu reden
+- Ausschalten
+- Haltestelle abbiegen
+
+
+> # Entity definitions
+
+$DirectionalReference:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:number
+
+$PREBUILT:ordinal
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+

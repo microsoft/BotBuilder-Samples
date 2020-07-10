@@ -1,0 +1,61 @@
+# specific branch build
+trigger:
+  branches:  
+    include:
+    - master
+    - feature/*
+  
+pool:
+   name: Hosted VS2017
+   demands:
+    - msbuild
+    - visualstudio
+
+variables:
+  buildPlatform: 'Any CPU'
+  buildConfiguration: 'Release'
+
+steps:
+- task: DotNetCoreInstaller@0
+  displayName: 'Use .NET Core sdk 2.2.100'
+  inputs:
+    version: 2.2.100
+  continueOnError: true
+
+- task: NuGetToolInstaller@0
+  displayName: 'Use NuGet 4.9.1'
+  inputs:
+    versionSpec: 4.9.1
+
+- task: NuGetCommand@2
+  displayName: 'NuGet restore'
+  inputs:
+    # if your working directory is not root, you may change the following path
+    restoreSolution: '$safeprojectname$.sln'
+
+- task: VSBuild@1
+  displayName: 'Build solution $safeprojectname$.sln'
+  inputs:
+    # if your working directory is not root, you may change the following path
+    solution: $safeprojectname$.sln
+    vsVersion: '16.0'
+    platform: '$(buildPlatform)'
+    configuration: '$(buildConfiguration)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'test results'
+  inputs:
+    command: test
+    # if your working directory is not root, you may change the following path
+    projects: '$(System.DefaultWorkingDirectory)\$safeprojectname$.Tests.csproj'
+    arguments: '-v n --configuration $(buildConfiguration) --no-build --no-restore --filter TestCategory!=IgnoreInAutomatedBuild /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura'
+    # if your working directory is not root, you may change the following path
+    workingDirectory: '$safeprojectname$.Tests'
+
+- task: PublishCodeCoverageResults@1
+  displayName: 'Publish code coverage'
+  inputs:
+    codeCoverageTool: Cobertura
+    # if your working directory is not root, you may change the following path
+    summaryFileLocation: '$(Build.SourcesDirectory)\$safeprojectname$.Tests\coverage.cobertura.xml'
+    reportDirectory: '$(Build.SourcesDirectory)\$safeprojectname$.Tests'

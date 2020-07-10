@@ -1,0 +1,521 @@
+> # Intent definitions
+
+## Cancel
+- cancel
+- cancel app
+- cancel cancel
+- cancel it
+- cancel never mind
+- cancel that
+- canceled
+- cancelled
+- do nothing
+- don't do that
+- don't do that anymore
+- forget about it
+- go away
+- just cancel
+- just cancel it
+- nerver mind
+- never mind
+- never mind cancel
+- never mind cancel that
+- no cancel
+- no cancel cancel
+- no cancel it
+- no cancel that
+- no never mind
+- no no cancel
+- no no cancel it
+- nothing never mind
+- nothing please
+- oh cancel
+- oh don't do that
+- please do nothing
+- quit
+- sorry, don't do it
+
+
+## Confirm
+- confirm
+- do it
+- fine
+- go for it
+- great
+- i'm sure
+- it's fine
+- no doubt
+- of course
+- oh yeah
+- oh yes
+- ok
+- ok for now
+- okay
+- perfect
+- perfect thank you
+- right
+- right yes
+- sounds good
+- sounds good thank you
+- sounds good thanks
+- sounds good to me
+- sounds great
+- sounds perfect
+- sure
+- sure does
+- sure is
+- sure thing
+- sure yes
+- thank you very much
+- thank you yes
+- that is correct
+- that is right
+- that right
+- that sounds good
+- that's fine
+- this is good
+- very good
+- ya
+- yeah
+- yeah baby
+- yeah bro
+- yeah buddy
+- yeah cool
+- yeah go ahead
+- yeah go for it
+- yeah good
+- yes
+
+
+## Escalate
+- can i talk to a person
+- contact support
+- contact the customer service
+- customer service
+- human service
+- i need manual customer service
+- i need real human help
+- i need support
+- i want to talk to a human
+- i want to talk to a real human
+- is there any person i can talk to
+- is there any real human
+- is there any real person
+- talk to a human
+
+
+## FinishTask
+- all finished
+- all set
+- done
+- finish
+- finished
+- finished with
+- i am done
+- i am finished
+- it finished
+- it's done
+- it's finished
+- just be
+- submit
+- submit it
+
+
+## GoBack
+- back
+- back please
+- back to
+- back to last
+- back to last step
+- get back
+- get back please
+- get back to last
+- go back
+- go back on
+- go back please
+- go back to
+- last step
+- no go back to
+- no no go back to
+- please return
+- return
+
+
+## Help
+- any help
+- can you help
+- can you help me
+- give me some help
+- help
+- how can i get it
+- how to do it
+- i need help
+- i need some assist
+- i need some help
+- is there any help
+- open help
+- please help
+- some help
+- who can help me
+
+## Logout
+- signout
+- forget me
+- sign out
+- logout
+- log out
+
+## None
+- all of them
+- i want them all
+- i want to all of them
+
+
+## ReadAloud
+- can you read it
+- can you read that
+- can you read that for me
+- can you you read page aloud
+- could you tell me what that says
+- detail aloud what that says
+- hey read that for me
+- i need to hear this page
+- i would like you to read that for me
+- make a reading of this page
+- please read
+- please read it
+- please read me the page
+- please read my latest email
+- please read this
+- please read this out loud
+- please read this page
+- please read this page aloud
+- please read this page out loud
+- please read this to me
+- read all on the screen to me
+- read aloud
+- read aloud the current text onscreen
+- read file aloud
+- read it
+- read it aloud
+- read it out loud
+- read it outloud
+- read it please
+- read it to me
+- read me this page
+- read my to list
+- read outloud
+- read page
+- read page aloud
+- read page outloud
+- read sentence out loud
+- read text
+- read text aloud
+- read that
+- read that out loud
+- read the page
+- read the page onscreen to me
+- read the page out loud
+- read the page to me
+- read the text to me
+- read the words on this page
+- read this for me please
+- read this page
+- read this page aloud
+- read this page out loud
+- read this page to me
+- read to me
+- read what is currently on the screen to me
+- speak of what is on this page
+- start reading this
+- tell me about the information on the screen
+- tell me the current text on screen
+- vocalize what s on the page
+- what does the page say
+- would you please read that for me
+- would you read that out loud please
+- would you read that to me please
+
+
+## Reject
+- i don't like it
+- i reject
+- negative
+- never
+- no
+- no i don't want that
+- no later
+- no leave it
+- no more no
+- no no
+- no no no
+- no no thank you
+- no not that one
+- no reject it
+- no thank you
+- no thanks
+- no way
+- no wrong
+- nope
+- not
+- not at all
+- not even close
+- not exactly
+- not now
+- not quite
+- not right now
+- not that
+- nothing much
+- oh no
+- reject
+- reject it
+
+
+## Repeat
+- again
+- could you say it again
+- i didn't hear repeat again
+- i have not heard
+- pardon
+- repeat
+- repeat please
+- repeat that
+- say again
+- say again please
+- say that again
+- sorry
+- what
+- what did you say
+- what was that again
+
+
+## SelectAny
+- any of it
+- any one is ok
+- anyone is fine
+- anything
+- choose anyone
+- choose one of it randomly
+- opt for a random one
+- opt for any of it
+- select a random choice
+- select a random one
+- select any
+- select any choice
+- select any of it
+
+
+## SelectItem
+- choose last
+- choose last one
+- choose no.2
+- choose the {DirectionalReference=bottom left}
+- choose the first choice
+- choose the fourth one
+- choose the {DirectionalReference=upper left} choice
+- choose the {DirectionalReference=upper right} one
+- choose {DirectionalReference=top right}
+- choose {DirectionalReference=top right} one
+- i like {DirectionalReference=left} one
+- i like second
+- i like second one
+- i like the {DirectionalReference=bottom} one
+- i like the first one
+- i like the third
+- i like the third choice
+- i like the {DirectionalReference=top right} one
+- i like the {DirectionalReference=upper right}
+- i like {DirectionalReference=upper right}
+- i want {DirectionalReference=bottom}
+- i want fourth
+- i want {DirectionalReference=left}
+- i want {DirectionalReference=right} one
+- i want the first
+- i want the fourth choice
+- i want the {DirectionalReference=left}
+- i want the {DirectionalReference=lower} choice
+- i want the {DirectionalReference=right} one
+- i want the second one
+- i want third one
+- i want to choose {DirectionalReference=bottom} one
+- i want to choose {DirectionalReference=lower right}
+- i want to choose {DirectionalReference=right}
+- i want to choose second one
+- i want to choose the first one
+- i want to choose the fourth
+- i want to choose the last choice
+- i want to choose the {DirectionalReference=left} one
+- i want to choose the {DirectionalReference=lower} choice
+- i want to choose the {DirectionalReference=right}
+- i want to choose third
+- opt for first one
+- opt for last
+- opt for {DirectionalReference=left}
+- opt for {DirectionalReference=right} one
+- opt for the last one
+- opt for the {DirectionalReference=left} one
+- opt for the {DirectionalReference=lower} choice
+- opt for the {DirectionalReference=right}
+- opt for the second
+- opt for the second choice
+- select fourth one
+- select {DirectionalReference=lower} one
+- select no.5
+- select the {DirectionalReference=bottom} choice
+- select the first
+- select the last choice
+- select the {DirectionalReference=lower} one
+- select the {DirectionalReference=right} one
+- select the third one
+- select the {DirectionalReference=upper right}
+- select third
+- select {DirectionalReference=upper}
+- what about the last
+- what about the third one
+
+
+## SelectNone
+- i don't want to choose any one
+- i don't want to select any one
+- i want neither of them
+- i want none of them
+- neither
+- neither of those
+- neither one
+- neither one of them
+- neither thank you
+- none
+- none none
+- none none of them
+- none of them
+- none of them thank you
+- none of these
+- none of those
+- they look bad, can you give me other choices
+
+
+## ShowNext
+- and after that
+- display more
+- displays more
+- give me more
+- go forward
+- go to the next one
+- go to the next three items
+- i need to go to the next one
+- i want more
+- more
+- move to the next one
+- next
+- reveal more
+- show me the next
+- show more
+- show the next 3
+- show the next 4 items
+- show the next one
+- show the next two options
+- tell me more
+- tell more
+- what about next one
+- what after that
+- what's after that
+- what's more
+- what's next
+- what's the next 2
+- what's up next
+
+
+## ShowPrevious
+- back to the last one
+- bring the previous one
+- display previously
+- get back to the last one
+- go back to last one
+- go back to previous
+- go back to the last one
+- go previously
+- go to the previous
+- go to the previous one
+- previous one
+- previous one please
+- return to the previous one
+- reveal previous
+- reveal previously
+- show earlier
+- show me the previous one
+- show previous
+- show the previous one
+- what before that
+- what is the previous
+- what's before that
+
+
+## StartOver
+- clear and start again
+- could you start it over
+- please begin again
+- restart
+- restart it
+- start again
+- start it over
+- start over
+- start over it
+- turn over a new leaf
+
+
+## Stop
+- baby just be quiet
+- be quiet
+- be quiet now
+- come on stop
+- dismiss
+- end
+- end it
+- exit exit
+- exit stop
+- god shut up
+- hey stop
+- i love you to stop talking
+- i mean stop listening
+- i said stop
+- just be quiet
+- my god shut up
+- never mind stop
+- no be quiet
+- no be quiet now
+- no no no no stop talking
+- no shut up
+- no stop
+- nobody cares stop talking
+- nowhere just be quiet
+- oh my god shut up
+- ok stop stop
+- quiet
+- quiet now
+- shut the fuck up
+- shut up
+- shut up be quiet
+- shut up quiet
+- shut your mouth
+- stop please
+- stop talking
+- turn off
+- turn off stop
+
+
+> # Entity definitions
+
+$DirectionalReference:simple
+
+
+> # PREBUILT Entity definitions
+
+$PREBUILT:number
+
+$PREBUILT:ordinal
+
+
+> # Phrase list definitions
+
+
+> # List entities

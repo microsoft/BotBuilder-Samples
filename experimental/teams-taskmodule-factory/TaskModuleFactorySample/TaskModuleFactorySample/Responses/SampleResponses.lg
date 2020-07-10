@@ -1,0 +1,23 @@
+﻿> ------------ Activity templates ------------
+
+# NamePrompt
+[Activity
+    Text = ${NamePromptText()}
+    InputHint = expectingInput
+]
+
+# HaveNameMessage
+[Activity
+    Text = ${HaveNameMessageText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Text templates ------------
+
+# NamePromptText
+- What is your name?
+
+# HaveNameMessageText
+- Hi, ${Name}!
+- Nice to meet you, ${Name}!

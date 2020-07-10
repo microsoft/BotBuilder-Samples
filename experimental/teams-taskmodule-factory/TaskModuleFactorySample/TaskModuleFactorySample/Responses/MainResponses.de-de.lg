@@ -1,0 +1,121 @@
+> ------------ Activity templates ------------
+
+# IntroMessage
+[Activity
+    Text = ${IntroText()}
+    SuggestedActions = Hilfe
+    InputHint = acceptingInput
+]
+
+# FirstPromptMessage
+[Activity
+    Text = ${FirstPromptText()}
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Attachments = ${HelpCard()}
+    InputHint = acceptingInput
+]
+
+# CancelledMessage
+[Activity
+    Text = ${CancelledText()}
+    InputHint = acceptingInput
+]
+
+# CompletedMessage
+[Activity
+    Text = ${CompletedText()}
+    InputHint = acceptingInput
+]
+
+# UnsupportedMessage
+[Activity
+    Text = ${UnsupportedText()}
+    InputHint = acceptingInput
+]
+
+# ConfusedMessage
+[Activity
+    Text = ${ConfusedText()}
+    InputHint = acceptingInput
+]
+
+# ErrorMessage
+[Activity
+    Text = ${ErrorText()}
+    InputHint = acceptingInput
+]
+
+# LogoutMessage
+[Activity
+    Text = ${LogoutText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Attachment templates ------------
+
+# HelpCard
+[HeroCard 
+    title= ${HelpTitle()}
+    subtitle= ${HelpSubtitle()}
+]
+
+
+> ------------ Text templates ------------
+
+# IntroText
+- Willkommen zu Ihrem benutzerdefinierten skill!
+
+# FirstPromptText
+- Was kann ich Ihnen heute helfen?
+- Was kann ich für Sie tun?
+- Gibt es etwas, was ich für Sie tun kann?
+- Wie kann ich Ihnen helfen?
+
+# HelpTitle
+- Hilfe
+
+# HelpSubtitle
+- Diese Karte kann verwendet werden, um Informationen anzuzeigen, die Ihrem Benutzer helfen, mit Ihrem Bot zu interagieren.
+
+# CompletedText
+- Ich bin hier, wenn du etwas anderes brauchst.
+- Lassen Sie mich wissen, ob es noch etwas gibt, was Sie brauchen.
+- Lassen Sie mich wissen, ob ich Ihnen mit etwas anderem helfen kann.
+- Fertig. Lassen Sie mich wissen, ob ich etwas anderes tun kann.
+
+# CancelledText
+- OK, ihre Anfrage stornieren. Lassen Sie mich wissen, ob ich etwas anderes für Sie tun kann.
+- Kein Problem, lassen Sie mich wissen, ob ich Ihnen mit etwas anderem helfen kann.
+- Sicher, ich werde Ihre Anfrage stornieren. Lassen Sie mich wissen, ob ich mit etwas anderem helfen kann
+
+# UnsupportedText
+- Es tut mir leid, ich kann nicht helfen.
+- Tut mir leid, das ist noch nichts, womit ich noch helfen kann.
+- Entschuldigen Sie, ich weiß nicht, wie ich das jetzt machen soll.
+- Leider kann ich Ihnen jetzt nicht helfen. Entschuldigung.
+
+# ConfusedText
+- Es tut mir leid, ich habe das nicht verstanden. Können Sie mir weitere Informationen geben?
+- Tut mir leid, das habe ich nicht bekommen. Können Sie mir mehr erzählen?
+- Entschuldigung, ich habe es nicht ganz verstanden. Können Sie mir weitere Informationen geben?
+
+# ErrorText
+- Es tut uns leid, es sieht so aus, als ob etwas schief gelaufen wäre. Versuchen Sie es später erneut.
+- Hmm, es sieht so aus, als ob es einen Fehler gab. Es tut uns leid. Sie können es später erneut versuchen.
+- Entschuldigen Sie, es sieht so aus, als wäre etwas schief gelaufen. Versuchen Sie es später erneut.
+
+# StartOverText
+- OK, versuchen wir es noch einmal.
+- Sicher, versuchen wir es noch einmal.
+- Kein Problem, wir können von vorne anfangen.
+
+# LogoutText
+- OK, Sie sind abgemeldet.
+- In Ordnung, abgemeldet.
+- Sicher, Sie sind abgemeldet.
+- Kein Problem, ich habe dich abgemeldet.

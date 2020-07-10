@@ -1,0 +1,116 @@
+> ------------ Activity templates ------------
+
+# IntroMessage
+[Activity
+    Text = ${IntroText()}
+    SuggestedActions = 帮助
+    InputHint = acceptingInput
+]
+
+# FirstPromptMessage
+[Activity
+    Text = ${FirstPromptText()}
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Attachments = ${HelpCard()}
+    InputHint = acceptingInput
+]
+
+# CancelledMessage
+[Activity
+    Text = ${CancelledText()}
+    InputHint = acceptingInput
+]
+
+# CompletedMessage
+[Activity
+    Text = ${CompletedText()}
+    InputHint = acceptingInput
+]
+
+# UnsupportedMessage
+[Activity
+    Text = ${UnsupportedText()}
+    InputHint = acceptingInput
+]
+
+# ConfusedMessage
+[Activity
+    Text = ${ConfusedText()}
+    InputHint = acceptingInput
+]
+
+# ErrorMessage
+[Activity
+    Text = ${ErrorText()}
+    InputHint = acceptingInput
+]
+
+# LogoutMessage
+[Activity
+    Text = ${LogoutText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Attachment templates ------------
+
+# HelpCard
+[HeroCard 
+    title= ${HelpTitle()}
+    subtitle= ${HelpSubtitle()}
+]
+
+
+> ------------ Text templates ------------
+
+# IntroText
+- 欢迎来到您的定制技能！
+
+# FirstPromptText
+- 今天我能帮到你什么？
+- 我能为你做什么？
+- 有什么我能为你做什么的吗？
+- 我能帮你什么？
+
+# HelpTitle
+- 帮助
+
+# HelpSubtitle
+- 此卡可用于显示信息，以帮助用户与您的机器人进行交互。
+
+# CompletedText
+- 如果你还需要什么，我会在这里。
+- 如果还有什么需要，请告诉我。
+- 让我知道，如果我可以帮你什么。
+- 全部完成。让我知道我能不能做别的事。
+
+# CancelledText
+- 好了，取消您的请求。让我知道，如果我能为你做点什么。
+- 没问题，请告诉我，如果我能帮到你什么。
+- 当然，我会取消你的请求。让我知道，如果我可以帮忙做别的
+
+# UnsupportedText
+- 对不起，我帮不上忙。
+- 对不起，我还不能帮忙。
+- 对不起，我现在不知道如何做。
+- 很不幸，我现在帮不了你。道歉。
+
+# ConfusedText
+- 对不起，我不明白。你能给我一些更多的信息吗？
+- 对不起，我不明白。能告诉我更多吗？
+- 道歉，我不太明白。你能给我更多的信息吗？
+
+# ErrorText
+- 对不起，好像出了什么问题。请稍后再试。
+- 嗯，看起来好像有一个错误。很抱歉您可以稍后再试。
+- 道歉，看起来好像出了什么问题。请稍后重试您的请求。
+
+# LogoutText
+- 好了，您已注销。
+- 好了，签了字了
+- 当然，您已经注销了。
+- 没问题，我已经签了名。

@@ -1,0 +1,116 @@
+> ------------ Activity templates ------------
+
+# IntroMessage
+[Activity
+    Text = ${IntroText()}
+    SuggestedActions = Guida
+    InputHint = acceptingInput
+]
+
+# FirstPromptMessage
+[Activity
+    Text = ${FirstPromptText()}
+    InputHint = acceptingInput
+]
+
+# HelpMessage
+[Activity
+    Attachments = ${HelpCard()}
+    InputHint = acceptingInput
+]
+
+# CancelledMessage
+[Activity
+    Text = ${CancelledText()}
+    InputHint = acceptingInput
+]
+
+# CompletedMessage
+[Activity
+    Text = ${CompletedText()}
+    InputHint = acceptingInput
+]
+
+# UnsupportedMessage
+[Activity
+    Text = ${UnsupportedText()}
+    InputHint = acceptingInput
+]
+
+# ConfusedMessage
+[Activity
+    Text = ${ConfusedText()}
+    InputHint = acceptingInput
+]
+
+# ErrorMessage
+[Activity
+    Text = ${ErrorText()}
+    InputHint = acceptingInput
+]
+
+# LogoutMessage
+[Activity
+    Text = ${LogoutText()}
+    InputHint = acceptingInput
+]
+
+
+> ------------ Attachment templates ------------
+
+# HelpCard
+[HeroCard 
+    title= ${HelpTitle()}
+    subtitle= ${HelpSubtitle()}
+]
+
+
+> ------------ Text templates ------------
+
+# IntroText
+- Benvenuto nella tua skill personalizzata!
+
+# FirstPromptText
+- Con cosa posso aiutarti oggi?
+- Cosa posso fare per te?
+- C'è qualcosa che posso fare per te?
+- Come posso aiutarla?
+
+# HelpTitle
+- Guida
+
+# HelpSubtitle
+- questa scheda può essere usata per visualizzare informazioni che consentano all'utente di interagire con il bot.
+
+# CompletedText
+- Sono qui se hai bisogno di qualcos'altro.
+- Fammi sapere se c'è qualcos'altro di cui hai bisogno.
+- Fammi sapere se posso aiutarti con qualcos'altro.
+- Tutto fatto. Fammi sapere se posso fare qualcos'altro.
+
+# CancelledText
+- Ok, cancellando la tua richiesta. Fammi sapere se posso fare qualcos'altro per te.
+- Nessun problema, fammi sapere se posso aiutarti con qualcos'altro.
+- Certo, annullerò la tua richiesta. Fammi sapere se posso aiutare con qualsiasi altra cosa
+
+# UnsupportedText
+- Mi dispiace, non sono in grado di aiutarti.
+- Si è verificato un problema sconosciuto.
+- Mi scuso, non so come farlo in questo momento.
+- Sfortunatamente non posso aiutarti in questo momento. Scuse.
+
+# ConfusedText
+- Mi dispiace, non l'ho capito. Puoi darmi qualche informazione in più?
+- Scusa, non l'ho capito. Puoi dirmi di più?
+- Mi scuso, non ho capito bene. Puoi darmi maggiori informazioni?
+
+# ErrorText
+- Mi dispiace, sembra che qualcosa sia andato storto. Riprova più tardi.
+- Hmm, sembra che ci sia stato un errore. Mi dispiace per questo. È possibile riprovare in un secondo momento.
+- Mi scuso, sembra che qualcosa sia andato storto. Riprovare la richiesta in un secondo momento.
+
+# LogoutText
+- Ok, sei disconnesso.
+- Va bene, ti sei disconnesso.
+- Certo, sei stato disconnesso.
+- Non c'è problema, ti ho disconnesso.

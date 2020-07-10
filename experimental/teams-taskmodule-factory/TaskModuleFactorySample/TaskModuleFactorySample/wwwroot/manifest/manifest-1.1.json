@@ -1,0 +1,124 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.1.preview-0.json",
+  "$id": "TaskModuleFactorySample",
+  "name": "TaskModuleFactorySample",
+  "description": "TaskModuleFactorySample description",
+  "publisherName": "Your Company",
+  "version": "1.1",
+  "iconUrl": "https://{YOUR_SKILL_URL}/TaskModuleFactorySample.png",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "privacyUrl": "https://{YOUR_SKILL_URL}/privacy.html",
+  "tags": [
+    "sample",
+    "skill"
+  ],
+  "endpoints": [
+    {
+      "name": "production",
+      "protocol": "BotFrameworkV3",
+      "description": "Production endpoint for the TaskModuleFactorySample",
+      "endpointUrl": "https://{YOUR_SKILL_URL}/api/messages",
+      "msAppId": "{YOUR_SKILL_APPID}"
+    }
+  ],
+  "dispatchModels": {
+    "languages": {
+      "en-us": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-en",
+          "name": "TaskModuleFactorySample LU (English)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "English language model for the skill"
+        }
+      ],
+      "de-de": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-de",
+          "name": "TaskModuleFactorySample LU (German)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "German language model for the skill"
+        }
+      ],
+      "es-es": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-es",
+          "name": "TaskModuleFactorySample LU (Spanish)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "Spanish language model for the skill"
+        }
+      ],
+      "fr-fr": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-fr",
+          "name": "TaskModuleFactorySample LU (French)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "French language model for the skill"
+        }
+      ],
+      "it-it": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-it",
+          "name": "TaskModuleFactorySample LU (Italian)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "Italian language model for the skill"
+        }
+      ],
+      "zh-cn": [
+        {
+          "id": "TaskModuleFactorySampleLuModel-zh",
+          "name": "TaskModuleFactorySample LU (Chinese)",
+          "contentType": "application/lu",
+          "url": "file://TaskModuleFactorySample.lu",
+          "description": "Chinese language model for the skill"
+        }
+      ]
+    },
+    "intents": {
+      "Sample": "#/activities/message",
+      "*": "#/activities/message"
+    }
+  },
+  "activities": {
+    "sampleAction": {
+      "description": "Sample action which accepts an input object and returns an object back.",
+      "type": "event",
+      "name": "SampleAction",
+      "value": {
+        "$ref": "#/definitions/inputObject"
+      },
+      "resultValue": {
+        "$ref": "#/definitions/responseObject"
+      }
+    },
+    "message": {
+      "type": "message",
+      "description": "Receives the users utterance and attempts to resolve it using the skill's LU models"
+    }
+  },
+  "definitions": {
+    "inputObject": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The users name."
+        }
+      }
+    },
+    "responseObject": {
+      "type": "object",
+      "properties": {
+        "customerId": {
+          "type": "integer",
+          "description": "A customer identifier."
+        }
+      }
+    }
+  }
+}

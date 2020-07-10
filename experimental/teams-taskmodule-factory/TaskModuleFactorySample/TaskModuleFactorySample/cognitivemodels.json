@@ -1,0 +1,29 @@
+{
+  "cognitiveModels": {
+    "en-us": {
+      "languageModels": [
+        {
+          "id": "General",
+          "name": "",
+          "appId": "",
+          "version": "0.1",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        },
+        {
+          "id": "TaskModuleFactorySample",
+          "name": "",
+          "appId": "",
+          "version": "0.1",
+          "region": "",
+          "authoringKey": "",
+          "authoringRegion": "",
+          "subscriptionKey": ""
+        }
+      ]
+    }
+  },
+  "defaultLocale": "en-us"
+}
