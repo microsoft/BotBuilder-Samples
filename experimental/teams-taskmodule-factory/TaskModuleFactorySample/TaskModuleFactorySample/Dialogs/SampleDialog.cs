@@ -2,25 +2,33 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Schema;
+using Microsoft.Extensions.DependencyInjection;
+using TaskModuleFactorySample.Dialogs.Helper;
+using TaskModuleFactorySample.Services;
 
 namespace TaskModuleFactorySample.Dialogs
 {
     public class SampleDialog : SkillDialogBase
     {
+        private readonly BotSettings _botSettings;
+
         public SampleDialog(
             IServiceProvider serviceProvider)
             : base(nameof(SampleDialog), serviceProvider)
         {
+            _botSettings = serviceProvider.GetService<BotSettings>();
             var sample = new WaterfallStep[]
             {
                 // NOTE: Uncomment these lines to include authentication steps to this dialog
                 // GetAuthTokenAsync,
                 // AfterGetAuthTokenAsync,
-                PromptForNameAsync,
-                GreetUserAsync,
+                CreateTicketTeamsTaskModuleAsync,
                 EndAsync,
             };
 
@@ -45,6 +53,21 @@ namespace TaskModuleFactorySample.Dialogs
             await stepContext.Context.SendActivityAsync(response);
 
             return await stepContext.NextAsync(cancellationToken: cancellationToken);
+        }
+
+        protected async Task<DialogTurnResult> CreateTicketTeamsTaskModuleAsync(WaterfallStepContext sc, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            // Send Create Ticket TaskModule Card
+            var reply = sc.Context.Activity.CreateReply();
+            reply.Attachments = new List<Attachment>()
+            {
+                new Microsoft.Bot.Schema.Attachment() { ContentType = AdaptiveCard.ContentType, Content = TicketDialogHelper.GetUserInputIncidentCard(_botSettings.MicrosoftAppId) }
+            };
+
+            // Get ActivityId for purpose of mapping
+            ResourceResponse resourceResponse = await sc.Context.SendActivityAsync(reply, cancellationToken);
+          
+            return await sc.EndDialogAsync();
         }
 
         private Task<DialogTurnResult> EndAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)

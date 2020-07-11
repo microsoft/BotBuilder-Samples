@@ -18,7 +18,7 @@ namespace TaskModuleFactorySample.Dialogs.Helper
         {
             // Json Card for creating Form
             // TODO: Replace with Cards.Lg and responses
-            AdaptiveCard adaptiveCard = AdaptiveCardHelper.GetCardFromJson("Dialogs/Teams/Resources/CreateForm.json");
+            AdaptiveCard adaptiveCard = AdaptiveCardHelper.GetCardFromJson("Dialogs/Resources/SampleForm.json");
             adaptiveCard.Id = "GetUserInput";
             adaptiveCard.Actions.Add(new AdaptiveSubmitAction()
             {
@@ -259,6 +259,57 @@ namespace TaskModuleFactorySample.Dialogs.Helper
                         }
                 }
             };
+
+            return card;
+        }
+
+        public static AdaptiveCard GetUserInputIncidentCard(string botId = null)
+        {
+            var card = new AdaptiveCard("1.0");
+
+            var columns = new List<AdaptiveColumn>
+            {
+                new AdaptiveColumn
+                {
+                    VerticalContentAlignment = AdaptiveVerticalContentAlignment.Center,
+                    Items = new List<AdaptiveElement>
+                        {
+                            new AdaptiveTextBlock
+                            {
+                                Text = "Please Click Create Form To Create New Incident",
+                                Size = AdaptiveTextSize.Small,
+                                Weight = AdaptiveTextWeight.Bolder,
+                                Color = AdaptiveTextColor.Accent,
+                                Wrap = true
+                            }
+                        },
+                }
+            };
+
+            var columnSet = new AdaptiveColumnSet
+            {
+                Columns = columns,
+                Separator = true
+            };
+
+            var list = new List<AdaptiveElement>
+            {
+                columnSet
+            };
+
+            card.Body.AddRange(list);
+            card?.Actions.Add(new AdaptiveSubmitAction()
+            {
+                Title = "Create Form",
+                Data = new AdaptiveCardValue<TaskModuleMetadata>()
+                {
+                    Data = new TaskModuleMetadata()
+                    {
+                        SkillId = botId,
+                        TaskModuleFlowType = TeamsFlowType.CreateSample_Form.ToString(),
+                    }
+                }
+            });
 
             return card;
         }
