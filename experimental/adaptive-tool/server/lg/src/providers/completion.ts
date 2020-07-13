@@ -90,7 +90,6 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			});
 			return items;
 		}
-		console.log('sdf');
 	}  else if (/^>\s!#/.test(lineTextBefore!)) {
 		// options suggestion following "> !#"
 		const items: CompletionItem[] = [];
