@@ -68,8 +68,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			} else if (value.endsWith('Card')){
 				insertTextArray = util.cardPropDict.Cards;
 			}
-
-			completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u.name}=${u.placeHolder}`).join('\r\n') + '\r\n';
+			completionItem.insertText = value + '\r\n' + insertTextArray.map(u => `\t${u.name} = ${u.placeHolder}`).join('\r\n') + '\r\n';
 			items.push(completionItem);
 		});
 
@@ -85,12 +84,13 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			properties.forEach(propertyItem => {
 				const completionItem = CompletionItem.create(propertyItem.name);
 				completionItem.detail = `create property ${propertyItem.name}`;
-				const placeHolder = 'placeHolder' in propertyItem ? propertyItem['placeHolder'] : `{${propertyItem.name}}`;
-				completionItem.insertText = propertyItem.name + '=' + placeHolder;
+				const placeHolder = 'placeHolder' in propertyItem ? propertyItem['placeHolder'] : `${propertyItem.name}`;
+				completionItem.insertText = propertyItem.name + ' = ' + placeHolder;
 				items.push(completionItem);
 			});
 			return items;
 		}
+		console.log('sdf');
 	}  else if (/^>\s!#/.test(lineTextBefore!)) {
 		// options suggestion following "> !#"
 		const items: CompletionItem[] = [];

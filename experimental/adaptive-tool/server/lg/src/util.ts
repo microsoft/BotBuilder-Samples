@@ -130,20 +130,20 @@ export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) {
 
 export const cardPropDict = {
     CardAction: [
-        {name:'title', placeHolder:'{your_title}'},
+        {name:'title', placeHolder:'your_title'},
         {name:'type', placeHolder:'imBack'}, 
-        {name:'value', placeHolder:'{your_value}'}],
+        {name:'value', placeHolder:'your_value'}],
     Cards: [
-        {name:'text', placeHolder:'{text}'},
-        {name:'buttons', placeHolder:'{button_list}'}],
+        {name:'text', placeHolder:'text'},
+        {name:'buttons', placeHolder:'button_list'}],
     Attachment: [
         {name:'contenttype', placeHolder:'herocard'},
-        {name:'content', placeHolder:'{attachment_content}'}],
+        {name:'content', placeHolder:'attachment_content'}],
     Others: [
-        {name:'type', placeHolder:'{typename}'},
-        {name:'value', placeHolder:'{value}'}],
+        {name:'type', placeHolder:'typename'},
+        {name:'value', placeHolder:'value'}],
     Activity: [
-        {name:'text', placeHolder:'{text_result}'}]
+        {name:'text', placeHolder:'text_result'}]
   };
 
 
@@ -159,25 +159,25 @@ export const cardPropDict = {
         {name:'image'},
         {name:'image'}],
     HeroCard: [
-        {name:'title', placeHolder:'{your_title}'},
-        {name:'subtitle', placeHolder:'{your_subtitle}'},
-        {name:'text', placeHolder:'{text}'},
-        {name:'buttons', placeHolder:'{button_list}'},
-        {name:'images', placeHolder:'{image_list}'},
-        {name:'tap', placeHolder:'{tap}'}],
+        {name:'title', placeHolder:'your_title'},
+        {name:'subtitle', placeHolder:'your_subtitle'},
+        {name:'text', placeHolder:'text'},
+        {name:'buttons', placeHolder:'button_list'},
+        {name:'images', placeHolder:'image_list'},
+        {name:'tap', placeHolder:'tap'}],
     ThumbnailCard: [
-        {name:'title', placeHolder:'{your_title}'},
-        {name:'subtitle', placeHolder:'{your_subtitle}'},
-        {name:'text', placeHolder:'{text}'},
-        {name:'buttons', placeHolder:'{button_list}'},
-        {name:'images', placeHolder:'{image_list}'},
-        {name:'tap', placeHolder:'{tap}'}],
+        {name:'title', placeHolder:'your_title'},
+        {name:'subtitle', placeHolder:'your_subtitle'},
+        {name:'text', placeHolder:'text'},
+        {name:'buttons', placeHolder:'button_list'},
+        {name:'images', placeHolder:'image_list'},
+        {name:'tap', placeHolder:'tap'}],
     AudioCard: [
-        {name:'title', placeHolder:'{your_title}'},
-        {name:'subtitle', placeHolder:'{your_subtitle}'},
-        {name:'text', placeHolder:'{text}'},
-        {name:'media', placeHolder:'{media_list}'},
-        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'title', placeHolder:'your_title'},
+        {name:'subtitle', placeHolder:'your_subtitle'},
+        {name:'text', placeHolder:'text'},
+        {name:'media', placeHolder:'media_list'},
+        {name:'buttons', placeHolder:'button_list'},
         {name:'shareable', placeHolder:'false'},
         {name:'autoloop', placeHolder:'false'},
         {name:'autostart', placeHolder:'false'},
@@ -186,11 +186,11 @@ export const cardPropDict = {
         {name:'duration'},
         {name:'value'}],
     VideoCard: [
-        {name:'title', placeHolder:'{your_title}'},
-        {name:'subtitle', placeHolder:'{your_subtitle}'},
-        {name:'text', placeHolder:'{text}'},
-        {name:'media', placeHolder:'{media_list}'},
-        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'title', placeHolder:'your_title'},
+        {name:'subtitle', placeHolder:'your_subtitle'},
+        {name:'text', placeHolder:'text'},
+        {name:'media', placeHolder:'media_list'},
+        {name:'buttons', placeHolder:'button_list'},
         {name:'shareable', placeHolder:'false'},
         {name:'autoloop', placeHolder:'false'},
         {name:'autostart', placeHolder:'false'},
@@ -199,11 +199,11 @@ export const cardPropDict = {
         {name:'duration'},
         {name:'value'}],
     AnimationCard: [
-        {name:'title', placeHolder:'{your_title}'},
-        {name:'subtitle', placeHolder:'{your_subtitle}'},
-        {name:'text', placeHolder:'{text}'},
-        {name:'media', placeHolder:'{media_list}'},
-        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'title', placeHolder:'your_title'},
+        {name:'subtitle', placeHolder:'your_subtitle'},
+        {name:'text', placeHolder:'text'},
+        {name:'media', placeHolder:'media_list'},
+        {name:'buttons', placeHolder:'button_list'},
         {name:'shareable', placeHolder:'false'},
         {name:'autoloop', placeHolder:'false'},
         {name:'autostart', placeHolder:'false'},
@@ -212,11 +212,11 @@ export const cardPropDict = {
         {name:'duration'},
         {name:'value'}],
     SigninCard: [
-        {name:'text', placeHolder:'{text}'},
-        {name:'buttons', placeHolder:'{button_list}'}],
+        {name:'text', placeHolder:'text'},
+        {name:'buttons', placeHolder:'button_list'}],
     OAuthCard: [
-        {name:'text', placeHolder:'{text}'},
-        {name:'buttons', placeHolder:'{button_list}'},
+        {name:'text', placeHolder:'text'},
+        {name:'buttons', placeHolder:'button_list'},
         {name:'connectionname'}],
     ReceiptCard: [
         {name:'title'},
@@ -229,18 +229,18 @@ export const cardPropDict = {
         {name:'buttons'}],
     Attachment: [
         {name:'contenttype', placeHolder:'herocard'},
-        {name:'content', placeHolder:'{attachment_content}'}],
+        {name:'content', placeHolder:'attachment_content'}],
     Others: [
-        {name:'type', placeHolder:'{typename}'},
-        {name:'value', placeHolder:'{value}'}],
+        {name:'type', placeHolder:'typename'},
+        {name:'value', placeHolder:'value'}],
     Activity: [
         {name:'type'},
         {name:'textFormat'},
         {name:'attachmentLayout'},
         {name:'topicName'},
         {name:'locale'},
-        {name:'text', placeHolder:'{text_result}'},
-        {name:'speak', placeHolder:'{speak_result}'},
+        {name:'text', placeHolder:'text_result'},
+        {name:'speak', placeHolder:'speak_result'},
         {name:'inputHint'},
         {name:'summary'},
         {name:'suggestedActions'},
