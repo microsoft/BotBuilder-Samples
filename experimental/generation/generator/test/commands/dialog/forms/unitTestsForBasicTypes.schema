@@ -49,6 +49,18 @@
             "$entities": [
                 "boolean"
             ]
+        },
+        "Email": {
+            "type" : "string",
+            "format" : "email"
+        },
+        "URL": {
+            "type" : "string",
+            "format" : "uri"
+        },
+        "StartDate" : {
+            "type" : "string",
+            "format" : "date-time"
         }
     },
     "required": [
@@ -57,7 +69,10 @@
         "ItemArray",
         "NameArray",
         "Complete",
-        "Length"
+        "Length",
+        "Email",
+        "URL",
+        "StartDate"
     ],
     "$requires": [
         "standard.schema"
