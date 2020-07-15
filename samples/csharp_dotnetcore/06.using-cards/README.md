@@ -4,39 +4,16 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses rich cards to enhance your bot design.
 
-## Prerequisites
-
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
-
-  ```bash
-  # determine dotnet version
-  dotnet --version
-  ```
-
 ## To try this sample
 
 - Clone the repository
-
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
-
-- Run the bot from a terminal or from Visual Studio:
-
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/06.using-cards`
-
-  ```bash
-  # run the bot
-  dotnet run
-  ```
-
-  B) Or from Visual Studio
-
-  - Launch Visual Studio
-  - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/06.using-cards` folder
-  - Select `CardBot.csproj` file
-  - Press `F5` to run the project
+```bash
+git clone https://github.com/Microsoft/botbuilder-samples.git
+```
+- In a terminal, navigate to `botbuilder-samples\samples\python\02.echo-bot` folder
+- Activate your desired virtual environment
+- In the terminal, type `pip install -r requirements.txt`
+- Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -76,7 +53,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
