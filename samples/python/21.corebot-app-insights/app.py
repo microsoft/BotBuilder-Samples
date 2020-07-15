@@ -48,10 +48,13 @@ CONVERSATION_STATE = ConversationState(MEMORY)
 # See https://aka.ms/about-bot-adapter to learn more about how bots work.
 ADAPTER = AdapterWithErrorHandler(SETTINGS, CONVERSATION_STATE)
 
-# Create telemetry client
+# Create telemetry client.
+# Note the small 'client_queue_size'.  This is for demonstration purposes.  Larger queue sizes
+# result in fewer calls to ApplicationInsights, improving bot performance at the expense of
+# less frequent updates.
 INSTRUMENTATION_KEY = CONFIG.APPINSIGHTS_INSTRUMENTATION_KEY
 TELEMETRY_CLIENT = ApplicationInsightsTelemetryClient(
-    INSTRUMENTATION_KEY, telemetry_processor=AiohttpTelemetryProcessor()
+    INSTRUMENTATION_KEY, telemetry_processor=AiohttpTelemetryProcessor(), client_queue_size=10
 )
 
 # Create dialogs and Bot

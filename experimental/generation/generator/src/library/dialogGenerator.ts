@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import {SubstitutionsEvaluator} from './substitutions'
-import {processSchemas} from './processSchemas'
+import { SubstitutionsEvaluator } from './substitutions'
+import { processSchemas } from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -166,7 +166,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = {source: string, template: string}
+type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,7 +175,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
+            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
             break
         } else {
             // LG file
@@ -204,7 +204,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -441,7 +441,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = {...obj, ...elt}
+                    obj = { ...obj, ...elt }
                 }
                 newSchema = obj
             }
@@ -453,8 +453,12 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
             }
-            let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
-            newSchema[key] = newVal
+            if (key === '$parameters') {
+                newSchema[key] = val
+            } else {
+                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                newSchema[key] = newVal
+            }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
@@ -642,13 +646,16 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        let standard = normalize(ppath.join(__dirname, '../../templates/standard'))
         templateDirs = resolveDir(templateDirs)
 
         // User templates + cli templates to find schemas
         let startDirs = [...templateDirs]
-        if (!startDirs.includes(standard)) {
-            startDirs.push(standard)
+        let templates = normalize(ppath.join(__dirname, '../../templates'))
+        for (let dirName of await fs.readdir(templates)) {
+            let dir = ppath.join(templates, dirName)
+            if (await (await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+                startDirs.push(dir)
+            }
         }
 
         let schema = await processSchemas(schemaPath, startDirs, feedback)
@@ -670,6 +677,11 @@ export async function generate(
             triggerIntent: schema.triggerIntent(),
             appSchema: metaSchema
         }
+
+        if (schema.schema.$parameters) {
+            scope = { ...scope, ...schema.schema.$parameters }
+        }
+
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand schema expressions

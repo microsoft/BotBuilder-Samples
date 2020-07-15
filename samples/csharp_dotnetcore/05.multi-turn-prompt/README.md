@@ -1,4 +1,4 @@
-# multi-turn prompt
+# Multi-turn prompt
 
 Bot Framework v4 multi-turn prompt bot sample
 
@@ -21,10 +21,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/05.multi-turn-prompt`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/05.multi-turn-prompt`
 
   ```bash
   # run the bot
@@ -43,7 +42,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -51,7 +50,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Prompts
+## Interacting with the bot
 
 A conversation between a bot and a user often involves asking (prompting) the user for information, parsing the user's response,
 and then acting on that information. This sample demonstrates how to prompt users for information using the different prompt types
@@ -77,5 +76,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

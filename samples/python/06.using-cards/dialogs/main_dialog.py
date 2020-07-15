@@ -16,6 +16,7 @@ from botbuilder.schema import (
     AnimationCard,
     AudioCard,
     HeroCard,
+    OAuthCard,
     VideoCard,
     ReceiptCard,
     SigninCard,
@@ -92,6 +93,8 @@ class MainDialog(ComponentDialog):
             reply.attachments.append(self.create_audio_card())
         elif found_choice == "Hero Card":
             reply.attachments.append(self.create_hero_card())
+        elif found_choice == "OAuth Card":
+            reply.attachments.append(self.create_oauth_card())
         elif found_choice == "Receipt Card":
             reply.attachments.append(self.create_receipt_card())
         elif found_choice == "Signin Card":
@@ -106,6 +109,7 @@ class MainDialog(ComponentDialog):
             reply.attachments.append(self.create_animation_card())
             reply.attachments.append(self.create_audio_card())
             reply.attachments.append(self.create_hero_card())
+            reply.attachments.append(self.create_oauth_card())
             reply.attachments.append(self.create_receipt_card())
             reply.attachments.append(self.create_signin_card())
             reply.attachments.append(self.create_thumbnail_card())
@@ -177,6 +181,20 @@ class MainDialog(ComponentDialog):
             ],
         )
         return CardFactory.hero_card(card)
+
+    def create_oauth_card(self) -> Attachment:
+        card = OAuthCard(
+            text="BotFramework OAuth Card",
+            connection_name="OAuth connection", # Replace it with the name of your Azure AD connection.
+            buttons=[
+                CardAction(
+                    type=ActionTypes.signin,
+                    title="Sign in",
+                    value="https://example.org/signin",
+                )
+            ],
+        )
+        return CardFactory.oauth_card(card)
 
     def create_video_card(self) -> Attachment:
         card = VideoCard(
@@ -284,6 +302,7 @@ class MainDialog(ComponentDialog):
             Choice(value="Animation Card", synonyms=["animation"]),
             Choice(value="Audio Card", synonyms=["audio"]),
             Choice(value="Hero Card", synonyms=["hero"]),
+            Choice(value="OAuth Card", synonyms=["oauth"]),
             Choice(value="Receipt Card", synonyms=["receipt"]),
             Choice(value="Signin Card", synonyms=["signin"]),
             Choice(value="Thumbnail Card", synonyms=["thumbnail", "thumb"]),

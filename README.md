@@ -1,61 +1,116 @@
 
 # ![Bot Framework Samples](./docs/media/BotFrameworkSamples_header.png)
 
-### [Click here to find out what's new with Bot Framework](https://github.com/Microsoft/botframework/blob/master/whats-new.md#whats-new)
+## [Click here to find out what's new with Bot Framework](https://github.com/microsoft/botframework-sdk/blob/master/README.md)
 
 ## Overview
 
 This branch contains samples for the released version of the **Microsoft Bot Framework V4 SDK** for [.NET](https://github.com/Microsoft/botbuilder-dotnet), [JS](https://github.com//microsoft/botbuilder-js) and [Python](https://github.com//microsoft/botbuilder-python). If you need samples for the Bot Framework _V3_ SDK, go [here](https://github.com/Microsoft/BotBuilder-Samples/tree/v3-sdk-samples).
 
-## Samples list
-Samples are designed to illustrate scenarios you'll need to implement to build great bots! To use the samples, clone this GitHub repository using Git.
+## Getting the samples
+
+To use the samples, clone this GitHub repository using Git.
 
 ```bash
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     cd BotBuilder-Samples
 ```
 
-| Sample Name           | Description                                                                    | .NET CORE   | JavaScript      | .NET Web API | JS (es6)    | TypeScript  | Python
-|-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|-------------|-------------|
-|1.console-echo         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[View][cs#1] |[View][js#1] |      |             |[View][ts#1] |[View][py#1]
-|1.browser-echo         | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.   |  |  |    |[View][es#1]|             |
-|2.echo-bot             | Demonstrates how to receive and send messages.                                 |[View][cs#2] |[View][js#2]|  |           |[View][ts#2] |[View][py#2]
-|3.welcome-user         | Introduces activity types and provides a welcome message on conversation update activity. |[View][cs#3] |[View][js#3] |              | |[View][ts#3] |[View][py#3]
-|5.multi-turn-prompt    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[View][cs#5] |[View][js#5] |              |             |[View][ts#5] |[View][py#5]
-|6.using-cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[View][cs#6] |[View][js#6] |              |             |[View][ts#6] |[View][py#6]
-|7.using-adaptive-cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[View][cs#7] |[View][js#7] |         | | |[View][py#7]
-|8.suggested-actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[View][cs#8] |[View][js#8] |              |             | |[View][py#8]
-|11.qnamaker            | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[View][cs#11]|[View][js#11]|              |             | |[View][py#11]
-|13.core-bot            | Core bot shows how to use cards, dialog, and Langugage Understanding (LUIS).                         |[View][cs#13]|[View][js#13]|[View][wa#13] |             |[View][ts#13]|[View][py#13]
-|13.core-bot.tests            | Unit test project Core bot shows how to use use Bot Framework testing framework.                         |[View][cs#13.b]|   |   |             |  |
-|14.nlp-with-dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[View][cs#14]|[View][js#14]|              |            | |[View][py#14]
-|15.handling-attachments| Demonstrates how to listen for/handle user provided attachments.                |[View][cs#15]|[View][js#15]|              |             | |[View][py#15]
-|16.proactive-messages  | Demonstrates how to send proactive messages to users.                           |[View][cs#16]|[View][js#16]|              |             | [View][ts#16]|[View][py#16]
-|17.multilingual-bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[View][cs#17]|[View][js#17]|              |             | |[View][py#17]
-|18.bot-authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[View][cs#18]|[View][js#18]|              |             | |[View][py#18]
-|19.custom-dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[View][cs#19]|[View][js#19]|              |             | |[View][py#19]
-|21.corebot-app-insights     | Demonstrates how to add telemetry logging to your bot, storing telemetry within Application Insights.|[View][cs#21] |[View][js#21] |              |             | |
-|23.facebook-events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[View][cs#23] |[View][js#23] |              |             | |[View][py#23]
-|24.bot-auth-msgraph    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[View][cs#24] |[View][js#24] |              |             | |[View][py#24]
-|40.timex-resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[View][cs#40] |[View][js#40]|              | | |[View][py#40]
-|42.scaleout            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[View][cs#42] |    |              | | |[View][py#42]
-|43.complex-dialog      | Demonstrates different ways for composing dialogs. |[View][cs#43]|[View][js#43] |              |             | |[View][py#43]
-|44.prompt-for-user-input | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[View][cs#44]|[View][js#44]|              |             | |[View][py#44]
-|45.state-management    | Demonstrates how to use state management and storage objects to manage and persist state. | [View][cs#45] | [View][js#45]   |              |             |  |[View][py#45]
-|46.teams-auth    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [View][cs#46] | [View][js#46]   |              |             |  |[View][py#46]
-|47.inspection    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [View][cs#47] | [View][js#47]   |              |             |  |[View][py#47]
-|48.qnamaker-active-learning-bot     | Demonstrates how to integrate Active Learning in a QnA Maker bot.|[View][cs#48]|[View][js#48]          |              |     |     |
-|49.qnamaker-all-features     | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.|[View][cs#49]|[View][js#49]          |              |     |     |
-|50.teams-messaging-extensions-search     |  A Messaging Extension that accepts search requests and returns results.|[View][cs#50]|[View][js#50]          |              |     |     |[View][py#50]
-|51.teams-messaging-extensions-action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[View][cs#51]|[View][js#51]          |              |     |     |[View][py#51]
-|52.teams-messaging-extensions-search-auth-config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[View][cs#52]|[View][js#52]          |              |     |     |
-|53.teams-messaging-extensions-action-preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[View][cs#53]|[View][js#53]          |              |     |     |[View][py#53]
-|54.teams-task-module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[View][cs#54]|[View][js#54]          |              |     |     |[View][py#54] 
-|55.teams-link-unfurling     | A Messaging Extension that performs link unfurling.|[View][cs#55]|[View][js#55]          |              |     |     |[View][py#55]
-|56.teams-file-upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[View][cs#56]|[View][js#56]          |              |     |     |[View][py#56]
-|57.teams-conversation-bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[View][cs#57]|[View][js#57]          |              |     |     |[View][py#57]
-|70.styling-webchat     | This sample shows how to create a web page with custom Web Chat component.|         |          |              |  [View][es#70] |     |
-|80.skills-simple-bot-to-bot     | This sample shows how to connect a skill to a skill consumer.| [View][cs#80] | [View][js#80]       |              |   |     |[View][py#80]
+## Sample lists
+
+Samples are designed to illustrate functionality you'll need to implement to build great bots!
+
+- [Bot essentials](#bot-essentials)
+- [Advanced bots](#advanced-bots)
+- [Authentication samples](#authentication-samples)
+- [QnA Maker samples](#qna-maker-samples)
+- [Teams samples](#teams-samples)
+- [Skills samples](#skills-samples)
+- [Custom adapter samples](#custom-adapter-samples)
+- [Experimental / preview samples](#experimental--preview-samples)
+
+### Bot essentials
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|2|Echo bot             | Demonstrates how to receive and send messages.                                 |[.NET&nbsp;Core][cs#2] |[JavaScript][js#2], [TypeScript][ts#2]|[Python][py#2]
+|3|Welcome user         | Introduces activity types and provides a welcome message on conversation update activity. |[.NET&nbsp;Core][cs#3] |[JavaScript][js#3], [TypeScript][ts#3]|[Python][py#3]
+|5|Multi&nbsp;turn&nbsp;prompts    | Demonstrates how to use waterfall dialog, prompts, and component dialog to create a simple interaction that asks the user for name, age, and prints back that information.          |[.NET&nbsp;Core][cs#5] |[JavaScript][js#5], [TypeScript][ts#5] |[Python][py#5]
+|6|Using cards          | Introduces all card types including thumbnail, audio, media etc. Builds on Welcoming user + multi-prompt bot by presenting a card with buttons in welcome message that route to appropriate dialog.     |[.NET&nbsp;Core][cs#6] |[JavaScript][js#6], [TypeScript][ts#6] |[Python][py#6]
+|7|Adaptive cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[.NET&nbsp;Core][cs#7] |[JavaScript][js#7] |[Python][py#7]
+|8|Suggested actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[.NET&nbsp;Core][cs#8] |[JavaScript][js#8] |[Python][py#8]
+|13|Core bot            | Core bot shows how to use cards, dialog, and Language Understanding (LUIS).                         |[.NET&nbsp;Core][cs#13], [.NET&nbsp;Web][wa#13]|[JavaScript][js#13], [TypeScript][ts#13]|[Python][py#13]
+|14|NLP with Dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[.NET&nbsp;Core][cs#14]|[JavaScript][js#14]|[Python][py#14]
+|15|Handling&nbsp;attachments| Demonstrates how to listen for/handle user provided attachments.                |[.NET&nbsp;Core][cs#15]|[JavaScript][js#15]|[Python][py#15]
+|40|TIMEX resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[.NET&nbsp;Core][cs#40] |[JavaScript][js#40]|[Python][py#40]
+|43|Complex dialogs      | Demonstrates different ways for composing dialogs. |[.NET&nbsp;Core][cs#43]|[JavaScript][js#43] |[Python][py#43]
+|45|State management    | Demonstrates how to use state management and storage objects to manage and persist state. | [.NET&nbsp;Core][cs#45] | [JavaScript][js#45]   |[Python][py#45]
+
+### Advanced bots
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|1|Console&nbsp;echo&nbsp;bot         | Introduces the concept of adapter and demonstrates a simple echo bot on console adapter and how to send a reply and access the incoming message.           |[.NET&nbsp;Core][cs#1] |[JavaScript][js#1], [TypeScript][ts#1] |[Python][py#1]
+|1|Browser echo bot         | Demonstrates how to host a bot in the browser using Web Chat and a custom Web Chat Adapter.   |  | [ECMAScript&nbsp;6][es#1]  |
+|16|Proactive&nbsp;messages  | Demonstrates how to send proactive messages to users.                           |[.NET&nbsp;Core][cs#16]|[JavaScript][js#16], [TypeScript][ts#16]|[Python][py#16]
+|17|Multilingual bot    | Using translate middleware to support a multi-lingual bot. Demonstrates custom middleware. |[.NET&nbsp;Core][cs#17]|[JavaScript][js#17]|[Python][py#17]
+|19|Custom dialogs      | Demonstrates complex conversation flow using the Dialogs library. |[.NET&nbsp;Core][cs#19]|[JavaScript][js#19]|[Python][py#19]
+|21|Application&nbsp;Insights      | Demonstrates how to add telemetry logging to your bot, storing telemetry within Application Insights.|[.NET&nbsp;Core][cs#21] |[JavaScript][js#21] |
+|23|Facebook events     | Integrate and consume Facebook specific payloads, such as post-backs, quick replies and opt-in events.|[.NET&nbsp;Core][cs#23] |[JavaScript][js#23] |[Python][py#23]
+|42|Scale out            | Demonstrates how you can build your own state solution from the ground up that supports scaled out deployment with ETag based optimistic locking. |[.NET&nbsp;Core][cs#42] |    |[Python][py#42]
+|44|Basic custom prompts | Demonstrates how to implement your own _basic_ prompts to ask the user for information. |[.NET&nbsp;Core][cs#44]|[JavaScript][js#44]|[Python][py#44]
+|47|Inspection&nbsp;middleware    | Demonstrates how to use middleware to allow the Bot Framework Emulator to debug traffic into and out of the bot in addition to looking at the current state of the bot. | [.NET&nbsp;Core][cs#47] | [JavaScript][js#47]   |[Python][py#47]
+|70|Styling webchat     | This sample shows how to create a web page with custom Web Chat component.|         | [ECMAScript&nbsp;6][es#70]         |
+
+### Authentication samples
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|18|OAuth authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[.NET&nbsp;Core][cs#18]|[JavaScript][js#18]|[Python][py#18]
+|24|MSGraph&nbsp;authentication    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[.NET&nbsp;Core][cs#24] |[JavaScript][js#24] |[Python][py#24]
+|46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46]
+
+### QnA Maker samples
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|11|QnA Maker (simple)             | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[.NET&nbsp;Core][cs#11]|[JavaScript][js#11]      |[Python][py#11]
+|49|QnA&nbsp;Maker&nbsp;(advanced) | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[.NET&nbsp;Core][cs#49]|[JavaScript][js#49]      |
+
+### Teams samples
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|46|Authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46] |
+|50|Messaging&nbsp;extensions&nbsp;- search     |  A Messaging Extension that accepts search requests and returns results.|[.NET&nbsp;Core][cs#50]|[JavaScript][js#50]          |[Python][py#50] |
+|51|Messaging&nbsp;extensions&nbsp;- action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[.NET&nbsp;Core][cs#51]|[JavaScript][js#51]          |[Python][py#51] |
+|52|Messaging&nbsp;extensions&nbsp;- auth and config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[.NET&nbsp;Core][cs#52]|[JavaScript][js#52]          |
+|53|Messaging&nbsp;extensions&nbsp;- action preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[.NET&nbsp;Core][cs#53]|[JavaScript][js#53]          |[Python][py#53] |
+|54|Task module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[.NET&nbsp;Core][cs#54]|[JavaScript][js#54]          |[Python][py#54] |
+|55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core][cs#55]|[JavaScript][js#55]          |[Python][py#55] |
+|56|File upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[.NET&nbsp;Core][cs#56]|[JavaScript][js#56]          |[Python][py#56] |
+|57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core][cs#57]|[JavaScript][js#57]          |[Python][py#57] |
+|58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#5]|[JavaScript][js#58]          |[Python][py#58] |
+
+### Custom adapter samples
+
+|    | Sample Name           | Description                                                   | .NET                    | JavaScript  | Python            |
+|:--:|:----------------------|:--------------------------------------------------------------|:------------------------|:------------|:------------------|
+|60|Slack       | Demonstrates the use of the custom adapter for Slack.         | [.NET&nbsp;Core][cs#60] |             | [Python][py#60]   |
+|61|Facebook    | Demonstrates the use of the custom adapter for Facebook.      | [.NET&nbsp;Core][cs#61] |             |                   |
+|62|Webex       | Demonstrates the use of the custom adapter for Webex Teams.   | [.NET&nbsp;Core][cs#62] |             |                   |
+|63|Twilio      | Demonstrates the use of the custom adapter for Twilio.        | [.NET&nbsp;Core][cs#63] |             |                   |
+
+### Skills samples
+
+|    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
+|:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|80|Skills&nbsp;-&nbsp;simple&nbsp;bot&nbsp;to&nbsp;bot | This sample shows how to connect a skill to a skill consumer.       | [.NET&nbsp;Core][cs#80] | [JavaScript][js#80]     |[Python][py#80] |
+|81|Skills - skill dialog       | This sample shows how to connect a skill to a skill dialog consumer.| [.NET&nbsp;Core][cs#81] | [JavaScript][js#81]     |[Python][py#81] |
+
+### Experimental / preview samples
+
+A [collection of **experimental** samples](./experimental) exist, intended to provide samples for features currently in preview or as a way to solicit feedback on a given design, approach, or technology being considered by the Bot Framework Team.
 
 [cs#1]:samples/csharp_dotnetcore/01.console-echo
 [cs#2]:samples/csharp_dotnetcore/02.echo-bot
@@ -74,7 +129,7 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
 [cs#18]:samples/csharp_dotnetcore/18.bot-authentication
 [cs#19]:samples/csharp_dotnetcore/19.custom-dialogs
-[cs#21]:samples/csharp_dotnetcore/21.luis-with-appinsights
+[cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
@@ -84,7 +139,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#46]:samples/csharp_dotnetcore/46.teams-auth
 [cs#47]:samples/csharp_dotnetcore/47.inspection
-[cs#48]:samples/csharp_dotnetcore/48.qnamaker-active-learning-bot
 [cs#49]:samples/csharp_dotnetcore/49.qnamaker-all-features
 [cs#50]:samples/csharp_dotnetcore/50.teams-messaging-extensions-search
 [cs#51]:samples/csharp_dotnetcore/51.teams-messaging-extensions-action
@@ -94,7 +148,13 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [cs#55]:samples/csharp_dotnetcore/55.teams-link-unfurling
 [cs#56]:samples/csharp_dotnetcore/56.teams-file-upload
 [cs#57]:samples/csharp_dotnetcore/57.teams-conversation-bot
+[cs#58]:samples/csharp_dotnetcore/58.teams-start-new-thread-in-channel
+[cs#60]:samples/csharp_dotnetcore/60.slack-adapter
+[cs#61]:samples/csharp_dotnetcore/61.facebook-adapter
+[cs#62]:samples/csharp_dotnetcore/62.webex-adapter
+[cs#63]:samples/csharp_dotnetcore/63.twilio-adapter
 [cs#80]:samples/csharp_dotnetcore/80.skills-simple-bot-to-bot
+[cs#81]:samples/csharp_dotnetcore/81.skills-skilldialog
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 
@@ -137,7 +197,6 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#45]:samples/javascript_nodejs/45.state-management
 [js#46]:samples/javascript_nodejs/46.teams-auth
 [js#47]:samples/javascript_nodejs/47.inspection
-[js#48]:samples/javascript_nodejs/48.qnamaker-active-learning-bot
 [js#49]:samples/javascript_nodejs/49.qnamaker-all-features
 [js#50]:samples/javascript_nodejs/50.teams-messaging-extensions-search
 [js#51]:samples/javascript_nodejs/51.teams-messaging-extensions-action
@@ -147,7 +206,9 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [js#55]:samples/javascript_nodejs/55.teams-link-unfurling
 [js#56]:samples/javascript_nodejs/56.teams-file-upload
 [js#57]:samples/javascript_nodejs/57.teams-conversation-bot
+[js#58]:samples/javascript_nodejs/58.teams-start-new-thread-in-channel
 [js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
+[js#81]:samples/javascript_nodejs/81.skills-skilldialog
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
@@ -182,7 +243,10 @@ Samples are designed to illustrate scenarios you'll need to implement to build g
 [py#55]:samples/python/55.teams-link-unfurling
 [py#56]:samples/python/56.teams-file-upload
 [py#57]:samples/python/57.teams-conversation-bot
+[py#58]:samples/python/58.teams-start-thread-in-channel
+[py#60]:samples/python/60.slack-adapter
 [py#80]:samples/python/80.skills-simple-bot-to-bot
+[py#81]:samples/python/81.skills-skilldialog
 
 ## Contributing
 
@@ -197,7 +261,8 @@ This project has adopted the [Microsoft Open Source Code of Conduct](https://ope
 For more information see the [Code of Conduct FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
-## Reporting Security Issues
+## Reporting security issues
+
 Security issues and bugs should be reported privately, via email, to the Microsoft Security Response Center (MSRC) at [secure@microsoft.com](mailto:secure@microsoft.com). You should receive a response within 24 hours. If for some reason you do not, please follow up via email to ensure we received your original message. Further information, including the [MSRC PGP](https://technet.microsoft.com/en-us/security/dn606155) key, can be found in the [Security TechCenter](https://technet.microsoft.com/en-us/security/default).
 
 Copyright (c) Microsoft Corporation. All rights reserved.

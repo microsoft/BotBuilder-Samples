@@ -1,3 +1,5 @@
+[generator.lg](../generator.lg)
+
 # filename
 -build
 
@@ -10,7 +12,7 @@
 # setParamsForLUIS
 -```#!/bin/sh
 region=$1
-thisdir="$(dirname $0)"
+thisdir="$(dirname $0)"	
 if [ -z "$region" ]; then
     region="westus"
 fi
@@ -19,45 +21,45 @@ key=$2
 if [ -n "$key" ]; then
     key="--authoringKey $key"
 fi
-
-alias=$3
-
-botName=$4
 ```
 
 # setParamsForQnA
 -```
-locale=$5
-
-qnaKey=$6
-
-schemaName=$7
+qnakey=$3
+if [ -n "$qnakey" ]; then
+    qnakey="--subscriptionKey $qnakey"
+fi
 ``` 
 
 # crossTrainCmd
 -```
 bf luis:cross-train --config ./config.json --in . 
-cp ./cross-trained/$schemaName.$locale.lu ./$locale/  
+${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
+```
+
+# copyForLocale(locale)
+-```
+cp ./cross-trained/${prefix}.${locale}.lu ./${locale}/  
+cp ./cross-trained/${prefix}.${locale}.qna ./${locale}/  
 ```
 
 # luisBuildCmd
 -```
-bf luis:build --luConfig luconfig.json --region=$region $key --suffix $alias --botName $botName --out . --log --force
+bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir --log
 ```
 
 # qnaMakerBuildCmd
 -```
-bf qnamaker:build --subscriptionKey $qnaKey --in ./cross-trained/ --suffix $alias --botName $botName --out . --log --force 
+bf qnamaker:build --qnaConfig $thisdir/qnaconfig.json $qnakey --out $thisdir --log
 ```
 
 # helpForLUIS
 -```
 res=$?
 if [ $res != 0 ]; then
-    echo build.cmd [region] [authoringKey] [alias] [botName]
+    echo build [region] [authoringKey]
     echo Region defaults to westus.
 fi
-
 exit $res
 ```
 
@@ -65,9 +67,8 @@ exit $res
 -```
 res=$?
 if [ $res != 0 ]; then
-    echo build.cmd [region] [authoringKey] [alias] [botName] [locale] [qnaKey] [schemaName]
+    echo build [region] [authoringKey] [qnaKey] 
     echo Region defaults to westus.
 fi
-
 exit $res
 ```

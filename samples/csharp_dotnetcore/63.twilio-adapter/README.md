@@ -21,13 +21,11 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     ```
 
-- In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter`
-
 - Connect the bot with Twilio by following the instructions below.
 
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/63.twilio-adapter`
 
   ```bash
   # run the bot
@@ -38,7 +36,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/52. twilio-adapter` folder
+  - Navigate to `samples/csharp_dotnetcore/63.twilio-adapter` folder
   - Select `TwilioAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
@@ -46,7 +44,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ### Connect the bot with Twilio
 
-Populate settings for Twilio Number, Account SID, Auth Token and Validation URL in appsettings.json file. 
+Populate settings for Twilio Number, Account SID, Auth Token and Validation URL in appsettings.json file.
 
 Instructions about how to create / configure a Twilio number for your bot and where to obtain the values for the settings can be found in the documentation covering [connecting a bot to Twilio using the Twilio adapter](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-twilio?view=azure-bot-service-4.0#connect-a-bot-to-twilio-using-the-twilio-adapter).
 
@@ -75,5 +73,3 @@ You can now test your bot is connected to Twilio correctly by sending an SMS mes
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)

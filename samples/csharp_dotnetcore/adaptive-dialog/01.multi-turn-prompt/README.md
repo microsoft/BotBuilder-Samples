@@ -1,4 +1,4 @@
-﻿# multi-turn prompt
+﻿# Multi-turn Prompt
 
 This sample demonstrates using [Adaptive dialog][1] and [Language Generation][2] features to achieve the same functionality that the waterfall based cards sample [here][3].
 
@@ -21,10 +21,9 @@ This bot will ask for the user's name and age, then store the responses. It demo
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/01.multi-turn-prompt`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/01.multi-turn-prompt`
 
   ```bash
   # run the bot
@@ -39,12 +38,11 @@ This bot will ask for the user's name and age, then store the responses. It demo
   - Select `MultiTurnPromptBot.csproj` file
   - Press `F5` to run the project
 
-
 ## Testing the bot using Bot Framework Emulator
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
