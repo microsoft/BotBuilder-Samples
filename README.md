@@ -90,7 +90,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core][cs#55]|[JavaScript][js#55]          |[Python][py#55] |
 |56|File upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[.NET&nbsp;Core][cs#56]|[JavaScript][js#56]          |[Python][py#56] |
 |57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core][cs#57]|[JavaScript][js#57]          |[Python][py#57] |
-|58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#5]|[JavaScript][js#58]          |[Python][py#58] |
+|58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#58]|[JavaScript][js#58]          |[Python][py#58] |
 
 ### Custom adapter samples
 
