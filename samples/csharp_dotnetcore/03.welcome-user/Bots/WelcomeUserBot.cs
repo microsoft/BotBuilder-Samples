@@ -34,7 +34,7 @@ namespace Microsoft.BotBuilderSamples
                                             "read more information at: " +
                                             "https://aka.ms/about-botframework-welcome-user";
 
-        private const string LocaleMessage = "You can use the activity's GetLocale() method to welcome the user " +
+        private const string LocaleMessage = "You can use the activity's 'GetLocale()' method to welcome the user " +
                                              "using the locale received from the channel. " + 
                                              "If you are using the Emulator, you can set this value in Settings.";
                                            
