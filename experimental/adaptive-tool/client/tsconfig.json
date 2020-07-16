@@ -4,10 +4,10 @@
         "target": "es6",
         "lib": ["es2015", "dom"],
 		"outDir": "out",
-		"rootDir": "./lg/src",
+		"rootDir": "./",
 		"sourceMap": true,
 		"composite": true
 	},
-	"include": ["./lg/src"],
+	"include": ["src"],
 	"exclude": ["node_modules", ".vscode-test"]
 }

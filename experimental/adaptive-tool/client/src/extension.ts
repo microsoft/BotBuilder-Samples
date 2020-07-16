@@ -16,10 +16,13 @@ import {
 let lgClient: LanguageClient;
 
 export function activate(context: ExtensionContext) {
-	
+	startLgClient(context);
+}
+
+function startLgClient(context: ExtensionContext) {
 	// The server is implemented in node
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'out', 'server.js')
+		path.join('server', 'out', 'lg', 'src', 'server.js')
 	);
 	// The debug options for the server
 	// --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
@@ -82,11 +85,12 @@ export function activate(context: ExtensionContext) {
 	}));
 }
 
-export function deactivate(): Thenable<void> | undefined {
-	if (!lgClient) {
-		return undefined;
+export function deactivate(): Thenable<void> {
+	const promises: Thenable<void>[] = [];
+	if (lgClient) {
+		promises.push(lgClient.stop());
 	}
-	return lgClient.stop();
+	return Promise.all(promises).then(() => undefined);
 }
 
 function isLgFile(fileName: string): boolean {

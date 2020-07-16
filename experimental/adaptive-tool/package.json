@@ -101,6 +101,16 @@
                 "command": "lg.extension.onEnterKey",
                 "key": "enter",
                 "when": "editorTextFocus && !editorReadonly && editorLangId == lg && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
+            },
+            {
+                "command": "lu.extension.onEnterKey",
+                "key": "enter",
+                "when": "editorTextFocus && !editorReadonly && editorLangId == lu && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
+            },
+            {
+                "command": "lu.extension.labelingExperienceRequest",
+                "key": "shift+enter",
+                "when": "editorTextFocus && !editorReadonly && editorLangId == lu && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
             }
         ],
         "debuggers": [
@@ -200,7 +210,7 @@
         "onLanguage:lg",
         "onLanguage:lu"
     ],
-    "main": "./client/out/extension",
+    "main": "./client/out/src/extension",
     "scripts": {
         "vscode:prepublish": "npm run compile",
         "compile": "tsc -b",

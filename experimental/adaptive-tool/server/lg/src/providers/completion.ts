@@ -16,8 +16,8 @@ import { TemplatesStatus } from '../templatesStatus';
 import * as path from 'path';
 
 export function provideCompletionItems(_textDocumentPosition: TextDocumentPositionParams, documents: TextDocuments<TextDocument>){
-	const document = documents.get(_textDocumentPosition.textDocument.uri);
-	const fspath = Files.uriToFilePath(document!.uri);
+	const document = documents.get(_textDocumentPosition.textDocument.uri)!;
+	const fspath = Files.uriToFilePath(document.uri);
 	const position = _textDocumentPosition.position;
 	const lineTextBefore = document?.getText({
 		start: {
@@ -26,6 +26,10 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		},
 		end: position
 	}).toString();
+
+	if (!util.isLgFile(path.basename(document.uri))) {
+		return [];
+	}
 
 	if (/\[[^\]]*\]\([^)]*$/.test(lineTextBefore!) && !util.isInFencedCodeBlock(document!, position) && isExpression(lineTextBefore!)) {
 		// []() import suggestion

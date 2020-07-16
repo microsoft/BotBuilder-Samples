@@ -5,7 +5,6 @@
 {
 	"version": "0.2.0",
     "configurations": [
-    
 		{
 			"type": "extensionHost",
 			"request": "launch",
@@ -22,11 +21,11 @@
 		{
 			"type": "node",
 			"request": "attach",
-			"name": "Attach to Server",
+			"name": "Attach to LgServer",
 			"port": 6010,
 			"restart": true,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/server/out/**/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
 		},
 		{
 			"name": "Language Server E2E Test",
@@ -71,7 +70,7 @@
 	"compounds": [
 		{
 			"name": "Client + Server",
-			"configurations": ["Launch Client", "Attach to Server"]
+			"configurations": ["Launch Client", "Attach to LgServer"]
 		}
 	]
 }

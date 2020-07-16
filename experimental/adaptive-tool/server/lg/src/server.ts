@@ -163,7 +163,7 @@ connection.onDidChangeConfiguration(change => {
 });
 
 // This handler provides the initial list of the completion items.
-connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams): CompletionItem[] => {
+connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams) => {
 	return completion.provideCompletionItems(_textDocumentPosition, documents);
 });
 

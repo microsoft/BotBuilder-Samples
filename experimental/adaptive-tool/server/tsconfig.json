@@ -7,7 +7,7 @@
 		"sourceMap": true,
 		"strict": true,
 		"outDir": "out",
-		"rootDir": "./lg/src",
+		"rootDir": "./",
 		"composite": true
 	},
 	"include": ["./lg/src"],
