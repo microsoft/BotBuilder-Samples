@@ -70,14 +70,18 @@ class WelcomeBot extends ActivityHandler {
                 // context.activity.membersAdded === context.activity.recipient.Id indicates the
                 // bot was added to the conversation, and the opposite indicates this is a user.
                 if (context.activity.membersAdded[idx].id !== context.activity.recipient.id) {
-                    await context.sendActivity('Welcome to the \'Welcome User\' Bot. This bot will introduce you to welcoming and greeting users.');
-                    await context.sendActivity("You are seeing this message because the bot received at least one 'ConversationUpdate' " +
-                        'event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ' +
-                        'pressing the \'Start Over\' button to trigger this event again. The specifics of the \'ConversationUpdate\' ' +
-                        'event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user');
-                    await context.sendActivity('It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. ' +
-                        'In this example, the bot handles \'hello\', \'hi\', \'help\' and \'intro\'. ' +
-                        'Try it now, type \'hi\'');
+                    await context.sendActivity(`Welcome to the 'Welcome User' Bot. This bot will introduce you to welcoming and greeting users.`);
+                    await context.sendActivity(`You are seeing this message because the bot received at least one 'ConversationUpdate' ` +
+                        `event, indicating you (and possibly others) joined the conversation. If you are using the emulator, ` +
+                        `pressing the 'Start Over' button to trigger this event again. The specifics of the 'ConversationUpdate' ` +
+                        `event depends on the channel. You can read more information at https://aka.ms/about-botframework-welcome-user`);
+                    await context.sendActivity(`You can use the activity's 'locale' property to welcome the user ` +
+                        `using the locale received from the channel. ` +
+                        `If you are using the Emulator, you can set this value in Settings. ` +
+                        `Current locale is '${ context.activity.locale }'`);
+                    await context.sendActivity(`It is a good pattern to use this event to send general greeting to user, explaining what your bot can do. ` +
+                        `In this example, the bot handles 'hello', 'hi', 'help' and 'intro'. ` +
+                        `Try it now, type 'hi'`);
                 }
             }
 
