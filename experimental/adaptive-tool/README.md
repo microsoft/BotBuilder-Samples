@@ -71,7 +71,8 @@ There should be 2 configuration templates available:
 
 * **Bot: Launch language server and client on vscode** - Configuration for building and launching your client on vscode and connecting to server
 Example is:
-```json{
+```json
+        {
 			"type": "extensionHost",
 			"request": "launch",
 			"name": "Launch Client",
@@ -81,16 +82,18 @@ Example is:
 			"preLaunchTask": {
 				"type": "npm",
 				"script": "watch"
-			}
+			},
+			"sourceMaps": true
 		},
 		{
 			"type": "node",
 			"request": "attach",
-			"name": "Attach to Server",
+			"name": "Attach to LgServer",
 			"port": 6010,
 			"restart": true,
-			"outFiles": ["${workspaceRoot}/server/out/**/*.js"]
-        }
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
+		}
 ```
 * **Bot: Launch .NET Core Configuration** - Configuration for building and launching your bot via **dotnet run** and connecting to it
 Example is:
