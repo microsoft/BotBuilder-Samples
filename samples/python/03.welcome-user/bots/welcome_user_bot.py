@@ -76,7 +76,7 @@ class WelcomeUserBot(ActivityHandler):
                 await turn_context.send_activity(self.INFO_MESSAGE)
 
                 await turn_context.send_activity(
-                    f"{ self.LOCALE_MESSAGE } Current locale is { turn_context.activity.locale }"
+                    f"{ self.LOCALE_MESSAGE } Current locale is { turn_context.activity.locale }."
                 )
 
                 await turn_context.send_activity(self.PATTERN_MESSAGE)
