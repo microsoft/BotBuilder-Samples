@@ -556,48 +556,6 @@ function normalize(path: string): string {
     return ppath.normalize(path)
 }
 
-function transFormat(format: string) {
-    switch (format) {
-        case 'date-time':
-            return {
-                $ref: 'template:datetime.schema#/datetime'
-            }
-        case 'email':
-            return {
-                "type": "string",
-                "$entities": ["email"]
-            }
-        case 'uri':
-            return {
-                "type": "string",
-                "$entities": ["url"]
-            }
-        case 'iri':
-            return {
-                "type": "string",
-                "$entities": ["url"]
-            }
-    }
-}
-
-async function transSchema(path: string): Promise<string> {
-    let index = path.lastIndexOf('/')
-    let name = path.substring(index)
-    let newPath = `${os.tmpdir}/${name}`
-    let content = await fs.readFile(path, 'utf8')
-    let jsonObj = JSON.parse(content)
-
-    for (let property in jsonObj['properties']) {
-        if (jsonObj['properties'][property]['format']) {
-            let format = jsonObj['properties'][property]['format']
-            jsonObj['properties'][property] = transFormat(format)
-        }
-    }
-
-    await fs.writeJSON(newPath, jsonObj, { spaces: '\t' })    
-    return newPath
-}
-
 /**
  * Iterate through the locale templates and generate per property/locale files.
  * Each template file will map to <filename>_<property>.<ext>.
@@ -700,8 +658,7 @@ export async function generate(
             }
         }
 
-        let newPath = await transSchema(schemaPath)
-        let schema = await processSchemas(newPath, startDirs, feedback)
+        let schema = await processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // User templates + schema template directories
@@ -729,9 +686,12 @@ export async function generate(
 
         // Expand schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
-
+      
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
+        // Support integer type 
+        body = body.replace(/integer/g, 'number')
+
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
         // Merge together all dialog files
