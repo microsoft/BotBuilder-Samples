@@ -12,7 +12,7 @@ import {
 } from 'botbuilder';
 import { ChannelAccount, ConversationReference } from 'botframework-schema';
 
-export class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
+export class TeamsStartNewThreadInChannelBot extends TeamsActivityHandler {
     constructor() {
         super();
         this.onMessage( async ( context: TurnContext, next ): Promise<void> => {

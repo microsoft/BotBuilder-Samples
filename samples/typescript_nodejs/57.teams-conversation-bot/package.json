@@ -1,5 +1,5 @@
 {
-    "name": "teams-bot",
+    "name": "teams-conversation-bot",
     "version": "1.0.0",
     "description": "Bot Builder v4 Bot Teams sample",
     "author": "Microsoft",
@@ -20,6 +20,7 @@
     "dependencies": {
         "botbuilder": "~4.9.1",
         "dotenv": "^8.2.0",
+        "replace": "~1.1.1",
         "restify": "~8.5.1"
     },
     "devDependencies": {

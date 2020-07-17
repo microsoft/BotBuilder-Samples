@@ -16,7 +16,7 @@ import {
 } from 'botbuilder';
 
 // This bot's main dialog.
-import { TeamsStartNewThreadInChannel } from './teamsStartNewThreadInChannel';
+import { TeamsStartNewThreadInChannelBot } from './teamsStartNewThreadInChannelBot';
 
 // Read botFilePath and botFileSecret from .env file.
 const ENV_FILE = path.join( __dirname, '..', '.env' );
@@ -53,7 +53,7 @@ const onTurnErrorHandler = async ( context, error ) => {
 adapter.onTurnError = onTurnErrorHandler;
 
 // Create the bot that will handle incoming messages.
-const bot = new TeamsStartNewThreadInChannel();
+const bot = new TeamsStartNewThreadInChannelBot();
 
 // Create HTTP server.
 const server = restify.createServer();
