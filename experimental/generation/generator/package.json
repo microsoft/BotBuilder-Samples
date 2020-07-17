@@ -1,6 +1,11 @@
 {
   "name": "root",
   "private": true,
+  "scripts": {
+    "install": "lerna bootstrap",
+    "build": "lerna run build",
+    "test": "lerna run build && lerna run test"
+  },
   "devDependencies": {
     "lerna": "^3.20.2"
   }
