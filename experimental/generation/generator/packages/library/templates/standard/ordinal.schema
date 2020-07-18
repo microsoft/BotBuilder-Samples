@@ -1,0 +1,31 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "ordinalV2": {
+        "type": "object",
+        "$entities": [
+            "${concat('ordinalV2:', property)}",
+            "ordinalV2"
+        ],
+        "properties": {
+            "offset": {
+                "type": "number"
+            },
+            "relativeTo": {
+                "type": "string"
+            }
+        },
+        "required": [
+            "offset",
+            "relativeTo"
+        ],
+        "$templates": [
+            "ordinalV2Entity.lu",
+            "objectProperty.lg",
+            "string-missing.dialog",
+            "ordinalV2Entity-add.dialog",
+            "ordinalV2Entity-remove.dialog",
+            "ordinalV2Entity-clear.dialog",
+            "ordinalV2Entity-show.dialog"
+        ]
+    }
+}
