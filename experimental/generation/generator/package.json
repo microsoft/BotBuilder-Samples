@@ -2,11 +2,12 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "install": "lerna bootstrap",
+    "postinstall": "lerna bootstrap --hoist",
     "build": "lerna run build",
+    "clean": "lerna run clean",
     "test": "lerna run build && lerna run test"
   },
   "devDependencies": {
-    "lerna": "^3.20.2"
+    "lerna": "^3.22.1"
   }
 }
