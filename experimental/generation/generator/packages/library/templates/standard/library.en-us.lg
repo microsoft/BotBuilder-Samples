@@ -1,0 +1,82 @@
+> This file contains the generic templates to use for properties of particular types.
+[library-PROPERTYName.en-us.lg]
+
+> This is to provide consistent line endings in templates using Windows standard
+# EOL
+-\n
+
+# getWelcomeText
+- Welcome!
+
+# getPropertyNameText(property)
+- ${template(`${property}_getPropertyNameText`)}
+
+# getPropertyValueText(property, val)
+- ${template(`${property}_getValueText`, val)}
+
+# getEntityValueText(property, val)
+- ${template(`${property}Entity_getValueText`, val)}
+
+> Display a value handling arrays and objects
+# getValueText(val)
+- IF: ${isArray(val)}
+- [${join(foreach(val, elt, getValueTextSimple(elt)), ', ')}]
+> TODO: The val is necessary because isObject throws on null
+- ELSEIF: ${val && isObject(val)}
+> TODO: Use curly braces instead of ()
+> BUG in emulator 4.9.1: https://github.com/microsoft/BotFramework-Emulator/issues/2154
+- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${getValueTextSimple(elt.value)}`), ', ')})
+- ELSEIF: ${val}
+- ${val}
+- ELSE:
+- no value
+
+> TODO: This really should be removed in the above and use the recursive definition.
+> But we need to wait for the runtime to be updated.
+# getValueTextSimple(val)
+- IF: ${val}
+- ${val}
+- ELSE:
+- no value
+
+# publicProperties
+-${dialogClass.schema.$public}
+
+# requiredProperties
+- IF: ${count(dialogClass.schema.required) > 0}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, getPropertyNameText(property)), ',')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getPropertyNameText(property)), ', ')}${EOL()}
+- ELSE:
+- 
+
+# possibleValues(property)
+- ${foreach(dialogClass.schema.properties[property].enum, enum, getPropertyValueText(property, enum))}
+
+# possibleArrayValues(property)
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, getPropertyValueText(property, enum))}
+
+# getCancelText
+- Do you want to end the conversation? (yes/no)
+
+# getConfirmChangeText
+- Is there any property you want to change? (no or the property name)
+
+# getChoosePropertyText
+- Which property do you want to change?
+
+# getNotUnderstoodText
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
+
+>
+> FUNCTIONS, not text
+> TODO: These are not currently wired up because triggers don't pick them up.
+# shouldPrompt(propertyName)
+- ${!dialog[propertyName] || $PropertyToChange == `${propertyName}`}
+
+# promptPriority(propertyName)
+- ${indexOf(dialog.requiredProperties, propertyName)}
