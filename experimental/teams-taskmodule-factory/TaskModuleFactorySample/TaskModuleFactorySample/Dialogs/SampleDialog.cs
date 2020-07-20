@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using ITSMSkill.Models;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.DependencyInjection;
@@ -17,12 +19,17 @@ namespace TaskModuleFactorySample.Dialogs
     public class SampleDialog : SkillDialogBase
     {
         private readonly BotSettings _botSettings;
+        private readonly ConversationState _conversationState;
+        private readonly IStatePropertyAccessor<ActivityReferenceMap> _activityReferenceMapAccessor;
 
         public SampleDialog(
             IServiceProvider serviceProvider)
             : base(nameof(SampleDialog), serviceProvider)
         {
             _botSettings = serviceProvider.GetService<BotSettings>();
+            _conversationState = serviceProvider.GetService<ConversationState>();
+            _activityReferenceMapAccessor = _conversationState.CreateProperty<ActivityReferenceMap>(nameof(ActivityReferenceMap));
+
             var sample = new WaterfallStep[]
             {
                 // NOTE: Uncomment these lines to include authentication steps to this dialog
@@ -65,8 +72,25 @@ namespace TaskModuleFactorySample.Dialogs
             };
 
             // Get ActivityId for purpose of mapping
-            ResourceResponse resourceResponse = await sc.Context.SendActivityAsync(reply, cancellationToken);
-          
+            var resourceResponse = await sc.Context.SendActivityAsync(reply, cancellationToken);
+
+            var activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
+                sc.Context,
+                () => new ActivityReferenceMap(),
+                cancellationToken)
+                .ConfigureAwait(false);
+
+            // Store Activity and Thread Id
+            activityReferenceMap[sc.Context.Activity.Conversation.Id] = new ActivityReference
+            {
+                ActivityId = resourceResponse.Id,
+                ThreadId = sc.Context.Activity.Conversation.Id,
+            };
+            await _activityReferenceMapAccessor.SetAsync(sc.Context, activityReferenceMap).ConfigureAwait(false);
+
+            // Save Conversation State
+            await _conversationState
+                .SaveChangesAsync(sc.Context);
             return await sc.EndDialogAsync();
         }
 

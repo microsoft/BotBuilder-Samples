@@ -17,6 +17,8 @@ using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
 using TaskModuleFactorySample.Dialogs.Helper;
+using ITSMSkill.Models;
+using TaskModuleFactorySample.Utils;
 
 namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
 {
@@ -24,9 +26,12 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
     /// CreateTicketTeamsImplementation Handles OnFetch and OnSumbit Activity for TaskModules
     /// </summary>
     [TeamsInvoke(FlowType = nameof(TeamsFlowType.CreateSample_Form))]
-    public class CreateFormTeamsTaskModuleHandler : ITeamsTaskModuleHandler<TaskModuleContinueResponse>
+    public class CreateFormTeamsTaskModuleHandler : TeamsInvokeHandler<TaskModuleContinueResponse>
+        //ITeamsTaskModuleHandler<TaskModuleContinueResponse>
     {
         private readonly IStatePropertyAccessor<SkillState> _stateAccessor;
+        private readonly IStatePropertyAccessor<ActivityReferenceMap> _activityReferenceMapAccessor;
+        private readonly ITeamsActivity<AdaptiveCard> _teamsTicketUpdateActivity;
         private readonly ConversationState _conversationState;
         private readonly BotSettings _settings;
         private readonly BotServices _services;
@@ -37,11 +42,13 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
             _conversationState = serviceProvider.GetService<ConversationState>();
             _settings = serviceProvider.GetService<BotSettings>();
             _services = serviceProvider.GetService<BotServices>();
+            _activityReferenceMapAccessor = _conversationState.CreateProperty<ActivityReferenceMap>(nameof(ActivityReferenceMap));
+            _teamsTicketUpdateActivity = serviceProvider.GetService<ITeamsActivity<AdaptiveCard>>();
             _stateAccessor = _conversationState.CreateProperty<SkillState>(nameof(SkillState));
         }
 
         // Handle Fetch
-        public async Task<TaskModuleContinueResponse> OnTeamsTaskModuleFetchAsync(ITurnContext context, CancellationToken cancellationToken)
+        public override async Task<TaskModuleContinueResponse> OnTeamsTaskModuleFetchAsync(ITurnContext context, CancellationToken cancellationToken)
         {
             return new TaskModuleContinueResponse()
             {
@@ -60,8 +67,14 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
         }
 
         // Handle Submit True
-        public async Task<TaskModuleContinueResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken)
+        public override async Task<TaskModuleContinueResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken)
         {
+            var activityReferenceMap = await _activityReferenceMapAccessor.GetAsync(
+                context,
+                () => new ActivityReferenceMap(),
+                cancellationToken)
+            .ConfigureAwait(false);
+
             var state = await _stateAccessor.GetAsync(context, () => new SkillState());
 
             var activityValueObject = JObject.FromObject(context.Activity.Value);
@@ -80,6 +93,20 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
 
                 // Get Urgency
                 var urgency = dataObject.GetValue("FormUrgency");
+                var sampleForm = new SampleForm
+                {
+                    Title = title.Value<string>(),
+                    Description = description.Value<string>(),
+                    Urgency = urgency.Value<string>()
+                };
+                // Get saved Activity Reference mapping to conversation Id
+                activityReferenceMap.TryGetValue(context.Activity.Conversation.Id, out var activityReference);
+
+                await _teamsTicketUpdateActivity.UpdateTaskModuleActivityAsync(
+                    context,
+                    activityReference,
+                    TicketDialogHelper.UpdateFormCard(sampleForm, _settings.MicrosoftAppId),
+                    cancellationToken);
 
                 return new TaskModuleContinueResponse()
                 {

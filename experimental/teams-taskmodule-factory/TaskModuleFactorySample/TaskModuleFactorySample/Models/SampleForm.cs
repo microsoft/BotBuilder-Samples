@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace TaskModuleFactorySample.Models
 {
-    public class SampleState
+    public class SampleForm
     {
-        public string Id { get; set; }
+        public string Urgency { get; set; }
 
         public string Title { get; set; }
 

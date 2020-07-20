@@ -1,8 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
+using AdaptiveCards;
 using Microsoft.ApplicationInsights.Extensibility;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -13,6 +15,7 @@ using Microsoft.Bot.Builder.Azure;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Solutions;
 using Microsoft.Bot.Solutions.Responses;
@@ -25,6 +28,8 @@ using TaskModuleFactorySample.Authentication;
 using TaskModuleFactorySample.Bots;
 using TaskModuleFactorySample.Dialogs;
 using TaskModuleFactorySample.Services;
+using TaskModuleFactorySample.TeamsChannels.Invoke;
+using TaskModuleFactorySample.Utils;
 
 namespace TaskModuleFactorySample
 {
@@ -120,6 +125,11 @@ namespace TaskModuleFactorySample
             services.AddTransient<SampleDialog>();
             services.AddTransient<SampleAction>();
             services.AddTransient<MainDialog>();
+            services.AddTransient<SampleTeamsInvokeHandlerFactory>();
+            // Configure TeamsUpdateActivity
+            services.AddSingleton<IConnectorClient>(new ConnectorClient(new Uri(Configuration["TeamsTrustedUrl"]), new MicrosoftAppCredentials(settings.MicrosoftAppId, settings.MicrosoftAppPassword)));
+
+            services.AddTransient<ITeamsActivity<AdaptiveCard>, UpdateAdaptiveCardActivity>();
 
             // Configure adapters
             services.AddTransient<IBotFrameworkHttpAdapter, DefaultAdapter>();

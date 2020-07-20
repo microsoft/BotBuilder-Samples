@@ -61,7 +61,7 @@ namespace TaskModuleFactorySample.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["TaskModuleFactorySample"].RecognizeAsync<TaskModuleFactorySampleLuis>(innerDc.Context, cancellationToken);
+                var skillResult = await localizedServices.LuisServices["ITSM"].RecognizeAsync<TaskModuleFactorySampleLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
 
                 // Run LUIS recognition on General model and store result in turn state.
@@ -92,7 +92,7 @@ namespace TaskModuleFactorySample.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Run LUIS recognition on Skill model and store result in turn state.
-                var skillResult = await localizedServices.LuisServices["TaskModuleFactorySample"].RecognizeAsync<TaskModuleFactorySampleLuis>(innerDc.Context, cancellationToken);
+                var skillResult = await localizedServices.LuisServices["ITSM"].RecognizeAsync<TaskModuleFactorySampleLuis>(innerDc.Context, cancellationToken);
                 innerDc.Context.TurnState.Add(StateProperties.SkillLuisResult, skillResult);
 
                 // Run LUIS recognition on General model and store result in turn state.
@@ -206,7 +206,7 @@ namespace TaskModuleFactorySample.Dialogs
                 var localizedServices = _services.GetCognitiveModels();
 
                 // Get skill LUIS model from configuration.
-                localizedServices.LuisServices.TryGetValue("TaskModuleFactorySample", out var luisService);
+                localizedServices.LuisServices.TryGetValue("ITSM", out var luisService);
 
                 if (luisService != null)
                 {
@@ -224,6 +224,7 @@ namespace TaskModuleFactorySample.Dialogs
                         default:
                             {
                                 // intent was identified but not yet implemented
+                                return await stepContext.BeginDialogAsync(_sampleDialog.Id, cancellationToken: cancellationToken);
                                 await stepContext.Context.SendActivityAsync(_templateEngine.GenerateActivityForLocale("UnsupportedMessage"), cancellationToken);
                                 return await stepContext.NextAsync(cancellationToken: cancellationToken);
                             }

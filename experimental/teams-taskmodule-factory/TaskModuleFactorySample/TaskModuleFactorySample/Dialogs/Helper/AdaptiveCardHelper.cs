@@ -5,6 +5,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using AdaptiveCards;
 using Newtonsoft.Json;
+using TaskModuleFactorySample.Extensions.Teams;
+using TaskModuleFactorySample.Extensions.Teams.TaskModule;
+using TaskModuleFactorySample.Models;
 
 namespace TaskModuleFactorySample.Dialogs.Helper
 {

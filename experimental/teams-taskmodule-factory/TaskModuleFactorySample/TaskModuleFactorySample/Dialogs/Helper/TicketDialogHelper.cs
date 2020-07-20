@@ -37,7 +37,71 @@ namespace TaskModuleFactorySample.Dialogs.Helper
             return adaptiveCard;
         }
 
-        public static AdaptiveCard UpdateFormCard(SampleState details, string botId = null)
+        public static AdaptiveCard UpdateFormCardSubmit(SampleForm details, string botId = null)
+        {
+            var card = new AdaptiveCard("1.0")
+            {
+                Body = new List<AdaptiveElement>
+                {
+                    new AdaptiveContainer
+                    {
+                        Items = new List<AdaptiveElement>
+                        {
+                            new AdaptiveColumnSet
+                            {
+                                Columns = new List<AdaptiveColumn>
+                                {
+                                    new AdaptiveColumn
+                                    {
+                                        Width = AdaptiveColumnWidth.Stretch,
+                                        Items = new List<AdaptiveElement>
+                                        {
+                                            new AdaptiveTextInput
+                                            {
+                                                // Get Title
+                                                Placeholder = $"Title: {details.Title}",
+                                                Spacing = AdaptiveSpacing.Small
+                                            },
+                                            new AdaptiveTextInput
+                                            {
+                                                // Get Urgency
+                                                Placeholder = $"Urgency: {details.Urgency}",
+                                                Spacing = AdaptiveSpacing.Small
+                                            },
+                                            new AdaptiveTextInput
+                                            {
+                                                // Get Description
+                                                Placeholder = $"Description: {details.Description}",
+                                                Spacing = AdaptiveSpacing.Small,
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
+
+            card.Actions.Add(new AdaptiveSubmitAction()
+            {
+                Title = "Update Form",
+                Data = new AdaptiveCardValue<TaskModuleMetadata>()
+                {
+                    Data = new TaskModuleMetadata()
+                    {
+                        SkillId = botId,
+                        TaskModuleFlowType = TeamsFlowType.UpdateSample_Form.ToString(),
+                        Submit = true
+                    }
+                }
+            });
+            card.Id = "UpdateAdaptiveCard";
+
+            return card;
+        }
+
+        public static AdaptiveCard UpdateFormCard(SampleForm details, string botId = null)
         {
             var card = new AdaptiveCard("1.0")
             {
@@ -67,7 +131,7 @@ namespace TaskModuleFactorySample.Dialogs.Helper
                                             new AdaptiveTextBlock
                                             {
                                                 // Get Urgency
-                                                Text = $"Urgency: {details.Id}",
+                                                Text = $"Urgency: {details.Urgency}",
                                                 Color = AdaptiveTextColor.Good,
                                                 MaxLines = 1,
                                                 Weight = AdaptiveTextWeight.Bolder,
@@ -99,7 +163,7 @@ namespace TaskModuleFactorySample.Dialogs.Helper
                     {
                         SkillId = botId,
                         TaskModuleFlowType = TeamsFlowType.UpdateSample_Form.ToString(),
-                        Submit = true
+                        FlowData = details
                     }
                 }
             });

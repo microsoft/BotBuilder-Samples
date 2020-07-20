@@ -24,12 +24,13 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
     using Newtonsoft.Json;
     using Newtonsoft.Json.Linq;
     using TaskModuleFactorySample.Dialogs.Helper;
+    using AdaptiveCards.Rendering;
 
     /// <summary>
     /// UpdateTicket Handler for Updating Ticket OnFetch and OnSumbit Activity for TaskModules
     /// </summary>
     [TeamsInvoke(FlowType = nameof(TeamsFlowType.UpdateSample_Form))]
-    public class UpdateFormTeamsTaskModuleHandler : ITeamsTaskModuleHandler<TaskModuleContinueResponse>
+    public class UpdateFormTeamsTaskModuleHandler : TeamsInvokeHandler<TaskModuleContinueResponse>
     {
         private readonly IStatePropertyAccessor<SkillState> _stateAccessor;
         private readonly ConversationState _conversationState;
@@ -44,16 +45,19 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
             _stateAccessor = _conversationState.CreateProperty<SkillState>(nameof(SkillState));
         }
 
-        public async Task<TaskModuleContinueResponse> OnTeamsTaskModuleFetchAsync(ITurnContext context, CancellationToken cancellationToken)
+        public override async Task<TaskModuleContinueResponse> OnTeamsTaskModuleFetchAsync(ITurnContext context, CancellationToken cancellationToken)
         {
             var taskModuleMetadata = context.Activity.GetTaskModuleMetadata<TaskModuleMetadata>();
 
             var ticketDetails = taskModuleMetadata.FlowData != null ?
-                    JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(taskModuleMetadata.FlowData))
-                    .GetValueOrDefault("FormDetails") : null;
+                    JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(taskModuleMetadata.FlowData)) : null;
 
             // Convert JObject to Ticket
-            SampleState formDetails = JsonConvert.DeserializeObject<SampleState>(ticketDetails.ToString());
+            ticketDetails.TryGetValue("Description", out var description);
+            ticketDetails.TryGetValue("Title", out var title);
+            ticketDetails.TryGetValue("Urgency", out var urgency);
+
+            SampleForm formDetails = new SampleForm { Description = (string)description, Title = (string)title, Urgency = (string)urgency };
 
             return new TaskModuleContinueResponse()
             {
@@ -65,81 +69,15 @@ namespace TaskModuleFactorySample.Dialogs.Teams.TicketTaskModule
                     Card = new Attachment
                     {
                         ContentType = AdaptiveCard.ContentType,
-                        Content = TicketDialogHelper.UpdateFormCard(formDetails, _settings.MicrosoftAppId)
+                        Content = TicketDialogHelper.UpdateFormCardSubmit(formDetails, _settings.MicrosoftAppId)
                     }
                 }
             };
         }
 
-        public async Task<TaskModuleContinueResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken)
+        public override async Task<TaskModuleContinueResponse> OnTeamsTaskModuleSubmitAsync(ITurnContext context, CancellationToken cancellationToken)
         {
-            var state = await _stateAccessor.GetAsync(context, () => new SkillState());
-
-            var taskModuleMetadata = context.Activity.GetTaskModuleMetadata<TaskModuleMetadata>();
-
-            var ticketDetails = taskModuleMetadata.FlowData != null ?
-                JsonConvert.DeserializeObject<Dictionary<string, object>>(JsonConvert.SerializeObject(taskModuleMetadata.FlowData))
-                .GetValueOrDefault("FormDetails") : null;
-
-            // Convert JObject to Ticket
-            SampleState formDetails = JsonConvert.DeserializeObject<SampleState>(ticketDetails.ToString());
-
-            // If ticket is valid go ahead and update
-            if (formDetails != null)
-            {
-                // Get User Input from AdatptiveCard
-                var activityValueObject = JObject.FromObject(context.Activity.Value);
-
-                var isDataObject = activityValueObject.TryGetValue("data", StringComparison.InvariantCultureIgnoreCase, out JToken dataValue);
-                JObject dataObject = null;
-                if (isDataObject)
-                {
-                    dataObject = dataValue as JObject;
-
-                    // Get Title
-                    var title = dataObject.GetValue("FormTitle");
-
-                    // Get Description
-                    var description = dataObject.GetValue("FormDescription");
-
-                    // Get Urgency
-                    var urgency = dataObject.GetValue("FormUrgency");
-
-                    // Return Added Form Envelope
-                    return new TaskModuleContinueResponse()
-                    {
-                        Type = "continue",
-                        Value = new TaskModuleTaskInfo()
-                        {
-                            Title = "Form Updated",
-                            Height = "small",
-                            Width = 300,
-                            Card = new Attachment
-                            {
-                                ContentType = AdaptiveCard.ContentType,
-                                Content = TicketDialogHelper.FormResponseCard("Form has been Updated")
-                            }
-                        }
-                    };
-                }
-            }
-
-            // Failed to update Form
-            return new TaskModuleContinueResponse()
-            {
-                Type = "continue",
-                Value = new TaskModuleTaskInfo()
-                {
-                    Title = "Form Updated",
-                    Height = "small",
-                    Width = 300,
-                    Card = new Attachment
-                    {
-                        ContentType = AdaptiveCard.ContentType,
-                        Content = TicketDialogHelper.FormResponseCard("Form Update Failed")
-                    }
-                }
-            };
+            throw new NotImplementedException("TaskSubmit For UpdateForm not implemented");
         }
     }
 }

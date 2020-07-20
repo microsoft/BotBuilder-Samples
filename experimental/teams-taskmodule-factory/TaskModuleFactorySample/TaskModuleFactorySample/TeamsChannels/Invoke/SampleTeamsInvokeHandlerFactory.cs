@@ -16,7 +16,7 @@ namespace TaskModuleFactorySample.TeamsChannels.Invoke
     {
         public SampleTeamsInvokeHandlerFactory(IServiceProvider serviceProvider)
         {
-            this.TaskModuleFetchSubmitMap = new Dictionary<string, Func<ITeamsTaskModuleHandler<TaskModuleContinueResponse>>>
+            this.TaskModuleFetchSubmitMap = new Dictionary<string, Func<TeamsInvokeHandler<TaskModuleContinueResponse>>>
             {
                 {
                     $"{TeamsFlowType.CreateSample_Form}",

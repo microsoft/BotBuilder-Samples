@@ -26,6 +26,7 @@ namespace TaskModuleFactorySample.Bots
         private readonly IStatePropertyAccessor<DialogState> _dialogStateAccessor;
         private readonly LocaleTemplateManager _templateEngine;
         private readonly IServiceProvider _serviceProvider;
+        private readonly SampleTeamsInvokeHandlerFactory _sampleTeamsInvokeHandlerFactory;
 
         public DefaultActivityHandler(IServiceProvider serviceProvider, T dialog)
         {
@@ -35,6 +36,7 @@ namespace TaskModuleFactorySample.Bots
             _userState = serviceProvider.GetService<UserState>();
             _dialogStateAccessor = _conversationState.CreateProperty<DialogState>(nameof(DialogState));
             _templateEngine = serviceProvider.GetService<LocaleTemplateManager>();
+            _sampleTeamsInvokeHandlerFactory = serviceProvider.GetService<SampleTeamsInvokeHandlerFactory>();
             _serviceProvider = serviceProvider;
         }
 
@@ -72,8 +74,7 @@ namespace TaskModuleFactorySample.Bots
 
         protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
         {
-            var itsmTeamsActivityHandler = new SampleTeamsInvokeHandlerFactory(_serviceProvider);
-            var taskModuleContinueResponse = await itsmTeamsActivityHandler.HandleTaskModuleActivity(turnContext, cancellationToken);
+            var taskModuleContinueResponse = await _sampleTeamsInvokeHandlerFactory.HandleTaskModuleActivity(turnContext, cancellationToken);
 
             return new InvokeResponse()
             {
