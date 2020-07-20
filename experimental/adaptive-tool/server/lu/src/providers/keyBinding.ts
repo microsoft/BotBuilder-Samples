@@ -51,20 +51,33 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 		const luContent = extractLUISContent(fullContent!);
 		luContent.then(luisJson => {
 			if (luisJson != null) {
-				luisJson["entities"].forEach((entity : any) => {
-					if (entity.name == match![1]) {
-						const replacedStr = `\n\t- @ `;
-						connection.workspace.applyEdit({
-							documentChanges: [
-								TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-									TextEdit.insert(lineBreakPos, replacedStr)
-								])
-							]
-						});
-					}
+				const entities : string[] = [];
+				console.log(luisJson["entities"]);
+				luisJson['entities'].forEach((entity : any) => {
+					entities.push(entity.name);
 				});
+				if (entities.includes(match![1])) {
+					// it's a ml entity, add \n\t- @
+					const replacedStr = `\n\t- @ `;
+					connection.workspace.applyEdit({
+						documentChanges: [
+							TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+								TextEdit.insert(lineBreakPos, replacedStr)
+							])
+						]
+					});
+				} else {
+					// it's not a ml entity, the parser will fail, just add \n
+					connection.workspace.applyEdit({
+						documentChanges: [
+							TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
+								TextEdit.insert(lineBreakPos, '\n')
+							])
+						]
+					});
+				}
 			} else {
-				// it's not a ml entity, just add \n
+				// it's not a ml entity, the parser will fail, just add \n
 				connection.workspace.applyEdit({
 					documentChanges: [
 						TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
