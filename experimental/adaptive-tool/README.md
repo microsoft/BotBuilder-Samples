@@ -10,13 +10,7 @@
 - reference doc: [language server extension](https://code.visualstudio.com/api/language-extensions/language-server-extension-guide)
 
 
-## Features
-### Debug adaptive dialogs
-[Setting up](#set_up)
-
-- Supports break points in .dialog files (adaptive dialog)
-- Supports break points in .lg files
-- Supports break points in adaptive expressions
+## Features on Language Server
 
 ### Syntax highlighting, diagnostic check, auto-suggest, functionality
 #### .lu documents
@@ -49,25 +43,12 @@
 - template definition
 ![template_definition](./resources/images/template_definition.gif)
 
-#### .lg documents on language server
-- implement syntax highlighting, diagnostic check, template reference hover, builtin function hover, buildin function and template suggestion, structure property suggestion and template definition using language server protocol 
-
-
-### Expansion/ test UI for .lg documents
-- template/free text evaluation
-Press `F1` and select `LG live tester` to start LG tester.
-This tool can be used to test specific template or free inline text.
-
 
 <a name="set_up"></a>
 
-## Setting up and using Visual Studio Code to use the debugger
+## Setting up and using Visual Studio Code to run client and server
 ### setting up
 To configure Visual Studio Code you need to add a target in your launch.settings file.
-
-You can do that by the **add a configuration** in the debug panel.
-
-There should be 2 configuration templates available:
 
 * **Bot: Launch language server and client on vscode** - Configuration for building and launching your client on vscode and connecting to server
 Example is:
@@ -95,41 +76,6 @@ Example is:
 			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
 		}
 ```
-* **Bot: Launch .NET Core Configuration** - Configuration for building and launching your bot via **dotnet run** and connecting to it
-Example is:
-```json
-        {
-            "type": "bot",
-            "request": "launch",
-            "name": "Debug Bot (.NET Core)",
-            "command": "dotnet",
-            "args": [
-                "run",
-                "--no-build",
-                "--",
-                "--debugport",
-                "0"
-            ]
-        }
-```
-* **Bot: Attach Configuration** - Configuration for attaching to the debug port of an already running bot (such as IIS express)
-Example is:
-```json
-        {
-            "type": "bot",
-            "request": "attach",
-            "name": "Attach to Dialog",
-            "debugServer": 4712
-        }
-```
-
-### Using
-
-* Open any source file (*.dialog, *.lg) and set breakpoints.
-* Hit F5 to start debugger.
-
-As you interact with the bot your breakpoint should hit and you should be able to inspect memory, call context, etc.
-![debugging state](./resources/images/debugging.png)
 
 ### Troubleshooting
 There are 2 places your bot can be running depending on the tools you are using.
