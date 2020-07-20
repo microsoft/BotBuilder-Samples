@@ -10,6 +10,6 @@
 		"rootDir": "./",
 		"composite": true
 	},
-	"include": ["./lg/src"],
+	"include": ["./lg/src", "./lu/src"],
 	"exclude": ["node_modules", ".vscode-test"]
 }
