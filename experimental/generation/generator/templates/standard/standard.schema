@@ -92,8 +92,8 @@
         "personName"
     ],
     "$entities": [
-        "PROPERTYName"
-    ],
+        "PROPERTYName"   
+     ],
     "$templates": [
         "library-HelpIntent.lu",
         "library-CancelIntent.lu",

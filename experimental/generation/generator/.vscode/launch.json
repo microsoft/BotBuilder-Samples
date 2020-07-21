@@ -149,6 +149,27 @@
             ],
             "cwd": "c:/tmp/bot3",
             "internalConsoleOptions": "openOnSessionStart"
+        },
+
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Basic Type Bot",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "./lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/test/commands/dialog/forms/unittests1.schema",
+                "-o",
+                "D:/test/unitTest",
+                "--force",
+                "--verbose",
+                 "--debug"            ],
+            "internalConsoleOptions": "openOnSessionStart"
         }
     ]
 }

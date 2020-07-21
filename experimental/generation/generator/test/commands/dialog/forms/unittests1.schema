@@ -5,18 +5,12 @@
         "Quantity": {
             "type": "number",
             "minimum": 1,
-            "maximum": 10,
-            "$entities": [
-                "number"
-            ]
+            "maximum": 10
         },
         "Length": {
             "type": "integer",
             "minimum": 11,
-            "maximum": 20,
-            "$entities": [
-                "integer"
-            ]
+            "maximum": 20
         },
         "Complete": {
             "type": "boolean",

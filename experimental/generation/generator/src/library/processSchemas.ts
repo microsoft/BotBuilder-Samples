@@ -101,7 +101,7 @@ export function typeName(property: any): string {
 
     if (property.format) {
         type = property.format
-        delete property.format
+        //delete property.format
     }
 
     if (isArray) {
@@ -175,7 +175,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     }
     await findRequires(formSchema, allRequired, required, resolver, feedback)
     let allSchema = clone(formSchema)
-    addMissing(allSchema)
+    //addMissing(allSchema)
     if (!allSchema.required) allSchema.required = []
     if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
     if (!allSchema.$templates) allSchema.$templates = []
