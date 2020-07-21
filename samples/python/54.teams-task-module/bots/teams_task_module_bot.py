@@ -32,6 +32,12 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
         self.__base_url = config.BASE_URL
 
     async def on_message_activity(self, turn_context: TurnContext):
+        """
+        This displays two cards: A HeroCard and an AdaptiveCard.  Both have the same
+        options.  When any of the options are selected, `on_teams_task_module_fecth`
+        is called.
+        """
+
         reply = MessageFactory.list(
             [
                 TeamsTaskModuleBot.__get_task_module_hero_card_options(),
@@ -43,15 +49,23 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
     async def on_teams_task_module_fetch(
         self, turn_context: TurnContext, task_module_request: TaskModuleRequest
     ) -> TaskModuleResponse:
+        """
+        Called when the user selects an options from the displayed HeroCard or
+        AdaptiveCard.  The result is the action to perform.
+        """
+
         card_task_fetch_value = task_module_request.data["data"]
 
         task_info = TaskModuleTaskInfo()
         if card_task_fetch_value == TaskModuleIds.YOUTUBE:
+            # Display the YouTube.html page
             task_info.url = task_info.fallback_url = (
                 self.__base_url + "/" + TaskModuleIds.YOUTUBE + ".html"
             )
             TeamsTaskModuleBot.__set_task_info(task_info, TaskModuleUIConstants.YOUTUBE)
         elif card_task_fetch_value == TaskModuleIds.CUSTOM_FORM:
+            # Display the CustomForm.html page, and post the form data back via
+            # on_teams_task_module_submit.
             task_info.url = task_info.fallback_url = (
                 self.__base_url + "/" + TaskModuleIds.CUSTOM_FORM + ".html"
             )
@@ -59,6 +73,8 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
                 task_info, TaskModuleUIConstants.CUSTOM_FORM
             )
         elif card_task_fetch_value == TaskModuleIds.ADAPTIVE_CARD:
+            # Display an AdaptiveCard to prompt user for text, and post it back via
+            # on_teams_task_module_submit.
             task_info.card = TeamsTaskModuleBot.__create_adaptive_card_attachment()
             TeamsTaskModuleBot.__set_task_info(
                 task_info, TaskModuleUIConstants.ADAPTIVE_CARD
@@ -69,6 +85,12 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
     async def on_teams_task_module_submit(
         self, turn_context: TurnContext, task_module_request: TaskModuleRequest
     ) -> TaskModuleResponse:
+        """
+        Called when data is being returned from the selected option (see `on_teams_task_module_fetch').
+        """
+
+        # Echo the users input back.  In a production bot, this is where you'd add behavior in
+        # response to the input.
         await turn_context.send_activity(
             MessageFactory.text(
                 f"on_teams_task_module_submit: {json.dumps(task_module_request.data)}"
