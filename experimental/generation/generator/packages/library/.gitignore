@@ -6,6 +6,5 @@
 /tmp
 /yarn.lock
 node_modules
-/bin
 package-lock.json
-!packages/**
+/bin
