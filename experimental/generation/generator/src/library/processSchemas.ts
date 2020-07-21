@@ -101,7 +101,6 @@ export function typeName(property: any): string {
 
     if (property.format) {
         type = property.format
-        //delete property.format
     }
 
     if (isArray) {
@@ -126,10 +125,6 @@ function addMissingEntities(property: any, path: string) {
                 let child = property.properties[childPath]
                 addMissingEntities(child, path + '.' + child)
             }
-        } else if (type === 'email') {
-            entities = ['email']
-        } else if (type === 'uri' || type === 'iri') {
-            entities = ['url']
         } else {
             entities = [path + 'Entity']
         }
