@@ -388,7 +388,8 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, oldFileLi
             }
 
             // update content 
-            let entityLUContent = resultStatements.join(os.EOL)
+            let listEntitySectionName = `@ list ${oldListEntitySection.Name} =`
+            let entityLUContent = listEntitySectionName + os.EOL + resultStatements.join(os.EOL)
             updatedLUResource = oldSectionOp.updateSection(oldListEntitySection.Id, entityLUContent)
 
             // update intent content
