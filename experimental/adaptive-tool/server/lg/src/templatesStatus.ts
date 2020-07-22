@@ -4,7 +4,7 @@
  */
 
 import { Templates } from 'botbuilder-lg';
-import * as vscode from 'vscode';
+import { DocumentUri } from 'vscode-languageserver';
 
 export class TemplatesStatus {
     public static templatesMap: Map<string, TemplatesEntity> = new Map<string, TemplatesEntity>();
@@ -12,10 +12,10 @@ export class TemplatesStatus {
 }
 
 export class TemplatesEntity {
-    public constructor(uri: vscode.Uri, templates: Templates) {
+    public constructor(uri: DocumentUri, templates: Templates) {
         this.templates = templates;
         this.uri = uri;
     }
-    public uri: vscode.Uri;
+    public uri: DocumentUri;
     public templates: Templates;
 }

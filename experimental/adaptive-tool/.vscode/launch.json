@@ -5,6 +5,40 @@
 {
 	"version": "0.2.0",
     "configurations": [
+		{
+			"type": "extensionHost",
+			"request": "launch",
+			"name": "Launch Client",
+			"runtimeExecutable": "${execPath}",
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+			"outFiles": ["${workspaceRoot}/client/out/**/*.js"],
+			"preLaunchTask": {
+				"type": "npm",
+				"script": "watch"
+			},
+			"sourceMaps": true
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to LgServer",
+			"port": 6010,
+			"restart": true,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
+		},
+		{
+			"name": "Language Server E2E Test",
+			"type": "extensionHost",
+			"request": "launch",
+			"runtimeExecutable": "${execPath}",
+			"args": [
+				"--extensionDevelopmentPath=${workspaceRoot}",
+				"--extensionTestsPath=${workspaceRoot}/client/out/test/index",
+				"${workspaceRoot}/client/testFixture"
+			],
+			"outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
+		},
         {
             "name": "Extension",
             "type": "extensionHost",
@@ -32,5 +66,11 @@
             ],
             "preLaunchTask": "npm: watch"
         }
-    ]
+    ],
+	"compounds": [
+		{
+			"name": "Client + Server",
+			"configurations": ["Launch Client", "Attach to LgServer"]
+		}
+	]
 }
