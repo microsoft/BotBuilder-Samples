@@ -18,3 +18,5 @@ samples/python*/**                                      @axelsrz
 samples/csharp_dotnetcore/language-generation/**        @johnataylor @vishwacsena
 samples/csharp_dotnetcore/adaptive-dialog/**            @johnataylor @vishwacsena
 samples/javascript_nodejs/language-generation/**        @sgellock @stevengum @vishwacsena
+
+# EOF
