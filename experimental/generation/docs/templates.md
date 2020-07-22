@@ -2,7 +2,7 @@
 
 Templates are `.lg` and `.schema` files used to add additional logic and language generation to the dialog generation process. For most purposes the standard templates do everything needed and you will not need to create your own.
 
-Current functionality in the [standard templates](../generator/templates) includes:
+Current functionality in the [standard templates](../generator/packages/library/templates/standard) includes:
 
 - Generating .lg, .lu and .dialog files that robustly handle out of order and
   multiple responses for simple and array properties.
@@ -17,13 +17,13 @@ Current functionality in the [standard templates](../generator/templates) includ
 
 You can use the entities below when defining your properties.
 
-- [age.schema](age.schema) LUIS prebuilt `age`.
-- [datetime.schema](datetime.schema) LUIS prebuilt `datetimeV2`.
-- [dimension.schema](dimension.schema) LUIS prebuilt `dimension`.
-- [geography.schema](geography.schema) LUIS prebuilt `geographyV2`.
-- [money.schema](money.schema) LUIS prebuilt `money`.
-- [ordinal.schema](ordinal.schema) LUIS prebuilt `ordinalV2`.
-- [temperature.schema](temperature.schema) LUIS prebuilt `temperature`.
+- [age.schema](../generator/packages/library/templates/standard/age.schema) LUIS prebuilt `age`.
+- [datetime.schema](../generator/packages/library/templates/standard/datetime.schema) LUIS prebuilt `datetimeV2`.
+- [dimension.schema](../generator/packages/library/templates/standard/dimension.schema) LUIS prebuilt `dimension`.
+- [geography.schema](../generator/packages/library/templates/standard/geography.schema) LUIS prebuilt `geographyV2`.
+- [money.schema](../generator/packages/library/templates/standard/money.schema) LUIS prebuilt `money`.
+- [ordinal.schema](../generator/packages/library/templates/standard/ordinal.schema) LUIS prebuilt `ordinalV2`.
+- [temperature.schema](../generator/packages/library/templates/standard/temperature.schema) LUIS prebuilt `temperature`.
 
 ## Writing Templates
 
@@ -80,8 +80,8 @@ updating generated files when changing the schema. In the below, $italics$ are
 place holders.
 
 - `$schema$-library` -- Defines library files that are either common building
-  blocks like [library.lg.lg](templates/library.lg.lg) or are internal
-  mechanisms like [library-help.lg.lg](templates/library-Help.lg.lg).
+  blocks like [library.lg.lg](../generator/packages/library/templates/standard/library.lg.lg) or are internal
+  mechanisms like [library-help.lg.lg](../generator/packages/library/templates/standard/library-Help.lg.lg).
 - `$schema$-$entity$Entity` -- Defines entity specific files.
 - `$schema$-$property$` -- Defines property related files when $property$ is found
   in the schema.
@@ -104,7 +104,7 @@ place holders.
 1. [White paper (docx)](Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
 
 [schema]:bot-schema.md
-[templates]:../generator/templates
+[templates]:../generator/packages/library/templates
 [templates-overview]:templates.md
 [start]:get-started.md
 [sample-schemas]:example-schemas
