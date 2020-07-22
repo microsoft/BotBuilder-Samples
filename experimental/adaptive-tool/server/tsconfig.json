@@ -6,11 +6,11 @@
 		"moduleResolution": "node",
 		"sourceMap": true,
 		"outDir": "out",
-		"rootDir": "src",
+		"rootDir": "lg/src",
 		"lib": [ "es2017" ]
 	},
 	"include": [
-		"src"
+		"lg/src"
 	],
 	"exclude": [
 		"node_modules"
