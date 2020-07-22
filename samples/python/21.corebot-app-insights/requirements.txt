@@ -9,5 +9,5 @@ botbuilder-applicationinsights>=4.9.1
 botbuilder-integration-applicationinsights-aiohttp>=4.9.1
 datatypes-date-time>=1.0.0.a1
 azure-cognitiveservices-language-luis>=0.2.0
-msrest>=0.6.6
+msrest>=0.6.10
 

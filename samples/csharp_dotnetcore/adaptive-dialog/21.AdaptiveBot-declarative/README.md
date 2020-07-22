@@ -9,15 +9,11 @@ A sample bot that demonstrates various declaratively defined [adaptive dialogs][
 	dotnet --version
 	```
 
-# To try this sample
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/21.AdaptiveBot-declarative`
-    ```bash
-    # change into project folder
-	cd # AdaptiveBot
-    ```
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+## To try this sample
 
-	A) From a terminal
+- Run the bot from a terminal or from Visual Studio:
+
+	A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/21.AdaptiveBot-declarative`
 	```bash
 	# run the bot
 	dotnet run
@@ -30,17 +26,20 @@ A sample bot that demonstrates various declaratively defined [adaptive dialogs][
 	- Select `AdaptiveBot.csproj` file
 	- Press `F5` to run the project
 
-# Testing the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
+
 [Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][6]
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Further reading
+## Further reading
+
 - [Adaptive dialogs](https://aka.ms/adaptive-dialogs)
 - [Language generation](https://aka.ms/language-generation)
 - [Adaptive Expressions](https://aka.ms/adaptive-expressions)
@@ -49,4 +48,4 @@ A sample bot that demonstrates various declaratively defined [adaptive dialogs][
 - [.qna file format](https://aka.ms/qna-file-format)
 
 [1]:https://aka.ms/adaptive-dialogs
- 
+

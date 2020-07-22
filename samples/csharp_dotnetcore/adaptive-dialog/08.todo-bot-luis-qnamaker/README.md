@@ -20,10 +20,9 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
 
   ```bash
   # run the bot
@@ -42,7 +41,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -58,17 +57,18 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 > npm i -g @microsoft/botframework-cli
 ```
 - In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
-- In order for interruption to work effectively, you need to generate LU models that are cross-trained. 
+- In order for interruption to work effectively, you need to generate LU models that are cross-trained.
   - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
 > cd Dialogs
+
 > bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
 ```
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
 - To create, train and pubish LUIS applications for this bot
 ```bash
-> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key> 
+> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key>
 ```
-- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file. 
+- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file.
 - Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.
 - Note: You can just re-run `bf luis:build` command as you make changes to your .lu content. The command will smartly update only those applications that have changes.
 - Get your [QnA Maker subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
@@ -76,7 +76,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 ```bash
 > bf qnamaker:build --in ../generated --out ../generated --botName TodoBotWithLuisAndQnA --log --subscriptionKey <Your QnA subscription key>
 ```
-- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as qnamaker.settings.\<youralias>.\<region>.json file. 
+- This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as qnamaker.settings.\<youralias>.\<region>.json file.
 - Add the KB IDs for the created applications from qnamaker.settings.\<youralias>.\<region>.json to appsettings.json.
 
 # Further reading
