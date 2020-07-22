@@ -42,6 +42,9 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
         private async Task HandleTurnError(ITurnContext turnContext, Exception exception)
         {
             // Log any leaked exception from the application.
+            // NOTE: In production environment, you should consider logging this to
+            // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
+            // to add telemetry capture to your bot.
             _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
             await SendErrorMessageAsync(turnContext, exception);

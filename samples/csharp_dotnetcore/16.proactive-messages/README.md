@@ -1,4 +1,4 @@
-# proactive messages
+# Proactive Messages
 
 Bot Framework v4 proactive messages bot sample
 
@@ -30,10 +30,9 @@ all users who have previously messaged the bot.
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/16.proactive-messages`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/16.proactive-messages`
 
   ```bash
   # run the bot
@@ -52,7 +51,7 @@ all users who have previously messaged the bot.
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -60,7 +59,7 @@ all users who have previously messaged the bot.
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-With the Bot Framework Emulator connected to your running bot, the sample will not respond to an HTTP GET that will trigger a proactive message.  The proactive message can be triggered from the command line using `curl` or similar tooling, or can be triggered by opening a browser windows and nagivating to `http://localhost:3978/api/notify`.
+With the Bot Framework Emulator connected to your running bot, the sample will not respond to an HTTP GET that will trigger a proactive message.  The proactive message can be triggered from the command line using `curl` or similar tooling, or can be triggered by opening a browser windows and navigating to `http://localhost:3978/api/notify`.
 
 ### Using curl
 
@@ -70,15 +69,15 @@ With the Bot Framework Emulator connected to your running bot, the sample will n
     curl get http://localhost:3978/api/notify
    ```
 
-- Using the Bot Framwork Emulator, notice a message was proactively sent to the user from the bot.
+- Using the Bot Framework Emulator, notice a message was proactively sent to the user from the bot.
 
 ### Using the Browser
 
 - Launch a web browser
 - Navigate to `http://localhost:3978/api/notify`
-- Using the Bot Framwork Emulator, notice a message was proactively sent to the user from the bot.
+- Using the Bot Framework Emulator, notice a message was proactively sent to the user from the bot.
 
-## Proactive Messages
+## Interacting with the bot
 
 In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages based on activity, scheduled tasks, or external events.
 

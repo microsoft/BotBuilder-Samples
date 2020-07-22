@@ -14,8 +14,8 @@ It starts with [19.custom-dialogs][s1] sample and shows how to get adaptive dial
 5. Update adapter to use storage, conversation state and user state.
 6. Add/ update HostBuilder (see program.cs) to load in all relevant appsettings.json as well as composer generated settings file
 7. Update appsettings.json with required settings for composer.
-8. Use BotFramework Composer to build a bot. 
-    - Navigate to the folder on your local machine where your composer bot is. 
+8. Use BotFramework Composer to build a bot.
+    - Navigate to the folder on your local machine where your composer bot is.
     - Locate and copy over contents of `composerBot` folder.
 9. Add the composer dialog to your RootDialog.
 
@@ -37,10 +37,9 @@ It starts with [19.custom-dialogs][s1] sample and shows how to get adaptive dial
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/09.integrating-composer-dialogs`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/09.integrating-composer-dialogs`
 
   ```bash
   # run the bot
@@ -59,7 +58,7 @@ It starts with [19.custom-dialogs][s1] sample and shows how to get adaptive dial
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 

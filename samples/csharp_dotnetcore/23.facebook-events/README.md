@@ -1,8 +1,8 @@
-﻿# Facebook events
+﻿# Facebook Events
 
 Bot Framework v4 facebook events bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies and optin events.  Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
+This bot has been created using [Bot Framework](https://dev.botframework.com), is shows how to integrate and consume Facebook specific payloads, such as postbacks, quick replies and opt-in events.  Since Bot Framework supports multiple Facebook pages for a single bot, we also show how to know the page to which the message was sent, so developers can have custom behavior per page.
 
 More information about configuring a bot for Facebook Messenger can be found here: [Connect a bot to Facebook](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-channel-connect-facebook)
 
@@ -27,10 +27,9 @@ More information about configuring a bot for Facebook Messenger can be found her
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/23.facebook-events`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/23.facebook-events`
 
   ```bash
   # run the bot
@@ -49,7 +48,7 @@ More information about configuring a bot for Facebook Messenger can be found her
 
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -74,5 +73,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

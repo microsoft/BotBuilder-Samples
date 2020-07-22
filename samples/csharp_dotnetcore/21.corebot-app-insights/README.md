@@ -16,7 +16,7 @@ This sample **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding 
+This bot uses [LUIS](https://www.luis.ai), an AI based cognitive service, to implement language understanding
 and [Application Insights](https://docs.microsoft.com/azure/azure-monitor/app/cloudservices), an extensible Application Performance Management (APM) service for web developers on multiple platforms.
 
 ### Install .NET Core CLI
@@ -35,6 +35,7 @@ LUIS language model setup, training, and application configuration steps can be 
 If you wish to create a LUIS application via the CLI, these steps can be found in the [README-LUIS.md](README-LUIS.md).
 
 ### Add Application Insights service to enable the bot monitoring
+
 Application Insights resource creation steps can be found [here](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource).
 
 ## To try this sample
@@ -45,10 +46,9 @@ Application Insights resource creation steps can be found [here](https://docs.mi
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/21.corebot-app-insights`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/21.corebot-app-insights`
 
   ```bash
   # run the bot
@@ -67,7 +67,7 @@ Application Insights resource creation steps can be found [here](https://docs.mi
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 

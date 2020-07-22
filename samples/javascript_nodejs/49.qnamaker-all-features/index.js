@@ -36,7 +36,8 @@ const adapter = new BotFrameworkAdapter({
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights.
+    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
@@ -69,8 +70,16 @@ if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker
     endpointHostName = endpointHostName + '/qnamaker';
 }
 
+var endpointKey = process.env.QnAEndpointKey;
+
+if (!endpointKey || 0 === endpointKey.length)
+{
+   // To support backward compatibility for Key Names
+    endpointKey = process.env.QnAAuthKey;
+}
+
 // Create the main dialog.
-const dialog = new RootDialog(process.env.QnAKnowledgebaseId, process.env.QnAEndpointKey, endpointHostName);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, endpointKey, endpointHostName);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);
