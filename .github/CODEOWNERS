@@ -1,0 +1,20 @@
+# More details are here: https://help.github.com/articles/about-codeowners/
+
+# The '*' pattern is global owners.
+
+*                                                       @microsoft/bb-samples
+
+experimental/adaptive-dialog/**                         @boydc2014 @chrimc62 @vishwacsena
+experimental/adaptive-tool/**                           @boydc2014 @chrimc62
+experimental/generation/**                              @boydc2014 @chrimc62
+
+generators/**                                           @garypretty @sgellock
+
+samples/csharp*/**                                      @johnataylor @stevengum
+samples/javascript*/**                                  @sgellock @stevengum
+samples/typescript*/**                                  @sgellock @stevengum
+samples/python*/**                                      @axelsrz
+
+samples/csharp_dotnetcore/language-generation/**        @johnataylor @vishwacsena
+samples/csharp_dotnetcore/adaptive-dialog/**            @johnataylor @vishwacsena
+samples/javascript_nodejs/language-generation/**        @sgellock @stevengum @vishwacsena
