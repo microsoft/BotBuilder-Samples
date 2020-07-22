@@ -1,0 +1,16 @@
+.vscode/**
+.github/**
+**/*.ts
+**/*.map
+.gitignore
+**/tsconfig.json
+**/tsconfig.base.json
+**/tslint.json
+contributing.md
+.azure-pipelines.yml
+shared.webpack.config.js
+client/**
+!client/out/extension.js
+server/**
+!server/out/eslintServer.js
+playgrounds/**
