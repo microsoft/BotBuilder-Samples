@@ -224,7 +224,6 @@
         "test": "sh ./scripts/e2e.sh"
     },
     "devDependencies": {
-        "@types/mocha": "^7.0.2",
         "@types/node": "^13.9.3",
         "@types/vscode": "^1.38.0",
         "@typescript-eslint/eslint-plugin": "^3.4.0",
