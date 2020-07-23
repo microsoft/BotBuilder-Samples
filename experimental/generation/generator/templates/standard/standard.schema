@@ -95,6 +95,7 @@
         "PROPERTYName"   
      ],
     "$templates": [
+        "booleanEntity",
         "library-HelpIntent.lu",
         "library-CancelIntent.lu",
         "library-NoneIntent.lu",
