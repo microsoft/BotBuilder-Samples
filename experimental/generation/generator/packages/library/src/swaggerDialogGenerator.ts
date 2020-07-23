@@ -20,7 +20,7 @@ function generateParam(obj: any) {
     case 'string':
       if (obj.format === 'date-time') {
         return {
-          $ref: 'template:datetime.schema#/datetime'
+          $ref: 'template:datetime.schema'
         }
       } else if ('enum' in obj) {
         let structType = {}

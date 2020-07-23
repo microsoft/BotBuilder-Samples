@@ -78,7 +78,7 @@ It makes use of the `template:` protocol which looks in your template files for 
 
 ```json
 "Length": {
-  "$ref": "template:dimension.schema#/dimension"
+  "$ref": "template:dimension.schema"
 }
 ```
 
@@ -149,7 +149,7 @@ You can use expression syntax, i.e. `${<expr>}` to dynamically generate schema, 
 1. [White paper (docx)](Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
 
 [schema]:bot-schema.md
-[templates]:../generator/templates
+[templates]:../generator/packages/library/templates
 [templates-overview]:templates.md
 [start]:get-stared.md
 [sample-schemas]:example-schemas

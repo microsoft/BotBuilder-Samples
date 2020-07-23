@@ -1,4 +1,5 @@
 {
+    "$global": true,
     "$templates": [
         "library-HttpRequestIntent.dialog",
         "library-HttpRequestIntent.lu",

@@ -7,11 +7,30 @@ import * as fg from './dialogGenerator'
 import * as glob from 'globby'
 import * as ppath from 'path'
 import * as s from './schema'
+import {fstat} from 'fs'
 let allof: any = require('json-schema-merge-allof')
 let clone = require('clone')
 let parser: any = require('json-schema-ref-parser')
 
-type idToSchema = {[id: string]: any}
+/** Mapping from schema name to schema definition. */
+export type idToSchema = {[id: string]: any}
+
+/** Find all schemas in template directories.
+ * @param templateDirs User supplied ordered list of template directories.
+ * @param feedback Feedback for messages.
+ * @returns Object mapping from schema name to schema definition.
+ */
+export async function schemas(templateDirs: string[], feedback: fg.Feedback): Promise<idToSchema> {
+    templateDirs = templateDirs || []
+    let templates = await fg.templateDirectories(templateDirs)
+    let schemas = await templateSchemas(templates, feedback)
+    return schemas
+}
+
+/** Check to see if schema is global. */
+export function isGlobalSchema(schema: any) {
+    return schema.$global
+}
 
 // All .schema files found in template directories
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<idToSchema> {

@@ -8,7 +8,7 @@
             "maximum": 10
         },
         "Length": {
-            "$ref": "template:dimension.schema#/dimension"
+            "$ref": "template:dimension.schema"
         },
         "Name": {
             "type": "string",
@@ -47,7 +47,7 @@
             ]
         },
         "Price": {
-            "$ref": "template:money.schema#/money"
+            "$ref": "template:money.schema"
         }
     },
     "required": [

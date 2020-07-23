@@ -5,3 +5,4 @@
 
 export {generate, Feedback, FeedbackType} from './dialogGenerator'
 export {swaggerGenerate} from './swaggerDialogGenerator'
+export {idToSchema, schemas} from './processSchemas'

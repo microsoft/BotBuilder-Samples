@@ -47,6 +47,7 @@ function normalizeEOL(val: string): string {
     return val
 }
 
+// Stringify JSON with optional replacer
 export function stringify(val: any, replacer?: any): string {
     if (typeof val === 'object') {
         val = normalizeEOL(JSON.stringify(val, replacer, '  '))
@@ -79,6 +80,7 @@ function addHash(path: string, val: any): any {
     return val
 }
 
+// Check to see if the contents of path are unchanged since generated
 export async function isUnchanged(path: string): Promise<boolean> {
     let result = false
     let ext = ppath.extname(path)
@@ -103,6 +105,7 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
+// Write file with error checking and hash code generation.
 export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
         let dir = ppath.dirname(path)
@@ -120,6 +123,24 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
         }
         feedback(FeedbackType.error, `${e.message}${os.EOL}${val}`)
     }
+}
+
+// Return template directories by combining explicit ones with library ones
+export async function templateDirectories(templateDirs: string[]): Promise<string[]> {
+    // Fully expand all directories
+    templateDirs = resolveDir(templateDirs)
+
+    // User templates + cli templates to find schemas
+    let startDirs = [...templateDirs]
+    let templates = normalize(ppath.join(__dirname, '../templates'))
+    for (let dirName of await fs.readdir(templates)) {
+        let dir = ppath.join(templates, dirName)
+        if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+            // Add templates subdirectories as templates
+            startDirs.push(dir)
+        }
+    }
+    return startDirs
 }
 
 async function generateFile(path: string, val: any, force: boolean, feedback: Feedback) {
@@ -658,23 +679,13 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        templateDirs = resolveDir(templateDirs)
-
-        // User templates + cli templates to find schemas
-        let startDirs = [...templateDirs]
-        let templates = normalize(ppath.join(__dirname, '../templates'))
-        for (let dirName of await fs.readdir(templates)) {
-            let dir = ppath.join(templates, dirName)
-            if (await (await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
-                startDirs.push(dir)
-            }
-        }
-
+        let startDirs = await templateDirectories(templateDirs)
         let schema = await processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
-        // User templates + schema template directories
+        // User templates + used schema template directories
         let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
+        templateDirs = resolveDir(templateDirs)
         templateDirs = [
             ...templateDirs,
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))

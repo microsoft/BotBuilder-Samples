@@ -10,19 +10,12 @@ import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
 import * as ppath from 'path'
-import * as gen from '@microsoft/bf-generate-library'
-
-function feedback(type: gen.FeedbackType, msg: string) {
-    if (type !== gen.FeedbackType.debug) {
-        console.log(`${type}: ${msg}`)
-    }
-}
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
-    let schemaPath = 'test/commands/dialog/forms/sandwich.schema'
-    let badSchema = 'test/commands/dialog/forms/bad-schema.schema'
-    let swaggerPath = 'test/commands/dialog/forms/petSwagger.json'
+    let schemaPath = '../library/test/forms/sandwich.schema'
+    let badSchema = '../library/test/forms/bad-schema.schema'
+    let swaggerPath = '../library/test/forms/petSwagger.json'
     let method = 'post'
     let route = '/store/order'
     let schemaName = 'petOrder.schema'
@@ -48,7 +41,7 @@ describe('dialog:generate', async () => {
             expect(ctx.stderr)
                 .not.to.contain('Error')
         })
-/*
+
     test
         .stdout()
         .stderr()
@@ -58,9 +51,8 @@ describe('dialog:generate', async () => {
             '-n', `${schemaName}`,
             '-r', `${route}`,
             '--verbose'])
-        .it('Detect success', ctx => {
+        .it('Generate swagger', ctx => {
             expect(ctx.stderr)
-                .to.contain('Generating')
+                .not.to.contain('Error')
         })
-        */
 })
