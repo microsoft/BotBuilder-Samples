@@ -92,8 +92,8 @@
         "personName"
     ],
     "$entities": [
-        "PROPERTYName"   
-     ],
+        "PROPERTYName"
+    ],
     "$templates": [
         "booleanEntity",
         "library-HelpIntent.lu",
