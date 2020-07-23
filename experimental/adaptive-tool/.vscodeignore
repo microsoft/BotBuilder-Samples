@@ -9,6 +9,6 @@
 shared.webpack.config.js
 client/**
 !client/out/extension.js
-server/lg/**
+server/**
 !server/out/server.js
-node_modules
+scripts/**
