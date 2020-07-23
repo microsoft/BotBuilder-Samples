@@ -14,6 +14,7 @@ import {
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
+	CompletionItem,
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
@@ -49,6 +50,7 @@ let workspaceFolders: WorkspaceFolder[] | null | undefined;
 
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
+let hasDiagnosticRelatedInformationCapability = false;
 let hasDidChangeWatchedFilesCapability = false;
 
 
@@ -64,6 +66,11 @@ connection.onInitialize((params: InitializeParams) => {
 	);
 	hasWorkspaceFolderCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
+	);
+	hasDiagnosticRelatedInformationCapability = !!(
+		capabilities.textDocument &&
+		capabilities.textDocument.publishDiagnostics &&
+		capabilities.textDocument.publishDiagnostics.relatedInformation
 	);
 	hasDidChangeWatchedFilesCapability = !!(
 		capabilities.workspace && !! capabilities.workspace.didChangeWatchedFiles?.dynamicRegistration
@@ -128,14 +135,24 @@ interface LgSettings {
 	maxNumberOfProblems: number;
 }
 
+// The global settings, used when the `workspace/configuration` request is not supported by the client.
+// Please note that this is not the case when using this server with the client provided in this example
+// but could happen with other clients.
+const defaultSettings: LgSettings = { maxNumberOfProblems: 1000 };
+let globalSettings: LgSettings = defaultSettings;
+
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<LgSettings>> = new Map();
 
 
-connection.onDidChangeConfiguration(() => {
+connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
+	} else {
+		globalSettings = <LgSettings>(
+			(change.settings.languageServerExample || defaultSettings)
+		);
 	}
 
 	// To update templatestatus with only open text documents

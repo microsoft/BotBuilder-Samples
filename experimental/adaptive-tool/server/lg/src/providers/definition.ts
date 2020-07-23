@@ -6,12 +6,12 @@ import {
 	TextDocuments, Location, DefinitionParams
 } from 'vscode-languageserver';
 
-import { TemplatesStatus } from '../templatesStatus';
+import { TemplatesStatus, TemplatesEntity } from '../templatesStatus';
 import * as util from '../util';
 import * as path from 'path';
 
 import {
-	TextDocument, Position, DocumentUri
+	TextDocument, Position, Range, DocumentUri
 } from 'vscode-languageserver-textdocument';
 import { Templates, Template } from 'botbuilder-lg';
 
