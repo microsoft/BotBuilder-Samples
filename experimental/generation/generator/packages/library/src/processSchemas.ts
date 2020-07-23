@@ -17,7 +17,7 @@ type idToSchema = {[id: string]: any}
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<idToSchema> {
     let map: idToSchema = {}
     for (let dir of templateDirs) {
-        for (let file of await glob(ppath.join(dir, '**/*.schema'))) {
+        for (let file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
             let schema = await getSchema(file, feedback)
             let id: string = schema.$id || ppath.basename(file)
             if (!map[id]) {

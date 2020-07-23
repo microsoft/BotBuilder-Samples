@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
-import { processSchemas } from './processSchemas'
+import {SubstitutionsEvaluator} from './substitutions'
+import {processSchemas} from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -131,17 +131,29 @@ async function generateFile(path: string, val: any, force: boolean, feedback: Fe
     }
 }
 
-const expressionEngine = new expressions.ExpressionParser((func: string): any => {
-    switch (func) {
-        case 'phrase': return ph.PhraseEvaluator
-        case 'phrases': return ph.PhrasesEvaluator
-        case 'substitutions': return SubstitutionsEvaluator
-        default:
-            return expressions.ExpressionFunctions.standardFunctions.get(func)
+let expressionEngine: expressions.ExpressionParser
+function getExpressionEngine(): expressions.ExpressionParser {
+    if (!expressionEngine) {
+        expressionEngine = new expressions.ExpressionParser((func: string): any => {
+            switch (func) {
+                case 'phrase': return ph.PhraseEvaluator
+                case 'phrases': return ph.PhrasesEvaluator
+                case 'substitutions': return SubstitutionsEvaluator
+                default:
+                    return expressions.ExpressionFunctions.standardFunctions.get(func)
+            }
+        })
     }
-})
+    return expressionEngine
+}
 
-const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, expressionEngine)
+let generatorTemplate: lg.Templates
+function getGeneratorTemplate(): lg.Templates {
+    if (!generatorTemplate) {
+        generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, getExpressionEngine())
+    }
+    return generatorTemplate
+}
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -166,7 +178,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,13 +187,13 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
             break
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
             if (await fs.pathExists(loc)) {
-                template = lg.Templates.parseFile(loc, undefined, expressionEngine)
+                template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
                 break
             }
         }
@@ -204,7 +216,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -441,7 +453,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -456,13 +468,13 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
             }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
-            let value = generatorTemplate.evaluateText(schema, scope)
+            let value = getGeneratorTemplate().evaluateText(schema, scope)
             if (value && value !== 'null') {
                 newSchema = value
             } else {
@@ -528,7 +540,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
@@ -679,7 +691,7 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
