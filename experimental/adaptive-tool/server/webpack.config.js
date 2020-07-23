@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
   
 /*---------------------------------------------------------------------------------------------
  *  Copyright (c) Microsoft Corporation. All rights reserved.

@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.0.3",
+    "version": "0.0.4",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {
@@ -210,7 +210,7 @@
         "onLanguage:lg",
         "onLanguage:lu"
     ],
-    "main": "./client/out/src/extension",
+    "main": "./client/out/extension",
     "scripts": {
         "vscode:prepublish": "npm run webpack",
         "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/webpack.config.js",
