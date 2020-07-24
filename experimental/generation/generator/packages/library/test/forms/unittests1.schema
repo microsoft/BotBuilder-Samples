@@ -13,7 +13,7 @@
             "maximum": 20
         },
         "Complete": {
-            "type": "boolean",
+            "type": "string",
             "$entities": [
                 "boolean"
             ]
@@ -81,7 +81,7 @@
         "Dimension": {
             "$ref": "template:dimension.schema"
         },
-        "Datetime": {
+        "DateTime": {
             "$ref": "template:datetime.schema"
         }
     },
@@ -103,7 +103,7 @@
         "Money",
         "Temperature",
         "Dimension",
-        "Datetime"
+        "DateTime"
     ],
     "$requires": [
         "standard.schema"

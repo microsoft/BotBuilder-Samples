@@ -12,7 +12,7 @@
 - ${template(`${property}_getPropertyNameText`)}
 
 # getPropertyValueText(property, val)
-- ${replace(replace(template(`${property}_getValueText`, val), '\r\n', ''), '"', '\'')}
+- ${replace(replace(string(template(`${property}_getValueText`, val)), '\r\n', ''), '"', '\'')}
 
 # getEntityValueText(property, val)
 - ${template(`${property}Entity_getValueText`, val)}
