@@ -80,8 +80,10 @@ updating generated files when changing the schema. In the below, $italics$ are
 place holders.
 
 - `$schema$-library` -- Defines library files that are either common building
+
   blocks like [library.lg.lg](../generator/packages/library/templates/standard/library.lg.lg) or are internal
   mechanisms like [library-help.lg.lg](../generator/packages/library/templates/standard/library-Help.lg.lg).
+
 - `$schema$-$entity$Entity` -- Defines entity specific files.
 - `$schema$-$property$` -- Defines property related files when $property$ is found
   in the schema.

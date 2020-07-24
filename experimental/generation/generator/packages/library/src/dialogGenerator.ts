@@ -13,8 +13,8 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
-import { processSchemas } from './processSchemas'
+import {SubstitutionsEvaluator} from './substitutions'
+import * as ps from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -47,6 +47,7 @@ function normalizeEOL(val: string): string {
     return val
 }
 
+// Stringify JSON with optional replacer
 export function stringify(val: any, replacer?: any): string {
     if (typeof val === 'object') {
         val = normalizeEOL(JSON.stringify(val, replacer, '  '))
@@ -79,6 +80,7 @@ function addHash(path: string, val: any): any {
     return val
 }
 
+// Check to see if the contents of path are unchanged since generated
 export async function isUnchanged(path: string): Promise<boolean> {
     let result = false
     let ext = ppath.extname(path)
@@ -103,6 +105,7 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
+// Write file with error checking and hash code generation.
 export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
         let dir = ppath.dirname(path)
@@ -122,6 +125,24 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
     }
 }
 
+// Return template directories by combining explicit ones with library ones
+export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
+    // Fully expand all directories
+    templateDirs = resolveDir(templateDirs || [])
+
+    // User templates + cli templates to find schemas
+    let startDirs = [...templateDirs]
+    let templates = normalize(ppath.join(__dirname, '../templates'))
+    for (let dirName of await fs.readdir(templates)) {
+        let dir = ppath.join(templates, dirName)
+        if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+            // Add templates subdirectories as templates
+            startDirs.push(dir)
+        }
+    }
+    return startDirs
+}
+
 async function generateFile(path: string, val: any, force: boolean, feedback: Feedback) {
     if (force || !await fs.pathExists(path)) {
         feedback(FeedbackType.info, `Generating ${path}`)
@@ -131,17 +152,29 @@ async function generateFile(path: string, val: any, force: boolean, feedback: Fe
     }
 }
 
-const expressionEngine = new expressions.ExpressionParser((func: string): any => {
-    switch (func) {
-        case 'phrase': return ph.PhraseEvaluator
-        case 'phrases': return ph.PhrasesEvaluator
-        case 'substitutions': return SubstitutionsEvaluator
-        default:
-            return expressions.ExpressionFunctions.standardFunctions.get(func)
+let expressionEngine: expressions.ExpressionParser
+function getExpressionEngine(): expressions.ExpressionParser {
+    if (!expressionEngine) {
+        expressionEngine = new expressions.ExpressionParser((func: string): any => {
+            switch (func) {
+                case 'phrase': return ph.PhraseEvaluator
+                case 'phrases': return ph.PhrasesEvaluator
+                case 'substitutions': return SubstitutionsEvaluator
+                default:
+                    return expressions.ExpressionFunctions.standardFunctions.get(func)
+            }
+        })
     }
-})
+    return expressionEngine
+}
 
-const generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, expressionEngine)
+let generatorTemplate: lg.Templates
+function getGeneratorTemplate(): lg.Templates {
+    if (!generatorTemplate) {
+        generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, getExpressionEngine())
+    }
+    return generatorTemplate
+}
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -166,7 +199,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -175,13 +208,13 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
             break
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
             if (await fs.pathExists(loc)) {
-                template = lg.Templates.parseFile(loc, undefined, expressionEngine)
+                template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
                 break
             }
         }
@@ -204,7 +237,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -441,7 +474,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -456,13 +489,13 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
             }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
-            let value = generatorTemplate.evaluateText(schema, scope)
+            let value = getGeneratorTemplate().evaluateText(schema, scope)
             if (value && value !== 'null') {
                 newSchema = value
             } else {
@@ -528,7 +561,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
@@ -646,23 +679,13 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        templateDirs = resolveDir(templateDirs)
-
-        // User templates + cli templates to find schemas
-        let startDirs = [...templateDirs]
-        let templates = normalize(ppath.join(__dirname, '../templates'))
-        for (let dirName of await fs.readdir(templates)) {
-            let dir = ppath.join(templates, dirName)
-            if (await (await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
-                startDirs.push(dir)
-            }
-        }
-
-        let schema = await processSchemas(schemaPath, startDirs, feedback)
+        let startDirs = await templateDirectories(templateDirs)
+        let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
-        // User templates + schema template directories
+        // User templates + used schema template directories
         let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
+        templateDirs = resolveDir(templateDirs)
         templateDirs = [
             ...templateDirs,
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
@@ -679,7 +702,7 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
@@ -712,4 +735,35 @@ export async function generate(
     } catch (e) {
         feedback(FeedbackType.error, e.message)
     }
+}
+
+/**
+ * Expand a property definition by resolving $ref including template:, removing allOf and generating $entities if missing.
+ * @param property Name of property.
+ * @param schema Schema definition.
+ * @param templateDirs Optional directories for overriding templates.
+ */
+export async function expandPropertyDefinition(property: string, schema: any, templateDirs?: string[]): Promise<any> {
+    templateDirs = await templateDirectories(templateDirs)
+    schema = await ps.expandPropertyDefinition(schema, templateDirs)
+    let fullSchema = { 
+        properties: {}
+    }
+    fullSchema.properties[property] = schema
+    schema = expandSchema(fullSchema, {}, '', false, false, ps.feedbackException).properties[property]
+    if (!schema.$entities) {
+        let scope = {
+            property,
+            type: ps.typeName(schema)
+        }
+        let foundTemplate = await findTemplate(scope.type, templateDirs)
+        let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+        if (lgTemplate && lgTemplate.allTemplates.some(f => f.name === 'entities')) {
+            let entities = lgTemplate.evaluate('entities', scope) as string[]
+            if (entities) {
+                schema.$entities = entities
+            }
+        }
+    }
+    return schema
 }
