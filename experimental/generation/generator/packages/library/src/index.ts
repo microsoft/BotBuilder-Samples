@@ -3,6 +3,6 @@
  * Licensed under the MIT License.
  */
 
-export {generate, Feedback, FeedbackType} from './dialogGenerator'
+export {generate, Feedback, FeedbackType, expandPropertyDefinition} from './dialogGenerator'
 export {swaggerGenerate} from './swaggerDialogGenerator'
 export {idToSchema, schemas} from './processSchemas'

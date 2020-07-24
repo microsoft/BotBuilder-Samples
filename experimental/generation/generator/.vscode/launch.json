@@ -34,7 +34,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*discovery.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

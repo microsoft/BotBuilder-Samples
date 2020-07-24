@@ -7,7 +7,6 @@ import * as fg from './dialogGenerator'
 import * as glob from 'globby'
 import * as ppath from 'path'
 import * as s from './schema'
-import {fstat} from 'fs'
 let allof: any = require('json-schema-merge-allof')
 let clone = require('clone')
 let parser: any = require('json-schema-ref-parser')
@@ -15,21 +14,27 @@ let parser: any = require('json-schema-ref-parser')
 /** Mapping from schema name to schema definition. */
 export type idToSchema = {[id: string]: any}
 
-/** Find all schemas in template directories.
+/** 
+ * Find all schemas in template directories.
  * @param templateDirs User supplied ordered list of template directories.
- * @param feedback Feedback for messages.
  * @returns Object mapping from schema name to schema definition.
  */
-export async function schemas(templateDirs: string[], feedback: fg.Feedback): Promise<idToSchema> {
+export async function schemas(templateDirs?: string[]): Promise<idToSchema> {
     templateDirs = templateDirs || []
     let templates = await fg.templateDirectories(templateDirs)
-    let schemas = await templateSchemas(templates, feedback)
+    let schemas = await templateSchemas(templates, feedbackException)
     return schemas
 }
 
 /** Check to see if schema is global. */
 export function isGlobalSchema(schema: any) {
     return schema.$global
+}
+
+export function feedbackException(type: fg.FeedbackType, message: string) {
+    if (type === fg.FeedbackType.error) {
+        throw new Error(message)
+    }
 }
 
 // All .schema files found in template directories
@@ -123,55 +128,46 @@ export function typeName(property: any): string {
     return type
 }
 
-function addMissingEntities(property: any, path: string) {
-    let entities: string[] = property.$entities
-    if (!entities) {
-        let type = typeName(property)
-        if (type === 'number') {
-            entities = [`number:${path}`, 'number']
-        } else if (type === 'integer') {
-            entities = [`integer:${path}`, 'integer']
-        } else if (type === 'string') {
-            entities = [path + 'Entity', 'utterance']
-        } else if (type === 'object') {
-            // For objects go to leaves
-            for (let childPath of Object.keys(property.properties)) {
-                let child = property.properties[childPath]
-                addMissingEntities(child, path + '.' + child)
+async function templateResolver(templateDirs: string[], feedback: fg.Feedback): Promise<{allRequired: any, resolver: any}> {
+    let allRequired = await templateSchemas(templateDirs, feedback)
+    return {
+        allRequired,
+        resolver: {
+            canRead: /template:/,
+            read(file: any): any {
+                let base = file.url.substring(file.url.indexOf(':') + 1)
+                return allRequired[base]
             }
-        } else {
-            entities = [path + 'Entity']
         }
-        if (!entities) {
-            entities = []
-        }
-        property.$entities = entities
     }
 }
 
-// Fill in $entities if missing
-function addMissing(schema: any) {
-    for (let path of Object.keys(schema.properties)) {
-        let property = schema.properties[path]
-        addMissingEntities(property, path)
+/** 
+ * Expand JSON schema property definition by resolving $ref including template: and removing allOf.
+ * @param property JSON Schema type definition.
+ * @param templateDirs Optional set of template directories.
+ * @returns Expanded schema definition including $templateDirs if not present.
+ */
+export async function expandPropertyDefinition(property: any, templateDirs: string[]): Promise<any> {
+    let {allRequired, resolver} = await templateResolver(templateDirs, feedbackException)
+    let schema = await parser.dereference(property, {resolve: {template: resolver}})
+    schema = allof(schema)
+    if (!schema.$templateDirs) {
+        schema.$templateDirs = templateDirs
     }
+    return schema
 }
 
-// Process the root schema to generate all schemas
-// 1) A property can $ref to a property definition to reuse a type like address. 
-//    Ref resolver includes template: for referring to template files.
-// 2) $requires:[] can be in a property or at the top.  
-//    This is handled by finding all of the referenced schemas and then merging.  
+/**
+ * Process the root schema to generate a single merged schema.
+ * Involves resolving $ref including template:, removing allOf and combining with $requires.
+ * @param schemaPath Path to schema to process.
+ * @param templateDirs Template directories to use when resolving template: and $requires.
+ * @param feedback Feedback channel
+ */
 export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
     : Promise<any> {
-    let allRequired = await templateSchemas(templateDirs, feedback)
-    let resolver: any = {
-        canRead: /template:/,
-        read(file: any): any {
-            let base = file.url.substring(file.url.indexOf(':') + 1)
-            return allRequired[base]
-        }
-    }
+    let {allRequired, resolver} = await templateResolver(templateDirs, feedback)
     let formSchema = await getSchema(schemaPath, feedback, resolver)
     let required = {}
     if (!formSchema.$requires) {
@@ -184,7 +180,6 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     }
     await findRequires(formSchema, allRequired, required, resolver, feedback)
     let allSchema = clone(formSchema)
-    addMissing(allSchema)
     if (!allSchema.required) allSchema.required = []
     if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
     if (!allSchema.$templates) allSchema.$templates = []
@@ -198,7 +193,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         // Default to properties in root schema
         allSchema.$public = Object.keys(formSchema.properties)
     }
-    mergeSchemas(allSchema, Object.values(required));
+    mergeSchemas(allSchema, Object.values(required))
 
     return new s.Schema(schemaPath, allSchema)
 }

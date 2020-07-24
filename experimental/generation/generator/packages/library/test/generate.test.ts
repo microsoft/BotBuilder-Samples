@@ -112,7 +112,7 @@ describe('dialog:generate library', async () => {
 
     it('Schema discovery', async() => {
         try {
-            let schemas = await ps.schemas([], feedback)
+            let schemas = await ps.schemas()
             assert.equal(Object.keys(schemas).length, 10, 'Wrong number of schemas discovered')
             let global = 0
             let property = 0
@@ -125,6 +125,34 @@ describe('dialog:generate library', async () => {
             }
             assert.equal(global, 3, 'Wrong number of global schemas')
             assert.equal(property, 7, 'Wrong number of property schemas')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Expand simple property definition', async () => {
+        try {
+            let schema = {
+                type: 'number'
+            }
+            let expansion = await gen.expandPropertyDefinition('simple', schema)
+            assert(expansion.$entities, 'Did not generate $entities')
+            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
+            assert.equal(expansion.$entities[0], 'number:simple', 'Missing role')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Expand $ref property definition', async () => {
+        try {
+            let schema = {
+                $ref: "template:dimension.schema"
+            }
+            let expansion = await gen.expandPropertyDefinition('ref', schema)
+            assert(expansion.$entities, 'Did not generate $entities')
+            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
+            assert.equal(expansion.$entities[0], 'dimension:ref', 'Missing role')
         } catch (e) {
             assert.fail(e.message)
         }

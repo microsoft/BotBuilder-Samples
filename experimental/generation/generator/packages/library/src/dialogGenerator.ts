@@ -14,7 +14,7 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
 import {SubstitutionsEvaluator} from './substitutions'
-import {processSchemas} from './processSchemas'
+import * as ps from './processSchemas'
 
 export enum FeedbackType {
     message,
@@ -126,9 +126,9 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
 }
 
 // Return template directories by combining explicit ones with library ones
-export async function templateDirectories(templateDirs: string[]): Promise<string[]> {
+export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
-    templateDirs = resolveDir(templateDirs)
+    templateDirs = resolveDir(templateDirs || [])
 
     // User templates + cli templates to find schemas
     let startDirs = [...templateDirs]
@@ -680,7 +680,7 @@ export async function generate(
         }
 
         let startDirs = await templateDirectories(templateDirs)
-        let schema = await processSchemas(schemaPath, startDirs, feedback)
+        let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // User templates + used schema template directories
@@ -735,4 +735,35 @@ export async function generate(
     } catch (e) {
         feedback(FeedbackType.error, e.message)
     }
+}
+
+/**
+ * Expand a property definition by resolving $ref including template:, removing allOf and generating $entities if missing.
+ * @param property Name of property.
+ * @param schema Schema definition.
+ * @param templateDirs Optional directories for overriding templates.
+ */
+export async function expandPropertyDefinition(property: string, schema: any, templateDirs?: string[]): Promise<any> {
+    templateDirs = await templateDirectories(templateDirs)
+    schema = await ps.expandPropertyDefinition(schema, templateDirs)
+    let fullSchema = { 
+        properties: {}
+    }
+    fullSchema.properties[property] = schema
+    schema = expandSchema(fullSchema, {}, '', false, false, ps.feedbackException).properties[property]
+    if (!schema.$entities) {
+        let scope = {
+            property,
+            type: ps.typeName(schema)
+        }
+        let foundTemplate = await findTemplate(scope.type, templateDirs)
+        let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+        if (lgTemplate && lgTemplate.allTemplates.some(f => f.name === 'entities')) {
+            let entities = lgTemplate.evaluate('entities', scope) as string[]
+            if (entities) {
+                schema.$entities = entities
+            }
+        }
+    }
+    return schema
 }
