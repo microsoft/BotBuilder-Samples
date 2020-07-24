@@ -1,4 +1,5 @@
 {
+    "$global": true,
     "$templates": [
         "AboutBot.en-us.qna",
         "AboutUser.en-us.qna",
