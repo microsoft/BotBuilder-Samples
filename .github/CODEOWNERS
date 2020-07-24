@@ -5,8 +5,8 @@
 *                                                       @microsoft/bb-samples
 
 experimental/adaptive-dialog/**                         @sgellock @stevengum @vishwacsena
-experimental/adaptive-tool/**                           @boydc2014 @chrimc62
-experimental/generation/**                              @boydc2014 @chrimc62
+experimental/adaptive-tool/**                           @boydc2014 @chrimc62 @GeoffCoxMSFT
+experimental/generation/**                              @boydc2014 @chrimc62 @GeoffCoxMSFT
 
 generators/**                                           @garypretty @sgellock
 
