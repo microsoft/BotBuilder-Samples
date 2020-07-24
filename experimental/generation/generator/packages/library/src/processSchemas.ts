@@ -27,7 +27,7 @@ export async function schemas(templateDirs?: string[]): Promise<idToSchema> {
 }
 
 /** Check to see if schema is global. */
-export function isGlobalSchema(schema: any) {
+export function isGlobalSchema(schema: any): boolean {
     return schema.$global
 }
 
