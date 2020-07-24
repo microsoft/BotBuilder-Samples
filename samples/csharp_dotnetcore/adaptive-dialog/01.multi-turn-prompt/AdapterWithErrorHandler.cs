@@ -18,6 +18,8 @@ namespace Microsoft.BotBuilderSamples
             UserState userState, ConversationState conversationState, IConfiguration configuration)
             : base(credentialProvider)
         {
+            // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
+            // turn context each turn so that the dialog manager can retrieve them.
             this.UseStorage(storage);
             this.UseBotState(userState);
             this.UseBotState(conversationState);

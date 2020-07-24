@@ -1,4 +1,4 @@
-## How to this extension form source code
+## How to build this extension form source code
 - `npm install`
 - `npm run build`
 - `npm install -g vsce`, if `vsce` is not installed globally.
