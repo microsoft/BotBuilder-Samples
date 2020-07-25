@@ -25,7 +25,7 @@
 			"port": 6010,
 			"restart": true,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/*.js"]
 		},
 		{
 			"type": "node",

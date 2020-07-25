@@ -1,31 +1,29 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "age": {
-        "type": "object",
-        "$entities": [
-            "${concat('age:', property)}",
-            "age"
-        ],
-        "properties": {
-            "number": {
-                "type": "number"
-            },
-            "units": {
-                "type": "string"
-            }
+    "type": "object",
+    "$entities": [
+        "${concat('age:', property)}",
+        "age"
+    ],
+    "properties": {
+        "number": {
+            "type": "number"
         },
-        "required": [
-            "number",
-            "units"
-        ],
-        "$templates": [
-            "ageEntity.lu",
-            "objectProperty.lg",
-            "string-missing.dialog",
-            "ageEntity-add.dialog",
-            "ageEntity-remove.dialog",
-            "ageEntity-clear.dialog",
-            "ageEntity-show.dialog"
-        ]
-    }
+        "units": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "number",
+        "units"
+    ],
+    "$templates": [
+        "ageEntity.lu",
+        "objectProperty.lg",
+        "string-missing.dialog",
+        "ageEntity-add.dialog",
+        "ageEntity-remove.dialog",
+        "ageEntity-clear.dialog",
+        "ageEntity-show.dialog"
+    ]
 }
