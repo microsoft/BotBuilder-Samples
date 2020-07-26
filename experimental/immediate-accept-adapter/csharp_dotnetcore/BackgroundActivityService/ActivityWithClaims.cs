@@ -1,0 +1,18 @@
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+//
+using System.Security.Claims;
+using Microsoft.Bot.Schema;
+
+namespace ImmediateAcceptBot.BackgroundQueue
+{
+    /// <summary>
+    /// Activity with Claims which should already have been authenticated via JwtTokenValidation.AuthenticateRequest.
+    /// </summary>
+    public class ActivityWithClaims
+    {
+        public ClaimsIdentity ClaimsIdentity { get; set; }
+
+        public Activity Activity { get; set; }
+    }
+}
