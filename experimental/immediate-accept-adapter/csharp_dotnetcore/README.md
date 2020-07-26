@@ -6,6 +6,8 @@ This example demonstrates how to create a simple bot that accepts input from the
 
 ImmediateAcceptAdapter verifies the authorization header, adds the message to a Microsoft.Extensions.Hosting.BackgroundService (HostedActivityService) for processing, and writes HttpStatusCode.OK to HttpResponse.  This causes all messages sent by the bot to effectively be proactive.
 
+Note: This bot demonstrates how to extend in process execution of incoming messages, passed the 15 second timeout. In general, long running processes should be executed by a Web Job or Azure Function and not a web application hosting server.
+
 ## ImmediateAcceptAdapter.cs
 
 New method in BotFrameworkHttpAdapter implementation:
