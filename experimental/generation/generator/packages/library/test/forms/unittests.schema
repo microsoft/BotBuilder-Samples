@@ -10,13 +10,13 @@
             ]
         },
         "Age": {
-            "$ref": "template:age.schema#/age"
+            "$ref": "template:age.schema"
         },
         "OrdinalV2": {
-            "$ref": "template:ordinal.schema#/ordinalV2"
+            "$ref": "template:ordinal.schema"
         },
         "GeographyV2": {
-            "$ref": "template:geography.schema#/geographyV2"
+            "$ref": "template:geography.schema"
         },
         "KeyphraseProperty": {
             "type": "string",
@@ -25,7 +25,7 @@
             ]
         },
         "Money": {
-            "$ref": "template:money.schema#/money"
+            "$ref": "template:money.schema"
         },
         "Percentage": {
             "type": "string",
@@ -34,7 +34,7 @@
             ]
         },
         "Temperature": {
-            "$ref": "template:temperature.schema#/temperature"
+            "$ref": "template:temperature.schema"
         },
         "Url": {
             "type": "string",
@@ -58,7 +58,7 @@
             "$comment": "This indicates the whole string is what maps to this."
         },
         "Dimension": {
-            "$ref": "template:dimension.schema#/dimension"
+            "$ref": "template:dimension.schema"
         },
         "Enum1": {
             "type": "string",
@@ -96,7 +96,7 @@
             "$entities": ["phonenumber"]
         },
         "DatetimeV2": {
-            "$ref": "template:datetime.schema#/datetime"
+            "$ref": "template:datetime.schema"
         }
     },
     "required": 
