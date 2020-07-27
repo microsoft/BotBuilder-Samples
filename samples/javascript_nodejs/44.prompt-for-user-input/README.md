@@ -1,9 +1,8 @@
 # Prompt users for input
 
-This bot has been created using [Bot Framework][1], it shows how to:
-
-- Maintain conversation state to track and direct the conversation and ask the user questions
-- Maintain user state to track the user's answers
+This sample demonstrates how to create your own prompts with an ASP.Net Core 2 bot.
+The bot maintains conversation state to track and direct the conversation and ask the user questions.
+The bot maintains user state to track the user's answers.
 
 ## Prerequisites
 
@@ -40,7 +39,19 @@ This bot has been created using [Bot Framework][1], it shows how to:
     npm start
     ```
 
-## Bot state
+## Testing the bot using Bot Framework Emulator
+
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+## Interacting with the bot
 
 A bot is inherently stateless. Once your bot is deployed, it may not run in the same process or on the same machine from one turn to the next.
 However, your bot may need to track the context of a conversation, so that it can manage its behavior and remember answers to previous questions.
@@ -52,22 +63,6 @@ In this example, the bot's state is used to a track number of messages.
 
 This sample is intended to be run and tested locally and is not designed to be deployed to Azure.
 
-## Testing the bot using Bot Framework Emulator
-
-[Bot Framework Emulator][5] is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here][6]
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
-
-## Deploy the bot to Azure
-
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40] for a complete list of deployment instructions.
-
 ## Further reading
 
 - [Bot Framework Documentation][20]
@@ -75,8 +70,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure][40]
 - [Azure Bot Service Introduction][21]
 - [Azure Bot Service Documentation][22]
 - [Deploying Your Bot to Azure][40]
-- [Azure CLI][7]
-- [Azure Portal][10]
 - [Language Understanding using LUIS][11]
 - [Add Natural Language Understanding to Your Bot][12]
 - [TypeScript][2]

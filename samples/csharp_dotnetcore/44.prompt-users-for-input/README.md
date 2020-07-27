@@ -50,9 +50,17 @@ The bot maintains user state to track the user's answers.
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Deploy the bot to Azure
+## Interacting with the bot
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+A bot is inherently stateless. Once your bot is deployed, it may not run in the same process or on the same machine from one turn to the next.
+However, your bot may need to track the context of a conversation, so that it can manage its behavior and remember answers to previous questions.
+
+In this example, the bot's state is used to a track number of messages.
+
+- We use the bot's turn handler and user and conversation state properties to manage the flow of the conversation and the collection of input.
+- We ask the user a series of questions; parse, validate, and normalize their answers; and then save their input.
+
+This sample is intended to be run and tested locally and is not designed to be deployed to Azure.
 
 ## Further reading
 
@@ -62,7 +70,5 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
-- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Bot Storage](https://docs.microsoft.com/azure/bot-service/dotnet/bot-builder-dotnet-state?view=azure-bot-service-3.0&viewFallbackFrom=azure-bot-service-4.0)
