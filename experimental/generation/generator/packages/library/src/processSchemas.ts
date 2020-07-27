@@ -12,14 +12,14 @@ let clone = require('clone')
 let parser: any = require('json-schema-ref-parser')
 
 /** Mapping from schema name to schema definition. */
-export type idToSchema = {[id: string]: any}
+export type IdToSchema = {[id: string]: any}
 
 /** 
  * Find all schemas in template directories.
  * @param templateDirs User supplied ordered list of template directories.
  * @returns Object mapping from schema name to schema definition.
  */
-export async function schemas(templateDirs?: string[]): Promise<idToSchema> {
+export async function schemas(templateDirs?: string[]): Promise<IdToSchema> {
     templateDirs = templateDirs || []
     let templates = await fg.templateDirectories(templateDirs)
     let schemas = await templateSchemas(templates, feedbackException)
@@ -38,8 +38,8 @@ export function feedbackException(type: fg.FeedbackType, message: string) {
 }
 
 // All .schema files found in template directories
-async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<idToSchema> {
-    let map: idToSchema = {}
+async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<IdToSchema> {
+    let map: IdToSchema = {}
     for (let dir of templateDirs) {
         for (let file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
             let schema = await getSchema(file, feedback)
@@ -57,7 +57,7 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
 }
 
 // Find recursive requires
-async function findRequires(schema: any, map: idToSchema, found: idToSchema, resolver: any, feedback: fg.Feedback): Promise<void> {
+async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, resolver: any, feedback: fg.Feedback): Promise<void> {
     let addRequired = async (required: string) => {
         if (!found[required]) {
             let schema = map[required] || await getSchema(required, feedback, resolver)

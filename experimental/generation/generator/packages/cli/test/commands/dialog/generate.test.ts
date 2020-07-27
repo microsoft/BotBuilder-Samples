@@ -16,6 +16,7 @@ describe('dialog:generate', async () => {
     let schemaPath = '../library/test/forms/sandwich.schema'
     let badSchema = '../library/test/forms/bad-schema.schema'
     let swaggerPath = '../library/test/forms/petSwagger.json'
+    let transcriptPath = '../library/test/transcripts/sandwich.transcript'
     let method = 'post'
     let route = '/store/order'
     let schemaName = 'petOrder.schema'
@@ -23,6 +24,15 @@ describe('dialog:generate', async () => {
     beforeEach(async () => {
         await fs.remove(output)
     })
+
+    test
+        .stdout()
+        .stderr()
+        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich.main', '-o', output])
+        .it('Generate test .dialog', ctx => {
+            expect(ctx.stdout)
+                .to.contain('Generated')
+        })
 
     test
         .stdout()

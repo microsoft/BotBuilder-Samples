@@ -1,0 +1,113 @@
+{
+  "$kind": "Microsoft.Test.Script",
+  "dialog": "sandwich.main",
+  "script": [
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Welcome!"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Enter a value for name"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "wheat"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Did you mean add \"wheat\"\" to Bread or add \"wheat\"\" to Name?"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "name"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Which value do you want for bread?"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "whole wheat with ham and swiss for $3"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "meat is set to ham."
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "cheese is set to swiss."
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "price is set as (number: 3, units: Dollar)."
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "What values do you want to add for toppings?"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "lettuce and pickles"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "What values do you want to add for sauces?"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "dijon"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReplyActivity",
+      "assertions": [
+        "type == 'message'",
+        "count(attachments) == 1",
+        "attachments[0].contentType === 'application/vnd.microsoft.card.adaptive'",
+        "attachments[0].content.type === 'AdaptiveCard'",
+        "attachments[0].content.version === '1.0'",
+        "count(attachments[0].content.body) == 2",
+        "attachments[0].content.body[0].type === 'TextBlock'",
+        "attachments[0].content.body[0].text === 'sandwich'",
+        "attachments[0].content.body[0].size === 'large'",
+        "attachments[0].content.body[1].type === 'FactSet'",
+        "count(attachments[0].content.body[1].facts) == 9",
+        "attachments[0].content.body[1].facts[0].title === 'quantity'",
+        "attachments[0].content.body[1].facts[0].value === 'no value'",
+        "attachments[0].content.body[1].facts[1].title === 'length'",
+        "attachments[0].content.body[1].facts[1].value === 'no value'",
+        "attachments[0].content.body[1].facts[2].title === 'name'",
+        "attachments[0].content.body[1].facts[2].value === 'wheat'",
+        "attachments[0].content.body[1].facts[3].title === 'bread'",
+        "attachments[0].content.body[1].facts[3].value === 'whole wheat'",
+        "attachments[0].content.body[1].facts[4].title === 'meat'",
+        "attachments[0].content.body[1].facts[4].value === 'ham'",
+        "attachments[0].content.body[1].facts[5].title === 'cheese'",
+        "attachments[0].content.body[1].facts[5].value === 'swiss'",
+        "attachments[0].content.body[1].facts[6].title === 'toppings'",
+        "attachments[0].content.body[1].facts[6].value === 'lettuce, pickles'",
+        "attachments[0].content.body[1].facts[7].title === 'sauces'",
+        "attachments[0].content.body[1].facts[7].value === 'dijon mustard'",
+        "attachments[0].content.body[1].facts[8].title === 'price'",
+        "attachments[0].content.body[1].facts[8].value === '(number: 3, units: Dollar)'",
+        "attachments[0].content.$schema === 'http://adaptivecards.io/schemas/adaptive-card.json'"
+      ]
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Is there any property you want to change? (no or the property name)"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "no"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Welcome!"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Enter a value for name"
+    }
+  ]
+}

@@ -20,7 +20,8 @@
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
             "outFiles": [
-                "*/lib/**"
+                "lib/**",
+                "../library/lib/**"
             ]
         },
         {
@@ -39,7 +40,7 @@
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
             "outFiles": [
-                "*/lib/**"
+                "lib/**"
             ]
         },
         {
