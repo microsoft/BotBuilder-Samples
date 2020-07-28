@@ -8,8 +8,8 @@
 - ELSE:
 -
 
-# getPatternValidationText(property, pattern)
-- please following the pattern
+# getPatternValidationText(pattern)
+- The input should follow the pattern ${pattern}
 
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}

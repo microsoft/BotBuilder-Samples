@@ -4,6 +4,12 @@
 - ${addFilename('number')}
 
 # template
+- IF: ${schema.properties[property].minimum || schema.properties[property].maximum}
+    - ${templateWithMaxMin()}
+- ELSE:
+    - ${templateWithoutMaxMin()}
+
+# templateWithMaxMin
 - ```
 {
     "$schema": "${appSchema}",
@@ -33,7 +39,9 @@
             ]
         }
     ]               
-    ${designerOpEntity('Add', 'number')}
+    ${designerOpEntity('Add', 'number')}     
 }
 ```
 
+# templateWithoutMaxMin
+- ${addDialog('number')}

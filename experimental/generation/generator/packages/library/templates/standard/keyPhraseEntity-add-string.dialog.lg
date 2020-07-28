@@ -4,6 +4,12 @@
 - ${addFilename('keyPhrase')}
 
 # template
+- IF: ${schema.properties[property].pattern}
+    - ${templateWithPattern()}
+- ELSE:
+    - ${templateWithoutPattern()}
+
+# templateWithPattern
 - ```
 {
     "$schema": "${appSchema}",
@@ -17,7 +23,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getPatternValidationText('${property}', @keyPhrase)}"
+                    "activity": "\${getPatternValidationText(dialogClass.schema.properties['${property}'].pattern)}"
                 }                    
             ],
             "elseActions":[
@@ -36,4 +42,7 @@
     ${designerOpEntity('Add', 'keyPhrase')}     
 }
 ```
+
+# templateWithoutPattern
+- ${addDialog('keyPhrase')}
 

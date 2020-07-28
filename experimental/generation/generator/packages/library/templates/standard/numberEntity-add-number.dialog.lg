@@ -4,7 +4,7 @@
 - ${addFilename('number')}
 
 # template
-- IF: ${dialogClass.schema.properties['${property}'].minimum || dialogClass.schema.properties['${property}'].maximum}
+- IF: ${schema.properties[property].minimum || schema.properties[property].maximum}
     - ${templateWithMaxMin()}
 - ELSE:
     - ${templateWithoutMaxMin()}
@@ -45,5 +45,3 @@
 
 # templateWithoutMaxMin
 - ${addDialog('number')}
-
-
