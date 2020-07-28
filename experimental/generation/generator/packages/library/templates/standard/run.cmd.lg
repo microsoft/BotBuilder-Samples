@@ -40,5 +40,5 @@ echo 2) Set the environment variable REPOS to your git repo root.
 echo Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>
 echo Set qnaKey default with bf config:set:qnamaker --subscriptionKey=<yourKey>```
 - ELSE:
-    - ```echo run [region] [LUISAuthoringKey] [qnaKey]
+    - ```echo run [region] [LUISAuthoringKey]
 echo Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>```
