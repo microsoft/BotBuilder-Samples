@@ -51,6 +51,9 @@ export async function generateTest(path: string, dialog: string, output: string,
             }
             script.push({$kind: 'Microsoft.Test.UserConversationUpdate', membersAdded, membersRemoved})
         } else if (mock && isLUIS(record)) {
+            // TODO: Make this work.
+            // This does not currently work because LUIS does not make use of the HttpClient
+            // in TurnContext like the HttpRequestAction.
             luisResponses.push({
                 contentType: 'String',
                 content: record.value.luisResult
