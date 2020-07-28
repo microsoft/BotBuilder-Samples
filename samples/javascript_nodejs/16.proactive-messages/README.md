@@ -1,4 +1,4 @@
-# proactive messages
+# Proactive Messages
 
 Bot Framework v4 proactive messages bot sample
 
@@ -78,7 +78,7 @@ With the Bot Framework Emulator connected to your running bot, the sample will n
 - Navigate to `http://localhost:3978/api/notify`
 - Using the Bot Framwork Emulator, notice a message was proactively sent to the user from the bot.
 
-## Proactive Messages
+## Interacting with the bots
 
 In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages based on activity, scheduled tasks, or external events.
 
