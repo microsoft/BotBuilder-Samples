@@ -10,6 +10,7 @@ import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
 import * as ppath from 'path'
+import {assert} from 'console';
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
@@ -24,15 +25,6 @@ describe('dialog:generate', async () => {
     beforeEach(async () => {
         await fs.remove(output)
     })
-
-    test
-        .stdout()
-        .stderr()
-        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich.main', '-o', output])
-        .it('Generate test .dialog', ctx => {
-            expect(ctx.stdout)
-                .to.contain('Generated')
-        })
 
     test
         .stdout()
@@ -55,14 +47,22 @@ describe('dialog:generate', async () => {
     test
         .stdout()
         .stderr()
-        .command(['dialog:generate:swagger', `${swaggerPath}`, 
-            '-o', `${output}`, 
-            '-m', `${method}`, 
+        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich.main', '-o', output])
+        .it('Generate test .dialog', ctx => {
+            expect(ctx.stdout)
+                .to.contain('Generated')
+        })
+
+    test
+        .stdout()
+        .stderr()
+        .command(['dialog:generate:swagger', `${swaggerPath}`,
+            '-o', `${output}`,
+            '-m', `${method}`,
             '-n', `${schemaName}`,
             '-r', `${route}`,
             '--verbose'])
         .it('Generate swagger', ctx => {
-            expect(ctx.stderr)
-                .not.to.contain('Error')
+            expect(ctx.stderr).to.contain('Output Schema')
         })
 })

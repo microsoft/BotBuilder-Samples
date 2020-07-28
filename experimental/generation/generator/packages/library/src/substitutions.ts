@@ -109,7 +109,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
 }
 
 export let SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
-    expr.ExpressionFunctions.apply(
+    expr.FunctionUtils.apply(
         args => {
             let path = args[0]
             let bindings = args[1]
@@ -135,7 +135,7 @@ export let SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions'
             return error
         }),
     expr.ReturnType.String,
-    e => expr.ExpressionFunctions.validateOrder(e,
+    e => expr.FunctionUtils.validateOrder(e,
         [expr.ReturnType.Number, expr.ReturnType.String],
         expr.ReturnType.String,
         expr.ReturnType.Object))
