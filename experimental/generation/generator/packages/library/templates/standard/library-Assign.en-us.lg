@@ -8,6 +8,9 @@
 - ELSE:
 -
 
+# getPatternValidationText(property, pattern)
+- please following the pattern
+
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
 - Required response for ${getPropertyNameText(property)} should be in ${dialogClass.schema.properties[property].$units}.
