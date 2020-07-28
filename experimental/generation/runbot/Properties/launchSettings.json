@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "--root C:\\users\\chrimc\\AppData\\Local\\temp\\sandwich.out",
+      "commandLineArgs": "--root \"C:\\tmp\\demo\\bot 6\"",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

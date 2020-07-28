@@ -48,7 +48,7 @@ export default class GenerateDialog extends Command {
         try {
             await gen.generate(args.schema, flags.prefix, flags.output,
                 flags.schema, flags.locale, flags.templates, flags.force, flags.merge, !flags.files, feedback)
-            return true;
+            return true
         } catch (e) {
             this.thrownError(e)
         }
