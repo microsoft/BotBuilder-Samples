@@ -18,7 +18,7 @@ In order to setup runbot:
 
 ## Usage
 
-The simplest way to use runbot is to execute the `run.cmd` script in the output generated dialog directory.  If you want to execute it directly, you can execute the command `dotnet run --project <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <directoryWithDeclarativeAssets>`.
+The simplest way to use runbot is to execute the `run.cmd` script in the output generated dialog directory.  If you want to execute it directly, you can execute the command `dotnet run --project <pathToRepo>/experimental/generation/runbot/RunBot.csproj --root <directoryWithDeclarativeAssets>`.
 At that point you can connect to your bot using `http://localhost:5000/api/messages` in the [Bot Framework Emulator][emulator].
 
 Command line args:
@@ -32,7 +32,8 @@ Command line args:
 ## Troubleshooting
 
 * **Missing LUIS endpoint key**: If you are unable to interact with LUIS, ensure the same LUIS key was used when running `bf luis:build` as in `luis:endpointKey` from `dotnet user-secrets list --id RunBot`.
-* **Missing LUIS app ID**: If you are missing an appid, most likely you did not run `bf luis:build` to build your LUIS model.
+
+* **Missing LUIS app ID**: If you are missing an appid, most likely the `build` script did not run successfully. Either make sure you pass in the LUIS key to the script or have done `bf config:set:luis --authoringKey <key>`.
 
 [dotnet]:https://dotnet.microsoft.com/download
 [git]:https://git-scm.com/downloads

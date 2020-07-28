@@ -72,7 +72,7 @@ With `type": "array"` you define the `items` object that defines the items in th
 ```
 
 You can also use the `$ref` keyword to reference a property defined in a separate schema file.
-The example below defines a property `Length` that makes use of `dimension` property defined in the [dimension.schema](../generator/templates/dimension.schema) file in the default templates.
+The example below defines a property `Length` that makes use of `dimension` property defined in the [dimension.schema](../generator/packages/library/templates/dimension.schema) file in the default templates.
 In addition, it also automatically includes the appropriate generation templates to utilize and map the LUIS prebuilt dimension entity.
 It makes use of the `template:` protocol which looks in your template files for the named schema (rather than referencing it by file path).
 
@@ -108,7 +108,7 @@ If you want to include the standard confirmation/cancel/navigation functionality
 ## Advanced JSON Schema
 
 Globally there are a few extra keywords you can add to your schema.
-Most of these keywords are automatically filled during generation and will not use them if you make use of [standard.schema](../generator/templates/standard.schema).
+Most of these keywords are automatically filled during generation and will not use them if you make use of [standard.schema](../generator/packages/library/templates/standard.schema).
 
 Extra keywords include:
 

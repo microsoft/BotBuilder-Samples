@@ -30,14 +30,14 @@ generates adaptive dialog assets. The overall workflow for generation is (see
 
 1. Define your [schema](#schema-file) with optional extensions.
 2. Generate your dialog assets using [dialog:generate][bf-generate].
-3. Test the generated assets in your own runtime using Bot Framework adaptive
-   dialogs, or use the [RunBot][runbot] runtime if you use standard Bot
-   Framework SDK components.
-4. You can modify the generated assets using [Visual Studio Code][vscode] which
+3. Run the generated assets using your own runtime, or use the [RunBot][runbot]
+   runtime if you use standard Bot Framework SDK components.
+4. Test your bot using the [Bot Framework Emulator][emulator].
+5. You can modify the generated assets using [Visual Studio Code][vscode] which
    supports IntelliSense and validation according to your runtime schema.
    Eventually you will also be able to edit using [Bot Framework
    Composer][composer].
-5. If you change your schema you can update the generated assets using the
+6. If you change your schema you can update the generated assets using the
    `--merge` option.
 
 There are three key components to understand, which are outlined below.
@@ -101,6 +101,7 @@ those assets are two scripts:
 * `run [region] [luis authoring key]` which will use [RunBot][runbot] to run
   your bot if you use just SDK components.
 
+
 ### Use Cases
 
 Currently, generating dialogs works best for "slot/form-filling" style bots -
@@ -112,12 +113,35 @@ a task. You can use this tool to:
   needs.
 - Explore a 'best-practices' bot for examples of how to handle complex language
   interactions with adaptive dialogs.
+  
+## Adding chit-chat
+
+To add professional chit-chat to your schema put this into your schema:
+```json
+"$requires": [
+   "standard.schema",
+   "professional-chit-chat.schema"
+]
+```
+This indicates that you want to make use of the standard schema for your
+properties and want add professional chit-chat.  This will add the resource to
+your generated assets and automatically include cross-training in the scripts.
+
+## Generating Schema from Swagger
+
+You can generate a JSON schema from a swagger file using the [`bf
+dialog:generate:swagger`](generator/packages/cli/readme.md#bf-dialoggenerateswagger-path) command. This will
+create a bot for collecting the parameters to a method as well as the assets to
+call that API once the parameters are collected.
+
+## Generating a Test from a Transcript
+A simple way to test your bot is to generate a test file from a transcript using [`bf
+dialog:generate:test`](generator/packages/cli/readme.md#bf-dialoggeneratetest-transcript-dialog) and [TestBot][TestBot].  
 
 ## Planned enhancements
 
 Over time we plan to add additional capabilities for generating dialogs from
-APIs defined in Swagger files or databases and incorporating additional
-technologies like QnA Maker and Virtual Assistant skills.
+databases or Virtual Assistant skills.
 
 ## Feedback
 
@@ -144,7 +168,7 @@ Open a [new issue](https://github.com/microsoft/BotBuilder-Samples/issues/new/ch
 1. [White paper (docx)](docs/Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
 
 [schema]:docs/bot-schema.md
-[templates]:generator/templates
+[templates]:generator/packages/library/templates
 [templates-overview]:docs/templates.md
 [start]:docs/get-started.md
 [JSONSchema]:https://json-schema.org/
@@ -153,8 +177,10 @@ Open a [new issue](https://github.com/microsoft/BotBuilder-Samples/issues/new/ch
 [runbot]:runbot/
 [composer]:https://github.com/Microsoft/BotFramework-Composer
 [vscode]:https://code.visualstudio.com/Download
-[bf-generate]:generator/README.md
+[bf-generate]:generator/packages/cli/README.md
 [bf]:https://github.com/microsoft/botframework-cli
 [composer]:https://github.com/Microsoft/BotFramework-Composer
 [sample-schemas]:docs/example-schemas
 [luis-prebuilt]:https://docs.microsoft.com/azure/cognitive-services/LUIS/luis-reference-prebuilt-entities#english-american-entity-support
+[emulator]:https://github.com/microsoft/BotFramework-Emulator
+[TestBot]:TestBot/readme.md#

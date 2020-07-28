@@ -19,6 +19,7 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 <!-- commands -->
 * [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
 * [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
+* [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
 
 ## `bf dialog:generate SCHEMA`
 
@@ -54,7 +55,7 @@ EXAMPLE
          $ bf dialog:generate sandwich.schema --output c:/tmp
 ```
 
-_See code: [src\commands\dialog\generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src\commands\dialog\generate.ts)_
+_See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate.ts)_
 
 ## `bf dialog:generate:swagger PATH`
 
@@ -80,5 +81,28 @@ EXAMPLE
   petSearch.schema
 ```
 
-_See code: [src\commands\dialog\generate\swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src\commands\dialog\generate\swagger.ts)_
+_See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/swagger.ts)_
+
+## `bf dialog:generate:test TRANSCRIPT DIALOG`
+
+[PREVIEW] Generate a .dialog test file from a .transcript file.
+
+```
+USAGE
+  $ bf dialog:generate:test TRANSCRIPT DIALOG
+
+ARGUMENTS
+  TRANSCRIPT  Transcript file to use for generating .dialog file
+  DIALOG      Dialog to test.
+
+OPTIONS
+  -o, --output=output  [default: .] Output path for <transcriptName>.dialog test file.
+  -s, --schema=schema  Path to app.schema file.
+
+EXAMPLE
+
+         $ bf dialog:test bot.transcript myBot.dialog
+```
+
+_See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/test.ts)_
 <!-- commandsstop -->

@@ -6,10 +6,18 @@
 import * as fs from 'fs-extra'
 import * as ppath from 'path'
 
-export async function generateTest(path: string, dialog: string, output: string, schema?: string): Promise<string> {
+/**
+ * Given a transcript and dialog generate a test script.
+ * @param path Path to transcript file.
+ * @param dialog Name of dialog to test.
+ * @param output Directory to put test into.
+ * @param mock Whether to mock http requests or not.
+ * @param schema Schema to use for test scripts.
+ */
+export async function generateTest(path: string, dialog: string, output: string, mock: boolean, schema?: string): Promise<string> {
     let transcript = JSON.parse(await fs.readFile(path, 'utf8'))
     await fs.ensureDir(output)
-    let outputPath = ppath.resolve(ppath.join(output, ppath.basename(path, ppath.extname(path)) + '.dialog'))
+    let outputPath = ppath.resolve(ppath.join(output, ppath.basename(path, ppath.extname(path)) + '.test.dialog'))
     let test: any = {}
     if (schema) {
         test.$schema = ppath.relative(ppath.resolve(schema), ppath.resolve(outputPath))
@@ -18,6 +26,7 @@ export async function generateTest(path: string, dialog: string, output: string,
     test.dialog = dialog
     let script: object[] = []
     test.script = script
+    let luisResponses: object[] = []
 
     for (let record of transcript) {
         if (isBot(record)) {
@@ -31,8 +40,35 @@ export async function generateTest(path: string, dialog: string, output: string,
             }
         } else if (isUser(record)) {
             script.push({$kind: 'Microsoft.Test.UserSays', 'text': record.text})
+        } else if (isConversationUpdate(record)) {
+            let membersAdded: string[] = []
+            let membersRemoved: string[] = []
+            for (let member of record.membersAdded) {
+                membersAdded.push(member.name)
+            }
+            for (let member of record.membersRemoved) {
+                membersRemoved.push(member.name)
+            }
+            script.push({$kind: 'Microsoft.Test.UserConversationUpdate', membersAdded, membersRemoved})
+        } else if (mock && isLUIS(record)) {
+            luisResponses.push({
+                contentType: 'String',
+                content: record.value.luisResult
+            })
         }
     }
+
+    if (luisResponses.length > 0) {
+        test.httpRequestMocks = [
+            {
+                $kind: 'Microsoft.Test.HttpRequestSequenceMock',
+                method: 'GET',
+                url: 'https://luis.ai',
+                responses: luisResponses
+            }
+        ]
+    }
+
     await fs.writeJSON(outputPath, test, {spaces: 2})
     return outputPath
 }
@@ -43,6 +79,14 @@ function isBot(record: any): Boolean {
 
 function isUser(record: any): Boolean {
     return record.type === 'message' && record.from.role === 'user' && record.text
+}
+
+function isConversationUpdate(record: any): Boolean {
+    return record.type === 'conversationUpdate'
+}
+
+function isLUIS(record: any): Boolean {
+    return record.type === 'trace' && record.label === 'LuisV3 Trace'
 }
 
 function objectAssertions(object: any, assertions: any[], path: string) {
@@ -57,8 +101,8 @@ function objectAssertions(object: any, assertions: any[], path: string) {
             objectAssertions(value, assertions, path + `.${key}`)
         }
     } else if (typeof object === 'string') {
-        assertions.push(`${path} === '${object}'`)
+        assertions.push(`${path} == '${object}'`)
     } else {
-        assertions.push(`${path} === ${object}`)
+        assertions.push(`${path} == ${object}`)
     }
 }

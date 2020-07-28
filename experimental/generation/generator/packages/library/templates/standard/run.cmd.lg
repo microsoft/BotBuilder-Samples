@@ -14,7 +14,7 @@ if not exist luis.settings.* goto done
 
 :run
 call nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet 2> nul
-dotnet run --project %REPOS%/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj --root %~dp0 --region %region%
+dotnet run --project "%REPOS%/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj" --root %~dps0 --region %region%
 
 if %errorlevel% EQU 0 goto done
 
