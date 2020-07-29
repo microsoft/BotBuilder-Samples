@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30204.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCardsBot", "AdaptiveCardsBot\AdaptiveCardsBot.csproj", "{4D243978-832F-441D-BB3D-B146A4E7D24D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Botframework.AdaptiveCards.Converter", "..\..\Microsoft.Botframework.AdaptiveCards.Converter\Microsoft.Botframework.AdaptiveCards.Converter.csproj", "{C29D612E-8DF9-43E2-B56B-1460F574C818}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4D243978-832F-441D-BB3D-B146A4E7D24D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D243978-832F-441D-BB3D-B146A4E7D24D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D243978-832F-441D-BB3D-B146A4E7D24D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D243978-832F-441D-BB3D-B146A4E7D24D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C29D612E-8DF9-43E2-B56B-1460F574C818}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C29D612E-8DF9-43E2-B56B-1460F574C818}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C29D612E-8DF9-43E2-B56B-1460F574C818}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C29D612E-8DF9-43E2-B56B-1460F574C818}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {D7862A0F-1472-4FA0-AE6B-3F1ED6956B9A}
+	EndGlobalSection
+EndGlobal
