@@ -5,4 +5,5 @@
 
 export {generate, Feedback, FeedbackType, expandPropertyDefinition} from './dialogGenerator'
 export {swaggerGenerate} from './swaggerDialogGenerator'
-export {idToSchema, schemas} from './processSchemas'
+export {generateTest} from './testGenerator'
+export {IdToSchema, schemas} from './processSchemas'

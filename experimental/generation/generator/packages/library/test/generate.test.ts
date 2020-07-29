@@ -11,8 +11,12 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
+import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
+
+// Output temp directory
+let tempDir = ppath.join(os.tmpdir(), 'generate.out')
 
 function feedback(type: gen.FeedbackType, msg: string) {
     if (type !== gen.FeedbackType.debug) {
@@ -20,8 +24,45 @@ function feedback(type: gen.FeedbackType, msg: string) {
     }
 }
 
+// NOTE: If you update dialog:merge functionality you need to execute the makeOracles.cmd to update them
+async function compareToOracle(name: string, oraclePath?: string): Promise<object> {
+    let generatedPath = ppath.join(tempDir, name)
+    let generated = await fs.readJSON(generatedPath)
+    oraclePath = oraclePath ? ppath.join(tempDir, oraclePath) : ppath.join('test/oracles', name)
+    let oracle = await fs.readJSON(oraclePath)
+    let oracles = JSON.stringify(oracle)
+    let generateds = JSON.stringify(generated)
+    if (oracles !== generateds) {
+        console.log(`Oracle   : ${oracles.length}`)
+        console.log(`Generated: ${generateds.length}`)
+        let max = oracles.length
+        if (max > generateds.length) {
+            max = generateds.length
+        }
+        let idx: number
+        for (idx = 0; idx < max; ++idx) {
+            if (oracles[idx] !== generateds[idx]) {
+                break;
+            }
+        }
+        let start = idx - 40
+        if (start < 0) {
+            start = 0
+        }
+        let end = idx + 40
+        if (end > max) {
+            end = max
+        }
+        console.log(`Oracle   : ${oracles.substring(start, end)}`)
+        console.log(`Generated: ${generateds.substring(start, end)}`)
+        assert(false,
+            `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
+    }
+    return generated
+}
+
 describe('dialog:generate library', async () => {
-    let output = ppath.join(os.tmpdir(), 'sandwich.out')
+    let output = tempDir
     let schemaPath = 'test/forms/sandwich.schema'
     let badSchema = 'test/forms/bad-schema.schema'
     let notObject = 'test/forms/not-object.schema'
@@ -29,6 +70,16 @@ describe('dialog:generate library', async () => {
 
     beforeEach(async () => {
         await fs.remove(output)
+    })
+
+    it('Transcript test', async () => {
+        try {
+            console.log('\n\nTranscript test')
+            assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich.main', output, false), 'Could not generate test script')
+            await compareToOracle('sandwich.test.dialog')
+        } catch (e) {
+            assert.fail(e.message)
+        }
     })
 
     it('Hash text', async () => {

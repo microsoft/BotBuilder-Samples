@@ -62,7 +62,7 @@ export function* generatePhrases(name?: string, locale?: string, minLen?: number
 }
 
 export let PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
-    expr.ExpressionFunctions.apply(
+    expr.FunctionUtils.apply(
         args => {
             let name = args[0]
             let locale = args.length > 1 ? args[1] : 'en-us'
@@ -80,10 +80,10 @@ export let PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
             return error
         }),
     expr.ReturnType.String,
-    e => expr.ExpressionFunctions.validateOrder(e, [expr.ReturnType.String], expr.ReturnType.String))
+    e => expr.FunctionUtils.validateOrder(e, [expr.ReturnType.String], expr.ReturnType.String))
 
 export let PhrasesEvaluator = new expr.ExpressionEvaluator('phrases',
-    expr.ExpressionFunctions.apply(
+    expr.FunctionUtils.apply(
         args => {
             let name = args[0]
             let locale = args.length > 1 ? args[1] : 'en-us'
@@ -109,5 +109,5 @@ export let PhrasesEvaluator = new expr.ExpressionEvaluator('phrases',
             return error
         }),
     expr.ReturnType.String,
-    e => expr.ExpressionFunctions.validateOrder(e,
+    e => expr.FunctionUtils.validateOrder(e,
         [expr.ReturnType.String, expr.ReturnType.Number, expr.ReturnType.Number], expr.ReturnType.String))

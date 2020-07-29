@@ -83,14 +83,14 @@ export async function swaggerGenerate(
   method: string,
   route: string,
   schemaName: string,
-  feedback: Feedback) {
+  feedback: Feedback): Promise<boolean> {
   // need to dereference the swagger file
   let swfile = await sw.dereference(path) as OpenAPIV2.Document
   // tslint:disable-next-line:no-http-string
-  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://';
+  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://'
 
   // the name of output schema file to be used in dialogGenerator
-  let url = protocol + swfile.host as string + swfile.basePath as string + route;
+  let url = protocol + swfile.host as string + swfile.basePath as string + route
   let firstTag = false
 
   // the output schema file structure, pass the swagger related param in
@@ -134,11 +134,11 @@ export async function swaggerGenerate(
     }
   }
 
-  jsonProperties.swaggerApi = url;
+  jsonProperties.swaggerApi = url
   if ('body' in body) {
-    jsonProperties.swaggerBody = body['body'];
+    jsonProperties.swaggerBody = body['body']
   } else {
-    jsonProperties.swaggerBody = body;
+    jsonProperties.swaggerBody = body
   }
 
   let headers = { 'User-Agent': 'Mozilla/5.0' }
@@ -150,8 +150,8 @@ export async function swaggerGenerate(
     await fs.ensureDir(output)
   }
 
-  feedback(FeedbackType.info, `Output Dirctory: ${ppath.join(output, schemaName)}`);
-  feedback(FeedbackType.info, `Output Schema ${ppath.join(output, schemaName)}`);
+  feedback(FeedbackType.info, `Output Schema: ${ppath.join(output, schemaName)}`)
 
   await fs.writeFile(ppath.join(output, schemaName), JSON.stringify(result, null, 4))
+  return true
 }
