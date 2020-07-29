@@ -154,13 +154,6 @@ function startLuClient(context: ExtensionContext) {
 	}));
 }
 
-// export function deactivate(): Thenable<void> | undefined {
-// 	if (!lgClient) {
-// 		return undefined;
-// 	}
-// 	return lgClient.stop();
-// }
-
 export function deactivate(): Thenable<void> {
 	const promises: Thenable<void>[] = [];
 	if (lgClient) {

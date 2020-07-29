@@ -1,10 +1,13 @@
 {
 <<<<<<< HEAD
+<<<<<<< HEAD
 	"compilerOptions": {
 		"module": "commonjs",
 		"target": "es6",
 		"lib": ["es2015", "dom"]
 =======
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	"extends": "./tsconfig.base.json",
 	"compilerOptions": {
 		"module": "commonjs",
@@ -13,18 +16,25 @@
 		"rootDir": "src",
 		"lib": [ "es6" ],
 		"sourceMap": true
+<<<<<<< HEAD
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	},
 	"include": [
 		"src"
 	],
 	"exclude": [
 <<<<<<< HEAD
+<<<<<<< HEAD
 		"node_modules",
 		".vscode-test"
 =======
 		"node_modules"
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+		"node_modules"
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	],
 	"references": [
 		{ "path": "./client" },

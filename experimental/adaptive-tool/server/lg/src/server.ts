@@ -15,9 +15,12 @@ import {
 	InitializeParams,
 	DidChangeConfigurationNotification,
 <<<<<<< HEAD
+<<<<<<< HEAD
 	CompletionItem,
 =======
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
@@ -54,9 +57,12 @@ let workspaceFolders: WorkspaceFolder[] | null | undefined;
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
 <<<<<<< HEAD
+<<<<<<< HEAD
 let hasDiagnosticRelatedInformationCapability = false;
 =======
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 let hasDidChangeWatchedFilesCapability = false;
 
 
@@ -74,6 +80,7 @@ connection.onInitialize((params: InitializeParams) => {
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
 	);
 <<<<<<< HEAD
+<<<<<<< HEAD
 	hasDiagnosticRelatedInformationCapability = !!(
 		capabilities.textDocument &&
 		capabilities.textDocument.publishDiagnostics &&
@@ -81,6 +88,8 @@ connection.onInitialize((params: InitializeParams) => {
 	);
 =======
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	hasDidChangeWatchedFilesCapability = !!(
 		capabilities.workspace && !! capabilities.workspace.didChangeWatchedFiles?.dynamicRegistration
 	);
@@ -145,6 +154,7 @@ interface LgSettings {
 }
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
@@ -153,10 +163,13 @@ let globalSettings: LgSettings = defaultSettings;
 
 =======
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<LgSettings>> = new Map();
 
 
+<<<<<<< HEAD
 <<<<<<< HEAD
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
@@ -167,11 +180,16 @@ connection.onDidChangeConfiguration(change => {
 			(change.settings.languageServerExample || defaultSettings)
 		);
 =======
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 connection.onDidChangeConfiguration(() => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
 		documentSettings.clear();
+<<<<<<< HEAD
 >>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
+=======
+>>>>>>> 94336950cf32e49b58ee0e5b488913f397b40137
 	}
 
 	// To update templatestatus with only open text documents
