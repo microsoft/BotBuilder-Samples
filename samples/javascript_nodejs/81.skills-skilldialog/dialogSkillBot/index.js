@@ -5,6 +5,11 @@
 
 // Import required packages.
 const path = require('path');
+
+// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -16,10 +21,6 @@ const { AuthenticationConfiguration } = require('botframework-connector');
 const { SkillBot } = require('./bots/skillBot');
 const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
-
-// Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Import Skills modules.
 const { allowedSkillsClaimsValidator: allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
