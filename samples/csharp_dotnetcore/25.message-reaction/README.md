@@ -12,8 +12,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## To try this sample
 
-> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
-the Teams service needs to call into the bot.
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because the Teams service needs to call into the bot.
 
 1) Clone the repository
 
@@ -48,7 +47,7 @@ the Teams service needs to call into the bot.
 
 ## Interacting with the bot in Teams
 
-Message the bot and it will respond with an 'Echo: [your message]'.  Add a message reaction to the bot's response, and the bot will reply accordingly.
+Message the bot and it will respond with an 'Echo: [your message]'.  Add a message reaction to the bots response, and the bot will reply accordingly.
 
 ## Deploy the bot to Azure
 

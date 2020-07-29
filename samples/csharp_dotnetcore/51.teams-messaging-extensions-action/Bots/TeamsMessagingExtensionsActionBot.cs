@@ -80,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             // This Messaging Extension example allows the user to check a box to include an image with the
             // shared message.  This demonstrates sending custom parameters along with the message payload.
             var includeImage = ((JObject)action.Data)["includeImage"]?.ToString();
-            if (!string.IsNullOrEmpty(includeImage) && bool.TrueString == includeImage)
+            if (string.Equals(includeImage, bool.TrueString, StringComparison.OrdinalIgnoreCase))
             {
                 heroCard.Images = new List<CardImage>
                 {

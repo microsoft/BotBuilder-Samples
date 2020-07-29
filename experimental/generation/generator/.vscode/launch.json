@@ -9,7 +9,7 @@
             "request": "launch",
             "name": "Dialog Generator Tests",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/packages/cli",
             "args": [
                 "--timeout",
                 "999999",
@@ -20,7 +20,27 @@
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
             "outFiles": [
-                "./lib/**"
+                "lib/**",
+                "../library/lib/**"
+            ]
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Dialog Generator Library Tests",
+            "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+            "cwd": "${workspaceFolder}/packages/library",
+            "args": [
+                "--timeout",
+                "999999",
+                "--colors",
+                "-g",
+                ".*"
+            ],
+            "internalConsoleOptions": "openOnSessionStart",
+            "outputCapture": "std",
+            "outFiles": [
+                "lib/**"
             ]
         },
         {
@@ -28,19 +48,18 @@
             "request": "launch",
             "name": "Generate Sandwich",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/bin/run",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./lib/**"
+                "${workspaceFolder}/packages/**/lib/**"
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
+                "${workspaceFolder}/packages/library/test/forms/sandwich.schema",
                 "-o",
                 "${env:TEMP}/sandwich.out",
                 "--force",
-                "--verbose",
-                "--singleton"
+                "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -49,19 +68,18 @@
             "request": "launch",
             "name": "Generate SandwichQnA",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/bin/run",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./lib/**"
-            ],
+                "${workspaceFolder}/packages/**/lib/**"
+             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/test/commands/dialog/forms/sandwichQnA.schema",
+                "${workspaceFolder}/packages/library/test/forms/sandwichQnA.schema",
                 "-o",
                 "${env:TEMP}/sandwichQnA.out",
                 "--force",
-                "--verbose",
-                "--singleton"
+                "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -70,14 +88,14 @@
             "request": "launch",
             "name": "Generate simple",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/bin/run",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./lib/**"
-            ],
+                "${workspaceFolder}/packages/**/lib/**"
+             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/test/commands/dialog/forms/simple.schema",
+                "${workspaceFolder}/packages/library/test/forms/simple.schema",
                 "-o",
                 "${env:TEMP}/simple.out",
                 "--force",
@@ -90,64 +108,19 @@
             "request": "launch",
             "name": "Generate Unit Test",
             "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/bin/run",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "./lib/**"
-            ],
+                "${workspaceFolder}/packages/**/lib/**"
+             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/test/commands/dialog/forms/unittests.schema",
+                "${workspaceFolder}/packages/library/test/forms/unittests.schema",
                 "-o",
                 "${env:TEMP}/unittests.out",
                 "--force",
                 "--verbose"
             ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Integrate Assets",
-            "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/packages/dialog/bin/run",
-            "outputCapture": "std",
-            "outFiles": [
-                "./packages/dialog/lib/**"
-            ],
-            "args": [
-                "dialog:integrate",
-                "sandwichBuy",
-                "-o",
-                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy1",
-                "-n",
-                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy2",
-                "-m",
-                "${workspaceFolder}/packages/dialog/test/commands/dialog/integrate_test_data/sandwichBuy3",
-                "-l",
-                "en-us",
-                "--verbose"
-            ],
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
-            "name": "Debug bf",
-            "program": "${env:TEMP}/../../Roaming/npm/node_modules/@microsoft/botframework-cli/bin/run",
-            "outputCapture": "std",
-            "outFiles": [
-                "./lib/**"
-            ],
-            "args": [
-                "dialog:generate",
-                "${workspaceFolder}/test/commands/dialog/forms/sandwich.schema",
-                "-o",
-                "test5",
-                "--force",
-                "--verbose"
-            ],
-            "cwd": "c:/tmp/bot3",
             "internalConsoleOptions": "openOnSessionStart"
         }
     ]

@@ -7,7 +7,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ## Prerequisites
 
 * [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
-
+* [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 * Access to a Slack workspace with sufficient permissions to login to create / manage applications at  [https://api.slack.com/apps](https://api.slack.com/apps). If you do not have access to a Slack environment you can create a workspace for free at https://www.slack.com
 
 ## To try this sample
@@ -17,8 +17,6 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
     ```bash
     git clone https://github.com/Microsoft/BotBuilder-Samples.git
     ```
-
-* In a terminal, navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/58.slack-adapter`
 
 ### Create a Slack Application for your bot
 
@@ -34,13 +32,13 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 Once your app has been created, you need to collect some information that will be needed by your bot to connect to Slack.
 
-1. Note the 'Verification Token' and the 'Signing Secret' from the **Basic Information** tab and keep them for later when we configure our bot settings. 
+1. Note the 'Verification Token' and the 'Signing Secret' from the **Basic Information** tab and keep them for later when we configure our bot settings.
 
 2. Navigate to the **Install App** page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
 
 ### Add Slack app settings to your bot's configuration file
 
-Add the 3 settings shown below to your appSettings.json file in your bot project, populating each one with the values gathered earlier when creating your Slack app.
+Add the 3 settings shown below to your `appsettings.json` file in your bot project, populating each one with the values gathered earlier when creating your Slack app.
 
 ```json
   "SlackVerificationToken": "",
@@ -52,9 +50,9 @@ Add the 3 settings shown below to your appSettings.json file in your bot project
 
 Now that you have created a Slack app and wired up the adapter in your bot project, the final step is to point the Slack app to the correct endpoint on your bot and subscribe your app to ensure your bot receives messages.  To do this your bot must be running, so that Slack can verify the URL to the endpoint is valid.
 
-Run the bot from a terminal or from Visual Studio, choose option A or B.
+Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/60.slack-adapter`
 
   ```bash
   # run the bot
@@ -65,11 +63,11 @@ Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `BotBuilder-Samples/samples/csharp_dotnetcore/54.SlackAdapterBot` folder
+  - Navigate to `samples/csharp_dotnetcore/60.slack-adapter` folder
   - Select `SlackAdapterBot.csproj` file
   - Press <kbd>F5</kbd> to run the project
 
-Next, you can use a tool such as [Ngrok](https://www.ngrok.com) (which you will likely already have installed if you have used the Bot Framework emulator previously) to tunnel through to your bot running locally and provide you with a publicly accessible URL for this. 
+Next, you can use a tool such as [Ngrok](https://www.ngrok.com) (which you will likely already have installed if you have used the Bot Framework emulator previously) to tunnel through to your bot running locally and provide you with a publicly accessible URL for this.
 
 Use the following command in a terminal window.
 
@@ -91,7 +89,7 @@ Navigate back to the [Slack api dashboard]([https://api.slack.com/apps]) and sel
 
 ## Test your bot in Slack
 
-Your Slack app is now configured and you can now login to the Slack workspace you installed your app into and you will see it listed under the 'Apps' section of the left hand menu.  
+Your Slack app is now configured and you can now login to the Slack workspace you installed your app into and you will see it listed under the 'Apps' section of the left hand menu.
 
 Select your app and try:
 

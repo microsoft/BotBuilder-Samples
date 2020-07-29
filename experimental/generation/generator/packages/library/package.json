@@ -1,0 +1,54 @@
+{
+  "name": "@microsoft/bf-generate-library",
+  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema library.",
+  "version": "1.0.0",
+  "author": "Microsoft",
+  "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
+  "dependencies": {
+    "@microsoft/bf-lu": "^4.10.0-preview.148066",
+    "adaptive-expressions": "^4.10.0-preview-150886",
+    "ajv": "^6.9.1",
+    "botbuilder-lg": "^4.10.0-preview.150886",
+    "clone": "^2.1.2",
+    "fs-extra": "^8.1.0",
+    "globby": "^11.0.1",
+    "json-schema-merge-allof": "^0.6.0",
+    "json-schema-ref-parser": "^7.1.0",
+    "openapi-types": "^1.3.5",
+    "seedrandom": "~3.0.5",
+    "swagger-parser": "^8.0.4"
+  },
+  "devDependencies": {
+    "@types/fs-extra": "^8.0.0",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^10.17.18",
+    "@types/seedrandom": "~2.4.28",
+    "mocha": "^5.2.0",
+    "nyc": "^14.1.1",
+    "rimraf": "^3.0.2",
+    "ts-node": "^8.8.2",
+    "tslint": "^5.18.0",
+    "typescript": "^3.8.3"
+  },
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "files": [
+    "/.npmrc",
+    "/bin",
+    "/lib",
+    "/npm-shrinkwrap.json",
+    "/templates",
+    "/yarn.lock"
+  ],
+  "homepage": "https://github.com/Microsoft/BotBuilder-Samples",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "repository": "https://github.com/Microsoft/BotBuilder-Samples",
+  "scripts": {
+    "build": "tsc -b",
+    "posttest": "tslint -p test -t stylish",
+    "prepack": "rimraf lib && tsc -b",
+    "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
+  }
+}

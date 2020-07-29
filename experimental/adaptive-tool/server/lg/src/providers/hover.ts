@@ -1,3 +1,8 @@
+<<<<<<< HEAD
+=======
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 /**
  * Copyright (c) Microsoft Corporation. All rights reserved.
  * Licensed under the MIT License.
@@ -40,4 +45,9 @@ export function provideHover(params: HoverParams, documents: TextDocuments<TextD
 		
 		return {contents, wordRange};
 	}
+<<<<<<< HEAD
+=======
+	
+	return undefined;
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 }

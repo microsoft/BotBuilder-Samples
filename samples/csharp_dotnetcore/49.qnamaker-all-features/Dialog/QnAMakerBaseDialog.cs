@@ -7,6 +7,7 @@ using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Dialog
 {
@@ -22,15 +23,17 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
 
         private readonly IBotServices _services;
+        private readonly IConfiguration _configuration;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
         /// Dialog helper to generate dialogs.
         /// </summary>
         /// <param name="services">Bot Services.</param>
-        public QnAMakerBaseDialog(IBotServices services): base()
+        public QnAMakerBaseDialog(IBotServices services, IConfiguration configuration) : base()
         {
             this._services = services;
+            this._configuration = configuration;
         }
 
         protected async override Task<IQnAMakerClient> GetQnAMakerClientAsync(DialogContext dc)
@@ -53,7 +56,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
             var noAnswer = (Activity)Activity.CreateMessageActivity();
-            noAnswer.Text = DefaultNoAnswer;
+            noAnswer.Text = this._configuration["DefaultAnswer"] ?? DefaultNoAnswer;
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 

@@ -14,7 +14,10 @@ import {
 	ProposedFeatures,
 	InitializeParams,
 	DidChangeConfigurationNotification,
+<<<<<<< HEAD
 	CompletionItem,
+=======
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
@@ -50,7 +53,10 @@ let workspaceFolders: WorkspaceFolder[] | null | undefined;
 
 let hasConfigurationCapability = false;
 let hasWorkspaceFolderCapability = false;
+<<<<<<< HEAD
 let hasDiagnosticRelatedInformationCapability = false;
+=======
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 let hasDidChangeWatchedFilesCapability = false;
 
 
@@ -67,11 +73,14 @@ connection.onInitialize((params: InitializeParams) => {
 	hasWorkspaceFolderCapability = !!(
 		capabilities.workspace && !!capabilities.workspace.workspaceFolders
 	);
+<<<<<<< HEAD
 	hasDiagnosticRelatedInformationCapability = !!(
 		capabilities.textDocument &&
 		capabilities.textDocument.publishDiagnostics &&
 		capabilities.textDocument.publishDiagnostics.relatedInformation
 	);
+=======
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 	hasDidChangeWatchedFilesCapability = !!(
 		capabilities.workspace && !! capabilities.workspace.didChangeWatchedFiles?.dynamicRegistration
 	);
@@ -135,16 +144,20 @@ interface LgSettings {
 	maxNumberOfProblems: number;
 }
 
+<<<<<<< HEAD
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
 const defaultSettings: LgSettings = { maxNumberOfProblems: 1000 };
 let globalSettings: LgSettings = defaultSettings;
 
+=======
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 // Cache the settings of all open documents
 const documentSettings: Map<string, Thenable<LgSettings>> = new Map();
 
 
+<<<<<<< HEAD
 connection.onDidChangeConfiguration(change => {
 	if (hasConfigurationCapability) {
 		// Reset all cached document settings
@@ -153,6 +166,12 @@ connection.onDidChangeConfiguration(change => {
 		globalSettings = <LgSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
+=======
+connection.onDidChangeConfiguration(() => {
+	if (hasConfigurationCapability) {
+		// Reset all cached document settings
+		documentSettings.clear();
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 	}
 
 	// To update templatestatus with only open text documents

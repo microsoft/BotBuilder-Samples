@@ -6,12 +6,20 @@ import {
 	TextDocuments, Location, DefinitionParams
 } from 'vscode-languageserver';
 
+<<<<<<< HEAD
 import { TemplatesStatus, TemplatesEntity } from '../templatesStatus';
+=======
+import { TemplatesStatus } from '../templatesStatus';
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 import * as util from '../util';
 import * as path from 'path';
 
 import {
+<<<<<<< HEAD
 	TextDocument, Position, Range, DocumentUri
+=======
+	TextDocument, Position, DocumentUri
+>>>>>>> 8f776b02b8003c84c4a871704de82c96b05e98b3
 } from 'vscode-languageserver-textdocument';
 import { Templates, Template } from 'botbuilder-lg';
 

@@ -37,51 +37,54 @@ namespace LivePersonProxyBot.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
-            var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData());
-
-            var userText = turnContext.Activity.Text.ToLower();
-            if (userText.Contains("agent"))
+            if (turnContext.Activity.Text != null)
             {
-                await turnContext.SendActivityAsync("Your request will be escalated to a human agent");
+                var conversationStateAccessors = _conversationState.CreateProperty<LoggingConversationData>(nameof(LoggingConversationData));
+                var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new LoggingConversationData());
 
-                var transcript = new Transcript(conversationData.ConversationLog.Where(a => a.Type == ActivityTypes.Message).ToList());
+                var userText = turnContext.Activity.Text.ToLower();
+                if (userText.Contains("agent"))
+                {
+                    await turnContext.SendActivityAsync("Your request will be escalated to a human agent");
 
-                var evnt = EventFactory.CreateHandoffInitiation(turnContext,
+                    var transcript = new Transcript(conversationData.ConversationLog.Where(a => a.Type == ActivityTypes.Message).ToList());
+
+                    var evnt = EventFactory.CreateHandoffInitiation(turnContext,
                     new { Skill = "Credit Cards",
-                          EngagementAttributes = new EngagementAttribute[]
-                          {
-                              new EngagementAttribute { Type = "ctmrinfo", CustomerType = "vip", SocialId = "123456789"},
-                              new EngagementAttribute { Type = "personal", FirstName = turnContext.Activity.From.Name }
-                          }
-                    },
-                    transcript);
+                        EngagementAttributes = new EngagementAttribute[]
+                              {
+                                  new EngagementAttribute { Type = "ctmrinfo", CustomerType = "vip", SocialId = "123456789"},
+                                  new EngagementAttribute { Type = "personal", FirstName = turnContext.Activity.From.Name }
+                              }
+                        },
+                        transcript);
 
-                await turnContext.SendActivityAsync(evnt);
-            }
-            else
-            {
-                string replyText = $"Sorry, I cannot help you.";
-                if (userText == "hi")
-                {
-                    replyText = "Hello!";
-                }
-                else if (userText == "info")
-                {
-                    replyText = $"Version 1.2. AppId: {_creds.LpAppId}";
+                    await turnContext.SendActivityAsync(evnt);
                 }
                 else
                 {
-                    foreach (var country in Capitals.Keys)
+                    string replyText = $"Sorry, I cannot help you.";
+                    if (userText == "hi")
                     {
-                        if (userText.Contains(country.ToLower()))
+                        replyText = "Hello!";
+                    }
+                    else if (userText == "info")
+                    {
+                        replyText = $"Version 1.3. AppId: {_creds.LpAppId}";
+                    }
+                    else
+                    {
+                        foreach (var country in Capitals.Keys)
                         {
-                            replyText = $"The capital of {country} is {Capitals[country]}";
+                            if (userText.Contains(country.ToLower()))
+                            {
+                                replyText = $"The capital of {country} is {Capitals[country]}";
+                            }
                         }
                     }
-                }
 
-                await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+                }
             }
         }
 

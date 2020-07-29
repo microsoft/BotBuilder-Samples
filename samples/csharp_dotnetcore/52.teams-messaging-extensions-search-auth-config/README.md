@@ -2,7 +2,15 @@
 
 Bot Framework v4 sample for Teams expands the [50.teams-messaging-extensions-search](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/50.teams-messaging-extensions-search) sample to include a configuration page and Bot Service authentication.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension. In this sample we are assuming the OAuth 2 provider is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the user. Check [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication) for information about getting an AADv2 application setup for use in Azure Bot Service. The scopes used in this sample are the following:
+
+- `email` 
+- `openid` 
+- `profile` 
+- `Mail.Read` 
+- `User.Read` 
+- `User.ReadBasic.All` 
+- `Mail.Send.Shared`
 
 ## Prerequisites
 
@@ -22,9 +30,10 @@ the Teams service needs to call into the bot.
     ```
 
 1) If you are using Visual Studio
-    - Open the solution `samples\csharp_dotnetcore\csharp_dotnetcore.sln`
-    - Set the Startup Project to `TeamsMessagingExtensionsSearchAuthConfig`
-    - The changes specified here will apply to this project
+   - Launch Visual Studio
+   - File -> Open -> Project/Solution
+   - Navigate to `samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config` folder
+   - Select `TeamsMessagingExtensionsSearchAuthConfig.csproj` file
 
 1) Run ngrok - point to port 3978
 
@@ -37,7 +46,11 @@ the Teams service needs to call into the bot.
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
+1) Update the `appsettings.json` configuration for the bot to use the following:
+- Microsoft App Id
+- App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
+- The AAD ConnectionName from the OAuth Connection Settings on Azure
+- The ngrok forwarding url (ie `https://d5b9f739.ngrok.io`) from starting ngrok
 
 1) __*This step is specific to Teams.*__
     - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
