@@ -5,44 +5,7 @@
 
 # template
 - IF: ${schema.properties[property].pattern}
-    - ${templateWithPattern()}
+    - ${addDialogWithStringPattern('keyPhrase')}
 - ELSE:
-    - ${templateWithoutPattern()}
-
-# templateWithPattern
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
-    "entity": "keyPhrase",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"not(isMatch(@keyPhrase,  dialogClass.schema.properties['${property}'].pattern))",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getPatternValidationText(dialogClass.schema.properties['${property}'].pattern)}"
-                }                    
-            ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getSetPropertyText('${property}', @keyPhrase)}"
-                },
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "=@keyPhrase"          
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', 'keyPhrase')}     
-}
-```
-
-# templateWithoutPattern
-- ${addDialog('keyPhrase')}
+    - ${addDialog('keyPhrase')}
 
