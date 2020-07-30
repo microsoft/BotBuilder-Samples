@@ -13,12 +13,15 @@ In order to setup runbot:
 3. Open a shell window:
    1. Change to the directory where you want the repo located.
    2. Run `git clone https://github.com/microsoft/BotBuilder-Samples.git`.
-4.Add the MyGet feed to NuGet: `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`.
+4. Add the MyGet feed to NuGet: `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`.
 5. To use LUIS you need to register your LUIS endpoint key by running `dotnet user-secrets --id RunBot set luis:endpointKey <yourKey>` once.
 
 ## Usage
 
-The simplest way to use runbot is to execute the `run.cmd` script in the output generated dialog directory.  If you want to execute it directly, you can execute the command `dotnet run --project <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <directoryWithDeclarativeAssets>`.
+The simplest way to use runbot is to execute the `run.cmd` windows script or `run` BASH script in the output generated dialog directory.  If you want to execute it directly, you can execute the command 
+```
+dotnet run --project <pathToRepo>/experimental/generation/runbot/runbot.csproj --root <directoryWithDeclarativeAssets>
+```
 At that point you can connect to your bot using `http://localhost:5000/api/messages` in the [Bot Framework Emulator][emulator].
 
 Command line args:
@@ -32,7 +35,8 @@ Command line args:
 ## Troubleshooting
 
 * **Missing LUIS endpoint key**: If you are unable to interact with LUIS, ensure the same LUIS key was used when running `bf luis:build` as in `luis:endpointKey` from `dotnet user-secrets list --id RunBot`.
-* **Missing LUIS app ID**: If you are missing an appid, most likely you did not run `bf luis:build` to build your LUIS model.
+
+* **Missing LUIS app ID**: If you are missing an appid, most likely the `build` script did not run successfully. Either make sure you pass in the LUIS key to the script or have done `bf config:set:luis --authoringKey <key>`.
 
 [dotnet]:https://dotnet.microsoft.com/download
 [git]:https://git-scm.com/downloads

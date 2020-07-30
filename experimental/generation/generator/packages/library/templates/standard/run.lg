@@ -17,18 +17,17 @@ if [ -n "$REPOS" ]; then
 
     if [ -f luis.settings.* ]; then
         nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet > /dev/null 2>&1
-        dotnet run --project $REPOS/BotBuilder-Samples/experimental/generation/runbot/runbot.csproj --root $thisdir --region $region
+        dotnet run --project $REPOS/BotBuilder-Samples/experimental/generation/runbot/RunBot.csproj --root $thisdir --region $region
         result = $?
     fi
 fi
 
 if [ $result != 0 ]; then
+    ${IsBuildingWithQnAEcho()}
+    echo "Region defaults to westus."
     echo "In order to use this script you must:"
     echo "1) Setup from https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/generation/docs/get-started.md"
     echo "2) Set the environment variable REPOS to your git repo root."
-    ${IsBuildingWithQnAEcho()}
-    echo "Region defaults to westus."
-    echo "Key defaults to LUIS_AUTHORING_KEY environment variable."
 fi
 ```
 
@@ -40,6 +39,9 @@ fi
 
 # IsBuildingWithQnAEcho
 - IF: ${templates.qna}:
-    - echo "run [region] [luis authoring key] [qna subscription key]"
+    - ```echo "run [region] [LUISAuthoringKey] [qnaKey]"
+    echo "Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>"
+    echo "Set qnaKey default with bf config:set:qnamaker --subscriptionKey=<yourKey>"```
 - ELSE:
-    - echo "run [region] [luis authoring key]"
+    - ```echo "run [region] [LUISAuthoringKey]"
+    echo "Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>"```

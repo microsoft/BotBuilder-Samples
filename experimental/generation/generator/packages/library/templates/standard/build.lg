@@ -57,8 +57,9 @@ bf qnamaker:build --qnaConfig $thisdir/qnaconfig.json $qnakey --out $thisdir --l
 -```
 res=$?
 if [ $res != 0 ]; then
-    echo build [region] [authoringKey]
-    echo Region defaults to westus.
+    echo "build [region] [LUISAuthoringKey]"
+    echo "Region defaults to westus."
+    echo "Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>"
 fi
 exit $res
 ```
@@ -67,8 +68,10 @@ exit $res
 -```
 res=$?
 if [ $res != 0 ]; then
-    echo build [region] [authoringKey] [qnaKey] 
-    echo Region defaults to westus.
+    echo "build [region] [LUISAuthoringKey] [qnaKey]"
+    echo "Region defaults to westus."
+    echo "Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>"
+    echo "Set qnaKey default with bf config:set:qnamaker --subscriptionKey=<yourKey>"
 fi
 exit $res
 ```
