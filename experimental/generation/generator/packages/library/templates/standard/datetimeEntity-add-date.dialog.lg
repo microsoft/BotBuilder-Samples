@@ -12,16 +12,27 @@
     "entity": "datetime",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${getSetObjectPropertyText('${property}', @datetime.type)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@datetime"          
-        }
+        "$kind": "Microsoft.IfCondition",
+        "condition": "@datetime.type != 'date'",
+        "actions": [
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${getDateValidationText()}"
+            }
+        ],
+        "elseActions": [
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${getSetObjectPropertyText('${property}', @datetime.type)}"
+            },
+            {
+                "$kind": "Microsoft.SetProperty",
+                "property": "$${property}",
+                "value": "=@datetime"
+            }
+        ]
+      }
     ]
     ${designerOpEntity('Add', 'datetime')}
 }
 ```
-
