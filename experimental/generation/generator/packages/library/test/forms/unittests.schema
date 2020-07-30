@@ -39,6 +39,18 @@
             "type": "string",
             "format": "iri"
         },
+        "DateTimeProperty": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "DateProperty": {
+            "type": "string",
+            "format": "date"
+        },
+        "TimeProperty": {
+            "type": "string",
+            "format": "time"
+        },
         "Name": {
             "type": "string",
             "$entities": [
@@ -93,6 +105,9 @@
         "Email",
         "URL1",
         "URL2",
+        "DateTimeProperty",
+        "DateProperty",
+        "TimeProperty",
         "Name",
         "PhoneNumber",
         "KeyphraseProperty",
