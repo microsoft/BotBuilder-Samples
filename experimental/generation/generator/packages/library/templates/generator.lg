@@ -257,24 +257,15 @@ ${if(schema.properties[property].title,
 -
 
 > Define operation entities for '${property}' property.
-# operations(entity, values)
+# operations(entity, values, builtin)
 - IF: ${examples}
-- ${generateOperations(entity, examples)}
+- ${generateOperations(entity, examples, builtin)}
 - ELSEIF: ${values}
-- ${generateOperations(entity, values)}
+- ${generateOperations(entity, values, builtin)}
 - ELSE:
-- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`])}
+- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], builtin)}
 
-# propertyName()
--```
-> Define a phrase list for identifying '${property}'
-@phraseList ${property}List(interchangeable)=
-${join(foreach(phrases(property), phrase, `  - ${phrase}`), EOL())}
-
-> Define the entity for identifying '${property}' property.
-@ml ${property} usesFeature ${property}List
-
-# generateOperations(entity, values)
+# generateOperations(entity, values, builtin)
 -```
 > Define property and optional value for ${property} property.
 @ ml ${property} usesFeature ${property}Phrases
@@ -293,6 +284,12 @@ ${join(foreach(phrases(property), phrase, `  - ${phrase}`), EOL())}
 @ml Show =
     - @ ${property} ${property}
 
+@ml Help = 
+    - @ ${property} ${property}
+
+@ml Change =
+    - @ ${property} ${property}
+
 > Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
@@ -302,6 +299,9 @@ ${substitutions(`library-operations.${locale}.data`,
            "property": "${property}"}`), 
     3)}
 ```
+
+# defineOperation(name, entity, builtin)
+-
 
 # propertyList(property)
 - [${join(foreach(phrases(property), phrase, `"${phrase}"`), ', ')}]
