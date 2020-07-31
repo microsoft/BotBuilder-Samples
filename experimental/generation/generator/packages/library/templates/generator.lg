@@ -137,7 +137,8 @@ ${'#'} ${property}Entity_getValueText(val)
     ${designerOpEntity('Add', entity)}     
 }
 ```
-# addDialogWithNumberMaxMin(entity)
+
+# addDialogWithNumberMinMax(entity)
 - ```
 {
     "$schema": "${appSchema}",

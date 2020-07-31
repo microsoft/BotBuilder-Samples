@@ -15,7 +15,7 @@
 - Please enter the correct time format.
 
 # getPatternValidationText(pattern)
-- The input should follow the pattern ${pattern}
+- The input should follow the pattern ${pattern} .
 
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}

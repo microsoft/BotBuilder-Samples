@@ -5,6 +5,6 @@
 
 # template
 - IF: ${schema.properties[property].minimum || schema.properties[property].maximum}
-    - ${addDialogWithNumberMaxMin('number')}
+    - ${addDialogWithNumberMinMax('number')}
 - ELSE:
     - ${addDialog('number')}
