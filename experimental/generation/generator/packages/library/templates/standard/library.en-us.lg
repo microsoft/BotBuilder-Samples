@@ -12,7 +12,7 @@
 - ${template(`${property}_getPropertyNameText`)}
 
 # getPropertyValueText(property, val)
-- ${replace(replace(string(template(`${property}_getValueText`, val)), '\r\n', ''), '"', '\'')}
+- ${template(`${property}_getValueText`, val)}
 
 # getEntityValueText(property, val)
 - ${template(`${property}Entity_getValueText`, val)}
@@ -25,7 +25,7 @@
 - ELSEIF: ${val && isObject(val)}
 > TODO: Use curly braces instead of ()
 > BUG in emulator 4.9.1: https://github.com/microsoft/BotFramework-Emulator/issues/2154
-- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${getValueTextSimple(elt.value)}`), ', ')})
+- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${getValueText(elt.value)}`), ', ')})
 - ELSEIF: ${val}
 - ${val}
 - ELSE:
