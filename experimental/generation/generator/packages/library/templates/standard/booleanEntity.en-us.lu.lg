@@ -26,5 +26,6 @@
         - no
         - negative
         - 0
+${propertyPhrases()}
 ```
 

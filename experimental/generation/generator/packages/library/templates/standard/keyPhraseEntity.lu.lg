@@ -6,6 +6,6 @@
 # template
 - ```
 @ prebuilt keyPhrase ${roles()}
-${propertyName()}
+${propertyPhrases()}
 ```
 

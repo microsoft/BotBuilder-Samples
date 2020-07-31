@@ -244,6 +244,18 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
+# propertyPhrases
+- IF: ${property}
+-```
+> Define phrases to identify '${property}' property.
+@ phraselist ${property}Phrases(interchangeable)
+${if(schema.properties[property].title,
+    `\t- ${schema.properties[property].title}`,
+     synonyms(property))}
+```
+- ELSE:
+-
+
 > Define operation entities for '${property}' property.
 # operations(entity, values)
 - IF: ${examples}
@@ -264,28 +276,22 @@ ${join(foreach(phrases(property), phrase, `  - ${phrase}`), EOL())}
 
 # generateOperations(entity, values)
 -```
-> Define operations on '${property}' property.
-${propertyName()}
+> Define property and optional value for ${property} property.
+@ ml ${property} usesFeature ${property}Phrases
+    - @ ${entity} ${entity}
 
->> Show the current value of '${property}' property.
-@ml Show(${property}) usesFeature ${property}
+> Define operation entities for '${property}' property.
+@ml Add = 
+    - @ ${property} ${property}
 
->> Clear the current value of '${property}' property.
-@ml Clear(${property}) usesFeature ${property}
+@ml Remove = 
+    - @ ${property} ${property}
 
->> Provide help for the '${property}' property.
-@ ml Help(${property}) usesFeature ${property}
-
->> Change the current value of the '${property}' property.
-@ ml Change() usesFeature ${property}
-
->> Add a value to '${property}' property.
-@ml Add(${property}) usesFeature ${property}=
-    - @${entity} ${entity}
-
->> Remove a value from '${property}' property.
-@ml Remove(${property}) usesFeature ${property} = 
-    - @${entity} ${entity}
+@ml Clear =
+    - @ ${property} ${property}
+    
+@ml Show =
+    - @ ${property} ${property}
 
 > Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}

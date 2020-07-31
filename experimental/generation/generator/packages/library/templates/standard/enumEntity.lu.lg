@@ -7,6 +7,7 @@
 - ```
 @ list ${property}Entity =
 ${join(foreach(schema.properties[property].enum, enum, `\t- ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
+${propertyPhrases()}
 ${operations(`${property}Entity`, allSynonyms())}
 ```
 
