@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Email\" />
+    <Folder Include="SMS\" />
+    <Folder Include="Telegram\" />
+    <Folder Include="Slack\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AdaptiveCards" Version="1.2.4" />
+  </ItemGroup>
+
+</Project>
