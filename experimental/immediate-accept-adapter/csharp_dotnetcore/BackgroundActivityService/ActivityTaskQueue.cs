@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace ImmediateAcceptBot.BackgroundQueue
 {
     /// <summary>
-    /// Singleton queue, used to transfer an AcctivityWithClaims to the <see cref="HostedActivityService"/>.
+    /// Singleton queue, used to transfer an ActivityWithClaims to the <see cref="HostedActivityService"/>.
     /// </summary>
     public class ActivityTaskQueue : IActivityTaskQueue
     {
@@ -20,18 +20,19 @@ namespace ImmediateAcceptBot.BackgroundQueue
 
         /// <summary>
         /// Enqueue an Activity, with Claims, to be processed on a background thread.
-        /// 
-        /// NOTE: It is assumed these claims have been authenticated via JwtTokenValidation.AuthenticateRequest 
-        /// before enqueueing.
         /// </summary>
+        /// <remarks>
+        /// It is assumed these claims have been authenticated via JwtTokenValidation.AuthenticateRequest 
+        /// before enqueueing.
+        /// </remarks>
         /// <param name="claimsIdentity">Authenticated <see cref="ClaimsIdentity"/> used to process the 
         /// activity.</param>
         /// <param name="activity"><see cref="Activity"/> to be processed.</param>
-        public void QueueBackgroundActivity(ClaimsIdentity claims, Activity activity)
+        public void QueueBackgroundActivity(ClaimsIdentity claimsIdentity, Activity activity)
         {
-            if (claims == null)
+            if (claimsIdentity == null)
             {
-                throw new ArgumentNullException(nameof(claims));
+                throw new ArgumentNullException(nameof(claimsIdentity));
             }
 
             if (activity == null)
@@ -39,7 +40,7 @@ namespace ImmediateAcceptBot.BackgroundQueue
                 throw new ArgumentNullException(nameof(activity));
             }
 
-            _activities.Enqueue(new ActivityWithClaims { ClaimsIdentity = claims, Activity = activity});
+            _activities.Enqueue(new ActivityWithClaims { ClaimsIdentity = claimsIdentity, Activity = activity});
             _signal.Release();
         }
 
@@ -48,9 +49,8 @@ namespace ImmediateAcceptBot.BackgroundQueue
         /// </summary>
         /// <param name="cancellationToken">CancellationToken used to cancel the wait.</param>
         /// <returns>An ActivityWithClaims to be processed.
-        /// 
-        /// NOTE: It is assumed these claims have already been authenticated via JwtTokenValidation.AuthenticateRequest.
         /// </returns>
+        /// <remarks>It is assumed these claims have already been authenticated via JwtTokenValidation.AuthenticateRequest.</remarks>
         public async Task<ActivityWithClaims> WaitForActivityAsync(CancellationToken cancellationToken)
         {
             await _signal.WaitAsync(cancellationToken);

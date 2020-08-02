@@ -19,15 +19,28 @@ using Microsoft.Extensions.Logging;
 
 namespace ImmediateAcceptBot
 {
-    public class ImmediateAcceptAdapter : BotFrameworkHttpAdapter
+    /// <summary>
+    /// The <see cref="ImmediateAcceptAdapter"/>will authenticate the incoming request, and queue to be 
+    /// processed by the configured background service if possible.
+    /// </summary>
+    /// <remarks>
+    /// If the activity is Not an Invoke, and DeliveryMode is Not ExpectReplies, and this
+    /// is NOT a Get request to upgrade to WebSockets, then the activity will be enqueuedto be processed
+    /// on a background thread.
+    /// </remarks>
+    public class ImmediateAcceptAdapter : BotFrameworkHttpAdapter, IBotFrameworkHttpAdapter
     {
-        private readonly IBackgroundTaskQueue _backgroundTaskQueue;
         private readonly IActivityTaskQueue _activityTaskQueue;
 
-        public ImmediateAcceptAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, IActivityTaskQueue activityTaskQueue, IBackgroundTaskQueue backgroundTaskQueue)
+        /// <summary>
+        /// Create an instance of <see cref="ImmediateAcceptAdapter"/>.
+        /// </summary>
+        /// <param name="configuration"></param>
+        /// <param name="logger"></param>
+        /// <param name="activityTaskQueue"></param>
+        public ImmediateAcceptAdapter(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, IActivityTaskQueue activityTaskQueue)
             : base(configuration, logger)
         {
-            _backgroundTaskQueue = backgroundTaskQueue;
             _activityTaskQueue = activityTaskQueue;
 
             OnTurnError = async (turnContext, exception) =>
@@ -46,21 +59,20 @@ namespace ImmediateAcceptBot
 
         /// <summary>
         /// This method can be called from inside a POST method on any Controller implementation.  If the activity is Not an Invoke, and
-        /// DeliveryMode is Not ExpectReplies, and this is not a Get request to upgrade to WebSockets, then the activity will be enqueued
+        /// DeliveryMode is Not ExpectReplies, and this is NOT a Get request to upgrade to WebSockets, then the activity will be enqueued
         /// to be processed on a background thread.
-        /// 
-        /// 
-        /// 
-        /// Note, this is an ImmediateAccept and BackgroundProcessing replacement for: 
-        /// Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default);
         /// </summary>
+        /// <remarks>
+        /// Note, this is an ImmediateAccept and BackgroundProcessing override of: 
+        /// Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default);
+        /// </remarks>
         /// <param name="httpRequest">The HTTP request object, typically in a POST handler by a Controller.</param>
         /// <param name="httpResponse">The HTTP response object.</param>
         /// <param name="bot">The bot implementation.</param>
         /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
         ///     notice of cancellation.</param>
         /// <returns>A task that represents the work queued to execute.</returns>
-        public async Task ProcessOnBackgroundThreadAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+        async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
         {
             if (httpRequest == null)
             {
@@ -80,7 +92,7 @@ namespace ImmediateAcceptBot
             // Get is a socket exchange request, so should be processed by base BotFrameworkHttpAdapter
             if (httpRequest.Method == HttpMethods.Get)
             {
-                await ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
+                await base.ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
             }
             else
             {
@@ -94,7 +106,7 @@ namespace ImmediateAcceptBot
                 else if (activity.Type == ActivityTypes.Invoke || activity.DeliveryMode == DeliveryModes.ExpectReplies)
                 {
                     // NOTE: Invoke and ExpectReplies cannot be performed async, the response must be written before the calling thread is released.
-                    await ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
+                    await base.ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
                 }
                 else
                 {
@@ -108,10 +120,7 @@ namespace ImmediateAcceptBot
 
                         // Queue the activity to be processed by the ActivityBackgroundService
                         _activityTaskQueue.QueueBackgroundActivity(claimsIdentity, activity);
-                        
-                        // An alternative generic background worker
-                        // _backgroundTaskQueue.QueueBackgroundWorkItem(activity.Conversation.Id, async cancelToken => await ProcessActivityAsync(claimsIdentity, activity, bot.OnTurnAsync, cancelToken).ConfigureAwait(false));
-                        
+
                         // Activity has been queued to process, so return Ok immediately
                         httpResponse.StatusCode = (int)HttpStatusCode.OK;
                     }

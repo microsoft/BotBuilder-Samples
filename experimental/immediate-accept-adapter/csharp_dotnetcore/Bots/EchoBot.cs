@@ -41,7 +41,7 @@ namespace ImmediateAcceptBot.Bots
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var text = turnContext.Activity.Text?.ToLower()?.Trim();
+            var text = turnContext.Activity.Text.ToLower().Trim();
             var hasText = !string.IsNullOrEmpty(text);
             bool pause = hasText && text.Contains("pause");
             bool background = hasText && text.Contains("background");
@@ -107,7 +107,7 @@ namespace ImmediateAcceptBot.Bots
 
         private async Task ProactiveMessageCallbackAsync(BotAdapter adapter, ConversationReference conversationReference, string message, int seconds, CancellationToken cancellationToken)
         {
-            // Pause on the background thread for the number of seconds specified, then load the conversationi and message the user.
+            // Pause on the background thread for the number of seconds specified, then load the conversation and message the user.
             // This simulates a long running process.
             Thread.Sleep(TimeSpan.FromSeconds(seconds));
 

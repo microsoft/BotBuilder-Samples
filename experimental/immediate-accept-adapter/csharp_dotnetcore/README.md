@@ -15,21 +15,20 @@ New method in BotFrameworkHttpAdapter implementation:
 ```cs
 /// <summary>
 /// This method can be called from inside a POST method on any Controller implementation.  If the activity is Not an Invoke, and
-/// DeliveryMode is Not ExpectReplies, and this is not a Get request to upgrade to WebSockets, then the activity will be enqueued
+/// DeliveryMode is Not ExpectReplies, and this is NOT a Get request to upgrade to WebSockets, then the activity will be enqueued
 /// to be processed on a background thread.
-/// 
-/// 
-/// 
-/// Note, this is an ImmediateAccept and BackgroundProcessing replacement for: 
-/// Task ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default);
 /// </summary>
+/// <remarks>
+/// Note, this is an ImmediateAccept and BackgroundProcessing override of: 
+/// Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default);
+/// </remarks>
 /// <param name="httpRequest">The HTTP request object, typically in a POST handler by a Controller.</param>
 /// <param name="httpResponse">The HTTP response object.</param>
 /// <param name="bot">The bot implementation.</param>
 /// <param name="cancellationToken">A cancellation token that can be used by other objects or threads to receive
 ///     notice of cancellation.</param>
 /// <returns>A task that represents the work queued to execute.</returns>
-public async Task ProcessOnBackgroundThreadAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
+async Task IBotFrameworkHttpAdapter.ProcessAsync(HttpRequest httpRequest, HttpResponse httpResponse, IBot bot, CancellationToken cancellationToken = default)
 {
     if (httpRequest == null)
     {
@@ -49,7 +48,7 @@ public async Task ProcessOnBackgroundThreadAsync(HttpRequest httpRequest, HttpRe
     // Get is a socket exchange request, so should be processed by base BotFrameworkHttpAdapter
     if (httpRequest.Method == HttpMethods.Get)
     {
-        await ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
+        await base.ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
     }
     else
     {
@@ -62,9 +61,8 @@ public async Task ProcessOnBackgroundThreadAsync(HttpRequest httpRequest, HttpRe
         }
         else if (activity.Type == ActivityTypes.Invoke || activity.DeliveryMode == DeliveryModes.ExpectReplies)
         {
-            // NOTE: Invoke and ExpectReplies cannot be performed async,
-            // the response must be written before the calling thread is released.
-            await ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
+            // NOTE: Invoke and ExpectReplies cannot be performed async, the response must be written before the calling thread is released.
+            await base.ProcessAsync(httpRequest, httpResponse, bot, cancellationToken);
         }
         else
         {
@@ -78,7 +76,7 @@ public async Task ProcessOnBackgroundThreadAsync(HttpRequest httpRequest, HttpRe
 
                 // Queue the activity to be processed by the ActivityBackgroundService
                 _activityTaskQueue.QueueBackgroundActivity(claimsIdentity, activity);
-                        
+
                 // Activity has been queued to process, so return Ok immediately
                 httpResponse.StatusCode = (int)HttpStatusCode.OK;
             }

@@ -13,9 +13,8 @@ using Microsoft.Extensions.Logging;
 namespace ImmediateAcceptBot.BackgroundQueue
 {
     /// <summary>
-    /// BackgroundService implementation used to process work items on background threads.
-    /// 
-    /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.backgroundservice"/>
+    /// <see cref="BackgroundService"/> implementation used to process work items on background threads.
+    /// <see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.backgroundservice">More information.</see>
     /// </summary>
     public class HostedTaskService : BackgroundService
     {
@@ -26,11 +25,14 @@ namespace ImmediateAcceptBot.BackgroundQueue
         private readonly int _shutdownTimeoutSeconds;
 
         /// <summary>
-        /// 
+        /// Create a <see cref="HostedTaskService"/> instance for processing work on a background thread.
         /// </summary>
-        /// <param name="config"></param>
-        /// <param name="taskQueue"></param>
-        /// <param name="logger"></param>
+        /// <remarks>
+        /// It is important to note that exceptions on the background thread are only logged in the <see cref="ILogger"/>.
+        /// </remarks>
+        /// <param name="config"><see cref="IConfiguration"/> used to retrieve ShutdownTimeoutSeconds from appsettings.</param>
+        /// <param name="taskQueue"><see cref="IActivityTaskQueue"/> implementation where tasks are queued to be processed.</param>
+        /// <param name="logger"><see cref="ILogger"/> iplementation, for logging includig background thread exception information.</param>
         public HostedTaskService(IConfiguration config, IBackgroundTaskQueue taskQueue, ILogger<HostedTaskService> logger)
         {
             if (config == null)
@@ -95,7 +97,7 @@ namespace ImmediateAcceptBot.BackgroundQueue
                                     {
                                         _tasks.TryRemove(task.Key, out Task removed);
                                     }
-                                });
+                                }, stoppingToken);
 
                             _tasks.TryAdd(workItem, task);
                         }

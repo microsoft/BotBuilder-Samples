@@ -17,7 +17,7 @@ namespace ImmediateAcceptBot.Controllers
     [ApiController]
     public class BotController : ControllerBase
     {
-        private readonly ImmediateAcceptAdapter _adapter;
+        private readonly IBotFrameworkHttpAdapter _adapter;
         private readonly IBot _bot;
         
         public BotController(ImmediateAcceptAdapter adapter, IBot bot)
@@ -31,12 +31,7 @@ namespace ImmediateAcceptBot.Controllers
         public async Task PostAsync()
         {
             // Delegate the processing of the HTTP POST to the adapter.
-
-            // The ImmediateAcceptAdapter will authenticate the incoming request, and queue to be 
-            // processed by the configured background service.
-            await _adapter.ProcessOnBackgroundThreadAsync(Request, Response, _bot);
-
-            // await _adapter.ProcessAsync(Request, Response, _bot);
+            await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }
 }

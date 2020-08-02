@@ -15,9 +15,8 @@ using Microsoft.Extensions.Logging.Abstractions;
 namespace ImmediateAcceptBot.BackgroundQueue
 {
     /// <summary>
-    /// BackgroundService implementation used to process activities with claims.
-    /// 
-    /// <seealso cref="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.backgroundservice"/>
+    /// <see cref="BackgroundService"/> implementation used to process activities with claims.
+    ///  <see href="https://docs.microsoft.com/en-us/dotnet/api/microsoft.extensions.hosting.backgroundservice">More information.</see>
     /// </summary>
     public class HostedActivityService : BackgroundService
     {
@@ -33,6 +32,9 @@ namespace ImmediateAcceptBot.BackgroundQueue
         /// Create a <see cref="HostedActivityService"/> instance for processing Bot Framework Activities\
         /// on background threads.
         /// </summary>
+        /// <remarks>
+        /// It is important to note that exceptions on the background thread are only logged in the <see cref="ILogger"/>.
+        /// </remarks>
         /// <param name="config"><see cref="IConfiguration"/> used to retrieve ShutdownTimeoutSeconds from appsettings.</param>
         /// <param name="bot">IBot which will be used to process Activities.</param>
         /// <param name="adapter"><see cref="ImmediateAcceptAdapter"/> used to process Activities. </param>
@@ -116,7 +118,7 @@ namespace ImmediateAcceptBot.BackgroundQueue
                                 {
                                     _activitiesProcessing.TryRemove(task.Key, out Task removed);
                                 }
-                            });
+                            }, stoppingToken);
 
                             _activitiesProcessing.TryAdd(activityWithClaims, task);
                         }

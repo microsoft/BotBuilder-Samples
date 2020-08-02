@@ -11,8 +11,15 @@ namespace ImmediateAcceptBot.BackgroundQueue
     /// </summary>
     public class ActivityWithClaims
     {
+        /// <summary>
+        /// <see cref="ClaimsIdentity"/> retrieved from a call to JwtTokenValidation.AuthenticateRequest.
+        /// <seealso cref="ImmediateAcceptAdapter"/>
+        /// </summary>
         public ClaimsIdentity ClaimsIdentity { get; set; }
 
+        /// <summary>
+        /// <see cref="Activity"/> which is to be processed.
+        /// </summary>
         public Activity Activity { get; set; }
     }
 }
