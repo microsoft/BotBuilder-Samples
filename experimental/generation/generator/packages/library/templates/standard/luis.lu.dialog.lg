@@ -1,5 +1,5 @@
 # filename
-- ${prefix}.${locale}.lu.dialog
+- generated/${prefix}.${locale}.lu.dialog
 
 # template
 -```

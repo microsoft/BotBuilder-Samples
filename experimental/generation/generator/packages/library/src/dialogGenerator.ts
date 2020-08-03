@@ -533,7 +533,7 @@ async function allFiles(root: string): Promise<Map<string, string>> {
 // publishing.
 async function generateSingleton(schema: string, inDir: string, outDir: string) {
     let files = await allFiles(inDir)
-    let mainName = `${schema}.main.dialog`
+    let mainName = `${schema}.dialog`
     let main = await fs.readJSON(files.get(mainName) as string)
     let used = new Set<string>()
     await walkJSON(main, async (elt, obj, key) => {

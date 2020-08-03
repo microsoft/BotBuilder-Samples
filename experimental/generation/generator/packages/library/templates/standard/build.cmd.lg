@@ -51,12 +51,12 @@ call copy .\cross-trained\\${prefix}.${locale}.qna .\\${locale}\ /y
 
 # luisBuildCmd
 -```
-call bf luis:build --luConfig luconfig.json --region=%region% %key% --out . --log
+call bf luis:build --luConfig luconfig.json --region=%region% %key% --out generated --log
 ```
 
 # qnaMakerBuildCmd
 -```
-call bf qnamaker:build --qnaConfig qnaconfig.json %qnaKey% --out . --log
+call bf qnamaker:build --qnaConfig qnaconfig.json %qnaKey% --out generated --log
 ```
 
 # helpForLUIS

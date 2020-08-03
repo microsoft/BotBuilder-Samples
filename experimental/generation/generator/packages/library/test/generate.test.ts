@@ -75,7 +75,7 @@ describe('dialog:generate library', async () => {
     it('Transcript test', async () => {
         try {
             console.log('\n\nTranscript test')
-            assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich.main', output, false), 'Could not generate test script')
+            assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich', output, false), 'Could not generate test script')
             await compareToOracle('sandwich.test.dialog')
         } catch (e) {
             assert.fail(e.message)

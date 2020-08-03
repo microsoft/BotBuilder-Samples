@@ -46,6 +46,25 @@
         {
             "type": "node",
             "request": "launch",
+            "name": "Generate Sandwich test script",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "${workspaceFolder}/packages/**/lib/**"
+            ],
+            "args": [
+                "dialog:generate:test",
+                "${workspaceFolder}/packages/library/test/transcripts/sandwich.transcript",
+                "sandwich",
+                "-o",
+                "${env:TEMP}/script.out"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
             "name": "Generate Sandwich",
             "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/packages/cli/bin/run",
@@ -72,7 +91,7 @@
             "outputCapture": "std",
             "outFiles": [
                 "${workspaceFolder}/packages/**/lib/**"
-             ],
+            ],
             "args": [
                 "dialog:generate",
                 "${workspaceFolder}/packages/library/test/forms/sandwichQnA.schema",
@@ -92,7 +111,7 @@
             "outputCapture": "std",
             "outFiles": [
                 "${workspaceFolder}/packages/**/lib/**"
-             ],
+            ],
             "args": [
                 "dialog:generate",
                 "${workspaceFolder}/packages/library/test/forms/simple.schema",
@@ -112,7 +131,7 @@
             "outputCapture": "std",
             "outFiles": [
                 "${workspaceFolder}/packages/**/lib/**"
-             ],
+            ],
             "args": [
                 "dialog:generate",
                 "${workspaceFolder}/packages/library/test/forms/unittests.schema",
@@ -120,6 +139,23 @@
                 "${env:TEMP}/unittests.out",
                 "--force",
                 "--verbose"
+            ],
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Installed dialog:generate",
+            "program": "C:/users/chrim/appData/roaming/npm/node_modules/@microsoft/botframework-cli/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "C:/users/chrim/appData/Local/@microsoft/botframework-cli/node_modules/@microsoft/bf-generate-library/lib"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/packages/library/test/forms/sandwich.schema",
+                "-o",
+                "${env:TEMP}/script.out"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         }

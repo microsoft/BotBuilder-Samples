@@ -26,7 +26,8 @@ export async function generateTest(path: string, dialog: string, output: string,
     test.dialog = dialog
     let script: object[] = []
     test.script = script
-    let luisResponses: object[] = []
+    let mocks: any[] = []
+    test.httpRequestMocks = mocks
 
     for (let record of transcript) {
         if (isBot(record)) {
@@ -50,26 +51,19 @@ export async function generateTest(path: string, dialog: string, output: string,
                 membersRemoved.push(member.name)
             }
             script.push({$kind: 'Microsoft.Test.UserConversationUpdate', membersAdded, membersRemoved})
-        } else if (mock && isLUIS(record)) {
-            // TODO: Make this work.
-            // This does not currently work because LUIS does not make use of the HttpClient
-            // in TurnContext like the HttpRequestAction.
-            luisResponses.push({
+        } else if (mock && isHttpRequest(record)) {
+            let request = record.value.request
+            let mock = mocks.find(m => m.url === request.url && m.method === request.method)
+            if (!mock) {
+                mock = { url: request.url, method: request.method }
+                mocks.push(mock)
+            }
+            mock.responses.push({
+                // TODO: Responses really should include a status code as well to model errors.
                 contentType: 'String',
-                content: record.value.luisResult
+                content: record.value.response
             })
         }
-    }
-
-    if (luisResponses.length > 0) {
-        test.httpRequestMocks = [
-            {
-                $kind: 'Microsoft.Test.HttpRequestSequenceMock',
-                method: 'GET',
-                url: 'https://luis.ai',
-                responses: luisResponses
-            }
-        ]
     }
 
     await fs.writeJSON(outputPath, test, {spaces: 2})
@@ -88,8 +82,8 @@ function isConversationUpdate(record: any): Boolean {
     return record.type === 'conversationUpdate'
 }
 
-function isLUIS(record: any): Boolean {
-    return record.type === 'trace' && record.label === 'LuisV3 Trace'
+function isHttpRequest(record: any): Boolean {
+    return record.type === 'trace' && record.valueType === 'Microsoft.HttpRequest'
 }
 
 function objectAssertions(object: any, assertions: any[], path: string) {
