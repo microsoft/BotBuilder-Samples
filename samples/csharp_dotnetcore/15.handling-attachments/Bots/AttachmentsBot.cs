@@ -166,7 +166,7 @@ namespace Microsoft.BotBuilderSamples
         // Please consult the channel documentation for specifics.
         private static Attachment GetInlineAttachment()
         {
-            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
+            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources", "architecture-resize.png");
             var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
 
             return new Attachment
@@ -190,7 +190,7 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException(nameof(conversationId));
             }
 
-            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources\architecture-resize.png");
+            var imagePath = Path.Combine(Environment.CurrentDirectory, @"Resources", "architecture-resize.png");
 
             var connector = turnContext.TurnState.Get<IConnectorClient>() as ConnectorClient;
             var attachments = new Attachments(connector);

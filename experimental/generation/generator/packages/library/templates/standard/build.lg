@@ -45,12 +45,12 @@ cp ./cross-trained/${prefix}.${locale}.qna ./${locale}/
 
 # luisBuildCmd
 -```
-bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir --log
+bf luis:build --luConfig $thisdir/luconfig.json --region=$region $key --out $thisdir/generated --log
 ```
 
 # qnaMakerBuildCmd
 -```
-bf qnamaker:build --qnaConfig $thisdir/qnaconfig.json $qnakey --out $thisdir --log
+bf qnamaker:build --qnaConfig $thisdir/qnaconfig.json $qnakey --out $thisdir/generated --log
 ```
 
 # helpForLUIS

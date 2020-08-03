@@ -19,22 +19,22 @@ export default class TestDialog extends Command {
     ]
 
     static flags: flags.Input<any> = {
-        mock: flags.boolean({char: 'm', description: 'If specified, mock calls to LUIS.', default: false, required: false, hidden: true}),
+        mock: flags.boolean({char: 'm', description: 'If specified, mock HttpRequest calls.', default: false, required: false}),
         output: flags.string({char: 'o', description: 'Output path for <transcriptName>.dialog test file.', default: '.', required: false}),
         schema: flags.string({char: 's', description: 'Path to app.schema file.', required: false})
     }
 
     async run() {
         const {args, flags} = this.parse(TestDialog)
-        this.log(`Generating test .dialog in ${flags.output} from ${args.transcript} over ${args.dialog}`)
+        console.log(`Generating test .dialog in ${flags.output} from ${args.transcript} over ${args.dialog}`)
         if (flags.mock) {
-            this.log(`  with mocking`)
+            console.log(`  with HttpRequest mocking`)
         }
         if (flags.schema) {
-            this.log(`  with schema ${flags.schema}`)
+            console.log(`  with schema ${flags.schema}`)
         }
         let success = await generateTest(args.transcript, args.dialog, flags.output, flags.mock, flags.schema)
-        this.log(`Generated ${success}`)
+        console.log(`Generated ${success}`)
         return success
     }
 }

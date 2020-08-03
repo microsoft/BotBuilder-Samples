@@ -577,7 +577,7 @@ function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[]
 }
 
 /**
- * @description: Merge two .main.dialog files following the trigger ordering rule.
+ * @description: Merge two main .dialog files following the trigger ordering rule.
  * @param schemaName Name of the .schema file.
  * @param oldPath Path to the folder of the old asset.
  * @param oldFileList List of old file paths.
@@ -590,10 +590,10 @@ function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[]
  * @param feedback Callback function for progress and errors.
  */
 async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
-    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.main.dialog')
+    let template = await fs.readFile(ppath.join(oldPath, schemaName + '.dialog')
         , 'utf8')
     let oldObj = JSON.parse(template)
-    template = await fs.readFile(ppath.join(newPath, schemaName + '.main.dialog')
+    template = await fs.readFile(ppath.join(newPath, schemaName + '.dialog')
         , 'utf8')
     let newObj = JSON.parse(template)
 
@@ -668,7 +668,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
     }
 
     oldObj['triggers'] = mergedTriggers
-    await writeToFile(oldPath, mergedPath, schemaName + '.main.dialog', oldFileList, stringify(oldObj), feedback)
+    await writeToFile(oldPath, mergedPath, schemaName + '.dialog', oldFileList, stringify(oldObj), feedback)
     await copySingleFile(newPath, mergedPath, schemaName + '.' + locale + '.lu.dialog', newFileList, feedback)
 }
 

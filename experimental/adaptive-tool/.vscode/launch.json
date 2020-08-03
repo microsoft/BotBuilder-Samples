@@ -25,7 +25,16 @@
 			"port": 6010,
 			"restart": true,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/server/out/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to LuServer",
+			"port": 6011,
+			"restart": true,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/server/out/lu/**/*.js"]
 		},
 		{
 			"name": "Language Server E2E Test",
@@ -43,7 +52,7 @@
 	"compounds": [
 		{
 			"name": "Client + Server",
-			"configurations": ["Launch Client", "Attach to LgServer"]
+			"configurations": ["Launch Client", "Attach to LgServer", "Attach to LuServer"]
 		}
 	]
 }
