@@ -47,7 +47,7 @@ describe('dialog:generate', async () => {
     test
         .stdout()
         .stderr()
-        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich.main', '-o', output])
+        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich', '-o', output])
         .it('Generate test .dialog', ctx => {
             expect(ctx.stdout)
                 .to.contain('Generated')

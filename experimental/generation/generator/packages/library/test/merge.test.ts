@@ -285,7 +285,7 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
             await copyToMerged('en-us/*-BreadEntity.*')
-            await copyToMerged('sandwichMerge.main.dialog')
+            await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('sandwichMerge-foo-missing.dialog')
             await copyToMerged('en-us/sandwichMerge-Bread.en-us.lg')
             await deleteMerged('sandwichMerge-price-remove-money.dialog')
@@ -296,15 +296,15 @@ describe('dialog:generate --merge library', async function () {
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
             await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', false, errors)
-            await assertUnchanged('sandwichMerge.main.dialog', false, errors)
+            await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
             await assertUnchanged('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lu', false, errors)
             await assertUnchanged('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', false, errors)
 
             // Main should still be updated
-            await assertContains('sandwichMerge.main.dialog', /sandwichMerge-foo/, errors)
-            await assertMissing('sandwichMerge.main.dialog', /sandwichMerge-price-remove-money/, errors)
+            await assertContains('sandwichMerge.dialog', /sandwichMerge-foo/, errors)
+            await assertMissing('sandwichMerge.dialog', /sandwichMerge-price-remove-money/, errors)
 
             // Removed should stay removed
             assertRemoved(comparison, 'sandwichMerged-price-remove-money.dialog', errors)

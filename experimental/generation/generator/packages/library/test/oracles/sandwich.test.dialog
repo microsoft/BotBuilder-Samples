@@ -1,6 +1,6 @@
 {
   "$kind": "Microsoft.Test.Script",
-  "dialog": "sandwich.main",
+  "dialog": "sandwich",
   "script": [
     {
       "$kind": "Microsoft.Test.UserConversationUpdate",
@@ -108,14 +108,7 @@
     {
       "$kind": "Microsoft.Test.UserSays",
       "text": "no"
-    },
-    {
-      "$kind": "Microsoft.Test.AssertReply",
-      "text": "Welcome!"
-    },
-    {
-      "$kind": "Microsoft.Test.AssertReply",
-      "text": "Enter a value for name"
     }
-  ]
+  ],
+  "httpRequestMocks": []
 }

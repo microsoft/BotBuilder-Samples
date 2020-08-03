@@ -6,6 +6,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.Luis.Testing;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -44,10 +45,12 @@ namespace TestBot
 
             var config = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment } })
-                .UseLuisSettings()
+                .UseMockLuisSettings(root, root)
                 .AddUserSecrets("RunBot")
                 .Build();
             var resourceExplorer = new ResourceExplorer().AddFolder(root, monitorChanges: false);
+            resourceExplorer.RegisterType(LuisAdaptiveRecognizer.Kind, typeof(MockLuisRecognizer), new MockLuisLoader(config));
+
             var dialogs = resourceExplorer.GetResources(".dialog").ToList();
             foreach (var test in resourceExplorer.GetResources(".dialog").Where(r => r.Id.EndsWith(".test.dialog")))
             {
@@ -70,7 +73,7 @@ namespace TestBot
         private static void Usage()
         {
             Console.Error.WriteLine("TestBot [--root <rootDir>] [--region <region>] [--environment <settingEnvironment>]");
-            Console.Error.WriteLine("Run all *.test.dialog scripts run against dialogs in the root directory.");
+            Console.Error.WriteLine("Run all *.test.dialog scripts run against dialogs in the root directory with LUIS record and then mock.");
             Console.Error.WriteLine("--root Root directory to use or . by default.");
             Console.Error.WriteLine("--region Region to use for settings defaults to westus.");
             Console.Error.WriteLine("--environment Environment name to use when looking for settings defaults to user alias.");
