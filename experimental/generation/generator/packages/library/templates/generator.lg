@@ -4,12 +4,6 @@
 # EOL
 -\r\n
 
-# roles
-- IF: ${role}
-    - hasRole ${role}
-- ELSE:
-    -
-
 # propertyFilename
 - ${locale}/${property}/${prefix}-${property}.${locale}.lg
 
@@ -49,13 +43,13 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-${'#'} ${property}_getPropertyNameText
+# ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(val)
+# ${property}_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -65,7 +59,7 @@ ${'#'} ${property}_getValueText(val)
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} ${property}Entity_getValueText(val)
+# ${property}Entity_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -244,54 +238,37 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-# propertyPhrases
-- IF: ${property}
+> Define operation entities for '${property}' property.
+# operations(entity, values, label)
+- IF: ${examples}
+- ${generateOperations(entity, examples, label)}
+- ELSEIF: ${values}
+- ${generateOperations(entity, values, label)}
+- ELSE:
+- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], label)}
+
+# generateOperations(entity, values, label)
 -```
-> Define phrases to identify '${property}' property.
+> Define phrase list for ${property} property.
 @ phraselist ${property}Phrases(interchangeable)
 ${if(schema.properties[property].title,
     `\t- ${schema.properties[property].title}`,
      synonyms(property))}
-```
-- ELSE:
--
 
-> Define operation entities for '${property}' property.
-# operations(entity, values, builtin)
-- IF: ${examples}
-- ${generateOperations(entity, examples, builtin)}
-- ELSEIF: ${values}
-- ${generateOperations(entity, values, builtin)}
-- ELSE:
-- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], builtin)}
-
-# generateOperations(entity, values, builtin)
--```
-> Define property and optional value for ${property} property.
+> Define property entity and optional value for ${property} property.
 @ ml ${property} usesFeature ${property}Phrases
     - @ ${entity} ${entity}
 
-> Define operation entities for '${property}' property.
-@ml Add = 
-    - @ ${property} ${property}
+> Define operations on '${property}' property.
+${defineOperation('Add', entity)}
+${defineOperation('Remove', entity)}
+${defineOperation('Clear', entity)}
+${defineOperation('Show', entity)}
+${defineOperation('Help', entity)}
+${defineOperation('Change', entity)}
 
-@ml Remove = 
-    - @ ${property} ${property}
-
-@ml Clear =
-    - @ ${property} ${property}
-    
-@ml Show =
-    - @ ${property} ${property}
-
-@ml Help = 
-    - @ ${property} ${property}
-
-@ml Change =
-    - @ ${property} ${property}
-
-> Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
-${'#'} ${triggerIntent}
+> Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
+# ${triggerIntent}
 ${substitutions(`library-operations.${locale}.data`, 
     json(`{"propertyName": ${propertyList(property)}, 
            "value": ${valueList(values)}, 
@@ -300,8 +277,12 @@ ${substitutions(`library-operations.${locale}.data`,
     3)}
 ```
 
-# defineOperation(name, entity, builtin)
--
+# defineOperation(operation, entity)
+-```
+@ ml ${operation}() usesFeature ${operation}Phrases
+\t-@ ml ${property} usesFeature ${property}
+\t\t- @ ${entity} ${entity}
+${if(entities[entity].length > 1, `\t- @ ${entity} ${entity}`, '')}```
 
 # propertyList(property)
 - [${join(foreach(phrases(property), phrase, `"${phrase}"`), ', ')}]
@@ -316,9 +297,6 @@ ${substitutions(`library-operations.${locale}.data`,
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
 
 > Top-level template support
-# roleEntities(entity)
-- ${[`${entity}:${property}`, entity]}
-
 # propertyTemplates
 - ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 

@@ -5,10 +5,11 @@
 
 # template
 - ```
+> List entity for ${property} enum values
 @ list ${property}Entity =
 ${join(foreach(schema.properties[property].enum, enum, `\t- ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
-${propertyPhrases()}
-${operations(`${property}Entity`, allSynonyms())}
+
+${operations(`${property}Entity`, allSynonyms(), false)}
 ```
 
 # allSynonyms

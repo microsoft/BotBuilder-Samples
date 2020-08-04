@@ -5,7 +5,6 @@
 
 # template
 - ```
-@ prebuilt age ${roles()}
-${propertyPhrases()}
-${operations('age', ["5 years", "25", "13 years old"])}
+@ prebuilt age
+${operations('age', ["5 years", "25", "13 years old"], false)}
 ```

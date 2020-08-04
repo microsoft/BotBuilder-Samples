@@ -35,7 +35,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*"
+                ".*Singleton.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
@@ -70,7 +70,8 @@
             "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "${workspaceFolder}/packages/**/lib/**"
+                "${workspaceFolder}/packages/cli/lib/**",
+                "${workspaceFolder}/packages/library/lib/**"
             ],
             "args": [
                 "dialog:generate",

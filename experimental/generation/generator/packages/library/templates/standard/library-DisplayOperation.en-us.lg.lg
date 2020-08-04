@@ -5,10 +5,10 @@
 
 # template
 -```
-${'#'} displayOperation(op, text)
+# displayOperation(op, text)
 - \${operationName(op)} "\${text}"" to \${operationProperty(op)}
 
-${'#'} operationProperty(op)
+# operationProperty(op)
 - \${substring(op, indexOf(op, '(') + 1, length(op) - indexOf(op, '(') - 2)}
 
 ${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
@@ -16,7 +16,7 @@ ${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
 
 # namePlusSwitch
 -```
-${'#'} operationName(op) 
+# operationName(op) 
 - SWITCH: \${op}```
 
 # case(op, property)

@@ -8,7 +8,7 @@
 
 # namePlusSwitch
 -```
-${'#'} PROPERTYName_getValueText(value) 
+# PROPERTYName_getValueText(value) 
 - SWITCH: \${value}```
 
 # case(option)

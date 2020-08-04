@@ -357,12 +357,6 @@ async function processTemplate(
                         }
                     }
                 } else if (lgTemplate) {
-                    if (lgTemplate.allTemplates.some(f => f.name === 'entities') && !scope.schema.properties[scope.property].$entities) {
-                        let entities = lgTemplate.evaluate('entities', scope) as string[]
-                        if (entities) {
-                            scope.schema.properties[scope.property].$entities = entities
-                        }
-                    }
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
@@ -414,18 +408,14 @@ async function processTemplates(
             if (!entities) {
                 feedback(FeedbackType.error, `${property.path} does not have $entities defined in schema or template.`)
             } else if (!property.schema.$templates) {
-                for (let entity of entities) {
-                    let [entityName, role] = entity.split(':')
+                for (let entityName of entities) {
                     scope.entity = entityName
-                    scope.role = role
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
 
                     // Look for examples in global $examples
-                    if (schema.schema.$examples) {
-                        scope.examples = schema.schema.$examples[entityName]
-                    }
+                    scope.examples = schema.schema.$examples[entityName]
 
                     // Pick up examples from property schema
                     if (!scope.examples && property.schema.examples && entities.length === 1) {
@@ -437,7 +427,6 @@ async function processTemplates(
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
                 delete scope.entity
-                delete scope.role
                 delete scope.examples
             }
         }
@@ -446,13 +435,52 @@ async function processTemplates(
 
         // Process templates found at the top
         if (schema.schema.$templates) {
-            scope.entities = schema.entityTypes()
             for (let templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
             }
         }
     }
     delete scope.locale
+}
+
+// Ensure every property has $entities
+async function ensureEntities(
+    schema: s.Schema,
+    templateDirs: string[],
+    scope: any,
+    feedback: Feedback)
+    : Promise<void> {
+    for (let property of schema.schemaProperties()) {
+        if (!property.schema.$entities) {
+            try {
+                scope.property = property.path
+                scope.type = property.typeName()
+                let templates = property.schema.$templates
+                if (!templates) {
+                    templates = [scope.type]
+                }
+                for (let template of templates) {
+                    let foundTemplate = await findTemplate(template, templateDirs)
+                    let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+                    if (lgTemplate
+                        && lgTemplate.allTemplates.some(f => f.name === 'entities')
+                        && !scope.schema.properties[scope.property].$entities) {
+                        feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $entities`)
+                        let entities = lgTemplate.evaluate('entities', scope) as string[]
+                        if (entities) {
+                            property.schema.$entities = entities
+                        }
+                    }
+                }
+                if (!property.schema.$entities) {
+                    feedback(FeedbackType.error, `${property.path} has no $entities`)
+                }
+            } catch (e) {
+                feedback(FeedbackType.error, e.message)
+            }
+
+        }
+    }
 }
 
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
@@ -705,6 +733,9 @@ export async function generate(
             scope = {...scope, ...schema.schema.$parameters}
         }
 
+        await ensureEntities(schema, templateDirs, scope, feedback)
+        scope = {...scope, entities: schema.entityToProperties()}
+
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand schema expressions
@@ -746,7 +777,7 @@ export async function generate(
 export async function expandPropertyDefinition(property: string, schema: any, templateDirs?: string[]): Promise<any> {
     templateDirs = await templateDirectories(templateDirs)
     schema = await ps.expandPropertyDefinition(schema, templateDirs)
-    let fullSchema = { 
+    let fullSchema = {
         properties: {}
     }
     fullSchema.properties[property] = schema

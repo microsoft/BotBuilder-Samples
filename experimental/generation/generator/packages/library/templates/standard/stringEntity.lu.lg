@@ -13,6 +13,6 @@
 
 > Define the entity for recognizing the '${property}' property. You can add synonyms here.  
 @ ml ${property}Entity
-${propertyPhrases()}
-${operations(`${property}Entity`, null)}
+
+${operations(`${property}Entity`, null, true)}
 ```
