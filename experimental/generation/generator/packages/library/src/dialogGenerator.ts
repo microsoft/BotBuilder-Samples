@@ -531,7 +531,7 @@ async function allFiles(root: string): Promise<Map<string, string>> {
 // Generate a singleton dialog by pulling in all dialog refs
 // NOTE: This does not pull in the recognizers in part because they are only generated when
 // publishing.
-async function generateSingleton(schema: string, inDir: string, outDir: string) {
+async function generateSingleton(schema: string, inDir: string, outDir: string, feedback: Feedback) {
     let files = await allFiles(inDir)
     let mainName = `${schema}.dialog`
     let main = await fs.readJSON(files.get(mainName) as string)
@@ -540,7 +540,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
         if (typeof elt === 'string') {
             let ref = `${elt}.dialog`
             let path = files.get(ref)
-            if (path && key) {
+            if (ref !== mainName && path && key) {
                 // Replace reference with inline object
                 let newElt = await fs.readJSON(path)
                 let id = ppath.basename(path)
@@ -560,6 +560,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string) 
     for (let [name, path] of files) {
         if (!used.has(name)) {
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
+            feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
                 await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
@@ -718,9 +719,9 @@ export async function generate(
         if (singleton) {
             if (!merge) {
                 feedback(FeedbackType.info, 'Combining into singleton .dialog')
-                await generateSingleton(scope.prefix, outPath, outDir)
+                await generateSingleton(scope.prefix, outPath, outDir, feedback)
             } else {
-                await generateSingleton(scope.prefix, outPath, outPathSingle)
+                await generateSingleton(scope.prefix, outPath, outPathSingle, feedback)
             }
         }
 

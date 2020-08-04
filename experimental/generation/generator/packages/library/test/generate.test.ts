@@ -135,9 +135,10 @@ describe('dialog:generate library', async () => {
 
     it('Singleton', async () => {
         try {
-            console.log('\n\nGeneration')
+            console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
-            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton')
+            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton directories')
+            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not root dialog')
         } catch (e) {
             assert.fail(e.message)
         }
