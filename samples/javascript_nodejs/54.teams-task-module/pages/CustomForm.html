@@ -39,7 +39,7 @@
     <div class="surface theme-light">
         <div class="panel">
             <div class="font-semibold font-title">Enter new customer information:</div>
-            <form method="POST" id="customerForm" onSubmit="return validateForm()">
+            <form method="GET" id="customerForm" action="Noop.html" onSubmit="return validateForm()">
                 <div>
                     <div class="form-group form-field-input" style="margin-bottom: 10px; margin-top: 10px;"></div><label for="name">Name: </label><input class="form-control input-field" id="name" type="text" placeholder="first and last" name="name" tabindex="1" autofocus>
                     <div class="form-group form-field-input" style="margin-bottom: 10px;"></div><label for="email">Email: </label><input class="form-control input-field" id="email" type="email" placeholder="name@email.com" name="email" tabindex="2">
