@@ -425,3 +425,44 @@ ${substitutions(`library-operations.${locale}.data`,
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
+
+# missingNumber(property)
+- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameText(property)} between ${schema.properties[property].minimum} and ${schema.properties[property].maximum}
+- ELSEIF:  ${schema.properties[property].minimum}
+- Enter a number for ${getPropertyNameText(property)} that is greater than ${schema.properties[property].minimum}
+- ELSEIF: ${schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameText(property)} that is less than ${schema.properties[property].maximum}
+- ELSE:
+- Enter a number for ${getPropertyNameText(property)}
+
+# missingBoolean(property)
+- ```\`\`\`
+\${getAutoHelpText()}
+Enter a value for ${getPropertyNameText(property)}: true or false
+\`\`\`
+```
+
+# missingString(property)
+- ```\`\`\`
+\${getAutoHelpText()}
+Enter a value for ${getPropertyNameText(property)}
+\`\`\`
+```
+
+# missingEnumArray(property)
+- ```\`\`\`
+\${getAutoHelpText()}
+What values do you want to add for ${getPropertyNameText(property)}?
+\`\`\`
+```
+
+# missingEnum(property)
+- ```\`\`\`
+\${getAutoHelpText()}
+Which value do you want for ${getPropertyNameText(property)}?
+\`\`\`
+```
+
+# getPropertyNameText(property)
+- ${property}

@@ -8,9 +8,7 @@
             "maximum": 10
         },
         "Length": {
-            "type": "integer",
-            "minimum": 11,
-            "maximum": 20
+            "type": "integer"
         },
         "Complete": {
             "type": "string",
@@ -26,6 +24,29 @@
             "$entities": [
                 "personName"
             ]
+        },       
+        "EnumFruit": {
+            "type": "string",
+            "enum": [
+                "orange",
+                "apple",
+                "pear",
+                "banana"
+            ]
+        },
+        "EnumArrayColor": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "yellow",
+                    "red",
+                    "blue",
+                    "black",
+                    "white"
+                ],
+                "maxItems": 3
+            }
         },
         "Email": {
             "type": "string",
@@ -55,7 +76,8 @@
             "type": "string",
             "$entities": [
                 "personName"
-            ]
+            ],
+            "pattern" : "^[a-z]{1,3}$"
         },
         "PhoneNumber": {
             "type": "string",
@@ -102,6 +124,8 @@
         "Length",
         "Complete",
         "NameArray",
+        "EnumFruit",
+        "EnumArrayColor",
         "Email",
         "URL1",
         "URL2",
