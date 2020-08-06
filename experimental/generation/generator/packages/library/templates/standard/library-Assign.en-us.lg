@@ -8,6 +8,15 @@
 - ELSE:
 -
 
+# getDateValidationText
+- Please enter the correct date format.
+
+# getTimeValidationText
+- Please enter the correct time format.
+
+# getPatternValidationText(pattern)
+- The input should follow the pattern ${pattern} .
+
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
 - Required response for ${getPropertyNameText(property)} should be in ${dialogClass.schema.properties[property].$units}.

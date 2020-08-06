@@ -5,7 +5,6 @@
 
 # template
 - ```
-${importLG(`${property}Entity`)}
 ${importLG('library')}
 ${importLG('library-Missing')}
 ${AskTemplate()}
@@ -17,11 +16,12 @@ ${ValueTemplate()}
 - ```
 > Template for prompting the user for the '${property}' property.
 ${'#'} ${property}_getPromptText
-- \${getStringArrayPromptText('${property}')}```
+- \${getStringPromptText('${property}')}
+```
 
 # ValueTemplate
-- ```
+-```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(values)
-- \${getArrayValueText('${property}', values)}```
-
+${'#'} ${property}_getValueText(val)
+- \${getValueText(val)}
+```

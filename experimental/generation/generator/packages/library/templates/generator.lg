@@ -104,6 +104,74 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
+# addDialogWithStringPattern(entity)
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add(${property})",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${getPatternValidationText(dialogClass.schema.properties['${property}'].pattern)}"
+                }                    
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${getSetPropertyText('${property}',  @${entity})}"
+                },
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "$${property}",
+                    "value": "= @${entity}"          
+                }
+            ]
+        }
+    ]               
+    ${designerOpEntity('Add', entity)}     
+}
+```
+
+# addDialogWithNumberMinMax(entity)
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add(${property})",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":" @${entity} < dialogClass.schema.properties['${property}'].minimum || @${entity} > dialogClass.schema.properties['${property}'].maximum",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${getNumberValidationText('${property}', @${entity})}"
+                }                    
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${getSetPropertyText('${property}',  @${entity})}"
+                },
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "$${property}",
+                    "value": "= @${entity}"          
+                }
+            ]
+        }
+    ]               
+    ${designerOpEntity('Add', entity)}     
+}
+```
+
 # addArrayDialog(entity)
 -```
 {

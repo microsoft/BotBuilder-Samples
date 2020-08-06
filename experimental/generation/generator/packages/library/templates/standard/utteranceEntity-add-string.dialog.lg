@@ -4,5 +4,8 @@
 - ${addFilename('utterance')}
 
 # template
-- ${addDialog('utterance')}
+- IF: ${schema.properties[property].pattern}
+    - ${addDialogWithStringPattern('utterance')}
+- ELSE:
+    - ${addDialog('utterance')}
 
