@@ -71,7 +71,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -103,7 +104,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -136,10 +138,10 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove(${property})",
+    "operation": "Remove()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
-
         {
             "$kind": "Microsoft.IfCondition",
             "condition":"$${property} == @${entity}",
@@ -164,7 +166,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove(${property})",
+    "operation": "Remove()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -187,7 +190,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Clear(${property})",
+    "operation": "Clear()",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -207,7 +211,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Show(${property})",
+    "operation": "Show()",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -263,6 +268,7 @@
 > comment: empty value to filter out meta-comments
 # generateOperations(entity, values, label)
 -```
+[library-phrases](../library/${prefix}-library-phrases.${locale}.lu)
 > Define phrase list for ${property} property.
 @ phraselist ${property}Phrases(interchangeable)
 ${if(schema.properties[property].title,

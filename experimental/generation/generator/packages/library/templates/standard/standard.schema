@@ -119,7 +119,6 @@
         "library-ChooseProperty.dialog",
         "library-HelpIntent.dialog",
         "library-NotUnderstood.dialog",
-        "library-phrases.lu",
         "library-ShowPropertiesIntent.dialog",
         "library-triggerIntent.dialog",
         "main.dialog",
