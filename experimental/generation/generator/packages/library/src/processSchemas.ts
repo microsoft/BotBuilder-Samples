@@ -122,6 +122,11 @@ export function typeName(property: any): string {
     if (property.enum) {
         type = 'enum'
     }
+
+    if (property.format) {
+        type = property.format
+    }
+
     if (isArray) {
         type = type + 'Array'
     }
