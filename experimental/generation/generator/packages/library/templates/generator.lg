@@ -464,5 +464,12 @@ Which value do you want for ${getPropertyNameText(property)}?
 \`\`\`
 ```
 
+# missingStringArray(property)
+- ```\`\`\`
+\${getAutoHelpText()}
+What values do you want to add for ${getPropertyNameText(property)}?
+\`\`\`
+```
+
 # getPropertyNameText(property)
 - ${property}
