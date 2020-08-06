@@ -10,7 +10,6 @@ import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
 import * as ppath from 'path'
-import {assert} from 'console';
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
