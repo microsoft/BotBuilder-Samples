@@ -2,7 +2,7 @@
 
 Templates are `.lg` and `.schema` files used to add additional logic and language generation to the dialog generation process. For most purposes the standard templates do everything needed and you will not need to create your own.
 
-Current functionality in the [standard templates](../generator/packages/library/templates) includes:
+Current functionality in the [standard templates](../generator/packages/library/templates/standard) includes:
 
 - Generating .lg, .lu and .dialog files that robustly handle out of order and
   multiple responses for simple and array properties.
@@ -80,8 +80,10 @@ updating generated files when changing the schema. In the below, $italics$ are
 place holders.
 
 - `$schema$-library` -- Defines library files that are either common building
-  blocks like [library.lg.lg](../generator/packages/library/templates/library.lg.lg) or are internal
-  mechanisms like [library-help.lg.lg](../generator/packages/library/templates/library-Help.lg.lg).
+
+  blocks like [library.lg.lg](../generator/packages/library/templates/standard/library.lg.lg) or are internal
+  mechanisms like [library-help.lg.lg](../generator/packages/library/templates/standard/library-Help.lg.lg).
+
 - `$schema$-$entity$Entity` -- Defines entity specific files.
 - `$schema$-$property$` -- Defines property related files when $property$ is found
   in the schema.

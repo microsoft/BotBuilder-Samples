@@ -75,7 +75,7 @@ describe('dialog:generate library', async () => {
     it('Transcript test', async () => {
         try {
             console.log('\n\nTranscript test')
-            assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich.main', output, false), 'Could not generate test script')
+            assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich', output, false), 'Could not generate test script')
             await compareToOracle('sandwich.test.dialog')
         } catch (e) {
             assert.fail(e.message)
@@ -135,9 +135,10 @@ describe('dialog:generate library', async () => {
 
     it('Singleton', async () => {
         try {
-            console.log('\n\nGeneration')
+            console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
-            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton')
+            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton directories')
+            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not root dialog')
         } catch (e) {
             assert.fail(e.message)
         }

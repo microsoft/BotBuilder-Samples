@@ -10,7 +10,6 @@ import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
 import * as ppath from 'path'
-import {assert} from 'console';
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
@@ -47,7 +46,7 @@ describe('dialog:generate', async () => {
     test
         .stdout()
         .stderr()
-        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich.main', '-o', output])
+        .command(['dialog:generate:test', `${transcriptPath}`, 'sandwich', '-o', output])
         .it('Generate test .dialog', ctx => {
             expect(ctx.stdout)
                 .to.contain('Generated')
