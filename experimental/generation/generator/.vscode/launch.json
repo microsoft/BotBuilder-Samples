@@ -8,6 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Tests",
+            "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceFolder}/packages/cli",
             "args": [
@@ -28,6 +29,7 @@
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Library Tests",
+            "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceFolder}/packages/library",
             "args": [

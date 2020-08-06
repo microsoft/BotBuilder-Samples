@@ -84,6 +84,9 @@
         },
         "Price": {
             "$ref": "template:money.schema"
+        },
+        "Rating": {
+            "type": "number"
         }
     },
     "required": [

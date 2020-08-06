@@ -247,6 +247,20 @@
 - ELSE:
 - ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], label)}
 
+> Each entity is either ambiguous, i.e. found in multiple properties or not.
+> 1) For ambiguous entities, generate standalone entities and operators with a mix of standalone labeled entities and properties with entity and property name.
+> 2) For unique entities, standalone properties around entity and operators with properties.
+> 
+> We control the utterances through populating substitution variables which can either be a single
+> value or an array of choices.  If a variable is not present the whole utterance will be dropped.  
+> Variables:
+> entity: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
+> value: labeled ambiguous entity for inside property/op like {@entity=value}
+> unique: labeled unique entity always found inside of property, i.e. {@entity=value}
+> uniqueOrValue: union of unique and value.
+> name: possible ways of naming property
+> property: current property
+> comment: empty value to filter out meta-comments
 # generateOperations(entity, values, label)
 -```
 > Define phrase list for ${property} property.
@@ -263,17 +277,29 @@ ${if(schema.properties[property].title,
 ${defineOperation('Add', entity)}
 ${defineOperation('Remove', entity)}
 ${defineOperation('Clear', entity)}
+${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
-${defineOperation('Change', entity)}
 
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, 
-    json(`{"propertyName": ${propertyList(property)}, 
-           "value": ${valueList(values)}, 
-           "label": ${labelList(entity, values)}, 
-           "property": "${property}"}`), 
+${substitutions(
+    `library-operations.${locale}.data`, 
+    { entity: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, comment: []},
+    3)}
+```
+
+# foo
+- ```${substitutions(
+    `library-operations.${locale}.data`, 
+    json(`{"entity: ${entityList(entity, values, label)}",
+           "value": ${valueList(entity, values)}, 
+           "unique": ${uniqueList(entity, values)},
+           "uniqueOrValue": ${uniqueOrValueList(entity, values)},
+           "name": ${propertyList(property)},
+           "property": "${property}",
+           "comment": []
+          }`),
     3)}
 ```
 
@@ -282,16 +308,46 @@ ${substitutions(`library-operations.${locale}.data`,
 @ ml ${operation}() usesFeature ${operation}Phrases
 \t-@ ml ${property} usesFeature ${property}
 \t\t- @ ${entity} ${entity}
-${if(entities[entity].length > 1, `\t- @ ${entity} ${entity}`, '')}```
+${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
+
+> Check to see if entity is only found in one property
+# oneProperty(entity)
+- ${count(entities[entity]) == 1}
+
+> Generate a raw entity value with optional label
+# entityValue(entity, value, label)
+- IF: ${label}
+- {@${entity}=${value}}
+- ELSE:
+- ${value}
+
+> List of primitive entities
+# entityList(entity, values, label)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, entityValue(entity, value, label))}
+- ELSE:
+- ${[]}
+
+> List of labeled multi-property values
+# valueList(entity, values)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> List of labeled single-property labeled values
+# uniqueList(entity, values)
+- IF: ${oneProperty(entity)}
+- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> Union of single and multiple property labled entities
+# uniqueOrValueList(entity, values)
+- ${union(uniqueList(entity, values), valueList(entity, values))}
 
 # propertyList(property)
-- [${join(foreach(phrases(property), phrase, `"${phrase}"`), ', ')}]
-
-# labelList(entity, values)
-- [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
-
-# valueList(values)
-- [${join(foreach(values, value, `"${value}"`), ', ')}]
+- ${foreach(phrases(property), phrase, `${phrase}`)}
 
 # synonyms(value)
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}

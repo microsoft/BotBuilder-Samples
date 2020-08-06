@@ -37,11 +37,15 @@ function binding(key: string, bindings: State, rand: random.prng): string {
     let variable = bindings.get(key)
     let value: any
     if (variable) {
-        if (variable.index < 0) {
-            value = variable.values[Math.abs(rand.int32()) % variable.values.length]
-        } else {
-            value = variable.values[variable.index]
+        if (variable.values.length > 0) {
+            if (variable.index < 0) {
+                value = variable.values[Math.abs(rand.int32()) % variable.values.length]
+            } else {
+                value = variable.values[variable.index]
+            }
         }
+    } else {
+        value = `**Missing ${key}**`
     }
     return value
 }
@@ -49,6 +53,8 @@ function binding(key: string, bindings: State, rand: random.prng): string {
 /**
  * Return the result of replicating lines from a source file and substituting random values 
  * from bindings into ${variable} placeholders for random choice or ${variable*} for all choices.
+ * You can also use ${variable?} to conditionally test for the presence of a variable.
+ * Lines with a missing 
  * @param path Path to file with lines.
  * @param bindings Object with binding names and an array of choices that will be flattened.
  * @param copies Optional number of times to copy each line with random values, default is 1.
@@ -79,31 +85,46 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         lines = file.split('\n')
     }
     for (let line of lines) {
-        if (line.startsWith('>') || line.trim() === '') { // Copy comments
-            result.push(line)
-        } else {
-            let generated = new Set<string>()
-            let all = line.match(/\${[^}*]+\*}/g) || []
-            for (let [key, variable] of state) {
-                variable.index = all.includes(`\${${key}*}`) ? 0 : -1
-            }
-            do {
-                for (let i = 0; i < copies; ++i) {
-                    // Number of times to try for a unique result
-                    let tries = 3
-                    do {
-                        let newline = line.replace(/\${([^}*]+)\*?\}/g,
-                            (_, key) => binding(key, state, rand) || '**MISSING**')
-                        tries = tries - 1
-                        if (!generated.has(newline)) {
-                            generated.add(newline)
-                            result.push(newline)
-                            tries = 0
-                        }
-                    } while (tries > 0)
-                }
-            } while (!increment(state))
+        let lineCopies = copies
+        if (line.startsWith('>') || line.trim() === '') {
+            // Copy comments unless filtered by test
+            lineCopies = 1
         }
+        let generated = new Set<string>()
+        let all = line.match(/\${[^}*]+\*}/g) || []
+        for (let [key, variable] of state) {
+            variable.index = all.includes(`\${${key}*}`) ? 0 : -1
+        }
+        do {
+            let missing = false
+            for (let i = 0; i < lineCopies; ++i) {
+                // Number of times to try for a unique result
+                let tries = 3
+                do {
+                    let newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
+                        (match, key) => {
+                            let val = binding(key, state, rand)
+                            if (!val) {
+                                missing = true
+                            }
+                            // For conditional tests value is empty but we set missing
+                            return match.endsWith('?}') ? '' : val
+                        })
+                    if (missing) {
+                        // If missing a value, drop the line
+                        tries = 0
+                        i = lineCopies
+                        break
+                    }
+                    tries = tries - 1
+                    if (!generated.has(newline)) {
+                        generated.add(newline)
+                        result.push(newline)
+                        tries = 0
+                    }
+                } while (tries > 0)
+            }
+        } while (!increment(state))
     }
     return result.join(os.EOL)
 }

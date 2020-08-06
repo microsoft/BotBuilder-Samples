@@ -423,7 +423,6 @@ async function processTemplates(
                     }
 
                     // If neither specify, then it is up to templates
-
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
                 delete scope.entity

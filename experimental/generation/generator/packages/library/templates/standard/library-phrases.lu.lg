@@ -1,0 +1,26 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${locale}/library/${prefix}-library-phrases.en-us.lu
+
+# template
+-```
+> Phrase lists for operations
+@ phraseList AddPhrases(interchangeable)=
+    - add, set, with, is, are, of
+
+@ phraseList RemovePhrases(interchangeable)=
+    - remove, delete, without, with no
+
+@ phraseList ClearPhrases(interchangeable)=
+    - clear, start over, reset, remove, empty
+
+@ phraseList ShowPhrases(interchangeable)=
+    - show, display, value of, value for, value, values, selection
+
+@ phraseList HelpPhrases(interchangeable)=
+    - help, help on, how do you, what about, what can I say for
+
+@ phraseList ChangePhrases(interchangeable)=
+    - change, edit
+```
