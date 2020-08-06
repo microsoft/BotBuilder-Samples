@@ -104,7 +104,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -138,7 +139,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
