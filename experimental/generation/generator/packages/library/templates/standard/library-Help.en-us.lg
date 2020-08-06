@@ -1,4 +1,4 @@
-[library.en-us.lg]
+[library.en-us.lg](library.en-us.lg)
 
 # getAutoHelpText
 - IF: ${$retries > 0 && $lastIntent != 'Help'}

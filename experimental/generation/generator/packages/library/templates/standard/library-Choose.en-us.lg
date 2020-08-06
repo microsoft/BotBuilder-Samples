@@ -1,6 +1,6 @@
-[library.en-us.lg]
-[library-DisplayOperation.en-us.lg]
-[library-Help.en-us.lg]
+[library.en-us.lg](library.en-us.lg)
+[library-DisplayOperation.en-us.lg](library-DisplayOperation.en-us.lg)
+[library-Help.en-us.lg](library-Help.en-us.lg)
 
 # getChooseEnumEntityText(property)
 - ```

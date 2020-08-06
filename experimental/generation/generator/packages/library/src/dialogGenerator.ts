@@ -223,11 +223,11 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
 }
 
 // Add prefix to [] imports in constant .lg files
-const RefPattern = /^[ \t]*\[[^\]\n\r]*\][ \t]*$/gm
+const RefPattern = /^[ \t]*\[[^\]\n\r]*\].*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
         let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
-        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${os.EOL}`
+        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})`
     })
 }
 
