@@ -10,5 +10,6 @@ shared.webpack.config.js
 client/**
 !client/out/extension.js
 server/**
-!server/out/server.js
+!server/out/lgserver.js
+!server/out/luserver.js
 scripts/**
