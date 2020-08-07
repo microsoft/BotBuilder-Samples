@@ -10,33 +10,33 @@ language features are driven by [language server protocol](./languageServer.md)
 ### Syntax highlighting, diagnostic check, auto-suggest, functionality
 #### .lu documents
 - syntax highlighting
-![lu_syntax_highlighting](./resources/images/lu_syntax_highlighting.png)
+![lu_synt	ax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
 - diagnostic check
-![lu_diagnostic](./resources/images/lu_diagnostic.png)
+![lu_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/lu_diagnostic.png)
 - completion 
-![lu_completion](./resources/images/lu_completion.gif)
+![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/lu_completion.gif)
 
 #### .lg documents
 - syntax highlighting
-![lg_syntax_highlighting](./resources/images/lg_syntax_highlighting.png)
+![lg_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/lg_syntax_highlighting.png)
 
 - diagnostic check
-![lg_diagnostic](./resources/images/lg_diagnostic.gif)
+![lg_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/lg_diagnostic.gif)
 
 - template reference hover
-![template_hover](./resources/images/template_hover.png)
+![template_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/template_hover.png)
 
 - builtin function hover
-![function_hover](./resources/images/function_hover.png)
+![function_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/function_hover.png)
 
 - buildin function and template suggestion
-![function_template_suggestion](./resources/images/function_template_suggestion.gif)
+![function_template_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/function_template_suggestion.gif)
 
 - structure property suggestion
-![structure_suggestion](./resources/images/structure_suggestion.gif)
+![structure_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/structure_suggestion.gif)
 
 - template definition
-![template_definition](./resources/images/template_definition.gif)
+![template_definition](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/master/experimental/adaptive-tool/resources/images/template_definition.gif)
 
 ## debugging feature
  see more details in [debugging](./debugging.md)
