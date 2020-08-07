@@ -1,33 +1,39 @@
-> Standalone entities that map to multiple properties${entity?}
-- ${entity*}
+> Standalone entities that map to multiple properties${simple?}
+- ${simple*}
 
-> Standalone ${property} 
+> Standalone ${property} with ${entity}
 - {@${property}=${unique}}
 - {@${property}=${uniqueOrValue} ${name}}
 - {@${property}=${name}}
 
-> Add() examples for ${property}
+> Add() examples for ${property} and ${entity}
 - {@Add()=add {@${property}=${uniqueOrValue} ${name}}}
-- {@Add()=add {@${property}=${unique}}}
-- {@Add()=add ${value}}
-- {@Add()=with {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {@Add()=with {@${property}=${unique} and ${unique}}
-- {@Add()=with ${value} and ${value}}
-- {@Add()=set {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {@Add()=set {@${property}=${unique}, ${unique} and ${unique}}
-- {@Add()=set ${value}, ${value} and ${value}}
-- {@Add()=${name} is ${uniqueOrValue}}
-- {@Add()=${name} are ${uniqueOrValue} and ${uniqueOrValue}}
-- {@Add()=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}
+- {@Add()=with {@${property}=${unique}}}
+- {@Add()=set ${value}}
+- {@Add()={@${property}=${name} is ${uniqueOrValue}}}
+- {@Add()={@${property}=${name} of ${uniqueOrValue}}}
 
-> Remove() examples for ${property}
+> ${isArray?}Add() examples with multiple ${entity}
+- {@Add()={@${property}=${name} are ${uniqueOrValue}}}
+- {@Add()=add {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Add()=set {@${property}=${unique} and ${unique}}
+- {@Add()=with ${value} and ${value}}
+- {@Add()=with {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Add()=add {@${property}=${unique}, ${unique} and ${unique}} 
+- {@Add()=set ${value}, ${value} and ${value}}
+- {@Add()={@${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
+- {@Add()={@${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
+
+> Remove() examples for ${property} and ${entity}
 - {@Remove()=remove ${unique}}
+- {@Remove()=remove ${value}}
+- {@Remove()=with no ${uniqueOrValue} ${name}}
+
+> ${isArray?}Remove() examples for ${property} and 2-3 ${entity}
 - {@Remove()=delete ${unique} and ${unique}}
 - {@Remove()=without ${unique}, ${unique} and ${unique}}
-- {@Remove()=remove ${value}}
 - {@Remove()=remove ${value} and ${value}}
 - {@Remove()=remove ${value}, ${value} and ${value}}
-- {@Remove()=with no ${uniqueOrValue} ${name}}
 - {@Remove()=remove ${uniqueOrValue} and ${uniqueOrValue} ${name}}
 - {@Remove()=delete ${uniqueOrValue}, ${uniqueOrValue} and ${unique} ${name}}
 

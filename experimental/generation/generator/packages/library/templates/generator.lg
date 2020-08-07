@@ -329,18 +329,19 @@
 > We control the utterances through populating substitution variables which can either be a single
 > value or an array of choices.  If a variable is not present the whole utterance will be dropped.  
 > Variables:
-> entity: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
+> simple: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
 > value: labeled ambiguous entity for inside property/op like {@entity=value}
-> unique: labeled unique entity always found inside of property, i.e. {@entity=value}
+> unique: labeled unique entity always found inside of property, i.e. {@entity=value} or {@entity=3}
 > uniqueOrValue: union of unique and value.
 > name: possible ways of naming property
 > property: current property
+> entity: current entity
+> isArray: true if property supports multiple values
 > comment: empty value to filter out meta-comments
 # generateOperations(entity, values, label)
 -```
-[library-phrases](../library/${prefix}-library-phrases.${locale}.lu)
 > Define phrase list for ${property} property.
-@ phraselist ${property}Phrases(interchangeable)
+@ phraselist ${property}Phrases(interchangeable)=
 ${if(schema.properties[property].title,
     `\t- ${schema.properties[property].title}`,
      synonyms(property))}
@@ -361,27 +362,12 @@ ${defineOperation('Help', entity)}
 # ${triggerIntent}
 ${substitutions(
     `library-operations.${locale}.data`, 
-    { entity: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, comment: []},
-    3)}
-```
-
-# foo
-- ```${substitutions(
-    `library-operations.${locale}.data`, 
-    json(`{"entity: ${entityList(entity, values, label)}",
-           "value": ${valueList(entity, values)}, 
-           "unique": ${uniqueList(entity, values)},
-           "uniqueOrValue": ${uniqueOrValueList(entity, values)},
-           "name": ${propertyList(property)},
-           "property": "${property}",
-           "comment": []
-          }`),
+    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, entity: entity, isArray: isArrayProperty(property), comment: []},
     3)}
 ```
 
 # defineOperation(operation, entity)
--```
-@ ml ${operation}() usesFeature ${operation}Phrases
+-```@ ml ${operation}() usesFeature ${operation}Phrases
 \t-@ ml ${property} usesFeature ${property}
 \t\t- @ ${entity} ${entity}
 ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
@@ -389,6 +375,10 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 > Check to see if entity is only found in one property
 # oneProperty(entity)
 - ${count(entities[entity]) == 1}
+
+> Test to see if property is an array
+# isArrayProperty(property)
+- ${schema.properties[property].type == 'array'}
 
 > Generate a raw entity value with optional label
 # entityValue(entity, value, label)

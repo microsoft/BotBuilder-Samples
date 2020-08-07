@@ -54,7 +54,8 @@ function binding(key: string, bindings: State, rand: random.prng): string {
  * Return the result of replicating lines from a source file and substituting random values 
  * from bindings into ${variable} placeholders for random choice or ${variable*} for all choices.
  * You can also use ${variable?} to conditionally test for the presence of a variable.
- * Lines with a missing 
+ * Lines that fail a test are dropped. If there is a comment with a test and it fails, all lines
+ * are dropped until the next comment.
  * @param path Path to file with lines.
  * @param bindings Object with binding names and an array of choices that will be flattened.
  * @param copies Optional number of times to copy each line with random values, default is 1.
@@ -71,7 +72,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         if (Array.isArray(value)) {
             state.set(binding, {index: -1, values: (value as any).flat()})
         } else {
-            state.set(binding, {index: -1, values: [value]})
+            state.set(binding, {index: -1, values: value ? [value] : []})
         }
     }
 
@@ -84,47 +85,69 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         // package is built it switches to just LF.
         lines = file.split('\n')
     }
+    let replacer = (line: string): {newLine: string, missing: boolean} => {
+        let missing = false
+        let newLine = line.replace(/\${([^}*?]+)[*?]?\}/g,
+            (match, key) => {
+                let val = binding(key, state, rand)
+                if (!val) {
+                    missing = true
+                }
+                // For conditional tests value is empty but we set missing
+                return match.endsWith('?}') ? '' : val
+            })
+        return {newLine, missing}
+    }
+    let skipToNextComment = false
     for (let line of lines) {
-        let lineCopies = copies
-        if (line.startsWith('>') || line.trim() === '') {
-            // Copy comments unless filtered by test
-            lineCopies = 1
-        }
-        let generated = new Set<string>()
-        let all = line.match(/\${[^}*]+\*}/g) || []
-        for (let [key, variable] of state) {
-            variable.index = all.includes(`\${${key}*}`) ? 0 : -1
-        }
-        do {
-            let missing = false
-            for (let i = 0; i < lineCopies; ++i) {
-                // Number of times to try for a unique result
-                let tries = 3
-                do {
-                    let newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
-                        (match, key) => {
-                            let val = binding(key, state, rand)
-                            if (!val) {
-                                missing = true
-                            }
-                            // For conditional tests value is empty but we set missing
-                            return match.endsWith('?}') ? '' : val
-                        })
-                    if (missing) {
-                        // If missing a value, drop the line
-                        tries = 0
-                        i = lineCopies
-                        break
-                    }
-                    tries = tries - 1
-                    if (!generated.has(newline)) {
-                        generated.add(newline)
-                        result.push(newline)
-                        tries = 0
-                    }
-                } while (tries > 0)
+        let isComment = line.startsWith('>')
+        if (isComment) {
+            let {newLine, missing} = replacer(line)
+            skipToNextComment = missing
+            if (!missing) {
+                result.push(newLine)
             }
-        } while (!increment(state))
+        } else if (!skipToNextComment) {
+            if (line.trim() === '') {
+                result.push(line)
+            } else {
+                let generated = new Set<string>()
+                let all = line.match(/\${[^}*]+\*}/g) || []
+                for (let [key, variable] of state) {
+                    variable.index = all.includes(`\${${key}*}`) ? 0 : -1
+                }
+                do {
+                    let missing = false
+                    for (let i = 0; i < copies; ++i) {
+                        // Number of times to try for a unique result
+                        let tries = 3
+                        do {
+                            let newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
+                                (match, key) => {
+                                    let val = binding(key, state, rand)
+                                    if (!val) {
+                                        missing = true
+                                    }
+                                    // For conditional tests value is empty but we set missing
+                                    return match.endsWith('?}') ? '' : val
+                                })
+                            if (missing) {
+                                // If missing a value, drop the line
+                                tries = 0
+                                i = copies
+                                break
+                            }
+                            tries = tries - 1
+                            if (!generated.has(newline)) {
+                                generated.add(newline)
+                                result.push(newline)
+                                tries = 0
+                            }
+                        } while (tries > 0)
+                    }
+                } while (!increment(state))
+            }
+        }
     }
     return result.join(os.EOL)
 }
