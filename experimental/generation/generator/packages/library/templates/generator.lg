@@ -43,13 +43,13 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-# ${property}_getPropertyNameText
+${'#'}' ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-# ${property}_getValueText(val)
+${'#'} ${property}_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -59,7 +59,7 @@
 # entityDisplay
 -```
 > Template for generating display text for the value of the '${property}Entity' entity.
-# ${property}Entity_getValueText(val)
+${'#'} ${property}Entity_getValueText(val)
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -359,7 +359,7 @@ ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
 
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
-# ${triggerIntent}
+${'#'} ${triggerIntent}
 ${substitutions(
     `library-operations.${locale}.data`, 
     { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, entity: entity, isArray: isArrayProperty(property), comment: []},

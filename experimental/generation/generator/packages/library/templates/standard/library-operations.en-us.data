@@ -1,9 +1,13 @@
-> Standalone entities that map to multiple properties${simple?}
+>${comment?} The >> is to mark this as the source of entities when doing cross entity examples
+
+>> entity: Standalone entities that map to multiple properties${simple?}
 - ${simple*}
 
-> Standalone ${property} with ${entity}
+>> entity: Standalone ${property} with ${entity}
 - {@${property}=${unique}}
 - {@${property}=${uniqueOrValue} ${name}}
+
+>> property: Standalone ${property} name
 - {@${property}=${name}}
 
 > Add() examples for ${property} and ${entity}
@@ -25,17 +29,17 @@
 - {@Add()={@${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
 
 > Remove() examples for ${property} and ${entity}
-- {@Remove()=remove ${unique}}
+- {@Remove()=remove {@${property}=${unique}}
 - {@Remove()=remove ${value}}
 - {@Remove()=with no ${uniqueOrValue} ${name}}
 
 > ${isArray?}Remove() examples for ${property} and 2-3 ${entity}
-- {@Remove()=delete ${unique} and ${unique}}
-- {@Remove()=without ${unique}, ${unique} and ${unique}}
+- {@Remove()=delete {@${property}=${unique} and ${unique}}}
+- {@Remove()=without {@${property}=${unique}, ${unique} and ${unique}}}
 - {@Remove()=remove ${value} and ${value}}
 - {@Remove()=remove ${value}, ${value} and ${value}}
-- {@Remove()=remove ${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {@Remove()=delete ${uniqueOrValue}, ${uniqueOrValue} and ${unique} ${name}}
+- {@Remove()=remove {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}}
+- {@Remove()=delete {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${unique} ${name}}}
 
 > Clear() examples for ${property}
 - {@Clear()=clear {@${property}=${name}}}

@@ -1,0 +1,25 @@
+> Example operations across properties
+> Add() examples across properties
+- {@Add()=add ${entity} and ${entity}}
+- {@Add()=without ${entity}, ${entity} and ${entity}}
+
+> Remove() examples across properties
+- {@Remove()=delete ${entity} and ${entity}
+- {@Remove()=without ${entity}, ${entity} and ${entity}
+
+> Clear() examples across properties
+- {@Clear()=clear ${property} and ${property}
+- {@Clear()=reset ${property}, ${property} and ${property}
+
+> Show() examples across properties
+- {@Show()=show ${property} and ${property}}
+- {@Show()=value of ${property}, ${property} and ${property}}
+- {@Show()=${property} and ${property} values}}
+
+> Help() examples across properties
+- {@Help()=help for ${property} and ${property}}
+- {@Help()=${property} and ${property} help}}
+
+> Change() examples across properties
+- {@Change()=change ${property} and ${property}}
+- {@Change()=goto ${property}, ${property} and ${property}}

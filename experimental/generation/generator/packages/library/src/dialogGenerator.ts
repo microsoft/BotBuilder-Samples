@@ -383,6 +383,36 @@ async function processTemplate(
     return outPath
 }
 
+// Walk over locale .lu files and extract examples in >> var: comment blocks
+async function globalExamples(outDir: string, scope: any): Promise<object> {
+    let examples = {}
+    let luFiles = scope.templates.lu
+    for (let file of luFiles) {
+        let path = ppath.join(outDir, file.relative)
+        let contents = await fs.readFile(path, 'utf8')
+        let lines = contents.split(os.EOL)
+        if (lines.length < 2) {
+            // Windows uses CRLF and that is how it is checked-in, but when an npm
+            // package is built it switches to just LF.
+            lines = contents.split('\n')
+        }
+        let collect: string | undefined
+        for (let line of lines) {
+            if (line.startsWith('>>')) {
+                collect = line.substring(2, line.indexOf(':')).trim()
+                if (!examples[collect]) {
+                    examples[collect] = []
+                }
+            } else if (line.startsWith('>')) {
+                collect = undefined
+            } else if (collect && line.startsWith('-')) {
+                examples[collect].push(line.substring(1).trim())
+            }
+        }
+    }
+    return examples
+}
+
 async function processTemplates(
     schema: s.Schema,
     templateDirs: string[],
@@ -434,10 +464,16 @@ async function processTemplates(
 
         // Process templates found at the top
         if (schema.schema.$templates) {
+            scope.examples = await globalExamples(outDir, scope)
             for (let templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
             }
         }
+
+        // Reset locale specific files
+        scope.templates.lu = []
+        scope.templates.lg = []
+        scope.templates.qna = []
     }
     delete scope.locale
 }
@@ -740,7 +776,7 @@ export async function generate(
 
         // Expand schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
-      
+
         // Write final schema
         let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
         await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
