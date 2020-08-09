@@ -4,13 +4,14 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Microsoft.Botframework.AdaptiveCards.Converter.Facebook;
 using Microsoft.Botframework.AdaptiveCards.Converter.LINE;
-
+using Microsoft.Botframework.AdaptiveCards.Converter.Slack;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Newtonsoft.Json.Serialization;
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -93,6 +94,32 @@ namespace AdaptiveCardsBot.Middleware
                         }
                     }
                     activity.Attachments = newList;
+                }
+                else if (activity.ChannelId == "slack")
+                {
+                    if (activity.Attachments.Any())
+                    {
+                        var adaptiveCards = new List<AdaptiveCard>();
+                        foreach (var attachment in activity.Attachments ?? new List<Attachment>())
+                        {
+                            if (attachment.ContentType == AdaptiveCard.ContentType)
+                            {
+                                var adaptiveCard = attachment.ContentAs<AdaptiveCard>();
+                                adaptiveCards.Add(adaptiveCard);
+                            }
+                        }
+
+                        var slackConverter = new SlackCardConverter();
+                        var slackMessage = await slackConverter.ToChannelData(adaptiveCards).ConfigureAwait(false);
+                        var messageString = JsonConvert.SerializeObject(slackMessage, new JsonSerializerSettings
+                        {
+                            ContractResolver = new CamelCasePropertyNamesContractResolver(),
+                            NullValueHandling = NullValueHandling.Ignore
+                        });
+
+                        activity.ChannelData = JObject.Parse(messageString);
+                        activity.Attachments = null;
+                    }
                 }
             }
             return await next();
