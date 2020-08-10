@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
 {
     public interface IBlockElement
     {
-        string type { get; set; }
+        string type { get;}
+        JObject Properties { get; set; }
     }
 }

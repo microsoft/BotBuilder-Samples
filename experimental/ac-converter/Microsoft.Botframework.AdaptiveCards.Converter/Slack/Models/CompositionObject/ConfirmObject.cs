@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
 {
@@ -11,5 +12,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public TextObject confirm { get; set; }
         public TextObject deny { get; set; }
         public string style { get; set; }
+        public JObject Properties { get; set; }
     }
 }

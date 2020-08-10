@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
 {
@@ -10,5 +11,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string text { get; set; }
         public bool? emoji { get; set; }
         public bool? verbatim { get; set; }
+        public JObject Properties { get; set; }
     }
 }
