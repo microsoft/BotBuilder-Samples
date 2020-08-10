@@ -44,7 +44,7 @@ language features are driven by [language server protocol](./languageServer.md)
 
 # how to build and use this extension
 - `npm install`
-- `npm run compile`
+- `npm run build`
 - `npm install -g vsce`, if `vsce` is not installed globally.
 - run `vsce package` to export vsix file
 - open vscode and navigate to extension tab
