@@ -13,6 +13,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public object initial_option { get; set; }
         public int min_query_length { get; set; } = 3;
         public ConfirmObject confirm { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

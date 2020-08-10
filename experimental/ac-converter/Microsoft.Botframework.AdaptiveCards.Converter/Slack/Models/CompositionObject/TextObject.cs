@@ -11,6 +11,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string text { get; set; }
         public bool? emoji { get; set; }
         public bool? verbatim { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

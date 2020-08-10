@@ -14,6 +14,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public OptionGroupObject[] option_groups { get; set; }
         public object initial_option { get; set; }
         public ConfirmObject confirm { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

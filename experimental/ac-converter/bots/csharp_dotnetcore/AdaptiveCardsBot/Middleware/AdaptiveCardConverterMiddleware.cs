@@ -79,7 +79,7 @@ namespace AdaptiveCardsBot.Middleware
                         if (facebookChannelDataList.Count == 1)
                         {
                             activity.ChannelData = facebookChannelDataList[0];
-                            
+
                         }
                         else
                         {
@@ -99,6 +99,7 @@ namespace AdaptiveCardsBot.Middleware
                 {
                     if (activity.Attachments.Any())
                     {
+                        var newList = new List<Attachment>();
                         var adaptiveCards = new List<AdaptiveCard>();
                         foreach (var attachment in activity.Attachments ?? new List<Attachment>())
                         {
@@ -106,6 +107,10 @@ namespace AdaptiveCardsBot.Middleware
                             {
                                 var adaptiveCard = attachment.ContentAs<AdaptiveCard>();
                                 adaptiveCards.Add(adaptiveCard);
+                            }
+                            else
+                            {
+                                newList.Add(attachment);
                             }
                         }
 
@@ -118,7 +123,7 @@ namespace AdaptiveCardsBot.Middleware
                         });
 
                         activity.ChannelData = JObject.Parse(messageString);
-                        activity.Attachments = null;
+                        activity.Attachments = newList;
                     }
                 }
             }

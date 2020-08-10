@@ -11,6 +11,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string value { get; set; }
         public TextObject description { get; set; }
         public string url { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

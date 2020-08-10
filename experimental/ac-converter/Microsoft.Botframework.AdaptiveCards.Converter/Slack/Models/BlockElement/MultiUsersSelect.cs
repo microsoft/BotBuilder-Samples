@@ -13,6 +13,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string[] initial_users { get; set; }
         public ConfirmObject confirm { get; set; }
         public int max_selected_items { get; set; } = 1;
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

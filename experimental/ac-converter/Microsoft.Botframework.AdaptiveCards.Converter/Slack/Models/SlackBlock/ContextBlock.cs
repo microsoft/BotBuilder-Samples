@@ -10,6 +10,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string type { get; } = "context";
         public string block_id { get; set; }
         public object[] elements { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

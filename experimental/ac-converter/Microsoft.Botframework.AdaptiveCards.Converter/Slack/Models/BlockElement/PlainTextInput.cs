@@ -14,6 +14,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public bool? multiline { get; set; }
         public int min_length { get; set; }
         public int max_length { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

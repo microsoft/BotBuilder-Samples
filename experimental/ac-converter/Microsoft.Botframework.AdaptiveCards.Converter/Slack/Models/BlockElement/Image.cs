@@ -10,6 +10,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string type { get; } = "image";
         public string image_url { get; set; }
         public string alt_text { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

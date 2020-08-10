@@ -5,11 +5,11 @@ using Newtonsoft.Json.Linq;
 
 namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
 {
-    public class FilterObject
+    public class HeaderBlock : ISlackBlock
     {
-        public string[] include { get; set; }
-        public bool exclude_external_shared_channels { get; set; } = false;
-        public bool exclude_bot_users { get; set; } = false;
+        public string type { get; } = "header";
+        public TextObject text { get; set; }
+        public string block_id { get; set; }
         public JObject properties { get; set; }
     }
 }

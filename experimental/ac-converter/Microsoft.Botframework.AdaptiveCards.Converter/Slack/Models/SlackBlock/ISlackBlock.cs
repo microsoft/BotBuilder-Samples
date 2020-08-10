@@ -9,6 +9,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
     {
         string type { get; }
         string block_id { get; set; }
-        JObject Properties { get; set; }
+        JObject properties { get; set; }
     }
 }

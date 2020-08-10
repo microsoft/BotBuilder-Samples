@@ -12,6 +12,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
         public string block_id { get; set; }
         [JsonConverter(typeof(BlockElementArrayConverter))]
         public IBlockElement[] elements { get; set; }
-        public JObject Properties { get; set; }
+        public JObject properties { get; set; }
     }
 }

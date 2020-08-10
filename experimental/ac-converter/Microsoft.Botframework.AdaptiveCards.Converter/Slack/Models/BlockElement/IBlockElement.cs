@@ -8,6 +8,6 @@ namespace Microsoft.Botframework.AdaptiveCards.Converter.Slack.Models
     public interface IBlockElement
     {
         string type { get;}
-        JObject Properties { get; set; }
+        JObject properties { get; set; }
     }
 }
