@@ -297,9 +297,22 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"=!$${property} || $PropertyToChange == '${property}'",
-    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
-    "actions": [       
+    "condition":"=!$${property} || $PropertyToChange == '${property}'", 
+    "priority": "=lib.missingPriority(dialog.requiredProperties, '${property}')",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "lib.helpCondition($retries, $lastIntent)",
+            "actions": [
+                {
+                    "$kind": "Microsoft.Ask",
+                    "activity": "\${getHelpText()}",
+                    "expectedProperties": [
+                        "${property}"
+                    ]
+                }
+            ]
+        },
         {
             "$kind": "Microsoft.Ask",
             "activity": "\${${property}_getPromptText()}",
@@ -308,7 +321,8 @@ ${'#'} ${property}Entity_getValueText(val)
             ]
         }
     ]
-    ${designerMissing(property)}     
+    ${designerMissing(property)
+    }
 }
 ```
 
@@ -437,39 +451,19 @@ ${substitutions(`library-operations.${locale}.data`,
 - Enter a number for ${getPropertyNameText(property)}
 
 # missingBoolean(property)
-- ```\`\`\`
-\${getAutoHelpText()}
-Enter a value for ${getPropertyNameText(property)}: true or false
-\`\`\`
-```
+- Enter a value for ${getPropertyNameText(property)}: true or false
 
 # missingString(property)
-- ```\`\`\`
-\${getAutoHelpText()}
-Enter a value for ${getPropertyNameText(property)}
-\`\`\`
-```
+- Enter a value for ${getPropertyNameText(property)}
 
 # missingEnumArray(property)
-- ```\`\`\`
-\${getAutoHelpText()}
-What values do you want to add for ${getPropertyNameText(property)}?
-\`\`\`
-```
+- What values do you want to add for ${getPropertyNameText(property)}?
 
 # missingEnum(property)
-- ```\`\`\`
-\${getAutoHelpText()}
-Which value do you want for ${getPropertyNameText(property)}?
-\`\`\`
-```
+- Which value do you want for ${getPropertyNameText(property)}?
 
 # missingStringArray(property)
-- ```\`\`\`
-\${getAutoHelpText()}
-What values do you want to add for ${getPropertyNameText(property)}?
-\`\`\`
-```
+- What values do you want to add for ${getPropertyNameText(property)}?
 
 # getPropertyNameText(property)
-- ${property}
+- ${phrase(property)}
