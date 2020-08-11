@@ -11,7 +11,7 @@
 			"name": "Launch Client",
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
-			"outFiles": ["${workspaceRoot}/client/out/**/*.js"],
+			"outFiles": ["${workspaceRoot}/client/out/extension.js"],
 			"preLaunchTask": {
 				"type": "npm",
 				"script": "watch"
@@ -25,7 +25,7 @@
 			"port": 6010,
 			"restart": true,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/server/out/lg/**/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/lgserver.js"]
 		},
 		{
 			"type": "node",
@@ -34,7 +34,7 @@
 			"port": 6011,
 			"restart": true,
 			"sourceMaps": true,
-			"outFiles": ["${workspaceRoot}/server/out/lu/**/*.js"]
+			"outFiles": ["${workspaceRoot}/server/out/luserver.js"]
 		},
 		{
 			"name": "Language Server E2E Test",
