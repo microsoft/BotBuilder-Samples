@@ -30,6 +30,14 @@ namespace Microsoft.BotBuilderSamples
                             config.AddJsonFile(file.FullName, optional: false, reloadOnChange: true);
                         }
                     }
+                    foreach (var file in di.GetFiles($"orchestrator.settings.json", SearchOption.AllDirectories))
+                    {
+                        var relative = file.FullName.Substring(di.FullName.Length);
+                        if (!relative.Contains("bin\\") && !relative.Contains("obj\\"))
+                        {
+                            config.AddJsonFile(file.FullName, optional: false, reloadOnChange: true);
+                        }
+                    }
                 })
 
                 .ConfigureWebHostDefaults(webBuilder =>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.AI.Orchestrator;
 using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -42,6 +43,8 @@ namespace Microsoft.BotBuilderSamples
 
             // Register declarative components for adaptive dialogs.
             ComponentRegistration.Add(new DeclarativeComponentRegistration());
+
+            ComponentRegistration.Add(new OrchestratorComponentRegistration());
 
             // Create the credential provider to be used with the Bot Framework Adapter.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();

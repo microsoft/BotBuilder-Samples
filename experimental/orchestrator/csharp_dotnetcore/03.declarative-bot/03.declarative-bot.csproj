@@ -7,7 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="CognitiveModels\" />
     <Content Include="**/*.dialog">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -17,18 +16,30 @@
     <Content Include="**/*.lu">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="model\*.*">
+    <Content Include="model/config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="model/LICENSE.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="model/merges.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="model/traced_model.onnx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="model/vocab.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Folder Include="generated\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.10.0-RC0.preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.10.0-RC0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.0-RC0" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.10.0-RC0" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.10.0-RC0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-daily.preview.20200812.156580" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.10.0-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.0-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.10.0-rc1" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.10.0-rc1" />
   </ItemGroup>
 
   <ItemGroup>
