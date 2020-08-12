@@ -1,0 +1,35 @@
+{
+    "$kind": "Microsoft.AdaptiveDialog",
+    "recognizer": "RootDialog.lu",
+    "generator": "RootDialog.lg",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnConversationUpdateActivity",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${IntroMessage()}"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.OnIntent",
+            "intent": "Greeting",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${HelpRootDialog()}"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "I do not have that configured!"
+                }
+            ]
+        }
+    ]
+}
