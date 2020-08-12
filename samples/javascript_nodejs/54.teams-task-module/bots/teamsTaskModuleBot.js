@@ -43,13 +43,13 @@ class TeamsTaskModuleBot extends TeamsActivityHandler {
 
         if (cardTaskFetchValue == TaskModuleIds.YouTube) {
             // Display the YouTube.html page
-            taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + "/" + TaskModuleIds.YouTube + ".html";
+            taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + '/' + TaskModuleIds.YouTube + '.html';
             this.setTaskInfo(taskInfo, TaskModuleUIConstants.YouTube);
         }
         else if (cardTaskFetchValue == TaskModuleIds.CustomForm) {
             // Display the CustomForm.html page, and post the form data back via
             // handleTeamsTaskModuleSubmit.
-            taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + "/" + TaskModuleIds.CustomForm + ".html";
+            taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + '/' + TaskModuleIds.CustomForm + '.html';
             this.setTaskInfo(taskInfo, TaskModuleUIConstants.CustomForm);
         }
         else if (cardTaskFetchValue == TaskModuleIds.AdaptiveCard) {
