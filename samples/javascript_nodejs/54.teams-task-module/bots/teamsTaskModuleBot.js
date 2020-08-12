@@ -4,7 +4,7 @@
 const { TeamsActivityHandler, MessageFactory, CardFactory } = require('botbuilder');
 const { TaskModuleUIConstants } = require('../models/TaskModuleUIConstants');
 const { TaskModuleIds } = require('../models/taskmoduleids');
-const { TaskModuleResponseFactory } = require("../models/taskmoduleresponsefactory");
+const { TaskModuleResponseFactory } = require('../models/taskmoduleresponsefactory');
 
 const Actions = [
     TaskModuleUIConstants.AdaptiveCard,
