@@ -59,6 +59,6 @@ server.post('/api/messages', (req, res) => {
 });
 
 // Serve static pages from the 'pages' folder.
-server.get("/*", restify.plugins.serveStatic({
+server.get('/*', restify.plugins.serveStatic({
     directory: './pages'
 }));
