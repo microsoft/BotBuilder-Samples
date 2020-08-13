@@ -31,6 +31,7 @@ Using [BF CLI][7]
 
 1. For use in dispatch scenario, you can create `OrchestratorRecognizer` and provide it the path to the model as well the snapshot. Use the `RecognizeAsync` (C#), `recognizeAsync` (JS) method to have Orchestrator recognize user input
 
+**C#:**
 ```C# 
 // Get Model and Snapshot path.
 string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
@@ -47,12 +48,16 @@ OrchestratorRecognizer orc = new OrchestratorRecognizer()
 var recoResult = await orc.RecognizeAsync(turnContext, cancellationToken);
 ```
 
+**JS:**
+
 ```js
 // Create OrchestratorRecognizer.
-const dispatchRecognizer = new OrchestratorRecognizer(process.env.ModelPath, process.env.SnapShotPath);
-
+const dispatchRecognizer = new OrchestratorRecognizer().configure({
+            modelPath: process.env.ModelPath, 
+            snapshotPath: process.env.SnapShotPath
+});
 // To recognize user input
-const recoResult = await dispatchRecognizer.recognizeAsync(context);
+const recoResult = await dispatchRecognizer.recognize(context);
 ```
 
 2. For use in adaptive dialogs, set the `recognizer` to `OrchestratorAdaptiveRecognizer`

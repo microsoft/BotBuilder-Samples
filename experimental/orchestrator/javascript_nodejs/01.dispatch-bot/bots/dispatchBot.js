@@ -9,7 +9,10 @@ class DispatchBot extends ActivityHandler {
     constructor() {
         super();
 
-        const dispatchRecognizer = new OrchestratorRecognizer(process.env.ModelPath, process.env.SnapShotPath);
+        const dispatchRecognizer = new OrchestratorRecognizer().configure({
+            modelPath: process.env.ModelPath, 
+            snapshotPath: process.env.SnapShotPath
+        });
 
         const weatherLuisRecognizer = new LuisRecognizer({
             applicationId: process.env.WeatherLuisAppId,
@@ -44,7 +47,7 @@ class DispatchBot extends ActivityHandler {
             console.log('Processing Message Activity.');
 
             // First, we use the dispatch model to determine which cognitive service (LUIS or QnA) to use.
-            const recognizerResult = await dispatchRecognizer.recognizeAsync(context);
+            const recognizerResult = await dispatchRecognizer.recognize(context);
 
             // Top intent tell us which cognitive service to use.
             const intent = LuisRecognizer.topIntent(recognizerResult);

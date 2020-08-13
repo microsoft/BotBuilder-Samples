@@ -16,11 +16,11 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "~4.9.1",
-        "botbuilder-ai": "~4.9.1",
-        "botbuilder-ai-orchestrator": "4.1.6",
-        "botbuilder-azure": "~4.9.1",
-        "botbuilder-dialogs": "~4.9.1",
+        "botbuilder": "~4.9.3",
+        "botbuilder-ai": "~4.9.3",
+        "botbuilder-ai-orchestrator": "4.11.0-dev.20200813.01cd644",
+        "botbuilder-azure": "~4.9.3",
+        "botbuilder-dialogs": "~4.9.3",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },

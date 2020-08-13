@@ -16,12 +16,12 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "botbuilder": "~4.1.6",
-        "botbuilder-dialogs": "~4.1.6",
-        "botbuilder-dialogs-adaptive": "~4.1.6",
-        "botbuilder-ai-orchestrator": "~4.1.6",
-        "botbuilder-lg": "~4.1.6",
-        "adaptive-expressions": "~4.1.6",
+        "botbuilder": "~4.9.3",
+        "botbuilder-dialogs": "~4.9.3",
+        "botbuilder-dialogs-adaptive": "~4.9.3-preview",
+        "botbuilder-ai-orchestrator": "4.11.0-dev.20200813.01cd644",
+        "botbuilder-lg": "~4.9.3",
+        "adaptive-expressions": "~4.9.3",
         "dotenv": "^8.2.0",
         "path": "^0.12.7",
         "restify": "~8.4.0"

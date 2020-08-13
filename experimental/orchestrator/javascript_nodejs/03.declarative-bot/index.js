@@ -11,10 +11,6 @@ const { DialogManager } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 const settings = require('./generated/orchestrator.settings.json');
 
-Object.getOwnPropertyNames(settings.orchestrator).forEach(key => {
-    process.env[key] = settings[key];
-});
-
 console.log(`settings: ${settings.orchestrator.modelPath}`);
 console.log(`process: ${process.env.modelPath}`);
 
@@ -86,6 +82,7 @@ const loadRootDialog = () => {
     myBot = new DialogManager(resourceExplorer.loadType('RootDialog.dialog'));
     myBot.userState = userState;
     myBot.conversationState = conversationState;
+    myBot.initialTurnState.set("settings", settings);
     ResourceExtensions.useResourceExplorer(myBot);
     LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 };
