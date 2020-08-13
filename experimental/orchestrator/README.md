@@ -1,8 +1,8 @@
 # Orchestrator (PREVIEW)
 
-Orchestrator is [transformer][4] based technology that is heavily optimized for conversational AI applications. Orchestrator is built ground-up to run locally with your bot with no additional service calls required.
-
 Conversational AI applications today are built using disparate technologies to fulfill language understanding (LU) needs – e.g. [LUIS][1], [QnA Maker][2]. Often, conversational AI applications are also built by assembling different [skills][3] each of which fulfill a specific conversation topic and can be built using different LU technologies. Hence, conversational AI applications typically require LU arbitration/ decision making to route incoming user request to an appropriate skill or to dispatch to a specific sub-component. Orchestration refers to the ability to perform LU arbitration/ decision making for a conversational AI application.  
+
+Orchestrator is a [transformer][4] based solution that is heavily optimized for conversational AI applications. It is built ground-up to run locally with your bot.
 
 ## Supported scenarios
 1. **Dispatch**: Orchestrator is a successor to [dispatch][5]. You can use Orchestrator instead of the current [dispatch][5] solution to arbitrate across your [LUIS][1] and [QnA Maker][2] applications. With Orchestrator, you are likely to see  
@@ -19,41 +19,51 @@ Here's the end to end authoring experience.
 
 Using [BF CLI][7]
 
-1. [Export your LUIS application][8] and [convert to .lu format][9] or [export your QnA Maker KB to .qna format][10] 
-2. Use `bf orchestrator:nlr:get` to download the NLR model.
-3. Use `bf orchestrator:create` or `bf orchestrator:build` to generate the snapshot content.
+1. [Export][8] your LUIS application and [convert][9] to .lu format or [export][10] your QnA Maker KB to .qna format 
+
+2. Use `bf orchestrator:nlr:get` to [download][15] the NLR model.
+<!-- TODO: missing docs for most CLI commands --> 
+3. Use [`bf orchestrator:create`][16] or [`bf orchestrator:build`][17] to generate the snapshot content.
 
 ## Runtime integration
 
-1. For use in dispatch scenario, you can simply create `OrchestratorRecognizer` and provide it the path to the model as well the snapshot. You can then use the `Recognize` method to have Orchestrator recognize the user input
+1. For use in dispatch scenario, you can create `OrchestratorRecognizer` and provide it the path to the model as well the snapshot. Use the `RecognizeAsync` (C#), `recognizeAsync` (JS) method to have Orchestrator recognize user input
 
 ```C# 
+// Get Model and Snapshot path.
 string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
 string snapshotPath = Path.GetFullPath(OrchestratorConfig.SnapshotPath);
+
+// Create OrchestratorRecognizer.
 OrchestratorRecognizer orc = new OrchestratorRecognizer()
 {
     ModelPath = modelPath,
     SnapshotPath = snapshotPath
 };
 
-// To recognize user input
+// Recognize user input.
 var recoResult = await orc.RecognizeAsync(turnContext, cancellationToken);
-var topIntent = recoResult.Intents.First().Key;            
 ```
 
 ```js
+// Create OrchestratorRecognizer.
 const dispatchRecognizer = new OrchestratorRecognizer(process.env.ModelPath, process.env.SnapShotPath);
+
 // To recognize user input
 const recoResult = await dispatchRecognizer.recognizeAsync(context);
 ```
 
-2. For use in adaptive dialogs, you can simply set the `recognizer` to `OrchestratorAdaptiveRecognizer`
+2. For use in adaptive dialogs, set the `recognizer` to `OrchestratorAdaptiveRecognizer`
 
 ```C#
+// Get Model and Snapshot path.
 string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
 string snapshotPath = Path.GetFullPath(OrchestratorConfig.SnapshotPath);
+
+// Create adaptive dialog
 const myDialog = new AdaptiveDialog()
 {
+    // Set Recognizer to OrchestratorAdaptiveRecognizer.
     Recognizer = new OrchestratorAdaptiveRecognizer()
     {
         ModelPath = modelPath,
@@ -63,7 +73,9 @@ const myDialog = new AdaptiveDialog()
 ```
 
 ```js
+// Create adaptive dialog.
 const myDialog = new AdaptiveDialog('myDialog').configure({
+    // Set recognizer to OrchestratorAdaptiveRecognizer.
     recognizer: new OrchestratorAdaptiveRecognizer().configure(
     {
         modelPath: new StringExpression(process.env.ModelPath),
@@ -73,6 +85,7 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 ```
 
 ## Additional reading
+- [Tech overview][18]
 - [API refrence][14]
 - [BF CLI Orchestrator plugin][11]
 - [C# samples][12]
@@ -92,3 +105,7 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 [12]:./csharp_dotnetcore
 [13]:./javascript_nodejs
 [14]:./docs/API_reference.md
+[15]:TBD
+[16]:https://github.com/microsoft/botframework-cli/tree/beta/packages/orchestrator#bf-orchestratorcreate
+[17]:TBD
+[18]:./docs/overview.md
