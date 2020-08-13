@@ -15,7 +15,9 @@ Orchestrator is a [transformer][4] based solution that is heavily optimized for 
 
 Here's the end to end authoring experience.
 
-<img src="./docs/media/authoring.png" style="align:center; width:300px;" />
+<p align="center">
+  <img width="350" src="./docs/media/authoring.png" />
+</p>
 
 Using [BF CLI][7]
 
