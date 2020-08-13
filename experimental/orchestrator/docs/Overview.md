@@ -4,7 +4,7 @@ The Orchestrator is a replacement of the [Bot Framework Dispatcher][1] used in c
 
 ## Design Objectives and Requirements
 
-Thanks to the community feedback we compiled a list of objectives and requirements which are addressed by the initial release of the Orchestrator.
+Thanks to the community feedback we compiled a list of objectives and requirements which are addressed in the initial release of the Orchestrator. The [Roadmap](###roadmap) section describes the aditional work planned in the upcoming releases. 
 
 ### No Machine Learning or [NLP][6] expertise required
 
@@ -12,11 +12,11 @@ In the legacy approach so far in order to train a robust language model a signif
 
 ### Minimal or no model training
 
-*Content coming soon*
+Building a language model requires multiple iterations of adding or removing training examples followed by training the model and evaluation. This is often done multiple times and may take days or even weeks. When using the [transformer][5] model for the classification task a classification layer (or layers) are added and trained making this process very expensive, time consuming and often requiring GPU. To address this we chose an example-based approach instead of adding a classification layer. In Orchestrator an example (text example that represents a skill or intent) is represented as a vector of numbers (an embedding) obtained from the transformer model for a given example text. During runtime a similarity of the new example is calculated comparing to the existing embeddings that define the model taking waighted average of *K* closest exmamples ([KNN algorithm][9]). This approach does not require an exaplicit training step beyond calculating the embeddings for the examples that define the model. It takes about 10 milliseconds per example to a change to a model that adds 100 examles will take about 1 sec to "retrain" which is done localy without GPU and no server round-trip required.
 
 ### Local, fast library not a remote service
 
-*Content coming soon*
+The Orchestrator is written in C++ and is available as a library exposed in C#, Node (and soon Python and Java). The library can be used directly by the bot code or hosted out-of-proc (or even remotely if needed). Loading the generic pretrained language model takes less then 2 sec with the memory footpring of a little over 200MB. 
 
 ### State-of-the-art classification with very few training examples
 
@@ -24,11 +24,17 @@ In the legacy approach so far in order to train a robust language model a signif
 
 ### Extend to support Bot Builder Skills
 
-While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills. The skills developed and made available by the community may now be easily integrated in your chat bot with no language model retraining. 
+While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills when authoring the bot. The skills developed and made available by the community may be easily integrated in a new bot with no language model retraining required. An optioal fine-tunning easy to use CLI will be made available but this step is not required in most cases.
 
-### Ability to classify the "unknown" intent without training examples
+### Ability to generalized given very few training examples
 
-*Content coming soon*
+Often reported obstacle that the bot developers face is the lack of training data to properly define the language model. With the powerful pre-trained SOTA models used by the Orchestrator this is not a concern anymore for the developers. Even just one example for an intent/skill can often go a long way in making accurate predictions. For example a "Greeting" intent defined with just one example, "hello", can be successfuly predicted for examples like "how are you today" or "long time no see!" etc. The power of the pretrained models and their generalization from a very few simple (short) examples is impressive. This ability is often called a "few-shot learning", with an extreme case of ["one-shot learning"][11] that the Orchestrator also supports. This ability is made possible thanks to the models that were pretrained on a large amount of data.
+
+### Ability to classify the "unknown" intent without additional examples
+
+Annother common challenge that developers face during classification of intents is determining whether the top scoring intent should be triggered or not. Orchestrator provides a solution for this, its scores can be interpretted as probabilities callibrated in such way that the score of 0.5 is defined as the maximum score for an "unknown" intent. So if the top intent's score is 0.5 or lower the query/request should be considered of an "unknown" intent and should probably trigger a follow up question by the bot. On the other hand if the score of two intents is above 0.5 then both intents (skills) could be triggered. If the bot is designed to handle only one intent at a time then the application rulees or other priorities could pick the one that gets triggered.
+
+The classification of the "unknown" intent is done without the need for any examples for that purpose (["zero-shot learning"][10]) which would be hard to accomplish especially that the model may be extended in the future with additional skills that were "unknown" so far.
 
 ### Ease of composability
 
@@ -39,6 +45,8 @@ While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUI
 *Content coming soon*
 
 ### High performance
+
+*Content coming soon*
 
 ## Approach
 
@@ -60,6 +68,10 @@ While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUI
 
 *Content coming soon*
 
+## Roadmap
+
+*Content coming soon*
+
 ## Advanced Topics
 
 *Content coming soon*
@@ -72,7 +84,7 @@ While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUI
 
 *Content coming soon*
 
-### Composability
+### Bot languagem model composability
 
 *Content coming soon*
 
@@ -82,6 +94,8 @@ We evaluated Orchestrator using the [SNIPS data][8] comparing with other common 
 
 *Content coming soon*
 
+### Optional runtime configuration parameters
+
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=cs
 [2]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-skills-overview?view=azure-bot-service-4.0
 [3]:https://www.luis.ai/
@@ -90,5 +104,6 @@ We evaluated Orchestrator using the [SNIPS data][8] comparing with other common 
 [6]:https://en.wikipedia.org/wiki/Natural_language_processing
 [7]:https://gluebenchmark.com/leaderboard
 [8]:https://github.com/snipsco/nlu-benchmark
-
-
+[9]:https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm
+[10]:https://en.wikipedia.org/wiki/Zero-shot_learning
+[11]:https://en.wikipedia.org/wiki/One-shot_learning
