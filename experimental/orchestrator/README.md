@@ -73,6 +73,7 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 ```
 
 ## Additional reading
+- [API refrence][14]
 - [BF CLI Orchestrator plugin][11]
 - [C# samples][12]
 - [NodeJS samples][13]
@@ -90,3 +91,4 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 [11]:https://github.com/microsoft/botframework-cli/tree/beta/packages/orchestrator
 [12]:./csharp_dotnetcore
 [13]:./javascript_nodejs
+[14]:./docs/API_reference.md
