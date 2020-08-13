@@ -198,14 +198,8 @@ namespace Microsoft.BotBuilderSamples
             {
                 ModelPath = configuration["orchestrator:ModelPath"],
                 SnapshotPath = configuration["orchestrator:SnapShotPaths:RootDialog"],
-
-                //EntityRecognizers = new List<EntityRecognizer>()
-                //{
-                //    new NumberEntityRecognizer(),
-                //    new OrdinalEntityRecognizer()
-                //},
-                // DetectAmbiguousIntents = true,
-                // DisambiguationScoreThreshold = 0.10F
+                DetectAmbiguousIntents = true,
+                DisambiguationScoreThreshold = 0.10F
             };
         }
 

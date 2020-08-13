@@ -1,6 +1,6 @@
-﻿# Todo bot with LUIS
+# Declarative bot
 
-This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with Orchestrator to demonstrate an end-to-end ToDo bot in action including support for interruptions.
+This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with Orchestraor to demonstrate an end-to-end Alarm bot in action.
 
 This sample demonstrates use of Orchestrator as a recognizer with [Adaptive Dialogs](https://aka.ms/adaptive-dialogs)
 
@@ -34,9 +34,9 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- CD experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
+- CD experimental/orchestrator/csharp_dotnetcore/03.declarative-bot
     ```bash
-    > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
+    > cd experimental/orchestrator/csharp_dotnetcore/03.declarative-bot
     ```
 - Configure Orchestrator: Download NLR model
     - You can view list of available models using this command
@@ -51,14 +51,13 @@ This sample **requires** prerequisites in order to run.
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:build --in ./CognitiveModels --out ./generated --model ./model
+    > bf orchestrator:build --dialog --in ./CognitiveModels --out ./generated --model ./model
     ```
-    - Update orchestrator modelPath and snapshotPath information in `./appsettings.json`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
     A) From a terminal
 
     ```bash
-    > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
+    > cd experimental/orchestrator/csharp_dotnetcore/03.declarative-bot
     > dotnet run
     ```
     B) Or from Visual Studio
@@ -67,7 +66,7 @@ This sample **requires** prerequisites in order to run.
     - File -> Open -> Project/Solution
     - Navigate to `Orchestrator` folder
     - Select `OrchestratorSamples.sln` file
-    - Right click on `02.todo-bot-with-adaptive-dialog` project in the solution and 'Set as Startup Project'
+    - Right click on `03.declarative-bot` project in the solution and 'Set as Startup Project'
     - Press `F5` to run the project
 
 ## Connect to the bot using Bot Framework Emulator

@@ -1,39 +1,11 @@
 ﻿> Language Generation definition file. 
 > See https://aka.ms/language-generation to learn more
 
-[Common](./Common/Common.lg)
-
-> Structured template with composition
-# HelpRootDialog
-[Activity
-    Text = ${WelcomePrefix()}, I'm the sample bot. ${WelcomeSuffix()}
-    ${WelcomeActions()}
-]
-
-# WelcomeSuffix
-- How can I be of help today?
-- What can I do for you today?
- 
-# WelcomePrefix
-- Hi
-- Hello
-- Hiya
-
-> Structured template with composition
 # IntroMessage
 [Activity
-    Text = Hi, nice to meet you! I'm a sample bot. Here are some things I can help with
-    ${WelcomeActions()}
+    Text = I'm a sample declarative bot. Try alternate phrasing for any of these to see how I do..
+    SuggestedActions = Add numbers | Subtract numbers | Book flight | Book taxi | Get weather
 ]
-
-# Cancel.prompt
-- Are you sure you want to cancel? 
-
-# CancelAllDialogs
-- Sure, cancelling all dialogs...
-
-# CancelCancelled
-- No worries!
 
 # DisambigIntents
 [Activity
@@ -43,3 +15,22 @@
 
 # NoDisambigReadBack
 - No worries. 
+
+# ResultReadBack
+- ```
+**Top intent:** ${turn.recognized.intent}
+**Score:**      ${turn.recognized.score}
+**Entities:**
+${entityReadBack()}
+```
+
+# entityReadBack
+- ${join(foreach(turn.recognized.entities, x, if(x.key != '$instance', readBackEntity(x.key, x.value), null)), '-\n')}
+
+# readBackEntity (key, value)
+- ```
+- ${key}:: ${join(foreach(value, x, x), ', ')}
+```
+
+# UnknownIntent
+- I'm not sure what you are talking about

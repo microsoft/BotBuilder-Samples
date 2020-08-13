@@ -13,12 +13,13 @@
             ]
         },
         {
-            "$kind": "Microsoft.OnIntent",
-            "intent": "Greeting",
+            "$kind": "Microsoft.OnDialogEvent",
+            "event": "recognizedIntent",
+            "condition":  "turn.recognized.intent != 'None'",
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "${HelpRootDialog()}"
+                    "activity": "${ResultReadBack()}"
                 }
             ]
         },
@@ -27,7 +28,11 @@
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "I do not have that configured!"
+                    "activity": "${UnknownIntent()}"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "$IntroMessage()}"
                 }
             ]
         }
