@@ -6,7 +6,7 @@ Content coming soon
 
 Content coming soon
 
-**No expertiese required in natural language processing or machine learning overall**
+**No expertise required in natural language processing or machine learning overall**
 
 Content coming soon
 
@@ -26,7 +26,7 @@ Content coming soon
 
 Content coming soon
 
-**Ease of composibility**
+**Ease of composability**
 
 Content coming soon
 
@@ -60,9 +60,9 @@ Content coming soon
 
 Content coming soon
 
-**Ease of controling precision vs recall**
+**Ease of controlling precision vs recall**
 
 Content coming soon
 
-**Composibility**
+**Composability**
 
