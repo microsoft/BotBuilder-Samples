@@ -6,9 +6,9 @@ Orchestrator is a [transformer][4] based solution that is heavily optimized for 
 
 ## Supported scenarios
 1. **Dispatch**: Orchestrator is a successor to [dispatch][5]. You can use Orchestrator instead of the current [dispatch][5] solution to arbitrate across your [LUIS][1] and [QnA Maker][2] applications. With Orchestrator, you are likely to see  
-- improved classification accuracy
-- higher resilience to data imbalance across your LUIS and QnA Maker authoring data.
-- ability to correctly dispatch from relatively little authoring data.
+    - improved classification accuracy
+    - higher resilience to data imbalance across your LUIS and QnA Maker authoring data.
+    - ability to correctly dispatch from relatively little authoring data.
 2. **Recognizer**: You can use Orchestrator as a recognizer with [Adaptive dialogs][6]. 
 
 ## Authoring experience
