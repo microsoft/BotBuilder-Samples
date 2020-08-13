@@ -110,4 +110,4 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 [15]:TBD
 [16]:https://github.com/microsoft/botframework-cli/tree/beta/packages/orchestrator#bf-orchestratorcreate
 [17]:TBD
-[18]:./docs/overview.md
+[18]:./docs/Overview.md
