@@ -42,11 +42,11 @@ The ability to explain the classification results could be important but attempt
 
 ### High performance
 
-The core of Orchestrator is written in C++ and its runtime algorithms can be easily vectorized takes advantage of the vector operators provided by the mainstream CPUs ([SIMD][13]) without the need for [GPU][14]. As a result, calculating similarity during inference takes about 10 milliseconds in a model with 1 million examples (typically language models for bots have much fewer number examples, often just hundreds).
+The core of Orchestrator is written in C++. Since its runtime algorithms can be easily vectorized Orchestrator takes advantage of the vector operators supported by the mainstream CPUs ([SIMD][13]) without the need for [GPU][14]. As a result, similarity calculation during [KNN][9] inference takes about 1 millisecond per 100,000 examples in a model but typically language models for bots have much fewer number examples.
 
 ### Compact models
 
-*Content coming soon*
+The transformer model produces 
 
 ### Runtime flexibility
 
@@ -54,7 +54,19 @@ The core of Orchestrator is written in C++ and its runtime algorithms can be eas
 
 ## Roadmap
 
-*Content coming soon*
+In the upcoming releases we are planning to expand Orchestrator in several areas:
+ 
+**Entity recognition**
+
+A common requested feature as the part of intent triggering is to provide "parameters" for the triggered intents which are entities recognized in the query. The interfaces which are already part of the initial preview are ready for handling the recognized entities (and more). This functionality together with the prebuilt language model(s) will be made available in the upcoming releases.
+
+**Multi-lingual models**
+
+An important extension made in the upcoming releases is support for multi-lingual models and possibly also specialized international models prioritizing the languages supported by other Microsoft offerings.
+
+**Pluggability of custom pretrained language model**
+
+The initial format for the prebuilt language models and runtime supported is [ONNX][15]. We will extend Orchestrator to support [PyTorch][16] and [TensorFlow][17] developers and the corresponding model formats.
 
 ## Advanced Topics
 
@@ -94,3 +106,9 @@ We evaluated Orchestrator using the [SNIPS data][8] comparing with other common 
 [12]:https://en.wikipedia.org/wiki/Machine_learning
 [13]:https://en.wikipedia.org/wiki/SIMD
 [14]:https://en.wikipedia.org/wiki/General-purpose_computing_on_graphics_processing_units
+[15]:https://onnx.ai/
+[16]:https://en.wikipedia.org/wiki/PyTorch
+[17]:https://en.wikipedia.org/wiki/TensorFlow
+
+
+
