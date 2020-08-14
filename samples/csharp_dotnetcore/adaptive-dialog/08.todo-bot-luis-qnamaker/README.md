@@ -11,6 +11,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
   # determine dotnet version
   dotnet --version
   ```
+  
 - Configure the necessary [LUIS and QnA maker applications](#Setup) required to run this sample
 
 ## To try this sample
@@ -20,6 +21,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
+    
 - Run the bot from a terminal or from Visual Studio:
 
   A) From a terminal, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
@@ -53,29 +55,37 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 ### Using CLI
 - Install [nodejs][2] version 10.14 or higher
 - Install required CLI tools
+
 ```bash
 > npm i -g @microsoft/botframework-cli
 ```
+
 - In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
 - In order for interruption to work effectively, you need to generate LU models that are cross-trained.
   - Cross training requires a definition of your dialog hierarchy. See Dialogs/DialogLuHierarchy.config.json as an example.
-> cd Dialogs
 
+```bash
+> cd Dialogs
 > bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
 ```
+
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
 - To create, train and pubish LUIS applications for this bot
+
 ```bash
 > bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key>
 ```
+
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file.
 - Add the application IDs for the created applications from luis.settings.\<youralias>.\<region>.json to appsettings.
 - Note: You can just re-run `bf luis:build` command as you make changes to your .lu content. The command will smartly update only those applications that have changes.
 - Get your [QnA Maker subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
 - Run qnamaker:build to create/ update, train and publish QnA Maker KBs required to run this bot. The content for the KB comes from .qna files under dialogs.
+
 ```bash
 > bf qnamaker:build --in ../generated --out ../generated --botName TodoBotWithLuisAndQnA --log --subscriptionKey <Your QnA subscription key>
 ```
+
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as qnamaker.settings.\<youralias>.\<region>.json file.
 - Add the KB IDs for the created applications from qnamaker.settings.\<youralias>.\<region>.json to appsettings.json.
 
