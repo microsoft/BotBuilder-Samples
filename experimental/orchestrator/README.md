@@ -29,10 +29,18 @@ Using [BF CLI][7]
 
 ## Runtime integration
 
-1. For use in dispatch scenario, you can create `OrchestratorRecognizer` and provide it the path to the model as well the snapshot. Use the `RecognizeAsync` (C#), `recognizeAsync` (JS) method to have Orchestrator recognize user input
+1. For use in dispatch scenario, you can create `OrchestratorRecognizer` and provide it the path to the model as well the snapshot. Use the `RecognizeAsync` (C#), `recognizeAsync` (JS) method to have Orchestrator recognize user input. 
 
 **C#:**
+
+- Add reference to `Microsoft.Bot.Builder.AI.Orchestrator` package.
+- Set your project to target `x64` platform
+- Install latest supported version of [Visual C++](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+ 
+
 ```C# 
+using Microsoft.Bot.Builder.AI.Orchestrator;
+
 // Get Model and Snapshot path.
 string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
 string snapshotPath = Path.GetFullPath(OrchestratorConfig.SnapshotPath);
@@ -50,7 +58,11 @@ var recoResult = await orc.RecognizeAsync(turnContext, cancellationToken);
 
 **JS:**
 
-```js
+- Add `botbuilder-ai-orchestrator` package to your bot
+
+```JS
+const { OrchestratorRecognizer } = require('botbuilder-ai-orchestrator');
+
 // Create OrchestratorRecognizer.
 const dispatchRecognizer = new OrchestratorRecognizer().configure({
             modelPath: process.env.ModelPath, 
@@ -62,7 +74,14 @@ const recoResult = await dispatchRecognizer.recognize(context);
 
 2. For use in adaptive dialogs, set the `recognizer` to `OrchestratorAdaptiveRecognizer`
 
+**C#:**
+- Add reference to `Microsoft.Bot.Builder.AI.Orchestrator` package.
+- Set your project to target `x64` platform
+- Install latest supported version of [Visual C++](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+
 ```C#
+using Microsoft.Bot.Builder.AI.Orchestrator;
+
 // Get Model and Snapshot path.
 string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
 string snapshotPath = Path.GetFullPath(OrchestratorConfig.SnapshotPath);
@@ -79,7 +98,13 @@ const myDialog = new AdaptiveDialog()
 }
 ```
 
-```js
+**JS:**
+
+- Add `botbuilder-ai-orchestrator` package to your bot.
+
+```JS
+const { OrchestratorAdaptiveRecognizer } = require('botbuilder-ai-orchestrator');
+
 // Create adaptive dialog.
 const myDialog = new AdaptiveDialog('myDialog').configure({
     // Set recognizer to OrchestratorAdaptiveRecognizer.
