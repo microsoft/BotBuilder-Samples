@@ -1,6 +1,8 @@
 # Technical Overview
 
-The Orchestrator is a replacement of the [Bot Framework Dispatcher][1] used in chat bots since 2018. It makes the state of the art natural language understanding methods available to bot developers while at the same time making the process of language modeling quick, not requiring the expertise in [Deep Neural Networks (DNN), Transformers][5], or [Natural Language Processing (NLP)][6]. This work is co-authored with the industry experts in the field and include some of the top methods used in the [General Language Understanding Evaluation (GLUE)][7] leaderboard. Orchestrator also enables composability of bots allowing reuse of skills or the entire bots contributed by the community in an easy way without requiring time consuming retraining of the language models.
+The Orchestrator is a replacement of the [Bot Framework Dispatcher][1] used in chat bots since 2018. It makes the state of the art natural language understanding methods available to bot developers while at the same time making the process of language modeling quick, not requiring the expertise in [Deep Neural Networks (DNN), Transformers][5], or [Natural Language Processing (NLP)][6]. This work is co-authored with the industry experts in the field and include some of the top methods used in the [General Language Understanding Evaluation (GLUE)][7] leaderboard. Orchestrator will continue evolve and adopt the latest advancements in science and in the industry.
+
+Orchestrator enables composability of bots allowing reuse of skills or the entire bots contributed by the community in an easy way without requiring time consuming retraining of the language models. It is our goal to support the community and continue responding to the provided feedback.
 
 ## Design Objectives and Highlights
 
@@ -18,7 +20,7 @@ To address these concerns, we chose an example-based approach where the language
 
 #### Local, fast library not a remote service
 
-The Orchestrator core is written in C++ and is available as a library in C#, Node.js and soon Python and Java. The library can be used directly by the bot code (a preferred approach) or can be hosted out-of-proc or on a remote server. Loading the generic pretrained language model takes less than 2 sec with the memory footprint of a little over 200MB. Classification of a new example takes about 10 milliseconds (depending on its length). 
+The Orchestrator core is written in C++ and is available as a library in C#, Node.js and soon Python and Java. The library can be used directly by the bot code (a preferred approach) or can be hosted out-of-proc or on a remote server. Loading the English pretrained language model released for the initial preview takes about 2 sec with the memory footprint of a little over 200MB. Classification of a new example with this initial model takes about 10 milliseconds (depending on the text length). These numbers are for illustration only to give a sense of performance. As we improve the models or include additional languages these numbers will likely change.
 
 #### State-of-the-art classification with few training examples
 
@@ -26,13 +28,13 @@ Developers often face an issue of a very few training examples available to prop
 
 #### Ability to classify the "unknown" intent without additional examples
 
-Another common challenge that developers face in handling intent classification decisions is determining whether the top scoring intent should be triggered or not. Orchestrator provides a solution for this. Its scores can be interpreted as probabilities calibrated in such way that the score of 0.5 is defined as the maximum score for an "unknown" intent. So, if the top intent's score is 0.5 or lower the query/request should be considered of an "unknown" intent and should probably trigger a follow up question by the bot. On the other hand, if the score of two intents is above 0.5 then both intents (skills) could be triggered. If the bot is designed to handle only one intent at a time, then the application rules or other priorities could pick the one that gets triggered in this case.
+Another common challenge that developers face in handling intent classification decisions is determining whether the top scoring intent should be triggered or not. Orchestrator provides a solution for this. Its scores can be interpreted as probabilities calibrated in such way that the score of 0.5 is defined as the maximum score for an "unknown" intent selected in a way to balance the precision and recall. If the top intent's score is 0.5 or lower the query/request should be considered of an "unknown" intent and should probably trigger a follow up question by the bot. On the other hand, if the score of two intents is above 0.5 then both intents (skills) could be triggered. If the bot is designed to handle only one intent at a time, then the application rules or other priorities could pick the one that gets triggered in this case.
 
 The classification of the "unknown" intent is done without the need for any examples that define the "unknown" (often referred to as ["zero-shot learning"][10]) which would be challenging to accomplish. It would be hard to accomplish this without the heavily pretrained language model especially that the bot application may be extended in the future with additional skills that were "unknown" so far.
 
 #### Extend to support Bot Builder Skills
 
-While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills. The skills developed and made available by the community may be easily reused and integrated in a new bot with no language model retraining required. Orchestrator provides a toolkit to evaluate this extension identifying ambiguous examples that should be reviewed by the developer. Also, an optional fine-tuning CLI will be made available but this step is not required in most cases.
+While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills. The skills developed and made available by the community may be easily reused and integrated in a new bot with no language model retraining required. Orchestrator provides a toolkit to evaluate this extension identifying ambiguous examples that should be reviewed by the developer. Also, an optional fine-tuning CLI will be made available in future releases but this step is not required in most cases.
 
 #### Ease of composability
 
@@ -44,11 +46,11 @@ The ability to explain classification results could be important in an applicati
 
 #### High performance
 
-The core of Orchestrator is written in C++. Since its runtime algorithms can be easily vectorized the Orchestrator core takes advantage of the vector operators supported by the mainstream CPUs ([SIMD][13]) without the need for a [GPU][14]. As a result, similarity calculation during [KNN][9] inference takes about 1 millisecond per 100,000 examples in a model (typically language models for bots have much fewer number training examples than that).
+The core of Orchestrator is written in C++. Since its runtime algorithms can be easily vectorized the Orchestrator core takes advantage of the vector operators supported by the mainstream CPUs ([SIMD][13]) without the need for a [GPU][14]. As a result, similarity calculation time during [KNN][9] inference is negligible comparing with other local processing tasks even for largest models.
 
 #### Compact models
 
-The [transformer][5] models in Orchestrator produce embeddings that are relatively large, over 3kB in size per example (size of the embeddings). If these large embeddings were used directly not only this would increase the runtime memory requirement quite significantly but also would add substantial CPU processing costs. A commonly used similarity measure, cosine similarity, with this size of embeddings and KNN processing would add over 100 milliseconds per 100,000 model examples. Instead, Orchestrator uses a quantization method that shrinks the embeddings to under 100 bytes in size, reducing the processing time over 50 times while preserving the same level of accuracy. This technology is available already in the initial public preview of Orchestrator. 
+The [transformer][5] models in Orchestrator produce embeddings that are relatively large, over 3kB in size per example (size of the embeddings). If these large embeddings were used directly not only this would increase the runtime memory requirement quite significantly but also would add substantial CPU processing costs. A commonly used similarity measure, cosine similarity, with this size of embeddings and KNN processing would add a significant overhead during inference. Instead of this approach, Orchestrator uses a quantization method that shrinks the embeddings to under 100 bytes in size, reducing the processing time over 50 times while preserving the same level of accuracy. This technology is available already in the initial public preview of Orchestrator. 
 
 #### Runtime flexibility
 
