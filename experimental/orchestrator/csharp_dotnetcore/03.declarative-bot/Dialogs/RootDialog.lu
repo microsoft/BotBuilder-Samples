@@ -12,11 +12,11 @@
 - tell me a joke
 - Who built you?
 
-# AddItems
-- add 2 and 3
+# CreateAlarm
+- create alarm for 7AM
 
-# SubtractItems
-- subtract 4 from 5
+# CreateReminder
+- Remind me to water the plats this evening
 
 @ prebuilt datetime
 @ prebuilt number

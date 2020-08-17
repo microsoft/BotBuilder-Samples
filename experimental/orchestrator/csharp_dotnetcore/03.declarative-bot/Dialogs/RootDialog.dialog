@@ -20,6 +20,10 @@
                 {
                     "$kind": "Microsoft.SendActivity",
                     "activity": "${ResultReadBack()}"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${IntroActions()}"
                 }
             ]
         },
@@ -32,7 +36,7 @@
                 },
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "$IntroMessage()}"
+                    "activity": "${IntroMessage()}"
                 }
             ]
         }

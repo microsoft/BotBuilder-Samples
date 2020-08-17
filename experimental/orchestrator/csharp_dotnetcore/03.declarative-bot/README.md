@@ -51,7 +51,7 @@ This sample **requires** prerequisites in order to run.
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:build --dialog --in ./CognitiveModels --out ./generated --model ./model
+    > bf orchestrator:build --dialog --in ./Dialogs --out ./generated --model ./model
     ```
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
     A) From a terminal

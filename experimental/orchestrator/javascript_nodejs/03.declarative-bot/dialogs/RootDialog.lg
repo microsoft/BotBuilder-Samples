@@ -4,7 +4,12 @@
 # IntroMessage
 [Activity
     Text = I'm a sample declarative bot. Try alternate phrasing for any of these to see how I do..
-    SuggestedActions = Add numbers | Subtract numbers | Book flight | Book taxi | Get weather
+    ${IntroActions()}
+]
+
+# IntroActions
+[Activity
+    SuggestedActions = Alarm | Remind me | Book flight | Book taxi | Get weather
 ]
 
 # DisambigIntents
