@@ -48,7 +48,7 @@ This sample **requires** prerequisites in order to run.
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:create --hierarchical --in ./CognitiveModels --out ./generated --model ./model
+    > bf orchestrator:build --in ./dialogs --out ./generated --model ./model
     ```
     - Update orchestrator modelPath and snapshotPath information in `./.env`
 - Install modules

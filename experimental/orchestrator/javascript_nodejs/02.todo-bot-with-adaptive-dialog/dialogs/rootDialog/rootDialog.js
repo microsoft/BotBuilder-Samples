@@ -24,9 +24,9 @@ class RootDialog extends ComponentDialog {
             triggers: [
                 new OnConversationUpdateActivity(this.welcomeUserSteps()),
                 new OnIntent('Greeting', [], [new SendActivity('${HelpRootDialog()}')]),
-                new OnIntent('AddToDoDialog', [], [new BeginDialog('ADD_TO_DO_DIALOG')], '#AddToDoDialog.Score >= 0.5'),
-                new OnIntent('DeleteToDoDialog', [], [new BeginDialog('DELETE_TO_DO_DIALOG')], '#DeleteToDoDialog.Score >= 0.5'),
-                new OnIntent('ViewToDoDialog', [], [new BeginDialog('VIEW_TO_DO_DIALOG')], '#ViewToDoDialog.Score >= 0.5'),
+                new OnIntent('AddItem', [], [new BeginDialog('ADD_TO_DO_DIALOG')], '#AddItem.Score >= 0.5'),
+                new OnIntent('DeleteItem', [], [new BeginDialog('DELETE_TO_DO_DIALOG')], '#DeleteItem.Score >= 0.5'),
+                new OnIntent('ViewItem', [], [new BeginDialog('VIEW_TO_DO_DIALOG')], '#ViewItem.Score >= 0.5'),
                 // Come back with LG template based readback for global help
                 new OnIntent('Help', [], [new SendActivity('${HelpRootDialog()}')], '#Help.Score >= 0.8'),
                 new OnIntent('Cancel', [], [
