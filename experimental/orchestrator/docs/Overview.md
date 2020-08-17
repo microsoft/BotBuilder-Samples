@@ -82,7 +82,7 @@ The Orchestrator design with its [flexibility](###runtime-flexibility) provides 
 
 **Expand model tuning capability** - currently all the model parameters (hyper-params) are global for all intents/skills. In the upcoming releases the configuration per intent will be enabled. E.g. for certain intents the triggering should be more strict and for other ones more fuzzy or even with a catch-all type of behavior on the language model level ([precision vs recall][19] control per intent).
 
-***Additional areas based on the preview feedback*** – as we collect more feedback from the community during the preview there may be additional areas of improvements that we’ll address in the upcoming releases. We encourage users to submit ideas and suggestions for improvement.
+***Possible additional improvements based on the preview feedback*** – as we collect more feedback from the community during the preview there may be additional areas of improvements that we’ll address in the upcoming releases. We encourage users to submit them through GitHub.
 
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=cs
 [2]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-skills-overview?view=azure-bot-service-4.0
