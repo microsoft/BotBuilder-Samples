@@ -82,31 +82,6 @@ The Orchestrator design with its [flexibility](###runtime-flexibility) provides 
 
 **Expand model tuning capability** - currently all the model parameters (hyper-params) are global for all intents/skills. In the upcoming releases the configuration per intent will be enabled. E.g. for certain intents the triggering should be more strict and for other ones more fuzzy or even with a catch-all type of behavior on the language model level ([precision vs recall][19] control per intent).
 
-## Advanced Topics
-
-*Content coming soon*
-
-#### Multi-intent (multi-label) support
-
-*Content coming soon*
-
-#### Ease of controlling precision vs recall
-
-*Content coming soon*
-
-#### Bot language model composability
-
-*Content coming soon*
-
-#### Evaluation of Orchestrator on SNIPS
-
-We evaluated Orchestrator using the [SNIPS data][8] comparing with other common SOTA approaches.
-
-*Content coming soon*
-
-#### Optional runtime configuration parameters
-
-*Content coming soon*
 
 
 [1]:https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0&tabs=cs
