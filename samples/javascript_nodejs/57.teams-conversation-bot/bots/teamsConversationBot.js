@@ -47,19 +47,19 @@ class TeamsConversationBot extends TeamsActivityHandler {
             {
                 type: ActionTypes.MessageBack,
                 title: 'Message all members',
-                value: null,
+                value: 'message',
                 text: 'MessageAllMembers'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Who am I?',
-                value: null,
+                value: 'who',
                 text: 'whoami'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Delete card',
-                value: null,
+                value: 'delete',
                 text: 'Delete'
             }
         ];
