@@ -58,7 +58,10 @@ class RootDialog extends ComponentDialog {
         {
             throw `Sorry, you need to configure your Orchestrator recognizer. Please follow instructions in readme.md and update .env file.`;        
         }
-        return new OrchestratorAdaptiveRecognizer(process.env.ModelPath, process.env.RootDialogSnapshotPath);
+        let orc = new OrchestratorAdaptiveRecognizer()
+        orc.modelPath = new StringExpression(process.env.ModelPath);
+        orc.snapshotPath = new StringExpression(process.env.RootDialogSnapshotPath);
+        return orc;
     }
     
     welcomeUserSteps() {
