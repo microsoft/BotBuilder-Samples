@@ -83,9 +83,8 @@ const loadRootDialog = () => {
     myBot.userState = userState;
     myBot.conversationState = conversationState;
     myBot.initialTurnState.set("settings", settings);
-    ResourceExtensions.useResourceExplorer(myBot);
-    LanguageGeneratorExtensions.useLanguageGeneration(myBot);
     ResourceExtensions.useResourceExplorer(myBot, resourceExplorer);
+    LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 };
 
 loadRootDialog();
