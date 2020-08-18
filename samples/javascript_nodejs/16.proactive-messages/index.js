@@ -5,6 +5,11 @@
 
 // Import required packages
 const path = require('path');
+
+// Note: Ensure you have a .env file and include the MicrosoftAppId and MicrosoftAppPassword.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -13,10 +18,6 @@ const { BotFrameworkAdapter } = require('botbuilder');
 
 // This bot's main dialog.
 const { ProactiveBot } = require('./bots/proactiveBot');
-
-// Note: Ensure you have a .env file and include the MicrosoftAppId and MicrosoftAppPassword.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.

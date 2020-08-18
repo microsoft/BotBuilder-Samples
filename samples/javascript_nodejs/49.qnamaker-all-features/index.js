@@ -5,6 +5,11 @@
 
 // Import required packages
 const path = require('path');
+
+// Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -12,10 +17,6 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = req
 
 const { QnABot } = require('./bots/QnABot');
 const { RootDialog } = require('./dialogs/rootDialog');
-
-// Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server.
 const server = restify.createServer();
