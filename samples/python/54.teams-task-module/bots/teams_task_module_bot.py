@@ -112,7 +112,7 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
             CardAction(
                 type="invoke",
                 title=card_type.button_title,
-                value={"type": "task/fetch", "data": card_type.id},
+                value=json.dumps({"type": "task/fetch", "data": card_type.id}),
             )
             for card_type in [
                 TaskModuleUIConstants.ADAPTIVE_CARD,
