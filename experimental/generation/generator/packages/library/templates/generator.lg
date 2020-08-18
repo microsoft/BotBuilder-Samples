@@ -298,11 +298,11 @@ ${'#'} ${property}Entity_getValueText(val)
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition":"=!$${property} || $PropertyToChange == '${property}'", 
-    "priority": "=lib.missingPriority(dialog.requiredProperties, '${property}')",
+    "priority": "=lib.missingPriority('${property}')",
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "lib.helpCondition($retries, $lastIntent)",
+            "condition": "lib.helpCondition()",
             "actions": [
                 {
                     "$kind": "Microsoft.Ask",
@@ -466,4 +466,4 @@ ${substitutions(`library-operations.${locale}.data`,
 - What values do you want to add for ${getPropertyNameText(property)}?
 
 # getPropertyNameText(property)
-- ${phrase(property)}
+- ${`\${${property}_getPropertyNameText()}`}
