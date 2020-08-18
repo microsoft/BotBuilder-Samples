@@ -29,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
             // Create instance of adaptive dialog.
             var userProfileDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
-                Recognizer = CreateLuisRecognizer(configuration),
+                Recognizer = CreateOrchestratorRecognizer(configuration),
                 Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
                 Triggers = new List<OnCondition>()
                 {
@@ -197,7 +197,7 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static Recognizer CreateLuisRecognizer(IConfiguration configuration)
+        private static Recognizer CreateOrchestratorRecognizer(IConfiguration configuration)
         {
             if (string.IsNullOrEmpty(configuration["orchestrator:ModelPath"]) || string.IsNullOrEmpty(configuration["orchestrator:SnapShotPaths:GetUserProfileDialog"]))
             {

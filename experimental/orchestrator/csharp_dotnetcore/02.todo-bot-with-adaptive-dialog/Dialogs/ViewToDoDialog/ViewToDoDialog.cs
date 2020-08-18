@@ -31,9 +31,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
 
-                // Create and use a LUIS recognizer on the child
+                // Create and use a Orchestrator recognizer on the child
                 // Each child adaptive dialog can have its own recognizer. 
-                Recognizer = CreateLuisRecognizer(configuration),
+                Recognizer = CreateOrchestratorRecognizer(configuration),
                 Triggers = new List<OnCondition>()
                 {
                     new OnBeginDialog() 
@@ -83,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static Recognizer CreateLuisRecognizer(IConfiguration configuration)
+        private static Recognizer CreateOrchestratorRecognizer(IConfiguration configuration)
         {
             if (string.IsNullOrEmpty(configuration["orchestrator:ModelPath"]) || string.IsNullOrEmpty(configuration["orchestrator:SnapShotPaths:ViewToDoDialog"]))
             {

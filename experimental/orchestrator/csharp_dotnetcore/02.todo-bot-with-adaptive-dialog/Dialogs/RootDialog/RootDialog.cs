@@ -32,8 +32,8 @@ namespace Microsoft.BotBuilderSamples
                 // Add a generator. This is how all Language Generation constructs specified for this dialog are resolved.
                 Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
 
-                // Create a LUIS recognizer.
-                // The recognizer is built using the intents, utterances, patterns and entities defined in ./RootDialog.lu file
+                // Create a Orchestrator recognizer.
+                // The recognizer is built using the intents, utterances defined in ./RootDialog.lu file
                 Recognizer = CreateRecognizer(configuration),
                 Triggers = new List<OnCondition>()
                 {

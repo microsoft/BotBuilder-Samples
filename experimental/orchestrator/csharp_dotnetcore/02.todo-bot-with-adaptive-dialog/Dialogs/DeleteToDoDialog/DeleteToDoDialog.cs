@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             var deleteToDoDialog = new AdaptiveDialog(nameof(AdaptiveDialog))
             {
                 Generator = new TemplateEngineLanguageGenerator(Templates.ParseFile(fullPath)),
-                Recognizer = CreateLuisRecognizer(configuration),
+                Recognizer = CreateOrchestratorRecognizer(configuration),
                 Triggers = new List<OnCondition>()
                 {
                     new OnBeginDialog() 
@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples
             InitialDialogId = nameof(AdaptiveDialog);
         }
 
-        private static Recognizer CreateLuisRecognizer(IConfiguration configuration)
+        private static Recognizer CreateOrchestratorRecognizer(IConfiguration configuration)
         {
             if (string.IsNullOrEmpty(configuration["orchestrator:ModelPath"]) || string.IsNullOrEmpty(configuration["orchestrator:SnapShotPaths:DeleteToDoDialog"]))
             {
