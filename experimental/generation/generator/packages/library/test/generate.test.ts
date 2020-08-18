@@ -82,6 +82,16 @@ describe('dialog:generate library', async () => {
         }
     })
 
+    it('Transcript test click button on adaptive card', async () => {
+        try {
+            console.log('\n\nTranscript test')
+            assert.ok(await generateTest('test/transcripts/addItemWithButton.transcript', 'msmeeting-actions', output, false), 'Could not generate test script')
+            await compareToOracle('addItemWithButton.test.dialog')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
     it('Hash text', async () => {
         let lu = `> LU File${os.EOL}# Intent${os.EOL}- This is an .lu file`
         let lufile = ppath.join(os.tmpdir(), 'test.lu')
