@@ -118,7 +118,7 @@ const myDialog = new AdaptiveDialog('myDialog').configure({
 
 ## Additional reading
 - [Tech overview][18]
-- [API refrence][14]
+- [API reference][14]
 - [Roadmap](./docs/Overview.md#Roadmap)
 - [BF CLI Orchestrator plugin][11]
 - [C# samples][12]

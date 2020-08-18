@@ -1,6 +1,6 @@
 # Declarative bot
 
-This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with Orchestraor to demonstrate an end-to-end Alarm bot in action.
+This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] features with Orchestrator to demonstrate an end-to-end Alarm bot in action.
 
 This sample demonstrates use of Orchestrator as a recognizer with [Adaptive Dialogs](https://aka.ms/adaptive-dialogs)
 
