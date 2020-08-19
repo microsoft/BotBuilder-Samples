@@ -135,13 +135,11 @@ class RootDialog extends ComponentDialog {
     createLuisRecognizer() {
         if (process.env.LuisAppId === "" || process.env.LuisAPIHostName === "" || process.env.LuisAPIKey === "")
             throw `Sorry, you need to configure your LUIS application and update .env file.`;
-        return new LuisAdaptiveRecognizer().configure(
-            {
-                endpoint: new StringExpression(process.env.LuisAPIHostName),
-                endpointKey: new StringExpression(process.env.LuisAPIKey),
-                applicationId: new StringExpression(process.env.LuisAppId)
-            }
-        );
+        const recognizer = new LuisAdaptiveRecognizer();
+        recognizer.endpoint = new StringExpression(process.env.LuisAPIHostName);
+        recognizer.endpointKey = new StringExpression(process.env.LuisAPIKey);
+        recognizer.applicationId = new StringExpression(process.env.LuisAppId);
+        return recognizer;
     }
 }
 
