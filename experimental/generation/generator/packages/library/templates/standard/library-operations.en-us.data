@@ -52,7 +52,6 @@
 - {@Show()={@${property}=${name}} selection}
 
 > Help() examples for ${property}
-- {@Help()=help}
 - {@Help()=help {@${property}=${name}}}
 - {@Help()=what can I say for {@${property}=${name}}}
 - {@Help()={@${property}=${name}} help}

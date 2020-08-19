@@ -43,7 +43,7 @@
 # nameTemplate
 -```
 > Template for generating display text for the name of the '${property}' property.
-${'#'}' ${property}_getPropertyNameText
+${'#'} ${property}_getPropertyNameText
 - ${phrase(property, locale)}```
 
 # valueTemplate
@@ -432,17 +432,20 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 # luHeader
 -> !# @app.culture = ${locale}
 
-> Schema definitions
+> Templates to use when expanding schemas
 
+>> Operations defined in .lu
 # schemaOperations
-- ${flatten(foreach(properties, property, [`Add(${property})`, `Remove(${property})`, `Clear(${property})`, `Show(${property})`]))}
+- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
 
+>> For each property and entity the default operation
 # schemaDefaultOperation
 - ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
 
 # schemaDefaultOperationEntities(property)
 - ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}
 
+>> Designer information
 # designerName(name)
 -, "$designer": {"name": "${name}"}
 

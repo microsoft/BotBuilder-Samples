@@ -7,5 +7,5 @@
 -```
 > Add examples for operations across properties
 ${'#'} ${triggerIntent}
-${substitutions(`library-global.${locale}.data`, examples, 3)}
+${substitutions(`library-global.${locale}.data`, examples, 6)}
 ```

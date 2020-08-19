@@ -26,7 +26,7 @@
             "type": "string",
             "$entities": [
                 "boolean",
-                "PROPERTYName"
+                "${properties()}"
             ],
             "$templates": [
                 "library-CompleteConfirmation.dialog",
@@ -50,37 +50,32 @@
     "definitions": {
         "PROPERTYName": {
             "type": "string",
-            "enum": "${properties}",
+            "enum": "${properties()}",
             "$entities": [
                 "PROPERTYName"
             ]
         }
     },
     "$operations": [
-        "Set(CancelConfirmation)",
-        "Set(ChangePropertyConfirmation)",
-        "Set(CompleteConfirmation)",
-        "Set(PropertyToChange)",
-        "Set(PropertyToRemember)",
         "${schemaOperations()}"
     ],
     "$defaultOperation": [
         {
             "CancelConfirmation": {
-                "boolean": "Set(CancelConfirmation)"
+                "boolean": "Set()"
             },
             "ChangePropertyConfirmation": {
-                "boolean": "Set(ChangePropertyConfirmation)"
+                "boolean": "Set()"
             },
             "CompleteConfirmation": {
-                "boolean": "Set(CompleteConfirmation)",
-                "PROPERTYName": "Set(PropertyToChange)"
+                "boolean": "Set()",
+                "PROPERTYName": "Set()"
             },
             "PropertyToChange": {
-                "PROPERTYName": "Set(PropertyToChange)"
+                "PROPERTYName": "Set()"
             },
             "PropertyToRemember": {
-                "PROPERTYName": "Set(PropertyToRemember)"
+                "PROPERTYName": "Set()"
             }
         },
         "${schemaDefaultOperation()}"
