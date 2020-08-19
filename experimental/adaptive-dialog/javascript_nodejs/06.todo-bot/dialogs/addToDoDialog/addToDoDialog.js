@@ -24,7 +24,7 @@ class AddToDoDialog extends ComponentDialog {
             triggers: [
                 new OnBeginDialog([
                     // Take todo title if we already have it from root dialog's LUIS model.
-                    // This is the title entity defined in ../RootDialog/RootDialog.lu.
+                    // This is the title entity defined in ../rootDialog/rootDialog.lu.
                     // There is one LUIS application for this bot. So any entity captured by the rootDialog
                     // will be automatically available to child dialog.
                     // @EntityName is a short-hand for turn.entities.<EntityName>. Other useful short-hands are
