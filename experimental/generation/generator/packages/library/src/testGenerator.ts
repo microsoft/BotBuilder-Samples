@@ -40,7 +40,11 @@ export async function generateTest(path: string, dialog: string, output: string,
                 objectAssertions(record.attachments, assertions, 'attachments')
             }
         } else if (isUser(record)) {
-            script.push({$kind: 'Microsoft.Test.UserSays', 'text': record.text})
+            if (record.text) {
+                script.push({$kind: 'Microsoft.Test.UserSays', 'text': record.text})
+            } else if (record.value) {
+                script.push({$kind: 'Microsoft.Test.UserActivity','activity': {'type': record.type, 'value': record.value}})
+            }
         } else if (isConversationUpdate(record)) {
             let membersAdded: string[] = []
             let membersRemoved: string[] = []
@@ -75,7 +79,7 @@ function isBot(record: any): Boolean {
 }
 
 function isUser(record: any): Boolean {
-    return record.type === 'message' && record.from.role === 'user' && record.text
+    return record.type === 'message' && record.from.role === 'user'
 }
 
 function isConversationUpdate(record: any): Boolean {
