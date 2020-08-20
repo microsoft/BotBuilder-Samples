@@ -7,15 +7,15 @@
 const path = require('path');
 const restify = require('restify');
 
+// Note: Ensure you have a .env file and include all necessary credentials to access services like LUIS and QnAMaker.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
 
 const { DispatchBot } = require('./bots/dispatchBot');
-
-// Note: Ensure you have a .env file and include all necessary credentials to access services like LUIS and QnAMaker.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more.

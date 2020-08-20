@@ -11,9 +11,6 @@ const { DialogManager } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 const settings = require('./generated/orchestrator.settings.json');
 
-console.log(`settings: ${settings.orchestrator.modelPath}`);
-console.log(`process: ${process.env.modelPath}`);
-
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
