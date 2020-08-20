@@ -1,0 +1,44 @@
+{
+    "$kind": "Microsoft.AdaptiveDialog",
+    "recognizer": "RootDialog.lu",
+    "generator": "RootDialog.lg",
+    "triggers": [
+        {
+            "$kind": "Microsoft.OnConversationUpdateActivity",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${IntroMessage()}"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.OnDialogEvent",
+            "event": "recognizedIntent",
+            "condition":  "turn.recognized.intent != 'None'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${ResultReadBack()}"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${IntroActions()}"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.OnUnknownIntent",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${UnknownIntent()}"
+                },
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "${IntroMessage()}"
+                }
+            ]
+        }
+    ]
+}

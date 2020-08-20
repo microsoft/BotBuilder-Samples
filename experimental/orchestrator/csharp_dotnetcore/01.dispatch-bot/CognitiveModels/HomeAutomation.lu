@@ -1,0 +1,106 @@
+
+> LUIS application information
+> !# @app.name = Home Automation
+> !# @app.desc = Home Automation LUIS application - Bot Builder Samples
+> !# @app.versionId = 0.1
+> !# @app.culture = en-us
+> !# @app.luis_schema_version = 4.0.0
+> !# @app.tokenizerVersion = 1.0.0
+
+
+> # Intent definitions
+
+## ControlDevice
+- {@Room=breezeway} on please
+- change {@deviceProperty=temperature} to seventy two degrees
+- {@Device=coffee bar} on please
+- decrease {@deviceProperty=temperature} for me please
+- dim {@Room=kitchen} {@Device=lights} to 25 .
+- {@Device=fish pond} off please
+- {@Device=fish pond} on please
+- {@Device=illuminate} please
+- {@Room=living room} {@Device=lamp} on please
+- {@Room=living room} {@Device=lamps} off please
+- lock the {@Device=doors} for me please
+- lower your {@deviceProperty=volume}
+- make {@Device=camera 1} off please
+- make some {@Device=coffee}
+- play {@Device=dvd}
+- set {@Device=lights} out in {@Room=bedroom}
+- set {@Device=lights} to {@deviceProperty=bright}
+- set {@Device=lights} to {@deviceProperty=concentrate}
+- shut down my work {@Device=computer}
+- snap switch {@Device=fan} fifty percent
+- start {@Room=master bedroom} {@Device=light}.
+- {@Room=theater} on please
+- turn {@Device=dimmer} off
+- turn off {@Device=ac} please
+- turn off {@Room=foyer} {@Device=lights}
+- turn off {@Room=living room} {@Device=light}
+- turn off {@Device=staircase}
+- turn off venice {@Device=lamp}
+- turn on {@Room=bathroom} {@Device=heater}
+- turn on {@Device=external speaker}
+- turn on {@Room=kitchen} {@Device=faucet}
+- turn on {@Device=light} in {@Room=bedroom}
+- turn on my {@Room=bedroom} {@Device=lights}.
+- turn on the {@Room=furnace room} {@Device=lights}
+- turn on the internet in my {@Room=bedroom} please
+- turn on {@Device=thermostat} please
+- turn the {@Device=fan} to high
+- turn {@Device=thermostat} on 70.
+- {@Device_PatternAny} off [please]
+- {@Device_PatternAny} in {Room_PatternAny} on [please]
+- turn on {@Device_PatternAny} in {Room_PatternAny}
+- turn off {@Device_PatternAny} in {Room_PatternAny}
+- {@Device_PatternAny} in {Room_PatternAny} off [please]
+- {@Device_PatternAny} on [please]
+- turn on {@Device_PatternAny}
+
+
+## None
+
+
+> # Entity definitions
+
+@ ml Device
+
+@ ml deviceProperty
+
+@ ml Room
+
+
+> # PREBUILT Entity definitions
+
+@ prebuilt number
+
+
+> # Phrase list definitions
+
+
+> # List entities
+
+@ list Operation = 
+	- off :
+		- turn off
+		- switch off
+		- lock
+		- out
+		- shut down
+		- stop
+	- on :
+		- turn on
+		- switch on
+		- unlock
+		- un lock
+		- boot up
+		- start
+
+
+> # RegEx entities
+
+
+> # Pattern.Any entities
+
+@ patternany Device_PatternAny
+@ patternany Room_PatternAny
