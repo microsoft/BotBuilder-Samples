@@ -147,16 +147,14 @@ class GetUserProfileDialog extends ComponentDialog {
     createLuisRecognizer() {
         if (process.env.GetUserProfileDialog_en_us_lu === "" || process.env.LuisAPIHostName === "" || process.env.LuisAPIKey === "")
             throw `Sorry, you need to configure your LUIS application and update .env file.`;
-        return new LuisAdaptiveRecognizer().configure(
-            {
-                endpoint: new StringExpression(process.env.LuisAPIHostName),
-                endpointKey: new StringExpression(process.env.LuisAPIKey),
-                applicationId: new StringExpression(process.env.GetUserProfileDialog_en_us_lu),
+        const recognizer = new LuisAdaptiveRecognizer();
+        recognizer.endpoint = new StringExpression(process.env.LuisAPIHostName);
+        recognizer.endpointKey = new StringExpression(process.env.LuisAPIKey);
+        recognizer.applicationId = new StringExpression(process.env.GetUserProfileDialog_en_us_lu);
 
-                // Id needs to be LUIS_<dialogName> for cross-trained recognizer to work.
-                id: `LUIS_${DIALOG_ID}`
-            }
-        );
+        // Id needs to be LUIS_<dialogName> for cross-trained recognizer to work.
+        recognizer.id = `LUIS_${DIALOG_ID}`;
+        return recognizer;
     }
 
     createQnARecognizer() {
