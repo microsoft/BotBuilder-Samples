@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 //
 // Generated with Bot Builder V4 SDK Template for Visual Studio EmptyBot v$templateversion$
@@ -31,7 +31,7 @@ namespace $safeprojectname$
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, $safeprojectname$>();
+            services.AddTransient<IBot, EmptyBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
