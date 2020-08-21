@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { Case, CancelAllDialogs, OnIntent, IntentPattern, RegexRecognizer, TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog } = require('botbuilder-dialogs-adaptive');
+const { Case, CancelAllDialogs, OnIntent, IntentPattern, RegexRecognizer, TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
 const { DialogManager, ListStyle } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 const { StringExpression, ArrayExpression, BoolExpression, EnumExpression } = require('adaptive-expressions');
@@ -60,7 +60,6 @@ const onTurnErrorHandler = async (context, error) => {
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;
-adapter.use(new LanguageGeneratorMiddleWare(resourceExplorer));
 
 // Define the state store for your bot.
 // See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -83,8 +82,8 @@ function createChoiceInputForAllAdaptiveDialogs() {
     const choices = [];
     const switchCases = [];
     (resourceExplorer.getResources('.dialog') || []).forEach(resource => {
-        if (resource.resourceId !== undefined && resource.resourceId.endsWith('.main.dialog')) {
-            let dialogName = path.basename(resource.resourceId, '.main.dialog');
+        if (resource.id !== undefined && resource.id.endsWith('.main.dialog')) {
+            let dialogName = path.basename(resource.id, '.main.dialog');
             const subDialog = resourceExplorer.loadType(resource);
             choices.push({value : dialogName});
             switchCases.push(new Case(dialogName, [subDialog]));
@@ -118,6 +117,8 @@ function loadRootDialog() {
     myBot.userState = userState;
     myBot.conversationState = conversationState;
     myBot.rootDialog = createChoiceInputForAllAdaptiveDialogs();
+    ResourceExtensions.useResourceExplorer(myBot, resourceExplorer);
+    LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 }
 
 loadRootDialog();
@@ -147,15 +148,9 @@ server.on('upgrade', (req, socket, head) => {
     });
 });
 
-const handleResourceChange = (resources) => {
-    if (Array.isArray(resources)) {
-        if((resources || []).find(r => r.resourceId.endsWith('.dialog')) !== undefined) loadRootDialog();
-    } else {
-        if (resources.resourceId && resources.resourceId.endsWith('.dialog')) loadRootDialog()
+// Add a resource change handler to resource explorer.
+resourceExplorer.changed = (resources) => {
+    if((resources || []).find(r => r.id.endsWith('.dialog')) !== undefined) {
+        loadRootDialog();
     }
 };
-
-// Add a resource change handler to resource explorer.
-resourceExplorer.emitter.on('changed', handleResourceChange);
-
-
