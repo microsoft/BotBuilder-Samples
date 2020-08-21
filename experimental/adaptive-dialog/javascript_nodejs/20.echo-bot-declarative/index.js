@@ -5,7 +5,7 @@ const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { AdaptiveDialogComponentRegistration, LanguageGeneratorMiddleWare } = require('botbuilder-dialogs-adaptive');
+const { AdaptiveDialogComponentRegistration, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
 const { DialogManager } = require('botbuilder-dialogs');
 const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
 
@@ -18,7 +18,7 @@ const ENV_FILE = path.join(__dirname, '.env');
 dotenv.config({ path: ENV_FILE });
 
 // Set up resource explorer
-const resourceExplorer = new ResourceExplorer().addFolder(__dirname, true, true);
+const resourceExplorer = new ResourceExplorer().addFolder(path.join(__dirname, './dialogs'), true, true);
 resourceExplorer.addComponent(new AdaptiveDialogComponentRegistration(resourceExplorer));
 
 // Create HTTP server
@@ -58,7 +58,6 @@ const onTurnErrorHandler = async (context, error) => {
 
 // Set the onTurnError for the singleton BotFrameworkAdapter.
 adapter.onTurnError = onTurnErrorHandler;
-adapter.use(new LanguageGeneratorMiddleWare(resourceExplorer));
 
 // Define the state store for your bot.
 // See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -78,6 +77,8 @@ const loadRootDialog = () => {
     myBot = new DialogManager(resourceExplorer.loadType(rootDialogResource));
     myBot.userState = userState;
     myBot.conversationState = conversationState;
+    ResourceExtensions.useResourceExplorer(myBot, resourceExplorer);
+    LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 }
 
 loadRootDialog();
@@ -107,15 +108,9 @@ server.on('upgrade', (req, socket, head) => {
     });
 });
 
-const handleResourceChange = (resources) => {
-    if (Array.isArray(resources)) {
-        if((resources || []).find(r => r.resourceId.endsWith('.dialog')) !== undefined) loadRootDialog();
-    } else {
-        if (resources.resourceId && resources.resourceId.endsWith('.dialog')) loadRootDialog()
+// Add a resource change handler to resource explorer.
+resourceExplorer.changed = (_e, resources) => {
+    if((resources || []).find(r => r.id.endsWith('.dialog')) !== undefined) {
+        loadRootDialog();
     }
 };
-
-// Add a resource change handler to resource explorer.
-resourceExplorer.emitter.on('changed', handleResourceChange);
-
-
