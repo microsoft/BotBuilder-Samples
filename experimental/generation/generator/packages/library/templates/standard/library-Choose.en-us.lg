@@ -18,4 +18,4 @@ Please choose a value for ${getPropertyNameText(property)} from [${join(foreach(
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, getChoosePropertyEntityText(choice)), " or ")}?
 
 # getChoosePropertyEntityText(property)
-- ${displayOperation(property.operation, property.entity.text)}
+- ${displayOperation(property.operation, property.property, property.entity.text)}

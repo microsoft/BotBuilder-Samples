@@ -37,6 +37,9 @@
 # libraryFilename(name)
 - library/${prefix}-${name}
 
+# libraryImport(name)
+- [${prefix}-${name}](${prefix}-${name})
+
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
 
@@ -443,7 +446,7 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 - ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
 
 # schemaDefaultOperationEntities(property)
-- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}
+- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add()"`), ','), '}')}
 
 >> Designer information
 # designerName(name)

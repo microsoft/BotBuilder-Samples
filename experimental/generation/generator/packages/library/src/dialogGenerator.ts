@@ -760,6 +760,7 @@ export async function generate(
             locales: allLocales,
             prefix: prefix || schema.name(),
             schema: schema.schema,
+            operations: schema.schema.$operations,
             properties: schema.schema.$public,
             triggerIntent: schema.triggerIntent(),
             appSchema: metaSchema
