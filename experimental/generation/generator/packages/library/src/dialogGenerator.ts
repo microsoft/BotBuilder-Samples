@@ -718,6 +718,12 @@ export async function generate(
             await fs.ensureDir(outDir)
         }
 
+        let existingFiles = await fs.readdir(outDir)
+        if(existingFiles.length === 0){
+            force = false
+            merge = false
+        }
+
         let op = 'Regenerating'
         if (!force) {
             force = false

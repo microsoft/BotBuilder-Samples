@@ -1,0 +1,22 @@
+﻿# GetWeather
+- how is the weather?
+
+# BookFlight
+- Book flight to seattle
+
+# BookCab
+- I would like to get a ride
+
+# ChitChat
+- Sing a song
+- tell me a joke
+- Who built you?
+
+# CreateAlarm
+- create alarm for 7AM
+
+# CreateReminder
+- Remind me to water the plats this evening
+
+@ prebuilt datetime
+@ prebuilt number

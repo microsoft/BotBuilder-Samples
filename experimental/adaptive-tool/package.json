@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.0.4",
+    "version": "0.0.5",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {
@@ -210,15 +210,14 @@
         "onLanguage:lg",
         "onLanguage:lu"
     ],
-    "main": "./client/out/src/extension",
+    "main": "./client/out/extension",
     "scripts": {
         "vscode:prepublish": "npm run webpack",
-        "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/webpack.config.js",
-        "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/webpack.config.js",
-        "compile": "tsc -b",
-        "compile:client": "tsc -b ./client/tsconfig.json",
-        "compile:server": "tsc -b ./server/tsconfig.json",
-        "watch": "tsc -b -w",
+        "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
+        "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
+        "build": "npm run webpack",
+        "build:client": "webpack --mode production --config ./client/webpack.config.js",
+        "build:server": "webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
         "clean": "rimraf client/out && rimraf server/out",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
         "test": "sh ./scripts/e2e.sh"
@@ -236,9 +235,5 @@
         "ts-loader": "^6.2.1",
         "webpack": "^4.43.0",
         "webpack-cli": "^3.3.11"
-    },
-    "dependencies": {
-        "botbuilder-lg": "4.9.0",
-        "@microsoft/bf-lu": "4.9.0"
     }
 }
