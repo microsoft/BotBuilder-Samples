@@ -19,7 +19,7 @@
         },
         {
             "$kind": "Microsoft.IfCondition",
-            "condition":"$CompleteConfirmation == 'false'",
+            "condition":"$CompleteConfirmation == false",
             "actions": [
                 {
                     "$kind": "Microsoft.EndDialog"

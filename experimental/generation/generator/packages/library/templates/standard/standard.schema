@@ -13,15 +13,6 @@
                 "CancelConfirmation-add-boolean.dialog"
             ]
         },
-        "ChangePropertyConfirmation": {
-            "type": "boolean",
-            "$entities": [
-                "boolean"
-            ],
-            "$templates": [
-                "ChangePropertyConfirmation-add-boolean.dialog"
-            ]
-        },
         "CompleteConfirmation": {
             "type": "string",
             "$entities": [
@@ -35,25 +26,9 @@
             ]
         },
         "PropertyToChange": {
-            "$ref": "#/definitions/PROPERTYName",
-            "$templates": [
-                "PropertyToChange-add-PROPERTYName.dialog"
-            ]
-        },
-        "PropertyToRemember": {
-            "$ref": "#/definitions/PROPERTYName",
-            "$templates": [
-                "PropertyToRemember-add-PROPERTYName.dialog"
-            ]
-        }
-    },
-    "definitions": {
-        "PROPERTYName": {
             "type": "string",
-            "enum": "${properties}",
-            "$entities": [
-                "PROPERTYName"
-            ]
+            "$entities": "${properties}",
+            "$templates": []
         }
     },
     "$operations": [
@@ -62,33 +37,19 @@
     "$defaultOperation": [
         {
             "CancelConfirmation": {
-                "boolean": "Set()"
-            },
-            "ChangePropertyConfirmation": {
-                "boolean": "Set()"
+                "": "Set()"
             },
             "CompleteConfirmation": {
-                "boolean": "Set()",
-                "PROPERTYName": "Set()"
-            },
-            "PropertyToChange": {
-                "PROPERTYName": "Set()"
-            },
-            "PropertyToRemember": {
-                "PROPERTYName": "Set()"
+                "": "Set()"
             }
         },
         "${schemaDefaultOperation()}"
     ],
     "$expectedOnly": [
         "boolean",
-        "PROPERTYName",
         "utterance",
         "keyPhrase",
         "personName"
-    ],
-    "$entities": [
-        "PROPERTYName"
     ],
     "$comment": "TODO: Still need to add specific rules for show(prop), help(prop) and appropriate lg.  This is dependent on Zongyang simplifications as well.",
     "$templates": [
@@ -96,7 +57,6 @@
         "library-CancelIntent.lu",
         "library-NoneIntent.lu",
         "library-triggerIntent.lu",
-        "library-PROPERTYName.lg",
         "library-Assign.lg",
         "library-Choose.lg",
         "library-DisplayOperation.lg",

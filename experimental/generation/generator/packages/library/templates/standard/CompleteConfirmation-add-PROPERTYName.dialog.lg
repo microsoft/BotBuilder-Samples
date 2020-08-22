@@ -9,12 +9,12 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Set()",
-    "property": "PropertyToChange",
+    "property": "CompleteConfirmation",
     "actions": [
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$PropertyToChange",
-            "value": "=turn.dialogEvent.value.event.name"
+            "value": "=turn.dialogEvent.value.entity.name"
         }
     ]
     ${designerOpEntityProperty('Set', 'PROPERTYName', 'PropertyToChange')}

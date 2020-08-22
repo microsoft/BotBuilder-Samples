@@ -289,7 +289,7 @@ ${'#'} ${property}Entity_getValueText(val)
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getShowPropertyText(@PROPERTYName)}"
+            "activity": "\${getShowPropertyText('${property}')}"
         }
     ]               
     ${designerOp('Show')}     
@@ -441,12 +441,9 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 # schemaOperations
 - ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
 
->> For each property and entity the default operation
+>> Define default operation for properties
 # schemaDefaultOperation
-- ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
-
-# schemaDefaultOperationEntities(property)
-- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add()"`), ','), '}')}
+- ${{"": {"": "Add()"}}}
 
 >> Designer information
 # designerName(name)
