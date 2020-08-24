@@ -305,11 +305,8 @@ ${'#'} ${property}Entity_getValueText(val)
             "condition": "lib.helpCondition()",
             "actions": [
                 {
-                    "$kind": "Microsoft.Ask",
-                    "activity": "\${getHelpText()}",
-                    "expectedProperties": [
-                        "${property}"
-                    ]
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${getHelpText()}"
                 }
             ]
         },
