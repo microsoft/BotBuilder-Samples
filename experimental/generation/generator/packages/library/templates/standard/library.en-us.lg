@@ -12,7 +12,7 @@
 - Welcome!
 
 # getPropertyNameText(property)
-- ${`\${${property}_getPropertyNameText()}`}
+- ${template(`${property}_getPropertyNameText`)}
 
 # getPropertyValueText(property, val)
 - ${template(`${property}_getValueText`, val)}
@@ -84,11 +84,11 @@
 # promptPriority(propertyName)
 - ${indexOf(dialog.requiredProperties, propertyName)}
 
-# missingCondition(propertyValue, PropertyToChange, property)
-- ${!propertyValue || PropertyToChange == property}
+# missingCondition(propertyValue, property)
+- ${!propertyValue || $PropertyToChange == property}
 
 # missingPriority(property)
 - ${indexOf(dialog.requiredProperties, property)}
 
-# helpCondition(retries, lastIntent)
+# helpCondition()
 - ${$retries > 0 && $lastIntent != 'Help'}

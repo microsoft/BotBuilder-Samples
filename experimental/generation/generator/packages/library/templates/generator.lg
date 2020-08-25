@@ -22,6 +22,9 @@
 # missingFilename
 - ${property}/${prefix}-${property}-missing.dialog
 
+# helpFilename
+- ${property}/${prefix}-${property}-help.dialog
+
 # builtinEntityFilename(entity)
 - ${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
@@ -301,16 +304,6 @@ ${'#'} ${property}Entity_getValueText(val)
     "priority": "=lib.missingPriority('${property}')",
     "actions": [
         {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "lib.helpCondition()",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getHelpText()}"
-                }
-            ]
-        },
-        {
             "$kind": "Microsoft.Ask",
             "activity": "\${${property}_getPromptText()}",
             "expectedProperties": [
@@ -318,6 +311,26 @@ ${'#'} ${property}Entity_getValueText(val)
             ]
         }
     ]
+    ${designerMissing(property)
+    }
+}
+```
+
+# helpDialog
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "$retries > 0 && $lastIntent != 'Help'",
+    "runOnce": true,
+    "priority": "=lib.missingPriority('${property}')",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${getHelpText()}"
+        }
+    ]
+    
     ${designerMissing(property)
     }
 }
@@ -390,7 +403,7 @@ ${substitutions(`library-operations.${locale}.data`,
 - ${[`${entity}:${property}`, entity]}
 
 # propertyTemplates
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
+- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 
 # entityTemplates
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
@@ -439,28 +452,28 @@ ${substitutions(`library-operations.${locale}.data`,
 
 # missingNumber(property)
 - IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameText(property)} between ${schema.properties[property].minimum} and ${schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameContent(property)} between ${schema.properties[property].minimum} and ${schema.properties[property].maximum}
 - ELSEIF:  ${schema.properties[property].minimum}
-- Enter a number for ${getPropertyNameText(property)} that is greater than ${schema.properties[property].minimum}
+- Enter a number for ${getPropertyNameContent(property)} that is greater than ${schema.properties[property].minimum}
 - ELSEIF: ${schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameText(property)} that is less than ${schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameContent(property)} that is less than ${schema.properties[property].maximum}
 - ELSE:
-- Enter a number for ${getPropertyNameText(property)}
+- Enter a number for ${getPropertyNameContent(property)}
 
 # missingBoolean(property)
-- Enter a value for ${getPropertyNameText(property)}: true or false
+- Enter a value for ${getPropertyNameContent(property)}: true or false
 
 # missingString(property)
-- Enter a value for ${getPropertyNameText(property)}
+- Enter a value for ${getPropertyNameContent(property)}
 
 # missingEnumArray(property)
-- What values do you want to add for ${getPropertyNameText(property)}?
+- What values do you want to add for ${getPropertyNameContent(property)}?
 
 # missingEnum(property)
-- Which value do you want for ${getPropertyNameText(property)}?
+- Which value do you want for ${getPropertyNameContent(property)}?
 
 # missingStringArray(property)
-- What values do you want to add for ${getPropertyNameText(property)}?
+- What values do you want to add for ${getPropertyNameContent(property)}?
 
-# getPropertyNameText(property)
+# getPropertyNameContent(property)
 - ${`\${${property}_getPropertyNameText()}`}
