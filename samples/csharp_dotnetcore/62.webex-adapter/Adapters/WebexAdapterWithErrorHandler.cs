@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples.Adapters
     public class WebexAdapterWithErrorHandler : WebexAdapter
     {
         public WebexAdapterWithErrorHandler(IConfiguration configuration, ILogger<WebexAdapter> logger)
-            : base(configuration, logger)
+            : base(configuration, null, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {
