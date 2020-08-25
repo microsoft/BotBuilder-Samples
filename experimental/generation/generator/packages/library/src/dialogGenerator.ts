@@ -444,10 +444,10 @@ async function processTemplates(
                         entityName = `${scope.type}`
                     }
 
-                    // Look for examples in global $examples
+                    // Look for entity examples in global $examples
                     scope.examples = schema.schema.$examples[entityName]
 
-                    // Pick up examples from property schema
+                    // Pick up examples from property schema if unique entity
                     if (!scope.examples && property.schema.examples && entities.length === 1) {
                         scope.examples = property.schema.examples
                     }

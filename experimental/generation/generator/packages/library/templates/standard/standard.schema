@@ -28,7 +28,9 @@
         "PropertyToChange": {
             "type": "string",
             "$entities": "${properties}",
-            "$templates": []
+            "$templates": [
+                "PropertyToChange-add-PROPERTYName.dialog"
+            ]
         }
     },
     "$operations": [

@@ -4,5 +4,5 @@
 - ${['string']}
 
 # templates
-- ${flatten(['stringEntity.lg', 'stringEntity.lu', propertyTemplates()])}
+- ${propertyTemplates()}
 

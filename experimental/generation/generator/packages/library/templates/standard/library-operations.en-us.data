@@ -3,9 +3,10 @@
 >> entity: Standalone entities that map to multiple properties${simple?}
 - ${simple*}
 
+>${comment} We ensure that each value occurs at least once here to support reliably resolving entity ambiguity
 >> entity: Standalone ${property} with ${entity}
-- {@${property}=${unique}}
-- {@${property}=${uniqueOrValue} ${name}}
+- {@${property}=${unique*}}
+- {@${property}=${uniqueOrValue*} ${name}}
 
 >> property: Standalone ${property} name
 - {@${property}=${name}}
