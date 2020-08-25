@@ -9,7 +9,6 @@
                 "boolean"
             ],
             "$templates": [
-                "library-CancelIntent.dialog",
                 "CancelConfirmation-add-boolean.dialog"
             ]
         },
@@ -58,6 +57,7 @@
         "booleanEntity",
         "library-CancelIntent.lu",
         "library-NoneIntent.lu",
+        "library-SkipIntent.lu",
         "library-triggerIntent.lu",
         "library-Assign.lg",
         "library-Choose.lg",
@@ -77,6 +77,7 @@
         "library-Help.dialog",
         "library-NotUnderstood.dialog",
         "library-Show.dialog",
+        "library-SkipIntent.dialog",
         "library-triggerIntent.dialog",
         "main.dialog",
         "luconfig.json",

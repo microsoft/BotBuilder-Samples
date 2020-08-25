@@ -1,0 +1,31 @@
+[generator.lg](../generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnIntent",
+    "intent": "Skip",
+    "condition": "turn.recognized.score > 0.5",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "count(dialog.events.Assignments) > 0",
+            "actions": [
+                {
+                    "$kind":"Microsoft.EditArray",
+                    "changeType": "take",
+                    "itemsProperty": "dialog.events"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
+        }
+    ]
+    ${designerIntent('Skip')}
+}
+```
