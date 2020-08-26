@@ -287,7 +287,6 @@ appsettings.Development.json
 # Python
 __pycache__/
 env/
-.venv/
 
 # rush
 rush.json
