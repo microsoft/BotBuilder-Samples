@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples.Adapters
     public class TwilioAdapterWithErrorHandler : TwilioAdapter
     {
         public TwilioAdapterWithErrorHandler(IConfiguration configuration, ILogger<TwilioAdapter> logger)
-                : base(configuration, logger)
+                : base(configuration, null, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {

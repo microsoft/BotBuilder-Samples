@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples.Adapters
     public class SlackAdapterWithErrorHandler : SlackAdapter
     {
         public SlackAdapterWithErrorHandler(IConfiguration configuration, ILogger<SlackAdapter> logger)
-            : base(configuration, logger)
+            : base(configuration, null, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {
