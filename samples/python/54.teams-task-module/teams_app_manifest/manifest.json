@@ -2,20 +2,20 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0.0",
-  "id": "<<YOUR-MICROSOFT-APP-ID>>",
+  "id": "fb33674c-a6b0-431e-8538-8dc27dc0bea6",
   "packageName": "com.microsoft.teams.samples",
   "developer": {
     "name": "Microsoft",
-    "websiteUrl": "https://example.azurewebsites.net",
-    "privacyUrl": "https://example.azurewebsites.net/privacy",
-    "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
+    "websiteUrl": "https://www.atticware.com",
+    "privacyUrl": "https://www.atticware.com/privacy",
+    "termsOfUseUrl": "https://www.atticware.com/termsofuse"
   },
   "icons": {
     "color": "icon-color.png",
     "outline": "icon-outline.png"
   },
   "name": {
-    "short": "Task Module",
+    "short": "Python Task Module",
     "full": "Simple Task Module"
   },
   "description": {
@@ -25,7 +25,7 @@
   "accentColor": "#FFFFFF",
   "bots": [
     {
-      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "botId": "fb33674c-a6b0-431e-8538-8dc27dc0bea6",
       "scopes": [
         "personal",
         "team",
