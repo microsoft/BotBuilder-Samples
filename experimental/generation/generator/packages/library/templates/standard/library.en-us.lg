@@ -83,8 +83,8 @@
 # promptPriority(propertyName)
 - ${indexOf(dialog.requiredProperties, propertyName)}
 
-# missingCondition(propertyValue, property)
-- ${!propertyValue || $PropertyToChange == property}
+# missingCondition(property)
+- ${!dialog[property] || $PropertyToChange == property}
 
 # missingPriority(property)
 - ${indexOf(dialog.requiredProperties, property)}

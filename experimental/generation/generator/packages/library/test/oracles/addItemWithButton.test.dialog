@@ -78,7 +78,8 @@
         "attachments[0].content.body[2].columns[0].items[1].items[0].columns[0].width == 'stretch'",
         "attachments[0].content.version == '1.2'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
-      ]
+      ],
+      "description": "Response to input 1"
     },
     {
       "$kind": "Microsoft.Test.UserActivity",
@@ -175,7 +176,8 @@
         "attachments[0].content.body[2].columns[0].items[1].items[0].columns[0].width == 'stretch'",
         "attachments[0].content.version == '1.2'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
-      ]
+      ],
+      "description": "Response to input 2"
     }
   ],
   "httpRequestMocks": []

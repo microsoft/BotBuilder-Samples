@@ -29,13 +29,15 @@ export async function generateTest(path: string, dialog: string, output: string,
     let mocks: any[] = []
     test.httpRequestMocks = mocks
 
+    let userCount = 0
+    let description: string | undefined
     for (let record of transcript) {
         if (isBot(record)) {
             if (record.text) {
-                script.push({$kind: 'Microsoft.Test.AssertReply', text: record.text})
+                script.push({$kind: 'Microsoft.Test.AssertReply', text: record.text, description})
             } else if (record.attachments) {
                 let assertions: any[] = []
-                script.push({$kind: 'Microsoft.Test.AssertReplyActivity', assertions})
+                script.push({$kind: 'Microsoft.Test.AssertReplyActivity', assertions, description})
                 assertions.push(`type == 'message'`)
                 objectAssertions(record.attachments, assertions, 'attachments')
             }
@@ -45,6 +47,8 @@ export async function generateTest(path: string, dialog: string, output: string,
             } else if (record.value) {
                 script.push({$kind: 'Microsoft.Test.UserActivity','activity': {'type': record.type, 'value': record.value}})
             }
+            ++userCount
+            description = `Response to input ${userCount}`
         } else if (isConversationUpdate(record)) {
             let membersAdded: string[] = []
             let membersRemoved: string[] = []

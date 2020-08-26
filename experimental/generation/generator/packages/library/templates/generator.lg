@@ -304,7 +304,7 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"=!$${property} || $PropertyToChange == '${property}'", 
+    "condition":"=lib.missingCondition('${property}')",
     "priority": "=lib.missingPriority('${property}')",
     "actions": [
         {
