@@ -47,7 +47,7 @@ class TeamsMessagingExtensionsActionPreviewBot(TeamsActivityHandler):
         task_info = TaskModuleTaskInfo(
             card=card, height=450, title="Task Module Fetch Example", width=500
         )
-        continue_response = TaskModuleContinueResponse(type="continue", value=task_info)
+        continue_response = TaskModuleContinueResponse( value=task_info)
         return MessagingExtensionActionResponse(task=continue_response)
 
     async def on_teams_messaging_extension_submit_action(  # pylint: disable=unused-argument
@@ -83,7 +83,7 @@ class TeamsMessagingExtensionsActionPreviewBot(TeamsActivityHandler):
         task_info = TaskModuleTaskInfo(
             card=card, height=450, title="Task Module Fetch Example", width=500
         )
-        continue_response = TaskModuleContinueResponse(type="continue", value=task_info)
+        continue_response = TaskModuleContinueResponse(value=task_info)
         return MessagingExtensionActionResponse(task=continue_response)
 
     async def on_teams_messaging_extension_bot_message_preview_send(  # pylint: disable=unused-argument
