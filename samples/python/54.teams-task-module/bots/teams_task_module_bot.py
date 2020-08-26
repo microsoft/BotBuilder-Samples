@@ -51,11 +51,11 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
                 "actions": [{"type": "Action.Submit", "title": "Submit",}],
             }
         )
-
+        
         task_info = TaskModuleTaskInfo(
             card=card, title="Adaptive Card: Inputs", height=200, width=400
         )
-        continue_response = TaskModuleContinueResponse(type="continue", value=task_info)
+        continue_response = TaskModuleContinueResponse( value=task_info)
         return TaskModuleResponse(task=continue_response)
 
     async def on_teams_task_module_submit(
@@ -67,7 +67,7 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
             )
         )
 
-        message_response = TaskModuleMessageResponse(type="message", value="Thanks!")
+        message_response = TaskModuleMessageResponse( value="Thanks!")
         return TaskModuleResponse(task=message_response)
 
     def _get_task_module_hero_card(self) -> Attachment:
