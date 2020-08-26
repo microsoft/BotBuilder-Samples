@@ -311,8 +311,7 @@ ${'#'} ${property}Entity_getValueText(val)
             ]
         }
     ]
-    ${designerMissing(property)
-    }
+    ${designerMissing(property)}
 }
 ```
 
@@ -331,8 +330,7 @@ ${'#'} ${property}Entity_getValueText(val)
         }
     ]
     
-    ${designerMissing(property)
-    }
+    ${designerHelp(property)}
 }
 ```
 
@@ -446,6 +444,9 @@ ${substitutions(`library-operations.${locale}.data`,
 
 # designerMissing(property)
 - ${designerName(`${property} - Missing()`)}
+
+# designerHelp(property)
+- ${designerName(`${property} - Help()`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
