@@ -16,8 +16,9 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 > Template for prompting the user for the '${property}' property.
-# ${property}_getPromptText
-- \${getEnumArrayPromptText('${property}')}```
+${'#'} ${property}_getPromptText
+- ${missingEnumArray(property)}
+```
 
 # ValueTemplate
 - ```

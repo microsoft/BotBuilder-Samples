@@ -1,11 +1,5 @@
 [library.en-us.lg](library.en-us.lg)
 
-# getAutoHelpText
-- IF: ${$retries > 0 && $lastIntent != 'Help'}
-- ${join(foreach($expectedProperties, expected, internal_getPropertyHelpText(expected)), EOL())}
-- ELSE:
-- 
-
 # getPropertyHelpText(property)
 - IF: ${property}
 - ${internal_getPropertyHelpText(property)}
@@ -30,3 +24,11 @@ You can find out about a specific property by asking for 'help <property>'.
 - ELSE:
 - No help available.
 
+# getHelpText
+- ${join(foreach($expectedProperties, expected, internal_getPropertyHelpText(expected)), EOL())}
+
+# getAutoHelpText
+- IF: ${$retries > 0 && $lastIntent != 'Help'}
+- ${join(foreach($expectedProperties, expected, internal_getPropertyHelpText(expected)), EOL())}
+- ELSE:
+- 
