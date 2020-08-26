@@ -11,7 +11,7 @@
 - ${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
 
 # entityLUFilename
-- ${locale}/${property}/${prefix}-${property}Entity.${locale}.lu
+- ${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
 
 # missingFilename
 - ${property}/${prefix}-${property}-missing.dialog

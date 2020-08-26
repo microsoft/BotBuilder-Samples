@@ -19,6 +19,3 @@ ${valueTemplate()}
 ${'#'} ${property}_getPromptText
 - ${missingString(property)}
 ```
-
-
-

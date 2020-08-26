@@ -199,8 +199,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('simple', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
-            assert.equal(expansion.$entities[0], 'number:simple', 'Missing role')
+            assert.equal(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -213,8 +212,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
-            assert.equal(expansion.$entities[0], 'dimension:ref', 'Missing role')
+            assert.equal(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }
