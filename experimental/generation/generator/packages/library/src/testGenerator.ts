@@ -21,6 +21,8 @@ export async function generateTest(path: string, dialog: string, output: string,
     let test: any = {}
     if (schema) {
         test.$schema = ppath.relative(ppath.resolve(schema), ppath.resolve(outputPath))
+    } else {
+        test.$schema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/TestBot/TestBot/TestBot.schema'
     }
     test.$kind = 'Microsoft.Test.Script'
     test.dialog = dialog
