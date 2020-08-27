@@ -4,30 +4,24 @@
 - ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
 
 # template
--```
-${'#'} displayOperation(op, text)
-- \${operationName(op)} "\${text}"" to \${operationProperty(op)}
+-```${libraryImport('library.en-us.lg')}
 
-${'#'} operationProperty(op)
-- \${substring(op, indexOf(op, '(') + 1, length(op) - indexOf(op, '(') - 2)}
+${'#'} displayOperation(op, property, text)
+- \${operationName(op)} "\${text}"" to \${getPropertyNameText(property)}
 
-${join(flatten([namePlusSwitch(), allCases(), default()]), EOL())}
+${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 ```
 
 # namePlusSwitch
--```
-${'#'} operationName(op) 
+-```${'#'} operationName(op) 
 - SWITCH: \${op}```
 
-# case(op, property)
--```    - CASE: \${'${op}(${property})'} 
-        - ${phrase(op)}```
+# cases
+- ${foreach(operations, op, case(op))}
 
-# cases(property)
-- ${[case('Add', property), case('Remove', property), case('Show', property), case('Clear', property)]}
-
-# allCases
-- ${foreach(properties, property, cases(property))}
+# case(op)
+-```    - CASE: \${'${op}'}
+        - ${phrase(substring(op, 0, indexOf(op, '(')))}```
 
 # default
 -```    - DEFAULT: 

@@ -8,6 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Tests",
+            "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceFolder}/packages/cli",
             "args": [
@@ -28,6 +29,7 @@
             "type": "node",
             "request": "launch",
             "name": "Dialog Generator Library Tests",
+            "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
             "cwd": "${workspaceFolder}/packages/library",
             "args": [
@@ -70,7 +72,8 @@
             "program": "${workspaceFolder}/packages/cli/bin/run",
             "outputCapture": "std",
             "outFiles": [
-                "${workspaceFolder}/packages/**/lib/**"
+                "${workspaceFolder}/packages/cli/lib/**",
+                "${workspaceFolder}/packages/library/lib/**"
             ],
             "args": [
                 "dialog:generate",
@@ -80,6 +83,7 @@
                 "--force",
                 "--verbose"
             ],
+            "sourceMaps": true,
             "internalConsoleOptions": "openOnSessionStart"
         },
         {

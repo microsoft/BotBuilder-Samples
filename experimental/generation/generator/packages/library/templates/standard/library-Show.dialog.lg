@@ -4,15 +4,14 @@
 - ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnIntent",
-    "intent": "ShowProperties",
-    "condition": "turn.recognized.score > 0.5",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Show()",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
             "activity": "\${getPropertiesAsActivity('${prefix}', dialogClass.schema.$public)}"           
         }
     ]
-    ${designerIntent('ShowProperties')}
+    ${designerIntent('Show')}
 }
 ```

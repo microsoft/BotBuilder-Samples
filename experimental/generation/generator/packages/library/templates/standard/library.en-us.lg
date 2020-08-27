@@ -1,5 +1,7 @@
 > This file contains the generic templates to use for properties of particular types.
-[library-PROPERTYName.en-us.lg]
+
+> !# @Namespace = lib
+> !# @Exports = missingCondition, missingPriority, helpCondition
 
 > This is to provide consistent line endings in templates using Windows standard
 # EOL
@@ -80,3 +82,12 @@
 
 # promptPriority(propertyName)
 - ${indexOf(dialog.requiredProperties, propertyName)}
+
+# missingCondition(property)
+- ${!dialog[property] || $PropertyToChange == property}
+
+# missingPriority(property)
+- ${indexOf(dialog.requiredProperties, property)}
+
+# helpCondition()
+- ${$retries > 0 && $lastIntent != 'Help'}

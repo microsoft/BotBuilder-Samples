@@ -5,7 +5,7 @@
 
 # template
 - ```
-@ prebuilt personName ${roles()}
-${propertyName()}
-${operations('personName', ["Mike Smith", "John", "tom"])}
+@ prebuilt personName
+
+${operations('personName', ["Mike Smith", "John", "tom"], false)}
 ```

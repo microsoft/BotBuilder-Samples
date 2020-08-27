@@ -5,7 +5,7 @@
 
 # template
 - ```
-@ prebuilt percentage ${roles()}
-${propertyName()}
+@ prebuilt percentage
+
 ```
 

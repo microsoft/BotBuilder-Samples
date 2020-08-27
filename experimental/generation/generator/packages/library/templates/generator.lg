@@ -4,12 +4,6 @@
 # EOL
 -\r\n
 
-# roles
-- IF: ${role}
-    - hasRole ${role}
-- ELSE:
-    -
-
 # propertyFilename
 - ${locale}/${property}/${prefix}-${property}.${locale}.lg
 
@@ -17,10 +11,13 @@
 - ${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
 
 # entityLUFilename
-- ${locale}/${property}/${prefix}-${property}Entity.${locale}.lu
+- ${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
 
 # missingFilename
 - ${property}/${prefix}-${property}-missing.dialog
+
+# helpFilename
+- ${property}/${prefix}-${property}-help.dialog
 
 # builtinEntityFilename(entity)
 - ${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
@@ -42,6 +39,9 @@
 
 # libraryFilename(name)
 - library/${prefix}-${name}
+
+# libraryImport(name)
+- [${prefix}-${name}](${prefix}-${name})
 
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
@@ -77,7 +77,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -109,7 +110,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -143,7 +145,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -177,7 +180,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -210,10 +214,10 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove(${property})",
+    "operation": "Remove()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
-
         {
             "$kind": "Microsoft.IfCondition",
             "condition":"$${property} == @${entity}",
@@ -238,7 +242,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove(${property})",
+    "operation": "Remove()",
+    "property": "${property}",
     "entity": "${entity}",
     "actions": [
         {
@@ -261,7 +266,8 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Clear(${property})",
+    "operation": "Clear()",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -281,11 +287,12 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Show(${property})",
+    "operation": "Show()",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getShowPropertyText(@PROPERTYName)}"
+            "activity": "\${getShowPropertyText('${property}')}"
         }
     ]               
     ${designerOp('Show')}     
@@ -297,9 +304,9 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"=!$${property} || $PropertyToChange == '${property}'",
-    "priority": "=indexOf(dialog.requiredProperties, '${property}')",
-    "actions": [       
+    "condition":"=lib.missingCondition('${property}')",
+    "priority": "=lib.missingPriority('${property}')",
+    "actions": [
         {
             "$kind": "Microsoft.Ask",
             "activity": "\${${property}_getPromptText()}",
@@ -308,78 +315,137 @@ ${'#'} ${property}Entity_getValueText(val)
             ]
         }
     ]
-    ${designerMissing(property)}     
+    ${designerMissing(property)}
 }
 ```
 
-# propertyName
-- IF: ${property}
--```
-> Define the entity recognition of the '${property}' property.
-@ list PROPERTYName
-    - ${property}:
-${if(schema.properties[property].title,
-`\t\t- ${schema.properties[property].title}`,
-synonyms(property))}
-```
-- ELSE:
--
-
-> Define operation entities for '${property}' property.
-# operations(entity, values)
-- IF: ${examples}
-- ${generateOperations(entity, examples)}
-- ELSEIF: ${values}
-- ${generateOperations(entity, values)}
-- ELSE:
-- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`])}
-
-# generateOperations(entity, values)
--```
-> Define operation entities for '${property}' property.
-@ml Add(${property}) = 
-    - @${entity} ${entity}
-    - @PROPERTYName PROPERTYName
-
-@ml Remove(${property}) = 
-    - @${entity} ${entity}
-    - @PROPERTYName PROPERTYName
-
-@ml Clear(${property}) =
-    - @PROPERTYName PROPERTYName
+# helpDialog
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "lib.helpCondition()",
+    "runOnce": true,
+    "priority": "0",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${getHelpText()}"
+        }
+    ]
     
-@ml Show(${property}) =
-    - @PROPERTYName PROPERTYName
-
-> Add examples for operations on the '${property}' property to the dialog intent '${triggerIntent}'.
-${'#'} ${triggerIntent}
-${substitutions(`library-operations.${locale}.data`, 
-    json(`{"propertyName": ${propertyList(property)}, 
-           "value": ${valueList(values)}, 
-           "label": ${labelList(entity, values)}, 
-           "property": "${property}"}`), 
-    3)}
-- ${property}
+    ${designerHelp(property)}
+}
 ```
+
+> Define operation entities for '${property}' property.
+# operations(entity, values, label)
+- IF: ${examples}
+- ${generateOperations(entity, examples, label)}
+- ELSEIF: ${values}
+- ${generateOperations(entity, values, label)}
+- ELSE:
+- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], label)}
+
+> Each entity is either ambiguous, i.e. found in multiple properties or not.
+> 1) For ambiguous entities, generate standalone entities and operators with a mix of standalone labeled entities and properties with entity and property name.
+> 2) For unique entities, standalone properties around entity and operators with properties.
+> 
+> We control the utterances through populating substitution variables which can either be a single
+> value or an array of choices.  If a variable is not present the whole utterance will be dropped.  
+> Variables:
+> simple: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
+> value: labeled ambiguous entity for inside property/op like {@entity=value}
+> unique: labeled unique entity always found inside of property, i.e. {@entity=value} or {@entity=3}
+> uniqueOrValue: union of unique and value.
+> name: possible ways of naming property
+> property: current property
+> entity: current entity
+> isArray: true if property supports multiple values
+> comment: empty value to filter out meta-comments
+# generateOperations(entity, values, label)
+-```
+> Define phrase list for ${property} property.
+@ phraselist ${property}Phrases(interchangeable)=
+${if(schema.properties[property].title,
+    `\t- ${schema.properties[property].title}`,
+     synonyms(property))}
+
+> Define property entity and optional value for ${property} property.
+@ ml ${property} usesFeature ${property}Phrases
+    - @ ${entity} ${entity}
+
+> Define operations on '${property}' property.
+${defineOperation('Add', entity)}
+${defineOperation('Remove', entity)}
+${defineOperation('Clear', entity)}
+${defineOperation('Change', entity)}
+${defineOperation('Show', entity)}
+${defineOperation('Help', entity)}
+
+> Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
+${'#'} ${triggerIntent}
+${substitutions(
+    `library-operations.${locale}.data`, 
+    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, entity: entity, isArray: isArrayProperty(property), comment: []},
+    3)}
+```
+
+# defineOperation(operation, entity)
+-```@ ml ${operation}() usesFeature ${operation}Phrases
+\t-@ ml ${property} usesFeature ${property}
+\t\t- @ ${entity} ${entity}
+${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
+
+> Check to see if entity is only found in one property
+# oneProperty(entity)
+- ${count(entities[entity]) == 1}
+
+> Test to see if property is an array
+# isArrayProperty(property)
+- ${schema.properties[property].type == 'array'}
+
+> Generate a raw entity value with optional label
+# entityValue(entity, value, label)
+- IF: ${label}
+- {@${entity}=${value}}
+- ELSE:
+- ${value}
+
+> List of primitive entities
+# entityList(entity, values, label)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, entityValue(entity, value, label))}
+- ELSE:
+- ${[]}
+
+> List of labeled multi-property values
+# valueList(entity, values)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> List of labeled single-property labeled values
+# uniqueList(entity, values)
+- IF: ${oneProperty(entity)}
+- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> Union of single and multiple property labled entities
+# uniqueOrValueList(entity, values)
+- ${union(uniqueList(entity, values), valueList(entity, values))}
 
 # propertyList(property)
-- [${join(foreach(phrases(property), phrase, `"{@PROPERTYName=${phrase}}"`), ', ')}]
-
-# labelList(entity, values)
-- [${join(foreach(values, value, `"{@${entity}=${value}}"`), ', ')}]
-
-# valueList(values)
-- [${join(foreach(values, value, `"${value}"`), ', ')}]
+- ${foreach(phrases(property), phrase, `${phrase}`)}
 
 # synonyms(value)
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
 
 > Top-level template support
-# roleEntities(entity)
-- ${[`${entity}:${property}`, entity]}
-
 # propertyTemplates
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
+- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 
 # entityTemplates
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
@@ -391,17 +457,17 @@ ${substitutions(`library-operations.${locale}.data`,
 # luHeader
 -> !# @app.culture = ${locale}
 
-> Schema definitions
+> Templates to use when expanding schemas
 
+>> Operations defined in .lu
 # schemaOperations
-- ${flatten(foreach(properties, property, [`Add(${property})`, `Remove(${property})`, `Clear(${property})`, `Show(${property})`]))}
+- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
 
+>> Define default operation for properties
 # schemaDefaultOperation
-- ${json(concat('{', join(foreach(properties, property, `"${property}": ${schemaDefaultOperationEntities(property)}`), ','), '}'))}
+- ${{"": {"": "Add()"}}}
 
-# schemaDefaultOperationEntities(property)
-- ${concat('{', join(foreach(schema.properties[property].$entities, entity, `"${entity}": "Add(${property})"`), ','), '}')}
-
+>> Designer information
 # designerName(name)
 -, "$designer": {"name": "${name}"}
 
@@ -423,5 +489,36 @@ ${substitutions(`library-operations.${locale}.data`,
 # designerMissing(property)
 - ${designerName(`${property} - Missing()`)}
 
+# designerHelp(property)
+- ${designerName(`${property} - Help()`)}
+
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
+
+# missingNumber(property)
+- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameContent(property)} between ${schema.properties[property].minimum} and ${schema.properties[property].maximum}
+- ELSEIF:  ${schema.properties[property].minimum}
+- Enter a number for ${getPropertyNameContent(property)} that is greater than ${schema.properties[property].minimum}
+- ELSEIF: ${schema.properties[property].maximum}
+- Enter a number for ${getPropertyNameContent(property)} that is less than ${schema.properties[property].maximum}
+- ELSE:
+- Enter a number for ${getPropertyNameContent(property)}
+
+# missingBoolean(property)
+- Enter a value for ${getPropertyNameContent(property)}: true or false
+
+# missingString(property)
+- Enter a value for ${getPropertyNameContent(property)}
+
+# missingEnumArray(property)
+- What values do you want to add for ${getPropertyNameContent(property)}?
+
+# missingEnum(property)
+- Which value do you want for ${getPropertyNameContent(property)}?
+
+# missingStringArray(property)
+- What values do you want to add for ${getPropertyNameContent(property)}?
+
+# getPropertyNameContent(property)
+- ${`\${${property}_getPropertyNameText()}`}

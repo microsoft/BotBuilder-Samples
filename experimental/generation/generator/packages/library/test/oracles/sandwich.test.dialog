@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/TestBot/TestBot/TestBot.schema",
   "$kind": "Microsoft.Test.Script",
   "dialog": "sandwich",
   "script": [
@@ -24,47 +25,82 @@
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "Did you mean add \"wheat\"\" to Bread or add \"wheat\"\" to Name?"
+      "text": "Did you mean add \"wheat\"\" to bread or add \"wheat\"\" to name?",
+      "description": "Response to input 1"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
-      "text": "name"
+      "text": "bread"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "Which value do you want for bread?"
+      "text": "Please choose a value for bread from [multi grain wheat, whole wheat]",
+      "description": "Response to input 2"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
-      "text": "whole wheat with ham and swiss for $3"
+      "text": "whole wheat"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "meat is set to ham."
-    },
-    {
-      "$kind": "Microsoft.Test.AssertReply",
-      "text": "cheese is set to swiss."
-    },
-    {
-      "$kind": "Microsoft.Test.AssertReply",
-      "text": "price is set as (number: 3, units: Dollar)."
-    },
-    {
-      "$kind": "Microsoft.Test.AssertReply",
-      "text": "What values do you want to add for toppings?"
+      "text": "Enter a value for name",
+      "description": "Response to input 3"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
-      "text": "lettuce and pickles"
+      "text": "Chris"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "What values do you want to add for sauces?"
+      "text": "Which value do you want for cheese?",
+      "description": "Response to input 4"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
-      "text": "dijon"
+      "text": "ham and swiss with pickles and lettuce"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "meat is set to ham.",
+      "description": "Response to input 5"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Added pickles to toppings",
+      "description": "Response to input 5"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Added lettuce to toppings",
+      "description": "Response to input 5"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "What values do you want to add for sauces?",
+      "description": "Response to input 5"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "dijon, remove pickles and show toppings"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Removed pickles from toppings",
+      "description": "Response to input 6"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "toppings: lettuce",
+      "description": "Response to input 6"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Enter a value for price",
+      "description": "Response to input 6"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "$3"
     },
     {
       "$kind": "Microsoft.Test.AssertReplyActivity",
@@ -85,7 +121,7 @@
         "attachments[0].content.body[1].facts[1].title == 'length'",
         "attachments[0].content.body[1].facts[1].value == 'no value'",
         "attachments[0].content.body[1].facts[2].title == 'name'",
-        "attachments[0].content.body[1].facts[2].value == 'wheat'",
+        "attachments[0].content.body[1].facts[2].value == 'Chris'",
         "attachments[0].content.body[1].facts[3].title == 'bread'",
         "attachments[0].content.body[1].facts[3].value == 'whole wheat'",
         "attachments[0].content.body[1].facts[4].title == 'meat'",
@@ -93,17 +129,123 @@
         "attachments[0].content.body[1].facts[5].title == 'cheese'",
         "attachments[0].content.body[1].facts[5].value == 'swiss'",
         "attachments[0].content.body[1].facts[6].title == 'toppings'",
-        "attachments[0].content.body[1].facts[6].value == 'lettuce, pickles'",
+        "attachments[0].content.body[1].facts[6].value == 'lettuce'",
         "attachments[0].content.body[1].facts[7].title == 'sauces'",
         "attachments[0].content.body[1].facts[7].value == 'dijon mustard'",
         "attachments[0].content.body[1].facts[8].title == 'price'",
         "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
-      ]
+      ],
+      "description": "Response to input 7"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "Is there any property you want to change? (no or the property name)"
+      "text": "Is there any property you want to change? (no or the property name)",
+      "description": "Response to input 7"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "6 inch"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "length is set as (number: 6, units: Inch).",
+      "description": "Response to input 8"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReplyActivity",
+      "assertions": [
+        "type == 'message'",
+        "count(attachments) == 1",
+        "attachments[0].contentType == 'application/vnd.microsoft.card.adaptive'",
+        "attachments[0].content.type == 'AdaptiveCard'",
+        "attachments[0].content.version == '1.0'",
+        "count(attachments[0].content.body) == 2",
+        "attachments[0].content.body[0].type == 'TextBlock'",
+        "attachments[0].content.body[0].text == 'sandwich'",
+        "attachments[0].content.body[0].size == 'large'",
+        "attachments[0].content.body[1].type == 'FactSet'",
+        "count(attachments[0].content.body[1].facts) == 9",
+        "attachments[0].content.body[1].facts[0].title == 'quantity'",
+        "attachments[0].content.body[1].facts[0].value == 'no value'",
+        "attachments[0].content.body[1].facts[1].title == 'length'",
+        "attachments[0].content.body[1].facts[1].value == '(number: 6, units: Inch)'",
+        "attachments[0].content.body[1].facts[2].title == 'name'",
+        "attachments[0].content.body[1].facts[2].value == 'Chris'",
+        "attachments[0].content.body[1].facts[3].title == 'bread'",
+        "attachments[0].content.body[1].facts[3].value == 'whole wheat'",
+        "attachments[0].content.body[1].facts[4].title == 'meat'",
+        "attachments[0].content.body[1].facts[4].value == 'ham'",
+        "attachments[0].content.body[1].facts[5].title == 'cheese'",
+        "attachments[0].content.body[1].facts[5].value == 'swiss'",
+        "attachments[0].content.body[1].facts[6].title == 'toppings'",
+        "attachments[0].content.body[1].facts[6].value == 'lettuce'",
+        "attachments[0].content.body[1].facts[7].title == 'sauces'",
+        "attachments[0].content.body[1].facts[7].value == 'dijon mustard'",
+        "attachments[0].content.body[1].facts[8].title == 'price'",
+        "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
+        "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
+      ],
+      "description": "Response to input 8"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Is there any property you want to change? (no or the property name)",
+      "description": "Response to input 8"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "bread"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Which value do you want for bread?",
+      "description": "Response to input 9"
+    },
+    {
+      "$kind": "Microsoft.Test.UserSays",
+      "text": "rye"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReplyActivity",
+      "assertions": [
+        "type == 'message'",
+        "count(attachments) == 1",
+        "attachments[0].contentType == 'application/vnd.microsoft.card.adaptive'",
+        "attachments[0].content.type == 'AdaptiveCard'",
+        "attachments[0].content.version == '1.0'",
+        "count(attachments[0].content.body) == 2",
+        "attachments[0].content.body[0].type == 'TextBlock'",
+        "attachments[0].content.body[0].text == 'sandwich'",
+        "attachments[0].content.body[0].size == 'large'",
+        "attachments[0].content.body[1].type == 'FactSet'",
+        "count(attachments[0].content.body[1].facts) == 9",
+        "attachments[0].content.body[1].facts[0].title == 'quantity'",
+        "attachments[0].content.body[1].facts[0].value == 'no value'",
+        "attachments[0].content.body[1].facts[1].title == 'length'",
+        "attachments[0].content.body[1].facts[1].value == '(number: 6, units: Inch)'",
+        "attachments[0].content.body[1].facts[2].title == 'name'",
+        "attachments[0].content.body[1].facts[2].value == 'Chris'",
+        "attachments[0].content.body[1].facts[3].title == 'bread'",
+        "attachments[0].content.body[1].facts[3].value == 'rye'",
+        "attachments[0].content.body[1].facts[4].title == 'meat'",
+        "attachments[0].content.body[1].facts[4].value == 'ham'",
+        "attachments[0].content.body[1].facts[5].title == 'cheese'",
+        "attachments[0].content.body[1].facts[5].value == 'swiss'",
+        "attachments[0].content.body[1].facts[6].title == 'toppings'",
+        "attachments[0].content.body[1].facts[6].value == 'lettuce'",
+        "attachments[0].content.body[1].facts[7].title == 'sauces'",
+        "attachments[0].content.body[1].facts[7].value == 'dijon mustard'",
+        "attachments[0].content.body[1].facts[8].title == 'price'",
+        "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
+        "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
+      ],
+      "description": "Response to input 10"
+    },
+    {
+      "$kind": "Microsoft.Test.AssertReply",
+      "text": "Is there any property you want to change? (no or the property name)",
+      "description": "Response to input 10"
     },
     {
       "$kind": "Microsoft.Test.UserSays",

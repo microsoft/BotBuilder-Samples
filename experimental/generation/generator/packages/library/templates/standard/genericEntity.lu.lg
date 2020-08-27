@@ -5,6 +5,6 @@
 
 # template
 - ```
-${propertyName()}
-${operations(entity, null)}
+
+${operations(entity, null, true)}
 ```

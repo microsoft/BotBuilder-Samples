@@ -1,8 +1,8 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${roleEntities('string')}
+- ${['string']}
 
 # templates
-- ${flatten(['stringEntity.lg', 'stringEntity.lu', propertyTemplates()])}
+- ${propertyTemplates()}
 

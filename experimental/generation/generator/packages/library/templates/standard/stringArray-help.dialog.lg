@@ -1,0 +1,7 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${helpFilename()}
+
+# template
+- ${helpDialog()}

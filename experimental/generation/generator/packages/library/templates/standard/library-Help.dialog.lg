@@ -4,13 +4,12 @@
 - ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnIntent",
-    "intent": "Help",
-    "condition": "turn.recognized.score > 0.5",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Help()",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getPropertyHelpText(@PropertyName)}"           
+            "activity": "\${getPropertyHelpText('')}"           
         }
     ]
     ${designerIntent('Help')}

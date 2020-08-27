@@ -34,6 +34,6 @@ goto done
 echo genCopy [input] [output] [lubuild=yes]
 echo Copies input to output and publishes to LUIS if lubuild=yes
 echo Environment variable REPOS should also be set to the root of your github repos
-echo and LUIS_AUTHORING_KEY to your LUIS authoring key
+echo and set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>"
 
 :done

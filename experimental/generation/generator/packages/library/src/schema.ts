@@ -13,33 +13,12 @@ import * as ps from './processSchemas'
 let allof: any = require('json-schema-merge-allof')
 let parser: any = require('json-schema-ref-parser')
 
-export enum EntityType {
-    simple,
-    list,
-    prebuilt
-}
-
-export interface ListEntry {
-    value: string,
-    synonyms: string
-}
-
-export class Entity {
-    name: string
-    property: string
-    values?: ListEntry[]
-
-    constructor(name: string, property: string) {
-        this.name = name
-        this.property = property
-    }
-}
-
-type EntitySet = Record<string, Entity>
+// Map from entity name to property paths where it is used
+export type EntityToProperties = Record<string, string[]>
 
 /**
  * Extra properties:
- * $entities: [entity] defaults based on type, string -> [property], numbers -> [property, number]
+ * $entities: List of entities to use for property.
  * $templates: Template basenames to specialize for this property.
  */
 export class Schema {
@@ -110,39 +89,26 @@ export class Schema {
     }
 
     /**
-     * Return all entities found in schema.
+     * Return map from entity to properties that use it.
      */
-    allEntities(): Entity[] {
-        let entities: Entity[] = []
+    entityToProperties(): EntityToProperties {
+        let entities: EntityToProperties = {}
         this.addEntities(entities)
         return entities
     }
 
-    /**
-     * Return all of the entity types in schema.
-     */
-    entityTypes(): string[] {
-        let found: string[] = []
-        for (let entity of this.allEntities()) {
-            let [entityName, _] = entity.name.split(':')
-            if (!found.includes(entityName)) {
-                found.push(entityName)
-            }
-        }
-        return found
-    }
-
-    private addEntities(entities: Entity[]) {
+    private addEntities(entities: EntityToProperties) {
         if (this.schema.$entities) {
+            // Don't explore properties below an explicit mapping
             for (let entity of this.schema.$entities) {
-                // Do not include entities generated from property
-                if (!entities.hasOwnProperty(entity)) {
-                    let entityWrapper = new Entity(entity, this.path)
-                    entities.push(entityWrapper)
+                let list = entities[entity]
+                if (!list) {
+                    entities[entity] = list = []
                 }
+                list.push(this.path)
             }
         } else {
-            // Don't explore properties below an explicit mapping
+            // Add child properties
             for (let prop of this.schemaProperties()) {
                 prop.addEntities(entities)
             }

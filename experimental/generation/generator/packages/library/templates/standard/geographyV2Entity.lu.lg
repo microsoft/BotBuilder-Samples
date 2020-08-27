@@ -5,7 +5,7 @@
 
 # template
 - ```
-@ prebuilt geographyV2 ${roles()}
-${propertyName()}
-${operations('geographyV2', ["Ames, Iowa", "Chicago", "seattle"])}
+@ prebuilt geographyV2
+
+${operations('geographyV2', ["Ames, Iowa", "Chicago", "seattle"], false)}
 ```
