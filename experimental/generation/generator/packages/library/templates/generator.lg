@@ -324,9 +324,9 @@ ${'#'} ${property}Entity_getValueText(val)
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition": "$retries > 0 && $lastIntent != 'Help'",
+    "condition": "lib.helpCondition()",
     "runOnce": true,
-    "priority": "=lib.missingPriority('${property}')",
+    "priority": "0",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",

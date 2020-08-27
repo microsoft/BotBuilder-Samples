@@ -1,7 +1,7 @@
 > ${comment?}Example operations across properties and operations
 > Add() examples across properties
 - {@Add()=add ${entity} and ${entity}}
-- {@Add()=without ${entity}, ${entity} and ${entity}}
+- {@Add()=with ${entity}, ${entity} and ${entity}}
 
 > Remove() examples across properties
 - {@Remove()=delete ${entity} and ${entity}}
