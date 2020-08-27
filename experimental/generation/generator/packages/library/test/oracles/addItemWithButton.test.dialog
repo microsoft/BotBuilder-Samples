@@ -1,4 +1,5 @@
 {
+  "$schema": "https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/TestBot/TestBot/TestBot.schema",
   "$kind": "Microsoft.Test.Script",
   "dialog": "msmeeting-actions",
   "script": [
