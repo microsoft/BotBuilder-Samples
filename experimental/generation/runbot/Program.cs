@@ -23,6 +23,7 @@ namespace RunBotServer
             Console.WriteLine("--root <PATH>: Absolute path to the root directory for declarative resources all *.main.dialog be options.  Default current directory");
             Console.WriteLine("--region <REGION>: LUIS endpoint region.  Default westus");
             Console.WriteLine("--environment <ENVIRONMENT>: LUIS environment settings to use.  Default is user alias.");
+            Console.WriteLine("--dialog <DIALOG>: Name of root dialog to run.  By default all root *.dialog will be choices.");
             Console.WriteLine("To use LUIS you should do 'dotnet user-secrets set --id RunBot luis:endpointKey <yourKey>'");
         }
 
