@@ -1,0 +1,94 @@
+> This file contains language specific templates to help with the generation process
+[generator.lg](generator.lg)
+
+# nameTemplate()
+-```
+> Name of the '${property}' property
+${'#'} ${property}_Name()
+- ${phrase(property, locale)}```
+
+# valueTemplate()
+-```
+> Text for a '${property}' property value
+${'#'} ${property}_Value(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+# entityValueTemplate()
+-```
+> Text for a '${property}Entity' entity value
+${'#'} ${property}Entity_Value(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+>> Number
+# missingNumberPrompt()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# numberRanges()
+- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
+- ELSEIF:  ${schema.properties[property].minimum}
+- that is greater than \${dialogClass.schema.properties.${property}.minimum}
+- ELSEIF: ${schema.properties[property].maximum}
+- that is less than \${dialogClass.schema.properties.${property}.maximum}
+- ELSE:
+- 
+
+# changeNumberPrompt()
+- What do you want to change ${propertyName()} to?
+
+# repromptNumber()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# helpNumber()
+- ${propertyName()} is a number ${numberRanges()}
+
+# expectedSetNumberConfirmation(newVal)
+-
+
+# expectedReplaceNumberConfirmation(newVal)
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue(newVal)}
+
+# unexpectedSetNumberConfirmation(newVal)
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue(newVal)}
+
+# unexpectedReplaceNumberConfirmation(newVal)
+- Set ${propertyName()} to ${propertyValue(newVal)}
+
+>> Boolean
+
+# missingBoolean()
+- Enter a value for ${propertyName()}: true or false
+
+>> String
+
+# missingString()
+- Enter a value for ${propertyName()}
+
+>> Enum
+
+# missingEnumArray()
+- What values do you want to add for ${propertyName()}?
+
+# missingEnum()
+- Which value do you want for ${propertyName()}?
+
+# missingStringArray()
+- What values do you want to add for ${propertyName()}?
+
+>> Utilities
+# propertyName()
+- \${${property}_Name()}
+
+# propertyCurrentValue()
+- ${propertyValue(`\${dialog.${property}}`)}
+
+# propertyValue(val)
+- \${${property}_Value(${val})}

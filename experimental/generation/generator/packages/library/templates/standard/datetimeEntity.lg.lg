@@ -4,4 +4,4 @@
 - ${entityLGFilename()}
 
 # template
-- ${entityDisplay()}
+- ${entityValueTemplate()}

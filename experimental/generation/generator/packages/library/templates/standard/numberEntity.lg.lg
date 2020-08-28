@@ -1,8 +1,8 @@
-[generator.lg](../generator.lg)
+[generator.en-us.lg](../generator.en-us.lg)
 
 # filename
 - ${entityLGFilename()}
 
 # template
-- ${entityDisplay()}
+- ${entityValueTemplate()}
 

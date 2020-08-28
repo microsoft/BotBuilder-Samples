@@ -1,22 +1,25 @@
-> This file contains templates to help with the generation process
+> This file contains language independent templates to help with the generation process
+
+>> *** Miscellaneous
 
 > TODO: Remove this when EOL is part of expressions, then it will be os specific as opposed to windows specifice.
-# EOL
+# EOL()
 -\r\n
 
-# propertyFilename
+>> *** Filenames and Paths
+# propertyFilename()
 - ${locale}/${property}/${prefix}-${property}.${locale}.lg
 
-# entityLGFilename
+# entityLGFilename()
 - ${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
 
-# entityLUFilename
+# entityLUFilename()
 - ${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
 
-# missingFilename
+# missingFilename()
 - ${property}/${prefix}-${property}-missing.dialog
 
-# helpFilename
+# helpFilename()
 - ${property}/${prefix}-${property}-help.dialog
 
 # builtinEntityFilename(entity)
@@ -28,13 +31,13 @@
 # removeFilename(entity)
 - ${property}/${prefix}-${property}-remove-${entity}.dialog
 
-# clearFilename
+# clearFilename()
 - ${property}/${prefix}-${property}-clear.dialog
 
-# showFilename
+# showFilename()
 - ${property}/${prefix}-${property}-show.dialog
 
-# chooseEntityFilename
+# chooseEntityFilename()
 - ${property}/${prefix}-${property}Entity-choose.dialog
 
 # libraryFilename(name)
@@ -46,32 +49,19 @@
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
 
-# nameTemplate
--```
-> Template for generating display text for the name of the '${property}' property.
-${'#'} ${property}_getPropertyNameText
-- ${phrase(property, locale)}```
+> This is useful when importing another .lg file in order to add prefix/locale
+# importLG(name)
+-[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
 
-# valueTemplate
--```
-> Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(val)
- - IF: \${val}
- - \${val}
- - ELSE:
- - no value
-```
+>> *** Template lists
 
-# entityDisplay
--```
-> Template for generating display text for the value of the '${property}Entity' entity.
-${'#'} ${property}Entity_getValueText(val)
- - IF: \${val}
- - \${val}
- - ELSE:
- - no value
-```
+# propertyTemplates()
+- ${[`${type}Property.${locale}.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 
+# entityTemplates()
+- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
+
+>> *** Dialog templates
 # addDialog(entity)
 -```
 {
@@ -261,7 +251,7 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-# clearDialog
+# clearDialog()
 -```
 {
     "$schema": "${appSchema}",
@@ -282,7 +272,7 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-# showDialog
+# showDialog()
 -```
 {
     "$schema": "${appSchema}",
@@ -299,7 +289,7 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-# missingDialog
+# missingDialog()
 - ```
 {
     "$schema": "${appSchema}",
@@ -319,14 +309,14 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-# helpDialog
+# helpDialog()
 - ```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition": "lib.helpCondition()",
     "runOnce": true,
-    "priority": "0",
+    "priority": 0,
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -338,7 +328,8 @@ ${'#'} ${property}Entity_getValueText(val)
 }
 ```
 
-> Define operation entities for '${property}' property.
+>> *** LU Generation
+
 # operations(entity, values, label)
 - IF: ${examples}
 - ${generateOperations(entity, examples, label)}
@@ -443,31 +434,20 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 # synonyms(value)
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
 
-> Top-level template support
-# propertyTemplates
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
-
-# entityTemplates
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
-
-> This is useful when importing another .lg file in order to add prefix/locale
-# importLG(name)
--[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
-
-# luHeader
+# luHeader()
 -> !# @app.culture = ${locale}
 
-> Templates to use when expanding schemas
+>> *** Templates to use when expanding schemas
 
->> Operations defined in .lu
-# schemaOperations
+> Operations defined in .lu
+# schemaOperations()
 - ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
 
->> Define default operation for properties
-# schemaDefaultOperation
+> Define default operation for properties
+# schemaDefaultOperation()
 - ${{"": {"": "Add()"}}}
 
->> Designer information
+> Designer information
 # designerName(name)
 -, "$designer": {"name": "${name}"}
 
@@ -494,31 +474,3 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
-
-# missingNumber(property)
-- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameContent(property)} between ${schema.properties[property].minimum} and ${schema.properties[property].maximum}
-- ELSEIF:  ${schema.properties[property].minimum}
-- Enter a number for ${getPropertyNameContent(property)} that is greater than ${schema.properties[property].minimum}
-- ELSEIF: ${schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameContent(property)} that is less than ${schema.properties[property].maximum}
-- ELSE:
-- Enter a number for ${getPropertyNameContent(property)}
-
-# missingBoolean(property)
-- Enter a value for ${getPropertyNameContent(property)}: true or false
-
-# missingString(property)
-- Enter a value for ${getPropertyNameContent(property)}
-
-# missingEnumArray(property)
-- What values do you want to add for ${getPropertyNameContent(property)}?
-
-# missingEnum(property)
-- Which value do you want for ${getPropertyNameContent(property)}?
-
-# missingStringArray(property)
-- What values do you want to add for ${getPropertyNameContent(property)}?
-
-# getPropertyNameContent(property)
-- ${`\${${property}_getPropertyNameText()}`}
