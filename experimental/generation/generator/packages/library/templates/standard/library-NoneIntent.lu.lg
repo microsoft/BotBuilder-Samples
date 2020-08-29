@@ -1,2 +1,4 @@
+[generator.lg](../generator.lg)
+
 # templates
-- library-NoneIntent.${locale}.lu
+- ${intentLUTemplates('None')}

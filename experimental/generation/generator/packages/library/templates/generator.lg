@@ -1,12 +1,13 @@
 > This file contains language independent templates to help with the generation process
 
->> *** Miscellaneous
+>> Miscellaneous
 
 > TODO: Remove this when EOL is part of expressions, then it will be os specific as opposed to windows specifice.
 # EOL()
 -\r\n
 
->> *** Filenames and Paths
+>> Filenames and Paths
+
 # propertyFilename()
 - ${locale}/${property}/${prefix}-${property}.${locale}.lg
 
@@ -53,7 +54,7 @@
 # importLG(name)
 -[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
 
->> *** Template lists
+>> Template lists
 
 # propertyTemplates()
 - ${[`${type}Property.${locale}.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
@@ -61,7 +62,13 @@
 # entityTemplates()
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
 
->> *** Dialog templates
+# entityLUTemplates(entity)
+- ${`${entity}Entity.${locale}.lu`}
+
+# intentLUTemplates(intent)
+- ${`library-${intent}Intent.${locale}.lu`}
+
+>> Dialog templates
 # addDialog(entity)
 -```
 {
@@ -437,7 +444,7 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 # luHeader()
 -> !# @app.culture = ${locale}
 
->> *** Templates to use when expanding schemas
+>> Templates to use when expanding schemas
 
 > Operations defined in .lu
 # schemaOperations()

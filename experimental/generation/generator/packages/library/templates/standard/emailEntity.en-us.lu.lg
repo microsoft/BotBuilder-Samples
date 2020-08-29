@@ -1,0 +1,11 @@
+[generator.en-us.lg](../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('email')}
+
+# template
+- ```
+@ prebuilt email
+
+${operations('email', ["bob@gmail.com", "susan@hotmail.com", "john.smith@yahoo.com"], false)}
+```

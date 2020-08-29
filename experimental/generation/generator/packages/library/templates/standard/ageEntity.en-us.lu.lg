@@ -1,0 +1,10 @@
+[generator.en-us.lg](../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('age')}
+
+# template
+- ```
+@ prebuilt age
+${operations('age', ["5 years", "25", "13 years old"], false)}
+```

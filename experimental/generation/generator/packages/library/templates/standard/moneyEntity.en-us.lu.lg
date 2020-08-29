@@ -1,0 +1,11 @@
+[generator.en-us.lg](../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('money')}
+
+# template
+- ```
+@ prebuilt money
+
+${operations('money', ["$3.50", "12 dollars", "8 dollars and 25 cents"], false)}
+```
