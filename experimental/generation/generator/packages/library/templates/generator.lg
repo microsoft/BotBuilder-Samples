@@ -57,16 +57,22 @@
 >> Template lists
 
 # propertyTemplates()
-- ${[`${type}Property.${locale}.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
+- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
 
 # entityTemplates()
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
 
-# entityLUTemplates(entity)
-- ${`${entity}Entity.${locale}.lu`}
+# propertyLGTemplates(type)
+- ${`${locale}/${type}Property.${locale}.lg`}
 
-# intentLUTemplates(intent)
-- ${`library-${intent}Intent.${locale}.lu`}
+# entityLUTemplates(entity)
+- ${`${locale}/${entity}Entity.${locale}.lu`}
+
+# entityLGTemplates(entity)
+- ${`${locale}/${entity}Entity.${locale}.lg`}
+
+# libraryTemplates(name, type)
+- ${`${locale}/library-${name}.${locale}${type}`}
 
 >> Dialog templates
 # addDialog(entity)

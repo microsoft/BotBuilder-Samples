@@ -1,0 +1,11 @@
+[generator.en-us.lg](../../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('ordinalV2')}
+
+# template
+- ```
+@ prebuilt ordinalV2
+
+${operations('ordinalV2', ["1st", "second", "third", "last one"], false)}
+```

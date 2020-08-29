@@ -1,4 +1,4 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${intentLUTemplates('None')}
+- ${libraryTemplates('NoneIntent', '.lu')}

@@ -1,0 +1,11 @@
+[generator.en-us.lg](../../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('personName')}
+
+# template
+- ```
+@ prebuilt personName
+
+${operations('personName', ["Mike Smith", "John", "tom"], false)}
+```

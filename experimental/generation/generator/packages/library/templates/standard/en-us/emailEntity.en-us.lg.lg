@@ -1,0 +1,7 @@
+[generator.en-us.lg](../../generator.en-us.lg)
+
+# filename
+- ${entityLGFilename()}
+
+# template
+- ${entityValueTemplate()}

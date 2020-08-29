@@ -1,0 +1,81 @@
+[generator.en-us.lg](../../generator.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${importLG(`${property}Entity`)}
+${promptTemplates()}
+${helpTemplates()}
+${confirmationTemplates()}
+${validationTemplates()}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# promptTemplates()
+- ```
+>> Prompts
+
+> Prompt when '${property}' property is missing
+${'#'} ${property}_MissingPrompt
+- ${missingNumberPrompt()}
+
+> Prompt when '${property}' property has a value, but is being changed
+${'#'} ${property}_ChangePrompt
+- ${changeNumberPrompt()}```
+
+# helpTemplates()
+- ```
+>> Help
+
+> Help for '${property}' property reprompt
+${'#'} ${property}_RepromptHelp
+- ${repromptNumber()}
+
+> Help for '${property}' property
+${'#'} ${property}_Help
+- ${helpNumber()}```
+
+# confirmationTemplates()
+- ```
+>> Confirmation
+
+> Confirmation when adding expected value to empty '${property}' property
+${'#'} ${property}_ExpectedSetConfirmation(newVal)
+- ${expectedSetNumberConfirmation('newVal')}
+
+> Confirmation when replacing expected value in '${property}' property
+${'#'} ${property}_ExpectedReplaceConfirmation(newVal)
+- ${expectedReplaceNumberConfirmation('newVal')}
+
+> Confirmation when adding unexpected value to empty '${property}' property
+${'#'} ${property}_UnexpectedSetConfirmation(newVal)
+- ${unexpectedSetNumberConfirmation('newVal')}
+
+> Confirmation when replacing unexpected value in '${property}' property
+${'#'} ${property}_UnexpectedReplaceConfirmation(newVal)
+- ${unexpectedReplaceNumberConfirmation(property)}```
+
+# validationTemplates()
+- ```${tooSmall()}
+${tooBig()}```
+
+# tooSmall()
+- IF: ${schema.properties[property].minimum}
+    -```
+> ${property} property is less than minimum allowed value
+${'#'} ${property}_IsTooSmall
+- \${${property}_Name} must be at least \${dialogClass.properties.${property}.minimum}```
+- ELSE:
+    -
+
+# tooBig()
+- IF: ${schema.properties[property].maximum}
+    -```
+> ${property} property is greater than maximum allowed value
+${'#'} ${property}_IsTooBig
+- \${${property}_Name} must be no more than \${dialogClass.properties.${property}.maximum}```
+- ELSE:
+    -

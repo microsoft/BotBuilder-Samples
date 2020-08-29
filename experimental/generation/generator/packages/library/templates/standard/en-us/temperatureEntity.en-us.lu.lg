@@ -1,0 +1,11 @@
+[generator.en-us.lg](../../generator.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('temperature')}
+
+# template
+- ```
+@ prebuilt temperature
+
+${operations('temperature', ["32 degrees", "52 celsius", "200 kelvin"], false)}
+```

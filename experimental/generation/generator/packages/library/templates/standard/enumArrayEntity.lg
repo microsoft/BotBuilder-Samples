@@ -1,4 +1,6 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${entityLGTemplates('boolean')}
+- ${entityLGTemplates('enumArray')}
+
+
