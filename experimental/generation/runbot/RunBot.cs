@@ -18,7 +18,6 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Skills;
 using Microsoft.Extensions.Configuration;
 
 namespace RunBotServer
@@ -30,7 +29,7 @@ namespace RunBotServer
         private readonly ResourceExplorer _resourceExplorer;
         private IConfiguration _configuration;
 
-        public RunBot(ConversationState conversationState, ResourceExplorer resourceExplorer, BotFrameworkClient skillClient, SkillConversationIdFactoryBase conversationIdFactory, IConfiguration configuration)
+        public RunBot(ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
         {
             _dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
             _resourceExplorer = resourceExplorer;
