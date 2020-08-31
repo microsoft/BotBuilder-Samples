@@ -32,14 +32,25 @@ export async function generateTest(path: string, dialog: string, output: string,
     test.httpRequestMocks = mocks
 
     let userCount = 0
-    let description: string | undefined
+    let responses = 0
+    let description = 'BeginDialog'
     for (let record of transcript) {
         if (isBot(record)) {
             if (record.text) {
-                script.push({$kind: 'Microsoft.Test.AssertReply', text: record.text, description})
+                ++responses
+                script.push({
+                    $kind: 'Microsoft.Test.AssertReply',
+                    text: record.text,
+                    description: `${responses}: ${description}`
+                })
             } else if (record.attachments) {
                 let assertions: any[] = []
-                script.push({$kind: 'Microsoft.Test.AssertReplyActivity', assertions, description})
+                ++responses
+                script.push({
+                    $kind: 'Microsoft.Test.AssertReplyActivity', 
+                    assertions, 
+                    description: `${responses}: ${description}`
+                })
                 assertions.push(`type == 'message'`)
                 objectAssertions(record.attachments, assertions, 'attachments')
             }
@@ -47,9 +58,10 @@ export async function generateTest(path: string, dialog: string, output: string,
             if (record.text) {
                 script.push({$kind: 'Microsoft.Test.UserSays', 'text': record.text})
             } else if (record.value) {
-                script.push({$kind: 'Microsoft.Test.UserActivity','activity': {'type': record.type, 'value': record.value}})
+                script.push({$kind: 'Microsoft.Test.UserActivity', 'activity': {'type': record.type, 'value': record.value}})
             }
             ++userCount
+            responses = 0
             description = `Response to input ${userCount}`
         } else if (isConversationUpdate(record)) {
             let membersAdded: string[] = []
@@ -65,7 +77,7 @@ export async function generateTest(path: string, dialog: string, output: string,
             let request = record.value.request
             let mock = mocks.find(m => m.url === request.url && m.method === request.method)
             if (!mock) {
-                mock = { url: request.url, method: request.method }
+                mock = {url: request.url, method: request.method}
                 mocks.push(mock)
             }
             mock.responses.push({

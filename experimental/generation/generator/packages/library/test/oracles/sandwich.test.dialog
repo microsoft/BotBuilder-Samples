@@ -13,11 +13,13 @@
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "Welcome!"
+      "text": "Welcome!",
+      "description": "1: BeginDialog"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "Enter a value for name"
+      "text": "Enter a value for name",
+      "description": "2: BeginDialog"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -26,7 +28,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Did you mean add \"wheat\"\" to bread or add \"wheat\"\" to name?",
-      "description": "Response to input 1"
+      "description": "1: Response to input 1"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -35,7 +37,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Please choose a value for bread from [multi grain wheat, whole wheat]",
-      "description": "Response to input 2"
+      "description": "1: Response to input 2"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -44,7 +46,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Enter a value for name",
-      "description": "Response to input 3"
+      "description": "1: Response to input 3"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -53,7 +55,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Which value do you want for cheese?",
-      "description": "Response to input 4"
+      "description": "1: Response to input 4"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -62,22 +64,22 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "meat is set to ham.",
-      "description": "Response to input 5"
+      "description": "1: Response to input 5"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Added pickles to toppings",
-      "description": "Response to input 5"
+      "description": "2: Response to input 5"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Added lettuce to toppings",
-      "description": "Response to input 5"
+      "description": "3: Response to input 5"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "What values do you want to add for sauces?",
-      "description": "Response to input 5"
+      "description": "4: Response to input 5"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -86,17 +88,17 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Removed pickles from toppings",
-      "description": "Response to input 6"
+      "description": "1: Response to input 6"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "toppings: lettuce",
-      "description": "Response to input 6"
+      "description": "2: Response to input 6"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Enter a value for price",
-      "description": "Response to input 6"
+      "description": "3: Response to input 6"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -136,12 +138,12 @@
         "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
       ],
-      "description": "Response to input 7"
+      "description": "1: Response to input 7"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Is there any property you want to change? (no or the property name)",
-      "description": "Response to input 7"
+      "description": "2: Response to input 7"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -150,7 +152,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "length is set as (number: 6, units: Inch).",
-      "description": "Response to input 8"
+      "description": "1: Response to input 8"
     },
     {
       "$kind": "Microsoft.Test.AssertReplyActivity",
@@ -186,12 +188,12 @@
         "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
       ],
-      "description": "Response to input 8"
+      "description": "2: Response to input 8"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Is there any property you want to change? (no or the property name)",
-      "description": "Response to input 8"
+      "description": "3: Response to input 8"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -200,7 +202,7 @@
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Which value do you want for bread?",
-      "description": "Response to input 9"
+      "description": "1: Response to input 9"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -240,12 +242,12 @@
         "attachments[0].content.body[1].facts[8].value == '(number: 3, units: Dollar)'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
       ],
-      "description": "Response to input 10"
+      "description": "1: Response to input 10"
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
       "text": "Is there any property you want to change? (no or the property name)",
-      "description": "Response to input 10"
+      "description": "2: Response to input 10"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
