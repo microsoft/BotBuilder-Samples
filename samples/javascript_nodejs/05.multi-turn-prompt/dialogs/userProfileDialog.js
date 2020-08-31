@@ -186,8 +186,7 @@ class UserProfileDialog extends ComponentDialog {
 
             // If none of the attachments are valid images, the retry prompt should be sent.
             return !!validImages.length;
-        }
-        else {
+        } else {
             await promptContext.context.sendActivity('No attachments received. Proceeding without a profile picture...');
 
             // We can return true from a validator function even if Recognized.Succeeded is false.
