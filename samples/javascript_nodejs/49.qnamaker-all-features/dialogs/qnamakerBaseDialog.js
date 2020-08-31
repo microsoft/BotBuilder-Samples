@@ -28,7 +28,7 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
     constructor(knowledgebaseId, authkey, host) {
-        var noAnswer = ActivityFactory.DefaultNoAnswer;
+        var noAnswer = ActivityFactory.fromObject(DefaultNoAnswer);
         var filters = [];
         super(knowledgebaseId, authkey, host, noAnswer, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
