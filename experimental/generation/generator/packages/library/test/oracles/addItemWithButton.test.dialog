@@ -13,7 +13,8 @@
     },
     {
       "$kind": "Microsoft.Test.AssertReply",
-      "text": "I'm the Actions skill"
+      "text": "I'm the Actions skill",
+      "description": "1: BeginDialog"
     },
     {
       "$kind": "Microsoft.Test.UserSays",
@@ -80,7 +81,7 @@
         "attachments[0].content.version == '1.2'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
       ],
-      "description": "Response to input 1"
+      "description": "1: Response to input 1"
     },
     {
       "$kind": "Microsoft.Test.UserActivity",
@@ -178,7 +179,7 @@
         "attachments[0].content.version == '1.2'",
         "attachments[0].content.$schema == 'http://adaptivecards.io/schemas/adaptive-card.json'"
       ],
-      "description": "Response to input 2"
+      "description": "1: Response to input 2"
     }
   ],
   "httpRequestMocks": []
