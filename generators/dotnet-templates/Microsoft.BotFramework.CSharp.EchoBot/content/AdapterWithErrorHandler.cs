@@ -8,7 +8,7 @@ using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace __PROJECT_NAME__
+namespace EchoBot
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
