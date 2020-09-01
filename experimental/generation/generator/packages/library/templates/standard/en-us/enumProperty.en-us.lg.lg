@@ -5,26 +5,47 @@
 
 # template
 - ```
+${libraryImport('library')}
 ${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
+${promptTemplates(missingEnum(), changeEnum())}
+${helpTemplates(repromptEnum(), helpEnum())}
+${confirmationTemplates(expectedSetEnum(), 
+                        expectedReplaceEnum(),
+                        unexpectedSetEnum(),
+                        unexpectedReplaceEnum())}
 ${nameTemplate()}
-${ValueTemplate()}
+${enumValueTemplate()}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- ${missingEnum()}
-```
+# missingEnum()
+- Which value do you want for ${propertyName()}?
 
-# ValueTemplate
+# changeEnum()
+- What value should replace ${propertyCurrentValue()} in ${propertyName()}?
+
+# repromptEnum()
+- Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+
+# helpEnum()
+- Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+
+# expectedSetEnum()
+- ${' '}
+
+# expectedReplaceEnum()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# unexpectedSetEnum()
+- Set ${propertyName()} to ${propertyValue('newVal')}
+
+# unexpectedReplaceEnum()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# enumValueTemplate
 - ```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(val)
-- \${${property}Entity_getValueText(val)}
+${'#'} ${property}_Value(val)
+- \${${property}Entity_Value(val)}
 ```
 
 

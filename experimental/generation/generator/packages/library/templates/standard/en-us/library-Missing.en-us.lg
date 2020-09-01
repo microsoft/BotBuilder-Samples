@@ -4,13 +4,13 @@
 # getEnumPromptText(property)
 - ```
 ${getAutoHelpText()}
-Which value do you want for ${getPropertyNameText(property)}?
+Which value do you want for ${propertyName(property)}?
 ```
 
 # getEnumArrayPromptText(property)
 - ```
 ${getAutoHelpText()}
-What values do you want to add for ${getPropertyNameText(property)}?
+What values do you want to add for ${propertyName(property)}?
 ```
 
 # getIntegerPromptText(property)
@@ -18,34 +18,34 @@ What values do you want to add for ${getPropertyNameText(property)}?
 
 # getNumberPromptText(property)
 - IF: ${dialogClass.schema.properties[property].minimum && dialogClass.schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameText(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${propertyName(property)} between ${dialogClass.schema.properties[property].minimum} and ${dialogClass.schema.properties[property].maximum}
 - ELSEIF:  ${dialogClass.schema.properties[property].minimum}
-- Enter a number for ${getPropertyNameText(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
+- Enter a number for ${propertyName(property)} that is greater than ${dialogClass.schema.properties[property].minimum}
 - ELSEIF: ${dialogClass.schema.properties[property].maximum}
-- Enter a number for ${getPropertyNameText(property)} that is less than ${dialogClass.schema.properties[property].maximum}
+- Enter a number for ${propertyName(property)} that is less than ${dialogClass.schema.properties[property].maximum}
 - ELSE:
-- Enter a number for ${getPropertyNameText(property)}
+- Enter a number for ${propertyName(property)}
 
 # getStringPromptText(property)
 - ```
 ${getAutoHelpText()}
-Enter a value for ${getPropertyNameText(property)}
+Enter a value for ${propertyName(property)}
 ```
 
 # getStringArrayPromptText(property)
 -```
 ${getAutoHelpText()}
-What values do you want to add for ${getPropertyNameText(property)}?
+What values do you want to add for ${propertyName(property)}?
 ```
 
 # getBooleanPromptText(property)
 - ```
 ${getAutoHelpText()}
-Enter a value for ${getPropertyNameText(property)}: true or false
+Enter a value for ${propertyName(property)}: true or false
 ```
 
 # getArrayValueText(property, values)
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
 # getEnumArrayValueText(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity_getValueText`, value)), ', '), template(`${property}Entity_getValueText`, values))}
+- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity_value`, value)), ', '), template(`${property}Entity_value`, values))}

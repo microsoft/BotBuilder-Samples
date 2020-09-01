@@ -7,7 +7,7 @@
 -```${libraryImport('library.en-us.lg')}
 
 ${'#'} displayOperation(op, property, text)
-- \${operationName(op)} "\${text}"" to \${getPropertyNameText(property)}
+- \${operationName(op)} "\${text}"" to \${propertyName(property)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 ```

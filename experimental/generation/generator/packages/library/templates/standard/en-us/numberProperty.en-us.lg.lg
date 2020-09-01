@@ -5,12 +5,12 @@
 
 # template
 - ```
-${promptTemplates(missingNumberPrompt(), changeNumberPrompt())}
+${promptTemplates(missingNumber(), changeNumber())}
 ${helpTemplates(repromptNumber(), helpNumber())}
-${confirmationTemplates(expectedSetNumberConfirmation(), 
-                        expectedReplaceNumberConfirmation(),
-                        unexpectedSetNumberConfirmation(),
-                        unexpectedReplaceNumberConfirmation())}
+${confirmationTemplates(expectedSetNumber(), 
+                        expectedReplaceNumber(),
+                        unexpectedSetNumber(),
+                        unexpectedReplaceNumber())}
 ${validationTemplates()}
 ${nameTemplate()}
 ${valueTemplate()}
@@ -25,7 +25,7 @@ ${tooBig()}```
     -```
 > ${property} property is less than minimum allowed value
 ${'#'} ${property}_IsTooSmall
-- \${${property}_Name} must be at least \${dialogClass.properties.${property}.minimum}```
+- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
 - ELSE:
     -
 
@@ -34,6 +34,31 @@ ${'#'} ${property}_IsTooSmall
     -```
 > ${property} property is greater than maximum allowed value
 ${'#'} ${property}_IsTooBig
-- \${${property}_Name} must be no more than \${dialogClass.properties.${property}.maximum}```
+- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
 - ELSE:
     -
+
+# missingNumber()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# changeNumber()
+- Change ${propertyCurrentValue()} in ${propertyName()} to?
+
+# repromptNumber()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# helpNumber()
+- ${propertyName()} is a number ${numberRanges()}
+
+> TODO: Ideally this could be empty, today returns null
+# expectedSetNumber()
+- ${' '}
+
+# expectedReplaceNumber()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# unexpectedSetNumber()
+- Set ${propertyName()} to ${propertyValue('newVal')}
+
+# unexpectedReplaceNumber()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}

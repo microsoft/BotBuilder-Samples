@@ -23,6 +23,6 @@ ${'#'} ${property}_getPromptText
 # ValueTemplate
 - ```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(values)
+${'#'} ${property}_value(values)
 - \${getEnumArrayValueText('${property}', values)}```
 

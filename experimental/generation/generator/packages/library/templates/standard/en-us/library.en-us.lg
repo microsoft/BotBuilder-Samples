@@ -10,24 +10,24 @@
 # getWelcomeText
 - Welcome!
 
-# getPropertyNameText(property)
+# propertyName(property)
 - ${template(`${property}_Name`)}
 
-# getPropertyValueText(property, val)
+# propertyValue(property, val)
 - ${template(`${property}_Value`, val)}
 
-# getEntityValueText(property, val)
+# entityValue(property, val)
 - ${template(`${property}Entity_Value`, val)}
 
 > Display a value handling arrays and objects
-# getValueText(val)
+# value(val)
 - IF: ${isArray(val)}
-- [${join(foreach(val, elt, getValueTextSimple(elt)), ', ')}]
+- [${join(foreach(val, elt, valueSimple(elt)), ', ')}]
 > TODO: The val is necessary because isObject throws on null
 - ELSEIF: ${val && isObject(val)}
 > TODO: Use curly braces instead of ()
 > BUG in emulator 4.9.1: https://github.com/microsoft/BotFramework-Emulator/issues/2154
-- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${getValueText(elt.value)}`), ', ')})
+- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${value(elt.value)}`), ', ')})
 - ELSEIF: ${val}
 - ${val}
 - ELSE:
@@ -35,7 +35,7 @@
 
 > TODO: This really should be removed in the above and use the recursive definition.
 > But we need to wait for the runtime to be updated.
-# getValueTextSimple(val)
+# valueSimple(val)
 - IF: ${val}
 - ${val}
 - ELSE:
@@ -46,21 +46,24 @@
 
 # requiredProperties
 - IF: ${count(dialogClass.schema.required) > 0}
-- Required properties include: ${join(foreach(dialogClass.schema.required, property, getPropertyNameText(property)), ',')}
+- Required properties include: ${join(foreach(dialogClass.schema.required, property, propertyName(property)), ',')}
 - ELSE:
 - 
 
 # optionalProperties
 - IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, getPropertyNameText(property)), ', ')}${EOL()}
+- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, propertyName(property)), ', ')}${EOL()}
 - ELSE:
 - 
 
 # possibleValues(property)
-- ${foreach(dialogClass.schema.properties[property].enum, enum, getPropertyValueText(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].enum, enum, propertyValue(property, enum))}
 
 # possibleArrayValues(property)
-- ${foreach(dialogClass.schema.properties[property].items.enum, enum, getPropertyValueText(property, enum))}
+- ${foreach(dialogClass.schema.properties[property].items.enum, enum, propertyValue(property, enum))}
+
+# possibleValuesList(property)
+- [${join(possibleValues(property), ', ')}]
 
 # getCancelText
 - Do you want to end the conversation? (yes/no)

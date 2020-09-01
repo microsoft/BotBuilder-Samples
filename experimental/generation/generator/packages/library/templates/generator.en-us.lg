@@ -28,40 +28,6 @@ ${'#'} ${property}Entity_Value(val)
 ```
 
 >> Number
-# missingNumberPrompt()
-- Enter a number for ${propertyName()} ${numberRanges()}
-
-# numberRanges()
-- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
-- between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
-- ELSEIF:  ${schema.properties[property].minimum}
-- that is greater than \${dialogClass.schema.properties.${property}.minimum}
-- ELSEIF: ${schema.properties[property].maximum}
-- that is less than \${dialogClass.schema.properties.${property}.maximum}
-- ELSE:
-- 
-
-# changeNumberPrompt()
-- What do you want to change ${propertyName()} to?
-
-# repromptNumber()
-- Enter a number for ${propertyName()} ${numberRanges()}
-
-# helpNumber()
-- ${propertyName()} is a number ${numberRanges()}
-
-> TODO: Ideally this could be empty, today returns null
-# expectedSetNumberConfirmation()
-- ${' '}
-
-# expectedReplaceNumberConfirmation()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
-
-# unexpectedSetNumberConfirmation()
-- Set ${propertyName()} to ${propertyValue('newVal')}
-
-# unexpectedReplaceNumberConfirmation()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 >> Boolean
 
@@ -73,15 +39,12 @@ ${'#'} ${property}Entity_Value(val)
 # missingString()
 - Enter a value for ${propertyName()}
 
+# missingStringArray()
+- What values do you want to add for ${propertyName()}?
+
 >> Enum
 
 # missingEnumArray()
-- What values do you want to add for ${propertyName()}?
-
-# missingEnum()
-- Which value do you want for ${propertyName()}?
-
-# missingStringArray()
 - What values do you want to add for ${propertyName()}?
 
 >> Utilities
@@ -93,3 +56,13 @@ ${'#'} ${property}Entity_Value(val)
 
 # propertyValue(val)
 - \${${property}_Value(${val})}
+
+# numberRanges()
+- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
+- ELSEIF:  ${schema.properties[property].minimum}
+- that is greater than \${dialogClass.schema.properties.${property}.minimum}
+- ELSEIF: ${schema.properties[property].maximum}
+- that is less than \${dialogClass.schema.properties.${property}.maximum}
+- ELSE:
+- 

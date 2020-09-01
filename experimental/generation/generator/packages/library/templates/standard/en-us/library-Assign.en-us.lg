@@ -2,9 +2,9 @@
 
 # getNumberValidationText(property, number)
 - IF: ${less(number, dialogClass.schema.properties[property].minimum)}
-- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${getPropertyNameText(property)}.
+- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${propertyName(property)}.
 - ELSEIF: ${greater(number, dialogClass.schema.properties[property].maximum)}
-- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${getPropertyNameText(property)}.
+- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${propertyName(property)}.
 - ELSE:
 -
 
@@ -19,17 +19,17 @@
 
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
-- Required response for ${getPropertyNameText(property)} should be in ${dialogClass.schema.properties[property].$units}.
+- Required response for ${propertyName(property)} should be in ${dialogClass.schema.properties[property].$units}.
 - ELSE:
-- Unit for ${getPropertyNameText(property)} are not defined in the schema.
+- Unit for ${propertyName(property)} are not defined in the schema.
 
 # getSetObjectPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
 - 
 - ELSEIF: ${dialog[property]} 
-- ${getPropertyNameText(property)} is changed from ${getPropertyValueText(property, dialog[property])} to ${getPropertyValueText(property, val)}.
+- ${propertyName(property)} is changed from ${propertyValue(property, dialog[property])} to ${propertyValue(property, val)}.
 - ELSE: 
-- ${getPropertyNameText(property)} is set as ${getPropertyValueText(property, val)}.
+- ${propertyName(property)} is set as ${propertyValue(property, val)}.
 
 # getSetPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
@@ -41,19 +41,19 @@
 - IF:${dialog[property]}
 - ${getSetUnexpectedPropertyChangedText(property, val, dialog[property])}
 - ELSE:
-- ${getPropertyNameText(property)} is set to ${getPropertyValueText(property, val)}.
+- ${propertyName(property)} is set to ${propertyValue(property, val)}.
 
 # getSetUnexpectedPropertyChangedText(property, val, oldVal)
-- ${getPropertyNameText(property)} is changed from ${getPropertyValueText(property, oldVal)} to ${getPropertyValueText(property, val)}.
+- ${propertyName(property)} is changed from ${propertyValue(property, oldVal)} to ${propertyValue(property, val)}.
 
 # getSetArrayPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}
 - 
 - ELSE:
-- Added ${getPropertyValueText(property, val)} to ${getPropertyNameText(property)}
+- Added ${propertyValue(property, val)} to ${propertyName(property)}
 
 # getClearPropertyText(property)
-- ${getPropertyNameText(property)} has been cleared.
+- ${propertyName(property)} has been cleared.
 
 # getRemovePropertyText(property, val)
 - IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
@@ -62,7 +62,7 @@
 - ${getRemoveUnexpectedPropertyText(property, val)}
 
 # getRemoveUnexpectedPropertyText(property, val)
-- Removed ${getPropertyValueText(property, val)} from ${getPropertyNameText(property)}.
+- Removed ${propertyValue(property, val)} from ${propertyName(property)}.
 
 # getRemoveArrayPropertyText(property, val)
 - IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
@@ -72,10 +72,10 @@
 
 # getRemoveUnexpectedArrayPropertyText(property, val)
 - IF: ${contains(dialog[property], val)}
-- Removed ${getPropertyValueText(property, val)} from ${getPropertyNameText(property)}
+- Removed ${propertyValue(property, val)} from ${propertyName(property)}
 - ELSE:
-- ${getPropertyValueText(property, val)} is not in ${getPropertyNameText(property)}
+- ${propertyValue(property, val)} is not in ${propertyName(property)}
 
 # getShowPropertyText(property)
-- ${getPropertyNameText(property)}: ${getPropertyValueText(property, dialog[property])}
+- ${propertyName(property)}: ${propertyValue(property, dialog[property])}
 

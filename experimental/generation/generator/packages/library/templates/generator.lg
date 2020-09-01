@@ -45,7 +45,7 @@
 - library/${prefix}-${name}
 
 # libraryImport(name)
-- [${prefix}-${name}](${prefix}-${name})
+- [${prefix}-${name}](../library/${prefix}-${name})
 
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
