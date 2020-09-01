@@ -3,6 +3,11 @@
 
 const dotenv = require('dotenv');
 const path = require('path');
+
+// Import required bot configuration.
+const ENV_FILE = path.join(__dirname, '.env');
+dotenv.config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -13,10 +18,6 @@ const { MicrosoftAppCredentials } = require('botframework-connector');
 
 // This bot's main dialog.
 const { IntersectionBot } = require('./bot');
-
-// Import required bot configuration.
-const ENV_FILE = path.join(__dirname, '.env');
-dotenv.config({ path: ENV_FILE });
 
 // Create HTTP server
 const server = restify.createServer();

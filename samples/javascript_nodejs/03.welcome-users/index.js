@@ -3,6 +3,11 @@
 
 // Import required packages
 const path = require('path');
+
+// Read botFilePath and botFileSecret from .env file
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -10,10 +15,6 @@ const restify = require('restify');
 const { BotFrameworkAdapter, UserState, MemoryStorage } = require('botbuilder');
 
 const { WelcomeBot } = require('./bots/welcomeBot');
-
-// Read botFilePath and botFileSecret from .env file
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create bot adapter.
 // See https://aka.ms/about-bot-adapter to learn more about bot adapter.

@@ -1,21 +1,35 @@
-# teams-auth bot
+﻿# Teams Auth Bot
 
 Bot Framework v4 bot using Teams authentication
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with building a bot for Teams.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to get started with authentication in a bot for Microsoft Teams.
 
-At this stage the primary focus of this sample is how to use the Bot Framework support for oauth in your bot. The reason for prioritizing this is that Teams behaves slightly differently than other channels in this regard. Specifically an Invoke Activity is sent to the bot rather than the Event Activity used by other channels. _This Invoke Activity must be forwarded to the dialog if the OAuthPrompt is being used._ This is done by subclassing the ActivityHandler and this sample includes a reusable TeamsActivityHandler. This class is a candidate for future inclusion in the Bot Framework SDK.
+The focus of this sample is how to use the Bot Framework support for oauth in your bot. Teams behaves slightly differently than other channels in this regard. Specifically an Invoke Activity is sent to the bot rather than the Event Activity used by other channels. _This Invoke Activity must be forwarded to the dialog if the OAuthPrompt is being used._ This is done by subclassing the ActivityHandler and this sample includes a reusable TeamsActivityHandler. This class is a candidate for future inclusion in the Bot Framework SDK.
 
-The Teams channel is also capable of sending Message Reaction Activities and virtual methods for these are included in the `TeamsActivityHandler`. A Message Reaction Activity references the original Activity using the replyToId. This id would have actually been the value returned from a previous Message Activity the bot had sent. This activity should also be visible through the Activity Feed in Microsoft Teams, documentation for which can be found here https://docs.microsoft.com/en-us/microsoftteams/platform/concepts/activity-feed
+The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. The OAuth token is then used to make basic Microsoft Graph queries.
 
-The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
+> IMPORTANT: The manifest file in this app adds "token.botframework.com" to the list of `validDomains`. This must be included in any bot that uses the Bot Framework OAuth flow.
 
-## Running the sample
+## Prerequisites
+
+- Microsoft Teams is installed and you have an account (not a guest account)
+- [ngrok](https://ngrok.com/) or equivalent tunnelling solution
+
+## To try this sample
+
+> Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
+> the Teams service needs to call into the bot.
+
 1) Clone the repository
+```bash
+git clone https://github.com/Microsoft/botbuilder-samples.git
+```
 
-    ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
-    ```
+1) In a terminal, navigate to `botbuilder-samples\samples\python\46.teams-auth` folder
+
+1) Activate your desired virtual environment
+
+1) In the terminal, type `pip install -r requirements.txt`
 
 1) Run ngrok - point to port 3978
 
@@ -28,12 +42,6 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) Bring up a terminal, navigate to `botbuilder-samples\samples\python\46.teams-auth` folder
-
-1) Activate your desired virtual environment
-
-1) In the terminal, type `pip install -r requirements.txt`
-
 1) Update the `config.py` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
 1) __*This step is specific to Teams.*__
@@ -41,17 +49,19 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
     - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 
-1) Run your bot with `python app.py`
+- Run your bot with `python app.py`
 
-## Authentication
+## Interacting with the bot in Teams
 
-This sample uses bot authentication capabilities in Azure Bot Service.  Azure Bot Service provides features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. These updates also take steps towards an improved user experience by eliminating the magic code verification for some clients.
+> Note this `manifest.json` specified that the bot will be installed in a "personal" scope only. Please refer to Teams documentation for more details.
+
+You can interact with this bot by sending it a message. The bot will respond by requesting you to login to AAD, then making a call to the Graph API on your behalf and returning the results.
 
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
@@ -61,5 +71,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 - [Microsoft Teams Developer Platform](https://docs.microsoft.com/en-us/microsoftteams/platform/)

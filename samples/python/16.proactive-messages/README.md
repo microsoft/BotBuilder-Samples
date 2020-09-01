@@ -1,4 +1,4 @@
-# Proactive messages
+# Proactive Messages
 
 Bot Framework v4 proactive messages bot sample
 
@@ -13,27 +13,30 @@ Proactive messages can be useful in a variety of scenarios. If a bot sets a time
 This project has a notify endpoint that will trigger the proactive messages to be sent to
 all users who have previously messaged the bot.
 
-## Running the sample
+## To try this sample
+
 - Clone the repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\16.proactive-messages` folder
+- In a terminal, navigate to `botbuilder-samples\samples\python\16.proactive-messages` folder
 - Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
 - Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Connect to bot using Bot Framework Emulator
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Paste this URL in the emulator window - http://localhost:3978/api/messages
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-With the Bot Framework Emulator connected to your running bot, the sample will now respond to an HTTP GET that will trigger a proactive message.  The proactive message can be triggered from the command line using `curl` or similar tooling, or can be triggered by opening a browser windows and nagivating to `http://localhost:3978/api/notify`.
+With the Bot Framework Emulator connected to your running bot, the sample will not respond to an HTTP GET that will trigger a proactive message.  The proactive message can be triggered from the command line using `curl` or similar tooling, or can be triggered by opening a browser windows and navigating to `http://localhost:3978/api/notify`.
 
 ### Using curl
 
@@ -51,24 +54,33 @@ With the Bot Framework Emulator connected to your running bot, the sample will n
 - Navigate to `http://localhost:3978/api/notify`
 - Using the Bot Framework Emulator, notice a message was proactively sent to the user from the bot.
 
-## Proactive Messages
+## Interacting with the bot
 
 In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages based on activity, scheduled tasks, or external events.
 
-In order to send a proactive message using Bot Framework, the bot must first capture a conversation reference from an incoming message using `TurnContext.get_conversation_reference()`. This reference can be stored for later use.
+In order to send a proactive message using Bot Framework, the bot must first capture a conversation reference from an incoming message using `TurnContext.getConversationReference()`. This reference can be stored for later use.
 
-To send proactive messages, acquire a conversation reference, then use `adapter.continue_conversation()` to create a TurnContext object that will allow the bot to deliver the new outgoing message.
+To send proactive messages, acquire a conversation reference, then use `adapter.continueConversation()` to create a TurnContext object that will allow the bot to deliver the new outgoing message.
 
-## Deploy the bot to Azure
+### Avoiding Permission-Related Errors
+
+You may encounter permission-related errors when sending a proactive message. This can often be mitigated by using `MicrosoftAppCredentials.TrustServiceUrl()`. See [the documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=csharp#avoiding-401-unauthorized-errors) for more information.
+
+## Deploy this bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Send proactive messages](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=js)
+- [continueConversation Method](https://docs.microsoft.com/en-us/javascript/api/botbuilder/botframeworkadapter#continueconversation)
+- [getConversationReference Method](https://docs.microsoft.com/en-us/javascript/api/botbuilder-core/turncontext#getconversationreference)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

@@ -2,6 +2,11 @@
 // Licensed under the MIT License.
 
 const path = require('path');
+
+// Read environment variables from .env file
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -10,10 +15,6 @@ const { BotFrameworkAdapter, MemoryStorage, ConversationState, UserState } = req
 
 // This bot's main dialog.
 const { StateManagementBot } = require('./bots/stateManagementBot');
-
-// Read environment variables from .env file
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create HTTP server
 const server = restify.createServer();

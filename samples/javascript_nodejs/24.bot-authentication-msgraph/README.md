@@ -53,7 +53,7 @@ application setup for use in Azure Bot Service. The [scopes](https://developer.m
 
 [Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator from [here](https://github.com/microsoft/botframework-emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 - In Bot Framework Emulator Settings, enable `Use a sign-in verification code for OAuthCards` to receive the magic code
 
 ### Connect to bot using Bot Framework Emulator
@@ -62,7 +62,7 @@ application setup for use in Azure Bot Service. The [scopes](https://developer.m
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages
 
-## Authentication
+## Interacting with the bot
 
 This sample uses the bot authentication capabilities of Azure Bot Service, providing features to make it easier to develop a bot that
 authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, and so on. These updates also
