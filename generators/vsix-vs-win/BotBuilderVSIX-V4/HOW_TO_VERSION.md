@@ -17,7 +17,7 @@ The `.vstemplate` files have a `<CustomParameters></CustomParameters>` tag that 
 
 ```xml
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.10.0"/>         <<<-HAND-CRAFTED-semver
+      <CustomParameter Name="$templateversion$" Value="4.10.2"/>         <<<-HAND-CRAFTED-semver
     </CustomParameters>
 ```
 
