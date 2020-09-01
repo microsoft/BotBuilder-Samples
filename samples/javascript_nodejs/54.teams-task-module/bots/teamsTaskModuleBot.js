@@ -10,7 +10,7 @@ const Actions = [
     TaskModuleUIConstants.AdaptiveCard,
     TaskModuleUIConstants.CustomForm,
     TaskModuleUIConstants.YouTube
-]
+];
 
 class TeamsTaskModuleBot extends TeamsActivityHandler {
     constructor() {
@@ -39,20 +39,18 @@ class TeamsTaskModuleBot extends TeamsActivityHandler {
         // AdaptiveCard.  The result is the action to perform.
 
         const cardTaskFetchValue = taskModuleRequest.data.data;
-        var taskInfo = {};  // TaskModuleTaskInfo
+        var taskInfo = {}; // TaskModuleTaskInfo
 
-        if (cardTaskFetchValue == TaskModuleIds.YouTube) {
+        if (cardTaskFetchValue === TaskModuleIds.YouTube) {
             // Display the YouTube.html page
             taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + '/' + TaskModuleIds.YouTube + '.html';
             this.setTaskInfo(taskInfo, TaskModuleUIConstants.YouTube);
-        }
-        else if (cardTaskFetchValue == TaskModuleIds.CustomForm) {
+        } else if (cardTaskFetchValue === TaskModuleIds.CustomForm) {
             // Display the CustomForm.html page, and post the form data back via
             // handleTeamsTaskModuleSubmit.
             taskInfo.url = taskInfo.fallbackUrl = this.baseUrl + '/' + TaskModuleIds.CustomForm + '.html';
             this.setTaskInfo(taskInfo, TaskModuleUIConstants.CustomForm);
-        }
-        else if (cardTaskFetchValue == TaskModuleIds.AdaptiveCard) {
+        } else if (cardTaskFetchValue === TaskModuleIds.AdaptiveCard) {
             // Display an AdaptiveCard to prompt user for text, and post it back via
             // handleTeamsTaskModuleSubmit.
             taskInfo.card = this.createAdaptiveCardAttachment();
@@ -104,28 +102,28 @@ class TeamsTaskModuleBot extends TeamsActivityHandler {
     }
 
     getTaskModuleAdaptiveCardOptions() {
-        const adaptive_card = {
-            "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
-            "version": "1.0",
-            "type": "AdaptiveCard",
-            "body": [
+        const adaptiveCard = {
+            $schema: 'http://adaptivecards.io/schemas/adaptive-card.json',
+            version: '1.0',
+            type: 'AdaptiveCard',
+            body: [
                 {
-                    "type": "TextBlock",
-                    "text": "Task Module Invocation from Adaptive Card",
-                    "weight": "bolder",
-                    "size": 3,
-                },
+                    type: 'TextBlock',
+                    text: 'Task Module Invocation from Adaptive Card',
+                    weight: 'bolder',
+                    size: 3
+                }
             ],
-            "actions": Actions.map((cardType) => {
+            actions: Actions.map((cardType) => {
                 return {
-                    "type": "Action.Submit",
-                    "title": cardType.buttonTitle,
-                    "data": {"msteams": {"type": "task/fetch"}, "data": cardType.id}
+                    type: 'Action.Submit',
+                    title: cardType.buttonTitle,
+                    data: { msteams: { type: 'task/fetch' }, data: cardType.id }
                 };
             })
         };
 
-        return CardFactory.adaptiveCard(adaptive_card);
+        return CardFactory.adaptiveCard(adaptiveCard);
     }
 
     createAdaptiveCardAttachment() {

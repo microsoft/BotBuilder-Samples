@@ -2,6 +2,10 @@
 module.exports = {
     "extends": "standard",
     "rules": {    
+        "quotes": ["error", "single", {
+            "avoidEscape": true,
+            "allowTemplateLiterals": true
+        }],
         "semi": [2, "always"],
         "indent": [2, 4],
         "no-return-await": 0,
