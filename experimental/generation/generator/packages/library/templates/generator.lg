@@ -487,3 +487,49 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
+
+> Per-property LG templates
+
+# promptTemplates(missing, change)
+- ```
+>> Prompts
+
+> Prompt when '${property}' property is missing
+${'#'} ${property}_MissingPrompt
+- ${missing}
+
+> Prompt when '${property}' property has a value, but is being changed
+${'#'} ${property}_ChangePrompt
+- ${change}```
+
+# helpTemplates(reprompt, help)
+- ```
+>> Help
+
+> Help for '${property}' property reprompt
+${'#'} ${property}_RepromptHelp
+- ${reprompt}
+
+> Help for '${property}' property
+${'#'} ${property}_Help
+- ${help}```
+
+# confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace)
+- ```
+>> Confirmation
+
+> Confirmation when adding expected value to empty '${property}' property
+${'#'} ${property}_ExpectedSetConfirmation(newVal)
+- ${expectedSet}
+
+> Confirmation when replacing expected value in '${property}' property
+${'#'} ${property}_ExpectedReplaceConfirmation(newVal)
+- ${expectedReplace}
+
+> Confirmation when adding unexpected value to empty '${property}' property
+${'#'} ${property}_UnexpectedSetConfirmation(newVal)
+- ${unexpectedSet}
+
+> Confirmation when replacing unexpected value in '${property}' property
+${'#'} ${property}_UnexpectedReplaceConfirmation(newVal)
+- ${unexpectedReplace}```

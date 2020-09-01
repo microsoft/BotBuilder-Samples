@@ -50,17 +50,18 @@ ${'#'} ${property}Entity_Value(val)
 # helpNumber()
 - ${propertyName()} is a number ${numberRanges()}
 
-# expectedSetNumberConfirmation(newVal)
--
+> TODO: Ideally this could be empty, today returns null
+# expectedSetNumberConfirmation()
+- ${' '}
 
-# expectedReplaceNumberConfirmation(newVal)
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue(newVal)}
+# expectedReplaceNumberConfirmation()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
-# unexpectedSetNumberConfirmation(newVal)
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue(newVal)}
+# unexpectedSetNumberConfirmation()
+- Set ${propertyName()} to ${propertyValue('newVal')}
 
-# unexpectedReplaceNumberConfirmation(newVal)
-- Set ${propertyName()} to ${propertyValue(newVal)}
+# unexpectedReplaceNumberConfirmation()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 >> Boolean
 
@@ -88,7 +89,7 @@ ${'#'} ${property}Entity_Value(val)
 - \${${property}_Name()}
 
 # propertyCurrentValue()
-- ${propertyValue(`\${dialog.${property}}`)}
+- ${propertyValue(`dialog.${property}`)}
 
 # propertyValue(val)
 - \${${property}_Value(${val})}
