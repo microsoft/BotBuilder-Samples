@@ -9,10 +9,10 @@ ${libraryImport('library')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnum(), changeEnum())}
 ${helpTemplates(repromptEnum(), helpEnum())}
-${confirmationTemplates(expectedSetEnum(), 
-                        expectedReplaceEnum(),
-                        unexpectedSetEnum(),
-                        unexpectedReplaceEnum())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
 ${nameTemplate()}
 ${enumValueTemplate()}
 ```
@@ -28,18 +28,6 @@ ${enumValueTemplate()}
 
 # helpEnum()
 - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
-
-# expectedSetEnum()
-- ${' '}
-
-# expectedReplaceEnum()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
-
-# unexpectedSetEnum()
-- Set ${propertyName()} to ${propertyValue('newVal')}
-
-# unexpectedReplaceEnum()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # enumValueTemplate
 - ```

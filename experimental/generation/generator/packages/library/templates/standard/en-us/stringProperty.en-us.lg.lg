@@ -5,17 +5,33 @@
 
 # template
 - ```
-${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
+${promptTemplates(missingString(), changeString())}
+${helpTemplates(repromptString(), helpString())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
+${validationTemplates()}
 ${nameTemplate()}
 ${valueTemplate()}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- ${missingString()}
+# missingString()
+- Enter a value for ${propertyName()}
+
+# changeString()
+- Change ${propertyCurrentValue()} in ${propertyName()} to?
+
+# repromptString()
+- Any string is allowed for ${propertyName()}
+
+# helpString()
+- Any string is allowed for ${propertyName()}
+
+# validationTemplates()
+- IF: ${schema.properties[property].pattern}
+    -```${'#'} ${property}_NoPatternMatch()
+- ${propertyName()} does not match pattern \${dialogClass.properties.${property}.pattern}
 ```
+- ELSE:
+    -

@@ -36,9 +36,6 @@ ${'#'} ${property}Entity_Value(val)
 
 >> String
 
-# missingString()
-- Enter a value for ${propertyName()}
-
 # missingStringArray()
 - What values do you want to add for ${propertyName()}?
 
@@ -66,3 +63,15 @@ ${'#'} ${property}Entity_Value(val)
 - that is less than \${dialogClass.schema.properties.${property}.maximum}
 - ELSE:
 - 
+
+# expectedSetDefault()
+- ${' '}
+
+# expectedReplaceDefault()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# unexpectedSetDefault()
+- Set ${propertyName()} to ${propertyValue('newVal')}
+
+# unexpectedReplaceDefault()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}

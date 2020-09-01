@@ -7,36 +7,14 @@
 - ```
 ${promptTemplates(missingNumber(), changeNumber())}
 ${helpTemplates(repromptNumber(), helpNumber())}
-${confirmationTemplates(expectedSetNumber(), 
-                        expectedReplaceNumber(),
-                        unexpectedSetNumber(),
-                        unexpectedReplaceNumber())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
 ${validationTemplates()}
 ${nameTemplate()}
 ${valueTemplate()}
 ```
-
-# validationTemplates()
-- ```${tooSmall()}
-${tooBig()}```
-
-# tooSmall()
-- IF: ${schema.properties[property].minimum}
-    -```
-> ${property} property is less than minimum allowed value
-${'#'} ${property}_IsTooSmall
-- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
-- ELSE:
-    -
-
-# tooBig()
-- IF: ${schema.properties[property].maximum}
-    -```
-> ${property} property is greater than maximum allowed value
-${'#'} ${property}_IsTooBig
-- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
-- ELSE:
-    -
 
 # missingNumber()
 - Enter a number for ${propertyName()} ${numberRanges()}
@@ -50,15 +28,24 @@ ${'#'} ${property}_IsTooBig
 # helpNumber()
 - ${propertyName()} is a number ${numberRanges()}
 
-> TODO: Ideally this could be empty, today returns null
-# expectedSetNumber()
-- ${' '}
+# validationTemplates()
+- ```${tooSmall()}
+${tooBig()}```
 
-# expectedReplaceNumber()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+# tooSmall()
+- IF: ${schema.properties[property].minimum}
+    -```
+> ${property} property is less than minimum allowed value
+${'#'} ${property}_IsTooSmall()
+- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
+- ELSE:
+    -
 
-# unexpectedSetNumber()
-- Set ${propertyName()} to ${propertyValue('newVal')}
-
-# unexpectedReplaceNumber()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+# tooBig()
+- IF: ${schema.properties[property].maximum}
+    -```
+> ${property} property is greater than maximum allowed value
+${'#'} ${property}_IsTooBig()
+- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
+- ELSE:
+    -
