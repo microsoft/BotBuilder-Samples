@@ -22,7 +22,7 @@ ${chooseEntity()}
 
 # namePlusSwitch
 -```
-# ${property}Entity_value(value) 
+# ${property}Entity_Value(value) 
 - SWITCH: \${value}```
 
 # case(option)

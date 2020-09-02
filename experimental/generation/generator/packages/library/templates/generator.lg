@@ -86,7 +86,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getSetPropertyText('${property}', @${entity})}"
+            "activity": "\${confirmationText('${property}', @${entity})}"
         },
         {
             "$kind": "Microsoft.SetProperty",
@@ -129,7 +129,7 @@
             "elseActions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getSetPropertyText('${property}',  @${entity})}"
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
                 },
                 {
                     "$kind": "Microsoft.SetProperty",
@@ -164,7 +164,7 @@
             "elseActions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getSetPropertyText('${property}',  @${entity})}"
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
                 },
                 {
                     "$kind": "Microsoft.SetProperty",
@@ -312,7 +312,7 @@
     "actions": [
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${property}_getPromptText()}",
+            "activity": "\${${property}_MissingPrompt()}",
             "expectedProperties": [
                 "${property}"
             ]

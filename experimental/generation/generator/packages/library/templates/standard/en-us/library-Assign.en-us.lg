@@ -1,13 +1,5 @@
 [library.en-us.lg]
 
-# getNumberValidationText(property, number)
-- IF: ${less(number, dialogClass.schema.properties[property].minimum)}
-- ${number} is less than the minimum value ${dialogClass.schema.properties[property].minimum} for ${propertyName(property)}.
-- ELSEIF: ${greater(number, dialogClass.schema.properties[property].maximum)}
-- ${number} is greater than the maximum value ${dialogClass.schema.properties[property].maximum} for ${propertyName(property)}.
-- ELSE:
--
-
 # getDateValidationText
 - Please enter the correct date format.
 
@@ -22,29 +14,6 @@
 - Required response for ${propertyName(property)} should be in ${dialogClass.schema.properties[property].$units}.
 - ELSE:
 - Unit for ${propertyName(property)} are not defined in the schema.
-
-# getSetObjectPropertyText(property, val)
-- IF: ${contains($expectedProperties, property)}
-- 
-- ELSEIF: ${dialog[property]} 
-- ${propertyName(property)} is changed from ${propertyValue(property, dialog[property])} to ${propertyValue(property, val)}.
-- ELSE: 
-- ${propertyName(property)} is set as ${propertyValue(property, val)}.
-
-# getSetPropertyText(property, val)
-- IF: ${contains($expectedProperties, property)}
-- 
-- ELSE:
-- ${getSetUnexpectedPropertyText(property, val)}
-
-# getSetUnexpectedPropertyText(property, val)
-- IF:${dialog[property]}
-- ${getSetUnexpectedPropertyChangedText(property, val, dialog[property])}
-- ELSE:
-- ${propertyName(property)} is set to ${propertyValue(property, val)}.
-
-# getSetUnexpectedPropertyChangedText(property, val, oldVal)
-- ${propertyName(property)} is changed from ${propertyValue(property, oldVal)} to ${propertyValue(property, val)}.
 
 # getSetArrayPropertyText(property, val)
 - IF: ${contains($expectedProperties, property)}

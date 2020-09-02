@@ -232,7 +232,12 @@ function addPrefixToImports(template: string, scope: any): string {
 }
 
 function addPrefix(prefix: string, name: string): string {
-    return `${prefix}-${name}`
+    let dir = name.lastIndexOf('/');
+    if (dir >= 0) {
+        return `${name.substring(0, dir)}/${prefix}-${name.substring(dir + 1)}`;
+    } else {
+        return `${prefix}-${name}`;
+    }
 }
 
 // Add entry to the .lg generation context and return it.  
@@ -305,8 +310,8 @@ async function processTemplate(
                         }
                     } else if (filename.includes(scope.locale)) {
                         // Move constant files into locale specific directories
-                        let prop = templateName.startsWith('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
-                        filename = `${scope.locale}/${prop}/${filename}`
+                        let prop = templateName.includes('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
+                        filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
                         filename = `library/${filename}`
@@ -719,7 +724,7 @@ export async function generate(
         }
 
         let existingFiles = await fs.readdir(outDir)
-        if(existingFiles.length === 0){
+        if (existingFiles.length === 0) {
             force = false
             merge = false
         }

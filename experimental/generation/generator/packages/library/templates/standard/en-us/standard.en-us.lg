@@ -1,5 +1,5 @@
 > This file contains language specific templates to help with the generation process
-[generator.lg](generator.lg)
+[generator.lg](../../generator.lg)
 
 # nameTemplate()
 -```

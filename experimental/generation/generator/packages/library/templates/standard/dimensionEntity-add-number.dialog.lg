@@ -18,7 +18,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getSetObjectPropertyText('${property}', @dimension)}"
+                    "activity": "\${confirmationText('${property}', @dimension)}"
                 }, 
                 {
                     "$kind": "Microsoft.SetProperty",

@@ -14,7 +14,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getSetObjectPropertyText('${property}', @money)}"
+            "activity": "\${confirmationText('${property}', @money)}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",

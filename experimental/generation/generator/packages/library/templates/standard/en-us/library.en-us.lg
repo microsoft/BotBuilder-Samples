@@ -57,6 +57,12 @@
 # possibleValuesList(property)
 - [${join(possibleValues(property), ', ')}]
 
+# confirmationText(property, val)
+- IF: ${contains($expectedProperties, property)}
+    - ${template(if(dialog[property], `${property}_ExpectedSetConfirmation`, `${property}_ExpectedReplaceConfirmation`), val)}
+- ELSE:
+    - ${template(if(dialog[property], `${property}_UnexpectedReplaceConfirmation`, `${property}_UnexpectedReplaceConfirmation`), val)}
+
 # cancelPrompt
 - Do you want to end the conversation? (yes/no)
 

@@ -24,7 +24,7 @@
         "elseActions": [
             {
                 "$kind": "Microsoft.SendActivity",
-                "activity": "\${getSetObjectPropertyText('${property}', @datetime.type)}"
+                "activity": "\${confirmationText('${property}', @datetime.type)}"
             },
             {
                 "$kind": "Microsoft.SetProperty",

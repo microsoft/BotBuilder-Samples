@@ -15,13 +15,13 @@ ${ValueTemplate()}
 # AskTemplate
 - ```
 > Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
+${'#'} ${property}_MissingPrompt
 - ${missingString(property)}
 ```
 
 # ValueTemplate
 -```
 > Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_value(val)
+${'#'} ${property}_Value(val)
 - \${value(val)}
 ```

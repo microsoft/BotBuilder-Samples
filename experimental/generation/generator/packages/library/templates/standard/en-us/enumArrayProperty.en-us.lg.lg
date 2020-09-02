@@ -5,17 +5,23 @@
 
 # template
 - ```
-${libraryImport('library.en-us.lg')}
+${libraryImport('library.en-us')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnumArray(), changeEnumArray())}
 ${helpTemplates(repromptEnumArray(), helpEnumArray())}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedReplaceDefault())}
+                        expectedSetDefault(),
+                        unexpectedAdd(),
+                        unexpectedReplace())}
 ${nameTemplate()}
 ${enumArrayValueTemplate()}
 ```
+
+# unexpectedAdd()
+- Added ${propertyValue('newVal')} to ${propertyName()}
+
+# unexpectedReplace()
+- Added ${propertyValue('newVal')} to ${propertyName()}
 
 # missingEnumArray()
 - What values do you want to add for ${propertyName()}?
@@ -33,6 +39,6 @@ ${enumArrayValueTemplate()}
 - ```
 > Value of the '${property}' property
 ${'#'} ${property}_Value(val)
-- \${complexValue(val, `${property}Entity_Value`}
+- \${complexValue(val, `${property}Entity_Value`)}
 ```
 
