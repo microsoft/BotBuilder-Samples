@@ -11,8 +11,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using EchoBot.Bots;
-
 namespace EchoBot
 {
     public class Startup
@@ -33,7 +31,7 @@ namespace EchoBot
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, EchoBot>();
+            services.AddTransient<IBot, Bots.EchoBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
