@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 
 using __PROJECT_NAME__.Bots;
 
-namespace __PROJECT_NAME__
+namespace EchoBot
 {
     public class Startup
     {

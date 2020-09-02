@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace __PROJECT_NAME__
+namespace EmptyBot
 {
     public class Startup
     {
