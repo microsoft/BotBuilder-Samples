@@ -5,7 +5,7 @@
 
 # template
 - ```
-${promptTemplates(missingString(), changeString())}
+${promptTemplates(missingDefault('string'), changeDefault())}
 ${helpTemplates(repromptString(), helpString())}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedReplaceDefault(),
@@ -16,22 +16,16 @@ ${nameTemplate()}
 ${valueTemplate()}
 ```
 
-# missingString()
-- Enter a value for ${propertyName()}
-
-# changeString()
-- Change ${propertyCurrentValue()} in ${propertyName()} to?
-
 # repromptString()
-- Any string is allowed for ${propertyName()}
+- Any respsonse is allowed for ${propertyName()}
 
 # helpString()
-- Any string is allowed for ${propertyName()}
+- Any response is allowed for ${propertyName()}
 
 # validationTemplates()
 - IF: ${schema.properties[property].pattern}
-    -```${'#'} ${property}_NoPatternMatch()
-- ${propertyName()} does not match pattern \${dialogClass.properties.${property}.pattern}
+    -```${'#'} ${property}_NoPatternMatch(val)
+- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.properties.${property}.pattern}
 ```
 - ELSE:
     -

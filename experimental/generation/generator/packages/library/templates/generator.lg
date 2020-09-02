@@ -45,7 +45,7 @@
 - library/${prefix}-${name}
 
 # libraryImport(name)
-- [${prefix}-${name}](../library/${prefix}-${name})
+- [${prefix}-${name}](../library/${prefix}-${name}.lg)
 
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
@@ -123,7 +123,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getPatternValidationText(dialogClass.schema.properties['${property}'].pattern)}"
+                    "activity": "\${${property}_NoPatternMatch(@${entity})}"
                 }                    
             ],
             "elseActions":[
@@ -307,7 +307,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"=lib.missingCondition('${property}')",
+    "condition":"!\$${property}",
     "priority": "=lib.missingPriority('${property}')",
     "actions": [
         {

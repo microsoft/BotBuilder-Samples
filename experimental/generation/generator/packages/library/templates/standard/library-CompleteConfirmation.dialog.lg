@@ -14,7 +14,7 @@
         },
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${getConfirmChangeText()}",
+            "activity": "\${changePropertyPrompt()}",
             "expectedProperties": [
                 "CompleteConfirmation"
             ]

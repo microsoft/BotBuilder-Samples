@@ -4,24 +4,20 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
+- ```${libraryImport('library.en-us.lg')}
+${promptTemplates(missingObject(), changeDefault())}
+${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
 ${nameTemplate()}
-${ValueTemplate()}
+${complexValueTemplate(objectType())}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- ${missingString()}
-```
+# objectType()
+- ${phrase(schema.properties[property].$entities[0])}
 
-# ValueTemplate
--```
-> Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_value(val)
-- \${value(val)}
-```
+# missingObject()
+- Enter ${definite(objectType())} value for ${propertyName()}
+

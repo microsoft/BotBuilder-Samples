@@ -5,18 +5,19 @@
 
 # template
 - ```
-${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
+${promptTemplates(missingBoolean(), changeDefault())}
+${helpTemplates(repromptBoolean(), helpDefault('yes/no'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- ${missingBoolean(property)}
-```
+# missingBoolean()
+- Enter a yes/no value for ${propertyName()}
+
+# repromptBoolean()
+- 
 

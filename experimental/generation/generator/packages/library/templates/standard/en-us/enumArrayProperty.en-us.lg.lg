@@ -5,24 +5,34 @@
 
 # template
 - ```
+${libraryImport('library.en-us.lg')}
 ${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
+${promptTemplates(missingEnumArray(), changeEnumArray())}
+${helpTemplates(repromptEnumArray(), helpEnumArray())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedReplaceDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedReplaceDefault())}
 ${nameTemplate()}
-${ValueTemplate()}
+${enumArrayValueTemplate()}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- ${missingEnumArray()}
-```
+# missingEnumArray()
+- What values do you want to add for ${propertyName()}?
 
-# ValueTemplate
+# changeEnumArray()
+- What values should replace ${propertyCurrentValue()} in ${propertyName()}?
+
+# repromptEnumArray()
+- ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+
+# helpEnumArray()
+- ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+
+# enumArrayValueTemplate
 - ```
-> Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_value(values)
-- \${getEnumArrayValueText('${property}', values)}```
+> Value of the '${property}' property
+${'#'} ${property}_Value(val)
+- \${complexValue(val, `${property}Entity_Value`}
+```
 

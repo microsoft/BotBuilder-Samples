@@ -10,7 +10,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getNotUnderstoodText()}"           
+            "activity": "\${notUnderstood()}"           
         }
     ]
     ${designerIntent('None')}

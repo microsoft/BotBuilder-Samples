@@ -47,5 +47,3 @@ Enter a value for ${propertyName(property)}: true or false
 # getArrayValueText(property, values)
 - ${if(values, if(isArray(values), join(values, ', '), values), 'no value')}
 
-# getEnumArrayValueText(property, values)
-- ${if(isArray(values), join(foreach(values, value, template(`${property}Entity_value`, value)), ', '), template(`${property}Entity_value`, values))}

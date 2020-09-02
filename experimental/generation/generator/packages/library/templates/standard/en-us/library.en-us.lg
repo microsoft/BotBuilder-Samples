@@ -7,7 +7,7 @@
 # EOL
 -\n
 
-# getWelcomeText
+# welcome
 - Welcome!
 
 # propertyName(property)
@@ -19,25 +19,17 @@
 # entityValue(property, val)
 - ${template(`${property}Entity_Value`, val)}
 
-> Display a value handling arrays and objects
 # value(val)
-- IF: ${isArray(val)}
-- [${join(foreach(val, elt, valueSimple(elt)), ', ')}]
-> TODO: The val is necessary because isObject throws on null
-- ELSEIF: ${val && isObject(val)}
-> TODO: Use curly braces instead of ()
-> BUG in emulator 4.9.1: https://github.com/microsoft/BotFramework-Emulator/issues/2154
-- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${value(elt.value)}`), ', ')})
-- ELSEIF: ${val}
-- ${val}
-- ELSE:
-- no value
+- ${complexValue(val, null)}
 
-> TODO: This really should be removed in the above and use the recursive definition.
-> But we need to wait for the runtime to be updated.
-# valueSimple(val)
-- IF: ${val}
-- ${val}
+> Display a value handling arrays and objects and leaf display template
+# complexValue(val, leaf)
+- IF: ${isArray(val)}
+- [${join(foreach(val, elt, complexValue(elt, leaf)), ', ')}]
+- ELSEIF: ${isObject(val)}
+- {${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${complexValue(elt.value, leaf)}`), ', ')}}
+- ELSEIF: ${val}
+- ${if(leaf, template(leaf, val), val)}
 - ELSE:
 - no value
 
@@ -65,16 +57,16 @@
 # possibleValuesList(property)
 - [${join(possibleValues(property), ', ')}]
 
-# getCancelText
+# cancelPrompt
 - Do you want to end the conversation? (yes/no)
 
-# getConfirmChangeText
+# changePropertyPrompt
 - Is there any property you want to change? (no or the property name)
 
-# getChoosePropertyText
+# choosePropertyPrompt
 - Which property do you want to change?
 
-# getNotUnderstoodText
+# notUnderstood
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
 >
@@ -85,9 +77,6 @@
 
 # promptPriority(propertyName)
 - ${indexOf(dialog.requiredProperties, propertyName)}
-
-# missingCondition(property)
-- ${!dialog[property] || $PropertyToChange == property}
 
 # missingPriority(property)
 - ${indexOf(dialog.requiredProperties, property)}

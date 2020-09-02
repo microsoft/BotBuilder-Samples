@@ -9,7 +9,7 @@
     "actions":  [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getWelcomeText()}"           
+            "activity": "\${welcome()}"           
         }
     ]
 }
