@@ -11,7 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-using __PROJECT_NAME__.Bots;
+using EchoBot.Bots;
 
 namespace EchoBot
 {
