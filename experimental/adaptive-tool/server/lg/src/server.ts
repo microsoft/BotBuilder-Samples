@@ -27,7 +27,6 @@ import {
 	DidChangeWatchedFilesRegistrationOptions,
 	FileChangeType,
 	FoldingRangeParams,
-	FoldingRange
 } from 'vscode-languageserver';
 
 import * as completion from './providers/completion';
