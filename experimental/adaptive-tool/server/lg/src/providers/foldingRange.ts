@@ -28,7 +28,8 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 			for (var j = i + 1;j < lineCount;j++) {
 				const secLine = getCurrLine(document, lineCount, j);
 				if (secLine?.startsWith('>>') || secLine?.startsWith('#')) {
-					item.push(FoldingRange.create(i, j - 1));
+                    item.push(FoldingRange.create(i, j - 1));
+                    i = j;
 					break;
 				}
             }
