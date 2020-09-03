@@ -3,7 +3,7 @@ BotFramework adaptive tool is a vscode extension to help developers to improve t
 
 # Quick Start
 ## Install From Marketplace
-1. Install the [adaptive-tool] from marketplace.
+1. Install the [adaptive-tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from marketplace.
 2. Open a LG(.lg) or LU(.lu) file and the adaptive-tool extension will activate.
 
 ## Install From Local VSIX File
