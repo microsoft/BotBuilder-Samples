@@ -62,7 +62,8 @@ function startLgClient(context: ExtensionContext) {
 				didChangeWorkspaceFolders: ((data, next) => {
 					next(data);
 				})
-			}
+			},
+			provideFoldingRanges: (document, context, token, next) => next(document, context, token)
 		},
 		diagnosticCollectionName: 'lg'
 	};

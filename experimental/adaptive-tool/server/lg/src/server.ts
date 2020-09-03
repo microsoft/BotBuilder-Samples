@@ -25,7 +25,9 @@ import {
 	WorkspaceFolder,
 	DidChangeWatchedFilesNotification,
 	DidChangeWatchedFilesRegistrationOptions,
-	FileChangeType
+	FileChangeType,
+	FoldingRangeParams,
+	FoldingRange
 } from 'vscode-languageserver';
 
 import * as completion from './providers/completion';
@@ -34,6 +36,7 @@ import * as definition from './providers/definition';
 import * as hover from './providers/hover';
 import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
+import * as foldingRange from './providers/foldingRange'
 
 import * as util from './util';
 import { TemplatesStatus } from './templatesStatus';
@@ -85,6 +88,7 @@ connection.onInitialize((params: InitializeParams) => {
 			signatureHelpProvider: {
 				triggerCharacters: ['(', ',']
 			},
+			foldingRangeProvider: true,
 			workspace: {
 				workspaceFolders: {
 					supported: true
@@ -162,10 +166,13 @@ connection.onSignatureHelp((params: SignatureHelpParams) => {
 	return signature.provideSignatureHelp(params, documents);
 });
 
-
 connection.onDefinition((params: DefinitionParams) => {
 	return definition.provideDefinition(params, documents);
 });
+
+connection.onFoldingRanges((params: FoldingRangeParams) => {
+	return foldingRange.foldingRange(params, documents);
+})
 
 documents.onDidOpen(e => {
 	const filePath = Files.uriToFilePath(e.document.uri)!;
@@ -199,7 +206,7 @@ connection.onDidChangeWatchedFiles(_change => {
 			}
 		}
 	});
-	connection.console.log('We received an file change event');
+	// connection.console.log('We received an file change event');
 });
 
 // Make the text document manager listen on the connection
