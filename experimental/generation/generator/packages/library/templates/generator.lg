@@ -38,6 +38,9 @@
 # showFilename()
 - ${property}/${prefix}-${property}-show.dialog
 
+# changeFilename()
+- ${property}/${prefix}-${property}-change.dialog
+
 # chooseEntityFilename()
 - ${property}/${prefix}-${property}Entity-choose.dialog
 
@@ -57,7 +60,7 @@
 >> Template lists
 
 # propertyTemplates()
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`]}
+- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`, `${type}-change.dialog`]}
 
 # entityTemplates()
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
@@ -201,7 +204,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getSetArrayPropertyText('${property}', @${entity})}"
+            "activity": "\${confirmationText('${property}',  @${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -352,6 +355,26 @@
 }
 ```
 
+# changeDialog()
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition":"$PropertyToChange == '${property}''",
+    "priority": 1,
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${${property}_ChangePrompt()}",
+            "expectedProperties": [
+                "${property}"
+            ]
+        }
+    ]
+    ${designerChange(property)}
+}
+```
+
 >> *** LU Generation
 
 # operations(entity, values, label)
@@ -495,6 +518,9 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 
 # designerHelp(property)
 - ${designerName(`${property} - Help()`)}
+
+# designerChange(property)
+- ${designerName(`${property} - Change()`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}

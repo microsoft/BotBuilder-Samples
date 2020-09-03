@@ -1,18 +1,18 @@
 [library.en-us.lg]
 
-# getPropertiesAsActivity(name, properties)
+# propertiesAsActivity(name, properties)
 [Activity
-    Attachments=${json(getPropertiesAsCard(name, properties))}
+    Attachments=${json(propertiesAsCard(name, properties))}
 ]
 
 >>> To generate text instead of card, use this
-# getPropertiesAsText
+# propertiesAsText
 - ${join(foreach($requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
 
 # getPropertyValueDescriptionText(property)
 - The value of ${propertyName(property)} is ${propertyValue(property, dialog[property])}.
 
-# getPropertiesAsCard(name, properties)
+# propertiesAsCard(name, properties)
 -```
 {
     "type": "AdaptiveCard",
@@ -25,14 +25,14 @@
         },
         {
             "type": "FactSet",
-            "facts": [${getPropertiesAsFacts(properties)}]
+            "facts": [${propertiesAsFacts(properties)}]
         }
     ],
     "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
 }
 ```
 
-# getPropertiesAsFacts(properties)
+# propertiesAsFacts(properties)
 - ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
 
 # getPropertyAsFact(property)

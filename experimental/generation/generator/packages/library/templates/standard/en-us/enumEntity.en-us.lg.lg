@@ -13,8 +13,8 @@ ${chooseEntity()}
 
 # chooseEntity
 -```
-# ${property}Entity_getChooseEntityText
-- \${getChooseEnumEntityText(${concat("'", property, "'")})}
+# ${property}Entity_chooseEntity
+- \${chooseEnumEntity(${concat("'", property, "'")})}
 ```
 
 # propertyEntity

@@ -73,6 +73,7 @@
         "luis.lu.dialog",
         "library-BeginDialog.dialog",
         "library-CancelIntent.dialog",
+        "library-Change.dialog",
         "library-ChooseProperty.dialog",
         "library-HelpGlobal.dialog",
         "library-HelpReprompt.dialog",
