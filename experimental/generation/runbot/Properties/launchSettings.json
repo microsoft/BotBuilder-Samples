@@ -10,7 +10,7 @@
   "profiles": {
     "IIS Express": {
       "commandName": "IISExpress",
-      "commandLineArgs": "--root \"C:\\Users\\chrim\\source\\repos\\botbuilder-dotnet\\tests\\Microsoft.Bot.Builder.Dialogs.Adaptive.Tests\\Tests\\GeneratorTests\\sandwich\"",
+      "commandLineArgs": "--root C:\\Users\\chrim\\AppData\\Local\\Temp\\sandwich.out",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

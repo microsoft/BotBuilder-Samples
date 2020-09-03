@@ -10,12 +10,12 @@
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "count(dialog.events.Assignments) > 0",
+            "condition": "count($events.Assignments) > 0",
             "actions": [
                 {
                     "$kind":"Microsoft.EditArray",
                     "changeType": "take",
-                    "itemsProperty": "dialog.events.Assignments"
+                    "itemsProperty": "$events.Assignments"
                 }
             ],
             "elseActions": [

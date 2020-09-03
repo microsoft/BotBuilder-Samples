@@ -81,8 +81,7 @@
                 "-o",
                 "${env:TEMP}/sandwich.out",
                 "--force",
-                "--verbose",
-                "--debug"
+                "--verbose"
             ],
             "sourceMaps": true,
             "internalConsoleOptions": "openOnSessionStart"

@@ -6,11 +6,14 @@
 # template
 - ```
 ${promptTemplates(missingBoolean(), changeDefault())}
-${helpTemplates(repromptBoolean(), helpDefault('yes/no'))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedReplaceDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault())}
+                        unexpectedReplaceDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptBoolean(), helpDefault('yes/no'))}
+${showTemplate(showDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
 ```

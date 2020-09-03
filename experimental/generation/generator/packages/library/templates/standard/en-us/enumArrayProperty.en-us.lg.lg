@@ -8,11 +8,14 @@
 ${libraryImport('library.en-us')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnumArray(), changeEnumArray())}
-${helpTemplates(repromptEnumArray(), helpEnumArray())}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedSetDefault(),
                         unexpectedAdd(),
-                        unexpectedReplace())}
+                        unexpectedReplace(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptEnumArray(), helpEnumArray())}
+${showTemplate(showDefault())}
 ${nameTemplate()}
 ${enumArrayValueTemplate()}
 ```

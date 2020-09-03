@@ -154,22 +154,34 @@
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition":" @${entity} < dialogClass.schema.properties['${property}'].minimum || @${entity} > dialogClass.schema.properties['${property}'].maximum",
+            "condition":"@${entity} < dialogClass.schema.properties['${property}'].minimum",
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getNumberValidationText('${property}', @${entity})}"
+                    "activity": "\${${property}_IsTooSmall(@${entity})}"
                 }                    
             ],
             "elseActions":[
                 {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity})}"
-                },
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "= @${entity}"          
+                    "$kind": "Microsoft.IfCondition",
+                    "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
+                    "actions":[
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "\${${property}_IsTooBig(@${entity})}"
+                        }                    
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "\${confirmationText('${property}',  @${entity})}"
+                        },
+                        {
+                            "$kind": "Microsoft.SetProperty",
+                            "property": "$${property}",
+                            "value": "= @${entity}"          
+                        }
+                    ]
                 }
             ]
         }
@@ -227,7 +239,7 @@
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${getRemovePropertyText('${property}', @${entity})}"
+                    "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
                 },  
                 {
                     "$kind": "Microsoft.DeleteProperty",
@@ -251,7 +263,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getRemoveArrayPropertyText('${property}', @${entity})}"
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
         },
         {
             "$kind": "Microsoft.EditArray",
@@ -274,7 +286,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getClearPropertyText('${property}')}"
+            "activity": "\${${property}_ClearConfirmation()}}"
         },
         {
             "$kind": "Microsoft.DeleteProperty",
@@ -295,7 +307,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getShowPropertyText('${property}')}"
+            "activity": "\${${property}_Show()}"
         }
     ]               
     ${designerOp('Show')}     
@@ -327,13 +339,13 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition": "lib.helpCondition()",
+    "condition": "$retries > 0 && contains($expectedProperties, '${property}')",
     "runOnce": true,
     "priority": 0,
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getHelpText()}"
+            "activity": "\${${property}_Help()}"
         }
     ]
     
@@ -502,19 +514,7 @@ ${'#'} ${property}_MissingPrompt
 ${'#'} ${property}_ChangePrompt
 - ${change}```
 
-# helpTemplates(reprompt, help)
-- ```
->> Help
-
-> Help for '${property}' property reprompt
-${'#'} ${property}_RepromptHelp
-- ${reprompt}
-
-> Help for '${property}' property
-${'#'} ${property}_Help
-- ${help}```
-
-# confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace)
+# confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace, remove, clear)
 - ```
 >> Confirmation
 
@@ -532,4 +532,30 @@ ${'#'} ${property}_UnexpectedSetConfirmation(newVal)
 
 > Confirmation when replacing unexpected value in '${property}' property
 ${'#'} ${property}_UnexpectedReplaceConfirmation(newVal)
-- ${unexpectedReplace}```
+- ${unexpectedReplace}
+
+> Confirmation when value is removed from '${property}' property
+${'#'} ${property}_RemoveConfirmation(val)
+- ${remove}
+
+> Confirmation when '${property}' property is cleared
+${'#'} ${property}_ClearConfirmation()
+- ${clear}```
+
+# helpTemplates(reprompt, help)
+- ```
+>> Help
+
+> Help for '${property}' property reprompt
+${'#'} ${property}_RepromptHelp
+- ${reprompt}
+
+> Help for '${property}' property
+${'#'} ${property}_Help
+- ${help}```
+
+# showTemplate(show)
+- ```
+>> Show value of '${property}' property
+${'#'} ${property}_Show
+- ${show}```

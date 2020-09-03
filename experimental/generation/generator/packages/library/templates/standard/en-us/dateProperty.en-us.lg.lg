@@ -6,7 +6,6 @@
 # template
 - ```
 ${importLG('library')}
-${importLG('library-Missing')}
 ${AskTemplate()}
 ${nameTemplate()}
 ${ValueTemplate()}

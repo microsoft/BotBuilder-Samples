@@ -6,12 +6,15 @@
 # template
 - ```
 ${promptTemplates(missingNumber(), changeDefault())}
-${helpTemplates(repromptNumber(), helpNumber())}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedReplaceDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault())}
+                        unexpectedReplaceDefault(),
+                        removeDefault(),
+                        clearDefault())}
 ${validationTemplates()}
+${helpTemplates(repromptNumber(), helpNumber())}
+${showTemplate(showDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
 ```
@@ -32,17 +35,17 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${schema.properties[property].minimum}
     -```
-> ${property} property is less than minimum allowed value
-${'#'} ${property}_IsTooSmall()
-- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
+> Value is less then minimum allowed for '${property}' property
+${'#'} ${property}_IsTooSmall(val)
+- ${propertyValue('val')} must be at least \${dialogClass.properties.${property}.minimum} for ${propertyName()}```
 - ELSE:
     -
 
 # tooBig()
 - IF: ${schema.properties[property].maximum}
     -```
-> ${property} property is greater than maximum allowed value
-${'#'} ${property}_IsTooBig()
-- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
+> Value is greater than maximum allowed value for '${property}' property
+${'#'} ${property}_IsTooBig(val)
+- ${propertyValue('val')} must be no more than \${dialogClass.properties.${property}.maximum} for ${propertyName()}```
 - ELSE:
     -

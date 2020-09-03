@@ -6,45 +6,9 @@
 # getTimeValidationText
 - Please enter the correct time format.
 
-# getPatternValidationText(pattern)
-- The input should follow the pattern ${pattern} .
-
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
 - Required response for ${propertyName(property)} should be in ${dialogClass.schema.properties[property].$units}.
 - ELSE:
 - Unit for ${propertyName(property)} are not defined in the schema.
-
-# getSetArrayPropertyText(property, val)
-- IF: ${contains($expectedProperties, property)}
-- 
-- ELSE:
-- Added ${propertyValue(property, val)} to ${propertyName(property)}
-
-# getClearPropertyText(property)
-- ${propertyName(property)} has been cleared.
-
-# getRemovePropertyText(property, val)
-- IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
-- 
-- ELSE:
-- ${getRemoveUnexpectedPropertyText(property, val)}
-
-# getRemoveUnexpectedPropertyText(property, val)
-- Removed ${propertyValue(property, val)} from ${propertyName(property)}.
-
-# getRemoveArrayPropertyText(property, val)
-- IF: ${contains($expectedProperties, property) && startsWith($expectedOperation, 'RemoveFrom')}
-- 
-- ELSE:
-- ${getRemoveUnexpectedArrayPropertyText(property, val)}
-
-# getRemoveUnexpectedArrayPropertyText(property, val)
-- IF: ${contains(dialog[property], val)}
-- Removed ${propertyValue(property, val)} from ${propertyName(property)}
-- ELSE:
-- ${propertyValue(property, val)} is not in ${propertyName(property)}
-
-# getShowPropertyText(property)
-- ${propertyName(property)}: ${propertyValue(property, dialog[property])}
 

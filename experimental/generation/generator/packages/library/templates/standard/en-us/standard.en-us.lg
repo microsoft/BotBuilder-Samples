@@ -4,7 +4,7 @@
 # nameTemplate()
 -```
 > Name of the '${property}' property
-${'#'} ${property}_Name()
+${'#'} ${property}_Name
 - ${phrase(property, locale)}```
 
 # valueTemplate()
@@ -26,7 +26,7 @@ ${'#'} ${property}_Value(val)
 
 # entityValueTemplate()
 -```
-> Value for a '${property}Entity' entity
+> Value for ${definite(`${property}Entity`)} entity
 ${'#'} ${property}Entity_Value(val)
  - IF: \${val}
  - \${val}
@@ -44,7 +44,7 @@ ${'#'} ${property}Entity_Value(val)
 - \${${property}_Name()}
 
 # propertyCurrentValue()
-- ${propertyValue(`dialog.${property}`)}
+- ${propertyValue(`$${property}`)}
 
 # propertyValue(val)
 - \${${property}_Value(${val})}
@@ -90,3 +90,12 @@ ${'#'} ${property}Entity_Value(val)
 
 # unexpectedReplaceDefault()
 - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# removeDefault()
+- Removed ${propertyValue('val')} from ${propertyName()}
+
+# clearDefault()
+- Cleared ${propertyName()}
+
+# showDefault()
+- ${propertyName()}: ${propertyValue(`$${property}`)}

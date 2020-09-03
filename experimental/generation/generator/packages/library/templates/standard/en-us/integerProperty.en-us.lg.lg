@@ -6,12 +6,15 @@
 # template
 - ```
 ${promptTemplates(missingInteger(), changeDefault())}
-${helpTemplates(repromptInteger(), helpInteger())}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedReplaceDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault())}
+                        unexpectedReplaceDefault(),
+                        removeDefault(),
+                        clearDefault())}
 ${validationTemplates()}
+${helpTemplates(repromptInteger(), helpInteger())}
+${showTemplate(showDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
 ```

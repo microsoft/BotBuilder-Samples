@@ -8,7 +8,8 @@
 -\n
 
 # welcome
-- Welcome!
+- ```Welcome!
+You can add, remove, clear, show and ask for help.```
 
 # propertyName(property)
 - ${template(`${property}_Name`)}
@@ -49,17 +50,23 @@
 - 
 
 # possibleValues(property)
-- ${foreach(dialogClass.schema.properties[property].enum, enum, propertyValue(property, enum))}
+- ${foreach(enumValues(property), enum, propertyValue(property, enum))}
 
-# possibleArrayValues(property)
-- ${foreach(dialogClass.schema.properties[property].items.enum, enum, propertyValue(property, enum))}
+# isArrayProperty(property)
+- ${dialogClass.schema.properties[property].type == 'array'}
+
+# enumValues(property)
+- IF: ${isArrayProperty(property)}
+    - ${dialogClass.schema.properties[property].items.enum}
+- ELSE:
+    - ${dialogClass.schema.properties[property].enum}
 
 # possibleValuesList(property)
 - [${join(possibleValues(property), ', ')}]
 
 # confirmationText(property, val)
 - IF: ${contains($expectedProperties, property)}
-    - ${template(if(dialog[property], `${property}_ExpectedSetConfirmation`, `${property}_ExpectedReplaceConfirmation`), val)}
+    - ${template(if(dialog[property], `${property}_ExpectedReplaceConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
     - ${template(if(dialog[property], `${property}_UnexpectedReplaceConfirmation`, `${property}_UnexpectedReplaceConfirmation`), val)}
 
@@ -75,17 +82,11 @@
 # notUnderstood
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
->
-> FUNCTIONS, not text
-> TODO: These are not currently wired up because triggers don't pick them up.
-# shouldPrompt(propertyName)
-- ${!dialog[propertyName] || $PropertyToChange == `${propertyName}`}
-
-# promptPriority(propertyName)
-- ${indexOf(dialog.requiredProperties, propertyName)}
-
+>> FUNCTIONS for dialogs
 # missingPriority(property)
-- ${indexOf(dialog.requiredProperties, property)}
+- ${indexOf($requiredProperties, property)}
 
+> TODO: This is not being used because cannot walk inside of LG functions
+> https://github.com/microsoft/botbuilder-dotnet/issues/4576
 # helpCondition()
 - ${$retries > 0 && $lastIntent != 'Help'}

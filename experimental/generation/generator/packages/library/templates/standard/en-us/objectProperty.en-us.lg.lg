@@ -6,11 +6,14 @@
 # template
 - ```${libraryImport('library.en-us')}
 ${promptTemplates(missingObject(), changeDefault())}
-${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedReplaceDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault())}
+                        unexpectedReplaceDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
+${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(objectType())}
 ```

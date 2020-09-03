@@ -6,7 +6,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SetProperty",
-            "property": "dialog.recognized",
+            "property": "$recognized",
             "value": "=turn.recognized"
         },
         {
@@ -39,14 +39,14 @@
                 {
                     "$kind": "Microsoft.EmitEvent",
                     "eventName": "recognizedIntent",
-                    "eventValue": "=dialog.recognized.candidates[1].result"
+                    "eventValue": "=$recognized.candidates[1].result"
                 }
             ],
             "elseActions": [
                 {
                     "$kind": "Microsoft.EmitEvent",
                     "eventName": "recognizedIntent",
-                    "eventValue": "=dialog.recognized.candidates[0].result"
+                    "eventValue": "=$recognized.candidates[0].result"
                 }
             ]
         },
