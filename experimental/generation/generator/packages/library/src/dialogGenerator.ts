@@ -232,11 +232,11 @@ function addPrefixToImports(template: string, scope: any): string {
 }
 
 function addPrefix(prefix: string, name: string): string {
-    let dir = name.lastIndexOf('/');
+    let dir = name.lastIndexOf('/')
     if (dir >= 0) {
-        return `${name.substring(0, dir)}/${prefix}-${name.substring(dir + 1)}`;
+        return `${name.substring(0, dir)}/${prefix}-${name.substring(dir + 1)}`
     } else {
-        return `${prefix}-${name}`;
+        return `${prefix}-${name}`
     }
 }
 
