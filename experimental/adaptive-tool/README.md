@@ -16,8 +16,8 @@ BotFramework adaptive tool is a vscode extension to help developers to improve t
 ## Language Features
 language features are driven by [language server protocol](./languageServer.md)
 
-### Syntax Highlighting, Diagnostic Check, Auto-suggest, Functionality
-#### LU Documents
+### Syntax highlighting, diagnostic check, auto-suggest, functionality
+#### LU documents
 - Syntax highlighting
 ![lu_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
 - Diagnostic check
@@ -25,7 +25,7 @@ language features are driven by [language server protocol](./languageServer.md)
 - Completion 
 ![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_completion.gif)
 
-#### LG Documents
+#### LG documents
 - Syntax highlighting
 ![lg_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_syntax_highlighting.png)
 
@@ -49,7 +49,7 @@ language features are driven by [language server protocol](./languageServer.md)
 
 ## Debugging Feature
 ### Setting up and using Visual Studio Code to run client and server
-#### setting up
+#### Setting up
 To configure Visual Studio Code you need to add a target in your launch.settings file.
 
 * **Bot: Launch language server and client on vscode** - Configuration for building and launching your client on vscode and connecting to server
