@@ -1,0 +1,20 @@
+[generator.lg](../generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "$retries > 0",
+    "runOnce": true,
+    "priority": 0,
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${helpReprompt()}"
+        }
+    ]
+    
+    ${designerName('Reprompt Help')}
+}
+```

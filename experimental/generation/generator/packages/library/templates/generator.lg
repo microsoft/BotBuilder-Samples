@@ -334,14 +334,13 @@
 }
 ```
 
-# helpDialog()
+# helpPropertyDialog()
 - ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnEndOfActions",
-    "condition": "$retries > 0 && contains($expectedProperties, '${property}')",
-    "runOnce": true,
-    "priority": 0,
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Help()",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -539,7 +538,7 @@ ${'#'} ${property}_RemoveConfirmation(val)
 - ${remove}
 
 > Confirmation when '${property}' property is cleared
-${'#'} ${property}_ClearConfirmation()
+${'#'} ${property}_ClearConfirmation
 - ${clear}```
 
 # helpTemplates(reprompt, help)

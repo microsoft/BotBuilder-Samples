@@ -8,8 +8,7 @@
 -\n
 
 # welcome
-- ```Welcome!
-You can add, remove, clear, show and ask for help.```
+- Welcome!
 
 # propertyName(property)
 - ${template(`${property}_Name`)}
@@ -36,18 +35,6 @@ You can add, remove, clear, show and ask for help.```
 
 # publicProperties
 -${dialogClass.schema.$public}
-
-# requiredProperties
-- IF: ${count(dialogClass.schema.required) > 0}
-- Required properties include: ${join(foreach(dialogClass.schema.required, property, propertyName(property)), ',')}
-- ELSE:
-- 
-
-# optionalProperties
-- IF: ${add(count(dialogClass.schema.required),count(dialogClass.schema.$expectedOnly)) < count(dialogClass.schema.properties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.properties, property, !contains(dialogClass.schema.required, property) && !contains(dialogClass.schema.$expectedOnly, property)), property, propertyName(property)), ', ')}${EOL()}
-- ELSE:
-- 
 
 # possibleValues(property)
 - ${foreach(enumValues(property), enum, propertyValue(property, enum))}

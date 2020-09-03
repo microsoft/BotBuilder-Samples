@@ -4,4 +4,4 @@
 - ${helpFilename()}
 
 # template
-- ${helpDialog()}
+- ${helpPropertyDialog()}

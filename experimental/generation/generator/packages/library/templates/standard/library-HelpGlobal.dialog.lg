@@ -8,10 +8,14 @@
     "operation": "Help()",
     "actions": [
         {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$retries"
+        },
+        {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getPropertyHelpText('')}"           
+            "activity": "\${helpGlobal()}"           
         }
     ]
-    ${designerIntent('Help')}
+    ${designerName('Help Global')}
 }
 ```
