@@ -121,7 +121,6 @@ connection.onInitialized(() => {
 			workspaceFolders = workspaceFolders?.filter(workspaceFolder => !_event.removed.includes(workspaceFolder));
 			_event.added.forEach(folderAdded => workspaceFolders?.push(folderAdded));
 			util.triggerLGFileFinder(workspaceFolders!);
-			connection.console.log('Workspace folder change event received.');
 		});
 	}
 });
@@ -205,7 +204,6 @@ connection.onDidChangeWatchedFiles(_change => {
 			}
 		}
 	});
-	// connection.console.log('We received an file change event');
 });
 
 // Make the text document manager listen on the connection

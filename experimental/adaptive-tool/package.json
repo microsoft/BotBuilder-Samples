@@ -220,9 +220,7 @@
         "build:server": "webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
         "clean": "rimraf client/out && rimraf server/out",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd ..",
-        "test": "sh ./scripts/e2e.sh",
-		"compile": "tsc -b",
-		"watch": "tsc -b -w"
+        "test": "sh ./scripts/e2e.sh"
     },
     "devDependencies": {
         "@types/node": "^13.9.3",

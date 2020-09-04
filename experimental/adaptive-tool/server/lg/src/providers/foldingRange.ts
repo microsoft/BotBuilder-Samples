@@ -10,10 +10,10 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 		return item;
 	}
 	const lineCount = document.lineCount;
-	for (var i = 0;i < lineCount;i++) {
+	for (let i = 0;i < lineCount;i++) {
 		const currLine = getCurrLine(document, lineCount, i);
 		if (currLine?.startsWith('>>')) {
-			for (var j = i + 1;j < lineCount;j++) {
+			for (let j = i + 1;j < lineCount;j++) {
 				if (getCurrLine(document, lineCount, j)?.startsWith('>>')) {
                     item.push(FoldingRange.create(i, j - 1));
                     i = j;
@@ -22,18 +22,21 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 			}
         }
      }
-     for (var i = 0;i < lineCount;i++) {
-         const currLine = getCurrLine(document, lineCount, i);
-         if (currLine?.startsWith('#')) {
+     for (let i = 0;i < lineCount;i++) {
+        const currLine = getCurrLine(document, lineCount, i);
+        if (currLine?.startsWith('#')) {
 			for (var j = i + 1;j < lineCount;j++) {
 				const secLine = getCurrLine(document, lineCount, j);
 				if (secLine?.startsWith('>>') || secLine?.startsWith('#')) {
                     item.push(FoldingRange.create(i, j - 1));
-                    i = j;
+                    i = j - 1;
 					break;
 				}
             }
-            item.push(FoldingRange.create(i, j - 1))
+            if (i != j - 1) {
+                item.push(FoldingRange.create(i, j - 1));
+                i = j - 2;
+            }
 		}
 	}
 	return item;
