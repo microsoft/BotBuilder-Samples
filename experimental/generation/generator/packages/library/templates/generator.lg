@@ -360,7 +360,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"$PropertyToChange == '${property}''",
+    "condition":"$PropertyToChange == '${property}'",
     "priority": 1,
     "actions": [
         {

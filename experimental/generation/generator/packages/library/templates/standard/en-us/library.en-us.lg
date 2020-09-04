@@ -70,8 +70,9 @@
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
 >> FUNCTIONS for dialogs
+> The offset is to leave room for things like PropertyToChange
 # missingPriority(property)
-- ${indexOf($requiredProperties, property)}
+- ${if(indexOf($requiredProperties, property) < 0, -1, 100 + indexOf($requiredProperties, property))}
 
 > TODO: This is not being used because cannot walk inside of LG functions
 > https://github.com/microsoft/botbuilder-dotnet/issues/4576
