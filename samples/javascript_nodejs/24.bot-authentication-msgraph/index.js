@@ -2,13 +2,12 @@
 // Licensed under the MIT License.
 
 const restify = require('restify');
+const path = require('path');
 
 // Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
 // This MicrosoftApp should have OAuth enabled.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
-
-const path = require('path');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
