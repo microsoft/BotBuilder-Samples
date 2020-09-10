@@ -401,6 +401,7 @@
 > entity: current entity
 > isArray: true if property supports multiple values
 > comment: empty value to filter out meta-comments
+> TODO: Would be nice to be able to have multi-line object here for clarity
 # generateOperations(entity, values, label)
 -```
 > Define phrase list for ${property} property.
@@ -548,7 +549,7 @@ ${'#'} ${property}_ExpectedSetConfirmation(newVal)
 - ${expectedSet}
 
 > Confirmation when replacing expected value in '${property}' property
-${'#'} ${property}_ExpectedReplaceConfirmation(newVal)
+${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
 - ${expectedReplace}
 
 > Confirmation when adding unexpected value to empty '${property}' property
@@ -556,7 +557,7 @@ ${'#'} ${property}_UnexpectedSetConfirmation(newVal)
 - ${unexpectedSet}
 
 > Confirmation when replacing unexpected value in '${property}' property
-${'#'} ${property}_UnexpectedReplaceConfirmation(newVal)
+${'#'} ${property}_UnexpectedUpdateConfirmation(newVal)
 - ${unexpectedReplace}
 
 > Confirmation when value is removed from '${property}' property

@@ -5,22 +5,21 @@
 
 # template
 - ```
-${importLG('library')}
-${AskTemplate()}
+${promptTemplates(missingDefault('date'), changeDefault('date'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault('date'), helpDefault('date'))}
+${showTemplate(showDefault())}
+${validationTemplate()}
 ${nameTemplate()}
-${ValueTemplate()}
+${valueTemplate()}
 ```
 
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_MissingPrompt
-- ${missingString(property)}
-```
-
-# ValueTemplate
--```
-> Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_Value(val)
-- \${value(val)}
-```
+# validationTemplate
+- ```> Invalid value for '${property}' property
+${'#'} ${property}_invalidDate(val)
+- \${value(val)} is not a date```

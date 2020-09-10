@@ -5,11 +5,11 @@
 
 # template
 - ```
-${promptTemplates(missingDefault('string'), changeDefault())}
+${promptTemplates(missingDefault('string'), changeDefault('string'))}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${helpTemplates(repromptString(), helpString())}
@@ -20,7 +20,7 @@ ${valueTemplate()}
 ```
 
 # repromptString()
-- Any respsonse is allowed for ${propertyName()}
+- Any response is allowed for ${propertyName()}
 
 # helpString()
 - Any response is allowed for ${propertyName()}

@@ -1,11 +1,5 @@
 [library.en-us.lg]
 
-# getDateValidationText
-- Please enter the correct date format.
-
-# getTimeValidationText
-- Please enter the correct time format.
-
 # getUnitsAlertText(property)
 - IF: ${dialogClass.schema.properties[property].$units}
 - Required response for ${propertyName(property)} should be in ${dialogClass.schema.properties[property].$units}.

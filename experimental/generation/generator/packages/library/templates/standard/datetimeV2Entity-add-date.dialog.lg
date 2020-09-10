@@ -9,7 +9,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Add(${property})",
-    "entity": "datetime",
+    "entity": "datetimeV2",
     "actions": [
         {
         "$kind": "Microsoft.IfCondition",
@@ -17,7 +17,7 @@
         "actions": [
             {
                 "$kind": "Microsoft.SendActivity",
-                "activity": "\${getDateValidationText()}"
+                "activity": "\${${property}_invalidDate(@datetime)}"
             }
         ],
         "elseActions": [
@@ -28,7 +28,7 @@
             {
                 "$kind": "Microsoft.SetProperty",
                 "property": "$${property}",
-                "value": "=@datetime"
+                "value": "=@datetimeV2"
             }
         ]
       }

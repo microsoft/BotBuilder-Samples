@@ -8,10 +8,10 @@
 ${libraryImport('library.en-us')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnumArray(), changeEnumArray())}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedSetDefault(),
-                        unexpectedAdd(),
-                        unexpectedReplace(),
+${confirmationTemplates(expectedAddDefault(), 
+                        expectedAddUpdateDefault(),
+                        unexpectedAddDefault(),
+                        unexpectedAddUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${helpTemplates(repromptEnumArray(), helpEnumArray())}
@@ -19,12 +19,6 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${enumArrayValueTemplate()}
 ```
-
-# unexpectedAdd()
-- Added ${propertyValue('newVal')} to ${propertyName()}
-
-# unexpectedReplace()
-- Added ${propertyValue('newVal')} to ${propertyName()}
 
 # missingEnumArray()
 - What values do you want to add for ${propertyName()}?

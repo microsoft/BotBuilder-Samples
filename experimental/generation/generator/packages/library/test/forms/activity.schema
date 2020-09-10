@@ -15,7 +15,7 @@
         },
         "StartDate": { 
             "type": "string",
-            "$entities": [ "datetime" ]
+            "$entities": [ "datetimeV2" ]
         }
     },
     "required":["Subject", "ActivityType", "StartDate"],

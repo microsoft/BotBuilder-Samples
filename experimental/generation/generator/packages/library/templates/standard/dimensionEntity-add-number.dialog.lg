@@ -34,7 +34,7 @@
             ]
         }
     ]
-    ${designerOpEntity('Add', 'number')}             
+    ${designerOpEntity('Add', 'dimension')}             
 }
 ```
 

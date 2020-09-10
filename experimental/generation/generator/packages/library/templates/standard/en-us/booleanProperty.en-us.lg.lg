@@ -5,11 +5,11 @@
 
 # template
 - ```
-${promptTemplates(missingBoolean(), changeDefault())}
+${promptTemplates(missingDefault('yes/no value'), changeDefault('yes/no'))}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${helpTemplates(repromptBoolean(), helpDefault('yes/no'))}
@@ -17,9 +17,6 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
 ```
-
-# missingBoolean()
-- Enter a yes/no value for ${propertyName()}
 
 # repromptBoolean()
 - 

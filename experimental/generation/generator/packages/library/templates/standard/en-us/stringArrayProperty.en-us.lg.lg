@@ -5,23 +5,15 @@
 
 # template
 - ```
-${importLG(`${property}Entity`)}
-${importLG('library')}
-${AskTemplate()}
+${promptTemplates(missingDefault('email'), changeDefault('email'))}
+${confirmationTemplates(expectedAddDefault(), 
+                        expectedAddUpdateDefault(),
+                        unexpectedAddDefault(),
+                        unexpectedAddUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}'
+${helpTemplates(repromptDefault('email'), helpDefault('email'))}
+${showTemplate(showDefault())}
 ${nameTemplate()}
-${ValueTemplate()}
+${valueTemplate()}
 ```
-
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_MissingPrompt
-- ${missingStringArray(property)}
-```
-
-# ValueTemplate
-- ```
-> Template for generating display text for the value of the '${property}' property.
-# ${property}_Value(values)
-- \${getArrayValueText('${property}', values)}```
-

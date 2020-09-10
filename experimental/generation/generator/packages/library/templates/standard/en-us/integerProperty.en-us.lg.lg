@@ -5,11 +5,11 @@
 
 # template
 - ```
-${promptTemplates(missingInteger(), changeDefault())}
+${promptTemplates(missingInteger(), changeDefault('integer'))}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${validationTemplates()}

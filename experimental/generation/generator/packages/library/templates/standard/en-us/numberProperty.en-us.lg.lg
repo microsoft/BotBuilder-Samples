@@ -7,9 +7,9 @@
 - ```
 ${promptTemplates(missingNumber(), changeDefault())}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${validationTemplates()}

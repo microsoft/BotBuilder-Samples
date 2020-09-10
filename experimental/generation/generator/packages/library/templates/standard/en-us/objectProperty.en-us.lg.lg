@@ -5,11 +5,11 @@
 
 # template
 - ```${libraryImport('library.en-us')}
-${promptTemplates(missingObject(), changeDefault())}
+${promptTemplates(missingDefault(objectType()), changeDefault(objectType()))}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
@@ -20,7 +20,3 @@ ${complexValueTemplate(objectType())}
 
 # objectType()
 - ${phrase(schema.properties[property].$entities[0])}
-
-# missingObject()
-- Enter ${definite(objectType())} value for ${propertyName()}
-

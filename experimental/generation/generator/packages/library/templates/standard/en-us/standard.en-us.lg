@@ -70,7 +70,7 @@ ${'#'} ${property}Entity_Value(val)
 # missingDefault(type)
 - Enter ${definite(type)} for ${propertyName()}
 
-# changeDefault()
+# changeDefault(type)
 - Change ${propertyCurrentValue()} in ${propertyName()} to?
 
 # repromptDefault(type)
@@ -79,16 +79,17 @@ ${'#'} ${property}Entity_Value(val)
 # helpDefault(type)
 - ${propertyName()} is ${definite(type)} property
 
+> TODO: This is because of a bug in template expansion
 # expectedSetDefault()
 - ${' '}
 
-# expectedReplaceDefault()
+# expectedUpdateDefault()
 - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # unexpectedSetDefault()
 - Set ${propertyName()} to ${propertyValue('newVal')}
 
-# unexpectedReplaceDefault()
+# unexpectedUpdateDefault()
 - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # removeDefault()
@@ -99,3 +100,20 @@ ${'#'} ${property}Entity_Value(val)
 
 # showDefault()
 - ${propertyName()}: ${propertyValue(`$${property}`)}
+
+> Arrays
+
+# expectedAddDefault()
+- ${' '}
+
+# expectedAddUpdateDefault()
+- ${' '}
+
+# unexpectedAddDefault()
+- Added ${propertyValue('newVal')} to ${propertyName()}
+
+# unexpectedAddUpdateDefault()
+- ${unexpectedAddDefault()}
+
+
+

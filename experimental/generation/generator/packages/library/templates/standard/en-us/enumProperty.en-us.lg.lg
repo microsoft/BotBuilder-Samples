@@ -9,9 +9,9 @@ ${libraryImport('library.en-us')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnum(), changeEnum())}
 ${confirmationTemplates(expectedSetDefault(), 
-                        expectedReplaceDefault(),
+                        expectedUpdateDefault(),
                         unexpectedSetDefault(),
-                        unexpectedReplaceDefault(),
+                        unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
 ${helpTemplates(repromptEnum(), helpEnum())}

@@ -52,7 +52,6 @@
         "keyPhrase",
         "personName"
     ],
-    "$comment": "TODO: Still need to add specific rules for show(prop), help(prop) and appropriate lg.  This is dependent on Zongyang simplifications as well.",
     "$templates": [
         "booleanEntity.lg",
         "booleanEntity.lu",

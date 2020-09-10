@@ -9,7 +9,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Add(${property})",
-    "entity": "datetime",
+    "entity": "datetimeV2",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
@@ -18,7 +18,7 @@
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
-            "value": "=@datetime"          
+            "value": "=@datetimeV2"          
         }
     ]
     ${designerOpEntity('Add', 'datetime')}
