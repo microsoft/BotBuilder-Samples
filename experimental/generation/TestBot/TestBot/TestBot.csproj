@@ -12,7 +12,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-daily.20200829.162098" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Testing" Version="4.11.0-daily.preview.20200829.162098" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0-daily.20200829.162098" />
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.6" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="3.1.8" />
   </ItemGroup>
 
 </Project>
