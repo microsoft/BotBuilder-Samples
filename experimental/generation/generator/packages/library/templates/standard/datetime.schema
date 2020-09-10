@@ -17,12 +17,12 @@
         "timex"
     ],
     "$templates": [
-        "datetimeEntity.lu",
+        "datetimeV2Entity.lu",
         "objectProperty.lg",
         "string-missing.dialog",
-        "datetimeEntity-add.dialog",
-        "datetimeEntity-remove.dialog",
-        "datetimeEntity-clear.dialog",
-        "datetimeEntity-show.dialog"
+        "datetimeV2Entity-add.dialog",
+        "datetimeV2Entity-remove.dialog",
+        "datetimeV2Entity-clear.dialog",
+        "datetimeV2Entity-show.dialog"
     ]
 }

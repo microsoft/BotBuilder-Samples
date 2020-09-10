@@ -568,7 +568,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 newSchema = value
             } else {
                 if (missingIsError) {
-                    feedback(FeedbackType.error, `Could not evaluate ${schema}`)
+                    feedback(FeedbackType.error, `Could not evaluate ${schema} in schema`)
                 }
             }
         } catch (e) {
@@ -687,6 +687,14 @@ export async function generate(
     if (!feedback) {
         feedback = (_info, _message) => true
     }
+    let error = false
+    let externalFeedback = feedback
+    feedback = (info, message) => {
+        if (info === FeedbackType.error) {
+            error = true
+        }
+        externalFeedback(info, message)
+    }
 
     if (!prefix) {
         prefix = ppath.basename(schemaPath, '.schema')
@@ -786,33 +794,39 @@ export async function generate(
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
-        // Expand schema expressions
+        // Expand all remaining schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
-        // Write final schema
-        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
-        await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
+        if (!error) {
+            // Write final schema
+            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
+            await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
-        // Merge together all dialog files
-        if (singleton) {
-            if (!merge) {
-                feedback(FeedbackType.info, 'Combining into singleton .dialog')
-                await generateSingleton(scope.prefix, outPath, outDir, feedback)
-            } else {
-                await generateSingleton(scope.prefix, outPath, outPathSingle, feedback)
-            }
-        }
-
-        // Merge old and new directories
-        if (merge) {
+            // Merge together all dialog files
             if (singleton) {
-                await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
-            } else {
-                await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                if (!merge) {
+                    feedback(FeedbackType.info, 'Combining into singleton .dialog')
+                    await generateSingleton(scope.prefix, outPath, outDir, feedback)
+                } else {
+                    await generateSingleton(scope.prefix, outPath, outPathSingle, feedback)
+                }
+            }
+
+            // Merge old and new directories
+            if (merge) {
+                if (singleton) {
+                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                } else {
+                    await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                }
             }
         }
     } catch (e) {
         feedback(FeedbackType.error, e.message)
+    }
+
+    if (error) {
+        externalFeedback(FeedbackType.error, '*** Errors prevented generating dialog ***')
     }
 }
 

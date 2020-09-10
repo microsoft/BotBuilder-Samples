@@ -1,8 +1,5 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${entityLGFilename()}
-
-# template
-- ${entityValueTemplate()}
+# templates
+- ${entityLGTemplates('phonenumber')}
 
