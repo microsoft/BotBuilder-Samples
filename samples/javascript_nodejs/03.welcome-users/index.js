@@ -19,7 +19,7 @@ const { WelcomeBot } = require('./bots/welcomeBot');
 // Create bot adapter.
 // See https://aka.ms/about-bot-adapter to learn more about bot adapter.
 const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppID,
+    appId: process.env.MicrosoftAppId,
     appPassword: process.env.MicrosoftAppPassword
 });
 
