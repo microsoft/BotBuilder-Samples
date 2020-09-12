@@ -1,5 +1,5 @@
 Django>=2.2.1
-requests>=2.18.1
+requests==2.23.0
 botframework-connector>=4.4.0.b1
 botbuilder-schema>=4.4.0.b1
 botbuilder-core>=4.4.0.b1
