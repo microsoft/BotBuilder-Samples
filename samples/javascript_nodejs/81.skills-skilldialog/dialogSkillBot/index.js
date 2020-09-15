@@ -23,7 +23,7 @@ const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // Import Skills modules.
-const { allowedSkillsClaimsValidator: allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
+const { allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
 
 // Define our authentication configuration.
 const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator);
