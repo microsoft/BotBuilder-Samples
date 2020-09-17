@@ -228,7 +228,7 @@
 ```
 
 # addWithUnits(entity)
-- IF: ${schemaUnits()}
+- IF: ${hasUnits()}
     -```
 {
     "$schema": "${appSchema}",
@@ -239,7 +239,7 @@
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "contains(units(), @${entity}.units)",
+            "condition": "@${entity}.units == '${units()}'",
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
@@ -248,13 +248,13 @@
                 {
                     "$kind": "Microsoft.SetProperty",
                     "property": "$${property}",
-                    "value": "=@${entity}.number"          
+                    "value": "=@${entity}"          
                 }
             ],
             "elseActions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units, units())}"
+                    "activity": "\${${property}_IncorrectUnits(@${entity}.units, '${units()}')}"
                 }
             ]
         }
@@ -278,7 +278,7 @@
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
-            "value": "=@${entity}.number"          
+            "value": "=@${entity}"          
         }
     ]
     ${designerOpEntity('Add', '${entity}')}             
@@ -286,7 +286,7 @@
 ```
 
 # addNumberWithUnits
-- IF: ${schemaUnits()}
+- IF: ${hasUnits()}
     -```
 {
     "$schema": "${appSchema}",
@@ -297,12 +297,12 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', \${{number: @number, units: '${schemaUnits}'}}"
+            "activity": "\${confirmationText('${property}', \${{number: @number, units: '${units()}'}}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
-            "value": "=\${{number: @number, units: '${schemaUnits}'}}"          
+            "value": "=\${{number: @number, units: '${units()}'}}"          
         }
     ]
     ${designerOpEntity('Add', 'number with units')}             
@@ -671,7 +671,7 @@ ${'#'} ${property}_Show
 - ${show}```
 
 # incorrectUnitsTemplate
-- IF: ${schemaUnits()}
+- IF: ${hasUnits()}
 - ```
 > Incorrect units for '${property}' property
 ${'#'} ${property}_IncorrectUnits(actual, expected)
@@ -681,5 +681,8 @@ ${'#'} ${property}_IncorrectUnits(actual, expected)
 
 >> Helpers
 
-# schemaUnits
+# hasUnits
+- ${schema.properties[property].$units != null}
+
+# units
 - ${schema.properties[property].$units}

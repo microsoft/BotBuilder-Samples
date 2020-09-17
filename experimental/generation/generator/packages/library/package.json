@@ -6,9 +6,9 @@
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
     "@microsoft/bf-lu": "^4.11.0-dev.20200831.d7b6149",
-    "adaptive-expressions": "^4.11.0-dev.20200901.8b7db50",
+    "adaptive-expressions": "^4.11.0-dev.20200916.f8fef0f",
     "ajv": "^6.9.1",
-    "botbuilder-lg": "^4.11.0-dev.20200901.8b7db50",
+    "botbuilder-lg": "^4.11.0-dev.20200916.f8fef0f",
     "clone": "^2.1.2",
     "fs-extra": "^8.1.0",
     "globby": "^11.0.1",

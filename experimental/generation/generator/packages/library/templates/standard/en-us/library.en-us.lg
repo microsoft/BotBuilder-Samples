@@ -41,9 +41,6 @@
 # possibleValues(property)
 - ${foreach(enumValues(property), enum, propertyValue(property, enum))}
 
-# units
-- ${dialogClass.schema.properties['${property}'].$units}
-
 # isArrayProperty(property)
 - ${dialogClass.schema.properties[property].type == 'array'}
 

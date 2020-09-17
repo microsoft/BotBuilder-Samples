@@ -345,18 +345,20 @@ async function processTemplate(
                                 result = existing.template
                             }
 
-                            let resultString = result as string
-                            if (resultString.includes('**MISSING**')) {
-                                feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
-                            } else {
-                                let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
-                                if (match) {
-                                    feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
+                            // Ignore empty templates
+                            if (result) {
+                                let resultString = result as string
+                                if (resultString.includes('**MISSING**')) {
+                                    feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
+                                } else {
+                                    let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
+                                    if (match) {
+                                        feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
+                                    }
                                 }
+                                await writeFile(outPath, resultString, feedback)
+                                scope.templates[ppath.extname(outPath).substring(1)].push(ref)
                             }
-                            await writeFile(outPath, resultString, feedback)
-                            scope.templates[ppath.extname(outPath).substring(1)].push(ref)
-
                         } else {
                             feedback(FeedbackType.warning, `Skipping already existing ${outPath}`)
                         }
