@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "age"
+        "age",
+        "number"
     ],
     "properties": {
         "number": {
@@ -18,11 +19,14 @@
     ],
     "$templates": [
         "ageEntity.lu",
-        "objectProperty.lg",
+        "ageProperty.lg",
         "string-missing.dialog",
         "ageEntity-add.dialog",
         "ageEntity-remove.dialog",
         "ageEntity-clear.dialog",
-        "ageEntity-show.dialog"
+        "ageEntity-show.dialog",
+        "numberEntity.lu",
+        "numberEntity.lg",
+        "number-add-age.dialog"
     ]
 }

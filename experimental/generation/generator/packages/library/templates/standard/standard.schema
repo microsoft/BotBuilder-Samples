@@ -59,7 +59,6 @@
         "library-NoneIntent.lu",
         "library-SkipIntent.lu",
         "library-triggerIntent.lu",
-        "library-Assign.lg",
         "library-Choose.lg",
         "library-DisplayOperation.lg",
         "library-Help.lg",

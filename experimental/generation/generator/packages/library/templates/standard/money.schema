@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "money"
+        "money",
+        "number"
     ],
     "properties": {
         "number": {
@@ -18,11 +19,14 @@
     ],
     "$templates": [
         "moneyEntity.lu",
-        "objectProperty.lg",
+        "moneyProperty.lg",
         "string-missing.dialog",
         "moneyEntity-add.dialog",
         "moneyEntity-remove.dialog",
         "moneyEntity-clear.dialog",
-        "moneyEntity-show.dialog"
+        "moneyEntity-show.dialog",
+        "numberEntity.lu",
+        "numberEntity.lg",
+        "number-add-money.dialog"
     ]
 }

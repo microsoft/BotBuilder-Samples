@@ -9,7 +9,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${propertiesAsActivity('${prefix}', dialogClass.schema.$public)}"           
+            "activity": "\${propertiesAsActivity('${prefix}', publicProperties())}"           
         }
     ]
     ${designerIntent('Show')}

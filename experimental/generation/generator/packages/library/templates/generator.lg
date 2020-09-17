@@ -227,6 +227,90 @@
 }
 ```
 
+# addWithUnits(entity)
+- IF: ${schemaUnits()}
+    -```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "contains(units(), @${entity}.units)",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}', @${entity})}"
+                }, 
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "$${property}",
+                    "value": "=@${entity}.number"          
+                }
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IncorrectUnits(@${entity}.units, units())}"
+                }
+            ]
+        }
+    ]
+    ${designerOpEntity('Add', '${entity}')}             
+}
+```
+- ELSE:
+    - ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${confirmationText('${property}', @${entity})}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=@${entity}.number"          
+        }
+    ]
+    ${designerOpEntity('Add', '${entity}')}             
+}
+```
+
+# addNumberWithUnits
+- IF: ${schemaUnits()}
+    -```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "number",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${confirmationText('${property}', \${{number: @number, units: '${schemaUnits}'}}"
+        }, 
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$${property}",
+            "value": "=\${{number: @number, units: '${schemaUnits}'}}"          
+        }
+    ]
+    ${designerOpEntity('Add', 'number with units')}             
+}
+```
+- ELSE:
+    -
+
 # removeDialog(entity)
 -```
 {
@@ -289,7 +373,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_ClearConfirmation()}}"
+            "activity": "\${${property}_ClearConfirmation()}"
         },
         {
             "$kind": "Microsoft.DeleteProperty",
@@ -585,3 +669,17 @@ ${'#'} ${property}_Help
 >> Show value of '${property}' property
 ${'#'} ${property}_Show
 - ${show}```
+
+# incorrectUnitsTemplate
+- IF: ${schemaUnits()}
+- ```
+> Incorrect units for '${property}' property
+${'#'} ${property}_IncorrectUnits(actual, expected)
+- ${actual} must be ${expected}```
+- ELSE:
+    -
+
+>> Helpers
+
+# schemaUnits
+- ${schema.properties[property].$units}

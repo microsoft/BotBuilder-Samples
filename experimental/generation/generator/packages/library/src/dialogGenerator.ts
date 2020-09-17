@@ -826,7 +826,7 @@ export async function generate(
     }
 
     if (error) {
-        externalFeedback(FeedbackType.error, '*** Errors prevented generating dialog ***')
+        externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
     }
 }
 

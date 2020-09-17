@@ -6,10 +6,10 @@
     ],
     "properties": {
         "type": {
-            "type": "type"
+            "type": "string"
         },
         "location": {
-            "type": "location"
+            "type": "string"
         }
     },
     "required": [

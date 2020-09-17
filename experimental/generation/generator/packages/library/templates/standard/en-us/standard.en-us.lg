@@ -115,5 +115,22 @@ ${'#'} ${property}Entity_Value(val)
 # unexpectedAddUpdateDefault()
 - ${unexpectedAddDefault()}
 
+>> Units
+
+# unitsTemplates(type)
+- ```${libraryImport('library.en-us')}
+${promptTemplates(missingDefault(type), changeDefault(type))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${incorrectUnitsTemplate()}
+${helpTemplates(repromptDefault(type), helpDefault(type))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${complexValueTemplate(type)}
+```
 
 

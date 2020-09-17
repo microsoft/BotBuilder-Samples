@@ -142,7 +142,8 @@
                 "-o",
                 "${env:TEMP}/unittests.out",
                 "--force",
-                "--verbose"
+                "--verbose",
+                "--debug"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },

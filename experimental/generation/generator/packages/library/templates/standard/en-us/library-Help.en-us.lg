@@ -7,8 +7,8 @@
 - 
 
 # optionalProperties
-- IF: ${count(dialogClass.schema.$public) > count($requiredProperties)}
-- Optional properties include: ${join(foreach(where(dialogClass.schema.$public, property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
+- IF: ${count(publicProperties()) > count($requiredProperties)}
+- Optional properties include: ${join(foreach(where(publicProperties(), property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
 - ELSE:
 - 
 

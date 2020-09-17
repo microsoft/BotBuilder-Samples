@@ -4,25 +4,4 @@
 - ${addFilename('dimension')}
 
 # template
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "dimension",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @dimension)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@dimension"          
-        }
-    ]               
-    ${designerOpEntity('Add', 'dimension')}      
-}
-```
-
+- ${addWithUnits('dimension')}
