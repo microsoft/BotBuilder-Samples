@@ -16,7 +16,7 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter } = require('botbuilder');
 
-const { TeamsStartNewThreadInChannel } = require('./bots/TeamsStartNewThreadInChannel');
+const { TeamsStartNewThreadInChannel } = require('./bots/teamsStartNewThreadInChannel');
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
