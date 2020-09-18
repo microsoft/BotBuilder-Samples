@@ -4,7 +4,7 @@ These are the default templates included with dialog:generate which cover the st
 # Organization and Conventions
 The files are organized so that `generator.lg` which contains non-language specific LG templates that are useful at generation time is at the root and there is a sub-directory for each major schema:
 * **`standard`** contains templates for basic forms.
-* **`professional`** contains templates professional chit-chat.
+* **`professional`** contains templates for professional chit-chat.
 * **`swagger`** contains templates for the swagger generator.
 Within each directory are language agnostic templates with all language specific files in `<locale>` sub-directories.  Each locale directory also has common language specific generation templates in `<schema>.<locale>.lg`.
 

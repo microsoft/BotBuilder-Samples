@@ -340,7 +340,7 @@ async function processTemplate(
 
                             // See if generated file has been overridden in templates
                             let existing = await findTemplate(filename, templateDirs) as Plain
-                            if (existing && ppath.basename(existing.source) === filename) {
+                            if (existing && existing.source.endsWith(ppath.normalize(filename))) {
                                 feedback(FeedbackType.info, `  Overridden by ${existing.source}`)
                                 result = existing.template
                             }
