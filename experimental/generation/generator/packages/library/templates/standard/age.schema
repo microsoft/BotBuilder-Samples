@@ -1,9 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
+    "$comment": "TODO: Should add number to here and numberEntity.lu/.l, number-add-dimension.dialog to templates once 10 per limit is lifted.",
     "$entities": [
-        "age",
-        "number"
+        "age"
     ],
     "properties": {
         "number": {
@@ -24,9 +24,6 @@
         "ageEntity-add.dialog",
         "ageEntity-remove.dialog",
         "ageEntity-clear.dialog",
-        "ageEntity-show.dialog",
-        "numberEntity.lu",
-        "numberEntity.lg",
-        "number-add-age.dialog"
+        "ageEntity-show.dialog"
     ]
 }

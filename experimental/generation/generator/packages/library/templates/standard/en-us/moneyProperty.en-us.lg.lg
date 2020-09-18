@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${unitsTemplates('dimension')}lexValueTemplate('money')}
+- ${unitsTemplates('money')}
