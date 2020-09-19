@@ -1,0 +1,51 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingNumber(), changeDefault())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${validationTemplates()}
+${helpTemplates(repromptNumber(), helpNumber())}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# missingNumber()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# repromptNumber()
+- Enter a number for ${propertyName()} ${numberRanges()}
+
+# helpNumber()
+- ${propertyName()} is a number ${numberRanges()}
+
+# validationTemplates()
+- ```${tooSmall()}
+${tooBig()}```
+
+# tooSmall()
+- IF: ${schema.properties[property].minimum}
+    -```
+> Value is less then minimum allowed for '${property}' property
+${'#'} ${property}_IsTooSmall(val)
+- ${propertyValue('val')} must be at least \${dialogClass.properties.${property}.minimum} for ${propertyName()}```
+- ELSE:
+    -
+
+# tooBig()
+- IF: ${schema.properties[property].maximum}
+    -```
+> Value is greater than maximum allowed value for '${property}' property
+${'#'} ${property}_IsTooBig(val)
+- ${propertyValue('val')} must be no more than \${dialogClass.properties.${property}.maximum} for ${propertyName()}```
+- ELSE:
+    -

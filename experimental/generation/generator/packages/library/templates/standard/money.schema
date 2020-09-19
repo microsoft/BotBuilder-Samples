@@ -1,6 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
+    "$comment": "TODO: Should add number to here and numberEntity.lu/.l, number-add-dimension.dialog to templates once 10 per limit is lifted.",
     "$entities": [
         "money"
     ],
@@ -18,7 +19,7 @@
     ],
     "$templates": [
         "moneyEntity.lu",
-        "objectProperty.lg",
+        "moneyProperty.lg",
         "string-missing.dialog",
         "moneyEntity-add.dialog",
         "moneyEntity-remove.dialog",

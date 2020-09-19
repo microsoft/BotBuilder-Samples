@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${roleEntities('datetime')}
+- ${['datetimeV2']}
 
 # templates
 - ${propertyTemplates()}

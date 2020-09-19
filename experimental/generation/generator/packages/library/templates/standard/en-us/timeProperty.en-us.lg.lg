@@ -1,0 +1,25 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingDefault('time'), changeDefault('time'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault('time'), helpDefault('time'))}
+${showTemplate(showDefault())}
+${validationTemplate()}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# validationTemplate
+- ```> Value for '${property}' must be a time
+${'#'} ${property}_invalidTime(val)
+- \${value(val)} is not a time```

@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('number')}
-
-# template
-- ```
-@ prebuilt number
-
-${operations('number', [1, 32, 99, 215, 1000], false)}
-```
+# templates
+- ${entityLUTemplates('integer')}

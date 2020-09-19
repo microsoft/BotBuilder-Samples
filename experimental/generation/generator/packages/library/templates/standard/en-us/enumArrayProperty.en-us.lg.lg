@@ -1,0 +1,41 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${libraryImport('library.en-us')}
+${importLG(`${property}Entity`)}
+${promptTemplates(missingEnumArray(), changeEnumArray())}
+${confirmationTemplates(expectedAddDefault(), 
+                        expectedAddUpdateDefault(),
+                        unexpectedAddDefault(),
+                        unexpectedAddUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptEnumArray(), helpEnumArray())}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${enumArrayValueTemplate()}
+```
+
+# missingEnumArray()
+- What values do you want to add for ${propertyName()}?
+
+# changeEnumArray()
+- What values should replace ${propertyCurrentValue()} in ${propertyName()}?
+
+# repromptEnumArray()
+- ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+
+# helpEnumArray()
+- ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+
+# enumArrayValueTemplate
+- ```
+> Value of the '${property}' property
+${'#'} ${property}_Value(val)
+- \${complexValue(val, `${property}Entity_Value`)}
+```
+

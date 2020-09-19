@@ -1,2 +1,4 @@
+[generator.lg](../generator.lg)
+
 # templates
-- library.${locale}.lg
+- ${locale}/library.${locale}.lg

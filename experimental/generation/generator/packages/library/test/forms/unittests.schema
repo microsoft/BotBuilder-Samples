@@ -113,7 +113,8 @@
             "$ref": "template:temperature.schema"
         },
         "Dimension": {
-            "$ref": "template:dimension.schema"
+            "$ref": "template:dimension.schema",
+            "$units": "feet"
         },
         "DateTime": {
             "$ref": "template:datetime.schema"

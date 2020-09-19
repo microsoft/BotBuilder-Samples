@@ -28,7 +28,7 @@
             "elseActions":[
                 {
                     "$kind": "Microsoft.Ask",
-                    "activity": "\${getChoosePropertyText()}",
+                    "activity": "\${choosePropertyPrompt()}",
                     "expectedProperties": [
                         "PropertyToChange"
                     ]

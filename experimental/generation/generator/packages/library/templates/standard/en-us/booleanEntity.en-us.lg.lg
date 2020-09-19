@@ -1,0 +1,17 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${locale}/library/${prefix}-booleanEntity.${locale}.lg
+
+# template
+- ```
+# booleanEntity_Value(value)
+- SWITCH: \${value}
+- CASE: \${'true'}
+    - true  
+- CASE: \${'false'}
+    - false
+- DEFAULT:
+    - no value
+```    
+

@@ -5,16 +5,16 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition": "empty(where(dialog.requiredProperties, property, !dialog[property]))",
+    "condition": "empty(where($requiredProperties, property, !dialog[property]))",
     "priority": 1000,
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getPropertiesAsActivity('${prefix}', publicProperties())}"
+            "activity": "\${propertiesAsActivity('${prefix}', publicProperties())}"
         },
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${getConfirmChangeText()}",
+            "activity": "\${changePropertyPrompt()}",
             "expectedProperties": [
                 "CompleteConfirmation"
             ]
