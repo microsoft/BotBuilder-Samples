@@ -1,0 +1,25 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingDefault('date'), changeDefault('date'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault('date'), helpDefault('date'))}
+${showTemplate(showDefault())}
+${validationTemplate()}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# validationTemplate
+- ```> Invalid value for '${property}' property
+${'#'} ${property}_invalidDate(val)
+- \${value(val)} is not a date```

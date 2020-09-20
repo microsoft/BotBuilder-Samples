@@ -28,11 +28,11 @@
         },
         "EstimatedCloseDate": { 
             "type": "string",
-            "$entities": [ "datetime" ]
+            "$entities": [ "datetimeV2" ]
         },
         "PurchaseTimeframe": { 
             "type": "string",
-            "$entities": [ "datetime" ]
+            "$entities": [ "datetimeV2" ]
         },
         "Confirmation": {
             "type": "string",

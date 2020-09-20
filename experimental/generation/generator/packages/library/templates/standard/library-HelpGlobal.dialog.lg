@@ -1,0 +1,21 @@
+[generator.lg](../generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Help()",
+    "actions": [
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$retries"
+        },
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${helpGlobal()}"           
+        }
+    ]
+    ${designerName('Help Global')}
+}
+```

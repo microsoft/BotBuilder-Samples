@@ -1,42 +1,6 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${entityLGFilename()}
+# templates
+- ${entityLGTemplates('enumArray')}
 
-# template
-- ```
-${importLG('library')}
-${importLG('library-Choose')}
-${propertyEntity()}
-${chooseEntity()}
-
-```
-
-# chooseEntity
-- ```
-# ${property}Entity_getChooseEntityText
-- \${getChooseEnumArrayEntityText(${concat("'", property, "'")})}
-```
-
-# propertyEntity
-- ${join([namePlusSwitch(), cases(), default()], EOL())}${EOL()}
-
-# namePlusSwitch
--```
-# ${property}Entity_getValueText(value) 
-- SWITCH: \${value}```
-
-# case(option)
--```
-  - CASE: \${'${option}'} 
-    - ${phrase(option)}```
-
-# cases
-- ${join(foreach(schema.properties[property].items.enum, enum, case(enum)), '')}
-
-# default
-- ```
-  - DEFAULT: 
-    - no value
-```
 

@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('personName')}
-
-# template
-- ```
-@ prebuilt personName
-
-${operations('personName', ["Mike Smith", "John", "tom"], false)}
-```
+# templates
+- ${entityLUTemplates('personName')}

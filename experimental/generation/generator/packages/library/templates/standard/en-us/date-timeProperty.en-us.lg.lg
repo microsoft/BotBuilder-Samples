@@ -1,0 +1,19 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingDefault('date and time'), changeDefault('date and time'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault('date and time'), helpDefault('date and time'))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```

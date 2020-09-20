@@ -1,2 +1,0 @@
-# templates
-- ${[`booleanEntity.${locale}.lu`, `booleanEntity.${locale}.lg`]}

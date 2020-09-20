@@ -28,14 +28,14 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.12.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-daily.20200828.161837" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-daily.20200828.161837" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-daily.20200828.161837" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.11.0-daily.preview.20200828.161837" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily.20200828.161837" />
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.1.0-beta1-final" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-daily.20200917.167363.9bbeb51" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-daily.20200917.167363.9bbeb51" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-daily.20200917.167363.9bbeb51" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.11.0-daily.preview.20200917.167363.9bbeb51" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily.20200917.167363.9bbeb51" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.7.0" />
   </ItemGroup>
 
   <ItemGroup>
