@@ -30,7 +30,7 @@ This sample **requires** prerequisites in order to run.
     ```
     - Install bf orchestrator
     ```bash
-    > bf plugins:install @microsoft/bf-orchestrator-cli@beta
+    > bf plugins:install @microsoft/bf-orchestrator-cli@latest
     ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
@@ -50,13 +50,13 @@ This sample **requires** prerequisites in order to run.
 - Configure the LUIS application required for this sample.
     - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
     ```bash
-    > bf luis:build --in CognitiveModels --authoringKey <YOUR-KEY>
+    > bf luis:build --in CognitiveModels --authoringKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update application settings in `./appsettings.json`
 - Configure the QnA Maker KB required for this sample.
     - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
     ```bash
-    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY>
+    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update kb information in `./appsettings.json`
 - Configure Orchestrator: Download NLR model
@@ -67,7 +67,7 @@ This sample **requires** prerequisites in order to run.
     - Download the NLR model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.0.0-pretrained.20200729.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:nlr:get --versionId 1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash

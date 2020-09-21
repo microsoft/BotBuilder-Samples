@@ -21,7 +21,7 @@ This sample **requires** prerequisites in order to run.
     ```
     - Install bf orchestrator
     ```bash
-    > bf plugins:install @microsoft/bf-orchestrator-cli@beta
+    > bf plugins:install @microsoft/bf-orchestrator-cli@latest
     ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
@@ -46,7 +46,7 @@ This sample **requires** prerequisites in order to run.
     - Download the NLR model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.0.0-pretrained.20200729.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:nlr:get --versionId 1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash
