@@ -21,7 +21,7 @@ This sample **requires** prerequisites in order to run.
     ```
     - Install bf orchestrator
     ```bash
-    > bf plugins:install @microsoft/bf-orchestrator-cli@latest
+    > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
