@@ -117,7 +117,7 @@ namespace RunBotServer
                     Actions = new List<Dialog>()
                 {
                     choiceInput,
-                    new SendActivity("# Running ${conversation.dialogChoice}.main.dialog"),
+                    new SendActivity("# Running ${conversation.dialogChoice}.dialog"),
                     handleChoice,
                     new RepeatDialog()
                 }

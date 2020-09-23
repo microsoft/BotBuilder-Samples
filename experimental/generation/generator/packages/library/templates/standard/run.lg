@@ -11,11 +11,11 @@ if [ -n "$REPOS" ]; then
         region=westus
     fi
 
-    if [ ! -f luis.settings.* ]; then
+    if [ ! -f generated/luis.settings.* ]; then
         ${IsBuildingWithQnA()}
     fi
 
-    if [ -f luis.settings.* ]; then
+    if [ -f generated/luis.settings.* ]; then
         nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet > /dev/null 2>&1
         dotnet run --project $REPOS/BotBuilder-Samples/experimental/generation/runbot/RunBot.csproj --root $thisdir --region $region
         result = $?
