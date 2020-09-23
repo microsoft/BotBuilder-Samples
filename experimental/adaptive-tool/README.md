@@ -1,70 +1,74 @@
 # Bot Framework Adaptive Tool
-BotFramework adaptive tool is a vscode extension to help developers to improve the efficiency of handling LG/LU/Dialog files.
+Bot Framework Adaptive Tool is a Visual Studio Code extension that helps developers handle LG (.lg), LU (.lu) files and Dialog (.dialog) files efficiently.
+
 The support includes:
 - LG/LU syntax highlighting
-- LG/LU diagnostic check
-- LG/LU completion feature
-- LG template/function hover
+- LG/LU diagnostic checks
+- LG/LU completion
+- LG template and function hover
 - LG template definition
-- LG template/function/structure suggestion
-- Dialog(.dialog) debugging
+- LG template, function, and structure suggestions
+- Dialog (.dialog) debugging
 - LG debugging
 
 # Quick Start
-## Install From Marketplace
-1. Install the [adaptive-tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from marketplace.
-2. Open a LG(.lg) or LU(.lu) file and the adaptive-tool extension will activate.
+## Install from the marketplace
+1. Install the [adaptive-tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [Visual Studio Code marketplace](https://marketplace.visualstudio.com/vscode).
+1. Open an LG (.lg) or LU (.lu) file and the adaptive-tool extension will activate.
 
 ## Install From Local VSIX File
 1. [Build VSIX from code.](#buildPackage)
-2. Open vscode and navigate to extension tab.
-3. Select 'install from VSIX...'.
+1. Open Visual Studio Vode and navigate to the **Extensions**.
+1. Click the three dots in the top right corner of the Extensions. Then click **Install from VSIX...** and select the VSIX file you created in the first step.
 
 # Features
 
 ## Language Features
-language features are driven by [language server protocol](./languageServer.md)
+Language features are driven by the [language server protocol](./languageServer.md)
 
 ### Syntax highlighting, diagnostic check, auto-suggest, functionality
-#### LU documents
-- Provide different colors and styles for `intent`, `entity`, `comment` components in LU file.
-![lu_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
-- Provide warnings/errors for the wrong format.
 
+#### LU
+- Different colors and styles for `intent`, `entity`, and `comment` components in LU files
+![lu_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
+
+- Formatting warnings and errors
 ![lu_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_diagnostic.png)
-- Automatically complete some entities.
+
+- Automatic completion of some entities
 ![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_completion.gif)
 
-#### LG documents
-- Provide different colors and styles for `template`, `function`, `multi line`, `structure`, `comment`, `condition`, `switch` components in LG file.
+#### LG
+- Different colors and styles for `template`, `function`, `multi line`, `structure`, `comment`, `condition`, and `switch` components in LG files.
 ![lg_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_syntax_highlighting.png)
 
-- Provide warnings/errors for the wrong format.
+- Formatting warnings and errors
 ![lg_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_diagnostic.gif)
 
 - Template reference hover
 ![template_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/template_hover.png)
 
-- Builtin function hover
+- Built-in function hover
 ![function_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/function_hover.png)
 
-- Provide suggestions for template and function
+- Suggestions for templates and functions
 ![function_template_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/function_template_suggestion.gif)
 
-- Structure property suggestion
+- Structure property suggestions
 ![structure_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/structure_suggestion.gif)
 
-- Template navigation feature
+- Template navigation 
 ![template_definition](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/template_definition.gif)
 
-## Debugging Feature
-Adaptive tool provides the feature to debug dialog/lg files in runtime.
-### Setting up
-- Install adaptive tool extension.
-- Open the LG/dialog file which you want to debug.
-- To configure Visual Studio Code you need to add a target in your launch.settings file.
+## Debugging
+Adaptive Tool lets developers debug .dialog and LG files in runtime.
 
-The classic `launch.json` is like:
+### Configuration
+- Install the adaptive-tool extension.
+- Open the LG or .dialog file  to debug.
+- To configure Visual Studio Code, add a target in your `launch.settings` file.
+
+This is an example of a typical `launch.json`:
 ```json
 {
     "type": "json",
@@ -77,34 +81,28 @@ The classic `launch.json` is like:
 `debugServer` refers to the port bot runs on.
 
 ### Start bot runtime and complete initialization
-- Start a bot runtime.
 
-For example, start a bot project: `todobot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json)
+Start a bot runtime. For example, start a bot project: `todobot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json). Then make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
 
-Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
-
-- Complete initialization
-There are several ways to initialize a bot.
-[BotFremawork Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical solution.
-Open emulator and attach it to the bot to finish the initialization.
+There are several ways to initialize a bot, and [BotFremawork Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the emulator and attach it to the bot to finish the initialization.
 
 ### Debug the runtime
-- Run the vscode program with `F5` and set some breaking points in dialog/LG.
+- Run the Visual Studio Code program by clicking **F5** and setting break points in the .dialog or LG file.
 - Chat with the bot in the emulator.
-- The cursor would stop when the code hitting the corresponding breakpoint location.
+- The cursor will stop when the code hits any of corresponding breakpoints.
 
 
 # Useful Commands
 |Command|Description|
 |-----|---------------|
-|`lgLiveTest.start`|Start a WebView to test current LG file|
+|`lgLiveTest.start`|Start a WebView to test the current LG file|
 
 
 # Adaptive-tool Settings
 |Name|Description|
 |-----|---------------|
-|`LG.Expression.ignoreUnknownFunction`|Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file.<br/><br/>`error` - treat unknown functions as error diagnostic<br />`warn` - treat unknown functions as warning diagnostic<br/>`ignore` - ignore unknown functions|
-|`LG.Expression.customFunctionList`|Customized function list, should be separated by comma, eg. a, b, c|
+|`LG.Expression.ignoreUnknownFunction`|Configure Diagnostics: Show the diagnostic severity level of unknown functions in a LG file<br/><br/>`error` - treat unknown functions as error diagnostic<br />`warn` - treat unknown functions as warning diagnostic<br/>`ignore` - ignore unknown functions|
+|`LG.Expression.customFunctionList`|Customized function list, should be separated by comma (example: a, b, c)|
 
 
 <a name="buildPackage"></a>
@@ -113,12 +111,12 @@ Open emulator and attach it to the bot to finish the initialization.
 - `npm install`.
 - `npm run build`.
 - `npm install -g vsce`, if `vsce` is not installed globally.
-- run `vsce package` to export vsix file.
-
+- Run `vsce package` to export VSIX files.
 
 # Contributing
-Code contributions are welcomed via the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
 
+Code contributions are welcome via the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
 
 # Feedback
+
 - File a bug in [GitHub Issues](https://github.com/Microsoft/BotBuilder-Samples/issues).
