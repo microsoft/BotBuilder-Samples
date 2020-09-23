@@ -567,7 +567,10 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 - ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
 
 # luHeader()
--> !# @app.culture = ${locale}
+-```
+> !# @app.culture = ${locale}
+> !# @app.settings.NormalizeWordForm = true
+```
 
 >> Templates to use when expanding schemas
 

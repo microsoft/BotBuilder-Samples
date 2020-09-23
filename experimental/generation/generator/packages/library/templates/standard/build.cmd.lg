@@ -39,7 +39,7 @@ goto done
 
 # crossTrainCmd
 -```
-call bf luis:cross-train --config ./config.json --in . 
+cmd.exe /c bf luis:cross-train --config ./config.json --in . 
 ${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
 ```
 
@@ -51,12 +51,12 @@ call copy .\cross-trained\\${prefix}.${locale}.qna .\\${locale}\ /y
 
 # luisBuildCmd
 -```
-call bf luis:build --luConfig luconfig.json --region=%region% %key% --out generated --log
+cmd.exe /c bf luis:build --luConfig luconfig.json --region=%region% %key% --out generated --log
 ```
 
 # qnaMakerBuildCmd
 -```
-call bf qnamaker:build --qnaConfig qnaconfig.json %qnaKey% --out generated --log
+cmd.exe /c bf qnamaker:build --qnaConfig qnaconfig.json %qnaKey% --out generated --log
 ```
 
 # helpForLUIS
