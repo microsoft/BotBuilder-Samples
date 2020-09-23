@@ -19,11 +19,13 @@ Here's the end to end authoring experience.
   <img width="350" src="./docs/media/authoring.png" />
 </p>
 
-Using [BF CLI][7]
+### Using [BF CLI][7]
+
+* Pre-requisite: Install [BF CLI Orchestrator plugin][11] first. 
 
 1. [Export][8] your LUIS application and [convert][9] to .lu format or [export][10] your QnA Maker KB to .qna format 
 
-2. Use `bf orchestrator:nlr:get` to [download][15] the NLR model.
+2. Use `bf orchestrator:nlr:get` to [download][15] the NLR model. 
 <!-- TODO: missing docs for most CLI commands --> 
 3. Use [`bf orchestrator:create`][16] or [`bf orchestrator:build`][17] to generate the snapshot content.
 
