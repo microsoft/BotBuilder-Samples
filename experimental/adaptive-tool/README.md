@@ -1,5 +1,5 @@
 # Bot Framework Adaptive Tool
-BotFramework adaptive tool is a vscode extension to help developers to improve the efficiency of handling LG/LU files.
+BotFramework adaptive tool is a vscode extension to help developers to improve the efficiency of handling LG/LU/Dialog files.
 The support includes:
 - LG/LU syntax highlighting
 - LG/LU diagnostic check
@@ -103,7 +103,7 @@ Open emulator and attach it to the bot to finish the initialization.
 # Adaptive-tool Settings
 |Name|Description|
 |-----|---------------|
-|`LG.Expression.ignoreUnknownFunction`|Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file|
+|`LG.Expression.ignoreUnknownFunction`|Configure Diagnostics: Show diagnostic severity level of unknow functions in a LG file.<br/><br/>`error` - treat unknown functions as error diagnostic<br />`warn` - treat unknown functions as warning diagnostic<br/>`ignore` - ignore unknown functions|
 |`LG.Expression.customFunctionList`|Customized function list, should be separated by comma, eg. a, b, c|
 
 
