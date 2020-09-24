@@ -47,13 +47,6 @@
                 }
             }
         ],
-        "commands": [
-            {
-                "command": "lgLiveTest.start",
-                "title": "Start LG debug",
-                "category": "LG Live Test"
-            }
-        ],
         "languages": [
             {
                 "id": "lg",
@@ -203,9 +196,7 @@
         ]
     },
     "activationEvents": [
-        "onCommand:lgLiveTest.start",
         "onCommand:lg.extension.onEnterKey",
-        "onWebviewPanel:lgLiveTest",
         "onDebug",
         "onLanguage:lg",
         "onLanguage:lu"
