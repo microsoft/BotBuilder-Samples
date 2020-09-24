@@ -62,7 +62,8 @@ function startLgClient(context: ExtensionContext) {
 				didChangeWorkspaceFolders: ((data, next) => {
 					next(data);
 				})
-			}
+			},
+			provideFoldingRanges: (document, context, token, next) => next(document, context, token)
 		},
 		diagnosticCollectionName: 'lg'
 	};
@@ -125,6 +126,7 @@ function startLuClient(context: ExtensionContext) {
 				args.push(editor.document.lineAt(cursorPos.line).range.end);
 				next(command, args);
 			},
+			provideFoldingRanges: (document, context, token, next) => next(document, context, token),
 			workspace: {
 				didChangeWorkspaceFolders: ((data, next) => {
 					next(data);
