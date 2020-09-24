@@ -1,0 +1,81 @@
+﻿@model Catering.Models.ChatConfig
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<script crossorigin="anonymous" src="https://unpkg.com/@@babel/standalone@7.8.7/babel.min.js"></script>
+<script crossorigin="anonymous" src="https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+<script crossorigin="anonymous" src="https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+<script crossorigin="anonymous" src="https://unpkg.com/markdown-it/dist/markdown-it.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.botframework.com/botframework-webchat/4.8.0/webchat.js"></script>
+
+<link href="index.css" rel="stylesheet" type="text/css" />
+<script src="aaf-attachment-middleware.js" type="text/babel">
+</script>
+<script src="adaptive-cards-2.js" type="text/babel">
+</script>
+<script src="default-channel-adapter.js" type="text/babel">
+</script>
+<script src="redux-compose.js" type="text/babel">
+</script>
+
+<!-- The following files are built and copied from externals/AdaptiveCards-ts-aaf/dist -->
+<link href="externals/aaf.css" rel="stylesheet" type="text/css" />
+<link href="externals/adaptivecards.css" rel="stylesheet" type="text/css" />
+<script src="externals/aaf.js"></script>
+
+<!-- The following files are built and copied from DirectLineJS project -->
+<script src="externals/directLine.js"></script>
+
+<div id="root"></div>
+<script  type="text/babel">
+
+    const {
+      AAFRuntime: { AdaptiveApplet },
+    } = window;
+
+    AAFRuntime.GlobalSettings.refresh.mode = 2;
+    AAFRuntime.GlobalSettings.refresh.timeBetweenAutomaticRefreshes = 5000;
+
+    (async function () {
+        // Imports.
+        const {
+            App: {
+                createAAFAttachmentMiddleware,
+                createDemoCardAttachmentMiddleware,
+                fetchBotToken
+            },
+            DirectLine: { DirectLine },
+            Redux: { compose },
+            WebChat: { createStore, renderWebChat }
+        } = window;
+
+        const directLine = new DirectLine({
+            token: '@Model.Token',
+            domain: '@Model.Domain'
+        });
+
+        const store = createStore({}, ({ dispatch }) => next => action => {
+            return next(action);
+        });
+
+        // This is composing 2 middlewares into a single middleware.
+        const attachmentMiddleware = options => {
+            const middlewares = [
+                createAAFAttachmentMiddleware({ directLine })
+            ];
+
+            return compose(...middlewares.map(middleware => middleware(options)));
+        };
+
+        renderWebChat(
+            {
+                attachmentMiddleware,
+                directLine,
+                store
+            },
+            document.getElementById('root')
+        );
+    })().catch(err => console.error(err));
+</script>

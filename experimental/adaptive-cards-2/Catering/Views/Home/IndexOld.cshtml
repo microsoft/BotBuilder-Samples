@@ -1,0 +1,98 @@
+﻿@model Catering.Models.ChatConfig
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<style>
+    html, body {
+        height: 100%
+    }
+
+    body {
+        margin: 0px;
+    }
+
+    /*#webchat {
+        position: absolute;
+        top: 100px;
+        left: 25px;
+        height: 750px;
+        width: 500px;
+        border: solid;
+        border-color: black;
+        border-width: 2px;
+    }*/
+
+    #title {
+        margin-left: 25px;
+    }
+</style>
+<div>
+    <h1 id="title">Adaptive Card Demo</h1>
+    <div id="webchat" role="main" />
+</div>
+
+<script src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+<script src="~/directLine.js"></script>
+<script>
+    const directLine = new DirectLine.DirectLine({
+        token: '@Model.Token',
+        domain: '@Model.Domain'
+    });
+
+    // We are creating the Web Chat store here so we can dispatch WEB_CHAT/SEND_MESSAGE action later.
+    // We are adding a new middleware to customize the behavior of DIRECT_LINE/INCOMING_ACTIVITY.
+    const store = window.WebChat.createStore(
+        {},
+        ({ dispatch }) => next => action => {
+            let processed = false;
+
+            if (action.type === 'DIRECT_LINE/INCOMING_ACTIVITY') {
+                const activity = action.payload.activity;
+            }
+            else if (action.type === 'DIRECT_LINE/POST_ACTIVITY') {
+                let activity = action.payload.activity;
+                if (activity.type === 'message' && activity.channelData && activity.channelData.postBack) {
+                    let value = activity.value;
+                    activity.type = 'invoke';
+                    activity.name = 'adaptiveCard/action';
+                    activity.value = {
+                        "action": {
+                            "type": "Action.Execute",
+                            "id": "abc",
+                            "verb": "order",
+                            "data": value
+                        }
+                    };
+
+                    // send the invoke manually
+                    directLine.postActivity(activity, true).subscribe(
+                        response => {
+                            if (response !== 'retry') {
+                                // look at the adaptive card
+                                console.log(response);
+                            }
+                            else {
+                                return next(action);
+                            }
+                        },
+                        error => {
+                            return next(action);
+                        }
+                    );
+
+                    processed = true;
+                }
+            }
+
+            if (!processed) {
+                return next(action);
+            }
+        }
+    );
+
+    window.WebChat.renderWebChat({
+        directLine: directLine,
+        store
+    }, document.getElementById('webchat'));
+</script>

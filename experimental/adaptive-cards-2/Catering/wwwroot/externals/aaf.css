@@ -1,0 +1,36 @@
+.aaf-progress-overlay {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@keyframes aaf-spinner-rotate {
+    from { transform: rotate(0) }
+    to { transform: rotate(360deg) }
+}
+
+.aaf-spinner {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border-width: 1.5px;
+    border-style: solid;
+    border-color: rgb(0, 120, 212) rgb(199, 224, 244) rgb(199, 224, 244) rgb(199, 224, 244);
+    animation-name: aaf-spinner-rotate;
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-timing-function: cubic-bezier(0.53, 0.21, 0.29, 0.67);
+}
+
+.aaf-cardHost {
+}
+
+.aaf-refreshButtonHost {
+    border-top: 1px solid #F1F1F1;
+}

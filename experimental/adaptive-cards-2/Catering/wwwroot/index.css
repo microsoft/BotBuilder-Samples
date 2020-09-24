@@ -1,0 +1,47 @@
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  background-color: #e5e9ea;
+  background-repeat: no-repeat;
+  background-position: 115% 100%;
+  background-size: 50%;
+  margin: 0;
+  /*display: flex;*/
+  /*flex-direction: column;*/
+}
+
+#root {
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-right: auto;
+    margin-left: auto;
+    min-width: 360px;
+    max-width: 560px;
+    display: block;
+    position: absolute;
+    height: auto;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    /*display: flex;
+    align-items: stretch;
+    flex-grow: 1;*/
+}
+
+.app__ac1-card {
+  border: solid 2px Red;
+}
+
+.app__ac1-card__footer {
+  background-color: Red;
+  color: White;
+  font-family: 'Calibri', Arial, Helvetica, sans-serif;
+  font-size: 90%;
+  padding: 0.2em;
+  text-align: center;
+}

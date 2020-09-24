@@ -1,0 +1,109 @@
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "appId": "11111111-1111-1111-1111-111111111111",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "What what you like to drink?",
+      "size": "Medium",
+      "weight": "Bolder"
+    },
+    {
+      "type": "RichTextBlock",
+      "inlines": [
+        {
+          "type": "TextRun",
+          "text": "Standard Drinks",
+          "italic": true,
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "ActionSet",
+      "actions": [
+        {
+          "type": "Action.Execute",
+          "verb": "order",
+          "title": "Coffee",
+          "data": {
+            "nextCardToSend": 2,
+            "currentCard": 1,
+            "option": "coffee"
+          }
+        },
+        {
+          "type": "Action.Execute",
+          "verb": "order",
+          "title": "Tea",
+          "data": {
+            "nextCardToSend": 2,
+            "currentCard": 1,
+            "option": "tea"
+          }
+        },
+        {
+          "type": "Action.Execute",
+          "verb": "order",
+          "title": "Water",
+          "data": {
+            "currentCard": 1,
+            "nextCardToSend": 2,
+            "option": "water"
+          }
+        }
+      ]
+    },
+    {
+      "type": "RichTextBlock",
+      "inlines": [
+        {
+          "type": "TextRun",
+          "text": "Custom Order",
+          "italic": true,
+          "size": "medium"
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "stretch",
+          "verticalContentAlignment": "Center",
+          "items": [
+            {
+              "type": "Input.Text",
+              "id": "custom",
+              "placeholder": "Custom"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "verticalContentAlignment": "Center",
+          "items": [
+            {
+              "type": "ActionSet",
+              "actions": [
+                {
+                  "type": "Action.Execute",
+                  "verb": "order",
+                  "title": "Custom",
+                  "data": {
+                    "currentCard": 1,
+                    "nextCardToSend": 2
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "type": "AdaptiveCard",
+  "version": "1.2"
+}

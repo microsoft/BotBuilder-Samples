@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29806.167
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Catering", "Catering\Catering.csproj", "{A302ADA9-2711-4C6A-8F37-45A74CF076AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.AdaptiveCards", "Microsoft.Bot.AdaptiveCards\Microsoft.Bot.AdaptiveCards.csproj", "{9266A125-1836-4736-BDF1-3A272DC27123}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A302ADA9-2711-4C6A-8F37-45A74CF076AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A302ADA9-2711-4C6A-8F37-45A74CF076AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A302ADA9-2711-4C6A-8F37-45A74CF076AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A302ADA9-2711-4C6A-8F37-45A74CF076AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9266A125-1836-4736-BDF1-3A272DC27123}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9266A125-1836-4736-BDF1-3A272DC27123}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9266A125-1836-4736-BDF1-3A272DC27123}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9266A125-1836-4736-BDF1-3A272DC27123}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {706DD328-A9B0-4CA5-9243-28E4EDEA4DF3}
+	EndGlobalSection
+EndGlobal
