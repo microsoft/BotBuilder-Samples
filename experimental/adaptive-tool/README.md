@@ -91,13 +91,6 @@ There are several ways to initialize a bot, and [BotFremawork Emulator](https://
 - Chat with the bot in the emulator.
 - The cursor will stop when the code hits any of corresponding breakpoints.
 
-
-# Useful Commands
-|Command|Description|
-|-----|---------------|
-|`lgLiveTest.start`|Start a WebView to test the current LG file|
-
-
 # Adaptive-tool Settings
 |Name|Description|
 |-----|---------------|
