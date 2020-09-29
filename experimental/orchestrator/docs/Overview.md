@@ -6,7 +6,7 @@ Orchestrator enables composability of bots allowing reuse of skills or the entir
 
 ## Design Objectives and Highlights
 
-Thanks to the community feedback we compiled a list of objectives and requirements which are addressed in the initial release of the Orchestrator. The [Roadmap](###roadmap) section describes the additional work planned in the upcoming releases. 
+Thanks to the community feedback we compiled a list of objectives and requirements which are addressed in the initial release of the Orchestrator. The [Roadmap](##roadmap) section describes the additional work planned in the upcoming releases. 
 
 ### No [ML][12] or [NLP][6] expertise required
 
