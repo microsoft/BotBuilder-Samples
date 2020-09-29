@@ -107,7 +107,7 @@ As we collect more feedback from the community during the preview there may be a
 [17]:https://en.wikipedia.org/wiki/TensorFlow
 [18]:https://en.wikipedia.org/wiki/Reinforcement_learning
 [19]:https://en.wikipedia.org/wiki/Precision_and_recall
-[20]:https://github.com/microsoft/BotBuilder-Samples/blob/vishwac/r10/orchestrator/experimental/orchestrator/docs/API_reference.md
+[20]:https://github.com/microsoft/BotBuilder-Samples/blob/main/experimental/orchestrator/docs/API_reference.md
 
 
 
