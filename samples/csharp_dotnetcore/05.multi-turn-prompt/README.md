@@ -2,7 +2,7 @@
 
 Bot Framework v4 multi-turn prompt bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to input prompts included in `Microsoft.Bot.Builder.Dialogs.Adaptive`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a Choice Input prompt, a Number Input prompt, a custom Attachment Prompt and state accessors to store and retrieve values.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use input prompts included in `Microsoft.Bot.Builder.Dialogs.Adaptive`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a Choice Input prompt, a Number Input prompt, a custom Attachment Prompt and state accessors to store and retrieve values.
 
 ## Prerequisites
 

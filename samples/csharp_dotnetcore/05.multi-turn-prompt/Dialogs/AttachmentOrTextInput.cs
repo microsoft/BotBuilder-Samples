@@ -38,6 +38,10 @@ namespace Microsoft.BotBuilderSamples
             var first = input.Count > 0 ? input[0] : null;
 
             // NOTE: this custom AttachmentInput allows for no attachment.
+            // If no Attachment is provided, 'first' will be null.
+            // This could be updated to set the value property to dc.Context.Activity.Text, and
+            // validate the text within a validator.  This sample just ignores Text input.
+
             //if (first == null || (string.IsNullOrEmpty(first.ContentUrl) && first.Content == null))
             //{
             //    return Task.FromResult(InputState.Unrecognized);

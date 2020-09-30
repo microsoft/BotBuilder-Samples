@@ -80,13 +80,7 @@ namespace Microsoft.BotBuilderSamples
                 // Since we are using RepeatDialog, we will set AlwaysPrompt property so we do not skip this prompt
                 // and end up in an infinite loop.
                 AlwaysPrompt = true,
-                Choices = new ChoiceSet(new List<Choice>
-                {
-                    new Choice { Value = _templates.Evaluate("TransportChoiceOption1") as string },
-                    new Choice { Value = _templates.Evaluate("TransportChoiceOption2") as string },
-                    new Choice { Value = _templates.Evaluate("TransportChoiceOption3") as string },
-                }),
-                // Set the output of the text input to this property in memory.
+                Choices = new ObjectExpression<ChoiceSet>(_templates.Evaluate("TransportChoices") as string),
                 Property = "user.userProfile.Transport"
             };
         }

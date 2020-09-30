@@ -80,14 +80,8 @@
 # PictureUploadPrompt
 - Please attach a profile picture (or type any message to skip).
 
-# TransportChoiceOption1
-- Car
-
-# TransportChoiceOption2
-- Bus
-
-# TransportChoiceOption3
-- Other
+# TransportChoices
+- =[{"value":"car"},{"value":"bus"},{"value":"other"}]
 
 # TeamsFileUpload
 - Skipping attachment prompt in Teams channel...
