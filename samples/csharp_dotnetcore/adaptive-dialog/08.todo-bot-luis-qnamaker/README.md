@@ -5,7 +5,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version
