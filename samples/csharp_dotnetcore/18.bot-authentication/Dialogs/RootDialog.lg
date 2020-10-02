@@ -28,8 +28,8 @@
 # WelcomeMessage
 - Welcome to AuthenticationBot. Type anything to get logged in. Type 'logout' to sign-out.
 
-# ViewToken
-- Here is your token: ${user.tokenResponse.token}
+# ViewTokenResponse2
+- Here is your token: ${dialog.tokenResponse2.token}
 
 # ViewTokenConfirmation
 - Would you like to view your token?

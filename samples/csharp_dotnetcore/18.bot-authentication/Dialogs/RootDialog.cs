@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
@@ -86,19 +85,27 @@ namespace Microsoft.BotBuilderSamples
         {
             return new List<Dialog>
             {
+                // Setup OAuthInput to prompt the user to sign in, and populate the
+                // user.tokenResponse property with the tokenResponse object.  The token
+                // can later be used to access apis on behalf of the user.
+                // OAuthInput prompts can be used in multiple places, immediately before
+                // other dialogs which require the token to access resources.
+                // If the user had recently signed in, OauthInput will retrieve the token
+                // from the Bot Authentication Service and not prompt the user to sign-in again.
                 new OAuthInput
                 {
                     ConnectionName = _connectionName,
-                    Text = new StringExpression(_templates.Evaluate("OAuthText") as string),
-                    Title = new StringExpression(_templates.Evaluate("OAuthTitle") as string),
+                    Text = _templates.Evaluate("OAuthText") as string,
+                    Title = _templates.Evaluate("OAuthTitle") as string,
                     Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
-                    Property = "user.tokenResponse",
+                    Property = "dialog.tokenResponse",
                     AllowInterruptions = true,
                     InvalidPrompt = new ActivityTemplate("${InvalidPrompt()}"),
                 },
                 new IfCondition
                 {
-                    Condition = "user.tokenResponse == null",
+                    // dialog.tokenResponse will only be missing if the login failed.
+                    Condition = "dialog.tokenResponse == null",
                     Actions = new List<Dialog>
                     {
                         new SendActivity("${LoginFailedMessage()}"),
@@ -108,6 +115,7 @@ namespace Microsoft.BotBuilderSamples
                         new SendActivity("${LoginSucceededMessage()}"),
                         new ConfirmInput
                         {
+                            // Ask the user if they would like to see the token
                             Prompt = new ActivityTemplate("${ViewTokenConfirmation()}"),
                             Property = "turn.viewTokenConfirmed",
                             AllowInterruptions = true,
@@ -117,7 +125,26 @@ namespace Microsoft.BotBuilderSamples
                             Condition = "turn.viewTokenConfirmed",
                             Actions = new List<Dialog>
                             {
-                                new SendActivity("${ViewToken()}"),
+                                // Call the prompt again because we need the token. The reasons for this are:
+                                // 1. If the user is already logged in we do not need to store the token locally in the bot 
+                                // and worry about refreshing it. We can always just call the prompt again to get the token.
+                                // 2. We never know how long it will take a user to respond. By the time the
+                                // user responds the token may have expired. The user would then be prompted to login again.
+                                //
+                                // There is no reason to store the token locally in the bot because we can always just call
+                                // the OAuth prompt to get the token or get a new token if needed.
+                                new OAuthInput
+                                {
+                                    ConnectionName = _connectionName,
+                                    Text = _templates.Evaluate("OAuthText") as string,
+                                    Title = _templates.Evaluate("OAuthTitle") as string,
+                                    Timeout = 300000, // User has 5 minutes to login (1000 * 60 * 5)
+                                    Property = "dialog.tokenResponse2",
+                                    AllowInterruptions = true,
+                                    InvalidPrompt = new ActivityTemplate("${InvalidPrompt()}"),
+                                },
+
+                                new SendActivity("${ViewTokenResponse2()}"),
                             },
                             ElseActions = new List<Dialog>
                             {
