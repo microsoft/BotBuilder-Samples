@@ -31,10 +31,10 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
 
+- Adaptive Card
 - Animation Card
 - Audio Card
 - Hero Card
-- Receipt Card
 - Sign In Card
 - Thumbnail Card
 - Video Card

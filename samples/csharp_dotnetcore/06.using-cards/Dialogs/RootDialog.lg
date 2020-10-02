@@ -1,0 +1,125 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- Welcome to CardBot. This bot will show you different types of Rich Cards. Please type anything to get started.
+
+# CardChoicePrompt
+- Select or type the card name you would like to see.
+- What card would you like to see? You can click or type the card name.
+
+# CardChoices
+- =[{"value":"Cancel"},{"value":"Adaptive Card"},{"value":"Animation Card"},{"value":"Audio Card"},{"value":"Hero Card"},{"value":"Signin Card"},{"value":"Thumbnail Card"},{"value":"Video Card"},{"value":"All cards"}]
+
+# CardStartOverResponse
+- Type anything to see another card.
+
+> All cards can be defined and managed through .lg files.
+> All cards use the structured LG notation.
+> Multi-line text are enclosed in ```
+> Multi-line text can include inline expressions enclosed in ${expression}.
+> ${TemplateName()} is how you can refer to another language generation template in multi-line resolution.
+
+# HeroCard
+[HeroCard   
+    title = BotFramework Hero Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Show more cards
+]
+
+# ThumbnailCard
+[ThumbnailCard
+    title = BotFramework Thumbnail Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = ${GetStartedButton()}
+]
+
+# GetStartedButton
+[CardAction
+    title = Get Started
+    value = https://docs.microsoft.com/bot-framework
+    type = openUrl
+]
+
+# SigninCard
+[SigninCard
+    text = BotFramework Sign-in Card
+    buttons = ${SigninButton()}
+]
+
+# SigninButton
+[CardAction
+    type = Signin
+    title = Sign-in
+    value = https://login.microsoftonline.com
+]
+
+# AnimationCard
+[AnimationCard
+    title = Microsoft Bot Framework
+    subtitle = Animation Card
+    image = https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png
+    media = http://i.giphy.com/Ki55RUbOV5njy.gif
+]
+
+# VideoCard
+[VideoCard
+    title = Big Buck Bunny
+    subtitle = by the Blender Institute
+    text = Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute
+    image = https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg
+    media = http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
+    buttons = ${LearnMoreButton()}
+]
+
+# LearnMoreButton
+[CardAction
+    type = openUrl
+    title = Learn More
+    value = https://peach.blender.org/
+]
+
+# AudioCard
+[AudioCard
+    title = I am your father
+    subtitle = Star Wars: Episode V - The Empire Strikes Back
+    text = The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back)
+    image = https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg
+    media = http://www.wavlist.com/movies/004/father.wav
+    buttons = ${ReadMoreButton()}
+]
+
+# ReadMoreButton
+[CardAction
+    type = openUrl
+    title = Read More
+    value = https://en.wikipedia.org/wiki/The_Empire_Strikes_Back
+]
+
+# AdaptiveCard
+[Activity
+    Attachments = ${json(AdaptiveCard.Definition())}
+]
+
+# PassengerName
+- Monica
+- Tom
+- Chris
+- Eric
+
+# AttachmentLayoutType
+- carousel
+- list
+
+# AllCards
+[Activity
+    Attachments = ${HeroCard()} | ${ThumbnailCard()} | ${SigninCard()} | ${AnimationCard()} | ${VideoCard()} | ${AudioCard()} | ${json(AdaptiveCard.Definition())}
+    AttachmentLayout = ${AttachmentLayoutType()}
+]
+
+# AdaptiveCard.Definition
+- ${json(fromFile('./adaptiveCard.json'))}
