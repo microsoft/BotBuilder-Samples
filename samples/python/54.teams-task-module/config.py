@@ -11,3 +11,4 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
+    BASE_URL = os.environ.get("BaseUrl", "https://YourDeployedBotUrl.com")

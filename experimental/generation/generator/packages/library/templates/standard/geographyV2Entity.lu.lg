@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('geographyV2')}
-
-# template
-- ```
-@ prebuilt geographyV2 ${roles()}
-${propertyName()}
-${operations('geographyV2', ["Ames, Iowa", "Chicago", "seattle"])}
-```
+# templates
+- ${entityLUTemplates('geographyV2')}

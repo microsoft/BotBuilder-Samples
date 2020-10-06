@@ -14,8 +14,7 @@ namespace Microsoft.BotBuilderSamples
     // can tap to provide input. 
     public class SuggestedActionsBot : ActivityHandler
     {
-        public const string WelcomeText = @"This bot will introduce you to suggestedActions.
-                                            Please answer the question:";
+        public const string WelcomeText = "This bot will introduce you to suggestedActions. Please answer the question:";
 
       
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
@@ -90,9 +89,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 Actions = new List<CardAction>()
                 {
-                    new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red" },
-                    new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow" },
-                    new CardAction() { Title = "Blue", Type = ActionTypes.ImBack, Value = "Blue" },
+                    new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red", Image = "https://via.placeholder.com/20/FF0000?text=R", ImageAltText = "R" },
+                    new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow", Image = "https://via.placeholder.com/20/FFFF00?text=Y", ImageAltText = "Y" },
+                    new CardAction() { Title = "Blue", Type = ActionTypes.ImBack, Value = "Blue", Image = "https://via.placeholder.com/20/0000FF?text=B", ImageAltText = "B"   },
                 },
             };
             await turnContext.SendActivityAsync(reply, cancellationToken);

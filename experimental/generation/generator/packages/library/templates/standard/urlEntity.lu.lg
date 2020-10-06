@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('url')}
-
-# template
-- ```
-@ prebuilt url ${roles()}
-${propertyName()}
-${operations('url', ["http://foo.com/bark", "https://something.gov/woof", "http://random.com/"])}
-```
+# templates
+- ${entityLUTemplates('url')}

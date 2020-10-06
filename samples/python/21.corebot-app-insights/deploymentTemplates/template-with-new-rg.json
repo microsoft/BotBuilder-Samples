@@ -77,7 +77,8 @@
         "webAppName": "[if(empty(parameters('newWebAppName')), parameters('botId'), parameters('newWebAppName'))]",
         "siteHost": "[concat(variables('webAppName'), '.azurewebsites.net')]",
         "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]",
-        "publishingUsername": "[concat('$', parameters('newWebAppName'))]"
+        "publishingUsername": "[concat('$', parameters('newWebAppName'))]",
+        "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]"
     },
     "resources": [
         {
@@ -85,8 +86,7 @@
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2018-05-01",
             "location": "[parameters('groupLocation')]",
-            "properties": {
-            }
+            "properties": {}
         },
         {
             "type": "Microsoft.Resources/deployments",
@@ -127,7 +127,7 @@
                             "location": "[variables('resourcesLocation')]",
                             "kind": "app,linux",
                             "dependsOn": [
-                                "[resourceId('Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
                             ],
                             "name": "[variables('webAppName')]",
                             "properties": {
@@ -170,67 +170,67 @@
                             }
                         },
                         {
-                          "type": "Microsoft.Web/sites/config",
-                          "apiVersion": "2016-08-01",
-                          "name": "[concat(variables('webAppName'), '/web')]",
-                          "location": "[variables('resourcesLocation')]",
-                          "dependsOn": [
-                              "[resourceId('Microsoft.Web/sites', variables('webAppName'))]"
-                          ],
-                          "properties": {
-                              "numberOfWorkers": 1,
-                              "defaultDocuments": [
-                                  "Default.htm",
-                                  "Default.html",
-                                  "Default.asp",
-                                  "index.htm",
-                                  "index.html",
-                                  "iisstart.htm",
-                                  "default.aspx",
-                                  "index.php",
-                                  "hostingstart.html"
-                              ],
-                              "netFrameworkVersion": "v4.0",
-                              "phpVersion": "",
-                              "pythonVersion": "",
-                              "nodeVersion": "",
-                              "linuxFxVersion": "PYTHON|3.7",
-                              "requestTracingEnabled": false,
-                              "remoteDebuggingEnabled": false,
-                              "remoteDebuggingVersion": "VS2017",
-                              "httpLoggingEnabled": true,
-                              "logsDirectorySizeLimit": 35,
-                              "detailedErrorLoggingEnabled": false,
-                              "publishingUsername": "[variables('publishingUsername')]",
-                              "scmType": "None",
-                              "use32BitWorkerProcess": true,
-                              "webSocketsEnabled": false,
-                              "alwaysOn": false,
-                              "appCommandLine": "",
-                              "managedPipelineMode": "Integrated",
-                              "virtualApplications": [
-                                  {
-                                      "virtualPath": "/",
-                                      "physicalPath": "site\\wwwroot",
-                                      "preloadEnabled": false,
-                                      "virtualDirectories": null
-                                  }
-                              ],
-                              "winAuthAdminState": 0,
-                              "winAuthTenantState": 0,
-                              "customAppPoolIdentityAdminState": false,
-                              "customAppPoolIdentityTenantState": false,
-                              "loadBalancing": "LeastRequests",
-                              "routingRules": [],
-                              "experiments": {
-                                  "rampUpRules": []
-                              },
-                              "autoHealEnabled": false,
-                              "vnetName": "",
-                              "minTlsVersion": "1.2",
-                              "ftpsState": "AllAllowed",
-                              "reservedInstanceCount": 0
-                          }
+                            "type": "Microsoft.Web/sites/config",
+                            "apiVersion": "2016-08-01",
+                            "name": "[concat(variables('webAppName'), '/web')]",
+                            "location": "[variables('resourcesLocation')]",
+                            "dependsOn": [
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
+                            ],
+                            "properties": {
+                                "numberOfWorkers": 1,
+                                "defaultDocuments": [
+                                    "Default.htm",
+                                    "Default.html",
+                                    "Default.asp",
+                                    "index.htm",
+                                    "index.html",
+                                    "iisstart.htm",
+                                    "default.aspx",
+                                    "index.php",
+                                    "hostingstart.html"
+                                ],
+                                "netFrameworkVersion": "v4.0",
+                                "phpVersion": "",
+                                "pythonVersion": "",
+                                "nodeVersion": "",
+                                "linuxFxVersion": "PYTHON|3.7",
+                                "requestTracingEnabled": false,
+                                "remoteDebuggingEnabled": false,
+                                "remoteDebuggingVersion": "VS2017",
+                                "httpLoggingEnabled": true,
+                                "logsDirectorySizeLimit": 35,
+                                "detailedErrorLoggingEnabled": false,
+                                "publishingUsername": "[variables('publishingUsername')]",
+                                "scmType": "None",
+                                "use32BitWorkerProcess": true,
+                                "webSocketsEnabled": false,
+                                "alwaysOn": false,
+                                "appCommandLine": "",
+                                "managedPipelineMode": "Integrated",
+                                "virtualApplications": [
+                                    {
+                                        "virtualPath": "/",
+                                        "physicalPath": "site\\wwwroot",
+                                        "preloadEnabled": false,
+                                        "virtualDirectories": null
+                                    }
+                                ],
+                                "winAuthAdminState": 0,
+                                "winAuthTenantState": 0,
+                                "customAppPoolIdentityAdminState": false,
+                                "customAppPoolIdentityTenantState": false,
+                                "loadBalancing": "LeastRequests",
+                                "routingRules": [],
+                                "experiments": {
+                                    "rampUpRules": []
+                                },
+                                "autoHealEnabled": false,
+                                "vnetName": "",
+                                "minTlsVersion": "1.2",
+                                "ftpsState": "AllAllowed",
+                                "reservedInstanceCount": 0
+                            }
                         },
                         {
                             "apiVersion": "2017-12-01",
@@ -252,7 +252,7 @@
                                 "storageResourceId": null
                             },
                             "dependsOn": [
-                                "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
                         }
                     ],

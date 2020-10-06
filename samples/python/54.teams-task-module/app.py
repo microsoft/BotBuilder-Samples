@@ -57,7 +57,7 @@ async def on_error(context: TurnContext, error: Exception):
 ADAPTER.on_turn_error = on_error
 
 # Create the Bot
-BOT = TeamsTaskModuleBot()
+BOT = TeamsTaskModuleBot(CONFIG)
 
 
 # Listen for incoming requests on /api/messages
@@ -71,18 +71,15 @@ async def messages(req: Request) -> Response:
     activity = Activity().deserialize(body)
     auth_header = req.headers["Authorization"] if "Authorization" in req.headers else ""
 
-    invoke_response = await ADAPTER.process_activity(
-        activity, auth_header, BOT.on_turn
-    )
+    invoke_response = await ADAPTER.process_activity(activity, auth_header, BOT.on_turn)
     if invoke_response:
-        return json_response(
-            data=invoke_response.body, status=invoke_response.status
-        )
+        return json_response(data=invoke_response.body, status=invoke_response.status)
     return Response(status=HTTPStatus.OK)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
 APP.router.add_post("/api/messages", messages)
+APP.router.add_static("/", path="./pages/", name="pages")
 
 if __name__ == "__main__":
     try:

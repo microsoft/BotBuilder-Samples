@@ -17,6 +17,6 @@
     - no value
  
 # chooseBreadEntity
-- ${getChooseEnumEntityText('Bread')}
+- ${chooseEnumEntity('Bread')}
 
 > Generator: 386d5713fd53e8e895e905ebe8d619af

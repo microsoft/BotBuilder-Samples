@@ -1,0 +1,21 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${libraryFilename('Change.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Change()",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$PropertyToChange",
+            "value": "=turn.dialogEvent.value.property"
+        }
+    ]
+    ${designerName('Change property')}
+}
+```

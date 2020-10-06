@@ -1,4 +1,4 @@
-# core-bot
+# CoreBot
 
 Bot Framework v4 core bot sample.
 
@@ -70,7 +70,7 @@ LuisAPIHostName = "Your LUIS App region here (i.e: westus.api.cognitive.microsof
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 

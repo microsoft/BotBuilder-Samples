@@ -4,17 +4,17 @@
 const restify = require('restify');
 const path = require('path');
 
+// Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
+// This MicrosoftApp should have OAuth enabled.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
 
 const { AuthBot } = require('./bots/authBot');
 const { MainDialog } = require('./dialogs/mainDialog');
-
-// Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
-// This MicrosoftApp should have OAuth enabled.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more adapters.
 const adapter = new BotFrameworkAdapter({

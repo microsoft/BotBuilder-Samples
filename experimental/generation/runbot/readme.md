@@ -26,11 +26,10 @@ At that point you can connect to your bot using `http://localhost:5000/api/messa
 
 Command line args:
 
-* **--root <PATH>**: Absolute path to the root directory for declarative resources all *.main.dialog be options.  Defaults to the current directory.
+* **--root <PATH>**: Absolute path to the root directory for declarative resources all *.dialog will be options.  Defaults to the current directory.
 * **--region <REGION>**: LUIS endpoint region.  Default is `westus`.
-* **--environment <ENVIRONMENT>**: LUIS environment settings to use.
-  Default is the user alias.
-  This is used to find your `luis.settings.<environment>.<region>.json` settings file for LUIS.
+* **--environment <ENVIRONMENT>**: LUIS environment settings to use.  Default is the user alias. This is used to find your `luis.settings.<environment>.<region>.json` settings file for LUIS.
+* **--dialog <DIALOG>**: Name of root dialog to run.  By default all root *.dialog will be choices.
 
 ## Troubleshooting
 

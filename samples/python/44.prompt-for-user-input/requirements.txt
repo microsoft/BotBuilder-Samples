@@ -1,2 +1,2 @@
-botbuilder-integration-aiohttp>=4.9.1
+botbuilder-integration-aiohttp>=4.10.1
 recognizers-text>=1.0.2a1

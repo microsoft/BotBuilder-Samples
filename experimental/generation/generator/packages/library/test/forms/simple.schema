@@ -2,11 +2,12 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "properties": {
-        "due": {
-            "$ref": "template:datetime.schema"
+        "cost": {
+            "$ref": "template:money.schema",
+            "$units": "dollars"
         }
     },
     "required": [
-        "due"
+        "cost"
     ]
 }

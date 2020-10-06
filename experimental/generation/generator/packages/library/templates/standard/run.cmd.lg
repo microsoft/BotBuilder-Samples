@@ -8,9 +8,9 @@ if "%REPOS%" EQU "" goto help
 set region=%1
 if "%region%" EQU "" set region=westus
 
-if exist luis.settings.* goto run
+if exist generated\luis.settings.* goto run
 ${IsBuildingWithQnA()}
-if not exist luis.settings.* goto done
+if not exist generated\luis.settings.* goto done
 
 :run
 call nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" -verbosity quiet 2> nul

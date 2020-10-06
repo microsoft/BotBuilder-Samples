@@ -1,4 +1,4 @@
-# Authentication Bot Utilizing MS Graph
+﻿# Authentication Bot Utilizing MS Graph
 
 Bot Framework v4 bot authentication using Microsoft Graph sample
 
@@ -11,49 +11,68 @@ application setup for use in Azure Bot Service. The [scopes](https://developer.m
 
 NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
 
-## Running the sample
+## To try this sample
+
 - Clone the repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\24.bot-authentication-msgraph` folder
+- In a terminal, navigate to `botbuilder-samples\samples\python\24.bot-authentication-msgraph` folder
+- Update `config.py` with required configuration settings
+  - MicrosoftAppId
+  - MicrosoftAppPassword
+  - ConnectionName
 - Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
-- Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
-- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
-- Modify `APP_ID`, `APP_PASSWORD`, and `CONNECTION_NAME` in `config.py`
-
-After Authentication has been configured via Azure Bot Service, you can test the bot.
-
 - Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
 
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- In Bot Framework Emulator Settings, enable `Use a sign-in verification code for OAuthCards` to receive the magic code
 
 ### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
-- Enter the app id and password
 
-## Authentication
+## Interacting with the bot
 
-This sample uses bot authentication capabilities in Azure Bot Service, providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc. These updates also take steps towards an improved user experience by eliminating the magic code verification for some clients.
+This sample uses the bot authentication capabilities of Azure Bot Service, providing features to make it easier to develop a bot that
+authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, and so on. These updates also
+take steps towards an improved user experience by eliminating the magic code verification for some clients and channels.
+It is important to note that the user's token does not need to be stored in the bot. When the bot needs to use or verify the user has a valid token at any point the OAuth prompt may be sent. If the token is not valid they will be prompted to login.
+
+## Microsoft Graph API
+
+This sample demonstrates using Azure Active Directory v2 as the OAuth2 provider and utilizes the Microsoft Graph API.
+Microsoft Graph is a Microsoft developer platform that connects multiple services and devices. Initially released in 2015,
+the Microsoft Graph builds on Office 365 APIs and allows developers to integrate their services with Microsoft products including Windows, Office 365, and Azure.
 
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-# Further reading
+## GraphError 404: ResourceNotFound, Resource could not be discovered
+
+This error may confusingly present itself if either of the following are true:
+
+- You're using an email ending in `@microsoft.com`, and/or
+- Your OAuth AAD tenant is `microsoft.onmicrosoft.com`.
+
+## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Azure Portal](https://portal.azure.com)
-- [Add Authentication to Your Bot Via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
+- [Microsoft Graph API](https://developer.microsoft.com/en-us/graph)
+- [MS Graph Docs](https://developer.microsoft.com/en-us/graph/docs/concepts/overview) and [SDK](https://github.com/microsoftgraph/msgraph-sdk-dotnet)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

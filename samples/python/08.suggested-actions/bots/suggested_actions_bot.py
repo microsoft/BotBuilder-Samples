@@ -72,9 +72,27 @@ class SuggestActionsBot(ActivityHandler):
 
         reply.suggested_actions = SuggestedActions(
             actions=[
-                CardAction(title="Red", type=ActionTypes.im_back, value="Red"),
-                CardAction(title="Yellow", type=ActionTypes.im_back, value="Yellow"),
-                CardAction(title="Blue", type=ActionTypes.im_back, value="Blue"),
+                CardAction(
+                    title="Red",
+                    type=ActionTypes.im_back,
+                    value="Red",
+                    image="https://via.placeholder.com/20/FF0000?text=R",
+                    image_alt_text="R",
+                ),
+                CardAction(
+                    title="Yellow",
+                    type=ActionTypes.im_back,
+                    value="Yellow",
+                    image="https://via.placeholder.com/20/FFFF00?text=Y",
+                    image_alt_text="Y",
+                ),
+                CardAction(
+                    title="Blue",
+                    type=ActionTypes.im_back,
+                    value="Blue",
+                    image="https://via.placeholder.com/20/0000FF?text=B",
+                    image_alt_text="B",
+                ),
             ]
         )
 

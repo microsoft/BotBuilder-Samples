@@ -5,6 +5,11 @@
 
 // Import required packages
 const path = require('path');
+
+// Note: Ensure that you have a MicrosoftAppId and MicrosoftAppPassword added to the .env file.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 
 // Import required bot services.
@@ -12,10 +17,6 @@ const restify = require('restify');
 const { BotFrameworkAdapter } = require('botbuilder');
 
 const { FacebookBot } = require('./bots/facebookBot');
-
-// Note: Ensure that you have a MicrosoftAppId and MicrosoftAppPassword added to the .env file.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.

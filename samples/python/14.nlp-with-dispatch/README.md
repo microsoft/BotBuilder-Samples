@@ -12,39 +12,40 @@ Use the Dispatch model in cases when:
 
 ## Prerequisites
 
-This samples **requires** prerequisites in order to run.
+This sample **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitive service, to implement simple Question and Answer conversational patterns.
+This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
 
-### Create a QnAMaker Application to enable QnA Knowledge Bases
+### Use Dispatch with Multiple LUIS and QnA Models
 
-QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0).
 
-## Running the sample
+## To try this sample
+
 - Clone the repository
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\14.nlp-with-dispatch` folder
+- In a terminal, navigate to `botbuilder-samples\samples\python\14.nlp-with-dispatch` folder
 - Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
-- Update `QNA_KNOWLEDGEBASE_ID`, `QNA_ENDPOINT_KEY`, and `QNA_ENDPOINT_HOST` in `config.py`
-- Update `LUIS_APP_ID`, `LUIS_API_KEY`, and `LUIS_API_HOST_NAME` in `config.py`
 - Run your bot with `python app.py`
 
 ## Testing the bot using Bot Framework Emulator
-[Microsoft Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-### Connect to bot using Bot Framework Emulator
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Paste this URL in the emulator window - http://localhost:3978/api/messages
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Dispatch
+## Interacting with the bot
 
 Once you are comfortable with the concepts presented in this sample, you may want to configure Dispatch using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
 
@@ -52,14 +53,16 @@ Once you are comfortable with the concepts presented in this sample, you may wan
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 
-# Further reading
+## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [QnA Maker Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview)
-- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
-- [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Azure Portal](https://portal.azure.com)
-- [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
 - [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
+- [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
+- [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
+- [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
+- [Azure Portal](https://portal.azure.com)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

@@ -25,13 +25,13 @@ namespace RunBotServer
     {
         public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
-            this.Configuration = configuration;
-            this.HostingEnvironment = env;
+            _configuration = configuration;
+            _hostingEnvironment = env;
         }
 
-        private IConfiguration Configuration { get; set; }
+        private IConfiguration _configuration { get; set; }
 
-        private IWebHostEnvironment HostingEnvironment { get; set; }
+        private IWebHostEnvironment _hostingEnvironment { get; set; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -71,7 +71,7 @@ namespace RunBotServer
             services.AddHttpClient<BotFrameworkClient, SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, SkillHandler>();
 
-            var resourceExplorer = new ResourceExplorer().AddFolder(this.Configuration.GetValue<string>("BotRoot"));
+            var resourceExplorer = new ResourceExplorer().AddFolder(_configuration.GetValue<string>("BotRoot"));
             services.AddSingleton(resourceExplorer);
 
             // Create the bot  In this case the ASP Controller is expecting an IBot.

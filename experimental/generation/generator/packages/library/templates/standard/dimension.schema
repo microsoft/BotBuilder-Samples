@@ -1,8 +1,8 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
+    "$comment": "TODO: Should add number to here and numberEntity.lu/.l, number-add-dimension.dialog to templates once 10 per limit is lifted.",
     "$entities": [
-        "${concat('dimension:', property)}",
         "dimension"
     ],
     "properties": {
@@ -19,7 +19,7 @@
     ],
     "$templates": [
         "dimensionEntity.lu",
-        "objectProperty.lg",
+        "dimensionProperty.lg",
         "string-missing.dialog",
         "dimensionEntity-add.dialog",
         "dimensionEntity-remove.dialog",

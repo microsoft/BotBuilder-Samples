@@ -2,7 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "${concat('ordinalV2:', property)}",
         "ordinalV2"
     ],
     "properties": {

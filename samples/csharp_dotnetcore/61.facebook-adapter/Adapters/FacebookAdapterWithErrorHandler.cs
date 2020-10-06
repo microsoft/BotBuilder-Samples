@@ -11,7 +11,7 @@ namespace Microsoft.BotBuilderSamples.Adapters
     public class FacebookAdapterWithErrorHandler : FacebookAdapter
     {
         public FacebookAdapterWithErrorHandler(IConfiguration configuration, ILogger<FacebookAdapter> logger)
-            : base(configuration, logger)
+            : base(configuration, null, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {

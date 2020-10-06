@@ -1,23 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${propertyFilename()}
-
-# template
-- ```
-${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
-${nameTemplate()}
-${valueTemplate()}
-```
-
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- \${getIntegerPromptText('${property}')}
-```
-
-
+# templates
+- ${propertyLGTemplates('integer')}

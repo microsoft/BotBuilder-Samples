@@ -23,12 +23,14 @@ import {
 	WorkspaceFolder,
 	DidChangeWatchedFilesNotification,
 	DidChangeWatchedFilesRegistrationOptions,
-	ExecuteCommandParams
+	ExecuteCommandParams,
+	FoldingRangeParams
 } from 'vscode-languageserver';
 
 import * as completion from './providers/completion';
 import * as diagnostics from './providers/diagnostics';
 import * as keyBinding from './providers/keyBinding';
+import * as foldingRange from './providers/foldingRange';
 
 import * as util from './util';
 import { LuFilesStatus } from './luFilesStatus';
@@ -81,6 +83,7 @@ connection.onInitialize((params: InitializeParams) => {
 			executeCommandProvider: {
 				commands: ['lu.extension.onEnterKey', 'lu.extension.labelingExperienceRequest']
 			},
+			foldingRangeProvider: true,
 			workspace: {
 				workspaceFolders: {
 					supported: true
@@ -159,6 +162,10 @@ connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams) => {
 connection.onExecuteCommand((params: ExecuteCommandParams) =>{
 	keyBinding.provideKeyBinding(params, documents, connection);
 });
+
+connection.onFoldingRanges((params: FoldingRangeParams) => {
+	return foldingRange.foldingRange(params, documents);
+})
 
 documents.onDidOpen(e => {
 	const filePath = Files.uriToFilePath(e.document.uri)!;

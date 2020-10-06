@@ -1,0 +1,136 @@
+> This file contains language specific templates to help with the generation process
+[generator.lg](../../generator.lg)
+
+# nameTemplate()
+-```
+> Name of the '${property}' property
+${'#'} ${property}_Name
+- ${phrase(property, locale)}```
+
+# valueTemplate()
+-```
+> Value for a '${property}' property value
+${'#'} ${property}_Value(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+# complexValueTemplate(type)
+-```
+> Value for ${definite(type)} '${property}' property
+${'#'} ${property}_Value(val)
+- \${value(val)}
+```
+
+# entityValueTemplate()
+-```
+> Value for ${definite(`${property}Entity`)} entity
+${'#'} ${property}Entity_Value(val)
+ - IF: \${val}
+ - \${val}
+ - ELSE:
+ - no value
+```
+
+>> String
+
+# missingStringArray()
+- What values do you want to add for ${propertyName()}?
+
+>> Specific property calls to generated templates
+# propertyName()
+- \${${property}_Name()}
+
+# propertyCurrentValue()
+- ${propertyValue(`$${property}`)}
+
+# propertyValue(val)
+- \${${property}_Value(${val})}
+
+>> Utilities for confirmations
+
+# numberRanges()
+- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
+- ELSEIF:  ${schema.properties[property].minimum}
+- that is greater than \${dialogClass.schema.properties.${property}.minimum}
+- ELSEIF: ${schema.properties[property].maximum}
+- that is less than \${dialogClass.schema.properties.${property}.maximum}
+- ELSE:
+- 
+
+# definite(word)
+- IF: ${startsWith(word, 'a') || startsWith(word, 'e') || startsWith(word, 'i') || startsWith(word, 'o') || startsWith(word, 'u')}
+    - an ${word}
+- ELSE:
+    - a ${word}
+
+# missingDefault(type)
+- Enter ${definite(type)} for ${propertyName()}
+
+# changeDefault(type)
+- Change ${propertyCurrentValue()} in ${propertyName()} to?
+
+# repromptDefault(type)
+- Enter ${definite(type)} for ${propertyName()}
+
+# helpDefault(type)
+- ${propertyName()} is ${definite(type)} property
+
+> TODO: This is because of a bug in template expansion
+# expectedSetDefault()
+- ${' '}
+
+# expectedUpdateDefault()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# unexpectedSetDefault()
+- Set ${propertyName()} to ${propertyValue('newVal')}
+
+# unexpectedUpdateDefault()
+- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+
+# removeDefault()
+- Removed ${propertyValue('val')} from ${propertyName()}
+
+# clearDefault()
+- Cleared ${propertyName()}
+
+# showDefault()
+- ${propertyName()}: ${propertyValue(`$${property}`)}
+
+> Arrays
+
+# expectedAddDefault()
+- ${' '}
+
+# expectedAddUpdateDefault()
+- ${' '}
+
+# unexpectedAddDefault()
+- Added ${propertyValue('newVal')} to ${propertyName()}
+
+# unexpectedAddUpdateDefault()
+- ${unexpectedAddDefault()}
+
+>> Units
+
+# unitsTemplates(type)
+- ```${libraryImport('library.en-us')}
+${promptTemplates(missingDefault(type), changeDefault(type))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${incorrectUnitsTemplate()}
+${helpTemplates(repromptDefault(type), helpDefault(type))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${complexValueTemplate(type)}
+```
+
+

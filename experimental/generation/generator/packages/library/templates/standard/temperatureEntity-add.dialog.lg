@@ -8,12 +8,13 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
+    "operation": "Add()",
+    "property": "${property}",
     "entity": "temperature",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${getSetObjectPropertyText('${property}', @temperature)}"
+            "activity": "\${confirmationText('${property}', @temperature)}"
         },
         {
             "$kind": "Microsoft.SetProperty",

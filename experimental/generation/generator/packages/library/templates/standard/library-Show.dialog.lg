@@ -1,0 +1,17 @@
+[generator.lg](../generator.lg)
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Show()",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${propertiesAsActivity('${prefix}', publicProperties())}"           
+        }
+    ]
+    ${designerIntent('Show')}
+}
+```

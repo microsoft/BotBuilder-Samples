@@ -1,0 +1,15 @@
+[library.en-us.lg](library.en-us.lg)
+[library-DisplayOperation.en-us.lg](library-DisplayOperation.en-us.lg)
+[library-Help.en-us.lg](library-Help.en-us.lg)
+
+# chooseEnumEntity(property)
+- Please choose a value for ${propertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(property, val)), ', ')}]
+
+# chooseEnumArrayEntity(property)
+- Please choose a value for ${propertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(property, val)), ', ')}]
+
+# chooseProperties
+- Did you mean ${join(foreach(turn.dialogevent.value, choice, chooseEntity(choice)), " or ")}?
+
+# chooseEntity(property)
+- ${displayOperation(property.operation, property.property, property.entity.text)}

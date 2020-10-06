@@ -17,8 +17,8 @@
     },
     "dependencies": {
         "@microsoft/microsoft-graph-client": "~2.0.0",
-        "botbuilder": "~4.9.2",
-        "botbuilder-dialogs": "~4.9.2",
+        "botbuilder": "~4.10.3",
+        "botbuilder-dialogs": "~4.10.3",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },

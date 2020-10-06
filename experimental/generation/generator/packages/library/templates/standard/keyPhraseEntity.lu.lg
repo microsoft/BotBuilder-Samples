@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('keyPhrase')}
-
-# template
-- ```
-@ prebuilt keyPhrase ${roles()}
-${propertyName()}
-```
-
+# templates
+- ${entityLUTemplates('keyPhrase')}

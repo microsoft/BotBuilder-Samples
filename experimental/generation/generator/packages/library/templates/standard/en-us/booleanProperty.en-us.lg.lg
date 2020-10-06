@@ -1,0 +1,23 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingDefault('yes/no value'), changeDefault('yes/no'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptBoolean(), helpDefault('yes/no'))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# repromptBoolean()
+- 
+

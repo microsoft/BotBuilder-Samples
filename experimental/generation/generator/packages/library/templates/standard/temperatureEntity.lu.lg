@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('temperature')}
-
-# template
-- ```
-@ prebuilt temperature ${roles()}
-${propertyName()}
-${operations('temperature', ["32 degrees", "52 celsius", "200 kelvin"])}
-```
+# templates
+- ${entityLUTemplates('temperature')}

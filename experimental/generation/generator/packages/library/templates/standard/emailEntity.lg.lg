@@ -1,7 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${entityLGFilename()}
-
-# template
-- ${entityDisplay()}
+# templates
+- ${entityLGTemplates('email')}

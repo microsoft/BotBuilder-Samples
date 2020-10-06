@@ -223,16 +223,21 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
 }
 
 // Add prefix to [] imports in constant .lg files
-const RefPattern = /^[ \t]*\[[^\]\n\r]*\][ \t]*$/gm
+const RefPattern = /^[ \t]*\[[^\]\n\r]*\].*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
         let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
-        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})${os.EOL}`
+        return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})`
     })
 }
 
 function addPrefix(prefix: string, name: string): string {
-    return `${prefix}-${name}`
+    let dir = name.lastIndexOf('/')
+    if (dir >= 0) {
+        return `${name.substring(0, dir)}/${prefix}-${name.substring(dir + 1)}`
+    } else {
+        return `${prefix}-${name}`
+    }
 }
 
 // Add entry to the .lg generation context and return it.  
@@ -305,8 +310,8 @@ async function processTemplate(
                         }
                     } else if (filename.includes(scope.locale)) {
                         // Move constant files into locale specific directories
-                        let prop = templateName.startsWith('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
-                        filename = `${scope.locale}/${prop}/${filename}`
+                        let prop = templateName.includes('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
+                        filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
                     } else if (filename.includes('library-')) {
                         // Put library stuff in its own folder by default
                         filename = `library/${filename}`
@@ -335,34 +340,30 @@ async function processTemplate(
 
                             // See if generated file has been overridden in templates
                             let existing = await findTemplate(filename, templateDirs) as Plain
-                            if (existing?.source) {
+                            if (existing && existing.source.endsWith(ppath.normalize(filename))) {
                                 feedback(FeedbackType.info, `  Overridden by ${existing.source}`)
                                 result = existing.template
                             }
 
-                            let resultString = result as string
-                            if (resultString.includes('**MISSING**')) {
-                                feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
-                            } else {
-                                let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
-                                if (match) {
-                                    feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
+                            // Ignore empty templates
+                            if (result) {
+                                let resultString = result as string
+                                if (resultString.includes('**MISSING**')) {
+                                    feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
+                                } else {
+                                    let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
+                                    if (match) {
+                                        feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
+                                    }
                                 }
+                                await writeFile(outPath, resultString, feedback)
+                                scope.templates[ppath.extname(outPath).substring(1)].push(ref)
                             }
-                            await writeFile(outPath, resultString, feedback)
-                            scope.templates[ppath.extname(outPath).substring(1)].push(ref)
-
                         } else {
                             feedback(FeedbackType.warning, `Skipping already existing ${outPath}`)
                         }
                     }
                 } else if (lgTemplate) {
-                    if (lgTemplate.allTemplates.some(f => f.name === 'entities') && !scope.schema.properties[scope.property].$entities) {
-                        let entities = lgTemplate.evaluate('entities', scope) as string[]
-                        if (entities) {
-                            scope.schema.properties[scope.property].$entities = entities
-                        }
-                    }
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
@@ -387,6 +388,36 @@ async function processTemplate(
         process.chdir(oldDir)
     }
     return outPath
+}
+
+// Walk over locale .lu files and extract examples in >> var: comment blocks
+async function globalExamples(outDir: string, scope: any): Promise<object> {
+    let examples = {}
+    let luFiles = scope.templates.lu
+    for (let file of luFiles) {
+        let path = ppath.join(outDir, file.relative)
+        let contents = await fs.readFile(path, 'utf8')
+        let lines = contents.split(os.EOL)
+        if (lines.length < 2) {
+            // Windows uses CRLF and that is how it is checked-in, but when an npm
+            // package is built it switches to just LF.
+            lines = contents.split('\n')
+        }
+        let collect: string | undefined
+        for (let line of lines) {
+            if (line.startsWith('>>')) {
+                collect = line.substring(2, line.indexOf(':')).trim()
+                if (!examples[collect]) {
+                    examples[collect] = []
+                }
+            } else if (line.startsWith('>')) {
+                collect = undefined
+            } else if (collect && line.startsWith('-')) {
+                examples[collect].push(line.substring(1).trim())
+            }
+        }
+    }
+    return examples
 }
 
 async function processTemplates(
@@ -414,30 +445,24 @@ async function processTemplates(
             if (!entities) {
                 feedback(FeedbackType.error, `${property.path} does not have $entities defined in schema or template.`)
             } else if (!property.schema.$templates) {
-                for (let entity of entities) {
-                    let [entityName, role] = entity.split(':')
+                for (let entityName of entities) {
                     scope.entity = entityName
-                    scope.role = role
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
 
-                    // Look for examples in global $examples
-                    if (schema.schema.$examples) {
-                        scope.examples = schema.schema.$examples[entityName]
-                    }
+                    // Look for entity examples in global $examples
+                    scope.examples = schema.schema.$examples[entityName]
 
-                    // Pick up examples from property schema
+                    // Pick up examples from property schema if unique entity
                     if (!scope.examples && property.schema.examples && entities.length === 1) {
                         scope.examples = property.schema.examples
                     }
 
                     // If neither specify, then it is up to templates
-
                     await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
                 delete scope.entity
-                delete scope.role
                 delete scope.examples
             }
         }
@@ -446,13 +471,58 @@ async function processTemplates(
 
         // Process templates found at the top
         if (schema.schema.$templates) {
-            scope.entities = schema.entityTypes()
+            scope.examples = await globalExamples(outDir, scope)
             for (let templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
             }
         }
+
+        // Reset locale specific files
+        scope.templates.lu = []
+        scope.templates.lg = []
+        scope.templates.qna = []
     }
     delete scope.locale
+}
+
+// Ensure every property has $entities
+async function ensureEntities(
+    schema: s.Schema,
+    templateDirs: string[],
+    scope: any,
+    feedback: Feedback)
+    : Promise<void> {
+    for (let property of schema.schemaProperties()) {
+        if (!property.schema.$entities) {
+            try {
+                scope.property = property.path
+                scope.type = property.typeName()
+                let templates = property.schema.$templates
+                if (!templates) {
+                    templates = [scope.type]
+                }
+                for (let template of templates) {
+                    let foundTemplate = await findTemplate(template, templateDirs)
+                    let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+                    if (lgTemplate
+                        && lgTemplate.allTemplates.some(f => f.name === 'entities')
+                        && !scope.schema.properties[scope.property].$entities) {
+                        feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $entities`)
+                        let entities = lgTemplate.evaluate('entities', scope) as string[]
+                        if (entities) {
+                            property.schema.$entities = entities
+                        }
+                    }
+                }
+                if (!property.schema.$entities) {
+                    feedback(FeedbackType.error, `${property.path} has no $entities`)
+                }
+            } catch (e) {
+                feedback(FeedbackType.error, e.message)
+            }
+
+        }
+    }
 }
 
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
@@ -500,7 +570,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 newSchema = value
             } else {
                 if (missingIsError) {
-                    feedback(FeedbackType.error, `Could not evaluate ${schema}`)
+                    feedback(FeedbackType.error, `Could not evaluate ${schema} in schema`)
                 }
             }
         } catch (e) {
@@ -619,6 +689,14 @@ export async function generate(
     if (!feedback) {
         feedback = (_info, _message) => true
     }
+    let error = false
+    let externalFeedback = feedback
+    feedback = (info, message) => {
+        if (info === FeedbackType.error) {
+            error = true
+        }
+        externalFeedback(info, message)
+    }
 
     if (!prefix) {
         prefix = ppath.basename(schemaPath, '.schema')
@@ -629,7 +707,7 @@ export async function generate(
     }
 
     if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/experimental/generation/runbot/runbot.schema'
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/runbot.schema'
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
@@ -656,7 +734,7 @@ export async function generate(
         }
 
         let existingFiles = await fs.readdir(outDir)
-        if(existingFiles.length === 0){
+        if (existingFiles.length === 0) {
             force = false
             merge = false
         }
@@ -703,6 +781,7 @@ export async function generate(
             locales: allLocales,
             prefix: prefix || schema.name(),
             schema: schema.schema,
+            operations: schema.schema.$operations,
             properties: schema.schema.$public,
             triggerIntent: schema.triggerIntent(),
             appSchema: metaSchema
@@ -712,35 +791,44 @@ export async function generate(
             scope = {...scope, ...schema.schema.$parameters}
         }
 
+        await ensureEntities(schema, templateDirs, scope, feedback)
+        scope = {...scope, entities: schema.entityToProperties()}
+
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
-        // Expand schema expressions
+        // Expand all remaining schema expressions
         let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
-      
-        // Write final schema
-        let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
-        await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
-        // Merge together all dialog files
-        if (singleton) {
-            if (!merge) {
-                feedback(FeedbackType.info, 'Combining into singleton .dialog')
-                await generateSingleton(scope.prefix, outPath, outDir, feedback)
-            } else {
-                await generateSingleton(scope.prefix, outPath, outPathSingle, feedback)
-            }
-        }
+        if (!error) {
+            // Write final schema
+            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
+            await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
-        // Merge old and new directories
-        if (merge) {
+            // Merge together all dialog files
             if (singleton) {
-                await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
-            } else {
-                await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                if (!merge) {
+                    feedback(FeedbackType.info, 'Combining into singleton .dialog')
+                    await generateSingleton(scope.prefix, outPath, outDir, feedback)
+                } else {
+                    await generateSingleton(scope.prefix, outPath, outPathSingle, feedback)
+                }
+            }
+
+            // Merge old and new directories
+            if (merge) {
+                if (singleton) {
+                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                } else {
+                    await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                }
             }
         }
     } catch (e) {
         feedback(FeedbackType.error, e.message)
+    }
+
+    if (error) {
+        externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
     }
 }
 
@@ -753,7 +841,7 @@ export async function generate(
 export async function expandPropertyDefinition(property: string, schema: any, templateDirs?: string[]): Promise<any> {
     templateDirs = await templateDirectories(templateDirs)
     schema = await ps.expandPropertyDefinition(schema, templateDirs)
-    let fullSchema = { 
+    let fullSchema = {
         properties: {}
     }
     fullSchema.properties[property] = schema

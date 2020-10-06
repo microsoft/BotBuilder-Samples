@@ -171,7 +171,7 @@ export async function expandPropertyDefinition(property: any, templateDirs: stri
  * @param feedback Feedback channel
  */
 export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
-    : Promise<any> {
+    : Promise<s.Schema> {
     let {allRequired, resolver} = await templateResolver(templateDirs, feedback)
     let formSchema = await getSchema(schemaPath, feedback, resolver)
     let required = {}

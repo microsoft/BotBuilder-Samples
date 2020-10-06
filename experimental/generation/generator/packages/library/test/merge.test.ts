@@ -258,18 +258,18 @@ describe('dialog:generate --merge library', async function () {
             assertRemovedProperty(comparison, 'Toppings', errors)
             assertRemovedProperty(comparison, 'Sauces', errors)
             await assertContains('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', /black/, errors)
+            await assertContains('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
             await assertMissing('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
+            await assertMissing('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
             await assertContains('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertContains('en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
 
             // Unchanged hash + optional enum fixes = hash updated
             await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', false, errors)
-            await assertUnchanged('en-us/Name/sandwichMerge-NameEntity.en-us.lg', true, errors)
-            await assertUnchanged('en-us/Name/sandwichMerge-NameEntity.en-us.lu', true, errors)
+            await assertUnchanged('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
+            await assertUnchanged('en-us/Name/sandwichMerge-Name-personName.en-us.lu', true, errors)
             assertCheck(comparison, errors)
         } catch (e) {
             assert.fail(e.message)
@@ -295,11 +295,11 @@ describe('dialog:generate --merge library', async function () {
 
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
             await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
-            await assertUnchanged('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lu', false, errors)
+            await assertUnchanged('en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', false, errors)
             await assertUnchanged('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', false, errors)
 
             // Main should still be updated
@@ -311,12 +311,12 @@ describe('dialog:generate --merge library', async function () {
 
             // Still get enum updates
             await assertContains('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', /black/, errors)
+            await assertContains('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
             await assertMissing('en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('en-us/Bread/sandwichMerge-BreadEntity.en-us.lu', /white/, errors)
+            await assertMissing('en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
             await assertContains('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertContains('en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
 
             assertCheck(comparison, errors)
         } catch (e) {

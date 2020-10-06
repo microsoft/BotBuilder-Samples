@@ -19,8 +19,8 @@
     "full": "Simple Task Module"
   },
   "description": {
-    "short": "Test Task Module Sample",
-    "full": "Simple Task Module Sample"
+    "short": "Test Task Module Scenario",
+    "full": "Simple Task Module Scenario Test"
   },
   "accentColor": "#FFFFFF",
   "bots": [
@@ -38,5 +38,6 @@
   "permissions": [
     "identity",
     "messageTeamMembers"
-  ]
+  ],
+  "validDomains": [ "YourDeployedBotUrl.com" ]
 }
