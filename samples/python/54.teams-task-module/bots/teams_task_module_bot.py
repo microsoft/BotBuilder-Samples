@@ -80,26 +80,6 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
                 task_info, TaskModuleUIConstants.ADAPTIVE_CARD
             )
         )
-        card = CardFactory.adaptive_card(
-            {
-                "version": "1.0.0",
-                "type": "AdaptiveCard",
-                "body": [
-                    {"type": "TextBlock", "text": "Enter Text Here",},
-                    {
-                        "type": "Input.Text",
-                        "id": "usertext",
-                        "placeholder": "add some text and submit",
-                        "IsMultiline": "true",
-                    },
-                ],
-                "actions": [{"type": "Action.Submit", "title": "Submit",}],
-            }
-        )
-        
-        task_info = TaskModuleTaskInfo(
-            card=card, title="Adaptive Card: Inputs", height=200, width=400
-        )
 
         return TaskModuleResponseFactory.to_task_module_response(task_info)
 
