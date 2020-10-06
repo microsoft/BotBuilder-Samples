@@ -79,7 +79,6 @@ class TeamsTaskModuleBot(TeamsActivityHandler):
             TeamsTaskModuleBot.__set_task_info(
                 task_info, TaskModuleUIConstants.ADAPTIVE_CARD
             )
-        )
 
         return TaskModuleResponseFactory.to_task_module_response(task_info)
 
