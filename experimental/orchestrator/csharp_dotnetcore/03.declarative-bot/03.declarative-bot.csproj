@@ -24,10 +24,10 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-daily.preview.20201008.172628.540fadc" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0-luparser.20201005.172130.5024a86" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-luparser.20201005.172130.5024a86" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.0-luparser.20201005.172130.5024a86" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.11.0-luparser.20201005.172130.5024a86" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0-daily.preview.20201008.172628.540fadc" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily.20201008.172628.540fadc" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.0-daily.20201008.172628.540fadc" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.11.0-daily.20201008.172628.540fadc" />
   </ItemGroup>
 
   <ItemGroup>
