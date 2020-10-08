@@ -1,0 +1,47 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- This bot will introduce you to suggestedActions. Press any key to continue.
+
+# FavoriteColorPrompt
+- What is your favorite color?
+
+# CancelMessage
+- Cancelling. Good bye!
+
+# ColorChosenReply(choice)
+- ${choice} is the best color, I agree!.
+
+# ColorChoices
+[Activity
+	Text = What is your favorite color?
+	SuggestedActions = ${RedCardAction()} | ${YellowCardAction()} | ${BlueCardAction()} | Cancel
+]
+
+# RedCardAction
+[CardAction
+    title = Red
+    type = imBack
+    value = Red
+    image = https://via.placeholder.com/20/FF0000?text=R
+    imagealttext = R
+]
+
+# YellowCardAction
+[CardAction
+    title = Yellow
+    type = imBack
+    value = Yellow
+    image = https://via.placeholder.com/20/FFFF00?text=Y
+    imagealttext = Y
+]
+
+# BlueCardAction
+[CardAction
+    title = Blue
+    type = imBack
+    value = Blue
+    image = https://via.placeholder.com/20/0000FF?text=B
+    imagealttext = B
+]

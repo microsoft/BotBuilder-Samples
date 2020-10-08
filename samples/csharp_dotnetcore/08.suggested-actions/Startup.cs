@@ -4,7 +4,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.BotFramework;
+using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -21,7 +25,34 @@ namespace Microsoft.BotBuilderSamples
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, SuggestedActionsBot>();
+            //services.AddTransient<IBot, SuggestedActionsBot>();
+
+            // The Dialog that will be run by the bot.
+            services.AddSingleton<RootDialog>();
+
+            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
+            services.AddTransient<IBot, DialogBot<RootDialog>>();
+
+            // Common memory scopes and path resolvers.
+            ComponentRegistration.Add(new DialogsComponentRegistration());
+
+            // Components used for language generation features.
+            ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
+
+            // Create the credential provider to be used with the Bot Framework Adapter.
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Components common to all adaptive dialogs.
+            ComponentRegistration.Add(new AdaptiveComponentRegistration());
+
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            services.AddSingleton<IStorage, MemoryStorage>();
+
+            // Create the Conversation state. (Used by the Dialog system itself.)
+            services.AddSingleton<ConversationState>();
+
+            services.AddSingleton<UserState>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
