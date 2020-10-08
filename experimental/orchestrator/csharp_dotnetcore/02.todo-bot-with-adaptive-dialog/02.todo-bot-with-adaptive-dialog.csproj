@@ -31,10 +31,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Folder Include="generated\" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.10.0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.10.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.10.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-luparser.preview.20201005.172130.5024a86" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-luparser.20201005.172130.5024a86" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-luparser.20201005.172130.5024a86" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.0-luparser.20201005.172130.5024a86" />
   </ItemGroup>
 
 </Project>
