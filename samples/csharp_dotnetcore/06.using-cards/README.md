@@ -10,7 +10,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- From Visual Studio, open the project int the `botbuilder-samples\samples\python\06.using-cards` folder
+- From Visual Studio, open the project int the `botbuilder-samples\samples\csharp_dotnetcore\06.using-cards` folder
 - Run the bot (F5)
 
 ## Testing the bot using Bot Framework Emulator

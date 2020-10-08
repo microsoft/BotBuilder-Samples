@@ -9,20 +9,20 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class RichCardsBot<T> : ActivityHandler
+    public class DialogBot<T> : IBot
         where T : Dialog
     {
         private readonly DialogManager DialogManager;
         protected readonly ILogger Logger;
 
-        public RichCardsBot(T rootDialog, ILogger<RichCardsBot<T>> logger)
+        public DialogBot(T rootDialog, ILogger<DialogBot<T>> logger)
         {
             Logger = logger;
             DialogManager = new DialogManager(rootDialog);
         }
 
 
-        public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
+        public async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
             Logger.LogInformation("Running dialog with Activity.");
             await DialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken).ConfigureAwait(false);
