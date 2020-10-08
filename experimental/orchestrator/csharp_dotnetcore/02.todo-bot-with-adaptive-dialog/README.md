@@ -46,7 +46,7 @@ This sample **requires** prerequisites in order to run.
     - Download the NLR model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:nlr:get --versionId <version id> --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash
