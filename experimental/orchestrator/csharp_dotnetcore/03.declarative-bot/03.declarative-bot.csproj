@@ -7,17 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="model/LICENSE.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/merges.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/traced_model.onnx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/vocab.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    <Content Update="model\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Folder Include="generated\" />
   </ItemGroup>
