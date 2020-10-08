@@ -50,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
                     Actions = new List<Dialog>
                     {
                         new SendActivity("${CancelMessage()}"),
-                        new CancelAllDialogs()
+                        new EndDialog()
                     }
                 },
                 new SendActivity("${ColorChosenReply(turn.userChoice)}"),
