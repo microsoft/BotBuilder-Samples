@@ -23,6 +23,12 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
+      To reinstall bf orchestrator plugin, uninstall previous version and then run the install command again.
+      
+      Uninstall command:
+    ```bash
+    > bf plugins:uninstall @microsoft/bf-orchestrator-cli
+    ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
     > bf orchestrator
