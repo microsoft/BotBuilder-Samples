@@ -10,10 +10,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 ```bash
 git clone https://github.com/Microsoft/botbuilder-samples.git
 ```
-- In a terminal, navigate to `botbuilder-samples\samples\python\02.echo-bot` folder
-- Activate your desired virtual environment
-- In the terminal, type `pip install -r requirements.txt`
-- Run your bot with `python app.py`
+- From Visual Studio, open the project int the `botbuilder-samples\samples\csharp_dotnetcore\06.using-cards` folder
+- Run the bot (F5)
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -31,10 +29,10 @@ git clone https://github.com/Microsoft/botbuilder-samples.git
 
 Most channels support rich content.  In this sample we explore the different types of rich cards your bot may use.  A key to good bot design is to send interactive media, such as Rich Cards. There are several different types of Rich Cards, which are as follows:
 
+- Adaptive Card
 - Animation Card
 - Audio Card
 - Hero Card
-- Receipt Card
 - Sign In Card
 - Thumbnail Card
 - Video Card
