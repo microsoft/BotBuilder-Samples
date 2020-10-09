@@ -39,7 +39,7 @@ This sample **requires** prerequisites in order to run.
     > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
     ```
 - Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter the get command below.
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:nlr:get command below.
     ```bash
     > bf orchestrator:nlr:list
     ```
@@ -51,7 +51,7 @@ This sample **requires** prerequisites in order to run.
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:build --in ./CognitiveModels --out ./generated --model ./model
+    > bf orchestrator:build --in ./Dialogs --out ./generated --model ./model
     ```
     - Update orchestrator modelPath and snapshotPath information in `./appsettings.json`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
