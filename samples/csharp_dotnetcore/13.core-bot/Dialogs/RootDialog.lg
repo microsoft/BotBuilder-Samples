@@ -1,0 +1,92 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# PromptForDestinationCity
+- Where would you like to travel to?
+- What is your destination city?
+
+# PromptForDepartureCity
+- Where are you traveling from?
+- What is your departure city?
+
+# ConfirmPrefix
+- Please confirm,
+- Can you please confirm this is right?
+- Does this sound righ to you? 
+
+# ConfirmMessage
+- I have you traveling to: ${conversation.flightBooking.destinationCity} from: ${conversation.flightBooking.departureCity} on: ${conversation.flightBooking.departureDate[0].value}
+- on ${conversation.flightBooking.departureDate[0].value}, travelling from ${conversation.flightBooking.departureCity} to ${conversation.flightBooking.destinationCity}
+
+# ConfirmBooking
+- ${ConfirmPrefix()} ${ConfirmMessage()}
+
+# PromptForTravelDate
+- When would you like to travel?
+- What is your departure date? 
+- Can you please give me your intended date of departure? 
+
+> This template uses inline expressions. Expressions are defined using adaptive expressions. 
+> See https://aka.ms/adaptive-expressions to learn more.
+
+# PromptForMissingInformation
+- IF: ${conversation.flightBooking.departureCity == null} 
+  - ${PromptForDepartureCity()}
+- ELSEIF: ${conversation.flightBooking.destinationCity == null}
+  - ${PromptForDestinationCity()}
+- ELSEIF: ${conversation.flightBooking.departureDate == null}
+  - ${PromptForTravelDate()}
+- ELSE: 
+  - ${ConfirmBooking()}
+
+# ApologyPrefix
+- I'm sorry,
+- Unfortunately that does not work. 
+
+# InvalidDateReprompt
+- ${ApologyPrefix()} to make your booking please enter a full travel date including Day Month and Year.
+
+
+# BookingConfirmation
+- I have you booked to ${conversation.flightBooking.destinationCity} from ${conversation.flightBooking.departureCity} on ${conversation.flightBooking.departureDate[0].value}.
+
+# IntroPrompt
+- What can I help you with today?
+
+> Structured template definition.
+# BotOverview
+[Activity
+    Text = Hello, I'm the Core bot. Some of my features include LanguageGeneration, LUIS, and AdaptiveDialogs. By default, I will run using a Regex generator. To enable LUIS, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.
+    SuggestedActions = Book flight | Help | Cancel
+]
+
+# DisplayHelp
+[Activity
+    Text = This is the help desk. Help information goes here.
+    SuggestedActions = Book flight | Help | Cancel
+]
+
+# DisambiguateCity
+- Sure, what should I use ${@geographyV2[0]} as?
+
+# UnknownIntent
+[Activity
+    Text = Sorry, I do not understand that. Can you try and re-phrase?
+    SuggestedActions = Book flight | Hi | I need help | Exit
+]
+
+# HeaderText
+- Welcome to Bot Framework!
+- Welcome to core bot with Language Generation!
+
+> Structured template definition.
+# WelcomeCard
+[Activity
+    Attachments = ${json(AdaptiveCard.Definition())}
+]
+
+# Date.Invalid
+- I'm sorry, to make your booking please enter a full travel date including day, month and year.
+
+# AdaptiveCard.Definition
+- ${fromFile('./welcomecard.json')}

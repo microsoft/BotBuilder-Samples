@@ -2,36 +2,39 @@
 // Licensed under the MIT License.
 
 using System;
+using System.IO;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Builder.TraceExtensions;
-using Microsoft.Bot.Schema;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Bot.Builder.Dialogs.Adaptive;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
 namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
-            : base(configuration, logger)
+        private Templates _templates;
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
+            UserState userState, ConversationState conversationState, IConfiguration configuration)
+            : base(credentialProvider)
         {
+            this.UseStorage(storage);
+            this.UseBotState(userState);
+            this.UseBotState(conversationState);
+
+            string[] paths = { ".", $"{nameof(AdapterWithErrorHandler)}.lg" };
+            string fullPath = Path.Combine(paths);
+            _templates = Templates.ParseFile(fullPath);
+
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
-                // NOTE: In production environment, you should consider logging this to
-                // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
-                // to add telemetry capture to your bot.
-                logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
+                logger.LogError($"Exception caught : {exception.Message}");
 
-                // Send a message to the user
-                var errorMessageText = "The bot encountered an error or bug.";
-                var errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.IgnoringInput);
-                await turnContext.SendActivityAsync(errorMessage);
-
-                errorMessageText = "To continue to run this bot, please fix the bot source code.";
-                errorMessage = MessageFactory.Text(errorMessageText, errorMessageText, InputHints.ExpectingInput);
-                await turnContext.SendActivityAsync(errorMessage);
+                // Send a catch-all apology to the user.
+                await turnContext.SendActivityAsync(ActivityFactory.FromObject(_templates.Evaluate("SomethingWentWrong", exception)));
 
                 if (conversationState != null)
                 {
@@ -44,12 +47,9 @@ namespace Microsoft.BotBuilderSamples
                     }
                     catch (Exception e)
                     {
-                        logger.LogError(e, $"Exception caught on attempting to Delete ConversationState : {e.Message}");
+                        logger.LogError($"Exception caught on attempting to Delete ConversationState : {e.Message}");
                     }
                 }
-
-                // Send a trace activity, which will be displayed in the Bot Framework Emulator
-                await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
             };
         }
     }
