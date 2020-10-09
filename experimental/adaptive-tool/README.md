@@ -82,7 +82,7 @@ This is an example of a typical `launch.json`:
 
 ### Start bot runtime and complete initialization
 
-Start a bot runtime. For example, start a bot project: `todobot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json). Then make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
+Start a bot runtime. For example, start a bot project: `todobot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/main/tests/Microsoft.Bot.Builder.TestBot.Json). Then make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
 
 There are several ways to initialize a bot, and [BotFremawork Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the emulator and attach it to the bot to finish the initialization.
 
