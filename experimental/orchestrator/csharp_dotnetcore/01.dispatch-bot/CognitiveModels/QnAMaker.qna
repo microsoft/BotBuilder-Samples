@@ -3,14 +3,14 @@
 hello
 ```
 
-# ? greetings	
+# ? greetings
 - good morning
 - good evening
 ```
 Hello!
 ```
 
-# ? What are you?	
+# ? What are you?
 - What?
 - What do you do?
 - Who are you?
@@ -18,4 +18,4 @@ Hello!
 - What should I call you?
 ```
 I am the LUIS-QnAMaker Dispatch bot! This sample demonstrates using several LUIS applications and QnA Maker knowledge base using Orchestrator.
-```	
+```
