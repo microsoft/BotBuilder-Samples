@@ -37,14 +37,14 @@ This sample **requires** prerequisites in order to run.
     > cd experimental/orchestrator/javascript_nodejs/03.declarative-bot
     ```
 - Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter the get command below.
     ```bash
     > bf orchestrator:nlr:list
     ```
     - Download the NLR model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.0.0-pretrained.20200729.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:nlr:get --versionId <version id> --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash
