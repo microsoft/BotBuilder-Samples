@@ -1,0 +1,20 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- This bot will introduce you to AdaptiveCards. Type anything to see an AdaptiveCard.
+
+# SeeAnotherCardPrompt
+- Please enter any text to see another card.
+
+# AdaptiveCard
+[Activity
+    Attachments = ${json(AdaptiveCard.Definition())}
+]
+
+# AdaptiveCard.Definition
+- ${json(fromFile('../AdaptiveCards/FlightItineraryCard.json'))}
+- ${json(fromFile('../AdaptiveCards/ImageGalleryCard.json'))}
+- ${json(fromFile('../AdaptiveCards/LargeWeatherCard.json'))}
+- ${json(fromFile('../AdaptiveCards/RestaurantCard.json'))}
+- ${json(fromFile('../AdaptiveCards/SolitaireCard.json'))}

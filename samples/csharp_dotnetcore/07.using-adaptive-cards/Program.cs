@@ -19,10 +19,11 @@ namespace Microsoft.BotBuilderSamples
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.ConfigureLogging((logging) =>
-                     {
-                         logging.AddDebug();
-                         logging.AddConsole();
-                     });
+                    {
+                        logging.AddDebug();
+                        logging.AddConsole();
+                    });
+
                     webBuilder.UseStartup<Startup>();
                 });
     }
