@@ -121,12 +121,12 @@ Here's an example of a typical `launch.json`:
 ### Start bot runtime and complete initialization
 
 1. Start a bot runtime. For example, start the bot project `TodoBot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json).
-1. Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
+1. Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with the `UseDebugger` method.
 1. There are several ways to initialize a bot, and [BotFramework Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the Emulator and attach it to the bot to finish the initialization.
 
 ### Debug the runtime
 
-1. Run the Visual Studio Code program by clicking **F5** and setting break points in the LG, LU, or Dialog file.
+1. Run the Visual Studio Code program by clicking **F5** and set break points in the LG, LU, and/or Dialog files.
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
