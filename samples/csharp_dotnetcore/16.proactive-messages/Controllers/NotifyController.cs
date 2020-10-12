@@ -57,6 +57,8 @@ namespace ProactiveBot.Controllers
         {
             // If you encounter permission-related errors when sending this message, see
             // https://aka.ms/BotTrustServiceUrl
+
+            // DialogManager could also be loaded here, and the conversation resumed.
             await turnContext.SendActivityAsync("proactive hello");
         }
     }

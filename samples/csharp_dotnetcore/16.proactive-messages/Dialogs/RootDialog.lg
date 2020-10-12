@@ -1,0 +1,8 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# YouSaid()
+- You said: ${turn.activity.text}
+
+# WelcomeMessage
+- Welcome to the Proactive Bot sample.  Navigate to http://localhost:3978/api/notify to proactively message everyone who has previously messaged this bot.
