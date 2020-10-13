@@ -1,0 +1,78 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- ${AttachmentOptionsCard('Welcome to AttachmentsBot. This bot will introduce you to Attachments. Please select an option:')}
+
+# AttachmentOptionsMessage
+- ${AttachmentOptionsCard('Please select an option for an example:')}
+
+# AttachmentOptionsCard(textParam)
+[HeroCard
+    Subtitle = Microsoft Bot Framework
+    Text = ${textParam}
+    Buttons = ${AttachmentOptions()}
+]
+
+# AttachmentOptions()
+- ${[InlineCardAction(), InternetCardAction(), UploadCardAction()]}
+
+# InlineCardAction
+[CardAction
+    Title = 1. Inline Attachment
+    Type = imBack
+    Value = 1
+]
+
+# InternetCardAction
+[CardAction
+    title = 2. Internet Attachment
+    type = imBack
+    value = 2
+]
+
+# UploadCardAction
+[CardAction
+    title = 3. Uploaded Attachment
+    type = imBack
+    value = 3
+]
+
+# InternetAttachmentMessage()
+[Activity
+    Text = This is an attachment from a HTTP URL.
+    Attachments = ${[InternetAttachment()]}
+]
+
+# InternetAttachment()
+[Attachment
+    Name = Resources\architecture-resize.png
+    ContentType = image/png
+    ContentUrl = https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png
+]
+
+# UploadAttachmentMessage()
+[Activity
+    Text = This is an uploaded attachment.
+    Attachments = ${[UploadedAttachment()]}
+]
+
+# UploadedAttachment()
+[Attachment
+    Name = Resources\architecture-resize.png
+    ContentType = image/png
+    ContentUrl = ${turn.attachmentUri}
+]
+
+# InlineAttachmentMessage()
+[Activity
+    Text = This is an inline attachment.
+    Attachments = ${[InlinedAttachment()]}
+]
+
+# InlinedAttachment()
+[Attachment
+    Name = Resources\architecture-resize.png
+    ContentType = image/png
+    ContentUrl = ${turn.contentUrl}
+]
