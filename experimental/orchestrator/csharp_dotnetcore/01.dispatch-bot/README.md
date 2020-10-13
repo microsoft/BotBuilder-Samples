@@ -32,6 +32,12 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
+      To reinstall bf orchestrator plugin, uninstall previous version and then run the install command again.
+      
+      Uninstall command:
+    ```bash
+    > bf plugins:uninstall @microsoft/bf-orchestrator-cli
+    ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
     > bf orchestrator
@@ -60,7 +66,7 @@ This sample **requires** prerequisites in order to run.
     ```
     - Update kb information in `./appsettings.json`
 - Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter the get command below.
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:nlr:get command below.
     ```bash
     > bf orchestrator:nlr:list
     ```
