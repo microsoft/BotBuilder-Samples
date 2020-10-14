@@ -1,6 +1,6 @@
 # Bot Framework Adaptive Tool
 
-Bot Framework Adaptive Tool is a Visual Studio Code extension that helps developers handle LG (.lg), LU (.lu), and Dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
+Bot Framework Adaptive Tool is a VS Code extension that helps developers handle LG (.lg), LU (.lu), and Dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
 
 Supported features include the following:
 <!--
@@ -23,7 +23,6 @@ Supported features include the following:
 | [Template definition](#hover,-suggestions,-and-navigation)                           | LG                  |
 | [Template, function, and structure suggestions](#hover,-suggestions,-and-navigation)] | LG                  |
 | [Debugging](#debugging)                                     | LG, LU, Dialog      |
-|||
 
 ## Getting started
 
@@ -91,6 +90,7 @@ Structure property suggestions:
 ![structure_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/structure_suggestion.gif)
 
 Template navigation:
+
 ![template_definition](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/template_definition.gif)
 
 ## Debugging
@@ -128,7 +128,7 @@ Here's an example of a typical `launch.json`:
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
-![breakpoints](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/breakpoints.gif)
+![breakpoints](../adaptive-tool/resources/images/breakpoints.gif)
 
 ## Adaptive Tool settings
 
