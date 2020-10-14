@@ -118,7 +118,7 @@ Here's an example of a typical `launch.json`:
 
 ### Start bot runtime and complete initialization
 
-1. Start a bot runtime. For this example we'll start the bot project `TodoBot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json).
+1. Start a bot runtime. For this example we'll start the bot project `TodoBot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/main/tests/Microsoft.Bot.Builder.TestBot.Json).
 1. Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with the `UseDebugger` method.
 1. There are several ways to initialize a bot, and [BotFramework Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the Emulator and attach it to the bot to finish the initialization.
 
@@ -128,7 +128,7 @@ Here's an example of a typical `launch.json`:
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
-![breakpoints][(https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/breakpoints.gif)]
+![breakpoints](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/breakpoints.gif)
 
 ## Adaptive Tool settings
 
