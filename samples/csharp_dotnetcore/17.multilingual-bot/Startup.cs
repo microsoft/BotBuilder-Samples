@@ -4,21 +4,27 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.Translation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.BotBuilderSamples.Translation;
+using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.BotBuilderSamples.Dialogs;
 
 namespace Microsoft.BotBuilderSamples
 {
-    /// <summary>
-    /// The Startup class configures services and the app's request pipeline.
-    /// </summary>
     public class Startup
     {
-        public Startup()
+        public Startup(IConfiguration configuration)
         {
+            Configuration = configuration;
         }
+
+        public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
@@ -28,11 +34,23 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            // Create the bot. the ASP Controller is expecting an IBot.
+            services.AddSingleton<IBot, DialogBot<RootDialog>>();
+
+            // The adaptive dialog that will be run by the bot.
+            services.AddSingleton<RootDialog>();
+
+            // Create the credential provider to be used with the Bot Framework Adapter.
+            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
+
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.) 
             services.AddSingleton<IStorage, MemoryStorage>();
 
-            // Create the User state. (Used to store the user's language preference.)
+            // Create the User state. (Used in this bot's Dialog implementation.)
             services.AddSingleton<UserState>();
+
+            // Create the Conversation state. (Used by the Dialog system itself.)
+            services.AddSingleton<ConversationState>();
 
             // Create the Microsoft Translator responsible for making calls to the Cognitive Services translation service
             services.AddSingleton<MicrosoftTranslator>();
@@ -40,8 +58,7 @@ namespace Microsoft.BotBuilderSamples
             // Create the Translation Middleware that will be added to the middleware pipeline in the AdapterWithErrorHandler
             services.AddSingleton<TranslationMiddleware>();
 
-            // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, MultiLingualBot>();
+            services.AddSingleton<MessageActivityTranslator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,14 +71,13 @@ namespace Microsoft.BotBuilderSamples
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                 });
-
-            // app.UseHttpsRedirection();
         }
     }
 }

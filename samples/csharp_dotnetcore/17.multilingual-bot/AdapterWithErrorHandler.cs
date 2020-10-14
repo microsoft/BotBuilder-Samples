@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.Translation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -15,9 +16,16 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware, ConversationState conversationState = null)
-            : base(configuration, logger)
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
+            UserState userState, ConversationState conversationState, TranslationMiddleware translationMiddleware, IConfiguration configuration)
+            : base(credentialProvider)
         {
+            // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
+            // turn context each turn so that the dialog manager can retrieve them.
+            this.UseStorage(storage);
+            this.UseBotState(userState);
+            this.UseBotState(conversationState);
+
             if (translationMiddleware == null)
             {
                 throw new NullReferenceException(nameof(translationMiddleware));

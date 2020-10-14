@@ -32,6 +32,11 @@ namespace Microsoft.BotBuilderSamples.Translation
 
         public async Task<string> TranslateAsync(string text, string targetLocale, CancellationToken cancellationToken = default(CancellationToken))
         {
+            if (string.IsNullOrEmpty(text))
+            {
+                return text;
+            }
+
             // From Cognitive Services translation documentation:
             // https://docs.microsoft.com/en-us/azure/cognitive-services/translator/quickstart-csharp-translate
             var body = new object[] { new { Text = text } };

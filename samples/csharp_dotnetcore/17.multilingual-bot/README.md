@@ -2,7 +2,9 @@
 
 Bot Framework v4 multilingual bot sample
 
-This sample will present the user with a set of cards to pick their choice of language. The user can either change language by invoking the option cards, or by entering the language code (_en_/_es_). The bot will then acknowledge the selection.
+This sample will present the user with a set of cards to pick their choice of language from four options: English, Spanish, French, Italian. The user can either change language by invoking the option cards, or by entering the language code (_en_/_es_/_it_/_fr_). The bot will then acknowledge the selection.
+
+To get the set of option cards at any time, the user needs to type: LANGUAGE. The option cards are also translated to the user language. At any point in time, the user has the option to see a Hero Card by typing HERO. The Hero Card is translated if the current language selection is not English. 
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
 
@@ -16,6 +18,12 @@ Users can change their language preference anytime, and since this gets written 
 
 The [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/), Microsoft Translator Text API is a cloud-based machine translation service. With this API you can translate text in near real-time from any app or service through a simple REST API call.
 The API uses the most modern neural machine translation technology, as well as offering statistical machine translation technology.
+
+This sample illustrates the following:
+- Adaptive Dialogs
+- Language Generation
+- Translation Middleware
+- Translation of Cards and text
 
 ## Prerequisites
 
