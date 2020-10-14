@@ -27,11 +27,11 @@ Supported features include the following:
 
 ## Getting started
 
-Adaptive Tool can be installed from the [Visual Studio Marketplace](#install-from-the-visual-studio-code-marketplace) or from a [local VSIX file](#install-from-a-local-vsix-file).
+Adaptive Tool can be installed from the [VS Code Extension Marketplace](#install-from-the-vs-code-extension-marketplace) or from a [local VSIX file](#install-from-a-local-vsix-file).
 
-### Install from the Visual Studio Marketplace
+### Install from the VS Code Extension Marketplace
 
-1. Install the Bot Framework Adaptive Tool [extension](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [Visual Studio Marketplace](https://marketplace.visualstudio.com/vscode).
+1. Install the Bot Framework Adaptive Tool [extension](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code Extension Marketplace](https://marketplace.visualstudio.com/vscode).
 1. Open an LG, LU, or Dialog file and the extension will activate.
 
 ### Install from a local VSIX file
@@ -95,7 +95,7 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tool lets developers debug LG, LU, and Dialog files in runtime.
+Adaptive Tool lets developers debug LG, LU, and Dialog files in runtime. This section covers the steps and shows and example of how to [configure](#configuration), [initialize](#start-bot-runtime-and-complete-initialization), and [debug](#debug-the-runtime) a bot.
 
 ### Configuration
 
