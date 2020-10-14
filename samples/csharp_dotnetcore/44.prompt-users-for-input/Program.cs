@@ -23,6 +23,7 @@ namespace Microsoft.BotBuilderSamples
                         logging.AddDebug();
                         logging.AddConsole();
                     });
+
                     webBuilder.UseStartup<Startup>();
                 });
     }

@@ -1,0 +1,39 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- Welcome to the PromptUsers bot! Type anything to get started!
+
+# NamePrompt
+- Let's get started. What is your name?
+
+# InvalidName
+- Please enter a name that contains at least one character.
+
+# GreetWithName
+- Hi ${user.Name}.
+- Nice to meet you ${user.Name}.
+
+# AgePrompt
+- How old are you?
+
+# AckAge
+- I have your age as ${user.Age}
+
+# InvalidAge
+- Please enter an age between 18 and 120.
+
+# FlightPrompt
+- When is your flight?
+
+# InvalidDate
+- Please enter a valid date.
+
+# SummaryInfo
+- Your cab ride to the airport is scheduled for ${user.TravelDate}
+
+# ThankYouMessage
+- Thanks for completing the booking, ${user.Name}.
+
+# RestartPrompt
+- Type anything to run the bot again.
