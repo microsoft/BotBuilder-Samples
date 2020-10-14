@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Percentage": {
+            "type": "string",
+            "$entities": [
+                "percentage"
+            ]
+        }
+    },
+    "required": [
+        "Percentage"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

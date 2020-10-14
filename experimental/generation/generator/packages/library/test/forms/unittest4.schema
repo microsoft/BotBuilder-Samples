@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "NameArray": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "$entities": [
+                "personName"
+            ]
+        }
+    },
+    "required": [
+        "NameArray"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

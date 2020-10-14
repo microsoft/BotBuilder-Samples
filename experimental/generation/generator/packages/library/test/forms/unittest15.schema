@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "KeyphraseProperty": {
+            "type": "string",
+            "$entities": [
+                "keyPhrase"
+            ]
+        }
+    },
+    "required": [
+        "KeyphraseProperty"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

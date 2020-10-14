@@ -1,0 +1,21 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "EnumFruit": {
+            "type": "string",
+            "enum": [
+                "orange",
+                "apple",
+                "pear",
+                "banana"
+            ]
+        }
+    },
+    "required": [
+        "EnumFruit"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

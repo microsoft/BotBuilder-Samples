@@ -1,0 +1,26 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "EnumArrayColor": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "yellow",
+                    "red",
+                    "blue",
+                    "black",
+                    "white"
+                ],
+                "maxItems": 3
+            }
+        }
+    },
+    "required": [
+        "EnumArrayColor"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}
