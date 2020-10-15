@@ -12,13 +12,18 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithInspection : BotFrameworkHttpAdapter
     {
-        public AdapterWithInspection(IConfiguration configuration, InspectionState inspectionState, UserState userState, ConversationState conversationState, ILogger<BotFrameworkHttpAdapter> logger)
+        public AdapterWithInspection(IConfiguration configuration, InspectionState inspectionState, UserState userState, ConversationState conversationState, IStorage storage, ILogger<BotFrameworkHttpAdapter> logger)
             : base(configuration, logger)
         {
             // Inspection needs credentiaols because it will be sending the Activities and User and Conversation State to the emulator
             var credentials = new MicrosoftAppCredentials(configuration["MicrosoftAppId"], configuration["MicrosoftAppPassword"]);
-
             Use(new InspectionMiddleware(inspectionState, userState, conversationState, credentials));
+
+            // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
+            // turn context each turn.
+            this.UseStorage(storage);
+            this.UseBotState(userState);
+            this.UseBotState(conversationState);
 
             OnTurnError = async (turnContext, exception) =>
             {

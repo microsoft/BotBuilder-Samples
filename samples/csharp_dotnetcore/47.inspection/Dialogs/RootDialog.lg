@@ -1,0 +1,9 @@
+> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# WelcomeMessage
+- Hello, and welcome! Please go through the Readme.md to learn how to test Inspection Middleware.
+- Welcome!  Is the Emulator running?  Do you have an '/INSPECT attach <guid>'?
+
+# EchoWithValuesMessage()
+- Echo: ${turn.activity.text}  User: ${user.customState.value}  Conversation: ${user.customState.value}

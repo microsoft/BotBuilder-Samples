@@ -61,10 +61,10 @@ More details are available [here](https://github.com/microsoft/BotFramework-Emul
 (Note the follow applies if you are using two emulators. More recent builds of the Bot Framework Emulator hide the need to type /INSPECT open.)
 
 - Launch a second Emulator - this will act as the debugger
-- In this second Emulator type /INSPECT open
+- In this second Emulator, choose Debug -> Start Debugging
 - The result is a trace activity which contains a statement that looks like /INSPECT attach < identifier >
-- In the chat session that you want to inspect type this command exact as it is (you can use cut and paste)
-- Now all the traffic will be replicated (as trace activities) to the Emulator that sent the /INSPECT open command
+- In the chat session that you want to inspect type this command exact as it is (you can use copy and paste)
+- Now all the traffic will be replicated (as trace activities) to the second Emulator
 
 ## Deploy the bot to Azure
 
