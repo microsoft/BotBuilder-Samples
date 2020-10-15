@@ -13,7 +13,7 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import {SubstitutionsEvaluator} from './substitutions'
+import { SubstitutionsEvaluator } from './substitutions'
 import * as ps from './processSchemas'
 
 export enum FeedbackType {
@@ -129,15 +129,16 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
 export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
     templateDirs = resolveDir(templateDirs || [])
-
-    // User templates + cli templates to find schemas
     let startDirs = [...templateDirs]
-    let templates = normalize(ppath.join(__dirname, '../templates'))
-    for (let dirName of await fs.readdir(templates)) {
-        let dir = ppath.join(templates, dirName)
-        if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
-            // Add templates subdirectories as templates
-            startDirs.push(dir)
+    if (startDirs.length === 0) {
+        // Default to children of built-in templates
+        let templates = normalize(ppath.join(__dirname, '../templates'))
+        for (let dirName of await fs.readdir(templates)) {
+            let dir = ppath.join(templates, dirName)
+            if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+                // Add templates subdirectories as templates
+                startDirs.push(dir)
+            }
         }
     }
     return startDirs
@@ -199,7 +200,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = {source: string, template: string}
+type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -208,7 +209,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
+            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
             break
         } else {
             // LG file
@@ -242,7 +243,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -544,7 +545,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = {...obj, ...elt}
+                    obj = { ...obj, ...elt }
                 }
                 newSchema = obj
             }
@@ -559,7 +560,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
+                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
             }
         }
@@ -632,7 +633,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '  '})
+                await fs.writeJSON(outPath, main, { spaces: '  ' })
             } else {
                 await fs.copy(path, outPath)
             }
@@ -640,10 +641,18 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
     }
 }
 
+
+const templatePrefix: string = 'template:'
+
 function resolveDir(dirs: string[]): string[] {
     let expanded: string[] = []
     for (let dir of dirs) {
-        dir = ppath.resolve(dir)
+        if (dir.startsWith(templatePrefix)) {
+            // Expand template:<name> relative to built-in templates
+            expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
+        } else {
+            dir = ppath.resolve(dir)
+        }
         expanded.push(normalize(dir))
     }
     return expanded
@@ -788,11 +797,11 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = {...scope, ...schema.schema.$parameters}
+            scope = { ...scope, ...schema.schema.$parameters }
         }
 
         await ensureEntities(schema, templateDirs, scope, feedback)
-        scope = {...scope, entities: schema.entityToProperties()}
+        scope = { ...scope, entities: schema.entityToProperties() }
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
