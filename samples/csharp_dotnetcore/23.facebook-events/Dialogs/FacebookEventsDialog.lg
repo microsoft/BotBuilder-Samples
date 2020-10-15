@@ -1,0 +1,40 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+> Structured template definition.
+# ChoicesPromptMessage()
+[Activity
+    Text = ${ChoicesPromptMessage.Text()}
+]
+
+# ChoicesPromptMessage.Text
+- What Facebook feature would you like to try? Here are some quick replies to choose from!
+- Choose one of these quick replies for an example.
+
+# MessageTypeChoices
+- =[{"value":"Quick Replies", "title":"Quick Replies", "type":"postBack"}, {"value":"Facebook Id", "title":"Facebook Id", "type":"postBack"}, {"value":"Postback", "title":"Postback", "type":"postBack"}]
+
+
+# FacebookPageIdMessage()
+- This message comes from the following Facebook Page: ${turn.activity.recipient.id}
+
+# PostBackHeroCard()
+[HeroCard
+    Text = Is 42 the answer to the ultimate question of Life, the Universe, and Everything?
+    Buttons = ${[cardActionTemplate('Yes'), cardActionTemplate('No')]}
+]
+
+# cardActionTemplate(title)
+[CardAction
+    Type = ${'postBack'}
+    Title = ${title}
+    Value = ${title}
+]
+
+# ConfirmPromptMessage.Text
+- Is 42 the answer to the ultimate question of Life, the Universe, and Everything?
+
+# PostbackResponseMessage
+- Are you sure?
+- Maybe?
+

@@ -12,9 +12,14 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState, IStorage storage)
             : base(configuration, logger)
         {
+            // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
+            // turn context each turn.
+            this.UseStorage(storage);
+            this.UseBotState(conversationState);
+
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.
