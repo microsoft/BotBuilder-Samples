@@ -21,7 +21,7 @@ Supported features include the following:
 | [Autocompletion](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                                | LG, LU              |
 | [Template and function hover](#hover,-suggestions,-and-navigation)                   | LG                  |
 | [Template definition](#hover,-suggestions,-and-navigation)                           | LG                  |
-| [Template, function, and structure suggestions](#hover,-suggestions,-and-navigation)] | LG                  |
+| [Template, function, and structure suggestions](#hover,-suggestions,-and-navigation) | LG                  |
 | [Debugging](#debugging)                                     | LG, LU, Dialog      |
 
 ## Getting started
