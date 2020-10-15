@@ -135,7 +135,7 @@ export async function templateDirectories(templateDirs?: string[]): Promise<stri
         let templates = normalize(ppath.join(__dirname, '../templates'))
         for (let dirName of await fs.readdir(templates)) {
             let dir = ppath.join(templates, dirName)
-            if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
+            if ((await fs.lstat(dir)).isDirectory()) {
                 // Add templates subdirectories as templates
                 startDirs.push(dir)
             }
@@ -169,13 +169,8 @@ function getExpressionEngine(): expressions.ExpressionParser {
     return expressionEngine
 }
 
+// Generator template used in expanding schema
 let generatorTemplate: lg.Templates
-function getGeneratorTemplate(): lg.Templates {
-    if (!generatorTemplate) {
-        generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, getExpressionEngine())
-    }
-    return generatorTemplate
-}
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -566,7 +561,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
-            let value = getGeneratorTemplate().evaluateText(schema, scope)
+            let value = generatorTemplate.evaluateText(schema, scope)
             if (value && value !== 'null') {
                 newSchema = value
             } else {
@@ -774,6 +769,20 @@ export async function generate(
         }
 
         let startDirs = await templateDirectories(templateDirs)
+        
+        // Find generator.lg for schema expansion
+        debugger
+        for (let dir of startDirs) {
+            let loc = ppath.join(dir, '../generator.lg')
+            if (await fs.pathExists(loc)) {
+                generatorTemplate = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                break
+            }
+        }
+        if (!generatorTemplate) {
+            feedback(FeedbackType.error, 'Templates must include a parent generator.lg')
+        }
+
         let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
