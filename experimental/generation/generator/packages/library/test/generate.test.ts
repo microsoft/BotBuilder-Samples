@@ -11,7 +11,7 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
-import {generateTest} from '../src/testGenerator'
+import { generateTest } from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
 
@@ -172,7 +172,7 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Schema discovery', async() => {
+    it('Schema discovery', async () => {
         try {
             let schemas = await ps.schemas()
             assert.equal(Object.keys(schemas).length, 10, 'Wrong number of schemas discovered')
