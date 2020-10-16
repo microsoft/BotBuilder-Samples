@@ -1,0 +1,14 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# EchoMessage()
+- Echo: ${turn.activity.text}
+
+# WelcomeMessage()
+- Hello, I'm the mesage reaction bot. Are you ready to get started?
+
+# ReactionAddedMessage()
+- You added '${$foreach.value.type}' regarding '${turn.foundActivity.text}'
+
+# ReactionRemovedMessage()
+- You removed '${$foreach.value.type}' regarding '${turn.foundActivity.text}'

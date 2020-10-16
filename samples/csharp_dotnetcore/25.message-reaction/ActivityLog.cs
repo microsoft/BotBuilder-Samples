@@ -9,6 +9,7 @@ using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
+    // Simple activity log used for logging and retrieving activities by id.
     public class ActivityLog
     {
         private IStorage _storage;
@@ -18,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
             _storage = storage;
         }
 
-        public async Task Append(string activityId, Activity activity)
+        public async Task AppendAsync(string activityId, Activity activity)
         {
             if (activityId == null)
             {
@@ -30,17 +31,17 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentNullException("activity");
             }
 
-            await _storage.WriteAsync(new Dictionary<string, object> { { activityId, activity } });
+            await _storage.WriteAsync(new Dictionary<string, object> { { activityId, activity } }).ConfigureAwait(false);
         }
 
-        public async Task<Activity> Find(string activityId)
+        public async Task<Activity> FindAsync(string activityId)
         {
             if (activityId == null)
             {
                 throw new ArgumentNullException("activityId");
             }
 
-            var activities = await _storage.ReadAsync(new[] { activityId });
+            var activities = await _storage.ReadAsync(new[] { activityId }).ConfigureAwait(false);
             return activities.Count >= 1 ? (Activity)activities[activityId] : null;
         }
     }
