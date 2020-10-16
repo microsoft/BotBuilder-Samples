@@ -125,7 +125,7 @@ Here's an example of a typical `launch.json`:
 
 ### Debug the runtime
 
-1. Run the Visual Studio Code program by clicking **F5** and set break points in the LG, LU, and/or Dialog files.
+1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, and dialog files.
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
