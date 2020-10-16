@@ -14,6 +14,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.BotBuilderSamples.FacebookModel;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -21,31 +22,18 @@ namespace Microsoft.BotBuilderSamples
     {
         private readonly Templates _templates;
 
-        public FacebookEventsDialog() : base(nameof(FacebookEventsDialog))
+        public FacebookEventsDialog()
+            : base(nameof(FacebookEventsDialog))
         {
             string[] paths = { ".", "Dialogs", $"FacebookEventsDialog.lg" };
             var fullPath = Path.Combine(paths);
             _templates = Templates.ParseFile(fullPath);
 
             AutoEndDialog = false;
-            
+
             // These steps are executed when this Adaptive Dialog begins
             Triggers = new List<OnCondition>
             {
-                //new OnBeginDialog()
-                //{
-                //    Actions = new List<Dialog>
-                //    {
-                //        new IfCondition
-                //        {
-                //            Condition = "turn.repeating",
-                //            Actions = new List<Dialog>
-                //            {
-                //                ShowChoices()
-                //            }
-                //        }
-                //    }
-                //},
                 // Setup an OnEventActivity to set the activity.value
                 // into a turn Property, then process the event.
                 // This event is setup to listen to only optin and is_echo.
@@ -62,7 +50,6 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 new CodeAction(OnFacebookEcho),
                                 new EndTurn(),
-                                new EndDialog()
                             },
                         },
                         new IfCondition
@@ -72,30 +59,32 @@ namespace Microsoft.BotBuilderSamples
                             {
                                 new CodeAction(OnFacebookOptin),
                                 new EndTurn(),
-                                new EndDialog()
                             },
                         },
                     }
                 },
+                
                 // Respond to user with choices or processing their message.
                 new OnUnknownIntent
                 {
                     Condition = "turn.activity.text.length > 0 || turn.facebookPayload.message.quick_reply != null || turn.facebookPayload.postback != null",
-                    Actions = new List<Dialog>() { ShowChoices(), ProcessMessage(), new RepeatDialog() }
-                }, //new SetProperty { Property = "turn.repeating", Value = true },
+                    Actions = new List<Dialog>() { ShowChoices(), ProcessMessage() }
+                }
             };
 
             Generator = new TemplateEngineLanguageGenerator(_templates);
         }
 
-        private Task<DialogTurnResult> OnFacebookOptin(DialogContext arg1, object arg2)
+        private async Task<DialogTurnResult> OnFacebookOptin(DialogContext arg1, object arg2)
         {
-            return Task.FromResult(new DialogTurnResult(DialogTurnStatus.Complete));
+            await arg1.EndDialogAsync().ConfigureAwait(false);
+            return new DialogTurnResult(DialogTurnStatus.Complete);
         }
 
-        private Task<DialogTurnResult> OnFacebookEcho(DialogContext arg1, object arg2)
+        private async Task<DialogTurnResult> OnFacebookEcho(DialogContext arg1, object arg2)
         {
-            return Task.FromResult(new DialogTurnResult(DialogTurnStatus.Complete));
+            await arg1.EndDialogAsync().ConfigureAwait(false);
+            return new DialogTurnResult(DialogTurnStatus.Complete);
         }
 
         private Dialog ProcessMessage()
@@ -105,11 +94,11 @@ namespace Microsoft.BotBuilderSamples
                 Condition = "conversation.promptChoice",
                 Cases = new List<Case>()
                 {
-                    new Case("Quick Replies",   new List<Dialog>() { new RepeatDialog() } ), //??
-                    new Case("Facebook Id",     new List<Dialog>() { new SendActivity("${FacebookPageIdMessage()}") } ),
-                    new Case("Postback",        new List<Dialog>() { new SendActivity("${PostBackHeroCard()}"), new EndTurn(), new SendActivity("${PostbackResponseMessage()}") } ),
+                    new Case("Quick Replies",   new List<Dialog>() { new SendActivity("${ButtonWasQuickReplyMessage()}") }),
+                    new Case("Facebook Id",     new List<Dialog>() { new SendActivity("${FacebookPageIdMessage()}") }),
+                    new Case("Postback",        new List<Dialog>() { new SendActivity("${PostBackHeroCard()}"), new EndTurn(), new SendActivity("${PostbackResponseMessage()}") }),
                 },
-                Default = new List<Dialog> { new RepeatDialog() } //??
+                Default = new List<Dialog> { ShowChoices() }
             };
         }
 
@@ -117,10 +106,14 @@ namespace Microsoft.BotBuilderSamples
         {
             return new ChoiceInput
             {
+                Id = "FacebookChoicesDialogId",
+
                 // Ask the user which type of Facebook activity they would like to try
                 Prompt = new ActivityTemplate("${ChoicesPromptMessage()}"),
+                InvalidPrompt = new ActivityTemplate("${ChoicesPromptMessage()}"),
                 AllowInterruptions = true,
                 Style = ListStyle.Auto,
+
                 // Inputs will skip the prompt if the property (turn.promptChoice in this case) already has value.
                 // Since we are using RepeatDialog, we will set AlwaysPrompt property so we do not skip this prompt
                 // and end up in an infinite loop.
@@ -129,26 +122,5 @@ namespace Microsoft.BotBuilderSamples
                 Property = "conversation.promptChoice"
             };
         }
-
-
-        //private Dialog ProcessMessageOrShowChoices()
-        //{
-        //    return new IfCondition
-        //    {
-        //        Condition = "conversation.promptChoice != null",
-        //        Actions = new List<Dialog>
-        //        {
-        //            ProcessMessage(),
-        //            new DeleteProperty
-        //            {
-        //                Property = "conversation.promptChoice"
-        //            },
-        //        },
-        //        ElseActions = new List<Dialog>
-        //        {
-        //            ShowChoices(),
-        //        }
-        //    };
-        //}
     }
 }
