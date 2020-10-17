@@ -16,7 +16,7 @@ Supported features include the following:
 
 | Feature                                       | File type supported |
 |-----------------------------------------------|---------------------|
-| [Syntax highlighting](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                           | LG, LU              |
+| [Syntax highlighting](#syntax-highlighting,-diagnostic-checks,-and-autocompletion)                           | LG, LU              |
 | [Diagnostic checks](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                             | LG, LU              |
 | [Autocompletion](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                                | LG, LU              |
 | [Template and function hover](#hover,-suggestions,-and-navigation)                   | LG                  |
@@ -40,13 +40,27 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
 
     ```cmd
     npm install
+    ```
+    
+    ```cmd
     npm run build
     ```
+    
+  1. Run the following command to install [vsce](https://www.npmjs.com/package/vsce):
+  
+      ```cmd
+      npm install -g vsce
+      ```
+    
+1. Finally run the command below to export the VSIX file:
 
-1. If `vsce` is not installed globally run `npm install -g vsce`.
-1. Run `vsce package` to export the VSIX file. Now you're ready to install
+    ```cmd
+    vsce package
+    ```
+    
+    You're now ready to install Adaptive Tool.
 1. Open VS Code and open the **Extensions** view.
-1. Click the **More Actions** button (...) in the upper-right corner of the window. Then click **Install from VSIX** and select the VSIX file you created earlier.
+1. Click the **More Actions** button (...) in the upper-right corner of the window. Then click **Install from VSIX..** and select the VSIX file you created earlier.
 1. Open an LG, LU, or dialog file and the extension will activate.
 
 ## Language features
@@ -57,7 +71,7 @@ Language features are driven by the [language server protocol](./languageServer.
 
 #### LU
 
-Different colors and styles for `intent`, `entity`, and `comment` components:
+Different colors and styles for intent, entity, and comment components:
 ![lu_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
 
 Formatting warnings and errors:
@@ -68,7 +82,7 @@ Automatic completion of some entities:
 
 #### LG
 
-Different colors and styles for `template`, `function`, `multi line`, `structure`, `comment`, `condition`, and `switch` components:
+Different colors and styles for template, function, multiline, structure, comment, condition, and switch components:
 ![lg_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_syntax_highlighting.png)
 
 Formatting warnings and errors:
@@ -96,7 +110,7 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tool lets developers debug LG, LU, and dialog files at run time. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-bot-runtime-and-complete-initialization), and [debug](#debug-the-runtime) a bot.
+Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-runtime) a bot.
 
 ### Configuration
 
@@ -117,13 +131,13 @@ Here's an example of a typical `launch.json`:
 
 `debugServer` refers to the port bot runs on. The default value is `4712`.
 
-### Start bot runtime and complete initialization
+### Start your bot and complete initialization
 
 1. Start a bot. For this example we'll start the bot project `TodoBot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/main/tests/Microsoft.Bot.Builder.TestBot.Json).
 1. Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with the `UseDebugger` method.
 1. There are several ways to initialize a bot, and the [BotFramework Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the Emulator and attach it to the bot to finish the initialization.
 
-### Debug the runtime
+### Debug your bot
 
 1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, and dialog files.
 1. Chat with the bot in the Emulator.
