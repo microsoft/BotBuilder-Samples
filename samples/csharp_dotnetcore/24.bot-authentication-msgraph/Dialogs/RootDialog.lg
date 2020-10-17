@@ -1,0 +1,32 @@
+﻿﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+# InvalidPrompt
+- Sign In is required.
+- Cannot proceed without signing in.
+
+# LoginFailedMessage
+- Login was not successful please try again.
+- Sorry, I could not log you in.  Please try again.
+
+# LoginSucceededMessage
+- You are now logged in. (Send 'logout' to sign-out.)
+
+# WhatWouldYouLikeToDoMessage
+- Would you like to do? (type 'me', or 'email')
+
+# LogoutMessage
+- You have been signed out.
+- Goodbye, you're signed out.
+
+# OAuthText
+- Please Log In
+
+# OAuthTitle
+- Log In
+
+# WelcomeMessage
+- Welcome to AuthenticationBot. Type anything to get logged in. Type 'logout' to sign-out.
+
+# ViewTokenResponse2
+- Here is your token: ${dialog.tokenResponse2.token}
