@@ -16,17 +16,17 @@ Supported features include the following:
 
 | Feature                                       | File type supported |
 |-----------------------------------------------|---------------------|
-| [Syntax highlighting](#syntax-highlighting,-diagnostic-checks,-and-autocompletion)                           | LG, LU              |
-| [Diagnostic checks](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                             | LG, LU              |
-| [Autocompletion](#syntax-highlighting-diagnostic-checks,-and-autocompletion)                                | LG, LU              |
-| [Template and function hover](#hover,-suggestions,-and-navigation)                   | LG                  |
-| [Template definition](#hover,-suggestions,-and-navigation)                           | LG                  |
-| [Template, function, and structure suggestions](#hover,-suggestions,-and-navigation) | LG                  |
+| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU              |
+| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU              |
+| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU              |
+| [Template and function hover](#hover-suggestions-and-navigation)                   | LG                  |
+| [Template definition](#hover-suggestions-and-navigation)                           | LG                  |
+| [Template, function, and structure suggestions](#hover-suggestions-and-navigation) | LG                  |
 | [Debugging](#debugging)                                     | LG, LU, Dialog      |
 
 ## Getting started
 
-Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-from-the-vs-code-extension-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
+Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
 
 ### Install from the Visual Studio Marketplace
 
@@ -46,13 +46,13 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
     npm run build
     ```
     
-  1. Run the following command to install [vsce](https://www.npmjs.com/package/vsce):
+  1. Run the command below to install [vsce](https://www.npmjs.com/package/vsce):
   
       ```cmd
       npm install -g vsce
       ```
     
-1. Finally run the command below to export the VSIX file:
+1. Finally, run the following command to export the VSIX file:
 
     ```cmd
     vsce package
@@ -110,7 +110,7 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-runtime) a bot.
+Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
 
 ### Configuration
 
