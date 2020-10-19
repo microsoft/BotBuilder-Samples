@@ -771,7 +771,6 @@ export async function generate(
         let startDirs = await templateDirectories(templateDirs)
         
         // Find generator.lg for schema expansion
-        debugger
         for (let dir of startDirs) {
             let loc = ppath.join(dir, '../generator.lg')
             if (await fs.pathExists(loc)) {
