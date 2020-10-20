@@ -1,0 +1,53 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Assignee": {
+            "type": "string",
+            "$entities": [
+                "personName",
+                "utterance"
+            ]
+        },
+        "Completed": {
+            "type": "string",
+            "enum": [
+                "Completed",
+                "InComplete"
+            ]
+        },
+        "DueDate": {
+            "type": "string",
+            "format": "date"
+        },
+        "Priority": {
+            "type": "string",
+            "enum": [
+                "HighPriority",
+                "MediumPriority",
+                "LowPriority",
+                "P0",
+                "P1",
+                "P2",
+                "P3"
+            ]
+        },
+        "Title": {
+            "type": "string",
+            "examples": ["book a trip", "build a recognizer", "follow-up on design"]
+        },
+        "Task": {
+            "type": "number"
+        },
+        "Ordinal": {
+            "$ref": "template:ordinal.schema"
+        }
+    },
+    "required": [
+        "Title",
+        "Assignee"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}

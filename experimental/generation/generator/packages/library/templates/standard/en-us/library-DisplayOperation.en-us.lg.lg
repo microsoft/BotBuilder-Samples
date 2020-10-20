@@ -4,7 +4,7 @@
 - ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
 
 # template
--```${libraryImport('library.en-us')}
+-```${libraryImport('library.en-us.lg')}
 
 ${'#'} displayOperation(op, property, text)
 - \${operationName(op)} "\${text}"" to \${propertyName(property)}

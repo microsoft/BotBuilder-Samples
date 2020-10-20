@@ -41,8 +41,8 @@ OPTIONS
   -s, --schema=schema        Path to your app.schema file.
 
   -t, --templates=templates  Directory with templates to use for generating assets.  With multiple directories, the
-                             first definition found wins.  To include the standard templates, just use "standard" as a
-                             template directory name.
+                             first definition found wins.  To include the standard templates, just use
+                             "template:standard" as a template directory name.
 
   --debug                    Show extra debugging information including templates.
 
@@ -96,6 +96,7 @@ ARGUMENTS
   DIALOG      Dialog to test.
 
 OPTIONS
+  -m, --mock           If specified, mock HttpRequest calls.
   -o, --output=output  [default: .] Output path for <transcriptName>.dialog test file.
   -s, --schema=schema  Path to app.schema file.
 

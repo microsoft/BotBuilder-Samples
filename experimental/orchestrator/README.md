@@ -2,7 +2,7 @@
 
 Conversational AI applications today are built using disparate technologies to fulfill language understanding (LU) needs – e.g. [LUIS][1], [QnA Maker][2]. Often, conversational AI applications are also built by assembling different [skills][3] each of which fulfill a specific conversation topic and can be built using different LU technologies. Hence, conversational AI applications typically require LU arbitration/ decision making to route incoming user request to an appropriate skill or to dispatch to a specific sub-component. Orchestration refers to the ability to perform LU arbitration/ decision making for a conversational AI application.  
 
-Orchestrator is a [transformer][4] based solution that is heavily optimized for conversational AI applications. It is built ground-up to run locally with your bot.
+[Orchestrator][18] is a [transformer][4] based solution that is heavily optimized for conversational AI applications. It is built ground-up to run locally with your bot.
 
 ## Supported scenarios
 1. **Dispatch**: Orchestrator is a successor to [dispatch][5]. You can use Orchestrator instead of the current [dispatch][5] solution to arbitrate across your [LUIS][1] and [QnA Maker][2] applications. With Orchestrator, you are likely to see  
@@ -19,7 +19,9 @@ Here's the end to end authoring experience.
   <img width="350" src="./docs/media/authoring.png" />
 </p>
 
-Using [BF CLI][7]
+### Using [BF CLI][7]
+
+* Pre-requisite: Install [BF CLI Orchestrator plugin][11] first. 
 
 1. [Export][8] your LUIS application and [convert][9] to .lu format or [export][10] your QnA Maker KB to .qna format 
 

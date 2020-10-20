@@ -11,7 +11,7 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
-import {generateTest} from '../src/testGenerator'
+import { generateTest } from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
 
@@ -133,7 +133,7 @@ describe('dialog:generate library', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
@@ -172,7 +172,7 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Schema discovery', async() => {
+    it('Schema discovery', async () => {
         try {
             let schemas = await ps.schemas()
             assert.equal(Object.keys(schemas).length, 10, 'Wrong number of schemas discovered')
