@@ -60,7 +60,7 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
     
     You're now ready to install Adaptive Tool.
 1. Open VS Code and open the **Extensions** view.
-1. Click the **More Actions** button (...) in the upper-right corner of the window. Then click **Install from VSIX..** and select the VSIX file you created earlier.
+1. Click the **Views and More Actions** button (...) in the upper-right corner of the Extensions panel. Then click **Install from VSIX..** and select the VSIX file you created earlier.
 1. Open an LG, LU, or dialog file and the extension will activate.
 
 ## Language features
