@@ -25,7 +25,7 @@ Here's the end to end authoring experience.
 
 1. [Export][8] your LUIS application and [convert][9] to .lu format or [export][10] your QnA Maker KB to .qna format 
 
-2. Use `bf orchestrator:nlr:get` to [download][15] the NLR model.
+2. Use `bf orchestrator:basemodel:get` to [download][15] Orchestrator base model.
 <!-- TODO: missing docs for most CLI commands --> 
 3. Use [`bf orchestrator:create`][16] or [`bf orchestrator:build`][17] to generate the snapshot content.
 
@@ -38,7 +38,7 @@ Here's the end to end authoring experience.
 - Add reference to `Microsoft.Bot.Builder.AI.Orchestrator` package.
 - Set your project to target `x64` platform
 - Install latest supported version of [Visual C++](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
- 
+
 
 ```C# 
 using Microsoft.Bot.Builder.AI.Orchestrator;
