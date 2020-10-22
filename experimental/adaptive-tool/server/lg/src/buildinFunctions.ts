@@ -66,6 +66,30 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ),
   ],
   [
+    'floor',
+    new FunctionEntity(
+      ['input: number'],
+      ReturnType.Number,
+      'Return the largest integral value less than or equal to the specified number.'
+    ),
+  ],
+  [
+    'round',
+    new FunctionEntity(
+      ['input: number', 'precison?: integer'],
+      ReturnType.Number,
+      'Round a value to the nearest integer or to the specified number of fractional digits.'
+    ),
+  ],
+  [
+    'ceiling',
+    new FunctionEntity(
+      ['input: number'],
+      ReturnType.Number,
+      'Return the smallest integral value greater than or equal to the specified number.'
+    ),
+  ],
+  [
     'concat',
     new FunctionEntity(
       ['...strings: string[]'],
@@ -207,6 +231,22 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     new FunctionEntity(['text: string'], ReturnType.String, 'Remove leading and trailing white spaces from a string'),
   ],
   [
+    'sentenceCase',
+    new FunctionEntity(
+      ['text: string'],
+      ReturnType.String,
+      'Capitalize the first letter of the first word in a string in an optional locale format.'
+    ),
+  ],
+  [
+    'titleCase',
+    new FunctionEntity(
+      ['text: string'],
+      ReturnType.String,
+      'Capitalize the first letter of each word in a string in an optional local format.'
+    ),
+  ],
+  [
     'count',
     new FunctionEntity(
       ['collection: string|Array'],
@@ -311,6 +351,14 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       ['timestamp: string', 'interval: number', 'timeUnit: string', 'format?: string'],
       ReturnType.String,
       'Subtract a number of time units from a timestamp.'
+    ),
+  ],
+  [
+    'dateTimeDiff',
+    new FunctionEntity(
+      ['timestamp1: string', 'timestamp2: string'],
+      ReturnType.Number,
+      'Return the difference in ticks between two timestamps.'
     ),
   ],
   [
@@ -566,6 +614,38 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       ['interval: number', 'timeUnit: string', 'format?: string'],
       ReturnType.String,
       'Return the current timestamp minus the specified time units.'
+    ),
+  ],
+  [
+    'getNextViableDate',
+    new FunctionEntity(
+      ['timex: string', 'timezone?: string'],
+      ReturnType.String,
+      'Return the next viable date of a timex expression based on the current date and an optionally specified timezone.'
+    ),
+  ],
+  [
+    'getNextViableTime',
+    new FunctionEntity(
+      ['timex: string', 'timezone?: string'],
+      ReturnType.String,
+      'Return the next viable time of a timex expression based on the current time and an optionally specified timezone.'
+    ),
+  ],
+  [
+    'getPreviousViableDate',
+    new FunctionEntity(
+      ['timex: string', 'timezone?: string'],
+      ReturnType.String,
+      'Return the previous viable date of a timex expression based on the current date and an optionally specified timezone.'
+    ),
+  ],
+  [
+    'getPreviousViableTime',
+    new FunctionEntity(
+      ['timex: string', 'timezone?: string'],
+      ReturnType.String,
+      'Return the previous viable time of a timex expression based on the current time and an optionally specified timezone.'
     ),
   ],
   [

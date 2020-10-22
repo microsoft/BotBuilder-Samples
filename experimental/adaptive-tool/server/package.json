@@ -12,10 +12,10 @@
 		"url": "https://github.com/ShYuPe/BotBuilder-lsp-lg"
 	},
 	"dependencies": {
-		"botbuilder-lg": "4.9.0",
+		"botbuilder-lg": "4.10.4",
 		"vscode-languageserver": "^6.1.1",
 		"vscode-languageserver-textdocument": "^1.0.1",
-		"@microsoft/bf-lu": "4.9.0"
+		"@microsoft/bf-lu": "4.10.1"
 	},
 	"scripts": {}
 }
