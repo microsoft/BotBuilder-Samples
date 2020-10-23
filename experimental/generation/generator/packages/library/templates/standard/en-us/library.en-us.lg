@@ -8,7 +8,7 @@
 -\n
 
 # welcome
-- Welcome!
+- ${helpGlobal()}
 
 # propertyName(property)
 - ${template(`${property}_Name`)}
@@ -34,6 +34,28 @@
 - ${if(leaf, template(leaf, val), val)}
 - ELSE:
 - no value
+
+# requiredProperties
+- IF: ${count($requiredProperties) > 0}
+- Required properties include: ${join(foreach($requiredProperties, property, propertyName(property)), ', ')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${count(publicProperties()) > count($requiredProperties)}
+- Optional properties include: ${join(foreach(where(publicProperties(), property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
+- ELSE:
+- 
+
+# helpGlobal
+- ```
+${requiredProperties()}
+${optionalProperties()}
+For each property you can add/remove values, clear, show, change or ask for help.
+You can also ask for over all help, cancel the whole form or skip a clarification step.```
+
+# helpReprompt
+- ${join(foreach($expectedProperties, expected, template(`${expected}_RepromptHelp`)), EOL())}
 
 # publicProperties
 -${dialogClass.schema.$public}
