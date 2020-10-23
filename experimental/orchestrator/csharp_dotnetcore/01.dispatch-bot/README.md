@@ -65,15 +65,15 @@ This sample **requires** prerequisites in order to run.
     > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update kb information in `./appsettings.json`
-- Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:nlr:get command below.
+- Configure Orchestrator
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:basemodel:get command below.
     ```bash
-    > bf orchestrator:nlr:list
+    > bf orchestrator:basemodel:list
     ```
-    - Download the NLR model
+    - Download Orchestrator base model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId <version id> --out ./model --verbose
+    > bf orchestrator:basemodel:get --versionId <version id> --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash
