@@ -46,6 +46,10 @@
         },
         "${schemaDefaultOperation()}"
     ],
+    "$requiresValue": [
+        "Add()",
+        "Remove()"
+    ],
     "$expectedOnly": [
         "boolean",
         "utterance",

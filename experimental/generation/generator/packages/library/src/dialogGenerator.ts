@@ -13,7 +13,7 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
+import {SubstitutionsEvaluator} from './substitutions'
 import * as ps from './processSchemas'
 
 export enum FeedbackType {
@@ -195,7 +195,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -204,7 +204,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
             break
         } else {
             // LG file
@@ -238,7 +238,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add entry to the .lg generation context and return it.  
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
 function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -451,7 +451,7 @@ async function processTemplates(
                     scope.examples = schema.schema.$examples[entityName]
 
                     // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.length === 1) {
+                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
                         scope.examples = property.schema.examples
                     }
 
@@ -524,6 +524,7 @@ async function ensureEntities(
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
 function expandSchema(schema: any, scope: any, path: string, inProperties: boolean, missingIsError: boolean, feedback: Feedback): any {
     let newSchema = schema
+    const isTopLevel = inProperties && !scope.propertySchema
     if (Array.isArray(schema)) {
         newSchema = []
         let isExpanded = false
@@ -531,7 +532,13 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             let isExpr = typeof val === 'string' && val.startsWith('${')
             let newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
             isExpanded = isExpanded || (isExpr && (typeof newVal !== 'string' || !val.startsWith('${')))
-            newSchema.push(newVal)
+            if (newVal !== null) {
+                if (Array.isArray(newVal)) {
+                    newSchema = [...newSchema, ...newVal]
+                } else {
+                    newSchema.push(newVal)
+                }
+            }
         }
         if (isExpanded && newSchema.length > 0 && !path.includes('.')) {
             // Assume top-level arrays are merged across schemas
@@ -540,7 +547,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -555,14 +562,21 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                if (isTopLevel) {
+                    // Bind property schema to use when expanding
+                    scope.propertySchema = val
+                }
+                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
+                if (isTopLevel) {
+                    delete scope.propertySchema
+                }
             }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
             let value = generatorTemplate.evaluateText(schema, scope)
-            if (value && value !== 'null') {
+            if (value !== 'null') {
                 newSchema = value
             } else {
                 if (missingIsError) {
@@ -628,7 +642,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
@@ -769,7 +783,7 @@ export async function generate(
         }
 
         let startDirs = await templateDirectories(templateDirs)
-        
+
         // Find generator.lg for schema expansion
         for (let dir of startDirs) {
             let loc = ppath.join(dir, '../generator.lg')
@@ -805,11 +819,11 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
         await ensureEntities(schema, templateDirs, scope, feedback)
-        scope = { ...scope, entities: schema.entityToProperties() }
+        scope = {...scope, entities: schema.entityToProperties()}
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 

@@ -12,4 +12,4 @@
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, chooseEntity(choice)), " or ")}?
 
 # chooseEntity(property)
-- ${displayOperation(property.operation, property.property, property.entity.text)}
+- ${displayOperation(property.operation, property.property, property.entity)}

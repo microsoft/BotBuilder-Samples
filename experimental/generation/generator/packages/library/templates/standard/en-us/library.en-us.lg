@@ -57,8 +57,11 @@
 - IF: ${contains($expectedProperties, property)}
     - ${template(if(dialog[property], `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
-    - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
+    - ${confirmUpdate(property, val)}
 
+# confirmUpdate(property, val)
+- ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
+    
 # cancelPrompt
 - Do you want to end the conversation? (yes/no)
 
