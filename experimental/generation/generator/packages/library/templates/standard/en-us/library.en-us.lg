@@ -55,7 +55,7 @@ For each property you can add/remove values, clear, show, change or ask for help
 You can also ask for over all help, cancel the whole form or skip a clarification step.```
 
 # helpReprompt
-- ${join(foreach($expectedProperties, expected, template(`${expected}_RepromptHelp`)), EOL())}
+- ${if($expectedProperties, join(foreach($expectedProperties, expected, template(`${expected}_RepromptHelp`)), EOL()), '')}
 
 # publicProperties
 -${dialogClass.schema.$public}
