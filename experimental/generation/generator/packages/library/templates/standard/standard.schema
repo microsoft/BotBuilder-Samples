@@ -46,6 +46,10 @@
         },
         "${schemaDefaultOperation()}"
     ],
+    "$requiresValue": [
+        "Add()",
+        "Remove()"
+    ],
     "$expectedOnly": [
         "boolean",
         "utterance",
@@ -61,7 +65,6 @@
         "library-triggerIntent.lu",
         "library-Choose.lg",
         "library-DisplayOperation.lg",
-        "library-Help.lg",
         "library-phrases.lu",
         "library-global.lu",
         "library-Show.lg",
