@@ -274,25 +274,13 @@ export class OrchestratorAdaptiveRecognizer extends Recognizer {
      */
     public readonly resultProperty: string = 'result';
 
-    private readonly unknownIntentFilterScore = 0.4;
-    private static orchestrator: any = null;
-    private resolver: any = null;
-    private _modelPath: string = null;
-    private _snapshotPath: string = null;
-
     /**
      * Returns an OrchestratorAdaptiveRecognizer instance.
      * @param modelPath Path to NLR model.
      * @param snapshoPath Path to snapshot.
      * @param resolver Orchestrator resolver to use.
      */
-    constructor(modelPath?: string, snapshoPath?: string, resolver?: any)
-    {
-        super()
-        this._modelPath = modelPath !== undefined ? modelPath : null;
-        this._snapshotPath = snapshoPath !== undefined ? snapshoPath : null;
-        this.resolver = resolver !== undefined ? resolver : null;
-    }
+    constructor(modelPath?: string, snapshoPath?: string, resolver?: any) {}
 
     /**
      * Returns a new OrchestratorAdaptiveRecognizer instance.
@@ -300,4 +288,5 @@ export class OrchestratorAdaptiveRecognizer extends Recognizer {
      * @param activity Current activity sent from user.
      */
     public async recognize(dialogContext: DialogContext, activity: Activity): Promise<RecognizerResult> {}
+}
 ```
