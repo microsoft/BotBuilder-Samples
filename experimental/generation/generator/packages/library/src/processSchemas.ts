@@ -101,6 +101,7 @@ function mergeSchemas(allSchema: any, schemas: any[]) {
         allSchema.definitions = {...allSchema.definitions, ...schema.definitions}
         if (schema.required) allSchema.required = allSchema.required.concat(schema.required)
         if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
+        if (schema.$requiresValue) allSchema.$requiresValue = allSchema.$requiresValue.concat(schema.$requiresValue)
         if (schema.$examples) allSchema.$examples = {...allSchema.$examples, ...schema.$examples}
         if (schema.$parameters) allSchema.$parameters = {...allSchema.$parameters, ...schema.$parameters}
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
@@ -190,6 +191,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     if (!allSchema.$templates) allSchema.$templates = []
     if (!allSchema.$operations) allSchema.$operations = []
     if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
+    if (!allSchema.$requresValue) allSchema.$requiresValue = []
     if (!allSchema.$examples) allSchema.$examples = []
     if (!allSchema.$parameters) allSchema.$parameters = []
     if (formSchema.$public) {

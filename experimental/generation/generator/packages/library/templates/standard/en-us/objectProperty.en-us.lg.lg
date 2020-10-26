@@ -4,7 +4,7 @@
 - ${propertyFilename()}
 
 # template
-- ```${libraryImport('library.en-us')}
+- ```${libraryImport('library.en-us.lg')}
 ${promptTemplates(missingDefault(objectType()), changeDefault(objectType()))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),

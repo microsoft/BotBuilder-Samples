@@ -23,6 +23,8 @@
         "ordinalV2Entity-add.dialog",
         "ordinalV2Entity-remove.dialog",
         "ordinalV2Entity-clear.dialog",
-        "ordinalV2Entity-show.dialog"
+        "ordinalV2Entity-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
     ]
 }

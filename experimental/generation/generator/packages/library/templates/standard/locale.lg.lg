@@ -4,4 +4,4 @@
 - ${locale}/${prefix}.${locale}.lg
 
 # template
-- ${join(foreach(templates.lg, lg, `[${lg.fullName}](${localePath(lg.relative)})`), EOL())}
+- ${join(foreach(templates.lg, lg, `[${lg.fullName}](${localePath(replace(lg.relative, '\\', '/'))})`), EOL())}

@@ -48,7 +48,7 @@
 - library/${prefix}-${name}
 
 # libraryImport(name)
-- [${prefix}-${name}](../library/${prefix}-${name}.lg)
+- [${prefix}-${name}](../library/${prefix}-${name})
 
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
@@ -138,6 +138,16 @@
                     "$kind": "Microsoft.SetProperty",
                     "property": "$${property}",
                     "value": "= @${entity}"          
+                },
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "$PropertyToChange == '${property}'",
+                    "actions": [
+                        {
+                            "$kind":"Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
+                    ]
                 }
             ]
         }
@@ -183,6 +193,16 @@
                             "$kind": "Microsoft.SetProperty",
                             "property": "$${property}",
                             "value": "= @${entity}"          
+                        },
+                        {
+                            "$kind": "Microsoft.IfCondition",
+                            "condition": "$PropertyToChange == '${property}'",
+                            "actions": [
+                                {
+                                    "$kind":"Microsoft.DeleteProperty",
+                                    "property": "$PropertyToChange"
+                                }
+                            ]
                         }
                     ]
                 }
@@ -249,17 +269,27 @@
                     "$kind": "Microsoft.SetProperty",
                     "property": "$${property}",
                     "value": "=@${entity}"          
+                },
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "$PropertyToChange == '${property}'",
+                    "actions": [
+                        {
+                            "$kind":"Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
+                    ]
                 }
             ],
             "elseActions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units, '${units()}')}"
+                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
                 }
             ]
         }
     ]
-    ${designerOpEntity('Add', '${entity}')}             
+    ${designerOpEntity('Add', entity)}             
 }
 ```
 - ELSE:
@@ -279,15 +309,24 @@
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
             "value": "=@${entity}"          
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind":"Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
         }
     ]
-    ${designerOpEntity('Add', '${entity}')}             
+    ${designerOpEntity('Add', entity)}             
 }
 ```
 
 # addNumberWithUnits
-- IF: ${hasUnits()}
-    -```
+-```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
@@ -297,19 +336,27 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', \${{number: @number, units: '${units()}'}}"
+            "activity": "\${confirmUpdate('${property}', {number: @number, units: '${units()}'})}"
         }, 
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
-            "value": "=\${{number: @number, units: '${units()}'}}"          
+            "value": "={number: @number, units: '${units()}'}"          
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind":"Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
         }
     ]
     ${designerOpEntity('Add', 'number with units')}             
 }
 ```
-- ELSE:
-    -
 
 # removeDialog(entity)
 -```
@@ -330,7 +377,7 @@
                 },  
                 {
                     "$kind": "Microsoft.DeleteProperty",
-                    "property": "${property}"
+                    "property": "$${property}"
                 }
             ]
         }
@@ -598,8 +645,8 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 # designerChooseEntity()
 - ${designerName(`${property}Entity - Choose()`)}
 
-# designerChooseProperty(property)
-- ${designerName(`${property} - ChooseProperty()`)}
+# designerChooseProperty()
+- ${designerName(`ChooseProperty()`)}
 
 # designerMissing(property)
 - ${designerName(`${property} - Missing()`)}
@@ -677,8 +724,8 @@ ${'#'} ${property}_Show
 - IF: ${hasUnits()}
 - ```
 > Incorrect units for '${property}' property
-${'#'} ${property}_IncorrectUnits(actual, expected)
-- ${actual} must be ${expected}```
+${'#'} ${property}_IncorrectUnits(actual)
+- \${actual} must be '${units()}'```
 - ELSE:
     -
 

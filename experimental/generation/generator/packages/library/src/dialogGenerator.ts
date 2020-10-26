@@ -129,15 +129,16 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
 export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
     templateDirs = resolveDir(templateDirs || [])
-
-    // User templates + cli templates to find schemas
     let startDirs = [...templateDirs]
-    let templates = normalize(ppath.join(__dirname, '../templates'))
-    for (let dirName of await fs.readdir(templates)) {
-        let dir = ppath.join(templates, dirName)
-        if ((await fs.lstat(dir)).isDirectory() && !startDirs.includes(dir)) {
-            // Add templates subdirectories as templates
-            startDirs.push(dir)
+    if (startDirs.length === 0) {
+        // Default to children of built-in templates
+        let templates = normalize(ppath.join(__dirname, '../templates'))
+        for (let dirName of await fs.readdir(templates)) {
+            let dir = ppath.join(templates, dirName)
+            if ((await fs.lstat(dir)).isDirectory()) {
+                // Add templates subdirectories as templates
+                startDirs.push(dir)
+            }
         }
     }
     return startDirs
@@ -168,13 +169,8 @@ function getExpressionEngine(): expressions.ExpressionParser {
     return expressionEngine
 }
 
+// Generator template used in expanding schema
 let generatorTemplate: lg.Templates
-function getGeneratorTemplate(): lg.Templates {
-    if (!generatorTemplate) {
-        generatorTemplate = lg.Templates.parseFile(ppath.join(__dirname, '../templates/', 'generator.lg'), undefined, getExpressionEngine())
-    }
-    return generatorTemplate
-}
 
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
@@ -455,7 +451,7 @@ async function processTemplates(
                     scope.examples = schema.schema.$examples[entityName]
 
                     // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.length === 1) {
+                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
                         scope.examples = property.schema.examples
                     }
 
@@ -528,6 +524,7 @@ async function ensureEntities(
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
 function expandSchema(schema: any, scope: any, path: string, inProperties: boolean, missingIsError: boolean, feedback: Feedback): any {
     let newSchema = schema
+    const isTopLevel = inProperties && !scope.propertySchema
     if (Array.isArray(schema)) {
         newSchema = []
         let isExpanded = false
@@ -535,7 +532,13 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             let isExpr = typeof val === 'string' && val.startsWith('${')
             let newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
             isExpanded = isExpanded || (isExpr && (typeof newVal !== 'string' || !val.startsWith('${')))
-            newSchema.push(newVal)
+            if (newVal !== null) {
+                if (Array.isArray(newVal)) {
+                    newSchema = [...newSchema, ...newVal]
+                } else {
+                    newSchema.push(newVal)
+                }
+            }
         }
         if (isExpanded && newSchema.length > 0 && !path.includes('.')) {
             // Assume top-level arrays are merged across schemas
@@ -559,14 +562,21 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
+                if (isTopLevel) {
+                    // Bind property schema to use when expanding
+                    scope.propertySchema = val
+                }
+                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
+                if (isTopLevel) {
+                    delete scope.propertySchema
+                }
             }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
-            let value = getGeneratorTemplate().evaluateText(schema, scope)
-            if (value && value !== 'null') {
+            let value = generatorTemplate.evaluateText(schema, scope)
+            if (value !== 'null') {
                 newSchema = value
             } else {
                 if (missingIsError) {
@@ -640,10 +650,18 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
     }
 }
 
+
+const templatePrefix: string = 'template:'
+
 function resolveDir(dirs: string[]): string[] {
     let expanded: string[] = []
     for (let dir of dirs) {
-        dir = ppath.resolve(dir)
+        if (dir.startsWith(templatePrefix)) {
+            // Expand template:<name> relative to built-in templates
+            expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
+        } else {
+            dir = ppath.resolve(dir)
+        }
         expanded.push(normalize(dir))
     }
     return expanded
@@ -765,6 +783,19 @@ export async function generate(
         }
 
         let startDirs = await templateDirectories(templateDirs)
+
+        // Find generator.lg for schema expansion
+        for (let dir of startDirs) {
+            let loc = ppath.join(dir, '../generator.lg')
+            if (await fs.pathExists(loc)) {
+                generatorTemplate = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                break
+            }
+        }
+        if (!generatorTemplate) {
+            feedback(FeedbackType.error, 'Templates must include a parent generator.lg')
+        }
+
         let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
