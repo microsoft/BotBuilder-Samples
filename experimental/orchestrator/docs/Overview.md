@@ -10,7 +10,7 @@ Thanks to the community feedback we compiled a list of objectives and requiremen
 
 ### No [ML][12] or [NLP][6] expertise required
 
-In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. E.g. the chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](###evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
+In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. E.g. the chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](#evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
 
 ### Minimal or no model training required
 
