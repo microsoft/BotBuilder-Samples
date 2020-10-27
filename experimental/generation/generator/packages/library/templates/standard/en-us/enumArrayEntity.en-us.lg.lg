@@ -7,7 +7,7 @@
 - ```
 ${importLG('library')}
 ${importLG('library-Choose')}
-${propertyEntity()}
+${propertyEntityValue()}
 ${chooseEntity()}
 
 ```
@@ -18,7 +18,7 @@ ${chooseEntity()}
 - \${chooseEnumArrayEntity(${concat("'", property, "'")})}
 ```
 
-# propertyEntity
+# propertyEntityValue
 - ${join([namePlusSwitch(), cases(), default()], EOL())}${EOL()}
 
 # namePlusSwitch

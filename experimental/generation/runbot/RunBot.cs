@@ -77,7 +77,7 @@ namespace RunBotServer
             var choices = new ChoiceSet();
             var dialogName = _configuration["dialog"];
 
-            foreach (var resource in _resourceExplorer.GetResources(".dialog").Where(r => dialogName != null ? r.Id == dialogName : true))
+            foreach (var resource in _resourceExplorer.GetResources(".dialog").Where(r => dialogName != null ? r.Id == dialogName : r.Id.Count(c => c == '.') == 1))
             {
                 try
                 {
