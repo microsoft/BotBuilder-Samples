@@ -1,6 +1,6 @@
 # Technical Overview
 
-The Orchestrator is a replacement of the [Bot Framework Dispatcher][1] used in chat bots since 2018. It makes the state of the art natural language understanding methods available to bot developers while at the same time making the process of language modeling quick, not requiring the expertise in [Deep Neural Networks (DNN), Transformers][5], or [Natural Language Processing (NLP)][6]. This work is co-authored with the industry experts in the field and includes some of the top methods used in the [General Language Understanding Evaluation (GLUE)][7] leaderboard. Orchestrator will continue to evolve and adopt the latest advancements in science and in the industry.
+The Orchestrator is a replacement of the [Bot Framework Dispatcher][1] used in chat bots since 2018. It makes the state of the art natural language understanding methods available to bot developers while at the same time making the process of language modeling quick, and not requiring the expertise in [Deep Neural Networks (DNN), Transformers][5], or [Natural Language Processing (NLP)][6]. This work is co-authored with the industry experts in the field and includes some of the top methods used in the [General Language Understanding Evaluation (GLUE)][7] leaderboard. Orchestrator will continue to evolve and adopt the latest advancements in science and in the industry.
 
 Orchestrator enables composability of bots allowing reuse of skills or the entire bots contributed by the community in an easy way without requiring time consuming retraining of the language models. It is our goal to support the community and continue responding to the provided feedback.
 
@@ -10,7 +10,7 @@ Thanks to the community feedback we compiled a list of objectives and requiremen
 
 ### No [ML][12] or [NLP][6] expertise required
 
-In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. E.g. the chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](####evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
+In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. The chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](####evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
 
 ### Minimal or no model training required
 
@@ -18,9 +18,9 @@ Building a language model requires multiple iterations of adding or removing tra
 
 To address these concerns, we chose an example-based approach where the language model is defined as a set of labeled examples. In Orchestrator a model example is represented as a vector of numbers (an embedding) obtained from the [transformer model][5] for a given text that the corresponding skills is capable of handling (that's the definition of the application language model in Orchestrator). During runtime a similarity of the new example is calculated comparing it to the existing model examples per skill. The weighted average of *K* closest examples ([KNN algorithm][9]) is taken to determine the classification result. This approach does not require an explicit training step, only calculation of the embeddings for the model examples is done. It takes about 10 milliseconds per example to accomplish that, so a modification of an existing model that adds 100 new examples will take about 1 second which is done locally without GPU and without remote server roundtrips.
 
-### Local, fast library not a remote service
+### Local, fast library, not a remote service
 
-The Orchestrator core is written in C++ and is available as a library in C#, Node.js and soon Python and Java. The library can be used directly by the bot code (a preferred approach) or can be hosted out-of-proc or on a remote server. Running locally eliminates additional service round trip costs (latency and pricing meters). This is especially helpful when using Orchestrator to dispatch across disparate LU/ QU services.
+The Orchestrator core is written in C++ and is available as a library in C#, Node.js and soon Python and Java. The library can be used directly by the bot code (a preferred approach) or can be hosted out-of-proc or on a remote server. Running locally eliminates additional service round trip costs (latency and pricing meters). This is especially helpful when using Orchestrator to dispatch across disparate LU/ QnA services.
 
 Loading the English pretrained language model released for the initial preview takes about 2 sec with the memory footprint of a little over 200MB. Classification of a new example with this initial model takes about 10 milliseconds (depending on the text length). These numbers are for illustration only to give a sense of performance. As we improve the models or include additional languages these numbers will likely change.
 
@@ -36,7 +36,7 @@ The classification of the "unknown" intent is done without the need for any exam
 
 ### Extend to support Bot Builder Skills
 
-While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills. The skills developed and made available by the community may be easily reused and integrated in a new bot with no language model retraining required. Orchestrator provides a toolkit to evaluate this extension identifying ambiguous examples that should be reviewed by the developer. Also, an optional fine-tuning CLI will be made available in future releases but this step is not required in most cases.
+While the [Dispatcher's][1] focus was to aid in triggering between multiple [LUIS][3] apps and [QnA Maker][4] KBs the Orchestrator expands this functionality into supporting generic [Bot Builder Skills][2] to allow composability of bot skills. The skills developed and made available by the community may be easily reused and integrated in a new bot with no language model retraining required. Orchestrator provides a toolkit to evaluate this extension identifying ambiguous examples that should be reviewed by the developer. Also, an optional fine-tuning functionality is available in the CLI but this step is not required in most cases.
 
 ### Ease of composability
 
@@ -65,7 +65,7 @@ It is important to reiterate that the Orchestrator runtime has significantly mor
 ## Roadmap
 
 In the upcoming releases we are planning to expand Orchestrator in several areas:
- 
+
 ### Entity recognition
 
 A commonly requested feature as the part of intent triggering is to provide the "parameters" for the triggered intents which are entities recognized in the query text. The Orchestrator interfaces which are already part of the initial preview support handling the recognized entities. This functionality together with the corresponding prebuilt language model(s) will be made available in the upcoming releases.
@@ -107,7 +107,7 @@ As we collect more feedback from the community during the preview there may be a
 [17]:https://en.wikipedia.org/wiki/TensorFlow
 [18]:https://en.wikipedia.org/wiki/Reinforcement_learning
 [19]:https://en.wikipedia.org/wiki/Precision_and_recall
-[20]:https://github.com/microsoft/BotBuilder-Samples/blob/vishwac/r10/orchestrator/experimental/orchestrator/docs/API_reference.md
+[20]:./API_reference.md
 
 
 
