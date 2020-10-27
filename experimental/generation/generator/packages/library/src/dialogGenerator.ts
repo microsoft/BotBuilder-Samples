@@ -576,7 +576,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
             let value = generatorTemplate.evaluateText(schema, scope)
-            if (value !== 'null') {
+            if (value && value !== 'null') {
                 newSchema = value
             } else {
                 if (missingIsError) {
