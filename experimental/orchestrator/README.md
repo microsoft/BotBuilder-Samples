@@ -19,10 +19,10 @@ Conversational AI applications today are built using disparate technologies to f
 
 Orchestrator can be used in different development environments:
 
-* **Code First**: Orchestrator can be integrated into your code project by replacing luis and/or qnamaker for language understanding.  See [Runtime Integration][# Runtime Integration] section for more.
-* [Bot Framework Composer][19]: Orchestrator can be selected as a recognizer within Bot Framework Composer. At this point there are limitations to using Orchstrator in Composer primarily around importing of existing models and tuning up recognition performance (* currently available only if the feature flag is enabled with Composer).
+* **Code First**: Orchestrator can be integrated into your code project by replacing LUIS and/or QnA Maker for language understanding.  See [Runtime Integration][# Runtime Integration] section for more.
+* [Bot Framework Composer][19]: Orchestrator can be selected as a recognizer within Bot Framework Composer. At this point there are limitations to using Orchestrator in Composer primarily around importing of existing models and tuning up recognition performance (* currently available only if the feature flag is enabled with Composer).
 
-Thus, use of [BF command line tool][7] to prepare and optimize the model for your domain is required in most, if note all, use cases.   To illustrate the workflow, here is a sample the end to end authoring experience:
+Thus, use of [BF command line tool][7] to prepare and optimize the model for your domain is required in most, if not all, use cases.   To illustrate the workflow, here is a sample the end to end authoring experience:
 
 <p align="center">
   <img width="350" src="./docs/media/authoring.png" />
@@ -37,8 +37,8 @@ Thus, use of [BF command line tool][7] to prepare and optimize the model for you
 2. Download Natural Language Representation ([NLR][20]) base Model (will be referred to as the *basemodel*) using the `bf orchestrator:basemodel:get` command. 
    * See `bf orchestrator:basemodel:list` for alternate models. You may need to experiment with the different models to find which performs best for your language domain.
 3. Combine the label file .lu from (1) with the base model from (2) to create a *snapshot* file with a .blu extension.
-   * Use [`bf orchestrator:create`][16] to create just the .blu snapshot file.
-   * Use [`bf orchestrator:build`][17] to **TBD**
+   * Use [`bf orchestrator:create`][16] to create just a single .blu snapshot file for all Lu/json/qna tsv files for dispatch scenario.
+   * Use [`bf orchestrator:build`][17] to create one .blu snapshot file for each lu file for Composer adaptive/dialog scenario. 
 
 ### Validate
 
