@@ -14,6 +14,9 @@ import * as gen from '../src/dialogGenerator'
 import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
+const {Templates, DiagnosticSeverity} = require('botbuilder-lg')
+const file = require('@microsoft/bf-lu/lib/utils/filehelper')
+const LuisBuilder = require('@microsoft/bf-lu/lib/parser/luis/luisCollate')
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -64,6 +67,7 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
 describe('dialog:generate library', async () => {
     let output = tempDir
     let schemaPath = 'test/forms/sandwich.schema'
+    let unitTestSchemaPath = 'test/forms/unittest'
     let badSchema = 'test/forms/bad-schema.schema'
     let notObject = 'test/forms/not-object.schema'
     let override = 'test/templates/override'
@@ -153,6 +157,43 @@ describe('dialog:generate library', async () => {
             assert.fail(e.message)
         }
     })
+
+    it('LU and LG Unit Test', async () => {
+        for (let i = 1; i <= 23; i++) {
+            await gen.generate(`${unitTestSchemaPath}${i}.schema`, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            try {
+                console.log(`\n\nLG Testing schema ${i}`)
+                const templates = Templates.parseFile(`${output}/en-us/unittest${i}.en-us.lg`)
+                const allDiagnostics = templates.allDiagnostics
+                if (allDiagnostics) {
+                    let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
+                    if (errors && errors.length > 0) { throw new Error('LG format error') }
+                }
+            } catch (e) {
+                assert(e.message)
+            }
+            try {
+                console.log(`\n\nLG Testing schema ${i}`)
+                let result: any
+                const luFiles = await file.getLuObjects(undefined, `${output}/en-us/unittest${i}.en-us.lu`, true, ".lu")
+                result = await LuisBuilder.build(luFiles, true, "en-us")
+                result.validate()
+                if (!hasContent(result)) {
+                    throw new Error('LU format error')
+                }
+            } catch (e) {
+                assert(e.message)
+            }
+            await fs.remove(output)
+        }
+    })
+
+    function hasContent(luisInstance: any) {
+        for (let prop in luisInstance) {
+            if (Array.isArray(luisInstance[prop]) && luisInstance[prop].length > 0) return true
+        }
+        return false
+    }
 
     it('Not object type', async () => {
         try {

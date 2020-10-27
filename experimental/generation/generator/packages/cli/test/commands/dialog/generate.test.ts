@@ -14,6 +14,7 @@ import * as ppath from 'path'
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
     let schemaPath = '../library/test/forms/sandwich.schema'
+    let unitTestSchemaPath = '../library/test/forms/unittest'
     let badSchema = '../library/test/forms/bad-schema.schema'
     let swaggerPath = '../library/test/forms/petSwagger.json'
     let transcriptPath = '../library/test/transcripts/sandwich.transcript'
@@ -42,6 +43,17 @@ describe('dialog:generate', async () => {
             expect(ctx.stderr)
                 .not.to.contain('Error')
         })
+
+    for (let i = 1; i <= 23; i++) {
+        test
+            .stdout()
+            .stderr()
+            .command(['dialog:generate', `${unitTestSchemaPath}${i}.schema`, '-o', `${output}`, '--verbose'])
+            .it(`Generated unit test schema ${i} successfully`, ctx => {
+                expect(ctx.stderr)
+                    .not.to.contain('Error')
+            })
+    }
 
     test
         .stdout()
