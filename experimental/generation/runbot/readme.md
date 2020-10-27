@@ -13,9 +13,7 @@ In order to setup runbot:
 3. Open a shell window:
    1. Change to the directory where you want the repo located.
    2. Run `git clone https://github.com/microsoft/BotBuilder-Samples.git`.
-4. Add the MyGet feed to NuGet: `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`.
-5. Add the SDK feed to Nuget: `nuget sources add -name "MyGet" -source "https://fuselabs.visualstudio.com/SDK_v4/_build/results?buildId=179104&view=results".
-6. To use LUIS you need to register your LUIS endpoint key by running `dotnet user-secrets --id RunBot set luis:endpointKey <yourKey>` once.
+4. To use LUIS you need to register your LUIS endpoint key by running `dotnet user-secrets --id RunBot set luis:endpointKey <yourKey>` once.
 
 ## Usage
 
