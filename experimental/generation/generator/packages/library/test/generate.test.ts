@@ -175,7 +175,7 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             let schemas = await ps.schemas()
-            assert.equal(Object.keys(schemas).length, 10, 'Wrong number of schemas discovered')
+            assert.strictEqual(Object.keys(schemas).length, 14, 'Wrong number of schemas discovered')
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -185,8 +185,8 @@ describe('dialog:generate library', async () => {
                     ++property
                 }
             }
-            assert.equal(global, 3, 'Wrong number of global schemas')
-            assert.equal(property, 7, 'Wrong number of property schemas')
+            assert.strictEqual(global, 3, 'Wrong number of global schemas')
+            assert.strictEqual(property, 11, 'Wrong number of property schemas')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -199,7 +199,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('simple', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 1, 'Wrong number of entities')
+            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -212,7 +212,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 1, 'Wrong number of entities')
+            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }

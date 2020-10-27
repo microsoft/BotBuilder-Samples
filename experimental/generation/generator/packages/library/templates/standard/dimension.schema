@@ -3,7 +3,7 @@
     "type": "object",
     "$entities": [
         "dimension",
-        "${if(propertySchema.$units, 'number', null)}"
+        "${if(propertySchema.$units, 'number', [])}"
     ],
     "properties": {
         "number": {
@@ -27,6 +27,6 @@
         "dimensionEntity-show.dialog",
         "generic-change.dialog",
         "generic-help.dialog",
-        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], null)}"
+        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
     ]
 }
