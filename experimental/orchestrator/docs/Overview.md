@@ -10,7 +10,7 @@ Thanks to the community feedback we compiled a list of objectives and requiremen
 
 ### No [ML][12] or [NLP][6] expertise required
 
-In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. E.g. the chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](####evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
+In the legacy approach so far in order to train a robust language model a significant expertise and time was required to produce a robust model. E.g. the chat bot author would be concerned with proper data distributions, data imbalance, feature-level concerns including generation of various synonym lists etc. When not paying attention to these aspects the final model quality was often poor. With the Orchestrator these aspects are of no concern anymore to the developer and the related expertise is also not required in order to create robust language model (see [Evaluation of Orchestrator on SNIPS](###evaluation-of-orchestrator-on-snips) in the advanced topics section for the evaluation results).
 
 ### Minimal or no model training required
 
@@ -61,6 +61,23 @@ It is important to reiterate that the Orchestrator runtime has significantly mor
 *Modify the language model in real-time* - to add additional functionality (expand the language model with additional skills or examples) or perform continuous model improvements using [reinforcement learning][18] techniques (specialized tools to assist with reinforcement learning will be released in the upcoming releases).
 
 *Modify the language model behavior in real-time* - the runtime parameters can be adjusted without restarting the process or even reloading the model. This includes adjusting how strict the intent triggering is (tradeoff between the [precision and recall][19]) which can be dynamically adjusted depending on the phase in the dialog; or adjusting the resiliency to mislabeled or low quality examples that define the model which is done by modifying the KNN-K value (e.g. a case where the model examples were crowd-sourced and not cleaned up yet or when the model is allowed to be adjusted dynamically by many people or when a skill language model definition was added to the bot and not evaluated yet).
+
+### Evaluation of Orchestrator on SNIPS
+#### Model attributes
+|  Model |Base Model   |Layers  |Encoding time per query | Disk Allocation |
+| ------------ | ------------ | ------------ | ------------ | ------------ | 
+|pretrained.20200924.microsoft.dte.00.03.en.onnx |   BERT | 3  |  ~ 7 ms |  164M |     
+|pretrained.20200924.microsoft.dte.00.06.en.onnx | BERT | 6  |  ~ 16 ms | 261M  |  
+|pretrained.20200924.microsoft.dte.00.12.en.onnx | BERT    | 12  | ~ 26 ms  | 427M  |    
+|pretrained.20200924.microsoft.dte.00.12.roberta.en.onnx |  RoBERTa  | 12  | ~ 26 ms  | 486M  | 
+
+#### Model performance, evaluated by micro-average-accuracy
+|Training samples per intent   |5   |10   |25   |50   |100   |200   |
+| ------------ | ------------ | ------------ | ------------ | ------------ | ------------ |------------ |
+|pretrained.20200924.microsoft.dte.00.03.en.onnx |  0.756  | 0.839  | 0.904  | 0.929  | 0.943  | 0.951  |  
+|pretrained.20200924.microsoft.dte.00.06.en.onnx |   0.924 | 0.940  | 0.957  |  0.960 |  0.966 | 0.969  |  
+|pretrained.20200924.microsoft.dte.00.12.en.onnx |  0.902  |  0.931 |  0.951 | 0.960  |  0.964 |  0.969 | 
+|pretrained.20200924.microsoft.dte.00.12.roberta.en.onnx |   0.946 | 0.956  | 0.966  | 0.971  | 0.973  | 0.977  | 
 
 ## Roadmap
 
