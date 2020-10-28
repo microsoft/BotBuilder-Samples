@@ -6,5 +6,5 @@
 # template
 -```
 ${luHeader()}
-${join(foreach(templates.lu, lu, `[${lu.fullName}](${localePath(lu.relative)})`), EOL())}
+${join(foreach(templates.lu, lu, `[${lu.fullName}](${localePath(replace(lu.relative, '\\', '/'))})`), EOL())}
 ```

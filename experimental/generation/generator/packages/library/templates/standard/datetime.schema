@@ -23,6 +23,8 @@
         "datetimeV2Entity-add.dialog",
         "datetimeV2Entity-remove.dialog",
         "datetimeV2Entity-clear.dialog",
-        "datetimeV2Entity-show.dialog"
+        "datetimeV2Entity-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
     ]
 }

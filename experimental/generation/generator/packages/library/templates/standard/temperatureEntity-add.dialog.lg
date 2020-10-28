@@ -20,6 +20,16 @@
             "$kind": "Microsoft.SetProperty",
             "property": "$${property}",
             "value": "=@temperature"          
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind":"Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
         }
     ]               
     ${designerOpEntity('Add', 'temperature')}     

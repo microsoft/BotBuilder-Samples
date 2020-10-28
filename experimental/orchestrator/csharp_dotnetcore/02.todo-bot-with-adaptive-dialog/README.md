@@ -44,15 +44,15 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
     ```
-- Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:nlr:get command below.
+- Configure Orchestrator
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:basemodel:get command below.
     ```bash
-    > bf orchestrator:nlr:list
+    > bf orchestrator:basemodel:list
     ```
-    - Download the NLR model
+    - Download Orchestrator base model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId <version id> --out ./model --verbose
+    > bf orchestrator:basemodel:get --versionId <version id> --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash

@@ -8,7 +8,7 @@
 -\n
 
 # welcome
-- Welcome!
+- ${helpGlobal()}
 
 # propertyName(property)
 - ${template(`${property}_Name`)}
@@ -35,6 +35,28 @@
 - ELSE:
 - no value
 
+# requiredProperties
+- IF: ${count($requiredProperties) > 0}
+- Required properties include: ${join(foreach($requiredProperties, property, propertyName(property)), ', ')}
+- ELSE:
+- 
+
+# optionalProperties
+- IF: ${count(publicProperties()) > count($requiredProperties)}
+- Optional properties include: ${join(foreach(where(publicProperties(), property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
+- ELSE:
+- 
+
+# helpGlobal
+- ```
+${requiredProperties()}
+${optionalProperties()}
+For each property you can add/remove values, clear, show, change or ask for help.
+You can also ask for over all help, cancel the whole form or skip a clarification step.```
+
+# helpReprompt
+- ${if($expectedProperties, join(foreach($expectedProperties, expected, template(`${expected}_RepromptHelp`)), EOL()), '')}
+
 # publicProperties
 -${dialogClass.schema.$public}
 
@@ -57,8 +79,11 @@
 - IF: ${contains($expectedProperties, property)}
     - ${template(if(dialog[property], `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
-    - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
+    - ${confirmUpdate(property, val)}
 
+# confirmUpdate(property, val)
+- ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
+    
 # cancelPrompt
 - Do you want to end the conversation? (yes/no)
 
