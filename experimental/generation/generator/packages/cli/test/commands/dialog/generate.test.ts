@@ -50,7 +50,7 @@ describe('dialog:generate', async () => {
             .stdout()
             .stderr()
             .command(['dialog:generate', `${unitTestSchemaPath}${unittestSchemaNames[i]}.schema`, '-o', `${output}`, '--verbose'])
-            .it(`Generated unit test schema ${i} successfully`, ctx => {
+            .it(`Generated unit test schema ${unittestSchemaNames[i]} successfully`, ctx => {
                 expect(ctx.stderr)
                     .not.to.contain('Error')
             })
