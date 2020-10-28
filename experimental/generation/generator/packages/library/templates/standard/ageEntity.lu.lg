@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('age')}
-
-# template
-- ```
-@ prebuilt age ${roles()}
-${propertyName()}
-${operations('age', ["5 years", "25", "13 years old"])}
-```
+# templates
+- ${entityLUTemplates('age')}

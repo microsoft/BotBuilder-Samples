@@ -18,27 +18,29 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
-using Microsoft.Bot.Builder.Skills;
+using Microsoft.Extensions.Configuration;
 
 namespace RunBotServer
 {
     public class RunBot : ActivityHandler
     {
-        private IStatePropertyAccessor<DialogState> dialogStateAccessor;
-        private DialogManager dialogManager;
-        private readonly ResourceExplorer resourceExplorer;
+        private IStatePropertyAccessor<DialogState> _dialogStateAccessor;
+        private DialogManager _dialogManager;
+        private readonly ResourceExplorer _resourceExplorer;
+        private IConfiguration _configuration;
 
-        public RunBot(ConversationState conversationState, ResourceExplorer resourceExplorer, BotFrameworkClient skillClient, SkillConversationIdFactoryBase conversationIdFactory)
+        public RunBot(ConversationState conversationState, ResourceExplorer resourceExplorer, IConfiguration configuration)
         {
-            this.dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
-            this.resourceExplorer = resourceExplorer;
+            _dialogStateAccessor = conversationState.CreateProperty<DialogState>("RootDialogState");
+            _resourceExplorer = resourceExplorer;
+            _configuration = configuration;
 
             // auto reload dialogs when file changes
-            this.resourceExplorer.Changed += (sender, resources) =>
+            resourceExplorer.Changed += (sender, resources) =>
             {
                 if (resources.Any(resource => resource.Id.EndsWith(".dialog") || resource.Id.EndsWith(".lg")))
                 {
-                    Task.Run(() => this.LoadDialogs());
+                    Task.Run(() => LoadDialogs());
                 }
             };
             LoadDialogs();
@@ -46,7 +48,7 @@ namespace RunBotServer
 
         public override Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default(CancellationToken))
         {
-            return this.dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
+            return _dialogManager.OnTurnAsync(turnContext, cancellationToken: cancellationToken);
         }
 
         private void LoadDialogs()
@@ -73,14 +75,15 @@ namespace RunBotServer
 
             Dialog lastDialog = null;
             var choices = new ChoiceSet();
+            var dialogName = _configuration["dialog"];
 
-            foreach (var resource in this.resourceExplorer.GetResources(".dialog").Where(r => r.Id.EndsWith(".main.dialog")))
+            foreach (var resource in _resourceExplorer.GetResources(".dialog").Where(r => dialogName != null ? r.Id == dialogName : r.Id.Count(c => c == '.') == 1))
             {
                 try
                 {
                     var name = Path.GetFileNameWithoutExtension(Path.GetFileNameWithoutExtension(resource.Id));
                     choices.Add(new Choice(name));
-                    var dialog = resourceExplorer.LoadType<Dialog>(resource);
+                    var dialog = _resourceExplorer.LoadType<Dialog>(resource);
                     lastDialog = dialog;
                     handleChoice.Cases.Add(new Case($"{name}", new List<Dialog>() { dialog }));
                 }
@@ -114,15 +117,15 @@ namespace RunBotServer
                     Actions = new List<Dialog>()
                 {
                     choiceInput,
-                    new SendActivity("# Running ${conversation.dialogChoice}.main.dialog"),
+                    new SendActivity("# Running ${conversation.dialogChoice}.dialog"),
                     handleChoice,
                     new RepeatDialog()
                 }
                 });
             }
 
-            this.dialogManager = new DialogManager(rootDialog)
-                .UseResourceExplorer(this.resourceExplorer)
+            _dialogManager = new DialogManager(rootDialog)
+                .UseResourceExplorer(_resourceExplorer)
                 .UseLanguageGeneration();
 
             Trace.TraceInformation("Done loading resources.");

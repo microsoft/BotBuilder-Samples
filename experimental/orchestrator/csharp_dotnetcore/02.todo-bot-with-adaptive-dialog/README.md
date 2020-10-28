@@ -23,6 +23,12 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
+      To reinstall bf orchestrator plugin, uninstall previous version and then run the install command again.
+      
+      Uninstall command:
+    ```bash
+    > bf plugins:uninstall @microsoft/bf-orchestrator-cli
+    ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
     > bf orchestrator
@@ -38,20 +44,20 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
     ```
-- Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command
+- Configure Orchestrator
+    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:basemodel:get command below.
     ```bash
-    > bf orchestrator:nlr:list
+    > bf orchestrator:basemodel:list
     ```
-    - Download the NLR model
+    - Download Orchestrator base model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.0.0-pretrained.20200729.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:basemodel:get --versionId <version id> --out ./model --verbose
     ```
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:build --in ./CognitiveModels --out ./generated --model ./model
+    > bf orchestrator:build --in ./Dialogs --out ./generated --model ./model
     ```
     - Update orchestrator modelPath and snapshotPath information in `./appsettings.json`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.

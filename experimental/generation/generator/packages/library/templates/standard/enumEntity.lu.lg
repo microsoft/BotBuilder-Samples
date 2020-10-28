@@ -1,16 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${entityLUFilename()}
-
-# template
-- ```
-@ list ${property}Entity =
-${join(foreach(schema.properties[property].enum, enum, `\t- ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
-${propertyName()}
-${operations(`${property}Entity`, allSynonyms())}
-```
-
-# allSynonyms
-- ${flatten(foreach(schema.properties[property].enum, enum, phrases(enum)))}
-
+# templates
+- ${entityLUTemplates('enum')}

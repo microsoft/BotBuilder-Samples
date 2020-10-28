@@ -26,9 +26,9 @@ class WelcomeUserBot(ActivityHandler):
                 "[WelcomeUserBot]: Missing parameter. user_state is required but None was given"
             )
 
-        self.user_state = user_state
+        self._user_state = user_state
 
-        self.user_state_accessor = self.user_state.create_property("WelcomeUserState")
+        self.user_state_accessor = self._user_state.create_property("WelcomeUserState")
 
         self.WELCOME_MESSAGE = """This is a simple Welcome Bot sample. This bot will introduce you
                         to welcoming and greeting users. You can say 'intro' to see the
@@ -36,11 +36,26 @@ class WelcomeUserBot(ActivityHandler):
                         Emulator, press the 'Restart Conversation' button to simulate user joining
                         a bot or a channel"""
 
+        self.INFO_MESSAGE = """You are seeing this message because the bot received at least one
+                        'ConversationUpdate' event, indicating you (and possibly others)
+                        joined the conversation. If you are using the emulator, pressing
+                        the 'Start Over' button to trigger this event again. The specifics
+                        of the 'ConversationUpdate' event depends on the channel. You can
+                        read more information at: https://aka.ms/about-botframework-welcome-user"""
+
+        self.LOCALE_MESSAGE = """"You can use the 'activity.locale' property to welcome the
+                        user using the locale received from the channel. If you are using the 
+                        Emulator, you can set this value in Settings."""
+
+        self.PATTERN_MESSAGE = """It is a good pattern to use this event to send general greeting
+                        to user, explaining what your bot can do. In this example, the bot
+                        handles 'hello', 'hi', 'help' and 'intro'. Try it now, type 'hi'"""
+
     async def on_turn(self, turn_context: TurnContext):
         await super().on_turn(turn_context)
 
         # save changes to WelcomeUserState after each turn
-        await self.user_state.save_changes(turn_context)
+        await self._user_state.save_changes(turn_context)
 
     async def on_members_added_activity(
         self, members_added: [ChannelAccount], turn_context: TurnContext
@@ -58,20 +73,13 @@ class WelcomeUserBot(ActivityHandler):
                     f"Hi there { member.name }. " + self.WELCOME_MESSAGE
                 )
 
-                await turn_context.send_activity(
-                    """You are seeing this message because the bot received at least one
-                        'ConversationUpdate' event, indicating you (and possibly others)
-                        joined the conversation. If you are using the emulator, pressing
-                        the 'Start Over' button to trigger this event again. The specifics
-                        of the 'ConversationUpdate' event depends on the channel. You can
-                        read more information at: https://aka.ms/about-botframework-welcome-user"""
-                )
+                await turn_context.send_activity(self.INFO_MESSAGE)
 
                 await turn_context.send_activity(
-                    """It is a good pattern to use this event to send general greeting
-                        to user, explaining what your bot can do. In this example, the bot
-                        handles 'hello', 'hi', 'help' and 'intro'. Try it now, type 'hi'"""
+                    f"{ self.LOCALE_MESSAGE } Current locale is { turn_context.activity.locale }."
                 )
+
+                await turn_context.send_activity(self.PATTERN_MESSAGE)
 
     async def on_message_activity(self, turn_context: TurnContext):
         """

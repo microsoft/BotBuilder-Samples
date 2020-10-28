@@ -1,30 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${propertyFilename()}
-
-# template
-- ```
-${importLG(`${property}Entity`)}
-${importLG('library')}
-${importLG('library-Missing')}
-${AskTemplate()}
-${nameTemplate()}
-${ValueTemplate()}
-```
-
-# AskTemplate
-- ```
-> Template for prompting the user for the '${property}' property.
-${'#'} ${property}_getPromptText
-- \${getEnumPromptText('${property}')}
-```
-
-# ValueTemplate
-- ```
-> Template for generating display text for the value of the '${property}' property.
-${'#'} ${property}_getValueText(val)
-- \${${property}Entity_getValueText(val)}
-```
-
-
+# templates
+- ${propertyLGTemplates('enum')}

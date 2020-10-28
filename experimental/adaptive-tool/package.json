@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.0.5",
+    "version": "0.0.6",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {
@@ -45,13 +45,6 @@
                         "description": "Customized function list, should be separated by comma, eg. a, b, c"
                     }
                 }
-            }
-        ],
-        "commands": [
-            {
-                "command": "lgLiveTest.start",
-                "title": "Start LG debug",
-                "category": "LG Live Test"
             }
         ],
         "languages": [
@@ -203,9 +196,7 @@
         ]
     },
     "activationEvents": [
-        "onCommand:lgLiveTest.start",
         "onCommand:lg.extension.onEnterKey",
-        "onWebviewPanel:lgLiveTest",
         "onDebug",
         "onLanguage:lg",
         "onLanguage:lu"

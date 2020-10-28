@@ -1,0 +1,22 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```${libraryImport('library.en-us.lg')}
+${promptTemplates(missingDefault(objectType()), changeDefault(objectType()))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${complexValueTemplate(objectType())}
+```
+
+# objectType()
+- ${phrase(schema.properties[property].$entities[0])}

@@ -38,10 +38,10 @@
     },
     "dependencies": {
       "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-      "botbuilder": "~4.9.1",
-      "botbuilder-ai": "~4.9.1",
-      "botbuilder-dialogs": "~4.9.1",
-      "botbuilder-testing": "~4.9.1",
+      "botbuilder": "~4.10.3",
+      "botbuilder-ai": "~4.10.3",
+      "botbuilder-dialogs": "~4.10.3",
+      "botbuilder-testing": "~4.10.3",
       "dotenv": "^8.2.0",
       "replace": "~1.2.0",
       "restify": "~8.5.1"

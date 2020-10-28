@@ -86,7 +86,7 @@ describe('MainDialog', () => {
 
         const reply = await client.sendActivity('hi');
         const weekLaterDate = moment().add(7, 'days').format('MMMM D, YYYY');
-        assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${weekLaterDate}"`, 'Did not show prompt');
+        assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${ weekLaterDate }"`, 'Did not show prompt');
     });
 
     describe('Invokes tasks based on LUIS intent', () => {
@@ -110,7 +110,7 @@ describe('MainDialog', () => {
                 console.log(`Test Case: ${ testData.intent }`);
                 let reply = await client.sendActivity('Hi');
                 const weekLaterDate = moment().add(7, 'days').format('MMMM D, YYYY');
-                assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${weekLaterDate}"`);
+                assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${ weekLaterDate }"`);
 
                 reply = await client.sendActivity(testData.utterance);
                 assert.strictEqual(reply.text, testData.invokedDialogResponse);
@@ -150,7 +150,7 @@ describe('MainDialog', () => {
                 console.log(`Test Case: ${ mockLuisResult.text }`);
                 let reply = await client.sendActivity('Hi');
                 const weekLaterDate = moment().add(7, 'days').format('MMMM D, YYYY');
-                assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${weekLaterDate}"`);
+                assert.strictEqual(reply.text, `What can I help you with today?\nSay something like "Book a flight from Paris to Berlin on ${ weekLaterDate }"`);
 
                 reply = await client.sendActivity(mockLuisResult.text);
                 assert.strictEqual(reply.text, testData.expectedMessage);

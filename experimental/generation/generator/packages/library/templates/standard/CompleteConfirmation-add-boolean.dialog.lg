@@ -8,7 +8,8 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Set(CompleteConfirmation)",
+    "operation": "Set()",
+    "property": "CompleteConfirmation",
     "entity": "boolean",
     "actions": [
         {
@@ -27,7 +28,7 @@
             "elseActions":[
                 {
                     "$kind": "Microsoft.Ask",
-                    "activity": "\${getChoosePropertyText()}",
+                    "activity": "\${choosePropertyPrompt()}",
                     "expectedProperties": [
                         "PropertyToChange"
                     ]

@@ -1,0 +1,39 @@
+{
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended"
+  ],
+  "jsRules": {},
+  "rules": {
+    "interface-name": [
+      true,
+      "never-prefix"
+    ],
+    "max-line-length": [
+      false
+    ],
+    "no-console": [
+      false,
+      "log",
+      "error"
+    ],
+    "no-var-requires": false,
+    "quotemark": [
+      true,
+      "single"
+    ],
+    "one-variable-per-declaration": false,
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
+    "trailing-comma": [
+      true,
+      {
+        "multiline": "never",
+        "singleline": "never"
+      }
+    ]
+  },
+  "rulesDirectory": []
+}

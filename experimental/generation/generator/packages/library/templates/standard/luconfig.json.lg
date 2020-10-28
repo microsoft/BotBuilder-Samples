@@ -6,8 +6,9 @@
 {
     "botName": "${prefix}",
     "deleteOldVersion": true, 
-    "out": ".",
+    "out": "generated",
     "dialog": "multiLanguage",
-    "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.lu"`), ', ')}]
+    "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.lu"`), ', ')}],
+    "schema": "${appSchema}"
 }
 ```

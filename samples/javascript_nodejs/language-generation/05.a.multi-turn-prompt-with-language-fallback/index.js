@@ -3,6 +3,11 @@
 
 const restify = require('restify');
 const path = require('path');
+
+// Read environment variables from .env file
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const { Templates, MultiLanguageLG } = require('botbuilder-lg');
 
 // Import required bot services.
@@ -12,10 +17,6 @@ const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState, Activi
 // Import our custom bot class that provides a turn handling function.
 const { DialogBot } = require('./bots/dialogBot');
 const { UserProfileDialog } = require('./dialogs/userProfileDialog');
-
-// Read environment variables from .env file
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
 // the .bot file when configuring your adapter.

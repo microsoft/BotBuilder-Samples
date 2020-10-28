@@ -1,11 +1,4 @@
 [generator.lg](../generator.lg)
 
-# filename
-- ${builtinEntityFilename('ordinal')}
-
-# template
-- ```
-@ prebuilt ordinal ${roles()}
-${propertyName()}
-${operations('ordinal', ["1st", "second", "third"])}
-```
+# templates
+- ${entityLUTemplates('ordinal')}

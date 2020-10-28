@@ -6,6 +6,6 @@
 # template
 -```
 > This is where you would put utterances that should trigger ${triggerIntent}
-${'#'} ${triggerIntent}
+# ${triggerIntent}
 - ${prefix}
 ```

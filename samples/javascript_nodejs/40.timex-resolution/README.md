@@ -103,7 +103,7 @@ The use of X to blank out the characters is also applies to the representation o
 XXXX-WXX-1
 ```
 
-Here XXXX means *any* year and WXX means *any* week, so what remains is the day component. And with the ISO week starting on a Monday and indexing from 1 we get Monday. 
+Here XXXX means *any* year and WXX means *any* week, so what remains is the day component. And with the ISO week starting on a Monday and indexing from 1 we get Monday.
 
 The Text.Recognizers are written to attempt to resolve to a specific date if they can. This can result in some surprisingly subtle behavior. For exampe, if we had said "this Monday" it would have resolved to a specific date such as this:
 
@@ -158,7 +158,7 @@ PT4H
 
 Given the nature of the problem and the fact that decimal is supported, means there are many different ways to express the same duration, for example PT0.5H is the same as PT30M just as P1W is the same as P7D. The Text.Recognizers make no attempt to normalize such things, instead they just try to render the original natural language utterance as directly as possible. The Text.Recognizers also don't try to merge separate durations they find in the input. For example, the text "4 hours 30 minutes" will result in two results.
 
-## Representing Ranges 
+## Representing Ranges
 
 ### Date Ranges
 

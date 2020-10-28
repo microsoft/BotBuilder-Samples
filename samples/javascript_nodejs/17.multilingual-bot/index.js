@@ -5,6 +5,11 @@
 
 // Import required packages.
 const path = require('path');
+
+// Note: Ensure you have a .env file and include translatorKey.
+const ENV_FILE = path.join(__dirname, '.env');
+require('dotenv').config({ path: ENV_FILE });
+
 const restify = require('restify');
 const { MicrosoftTranslator } = require('./translation/microsoftTranslator');
 const { TranslatorMiddleware } = require('./translation/translatorMiddleware');
@@ -15,10 +20,6 @@ const { BotFrameworkAdapter, MemoryStorage, UserState, ActivityTypes, TurnContex
 
 // This bot's main dialog.
 const { MultilingualBot } = require('./bots/multilingualBot');
-
-// Note: Ensure you have a .env file and include translatorKey.
-const ENV_FILE = path.join(__dirname, '.env');
-require('dotenv').config({ path: ENV_FILE });
 
 // Used to create the BotStatePropertyAccessor for storing the user's language preference.
 const LANGUAGE_PREFERENCE = 'language_preference';

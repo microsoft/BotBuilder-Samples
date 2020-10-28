@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Adapters.Slack;
+using Microsoft.Bot.Builder.Adapters.Slack.Model;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using SlackAPI;
@@ -38,9 +39,9 @@ namespace Microsoft.BotBuilderSamples.Bots
         /// <returns>A <see cref="Task{TResult}"/> representing the result of the asynchronous operation.</returns>
         protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.TryGetChannelData(out SlackRequestBody body))
+            if (turnContext.Activity.Name == "Command")
             {
-                if (body?.Command == "/test")
+                if (turnContext.Activity.Value.ToString() == "/block")
                 {
                     var interactiveMessage = MessageFactory.Attachment(
                         CreateInteractiveMessage(
@@ -49,15 +50,21 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             }
 
-            if (turnContext.Activity.TryGetChannelData(out SlackEvent slackEvent))
+            if (turnContext.Activity.Value is EventType slackEvent)
             {
-                if (slackEvent?.SubType == "file_share")
+                if (slackEvent.Type == "message")
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received an attachment"), cancellationToken);
-                }
-                else if (slackEvent?.Message?.Attachments != null)
-                {
-                    await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received a link share"), cancellationToken);
+                    if (slackEvent.AdditionalProperties.ContainsKey("subtype") &&
+                        slackEvent.AdditionalProperties["subtype"].ToString() == "file_share")
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received an attachment"), cancellationToken);
+                    }
+
+                    if (slackEvent.AdditionalProperties.ContainsKey("subtype") &&
+                        slackEvent.AdditionalProperties["subtype"].ToString() == "link_shared")
+                    {
+                        await turnContext.SendActivityAsync(MessageFactory.Text("Echo: I received a link share"), cancellationToken);
+                    }
                 }
             }
         }

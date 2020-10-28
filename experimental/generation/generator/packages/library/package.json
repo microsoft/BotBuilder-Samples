@@ -1,14 +1,14 @@
 {
   "name": "@microsoft/bf-generate-library",
-  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema library.",
+  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema.",
   "version": "1.0.0",
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-lu": "^4.10.0-preview.148066",
-    "adaptive-expressions": "^4.10.0-preview-150886",
+    "@microsoft/bf-lu": "^4.11.0-rc.20201026.e06ad47",
+    "adaptive-expressions": "^4.11.0-rc0",
     "ajv": "^6.9.1",
-    "botbuilder-lg": "^4.10.0-preview.150886",
+    "botbuilder-lg": "^4.11.0-rc0",
     "clone": "^2.1.2",
     "fs-extra": "^8.1.0",
     "globby": "^11.0.1",

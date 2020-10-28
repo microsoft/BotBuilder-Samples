@@ -8,10 +8,9 @@
     "actions": [
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${getChoosePropertiesText()}",
-            "expectedProperties": ["PropertyToChange"]
+            "activity": "\${chooseProperties()}"
         }
     ]
-    ${designerChooseProperty('PropertyToChange')}
+    ${designerChooseProperty()}
 }
 ```

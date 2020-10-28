@@ -1,0 +1,62 @@
+>${comment?} The >> is to mark this as the source of entities when doing cross entity examples
+
+>> entity: Standalone entities that map to multiple properties${simple?}
+- ${simple*}
+
+>${comment} We ensure that each value occurs at least once here to support reliably resolving entity ambiguity
+>> entity: Standalone ${property} with ${entity}
+- {@${property}=${unique*}}
+- {@${property}=${uniqueOrValue*} ${name}}
+
+>> property: Standalone ${property} name
+- {@${property}=${name}}
+
+> Add() examples for ${property} and ${entity}
+- {@Add()=add {@${property}=${uniqueOrValue} ${name}}}
+- {@Add()=with {@${property}=${unique}}}
+- {@Add()=set ${value}}
+- {@Add()={@${property}=${name} is ${uniqueOrValue}}}
+- {@Add()={@${property}=${name} of ${uniqueOrValue}}}
+
+> ${isArray?}Add() examples with multiple ${entity}
+- {@Add()={@${property}=${name} are ${uniqueOrValue}}}
+- {@Add()=add {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Add()=set {@${property}=${unique} and ${unique}}
+- {@Add()=with ${value} and ${value}}
+- {@Add()=with {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Add()=add {@${property}=${unique}, ${unique} and ${unique}} 
+- {@Add()=set ${value}, ${value} and ${value}}
+- {@Add()={@${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
+- {@Add()={@${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
+
+> Remove() examples for ${property} and ${entity}
+- {@Remove()=remove {@${property}=${unique}}
+- {@Remove()=remove ${value}}
+- {@Remove()=with no ${uniqueOrValue} ${name}}
+
+> ${isArray?}Remove() examples for ${property} and 2-3 ${entity}
+- {@Remove()=delete {@${property}=${unique} and ${unique}}}
+- {@Remove()=without {@${property}=${unique}, ${unique} and ${unique}}}
+- {@Remove()=remove ${value} and ${value}}
+- {@Remove()=remove ${value}, ${value} and ${value}}
+- {@Remove()=remove {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}}
+- {@Remove()=delete {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${unique} ${name}}}
+
+> Clear() examples for ${property}
+- {@Clear()=clear {@${property}=${name}}}
+- {@Clear()=reset {@${property}=${name}}}
+
+> Show() examples for ${property}
+- {@Show()=show {@${property}=${name}}}
+- {@Show()=value of {@${property}=${name}}}
+- {@Show()={@${property}=${name}} values}
+- {@Show()={@${property}=${name}} selection}
+
+> Help() examples for ${property}
+- {@Help()=help {@${property}=${name}}}
+- {@Help()=what can I say for {@${property}=${name}}}
+- {@Help()={@${property}=${name}} help}
+
+> Change() examples for ${property}
+- {@Change()=change {@${property}=${name}}}
+- {@Change()=goto {@${property}=${name}}}

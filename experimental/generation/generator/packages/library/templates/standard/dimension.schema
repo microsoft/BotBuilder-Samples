@@ -2,8 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "${concat('dimension:', property)}",
-        "dimension"
+        "dimension",
+        "${if(propertySchema.$units, 'number', [])}"
     ],
     "properties": {
         "number": {
@@ -19,11 +19,14 @@
     ],
     "$templates": [
         "dimensionEntity.lu",
-        "objectProperty.lg",
+        "dimensionProperty.lg",
         "string-missing.dialog",
         "dimensionEntity-add.dialog",
         "dimensionEntity-remove.dialog",
         "dimensionEntity-clear.dialog",
-        "dimensionEntity-show.dialog"
+        "dimensionEntity-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog",
+        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
     ]
 }

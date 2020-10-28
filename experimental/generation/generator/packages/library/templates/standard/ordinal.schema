@@ -2,7 +2,6 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "${concat('ordinalV2:', property)}",
         "ordinalV2"
     ],
     "properties": {
@@ -24,6 +23,8 @@
         "ordinalV2Entity-add.dialog",
         "ordinalV2Entity-remove.dialog",
         "ordinalV2Entity-clear.dialog",
-        "ordinalV2Entity-show.dialog"
+        "ordinalV2Entity-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
     ]
 }

@@ -1,4 +1,4 @@
-# handling attachments
+# Handling Attachments
 
 Bot Framework v4 handling attachments bot sample
 
@@ -46,7 +46,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
@@ -54,7 +54,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-## Attachments
+## Interacting with the bot
 
 A message exchange between user and bot may contain cards and media attachments, such as images, video, audio, and files.
 The types of attachments that may be sent and received varies by channel. Additionally, a bot may also receive file attachments.

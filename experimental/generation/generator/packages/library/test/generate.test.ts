@@ -11,7 +11,7 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
-import {generateTest} from '../src/testGenerator'
+import { generateTest } from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
 
@@ -133,7 +133,7 @@ describe('dialog:generate library', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
             let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
@@ -172,10 +172,10 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Schema discovery', async() => {
+    it('Schema discovery', async () => {
         try {
             let schemas = await ps.schemas()
-            assert.equal(Object.keys(schemas).length, 10, 'Wrong number of schemas discovered')
+            assert.strictEqual(Object.keys(schemas).length, 14, 'Wrong number of schemas discovered')
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -185,8 +185,8 @@ describe('dialog:generate library', async () => {
                     ++property
                 }
             }
-            assert.equal(global, 3, 'Wrong number of global schemas')
-            assert.equal(property, 7, 'Wrong number of property schemas')
+            assert.strictEqual(global, 3, 'Wrong number of global schemas')
+            assert.strictEqual(property, 11, 'Wrong number of property schemas')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -199,8 +199,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('simple', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
-            assert.equal(expansion.$entities[0], 'number:simple', 'Missing role')
+            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -213,8 +212,7 @@ describe('dialog:generate library', async () => {
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')
-            assert.equal(expansion.$entities.length, 2, 'Wrong number of entities')
-            assert.equal(expansion.$entities[0], 'dimension:ref', 'Missing role')
+            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
             assert.fail(e.message)
         }

@@ -13,8 +13,7 @@ In order to setup runbot:
 3. Open a shell window:
    1. Change to the directory where you want the repo located.
    2. Run `git clone https://github.com/microsoft/BotBuilder-Samples.git`.
-4. Add the MyGet feed to NuGet: `nuget sources add -name "MyGet" -source "https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json"`.
-5. To use LUIS you need to register your LUIS endpoint key by running `dotnet user-secrets --id RunBot set luis:endpointKey <yourKey>` once.
+4. To use LUIS you need to register your LUIS endpoint key by running `dotnet user-secrets --id RunBot set luis:endpointKey <yourKey>` once.
 
 ## Usage
 
@@ -26,11 +25,10 @@ At that point you can connect to your bot using `http://localhost:5000/api/messa
 
 Command line args:
 
-* **--root <PATH>**: Absolute path to the root directory for declarative resources all *.main.dialog be options.  Defaults to the current directory.
+* **--root <PATH>**: Absolute path to the root directory for declarative resources all *.dialog will be options.  Defaults to the current directory.
 * **--region <REGION>**: LUIS endpoint region.  Default is `westus`.
-* **--environment <ENVIRONMENT>**: LUIS environment settings to use.
-  Default is the user alias.
-  This is used to find your `luis.settings.<environment>.<region>.json` settings file for LUIS.
+* **--environment <ENVIRONMENT>**: LUIS environment settings to use.  Default is the user alias. This is used to find your `luis.settings.<environment>.<region>.json` settings file for LUIS.
+* **--dialog <DIALOG>**: Name of root dialog to run.  By default all root *.dialog will be choices.
 
 ## Troubleshooting
 

@@ -1,1 +1,2 @@
-botbuilder-integration-aiohttp>=4.9.1
+msrest
+botbuilder-integration-aiohttp>=4.10.1
