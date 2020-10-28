@@ -6,11 +6,11 @@ const path = require('path');
 const restify = require('restify');
 
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { AdaptiveDialogComponentRegistration } = require('botbuilder-dialogs-adaptive');
+const { AdaptiveComponentRegistration } = require('botbuilder-dialogs-adaptive');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const { BotFrameworkAdapter, ComponentRegistration, ConversationState, MemoryStorage, UserState, useBotState } = require('botbuilder');
 
 // This bot's main dialog.
 const { DialogBot } = require('./bots/dialogBot');
@@ -22,7 +22,9 @@ require('dotenv').config({ path: ENV_FILE });
 
 // Set up resource explorer
 const resourceExplorer = new ResourceExplorer().addFolders(__dirname, ['node_modules'], false);
-resourceExplorer.addComponent(new AdaptiveDialogComponentRegistration(resourceExplorer));
+
+// Add adaptive dialog assets.
+ComponentRegistration.add(new AdaptiveComponentRegistration());
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
@@ -60,10 +62,11 @@ adapter.onTurnError = onTurnErrorHandler;
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
+useBotState(adapter, conversationState, userState);
 
 // Create the main dialog.
-const dialog = new RootDialog(userState, resourceExplorer);
-const bot = new DialogBot(conversationState, userState, dialog, resourceExplorer);
+const dialog = new RootDialog(resourceExplorer);
+const bot = new DialogBot(dialog, resourceExplorer);
 
 // Create HTTP server.
 const server = restify.createServer();

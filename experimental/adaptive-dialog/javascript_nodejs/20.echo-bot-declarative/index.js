@@ -4,10 +4,10 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
+const { AdaptiveComponentRegistration, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
 const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { AdaptiveDialogComponentRegistration, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
 const { DialogManager } = require('botbuilder-dialogs');
-const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
+const { ComponentRegistration, ConversationState, MemoryStorage, UserState, useBotState } = require('botbuilder');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
@@ -19,7 +19,9 @@ dotenv.config({ path: ENV_FILE });
 
 // Set up resource explorer
 const resourceExplorer = new ResourceExplorer().addFolder(path.join(__dirname, './dialogs'), true, true);
-resourceExplorer.addComponent(new AdaptiveDialogComponentRegistration(resourceExplorer));
+
+// Add adaptive dialog assets.
+ComponentRegistration.add(new AdaptiveComponentRegistration());
 
 // Create HTTP server
 const server = restify.createServer();
@@ -67,16 +69,14 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
+useBotState(adapter, conversationState, userState);
 
 let myBot;
 
 const loadRootDialog = () => {
     console.log('(Re)Loading dialogs...');
     // Load root dialog
-    let rootDialogResource = resourceExplorer.getResource('echo.dialog');
-    myBot = new DialogManager(resourceExplorer.loadType(rootDialogResource));
-    myBot.userState = userState;
-    myBot.conversationState = conversationState;
+    myBot = new DialogManager(resourceExplorer.loadType('echo.dialog'));
     ResourceExtensions.useResourceExplorer(myBot, resourceExplorer);
     LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 }

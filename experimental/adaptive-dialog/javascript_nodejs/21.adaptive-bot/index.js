@@ -4,16 +4,11 @@
 const dotenv = require('dotenv');
 const path = require('path');
 const restify = require('restify');
-const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
-const { Case, CancelAllDialogs, OnIntent, IntentPattern, RegexRecognizer, TemplateEngineLanguageGenerator, ActivityTemplate, AdaptiveDialog, AdaptiveDialogComponentRegistration, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
+const { BotFrameworkAdapter, ComponentRegistration, ConversationState, MemoryStorage, UserState, useBotState } = require('botbuilder');
 const { DialogManager, ListStyle } = require('botbuilder-dialogs');
-const { MemoryStorage, UserState, ConversationState } = require('botbuilder');
-const { StringExpression, ArrayExpression, BoolExpression, EnumExpression } = require('adaptive-expressions');
+const { AdaptiveComponentRegistration, AdaptiveDialog, CancelAllDialogs, Case, OnIntent, RegexRecognizer, TemplateEngineLanguageGenerator, ChoiceInput, SendActivity, SwitchCondition, RepeatDialog, OnBeginDialog, LanguageGeneratorExtensions, ResourceExtensions } = require('botbuilder-dialogs-adaptive');
+const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
 const { Templates } = require('botbuilder-lg');
-
-// Import required bot services.
-// See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter } = require('botbuilder');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -21,12 +16,14 @@ dotenv.config({ path: ENV_FILE });
 
 // Set up resource explorer
 const resourceExplorer = new ResourceExplorer().addFolder(path.join(__dirname, './dialogs'), true, true);
-resourceExplorer.addComponent(new AdaptiveDialogComponentRegistration(resourceExplorer));
+
+// Add adaptive dialog assets.
+ComponentRegistration.add(new AdaptiveComponentRegistration());
 
 // Create HTTP server
 const server = restify.createServer();
 server.listen(process.env.port || process.env.PORT || 3978, () => {
-    console.log(`\n${ server.name } listening to ${ server.url }`);
+    console.log(`\n${server.name} listening to ${server.url}`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
     console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
 });
@@ -43,12 +40,12 @@ const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
     //       application insights.
-    console.error(`\n [onTurnError] unhandled error: ${ error }`);
+    console.error(`\n [onTurnError] unhandled error: ${error}`);
 
     // Send a trace activity, which will be displayed in Bot Framework Emulator
     await context.sendTraceActivity(
         'OnTurnError Trace',
-        `${ error }`,
+        `${error}`,
         'https://www.botframework.com/schemas/error',
         'TurnError'
     );
@@ -69,23 +66,26 @@ const memoryStorage = new MemoryStorage();
 // Create conversation state with in-memory storage provider.
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
+useBotState(adapter, conversationState, userState);
 
 let myBot;
 
 function createChoiceInputForAllAdaptiveDialogs() {
-    const rootDialog = new AdaptiveDialog(AdaptiveDialog.name);
-    let rootDialogRecognizer = new RegexRecognizer();
-    rootDialogRecognizer.intents = [
-        new IntentPattern('cancel', 'cancel')
-    ];
-    rootDialog.recognizer = rootDialogRecognizer;
+    const rootDialog = new AdaptiveDialog(AdaptiveDialog.name).configure({
+        recognizer: new RegexRecognizer().configure({
+            intents: [{
+                intent: 'cancel',
+                pattern: 'cancel'
+            }]
+        })
+    });
     const choices = [];
     const switchCases = [];
     (resourceExplorer.getResources('.dialog') || []).forEach(resource => {
         if (resource.id !== undefined && resource.id.endsWith('.main.dialog')) {
             let dialogName = path.basename(resource.id, '.main.dialog');
             const subDialog = resourceExplorer.loadType(resource);
-            choices.push({value : dialogName});
+            choices.push({ value: dialogName });
             switchCases.push(new Case(dialogName, [subDialog]));
         }
     });
@@ -93,11 +93,11 @@ function createChoiceInputForAllAdaptiveDialogs() {
     rootDialog.generator = new TemplateEngineLanguageGenerator(lgFile);
     rootDialog.triggers.push(new OnBeginDialog([
         new ChoiceInput().configure({
-            property: new StringExpression('turn.userChoice'),
-            prompt: new ActivityTemplate("${PickADialog()}"),
-            style: new EnumExpression(ListStyle.list),
-            choices: new ArrayExpression(choices),
-            alwaysPrompt: new BoolExpression(true)
+            property: 'turn.userChoice',
+            prompt: "${PickADialog()}",
+            style: ListStyle.list,
+            choices: choices,
+            alwaysPrompt: true
         }),
         new SendActivity("${RunningSampleReadBack()}"),
         new SwitchCondition('turn.userChoice', [], switchCases),
@@ -113,10 +113,7 @@ function createChoiceInputForAllAdaptiveDialogs() {
 function loadRootDialog() {
     console.log('(Re)Loading root dialog...')
     // Load root dialog
-    myBot = new DialogManager();
-    myBot.userState = userState;
-    myBot.conversationState = conversationState;
-    myBot.rootDialog = createChoiceInputForAllAdaptiveDialogs();
+    myBot = new DialogManager(createChoiceInputForAllAdaptiveDialogs());
     ResourceExtensions.useResourceExplorer(myBot, resourceExplorer);
     LanguageGeneratorExtensions.useLanguageGeneration(myBot);
 }
@@ -150,7 +147,7 @@ server.on('upgrade', (req, socket, head) => {
 
 // Add a resource change handler to resource explorer.
 resourceExplorer.changed = (resources) => {
-    if((resources || []).find(r => r.id.endsWith('.dialog')) !== undefined) {
+    if ((resources || []).find(r => r.id.endsWith('.dialog')) !== undefined) {
         loadRootDialog();
     }
 };

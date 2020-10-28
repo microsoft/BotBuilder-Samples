@@ -9,21 +9,15 @@ const { ResourceExplorer } = require('botbuilder-dialogs-declarative');
 class DialogBot extends ActivityHandler {
     /**
      *
-     * @param {ConversationState} conversationState
-     * @param {UserState} userState
      * @param {Dialog} dialog
      * @param {ResourceExplorer} resourceExplorer
      */
-    constructor(conversationState, userState, dialog, resourceExplorer) {
+    constructor(dialog, resourceExplorer) {
         super();
-        if (!conversationState) throw new Error('[DialogBot]: Missing parameter. conversationState is required');
-        if (!userState) throw new Error('[DialogBot]: Missing parameter. userState is required');
         if (!dialog) throw new Error('[DialogBot]: Missing parameter. dialog is required');
         if (!resourceExplorer) throw new Error('[DialogBot]: Missing parameter. resourceExplorer is required');
 
         this.dialogManager = new DialogManager(dialog);
-        this.dialogManager.conversationState = conversationState;
-        this.dialogManager.userState = userState;
         ResourceExtensions.useResourceExplorer(this.dialogManager, resourceExplorer);
         LanguageGeneratorExtensions.useLanguageGeneration(this.dialogManager);
 
