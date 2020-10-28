@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Temperature": {
+            "$ref": "template:temperature.schema",
+            "units": "degree"
+        }
+    },
+    "required": [
+        "Temperature"
+    ],
+    "$requires": [
+        "standard.schema"
+    ]
+}
