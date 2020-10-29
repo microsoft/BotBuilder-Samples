@@ -17,11 +17,11 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "^1.1.4",
-        "botbuilder": "next",
-        "botbuilder-ai": "next",
-        "botbuilder-dialogs": "next",
-        "botbuilder-dialogs-adaptive": "next",
-        "botbuilder-lg": "next",
+        "botbuilder": "4.11.0-rc1",
+        "botbuilder-ai": "4.11.0-rc1",
+        "botbuilder-dialogs": "4.11.0-rc1",
+        "botbuilder-dialogs-adaptive": "4.11.0-rc1-preview",
+        "botbuilder-lg": "4.11.0-rc1",
         "dotenv": "^8.2.0",
         "restify": "~8.4.0"
     },
