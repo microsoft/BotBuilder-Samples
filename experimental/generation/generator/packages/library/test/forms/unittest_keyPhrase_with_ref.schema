@@ -2,13 +2,12 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "properties": {
-        "Dimension": {
-            "$ref": "template:dimension.schema",
-            "$units": "Foot"
+        "KeyphraseProperty": {
+            "$ref": "template:keyphrase.schema"
         }
     },
     "required": [
-        "Dimension"
+        "KeyphraseProperty"
     ],
     "$requires": [
         "standard.schema"

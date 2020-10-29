@@ -4,7 +4,7 @@
     "properties": {
         "Temperature": {
             "$ref": "template:temperature.schema",
-            "units": "degree"
+            "$units": "Degree"
         }
     },
     "required": [
