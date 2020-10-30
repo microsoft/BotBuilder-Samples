@@ -14,11 +14,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.12.0-daily.preview.20201028.179306.df3d070" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.12.0-daily.20201028.179306.df3d070" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.12.0-daily.20201028.179306.df3d070" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.12.0-daily.20201028.179306.df3d070" />
-    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.12.0-daily.20201028.179306.df3d070" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.TemplateManager" Version="4.11.0-daily*" />
   </ItemGroup>
 
   <ItemGroup>

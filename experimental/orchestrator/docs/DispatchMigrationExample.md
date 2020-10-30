@@ -1,4 +1,4 @@
-# Example Migration from LUIS Dispatch to Orchestrator
+# Example Migration from LUIS Dispatch to Orcehstrator
 
 The following article describes how to migrate a legacy *dispatch* based solution to [Orchestrator][3] routing.
 

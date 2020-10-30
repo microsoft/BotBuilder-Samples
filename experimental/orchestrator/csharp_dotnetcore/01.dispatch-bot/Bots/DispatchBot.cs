@@ -28,13 +28,7 @@ namespace Microsoft.BotBuilderSamples
             // Top intent tell us which cognitive service to use.
             var allScores = await _botServices.Dispatch.RecognizeAsync(turnContext, cancellationToken);
             var topIntent = allScores.Intents.First().Key;
-
-            // First, we use the dispatch model to determine which cognitive service (LUIS or QnA) to use.
-            // var recognizerResult = await _botServices.Dispatch.RecognizeAsync(turnContext, cancellationToken);
-            // Top intent tell us which cognitive service to use.
-            // var topIntent2 = recognizerResult.GetTopScoringIntent();
-            // topIntent = topIntent2.intent;
-
+            
             // Next, we call the dispatcher with the top intent.
             await DispatchToTopIntentAsync(turnContext, topIntent, cancellationToken);
         }
@@ -58,7 +52,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 case "HomeAutomation":
                     await ProcessHomeAutomationAsync(turnContext, cancellationToken);
-                    break;;
+                    break;
                 case "Weather":
                     await ProcessWeatherAsync(turnContext, cancellationToken);
                     break;
