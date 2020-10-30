@@ -23,7 +23,7 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
     const confDiagLevel = await connection.workspace.getConfiguration({
 		scopeUri: document.uri, 
 		section : 'LG.Expression.ignoreUnknownFunction'
-	}); //.then(((value: string) => value));
+    }).then(((value: string) => value));
     const confCustomFuncListSetting : string = await connection.workspace.getConfiguration({
 		scopeUri: document.uri, 
 		section: 'LG.Expression.customFunctionList'
@@ -41,7 +41,6 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
     }
     diagnostics.forEach(u => {
         const isUnkownFuncDiag: boolean = u.message.includes("it's not a built-in function or a custom function");
-        
 		let severity : DiagnosticSeverity;
 		switch(u.severity) {
 			case 0: 
@@ -76,7 +75,7 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
                 
                     case "warn":
                             if (isUnkownFuncDiag) {
-                                u.severity = DiagnosticSeverity.Warning;
+                                severity = DiagnosticSeverity.Warning;
                             }
                         break;
                     default:

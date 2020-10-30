@@ -20,6 +20,7 @@ ${valueTemplate()}
 ```
 
 # validationTemplate
-- ```> Invalid value for '${property}' property
+- ```
+> Invalid value for '${property}' property
 ${'#'} ${property}_invalidDate(val)
-- \${value(val)} is not a date```
+- \${${property}_Value(val)} is not a date```

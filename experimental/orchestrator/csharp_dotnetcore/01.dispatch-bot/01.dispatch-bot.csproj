@@ -7,42 +7,30 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**/*.dialog">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/config.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/LICENSE.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/merges.txt">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/traced_model.onnx">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="model/vocab.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Folder Include="generated\" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.10.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.10.0-preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.10.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily*" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="model\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="**\*.lu">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="**\*.dialog">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Update="**\*.lg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

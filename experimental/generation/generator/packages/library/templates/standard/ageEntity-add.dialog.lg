@@ -4,25 +4,4 @@
 - ${addFilename('age')}
 
 # template
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "age",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @age)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@age"          
-        }
-    ]
-    ${designerOpEntity('Add', 'age')}
-}
-```
-
+- ${addDialog('age')}

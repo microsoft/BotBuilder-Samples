@@ -4,24 +4,5 @@
 - ${addFilename('datetime')}
 
 # template
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add(${property})",
-    "entity": "datetimeV2",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @datetime.type)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@datetimeV2"          
-        }
-    ]
-    ${designerOpEntity('Add', 'datetime')}
-}
-```
+- ${addDialog('datetimeV2')}
 
