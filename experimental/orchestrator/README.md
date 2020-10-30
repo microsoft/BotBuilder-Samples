@@ -2,7 +2,7 @@
 
 Conversational AI applications today are built using disparate technologies to fulfill language understanding (LU) needs e.g. [LUIS][1], [QnA Maker][2]. Often, conversational AI applications are also built by assembling different [skills][3] each of which fulfill a specific conversation topic and can be built using different LU technologies. Hence, conversational AI applications typically require LU arbitration/ decision making to route incoming user request to an appropriate skill or to dispatch to a specific sub-component. Orchestration refers to the ability to perform LU arbitration/ decision making for a conversational AI application.  
 
-[Orchestrator][18] is a [transformer][4] based solution that is heavily optimized for conversational AI applications. It is built ground-up to run locally with your bot.
+[Orchestrator][18] is a [transformer][4] based solution that is optimized for conversational AI applications. It is built ground-up to run locally with your bot.
 
 ## Scenarios
 **Dispatch**: Orchestrator is a successor to [dispatch][5]. You can use Orchestrator instead of the current [dispatch][5] solution to arbitrate across your [LUIS][1] and [QnA Maker][2] applications. With Orchestrator, you are likely to see:
@@ -19,7 +19,7 @@ Conversational AI applications today are built using disparate technologies to f
 
 Orchestrator can be used in different development environments:
 
-* **Code First**: Orchestrator can be integrated into your code project by replacing LUIS and/or QnA Maker for language understanding.  See [Runtime Integration][# Runtime Integration] section for more.
+* **Code First**: Orchestrator can be integrated into your code project by replacing LUIS for intent recognition such as for skill delegation or dispatching to subsequent language understanding services.  See [Runtime Integration][# Runtime Integration] section for more.
 * [Bot Framework Composer][19]: Orchestrator can be selected as a recognizer within Bot Framework Composer. At this point there are limitations to using Orchestrator in Composer primarily around importing of existing models and tuning up recognition performance (* currently available only if the feature flag is enabled with Composer).
 
 Thus, use of [BF command line tool][7] to prepare and optimize the model for your domain is required in most, if not all, use cases.   To illustrate the workflow, here is a sample the end to end authoring experience:
