@@ -22,6 +22,8 @@ Here, we will modify that sample to use Orchestrator in place of the top LUIS ar
   * See [Dispatch Sample documentation][1] for full details.
 * Download [BF CLI][6]
 * Download BF CLI [Orchestrator Plugin][7]
+* Bot project must target x64 platform
+* Install latest supported version of [Visual C++ runtime](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 
 
