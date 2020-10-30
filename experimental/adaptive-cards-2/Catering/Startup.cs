@@ -5,18 +5,24 @@ using Catering.Dialogs;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Cosmos;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector;
-using Microsoft.Bot.Connector.Authentication;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
 
 namespace Catering
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -29,6 +35,10 @@ namespace Catering
 
             services.AddSingleton<CateringRecognizer>();
 
+            var endpointUri = Configuration.GetSection("CosmosEndpointUri")?.Value;
+            var primaryKey = Configuration.GetSection("CosmosKey")?.Value;
+
+            services.AddSingleton(new CosmosClient(endpointUri, primaryKey));
             services.AddTransient<CateringDb>();
 
             services.AddSingleton<MainDialog>();

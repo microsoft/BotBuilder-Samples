@@ -7,8 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Catering.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 

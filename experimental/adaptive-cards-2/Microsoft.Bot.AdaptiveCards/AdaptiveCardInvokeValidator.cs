@@ -1,7 +1,10 @@
-﻿using Microsoft.Bot.Builder;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
+using System;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json.Linq;
-using System;
 
 namespace Microsoft.Bot.AdaptiveCards
 {

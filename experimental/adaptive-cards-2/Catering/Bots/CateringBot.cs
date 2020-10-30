@@ -3,23 +3,18 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Linq;
+using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
-using AdaptiveCards.Templating;
-using Newtonsoft.Json;
+using AdaptiveCards;
 using Catering.Cards;
 using Catering.Models;
-using System.Net;
-using AdaptiveCards;
-using Newtonsoft.Json.Linq;
-using System.Runtime.InteropServices.ComTypes;
 using Microsoft.Bot.AdaptiveCards;
-using System.Linq;
-using Microsoft.AspNetCore.Http.Features;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 namespace Catering
 {
@@ -59,7 +54,7 @@ namespace Catering
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.ChannelId == "directline" || turnContext.Activity.ChannelId == "webchat")
+            if (turnContext.Activity.ChannelId == Channels.Directline || turnContext.Activity.ChannelId == Channels.Webchat)
             {
                 await SendWelcomeMessageAsync(turnContext, cancellationToken);
             }
@@ -120,7 +115,7 @@ namespace Catering
                 {
                     if (!await _cateringRecognizer.ValidateEntre(cardOptions.custom))
                     {
-                        return RedoEntreCardResponse(new Lunch() { Entre = cardOptions.custom });
+                        return CardResponse("RedoEntreOptions.json", new Lunch() { Entre = cardOptions.custom });
                     }
                     cardOptions.option = cardOptions.custom;
                 }
@@ -133,7 +128,7 @@ namespace Catering
                 {
                     if (!await _cateringRecognizer.ValidateDrink(cardOptions.custom))
                     {
-                        return RedoDrinkCardResponse(new Lunch() { Drink = cardOptions.custom });
+                        return CardResponse("RedoDrinkOptions.json", new Lunch() { Drink = cardOptions.custom });
                     }
 
                     cardOptions.option = cardOptions.custom;
@@ -146,21 +141,33 @@ namespace Catering
             switch ((Card)cardOptions.nextCardToSend)
             {
                 case Card.Drink:
-                    responseBody = DrinkCardResponse();
+                    responseBody = CardResponse("DrinkOptions.json");
                     break;
                 case Card.Entre:
-                    responseBody = EntreCardResponse();
+                    responseBody = CardResponse("EntreOptions.json");
                     break;
                 case Card.Review:
-                    responseBody = ReviewCardResponse(user);
+                    responseBody = CardResponse("ReviewOrder.json", user.Lunch);
                     break;
                 case Card.ReviewAll:
                     var latestOrders = await _cateringDb.GetRecentOrdersAsync();
-                    responseBody = RecentOrdersCardResponse(latestOrders.Items);
+                    responseBody = CardResponse("RecentOrders.json",
+                        new
+                        {
+                            users = latestOrders.Items.Select(u => new
+                            {
+                                lunch = new
+                                {
+                                    entre = u.Lunch.Entre,
+                                    drink = u.Lunch.Drink,
+                                    orderTimestamp = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(u.Lunch.OrderTimestamp, "Pacific Standard Time").ToString("g")
+                                }
+                            }).ToList()
+                        });
                     break;
                 case Card.Confirmation:
                     await _cateringDb.UpsertOrderAsync(user);
-                    responseBody = ConfirmationCardResponse();
+                    responseBody = CardResponse("Confirmation.json");
                     break;
                 default:
                     throw new NotImplementedException("No card matches that nextCardToSend.");
@@ -211,53 +218,6 @@ namespace Catering
                 Type = AdaptiveCard.ContentType,
                 Value = new CardResource(cardFileName).AsJObject(data)
             };
-        }
-
-        private AdaptiveCardInvokeResponse DrinkCardResponse()
-        {
-            return CardResponse("DrinkOptions.json");
-        }
-
-        private AdaptiveCardInvokeResponse EntreCardResponse()
-        {
-            return CardResponse("EntreOptions.json");
-        }
-
-        private AdaptiveCardInvokeResponse ReviewCardResponse(User user)
-        {
-            return CardResponse("ReviewOrder.json", user.Lunch);
-        }
-
-        private AdaptiveCardInvokeResponse RedoDrinkCardResponse(Lunch lunch)
-        {
-            return CardResponse("RedoDrinkOptions.json", lunch);
-        }
-
-        private AdaptiveCardInvokeResponse RedoEntreCardResponse(Lunch lunch)
-        {
-            return CardResponse("RedoEntreOptions.json", lunch);
-        }
-
-        private AdaptiveCardInvokeResponse RecentOrdersCardResponse(IList<User> users)
-        {
-            return CardResponse("RecentOrders.json", 
-                new
-                {
-                    users = users.Select(u => new 
-                    { 
-                        lunch = new
-                        { 
-                            entre = u.Lunch.Entre,
-                            drink = u.Lunch.Drink,
-                            orderTimestamp = TimeZoneInfo.ConvertTimeBySystemTimeZoneId(u.Lunch.OrderTimestamp, "Pacific Standard Time").ToString("g")
-                        }
-                    }).ToList()
-                });
-        }
-
-        private AdaptiveCardInvokeResponse ConfirmationCardResponse()
-        {
-            return CardResponse("Confirmation.json");
         }
 
         #endregion

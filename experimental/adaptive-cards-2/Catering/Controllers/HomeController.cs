@@ -1,11 +1,14 @@
-﻿using Catering.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Catering.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 
 namespace Catering.Controllers
 {
@@ -30,12 +33,7 @@ namespace Catering.Controllers
             request.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", secret);
             request.Content = new StringContent(JsonConvert.SerializeObject(new
                 {
-                    User = new { Id = userId }, 
-                    TrustedOrigins = new string[] 
-                    { 
-                        "http://localhost:2978",
-                        "https://jeffcateringbot.azurewebsites.net"
-                    }
+                    User = new { Id = userId }
                 }),
                 Encoding.UTF8,
                 "application/json");
