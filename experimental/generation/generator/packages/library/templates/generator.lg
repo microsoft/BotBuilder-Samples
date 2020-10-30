@@ -542,7 +542,7 @@ ${if(schema.properties[property].title,
      synonyms(property))}
 
 > Define property entity and optional value for ${property} property.
-@ ml ${property} usesFeature ${property}Phrases
+@ ml ${propertyEntity()} usesFeature ${property}Phrases
     - @ ${entity} ${entity}
 
 > Define operations on '${property}' property.
@@ -557,15 +557,19 @@ ${defineOperation('Help', entity)}
 ${'#'} ${triggerIntent}
 ${substitutions(
     `library-operations.${locale}.data`, 
-    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: property, entity: entity, isArray: isArrayProperty(property), comment: []},
+    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
     3)}
 ```
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
-\t-@ ml ${property} usesFeature ${property}
+\t-@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
 \t\t- @ ${entity} ${entity}
 ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
+
+> Name for property entity
+# propertyEntity()
+- ${`${property}Property`}
 
 > Check to see if entity is only found in one property
 # oneProperty(entity)

@@ -3,7 +3,7 @@
     "type": "object",
     "$entities": [
         "age",
-        "${if(propertySchema.$units, 'number', null)}"
+        "${if(propertySchema.$units, 'number', [])}"
     ],
     "properties": {
         "number": {
@@ -27,6 +27,6 @@
         "ageEntity-show.dialog",
         "generic-help.dialog",
         "generic-change.dialog",
-        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], null)}"
+        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
     ]
 }
