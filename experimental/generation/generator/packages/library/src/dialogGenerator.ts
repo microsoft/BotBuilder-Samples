@@ -236,17 +236,20 @@ function addPrefix(prefix: string, name: string): string {
     }
 }
 
-// Add entry to the .lg generation context and return it.  
+// Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
-function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
     let ext = ppath.extname(fullPath).substring(1)
     let arr: FileRef[] = tracker[ext]
     if (!arr.find(ref => ref.name === basename)) {
+        let shortName = basename.substring(prefix.length + 1, basename.indexOf('.'))
         ref = {
             name: basename,
+            shortName: shortName,
+            // Fallback is only used for .lg files
             fallbackName: basename.replace(/\.[^.]+\.lg/, '.lg'),
             fullName: ppath.basename(fullPath),
             relative: ppath.relative(outDir, fullPath)
@@ -319,7 +322,7 @@ async function processTemplate(
                     }
 
                     outPath = ppath.join(outDir, filename)
-                    let ref = addEntry(outPath, outDir, scope.templates)
+                    let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
