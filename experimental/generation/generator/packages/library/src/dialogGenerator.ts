@@ -125,7 +125,7 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
     }
 }
 
-// Return template directories by combining explicit ones with library ones
+// Return template directories by combining explicit ones with form ones
 export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
     templateDirs = resolveDir(templateDirs || [])
@@ -309,11 +309,11 @@ async function processTemplate(
                         }
                     } else if (filename.includes(scope.locale)) {
                         // Move constant files into locale specific directories
-                        let prop = templateName.includes('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
+                        let prop = templateName.includes('form') ? 'form' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
                         filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
-                    } else if (filename.includes('library-')) {
-                        // Put library stuff in its own folder by default
-                        filename = `library/${filename}`
+                    } else if (filename.includes('form-')) {
+                        // Put form stuff in its own folder by default
+                        filename = `form/${filename}`
                     }
 
                     // Add prefix to constant imports

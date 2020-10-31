@@ -1,4 +1,4 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${libraryTemplates('phrases', '.lu')}
+- ${formTemplates('CancelIntent', '.lu')}

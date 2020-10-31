@@ -1,10 +1,10 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${locale}/library/${prefix}-library-DisplayOperation.${locale}.lg
+- ${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
 
 # template
--```${libraryImport('library.en-us.lg')}
+-```${formImport('form.en-us.lg')}
 
 ${'#'} displayOperation(op, property, entity)
 - IF: \${op && property && entity.value} 

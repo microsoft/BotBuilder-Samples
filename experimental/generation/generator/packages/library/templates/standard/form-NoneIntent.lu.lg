@@ -1,4 +1,4 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${libraryTemplates('SkipIntent', '.lu')}
+- ${formTemplates('NoneIntent', '.lu')}

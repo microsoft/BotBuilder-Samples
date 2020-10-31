@@ -1,4 +1,4 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${libraryTemplates('Choose', '.lg')}
+- ${formTemplates('Show', '.lg')}
