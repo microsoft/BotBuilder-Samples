@@ -44,11 +44,11 @@
 # chooseEntityFilename()
 - ${property}/${prefix}-${property}Entity-choose.dialog
 
-# libraryFilename(name)
-- library/${prefix}-${name}
+# formFilename(name)
+- form/${prefix}-${name}
 
-# libraryImport(name)
-- [${prefix}-${name}](../library/${prefix}-${name})
+# formImport(name)
+- [${prefix}-${name}](../form/${prefix}-${name})
 
 # localePath(path)
 - ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
@@ -74,8 +74,8 @@
 # entityLGTemplates(entity)
 - ${`${locale}/${entity}Entity.${locale}.lg`}
 
-# libraryTemplates(name, type)
-- ${`${locale}/library-${name}.${locale}${type}`}
+# formTemplates(name, type)
+- ${`${locale}/form-${name}.${locale}${type}`}
 
 >> Dialog templates
 # addDialog(entity)
@@ -454,7 +454,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition":"!\$${property}",
-    "priority": "=lib.missingPriority('${property}')",
+    "priority": "=form.missingPriority('${property}')",
     "actions": [
         {
             "$kind": "Microsoft.Ask",
@@ -556,7 +556,7 @@ ${defineOperation('Help', entity)}
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(
-    `library-operations.${locale}.data`, 
+    `form-operations.${locale}.data`, 
     { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
     3)}
 ```

@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${locale}/library/${prefix}-trigger.en-us.lu
+- ${locale}/form/${prefix}-trigger.en-us.lu
 
 # template
 -```

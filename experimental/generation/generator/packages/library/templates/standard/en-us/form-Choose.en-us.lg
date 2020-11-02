@@ -1,5 +1,5 @@
-[library.en-us.lg](library.en-us.lg)
-[library-DisplayOperation.en-us.lg](library-DisplayOperation.en-us.lg)
+[form.en-us.lg](form.en-us.lg)
+[form-DisplayOperation.en-us.lg](form-DisplayOperation.en-us.lg)
 
 # chooseEnumEntity(property)
 - Please choose a value for ${propertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(property, val)), ', ')}]
