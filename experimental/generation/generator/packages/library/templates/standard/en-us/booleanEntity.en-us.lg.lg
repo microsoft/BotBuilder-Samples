@@ -1,7 +1,7 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${locale}/library/${prefix}-booleanEntity.${locale}.lg
+- ${locale}/form/${prefix}-booleanEntity.${locale}.lg
 
 # template
 - ```

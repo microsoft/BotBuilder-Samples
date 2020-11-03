@@ -1,8 +1,8 @@
 {
     "$global": true,
     "$templates": [
-        "library-HttpRequestIntent.dialog",
-        "library-HttpRequestIntent.lu",
-        "library-ShowResponse.lg"
+        "form-HttpRequestIntent.dialog",
+        "form-HttpRequestIntent.lu",
+        "form-ShowResponse.lg"
     ]
 }

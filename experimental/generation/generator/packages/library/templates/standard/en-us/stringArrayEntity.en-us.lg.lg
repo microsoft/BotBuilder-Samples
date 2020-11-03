@@ -9,7 +9,6 @@ ${importLGFromLib('library')}
 ${importLGFromLib('library-Choose')}
 ${propertyEntity()}
 ${chooseEntity()}
-
 ```
 
 # chooseEntity

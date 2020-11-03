@@ -125,7 +125,7 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
     }
 }
 
-// Return template directories by combining explicit ones with library ones
+// Return template directories by combining explicit ones with form ones
 export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
     templateDirs = resolveDir(templateDirs || [])
@@ -236,17 +236,20 @@ function addPrefix(prefix: string, name: string): string {
     }
 }
 
-// Add entry to the .lg generation context and return it.  
+// Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = {name: string, fallbackName: string, fullName: string, relative: string}
-function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
     let ext = ppath.extname(fullPath).substring(1)
     let arr: FileRef[] = tracker[ext]
     if (!arr.find(ref => ref.name === basename)) {
+        let shortName = basename.substring(prefix.length + 1, basename.indexOf('.'))
         ref = {
             name: basename,
+            shortName: shortName,
+            // Fallback is only used for .lg files
             fallbackName: basename.replace(/\.[^.]+\.lg/, '.lg'),
             fullName: ppath.basename(fullPath),
             relative: ppath.relative(outDir, fullPath)
@@ -306,11 +309,11 @@ async function processTemplate(
                         }
                     } else if (filename.includes(scope.locale)) {
                         // Move constant files into locale specific directories
-                        let prop = templateName.includes('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
+                        let prop = templateName.includes('form') ? 'form' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
                         filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
-                    } else if (filename.includes('library-')) {
-                        // Put library stuff in its own folder by default
-                        filename = `library/${filename}`
+                    } else if (filename.includes('form-')) {
+                        // Put form stuff in its own folder by default
+                        filename = `form/${filename}`
                     }
 
                     // Add prefix to constant imports
@@ -319,7 +322,7 @@ async function processTemplate(
                     }
 
                     outPath = ppath.join(outDir, filename)
-                    let ref = addEntry(outPath, outDir, scope.templates)
+                    let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
