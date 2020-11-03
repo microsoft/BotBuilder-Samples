@@ -23,8 +23,7 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
-      To reinstall bf orchestrator plugin, uninstall previous version and then run the install command again.
-      
+      If you have previously installed bf orchestrator plugin, uninstall that version and then run the install command again.
       Uninstall command:
     ```bash
     > bf plugins:uninstall @microsoft/bf-orchestrator-cli
@@ -45,21 +44,31 @@ This sample **requires** prerequisites in order to run.
     > cd experimental/orchestrator/csharp_dotnetcore/02.todo-bot-with-adaptive-dialog
     ```
 - Configure Orchestrator
-    - You can view list of available models using this command.  Copy Version Id value from latest model and use it for --versionId parameter of the orchestrator:basemodel:get command below.
-    ```bash
-    > bf orchestrator:basemodel:list
-    ```
     - Download Orchestrator base model
     ```bash
     > mkdir model
-    > bf orchestrator:basemodel:get --versionId <version id> --out ./model --verbose
+    > bf orchestrator:basemodel:get --out ./model
     ```
     - Build the Orchestrator snapshot
     ```bash
     > mkdir generated
     > bf orchestrator:build --in ./Dialogs --out ./generated --model ./model
     ```
-    - Update orchestrator modelPath and snapshotPath information in `./appsettings.json`
+    - Verify appsettings.json has the following:
+
+       ```
+       "orchestrator": {
+          "ModelPath": ".\\model",
+          "SnapShotPaths": {
+             "ViewToDoDialog": ".\\generated\\ViewToDoDialog.blu",
+             "RootDialog": ".\\generated\\RootDialog.blu",
+             "GetUserProfileDialog": ".\\generated\\GetUserProfile.blu",
+             "DeleteToDoDialog": ".\\generated\\DeleteToDoDialog.blu",
+             "AddToDoDialog": ".\\generated\\AddToDoDialog.blu"
+          }
+       }
+       ```
+
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
     A) From a terminal
 
@@ -84,6 +93,7 @@ This sample **requires** prerequisites in order to run.
 
 ## Further reading
 - [Bot Framework Documentation](https://docs.botframework.com)
+- [BF Orchestrator Command Usage](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorUsage.md)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
