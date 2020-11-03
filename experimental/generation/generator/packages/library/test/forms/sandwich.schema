@@ -65,8 +65,7 @@
                     "redPeppers",
                     "whiteOnions",
                     "redOnions"
-                ],
-                "maxItems": 3
+                ]
             }
         },
         "Sauces": {

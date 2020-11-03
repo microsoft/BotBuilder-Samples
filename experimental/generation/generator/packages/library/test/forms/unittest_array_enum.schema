@@ -12,8 +12,7 @@
                     "blue",
                     "black",
                     "white"
-                ],
-                "maxItems": 3
+                ]
             }
         }
     },

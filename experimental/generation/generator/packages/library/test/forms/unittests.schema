@@ -44,8 +44,7 @@
                     "blue",
                     "black",
                     "white"
-                ],
-                "maxItems": 3
+                ]
             }
         },
         "Email": {
