@@ -16,7 +16,10 @@
     "json-schema-ref-parser": "^7.1.0",
     "openapi-types": "^1.3.5",
     "seedrandom": "~3.0.5",
-    "swagger-parser": "^8.0.4"
+    "swagger-parser": "^8.0.4",
+    "botbuilder-dialogs-declarative": "^4.11.0-rc3-preview",
+    "botbuilder-dialogs-adaptive": "^4.11.0-rc3-preview",
+    "botbuilder": "^4.11.0-rc3" 
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.0",

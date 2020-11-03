@@ -57,6 +57,9 @@
 # importLG(name)
 -[${prefix}-${name}.${locale}.lg](${prefix}-${name}.${locale}.lg)
 
+# importLGFromLib(name)
+-[${prefix}-${name}.${locale}.lg](../library/${prefix}-${name}.${locale}.lg)
+
 >> Template lists
 
 # propertyTemplates()

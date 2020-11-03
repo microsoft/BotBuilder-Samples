@@ -489,6 +489,9 @@ async function ensureEntities(
     feedback: Feedback)
     : Promise<void> {
     for (let property of schema.schemaProperties()) {
+        if(property.schema.items?.$entities){
+            property.schema.$entities = property.schema.items?.$entities
+        }
         if (!property.schema.$entities) {
             try {
                 scope.property = property.path

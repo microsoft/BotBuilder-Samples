@@ -5,11 +5,8 @@
         "NameArray": {
             "type": "array",
             "items": {
-                "type": "string"
-            },
-            "$entities": [
-                "personName"
-            ]
+                "$ref": "template:personname.schema"
+            }
         }
     },
     "required": [
