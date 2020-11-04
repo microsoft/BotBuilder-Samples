@@ -175,13 +175,3 @@ Once the feature flag is enabled in Composer, it is possible to specify Orchestr
 [20]: https://aka.ms/NLRModels "Natural Language Representation Models"
 [21]:https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0	"LU file format"
 [22]:https://github.com/microsoft/botframework-sdk/blob/R11/Orchestrator/docs/BFOrchestratorReport.md "Report Interpretation: Temp R11 Branch"
-
-
-
-
-
-
-
-[# Runtime_Integration]: 
-[#runtime_integration]: 
-[#runtime-integration]: 
