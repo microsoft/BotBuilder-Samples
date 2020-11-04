@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="orchestrator.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="**\*.dialog">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
