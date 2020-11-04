@@ -6,9 +6,9 @@
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
 import * as os from 'os';
-import { Feedback, FeedbackType, isUnchanged, writeFile, stringify } from './dialogGenerator'
+import {Feedback, FeedbackType, isUnchanged, writeFile, stringify} from './dialogGenerator'
 
-const { Templates, SwitchCaseBodyContext } = require('botbuilder-lg');
+const {Templates, SwitchCaseBodyContext} = require('botbuilder-lg');
 const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
 const sectionOperator = require('@microsoft/bf-lu/lib/parser/lufile/sectionOperator');
 const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectiontypes')
@@ -41,7 +41,7 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
         let destFilePath = sourceFilePath.replace(sourcePath, destPath)
         let destDirPath = destFilePath.replace(fileName, '')
         if (!fs.existsSync(destDirPath)) {
-            fs.mkdirSync(destDirPath, { recursive: true })
+            fs.mkdirSync(destDirPath, {recursive: true})
         }
         await fs.copyFile(sourceFilePath, destFilePath)
         feedback(FeedbackType.info, `Copying ${fileName} from ${sourcePath}`)
@@ -64,7 +64,7 @@ async function writeToFile(sourcePath: string, destPath: string, fileName: strin
         let destFilePath = sourceFilePath.replace(sourcePath, destPath)
         let destDirPath = destFilePath.replace(fileName, '')
         if (!fs.existsSync(destDirPath)) {
-            fs.mkdirSync(destDirPath, { recursive: true })
+            fs.mkdirSync(destDirPath, {recursive: true})
         }
         await writeFile(destFilePath, val, feedback, true)
         feedback(FeedbackType.info, `Merging ${fileName}`)
@@ -97,6 +97,17 @@ function getFiles(dir: string, fileList: string[]) {
         }
     }
     return fileList
+}
+
+function refFilename(ref: string, feedback: Feedback): string {
+    let file = ''
+    let matches = ref.match(/([^/]*)\)/)
+    if (matches && matches.length == 2) {
+        file = matches[1]
+    } else {
+        feedback(FeedbackType.error, `Could not parse ref ${ref}`)
+    }
+    return file
 }
 
 /**
@@ -148,7 +159,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
             let newFileList = []
             getFiles(newPath, newFileList)
 
-            const { oldPropertySet, newPropertySet } = await parseSchemas(schemaName, oldPath, newPath, newFileList, mergedPath, feedback)
+            const {oldPropertySet, newPropertySet} = await parseSchemas(schemaName, oldPath, newPath, newFileList, mergedPath, feedback)
 
             await mergeDialogs(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeRootFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, 'lu', oldPropertySet, newPropertySet, feedback)
@@ -232,8 +243,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
         if (extractedProperty !== undefined) {
             if (newPropertySet.has(extractedProperty)) {
                 resultRefs.push(ref)
-                let refStr = ref.split(`.${fileTag}`)
-                let file = refStr[0].replace('[', '') + '.' + fileTag
+                let file = refFilename(ref, feedback)
                 if (file.match(extractedProperty + 'Entity')) {
                     if (fileTag === 'lu') {
                         await changeEntityEnumLU(schemaName, oldPath, oldFileList, newFileList, mergedPath, file, feedback)
@@ -250,8 +260,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
             }
         } else {
             resultRefs.push(ref)
-            let refStr = ref.split(`.${fileTag}`)
-            let file = refStr[0].replace('[', '') + '.' + fileTag
+            let file = refFilename(ref, feedback)
             if (newText.match(file) && !await isOldUnchanged(oldFileList, file)) {
                 changedMessage(file, feedback)
             } else {
@@ -266,8 +275,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
         }
         if (!oldRefSet.has(ref)) {
             resultRefs.push(ref)
-            let refStr = ref.split(`.${fileTag}`)
-            let file = refStr[0].replace('[', '') + '.' + fileTag
+            let file = refFilename(ref, feedback)
             await copySingleFile(newPath, mergedPath, file, newFileList, feedback)
         }
     }
@@ -478,7 +486,7 @@ async function changeEntityEnumLG(oldPath: string, oldFileList: string[], newFil
                             newEnumValueMap.set(enumEntity, start)
                         }
                     }
-                    const { startIndex, endIndex } = parseLGTemplate(oldTemplate, oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
+                    const {startIndex, endIndex} = parseLGTemplate(oldTemplate, oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
                     let statementInfo = {
                         start: startIndex, end: endIndex, newSStatements: newSwitchStatements
                     }
@@ -523,7 +531,7 @@ async function changeEntityEnumLG(oldPath: string, oldFileList: string[], newFil
  * @param oldEnumEntitySet Set for Enum Entity from the old .lg file.
  * @param newSwitchStatements Merged switch statement array.
  */
-function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[], newStatements: string[], newEnumValueMap: Map<string, number>, oldEnumEntitySet: Set<string>, newSwitchStatements: string[]): { startIndex: number, endIndex: number } {
+function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[], newStatements: string[], newEnumValueMap: Map<string, number>, oldEnumEntitySet: Set<string>, newSwitchStatements: string[]): {startIndex: number, endIndex: number} {
     let startIndex = 0
     let endIndex = 0
     let oldRules = oldBody.switchCaseTemplateBody().switchCaseRule()
@@ -573,7 +581,7 @@ function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[]
         }
     }
 
-    return { startIndex, endIndex }
+    return {startIndex, endIndex}
 }
 
 /**
@@ -716,7 +724,7 @@ function equalPattern(filename: string, propertySet: Set<string>, schemaName: st
  * @param mergedPath Path to the folder of the merged asset.
  * @param feedback Callback function for progress and errors.
  */
-async function parseSchemas(schemaName: string, oldPath: string, newPath: string, newFileList: string[], mergedPath: string, feedback: Feedback): Promise<{ oldPropertySet: Set<string>, newPropertySet: Set<string> }> {
+async function parseSchemas(schemaName: string, oldPath: string, newPath: string, newFileList: string[], mergedPath: string, feedback: Feedback): Promise<{oldPropertySet: Set<string>, newPropertySet: Set<string>}> {
     let oldPropertySet = new Set<string>()
     let newPropertySet = new Set<string>()
 
@@ -734,5 +742,5 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
     }
 
     await copySingleFile(newPath, mergedPath, schemaName + '.json', newFileList, feedback)
-    return { oldPropertySet, newPropertySet }
+    return {oldPropertySet, newPropertySet}
 }

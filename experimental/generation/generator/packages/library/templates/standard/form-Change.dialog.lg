@@ -1,22 +1,21 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${formFilename('PropertyToChange-add-PROPERTYName.dialog')}
+- ${formFilename('Change.dialog')}
 
 # template
 - ```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "PropertyToChange",
+    "operation": "Change()",
     "actions": [
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$PropertyToChange",
-            "value": "=turn.dialogEvent.value.entity.name"
+            "value": "=turn.dialogEvent.value.property"
         }
     ]
-    ${designerOpEntityProperty('Set', 'PROPERTYName', 'PropertyToChange')}
+    ${designerName('Change property')}
 }
 ```

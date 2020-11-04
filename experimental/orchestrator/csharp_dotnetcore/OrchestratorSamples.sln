@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "01.dispatch-bot", "01.dispa
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "02.todo-bot-with-adaptive-dialog", "02.todo-bot-with-adaptive-dialog\02.todo-bot-with-adaptive-dialog.csproj", "{96D46B59-3D83-4AEF-9E9A-17F27997E4B7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "03.declarative-bot", "03.declarative-bot\03.declarative-bot.csproj", "{6BDA1614-B712-41C5-BCCB-5D7645070755}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,12 +27,6 @@ Global
 		{96D46B59-3D83-4AEF-9E9A-17F27997E4B7}.Release|Any CPU.ActiveCfg = Release|x64
 		{96D46B59-3D83-4AEF-9E9A-17F27997E4B7}.Release|x64.ActiveCfg = Release|x64
 		{96D46B59-3D83-4AEF-9E9A-17F27997E4B7}.Release|x64.Build.0 = Release|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Debug|Any CPU.ActiveCfg = Debug|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Debug|x64.ActiveCfg = Debug|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Debug|x64.Build.0 = Debug|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Release|Any CPU.ActiveCfg = Release|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Release|x64.ActiveCfg = Release|x64
-		{6BDA1614-B712-41C5-BCCB-5D7645070755}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
