@@ -9,8 +9,5 @@
     },
     "required": [
         "TimeProperty"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

@@ -8,8 +8,5 @@
     },
     "required": [
         "Dimension"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

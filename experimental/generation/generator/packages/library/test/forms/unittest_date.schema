@@ -9,8 +9,5 @@
     },
     "required": [
         "DateProperty"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

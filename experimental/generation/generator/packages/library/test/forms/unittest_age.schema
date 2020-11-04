@@ -8,8 +8,5 @@
     },
     "required": [
         "Age"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

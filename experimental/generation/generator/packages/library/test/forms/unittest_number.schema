@@ -8,8 +8,5 @@
     },
     "required": [
         "Quantity"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

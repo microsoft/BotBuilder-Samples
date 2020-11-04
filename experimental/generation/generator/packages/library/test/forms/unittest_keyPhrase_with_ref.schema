@@ -8,8 +8,5 @@
     },
     "required": [
         "KeyphraseProperty"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

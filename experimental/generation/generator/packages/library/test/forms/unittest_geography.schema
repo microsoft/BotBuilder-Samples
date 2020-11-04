@@ -8,8 +8,5 @@
     },
     "required": [
         "GeographyV2"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

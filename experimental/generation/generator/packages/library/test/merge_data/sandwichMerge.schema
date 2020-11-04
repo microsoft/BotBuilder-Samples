@@ -93,8 +93,5 @@
         "Toppings",
         "Sauces",
         "Price"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

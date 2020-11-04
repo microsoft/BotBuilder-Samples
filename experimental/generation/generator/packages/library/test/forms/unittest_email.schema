@@ -9,8 +9,5 @@
     },
     "required": [
         "Email"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

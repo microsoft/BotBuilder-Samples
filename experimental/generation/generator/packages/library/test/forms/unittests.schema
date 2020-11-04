@@ -143,8 +143,5 @@
         "Temperature",
         "Dimension",
         "DateTime"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

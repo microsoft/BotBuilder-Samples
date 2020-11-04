@@ -8,8 +8,5 @@
     },
     "required": [
         "PhoneNumber"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

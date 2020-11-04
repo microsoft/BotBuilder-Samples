@@ -8,8 +8,5 @@
     },
     "required": [
         "OrdinalV2"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

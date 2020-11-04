@@ -8,8 +8,5 @@
     },
     "required": [
         "DateTime"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

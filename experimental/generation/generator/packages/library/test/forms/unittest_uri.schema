@@ -9,8 +9,5 @@
     },
     "required": [
         "URL1"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

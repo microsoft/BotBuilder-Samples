@@ -8,8 +8,5 @@
     },
     "required": [
         "Temperature"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

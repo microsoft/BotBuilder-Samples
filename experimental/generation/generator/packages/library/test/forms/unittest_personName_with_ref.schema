@@ -8,8 +8,5 @@
     },
     "required": [
         "Name"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

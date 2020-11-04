@@ -10,8 +10,5 @@
     },
     "required": [
         "Length"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

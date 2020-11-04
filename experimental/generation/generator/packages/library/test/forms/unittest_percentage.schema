@@ -11,8 +11,5 @@
     },
     "required": [
         "Percentage"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

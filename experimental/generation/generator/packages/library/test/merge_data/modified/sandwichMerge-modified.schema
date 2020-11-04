@@ -56,8 +56,5 @@
         "Cheese",
         "Hobby",
         "Price"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }
