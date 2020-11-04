@@ -17,7 +17,8 @@ import * as assert from 'assert'
 import { ComponentRegistration } from 'botbuilder'
 import { AdaptiveComponentRegistration, AdaptiveDialog } from 'botbuilder-dialogs-adaptive'
 import { ResourceExplorer } from 'botbuilder-dialogs-declarative'
-import { Dialog } from 'botbuilder-dialogs'
+//import { Dialog } from 'botbuilder-dialogs'
+import { LuisComponentRegistration } from 'botbuilder-ai'
 const { Templates, DiagnosticSeverity } = require('botbuilder-lg')
 const file = require('@microsoft/bf-lu/lib/utils/filehelper')
 const LuisBuilder = require('@microsoft/bf-lu/lib/parser/luis/luisCollate')
@@ -194,15 +195,16 @@ describe('dialog:generate library', async () => {
             } catch (e) {
                 assert.fail(e.text || e.message)
             }
-            // try {
-            //     console.log(`\n\nDialog Testing schema ${unittestSchemaNames[i]}`)
-            //     ComponentRegistration.add(new AdaptiveComponentRegistration())
-            //     let resourceExplorer = new ResourceExplorer();
-            //     resourceExplorer.addFolder(`${output}`, true, false);
-            //     const script = resourceExplorer.loadType<Dialog>(`unittest_${unittestSchemaNames[i]}.dialog`);
-            // } catch (e) {
-            //     assert.fail(e.message)
-            // }
+            try {
+                console.log(`\n\nDialog Testing schema ${unittestSchemaNames[i]}`)
+                ComponentRegistration.add(new AdaptiveComponentRegistration())
+                ComponentRegistration.add(new LuisComponentRegistration())
+                let resourceExplorer = new ResourceExplorer();
+                resourceExplorer.addFolder(`${output}`, true, false);
+                const script = resourceExplorer.loadType<AdaptiveDialog>(`unittest_${unittestSchemaNames[i]}.dialog`);
+            } catch (e) {
+                assert.fail(e.message)
+            }
             await fs.remove(output)
         }
     })

@@ -6,7 +6,7 @@
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
     "@microsoft/bf-lu": "^4.11.0-rc.20201026.e06ad47",
-    "adaptive-expressions": "^4.11.0-rc0",
+    "adaptive-expressions": "^4.11.0-rc3",
     "ajv": "^6.9.1",
     "botbuilder-lg": "^4.11.0-rc0",
     "clone": "^2.1.2",
@@ -19,7 +19,8 @@
     "swagger-parser": "^8.0.4",
     "botbuilder-dialogs-declarative": "^4.11.0-rc3-preview",
     "botbuilder-dialogs-adaptive": "^4.11.0-rc3-preview",
-    "botbuilder": "^4.11.0-rc3" 
+    "botbuilder": "^4.11.0-rc3",
+    "botbuilder-ai": "^4.11.0-rc3" 
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.0",
