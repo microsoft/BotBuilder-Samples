@@ -96,8 +96,6 @@ const recoResult = await dispatchRecognizer.recognize(context);
 
 **C#:**
 - Add reference to `Microsoft.Bot.Builder.AI.Orchestrator` package.
-- Set your project to target `x64` platform
-- Install latest supported version of [Visual C++ redistributable package](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 ```C#
 using Microsoft.Bot.Builder.AI.Orchestrator;
