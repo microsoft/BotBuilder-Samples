@@ -16,7 +16,7 @@ This bot uses Orchestrator to route user utterances to multiple LUIS models and 
 ## Prerequisites
 
 This sample **requires** prerequisites in order to run.
-- Install latest supported version of [Visual C++ Runtime](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+- Install latest supported version of [Visual C++ Redistributable](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 - Install latest [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator/releases)
 

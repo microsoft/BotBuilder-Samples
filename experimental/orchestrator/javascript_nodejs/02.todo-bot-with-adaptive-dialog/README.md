@@ -5,12 +5,12 @@ This sample demonstrates using [Adaptive dialog (PREVIEW)][1],  [Language Genera
 ## Prerequisites
 
 This sample **requires** prerequisites in order to run.
-- Install latest supported version of [Visual C++ Runtime](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+- Install latest supported version of [Visual C++ Redistributable](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 - Install latest [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator/releases)
 
 - [Node.js](https://nodejs.org) version 10.14 or higher
-    
+  
     ```bash
     > node --version
     ```
