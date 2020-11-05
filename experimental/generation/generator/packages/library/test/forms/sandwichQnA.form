@@ -93,5 +93,9 @@
         "Toppings",
         "Sauces",
         "Price"
+    ],
+    "$requires": [
+        "professional-chit-chat.schema",
+        "standard.schema"
     ]
 }

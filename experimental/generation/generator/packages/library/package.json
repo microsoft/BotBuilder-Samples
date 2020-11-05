@@ -20,7 +20,7 @@
     "botbuilder-dialogs-declarative": "^4.11.0-rc3-preview",
     "botbuilder-dialogs-adaptive": "^4.11.0-rc3-preview",
     "botbuilder": "^4.11.0-rc3",
-    "botbuilder-ai": "^4.11.0-rc3" 
+    "botbuilder-ai": "^4.11.0-rc3"
   },
   "devDependencies": {
     "@types/fs-extra": "^8.0.0",

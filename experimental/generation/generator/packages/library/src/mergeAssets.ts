@@ -184,7 +184,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
  */
 async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, feedback: Feedback): Promise<void> {
     for (let file of oldFileList) {
-        if (!file.endsWith('.dialog') && !file.endsWith('.lu') && !file.endsWith('.lg')) {
+        if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
             let index = file.lastIndexOf('/')
             let fileName = file.substring(index)
             await copySingleFile(oldPath, mergedPath, fileName, oldFileList, feedback)
@@ -192,7 +192,7 @@ async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: 
     }
 
     for (let file of newFileList) {
-        if (!file.endsWith('.dialog') && !file.endsWith('.lu') && !file.endsWith('.lg')) {
+        if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
             let index = file.lastIndexOf('/')
             let fileName = file.substring(index)
             let files = oldFileList.filter(f => f.match(file))
