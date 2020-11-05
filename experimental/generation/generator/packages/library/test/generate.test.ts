@@ -14,14 +14,13 @@ import * as gen from '../src/dialogGenerator'
 import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
-const {Templates, DiagnosticSeverity} = require('botbuilder-lg')
-const file = require('@microsoft/bf-lu/lib/utils/filehelper')
-const LuisBuilder = require('@microsoft/bf-lu/lib/parser/luis/luisCollate')
-import {ComponentRegistration} from 'botbuilder'
-import {AdaptiveComponentRegistration, AdaptiveDialog} from 'botbuilder-dialogs-adaptive'
+import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
+import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
+import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
+import {ComponentRegistration} from 'botbuilder-core'
+import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
 import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
-import {LuisComponentRegistration} from 'botbuilder-ai'
-
+import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -76,7 +75,43 @@ describe('dialog:generate library', async () => {
     let badSchema = 'test/forms/bad-schema.form'
     let notObject = 'test/forms/not-object.form'
     let override = 'test/templates/override'
-    let unittestSchemaNames = ['number', "number_with_limits", 'integer', 'integer_with_limits', 'boolean', 'array_personName', 'enum', 'array_enum', 'email', 'uri', 'iri', 'date-time', 'date', 'time', 'personName', 'personName_with_pattern', 'personName_with_ref', 'phonenumber', 'phonenumber_with_ref', 'keyPhrase', 'keyPhrase_with_pattern', 'keyPhrase_with_ref', 'percentage', 'percentage_with_ref', 'age', 'age_with_units', 'ordinal', 'geography', 'money', 'money_with_units', 'temperature', 'temperature_with_units', 'dimension', 'dimension_with_units', 'datetime']
+    let unittestSchemaNames = [
+        'age_with_units',
+        'age',
+        'array_enum',
+        'array_personName',
+        'boolean',
+        'date-time',
+        'date',
+        'datetime',
+        'dimension_with_units',
+        'dimension',
+        'email',
+        'enum',
+        'geography',
+        'integer_with_limits',
+        'integer',
+        'iri',
+        'keyPhrase_with_pattern',
+        'keyPhrase_with_ref',
+        'keyPhrase',
+        'money_with_units',
+        'money',
+        'number_with_limits',
+        'number',
+        'ordinal',
+        'percentage_with_ref',
+        'percentage',
+        'personName_with_pattern',
+        'personName_with_ref',
+        'personName',
+        'phonenumber_with_ref',
+        'phonenumber',
+        'temperature_with_units',
+        'temperature',
+        'time',
+        'uri'
+    ]
 
     beforeEach(async () => {
         await fs.remove(output)
@@ -193,20 +228,22 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await file.getLuObjects(undefined, `${output}/en-us/unittest_${name}.en-us.lu`, true, ".lu")
-                    result = await LuisBuilder.build(luFiles, true, "en-us")
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
+                    debugger
                     result.validate()
                 } catch (e) {
-                    assert.fail(e.text || e.message)
+                    assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)
                 }
 
                 try {
                     console.log(`Dialog Testing schema ${name}`)
                     ComponentRegistration.add(new AdaptiveComponentRegistration())
                     ComponentRegistration.add(new LuisComponentRegistration())
-                    let resourceExplorer = new ResourceExplorer()
+                    ComponentRegistration.add(new QnAMakerComponentRegistration())
+                    const resourceExplorer = new ResourceExplorer()
                     resourceExplorer.addFolder(`${output}`, true, false)
-                    const script = resourceExplorer.loadType<AdaptiveDialog>(`unittest_${name}.dialog`)
+                    const script = resourceExplorer.loadType(`unittest_${name}.dialog`)
                 } catch (e) {
                     assert.fail(e.message)
                 }
@@ -269,7 +306,7 @@ describe('dialog:generate library', async () => {
     it('Expand $ref property definition', async () => {
         try {
             let schema = {
-                $ref: "template:dimension.schema"
+                $ref: 'template:dimension.schema'
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')

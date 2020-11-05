@@ -388,7 +388,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, oldFileLi
             // add  new enum entity in the new  lu file 
             for (let [key, values] of enumValueMap) {
                 if (!enumSet.has(key)) {
-                    resultStatements.push('\t- ' + key + ' :')
+                    resultStatements.push('    - ' + key + ' :')
                     for (let newStatement of values) {
                         resultStatements.push(newStatement)
                     }
