@@ -251,20 +251,18 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
                         await changeEntityEnumLG(oldPath, oldFileList, newFileList, mergedPath, file, feedback)
                     }
                 } else {
-                    if (await isOldUnchanged(oldFileList, file)) {
-                        await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
-                    } else {
+                    await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
+                    if (await !isOldUnchanged(oldFileList, file)) {
                         changedMessage(file, feedback)
-                    }
+                    } 
                 }
             }
         } else {
             resultRefs.push(ref)
             let file = refFilename(ref, feedback)
+            await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
             if (newText.match(file) && !await isOldUnchanged(oldFileList, file)) {
                 changedMessage(file, feedback)
-            } else {
-                await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
             }
         }
     }
@@ -654,11 +652,10 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
         let resultReducedOldTrigger = reducedOldTriggerMap.get(reducedOldTriggers[j])
         mergedTriggers.push(resultReducedOldTrigger)
         if (typeof resultReducedOldTrigger === 'string') {
+            await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', oldFileList, feedback)
             if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldFileList, reducedOldTriggers[j] + '.dialog')) {
                 changedMessage(reducedOldTriggers[j] + '.dialog', feedback)
-            } else {
-                await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', oldFileList, feedback)
-            }
+            } 
         }
         let index = newTriggers.indexOf(reducedOldTriggers[j])
         if (index !== -1) {
