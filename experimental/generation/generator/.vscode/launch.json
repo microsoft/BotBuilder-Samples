@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*self.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

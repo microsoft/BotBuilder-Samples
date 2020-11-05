@@ -13,14 +13,14 @@ import * as ppath from 'path'
 
 describe('dialog:generate', async () => {
     let output = ppath.join(os.tmpdir(), 'test.out')
-    let schemaPath = '../library/test/forms/sandwich.schema'
+    let schemaPath = '../library/test/forms/sandwich.form'
     let unitTestSchemaPath = '../library/test/forms/unittest_'
-    let badSchema = '../library/test/forms/bad-schema.schema'
+    let badSchema = '../library/test/forms/bad-schema.form'
     let swaggerPath = '../library/test/forms/petSwagger.json'
     let transcriptPath = '../library/test/transcripts/sandwich.transcript'
     let method = 'post'
     let route = '/store/order'
-    let schemaName = 'petOrder.schema'
+    let schemaName = 'petOrder.form'
     let unittestSchemaNames = ['number', "number_with_limits", 'integer', 'integer_with_limits', 'boolean', 'array_personName', 'enum', 'array_enum', 'email', 'uri', 'iri', 'date-time', 'date', 'time', 'personName', 'personName_with_pattern', 'personName_with_ref', 'phonenumber', 'phonenumber_with_ref', 'keyPhrase', 'keyPhrase_with_pattern', 'keyPhrase_with_ref', 'percentage', 'percentage_with_ref', 'age', 'age_with_units', 'ordinal', 'geography', 'money', 'money_with_units', 'temperature', 'temperature_with_units', 'dimension', 'dimension_with_units', 'datetime']
 
     beforeEach(async () => {
@@ -49,7 +49,7 @@ describe('dialog:generate', async () => {
         test
             .stdout()
             .stderr()
-            .command(['dialog:generate', `${unitTestSchemaPath}${unittestSchemaNames[i]}.schema`, '-o', `${output}`, '--verbose'])
+            .command(['dialog:generate', `${unitTestSchemaPath}${unittestSchemaNames[i]}.form`, '-o', `${output}`, '--verbose'])
             .it(`Generated unit test schema ${unittestSchemaNames[i]} successfully`, ctx => {
                 expect(ctx.stderr)
                     .not.to.contain('Error')
