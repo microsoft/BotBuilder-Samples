@@ -44,8 +44,7 @@
                     "blue",
                     "black",
                     "white"
-                ],
-                "maxItems": 3
+                ]
             }
         },
         "Email": {
@@ -144,8 +143,5 @@
         "Temperature",
         "Dimension",
         "DateTime"
-    ],
-    "$requires": [
-        "standard.schema"
     ]
 }

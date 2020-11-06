@@ -50,8 +50,5 @@
             "$entities": [ "utterance" ]
         }
     },
-    "required":["HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomePhone", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkPhone"],
-    "$requires": [
-        "standard.schema"
-    ]
+    "required":["HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomePhone", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkPhone"]
 }

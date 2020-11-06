@@ -18,9 +18,6 @@
             "$entities": [ "datetimeV2" ]
         }
     },
-    "required":["Subject", "ActivityType", "StartDate"],
-    "$requires": [
-        "standard.schema"
-    ]
+    "required":["Subject", "ActivityType", "StartDate"]
 }
     

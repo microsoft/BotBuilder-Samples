@@ -5,8 +5,8 @@
 
 # template
 -```
-${importLG('form')}
-${importLG('form-Choose')}
+${formImport('form.en-us.lg')}
+${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
 ${chooseEntity()}
 ```

@@ -538,7 +538,7 @@
 > Define phrase list for ${property} property.
 @ phraselist ${property}Phrases(interchangeable)=
 ${if(schema.properties[property].title,
-    `\t- ${schema.properties[property].title}`,
+    `    - ${schema.properties[property].title}`,
      synonyms(property))}
 
 > Define property entity and optional value for ${property} property.
@@ -563,9 +563,9 @@ ${substitutions(
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
-\t-@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
-\t\t- @ ${entity} ${entity}
-${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
+    -@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
+        - @ ${entity} ${entity}
+${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Name for property entity
 # propertyEntity()
@@ -615,7 +615,7 @@ ${if(length(entities[entity]) > 1, `\t- @ ${entity} ${entity}`, '')}```
 - ${foreach(phrases(property), phrase, `${phrase}`)}
 
 # synonyms(value)
-- ${join(foreach(phrases(value), phrase, `\t\t- ${phrase}`), EOL())}
+- ${join(foreach(phrases(value), phrase, `        - ${phrase}`), EOL())}
 
 # luHeader()
 -```
