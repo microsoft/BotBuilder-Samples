@@ -6,4 +6,6 @@
 # template
 - ```
 @ prebuilt percentage
+
+${operations('percentage', ["2", "30.5", "75"], false)}
 ```
