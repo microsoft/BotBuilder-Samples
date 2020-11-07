@@ -301,19 +301,12 @@ async function processTemplate(
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
                     let filename = addPrefix(scope.prefix, templateName)
-                    if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
+                    if (lgTemplate) {
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
                             throw new Error(`${templateName}: ${e.message}`)
                         }
-                    } else if (filename.includes(scope.locale)) {
-                        // Move constant files into locale specific directories
-                        let prop = templateName.includes('form') ? 'form' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
-                        filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
-                    } else if (filename.includes('form-')) {
-                        // Put form stuff in its own folder by default
-                        filename = `form/${filename}`
                     }
 
                     // Add prefix to constant imports
