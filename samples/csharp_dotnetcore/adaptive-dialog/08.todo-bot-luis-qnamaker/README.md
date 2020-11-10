@@ -57,7 +57,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - Install required CLI tools
 
 ```bash
-> npm i -g @microsoft/botframework-cli@rc
+> npm i -g @microsoft/botframework-cli
 ```
 
 - In a command prompt, navigate to `samples/csharp_dotnetcore/adaptive-dialog/08.todo-bot-luis-qnamaker`
