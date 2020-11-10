@@ -1,0 +1,7563 @@
+
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="https://static2.sharepointonline.com/files/fabric/office-ui-fabric-core/9.6.0/css/fabric.min.css" />
+    <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css" />
+    <style>
+        td, th {
+            padding-bottom: 0px !important;
+            padding-top: 0px !important;
+            padding-right: 15px !important;
+            margin: 0 !important;
+        }
+        .table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+            border-top: none;
+            border-bottom: 1px solid #ddd;
+        }
+        .navbar {
+            border: none;
+            min-height: 48px;
+        }
+        .navbar-inverse {
+            background-color: #0078D7 !important;
+            color: #fff !important;
+        }
+        .navbar-header {
+            padding-top: 10px;
+        }
+        .navbar-header a {
+            color: #fff;
+        }
+        #orchestratorName {
+            margin-right: 150px;
+        }
+        .nav-pills > li > a {
+            border-radius: 0;
+            padding-bottom: 0px;
+            padding-left: 0px;
+            padding-right: 0px;
+            margin-right: 15px;
+            color: #333;
+        }
+        .nav-pills > li.active > a,
+        .nav-pills > li.active > a:hover,
+        .nav-pills > li.active > a:focus {
+            color: #333;
+            background-color: #fff !important;
+            font-weight: 600 !important;
+            border-bottom-color: #0078D7;
+            border-bottom-style: solid;
+            border-bottom-width: 2px;
+        }
+        .nav-pills > .active > a > .badge {
+            background-color: #fff !important;
+            font-weight: 600 !important;
+        }
+        .nav-pills > li:hover > a:hover {
+            background-color: #fff !important;
+        }
+    </style>
+</head>
+<body class="ms-Fabric ms-font-m">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header ms-fontSize-l">
+                <span id="orchestratorName"></span>
+                <span id="orchestratorName"></span>
+                <!--
+                <span><a href="https://{PORTAL_URL}/applications/{APP_ID}/versions/{VERSION}/dashboard" target="_blank">LUIS Application ID: {APP_ID}</a></span>
+                -->
+            </div>
+        </div>
+    </nav>
+    <div style="clear:both"></div>
+    <div class="container body-content" style="margin-top:60px">
+        <span class="ms-fontSize-xl ms-fontWeight-semibold">Orchestrator Evaluation Summary</span>
+        <!--
+        <span style="float:right"><a href="https://{PORTAL_URL}/applications/{APP_ID}/versions/{VERSION}/dashboard" target="_blank">View in LUIS portal</a></span>
+        -->
+        <!--
+        <div>
+            <p>{EVAL_SUMMARY}</p>
+            <p>To improve orchestrator, please update the source models and retrain the orchestrator model by running the command "orchestrator refresh".</p>
+        </div>
+        -->
+        <br />
+        <ul class="nav nav-pills ms-fontSize-mPlus ms-fontWeight-semibold" id="modelAnalysis" role="tablist" style="padding-bottom:10px">
+            <li class="nav-item active">
+                <a class="nav-link active" id="intent-utterance-statistics-tab" data-toggle="tab" href="#intent-utterance-statistics" role="tab" aria-controls="intent-utterance-statistics" aria-selected="true"><strong>Intent/Utterancce Statistics</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" id="utterance-duplicates-tab" data-toggle="tab" href="#utterance-duplicates" role="tab" aria-controls="utterance-duplicates" aria-selected="true"><strong>Utterance Duplicates</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="ambiguous-tab" data-toggle="tab" href="#ambiguous" role="tab" aria-controls="ambiguous" aria-selected="false"><strong>Ambiguous</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="misclassified-tab" data-toggle="tab" href="#misclassified" role="tab" aria-controls="misclassified" aria-selected="false"><strong>Misclassified</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="lowconfidence-tab" data-toggle="tab" href="#lowconfidence" role="tab" aria-controls="lowconfidence" aria-selected="false"><strong>Low Confidence</strong></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="model-evaluation-tab" data-toggle="tab" href="#model-evaluation" role="tab" aria-controls="model-evaluation" aria-selected="false"><strong>Metrics</strong></a>
+            </li>
+            <!--
+            <li class="nav-item">
+                <a class="nav-link" id="modelevaluationtopposition-tab" data-toggle="tab" href="#modelevaluationtopposition" role="tab" aria-controls="modelevaluationtopposition" aria-selected="false"><strong>Top @Position Metrics</strong></a>
+            </li>
+            -->
+        </ul>
+        <div class="tab-content">
+            <div class="tab-pane active" id="intent-utterance-statistics" role="tabpanel" aria-labelledby="intent-utterance-statistics-tab">
+                <p>Intent and utterance statistics</p>
+                <p>
+                      <p><strong>Label statistics</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Label
+      </th>
+      <th>
+      Label Index
+      </th>
+      <th>
+      Utterance Count
+      </th>
+      <th>
+      Utterance Prevalence
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      26
+      </td>
+      <td>
+      0.1699
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      21
+      </td>
+      <td>
+      0.1373
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      0.0719
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      3
+      </td>
+      <td>
+      6
+      </td>
+      <td>
+      0.0392
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      4
+      </td>
+      <td>
+      9
+      </td>
+      <td>
+      0.0588
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      0.0719
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      6
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      0.0327
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      7
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      0.1046
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+      8
+      </td>
+      <td>
+      19
+      </td>
+      <td>
+      0.1242
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      9
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      0.0719
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      help
+      </td>
+      <td>
+      10
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      0.1176
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Total
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      153
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+  </table>  <p><strong>Utterance statistics</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      # Multi-Labels
+      </th>
+      <th>
+      Utterance Count
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      Total
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+  </table>
+                </p>
+            </div>
+            <div class="tab-pane" id="utterance-duplicates" role="tabpanel" aria-labelledby="utterance-duplicates-tab">
+                <p>Multi-label utterances and duplicate utterance/intent pairs. The utterance/intent pairs in the second table below have been entered more than one times in the source file.
+                   It's not a serious problem as they will be de-duplicated.
+                </p>
+                <p>
+                      <p><strong>Multi-label utterances and their labels</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Utterance
+      </th>
+      <th>
+      Labels
+      </th>
+    <tr>
+  </table>  <p><strong>Duplicate utterance and label pairs</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Utterance
+      </th>
+      <th>
+      Label
+      </th>
+    <tr>
+  </table>
+                </p>
+            </div>
+            <div class="tab-pane" id="ambiguous" role="tabpanel" aria-labelledby="ambiguous-tab">
+                <p>Utterance(s) whose intents were correctly predicted (as a subset of the labeled intents), but there are also other intents predicted with high scores</p>
+                <p>
+                      <p><strong>Ambiguous utterances and their labels</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Utterance
+      </th>
+      <th>
+      Labels
+      </th>
+      <th>
+      Predictions
+      </th>
+      <th>
+      Close Predictions
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      what is available in sports?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.9142
+      </td>
+      <td>
+      Info about sports
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7603
+      </td>
+      <td>
+      what are available Student organizations
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7452
+      </td>
+      <td>
+      what are the health services
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      where's the gym?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.9919
+      </td>
+      <td>
+      where's the gym
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.9013
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      varsity team info
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8501
+      </td>
+      <td>
+      sports info
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7868
+      </td>
+      <td>
+      veterans info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8228
+      </td>
+      <td>
+      social clubs info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7597
+      </td>
+      <td>
+      staff info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7523
+      </td>
+      <td>
+      where is the Student account info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7853
+      </td>
+      <td>
+      Diplomas information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7188
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      info about Womenâ€™s Teams
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8972
+      </td>
+      <td>
+      Womenâ€™s Teams
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7654
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7991
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7609
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      where the pool for swimming?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8682
+      </td>
+      <td>
+      where's the gym
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8461
+      </td>
+      <td>
+      where are the fraternities?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7399
+      </td>
+      <td>
+      where are the Room reservations
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.7346
+      </td>
+      <td>
+      where are the libraries
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8415
+      </td>
+      <td>
+      where is the EMS
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      i am looking forthe competitive Track & Field program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7998
+      </td>
+      <td>
+      i'm interested in foodball
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.6845
+      </td>
+      <td>
+      The Robotics Institute
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      info on the track & field running program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.9718
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7909
+      </td>
+      <td>
+      Info on Ph.D doctoral program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7993
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      is there college Football team?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8555
+      </td>
+      <td>
+      what are the varsity sports
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7654
+      </td>
+      <td>
+      are there school classifieds
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7921
+      </td>
+      <td>
+      is there a physician on campus
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      what are the Club's sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.931
+      </td>
+      <td>
+      what are the varsity sports
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8139
+      </td>
+      <td>
+      what are the greek organizations?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8226
+      </td>
+      <td>
+      what are the recreation facilities
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      info on Badminton please
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8872
+      </td>
+      <td>
+      info about swimming
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7196
+      </td>
+      <td>
+      information about HCI?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.744
+      </td>
+      <td>
+      info on student organizations
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7145
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7584
+      </td>
+      <td>
+      Info about covid
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      do you have a Fencing program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8008
+      </td>
+      <td>
+      Fencing
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6842
+      </td>
+      <td>
+      Information about facilities
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      11
+      </td>
+      <td>
+      Do you have Public Policy & Management program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8732
+      </td>
+      <td>
+      Public Policy & Management
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.733
+      </td>
+      <td>
+      what are the privacy policies
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      12
+      </td>
+      <td>
+      Info about Medical Management
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8799
+      </td>
+      <td>
+      Medical Management
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7316
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7113
+      </td>
+      <td>
+      info on work/life balance
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7439
+      </td>
+      <td>
+      Info on Financial aid
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7553
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8643
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      13
+      </td>
+      <td>
+      What are the Doctoral Programs
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8425
+      </td>
+      <td>
+      Doctoral Programs
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7448
+      </td>
+      <td>
+      what is the university culture
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.839
+      </td>
+      <td>
+      what are the athletics programs?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6971
+      </td>
+      <td>
+      what are the health services
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      14
+      </td>
+      <td>
+      Do you have Executive Education
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7621
+      </td>
+      <td>
+      Executive Education
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6485
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.6274
+      </td>
+      <td>
+      what are school policies
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6389
+      </td>
+      <td>
+      need Alumni info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.699
+      </td>
+      <td>
+      Is there ice Skating?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6952
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      15
+      </td>
+      <td>
+      What is in the College of Sciences
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.877
+      </td>
+      <td>
+      College of Science
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7136
+      </td>
+      <td>
+      Campus
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8308
+      </td>
+      <td>
+      what is the university culture
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7236
+      </td>
+      <td>
+      classes info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8635
+      </td>
+      <td>
+      tell me about the Athletics program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7915
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      16
+      </td>
+      <td>
+      Information about Chemistry
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8823
+      </td>
+      <td>
+      Info on Ph.D doctoral program
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.776
+      </td>
+      <td>
+      find major info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.723
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7992
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8075
+      </td>
+      <td>
+      info about swimming
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8698
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.7634
+      </td>
+      <td>
+      information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      17
+      </td>
+      <td>
+      Information about Mathematical Sciences
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.9068
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7428
+      </td>
+      <td>
+      find major info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7866
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7906
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8283
+      </td>
+      <td>
+      info about swimming
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8687
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      18
+      </td>
+      <td>
+      Information about Computer Science
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8735
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7721
+      </td>
+      <td>
+      find major info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7585
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7892
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8203
+      </td>
+      <td>
+      Tell me about Sports
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8656
+      </td>
+      <td>
+      Info about covid
+      </td>
+    </tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.7197
+      </td>
+      <td>
+      information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      19
+      </td>
+      <td>
+      Direct me to the School of Business
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.803
+      </td>
+      <td>
+      School of Business
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.6961
+      </td>
+      <td>
+      Directions to school
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      20
+      </td>
+      <td>
+      Software Research info
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8875
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7429
+      </td>
+      <td>
+      Info on Financial aid
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.7541
+      </td>
+      <td>
+      academic databases
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7104
+      </td>
+      <td>
+      Info about Dissertation
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7764
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8434
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      21
+      </td>
+      <td>
+      Is there a  Robotics program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8654
+      </td>
+      <td>
+      The Robotics Institute
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6987
+      </td>
+      <td>
+      are there school classifieds
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8091
+      </td>
+      <td>
+      tell me about the Athletics program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7614
+      </td>
+      <td>
+      is there a physician on campus
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      22
+      </td>
+      <td>
+      Is there a Human-Computer Interaction focus?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.6294
+      </td>
+      <td>
+      is there a human computer interaction center?
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.5127
+      </td>
+      <td>
+      i want to play basketball
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      23
+      </td>
+      <td>
+      What is Computational Biology
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8748
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.7243
+      </td>
+      <td>
+      what is my grade?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7422
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7979
+      </td>
+      <td>
+      tell me about the Athletics program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7894
+      </td>
+      <td>
+      Info about covid
+      </td>
+    </tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.7292
+      </td>
+      <td>
+      information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      24
+      </td>
+      <td>
+      Do you teach AI Machine Learning
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7851
+      </td>
+      <td>
+      Machine Learning
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.6442
+      </td>
+      <td>
+      Is there ice Skating?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.698
+      </td>
+      <td>
+      what can you do?
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      25
+      </td>
+      <td>
+      What's in the Undergraduate Business
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8316
+      </td>
+      <td>
+      Undergraduate Business
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7626
+      </td>
+      <td>
+      what is the university culture
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8259
+      </td>
+      <td>
+      what are the varsity sports
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7102
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      26
+      </td>
+      <td>
+      Do you have MBA degree?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7753
+      </td>
+      <td>
+      MBA
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6657
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.6352
+      </td>
+      <td>
+      what are my Benefits
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.6552
+      </td>
+      <td>
+      Info on Financial aid
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7358
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.73
+      </td>
+      <td>
+      tell me about the athletic program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6797
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      27
+      </td>
+      <td>
+      What degree is in Computational Finance
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7474
+      </td>
+      <td>
+      Computational Finance (M.S.)
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6206
+      </td>
+      <td>
+      what is the university culture
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.6103
+      </td>
+      <td>
+      what are the tuition fees
+      </td>
+    </tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.6125
+      </td>
+      <td>
+      what is my grade?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6707
+      </td>
+      <td>
+      tell me about Exams
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.6861
+      </td>
+      <td>
+      tell me about the athletic program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6195
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      28
+      </td>
+      <td>
+      What is program or product Management degree?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7491
+      </td>
+      <td>
+      Info on Ph.D doctoral program
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6319
+      </td>
+      <td>
+      what is the university culture
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.6104
+      </td>
+      <td>
+      info about student evaluations
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7297
+      </td>
+      <td>
+      Courses information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7291
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6981
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      29
+      </td>
+      <td>
+      Tell me more about Master of Integrated Innovation
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8454
+      </td>
+      <td>
+      Master of Integrated Innovation for Products and Services
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7459
+      </td>
+      <td>
+      Tell me about Campus Life
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7791
+      </td>
+      <td>
+      tell me about the athletic program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7683
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      30
+      </td>
+      <td>
+      What is Executive Education
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.857
+      </td>
+      <td>
+      Executive Education
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.725
+      </td>
+      <td>
+      info on student organizations
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7342
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7152
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      31
+      </td>
+      <td>
+      information selection here?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.752
+      </td>
+      <td>
+      general information
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      help
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.6415
+      </td>
+      <td>
+      Information Systems
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7429
+      </td>
+      <td>
+      Minor information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.6211
+      </td>
+      <td>
+      social clubs info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.6191
+      </td>
+      <td>
+      staff info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.6334
+      </td>
+      <td>
+      work-study employment info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.6312
+      </td>
+      <td>
+      Articles database
+      </td>
+    </tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.604
+      </td>
+      <td>
+      info on login and password
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6578
+      </td>
+      <td>
+      where is my personal information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.674
+      </td>
+      <td>
+      information on the track & field running program
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6898
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      32
+      </td>
+      <td>
+      how do I apply?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7082
+      </td>
+      <td>
+      i want to apply next quarter
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.6287
+      </td>
+      <td>
+      what can you do?
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      33
+      </td>
+      <td>
+      what are Extracurricular activities
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.8241
+      </td>
+      <td>
+      Extracurricular activities
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8235
+      </td>
+      <td>
+      find activities at the university
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      34
+      </td>
+      <td>
+      how do I find out my Major
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7662
+      </td>
+      <td>
+      find major info
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6446
+      </td>
+      <td>
+      how can i find my Grades
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      35
+      </td>
+      <td>
+      what are the Due dates to register
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7832
+      </td>
+      <td>
+      Due dates
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7288
+      </td>
+      <td>
+      when is grading due this quarter
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.69
+      </td>
+      <td>
+      what are the Deadlines
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      36
+      </td>
+      <td>
+      Enrollment information due dates
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7539
+      </td>
+      <td>
+      Due dates
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.6508
+      </td>
+      <td>
+      when is grading due this quarter
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7111
+      </td>
+      <td>
+      what are the Deadlines
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      37
+      </td>
+      <td>
+      what is the DS-160
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.6923
+      </td>
+      <td>
+      DS-160
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.5545
+      </td>
+      <td>
+      information about HCI?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.5831
+      </td>
+      <td>
+      find my GPA
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.6117
+      </td>
+      <td>
+      what are the varsity sports
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6276
+      </td>
+      <td>
+      where is the EMS
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      38
+      </td>
+      <td>
+      when and where is orientation
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.6426
+      </td>
+      <td>
+      orientation
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.5465
+      </td>
+      <td>
+      where is greek row?
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.5768
+      </td>
+      <td>
+      where are the Forms & guides
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.5222
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      39
+      </td>
+      <td>
+      admissions information please
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7959
+      </td>
+      <td>
+      admissions
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7149
+      </td>
+      <td>
+      fraternities information please
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.653
+      </td>
+      <td>
+      work-study employment info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.781
+      </td>
+      <td>
+      Diplomas information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.7101
+      </td>
+      <td>
+      sports info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6748
+      </td>
+      <td>
+      Transportation information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      40
+      </td>
+      <td>
+      i'm looking for registration information
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.9855
+      </td>
+      <td>
+      looking for registration information
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.9304
+      </td>
+      <td>
+      I need registration information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      41
+      </td>
+      <td>
+      personal registration information
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.9494
+      </td>
+      <td>
+      registration information
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.8076
+      </td>
+      <td>
+      I need registration information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      42
+      </td>
+      <td>
+      publications access
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.8656
+      </td>
+      <td>
+      access journals, articles database
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.784
+      </td>
+      <td>
+      teacher access
+      </td>
+    </tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.7391
+      </td>
+      <td>
+      access to personal records
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      43
+      </td>
+      <td>
+      how do i access the academic databases
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.8522
+      </td>
+      <td>
+      academic databases
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7053
+      </td>
+      <td>
+      where can I find info on grants
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      44
+      </td>
+      <td>
+      get access to academic databases
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.8684
+      </td>
+      <td>
+      academic databases
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7512
+      </td>
+      <td>
+      professors access
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      45
+      </td>
+      <td>
+      Where is the library?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Library
+      </td>
+      <td>
+      0.9711
+      </td>
+      <td>
+      where are the libraries
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8
+      </td>
+      <td>
+      where's the gym
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7788
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      46
+      </td>
+      <td>
+      where are the sororities?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8934
+      </td>
+      <td>
+      where are the fraternities?
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      CampusLife
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7657
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      47
+      </td>
+      <td>
+      do you have greek row
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8123
+      </td>
+      <td>
+      is there a greek row on campus?
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      CampusLife
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.6603
+      </td>
+      <td>
+      Billiards
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      48
+      </td>
+      <td>
+      rentals classifieds
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8219
+      </td>
+      <td>
+      looking for house rentals
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      CampusLife
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7372
+      </td>
+      <td>
+      Accomodations & rentals
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      49
+      </td>
+      <td>
+      where do I access my Grades
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.9383
+      </td>
+      <td>
+      where can I find My grades
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7716
+      </td>
+      <td>
+      where is the staff handbook
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.9013
+      </td>
+      <td>
+      how can i find my Grades
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      50
+      </td>
+      <td>
+      what is my GPA?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.9452
+      </td>
+      <td>
+      find my GPA
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7578
+      </td>
+      <td>
+      Info about covid
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      51
+      </td>
+      <td>
+      staff access info
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.9019
+      </td>
+      <td>
+      staff info
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7414
+      </td>
+      <td>
+      veterans info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7298
+      </td>
+      <td>
+      where is the Student account info
+      </td>
+    </tr>
+    <tr>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      0.8115
+      </td>
+      <td>
+      information about login to my account
+      </td>
+    </tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7238
+      </td>
+      <td>
+      enrollment information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7881
+      </td>
+      <td>
+      Building access information
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      52
+      </td>
+      <td>
+      where is the copier machine
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.7651
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      StudentServices
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6802
+      </td>
+      <td>
+      where is my personal information
+      </td>
+    </tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.6861
+      </td>
+      <td>
+      where's the gym
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      53
+      </td>
+      <td>
+      someone took my card
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.5354
+      </td>
+      <td>
+      stolen id card
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      StudentServices
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.5329
+      </td>
+      <td>
+      billing access please
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      54
+      </td>
+      <td>
+      where do I pay fees
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.9102
+      </td>
+      <td>
+      what are the tuition fees
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.7431
+      </td>
+      <td>
+      fees
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+  </table>
+                </p>
+            </div>
+            <div class="tab-pane" id="misclassified" role="tabpanel" aria-labelledby="misclassified-tab">
+                <p>Utterance(s) yielding predicted intent that is not originally labeled with</p>
+                <p>
+                      <p><strong>Misclassified utterances and their labels</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Utterance
+      </th>
+      <th>
+      Labels
+      </th>
+      <th>
+      Predictions
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      where are the tennis courts?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8953
+      </td>
+      <td>
+      where's the gym
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.9244
+      </td>
+      <td>
+      where are the Recreation facilities
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      Where is the Healthcare Management school?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8694
+      </td>
+      <td>
+      Where is the robotics institute?
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.9097
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      What are the Biological Sciences programs
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8141
+      </td>
+      <td>
+      Doctoral Programs
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8975
+      </td>
+      <td>
+      what are the athletics programs?
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      Information about Physics
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8447
+      </td>
+      <td>
+      Information about robotics research
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.846
+      </td>
+      <td>
+      Information about Career and professional development
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      What is the Economics program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7867
+      </td>
+      <td>
+      Economics
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8696
+      </td>
+      <td>
+      what are the athletics programs?
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      Tell me about the Doctoral Program
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8717
+      </td>
+      <td>
+      Info on Ph.D doctoral program
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.9157
+      </td>
+      <td>
+      tell me about the athletic program
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      when is Commencement
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.8001
+      </td>
+      <td>
+      when should i apply
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.8247
+      </td>
+      <td>
+      when is grading due this quarter
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      I'm  Alumni
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.7091
+      </td>
+      <td>
+      need Alumni info
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.7448
+      </td>
+      <td>
+      College of Science
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      how is grading working
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6566
+      </td>
+      <td>
+      Grading policy
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.7951
+      </td>
+      <td>
+      grading schedule
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      when is Graduation
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.6093
+      </td>
+      <td>
+      what are the Deadlines
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.8093
+      </td>
+      <td>
+      when is grading due this quarter
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      electives info
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.8125
+      </td>
+      <td>
+      classes info
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.8336
+      </td>
+      <td>
+      veterans info
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      11
+      </td>
+      <td>
+      Student organizations fino
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.7054
+      </td>
+      <td>
+      info on student organizations
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.8037
+      </td>
+      <td>
+      School of Business
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      12
+      </td>
+      <td>
+      how do i join a sorority?
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      0.8803
+      </td>
+      <td>
+      I want to join a sorority
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.9023
+      </td>
+      <td>
+      join basketball
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      13
+      </td>
+      <td>
+      staff email service
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.5343
+      </td>
+      <td>
+      Faculty Services
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6708
+      </td>
+      <td>
+      emergency medical services
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      14
+      </td>
+      <td>
+      i need financial help
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.7323
+      </td>
+      <td>
+      Financial services
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      help
+      </td>
+      <td>
+      0.8274
+      </td>
+      <td>
+      need help
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+    <tr>
+      <td>
+      15
+      </td>
+      <td>
+      where is the financial office
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      0.6998
+      </td>
+      <td>
+      where can i find info on financial support
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.8796
+      </td>
+      <td>
+      where is the clinic
+      </td>
+    </tr>
+  </table>
+      </td>
+    </tr>
+  </table>
+                </p>
+            </div>
+            <div class="tab-pane" id="lowconfidence" role="tabpanel" aria-labelledby="lowconfidence-tab">
+                <p>Utterance(s) whose intents were correctly predicted (as a subset of the labeled intents), but the prediction score is low</p>
+                <p>
+                      <p><strong>Low confidence utterances and their labels</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Utterance
+      </th>
+      <th>
+      Labels
+      </th>
+      <th>
+      Predictions
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      how do I switch from Full time to parttime student
+      </td>
+      <td>
+        <table class="table">
+    <tr>
+      <th width=30%>
+      Label
+      </th>
+      <th width=10%>
+      Score
+      </th>
+      <th width=60%>
+      Closest Example
+      </th>
+    <tr>
+    <tr>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      0.4617
+      </td>
+      <td>
+      Part time student criteria
+      </td>
+    </tr>
+  </table>
+      </td>
+      <td>
+      RegistrarsOffice
+      </td>
+    </tr>
+  </table>
+                </p>
+            </div>
+            <div class="tab-pane" id="model-evaluation" role="tabpanel" aria-labelledby="model-evaluation-tab">
+                <p> In this tab, overall model performance is shown in two sections.
+                    The first section is a series of per-label (intent or entity) binary confusion matrices and
+                    derived metrics, such as precision, recall, F1, and accuracy, etc.
+                    The second section below are a collection of metrics aggregated from the binart confusion matrices.
+                    Detailed descriptions of the aggregated matrics are listed further below.
+                    For building a per-label confusion matrix, the computing process iterates through
+                    each test instance's ground-truth label set and predicted label set.
+                    Bf-orchestrator-cli supports multi-labels and if a label is
+                    1) true-positive if it exists in both the instance's ground-truth and predicted set.
+                    2) false-positive if it exists only in the instance's predicted set.
+                    3) false-negative if it exists only in the instance's ground-truth set.
+                    4) true-negatve if it exists not in the instance's either sets.
+                </p>
+                <!--
+                <p>
+                    {MODEL_EVALUATION_OVERALL}
+                </p>
+                -->
+                <p>
+                      <p><strong>Confusion matrix metrics</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Label
+      </th>
+      <th>
+      Precision
+      </th>
+      <th>
+      Recall
+      </th>
+      <th>
+      F1
+      </th>
+      <th>
+      Accuracy
+      </th>
+      <th>
+      #TruePositives
+      </th>
+      <th>
+      #FalsePositives
+      </th>
+      <th>
+      #TrueNegatives
+      </th>
+      <th>
+      #FalseNegatives
+      </th>
+      <th>
+      Support
+      </th>
+      <th>
+      Total
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      Academics
+      </td>
+      <td>
+      0.913
+      </td>
+      <td>
+      0.8077
+      </td>
+      <td>
+      0.8571
+      </td>
+      <td>
+      0.9542
+      </td>
+      <td>
+      21
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      125
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      26
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      Admissions
+      </td>
+      <td>
+      0.9524
+      </td>
+      <td>
+      0.9524
+      </td>
+      <td>
+      0.9524
+      </td>
+      <td>
+      0.9869
+      </td>
+      <td>
+      20
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      131
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      21
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      CampusLife
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.8182
+      </td>
+      <td>
+      0.9
+      </td>
+      <td>
+      0.9869
+      </td>
+      <td>
+      9
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      142
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      FacultyServices
+      </td>
+      <td>
+      0.625
+      </td>
+      <td>
+      0.8333
+      </td>
+      <td>
+      0.7143
+      </td>
+      <td>
+      0.9739
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      3
+      </td>
+      <td>
+      144
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      6
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      FinancialServices
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.7778
+      </td>
+      <td>
+      0.875
+      </td>
+      <td>
+      0.9869
+      </td>
+      <td>
+      7
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      144
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      9
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      Library
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      142
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      PersonalAccess
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      148
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      RegistrarsOffice
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.75
+      </td>
+      <td>
+      0.8571
+      </td>
+      <td>
+      0.9739
+      </td>
+      <td>
+      12
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      4
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      Sports
+      </td>
+      <td>
+      0.8182
+      </td>
+      <td>
+      0.9474
+      </td>
+      <td>
+      0.878
+      </td>
+      <td>
+      0.9673
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      4
+      </td>
+      <td>
+      130
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      19
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      StudentServices
+      </td>
+      <td>
+      0.6875
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.8148
+      </td>
+      <td>
+      0.9673
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      5
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      help
+      </td>
+      <td>
+      0.9474
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.973
+      </td>
+      <td>
+      0.9935
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      134
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      11
+      </td>
+      <td>
+      UNKNOWN
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      153
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+  </table>  <p><strong>Average confusion matrix metrics</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Type
+      </th>
+      <th>
+      Precision
+      </th>
+      <th>
+      Recall
+      </th>
+      <th>
+      F1
+      </th>
+      <th>
+      Accuracy
+      </th>
+      <th>
+      #TruePositives
+      </th>
+      <th>
+      #FalsePositives
+      </th>
+      <th>
+      #TrueNegatives
+      </th>
+      <th>
+      #FalseNegatives
+      </th>
+      <th>
+      Support
+      </th>
+      <th>
+      Total
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      <b>Micro-Average</b>
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      <b>0.8954</b>
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      <b>Micro-First-Quartile</b>
+      </td>
+      <td>
+      0.913
+      </td>
+      <td>
+      0.8077
+      </td>
+      <td>
+      <b>0.8571</b>
+      </td>
+      <td>
+      <b>0.9673</b>
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      130
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      <b>Micro-Median</b>
+      </td>
+      <td>
+      0.9474
+      </td>
+      <td>
+      0.9474
+      </td>
+      <td>
+      <b>0.878</b>
+      </td>
+      <td>
+      <b>0.9739</b>
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      134
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      Micro-Third-Quartile
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.9524
+      </td>
+      <td>
+      0.9869
+      </td>
+      <td>
+      20
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      142
+      </td>
+      <td>
+      4
+      </td>
+      <td>
+      21
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      <b>Macro-First-Quartile</b>
+      </td>
+      <td>
+      0.8182
+      </td>
+      <td>
+      0.8077
+      </td>
+      <td>
+      <b>0.8571</b>
+      </td>
+      <td>
+      <b>0.9739</b>
+      </td>
+      <td>
+      7
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      134
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      9
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      <b>Macro-Median</b>
+      </td>
+      <td>
+      0.9524
+      </td>
+      <td>
+      0.9474
+      </td>
+      <td>
+      <b>0.878</b>
+      </td>
+      <td>
+      <b>0.9869</b>
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      142
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      11
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      Macro-Third-Quartile
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      0.973
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      18
+      </td>
+      <td>
+      3
+      </td>
+      <td>
+      144
+      </td>
+      <td>
+      2
+      </td>
+      <td>
+      19
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      <b>Summation Micro-Average</b>
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      <b>0.8954</b>
+      </td>
+      <td>
+      <b>0.9826</b>
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      1667
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      153
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      <b>Macro-Average</b>
+      </td>
+      <td>
+      0.8286
+      </td>
+      <td>
+      0.8239
+      </td>
+      <td>
+      <b>0.8185</b>
+      </td>
+      <td>
+      <b>0.9826</b>
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      Summation Macro-Average
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.9826
+      </td>
+      <td>
+      11.4167
+      </td>
+      <td>
+      1.3333
+      </td>
+      <td>
+      138.9167
+      </td>
+      <td>
+      1.3333
+      </td>
+      <td>
+      12.75
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      Positive-Support Macro-Average
+      </td>
+      <td>
+      0.904
+      </td>
+      <td>
+      0.8988
+      </td>
+      <td>
+      0.8929
+      </td>
+      <td>
+      0.981
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      11
+      </td>
+      <td>
+      Positive-Support Summation Macro-Average
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.981
+      </td>
+      <td>
+      12.4545
+      </td>
+      <td>
+      1.4545
+      </td>
+      <td>
+      137.6364
+      </td>
+      <td>
+      1.4545
+      </td>
+      <td>
+      13.9091
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      12
+      </td>
+      <td>
+      Weighted Macro-Average
+      </td>
+      <td>
+      0.9127
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      0.8969
+      </td>
+      <td>
+      0.9778
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      13
+      </td>
+      <td>
+      Weighted Summation Macro-Average
+      </td>
+      <td>
+      0.9049
+      </td>
+      <td>
+      0.8908
+      </td>
+      <td>
+      0.8978
+      </td>
+      <td>
+      0.9778
+      </td>
+      <td>
+      14.9216
+      </td>
+      <td>
+      1.5686
+      </td>
+      <td>
+      134.6797
+      </td>
+      <td>
+      1.8301
+      </td>
+      <td>
+      16.7516
+      </td>
+      <td>
+      N/A
+      </td>
+    </tr>
+    <tr>
+      <td>
+      14
+      </td>
+      <td>
+      <b>Multi-Label Exact Aggregate</b>
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      <b>0.9448</b>
+      </td>
+      <td>
+      <b>0.8954</b>
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+    <tr>
+      <td>
+      15
+      </td>
+      <td>
+      <b>Multi-Label Subset Aggregate</b>
+      </td>
+      <td>
+      0.8954
+      </td>
+      <td>
+      1
+      </td>
+      <td>
+      <b>0.9448</b>
+      </td>
+      <td>
+      <b>0.8954</b>
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      16
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      0
+      </td>
+      <td>
+      137
+      </td>
+      <td>
+      153
+      </td>
+    </tr>
+  </table>  <p><strong>Average confusion matrix metric descriptions</strong></p>
+  <table class="table">
+    <tr>
+      <th>
+      No
+      </th>
+      <th>
+      Type
+      </th>
+      <th>
+      Description
+      </th>
+    <tr>
+    <tr>
+      <td>
+      0
+      </td>
+      <td>
+      <b>Micro-Average</b>
+      </td>
+      <td>
+      
+  This metric follows the micro-average metric defined in
+  <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">Scikit-Learn Classification Report</a>.
+  The computing process iterates through the per-label binary confusion matrices and
+  calculates the sums of per-label "#TruePositives" and per-label "Support", respectively.
+  The "Support" sum is stored in this row's "Total" field and "#TruePositives" sum in the "#TruePositives" field.
+  This metric is then the ratio of the "#TruePositives" sum over "Total."
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      1
+      </td>
+      <td>
+      <b>Micro-First-Quartile</b>
+      </td>
+      <td>
+      
+  Average (or mean) is not a <a href="https://en.wikipedia.org/wiki/Robust_statistics">robust statistics</a> that
+  average can be easily influenced by outliers. Therefore, we also compute robust quantile-based metrics in this report.
+  For every metric in this row, e.g., precision, the computing process collects the per-label precision
+  metrics from the per-label binary confusion matrices, sorts them, and then expands each per-label precision by the
+  number of label supports. It then finds the first quartile of the metric from the series of metrics.
+  These first-quartiles are the metrics' lower bound
+  for the top 75% test instances.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      2
+      </td>
+      <td>
+      <b>Micro-Median</b>
+      </td>
+      <td>
+      
+  Similar to the previous row, but metrics in this row focuses on median, another robust statistic.
+  These medians are the metrics' lower bound
+  for the top 50% test instances.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      3
+      </td>
+      <td>
+      Micro-Third-Quartile
+      </td>
+      <td>
+      
+  Similar to the previous row, but metrics in this row focuses on the third quartile.
+  These third-quartiles are the metrics' lower bound
+  for the top 25% test instances.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      4
+      </td>
+      <td>
+      <b>Macro-First-Quartile</b>
+      </td>
+      <td>
+      
+  Above three quantile metrics are micro, i.e., they are calcuated on the test instance level.
+  Macro quantile metrics are calculated per label.
+  The first quartiles are the metrics' lower bound
+  for the top 75% test labels.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      5
+      </td>
+      <td>
+      <b>Macro-Median</b>
+      </td>
+      <td>
+      
+  Similar to the previous row, but metrics in this row focuses on median.
+  These medians are the metrics' lower bound
+  for the top 50% test labels.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      6
+      </td>
+      <td>
+      Macro-Third-Quartile
+      </td>
+      <td>
+      
+  Similar to the previous row, but metrics in this row focuses on the third quartile.
+  These third-quartiles are the metrics' lower bound
+  for the top 25% test labels.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      7
+      </td>
+      <td>
+      <b>Summation Micro-Average</b>
+      </td>
+      <td>
+      
+  The metrics in this row are a little bit different from those of <b>Micro-Average</b>.
+  The computng process first sums up per-label "#TruePositives", "#FalsePositives", "#TrueNegatives", and "#FalseNegatives"
+  metrics, respectively, then constructs a binary confusion matrix, and calculates the other metrics, such as
+  Precision, Recall, F1, Accuracy, etc.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      8
+      </td>
+      <td>
+      <b>Macro-Average</b>
+      </td>
+      <td>
+      
+  This metric follows the macro-average metric defined in
+  <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">Scikit-Learn Classification Report</a>.
+  The computing process calcuates simple arithmetic means of the per-label Precision, Recall, F1, and Accuracy
+  metrics, repectively.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      9
+      </td>
+      <td>
+      Summation Macro-Average
+      </td>
+      <td>
+      
+  The calculating process for the metrics in this row is a little bit different from <b>Macro-Average</b>.
+  It first calculates the averages of per-label "#TruePositives", "#FalsePositives", "#TrueNegatives", and "#FalseNegatives"
+  metrics, respectively, then constructs a binary confusion matrix, and calculates the other metrics, such as
+  Precision, Recall, F1, Accuracy, etc.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      10
+      </td>
+      <td>
+      Positive-Support Macro-Average
+      </td>
+      <td>
+      
+  The metrics in this row are similar to those of <b>Macro-Average</b>.
+  However, instead of averaging over all train-set labels, metrics in this rows are the averages of test-set labels,
+  i.e., labels with a positive support in the test set.
+  Even though one might expect every label (in the train set) should have some test instances, but
+  sometimes a test set might not have test instances for some train set labels.
+  "Positive-support" metrics put an focus on test-set labels.
+  A test set might even contain instances whose labels are not in the train set. Those labels are renamed UNKNOWN for
+  evaluation purpose.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      11
+      </td>
+      <td>
+      Positive-Support Summation Macro-Average
+      </td>
+      <td>
+      
+  The metrics in this row are similar to those of Summation Macro-Average, but forcus on
+  labels with test instances.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      12
+      </td>
+      <td>
+      Weighted Macro-Average
+      </td>
+      <td>
+      
+  This metric follows the weighted-average metric defined in
+  <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">Scikit-Learn Classification Report</a>.
+  The computing process calcuates support/prevalency-weighted means of the per-label Precision, Recall, F1, and Accuracy
+  metrics, repectively.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      13
+      </td>
+      <td>
+      Weighted Summation Macro-Average
+      </td>
+      <td>
+      
+  The calculating process for the metrics in this row is a little bit different from 
+  This metric follows the weighted-average metric defined in
+  <a href="https://scikit-learn.org/stable/modules/generated/sklearn.metrics.classification_report.html">Scikit-Learn Classification Report</a>.
+  The computing process calcuates support/prevalency-weighted means of the per-label Precision, Recall, F1, and Accuracy
+  metrics, repectively.
+  .
+  It first calculates the weighted averages of per-label "#TruePositives", "#FalsePositives", "#TrueNegatives", and "#FalseNegatives"
+  metrics, respectively, then constructs a binary confusion matrix, and calculates the other metrics, such as
+  Precision, Recall, F1, Accuracy, etc.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      14
+      </td>
+      <td>
+      <b>Multi-Label Exact Aggregate</b>
+      </td>
+      <td>
+      
+  This evaluation package supports multi-label instances and predictions.
+  In another word, a test instance can be labeled and predicted with more than
+  one labels. The above metrics so far are calculated "per label," i.e., an instance can contribute to
+  multiple positive predictions on different labels, thus the above metrics can encourage a model to predict more than one labels per test instances
+  that may achieve better evaluation results.
+  To counter such a behavior, metrics in this row are "per instance," i.e., an instance can only contribute to one positive prediction. 
+  The calcuating process does not rely on the per-label binary confusion matrices, but
+  build just one binary confusion matrix in which a true positive prediction is an exact match between the prediction
+  and the ground-truth label sets, otherwise it's a false positive. By the way, there is no negative prediction, so false-nagative
+  and true-negative are both 0.
+  
+      </td>
+    </tr>
+    <tr>
+      <td>
+      15
+      </td>
+      <td>
+      <b>Multi-Label Subset Aggregate</b>
+      </td>
+      <td>
+      
+  Similar to the previous row, but the metric computing process is less strict. A prediction can be a true positive
+  as long as the predicted label set is a subset of the ground-truth set.
+  This subset rule makes sense as an action taking on a prediction can respond to one of the
+  correctly predicted labels and the action is still proper.
+  Of course, this subset rule can discourage a model from predicting more than one labels (one is the safest strategy),
+  even though a test instance might be labeled with a large ground-truth label set.
+  
+      </td>
+    </tr>
+  </table>
+                </p>
+                <!--
+                <p>
+                    {CROSS_ENTROPY}
+                </p>
+                -->
+            </div>
+            <!--
+            <div class="tab-pane" id="modelevaluationtopposition" role="tabpanel" aria-labelledby="modelevaluationtopposition-tab">
+                <p>Overall top-position multi-class confusion matrix evaluation metrics</p>
+                <p>
+                    {MODELEVALUATIONTopPositionMetrics}
+                </p>
+                <p>
+                    {MODELEVALUATIONTopPositionPerClassMetrics}
+                </p>
+            </div>
+            -->
+        </div>
+        <br /><br />
+    </div>
+    <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-2.2.0.min.js"></script>
+    <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"></script>
+</body>
+</html>
