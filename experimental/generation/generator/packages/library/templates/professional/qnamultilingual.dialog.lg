@@ -1,0 +1,13 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${prefix}.qna.dialog
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.MultiLanguageRecognizer",
+    "recognizers": ${concat('{', join(foreach(locales, locale, `"${locale}": "${prefix}.${locale}.qna"`), ','), `, "": "${prefix}.${locale}.qna"`, '}')}
+}```
+
