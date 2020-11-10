@@ -179,9 +179,9 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
-            let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
+            let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
+            let dialog = await fs.readFile(ppath.join(output, 'dialogs/bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
             assert.fail(e.message)
@@ -208,7 +208,7 @@ describe('dialog:generate library', async () => {
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
-                    const templates = Templates.parseFile(`${output}/en-us/unittest_${name}.en-us.lg`)
+                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${name}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
                         let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
@@ -228,9 +228,8 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await luFile.getLuObjects(undefined, `${output}/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${name}.en-us.lu`, true, '.lu')
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
-                    debugger
                     result.validate()
                 } catch (e) {
                     assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)

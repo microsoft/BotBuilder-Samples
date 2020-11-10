@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 export * from './dialogGenerator'
-import * as s from './schema'
 import * as crypto from 'crypto'
 import * as expressions from 'adaptive-expressions'
 import * as fs from 'fs-extra'
@@ -13,8 +12,9 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import {SubstitutionsEvaluator} from './substitutions'
 import * as ps from './processSchemas'
+import * as s from './schema'
+import {SubstitutionsEvaluator} from './substitutions'
 
 export enum FeedbackType {
     message,
@@ -172,6 +172,26 @@ function getExpressionEngine(): expressions.ExpressionParser {
 // Generator template used in expanding schema
 let generatorTemplate: lg.Templates
 
+/**
+ * Return directory to put asset in as driven by generator template.
+ * @param extension File extension like .lg or .lu
+ * @returns Directory where extension should be located.
+ */
+export function assetDirectory(extension: string): string {
+    let dir = ''
+    switch (extension) {
+        case '.dialog': dir = 'dialogDir'
+            break
+        case '.lg': dir = 'generationDir'
+            break
+        case '.lu': dir = 'understandingDir'
+            break
+        case '.qna': dir = 'knowledgeDir'
+            break
+    }
+    return dir ? generatorTemplate.evaluate(dir, {}) : ''
+}
+
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
 // and returns false to continue, true to stop going deeper.
@@ -308,20 +328,9 @@ async function processTemplate(
                             throw new Error(`${templateName}: ${e.message}`)
                         }
                     } else {
-                        // Infer name using generator.lg directories as roots
-                        const ext = ppath.extname(filename)
-                        let dir = ''
-                        switch (ext) {
-                            case '.dialog': dir = 'dialogDir'
-                                break
-                            case '.lg': dir = 'generationDir'
-                                break
-                            case '.lu': dir = 'understandingDir'
-                                break
-                            case '.qna': dir = 'knowledgeDir'
-                                break
-                        }
-                        filename = `${generatorTemplate.evaluate(dir, scope)}${scope.locale ? scope.locale + '/' : ''}${scope.property ?? 'form'}/${ppath.basename(filename)}`
+                        // Infer name
+                        const locale = filename.includes(scope.locale) ? `${scope.locale}/` : ''
+                        filename = `${assetDirectory(ppath.extname(filename))}${locale}${scope.property ?? 'form'}/${ppath.basename(filename)}`
                     }
 
                     // Add prefix to constant imports
@@ -663,7 +672,6 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
     }
 }
 
-
 const templatePrefix: string = 'template:'
 
 function resolveDir(dirs: string[]): string[] {
@@ -674,8 +682,8 @@ function resolveDir(dirs: string[]): string[] {
             expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
         } else {
             dir = ppath.resolve(dir)
+            expanded.push(normalize(dir))
         }
-        expanded.push(normalize(dir))
     }
     return expanded
 }
