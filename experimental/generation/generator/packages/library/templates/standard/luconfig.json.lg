@@ -1,3 +1,5 @@
+[generator.lg](../generator.lg)
+
 # filename
 - luconfig.json
 
@@ -7,7 +9,7 @@
     "botName": "${prefix}",
     "deleteOldVersion": true, 
     "out": "generated",
-    "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.lu"`), ', ')}],
+    "models": [${join(foreach(locales, locale, `"${understandingDir()}${locale}/${prefix}.${locale}.lu"`), ', ')}],
     "schema": "${appSchema}"
 }
 ```

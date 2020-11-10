@@ -15,13 +15,13 @@
 - language-understanding/
 
 # knowledgeDir()
-- knowledge-base
+- knowledge-base/
 
 # recognizerDir()
-- recognizers
+- recognizers/
 
 # dialogDir()
-- dialogs
+- dialogs/
 
 >> Filenames and Paths
 
@@ -35,31 +35,31 @@
 - ${understandingDir()}${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
 
 # missingFilename()
-- ${property}/${prefix}-${property}-missing.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-missing.dialog
 
 # helpFilename()
-- ${property}/${prefix}-${property}-help.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-help.dialog
 
 # builtinEntityFilename(entity)
 - ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
 # addFilename(entity)
-- ${property}/${prefix}-${property}-add-${entity}.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-add-${entity}.dialog
 
 # removeFilename(entity)
-- ${property}/${prefix}-${property}-remove-${entity}.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-remove-${entity}.dialog
 
 # clearFilename()
-- ${property}/${prefix}-${property}-clear.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-clear.dialog
 
 # showFilename()
-- ${property}/${prefix}-${property}-show.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-show.dialog
 
 # changeFilename()
-- ${property}/${prefix}-${property}-change.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-change.dialog
 
 # chooseEntityFilename()
-- ${property}/${prefix}-${property}Entity-choose.dialog
+- ${dialogDir()}${property}/${prefix}-${property}Entity-choose.dialog
 
 # formDialogFilename(name)
 - ${dialogDir()}form/${prefix}-form-${name}
@@ -68,7 +68,7 @@
 - [${prefix}-${name}](../form/${prefix}-${name})
 
 # localePath(path)
-- ${substring(path, max(indexOf(path, '\\'), indexOf(path, '/')) + 1)}
+- ${join(subArray(split(path, '/'), count(split(path, '/')) - 2, count(split(path, '/'))), '/')}
 
 > This is useful when importing another .lg file in order to add prefix/locale
 # importLG(name)

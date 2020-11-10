@@ -301,12 +301,27 @@ async function processTemplate(
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
                     let filename = addPrefix(scope.prefix, templateName)
-                    if (lgTemplate) {
+                    if (lgTemplate?.allTemplates.some(t => t.name === 'filename')) {
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
                             throw new Error(`${templateName}: ${e.message}`)
                         }
+                    } else {
+                        // Infer name using generator.lg directories as roots
+                        const ext = ppath.extname(filename)
+                        let dir = ''
+                        switch (ext) {
+                            case '.dialog': dir = 'dialogDir'
+                                break
+                            case '.lg': dir = 'generationDir'
+                                break
+                            case '.lu': dir = 'understandingDir'
+                                break
+                            case '.qna': dir = 'knowledgeDir'
+                                break
+                        }
+                        filename = `${generatorTemplate.evaluate(dir, scope)}${scope.locale ? scope.locale + '/' : ''}${scope.property ?? 'form'}/${ppath.basename(filename)}`
                     }
 
                     // Add prefix to constant imports
