@@ -22,4 +22,4 @@ ${valueTemplate()}
 # validationTemplate
 - ```> Value for '${property}' must be a time
 ${'#'} ${property}_invalidTime(val)
-- \${value(val)} is not a time```
+- \${${property}_Value(val)} is not a time```

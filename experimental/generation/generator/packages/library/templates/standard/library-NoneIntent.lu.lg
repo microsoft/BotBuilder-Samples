@@ -1,4 +1,0 @@
-[generator.lg](../generator.lg)
-
-# templates
-- ${libraryTemplates('NoneIntent', '.lu')}

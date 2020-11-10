@@ -1,0 +1,39 @@
+[form.en-us.lg]
+
+# propertiesAsActivity(name, properties)
+[Activity
+    Attachments=${json(propertiesAsCard(name, properties))}
+]
+
+>>> To generate text instead of card, use this
+# propertiesAsText
+- ${join(foreach($requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
+
+# getPropertyValueDescriptionText(property)
+- The value of ${propertyName(property)} is ${propertyValue(property, dialog[property])}.
+
+# propertiesAsCard(name, properties)
+-```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${name}",
+            "size": "large"
+        },
+        {
+            "type": "FactSet",
+            "facts": [${propertiesAsFacts(properties)}]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```
+
+# propertiesAsFacts(properties)
+- ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
+
+# getPropertyAsFact(property)
+- {"title": "${propertyName(property)}", "value": "${propertyValue(property, dialog[property])}"}

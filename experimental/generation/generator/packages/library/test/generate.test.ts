@@ -11,9 +11,16 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
-import { generateTest } from '../src/testGenerator'
+import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
+import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
+import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
+import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
+import {ComponentRegistration} from 'botbuilder-core'
+import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
+import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
+import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -63,10 +70,48 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
 
 describe('dialog:generate library', async () => {
     let output = tempDir
-    let schemaPath = 'test/forms/sandwich.schema'
-    let badSchema = 'test/forms/bad-schema.schema'
-    let notObject = 'test/forms/not-object.schema'
+    let schemaPath = 'test/forms/sandwich.form'
+    let unitTestSchemaPath = 'test/forms/unittest_'
+    let badSchema = 'test/forms/bad-schema.form'
+    let notObject = 'test/forms/not-object.form'
     let override = 'test/templates/override'
+    let unittestSchemaNames = [
+        'age_with_units',
+        'age',
+        'array_enum',
+        'array_personName',
+        'boolean',
+        'date-time',
+        'date',
+        'datetime',
+        'dimension_with_units',
+        'dimension',
+        'email',
+        'enum',
+        'geography',
+        'integer_with_limits',
+        'integer',
+        'iri',
+        'keyPhrase_with_pattern',
+        'keyPhrase_with_ref',
+        'keyPhrase',
+        'money_with_units',
+        'money',
+        'number_with_limits',
+        'number',
+        'ordinal',
+        'percentage_with_ref',
+        'percentage',
+        'personName_with_pattern',
+        'personName_with_ref',
+        'personName',
+        'phonenumber_with_ref',
+        'phonenumber',
+        'temperature_with_units',
+        'temperature',
+        'time',
+        'uri'
+    ]
 
     beforeEach(async () => {
         await fs.remove(output)
@@ -114,7 +159,7 @@ describe('dialog:generate library', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = { $comment: 'this is a .dialog file' }
+        let dialog = {$comment: 'this is a .dialog file'}
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -153,6 +198,59 @@ describe('dialog:generate library', async () => {
             assert.fail(e.message)
         }
     })
+
+    for (let i = 0; i < unittestSchemaNames.length; i++) {
+        const name = unittestSchemaNames[i]
+        const description = `Unit test ${name}`
+        it(description, async () => {
+            console.log(`\n\n${description}`)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            if (success) {
+                try {
+                    console.log(`LG Testing schema ${name}`)
+                    const templates = Templates.parseFile(`${output}/en-us/unittest_${name}.en-us.lg`)
+                    const allDiagnostics = templates.allDiagnostics
+                    if (allDiagnostics) {
+                        let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
+                        if (errors && errors.length > 0) {
+                            let errorList: string[] = []
+                            for (let j = 0; j < allDiagnostics.length; j++) {
+                                errorList.push(allDiagnostics[j].message)
+                            }
+                            let errorString: string = errorList.join(' ')
+                            throw new Error(errorString)
+                        }
+                    }
+                } catch (e) {
+                    assert.fail(e.message)
+                }
+
+                try {
+                    console.log(`LU Testing schema ${name}`)
+                    let result: any
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
+                    debugger
+                    result.validate()
+                } catch (e) {
+                    assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)
+                }
+
+                try {
+                    console.log(`Dialog Testing schema ${name}`)
+                    ComponentRegistration.add(new AdaptiveComponentRegistration())
+                    ComponentRegistration.add(new LuisComponentRegistration())
+                    ComponentRegistration.add(new QnAMakerComponentRegistration())
+                    const resourceExplorer = new ResourceExplorer()
+                    resourceExplorer.addFolder(`${output}`, true, false)
+                    const script = resourceExplorer.loadType(`unittest_${name}.dialog`)
+                } catch (e) {
+                    assert.fail(e.message)
+                }
+            }
+            await fs.remove(output)
+        })
+    }
 
     it('Not object type', async () => {
         try {
@@ -208,7 +306,7 @@ describe('dialog:generate library', async () => {
     it('Expand $ref property definition', async () => {
         try {
             let schema = {
-                $ref: "template:dimension.schema"
+                $ref: 'template:dimension.schema'
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')

@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Name": {
+            "type": "string",
+            "$entities": [
+                "personName"
+            ],
+            "pattern" : "^[a-z]{1,3}$"
+        }
+    },
+    "required": [
+        "Name"
+    ]
+}

@@ -5,7 +5,7 @@
 
 # template
 - ```
-${libraryImport('library.en-us.lg')}
+${formImport('form.en-us.lg')}
 ${importLG(`${property}Entity`)}
 ${promptTemplates(missingEnum(), changeEnum())}
 ${confirmationTemplates(expectedSetDefault(), 

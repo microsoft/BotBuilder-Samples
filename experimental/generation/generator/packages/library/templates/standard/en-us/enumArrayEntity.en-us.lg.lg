@@ -5,11 +5,10 @@
 
 # template
 - ```
-${importLG('library')}
-${importLG('library-Choose')}
+${formImport('form.en-us.lg')}
+${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
 ${chooseEntity()}
-
 ```
 
 # chooseEntity
