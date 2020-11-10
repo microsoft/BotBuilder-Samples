@@ -81,8 +81,8 @@ function changedMessage(fileName: string, feedback: Feedback) {
  * @param dir Root dir.
  * @param fileList List of file paths.
  */
-async function getFiles(dir: string, fileList: string[]) {
-    fileList = fileList || []
+async function getFiles(dir: string, fileList?: string[]): Promise<string[]> {
+    fileList = fileList ?? []
     let files = await fs.readdir(dir)
     for (let file of files) {
         let name = dir + '/' + file
@@ -150,10 +150,8 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
             await fs.ensureDir(ppath.join(mergedPath, locale))
             feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
 
-            let oldFileList = []
-            await getFiles(oldPath, oldFileList)
-            let newFileList = []
-            await getFiles(newPath, newFileList)
+            let oldFileList = await getFiles(oldPath)
+            let newFileList = await getFiles(newPath)
 
             const {oldPropertySet, newPropertySet} = await parseSchemas(schemaName, oldPath, newPath, newFileList, mergedPath, feedback)
 
