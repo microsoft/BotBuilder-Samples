@@ -1,9 +1,9 @@
 
 # School skill navigator bot
 
-This example shows from end-to-end how to use bf orchestrator commandlets to improve the quality of a training set ( in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)), and how to use [Composer](https://docs.microsoft.com/en-us/composer/introduction) to build a bot from examples in in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0). 
+This example shows from end-to-end how to use bf orchestrator commandlets to improve the quality of a training set ( in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)), and how to use [Composer](https://docs.microsoft.com/en-us/composer/introduction) to build a bot from examples in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0). 
 
-This example can be split into two parts: [the first part](#part-1:-evaluate-and-improve-the-quality-of-the-training-set) takes a training set (in in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)) and a test set (in in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)) as input, and the output is a revised training set that performs more accurately. You can skip this part if you don't have a test set. The [second part](#part-2:-use-composer-to-build-a-bot-from-a-training-file) takes a training set in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0) (either the original file, or the revised one from Part 1) as input, and outputs a bot by using [Composer](https://docs.microsoft.com/en-us/composer/introduction).
+This example can be split into two parts: [the first part](#part-1:-evaluate-and-improve-the-quality-of-the-training-set) takes a training set (in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)) and a test set (in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0)) as input, and the output is a revised training set that performs more accurately. You can skip this part if you don't have a test set. The [second part](#part-2:-use-composer-to-build-a-bot-from-a-training-file) takes a training set in [.lu format](https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0) (either the original file, or the revised one from Part 1) as input, and outputs a bot by using [Composer](https://docs.microsoft.com/en-us/composer/introduction).
 
 ## Prerequisites
 
@@ -87,7 +87,7 @@ Accuracy 0.8954 is high but not perfect yet. To improve the quality of the train
 
 Next we are going to use the first two mis-classified query utterances to show how to improve the training set.
 
-- The first utterance "where are the tennis courts" should be labeled as Sports, but is mis-labeled as StudentServices. Closest Example shows the closest evidence example from that category, and Score shows the similarity between the query utterance and Closest Example. Taking a closer look into the examples, "where are the Recreation facilities" and "where's the gym" are essentially referring to the same thing, but separated into different labels, which eventually confuses the model. To clarify the concepts, we could **manually relabel the utterance "where are the Recreation facilities" by moving it  from # StudentServices to # Sports in schoolnavigatorbot.train.lu.** 
+- The first utterance "where are the tennis courts" should be labeled as Sports, but is mis-labeled as StudentServices. Closest Example shows the closest evidence example from that category, and Score shows the similarity between the query utterance and Closest Example. Taking a closer look into the examples, "where are the Recreation facilities" and "where's the gym" are essentially referring to the same thing, but separated into different labels, which eventually confused the model. To clarify the concepts, we could **manually relabel the utterance "where are the Recreation facilities" by moving it  from # StudentServices to # Sports in schoolnavigatorbot.train.lu.** 
 
 - The second utterance "where is the Healthcare Management school" should be labeled as Academics, but is mis-labeled as StudentServices. To correct the query prediction, we could **manually add it ("where is the Healthcare Management school") to # Academics in schoolnavigatorbot.train.lu.**
 
@@ -98,8 +98,8 @@ Next we are going to use the first two mis-classified query utterances to show h
   > bf orchestrator:test -m model -i schoolnavigatorbot.train.blu -t schoolnavigatorbot.test.lu -o report
   ```
 
-- Open **report/orchestrator_testing_set_summary.html** again, and check the **Micro-Average** under **Metrics** page, the accuracy has improved from 0.8953 to 0.9085, and the two query utterances are no longer in misclassified page.
-- Advanced users could also use bf orchestrator:interactive to interactively add/change/remove example utterances to improve the training set. Further information please refer to [bf orchestrator interactive](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorInteractive.md). 
+- Open **report/orchestrator_testing_set_summary.html** again, and check the **Micro-Average** under **Metrics** page, the accuracy has improved from 0.8953 to 0.9085, and the two query utterances no longer show up in misclassified page.
+- Advanced users could also use bf orchestrator:interactive to interactively add/change/remove example utterances to improve the training set. Further information please refer to [bf orchestrator interactive](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorInteractive.md#start-an-interactive-session-with-a-training-set). 
 
 
 
