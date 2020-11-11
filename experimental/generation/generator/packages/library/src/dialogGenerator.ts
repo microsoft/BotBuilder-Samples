@@ -105,6 +105,23 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
+// Get hashcode of the file
+export async function getHashCode(path: string): Promise<string> {
+    let oldHash
+    let ext = ppath.extname(path)
+    let file = await fs.readFile(path, 'utf8')
+    if (CommentHashExtensions.includes(ext)) {
+        let match = file.match(GeneratorPattern)
+        if (match) {
+            oldHash = match[1]
+        }
+    } else if (JSONHashExtensions.includes(ext)) {
+        let json = JSON.parse(file)
+        oldHash = json.$Generator
+    }
+    return oldHash
+}
+
 // Write file with error checking and hash code generation.
 export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
