@@ -1,74 +1,125 @@
 # Bot Framework Adaptive Tool
-Bot Framework Adaptive Tool is a Visual Studio Code extension that helps developers handle LG (.lg), LU (.lu) files and Dialog (.dialog) files efficiently.
 
-The support includes:
+Bot Framework Adaptive Tool is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), and dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
+
+Supported features include the following:
+<!--
 - LG/LU syntax highlighting
 - LG/LU diagnostic checks
-- LG/LU completion
+- LG/LU autocompletion
 - LG template and function hover
 - LG template definition
 - LG template, function, and structure suggestions
 - Dialog (.dialog) debugging
 - LG debugging
+-->
 
-# Quick Start
-## Install from the marketplace
-1. Install the [adaptive-tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [Visual Studio Code marketplace](https://marketplace.visualstudio.com/vscode).
-1. Open an LG (.lg) or LU (.lu) file and the adaptive-tool extension will activate.
+| Feature                                       | File type supported |
+|-----------------------------------------------|---------------------|
+| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU              |
+| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU              |
+| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU              |
+| [Template and function hover](#hover-suggestions-and-navigation)                   | LG                  |
+| [Template definition](#hover-suggestions-and-navigation)                           | LG                  |
+| [Template, function, and structure suggestions](#hover-suggestions-and-navigation) | LG                  |
+| [Debugging](#debugging)                                     | LG, LU, Dialog      |
 
-## Install From Local VSIX File
-1. [Build VSIX from code.](#buildPackage)
-1. Open Visual Studio Vode and navigate to the **Extensions**.
-1. Click the three dots in the top right corner of the Extensions. Then click **Install from VSIX...** and select the VSIX file you created in the first step.
+## Getting started
 
-# Features
+Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
 
-## Language Features
-Language features are driven by the [language server protocol](./languageServer.md)
+### Install from the Visual Studio Marketplace
 
-### Syntax highlighting, diagnostic check, auto-suggest, functionality
+1. Install the [Bot Framework Adaptive Tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
+1. Open an LG, LU, or dialog file and the extension will activate.
+
+### Install from a local VSIX file
+
+1. Clone the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
+1. In a terminal or command prompt, navigate to the directory containing the Adaptive Tool, **experimental/adaptive-tool**, and run the following commands:
+
+    ```cmd
+    npm install
+    ```
+    
+    ```cmd
+    npm run build
+    ```
+    
+  1. Run the command below to install [vsce](https://www.npmjs.com/package/vsce):
+  
+      ```cmd
+      npm install -g vsce
+      ```
+    
+1. Finally, run the following command to export the VSIX file:
+
+    ```cmd
+    vsce package
+    ```
+    
+    You're now ready to install Adaptive Tool.
+1. Open VS Code and open the **Extensions** view.
+1. Click the **Views and More Actions** button (...) in the upper-right corner of the Extensions panel. Then click **Install from VSIX..** and select the VSIX file you created earlier.
+1. Open an LG, LU, or dialog file and the extension will activate.
+
+## Language features
+
+Language features are driven by the [language server protocol](./languageServer.md). See the [Language Server Extension Guide](https://code.visualstudio.com/api/language-extensions/language-server-extension-guide) for more information.
+
+### Syntax highlighting, diagnostic checks, and autocompletion
 
 #### LU
-- Different colors and styles for `intent`, `entity`, and `comment` components in LU files
+
+Different colors and styles for intent, entity, and comment components:
 ![lu_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_syntax_highlighting.png)
 
-- Formatting warnings and errors
+Formatting warnings and errors:
 ![lu_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_diagnostic.png)
 
-- Automatic completion of some entities
+Automatic completion of some entities:
 ![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_completion.gif)
 
 #### LG
-- Different colors and styles for `template`, `function`, `multi line`, `structure`, `comment`, `condition`, and `switch` components in LG files.
+
+Different colors and styles for template, function, multiline, structure, comment, condition, and switch components:
 ![lg_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_syntax_highlighting.png)
 
-- Formatting warnings and errors
+Formatting warnings and errors:
 ![lg_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lg_diagnostic.gif)
 
-- Template reference hover
+### Hover, suggestions, and navigation
+
+#### LG
+
+Template reference hover:
 ![template_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/template_hover.png)
 
-- Built-in function hover
+Prebuilt function hover:
 ![function_hover](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/function_hover.png)
 
-- Suggestions for templates and functions
+Suggestions for templates and functions:
 ![function_template_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/function_template_suggestion.gif)
 
-- Structure property suggestions
+Structure property suggestions:
 ![structure_suggestion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/structure_suggestion.gif)
 
-- Template navigation 
+Template navigation:
+
 ![template_definition](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/template_definition.gif)
 
 ## Debugging
-Adaptive Tool lets developers debug .dialog and LG files in runtime.
+
+Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
 
 ### Configuration
-- Install the adaptive-tool extension.
-- Open the LG or .dialog file  to debug.
+
+- [Install](#getting-started) the Adaptive Tool extension.
+- Open the LG, LU ,or dialog file to debug.
 - To configure Visual Studio Code, add a target in your `launch.settings` file.
 
-This is an example of a typical `launch.json`:
+Here's an example of a typical `launch.json`:
+
 ```json
 {
     "type": "json",
@@ -78,38 +129,35 @@ This is an example of a typical `launch.json`:
 }
 ```
 
-`debugServer` refers to the port bot runs on.
+`debugServer` refers to the port bot runs on. The default value is `4712`.
 
-### Start bot runtime and complete initialization
+### Start your bot and complete initialization
 
-Start a bot runtime. For example, start a bot project: `todobot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/hond/debugger/tests/Microsoft.Bot.Builder.TestBot.Json). Then make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with `UseDebugger` method.
+1. Start a bot. For this example we'll start the bot project `TodoBot` in [SampleBots](https://github.com/microsoft/botbuilder-dotnet/tree/main/tests/Microsoft.Bot.Builder.TestBot.Json).
+1. Make sure the debugger port has been registered in `BotFrameworkHttpAdapter` with the `UseDebugger` method.
+1. There are several ways to initialize a bot, and the [BotFramework Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the Emulator and attach it to the bot to finish the initialization.
 
-There are several ways to initialize a bot, and [BotFremawork Emulator](https://github.com/microsoft/BotFramework-Emulator) is a typical approach. Open the emulator and attach it to the bot to finish the initialization.
+### Debug your bot
 
-### Debug the runtime
-- Run the Visual Studio Code program by clicking **F5** and setting break points in the .dialog or LG file.
-- Chat with the bot in the emulator.
-- The cursor will stop when the code hits any of corresponding breakpoints.
+1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, and dialog files.
+1. Chat with the bot in the Emulator.
+1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
-# Adaptive-tool Settings
-|Name|Description|
+![breakpoints](../adaptive-tool/resources/images/breakpoints.gif)
+
+## Adaptive Tool settings
+
+Settings for LG files can be found under **LG** in the Extensions settings.
+
+|Setting name|Description|
 |-----|---------------|
-|`LG.Expression.ignoreUnknownFunction`|Configure Diagnostics: Show the diagnostic severity level of unknown functions in a LG file<br/><br/>`error` - treat unknown functions as error diagnostic<br />`warn` - treat unknown functions as warning diagnostic<br/>`ignore` - ignore unknown functions|
-|`LG.Expression.customFunctionList`|Customized function list, should be separated by comma (example: a, b, c)|
+|`LG.Expression.ignoreUnknownFunction`|Set the severity diagnostic level for unknown functions in a LG file.<br><br>The levels include:<br/>`error`: treat unknown functions as an error<br>`warn`: treat unknown functions as a warning<br>`ignore`: ignore unknown functions|
+|`LG.Expression.customFunctionList`| Create a comma-separated customized function list (example: a, b, c). You can use both custom functions added in your logic as well as functions added to the `customFunctionList` setting.|
 
-
-<a name="buildPackage"></a>
-
-# Build Extension Package
-- `npm install`.
-- `npm run build`.
-- `npm install -g vsce`, if `vsce` is not installed globally.
-- Run `vsce package` to export VSIX files.
-
-# Contributing
+## Contributing
 
 Code contributions are welcome via the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
 
-# Feedback
+## Feedback
 
-- File a bug in [GitHub Issues](https://github.com/Microsoft/BotBuilder-Samples/issues).
+File bugs in [GitHub Issues](https://github.com/Microsoft/BotBuilder-Samples/issues).

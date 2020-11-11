@@ -4,25 +4,4 @@
 - ${addFilename('money')}
 
 # template
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "money",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @money)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@money"          
-        }
-    ]               
-    ${designerOpEntity('Add', 'money')}     
-}
-```
-
+- ${addDialog('money')}

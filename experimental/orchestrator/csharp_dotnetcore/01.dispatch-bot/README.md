@@ -4,7 +4,7 @@ Bot Framework v4 NLP with Orchestrator bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
 
-Use the Orchestrator Dispatch model in cases when:
+Use the Orchestrator dispatch model in cases when:
 
 - Your bot consists of multiple language modules (LUIS + QnA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
 - Create a text classification model from text files.
@@ -17,9 +17,10 @@ This bot uses Orchestrator to route user utterances to multiple LUIS models and 
 
 This sample **requires** prerequisites in order to run.
 - Bot project must target x64 platform
-- Install latest supported version of [Visual C++](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
+- Install latest supported version of [Visual C++ Redistributable](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Install latest [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator/releases)
 - [.NET Core SDK](https://aka.ms/dotnet-core-applaunch?framework=Microsoft.AspNetCore.App&framework_version=3.1.0&arch=x64&rid=win10-x64) version 3.1
+  
   ```bash
   > dotnet --version
   ```
@@ -32,6 +33,11 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf plugins:install @microsoft/bf-orchestrator-cli@beta
     ```
+      If you have previously installed bf orchestrator plugin, uninstall that version and then run the install command again.
+      Uninstall command:
+    ```bash
+    > bf plugins:uninstall @microsoft/bf-orchestrator-cli
+    ```
     - Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
     > bf orchestrator
@@ -43,39 +49,48 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+    
 - CD experimental/orchestrator/csharp_dotnetcore/01.dispatch-bot
     ```bash
     > cd experimental/orchestrator/csharp_dotnetcore/01.dispatch-bot
     ```
-- Configure the LUIS application required for this sample.
+    
+- Configure the LUIS applications (HomeAutomation and Weather) required for this sample.
     - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
     ```bash
     > bf luis:build --in CognitiveModels --authoringKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update application settings in `./appsettings.json`
+    
 - Configure the QnA Maker KB required for this sample.
     - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
     ```bash
     > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update kb information in `./appsettings.json`
-- Configure Orchestrator: Download NLR model
-    - You can view list of available models using this command
-    ```bash
-    > bf orchestrator:nlr:list
-    ```
-    - Download the NLR model
+    
+- Configure Orchestrator to route utterances to LUIS/QnA language services set up above
+    - Download Orchestrator base model
     ```bash
     > mkdir model
-    > bf orchestrator:nlr:get --versionId 1.1.0-pretrained.20200819-12l.microsoft.dte.en.onnx --out ./model --verbose
+    > bf orchestrator:basemodel:get --out ./model
     ```
-    - Build the Orchestrator snapshot
+    - Create the Orchestrator snapshot
     ```bash
     > mkdir generated
     > bf orchestrator:create --hierarchical --in ./CognitiveModels --out ./generated --model ./model
     ```
-    - Update orchestrator modelPath and snapshotPath information in `./appsettings.json`
+    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *QnAMaker* and *Weather* intents/labels.
 
+    - Verify appsettings.json has the following:
+
+       ```
+      "Orchestrator": {
+          "ModelPath": ".\\model",
+          "SnapshotPath": ".\\generated\\orchestrator.blu"
+      }
+       ```
+    
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
     A) From a terminal
 
@@ -99,6 +114,7 @@ This sample **requires** prerequisites in order to run.
 
 ## Further reading
 - [Bot Framework Documentation](https://docs.botframework.com)
+- [BF Orchestrator Command Usage](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorUsage.md)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)

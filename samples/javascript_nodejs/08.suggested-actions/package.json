@@ -17,7 +17,6 @@
     },
     "dependencies": {
         "botbuilder": "^4.10.3",
-        "botframework-schema": "^4.10.3",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },

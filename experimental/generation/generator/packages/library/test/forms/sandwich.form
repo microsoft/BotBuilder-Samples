@@ -1,0 +1,105 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Quantity": {
+            "type": "number",
+            "minimum": 1,
+            "maximum": 10
+        },
+        "Length": {
+            "$ref": "template:dimension.schema",
+            "$units": "Inch"
+        },
+        "Name": {
+            "type": "string",
+            "$entities": [
+                "personName",
+                "utterance"
+            ]
+        },
+        "Bread": {
+            "type": "string",
+            "enum": [
+                "multiGrainWheat",
+                "rye",
+                "white",
+                "wholeWheat"
+            ]
+        },
+        "Meat": {
+            "type": "string",
+            "enum": [
+                "bacon",
+                "chicken",
+                "ham",
+                "pulled pork",
+                "roast beef",
+                "salami",
+                "turkey",
+                "none"
+            ]
+        },
+        "Cheese": {
+            "type": "string",
+            "enum": [
+                "american",
+                "cheddar",
+                "feta",
+                "gouda",
+                "pepper jack",
+                "provolone",
+                "swiss",
+                "none"
+            ]
+        },
+        "Toppings": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "tomato",
+                    "lettuce",
+                    "pickles",
+                    "greenPeppers",
+                    "redPeppers",
+                    "whiteOnions",
+                    "redOnions"
+                ]
+            }
+        },
+        "Sauces": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "pepper",
+                    "salt",
+                    "yellowMustard",
+                    "dijonMustard",
+                    "mayo",
+                    "vinegar"
+                ]
+            }
+        },
+        "Price": {
+            "$ref": "template:money.schema"
+        }
+    },
+    "required": [
+        "Name",
+        "Bread",
+        "Cheese",
+        "Meat",
+        "Toppings",
+        "Sauces",
+        "Price"
+    ],
+    "$examples": {
+        "personName": [
+            "Bart Simpson",
+            "Thomas Matthews",
+            "Christopher Robin"
+        ]
+    }
+}
