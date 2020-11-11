@@ -26,7 +26,7 @@ import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuild
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
 
 function feedback(type: gen.FeedbackType, msg: string) {
-    if (type !== gen.FeedbackType.debug) {
+    if (true || type !== gen.FeedbackType.debug) {
         console.log(`${type}: ${msg}`)
     }
 }
@@ -175,7 +175,7 @@ describe('dialog:generate library', async () => {
         assert(await gen.isUnchanged(dialogFile))
     })
 
-    xit('Generation with override', async () => {
+    it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
@@ -188,7 +188,7 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    xit('Singleton', async () => {
+    it('Singleton', async () => {
         try {
             console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
