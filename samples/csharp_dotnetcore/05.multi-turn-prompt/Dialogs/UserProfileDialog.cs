@@ -2,207 +2,214 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
-using System.IO;
-using AdaptiveExpressions.Properties;
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
+using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
-using Microsoft.Bot.Builder.Dialogs.Adaptive;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Actions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Generators;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Input;
-using Microsoft.Bot.Builder.Dialogs.Adaptive.Templates;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Bot.Connector;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class UserProfileDialog : AdaptiveDialog
+    public class UserProfileDialog : ComponentDialog
     {
-        private readonly Templates _templates;
+        private readonly IStatePropertyAccessor<UserProfile> _userProfileAccessor;
 
-        public UserProfileDialog() : base(nameof(UserProfileDialog))
+        public UserProfileDialog(UserState userState)
+            : base(nameof(UserProfileDialog))
         {
-            string[] paths = { ".", "Dialogs", $"UserProfileDialog.lg" };
-            var fullPath = Path.Combine(paths);
-            _templates = Templates.ParseFile(fullPath);
+            _userProfileAccessor = userState.CreateProperty<UserProfile>("UserProfile");
 
-            // These steps are executed when this Adaptive Dialog begins
-            Triggers = new List<OnCondition>
+            // This array defines how the Waterfall will execute.
+            var waterfallSteps = new WaterfallStep[]
             {
-                // Add a rule to welcome user
-                new OnConversationUpdateActivity
-                {
-                    Actions = WelcomeUserSteps()
-                },
-                // Respond to user on message activity
-                new OnUnknownIntent
-                {
-                    Actions = GatheUserInformation()
-                },
+                TransportStepAsync,
+                NameStepAsync,
+                NameConfirmStepAsync,
+                AgeStepAsync,
+                PictureStepAsync,
+                ConfirmStepAsync,
+                SummaryStepAsync,
             };
-            Generator = new TemplateEngineLanguageGenerator(_templates);
+
+            // Add named dialogs to the DialogSet. These names are saved in the dialog state.
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), waterfallSteps));
+            AddDialog(new TextPrompt(nameof(TextPrompt)));
+            AddDialog(new NumberPrompt<int>(nameof(NumberPrompt<int>), AgePromptValidatorAsync));
+            AddDialog(new ChoicePrompt(nameof(ChoicePrompt)));
+            AddDialog(new ConfirmPrompt(nameof(ConfirmPrompt)));
+            AddDialog(new AttachmentPrompt(nameof(AttachmentPrompt), PicturePromptValidatorAsync));
+
+            // The initial child Dialog to run.
+            InitialDialogId = nameof(WaterfallDialog);
         }
 
-        private static List<Dialog> WelcomeUserSteps()
+        private static async Task<DialogTurnResult> TransportStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            return new List<Dialog>
-            {
-                // Iterate through membersAdded list and greet user added to the conversation.
-                new Foreach
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+            // Running a prompt here means the next WaterfallStep will be run when the user's response is received.
+            return await stepContext.PromptAsync(nameof(ChoicePrompt),
+                new PromptOptions
                 {
-                    ItemsProperty = "turn.activity.membersAdded",
-                    Actions = new List<Dialog>
+                    Prompt = MessageFactory.Text("Please enter your mode of transport."),
+                    Choices = ChoiceFactory.ToChoices(new List<string> { "Car", "Bus", "Bicycle" }),
+                }, cancellationToken);
+        }
+
+        private static async Task<DialogTurnResult> NameStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            stepContext.Values["transport"] = ((FoundChoice)stepContext.Result).Value;
+
+            return await stepContext.PromptAsync(nameof(TextPrompt), new PromptOptions { Prompt = MessageFactory.Text("Please enter your name.") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> NameConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            stepContext.Values["name"] = (string)stepContext.Result;
+
+            // We can send messages to the user at any point in the WaterfallStep.
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text($"Thanks {stepContext.Result}."), cancellationToken);
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Would you like to give your age?") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> AgeStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if ((bool)stepContext.Result)
+            {
+                // User said "yes" so we will be prompting for the age.
+                // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = MessageFactory.Text("Please enter your age."),
+                    RetryPrompt = MessageFactory.Text("The value entered must be greater than 0 and less than 150."),
+                };
+
+                return await stepContext.PromptAsync(nameof(NumberPrompt<int>), promptOptions, cancellationToken);
+            }
+            else
+            {
+                // User said "no" so we will skip the next step. Give -1 as the age.
+                return await stepContext.NextAsync(-1, cancellationToken);
+            }
+        }
+
+        private static async Task<DialogTurnResult> PictureStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            stepContext.Values["age"] = (int)stepContext.Result;
+
+            var msg = (int)stepContext.Values["age"] == -1 ? "No age given." : $"I have your age as {stepContext.Values["age"]}.";
+
+            // We can send messages to the user at any point in the WaterfallStep.
+            await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
+
+            if (stepContext.Context.Activity.ChannelId == Channels.Msteams)
+            {
+                // This attachment prompt example is not designed to work for Teams attachments, so skip it in this case
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Skipping attachment prompt in Teams channel..."), cancellationToken);
+                return await stepContext.NextAsync(null, cancellationToken);
+            }
+            else
+            {
+                // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+                var promptOptions = new PromptOptions
+                {
+                    Prompt = MessageFactory.Text("Please attach a profile picture (or type any message to skip)."),
+                    RetryPrompt = MessageFactory.Text("The attachment must be a jpeg/png image file."),
+                };
+
+                return await stepContext.PromptAsync(nameof(AttachmentPrompt), promptOptions, cancellationToken);
+            }
+        }
+
+        private async Task<DialogTurnResult> ConfirmStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            stepContext.Values["picture"] = ((IList<Attachment>)stepContext.Result)?.FirstOrDefault();
+
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
+            return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions { Prompt = MessageFactory.Text("Is this ok?") }, cancellationToken);
+        }
+
+        private async Task<DialogTurnResult> SummaryStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
+        {
+            if ((bool)stepContext.Result)
+            {
+                // Get the current profile object from user state.
+                var userProfile = await _userProfileAccessor.GetAsync(stepContext.Context, () => new UserProfile(), cancellationToken);
+
+                userProfile.Transport = (string)stepContext.Values["transport"];
+                userProfile.Name = (string)stepContext.Values["name"];
+                userProfile.Age = (int)stepContext.Values["age"];
+                userProfile.Picture = (Attachment)stepContext.Values["picture"];
+
+                var msg = $"I have your mode of transport as {userProfile.Transport} and your name as {userProfile.Name}";
+
+                if (userProfile.Age != -1)
+                {
+                    msg += $" and your age as {userProfile.Age}";
+                }
+
+                msg += ".";
+
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text(msg), cancellationToken);
+
+                if (userProfile.Picture != null)
+                {
+                    try
                     {
-                        // Note: Some channels send two conversation update events - one for the Bot added to the conversation and another for user.
-                        // Filter cases where the bot itself is the recipient of the message. 
-                        new IfCondition
-                        {
-                            Condition = "$foreach.value.name != turn.activity.recipient.name",
-                            Actions = new List<Dialog>
-                            {
-                                new SendActivity("${WelcomeMessage()}")
-                            }
-                        }
+                        await stepContext.Context.SendActivityAsync(MessageFactory.Attachment(userProfile.Picture, "This is your profile picture."), cancellationToken);
+                    }
+                    catch
+                    {
+                        await stepContext.Context.SendActivityAsync(MessageFactory.Text("A profile picture was saved but could not be displayed here."), cancellationToken);
                     }
                 }
-            };
+            }
+            else
+            {
+                await stepContext.Context.SendActivityAsync(MessageFactory.Text("Thanks. Your profile will not be kept."), cancellationToken);
+            }
 
+            // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
+            return await stepContext.EndDialogAsync(cancellationToken: cancellationToken);
         }
 
-        private Dialog GetTransport()
+        private static Task<bool> AgePromptValidatorAsync(PromptValidatorContext<int> promptContext, CancellationToken cancellationToken)
         {
-            return new ChoiceInput
-            {
-                // Ask for user's transportation and set it in user.userProfile scope.
-                Prompt = new ActivityTemplate("${ModeOfTransportPrompt()}"),
-                Style = ListStyle.Auto,
-                // Inputs will skip the prompt if the property (turn.cardChoice in this case) already has value.
-                // Since we are using RepeatDialog, we will set AlwaysPrompt property so we do not skip this prompt
-                // and end up in an infinite loop.
-                AlwaysPrompt = true,
-                Choices = new ObjectExpression<ChoiceSet>(_templates.Evaluate("TransportChoices") as string),
-                Property = "user.userProfile.Transport"
-            };
+            // This condition is our validation rule. You can also change the value at this point.
+            return Task.FromResult(promptContext.Recognized.Succeeded && promptContext.Recognized.Value > 0 && promptContext.Recognized.Value < 150);
         }
 
-        private Dialog GetAge()
+        private static async Task<bool> PicturePromptValidatorAsync(PromptValidatorContext<IList<Attachment>> promptContext, CancellationToken cancellationToken)
         {
-            return new IfCondition
+            if (promptContext.Recognized.Succeeded)
             {
-                // All conditions are expressed using adaptive expressions.
-                // See https://aka.ms/adaptive-expressions to learn more
-                Condition = "turn.ageConfirmation == true",
-                Actions = new List<Dialog>
-                {
-                    new NumberInput
-                    {
-                        Prompt = new ActivityTemplate("${AskForAge()}"),
-                        Property = "user.userProfile.Age",
-                        // Add validations
-                        Validations = new List<BoolExpression>
-                        {
-                            // Age must be greater than or equal 1
-                            "int(this.value) >= 1",
-                            // Age must be less than 150
-                            "int(this.value) < 150"
-                        },
-                        InvalidPrompt = new ActivityTemplate("${AskForAge.invalid()}"),
-                        UnrecognizedPrompt = new ActivityTemplate("${AskForAge.unRecognized()}")
-                    },
-                    new SendActivity("${UserAgeReadBack()}")
-                },
-                ElseActions = new List<Dialog>
-                {
-                    new SendActivity("${NoAge()}")
-                }
-            };
-        }
+                var attachments = promptContext.Recognized.Value;
+                var validImages = new List<Attachment>();
 
-        private Dialog GetProfilePicture()
-        {
-            return new IfCondition
-            {
-                // Teams file upload is different from other channels, so is not
-                // included in this sample.
-                Condition = "turn.activity.channelId == 'msteams'",
-                Actions = new List<Dialog>
+                foreach (var attachment in attachments)
                 {
-                    new SendActivity("${TeamsFileUpload()}"),
-                },
-                ElseActions = new List<Dialog>
-                {
-                    new AttachmentOrTextInput
+                    if (attachment.ContentType == "image/jpeg" || attachment.ContentType == "image/png")
                     {
-                        Prompt = new ActivityTemplate("${PictureUploadPrompt()}"),
-                        InvalidPrompt = new ActivityTemplate("${InvalidPicture()}"),
-                        Validations = new List<BoolExpression>
-                        {
-                            // We provide two options for the user:
-                            //   1) no attachment uploaded (skip)
-                            //   2) an attachment upload of type png or jpeg
-                            "(turn.activity.attachments == null || turn.activity.attachments.count == 0) || (turn.activity.attachments[0].contentType == 'image/jpeg' || turn.activity.attachments[0].contentType == 'image/png')",
-                        },
-                        Property = "user.picture"
-                    },
-                    new IfCondition
-                    {
-                        Condition = "user.picture != null",
-                        Actions = new List<Dialog>
-                        {
-                            new SendActivity("${ThanksForPicture()}"),
-                        },
-                        ElseActions = new List<Dialog>
-                        {
-                            new SendActivity("${NoPicture()}"),
-                        }
+                        validImages.Add(attachment);
                     }
                 }
-            };
-        }
 
-        private List<Dialog> GatheUserInformation()
-        {
-            return new List<Dialog>
+                promptContext.Recognized.Value = validImages;
+
+                // If none of the attachments are valid images, the retry prompt should be sent.
+                return validImages.Any();
+            }
+            else
             {
-                GetTransport(),
-                new TextInput()
-                {
-                    Prompt = new ActivityTemplate("${AskForName()}"),
-                    Property = "user.userProfile.Name"
-                },
-                // SendActivity supports full language generation resolution.
-                // See here to learn more about language generation
-                // https://aka.ms/language-generation
-                new SendActivity("${AckName()}"),
-                new ConfirmInput
-                {
-                    Prompt = new ActivityTemplate("${AgeConfirmPrompt()}"),
-                    Property = "turn.ageConfirmation"
-                },
-                GetAge(),
-                GetProfilePicture(),
-                new ConfirmInput
-                {
-                    Prompt = new ActivityTemplate("${FinalConfirmPrompt()}"),
-                    Property = "turn.finalConfirmation"
-                },
-                // Use LG template to come back with the final read out.
-                // This LG template is a great example of what logic can be wrapped up in LG sub-system.
-                new SendActivity("${FinalUserProfileReadOut()}"), // examines turn.finalConfirmation
-                new IfCondition
-                {
-                    Condition = "user.picture != null && turn.finalConfirmation",
-                    Actions = new List<Dialog>
-                    {
-                        new SendActivity("${PictureConfirmation()}"),
-                    }
-                },
-                new DeleteProperty
-                {
-                    Property = "user.userProfile"
-                },
-                new EndDialog(),
-            };
+                await promptContext.Context.SendActivityAsync("No attachments received. Proceeding without a profile picture...");
+
+                // We can return true from a validator function even if Recognized.Succeeded is false.
+                return true;
+            }
         }
     }
 }
