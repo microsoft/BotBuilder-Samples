@@ -5,7 +5,6 @@ using System;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -13,16 +12,9 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, IConfiguration configuration)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(configuration, logger)
         {
-            // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
-            // turn context each turn so that the dialog manager can retrieve them.
-            this.UseStorage(storage);
-            this.UseBotState(userState);
-            this.UseBotState(conversationState);
-
             OnTurnError = async (turnContext, exception) =>
             {
                 // Log any leaked exception from the application.

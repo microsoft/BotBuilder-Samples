@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.10.4" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.10.3" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.3" />
   </ItemGroup>
 
