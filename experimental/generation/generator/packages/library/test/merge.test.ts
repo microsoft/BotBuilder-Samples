@@ -323,15 +323,4 @@ describe('dialog:generate --merge library', async function () {
             assert.fail(e.message)
         }
     })
-
-    /*
-    test
-        .stdout()
-        .stderr()
-        .command(['dialog:generate', `${schemaName}`, '-o', `${oldPath}`, '--merge', '-l', `${locale}`])
-        .it('Detect success', ctx => {
-            expect(ctx.stderr)
-                .to.contain('Create output dir')
-        })
-        */
 })
