@@ -23,6 +23,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoBot", "20.EchoBot-decla
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveBot", "21.AdaptiveBot-declarative\AdaptiveBot.csproj", "{9CF79953-60A9-48D2-AF36-29F0D94A1032}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MultiTurnPromptBot", "01.multi-turn-prompt\MultiTurnPromptBot.csproj", "{41813EA6-41A4-4788-9FD6-4F4CF39111E5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -69,6 +71,10 @@ Global
 		{9CF79953-60A9-48D2-AF36-29F0D94A1032}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CF79953-60A9-48D2-AF36-29F0D94A1032}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CF79953-60A9-48D2-AF36-29F0D94A1032}.Release|Any CPU.Build.0 = Release|Any CPU
+		{41813EA6-41A4-4788-9FD6-4F4CF39111E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{41813EA6-41A4-4788-9FD6-4F4CF39111E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{41813EA6-41A4-4788-9FD6-4F4CF39111E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{41813EA6-41A4-4788-9FD6-4F4CF39111E5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
