@@ -26,7 +26,7 @@ import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuild
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
 
 function feedback(type: gen.FeedbackType, msg: string) {
-    if (true || type !== gen.FeedbackType.debug) {
+    if (type !== gen.FeedbackType.debug) {
         console.log(`${type}: ${msg}`)
     }
 }
