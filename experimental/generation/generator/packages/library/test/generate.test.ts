@@ -175,7 +175,7 @@ describe('dialog:generate library', async () => {
         assert(await gen.isUnchanged(dialogFile))
     })
 
-    it('Generation with override', async () => {
+    xit('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
