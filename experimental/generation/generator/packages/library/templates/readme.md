@@ -28,5 +28,5 @@ Root templates define a list of templates that need to be expanded.  These root 
   * `<entity>Entity-add-<type>.dialog` dialog for adding entity to property.
   * `<entity>Entity-remove-<type>.dialog` dialog for removing entity from property.
 
-In addition to the property and entity templates there are also `library-` templates which are specific to the mechanisms that are generated. 
+In addition to the property and entity templates there are also `form-` templates which are specific to the mechanisms that are generated. 
 
