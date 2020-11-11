@@ -153,8 +153,8 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
 describe('dialog:generate --merge library', async function () {
     let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
     let merge_data = 'test/merge_data'
-    let originalSchema = ppath.join(merge_data, 'sandwichMerge.schema')
-    let modifiedSchema = ppath.join(merge_data, 'modified/sandwichMerge-modified.schema')
+    let originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
+    let modifiedSchema = ppath.join(merge_data, 'modified/sandwichMerge-modified.form')
     let locales = ['en-us']
     let originalDir = ppath.join(output_dir, 'sandwichMerge-original')
     let modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
