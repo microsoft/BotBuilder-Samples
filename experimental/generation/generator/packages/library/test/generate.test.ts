@@ -188,7 +188,7 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Singleton', async () => {
+    xit('Singleton', async () => {
         try {
             console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
