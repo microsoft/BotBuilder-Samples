@@ -1,11 +1,11 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${builtinEntityFilename('percentage')}
+- ${builtinEntityFilename('number')}
 
 # template
 - ```
-@ prebuilt percentage
+@ prebuilt number
 
-${operations('percentage', ["2", "30.5", "75"], false)}
+${operations('number', [1, 20.5, 51, 99.8], false)}
 ```

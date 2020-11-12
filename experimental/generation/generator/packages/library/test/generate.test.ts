@@ -100,7 +100,7 @@ describe('dialog:generate library', async () => {
         'number_with_limits',
         'number',
         'ordinal',
-        'percentage_with_ref',
+        'percentage_with_limits',
         'percentage',
         'personName_with_pattern',
         'personName_with_ref',

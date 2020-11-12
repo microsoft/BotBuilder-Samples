@@ -3,10 +3,7 @@
     "type": "object",
     "properties": {
         "Percentage": {
-            "type": "string",
-            "$entities": [
-                "percentage"
-            ]
+            "type": "percentage"
         }
     },
     "required": [
