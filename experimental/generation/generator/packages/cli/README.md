@@ -17,11 +17,9 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 # Commands
 
 <!-- commands -->
-- [Relevant docs](#relevant-docs)
-- [Commands](#commands)
-  - [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
-  - [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
-  - [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
+* [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
+* [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
+* [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
 
 ## `bf dialog:generate SCHEMA`
 
