@@ -4,17 +4,5 @@
 
 *                                                       @microsoft/bb-samples
 
-experimental/adaptive-dialog/**                         @sgellock @stevengum @vishwacsena
-experimental/adaptive-tool/**                           @boydc2014 @chrimc62 @GeoffCoxMSFT
-experimental/generation/**                              @boydc2014 @chrimc62 @GeoffCoxMSFT
-
-generators/**                                           @garypretty @sgellock
-
-samples/csharp*/**                                      @johnataylor @stevengum
-samples/javascript*/**                                  @sgellock @stevengum
-samples/typescript*/**                                  @sgellock @stevengum
-samples/python*/**                                      @axelsrz
-
-samples/csharp_dotnetcore/language-generation/**        @johnataylor @vishwacsena
-samples/csharp_dotnetcore/adaptive-dialog/**            @johnataylor @vishwacsena
-samples/javascript_nodejs/language-generation/**        @sgellock @stevengum @vishwacsena
+experimental/adaptive-tool/**                           @boydc2014 @chrimc62 @GeoffCoxMSFT @microsoft/bb-samples
+experimental/generation/**                              @boydc2014 @chrimc62 @GeoffCoxMSFT @microsoft/bb-samples
