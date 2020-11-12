@@ -4,4 +4,4 @@
 - ${knowledgeDir()}${locale}/${prefix}.${locale}.qna
 
 # template
-- ${join(foreach(templates.qna, qna, `[${qna.fullName}](${localePath(qna.relative)})`), EOL())}
+- ${join(foreach(templates.qna, qna, `[${qna.fullName}](${localePathforQnA(qna.relative)})`), EOL())}
