@@ -6,6 +6,7 @@
     <Configurations>Debug;Release</Configurations>
     <!-- The Jurrasic package isn't signed, so supress the warning. -->
     <NoWarn>$(NoWarn),CS8002</NoWarn>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
@@ -28,13 +29,13 @@
 
   <ItemGroup>
     <PackageReference Include="Jint" Version="2.11.58" />
-    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.14.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-rc0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-rc0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-rc0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.11.0-rc0.preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-rc0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.7.0" />
   </ItemGroup>
 
@@ -45,5 +46,9 @@
   <ItemGroup>
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.4" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="call updateSchema RunBot.csproj" />
+  </Target>
 
 </Project>

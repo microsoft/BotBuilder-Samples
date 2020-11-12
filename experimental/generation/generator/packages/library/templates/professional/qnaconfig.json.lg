@@ -7,6 +7,6 @@
     "botName": "${prefix}",
     "out": ".",
     "dialog": "multiLanguage",
-    "models": [${join(foreach(locales, locale, `"${locale}/${prefix}.${locale}.qna"`), ', ')}]
+    "models": [${join(foreach(locales, locale, `"${knowledgeDir()}${locale}/${prefix}.${locale}.qna"`), ', ')}]
 }
 ```
