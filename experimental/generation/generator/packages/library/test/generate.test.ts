@@ -11,6 +11,7 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
+import * as glob from 'globby'
 import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
@@ -66,6 +67,31 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
             `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
     }
     return generated
+}
+
+async function checkDirectory(path: string, files: number, directories: number): Promise<void> {
+    let dirList: string[] = []
+    let fileList: string[] = []
+    for (const child of await fs.readdir(path)) {
+        if ((await fs.stat(ppath.join(path, child))).isDirectory()) {
+            dirList.push(child)
+        } else {
+            fileList.push(child)
+        }
+    }
+    if (fileList.length != files) {
+        assert.fail(`${path} has ${fileList.length} files != ${files}: ${os.EOL}${fileList.join(os.EOL)}`)
+    }
+    if (dirList.length != directories) {
+        assert.fail(`${path} has ${dirList.length} directories != ${directories}: ${os.EOL}${fileList.join(os.EOL)}`)
+    }
+}
+
+async function checkPattern(pattern: string, files: number): Promise<void> {
+    const matches = await glob(pattern.replace(/\\/g, '/'))
+    if (matches.length != files) {
+        assert.fail(`${pattern} has ${matches.length} files != ${files}:${os.EOL}${matches.join(os.EOL)}`)
+    }
 }
 
 describe('dialog:generate library', async () => {
@@ -179,9 +205,9 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
-            let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
+            let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
+            let dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
             assert.fail(e.message)
@@ -192,8 +218,25 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
-            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton directories')
-            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not root dialog')
+            assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
+            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Non singleton', async () => {
+        try {
+            console.log('\n\nNon singleton Generation')
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, false, feedback)
+            await checkDirectory(output, 8, 4)
+            await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
+            await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
+            await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
+            await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
+            await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
+            await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
+            await checkPattern(ppath.join(output, '**'), 135)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -208,7 +251,7 @@ describe('dialog:generate library', async () => {
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
-                    const templates = Templates.parseFile(`${output}/en-us/unittest_${name}.en-us.lg`)
+                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${name}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
                         let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
@@ -228,9 +271,8 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await luFile.getLuObjects(undefined, `${output}/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${name}.en-us.lu`, true, '.lu')
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
-                    debugger
                     result.validate()
                 } catch (e) {
                     assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)

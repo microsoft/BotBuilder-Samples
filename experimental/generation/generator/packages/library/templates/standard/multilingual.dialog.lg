@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${prefix}.lu.dialog
+- ${recognizerDir()}${prefix}.lu.dialog
 
 # template
 - ```
