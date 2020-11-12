@@ -55,7 +55,7 @@
     "build": "tsc -b",
     "postpack": "rimraf oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && del *.tsbuildinfo && tsc -b",
+    "prepack": "rimraf lib tsconfig.tsbuildinfo && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "doc": "npm run build && npm run doc:readme && rimraf oclif.manifest.json",
     "doc:readme": "oclif-dev manifest && oclif-dev readme",
