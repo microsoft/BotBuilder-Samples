@@ -1,7 +1,7 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${locale}/form/${prefix}-form-global.${locale}.lu
+- ${understandingDir()}${locale}/form/${prefix}-form-global.${locale}.lu
 
 # template
 -```

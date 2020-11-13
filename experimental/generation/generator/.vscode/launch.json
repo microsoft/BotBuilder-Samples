@@ -144,8 +144,7 @@
                 "-o",
                 "${env:TEMP}/simple.out",
                 "--force",
-                "--verbose",
-                "--debug"
+                "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },

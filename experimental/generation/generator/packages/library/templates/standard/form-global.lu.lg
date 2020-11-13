@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${locale}/form/${prefix}-form-global.${locale}.lu
+- ${understandingDir()}${locale}/form/${prefix}-form-global.${locale}.lu
 
 # template
 -```

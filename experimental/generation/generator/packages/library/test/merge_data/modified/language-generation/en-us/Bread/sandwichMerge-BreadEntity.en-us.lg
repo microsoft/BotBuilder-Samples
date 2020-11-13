@@ -1,7 +1,7 @@
-[sandwichMerge-form.en-us.lg](sandwichMerge-form.en-us.lg)
-[sandwichMerge-form-Choose.en-us.lg](sandwichMerge-form-Choose.en-us.lg)
+[sandwichMerge-form.en-us.lg](../form/sandwichMerge-form.en-us.lg)
+[sandwichMerge-form-Choose.en-us.lg](../form/sandwichMerge-form-Choose.en-us.lg)
 
-# BreadEntity(value) 
+# BreadEntity_Value(value) 
 - SWITCH: ${value}
   - CASE: ${'multiGrainWheat'} 
     - multi grain wheat
@@ -16,7 +16,7 @@
   - DEFAULT: 
     - no value
  
-# chooseBreadEntity
+# BreadEntity_chooseEntity
 - ${chooseEnumEntity('Bread')}
 
 > Generator: 386d5713fd53e8e895e905ebe8d619af
