@@ -44,9 +44,9 @@ function assertCheck(comparison: Comparison, errors: string[]) {
 }
 
 async function allFiles(base: string, path: string, files: Set<string>) {
-    let stats = await fs.lstat(path)
+    const stats = await fs.lstat(path)
     if (stats.isDirectory()) {
-        for (let child of await fs.readdir(path)) {
+        for (const child of await fs.readdir(path)) {
             await allFiles(base, ppath.join(path, child), files)
         }
     } else {
@@ -55,18 +55,18 @@ async function allFiles(base: string, path: string, files: Set<string>) {
 }
 
 async function compareDirs(original: string, merged: string): Promise<Comparison> {
-    let comparison: Comparison = { original, originalFiles: [], merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: [] }
-    let originalFiles = new Set<string>()
-    let mergedFiles = new Set<string>()
+    const comparison: Comparison = {original, originalFiles: [], merged, mergedFiles: [], originalOnly: [], mergedOnly: [], same: [], different: []}
+    const originalFiles = new Set<string>()
+    const mergedFiles = new Set<string>()
     await allFiles(original, original, originalFiles)
     await allFiles(merged, merged, mergedFiles)
     comparison.originalFiles = Array.from(originalFiles)
     comparison.mergedFiles = Array.from(mergedFiles)
-    for (let file1 of originalFiles) {
+    for (const file1 of originalFiles) {
         if (mergedFiles.has(file1)) {
             // See if files are the same
-            let originalVal = await fs.readFile(ppath.join(original, file1), 'utf-8')
-            let mergedVal = await fs.readFile(ppath.join(merged, file1), 'utf-8')
+            const originalVal = await fs.readFile(ppath.join(original, file1), 'utf-8')
+            const mergedVal = await fs.readFile(ppath.join(merged, file1), 'utf-8')
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
@@ -77,7 +77,7 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
                     }
                     ++pos
                 }
-                comparison.different.push({ file: file1, position: pos })
+                comparison.different.push({file: file1, position: pos})
             }
         } else {
             comparison.originalOnly.push(file1)
@@ -89,13 +89,13 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
 
 function entryCompare(comparison: Comparison, name: string, expected: number | string[] | undefined, errors: string[]) {
     if (expected) {
-        let value = comparison[name] as string[]
+        const value = comparison[name] as string[]
         if (typeof expected === 'number') {
             if (value.length !== expected) {
                 errors.push(`${name}: ${value.length} != ${expected}`)
             }
         } else {
-            for (let expect of expected as string[]) {
+            for (const expect of expected as string[]) {
                 if (!value.includes(expect)) {
                     errors.push(`${name} does not contain ${expect}`)
                 }
@@ -125,8 +125,8 @@ function assertRemoved(comparison: Comparison, file: string, errors: string[]) {
 }
 
 function assertAddedProperty(comparison: Comparison, added: string, errors: string[]): string[] {
-    let found: string[] = []
-    for (let file of comparison.mergedFiles) {
+    const found: string[] = []
+    for (const file of comparison.mergedFiles) {
         if (file.includes(added)) {
             found.push(file)
         }
@@ -138,8 +138,8 @@ function assertAddedProperty(comparison: Comparison, added: string, errors: stri
 }
 
 function assertRemovedProperty(comparison: Comparison, removed: string, errors: string[]): string[] {
-    let found: string[] = []
-    for (let file of comparison.mergedFiles) {
+    const found: string[] = []
+    for (const file of comparison.mergedFiles) {
         if (file.includes(removed)) {
             found.push(file)
         }
@@ -151,14 +151,15 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
 }
 
 describe('dialog:generate --merge library', async function () {
-    let output_dir = ppath.join(os.tmpdir(), 'mergeTest')
-    let merge_data = 'test/merge_data'
-    let originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
-    let modifiedSchema = ppath.join(merge_data, 'modified/sandwichMerge-modified.form')
-    let locales = ['en-us']
-    let originalDir = ppath.join(output_dir, 'sandwichMerge-original')
-    let modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
-    let mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
+    const output_dir = ppath.join(os.tmpdir(), 'mergeTest')
+    const merge_data = 'test/merge_data'
+    const modified_data = `${merge_data}/modified`
+    const originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
+    const modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.form')
+    const locales = ['en-us']
+    const originalDir = ppath.join(output_dir, 'sandwichMerge-original')
+    const modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
+    const mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
 
     function errorOnly(type: gen.FeedbackType, msg: string): void {
         if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
@@ -176,35 +177,40 @@ describe('dialog:generate --merge library', async function () {
     }
 
     async function assertContains(file: string, regex: RegExp, errors: string[]) {
-        let val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
+        const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
         if (!val.match(regex)) {
             errors.push(`${file} does not contain expected ${regex}`)
         }
     }
 
     async function assertMissing(file: string, regex: RegExp, errors: string[]) {
-        let val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
+        const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
         if (val.match(regex)) {
             errors.push(`${file} contains unexpected ${regex}`)
         }
     }
 
     async function assertUnchanged(file: string, expected: boolean, errors: string[]) {
-        let unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
+        const unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
         if (unchanged !== expected) {
             errors.push(`${file} is unexpectedly ${expected ? 'changed' : 'unchanged'}`)
         }
     }
 
     async function copyToMerged(pattern: string) {
-        for (let path of await glob(ppath.join(merge_data, pattern))) {
-            let file = ppath.relative(merge_data, path)
-            await fs.copyFile(path, ppath.join(mergedDir, file))
+        const pathPattern = ppath.join(modified_data, pattern).replace(/\\/g, '/')
+        for (const path of await glob(pathPattern)) {
+            const file = ppath.relative(modified_data, path)
+            const dest = ppath.join(mergedDir, file)
+            console.log(`Modifying ${dest}`)
+            await fs.copyFile(path, dest)
         }
     }
 
     async function deleteMerged(pattern: string) {
-        for (let file of await glob(ppath.join(merge_data, pattern))) {
+        const pathPattern = ppath.join(mergedDir, pattern).replace(/\\/g, '/')
+        for (const file of await glob(pathPattern)) {
+            console.log(`Deleting ${file}`)
             await fs.unlink(file)
         }
     }
@@ -237,8 +243,8 @@ describe('dialog:generate --merge library', async function () {
         try {
             console.log('Self merging')
             await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
-            let comparison = await compareDirs(originalDir, mergedDir)
-            let errors: string[] = []
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
             assertCheck(comparison, errors)
         } catch (e) {
@@ -251,8 +257,8 @@ describe('dialog:generate --merge library', async function () {
         try {
             console.log('Modified merge')
             await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
-            let comparison = await compareDirs(originalDir, mergedDir)
-            let errors = []
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors = []
             assertAddedProperty(comparison, 'Hobby', errors)
             assertRemovedProperty(comparison, 'Meat', errors)
             assertRemovedProperty(comparison, 'Toppings', errors)
@@ -284,14 +290,13 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lu file and it should have enum updated, but not hash
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
-            await copyToMerged('**/en-us/*-BreadEntity.*')
+            await copyToMerged('**/en-us/Bread/*')
             await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
-            await copyToMerged('language-generation/en-us/sandwichMerge-Bread.en-us.lg')
-            await deleteMerged('dialogs/sandwichMerge-price-remove-money.dialog')
+            await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
             await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
-            let comparison = await compareDirs(originalDir, mergedDir)
-            let errors = []
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors = []
 
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
