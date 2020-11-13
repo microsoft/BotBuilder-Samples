@@ -83,7 +83,7 @@ Evaluation reports should be written to folder [report](report). Detail report i
 
 ### Improve
 
-Accuracy 0.8954 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions.![Misclassified](report/misclassified.PNG)
+Accuracy 0.8954 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions. In our example, there are in total 16 mis-labeled utterances, we are using the top 2 to illustrate the improving process here.![Misclassified](report/misclassified.PNG)
 
 Next we are going to use the first two mis-classified query utterances to show how to improve the training set.
 
@@ -99,6 +99,9 @@ Next we are going to use the first two mis-classified query utterances to show h
   ```
 
 - Open **report/orchestrator_testing_set_summary.html** again, and check the **Micro-Average** under **Metrics** page, the accuracy has improved from 0.8953 to 0.9085, and the two query utterances no longer show up in misclassified page.
+
+- Users could repeat the aforementioned procedures until satisfying with accuracy, refined as (1) using Misclassified page to check for mis-labeled utterances; (2) editing .lu file to add or relabel utterances; (3) using bf orchestrator:create to regenerate the language model; and (4) using bf orchestrator:test to evaluate the performance.
+
 - Advanced users could also use bf orchestrator:interactive to interactively add/change/remove example utterances to improve the training set. Further information please refer to [bf orchestrator interactive](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorInteractive.md#start-an-interactive-session-with-a-training-set). 
 
 
