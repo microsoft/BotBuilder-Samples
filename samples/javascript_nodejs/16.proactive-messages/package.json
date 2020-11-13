@@ -19,8 +19,8 @@
         "botbuilder": "~4.11.0",
         "botbuilder-dialogs": "~4.11.0",
         "dotenv": "^8.2.0",
-        "fetch-ponyfill": "^6.1.0",
-        "moment": "^2.26.0",
+        "fetch-ponyfill": "^7.0.0",
+        "moment": "^2.29.1",
         "path": "^0.12.7",
         "restify": "~8.5.1"
     },

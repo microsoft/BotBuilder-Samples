@@ -18,10 +18,10 @@
     "url": "https://github.com"
   },
   "dependencies": {
-    "axios": "^0.19.2",
+    "axios": "^0.21.0",
     "botbuilder": "~4.11.0",
     "dotenv": "^8.2.0",
-    "replace": "~1.1.1",
+    "replace": "~1.2.0",
     "restify": "~8.5.1"
   },
   "devDependencies": {
