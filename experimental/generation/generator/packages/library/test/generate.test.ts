@@ -315,7 +315,7 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             let schemas = await ps.schemas()
-            assert.strictEqual(Object.keys(schemas).length, 14, 'Wrong number of schemas discovered')
+            assert.strictEqual(Object.keys(schemas).length, 13, 'Wrong number of schemas discovered')
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -326,7 +326,7 @@ describe('dialog:generate library', async () => {
                 }
             }
             assert.strictEqual(global, 3, 'Wrong number of global schemas')
-            assert.strictEqual(property, 11, 'Wrong number of property schemas')
+            assert.strictEqual(property, 10, 'Wrong number of property schemas')
         } catch (e) {
             assert.fail(e.message)
         }
