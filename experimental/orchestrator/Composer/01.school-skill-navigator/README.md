@@ -85,7 +85,7 @@ Evaluation reports should be written to folder [report](report). Detail report i
 
 Accuracy 0.9869 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions. In our example, there are 2 mis-labeled utterances, we will use them to illustrate the improving process here.![Misclassified](report/misclassified.PNG)
 
-Next we are going to use the two mis-classified query utterances to show how to improve the training set.
+Next we are going to use the two mis-classified query utterances to show how to improve the training set. 
 
 - The first utterance "where are the tennis courts" should be labeled as Sports, but is mis-labeled as StudentServices. Closest Example shows the closest evidence example from that category, and Score shows the similarity between the query utterance and Closest Example. Taking a closer look into the examples, "where are the Recreation facilities" and "where's the gym" are essentially referring to the same thing, but separated into different labels, which eventually confused the model. To clarify the concepts, we could **manually relabel the utterance "where are the Recreation facilities" by moving it  from # StudentServices to # Sports in schoolnavigatorbot.train.lu.** 
 
