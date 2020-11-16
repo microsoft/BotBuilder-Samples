@@ -4,14 +4,42 @@
 - ${prefix}.dialog
 
 # template
+- IF: ${templates.qna}
+    - ${templateForSetting()} ${templateForLUWithQnA()} ${templateForTrigger()}
+- ELSE:
+    - ${templateForSetting()} ${templateForLU()} ${templateForTrigger()}
+
+# templateForSetting
 - ```
 {
     "$schema": "${appSchema}",
     "id": "${prefix}",
     "$kind": "Microsoft.AdaptiveDialog",
-    "recognizer": "${prefix}.lu",
+    "autoEndDialog": false,
     "generator": "${prefix}.lg",
-    "schema": "${prefix}.json",
+    "schema": "${prefix}.json",```
+
+# templateForLU
+- ```
+    "recognizer": "${prefix}.lu",```
+
+# templateForLUWithQnA
+- ```
+     "recognizer": {
+        "$kind": "Microsoft.MultiLanguageRecognizer",
+        "recognizers": {
+            "en-us": {
+                "$kind": "Microsoft.CrossTrainedRecognizerSet",
+                "recognizers": [
+                    "${prefix}.lu",
+                    "${prefix}.qna"
+                ]
+            }
+        }
+    },```
+    
+# templateForTrigger
+-```
     "triggers": [ 
         ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
         ]
