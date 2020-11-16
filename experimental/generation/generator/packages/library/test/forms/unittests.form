@@ -91,7 +91,7 @@
             ]
         },
         "Percentage": {
-            "type": "percentage"
+            "$ref": "template:percentage.schema"
         },
         "Age": {
             "$ref": "template:age.schema"

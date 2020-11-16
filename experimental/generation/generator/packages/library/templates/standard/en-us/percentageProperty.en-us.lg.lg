@@ -20,13 +20,13 @@ ${valueTemplate()}
 ```
 
 # missingPercentage()
-- Enter an percentage for ${propertyName()} ${numberRanges()}
+- Enter a percentage for ${propertyName()} ${numberRanges()}
 
 # repromptPercentage()
-- Enter an percentage for ${propertyName()} ${numberRanges()}
+- Enter a percentage for ${propertyName()} ${numberRanges()}
 
 # helpPercentage()
-- ${propertyName()} is an percentage ${numberRanges()}
+- ${propertyName()} is a percentage ${numberRanges()}
 
 # validationTemplates()
 - ```${tooSmall()}

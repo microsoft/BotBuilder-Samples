@@ -1,10 +1,10 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${addFilename('number')}
+- ${addFilename('percentage')}
 
 # template
 - IF: ${schema.properties[property].minimum || schema.properties[property].maximum}
-    - ${addDialogWithNumberMinMax('number')}
+    - ${addDialogWithNumberMinMax('percentage')}
 - ELSE:
-    - ${addDialog('number')}
+    - ${addDialog('percentage')}
