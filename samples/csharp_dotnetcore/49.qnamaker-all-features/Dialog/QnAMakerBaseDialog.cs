@@ -17,7 +17,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
     public class QnAMakerBaseDialog : QnAMakerDialog
     {
         // Dialog Options parameters
-        public const string DefaultNoAnswer = "No QnAMaker answers found.";
+        public const string DefaultAnswer = "No QnAMaker answers found.";
         public const string DefaultCardTitle = "Did you mean:";
         public const string DefaultCardNoMatchText = "None of the above.";
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
@@ -55,8 +55,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
-            var noAnswer = (Activity)Activity.CreateMessageActivity();
-            noAnswer.Text = this._configuration["DefaultAnswer"] ?? DefaultNoAnswer;
+            var defaultAnswerActivity = (Activity)Activity.CreateMessageActivity();
+            defaultAnswerActivity.Text = this._configuration["DefaultAnswer"] ?? DefaultAnswer;
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
@@ -64,7 +64,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             {
                 ActiveLearningCardTitle = DefaultCardTitle,
                 CardNoMatchText = DefaultCardNoMatchText,
-                NoAnswer = noAnswer,
+                NoAnswer = defaultAnswerActivity,
                 CardNoMatchResponse = cardNoMatchResponse,
             };
 
