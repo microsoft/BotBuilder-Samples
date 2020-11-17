@@ -29,7 +29,7 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      */
     constructor(knowledgebaseId, authkey, host, defaultAnswer) {
 
-        var defaultAnswerActivity = !!defaultAnswer ? ActivityFactory.fromObject(defaultAnswer) : ActivityFactory.fromObject(DefaultAnswer);
+        var defaultAnswerActivity = (!defaultAnswer || !defaultAnswer.trim()) ? ActivityFactory.fromObject(DefaultAnswer) :  ActivityFactory.fromObject(defaultAnswer);
         var filters = [];
         super(knowledgebaseId, authkey, host, defaultAnswerActivity, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
