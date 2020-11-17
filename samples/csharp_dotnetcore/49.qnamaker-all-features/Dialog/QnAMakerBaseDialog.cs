@@ -56,7 +56,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
             var defaultAnswerActivity = (Activity)Activity.CreateMessageActivity();
-            defaultAnswerActivity.Text = this._configuration["DefaultAnswer"] ?? DefaultAnswer;
+            var defaultAnswerFromConfig = this._configuration["DefaultAnswer"];
+            defaultAnswerActivity.Text = !string.IsNullOrWhiteSpace(defaultAnswerFromConfig) ? defaultAnswerFromConfig : DefaultAnswer;
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
