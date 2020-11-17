@@ -5,6 +5,7 @@
     <version>4.10.3</version>
     <description>
       Dummy B change
+      Dummy B change #2.
       A .NET Core Template for Microsoft Bot Framework v4.  Will let you quickly set up a conversational AI bot with core features every bot is likely to use.
     </description>
     <authors>Microsoft</authors>
