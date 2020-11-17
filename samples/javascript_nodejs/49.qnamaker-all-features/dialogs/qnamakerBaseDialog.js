@@ -12,7 +12,7 @@ const {
 // Default parameters
 const DefaultThreshold = 0.3;
 const DefaultTopN = 3;
-const DefaultNoAnswer = 'No QnAMaker answers found.';
+const DefaultAnswer = 'No QnAMaker answers found.';
 
 // Card parameters
 const DefaultCardTitle = 'Did you mean:';
@@ -27,10 +27,11 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      * Core logic of QnA Maker dialog.
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
-    constructor(knowledgebaseId, authkey, host) {
-        var noAnswer = ActivityFactory.fromObject(DefaultNoAnswer);
+    constructor(knowledgebaseId, authkey, host, defaultAnswer) {
+
+        var defaultAnswerActivity = !!defaultAnswer ? ActivityFactory.fromObject(defaultAnswer) : ActivityFactory.fromObject(DefaultAnswer);
         var filters = [];
-        super(knowledgebaseId, authkey, host, noAnswer, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
+        super(knowledgebaseId, authkey, host, defaultAnswerActivity, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
         this.id = QNAMAKER_BASE_DIALOG;
     }
