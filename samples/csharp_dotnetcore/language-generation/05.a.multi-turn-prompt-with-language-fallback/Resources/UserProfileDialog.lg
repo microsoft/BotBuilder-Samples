@@ -28,7 +28,7 @@
 > See https://aka.ms/adaptive-expressions to learn more.
 
 # AgeReadBack (userAge)
-- IF: ${userAge == null}
+- IF: ${userAge == -1}
    - And, No age given.
 - ELSE: 
    - And, I have your age as ${userAge}.

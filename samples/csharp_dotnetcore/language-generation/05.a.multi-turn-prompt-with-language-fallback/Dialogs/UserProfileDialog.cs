@@ -76,7 +76,7 @@ namespace Microsoft.BotBuilderSamples
 
             // We can send messages to the user at any point in the WaterfallStep.
             await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(_lgGenerator.Generate("AckName", new {
-                Result = stepContext.Result
+                stepContext.Result
             }, stepContext.Context.Activity.Locale)), cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
@@ -116,7 +116,7 @@ namespace Microsoft.BotBuilderSamples
             }, stepContext.Context.Activity.Locale));
 
             // We can send messages to the user at any point in the WaterfallStep.
-            await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(msg.ToString()), cancellationToken);
+            await stepContext.Context.SendActivityAsync(msg, cancellationToken);
 
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog, here it is a Prompt Dialog.
             return await stepContext.PromptAsync(nameof(ConfirmPrompt), new PromptOptions {
@@ -137,7 +137,7 @@ namespace Microsoft.BotBuilderSamples
 
                 var msg = ActivityFactory.FromObject(_lgGenerator.Generate("SummaryReadout", userProfile, stepContext.Context.Activity.Locale));
 
-                await stepContext.Context.SendActivityAsync(ActivityFactory.FromObject(msg.ToString()), cancellationToken);
+                await stepContext.Context.SendActivityAsync(msg, cancellationToken);
             }
             else
             {
