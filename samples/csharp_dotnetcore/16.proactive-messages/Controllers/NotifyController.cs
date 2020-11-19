@@ -26,15 +26,7 @@ namespace ProactiveBot.Controllers
         {
             _adapter = adapter;
             _conversationReferences = conversationReferences;
-            _appId = configuration["MicrosoftAppId"];
-
-            // If the channel is the Emulator, and authentication is not in use,
-            // the AppId will be null.  We generate a random AppId for this case only.
-            // This is not required for production, since the AppId will have a value.
-            if (string.IsNullOrEmpty(_appId))
-            {
-                _appId = Guid.NewGuid().ToString(); //if no AppId, use a random Guid
-            }
+            _appId = configuration["MicrosoftAppId"] ?? string.Empty;
         }
 
         public async Task<IActionResult> Get()
