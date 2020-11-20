@@ -13,11 +13,7 @@ class RootBot extends ActivityHandler {
         this.conversationState = conversationState;
         this.skillsConfig = skillsConfig;
         this.skillClient = skillClient;
-
         this.botId = process.env.MicrosoftAppId;
-        if (!this.botId) {
-            throw new Error('[RootBot] MicrosoftAppId is not set in configuration');
-        }
 
         // We use a single skill in this example.
         const targetSkillId = 'EchoSkillBot';
