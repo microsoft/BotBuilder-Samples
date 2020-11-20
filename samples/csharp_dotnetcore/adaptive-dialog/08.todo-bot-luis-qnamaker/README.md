@@ -5,7 +5,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 2.1
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
   ```bash
   # determine dotnet version
@@ -66,14 +66,14 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 
 ```bash
 > cd Dialogs
-> bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json
+> bf luis:cross-train --in . --out ../generated --config DialogLuHierarchy.config.json --force
 ```
 
 - Get your [LUIS authoring key](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/luis-concept-keys)
 - To create, train and pubish LUIS applications for this bot
 
 ```bash
-> bf luis:build --in ../generated --out ../generated --log --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key>
+> bf luis:build --in ../generated --out ../generated --log --force --botName TodoBotWithLuisAndQnA --authoringKey <Your LUIS Authoring key>
 ```
 
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as luis.settings.\<youralias>.\<region>.json file.
@@ -83,7 +83,7 @@ This sample demonstrates using [Adaptive dialog][1],  [Language Generation][2] f
 - Run qnamaker:build to create/ update, train and publish QnA Maker KBs required to run this bot. The content for the KB comes from .qna files under dialogs.
 
 ```bash
-> bf qnamaker:build --in ../generated --out ../generated --botName TodoBotWithLuisAndQnA --log --subscriptionKey <Your QnA subscription key>
+> bf qnamaker:build --in ../generated --out ../generated --botName TodoBotWithLuisAndQnA --log --force --subscriptionKey <Your QnA subscription key>
 ```
 
 - This command writes out a bunch of .dialog files (which are useful if you are using declarative form of adaptive dialogs) as well as qnamaker.settings.\<youralias>.\<region>.json file.
