@@ -5,6 +5,7 @@
 
 import * as path from 'path';
 import { workspace, ExtensionContext, window, DiagnosticCollection } from 'vscode';
+import * as keyBinding from './providers/keyBinding';
 
 import {
 	LanguageClient,
@@ -19,6 +20,7 @@ let luClient: LanguageClient;
 export function activate(context: ExtensionContext) {
 	startLgClient(context);
 	startLuClient(context);
+	keyBinding.activate(context);
 }
 
 function startLgClient(context: ExtensionContext) {
@@ -50,14 +52,6 @@ function startLgClient(context: ExtensionContext) {
 			fileEvents: workspace.createFileSystemWatcher('**/.clientrc')
 		},
 		middleware: {
-			executeCommand: async (command, args, next) => {
-				const editor = window.activeTextEditor;
-				const cursorPos = editor.selection.active;
-				const uri = editor.document.uri.toString();
-				args.push(uri);
-				args.push(cursorPos);
-				next(command, args);
-			},
 			workspace: {
 				didChangeWorkspaceFolders: ((data, next) => {
 					next(data);
