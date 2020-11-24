@@ -1,5 +1,8 @@
 [generator.lg](../generator.lg)
 
+# filename
+- ${formDialogFilename('Show.dialog')}
+
 # template
 - ```
 {

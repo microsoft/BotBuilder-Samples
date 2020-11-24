@@ -11,9 +11,17 @@ import * as os from 'os'
 import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
-import { generateTest } from '../src/testGenerator'
+import * as glob from 'globby'
+import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
+import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
+import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
+import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
+import {ComponentRegistration} from 'botbuilder-core'
+import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
+import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
+import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -61,12 +69,75 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
     return generated
 }
 
+async function checkDirectory(path: string, files: number, directories: number): Promise<void> {
+    let dirList: string[] = []
+    let fileList: string[] = []
+    for (const child of await fs.readdir(path)) {
+        if ((await fs.stat(ppath.join(path, child))).isDirectory()) {
+            dirList.push(child)
+        } else {
+            fileList.push(child)
+        }
+    }
+    if (fileList.length != files) {
+        assert.fail(`${path} has ${fileList.length} files != ${files}: ${os.EOL}${fileList.join(os.EOL)}`)
+    }
+    if (dirList.length != directories) {
+        assert.fail(`${path} has ${dirList.length} directories != ${directories}: ${os.EOL}${fileList.join(os.EOL)}`)
+    }
+}
+
+async function checkPattern(pattern: string, files: number): Promise<void> {
+    const matches = await glob(pattern.replace(/\\/g, '/'))
+    if (matches.length != files) {
+        assert.fail(`${pattern} has ${matches.length} files != ${files}:${os.EOL}${matches.join(os.EOL)}`)
+    }
+}
+
 describe('dialog:generate library', async () => {
     let output = tempDir
-    let schemaPath = 'test/forms/sandwich.schema'
-    let badSchema = 'test/forms/bad-schema.schema'
-    let notObject = 'test/forms/not-object.schema'
+    let schemaPath = 'test/forms/sandwich.form'
+    let unitTestSchemaPath = 'test/forms/unittest_'
+    let badSchema = 'test/forms/bad-schema.form'
+    let notObject = 'test/forms/not-object.form'
     let override = 'test/templates/override'
+    let unittestSchemaNames = [
+        'age_with_units',
+        'age',
+        'array_enum',
+        'array_personName',
+        'boolean',
+        'date-time',
+        'date',
+        'datetime',
+        'dimension_with_units',
+        'dimension',
+        'email',
+        'enum',
+        'geography',
+        'integer_with_limits',
+        'integer',
+        'iri',
+        'keyPhrase_with_pattern',
+        'keyPhrase_with_ref',
+        'keyPhrase',
+        'money_with_units',
+        'money',
+        'number_with_limits',
+        'number',
+        'ordinal',
+        'percentage_with_limits',
+        'percentage',
+        'personName_with_pattern',
+        'personName_with_ref',
+        'personName',
+        'phonenumber_with_ref',
+        'phonenumber',
+        'temperature_with_units',
+        'temperature',
+        'time',
+        'uri'
+    ]
 
     beforeEach(async () => {
         await fs.remove(output)
@@ -114,7 +185,7 @@ describe('dialog:generate library', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = { $comment: 'this is a .dialog file' }
+        let dialog = {$comment: 'this is a .dialog file'}
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -134,9 +205,9 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nGeneration with override')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
-            let lg = await fs.readFile(ppath.join(output, 'en-us/bread', 'sandwich-Bread.en-us.lg'))
+            let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'bread/sandwich-Bread-missing.dialog'))
+            let dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
             assert.fail(e.message)
@@ -147,12 +218,81 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nSingleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
-            assert.ok(!await fs.pathExists(ppath.join(output, 'Bread')), 'Did not generate singleton directories')
-            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not root dialog')
+            assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
+            assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
         } catch (e) {
             assert.fail(e.message)
         }
     })
+
+    it('Non singleton', async () => {
+        try {
+            console.log('\n\nNon singleton Generation')
+            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, false, feedback)
+            await checkDirectory(output, 8, 4)
+            await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
+            await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
+            await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
+            await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
+            await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
+            await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
+            await checkPattern(ppath.join(output, '**'), 135)
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    for (let i = 0; i < unittestSchemaNames.length; i++) {
+        const name = unittestSchemaNames[i]
+        const description = `Unit test ${name}`
+        it(description, async () => {
+            console.log(`\n\n${description}`)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            if (success) {
+                try {
+                    console.log(`LG Testing schema ${name}`)
+                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${name}.en-us.lg`)
+                    const allDiagnostics = templates.allDiagnostics
+                    if (allDiagnostics) {
+                        let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
+                        if (errors && errors.length > 0) {
+                            let errorList: string[] = []
+                            for (let j = 0; j < allDiagnostics.length; j++) {
+                                errorList.push(allDiagnostics[j].message)
+                            }
+                            let errorString: string = errorList.join(' ')
+                            throw new Error(errorString)
+                        }
+                    }
+                } catch (e) {
+                    assert.fail(e.message)
+                }
+
+                try {
+                    console.log(`LU Testing schema ${name}`)
+                    let result: any
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
+                    result.validate()
+                } catch (e) {
+                    assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)
+                }
+
+                try {
+                    console.log(`Dialog Testing schema ${name}`)
+                    ComponentRegistration.add(new AdaptiveComponentRegistration())
+                    ComponentRegistration.add(new LuisComponentRegistration())
+                    ComponentRegistration.add(new QnAMakerComponentRegistration())
+                    const resourceExplorer = new ResourceExplorer()
+                    resourceExplorer.addFolder(`${output}`, true, false)
+                    const script = resourceExplorer.loadType(`unittest_${name}.dialog`)
+                } catch (e) {
+                    assert.fail(e.message)
+                }
+            }
+            await fs.remove(output)
+        })
+    }
 
     it('Not object type', async () => {
         try {
@@ -208,7 +348,7 @@ describe('dialog:generate library', async () => {
     it('Expand $ref property definition', async () => {
         try {
             let schema = {
-                $ref: "template:dimension.schema"
+                $ref: 'template:dimension.schema'
             }
             let expansion = await gen.expandPropertyDefinition('ref', schema)
             assert(expansion.$entities, 'Did not generate $entities')

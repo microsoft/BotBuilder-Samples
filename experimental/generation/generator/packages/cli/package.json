@@ -21,6 +21,7 @@
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.2",
+    "source-map-support": "0.5.19",
     "ts-node": "^8.8.2",
     "tslint": "^5.18.0",
     "typescript": "^3.8.3"
@@ -54,7 +55,7 @@
     "build": "tsc -b",
     "postpack": "rimraf oclif.manifest.json",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b && oclif-dev manifest && oclif-dev readme",
+    "prepack": "rimraf lib tsconfig.tsbuildinfo && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\"",
     "doc": "npm run build && npm run doc:readme && rimraf oclif.manifest.json",
     "doc:readme": "oclif-dev manifest && oclif-dev readme",

@@ -20,7 +20,6 @@ import {
 	Files,
 	HoverParams,
 	DefinitionParams,
-	ExecuteCommandParams,
 	SignatureHelpParams,
 	WorkspaceFolder,
 	DidChangeWatchedFilesNotification,
@@ -33,7 +32,6 @@ import * as completion from './providers/completion';
 import * as diagnostics from './providers/diagnostics';
 import * as definition from './providers/definition';
 import * as hover from './providers/hover';
-import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 import * as foldingRange from './providers/foldingRange'
 
@@ -81,9 +79,6 @@ connection.onInitialize((params: InitializeParams) => {
 			},
 			hoverProvider: true,
 			definitionProvider: true,
-			executeCommandProvider: {
-				commands: ['lg.extension.onEnterKey']
-			},
 			signatureHelpProvider: {
 				triggerCharacters: ['(', ',']
 			},
@@ -154,10 +149,6 @@ connection.onCompletion((_textDocumentPosition: TextDocumentPositionParams) => {
 
 connection.onHover((params: HoverParams) => {
 	return hover.provideHover(params, documents);
-});
-
-connection.onExecuteCommand((params: ExecuteCommandParams) =>{
-	keyBinding.provideKeyBinding(params, documents, connection);
 });
 
 connection.onSignatureHelp((params: SignatureHelpParams) => {

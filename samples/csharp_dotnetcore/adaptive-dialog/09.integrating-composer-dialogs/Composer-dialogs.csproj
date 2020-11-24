@@ -5,25 +5,52 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.LUIS" Version="4.10.3" />
+    <Content Include="Dialogs\ComposerDialogs\main-without-luis\language-generation\en-us\common.en-us.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\ComposerDialogs\main-without-luis\language-generation\en-us\main-without-luis.en-us.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\ComposerDialogs\main-without-luis\language-understanding\en-us\main-without-luis.en-us.lu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\ComposerDialogs\main-without-luis\main-without-luis.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\ComposerDialogs\main-without-luis\scripts\provisionComposer.js">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="**/*.dialog" Exclude="bin/**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lg" Exclude="bin/**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lu" Exclude="bin/**">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.LUIS" Version="4.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\scripts\DeploymentTemplates\new-rg-parameters.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\scripts\DeploymentTemplates\preexisting-rg-parameters.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\scripts\DeploymentTemplates\template-with-new-rg.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\scripts\DeploymentTemplates\template-with-preexisting-rg.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\scripts\package.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Dialogs\ComposerDialogs\main-without-luis\settings\appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

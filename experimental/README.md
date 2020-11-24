@@ -29,12 +29,12 @@ Experimental samples are organized per platform.
 |-----------------------|--------------------------------------------------------------------------------|-------------|-------------|--------------|-------------|
 |multilingual-luis-bot| The sample shows how to use the library through Middleware to support multilingual interaction with bots in general and LUIS bots in particular.                                                                                                 |[View][cs#1] |  |  | [View][ts#1] |
 
-[cs#1]: ./csharp_dotnetcore/multilingual-luis-bot
+[cs#1]: ./multilingual-luis/csharp_dotnetcore
 
 [cs#2]: ./qnamaker-activelearning/csharp_dotnetcore
 
 [wa#2]: ./csharp_webapi/#
 
-[ts#1]: ./javascript_typescript/multilingual-luis-bot
+[ts#1]: ./multilingual-luis/javascript_typescript
 
 [js#1]: ./qnamaker-activelearning/javascript_nodejs
