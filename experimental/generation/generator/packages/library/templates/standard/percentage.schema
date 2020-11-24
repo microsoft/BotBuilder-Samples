@@ -1,14 +1,14 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
-    "type": "string",
+    "type": "number",
     "$entities": [
         "percentage"
     ],
     "$templates": [
-        "string",
+        "number",
         "percentageEntity.lu",
         "percentageEntity.lg",
-        "percentageEntity-add-string.dialog",
-        "percentageEntity-remove-string.dialog"
+        "percentageEntity-add-number.dialog",
+        "percentageEntity-remove-number.dialog"
     ]
 }

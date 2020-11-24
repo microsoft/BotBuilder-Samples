@@ -1,0 +1,51 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingPercentage(), changeDefault('percentage'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${validationTemplates()}
+${helpTemplates(repromptPercentage(), helpPercentage())}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# missingPercentage()
+- Enter a percentage for ${propertyName()} ${numberRanges()}
+
+# repromptPercentage()
+- Enter a percentage for ${propertyName()} ${numberRanges()}
+
+# helpPercentage()
+- ${propertyName()} is a percentage ${numberRanges()}
+
+# validationTemplates()
+- ```${tooSmall()}
+${tooBig()}```
+
+# tooSmall()
+- IF: ${schema.properties[property].minimum}
+    -```
+> ${property} property is less than minimum allowed value
+${'#'} ${property}_IsTooSmall()
+- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
+- ELSE:
+    -
+
+# tooBig()
+- IF: ${schema.properties[property].maximum}
+    -```
+> ${property} property is greater than maximum allowed value
+${'#'} ${property}_IsTooBig()
+- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
+- ELSE:
+    -
