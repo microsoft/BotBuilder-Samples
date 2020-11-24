@@ -49,7 +49,7 @@ namespace LivePersonConnector.Controllers
 
             using (var hmac = new HMACSHA1(Encoding.UTF8.GetBytes(_creds.LpAppSecret)))
             {
-                var hash = hmac.ComputeHash(Encoding.ASCII.GetBytes(body));
+                var hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(body));
                 var signature = $"sha1={Convert.ToBase64String(hash)}";
                 if (signature != request.Headers["X-Liveperson-Signature"])
                 {
