@@ -158,9 +158,6 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 
     try {
         for (let locale of locales) {
-            await fs.ensureDir(ppath.join(mergedPath, locale))
-            feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
-
             let oldFileList = await getFiles(oldPath)
             let newFileList = await getFiles(newPath)
 
