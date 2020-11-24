@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.8/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.8",
+  "version": "1.0.0",
+  "id": "<<YOUR-MICROSOFT-APP-ID>>",
+  "packageName": "com.microsoft.teams.sample",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://dev.botframework.com",
+    "privacyUrl": "https://dev.botframework.com",
+    "termsOfUseUrl": "https://dev.botframework.com"
+  },
+  "icons": {
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
+  },
+  "name": {
+    "short": "ME Auth Action",
+    "full": "Messaging Extension Auth Action"
+  },
+  "description": {
+    "short": "Demo for Messaging Extension Auth for action commands",
+    "full": "Demo for Messaging Extension Auth for action commands"
+  },
+  "accentColor": "#FFFFFF",
+  "composeExtensions": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "ShowProfile",
+          "type": "action",
+          "title": "ShowProfile",
+          "description": "Show profile details for demo",
+          "initialRun": false,
+          "fetchTask": true,
+          "context": [
+            "commandBox",
+            "compose",
+            "message"
+          ]
+        },
+        {
+          "id": "SignOutCommand",
+          "type": "action",
+          "title": "Sign Out",
+          "description": "Sign out from authenticated services.",
+          "initialRun": false,
+          "fetchTask": true,
+          "context": [
+            "commandBox",
+            "compose"
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "*.ngrok.io",
+    "*.botframework.com"
+  ]
+}
