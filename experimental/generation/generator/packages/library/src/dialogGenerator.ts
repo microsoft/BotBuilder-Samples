@@ -906,18 +906,7 @@ export async function generate(
         externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
         success = false
     }
-
-    await delay(500)
-
     return success
-}
-
-/**
- * Sleep function
- * @param ms The time in millisecond.
- */
-async function delay(ms: number) {
-    return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 /**
