@@ -28,8 +28,8 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
      const luResource = parseFile.parse(document.getText());
      const sections = luResource.Sections;
      for(let section in luResource.Sections) {
-         const start = sections[section].ParseTree.start.line - 1;
-         const end = sections[section].ParseTree.stop.line - 1;
+         const start = sections[section].Range.Start.Line - 1;
+         const end = sections[section].Range.End.Line - 1;
          item.push(FoldingRange.create(start, end));
      }
      
