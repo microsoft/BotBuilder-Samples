@@ -9,10 +9,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ShYuPe/BotBuilder-lsp-lg"
+		"url": "https://github.com/Microsoft/BotBuilder-Samples"
 	},
 	"dependencies": {
-		"botbuilder-lg": "4.9.0",
+		"botbuilder-lg": "~4.11.0",
 		"vscode-languageserver": "^6.1.1",
 		"vscode-languageserver-textdocument": "^1.0.1",
 		"@microsoft/bf-lu": "4.11.1"
