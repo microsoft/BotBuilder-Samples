@@ -116,7 +116,7 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
 
 export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) {
     TemplatesStatus.lgFilesOfWorkspace = [];
-    workspaceFolders.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
+    workspaceFolders?.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
         if(err) {
             console.log(err);
         } else {

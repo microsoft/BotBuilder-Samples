@@ -15,7 +15,7 @@
 		"botbuilder-lg": "4.9.0",
 		"vscode-languageserver": "^6.1.1",
 		"vscode-languageserver-textdocument": "^1.0.1",
-		"@microsoft/bf-lu": "4.9.0"
+		"@microsoft/bf-lu": "4.11.1"
 	},
 	"scripts": {}
 }
