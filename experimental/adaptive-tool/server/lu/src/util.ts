@@ -11,6 +11,7 @@ import { LuFilesStatus } from './luFilesStatus';
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { URI } from 'vscode-uri'
 
 export function isLuFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.lu')) {
@@ -49,13 +50,14 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
 
 export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) : void {
     LuFilesStatus.luFilesOfWorkspace = [];
-    workspaceFolders?.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
+    
+    workspaceFolders?.forEach(workspaceFolder => fs.readdir(URI.parse(workspaceFolder.uri).fsPath, (err, files) => {
         if(err) {
             console.log(err);
         } else {
             LuFilesStatus.luFilesOfWorkspace = [];
             files.filter(file => isLuFile(file)).forEach(file => {
-                LuFilesStatus.luFilesOfWorkspace.push(path.join(Files.uriToFilePath(workspaceFolder.uri)!, file));
+                LuFilesStatus.luFilesOfWorkspace.push(path.join(URI.parse(workspaceFolder.uri).fsPath, file));
             });
         }
     }));
