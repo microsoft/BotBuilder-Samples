@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
 
             /* AZURE BLOB STORAGE - Uncomment the code in this section to use Azure blob storage */
                            
-            //var storage = new BlobsStorage("<blob-storage-connection-string>", "bot-state");
+            // var storage = new BlobsStorage("<blob-storage-connection-string>", "bot-state");
 
             /* END AZURE BLOB STORAGE */
 
