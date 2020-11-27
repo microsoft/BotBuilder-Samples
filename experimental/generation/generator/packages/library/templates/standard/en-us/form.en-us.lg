@@ -96,6 +96,9 @@ You can also ask for over all help, cancel the whole form or skip a clarificatio
 # notUnderstood
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
+# PropertyToChange_RepromptHelp
+- 
+
 >> FUNCTIONS for dialogs
 > The offset is to leave room for things like PropertyToChange
 # missingPriority(property)
