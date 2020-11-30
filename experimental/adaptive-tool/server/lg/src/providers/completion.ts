@@ -11,13 +11,14 @@ import {
 import {
 	TextDocument, Position
 } from 'vscode-languageserver-textdocument';
+import { URI } from 'vscode-uri'
 import * as util from '../util';
 import { TemplatesStatus } from '../templatesStatus';
 import * as path from 'path';
 
 export function provideCompletionItems(_textDocumentPosition: TextDocumentPositionParams, documents: TextDocuments<TextDocument>){
 	const document = documents.get(_textDocumentPosition.textDocument.uri)!;
-	const fspath = Files.uriToFilePath(document.uri);
+	const fspath = URI.parse(document.uri).fsPath;
 	const position = _textDocumentPosition.position;
 	const lineTextBefore = document?.getText({
 		start: {

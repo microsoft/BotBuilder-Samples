@@ -6,6 +6,7 @@
 import * as path from 'path';
 import { workspace, ExtensionContext, window, DiagnosticCollection } from 'vscode';
 import * as keyBinding from './providers/keyBinding';
+import * as env from 'dotenv';
 
 import {
 	LanguageClient,
@@ -18,15 +19,18 @@ let lgClient: LanguageClient;
 let luClient: LanguageClient;
 
 export function activate(context: ExtensionContext) {
+    env.config({ path: path.resolve(__dirname, '../../.env') });
 	startLgClient(context);
 	startLuClient(context);
-	keyBinding.activate(context);
+    keyBinding.activate(context);
 }
 
 function startLgClient(context: ExtensionContext) {
-	// The server is implemented in node
+    // The server is implemented in node
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'out','lgserver.js')
+        process.env.NODE_DEBUG === 'true' ?
+            path.join('server', 'out', 'lg', 'src',  'server.js'):
+            path.join('server', 'out', 'lgserver.js')
 	);
 	// The debug options for the server
 	// --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
@@ -83,9 +87,11 @@ function startLgClient(context: ExtensionContext) {
 }
 
 function startLuClient(context: ExtensionContext) {
-	// The server is implemented in node
+    // The server is implemented in node
 	const serverModule = context.asAbsolutePath(
-		path.join('server', 'out', 'luserver.js')
+        process.env.NODE_DEBUG === 'true' ?
+            path.join('server', 'out', 'lu', 'src',  'server.js'):
+            path.join('server', 'out', 'luserver.js')
 	);
 	// The debug options for the server
 	// --inspect=6009: runs the server in Node's Inspector mode so VS Code can attach to the server for debugging
