@@ -41,6 +41,17 @@
 			]
 		},
 		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to QnaServer",
+			"port": 6012,
+			"restart": true,
+			"sourceMaps": true,
+			"outFiles": [
+				"${workspaceRoot}/server/out/qnaserver.js"
+			]
+		},
+		{
 			"type": "extensionHost",
 			"request": "launch",
 			"name": "Launch Client(debug)",
@@ -79,13 +90,13 @@
 			"type": "node",
 			"request": "attach",
 			"name": "Attach to QnaServer(debug)",
-			"port": 6012,
+			"port": 6011,
 			"restart": true,
 			"sourceMaps": true,
 			"outFiles": [
 				"${workspaceRoot}/server/out/qna/src/server.js"
 			]
-		},
+		}
 	],
 	"compounds": [
 		{
@@ -93,7 +104,8 @@
 			"configurations": [
 				"Launch Client",
 				"Attach to LgServer",
-				"Attach to LuServer"
+				"Attach to LuServer",
+				"Attach to QnaServer"
 			]
 		},
 		{

@@ -7,7 +7,7 @@
 	"publisher": "vscode",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/ShYuPe/BotBuilder-lsp-lg"
+		"url": "https://github.com/Microsoft/BotBuilder-Samples"
 	},
 	"engines": {
 		"vscode": "^1.43.0"

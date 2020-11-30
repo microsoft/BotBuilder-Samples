@@ -32,7 +32,7 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
 		let severity : DiagnosticSeverity;
 		switch(u.Severity) {
 			case "ERROR": 
-				severity = DiagnosticSeverity.Error;					
+				severity = DiagnosticSeverity.Error;
 				break;
 			case "WARN":
 				severity = DiagnosticSeverity.Warning;

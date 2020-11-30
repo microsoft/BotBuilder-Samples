@@ -5,12 +5,13 @@
 
  /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import { Files, WorkspaceFolder } from 'vscode-languageserver'
+import { WorkspaceFolder } from 'vscode-languageserver'
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
 import { QnaFilesStatus } from './qnaFilesStatus';
 
 import * as fs from 'fs';
 import * as path from 'path';
+import { URI } from 'vscode-uri'
 
 export function isQnaFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.qna')) {
@@ -49,13 +50,13 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
 
 export function triggerQNAFileFinder(workspaceFolders: WorkspaceFolder[]) : void {
     QnaFilesStatus.qnaFilesOfWorkspace = [];
-    workspaceFolders?.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
+    workspaceFolders?.forEach(workspaceFolder => fs.readdir(URI.parse(workspaceFolder.uri).fsPath, (err, files) => {
         if(err) {
             console.log(err);
         } else {
             QnaFilesStatus.qnaFilesOfWorkspace = [];
             files.filter(file => isQnaFile(file)).forEach(file => {
-                QnaFilesStatus.qnaFilesOfWorkspace.push(path.join(Files.uriToFilePath(workspaceFolder.uri)!, file));
+                QnaFilesStatus.qnaFilesOfWorkspace.push(path.join(URI.parse(workspaceFolder.uri).fsPath, file));
             });
         }
     }));
