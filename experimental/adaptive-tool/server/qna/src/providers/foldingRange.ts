@@ -29,7 +29,7 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
      const sections = qnaResource.Sections;
      for(let section in qnaResource.Sections) {
          const start = sections[section].Range.Start.Line - 1;
-         const end = sections[section].Range.Stop.Line - 1;
+         const end = sections[section].Range.End.Line - 1;
          item.push(FoldingRange.create(start, end));
      }
      

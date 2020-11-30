@@ -52,7 +52,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 
     const completionList: CompletionItem[] = [];
 
-    if (/\[[^\]]*\]\([^)]*$/.test(curLineContent)) {
+    if (matchingPattern.isImport(curLineContent)) {
 		// []() import suggestion
 		const paths = Array.from(new Set(QnaFilesStatus.qnaFilesOfWorkspace));
 
@@ -68,7 +68,169 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		}, []);
 	}
 	
-	// TODO: add auto completion for multiturn references
+	if (matchingPattern.isHash(curLineContent)) {
+		const item = {
+			label: `#?`,
+			kind: CompletionItemKind.Keyword,
+			insertText: `? `,
+			documentation: '',
+		};
+		completionList.push(item);
+	}
+
+	if (matchingPattern.isFiltersOrPrompts(curLineContent)) {
+		const item1 = {
+			label: `**Prompts:**`,
+			kind: CompletionItemKind.Property,
+			insertText: `Prompts:**`,
+			documentation: 'add prompts',
+		};
+
+		completionList.push(item1);
+
+		const item2 = {
+			label: `**Filters:**`,
+			kind: CompletionItemKind.Property,
+			insertText: `Filters:**`,
+			documentation: 'add filters',
+		};
+
+		completionList.push(item2);
+	}
+
+	if (matchingPattern.isId(curLineContent)) {
+		const item = {
+			label: `<a id = ""></a>`,
+			kind: CompletionItemKind.Keyword,
+			insertText: `a id = ""></a>`,
+			documentation: 'add id for QA pair',
+		};
+		completionList.push(item);
+	}
+
+	if (matchingPattern.isAnswer(curLineContent)) {
+		const item = {
+			label: `answer placeholder`,
+			kind: CompletionItemKind.Keyword,
+			insertText: `\n\`\`\``,
+			documentation: 'answer placeholder',
+		};
+		completionList.push(item);
+	}
+
+	if (matchingPattern.isQASourceOrKBName(curLineContent)) {
+		const item1 = {
+			label: `@qna.pair.source = `,
+			kind: CompletionItemKind.Property,
+			insertText: `.pair.source = `,
+			documentation: 'add QA pair source',
+		};
+
+		completionList.push(item1);
+
+		const item2 = {
+			label: `@kb.name = `,
+			kind: CompletionItemKind.Property,
+			insertText: `.name = `,
+			documentation: 'add knowledge base name',
+		};
+
+		completionList.push(item2);
+	}
+
+	if (matchingPattern.isContextOnly(curLineContent)) {
+		const item = {
+			label: `\`context-only\``,
+			kind: CompletionItemKind.Keyword,
+			insertText: `\`context-only\``,
+			documentation: 'context-only mark',
+		};
+		completionList.push(item);
+	}
+
+	if (matchingPattern.isMultiturnReference(curLineContent)) {
+		return extractQnAContent(fullContent).then(
+			qnaJson => {
+				if (!qnaJson) {
+					return extractQnAContent(textExceptCurLine).then(
+						newQnaJson => {
+							return curLineContent.endsWith('?') ? addQuestions(newQnaJson, completionList) : addIds(newQnaJson, completionList);
+						});
+				} else {
+					return curLineContent.endsWith('?') ? addQuestions(qnaJson, completionList) : addIds(qnaJson, completionList);
+				}
+			}
+		);
+    }
 
 	return completionList;
+}
+
+async function extractQnAContent(text: string): Promise<any> {
+    let parsedContent: any;
+    const log = false;
+    const locale = 'en-us';
+    try {
+		parsedContent = await parseFile(text, log, locale);
+    } catch (e) {
+		//nothing to do in catch block
+    }
+
+    if (parsedContent !== undefined) {
+		return parsedContent.qnaJsonStructure;
+    } else {
+		return undefined;
+    }
+}
+
+function addQuestions(qnaJson: any, completionList: CompletionItem[]) : CompletionItem[] {
+	getSuggestionQuestions(qnaJson).forEach(question => {
+		const item = {
+			label: `Question: ${question}`,
+			kind: CompletionItemKind.Property,
+			insertText: `${question.replace(/\s+/g, '-')}`,
+			documentation: `question-answer pair reference suggestion`,
+		};
+		completionList.push(item);
+	});
+	return completionList;
+}
+
+function getSuggestionQuestions(qnaJson: any): string[] {
+	const suggestionQuestionList: string[] = [];
+	if (qnaJson !== undefined) {
+		qnaJson.qnaList.forEach((qaPair: any) => {
+			if (qaPair.questions && qaPair.questions.length > 0) {
+				suggestionQuestionList.push(qaPair.questions[0])
+			}
+		});
+	}
+
+	return suggestionQuestionList;
+}
+
+function addIds(qnaJson: any, completionList: CompletionItem[]) : CompletionItem[] {
+	getSuggestionIds(qnaJson).forEach(id => {
+		const item = {
+			label: `Question ID: ${id}`,
+			kind: CompletionItemKind.Property,
+			insertText: `${id}`,
+			documentation: `question-answer pair reference suggestion`,
+		};
+		completionList.push(item);
+	});
+	return completionList;
+}
+
+function getSuggestionIds(qnaJson: any): string[] {
+	const suggestionIdList: string[] = [];
+	if (qnaJson !== undefined) {
+		qnaJson.qnaList.forEach((qaPair: any) => {
+			if (qaPair.id && (qaPair.id > 0 || qaPair.id > '0')) {
+				suggestionIdList.push(qaPair.id)
+			}
+		});
+	}
+
+	return suggestionIdList;
 }

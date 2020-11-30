@@ -12,9 +12,6 @@ import {
 	TextDocument, Position
 } from 'vscode-languageserver-textdocument';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.js').parseFile;
-
 export function provideKeyBinding(params: ExecuteCommandParams, documents: TextDocuments<TextDocument>, connection: Connection) : void {
 	const commandName = params.command;
 	const args = params.arguments;
@@ -39,53 +36,9 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 
     const lineBreakPos = cursorPos;
 
-	let matches: RegExpExecArray | { replace: (arg0: string, arg1: string) => void; }[];
-
-	const match = textBeforeCursor?.match(/^\s*@\s*(\w+)\s*=\s*$/);
-	if (match !== null) {
-		const fullContent = document?.getText();
-		const luContent = extractLUISContent(fullContent!);
-		luContent.then(luisJson => {
-			if (luisJson != null) {
-				const entities : string[] = [];
-				console.log(luisJson["entities"]);
-				luisJson['entities'].forEach((entity : any) => {
-					entities.push(entity.name);
-				});
-				if (entities.includes(match![1])) {
-					// it's a ml entity, add \n\t- @
-					const replacedStr = `\n\t- @ `;
-					connection.workspace.applyEdit({
-						documentChanges: [
-							TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-								TextEdit.insert(lineBreakPos, replacedStr)
-							])
-						]
-					});
-				} else {
-					// it's not a ml entity, the parser will fail, just add \n
-					connection.workspace.applyEdit({
-						documentChanges: [
-							TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-								TextEdit.insert(lineBreakPos, '\n')
-							])
-						]
-					});
-				}
-			} else {
-				// it's not a ml entity, the parser will fail, just add \n
-				connection.workspace.applyEdit({
-					documentChanges: [
-						TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-							TextEdit.insert(lineBreakPos, '\n')
-						])
-					]
-				});
-			}
-		});
-	} else if ((matches = /^(\s*)@\s*list\s*\S+\s*=\s*/.exec(textBeforeCursor!)!) !== null) {
-		// in '@ list' line
-		const replacedStr = `\n${matches[1]}\t- `;
+	if (/^(\s*)\*\*\s*(Filters|Prompts):\s*\*\*\s*/i.exec(textBeforeCursor!) !== null) {
+		// in 'Filters' or 'Prompts' line
+		const replacedStr = `\n- `;
 		connection.workspace.applyEdit({
 			documentChanges: [
 				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
@@ -93,9 +46,10 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 				])
 			]
 		});
-	} else if ((matches = /^(\s*-\s*@).*\S+.*/.exec(textBeforeCursor!)!) !== null) {
-		// in '- @' line
-		const replacedStr = `\n${matches[1]} `;
+	} else if (/^(\s*[-#]).*\S+.*/.exec(textBeforeCursor!) !== null) {
+		// in '# or - ' line		
+		let	replacedStr = `\n- `;
+		
 		connection.workspace.applyEdit({
 			documentChanges: [
 				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
@@ -103,32 +57,7 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 				])
 			]
 		});
-	} else if ((matches = /^(\s*-\s*@)\s*$/.exec(textBeforeCursor!)!) !== null) {
-        // in '- @' empty line, enter would delete the head dash
-		const range = {start: {line: lineBreakPos.line, character: 0}, end: {line: lineBreakPos.line, character: lineBreakPos.character}};
-		connection.workspace.applyEdit({
-			documentChanges: [
-				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-					TextEdit.del(range)
-				])
-			]
-		});
-	} else if ((matches = /^(\s*[-#]).*\S+.*/.exec(textBeforeCursor!)!) !== null && /^\s*-\s*@\s*$/.exec(textBeforeCursor!) == null) {
-		// in '- ' line
-		let replacedStr;
-		if (/:\s*$/.exec(textBeforeCursor!) !== null) {
-			replacedStr = `\n\t${matches[1].replace('#', '-')} `;
-		} else {
-			replacedStr = `\n${matches[1].replace('#', '-')} `;
-		}
-		connection.workspace.applyEdit({
-			documentChanges: [
-				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [
-					TextEdit.insert(lineBreakPos, replacedStr)
-				])
-			]
-		});
-	} else if ((matches = /^(\s*-)\s*$/.exec(textBeforeCursor!)!) !== null) {
+	} else if (/^(\s*-)\s*$/.exec(textBeforeCursor!) !== null) {
         // in '-' empty line, enter would delete the head dash
 		const range = {start: {line: lineBreakPos.line, character: 0}, end: {line: lineBreakPos.line, character: lineBreakPos.character}};
 		connection.workspace.applyEdit({
@@ -146,21 +75,5 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 				])
 			]
 		});
-    }
-}
-async function extractLUISContent(text: string): Promise<any> {
-    let parsedContent: any;
-    const log = false;
-    const locale = 'en-us';
-    try {
-		parsedContent = await parseFile(text, log, locale);
-    } catch (e) {
-		//nothing to do in catch block
-    }
-
-    if (parsedContent !== undefined) {
-		return parsedContent.LUISJsonStructure;
-    } else {
-		return undefined;
     }
 }
