@@ -122,7 +122,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		const item1 = {
 			label: `@qna.pair.source = `,
 			kind: CompletionItemKind.Property,
-			insertText: `.pair.source = `,
+			insertText: `qna.pair.source = `,
 			documentation: 'add QA pair source',
 		};
 
@@ -131,7 +131,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		const item2 = {
 			label: `@kb.name = `,
 			kind: CompletionItemKind.Property,
-			insertText: `.name = `,
+			insertText: `kb.name = `,
 			documentation: 'add knowledge base name',
 		};
 

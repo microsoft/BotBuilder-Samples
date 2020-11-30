@@ -9,10 +9,7 @@
       "include": "#markdown"
     },
     {
-      "include": "#intents"
-    },
-    {
-      "include": "#entities"
+      "include": "#qa_pair_first_question"
     },
     {
       "include": "#utterances"
@@ -22,6 +19,15 @@
     },
     {
       "include": "#conventions"
+    },
+    {
+      "include": "#fence_block"
+    },
+    {
+      "include": "#imports"
+    },
+    {
+      "include": "#ids"
     }
   ],
   "repository": {
@@ -30,12 +36,12 @@
         "include": "text.html.markdown"
       }
     },
-    "intents": {
+    "qa_pair_first_question": {
       "patterns": [
         {
-          "comment": "intent definition",
-          "name": "markup.heading.lu",
-          "match": "(^#{1,2} .*$)"
+          "comment": "qa pair definition",
+          "name": "markup.heading.qna",
+          "match": "(^#{1,2}\\s*\\?\\s*.*$)"
         }
       ]
     },
@@ -43,64 +49,57 @@
       "patterns": [
         {
           "comment": "utterance",
-          "name": "markup.heading.lu",
-          "match": "([*+-]\\s)"
+          "name": "markup.heading.qna",
+          "match": "([-]\\s*)"
         },
         {
-          "comment": "utterance label",
-          "name": "support.type.lu",
-          "match": "((?<=\\{)[A-Za-z]*(?!=\\=))"
+          "comment": "utterance",
+          "name": "markup.heading.qna",
+          "match": "(\\*\\*[^\\*]*\\*\\*)"
         },
         {
           "comment": "utterance wild card",
-          "name": "support.type.lu",
-          "match": "(?<=\\#).+?(?=\\))"
-        }
-      ]
-    },
-    "entities": {
-      "patterns": [
-        {
-          "comment": "entity definition",
-          "name": "keyword.control.lu",
-          "match": "(\\@.?[a-zA-Z0-9&_\\.-]+\\s)"
-        },
-        {
-          "comment": "entity roles",
-          "name": "string.lu",
-          "match": "((?<=\\[).+?(?=\\]))"
-        },
-        {
-          "comment": "role in utterance",
-          "name": "keyword.control.lu",
-          "match": "(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)"
-        },
-        {
-          "comment": "implicit role",
-          "name": "variable.lu",
-          "match": "(?<=:)([A-Za-z]*)"
-        },
-        {
-          "comment": "entity with parser directive",
-          "name": "keyword.control.lu",
-          "match": "\\$([A-Za-z]*)"
+          "name": "support.type.qna",
+          "match": "(`context-only`)"
         }
       ]
     },
     "configuration": {
       "patterns": [
         {
-          "comment": "application configuration information",
-          "match": "(>.*)(!# )(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)",
+          "comment": "knowledge base configuration information",
+          "match": "(>.*)(!#\\s*)(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)",
           "captures": {
             "1": {
-              "name": "comment.lu"
+              "name": "comment.qna"
             },
             "2": {
-              "name": "entity.name.function.lu"
+              "name": "entity.name.function.qna"
             },
             "3": {
-              "name": "entity.name.function.lu"
+              "name": "entity.name.function.qna"
+            }
+          }
+        }
+      ]
+    },
+    "ids": {
+      "patterns": [
+        {
+          "comment": "qa pair id",
+          "match": "(<(a)\\s*(id)\\s*=\\s*(\"\\d+\")\\s*>\\s*</(a)>)",
+          "captures": {
+            "2": {
+              "name": "support.type.qna"
+            },
+            "3": {
+              "name": "entity.name.function.qna"
+            },
+            "4": {
+              "name": "string.other.link.title.qna"
+            },
+            "5": {
+              "name": "support.type.qna"
             }
           }
         }
@@ -110,19 +109,27 @@
       "patterns": [
         {
           "comment": "comment",
-          "name": "comment.lu",
+          "name": "comment.qna",
           "match": "(^>.*$)"
-        },
-        {
-          "comment": "regex",
-          "match": "(\\/)(.*)(\\/)",
-          "captures": {
-            "2": {
-              "name": "string.lu"
-            }
-          }
         }
       ]
-    }
+    },
+    "fence_block": {
+			"begin": "(`{3})\\s*",
+			"end": "(`{3})\\s*$",
+			"contentName": "constant.character.escape.multiline"
+    },
+    "imports": {
+			"captures": {
+				"1": {
+					"name": "string.other.link.title.qna"
+				},
+				"2": {
+					"name": "markup.underline.link.qna"
+				}
+			},
+			"match": "\\[([\\w\\W]+?)\\]\\(([\\w\\W]+?)\\)",
+			"name": "meta.link.reference.def.qna"
+		}
   }
 }
