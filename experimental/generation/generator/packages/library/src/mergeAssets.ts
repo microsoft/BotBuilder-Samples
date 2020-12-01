@@ -223,8 +223,10 @@ async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: 
 async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, extension: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     const outDir = assetDirectory(extension)
     let oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+    oldText = oldText.replace(/\r\n\n/g, os.EOL)
     let oldRefs = oldText.split(os.EOL)
     let newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+    newText = newText.replace(/\r\n\n/g, os.EOL)
     let newRefs = newText.split(os.EOL)
 
     let resultRefs: string[] = []
@@ -452,11 +454,13 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, oldFileLi
 async function changeEntityEnumLG(oldPath: string, oldFileList: string[], newFileList: string[], mergedPath: string, filename: string, feedback: Feedback): Promise<void> {
     let oldFilePath = oldFileList.filter(file => file.match(filename))[0]
     let oldText = await fs.readFile(oldFilePath, 'utf8')
+    oldText = oldText.replace(/\r\n\n/g, os.EOL)
     let oldStatements = oldText.split(os.EOL)
     let oldTemplates = Templates.parseText(oldText)
 
     let newFilePath = newFileList.filter(file => file.match(filename))[0]
     let newText = await fs.readFile(newFilePath, 'utf8')
+    newText = newText.replace(/\r\n\n/g, os.EOL)
     let newStatements = newText.split(os.EOL)
     let newTemplates = Templates.parseText(newText)
 
