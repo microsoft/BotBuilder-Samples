@@ -49,7 +49,6 @@ function onEnterKey(args: any[], documents: TextDocuments<TextDocument>, connect
 	} else if (/^(\s*[-#]).*\S+.*/.exec(textBeforeCursor!) !== null) {
 		// in '# or - ' line		
 		let	replacedStr = `\n- `;
-		
 		connection.workspace.applyEdit({
 			documentChanges: [
 				TextDocumentEdit.create({ uri: document!.uri, version: document!.version }, [

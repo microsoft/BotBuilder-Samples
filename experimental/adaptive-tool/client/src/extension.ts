@@ -248,12 +248,14 @@ function isLgFile(fileName: string): boolean {
     }
     return true;
 }
+
 function isLuFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.lu')) {
         return false;
     }
     return true;
 }
+
 function isQnaFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.qna')) {
         return false;

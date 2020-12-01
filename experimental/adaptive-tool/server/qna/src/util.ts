@@ -8,10 +8,9 @@
 import { WorkspaceFolder } from 'vscode-languageserver'
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
 import { QnaFilesStatus } from './qnaFilesStatus';
-
+import { URI } from 'vscode-uri'
 import * as fs from 'fs';
 import * as path from 'path';
-import { URI } from 'vscode-uri'
 
 export function isQnaFile(fileName: string): boolean {
     if(fileName === undefined || !fileName.toLowerCase().endsWith('.qna')) {

@@ -27,14 +27,13 @@ import {
 	FoldingRangeParams
 } from 'vscode-languageserver';
 
+import { QnaFilesStatus } from './qnaFilesStatus';
+import { TextDocument } from 'vscode-languageserver-textdocument';
 import * as completion from './providers/completion';
 import * as diagnostics from './providers/diagnostics';
 import * as keyBinding from './providers/keyBinding';
 import * as foldingRange from './providers/foldingRange';
-
 import * as util from './util';
-import { QnaFilesStatus } from './qnaFilesStatus';
-import { TextDocument } from 'vscode-languageserver-textdocument';
 
 // Create a connection for the server, using Node's IPC as a transport.
 // Also include all preview / proposed LSP features.

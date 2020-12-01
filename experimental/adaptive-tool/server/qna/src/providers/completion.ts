@@ -3,22 +3,19 @@
  * Licensed under the MIT License.
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { QnaFilesStatus } from '../qnaFilesStatus';
-import * as util from '../util';
 import * as path from 'path';
+import * as util from '../util';
 import * as matchingPattern from '../matchingPattern';
 
 import {
-	CompletionItem, CompletionItemKind, TextDocumentPositionParams,	Files, TextDocuments
+	CompletionItem, CompletionItemKind, TextDocumentPositionParams, Files, TextDocuments
 } from 'vscode-languageserver';
 
 import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 
-// eslint-disable-next-line @typescript-eslint/no-var-requires
 const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.js').parseFile;
 
 /**
@@ -40,26 +37,26 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		end: position
 	}).toString();
 
-    if(!util.isQnaFile(path.basename(document.uri))) 
+	if (!util.isQnaFile(path.basename(document.uri)))
 		return;
 
-    const fullContent = document.getText();
-    const lines = fullContent.split('\n');
+	const fullContent = document.getText();
+	const lines = fullContent.split('\n');
 	const textExceptCurLine = lines
 		.slice(0, position.line)
 		.concat(lines.slice(position.line + 1))
 		.join('\n');
 
-    const completionList: CompletionItem[] = [];
+	const completionList: CompletionItem[] = [];
 
-    if (matchingPattern.isImport(curLineContent)) {
+	if (matchingPattern.isImport(curLineContent)) {
 		// []() import suggestion
 		const paths = Array.from(new Set(QnaFilesStatus.qnaFilesOfWorkspace));
 
-		return paths.filter(u => u !== fspath).reduce((prev : any[], curr: string) => {
+		return paths.filter(u => u !== fspath).reduce((prev: any[], curr: string) => {
 			const relativePath = path.relative(path.dirname(fspath!), curr);
 			const item = {
-				label: relativePath, 
+				label: relativePath,
 				kind: CompletionItemKind.Reference,
 				detail: curr
 			};
@@ -67,7 +64,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			return prev;
 		}, []);
 	}
-	
+
 	if (matchingPattern.isHash(curLineContent)) {
 		const item = {
 			label: `#?`,
@@ -75,6 +72,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			insertText: `? `,
 			documentation: '',
 		};
+
 		completionList.push(item);
 	}
 
@@ -105,6 +103,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			insertText: `a id = ""></a>`,
 			documentation: 'add id for QA pair',
 		};
+
 		completionList.push(item);
 	}
 
@@ -115,6 +114,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			insertText: `\n\`\`\``,
 			documentation: 'answer placeholder',
 		};
+
 		completionList.push(item);
 	}
 
@@ -145,6 +145,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 			insertText: `\`context-only\``,
 			documentation: 'context-only mark',
 		};
+
 		completionList.push(item);
 	}
 
@@ -161,29 +162,29 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 				}
 			}
 		);
-    }
+	}
 
 	return completionList;
 }
 
 async function extractQnAContent(text: string): Promise<any> {
-    let parsedContent: any;
-    const log = false;
-    const locale = 'en-us';
-    try {
+	let parsedContent: any;
+	const log = false;
+	const locale = 'en-us';
+	try {
 		parsedContent = await parseFile(text, log, locale);
-    } catch (e) {
+	} catch (e) {
 		//nothing to do in catch block
-    }
+	}
 
-    if (parsedContent !== undefined) {
+	if (parsedContent !== undefined) {
 		return parsedContent.qnaJsonStructure;
-    } else {
+	} else {
 		return undefined;
-    }
+	}
 }
 
-function addQuestions(qnaJson: any, completionList: CompletionItem[]) : CompletionItem[] {
+function addQuestions(qnaJson: any, completionList: CompletionItem[]): CompletionItem[] {
 	getSuggestionQuestions(qnaJson).forEach(question => {
 		const item = {
 			label: `Question: ${question}`,
@@ -191,8 +192,10 @@ function addQuestions(qnaJson: any, completionList: CompletionItem[]) : Completi
 			insertText: `${question.replace(/\s+/g, '-')}`,
 			documentation: `question-answer pair reference suggestion`,
 		};
+
 		completionList.push(item);
 	});
+
 	return completionList;
 }
 
@@ -209,7 +212,7 @@ function getSuggestionQuestions(qnaJson: any): string[] {
 	return suggestionQuestionList;
 }
 
-function addIds(qnaJson: any, completionList: CompletionItem[]) : CompletionItem[] {
+function addIds(qnaJson: any, completionList: CompletionItem[]): CompletionItem[] {
 	getSuggestionIds(qnaJson).forEach(id => {
 		const item = {
 			label: `Question ID: ${id}`,
@@ -217,8 +220,10 @@ function addIds(qnaJson: any, completionList: CompletionItem[]) : CompletionItem
 			insertText: `${id}`,
 			documentation: `question-answer pair reference suggestion`,
 		};
+
 		completionList.push(item);
 	});
+
 	return completionList;
 }
 
