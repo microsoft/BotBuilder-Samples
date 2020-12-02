@@ -17,7 +17,7 @@ evolving set of capabilities including:
 - Confirmation
 
 ## Get started ##
-**Ready to get started?** Follow instructions for the [bf-generate plug in][start] or [form dialogs in Composer][link to Getting Started with form dialogs] or keep reading for more information.
+**Ready to get started?** Follow instructions for the [bf dialog:generate][start] CLI command or [form dialogs in Composer][link to Getting Started with form dialogs] or keep reading for more information.
 
 We welcome your feedback as we work through this feature - see the
 [Feedback](#feedback) section for details on how you can help shape the future
