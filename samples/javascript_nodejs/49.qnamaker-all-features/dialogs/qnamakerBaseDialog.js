@@ -9,6 +9,10 @@ const {
     ActivityFactory
 } = require('botbuilder-core');
 
+const {
+    MessageFactory
+} = require('botbuilder');
+
 // Default parameters
 const DefaultThreshold = 0.3;
 const DefaultTopN = 3;
@@ -29,7 +33,7 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      */
     constructor(knowledgebaseId, authkey, host, defaultAnswer) {
 
-        var defaultAnswerActivity = ActivityFactory.fromObject(defaultAnswer?.trim() ? defaultAnswer : DefaultAnswer);
+        var defaultAnswerActivity = MessageFactory.text(!!defaultAnswer.trim() ? defaultAnswer : DefaultAnswer);
         var filters = [];
         super(knowledgebaseId, authkey, host, defaultAnswerActivity, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
