@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
-            var defaultAnswerActivity = MessageFactory.Text(this.DefaultAnswer);            
+            var defaultAnswerActivity = MessageFactory.Text(this.DefaultAnswer);
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
