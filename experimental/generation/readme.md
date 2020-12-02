@@ -16,7 +16,7 @@ evolving set of capabilities including:
 - Cancel
 - Confirmation
 
-## Get started ##
+## Get started
 **Ready to get started?** Follow instructions for the [bf dialog:generate][start] CLI command or [form dialogs in Composer][link to Getting Started with form dialogs] or keep reading for more information.
 
 We welcome your feedback as we work through this feature - see the
