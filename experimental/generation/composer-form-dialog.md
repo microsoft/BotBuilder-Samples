@@ -10,7 +10,6 @@ To enable the form dialogs preview in Composer, follow these steps:
 
 1. Install [Bot Framework Composer](https://docs.microsoft.com/en-us/composer/install-composer#build-composer-from-source).
 2. In Composer, go to your **Settings** by clicking on the gear icon at the bottom of the menu.
-3. On Settings page, select **App settings** in the navigation.
 4. In the **Preview features** section, select the **Form dialogs** checkbox. You should see a new icon appear in the menu. This is the **Forms** section. Once enabled, the form dialog preview will remain enabled until de-select this checkbox.
 5. **Create a new bot** or **open an existing bot** from the **Home** page. The Forms section will not be enabled if you do not have a bot open.
 
