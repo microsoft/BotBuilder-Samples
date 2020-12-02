@@ -659,7 +659,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let ref = `${elt}.dialog`
             let path = files.get(ref)
             // Keep recognizers as a reference
-            if (ref !== mainName && path && key && !ref.endsWith('.lu.dialog')) {
+            if (ref !== mainName && path && key && !ref.endsWith('.lu.dialog') && !ref.endsWith('.qna.dialog')) {
                 // Replace reference with inline object
                 let newElt = await fs.readJSON(path)
                 let id = ppath.basename(path)

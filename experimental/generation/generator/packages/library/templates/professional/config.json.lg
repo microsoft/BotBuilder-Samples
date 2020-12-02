@@ -11,7 +11,7 @@ ${join(foreach(locales, locale, localeTemplate(locale)), ','+EOL())}
 ```
 
 # localeTemplate(locale)
--```    "./${knowledgeDir()}${locale}/${prefix}.${locale}.lu": {
+-```    "${prefix}.${locale}": {
             "rootDialog": true,
 		    "triggers": {"":""}
         }```
