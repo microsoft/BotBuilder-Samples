@@ -25,7 +25,7 @@ of this tool.
 
 ## Overview
 
-Dialog generation is an experimental feature that generates adaptive dialog assets. It is available through the `bf-generate` plugin for the `bf cli` tool and the [form dialog feature in the Bot Framework Composer][link to Getting Started with form dialogs]. The overall workflow for either option is the same:
+Dialog generation is an experimental feature that generates adaptive dialog assets. It is available using the **bf dialog:generate** command that is provided with the `bf cli` tool or the [form dialog feature][link to Getting Started with form dialogs] when using Composer. The overall workflow for either option is the same:
 
 1. **Define your property schema.**
 2. **Generate your dialog assets.**
