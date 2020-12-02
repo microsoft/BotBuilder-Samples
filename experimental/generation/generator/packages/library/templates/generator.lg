@@ -757,3 +757,9 @@ ${'#'} ${property}_IncorrectUnits(actual)
 
 # units
 - ${schema.properties[property].$units}
+
+# qnaAnswer
+- ${@answer}
+
+# chooseIntent
+- which recognizer do you prefer?

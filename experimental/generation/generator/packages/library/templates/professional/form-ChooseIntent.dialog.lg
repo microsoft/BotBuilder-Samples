@@ -1,3 +1,5 @@
+[generator.lg](../generator.lg)
+
 # template
 - ```
 {
@@ -28,7 +30,7 @@
                 "noValue": false,
                 "noAction": false
             },
-            "prompt": "\${choose_intent()}",
+            "prompt": "\${chooseIntent()}",
             "property": "user.choice",
             "choices": "select(turn.recognized.candidates, candidate, candidate.intent)"
         },
