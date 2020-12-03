@@ -858,7 +858,8 @@ export async function generate(
             operations: schema.schema.$operations,
             properties: schema.schema.$public,
             triggerIntent: schema.triggerIntent(),
-            appSchema: metaSchema
+            appSchema: metaSchema,
+            utterances: new Set<string>()
         }
 
         if (schema.schema.$parameters) {
