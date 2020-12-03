@@ -16,17 +16,34 @@
             "condition": "count($events.Assignments) > 0",
             "actions": [
                 {
-                    "$kind":"Microsoft.EditArray",
+                    "$kind": "Microsoft.EditArray",
                     "changeType": "take",
                     "itemsProperty": "$events.Assignments"
                 }
             ],
             "elseActions": [
                 {
-                    "$kind": "Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "$PropertyToChange",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SetProperty",
+                            "property": "$requiredProperties",
+                            "value": "=form.skipExpectedProperties()"
+                        }
+                    ]
                 }
             ]
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$retries"
         }
     ]
     ${designerIntent('Skip')}

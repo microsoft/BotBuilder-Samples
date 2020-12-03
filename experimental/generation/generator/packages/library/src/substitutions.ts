@@ -72,8 +72,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
 
     // Normalize bindings into a simple array and setup variables
     const state = new Map<string, Variable>();
-    for (const binding of Object.keys(bindings)) {
-        const value = bindings[binding]
+    for (const [binding, value] of bindings) {
         if (Array.isArray(value)) {
             state.set(binding, {index: -1, values: (value as any).flat()})
         } else if (typeof value === 'string' || typeof value === 'number') {
@@ -81,11 +80,8 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         }
     }
 
-    // Track all generated utterances
-    if (!('utterances' in bindings)) {
-        // Setup memory of all generated strings
-        bindings.utterances = new Set<string>()
-    }
+    // Track all generated utterances across calls in bindings
+    bindings.utterances ??= new Set<string>()
     const utterances = bindings.utterances as Set<string>
 
     const result: string[] = []
@@ -123,15 +119,15 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
             if (line.trim() === '') {
                 result.push(line)
             } else {
-                const all = line.match(/\${[^}*]+\*}/g) || []
+                const all = line.match(/\${[^}*]+\*}/g) ?? []
                 for (const [key, variable] of state) {
                     variable.index = all.includes(`\${${key}*}`) ? 0 : -1
                 }
                 do {
                     let missing = false
-                    for (var i = 0; i < copies; ++i) {
+                    for (let i = 0; i < copies; ++i) {
                         // Number of times to try for a unique result
-                        var tries = 3
+                        let tries = 3
                         do {
                             const newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
                                 (match, key) => {
@@ -168,15 +164,11 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
 
 export const SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
     expr.FunctionUtils.apply(
-        args => {
-            const path = args[0]
-            const bindings = args[1]
-            const replications = args.length > 2 ? args[2] : undefined
-            const seed = args.length > 3 ? args[3] : undefined
+        ([path, bindings, replications, seed]) => {
             return substitutions(path, bindings, replications, seed)
         },
         (val, expr, pos) => {
-            let error
+            let error: string | undefined
             switch (pos) {
                 case 0:
                     if (typeof val !== 'string') error = `${expr} does not have a path.`
