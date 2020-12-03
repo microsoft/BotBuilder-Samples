@@ -90,7 +90,7 @@
 			"type": "node",
 			"request": "attach",
 			"name": "Attach to QnaServer(debug)",
-			"port": 6011,
+			"port": 6012,
 			"restart": true,
 			"sourceMaps": true,
 			"outFiles": [
