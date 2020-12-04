@@ -72,7 +72,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
 
     // Normalize bindings into a simple array and setup variables
     const state = new Map<string, Variable>();
-    for (const [binding, value] of bindings) {
+    for (const [binding, value] of Object.entries(bindings)) {
         if (Array.isArray(value)) {
             state.set(binding, {index: -1, values: (value as any).flat()})
         } else if (typeof value === 'string' || typeof value === 'number') {
