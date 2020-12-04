@@ -8,7 +8,7 @@
 {
     "$kind": "Microsoft.QnAMakerRecognizer",
     "id": "QnA_${prefix}",
-    "knowledgeBaseId": "=settings.qna.unitQ143_en_us_qna",
+    "knowledgeBaseId": "=settings.qna.${prefix}_en_us_qna",
     "hostname": "=settings.qna.hostname",
     "endpointKey": "=settings.qna.endpointKey"
 }
