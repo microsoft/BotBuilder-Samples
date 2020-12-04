@@ -23,4 +23,10 @@
 
 @ phraselist ChangePhrases(interchangeable)=
     - change, edit
+
+@ phraselist SkipPhrases(interchangeable)=
+    - skip, not now, later, neither, none of those, I don't care, nothing
+
+@ phraselist CancelPhrases(interchangeable)=
+    - cancel, forget it, quit
 ```
