@@ -99,6 +99,12 @@ You can also ask for over all help, cancel the whole form or skip a clarificatio
 # PropertyToChange_RepromptHelp
 - 
 
+# qnaAnswer
+- ${@answer}
+
+# chooseIntent
+- which recognizer do you prefer?
+
 >> FUNCTIONS for dialogs
 > The offset is to leave room for things like PropertyToChange
 # missingPriority(property)

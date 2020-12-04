@@ -1,0 +1,15 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${recognizerDir()}${prefix}.${locale}.qna.dialog
+
+# template
+-```
+{
+    "$kind": "Microsoft.QnAMakerRecognizer",
+    "id": "QnA_${prefix}",
+    "knowledgeBaseId": "=settings.qna.unitQ143_en_us_qna",
+    "hostname": "=settings.qna.hostname",
+    "endpointKey": "=settings.qna.endpointKey"
+}
+```

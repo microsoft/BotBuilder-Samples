@@ -14,6 +14,7 @@
         "form-ChooseIntent.dialog",
         "config.json",
         "qnaconfig.json",
-        "qna-multilingual.dialog"
+        "qna-multilingual.dialog",
+        "qnamaker.dialog"
         ]
 }

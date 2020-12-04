@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder.AI.Luis;
+using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -40,6 +41,12 @@ namespace RunBotServer
                     builder.AddInMemoryCollection(settings);
                 }
                 builder.UseLuisSettings();
+
+                var botRoot = config.GetValue<string>("root") ?? ".";
+                var region = config.GetValue<string>("region") ?? "westus";
+                var environment = config.GetValue<string>("environment") ?? Environment.UserName;
+                builder.UseQnAMakerSettings(botRoot, region, environment);
+                
                 builder.AddUserSecrets("RunBot");
             })
             .ConfigureWebHostDefaults(webBuilder =>
