@@ -91,10 +91,7 @@
             ]
         },
         "Percentage": {
-            "type": "string",
-            "$entities": [
-                "percentage"
-            ]
+            "$ref": "template:percentage.schema"
         },
         "Age": {
             "$ref": "template:age.schema"

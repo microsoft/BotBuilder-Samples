@@ -157,6 +157,7 @@ Settings for LG files can be found under **LG** in the Extensions settings.
 ## Contributing
 
 Code contributions are welcome via the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
+Change NODE_DEBUG to true in `.env` for debugging.
 
 ## Feedback
 

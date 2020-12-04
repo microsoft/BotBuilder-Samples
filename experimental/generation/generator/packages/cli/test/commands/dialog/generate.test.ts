@@ -21,7 +21,7 @@ describe('dialog:generate', async () => {
     let method = 'post'
     let route = '/store/order'
     let schemaName = 'petOrder.form'
-    let unittestSchemaNames = ['number', "number_with_limits", 'integer', 'integer_with_limits', 'boolean', 'array_personName', 'enum', 'array_enum', 'email', 'uri', 'iri', 'date-time', 'date', 'time', 'personName', 'personName_with_pattern', 'personName_with_ref', 'phonenumber', 'phonenumber_with_ref', 'keyPhrase', 'keyPhrase_with_pattern', 'keyPhrase_with_ref', 'percentage', 'percentage_with_ref', 'age', 'age_with_units', 'ordinal', 'geography', 'money', 'money_with_units', 'temperature', 'temperature_with_units', 'dimension', 'dimension_with_units', 'datetime']
+    let unittestSchemaNames = ['number', "number_with_limits", 'integer', 'integer_with_limits', 'boolean', 'array_personName', 'enum', 'array_enum', 'email', 'uri', 'iri', 'date-time', 'date', 'time', 'personName', 'personName_with_pattern', 'personName_with_ref', 'phonenumber', 'phonenumber_with_ref', 'keyPhrase', 'keyPhrase_with_pattern', 'keyPhrase_with_ref', 'percentage', 'percentage_with_limits', 'age', 'age_with_units', 'ordinal', 'geography', 'money', 'money_with_units', 'temperature', 'temperature_with_units', 'dimension', 'dimension_with_units', 'datetime']
 
     beforeEach(async () => {
         await fs.remove(output)

@@ -126,7 +126,7 @@ describe('dialog:generate library', async () => {
         'number_with_limits',
         'number',
         'ordinal',
-        'percentage_with_ref',
+        'percentage_with_limits',
         'percentage',
         'personName_with_pattern',
         'personName_with_ref',
@@ -236,7 +236,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 135)
+            await checkPattern(ppath.join(output, '**'), 133)
         } catch (e) {
             assert.fail(e.message)
         }

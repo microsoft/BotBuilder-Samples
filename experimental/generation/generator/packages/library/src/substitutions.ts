@@ -17,7 +17,7 @@ function increment(bindings: State): boolean {
     let overflow = 0
     bindings.forEach(binding => binding.index < 0 || ++fixed);
     if (fixed > 0) {
-        for (let variable of bindings.values()) {
+        for (const variable of bindings.values()) {
             if (variable.index >= 0) {
                 ++variable.index
                 if (variable.index < variable.values.length) {
@@ -34,7 +34,7 @@ function increment(bindings: State): boolean {
 
 // Given a key either return the current value or a random one
 function binding(key: string, bindings: State, rand: random.prng): string {
-    let variable = bindings.get(key)
+    const variable = bindings.get(key)
     let value: any
     if (variable) {
         if (variable.values.length > 0) {
@@ -48,6 +48,11 @@ function binding(key: string, bindings: State, rand: random.prng): string {
         value = `**Missing ${key}**`
     }
     return value
+}
+
+// Return plain text of labeled utterance
+function plainText(labeled: string): string {
+    return labeled.replace(/\{\@[^=]+=/g, '').replace(/\}/g, '')
 }
 
 /**
@@ -66,30 +71,33 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     if (!seed) seed = '0'
 
     // Normalize bindings into a simple array and setup variables
-    let state = new Map<string, Variable>();
-    for (let binding of Object.keys(bindings)) {
-        let value = bindings[binding]
+    const state = new Map<string, Variable>();
+    for (const [binding, value] of Object.entries(bindings)) {
         if (Array.isArray(value)) {
             state.set(binding, {index: -1, values: (value as any).flat()})
-        } else {
+        } else if (typeof value === 'string' || typeof value === 'number') {
             state.set(binding, {index: -1, values: value ? [value] : []})
         }
     }
 
-    let result: string[] = []
-    let rand = random(seed)
-    let file = fs.readFileSync(path, 'utf8')
+    // Track all generated utterances across calls in bindings
+    bindings.utterances ??= new Set<string>()
+    const utterances = bindings.utterances as Set<string>
+
+    const result: string[] = []
+    const rand = random(seed)
+    const file = fs.readFileSync(path, 'utf8')
     let lines = file.split(os.EOL)
     if (lines.length < 2) {
         // Windows uses CRLF and that is how it is checked-in, but when an npm
         // package is built it switches to just LF.
         lines = file.split('\n')
     }
-    let replacer = (line: string): {newLine: string, missing: boolean} => {
+    const replacer = (line: string): {newLine: string, missing: boolean} => {
         let missing = false
-        let newLine = line.replace(/\${([^}*?]+)[*?]?\}/g,
+        const newLine = line.replace(/\${([^}*?]+)[*?]?\}/g,
             (match, key) => {
-                let val = binding(key, state, rand)
+                const val = binding(key, state, rand)
                 if (!val) {
                     missing = true
                 }
@@ -99,10 +107,10 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
         return {newLine, missing}
     }
     let skipToNextComment = false
-    for (let line of lines) {
-        let isComment = line.startsWith('>')
+    for (const line of lines) {
+        const isComment = line.startsWith('>')
         if (isComment) {
-            let {newLine, missing} = replacer(line)
+            const {newLine, missing} = replacer(line)
             skipToNextComment = missing
             if (!missing) {
                 result.push(newLine)
@@ -111,9 +119,8 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
             if (line.trim() === '') {
                 result.push(line)
             } else {
-                let generated = new Set<string>()
-                let all = line.match(/\${[^}*]+\*}/g) || []
-                for (let [key, variable] of state) {
+                const all = line.match(/\${[^}*]+\*}/g) ?? []
+                for (const [key, variable] of state) {
                     variable.index = all.includes(`\${${key}*}`) ? 0 : -1
                 }
                 do {
@@ -122,9 +129,9 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
                         // Number of times to try for a unique result
                         let tries = 3
                         do {
-                            let newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
+                            const newline = line.replace(/\${([^}*?]+)[*?]?\}/g,
                                 (match, key) => {
-                                    let val = binding(key, state, rand)
+                                    const val = binding(key, state, rand)
                                     if (!val) {
                                         missing = true
                                     }
@@ -138,8 +145,11 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
                                 break
                             }
                             tries = tries - 1
-                            if (!generated.has(newline)) {
-                                generated.add(newline)
+                            const text = plainText(newline)
+                            // Ensure we generate given text only once because otherwise we can label it in multiple ways which LUIS
+                            // does not allow
+                            if (!utterances.has(text)) {
+                                utterances.add(text)
                                 result.push(newline)
                                 tries = 0
                             }
@@ -152,17 +162,13 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     return result.join(os.EOL)
 }
 
-export let SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
+export const SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
     expr.FunctionUtils.apply(
-        args => {
-            let path = args[0]
-            let bindings = args[1]
-            let replications = args.length > 2 ? args[2] : undefined
-            let seed = args.length > 3 ? args[3] : undefined
+        ([path, bindings, replications, seed]) => {
             return substitutions(path, bindings, replications, seed)
         },
         (val, expr, pos) => {
-            let error
+            let error: string | undefined
             switch (pos) {
                 case 0:
                     if (typeof val !== 'string') error = `${expr} does not have a path.`

@@ -66,7 +66,7 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
  * @param var File content.
  * @param feedback Callback function for progress and errors.
  */
-async function writeToFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], val: string, feedback: Feedback) {
+async function writeToFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], val: string, feedback: Feedback): Promise<void> {
     let filePaths = sourceFileList.filter(file => file.match(fileName))
     if (filePaths.length !== 0) {
         let sourceFilePath = filePaths[0]
@@ -83,7 +83,7 @@ async function writeToFile(sourcePath: string, destPath: string, fileName: strin
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  * @param feedback Callback function for progress and errors.
  */
-function changedMessage(fileName: string, feedback: Feedback) {
+function changedMessage(fileName: string, feedback: Feedback): void{
     feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${fileName} ***`)
 }
 
@@ -149,7 +149,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
     }
 
     if (oldPath === mergedPath) {
-        let tempOldPath = `${os.tmpdir}/tempOld/`
+        let tempOldPath = `${os.tmpdir()}/tempOld/`
         await fs.emptyDir(tempOldPath)
         await fs.copy(oldPath, tempOldPath)
         await fs.emptyDir(oldPath)
@@ -158,9 +158,6 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 
     try {
         for (let locale of locales) {
-            await fs.ensureDir(ppath.join(mergedPath, locale))
-            feedback(FeedbackType.message, `Create output dir : ${mergedPath} `)
-
             let oldFileList = await getFiles(oldPath)
             let newFileList = await getFiles(newPath)
 
@@ -257,7 +254,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
                         await changeEntityEnumLG(oldPath, oldFileList, newFileList, mergedPath, file, feedback)
                     }
                 } else {
-                    if (await !isOldUnchanged(oldFileList, file) && getHashCodeFromFile(oldFileList, file) !== getHashCodeFromFile(newFileList, file)) {
+                    if (await !isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
                         changedMessage(file, feedback)
                     } else {
                         await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
@@ -267,7 +264,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
         } else {
             resultRefs.push(ref)
             let file = refFilename(ref, feedback)
-            if (newText.match(file) && !await isOldUnchanged(oldFileList, file) && getHashCodeFromFile(oldFileList, file) !== getHashCodeFromFile(newFileList, file)) {
+            if (newText.match(file) && !await isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
                 changedMessage(file, feedback)
             } else {
                 await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
@@ -660,7 +657,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
         let resultReducedOldTrigger = reducedOldTriggerMap.get(reducedOldTriggers[j])
         mergedTriggers.push(resultReducedOldTrigger)
         if (typeof resultReducedOldTrigger === 'string') {
-            if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldFileList, reducedOldTriggers[j] + '.dialog') && getHashCodeFromFile(oldFileList, reducedOldTriggers[j] + '.dialog') !== getHashCodeFromFile(newFileList, reducedOldTriggers[j] + '.dialog')) {
+            if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldFileList, reducedOldTriggers[j] + '.dialog') && await getHashCodeFromFile(oldFileList, reducedOldTriggers[j] + '.dialog') !== await getHashCodeFromFile(newFileList, reducedOldTriggers[j] + '.dialog')) {
                 changedMessage(reducedOldTriggers[j] + '.dialog', feedback)
             } else {
                 await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', oldFileList, feedback)

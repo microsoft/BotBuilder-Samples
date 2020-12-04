@@ -471,7 +471,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition":"!\$${property}",
-    "priority": "=form.missingPriority('${property}')",
+    "priority": "=form.missingPriority(['${property}'])",
     "actions": [
         {
             "$kind": "Microsoft.Ask",
@@ -569,12 +569,17 @@ ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
+> TODO: dummyProperty are to work around an issue in 4.11 of the SDK they can be removed on the next release
+@ ml Skip() usesFeature SkipPhrases
+    - @ ml dummyProperty
+@ ml Cancel() usesFeature CancelPhrases
+    - @ ml dummyProperty
 
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`, 
-    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
+    { utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
     3)}
 ```
 
@@ -638,13 +643,14 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 -```
 > !# @app.culture = ${locale}
 > !# @app.settings.NormalizeWordForm = true
+> !# @app.settings.UseAllTrainingData = true
 ```
 
 >> Templates to use when expanding schemas
 
 > Operations defined in .lu
 # schemaOperations()
-- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
+- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
 
 > Define default operation for properties
 # schemaDefaultOperation()

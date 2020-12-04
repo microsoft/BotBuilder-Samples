@@ -118,16 +118,16 @@ namespace Microsoft.BotBuilderSamples
 
         private static Recognizer CreateQnAMakerRecognizer(IConfiguration configuration)
         {
-            if (string.IsNullOrEmpty(configuration["qna:TodoBotWithLuisAndQnA_en_us_qna"]) || string.IsNullOrEmpty(configuration["QnAHostName"]) || string.IsNullOrEmpty(configuration["QnAEndpointKey"]))
+            if (string.IsNullOrEmpty(configuration["qna:ViewToDoDialog_en_us_qna"]) || string.IsNullOrEmpty(configuration["QnAHostName"]) || string.IsNullOrEmpty(configuration["QnAEndpointKey"]))
             {
-                throw new Exception("NOTE: QnA Maker is not configured for RootDialog. Please follow instructions in README.md. To enable all capabilities, add 'qnamaker:qnamakerSampleBot_en_us_qna', 'qnamaker:LuisAPIKey' and 'qnamaker:endpointKey' to the appsettings.json file.");
+                throw new Exception("NOTE: QnA Maker is not configured for ViewToDoDialog. Please follow instructions in README.md to add 'qnamaker:ViewToDoDialog_en_us_qna', 'QnAHostName' and 'QnAEndpointKey' to the appsettings.json file.");
             }
 
             return new QnAMakerRecognizer()
             {
                 HostName = configuration["QnAHostName"],
                 EndpointKey = configuration["QnAEndpointKey"],
-                KnowledgeBaseId = configuration["qna:TodoBotWithLuisAndQnA_en_us_qna"],
+                KnowledgeBaseId = configuration["qna:ViewToDoDialog_en_us_qna"],
 
                 // property path that holds qna context
                 Context = "dialog.qnaContext",

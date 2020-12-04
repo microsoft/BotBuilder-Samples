@@ -40,7 +40,7 @@ function normalizeEOL(val: string): string {
         // For linux shell scripts want line feed only
         val = val.replace(/\r/g, '')
     } else if (os.EOL === '\r\n') {
-        val = val.replace(/(^|[^\r])\n/g, `$1${os.EOL}`)
+        val = val.replace(/\r\n/g, '\n').replace(/\n/g, os.EOL)
     } else {
         val = val.replace(/\r\n/g, os.EOL)
     }
@@ -858,7 +858,8 @@ export async function generate(
             operations: schema.schema.$operations,
             properties: schema.schema.$public,
             triggerIntent: schema.triggerIntent(),
-            appSchema: metaSchema
+            appSchema: metaSchema,
+            utterances: new Set<string>()
         }
 
         if (schema.schema.$parameters) {
@@ -906,7 +907,18 @@ export async function generate(
         externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
         success = false
     }
+
+    await delay(500)
+
     return success
+}
+
+/**
+ * Sleep function
+ * @param ms The time in millisecond.
+ */
+async function delay(ms: number) {
+    return new Promise( resolve => setTimeout(resolve, ms) );
 }
 
 /**

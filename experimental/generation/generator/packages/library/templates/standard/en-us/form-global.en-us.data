@@ -32,6 +32,18 @@
 - {@Help()=what do you want to know?}
 - {@Help()=I don't understand}
 
+> Global skip
+- {@Skip()=skip}
+- {@Skip()=neither}
+- {@Skip()=none of those}
+- {@Skip()=I don't care}
+- {@Skip()=nothing}
+
+> Global cancel
+- {@Cancel()=cancel}
+- {@Cancel()=forget it}
+- {@Cancel()=quit}
+
 > Mixed operations
 - {@Add()=add ${entity}, ${entity}} and {@Show()=display ${property}}
 - {@Remove()=remove ${entity}, ${entity}} and {@Show()=show ${property}}

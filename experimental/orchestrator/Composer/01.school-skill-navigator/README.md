@@ -79,17 +79,17 @@ The snapshot of the language model file should be written to schoolnavigatorbot.
 
 Evaluation reports should be written to folder [report](report). Detail report interpretation can be found [here](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorReport.md).
 
-- Open **report/orchestrator_testing_set_summary.html** through a browser, and navigate to the **Average confusion matrix metrics** section from the last page **Metrics**, you will find the recommended evaluation metric: **Micro-Average Accuracy** = 0.8954.![Metrics](report/merics.PNG)
+- Open **report/orchestrator_testing_set_summary.html** through a browser, and navigate to the **Average confusion matrix metrics** section from the last page **Metrics**, you will find the recommended evaluation metric: **Micro-Average Accuracy** = 0.9869.![Metrics](report/merics.PNG)
 
 ### Improve
 
-Accuracy 0.8954 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions.![Misclassified](report/misclassified.PNG)
+Accuracy 0.9869 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions. In our example, there are 2 mis-labeled utterances, we will use them to illustrate the improving process here.![Misclassified](report/misclassified.PNG)
 
-Next we are going to use the first two mis-classified query utterances to show how to improve the training set.
+Next we are going to use the two mis-classified query utterances to show how to improve the training set. 
 
 - The first utterance "where are the tennis courts" should be labeled as Sports, but is mis-labeled as StudentServices. Closest Example shows the closest evidence example from that category, and Score shows the similarity between the query utterance and Closest Example. Taking a closer look into the examples, "where are the Recreation facilities" and "where's the gym" are essentially referring to the same thing, but separated into different labels, which eventually confused the model. To clarify the concepts, we could **manually relabel the utterance "where are the Recreation facilities" by moving it  from # StudentServices to # Sports in schoolnavigatorbot.train.lu.** 
 
-- The second utterance "where is the Healthcare Management school" should be labeled as Academics, but is mis-labeled as StudentServices. To correct the query prediction, we could **manually add it ("where is the Healthcare Management school") to # Academics in schoolnavigatorbot.train.lu.**
+- The second utterance "where is the Healthcare Management school" should be labeled as Academics, but is mis-labeled as StudentServices. To correct the query prediction, we could **manually add a close example ("where can I find Healthcare Management") to # Academics in schoolnavigatorbot.train.lu.**
 
 - After fixing the two query utterances, we could try the evaluation process again to check the progress:
 
@@ -98,7 +98,10 @@ Next we are going to use the first two mis-classified query utterances to show h
   > bf orchestrator:test -m model -i schoolnavigatorbot.train.blu -t schoolnavigatorbot.test.lu -o report
   ```
 
-- Open **report/orchestrator_testing_set_summary.html** again, and check the **Micro-Average** under **Metrics** page, the accuracy has improved from 0.8953 to 0.9085, and the two query utterances no longer show up in misclassified page.
+- Open **report/orchestrator_testing_set_summary.html** again, and check the **Micro-Average** under **Metrics** page, the accuracy has improved from 0.9869 to 1, and the two query utterances no longer show up in misclassified page.
+
+- In practice, users could repeat the aforementioned procedures until they are satisfied with accuracy, refined as (1) using Misclassified page to check for mis-labeled utterances; (2) editing .lu file to add or relabel utterances; (3) using bf orchestrator:create to regenerate the language model; and (4) using bf orchestrator:test to evaluate the performance.
+
 - Advanced users could also use bf orchestrator:interactive to interactively add/change/remove example utterances to improve the training set. Further information please refer to [bf orchestrator interactive](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorInteractive.md#start-an-interactive-session-with-a-training-set). 
 
 

@@ -346,6 +346,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ),
   ],
   ['string', new FunctionEntity(['value: any'], ReturnType.String, 'Return string version of the specified value')],
+  ['jsonStringify', new FunctionEntity(['value: any'], ReturnType.String, 'Return the json string of a value.')],
   [
     'bool',
     new FunctionEntity(
@@ -443,6 +444,30 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       ['text: string', 'value: string'],
       ReturnType.Number,
       'Returns the last index of the value from the text'
+    ),
+  ],
+  [
+    'EOL',
+    new FunctionEntity(
+      [],
+      ReturnType.String,
+      'Returns the End of line. Return \\r\\n in windows, and \\n in unix.'
+    ),
+  ],
+  [
+    'sentenceCase',
+    new FunctionEntity(
+      ['input: string'],
+      ReturnType.String,
+      'Converts the specified string to sentence case.'
+    ),
+  ],
+  [
+    'titleCase',
+    new FunctionEntity(
+      ['input: string'],
+      ReturnType.String,
+      'Converts the specified string to title case.'
     ),
   ],
   [
@@ -545,6 +570,14 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
   //TODO. Make sure xml can be used in both browser/node environment
   //['xml', new FunctionEntity(['xmlStr: string]'], ReturnType.Object, 'Return the XML version for a string.')],
   [
+    'formatNumber',
+    new FunctionEntity(
+      ['number: number', 'precision-digits: number', 'locale?: string'],
+      ReturnType.Number,
+      'Format a value to the specified number of fractional digits and an optional specified locale.'
+    ),
+  ],
+  [
     'range',
     new FunctionEntity(
       ['startIndex: number', 'count: number'],
@@ -622,6 +655,38 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       ['timestamp: string'],
       ReturnType.Number,
       'Return the ticks property value for a specified timestamp. A tick is 100-nanosecond interval.'
+    ),
+  ],
+  [
+    'ticksToDays',
+    new FunctionEntity(
+      ['ticks: number'],
+      ReturnType.Number,
+      'Convert a ticks property value to the number of days.'
+    ),
+  ],
+  [
+    'ticksToHours',
+    new FunctionEntity(
+      ['ticks: number'],
+      ReturnType.Number,
+      'Convert a ticks property value to the number of hours.'
+    ),
+  ],
+  [
+    'ticksToMinutes',
+    new FunctionEntity(
+      ['ticks: number'],
+      ReturnType.Number,
+      'Convert a ticks property value to the number of minutes.'
+    ),
+  ],
+  [
+    'dateTimeDiff',
+    new FunctionEntity(
+      ['timestamp1: String', 'timestamp2: String'],
+      ReturnType.Number,
+      'Return the difference in ticks between two timestamps.'
     ),
   ],
   [
@@ -731,11 +796,43 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
     ),
   ],
   [
+    'flatten',
+    new FunctionEntity(
+      ['collection: Array','depth?: number'],
+      ReturnType.Array,
+      'Flatten an array into non-array values. You can optionally set the maximum depth to flatten to.'
+    ),
+  ],
+  [
+    'unique',
+    new FunctionEntity(
+      ['collection: Array'],
+      ReturnType.Array,
+      'Remove all duplicates from an array.'
+    ),
+  ],
+  [
+    'reverse',
+    new FunctionEntity(
+      ['collection: Array | String'],
+      ReturnType.Array | ReturnType.String,
+      'Reverses the order of the elements in a String or Array.'
+    ),
+  ],
+  [
     'jPath',
     new FunctionEntity(
       ['json: Object', 'path: string'],
       ReturnType.Object,
       'Check JSON or JSON string for nodes or value that match a path expression, and return the matching nodes.'
+    ),
+  ],
+  [
+    'merge',
+    new FunctionEntity(
+      ['json1: Object', 'json2: Object'],
+      ReturnType.Object,
+      'erge two object(json) into one object(json).'
     ),
   ],
   [
@@ -788,7 +885,11 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
 ['isTimeRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a time range.')],
 ['isDateRange', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, 'Return true if the TimexProperty or Timex expression refers to a date range.')],
 ['isDefinite', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.Boolean, '	Return true if the TimexProperty or Timex expression refers to a definite day.')],
-
+['getNextViableDate', new FunctionEntity(['timex: TimexProperty|string', 'timeZone?: string'], ReturnType.Boolean, '	Return the next viable date of a timex expression based on the current date and an optionally specified timezone.')],
+['getPreviousViableDate', new FunctionEntity(['timex: TimexProperty|string', 'timeZone?: string'], ReturnType.String, '	Return the previous viable date of a timex expression based on the current date and an optionally specified timezone.')],
+['getNextViableTime', new FunctionEntity(['timex: TimexProperty|string', 'timeZone?: string'], ReturnType.String, '	Return the next viable time of a timex expression based on the current time and an optionally specified timezone.')],
+['getPreviousViableTime', new FunctionEntity(['timex: TimexProperty|string', 'timeZone?: string'], ReturnType.String, '	Return the previous viable time of a timex expression based on the current date and an optionally specified timezone.')],
+['resolve', new FunctionEntity(['timex: TimexProperty|string'], ReturnType.String, '	Return true if a given TimexProperty or Timex expression refers to a valid time.')],
   // Functions injected from LG library
   // https://github.com/microsoft/BotBuilder-Samples/blob/master/experimental/language-generation/docs/Functions-injected-from-LG.md
   [
@@ -821,6 +922,14 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
       ['content: Object', 'type: string'],
       ReturnType.Object,
       'Return an activityAttachment constructed from an object and a type.'
+    ),
+  ],
+  [
+    'expandText',
+    new FunctionEntity(
+      ['text: string'],
+      ReturnType.Object,
+      'Evaluate the plain text in an object and return the expanded text data.'
     ),
   ],
 ]);
