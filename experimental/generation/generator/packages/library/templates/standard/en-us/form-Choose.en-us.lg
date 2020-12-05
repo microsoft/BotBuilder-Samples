@@ -1,11 +1,23 @@
 [form.en-us.lg](form.en-us.lg)
 [form-DisplayOperation.en-us.lg](form-DisplayOperation.en-us.lg)
 
-# chooseEnumEntity(property)
-- Please choose a value for ${propertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(property, val)), ', ')}]
+# chooseEnumEntity()
+- Please choose a value for ${chooseEntityPropertyName()} from ${chooseEntityValues()} to ${chooseEntityOperation()}
 
 # chooseEnumArrayEntity(property)
-- Please choose a value for ${propertyName(property)} from [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(property, val)), ', ')}]
+- Please choose a value for ${chooseEntityPropertyName()} from ${chooseEntityValues()} to ${chooseEntityOperation()}
+
+# chooseEntityProperty
+- ${turn.dialogEvent.value.property}
+
+# chooseEntityPropertyName()
+- ${propertyName(chooseEntityProperty())}
+
+# chooseEntityOperation()
+- ${operationName(turn.dialogEvent.value.operation)}
+
+# chooseEntityValues()
+- [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(chooseEntityProperty(), val)), ', ')}]
 
 # chooseProperties
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, chooseEntity(choice)), " or ")}?

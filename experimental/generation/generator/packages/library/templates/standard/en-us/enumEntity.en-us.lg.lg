@@ -14,7 +14,7 @@ ${chooseEntity()}
 # chooseEntity
 -```
 # ${property}Entity_chooseEntity
-- \${chooseEnumEntity(${concat("'", property, "'")})}
+- \${chooseEnumEntity()}
 ```
 
 # propertyEntityValue
