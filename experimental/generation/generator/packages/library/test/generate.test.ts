@@ -244,6 +244,7 @@ describe('dialog:generate library', async () => {
 
     for (let i = 0; i < unittestSchemaNames.length; i++) {
         const name = unittestSchemaNames[i]
+        const prefix = name.replace('-', '_')
         const description = `Unit test ${name}`
         it(description, async () => {
             console.log(`\n\n${description}`)
@@ -251,7 +252,7 @@ describe('dialog:generate library', async () => {
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
-                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${name}.en-us.lg`)
+                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
                         let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
@@ -271,7 +272,7 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${name}.en-us.lu`, true, '.lu')
+                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${prefix}.en-us.lu`, true, '.lu')
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
@@ -285,7 +286,7 @@ describe('dialog:generate library', async () => {
                     ComponentRegistration.add(new QnAMakerComponentRegistration())
                     const resourceExplorer = new ResourceExplorer()
                     resourceExplorer.addFolder(`${output}`, true, false)
-                    const script = resourceExplorer.loadType(`unittest_${name}.dialog`)
+                    const script = resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
                     assert.fail(e.message)
                 }
