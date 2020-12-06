@@ -580,7 +580,7 @@ ${'#'} ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`, 
     { utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
-    3)}
+    5)}
 ```
 
 # defineOperation(operation, entity)
