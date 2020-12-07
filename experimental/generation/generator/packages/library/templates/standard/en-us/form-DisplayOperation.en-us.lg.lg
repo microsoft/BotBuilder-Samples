@@ -8,14 +8,22 @@
 
 ${'#'} displayOperation(op, property, entity)
 - IF: \${op && property && entity.value} 
-        - \${operationName(op)} "\${entity.text}" to \${propertyName(property)}
+        - \${operationName(op)} \${template(`\${property}Entity_Value`, formatValue(entity.value))} to \${propertyName(property)}
 - ELSEIF: \${op && property}
         - \${operationName(op)} \${propertyName(property)}
 - ELSE:
         - \${operationName(op)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+
+${'#'} formatValue(value)
+- IF: \${isArray(value)}
+        - \${value[0]}
+- ELSE:
+        - \${value}
 ```
+
+
 
 # namePlusSwitch
 -```${'#'} operationName(op) 
