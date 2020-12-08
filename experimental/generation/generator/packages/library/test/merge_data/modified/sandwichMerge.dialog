@@ -57,20 +57,20 @@
         "sandwichMerge-Price-add-money",
         "sandwichMerge-Price-clear",
         "sandwichMerge-Price-show",
-        "sandwichMerge-library-CancelIntent",
+        "sandwichMerge-form-CancelIntent",
         "sandwichMerge-CancelConfirmation-add-boolean",
         "sandwichMerge-ChangePropertyConfirmation-add-boolean",
-        "sandwichMerge-library-CompleteConfirmation",
+        "sandwichMerge-form-CompleteConfirmation",
         "sandwichMerge-CompleteConfirmation-add-boolean",
         "sandwichMerge-CompleteConfirmation-add-PROPERTYName",
         "sandwichMerge-PropertyToChange-add-PROPERTYName",
         "sandwichMerge-PropertyToRemember-add-PROPERTYName",
-        "sandwichMerge-library-BeginDialog",
-        "sandwichMerge-library-ChooseProperty",
-        "sandwichMerge-library-HelpIntent",
-        "sandwichMerge-library-NotUnderstood",
-        "sandwichMerge-library-trigger",
-        "sandwichMerge-library-ShowPropertiesIntent"
+        "sandwichMerge-form-BeginDialog",
+        "sandwichMerge-form-ChooseProperty",
+        "sandwichMerge-form-HelpIntent",
+        "sandwichMerge-form-NotUnderstood",
+        "sandwichMerge-form-trigger",
+        "sandwichMerge-form-ShowPropertiesIntent"
     ],
     "$Generator": "e4b36e68ccefb6713b1b3236a5bc74ba"
 }

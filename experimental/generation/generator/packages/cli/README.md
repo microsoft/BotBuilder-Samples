@@ -30,7 +30,7 @@ USAGE
   $ bf dialog:generate SCHEMA
 
 ARGUMENTS
-  SCHEMA  JSON Schema .schema file used to drive generation.
+  SCHEMA  JSON Schema file used to drive generation.
 
 OPTIONS
   -f, --force                Force overwriting generated files.
@@ -52,7 +52,7 @@ OPTIONS
 
 EXAMPLE
 
-         $ bf dialog:generate sandwich.schema --output c:/tmp
+         $ bf dialog:generate sandwich.form --output c:/tmp
 ```
 
 _See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate.ts)_

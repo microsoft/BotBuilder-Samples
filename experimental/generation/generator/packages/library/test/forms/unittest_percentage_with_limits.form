@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Percentage": {
+            "$ref": "template:percentage.schema",
+            "minimum": 1,
+            "maximum": 10
+        }
+    },
+    "required": [
+        "Percentage"
+    ]
+}

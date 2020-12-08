@@ -10,11 +10,11 @@ export default class GenerateDialog extends Command {
     static description = '[PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.'
 
     static examples = [`
-      $ bf dialog:generate sandwich.schema --output c:/tmp
+      $ bf dialog:generate sandwich.form --output c:/tmp
     `]
 
     static args = [
-        { name: 'schema', required: true, description: 'JSON Schema .schema file used to drive generation.' }
+        { name: 'schema', required: true, description: 'JSON Schema file used to drive generation.' }
     ]
 
     static flags: flags.Input<any> = {

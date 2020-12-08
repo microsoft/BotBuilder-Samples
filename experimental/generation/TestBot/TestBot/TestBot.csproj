@@ -3,16 +3,22 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <UserSecretsId>TestBot</UserSecretsId>
+    <RunPostBuildEvent>OnOutputUpdated</RunPostBuildEvent>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-daily.20201014.174420.3f4a07d" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-daily.20201014.174420.3f4a07d" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.11.0-daily.20201014.174420.3f4a07d" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0-daily.20201014.174420.3f4a07d" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Testing" Version="4.11.0-daily.preview.20201014.174420.3f4a07d" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0-daily.20201014.174420.3f4a07d" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Testing" Version="4.11.0-rc0.preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0-rc.1.20451.14" />
   </ItemGroup>
+
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="call updateSchema TestBot.csproj" />
+  </Target>
 
 </Project>

@@ -4,25 +4,5 @@
 - ${addFilename('geographyV2')}
 
 # template
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "geographyV2",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @geographyV2)}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@geographyV2"          
-        }
-    ]               
-    ${designerOpEntity('Add', 'geographyV2')}     
-}
-```
+- ${addDialog('geographyV2')}
 

@@ -1,0 +1,33 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
+
+# template
+-```${formImport('form.en-us.lg')}
+
+${'#'} displayOperation(op, property, entity)
+- IF: \${op && property && entity.value} 
+        - \${operationName(op)} "\${entity.text}" to \${propertyName(property)}
+- ELSEIF: \${op && property}
+        - \${operationName(op)} \${propertyName(property)}
+- ELSE:
+        - \${operationName(op)}
+
+${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+```
+
+# namePlusSwitch
+-```${'#'} operationName(op) 
+- SWITCH: \${op}```
+
+# cases
+- ${foreach(operations, op, case(op))}
+
+# case(op)
+-```    - CASE: \${'${op}'}
+        - ${phrase(substring(op, 0, indexOf(op, '(')))}```
+
+# default
+-```    - DEFAULT: 
+        - I don't understand \${op}```

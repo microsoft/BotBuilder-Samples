@@ -4,13 +4,14 @@
 import {
     Activity,
     BotFrameworkAdapter,
+    ChannelAccount,
+    ConversationReference,
     ConversationParameters,
     MessageFactory,
     TeamsActivityHandler,
     teamsGetChannelId,
     TurnContext
 } from 'botbuilder';
-import { ChannelAccount, ConversationReference } from 'botframework-schema';
 
 export class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
     constructor() {

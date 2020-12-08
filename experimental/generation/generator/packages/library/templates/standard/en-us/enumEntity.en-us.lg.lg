@@ -5,19 +5,19 @@
 
 # template
 -```
-${importLG('library')}
-${importLG('library-Choose')}
-${propertyEntity()}
+${formImport('form.en-us.lg')}
+${formImport('form-Choose.en-us.lg')}
+${propertyEntityValue()}
 ${chooseEntity()}
 ```
 
 # chooseEntity
 -```
 # ${property}Entity_chooseEntity
-- \${chooseEnumEntity(${concat("'", property, "'")})}
+- \${chooseEnumEntity()}
 ```
 
-# propertyEntity
+# propertyEntityValue
 - ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch

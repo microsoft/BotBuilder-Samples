@@ -1,0 +1,14 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$entities": [
+        "phonenumber"
+    ],
+    "$templates": [
+        "string",
+        "phonenumberEntity.lu",
+        "phonenumberEntity.lg",
+        "phonenumberEntity-add-string.dialog",
+        "phonenumberEntity-remove-string.dialog"
+    ]
+}

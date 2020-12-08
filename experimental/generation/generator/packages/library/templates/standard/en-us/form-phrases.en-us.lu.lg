@@ -1,0 +1,32 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${understandingDir()}${locale}/form/${prefix}-form-phrases.en-us.lu
+
+# template
+-```
+> Phrase lists for operations
+@ phraselist AddPhrases(interchangeable)=
+    - add, set, with, is, are, of
+
+@ phraselist RemovePhrases(interchangeable)=
+    - remove, delete, without, with no
+
+@ phraselist ClearPhrases(interchangeable)=
+    - clear, start over, reset, remove, empty
+
+@ phraselist ShowPhrases(interchangeable)=
+    - show, display, value of, value for, value, values, selection
+
+@ phraselist HelpPhrases(interchangeable)=
+    - help, help on, how do you, what about, what can I say for
+
+@ phraselist ChangePhrases(interchangeable)=
+    - change, edit
+
+@ phraselist SkipPhrases(interchangeable)=
+    - skip, not now, later, neither, none of those, I don't care, nothing
+
+@ phraselist CancelPhrases(interchangeable)=
+    - cancel, forget it, quit
+```

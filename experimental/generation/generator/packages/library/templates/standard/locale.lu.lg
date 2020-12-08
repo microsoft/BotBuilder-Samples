@@ -1,10 +1,10 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${locale}/${prefix}.${locale}.lu
+- ${understandingDir()}${locale}/${prefix}.${locale}.lu
 
 # template
 -```
 ${luHeader()}
-${join(foreach(templates.lu, lu, `[${lu.fullName}](${localePath(lu.relative)})`), EOL())}
+${join(foreach(templates.lu, lu, `[${lu.shortName}](${localePath(replace(lu.relative, '\\', '/'))})`), EOL())}
 ```

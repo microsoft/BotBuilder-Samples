@@ -4,7 +4,6 @@
  * Licensed under the MIT License.
  */
 export * from './dialogGenerator'
-import * as s from './schema'
 import * as crypto from 'crypto'
 import * as expressions from 'adaptive-expressions'
 import * as fs from 'fs-extra'
@@ -13,8 +12,9 @@ import * as lg from 'botbuilder-lg'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ph from './generatePhrases'
-import { SubstitutionsEvaluator } from './substitutions'
 import * as ps from './processSchemas'
+import * as s from './schema'
+import {SubstitutionsEvaluator} from './substitutions'
 
 export enum FeedbackType {
     message,
@@ -40,7 +40,7 @@ function normalizeEOL(val: string): string {
         // For linux shell scripts want line feed only
         val = val.replace(/\r/g, '')
     } else if (os.EOL === '\r\n') {
-        val = val.replace(/(^|[^\r])\n/g, `$1${os.EOL}`)
+        val = val.replace(/\r\n/g, '\n').replace(/\n/g, os.EOL)
     } else {
         val = val.replace(/\r\n/g, os.EOL)
     }
@@ -105,6 +105,23 @@ export async function isUnchanged(path: string): Promise<boolean> {
     return result
 }
 
+// Get hashcode of the file
+export async function getHashCode(path: string): Promise<string> {
+    let oldHash
+    let ext = ppath.extname(path)
+    let file = await fs.readFile(path, 'utf8')
+    if (CommentHashExtensions.includes(ext)) {
+        let match = file.match(GeneratorPattern)
+        if (match) {
+            oldHash = match[1]
+        }
+    } else if (JSONHashExtensions.includes(ext)) {
+        let json = JSON.parse(file)
+        oldHash = json.$Generator
+    }
+    return oldHash
+}
+
 // Write file with error checking and hash code generation.
 export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
@@ -125,7 +142,7 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
     }
 }
 
-// Return template directories by combining explicit ones with library ones
+// Return template directories by combining explicit ones with form ones
 export async function templateDirectories(templateDirs?: string[]): Promise<string[]> {
     // Fully expand all directories
     templateDirs = resolveDir(templateDirs || [])
@@ -172,6 +189,26 @@ function getExpressionEngine(): expressions.ExpressionParser {
 // Generator template used in expanding schema
 let generatorTemplate: lg.Templates
 
+/**
+ * Return directory to put asset in as driven by generator template.
+ * @param extension File extension like .lg or .lu
+ * @returns Directory where extension should be located.
+ */
+export function assetDirectory(extension: string): string {
+    let dir = ''
+    switch (extension) {
+        case '.dialog': dir = 'dialogDir'
+            break
+        case '.lg': dir = 'generationDir'
+            break
+        case '.lu': dir = 'understandingDir'
+            break
+        case '.qna': dir = 'knowledgeDir'
+            break
+    }
+    return dir ? generatorTemplate.evaluate(dir, {}) : ''
+}
+
 // Walk over JSON object, stopping if true from walker.
 // Walker gets the current value, the parent object and full path to that object
 // and returns false to continue, true to stop going deeper.
@@ -195,7 +232,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
@@ -204,7 +241,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         let loc = templatePath(name, dir)
         if (await fs.pathExists(loc)) {
             // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
             break
         } else {
             // LG file
@@ -236,17 +273,20 @@ function addPrefix(prefix: string, name: string): string {
     }
 }
 
-// Add entry to the .lg generation context and return it.  
+// Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = { name: string, fallbackName: string, fullName: string, relative: string }
-function addEntry(fullPath: string, outDir: string, tracker: any): FileRef | undefined {
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
     let ext = ppath.extname(fullPath).substring(1)
     let arr: FileRef[] = tracker[ext]
     if (!arr.find(ref => ref.name === basename)) {
+        let shortName = basename.substring(prefix.length + 1, basename.indexOf('.'))
         ref = {
             name: basename,
+            shortName: shortName,
+            // Fallback is only used for .lg files
             fallbackName: basename.replace(/\.[^.]+\.lg/, '.lg'),
             fullName: ppath.basename(fullPath),
             relative: ppath.relative(outDir, fullPath)
@@ -298,19 +338,16 @@ async function processTemplate(
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
                     let filename = addPrefix(scope.prefix, templateName)
-                    if (lgTemplate?.allTemplates.some(f => f.name === 'filename')) {
+                    if (lgTemplate?.allTemplates.some(t => t.name === 'filename')) {
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
                             throw new Error(`${templateName}: ${e.message}`)
                         }
-                    } else if (filename.includes(scope.locale)) {
-                        // Move constant files into locale specific directories
-                        let prop = templateName.includes('library') ? 'library' : (filename.endsWith('.qna') ? 'QnA' : scope.property)
-                        filename = `${scope.locale}/${prop}/${ppath.basename(filename)}`
-                    } else if (filename.includes('library-')) {
-                        // Put library stuff in its own folder by default
-                        filename = `library/${filename}`
+                    } else {
+                        // Infer name
+                        const locale = filename.includes(scope.locale) ? `${scope.locale}/` : ''
+                        filename = `${assetDirectory(ppath.extname(filename))}${locale}${scope.property ?? 'form'}/${ppath.basename(filename)}`
                     }
 
                     // Add prefix to constant imports
@@ -319,7 +356,7 @@ async function processTemplate(
                     }
 
                     outPath = ppath.join(outDir, filename)
-                    let ref = addEntry(outPath, outDir, scope.templates)
+                    let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
@@ -451,7 +488,7 @@ async function processTemplates(
                     scope.examples = schema.schema.$examples[entityName]
 
                     // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.length === 1) {
+                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
                         scope.examples = property.schema.examples
                     }
 
@@ -489,6 +526,9 @@ async function ensureEntities(
     feedback: Feedback)
     : Promise<void> {
     for (let property of schema.schemaProperties()) {
+        if (property.schema.items?.$entities) {
+            property.schema.$entities = property.schema.items?.$entities
+        }
         if (!property.schema.$entities) {
             try {
                 scope.property = property.path
@@ -524,6 +564,7 @@ async function ensureEntities(
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
 function expandSchema(schema: any, scope: any, path: string, inProperties: boolean, missingIsError: boolean, feedback: Feedback): any {
     let newSchema = schema
+    const isTopLevel = inProperties && !scope.propertySchema
     if (Array.isArray(schema)) {
         newSchema = []
         let isExpanded = false
@@ -531,7 +572,13 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             let isExpr = typeof val === 'string' && val.startsWith('${')
             let newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
             isExpanded = isExpanded || (isExpr && (typeof newVal !== 'string' || !val.startsWith('${')))
-            newSchema.push(newVal)
+            if (newVal !== null) {
+                if (Array.isArray(newVal)) {
+                    newSchema = [...newSchema, ...newVal]
+                } else {
+                    newSchema.push(newVal)
+                }
+            }
         }
         if (isExpanded && newSchema.length > 0 && !path.includes('.')) {
             // Assume top-level arrays are merged across schemas
@@ -540,7 +587,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -555,8 +602,15 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (key === '$parameters') {
                 newSchema[key] = val
             } else {
-                let newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                if (isTopLevel) {
+                    // Bind property schema to use when expanding
+                    scope.propertySchema = val
+                }
+                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
+                if (isTopLevel) {
+                    delete scope.propertySchema
+                }
             }
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
@@ -595,8 +649,6 @@ async function allFiles(root: string): Promise<Map<string, string>> {
 }
 
 // Generate a singleton dialog by pulling in all dialog refs
-// NOTE: This does not pull in the recognizers in part because they are only generated when
-// publishing.
 async function generateSingleton(schema: string, inDir: string, outDir: string, feedback: Feedback) {
     let files = await allFiles(inDir)
     let mainName = `${schema}.dialog`
@@ -606,7 +658,8 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
         if (typeof elt === 'string') {
             let ref = `${elt}.dialog`
             let path = files.get(ref)
-            if (ref !== mainName && path && key) {
+            // Keep recognizers as a reference
+            if (ref !== mainName && path && key && !ref.endsWith('.lu.dialog')) {
                 // Replace reference with inline object
                 let newElt = await fs.readJSON(path)
                 let id = ppath.basename(path)
@@ -628,14 +681,13 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
         }
     }
 }
-
 
 const templatePrefix: string = 'template:'
 
@@ -647,8 +699,8 @@ function resolveDir(dirs: string[]): string[] {
             expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
         } else {
             dir = ppath.resolve(dir)
+            expanded.push(normalize(dir))
         }
-        expanded.push(normalize(dir))
     }
     return expanded
 }
@@ -677,6 +729,7 @@ function normalize(path: string): string {
  * @param merge Merge generated results into target directory.
  * @param singleton Merge .dialog into a single .dialog.
  * @param feedback Callback function for progress and errors.
+ * @returns True if successful.
  */
 export async function generate(
     schemaPath: string,
@@ -689,7 +742,7 @@ export async function generate(
     merge?: boolean,
     singleton?: boolean,
     feedback?: Feedback)
-    : Promise<void> {
+    : Promise<boolean> {
     if (!feedback) {
         feedback = (_info, _message) => true
     }
@@ -703,7 +756,11 @@ export async function generate(
     }
 
     if (!prefix) {
-        prefix = ppath.basename(schemaPath, '.schema')
+        prefix = ppath.basename(schemaPath)
+        const lastDot = prefix.lastIndexOf('.')
+        if (lastDot >= 0) {
+            prefix = prefix.substring(0, lastDot)
+        }
     }
 
     if (!outDir) {
@@ -749,7 +806,6 @@ export async function generate(
             if (merge) {
                 op = 'Merging'
             } else {
-                merge = false
                 op = 'Generating'
             }
         }
@@ -769,7 +825,7 @@ export async function generate(
         }
 
         let startDirs = await templateDirectories(templateDirs)
-        
+
         // Find generator.lg for schema expansion
         for (let dir of startDirs) {
             let loc = ppath.join(dir, '../generator.lg')
@@ -796,20 +852,21 @@ export async function generate(
         // Process templates
         let scope: any = {
             locales: allLocales,
-            prefix: prefix || schema.name(),
+            prefix: (prefix ?? schema.name()).replace('-', '_'),
             schema: schema.schema,
             operations: schema.schema.$operations,
             properties: schema.schema.$public,
             triggerIntent: schema.triggerIntent(),
-            appSchema: metaSchema
+            appSchema: metaSchema,
+            utterances: new Set<string>()
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
         await ensureEntities(schema, templateDirs, scope, feedback)
-        scope = { ...scope, entities: schema.entityToProperties() }
+        scope = {...scope, entities: schema.entityToProperties()}
 
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
@@ -844,9 +901,23 @@ export async function generate(
         feedback(FeedbackType.error, e.message)
     }
 
+    let success = true
     if (error) {
         externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
+        success = false
     }
+
+    await delay(500)
+
+    return success
+}
+
+/**
+ * Sleep function
+ * @param ms The time in millisecond.
+ */
+async function delay(ms: number) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**

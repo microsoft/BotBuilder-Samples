@@ -5,25 +5,55 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.10.3" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.10.3" />
+    <Content Include="Samples\01 - Steps\Steps.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\02 - IfCondition\IfCondition.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\03 - SwitchCondition\SwitchCondition.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\04 - DoSteps\DoSteps.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.FortuneTellerDialog.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.TellJokeDialog.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\06 - UsingCards\usingCards.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\06 - UsingCards\UsingCards.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\07 - MultiTurnPrompt\multiTurnPrompt.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\07 - MultiTurnPrompt\MultiTurnPrompt.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="**/*.dialog">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lg">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="**/*.lu">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.1" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Resources\adaptiveCard.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
