@@ -1,2 +1,2 @@
-botbuilder-integration-aiohttp>=4.10.1
-botbuilder-adapters-slack>=4.10.1
+botbuilder-integration-aiohttp>=4.11.0
+botbuilder-adapters-slack>=4.11.0

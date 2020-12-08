@@ -9,3 +9,5 @@ node_modules
 /bin
 package-lock.json
 !packages/**
+*.tsbuildinfo
+.DS_Store

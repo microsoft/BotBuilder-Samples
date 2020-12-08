@@ -5,7 +5,9 @@
     <LangVersion>latest</LangVersion>
     <Platforms>x64</Platforms>
   </PropertyGroup>
-
+  <ItemGroup>
+    <Content Remove="orchestrator.json" />
+  </ItemGroup>
   <ItemGroup>
     <Folder Include="generated\" />
   </ItemGroup>

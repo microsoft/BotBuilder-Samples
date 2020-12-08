@@ -75,8 +75,8 @@
       "role": "user"
     },
     "locale": "en-us",
-    "text": "Enter a value for name",
-    "speak": "Enter a value for name",
+    "text": "Enter a string for name",
+    "speak": "Enter a string for name",
     "attachments": [],
     "entities": [],
     "replyToId": "bc0e2960-ebc9-11ea-a388-4116bc904efe",

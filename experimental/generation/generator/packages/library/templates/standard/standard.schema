@@ -16,17 +16,17 @@
             "type": "string",
             "$entities": [
                 "boolean",
-                "${properties}"
+                "${foreach(properties, property, `${property}Property`)}"
             ],
             "$templates": [
-                "library-CompleteConfirmation.dialog",
+                "form-CompleteConfirmation.dialog",
                 "CompleteConfirmation-add-boolean.dialog",
                 "CompleteConfirmation-add-PROPERTYName.dialog"
             ]
         },
         "PropertyToChange": {
             "type": "string",
-            "$entities": "${properties}",
+            "$entities": "${foreach(properties, property, `${property}Property`)}",
             "$templates": [
                 "PropertyToChange-add-PROPERTYName.dialog"
             ]
@@ -46,6 +46,10 @@
         },
         "${schemaDefaultOperation()}"
     ],
+    "$requiresValue": [
+        "Add()",
+        "Remove()"
+    ],
     "$expectedOnly": [
         "boolean",
         "utterance",
@@ -55,30 +59,28 @@
     "$templates": [
         "booleanEntity.lg",
         "booleanEntity.lu",
-        "library-CancelIntent.lu",
-        "library-NoneIntent.lu",
-        "library-SkipIntent.lu",
-        "library-triggerIntent.lu",
-        "library-Choose.lg",
-        "library-DisplayOperation.lg",
-        "library-Help.lg",
-        "library-phrases.lu",
-        "library-global.lu",
-        "library-Show.lg",
-        "library.lg",
+        "form-NoneIntent.lu",
+        "form-triggerIntent.lu",
+        "form-Choose.lg",
+        "form-DisplayOperation.lg",
+        "form-phrases.lu",
+        "form-global.lu",
+        "form-Show.lg",
+        "form.lg",
         "locale.lu",
         "locale.lg",
         "luis.lu.dialog",
-        "library-BeginDialog.dialog",
-        "library-CancelIntent.dialog",
-        "library-Change.dialog",
-        "library-ChooseProperty.dialog",
-        "library-HelpGlobal.dialog",
-        "library-HelpReprompt.dialog",
-        "library-NotUnderstood.dialog",
-        "library-Show.dialog",
-        "library-SkipIntent.dialog",
-        "library-triggerIntent.dialog",
+        "multilingual.dialog",
+        "form-BeginDialog.dialog",
+        "form-CancelGlobal.dialog",
+        "form-Change.dialog",
+        "form-ChooseProperty.dialog",
+        "form-HelpGlobal.dialog",
+        "form-HelpReprompt.dialog",
+        "form-NotUnderstood.dialog",
+        "form-Show.dialog",
+        "form-SkipGlobal.dialog",
+        "form-triggerIntent.dialog",
         "main.dialog",
         "luconfig.json",
         "build",

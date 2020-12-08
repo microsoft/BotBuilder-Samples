@@ -20,7 +20,6 @@ import {
 	Files,
 	HoverParams,
 	DefinitionParams,
-	ExecuteCommandParams,
 	SignatureHelpParams,
 	WorkspaceFolder,
 	DidChangeWatchedFilesNotification,
@@ -33,10 +32,9 @@ import * as completion from './providers/completion';
 import * as diagnostics from './providers/diagnostics';
 import * as definition from './providers/definition';
 import * as hover from './providers/hover';
-import * as keyBinding from './providers/keyBinding';
 import * as signature from './providers/signature';
 import * as foldingRange from './providers/foldingRange'
-
+import { URI } from 'vscode-uri'
 import * as util from './util';
 import { TemplatesStatus } from './templatesStatus';
 import { TextDocument } from 'vscode-languageserver-textdocument';
@@ -81,9 +79,6 @@ connection.onInitialize((params: InitializeParams) => {
 			},
 			hoverProvider: true,
 			definitionProvider: true,
-			executeCommandProvider: {
-				commands: ['lg.extension.onEnterKey']
-			},
 			signatureHelpProvider: {
 				triggerCharacters: ['(', ',']
 			},
@@ -156,10 +151,6 @@ connection.onHover((params: HoverParams) => {
 	return hover.provideHover(params, documents);
 });
 
-connection.onExecuteCommand((params: ExecuteCommandParams) =>{
-	keyBinding.provideKeyBinding(params, documents, connection);
-});
-
 connection.onSignatureHelp((params: SignatureHelpParams) => {
 	return signature.provideSignatureHelp(params, documents);
 });
@@ -173,7 +164,7 @@ connection.onFoldingRanges((params: FoldingRangeParams) => {
 })
 
 documents.onDidOpen(e => {
-	const filePath = Files.uriToFilePath(e.document.uri)!;
+	const filePath = URI.parse(e.document.uri).fsPath!;
 	if(!TemplatesStatus.lgFilesOfWorkspace.includes(filePath)) {
 		TemplatesStatus.lgFilesOfWorkspace.push(filePath);
 	}
@@ -199,8 +190,8 @@ connection.onDidChangeWatchedFiles(_change => {
 			util.triggerLGFileFinder(workspaceFolders!);
 		} else if(e.type == FileChangeType.Deleted) {
 			util.triggerLGFileFinder(workspaceFolders!);
-			if (TemplatesStatus.templatesMap.has(Files.uriToFilePath(e.uri)!)) {
-				TemplatesStatus.templatesMap.delete(Files.uriToFilePath(e.uri)!);
+			if (TemplatesStatus.templatesMap.has(URI.parse(e.uri).fsPath!)) {
+				TemplatesStatus.templatesMap.delete(URI.parse(e.uri).fsPath!);
 			}
 		}
 	});

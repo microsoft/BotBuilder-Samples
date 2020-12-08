@@ -39,15 +39,18 @@ namespace Test
                 Assert.Contains("authoringKey", output);
 
                 output = Execute($"bf dialog:generate {schemaPath}");
+                Debug.WriteLine(output);
                 Assert.True(!output.Contains("Error"));
 
                 output = Execute($"bf dialog:generate:test {transcriptPath} sandwich -o test");
                 Assert.Contains("Generated", output);
 
                 output = Execute("build.cmd");
+                Debug.WriteLine(output);
                 Assert.True(output.Contains("No changes") || output.Contains("Successfully wrote .dialog"));
 
                 output = Execute(testBot, false);
+                Debug.WriteLine(output);
                 Assert.Contains("Passed", output);
             }
         }
