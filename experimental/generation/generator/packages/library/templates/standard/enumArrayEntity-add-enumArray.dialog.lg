@@ -4,5 +4,6 @@
 - ${addFilename(`${property}Entity`)}
 
 # template
-- ${addArrayDialog(`${property}Entity`)}
+
+- ${addArrayDialogWithCheckingWithChecking(`${property}Entity`)}
 
