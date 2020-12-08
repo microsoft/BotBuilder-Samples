@@ -5,5 +5,5 @@
 
 # template
 
-- ${addArrayDialogWithCheckingWithChecking(`${property}Entity`)}
+- ${addArrayDialogWithChecking(`${property}Entity`)}
 
