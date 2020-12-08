@@ -6,10 +6,7 @@ const {
 } = require('botbuilder-ai');
 
 const {
-    ActivityFactory
-} = require('botbuilder-core');
-
-const {
+    ActivityFactory,
     MessageFactory
 } = require('botbuilder');
 
