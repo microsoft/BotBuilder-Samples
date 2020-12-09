@@ -8,7 +8,7 @@
 
 ${'#'} displayOperation(op, property, entity)
 - IF: \${op && property && entity.value} 
-        - \${operationName(op)} \${template(`\${property}Entity_Value`, formatValue(entity.value))} to \${propertyName(property)}
+        - \${operationName(op)} \${template(`\${entity.name}_Value`, formatValue(entity.value))} to \${propertyName(property)}
 - ELSEIF: \${op && property}
         - \${operationName(op)} \${propertyName(property)}
 - ELSE:
