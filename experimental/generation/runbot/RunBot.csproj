@@ -31,11 +31,11 @@
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.11.0-rc0.preview" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.12.0-daily.20201209.193180.5f064d5" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.12.0-daily.20201209.193180.5f064d5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.0-daily.20201209.193180.5f064d5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Debugging" Version="4.12.0-daily.preview.20201209.193180.5f064d5" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.12.0-daily.20201209.193180.5f064d5" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Scripting" Version="3.7.0" />
   </ItemGroup>
 
