@@ -48,7 +48,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="call updateSchema RunBot.csproj" />
+    <Exec Command=".\updateSchema RunBot.csproj" />
   </Target>
 
 </Project>
