@@ -7,7 +7,7 @@ exit /b
 :check
 fc /b %1 bin\%1 > nul 2> nul
 if "%errorlevel%" EQU "0" goto unchanged
-call bf dialog:merge TestBot.csproj
+call bf dialog:merge %1
 copy %1 bin\%1
 exit /b
 
