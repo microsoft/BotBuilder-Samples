@@ -8,7 +8,7 @@
 
 ${'#'} displayOperation(op, property, entity)
 - IF: \${op && property && entity.value} 
-        - \${operationName(op)} \${template(`\${entity.name}_Value`, formatValue(entity.value))} to \${propertyName(property)}
+        - \${operationName(op)} \${formatValue(entity)} to \${propertyName(property)}
 - ELSEIF: \${op && property}
         - \${operationName(op)} \${propertyName(property)}
 - ELSE:
@@ -16,11 +16,11 @@ ${'#'} displayOperation(op, property, entity)
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 
-${'#'} formatValue(value)
-- IF: \${isArray(value)}
-        - \${value[0]}
+${'#'} formatValue(entity)
+- IF: \${isArray(entity.value)}
+        - \${entityValue(entity)}
 - ELSE:
-        - \${value}
+       - \${template(`\${entity.name}_Value`, entity.value)}
 ```
 
 

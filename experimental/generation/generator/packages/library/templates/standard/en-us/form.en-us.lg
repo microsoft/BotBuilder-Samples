@@ -17,7 +17,7 @@
 - ${template(`${property}_Value`, val)}
 
 # entityValue(entity)
-- ${template(`${entity.name}_Value`, entity.value)}
+- [${join(foreach(entity.value, val, template(`${entity.name}_Value`, val)), ', ')}]
 
 # value(val)
 - ${complexValue(val, null)}
@@ -118,50 +118,80 @@ You can also ask for over all help, cancel the whole form or skip a step.```
  - ELSE:
  - no value
 
- # integer_Value(val)
+# integer_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # percentage_Value(val)
+# percentage_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # string_Value(val)
+# string_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # url_Value(val)
+# url_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # phonenumber_Value(val)
+# phonenumber_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # personName_Value(val)
+# personName_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
- # keyPhrase_Value(val)
+# keyPhrase_Value(val)
  - IF: ${val}
  - ${val}
  - ELSE:
  - no value
 
-  # email_Value(val)
+# email_Value(val)
  - IF: ${val}
  - ${val}
+ - ELSE:
+ - no value
+
+# utterance_Value(val)
+ - IF: ${val}
+ - ${val}
+ - ELSE:
+ - no value
+
+ # dimension_Value(val)
+ - IF: ${val}
+ - ${val.number}
+ - ELSE:
+ - no value
+
+# age_Value(val)
+ - IF: ${val}
+ - ${val.number}
+ - ELSE:
+ - no value
+
+ # money_Value(val)
+ - IF: ${val}
+ - ${val.number}
+ - ELSE:
+ - no value
+
+  # temperature_Value(val)
+ - IF: ${val}
+ - ${val.number}
  - ELSE:
  - no value

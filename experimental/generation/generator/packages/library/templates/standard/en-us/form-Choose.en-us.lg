@@ -17,7 +17,7 @@
 - ${operationName(turn.dialogEvent.value.operation)}
 
 # chooseEntityValues()
-- [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(chooseEntityProperty(), val)), ', ')}]
+- ${entityValue(turn.dialogEvent.value.entity)}
 
 # chooseProperties
 - Did you mean ${join(foreach(turn.dialogevent.value, choice, chooseEntity(choice)), " or ")}?
