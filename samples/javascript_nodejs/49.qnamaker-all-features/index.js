@@ -37,7 +37,7 @@ const adapter = new BotFrameworkAdapter({
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -80,7 +80,7 @@ if (!endpointKey || 0 === endpointKey.length)
 }
 
 // Create the main dialog.
-const dialog = new RootDialog(process.env.QnAKnowledgebaseId, endpointKey, endpointHostName);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, endpointKey, endpointHostName, process.env.DefaultAnswer);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);

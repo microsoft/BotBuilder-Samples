@@ -6,13 +6,14 @@ const {
 } = require('botbuilder-ai');
 
 const {
-    ActivityFactory
-} = require('botbuilder-core');
+    ActivityFactory,
+    MessageFactory
+} = require('botbuilder');
 
 // Default parameters
 const DefaultThreshold = 0.3;
 const DefaultTopN = 3;
-const DefaultNoAnswer = 'No QnAMaker answers found.';
+const DefaultAnswer = 'No QnAMaker answers found.';
 
 // Card parameters
 const DefaultCardTitle = 'Did you mean:';
@@ -27,10 +28,10 @@ class QnAMakerBaseDialog extends QnAMakerDialog {
      * Core logic of QnA Maker dialog.
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
-    constructor(knowledgebaseId, authkey, host) {
-        var noAnswer = ActivityFactory.fromObject(DefaultNoAnswer);
-        var filters = [];
-        super(knowledgebaseId, authkey, host, noAnswer, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
+    constructor(knowledgebaseId, authkey, host, defaultAnswer) {
+        const defaultAnswerActivity = MessageFactory.text(!!defaultAnswer.trim() ? defaultAnswer : DefaultAnswer);
+        let filters = [];
+        super(knowledgebaseId, authkey, host, defaultAnswerActivity, DefaultThreshold, DefaultCardTitle, DefaultCardNoMatchText,
             DefaultTopN, ActivityFactory.cardNoMatchResponse, filters, QNAMAKER_BASE_DIALOG);
         this.id = QNAMAKER_BASE_DIALOG;
     }
@@ -40,7 +41,7 @@ module.exports.QnAMakerBaseDialog = QnAMakerBaseDialog;
 module.exports.QNAMAKER_BASE_DIALOG = QNAMAKER_BASE_DIALOG;
 module.exports.DefaultThreshold = DefaultThreshold;
 module.exports.DefaultTopN = DefaultTopN;
-module.exports.DefaultNoAnswer = DefaultNoAnswer;
+module.exports.DefaultAnswer = DefaultAnswer;
 module.exports.DefaultCardTitle = DefaultCardTitle;
 module.exports.DefaultCardNoMatchText = DefaultCardNoMatchText;
 module.exports.DefaultCardNoMatchResponse = DefaultCardNoMatchResponse;
