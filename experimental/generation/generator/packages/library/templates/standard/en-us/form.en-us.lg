@@ -17,7 +17,7 @@
 - ${template(`${property}_Value`, val)}
 
 # entityValue(entity)
-- [${join(foreach(entity.value, val, template(`${entity.name}_Value`, val)), ', ')}]
+- ${value(entity.value)}
 
 # value(val)
 - ${complexValue(val, null)}
