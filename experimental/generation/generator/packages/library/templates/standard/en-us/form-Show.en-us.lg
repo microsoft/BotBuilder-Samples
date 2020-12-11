@@ -1,18 +1,21 @@
 [form.en-us.lg]
 
 # propertiesAsActivity(name, properties)
+> Display value for properties as an activity
 [Activity
     Attachments=${json(propertiesAsCard(name, properties))}
 ]
 
->>> To generate text instead of card, use this
 # propertiesAsText
+> Display value for properties as text
 - ${join(foreach($requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
 
 # getPropertyValueDescriptionText(property)
+> Display value for a property
 - The value of ${propertyName(property)} is ${propertyValue(property, dialog[property])}.
 
 # propertiesAsCard(name, properties)
+> Display value for properties as a card
 -```
 {
     "type": "AdaptiveCard",
@@ -33,7 +36,9 @@
 ```
 
 # propertiesAsFacts(properties)
+> Display property values as card facts
 - ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
 
 # getPropertyAsFact(property)
+> Display property value as a card fact
 - {"title": "${propertyName(property)}", "value": "${propertyValue(property, dialog[property])}"}
