@@ -45,8 +45,8 @@ ${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
 
 # copyForLocale(locale)
 -```
-call copy .\cross-trained\\${prefix}.${locale}.lu .\language-understanding\\${locale}\ /y
-call copy .\cross-trained\\${prefix}.${locale}.qna .\knowledge-base\\${locale}\ /y
+call copy .\cross-trained\\${prefix}.${locale}.lu .\\${replace(understandingDir(),'/','')}\\${locale}\ /y
+call copy .\cross-trained\\${prefix}.${locale}.qna .\\${replace(knowledgeDir(),'/','')}\\${locale}\ /y
 ```
 
 # luisBuildCmd

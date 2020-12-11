@@ -39,8 +39,8 @@ ${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
 
 # copyForLocale(locale)
 -```
-cp ./cross-trained/${prefix}.${locale}.lu ./language-understanding/${locale}/ 
-cp ./cross-trained/${prefix}.${locale}.qna ./knowledge-base/${locale}/  
+cp ./cross-trained/${prefix}.${locale}.lu ./${understandingDir()}${locale}/ 
+cp ./cross-trained/${prefix}.${locale}.qna ./${knowledgeDir()}${locale}/  
 ```
 
 # luisBuildCmd
