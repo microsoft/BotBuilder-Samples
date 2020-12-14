@@ -1,7 +1,7 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${entityLGFilename()}
+- ${generationDir()}${locale}/form/${prefix}-emailEntity.${locale}.lg
 
 # template
-- ${entityValueTemplate()}
+- ${entityTypeTemplate('email')}
