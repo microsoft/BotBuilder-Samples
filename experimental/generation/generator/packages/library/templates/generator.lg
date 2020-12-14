@@ -279,7 +279,7 @@
         },
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity} not in $${property}",
+            "condition": "!contains($${property}, @${entity})",
             "actions": {
                 "$kind": "Microsoft.EditArray",
                 "changeType": "push",
