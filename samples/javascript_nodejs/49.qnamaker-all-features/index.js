@@ -6,7 +6,7 @@
 // Import required packages
 const path = require('path');
 
-// Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
+// Note: Ensure you have a .env file and include QnAKnowledgebaseId, QnAEndpointKey and QnAEndpointHostName.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
