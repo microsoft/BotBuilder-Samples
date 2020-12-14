@@ -21,13 +21,13 @@ class RootDialog extends ComponentDialog {
      * Root dialog for this bot.
      * @param {QnAMaker} qnaService A QnAMaker service object.
      */
-    constructor(knowledgebaseId, authkey, host) {
+    constructor(knowledgebaseId, authkey, host, defaultAnswer) {
         super(ROOT_DIALOG);
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
-        this.addDialog(new QnAMakerBaseDialog(knowledgebaseId, authkey, host));
+        this.addDialog(new QnAMakerBaseDialog(knowledgebaseId, authkey, host, defaultAnswer));
         this.initialDialogId = INITIAL_DIALOG;
     }
 

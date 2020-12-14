@@ -32,10 +32,11 @@ ${enumArrayValueTemplate()}
 # helpEnumArray()
 - ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
 
+> TODO: Move comment before template
 # enumArrayValueTemplate
 - ```
-> Value of the '${property}' property
 ${'#'} ${property}_Value(val)
+> Display value for a '${property}' 
 - \${complexValue(val, `${property}Entity_Value`)}
 ```
 
