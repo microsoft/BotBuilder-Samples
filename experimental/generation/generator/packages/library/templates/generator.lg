@@ -274,22 +274,26 @@
     "entity": "${entity}",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}',  @${entity})}"
-        },
-        {
             "$kind": "Microsoft.IfCondition",
             "condition": "!contains($${property}, @${entity})",
-            "actions": {
+            "actions": [
+                {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${confirmationText('${property}',  @${entity})}"
+            },
+                {
                 "$kind": "Microsoft.EditArray",
                 "changeType": "push",
                 "itemsProperty": "$${property}",
                 "value": "=@${entity}"
-            },
-            "elseActions" : {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "The value exists"
             }
+            ],
+            "elseActions" : [
+                {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${exist()}"
+            }
+            ]
         },
         {
             "$kind": "Microsoft.IfCondition",

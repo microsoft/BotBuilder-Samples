@@ -11,6 +11,9 @@
 > Default welcome prompt for form
 - ${helpGlobal()}
 
+# exist
+- The value exists
+
 # propertyName(property)
 > Display value for a property
 - ${template(`${property}_Name`)}
