@@ -23,6 +23,7 @@ ${chooseEntity()}
 # namePlusSwitch
 -```
 # ${property}Entity_Value(value) 
+> Display value for a '${propery}Entity'
 - SWITCH: \${value}```
 
 # case(option)
