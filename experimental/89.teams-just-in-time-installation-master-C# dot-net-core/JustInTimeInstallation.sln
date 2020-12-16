@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30330.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JustInTimeInstallation", "JustInTimeInstallation\JustInTimeInstallation.csproj", "{C8BA2AFA-0A24-4C19-97CD-3F446FA1CCF0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{C8BA2AFA-0A24-4C19-97CD-3F446FA1CCF0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C8BA2AFA-0A24-4C19-97CD-3F446FA1CCF0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C8BA2AFA-0A24-4C19-97CD-3F446FA1CCF0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C8BA2AFA-0A24-4C19-97CD-3F446FA1CCF0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {259558D3-FFE3-4FBA-AF5F-C6ADEE730CE9}
+	EndGlobalSection
+EndGlobal
