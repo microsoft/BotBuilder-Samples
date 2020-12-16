@@ -37,7 +37,7 @@ ${'#'} ${property}Entity_Value(val)
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
 
-${'#'} ${type}_Value(val)
+${'#'} ${type}Entity_Value(val)
 - \${value(val)}
 ```
 
