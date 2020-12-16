@@ -1,7 +1,7 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${generationDir()}${locale}/form/${prefix}-keyPhraseEntity.${locale}.lg
+- ${filenameForEntityTypeLG('keyPhrase')}
 
 # template
 - ${entityTypeTemplate('keyPhrase')}

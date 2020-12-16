@@ -139,5 +139,8 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(type)}
 ```
+#filenameForEntityTypeLG(type)
+- ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
+
 
 
