@@ -11,8 +11,9 @@
 > Default welcome prompt for form
 - ${helpGlobal()}
 
-# exist
-- The value exists
+# alreadyExists(property, entity)
+> Message if a value already exists in an array
+- ${value(entity)} is already in ${property}
 
 # propertyName(property)
 > Display value for a property

@@ -278,21 +278,21 @@
             "condition": "!contains($${property}, @${entity})",
             "actions": [
                 {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "\${confirmationText('${property}',  @${entity})}"
-            },
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
+                },
                 {
-                "$kind": "Microsoft.EditArray",
-                "changeType": "push",
-                "itemsProperty": "$${property}",
-                "value": "=@${entity}"
-            }
+                    "$kind": "Microsoft.EditArray",
+                    "changeType": "push",
+                    "itemsProperty": "$${property}",
+                    "value": "=@${entity}"
+                }
             ],
-            "elseActions" : [
+            "elseActions": [
                 {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "\${exist()}"
-            }
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${alreadyExists('${property}',  @${entity})}"
+                }
             ]
         },
         {
