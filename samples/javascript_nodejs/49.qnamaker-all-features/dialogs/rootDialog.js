@@ -1,33 +1,50 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+const { QnAMakerDialog } = require('botbuilder-ai');
 const {
     ComponentDialog,
     DialogSet,
     DialogTurnStatus,
-    WaterfallDialog
+    WaterfallDialog,
 } = require('botbuilder-dialogs');
-
-const {
-    QnAMakerBaseDialog
-} = require('./qnamakerBaseDialog');
+const { MessageFactory } = require('botbuilder');
 
 const INITIAL_DIALOG = 'initial-dialog';
 const ROOT_DIALOG = 'root-dialog';
-const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dailog';
+const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dialog';
+
+/**
+ * Creates QnAMakerDialog instance with provided configuraton values.
+ */
+const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer) => {
+    let noAnswerActivity;
+    if (typeof defaultAnswer === 'string') {
+        noAnswerActivity = MessageFactory.text(defaultAnswer);
+    }
+
+    const qnaMakerDialog = new QnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, noAnswerActivity);
+    qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
+
+    return qnaMakerDialog;
+}
 
 class RootDialog extends ComponentDialog {
     /**
-     * Root dialog for this bot.
-     * @param {QnAMaker} qnaService A QnAMaker service object.
+     * Root dialog for this bot. Creates a QnAMakerDialog.
+     * @param {string} knowledgeBaseId Knowledge Base ID of the QnA Maker instance.
+     * @param {string} endpointKey Endpoint key needed to query QnA Maker.
+     * @param {string} endpointHostName Host name of the QnA Maker instance.
+     * @param {string} defaultAnswer (optional) Text used to create a fallback response when QnA Maker doesn't have an answer for a question.
      */
-    constructor(knowledgebaseId, authkey, host) {
+    constructor(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer) {
         super(ROOT_DIALOG);
         // Initial waterfall dialog.
         this.addDialog(new WaterfallDialog(INITIAL_DIALOG, [
             this.startInitialDialog.bind(this)
         ]));
-        this.addDialog(new QnAMakerBaseDialog(knowledgebaseId, authkey, host));
+
+        this.addDialog(createQnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, defaultAnswer));
         this.initialDialogId = INITIAL_DIALOG;
     }
 

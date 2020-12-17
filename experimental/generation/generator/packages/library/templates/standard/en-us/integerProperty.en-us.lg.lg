@@ -32,20 +32,22 @@ ${valueTemplate()}
 - ```${tooSmall()}
 ${tooBig()}```
 
+> TODO: Move comment before template
 # tooSmall()
 - IF: ${schema.properties[property].minimum}
     -```
+${'#'} ${property}_IsTooSmall(val)
 > ${property} property is less than minimum allowed value
-${'#'} ${property}_IsTooSmall()
-- ${propertyName()} must be at least \${dialogClass.properties.${property}.minimum}```
+- ${propertyValue('val')} must be at least \${dialogClass.properties.${property}.minimum} for ${propertyName()}```
 - ELSE:
     -
 
+> TODO: Move comment before template
 # tooBig()
 - IF: ${schema.properties[property].maximum}
     -```
+${'#'} ${property}_IsTooBig(val)
 > ${property} property is greater than maximum allowed value
-${'#'} ${property}_IsTooBig()
-- ${propertyName()} must be no more than \${dialogClass.properties.${property}.maximum}```
+- ${propertyValue('val')} must be no more than \${dialogClass.properties.${property}.maximum} for ${propertyName()}```
 - ELSE:
     -

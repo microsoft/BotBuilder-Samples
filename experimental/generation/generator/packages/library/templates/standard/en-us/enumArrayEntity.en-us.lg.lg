@@ -14,7 +14,8 @@ ${chooseEntity()}
 # chooseEntity
 - ```
 # ${property}Entity_chooseEntity
-- \${chooseEnumArrayEntity(${concat("'", property, "'")})}
+> Choose between multiple '${property}Entity' values
+- \${chooseEnumArrayEntity()}
 ```
 
 # propertyEntityValue
@@ -23,6 +24,7 @@ ${chooseEntity()}
 # namePlusSwitch
 -```
 # ${property}Entity_Value(value) 
+> Display value for a '${property}Entity'
 - SWITCH: \${value}```
 
 # case(option)
