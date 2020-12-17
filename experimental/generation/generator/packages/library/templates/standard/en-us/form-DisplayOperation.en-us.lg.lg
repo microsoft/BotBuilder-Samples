@@ -7,6 +7,7 @@
 -```${formImport('form.en-us.lg')}
 
 ${'#'} displayOperation(op, property, entity)
+> Display value for a combination of operation, property and entity
 - IF: \${op && property && entity.value} 
         - \${operationName(op)} \${entityValue(entity)} to \${propertyName(property)}
 - ELSEIF: \${op && property}
@@ -19,6 +20,7 @@ ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 
 # namePlusSwitch
 -```${'#'} operationName(op) 
+> Display value for an operation
 - SWITCH: \${op}```
 
 # cases

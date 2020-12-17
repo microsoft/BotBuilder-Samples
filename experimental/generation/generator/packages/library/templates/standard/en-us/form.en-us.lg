@@ -3,29 +3,33 @@
 > !# @Namespace = form
 > !# @Exports = missingCondition, missingPriority, skipExpectedProperties, helpCondition
 
-> This is to provide consistent line endings in templates using Windows standard
 # EOL
+> EOL constant for templates
 -\n
 
 # welcome
+> Default welcome prompt for form
 - ${helpGlobal()}
 
 # propertyName(property)
+> Display value for a property
 - ${template(`${property}_Name`)}
 
 # propertyValue(property, val)
+> Display value for a property value
 - ${template(`${property}_Value`, val)}
 
 # entityValue(entity)
 - ${value(entity.value)}
 
 # value(val)
+> Display a complex value
 - ${complexValue(val, null)}
 
+# complexValue(val, leaf)
 > Display a value handling arrays and objects and leaf display template
 > TODO: This is being blocked by emulator displaying {} 
 > https://github.com/microsoft/BotFramework-Emulator/issues/2154
-# complexValue(val, leaf)
 - IF: ${isArray(val)}
 - [${join(foreach(val, elt, complexValue(elt, leaf)), ', ')}]
 - ELSEIF: ${isObject(val)}
@@ -36,18 +40,21 @@
 - no value
 
 # requiredProperties
+> Display value for required properties
 - IF: ${count($requiredProperties) > 0}
 - Required properties include: ${join(foreach($requiredProperties, property, propertyName(property)), ', ')}
 - ELSE:
 - 
 
 # optionalProperties
+> Display value for optional properties
 - IF: ${count(publicProperties()) > count($requiredProperties)}
 - Optional properties include: ${join(foreach(where(publicProperties(), property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
 - ELSE:
 - 
 
 # helpGlobal
+> Global help message
 - ```
 ${requiredProperties()}
 ${optionalProperties()}
@@ -55,59 +62,69 @@ For each property you can add/remove values, clear, show, change or ask for help
 You can also ask for over all help, cancel the whole form or skip a step.```
 
 # helpReprompt
+> Display value on reprompt
 - ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp`)), expected, template(`${expected}_RepromptHelp`)), EOL()), '')}
 
 # publicProperties
+> Public properties from schema
 -${dialogClass.schema.$public}
 
 # possibleValues(property)
+> Possible values for an enum property
 - ${foreach(enumValues(property), enum, propertyValue(property, enum))}
 
 # isArrayProperty(property)
+> Test a property to see if it is an array
 - ${dialogClass.schema.properties[property].type == 'array'}
 
 # enumValues(property)
+> Return the possible enumeration values for a property
 - IF: ${isArrayProperty(property)}
     - ${dialogClass.schema.properties[property].items.enum}
 - ELSE:
     - ${dialogClass.schema.properties[property].enum}
 
 # possibleValuesList(property)
+> Display value for possible values from an enum
 - [${join(possibleValues(property), ', ')}]
 
 # confirmationText(property, val)
+> Display confirmation text based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}
     - ${template(if(dialog[property], `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
     - ${confirmUpdate(property, val)}
 
 # confirmUpdate(property, val)
+> Display confirmation message on update
 - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
     
 # cancelPrompt
-- Do you want to end the conversation? (yes/no)
+> Prompt to cancel a form
+- Do you want to end the form? (yes/no)
 
 # changePropertyPrompt
+> Prompt for property to change
 - Is there any property you want to change? (no or the property name)
 
 # choosePropertyPrompt
+> Prompt for what property to change
 - Which property do you want to change?
 
 # notUnderstood
+> Message for not understanding
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
-# PropertyToChange_RepromptHelp
-- 
-
 >> FUNCTIONS for dialogs
-> The offset is to leave room for things like PropertyToChange
+
 # missingPropertyPriority(property)
+> Return the relative priority of a property with < 0 filtered and 0 the highest priority.
 - ${if(indexOf($requiredProperties, property) < 0, -1, 100 + indexOf($requiredProperties, property))}
 
-> Priority is lowest priority of expected properties found
 # missingPriority(properties)
+> Return the lowest priority of any property
 - ${min(foreach(properties, property, missingPropertyPriority(property)))}
 
-> Create new required properties where expected properties are moved to the end
 # skipExpectedProperties()
+> Create new required properties where expected properties are moved to the end
 - ${union(where($requiredProperties, property, !contains($expectedProperties, property)), where($expectedProperties, property, contains($requiredProperties, property)))}

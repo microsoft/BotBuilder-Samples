@@ -15,6 +15,7 @@ ${chooseEntity()}
 # chooseEntity
 - ```
 # ${property}Entity_chooseEntity
+> Choose between multiple '${property}Entity' values
 - \${chooseEnumArrayEntity()}
 ```
 

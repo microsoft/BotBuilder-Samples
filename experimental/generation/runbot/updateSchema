@@ -1,0 +1,11 @@
+#!/bin/bash
+if [ -z $1 ]; then 
+    echo "updateSchema PROJECT"
+elif [ -f bin/$1 ]; then
+    echo "No schema changes to merge"
+else
+    echo "Merging schema"
+    bf dialog:merge $1
+    # cp $1 bin/$1
+fi
+
