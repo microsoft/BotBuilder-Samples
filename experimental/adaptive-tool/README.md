@@ -30,7 +30,7 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
 
 ### Install from the Visual Studio Marketplace
 
-1. Install the [Bot Framework Adaptive Tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
+1. Install the [Bot Framework Adaptive Tool](https://marketplace.visualstudio.com/items?itemName=BotBuilder.bot-framework-adaptive-tools) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
 1. Open an LG, LU, or dialog file and the extension will activate.
 
 ### Install from a local VSIX file
@@ -143,7 +143,7 @@ Here's an example of a typical `launch.json`:
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
-![breakpoints](../adaptive-tool/resources/images/breakpoints.gif)
+![breakpoints](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/breakpoints.gif)
 
 ## Adaptive Tool settings
 
