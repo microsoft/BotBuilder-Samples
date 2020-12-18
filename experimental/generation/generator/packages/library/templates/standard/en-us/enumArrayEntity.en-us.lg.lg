@@ -8,7 +8,6 @@
 ${formImport('form.en-us.lg')}
 ${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
-${propertyEnumValue()}
 ${chooseEntity()}
 ```
 
@@ -21,8 +20,8 @@ ${chooseEntity()}
 
 # propertyEntityValue
 -```
-# ${property}Entity_Value(value) 
-- \${${property}Enum_Value(value)}
+# ${property}Entity_Value(entity) 
+- \${value(entity.value)}
 ```
 
 # propertyEnumValue

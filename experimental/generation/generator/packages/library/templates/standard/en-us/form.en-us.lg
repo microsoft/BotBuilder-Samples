@@ -20,7 +20,10 @@
 - ${template(`${property}_Value`, val)}
 
 # entityValue(entity)
-- ${value(entity.value)}
+- IF: ${contains(entity.type, 'Entity')}
+- ${template(`${entity.type}_Value`, entity)}
+- ELSE:
+- ${template(`${entity.type}Entity_Value`, entity)}
 
 # value(val)
 > Display a complex value

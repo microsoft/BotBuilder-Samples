@@ -37,8 +37,14 @@ ${'#'} ${property}Entity_Value(val)
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
 
-${'#'} ${type}Entity_Value(val)
-- \${value(val)}
+${'#'} ${type}Entity_Value(entity)
+- \${value(entity.value)}
+```
+
+# entityTextTemplate(type)
+-```
+${'#'} ${type}Entity_Value(entity)
+- \${entity.text}
 ```
 
 >> String

@@ -19,6 +19,7 @@
     ],
     "$templates": [
         "moneyEntity.lu",
+        "moneyEntity.lg",
         "moneyProperty.lg",
         "string-missing.dialog",
         "moneyEntity-add.dialog",

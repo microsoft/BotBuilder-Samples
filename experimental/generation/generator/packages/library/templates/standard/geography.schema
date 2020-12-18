@@ -18,6 +18,7 @@
     ],
     "$templates": [
         "geographyV2Entity.lu",
+        "geographyV2Entity.lg",
         "objectProperty.lg",
         "string-missing.dialog",
         "geographyV2Entity-add.dialog",

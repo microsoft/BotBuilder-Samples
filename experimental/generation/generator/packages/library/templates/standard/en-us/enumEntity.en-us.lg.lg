@@ -19,8 +19,8 @@ ${chooseEntity()}
 ```
 # propertyEntityValue
 -```
-# ${property}Entity_Value(value) 
-- \${${property}Enum_Value(value)}
+# ${property}Entity_Value(entity) 
+- \${${property}Enum_Value(entity.value)}
 ```
 
 # propertyEnumValue

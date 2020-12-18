@@ -1,8 +1,8 @@
 [sandwichMerge-form.en-us.lg](../form/sandwichMerge-form.en-us.lg)
 [sandwichMerge-form-Choose.en-us.lg](../form/sandwichMerge-form-Choose.en-us.lg)
 
-# BreadEntity_Value(value) 
-- ${BreadEnum_Value(value)}
+# BreadEntity_Value(entity) 
+- ${BreadEnum_Value(entity.value)}
 
 # BreadEnum_Value(value) 
 - SWITCH: ${value}
