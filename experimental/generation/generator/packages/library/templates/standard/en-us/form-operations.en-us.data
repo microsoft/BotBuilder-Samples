@@ -54,6 +54,7 @@
 
 > Help() examples for ${property}
 - {@Help()=help {@${property}=${name}}}
+- {@Help()=help with {@${property}=${name}}}
 - {@Help()=what can I say for {@${property}=${name}}}
 - {@Help()={@${property}=${name}} help}
 

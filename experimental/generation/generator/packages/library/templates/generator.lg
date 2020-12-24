@@ -471,7 +471,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
     "condition":"!\$${property}",
-    "priority": "=form.missingPriority('${property}')",
+    "priority": "=form.missingPriority(['${property}'])",
     "actions": [
         {
             "$kind": "Microsoft.Ask",
@@ -569,13 +569,18 @@ ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
+> TODO: dummyProperty are to work around an issue in 4.11 of the SDK they can be removed on the next release
+@ ml Skip() usesFeature SkipPhrases
+    - @ ml dummyProperty
+@ ml Cancel() usesFeature CancelPhrases
+    - @ ml dummyProperty
 
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`, 
-    { simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
-    3)}
+    { utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
+    5)}
 ```
 
 # defineOperation(operation, entity)
@@ -638,13 +643,14 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 -```
 > !# @app.culture = ${locale}
 > !# @app.settings.NormalizeWordForm = true
+> !# @app.settings.UseAllTrainingData = true
 ```
 
 >> Templates to use when expanding schemas
 
 > Operations defined in .lu
 # schemaOperations()
-- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()']}
+- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
 
 > Define default operation for properties
 # schemaDefaultOperation()
@@ -683,69 +689,71 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Per-property LG templates
 
+> TODO: Comments have been moved inside of templates until Composer supports them before
 # promptTemplates(missing, change)
 - ```
 >> Prompts
 
-> Prompt when '${property}' property is missing
 ${'#'} ${property}_MissingPrompt
+> Prompt when '${property}' property is missing
 - ${missing}
 
-> Prompt when '${property}' property has a value, but is being changed
 ${'#'} ${property}_ChangePrompt
+> Prompt when '${property}' property has a value, but is being changed
 - ${change}```
 
 # confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace, remove, clear)
 - ```
 >> Confirmation
 
-> Confirmation when adding expected value to empty '${property}' property
 ${'#'} ${property}_ExpectedSetConfirmation(newVal)
+> Confirmation when adding expected value to empty '${property}' property
 - ${expectedSet}
 
-> Confirmation when replacing expected value in '${property}' property
 ${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
+> Confirmation when replacing expected value in '${property}' property
 - ${expectedReplace}
 
-> Confirmation when adding unexpected value to empty '${property}' property
 ${'#'} ${property}_UnexpectedSetConfirmation(newVal)
+> Confirmation when adding unexpected value to empty '${property}' property
 - ${unexpectedSet}
 
-> Confirmation when replacing unexpected value in '${property}' property
 ${'#'} ${property}_UnexpectedUpdateConfirmation(newVal)
+> Confirmation when replacing unexpected value in '${property}' property
 - ${unexpectedReplace}
 
-> Confirmation when value is removed from '${property}' property
 ${'#'} ${property}_RemoveConfirmation(val)
+> Confirmation when value is removed from '${property}' property
 - ${remove}
 
-> Confirmation when '${property}' property is cleared
 ${'#'} ${property}_ClearConfirmation
+> Confirmation when '${property}' property is cleared
 - ${clear}```
 
 # helpTemplates(reprompt, help)
 - ```
 >> Help
 
-> Help for '${property}' property reprompt
 ${'#'} ${property}_RepromptHelp
+> Help for '${property}' property reprompt
 - ${reprompt}
 
-> Help for '${property}' property
 ${'#'} ${property}_Help
+> Help for '${property}' property
 - ${help}```
 
 # showTemplate(show)
 - ```
->> Show value of '${property}' property
+>> Show
 ${'#'} ${property}_Show
+> Show value of '${property}' property
 - ${show}```
 
 # incorrectUnitsTemplate
 - IF: ${hasUnits()}
 - ```
-> Incorrect units for '${property}' property
 ${'#'} ${property}_IncorrectUnits(actual)
+> Incorrect units for '${property}' property
 - \${actual} must be '${units()}'```
 - ELSE:
     -

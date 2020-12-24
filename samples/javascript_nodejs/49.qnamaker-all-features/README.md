@@ -1,6 +1,6 @@
 # QnA Maker
 
-Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with ASP.Net Core-2. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
+Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with Node.js. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
 
@@ -16,7 +16,7 @@ In this sample, we demonstrate
 `- Follow instructions` [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation) to create multiturn experience.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import and publish your newly created QnA Maker service.
-- Update [appsettings.json](appsettings.json) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+- Update [.env](.env) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. You may also change the default answer by updating `DefaultAnswer` (optional) field. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 - (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
 QnA Maker CLI to deploy the model.
 ### Create a QnAMaker Application to enable QnA Knowledge Bases
@@ -117,13 +117,14 @@ This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitiv
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3999/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # QnA Maker service
 QnA Maker enables you to power a question and answer service from your semi-structured content.

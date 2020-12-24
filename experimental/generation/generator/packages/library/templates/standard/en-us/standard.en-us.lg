@@ -19,15 +19,15 @@ ${'#'} ${property}_Value(val)
 
 # complexValueTemplate(type)
 -```
-> Value for ${definite(type)} '${property}' property
 ${'#'} ${property}_Value(val)
+> Display value for ${definite(type)} '${property}'
 - \${value(val)}
 ```
 
 # entityValueTemplate()
 -```
-> Value for ${definite(`${property}Entity`)} entity
 ${'#'} ${property}Entity_Value(val)
+> Display value for ${definite(`${property}Entity`)}
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -41,7 +41,7 @@ ${'#'} ${property}Entity_Value(val)
 
 >> Specific property calls to generated templates
 # propertyName()
-- \${${property}_Name()}
+- ${phrase(property, locale)}
 
 # propertyCurrentValue()
 - ${propertyValue(`$${property}`)}
