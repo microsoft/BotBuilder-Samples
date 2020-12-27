@@ -1,6 +1,6 @@
-# Bot Framework Adaptive Tool
+# Bot Framework Adaptive Tools
 
-Bot Framework Adaptive Tool is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), and dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
+Bot Framework Adaptive Tools is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), and dialog (.dialog) files efficiently. Adaptive Tools has tools and settings that make it easy to debug, analyze and enhance you language files.
 
 Supported features include the following:
 <!--
@@ -26,39 +26,39 @@ Supported features include the following:
 
 ## Getting started
 
-Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
+Adaptive Tools can be installed [from the Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
 
 ### Install from the Visual Studio Marketplace
 
-1. Install the [Bot Framework Adaptive Tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
+1. Install [Bot Framework Adaptive Tools](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
 1. Open an LG, LU, or dialog file and the extension will activate.
 
 ### Install from a local VSIX file
 
 1. Clone the [BotBuilder-Samples](https://github.com/microsoft/BotBuilder-Samples) repo.
-1. In a terminal or command prompt, navigate to the directory containing the Adaptive Tool, **experimental/adaptive-tool**, and run the following commands:
+1. In a terminal or command prompt, navigate to the directory containing the Adaptive Tools, **experimental/adaptive-tool**, and run the following commands:
 
     ```cmd
     npm install
     ```
-    
+
     ```cmd
     npm run build
     ```
-    
+
   1. Run the command below to install [vsce](https://www.npmjs.com/package/vsce):
-  
+
       ```cmd
       npm install -g vsce
       ```
-    
+
 1. Finally, run the following command to export the VSIX file:
 
     ```cmd
     vsce package
     ```
-    
-    You're now ready to install Adaptive Tool.
+
+    You're now ready to install Adaptive Tools.
 1. Open VS Code and open the **Extensions** view.
 1. Click the **Views and More Actions** button (...) in the upper-right corner of the Extensions panel. Then click **Install from VSIX..** and select the VSIX file you created earlier.
 1. Open an LG, LU, or dialog file and the extension will activate.
@@ -110,11 +110,11 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
+Adaptive Tools lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
 
 ### Configuration
 
-- [Install](#getting-started) the Adaptive Tool extension.
+- [Install](#getting-started) the Adaptive Tools extension.
 - Open the LG, LU ,or dialog file to debug.
 - To configure Visual Studio Code, add a target in your `launch.settings` file.
 
@@ -145,7 +145,7 @@ Here's an example of a typical `launch.json`:
 
 ![breakpoints](../adaptive-tool/resources/images/breakpoints.gif)
 
-## Adaptive Tool settings
+## Adaptive Tools settings
 
 Settings for LG files can be found under **LG** in the Extensions settings.
 
