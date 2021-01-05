@@ -34,7 +34,14 @@ namespace Microsoft.BotBuilderSamples
             var messages = await graphClient.Me.MailFolders.Inbox.Messages.Request(new List<Option>() { searchQuery }).GetAsync();
             return messages.Take(10).ToArray();
         }
-        
+
+        //Fetching user's profile 
+        public async Task<User> GetMyProfile()
+        {
+            var graphClient = GetAuthenticatedClient();
+            return await graphClient.Me.Request().GetAsync();
+        }
+
         // Get an Authenticated Microsoft Graph client using the token issued to the user.
         private GraphServiceClient GetAuthenticatedClient()
         {
