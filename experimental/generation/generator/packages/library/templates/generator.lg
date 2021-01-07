@@ -291,7 +291,7 @@
             "elseActions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${alreadyExists('${property}',  @${entity})}"
+                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
                 }
             ]
         },
