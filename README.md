@@ -81,6 +81,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  |
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|
+|25| Message Reactions | Demonstrates how to create a simple bot that responds to Message Reactions | [.NET&nbsp;Core][cs#25]  |  [JavaScript][js#25] | 
 |46|Authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46] |
 |50|Messaging&nbsp;extensions&nbsp;- search     |  A Messaging Extension that accepts search requests and returns results.|[.NET&nbsp;Core][cs#50]|[JavaScript][js#50]          |[Python][py#50] |
 |51|Messaging&nbsp;extensions&nbsp;- action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[.NET&nbsp;Core][cs#51]|[JavaScript][js#51]          |[Python][py#51] |
@@ -132,6 +133,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
+[cs#25]:samples/csharp_dotnetcore/25.message-reaction
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
@@ -191,6 +193,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#21]:samples/javascript_nodejs/21.corebot-app-insights
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
+[js#25]:samples/javascript_nodejs/25.message-reaction
 [js#40]:samples/javascript_nodejs/40.timex-resolution
 [js#43]:samples/javascript_nodejs/43.complex-dialog
 [js#44]:samples/javascript_nodejs/44.prompt-for-user-input
