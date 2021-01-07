@@ -23,7 +23,7 @@ ${valueTemplate()}
 - Enter a percentage for ${propertyName()} ${numberRanges()}
 
 # repromptPercentage()
-- Enter a percentage for ${propertyName()} ${numberRanges()}
+- The type of ${propertyName()} is percentage, and its range is ${numberRanges()}
 
 # helpPercentage()
 - ${propertyName()} is a percentage ${numberRanges()}

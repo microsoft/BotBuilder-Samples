@@ -23,7 +23,7 @@ ${valueTemplate()}
 - Enter an integer for ${propertyName()} ${numberRanges()}
 
 # repromptInteger()
-- Enter an integer for ${propertyName()} ${numberRanges()}
+- The type of ${propertyName()} is integer, and its range is ${numberRanges()}
 
 # helpInteger()
 - ${propertyName()} is an integer ${numberRanges()}
