@@ -1,6 +1,6 @@
 # QnA Maker
 
-Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with ASP.Net Core-2. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
+Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with Node.js. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
 
@@ -117,13 +117,14 @@ This bot uses [QnA Maker Service](https://www.qnamaker.ai), an AI based cognitiv
 
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.9.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
 - Launch Bot Framework Emulator
 - File -> Open Bot
-- Enter a Bot URL of `http://localhost:3999/api/messages`
+- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # QnA Maker service
 QnA Maker enables you to power a question and answer service from your semi-structured content.
