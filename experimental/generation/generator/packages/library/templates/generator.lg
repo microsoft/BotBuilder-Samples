@@ -264,6 +264,53 @@
 }
 ```
 
+# addArrayDialogWithChecking(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "!contains($${property}, @${entity})",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
+                },
+                {
+                    "$kind": "Microsoft.EditArray",
+                    "changeType": "push",
+                    "itemsProperty": "$${property}",
+                    "value": "=@${entity}"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "$PropertyToChange == '${property}'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "$PropertyToChange"
+                }
+            ]
+        }
+    ]               
+    ${designerOpEntity('Add', entity)
+    }
+}
+```
+
 # addWithUnits(entity)
 - IF: ${hasUnits()}
     -```
