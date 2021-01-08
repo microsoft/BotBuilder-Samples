@@ -25,8 +25,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/11.qnamaker` folder
-  - Select `QnABot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/06.using-cards` folder
+  - Select `CardsBot.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
