@@ -9,7 +9,7 @@
 ${'#'} displayOperation(op, property, entity)
 > Display value for a combination of operation, property and entity
 - IF: \${op && property && entity.value} 
-        - \${operationName(op)} "\${entity.text}" to \${propertyName(property)}
+        - \${operationName(op)} \${entityValue(entity)} to \${propertyName(property)}
 - ELSEIF: \${op && property}
         - \${operationName(op)} \${propertyName(property)}
 - ELSE:

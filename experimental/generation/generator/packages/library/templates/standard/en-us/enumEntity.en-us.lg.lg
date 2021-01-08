@@ -8,6 +8,7 @@
 ${formImport('form.en-us.lg')}
 ${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
+${propertyEnumValue()}
 ${chooseEntity()}
 ```
 
@@ -16,14 +17,18 @@ ${chooseEntity()}
 # ${property}Entity_chooseEntity
 - \${chooseEnumEntity()}
 ```
-
 # propertyEntityValue
+-```
+# ${property}Entity_Value(entity) 
+- \${${property}Enum_Value(entity.value)}
+```
+
+# propertyEnumValue
 - ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch
 -```
-# ${property}Entity_Value(value) 
-> Display value for a '${propery}Entity'
+# ${property}Enum_Value(value) 
 - SWITCH: \${value}```
 
 # case(option)

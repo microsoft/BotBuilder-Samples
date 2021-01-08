@@ -18,6 +18,7 @@
     ],
     "$templates": [
         "temperatureEntity.lu",
+        "temperatureEntity.lg",
         "objectProperty.lg",
         "string-missing.dialog",
         "temperatureEntity-add.dialog",

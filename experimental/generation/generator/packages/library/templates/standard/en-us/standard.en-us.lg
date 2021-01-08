@@ -34,6 +34,19 @@ ${'#'} ${property}Entity_Value(val)
  - no value
 ```
 
+# entityTypeTemplate(type)
+-```${formImport('form.en-us.lg')}
+
+${'#'} ${type}Entity_Value(entity)
+- \${value(entity.value)}
+```
+
+# entityTextTemplate(type)
+-```
+${'#'} ${type}Entity_Value(entity)
+- \${entity.text}
+```
+
 >> String
 
 # missingStringArray()
@@ -132,5 +145,8 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(type)}
 ```
+#filenameForEntityTypeLG(type)
+- ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
+
 
 

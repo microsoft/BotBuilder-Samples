@@ -19,6 +19,7 @@
     ],
     "$templates": [
         "ageEntity.lu",
+        "ageEntity.lg",
         "ageProperty.lg",
         "string-missing.dialog",
         "ageEntity-add.dialog",

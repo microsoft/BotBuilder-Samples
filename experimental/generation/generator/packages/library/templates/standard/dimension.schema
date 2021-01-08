@@ -19,6 +19,7 @@
     ],
     "$templates": [
         "dimensionEntity.lu",
+        "dimensionEntity.lg",
         "dimensionProperty.lg",
         "string-missing.dialog",
         "dimensionEntity-add.dialog",
