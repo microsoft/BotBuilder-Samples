@@ -74,7 +74,7 @@ ${'#'} ${property}Entity_Value(val)
 - Change ${propertyCurrentValue()} in ${propertyName()} to?
 
 # repromptDefault(type)
-- Enter ${definite(type)} for ${propertyName()}
+- The type of ${propertyName()} is ${definite(type)}
 
 # helpDefault(type)
 - ${propertyName()} is ${definite(type)} property
