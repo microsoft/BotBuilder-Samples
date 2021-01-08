@@ -1,8 +1,8 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${entityLGFilename()}
+- ${filenameForEntityTypeLG('url')}
 
 # template
-- ${entityValueTemplate()}
+- ${entityTypeTemplate('url')}
 

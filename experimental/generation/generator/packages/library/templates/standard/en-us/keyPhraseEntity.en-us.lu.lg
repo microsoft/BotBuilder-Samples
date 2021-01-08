@@ -7,5 +7,6 @@
 - ```
 @ prebuilt keyPhrase
 
+${operations('keyPhrase', ["educational requirements", "development", "daily jobs"], false)}
 ```
 

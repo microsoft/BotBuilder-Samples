@@ -31,7 +31,7 @@ These parameters are used to find your `luis.settings.<environment>.<region>.jso
 ## Generating Tests from Transcripts
 
 A simple way to test your bot is to generate a test file from a transcript using [`bf
-dialog:generate:test`](../generator/packages/cli/readme.md#bf-dialoggeneratetest-transcript-dialog)
+dialog:generate:test`](../generator/packages/cli#bf-dialoggeneratetest-transcript-dialog)
 To do this:
 1. Test your `bot.main.dialog` in the [Bot Framework Emulator][emulator].
 2. Save the transcript as something like `bot.transcript`.

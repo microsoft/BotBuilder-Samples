@@ -19,11 +19,14 @@
     ],
     "$templates": [
         "moneyEntity.lu",
+        "moneyEntity.lg",
         "moneyProperty.lg",
         "string-missing.dialog",
         "moneyEntity-add.dialog",
         "moneyEntity-remove.dialog",
         "moneyEntity-clear.dialog",
-        "moneyEntity-show.dialog"
+        "moneyEntity-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
     ]
 }

@@ -19,19 +19,32 @@ ${'#'} ${property}_Value(val)
 
 # complexValueTemplate(type)
 -```
-> Value for ${definite(type)} '${property}' property
 ${'#'} ${property}_Value(val)
+> Display value for ${definite(type)} '${property}'
 - \${value(val)}
 ```
 
 # entityValueTemplate()
 -```
-> Value for ${definite(`${property}Entity`)} entity
 ${'#'} ${property}Entity_Value(val)
+> Display value for ${definite(`${property}Entity`)}
  - IF: \${val}
  - \${val}
  - ELSE:
  - no value
+```
+
+# entityTypeTemplate(type)
+-```${formImport('form.en-us.lg')}
+
+${'#'} ${type}Entity_Value(entity)
+- \${value(entity.value)}
+```
+
+# entityTextTemplate(type)
+-```
+${'#'} ${type}Entity_Value(entity)
+- \${entity.text}
 ```
 
 >> String
@@ -41,7 +54,7 @@ ${'#'} ${property}Entity_Value(val)
 
 >> Specific property calls to generated templates
 # propertyName()
-- \${${property}_Name()}
+- ${phrase(property, locale)}
 
 # propertyCurrentValue()
 - ${propertyValue(`$${property}`)}
@@ -74,7 +87,7 @@ ${'#'} ${property}Entity_Value(val)
 - Change ${propertyCurrentValue()} in ${propertyName()} to?
 
 # repromptDefault(type)
-- Enter ${definite(type)} for ${propertyName()}
+- The type of ${propertyName()} is ${definite(type)}
 
 # helpDefault(type)
 - ${propertyName()} is ${definite(type)} property
@@ -118,7 +131,7 @@ ${'#'} ${property}Entity_Value(val)
 >> Units
 
 # unitsTemplates(type)
-- ```${libraryImport('library.en-us')}
+- ```${formImport('form.en-us.lg')}
 ${promptTemplates(missingDefault(type), changeDefault(type))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -132,5 +145,8 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(type)}
 ```
+#filenameForEntityTypeLG(type)
+- ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
+
 
 

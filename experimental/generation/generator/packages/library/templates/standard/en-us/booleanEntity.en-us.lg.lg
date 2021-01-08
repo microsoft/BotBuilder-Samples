@@ -1,11 +1,12 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${locale}/library/${prefix}-booleanEntity.${locale}.lg
+- ${generationDir()}${locale}/form/${prefix}-booleanEntity.${locale}.lg
 
 # template
 - ```
 # booleanEntity_Value(value)
+> Display value for a boolean entity
 - SWITCH: \${value}
 - CASE: \${'true'}
     - true  

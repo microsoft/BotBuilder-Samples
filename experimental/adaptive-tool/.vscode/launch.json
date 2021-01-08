@@ -12,10 +12,6 @@
 			"runtimeExecutable": "${execPath}",
 			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
 			"outFiles": ["${workspaceRoot}/client/out/extension.js"],
-			"preLaunchTask": {
-				"type": "npm",
-				"script": "watch"
-			},
 			"sourceMaps": true
 		},
 		{
@@ -35,24 +31,43 @@
 			"restart": true,
 			"sourceMaps": true,
 			"outFiles": ["${workspaceRoot}/server/out/luserver.js"]
-		},
-		{
-			"name": "Language Server E2E Test",
+    },
+    {
 			"type": "extensionHost",
 			"request": "launch",
+			"name": "Launch Client(debug)",
 			"runtimeExecutable": "${execPath}",
-			"args": [
-				"--extensionDevelopmentPath=${workspaceRoot}",
-				"--extensionTestsPath=${workspaceRoot}/client/out/test/index",
-				"${workspaceRoot}/client/testFixture"
-			],
-			"outFiles": ["${workspaceRoot}/client/out/test/**/*.js"]
-		}
+			"args": ["--extensionDevelopmentPath=${workspaceRoot}"],
+			"outFiles": ["${workspaceRoot}/client/out/src/extension.js"],
+			"sourceMaps": true
+		},
+    {
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to LgServer(debug)",
+			"port": 6010,
+			"restart": true,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/server/out/lg/src/server.js"]
+		},
+		{
+			"type": "node",
+			"request": "attach",
+			"name": "Attach to LuServer(debug)",
+			"port": 6011,
+			"restart": true,
+			"sourceMaps": true,
+			"outFiles": ["${workspaceRoot}/server/out/lu/src/server.js"]
+		},
     ],
 	"compounds": [
 		{
 			"name": "Client + Server",
 			"configurations": ["Launch Client", "Attach to LgServer", "Attach to LuServer"]
+    },
+    {
+			"name": "Client + Server(debug)",
+			"configurations": ["Launch Client(debug)", "Attach to LgServer(debug)", "Attach to LuServer(debug)"]
 		}
 	]
 }

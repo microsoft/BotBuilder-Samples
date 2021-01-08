@@ -19,7 +19,9 @@ ${nameTemplate()}
 ${valueTemplate()}
 ```
 
+> TODO: Move comment before template
 # validationTemplate
-- ```> Invalid value for '${property}' property
+- ```
 ${'#'} ${property}_invalidDate(val)
-- \${value(val)} is not a date```
+> Invalid value for '${property}' property
+- \${${property}_Value(val)} is not a date```

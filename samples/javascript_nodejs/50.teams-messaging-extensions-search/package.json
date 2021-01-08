@@ -16,8 +16,8 @@
         "url": "https://github.com/Microsoft/BotBuilder-Samples.git"
     },
     "dependencies": {
-        "axios": "^0.19.2",
-        "botbuilder": "~4.10.3",
+        "axios": "^0.21.0",
+        "botbuilder": "~4.11.0",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },

@@ -77,9 +77,31 @@
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/sandwich.schema",
+                "${workspaceFolder}/packages/library/test/forms/sandwich.form",
                 "-o",
                 "${env:TEMP}/sandwich.out",
+                "--force",
+                "--verbose"
+            ],
+            "sourceMaps": true,
+            "internalConsoleOptions": "openOnSessionStart"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Generate Action",
+            "preLaunchTask": "${defaultBuildTask}",
+            "program": "${workspaceFolder}/packages/cli/bin/run",
+            "outputCapture": "std",
+            "outFiles": [
+                "${workspaceFolder}/packages/cli/lib/**",
+                "${workspaceFolder}/packages/library/lib/**"
+            ],
+            "args": [
+                "dialog:generate",
+                "${workspaceFolder}/packages/library/test/forms/action.form",
+                "-o",
+                "${env:TEMP}/action.out",
                 "--force",
                 "--verbose"
             ],
@@ -98,7 +120,7 @@
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/sandwichQnA.schema",
+                "${workspaceFolder}/packages/library/test/forms/sandwichQnA.form",
                 "-o",
                 "${env:TEMP}/sandwichQnA.out",
                 "--force",
@@ -118,12 +140,11 @@
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/simple.schema",
+                "${workspaceFolder}/packages/library/test/forms/simple.form",
                 "-o",
                 "${env:TEMP}/simple.out",
                 "--force",
-                "--verbose",
-                "--debug"
+                "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },
@@ -139,7 +160,7 @@
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/unittests.schema",
+                "${workspaceFolder}/packages/library/test/forms/unittests.form",
                 "-o",
                 "${env:TEMP}/unittests.out",
                 "--force",
@@ -159,7 +180,7 @@
             ],
             "args": [
                 "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/sandwich.schema",
+                "${workspaceFolder}/packages/library/test/forms/sandwich.form",
                 "-o",
                 "${env:TEMP}/script.out"
             ],

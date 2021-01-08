@@ -18,11 +18,13 @@
     ],
     "$templates": [
         "geographyV2Entity.lu",
+        "geographyV2Entity.lg",
         "objectProperty.lg",
         "string-missing.dialog",
         "geographyV2Entity-add.dialog",
         "geographyV2Entity-remove.dialog",
         "geographyV2Entity-clear.dialog",
-        "geographyV2Entity-show.dialog"
+        "geographyV2Entity-show.dialog",
+        "generic-help.dialog"
     ]
 }

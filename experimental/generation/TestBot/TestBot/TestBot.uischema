@@ -1,0 +1,781 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "Microsoft.AdaptiveDialog": {
+    "form": {
+      "description": "This configures a data driven dialog via a collection of events and actions.",
+      "helpLink": "https://aka.ms/bf-composer-docs-dialog",
+      "hidden": [
+        "triggers",
+        "generator",
+        "selector",
+        "schema"
+      ],
+      "label": "Adaptive dialog",
+      "order": [
+        "recognizer",
+        "*"
+      ],
+      "properties": {
+        "recognizer": {
+          "description": "To understand what the user says, your dialog needs a \"Recognizer\"; that includes example words and sentences that users may use.",
+          "label": "Language Understanding"
+        }
+      }
+    }
+  },
+  "Microsoft.Ask": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-send-activity",
+      "label": "Send a response to ask a question",
+      "order": [
+        "activity",
+        "*"
+      ],
+      "subtitle": "Ask Activity"
+    }
+  },
+  "Microsoft.AttachmentInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt for a file or an attachment",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Attachment Input"
+    }
+  },
+  "Microsoft.BeginDialog": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "Begin a new dialog",
+      "order": [
+        "dialog",
+        "options",
+        "resultProperty",
+        "*"
+      ],
+      "properties": {
+        "resultProperty": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Begin Dialog"
+    }
+  },
+  "Microsoft.BeginSkill": {
+    "form": {
+      "helpLink": "https://aka.ms/bf-composer-docs-connect-skill",
+      "label": "Connect to a skill",
+      "properties": {
+        "resultProperty": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Skill Dialog"
+    }
+  },
+  "Microsoft.BreakLoop": {
+    "form": {
+      "label": "Break out of loop",
+      "subtitle": "Break out of loop"
+    }
+  },
+  "Microsoft.CancelAllDialogs": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "Cancel all active dialogs",
+      "subtitle": "Cancel All Dialogs"
+    }
+  },
+  "Microsoft.ChoiceInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt with multi-choice",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Choice Input"
+    }
+  },
+  "Microsoft.ConfirmInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt for confirmation",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Confirm Input"
+    }
+  },
+  "Microsoft.ContinueLoop": {
+    "form": {
+      "label": "Continue loop",
+      "subtitle": "Continue loop"
+    }
+  },
+  "Microsoft.DateTimeInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt for a date or a time",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Date Time Input"
+    }
+  },
+  "Microsoft.DebugBreak": {
+    "form": {
+      "label": "Debug Break"
+    }
+  },
+  "Microsoft.DeleteProperties": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-memory",
+      "label": "Delete properties",
+      "properties": {
+        "properties": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        }
+      },
+      "subtitle": "Delete Properties"
+    }
+  },
+  "Microsoft.DeleteProperty": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-memory",
+      "label": "Delete a property",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        }
+      },
+      "subtitle": "Delete Property"
+    }
+  },
+  "Microsoft.EditActions": {
+    "form": {
+      "label": "Modify active dialog",
+      "subtitle": "Edit Actions"
+    }
+  },
+  "Microsoft.EditArray": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-memory",
+      "label": "Edit an array property",
+      "properties": {
+        "itemsProperty": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        },
+        "resultProperty": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Edit Array"
+    }
+  },
+  "Microsoft.EmitEvent": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-custom-events",
+      "label": "Emit a custom event",
+      "subtitle": "Emit Event"
+    }
+  },
+  "Microsoft.EndDialog": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "End this dialog",
+      "subtitle": "End Dialog"
+    }
+  },
+  "Microsoft.EndTurn": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "End turn",
+      "subtitle": "End Turn"
+    }
+  },
+  "Microsoft.Foreach": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
+      "hidden": [
+        "actions"
+      ],
+      "label": "Loop: For each item",
+      "order": [
+        "itemsProperty",
+        "*"
+      ],
+      "properties": {
+        "index": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        },
+        "itemsProperty": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        },
+        "value": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "For Each"
+    }
+  },
+  "Microsoft.ForeachPage": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
+      "hidden": [
+        "actions"
+      ],
+      "label": "Loop: For each page (multiple items)",
+      "order": [
+        "itemsProperty",
+        "pageSize",
+        "*"
+      ],
+      "properties": {
+        "itemsProperty": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        },
+        "page": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        },
+        "pageIndex": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "For Each Page"
+    }
+  },
+  "Microsoft.HttpRequest": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-http",
+      "label": "Send an HTTP request",
+      "order": [
+        "method",
+        "url",
+        "body",
+        "headers",
+        "*"
+      ],
+      "properties": {
+        "resultProperty": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "HTTP Request"
+    }
+  },
+  "Microsoft.IfCondition": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
+      "hidden": [
+        "actions",
+        "elseActions"
+      ],
+      "label": "Branch: If/Else",
+      "subtitle": "If Condition"
+    }
+  },
+  "Microsoft.LogAction": {
+    "form": {
+      "helpLink": "https://aka.ms/composer-telemetry",
+      "label": "Log to console",
+      "subtitle": "Log Action"
+    }
+  },
+  "Microsoft.NumberInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt for a number",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Number Input"
+    }
+  },
+  "Microsoft.OAuthInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-oauth",
+      "label": "OAuth login",
+      "order": [
+        "connectionName",
+        "*"
+      ],
+      "subtitle": "OAuth Input"
+    }
+  },
+  "Microsoft.OnActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Activities",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Activity received"
+    }
+  },
+  "Microsoft.OnAssignEntity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Handle a condition when an entity is assigned",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "EntityAssigned activity"
+    }
+  },
+  "Microsoft.OnBeginDialog": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Dialog started",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Begin dialog event"
+    }
+  },
+  "Microsoft.OnCancelDialog": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Dialog cancelled",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Cancel dialog event"
+    }
+  },
+  "Microsoft.OnChooseIntent": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "order": [
+        "condition",
+        "*"
+      ]
+    }
+  },
+  "Microsoft.OnCondition": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Handle a condition",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Condition"
+    }
+  },
+  "Microsoft.OnConversationUpdateActivity": {
+    "form": {
+      "description": "Handle the events fired when a user begins a new conversation with the bot.",
+      "helpLink": "https://aka.ms/bf-composer-docs-conversation-update-activity",
+      "hidden": [
+        "actions"
+      ],
+      "label": "Greeting",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "ConversationUpdate activity"
+    }
+  },
+  "Microsoft.OnDialogEvent": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Dialog events",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Dialog event"
+    }
+  },
+  "Microsoft.OnEndOfActions": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Handle a condition when actions have ended",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "EndOfActions activity"
+    }
+  },
+  "Microsoft.OnEndOfConversationActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Conversation ended",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "EndOfConversation activity"
+    }
+  },
+  "Microsoft.OnError": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Error occurred",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Error event"
+    }
+  },
+  "Microsoft.OnEventActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Event received",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Event activity"
+    }
+  },
+  "Microsoft.OnHandoffActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Handover to human",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Handoff activity"
+    }
+  },
+  "Microsoft.OnInstallationUpdateActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Installation updated",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Installation updated activity"
+    }
+  },
+  "Microsoft.OnIntent": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Intent recognized",
+      "order": [
+        "intent",
+        "condition",
+        "entities",
+        "*"
+      ],
+      "subtitle": "Intent recognized"
+    }
+  },
+  "Microsoft.OnInvokeActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Conversation invoked",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Invoke activity"
+    }
+  },
+  "Microsoft.OnMessageActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Message received",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Message received activity"
+    }
+  },
+  "Microsoft.OnMessageDeleteActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Message deleted",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Message deleted activity"
+    }
+  },
+  "Microsoft.OnMessageReactionActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Message reaction",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Message reaction activity"
+    }
+  },
+  "Microsoft.OnMessageUpdateActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Message updated",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Message updated activity"
+    }
+  },
+  "Microsoft.OnRepromptDialog": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Re-prompt for input",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Reprompt dialog event"
+    }
+  },
+  "Microsoft.OnTypingActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "User is typing",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Typing activity"
+    }
+  },
+  "Microsoft.OnUnknownIntent": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Unknown intent",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Unknown intent recognized"
+    }
+  },
+  "Microsoft.RegexRecognizer": {
+    "form": {
+      "hidden": [
+        "entities"
+      ]
+    }
+  },
+  "Microsoft.RepeatDialog": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "Repeat this dialog",
+      "order": [
+        "options",
+        "*"
+      ],
+      "subtitle": "Repeat Dialog"
+    }
+  },
+  "Microsoft.ReplaceDialog": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+      "label": "Replace this dialog",
+      "order": [
+        "dialog",
+        "options",
+        "*"
+      ],
+      "subtitle": "Replace Dialog"
+    }
+  },
+  "Microsoft.SendActivity": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-send-activity",
+      "label": "Send a response",
+      "order": [
+        "activity",
+        "*"
+      ],
+      "subtitle": "Send Activity"
+    }
+  },
+  "Microsoft.SetProperties": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-memory",
+      "label": "Set properties",
+      "properties": {
+        "assignments": {
+          "properties": {
+            "property": {
+              "intellisenseScopes": [
+                "variable-scopes"
+              ]
+            }
+          }
+        }
+      },
+      "subtitle": "Set Properties"
+    }
+  },
+  "Microsoft.SetProperty": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-using-memory",
+      "label": "Set a property",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Set Property"
+    }
+  },
+  "Microsoft.SignOutUser": {
+    "form": {
+      "label": "Sign out user",
+      "subtitle": "Signout User"
+    }
+  },
+  "Microsoft.SwitchCondition": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
+      "hidden": [
+        "default"
+      ],
+      "label": "Branch: Switch (multiple options)",
+      "properties": {
+        "cases": {
+          "hidden": [
+            "actions"
+          ]
+        },
+        "condition": {
+          "intellisenseScopes": [
+            "user-variables"
+          ]
+        }
+      },
+      "subtitle": "Switch Condition"
+    }
+  },
+  "Microsoft.TextInput": {
+    "form": {
+      "helpLink": "https://aka.ms/bfc-ask-for-user-input",
+      "label": "Prompt for text",
+      "properties": {
+        "property": {
+          "intellisenseScopes": [
+            "variable-scopes"
+          ]
+        }
+      },
+      "subtitle": "Text Input"
+    }
+  },
+  "Microsoft.ThrowException": {
+    "form": {
+      "label": "Throw an exception",
+      "subtitle": "Throw an exception"
+    }
+  },
+  "Microsoft.TraceActivity": {
+    "form": {
+      "helpLink": "https://aka.ms/composer-telemetry",
+      "label": "Emit a trace event",
+      "subtitle": "Trace Activity"
+    }
+  }
+}

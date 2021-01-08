@@ -19,7 +19,9 @@ ${nameTemplate()}
 ${valueTemplate()}
 ```
 
+> TODO: Move comment before template
 # validationTemplate
-- ```> Value for '${property}' must be a time
+- ```
 ${'#'} ${property}_invalidTime(val)
-- \${value(val)} is not a time```
+> Value for '${property}' must be a time
+- \${${property}_Value(val)} is not a time```

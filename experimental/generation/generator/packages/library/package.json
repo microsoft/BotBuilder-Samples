@@ -1,14 +1,14 @@
 {
   "name": "@microsoft/bf-generate-library",
-  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema library.",
+  "description": "Generate Bot Framework Adaptive Dialogs from JSON schema.",
   "version": "1.0.0",
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-lu": "^4.11.0-dev.20200831.d7b6149",
-    "adaptive-expressions": "^4.11.0-dev.20200916.f8fef0f",
+    "@microsoft/bf-lu": "rc",
+    "adaptive-expressions": "^4.11.0",
     "ajv": "^6.9.1",
-    "botbuilder-lg": "^4.11.0-dev.20200916.f8fef0f",
+    "botbuilder-lg": "^4.11.0-rc0",
     "clone": "^2.1.2",
     "fs-extra": "^8.1.0",
     "globby": "^11.0.1",
@@ -23,12 +23,17 @@
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.17.18",
     "@types/seedrandom": "~2.4.28",
+    "botbuilder-dialogs-declarative": "^4.11.0-preview",
+    "botbuilder-dialogs-adaptive": "^4.11.0-preview",
+    "botbuilder-ai": "^4.11.0",
+    "botbuilder-core": "^4.11.0",
     "mocha": "^5.2.0",
     "nyc": "^14.1.1",
     "rimraf": "^3.0.2",
+    "source-map-support": "0.5.19",
     "ts-node": "^8.8.2",
     "tslint": "^5.18.0",
-    "typescript": "^3.8.3"
+    "typescript": "^4.0.3"
   },
   "engines": {
     "node": ">=12.0.0"
@@ -48,7 +53,7 @@
   "scripts": {
     "build": "tsc -b",
     "posttest": "tslint -p test -t stylish",
-    "prepack": "rimraf lib && tsc -b",
+    "prepack": "rimraf lib tsconfig.tsbuildinfo && tsc -b",
     "test": "nyc --extension .ts mocha --forbid-only \"test/**/*.test.ts\""
   }
 }

@@ -4,6 +4,16 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses rich cards to enhance your bot design.
 
+
+## Prerequisites
+
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
 ## To try this sample
 
 - Clone the repository
