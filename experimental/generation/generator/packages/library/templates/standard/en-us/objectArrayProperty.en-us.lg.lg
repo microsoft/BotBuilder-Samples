@@ -4,16 +4,19 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${promptTemplates(missingDefault('object'), changeDefault('object'))}
+- ```${formImport('form.en-us.lg')}
+${promptTemplates(missingDefault(objectType()), changeDefault(objectType()))}
 ${confirmationTemplates(expectedAddDefault(), 
                         expectedAddUpdateDefault(),
                         unexpectedAddDefault(),
                         unexpectedAddUpdateDefault(),
                         removeDefault(),
-                        clearDefault())}'
-${helpTemplates(repromptDefault('object'), helpDefault('object'))}
+                        clearDefault())}
+${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
-${valueTemplate()}
+${complexValueTemplate(objectType())}
 ```
+
+# objectType()
+- ${phrase(schema.properties[property].$entities[0])}

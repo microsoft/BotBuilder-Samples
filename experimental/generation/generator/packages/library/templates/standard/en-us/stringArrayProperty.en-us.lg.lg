@@ -5,14 +5,14 @@
 
 # template
 - ```
-${promptTemplates(missingDefault('email'), changeDefault('email'))}
+${promptTemplates(missingDefault('string'), changeDefault('string'))}
 ${confirmationTemplates(expectedAddDefault(), 
                         expectedAddUpdateDefault(),
                         unexpectedAddDefault(),
                         unexpectedAddUpdateDefault(),
                         removeDefault(),
                         clearDefault())}'
-${helpTemplates(repromptDefault('email'), helpDefault('email'))}
+${helpTemplates(repromptDefault('string'), helpDefault('string'))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${valueTemplate()}
