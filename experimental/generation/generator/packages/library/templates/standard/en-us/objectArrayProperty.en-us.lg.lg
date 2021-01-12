@@ -1,0 +1,19 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${promptTemplates(missingDefault('object'), changeDefault('object'))}
+${confirmationTemplates(expectedAddDefault(), 
+                        expectedAddUpdateDefault(),
+                        unexpectedAddDefault(),
+                        unexpectedAddUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}'
+${helpTemplates(repromptDefault('object'), helpDefault('object'))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
