@@ -796,7 +796,7 @@ ${'#'} ${property}_Show
 > Show value of '${property}' property
 - ${show}```
 
-# incorrectUnitsTemplate
+# incorrectUnitsTemplate()
 - IF: ${hasUnits()}
 - ```
 ${'#'} ${property}_IncorrectUnits(actual)
@@ -807,8 +807,14 @@ ${'#'} ${property}_IncorrectUnits(actual)
 
 >> Helpers
 
-# hasUnits
+# hasUnits()
 - ${schema.properties[property].$units != null}
 
-# units
+# units()
 - ${schema.properties[property].$units}
+
+# enums()
+- IF: ${schema.properties[property].enum}
+    - ${schema.properties[property].enum}
+- ELSE:
+    - ${schema.properties[property].items.enum}

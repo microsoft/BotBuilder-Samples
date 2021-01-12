@@ -14,12 +14,15 @@ ${chooseEntity()}
 
 # chooseEntity
 -```
-# ${property}Entity_chooseEntity
+# ${property}Entity_chooseEntity()
+> Choose between '${property}Entity' values
 - \${chooseEnumEntity()}
 ```
+
 # propertyEntityValue
 -```
 # ${property}Entity_Value(entity) 
+> Display value for '${property}Entity'
 - \${${property}Enum_Value(entity.value)}
 ```
 
@@ -29,6 +32,7 @@ ${chooseEntity()}
 # namePlusSwitch
 -```
 # ${property}Enum_Value(value) 
+> Display value for '${property}Entity' enumeration value
 - SWITCH: \${value}```
 
 # case(option)
@@ -37,7 +41,7 @@ ${chooseEntity()}
     - ${phrase(option)}```
 
 # cases
-- ${join(foreach(schema.properties[property].enum, enum, case(enum)), '')}
+- ${join(foreach(enums(), enum, case(enum)), '')}
 
 # default
 -```

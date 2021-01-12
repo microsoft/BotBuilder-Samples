@@ -6,11 +6,11 @@
 # template
 - ```
 @ list ${property}Entity =
-${join(foreach(schema.properties[property].items.enum, enum, concat('  - ', enum, ' :', EOL(), synonyms(enum))), EOL())}
+${join(foreach(enums(), enum, concat('  - ', enum, ' :', EOL(), synonyms(enum))), EOL())}
 
 ${operations(`${property}Entity`, allSynonyms(), true)}
 ```
 
 # allSynonyms
-- ${flatten(foreach(schema.properties[property].items.enum, enum, phrases(enum)))}
+- ${flatten(foreach(enums(), enum, phrases(enum)))}
 
