@@ -29,7 +29,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     return ShareMessageCommand(turnContext, action);
                 default:
                     return await Task.FromResult(new MessagingExtensionActionResponse());
-                    //  throw new NotImplementedException($"Invalid CommandId: {action.CommandId}");
             }
         }
 
