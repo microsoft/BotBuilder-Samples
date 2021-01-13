@@ -14,16 +14,16 @@ ${chooseEntity()}
 
 # chooseEntity
 -```
-# ${property}Entity_chooseEntity()
+${'#'} ${property}Entity_chooseEntity()
 > Choose between '${property}Entity' values
 - \${chooseEnumEntity()}
 ```
 
 # propertyEntityValue
 -```
-# ${property}Entity_Value(entity) 
+${'#'} ${property}Entity_Value(entity) 
 > Display value for '${property}Entity'
-- \${${property}Enum_Value(entity.value)}
+- \${singleOrArrayValue(entity.value, '${property}Enum_Value')}
 ```
 
 # propertyEnumValue
@@ -31,7 +31,7 @@ ${chooseEntity()}
 
 # namePlusSwitch
 -```
-# ${property}Enum_Value(value) 
+${'#'} ${property}Enum_Value(value) 
 > Display value for '${property}Entity' enumeration value
 - SWITCH: \${value}```
 

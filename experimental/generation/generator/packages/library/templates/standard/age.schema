@@ -21,13 +21,13 @@
         "ageEntity.lu",
         "ageEntity.lg",
         "ageProperty.lg",
-        "string-missing.dialog",
-        "ageEntity-add.dialog",
-        "ageEntity-remove.dialog",
-        "ageEntity-clear.dialog",
-        "ageEntity-show.dialog",
-        "generic-help.dialog",
+        "generic-missing.dialog",
+        "generic-add.dialog",
+        "generic-remove.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
         "generic-change.dialog",
+        "generic-help.dialog",
         "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
     ]
 }

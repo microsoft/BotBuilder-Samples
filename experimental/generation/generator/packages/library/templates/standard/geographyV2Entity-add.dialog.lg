@@ -1,8 +1,0 @@
-[generator.lg](../generator.lg)
-
-# filename
-- ${addFilename('geographyV2')}
-
-# template
-- ${addDialog('geographyV2')}
-
