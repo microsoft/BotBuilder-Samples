@@ -83,7 +83,7 @@
 - ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`, `${type}-change.dialog`]}
 
 # genericEntityTemplates()
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `genericEntity-add-${type}.dialog`, `genericEntity-remove-${type}.dialog`]}
+- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `genericEntity-add.dialog`, `genericEntity-remove.dialog`]}
 
 # entityTemplates()
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}

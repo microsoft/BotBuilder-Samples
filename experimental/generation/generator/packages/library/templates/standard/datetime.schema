@@ -22,7 +22,7 @@
         "objectProperty.lg",
         "generic-missing.dialog",
         "datetimeV2Entity-add.dialog",
-        "datetimeV2Entity-remove.dialog",
+        "genericEntity-remove.dialog",
         "generic-change.dialog",
         "generic-clear.dialog",
         "generic-help.dialog",

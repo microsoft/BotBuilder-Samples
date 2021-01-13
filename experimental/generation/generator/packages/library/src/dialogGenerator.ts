@@ -416,7 +416,6 @@ async function processTemplate(
             }
         }
     } catch (e) {
-        debugger
         feedback(FeedbackType.error, e.message)
     } finally {
         process.chdir(oldDir)
