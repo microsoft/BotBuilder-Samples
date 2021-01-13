@@ -66,11 +66,11 @@ ${'#'} ${type}Entity_Value(entity)
 >> Utilities for confirmations
 
 # numberRanges()
-- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- IF: ${propertySchema.minimum && propertySchema.maximum}
 - between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
-- ELSEIF:  ${schema.properties[property].minimum}
+- ELSEIF:  ${propertySchema.minimum}
 - that is greater than \${dialogClass.schema.properties.${property}.minimum}
-- ELSEIF: ${schema.properties[property].maximum}
+- ELSEIF: ${propertySchema.maximum}
 - that is less than \${dialogClass.schema.properties.${property}.maximum}
 - ELSE:
 - 

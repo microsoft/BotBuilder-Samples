@@ -416,6 +416,7 @@ async function processTemplate(
             }
         }
     } catch (e) {
+        debugger
         feedback(FeedbackType.error, e.message)
     } finally {
         process.chdir(oldDir)
@@ -467,6 +468,7 @@ async function processTemplates(
         for (let property of schema.schemaProperties()) {
             scope.property = property.path
             scope.type = property.typeName()
+            scope.propertySchema = property.schema
             let templates = property.schema.$templates
             if (!templates) {
                 templates = [scope.type]
@@ -501,6 +503,7 @@ async function processTemplates(
         }
         delete scope.property
         delete scope.type
+        delete scope.propertySchema
 
         // Process templates found at the top
         if (schema.schema.$templates) {

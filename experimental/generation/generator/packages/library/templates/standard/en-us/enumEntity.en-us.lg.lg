@@ -23,7 +23,7 @@ ${'#'} ${property}Entity_chooseEntity()
 -```
 ${'#'} ${property}Entity_Value(entity) 
 > Display value for '${property}Entity'
-- \${singleOrArrayValue(entity.value, '${property}Enum_Value')}
+- \${complexValue(entity.value, '${property}Enum_Value')}
 ```
 
 # propertyEnumValue

@@ -32,7 +32,6 @@ ${enumValueTemplate()}
 # helpEnum()
 - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
 
-> TODO: Move comment before template
 # enumValueTemplate
 - ```
 ${'#'} ${property}_Value(val)

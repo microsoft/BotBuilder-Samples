@@ -47,15 +47,6 @@
 - ELSE:
 - no value
 
-# singleOrArrayValue(values, template)
-> Display a single value or array of values rendered using template
-- IF: ${isArray(values) && count(values) == 1}
-      - ${template(template, values[0])}
-- ELSEIF: ${isArray(values)}
-      - ${`[${join(foreach(values, value, template(template, value)), ', ')}]`}
- - ELSE:
-    - ${template(values)}
-
 # requiredProperties
 > Display value for required properties
 - IF: ${count($requiredProperties) > 0}

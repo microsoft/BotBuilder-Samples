@@ -326,7 +326,7 @@ ${setOrPushOperation()},
 }```
 
 # setOrPushOperation()
-- IF: ${propertySchema.items}
+- IF: ${isArrayProperty(property)}
     - ```
 {
     "$kind": "Microsoft.EditArray",
@@ -521,8 +521,8 @@ ${setOrPushOperation()},
 -```
 > Define phrase list for ${property} property.
 @ phraselist ${property}Phrases(interchangeable)=
-${if(schema.properties[property].title,
-    `    - ${schema.properties[property].title}`,
+${if(propertySchema.title,
+    `    - ${propertySchema.title}`,
      synonyms(property))}
 
 > Define property entity and optional value for ${property} property.
@@ -566,7 +566,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Test to see if property is an array
 # isArrayProperty(property)
-- ${schema.properties[property].type == 'array'}
+- ${propertySchema.type == 'array'}
 
 > Generate a raw entity value with optional label
 # entityValue(entity, value, label)
@@ -728,13 +728,13 @@ ${'#'} ${property}_IncorrectUnits(actual)
 >> Helpers
 
 # hasUnits()
-- ${schema.properties[property].$units != null}
+- ${propertySchema.$units != null}
 
 # units()
-- ${schema.properties[property].$units}
+- ${propertySchema.$units}
 
 # enums()
-- IF: ${schema.properties[property].enum}
-    - ${schema.properties[property].enum}
+- IF: ${propertySchema.enum}
+    - ${propertySchema.enum}
 - ELSE:
-    - ${schema.properties[property].items.enum}
+    - ${propertySchema.items.enum}

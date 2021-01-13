@@ -21,7 +21,7 @@
         "temperatureEntity.lg",
         "objectProperty.lg",
         "generic-missing.dialog",
-        "dimensionEntity-add.dialog",
+        "temperatureEntity-add.dialog",
         "genericEntity-remove.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",

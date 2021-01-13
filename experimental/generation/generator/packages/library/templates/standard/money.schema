@@ -22,7 +22,7 @@
         "moneyEntity.lg",
         "moneyProperty.lg",
         "generic-missing.dialog",
-        "dimensionEntity-add.dialog",
+        "moneyEntity-add.dialog",
         "genericEntity-remove.dialog",
         "generic-change.dialog",
         "generic-clear.dialog",
