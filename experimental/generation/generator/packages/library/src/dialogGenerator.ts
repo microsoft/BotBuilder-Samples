@@ -234,6 +234,7 @@ function setPath(obj: any, path: string, value: any) {
 
 type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
+const TemplateCache: Map<string, lg.Templates> = new Map<string, lg.Templates>()
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
     let template: Template
@@ -246,8 +247,12 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         } else {
             // LG file
             loc = templatePath(name + '.lg', dir)
-            if (await fs.pathExists(loc)) {
+            template =  TemplateCache.get(loc)
+            if (template) {
+                break
+            } else if (await fs.pathExists(loc)) {
                 template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                TemplateCache.set(loc, template)
                 break
             }
         }
@@ -742,6 +747,8 @@ export async function generate(
     singleton?: boolean,
     feedback?: Feedback)
     : Promise<boolean> {
+    const start = process.hrtime.bigint()
+    
     if (!feedback) {
         feedback = (_info, _message) => true
     }
@@ -900,15 +907,16 @@ export async function generate(
         feedback(FeedbackType.error, e.message)
     }
 
-    let success = true
+    const end = process.hrtime.bigint()
+    const elapsed = Number(end - start) / 1000000000
+
     if (error) {
         externalFeedback(FeedbackType.error, '*** Errors prevented generation ***')
-        success = false
+    } else {
+        externalFeedback(FeedbackType.message, `Successfully generated in ${elapsed} seconds`)
     }
 
-    await delay(500)
-
-    return success
+    return !error
 }
 
 /**

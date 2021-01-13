@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*temperature.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
