@@ -7,14 +7,13 @@
 
 import { WorkspaceFolder } from 'vscode-languageserver'
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
-import { LuFilesStatus } from './luFilesStatus';
-
+import { QnaFilesStatus } from './qnaFilesStatus';
+import { URI } from 'vscode-uri'
 import * as fs from 'fs';
 import * as path from 'path';
-import { URI } from 'vscode-uri'
 
-export function isLuFile(fileName: string): boolean {
-    if(fileName === undefined || !fileName.toLowerCase().endsWith('.lu')) {
+export function isQnaFile(fileName: string): boolean {
+    if(fileName === undefined || !fileName.toLowerCase().endsWith('.qna')) {
         return false;
     }
     return true;
@@ -48,42 +47,16 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
     return undefined;
 }
 
-export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) : void {
-    LuFilesStatus.luFilesOfWorkspace = [];
-    
+export function triggerQNAFileFinder(workspaceFolders: WorkspaceFolder[]) : void {
+    QnaFilesStatus.qnaFilesOfWorkspace = [];
     workspaceFolders?.forEach(workspaceFolder => fs.readdir(URI.parse(workspaceFolder.uri).fsPath, (err, files) => {
         if(err) {
             console.log(err);
         } else {
-            LuFilesStatus.luFilesOfWorkspace = [];
-            files.filter(file => isLuFile(file)).forEach(file => {
-                LuFilesStatus.luFilesOfWorkspace.push(path.join(URI.parse(workspaceFolder.uri).fsPath, file));
+            QnaFilesStatus.qnaFilesOfWorkspace = [];
+            files.filter(file => isQnaFile(file)).forEach(file => {
+                QnaFilesStatus.qnaFilesOfWorkspace.push(path.join(URI.parse(workspaceFolder.uri).fsPath, file));
             });
         }
     }));
-}
-
-export function replaceText(curLineContent : string) : string {
-    const labelRegex = /\{\s*[\w.@:\s]+\s*=\s*[\w.@:\s]+\s*\}/g;
-    let match : RegExpMatchArray | null;
-    let resultStr = '';
-    let startIdx = 0;
-    while ((match = labelRegex.exec(curLineContent))) {
-        const leftBoundIdx = match.index;
-        const rightBoundIdx = labelRegex.lastIndex;
-        resultStr += curLineContent.slice(startIdx, leftBoundIdx);
-        if (leftBoundIdx && rightBoundIdx) {
-            const entityStr = curLineContent.slice(leftBoundIdx + 1, rightBoundIdx - 1);
-            if (entityStr.split('=').length == 2) {
-                const enitity = entityStr.split('=')[1].trim();
-                resultStr += enitity;
-            }
-            startIdx = rightBoundIdx;
-        }
-    }
-    if (startIdx !== curLineContent.length) {
-        resultStr += curLineContent.slice(startIdx, curLineContent.length);
-    }
-    return resultStr;
-    
 }

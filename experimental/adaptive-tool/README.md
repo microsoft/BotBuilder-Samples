@@ -1,12 +1,12 @@
 # Bot Framework Adaptive Tool
 
-Bot Framework Adaptive Tool is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), and dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
+Bot Framework Adaptive Tool is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), QNA (.qna), and dialog (.dialog) files efficiently. Adaptive Tool has tools and settings that make it easy to debug, analyze and enhance you language files.
 
 Supported features include the following:
 <!--
-- LG/LU syntax highlighting
-- LG/LU diagnostic checks
-- LG/LU autocompletion
+- LG/LU/QNA syntax highlighting
+- LG/LU/QNA diagnostic checks
+- LG/LU/QNA autocompletion
 - LG template and function hover
 - LG template definition
 - LG template, function, and structure suggestions
@@ -16,13 +16,13 @@ Supported features include the following:
 
 | Feature                                       | File type supported |
 |-----------------------------------------------|---------------------|
-| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU              |
-| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU              |
-| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU              |
+| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU, QNA              |
+| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU, QNA              |
+| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU, QNA              |
 | [Template and function hover](#hover-suggestions-and-navigation)                   | LG                  |
 | [Template definition](#hover-suggestions-and-navigation)                           | LG                  |
 | [Template, function, and structure suggestions](#hover-suggestions-and-navigation) | LG                  |
-| [Debugging](#debugging)                                     | LG, LU, Dialog      |
+| [Debugging](#debugging)                                     | LG, LU, QNA, Dialog      |
 
 ## Getting started
 
@@ -31,7 +31,7 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
 ### Install from the Visual Studio Marketplace
 
 1. Install the [Bot Framework Adaptive Tool](https://marketplace.visualstudio.com/items?itemName=adaptive-tool) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
-1. Open an LG, LU, or dialog file and the extension will activate.
+1. Open an LG, LU, QNA, or dialog file and the extension will activate.
 
 ### Install from a local VSIX file
 
@@ -61,7 +61,7 @@ Adaptive Tool can be installed [from the Visual Studio Marketplace](#install-fro
     You're now ready to install Adaptive Tool.
 1. Open VS Code and open the **Extensions** view.
 1. Click the **Views and More Actions** button (...) in the upper-right corner of the Extensions panel. Then click **Install from VSIX..** and select the VSIX file you created earlier.
-1. Open an LG, LU, or dialog file and the extension will activate.
+1. Open an LG, LU, QNA, or dialog file and the extension will activate.
 
 ## Language features
 
@@ -79,6 +79,17 @@ Formatting warnings and errors:
 
 Automatic completion of some entities:
 ![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_completion.gif)
+
+#### QNA
+
+Different colors and styles for intent, entity, and comment components:
+![qna_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_syntax_highlighting.png)
+
+Formatting warnings and errors:
+![qna_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_diagnostic.png)
+
+Automatic completion of some entities:
+![qna_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_completion.gif)
 
 #### LG
 
@@ -110,12 +121,12 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tool lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
+Adaptive Tool lets developers debug LG, LU, QNA, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG, LU and QNA files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
 
 ### Configuration
 
 - [Install](#getting-started) the Adaptive Tool extension.
-- Open the LG, LU ,or dialog file to debug.
+- Open the LG, LU, QNA, or dialog file to debug.
 - To configure Visual Studio Code, add a target in your `launch.settings` file.
 
 Here's an example of a typical `launch.json`:
@@ -139,7 +150,7 @@ Here's an example of a typical `launch.json`:
 
 ### Debug your bot
 
-1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, and dialog files.
+1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, QNA, and dialog files.
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 
