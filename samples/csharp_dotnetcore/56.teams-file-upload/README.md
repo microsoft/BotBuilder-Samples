@@ -56,7 +56,7 @@ the Teams service needs to call into the bot.
 
 1. You can send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
 
-1. You can also send inline image in message compose section. This will part of attachments in Activity and requires Bot's access token to fetch the image.
+1. You can also send an inline image in the message compose section. This will be present in the attachments of the Activity and requires the Bot's access token to fetch the image.
 
 ## Deploy the bot to Azure
 
@@ -65,5 +65,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 ## Further reading
 
 - [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)
-
 
