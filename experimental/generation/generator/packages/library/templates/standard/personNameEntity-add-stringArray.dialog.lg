@@ -4,4 +4,4 @@
 - ${addFilename('personName')}
 
 # template
-- ${addArrayDialog('personName')}
+- ${addDialog('personName')}

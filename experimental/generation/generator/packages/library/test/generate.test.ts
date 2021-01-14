@@ -290,6 +290,8 @@ describe('dialog:generate library', async () => {
                 } catch (e) {
                     assert.fail(e.message)
                 }
+            } else {
+                assert.fail('Did not generate')
             }
             await fs.remove(output)
         })

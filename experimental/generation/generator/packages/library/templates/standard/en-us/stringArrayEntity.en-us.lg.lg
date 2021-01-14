@@ -32,7 +32,7 @@ ${chooseEntity()}
     - ${phrase(option)}```
 
 # cases
-- ${join(foreach(schema.properties[property].items.enum, enum, case(enum)), '')}
+- ${join(foreach(enums(), enum, case(enum)), '')}
 
 # default
 - ```

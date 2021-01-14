@@ -19,4 +19,4 @@ ${complexValueTemplate(objectType())}
 ```
 
 # objectType()
-- ${phrase(schema.properties[property].$entities[0])}
+- ${phrase(propertySchema.$entities[0])}

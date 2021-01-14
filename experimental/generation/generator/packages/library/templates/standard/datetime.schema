@@ -20,12 +20,12 @@
         "datetimeV2Entity.lu",
         "datetimeV2Entity.lg",
         "objectProperty.lg",
-        "string-missing.dialog",
+        "generic-missing.dialog",
         "datetimeV2Entity-add.dialog",
-        "datetimeV2Entity-remove.dialog",
-        "datetimeV2Entity-clear.dialog",
-        "datetimeV2Entity-show.dialog",
+        "genericEntity-remove.dialog",
         "generic-change.dialog",
-        "generic-help.dialog"
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
     ]
 }

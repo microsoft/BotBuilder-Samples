@@ -3,14 +3,14 @@
 
 # nameTemplate()
 -```
-> Name of the '${property}' property
 ${'#'} ${property}_Name
+> Name of the '${property}' property
 - ${phrase(property, locale)}```
 
 # valueTemplate()
 -```
-> Value for a '${property}' property value
 ${'#'} ${property}_Value(val)
+> Display value for '${property}'
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -20,14 +20,14 @@ ${'#'} ${property}_Value(val)
 # complexValueTemplate(type)
 -```
 ${'#'} ${property}_Value(val)
-> Display value for ${definite(type)} '${property}'
+> Display value for '${property}'
 - \${value(val)}
 ```
 
 # entityValueTemplate()
 -```
 ${'#'} ${property}Entity_Value(val)
-> Display value for ${definite(`${property}Entity`)}
+> Display value for `${property}Entity`)}
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -36,7 +36,7 @@ ${'#'} ${property}Entity_Value(val)
 
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
-
+> Display value for '${type}' entity
 ${'#'} ${type}Entity_Value(entity)
 - \${value(entity.value)}
 ```
@@ -44,6 +44,7 @@ ${'#'} ${type}Entity_Value(entity)
 # entityTextTemplate(type)
 -```
 ${'#'} ${type}Entity_Value(entity)
+> Display value for '${type}' entity
 - \${entity.text}
 ```
 
@@ -65,11 +66,11 @@ ${'#'} ${type}Entity_Value(entity)
 >> Utilities for confirmations
 
 # numberRanges()
-- IF: ${schema.properties[property].minimum && schema.properties[property].maximum}
+- IF: ${propertySchema.minimum && propertySchema.maximum}
 - between \${dialogClass.schema.properties.${property}.minimum} and \${dialogClass.schema.properties.${property}.maximum}
-- ELSEIF:  ${schema.properties[property].minimum}
+- ELSEIF:  ${propertySchema.minimum}
 - that is greater than \${dialogClass.schema.properties.${property}.minimum}
-- ELSEIF: ${schema.properties[property].maximum}
+- ELSEIF: ${propertySchema.maximum}
 - that is less than \${dialogClass.schema.properties.${property}.maximum}
 - ELSE:
 - 

@@ -7,11 +7,11 @@
 - ```
 > List entity for ${property} enum values
 @ list ${property}Entity =
-${join(foreach(schema.properties[property].enum, enum, `    - ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
+${join(foreach(enums(), enum, `    - ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
 
 ${operations(`${property}Entity`, allSynonyms(), false)}
 ```
 
 # allSynonyms
-- ${flatten(foreach(schema.properties[property].enum, enum, phrases(enum)))}
+- ${flatten(foreach(enums(), enum, phrases(enum)))}
 
