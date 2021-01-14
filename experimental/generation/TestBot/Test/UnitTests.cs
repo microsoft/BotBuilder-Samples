@@ -47,7 +47,7 @@ namespace Test
 
                 output = Execute("build.cmd");
                 Debug.WriteLine(output);
-                Assert.True(output.Contains("No changes") || output.Contains("Successfully save setting file"));
+                Assert.True(output.Contains("No changes") || output.Contains("Successfully wrote settings file"));
 
                 output = Execute(testBot, false);
                 Debug.WriteLine(output);
