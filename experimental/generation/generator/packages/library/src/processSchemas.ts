@@ -165,42 +165,67 @@ export async function expandPropertyDefinition(property: any, templateDirs: stri
 }
 
 /**
- * Process the root schema to generate a single merged schema.
- * Involves resolving $ref including template:, removing allOf and combining with $requires.
- * @param schemaPath Path to schema to process.
- * @param templateDirs Template directories to use when resolving template: and $requires.
- * @param feedback Feedback channel
+ * Promote any $properties in items to the parent property unless already specified.
+ * This makes it easier to use a child schema in items.
+ * @param schema Schema fragment to promote.
  */
-export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
-    : Promise<s.Schema> {
-    let {allRequired, resolver} = await templateResolver(templateDirs, feedback)
-    let formSchema = await getSchema(schemaPath, feedback, resolver)
-    let required = {}
-    if (!formSchema.$requires) {
-        // Default to standard schema
-        formSchema.$requires = ['standard.schema']
+function promoteItems(schema: any): void {
+    if (Array.isArray(schema)) {
+        for (var child in schema) {
+            promoteItems(child)
+        }
+    } else if (typeof schema === 'object' && schema !== null) {
+        for (var [prop, val] of Object.entries(schema)) {
+            if (prop === 'items') {
+                for (var [prop, itemVal] of Object.entries(val as object)) {
+                    if (prop.startsWith('$') && prop !== '$schema' && !schema[prop]) {
+                        schema[prop] = itemVal
+                    }
+                }
+            } else {
+                promoteItems(val)
+            }
+        }
     }
-    if (!formSchema.$templateDirs) {
-        // Default to including schema directory
-        formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
-    }
-    await findRequires(formSchema, allRequired, required, resolver, feedback)
-    let allSchema = clone(formSchema)
-    if (!allSchema.required) allSchema.required = []
-    if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
-    if (!allSchema.$templates) allSchema.$templates = []
-    if (!allSchema.$operations) allSchema.$operations = []
-    if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
-    if (!allSchema.$requresValue) allSchema.$requiresValue = []
-    if (!allSchema.$examples) allSchema.$examples = []
-    if (!allSchema.$parameters) allSchema.$parameters = []
-    if (formSchema.$public) {
-        allSchema.$public = formSchema.$public
-    } else {
-        // Default to properties in root schema
-        allSchema.$public = Object.keys(formSchema.properties)
-    }
-    mergeSchemas(allSchema, Object.values(required))
-
-    return new s.Schema(schemaPath, allSchema)
 }
+
+    /**
+     * Process the root schema to generate a single merged schema.
+     * Involves resolving $ref including template:, removing allOf and combining with $requires.
+     * @param schemaPath Path to schema to process.
+     * @param templateDirs Template directories to use when resolving template: and $requires.
+     * @param feedback Feedback channel
+     */
+    export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
+        : Promise<s.Schema> {
+        let {allRequired, resolver} = await templateResolver(templateDirs, feedback)
+        let formSchema = await getSchema(schemaPath, feedback, resolver)
+        let required = {}
+        if (!formSchema.$requires) {
+            // Default to standard schema
+            formSchema.$requires = ['standard.schema']
+        }
+        if (!formSchema.$templateDirs) {
+            // Default to including schema directory
+            formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
+        }
+        await findRequires(formSchema, allRequired, required, resolver, feedback)
+        let allSchema = clone(formSchema)
+        if (!allSchema.required) allSchema.required = []
+        if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
+        if (!allSchema.$templates) allSchema.$templates = []
+        if (!allSchema.$operations) allSchema.$operations = []
+        if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
+        if (!allSchema.$requiresValue) allSchema.$requiresValue = []
+        if (!allSchema.$examples) allSchema.$examples = []
+        if (!allSchema.$parameters) allSchema.$parameters = []
+        if (formSchema.$public) {
+            allSchema.$public = formSchema.$public
+        } else {
+            // Default to properties in root schema
+            allSchema.$public = Object.keys(formSchema.properties)
+        }
+        mergeSchemas(allSchema, Object.values(required))
+        promoteItems(allSchema)
+        return new s.Schema(schemaPath, allSchema)
+    }

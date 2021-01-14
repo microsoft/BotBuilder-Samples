@@ -10,8 +10,10 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
@@ -22,10 +24,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         // the file will be uploaded, or you can decline and it won't.
 
         private readonly IHttpClientFactory _clientFactory;
+        private static string microsoftAppId;
+        private static string microsoftAppPassword;
 
-        public TeamsFileUploadBot(IHttpClientFactory clientFactory)
+        public TeamsFileUploadBot(IHttpClientFactory clientFactory, IConfiguration configuration)
         {
             _clientFactory = clientFactory;
+            microsoftAppId = configuration["MicrosoftAppId"];
+            microsoftAppPassword = configuration["MicrosoftAppPassword"];
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -49,6 +55,11 @@ namespace Microsoft.BotBuilderSamples.Bots
                 reply.TextFormat = "xml";
                 await turnContext.SendActivityAsync(reply, cancellationToken);
             }
+            else if (turnContext.Activity.Attachments?[0].ContentType.Contains("image/*") == true)
+            {
+                // Inline image se.
+                await ProcessInlineImage(turnContext, cancellationToken);
+            }
             else
             {
                 string filename = "teams-logo.png";
@@ -56,6 +67,42 @@ namespace Microsoft.BotBuilderSamples.Bots
                 long fileSize = new FileInfo(filePath).Length;
                 await SendFileCardAsync(turnContext, filename, fileSize, cancellationToken);
             }
+        }
+
+        private async Task ProcessInlineImage(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var attachment = turnContext.Activity.Attachments[0];
+            var client = _clientFactory.CreateClient();
+
+            // Get Bot's access token to fetch inline image. 
+            var token = await new MicrosoftAppCredentials(microsoftAppId, microsoftAppPassword).GetTokenAsync();
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
+            var responseMessage = await client.GetAsync(attachment.ContentUrl);
+
+            // Save the inline image to Files directory.
+            var filePath = Path.Combine("Files", "ImageFromUser.png");
+            using (var fileStream = new FileStream(filePath, FileMode.Create, FileAccess.Write, FileShare.None))
+            {
+                await responseMessage.Content.CopyToAsync(fileStream);
+            }
+
+            // Create reply with image.
+            var reply = MessageFactory.Text($"Attachment of {attachment.ContentType} type and size of {responseMessage.Content.Headers.ContentLength} bytes received.");
+            reply.Attachments = new List<Attachment>() { GetInlineAttachment() };
+            await turnContext.SendActivityAsync(reply, cancellationToken);
+        }
+
+        private static Attachment GetInlineAttachment()
+        {
+            var imagePath = Path.Combine("Files", "ImageFromUser.png");
+            var imageData = Convert.ToBase64String(File.ReadAllBytes(imagePath));
+
+            return new Attachment
+            {
+                Name = @"ImageFromUser.png",
+                ContentType = "image/png",
+                ContentUrl = $"data:image/png;base64,{imageData}",
+            };
         }
 
         private async Task SendFileCardAsync(ITurnContext turnContext, string filename, long filesize, CancellationToken cancellationToken)

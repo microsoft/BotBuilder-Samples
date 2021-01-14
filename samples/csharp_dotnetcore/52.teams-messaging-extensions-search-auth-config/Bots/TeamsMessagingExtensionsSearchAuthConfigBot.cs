@@ -3,27 +3,26 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchAuthConfigBot : TeamsActivityHandler
     {
-        readonly string _connectionName;
-        readonly string _siteUrl;
-        readonly UserState _userState;
-        readonly IStatePropertyAccessor<string> _userConfigProperty;
+        private readonly string _connectionName;
+        private readonly string _siteUrl;
+        private readonly UserState _userState;
+        private readonly IStatePropertyAccessor<string> _userConfigProperty;
 
         public TeamsMessagingExtensionsSearchAuthConfigBot(IConfiguration configuration, UserState userState)
         {
@@ -39,6 +38,54 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // After the turn is complete, persist any UserState changes.
             await _userState.SaveChangesAsync(turnContext);
+        }
+
+        protected async override Task<MessagingExtensionResponse> OnTeamsAppBasedLinkQueryAsync(ITurnContext<IInvokeActivity> turnContext, AppBasedLinkQuery query, CancellationToken cancellationToken)
+        {
+
+            var state = query.State; // Check the state value
+            var tokenResponse = await GetTokenResponse(turnContext, state, cancellationToken);
+            if (tokenResponse == null || string.IsNullOrEmpty(tokenResponse.Token))
+            {
+                // There is no token, so the user has not signed in yet.
+
+                // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+                var signInLink = await (turnContext.Adapter as IUserTokenProvider).GetOauthSignInLinkAsync(turnContext, _connectionName, cancellationToken);
+
+                return new MessagingExtensionResponse
+                {
+                    ComposeExtension = new MessagingExtensionResult
+                    {
+                        Type = "auth",
+                        SuggestedActions = new MessagingExtensionSuggestedAction
+                        {
+                            Actions = new List<CardAction>
+                                {
+                                    new CardAction
+                                    {
+                                        Type = ActionTypes.OpenUrl,
+                                        Value = signInLink,
+                                        Title = "Bot Service OAuth",
+                                    },
+                                },
+                        },
+                    },
+                };
+            }
+
+            var client = new SimpleGraphClient(tokenResponse.Token);
+            var profile = await client.GetMyProfile();
+            var heroCard = new ThumbnailCard
+            {
+                Title = "Thumbnail Card",
+                Text = $"Hello, {profile.DisplayName}",
+                Images = new List<CardImage> { new CardImage("https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png") },
+            };
+
+            var attachments = new MessagingExtensionAttachment(HeroCard.ContentType, null, heroCard);
+            var result = new MessagingExtensionResult("list", "result", new[] { attachments });
+
+            return new MessagingExtensionResponse(result);
         }
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionConfigurationQuerySettingUrlAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
@@ -71,7 +118,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 },
             };
         }
-        
+
         protected override async Task OnTeamsMessagingExtensionConfigurationSettingAsync(ITurnContext<IInvokeActivity> turnContext, JObject settings, CancellationToken cancellationToken)
         {
             // When the user submits the settings page, this event is fired.
@@ -85,25 +132,16 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery action, CancellationToken cancellationToken)
         {
-            var text = action?.Parameters?[0]?.Value as string ?? string.Empty;
-            
+
+            var text = action?.Parameters?[0]?.Name as string ?? string.Empty;
+
             var attachments = new List<MessagingExtensionAttachment>();
             var userConfigSettings = await _userConfigProperty.GetAsync(turnContext, () => string.Empty);
             if (userConfigSettings.ToUpper().Contains("EMAIL"))
             {
                 // When the Bot Service Auth flow completes, the action.State will contain a magic code used for verification.
-                var magicCode = string.Empty;
-                var state = action.State;
-                if (!string.IsNullOrEmpty(state))
-                {
-                    int parsed = 0;
-                    if (int.TryParse(state, out parsed))
-                    {
-                        magicCode = parsed.ToString();
-                    }
-                }
-
-                var tokenResponse = await (turnContext.Adapter as IUserTokenProvider).GetUserTokenAsync(turnContext, _connectionName, magicCode, cancellationToken: cancellationToken);
+                var state = action.State; // Check the state value
+                var tokenResponse = await GetTokenResponse(turnContext, state, cancellationToken);
                 if (tokenResponse == null || string.IsNullOrEmpty(tokenResponse.Token))
                 {
                     // There is no token, so the user has not signed in yet.
@@ -139,24 +177,24 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
                 // displayed if the selects that item.
                 attachments = messages.Select(msg => new MessagingExtensionAttachment
+                {
+                    ContentType = HeroCard.ContentType,
+                    Content = new HeroCard
                     {
-                        ContentType = HeroCard.ContentType,
-                        Content = new HeroCard
-                        {
-                            Title = msg.From.EmailAddress.Address,
-                            Subtitle = msg.Subject,
-                            Text = msg.Body.Content,
-                        },
-                        Preview = new ThumbnailCard
-                        {
-                            Title = msg.From.EmailAddress.Address,
-                            Text = $"{msg.Subject}<br />{msg.BodyPreview}",
-                            Images = new List<CardImage>()
+                        Title = msg.From.EmailAddress.Address,
+                        Subtitle = msg.Subject,
+                        Text = msg.Body.Content,
+                    },
+                    Preview = new ThumbnailCard
+                    {
+                        Title = msg.From.EmailAddress.Address,
+                        Text = $"{msg.Subject}<br />{msg.BodyPreview}",
+                        Images = new List<CardImage>()
                             {
                                 new CardImage("https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg", "Outlook Logo"),
                             },
-                        }.ToAttachment()
-                    }
+                    }.ToAttachment()
+                }
                 ).ToList();
             }
             else
@@ -164,7 +202,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var packages = await FindPackages(text);
                 // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
                 // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-                attachments = packages.Select(package => {
+                attachments = packages.Select(package =>
+                {
                     var previewCard = new ThumbnailCard { Title = package.Item1, Tap = new CardAction { Type = "invoke", Value = package } };
                     if (!string.IsNullOrEmpty(package.Item5))
                     {
@@ -242,6 +281,57 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
+            if (action.CommandId.ToUpper() == "SHOWPROFILE")
+            {
+                var state = action.State; // Check the state value
+                var tokenResponse = await GetTokenResponse(turnContext, state, cancellationToken);
+                if (tokenResponse == null || string.IsNullOrEmpty(tokenResponse.Token))
+                {
+                    // There is no token, so the user has not signed in yet.
+
+                    // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+                    var signInLink = await (turnContext.Adapter as IUserTokenProvider).GetOauthSignInLinkAsync(turnContext, _connectionName, cancellationToken);
+
+                    return new MessagingExtensionActionResponse
+                    {
+                        ComposeExtension = new MessagingExtensionResult
+                        {
+                            Type = "auth",
+                            SuggestedActions = new MessagingExtensionSuggestedAction
+                            {
+                                Actions = new List<CardAction>
+                                {
+                                    new CardAction
+                                    {
+                                        Type = ActionTypes.OpenUrl,
+                                        Value = signInLink,
+                                        Title = "Bot Service OAuth",
+                                    },
+                                },
+                            },
+                        },
+                    };
+                }
+
+                var client = new SimpleGraphClient(tokenResponse.Token);
+
+                var profile = await client.GetMyProfile();
+
+                return new MessagingExtensionActionResponse
+                {
+                    Task = new TaskModuleContinueResponse
+                    {
+                        Value = new TaskModuleTaskInfo
+                        {
+                            Card = GetProfileCard(profile),
+                            Height = 250,
+                            Width = 400,
+                            Title = "Adaptive Card: Inputs",
+                        },
+                    },
+                };
+            }
+
             if (action.CommandId.ToUpper() == "SIGNOUTCOMMAND")
             {
                 await (turnContext.Adapter as IUserTokenProvider).SignOutUserAsync(turnContext, _connectionName, turnContext.Activity.From.Id, cancellationToken);
@@ -252,7 +342,15 @@ namespace Microsoft.BotBuilderSamples.Bots
                     {
                         Value = new TaskModuleTaskInfo
                         {
-                            Card = CreateAdaptiveCardAttachment(),
+                            Card = new Attachment
+                            {
+                                Content = new AdaptiveCard(new AdaptiveSchemaVersion("1.0"))
+                                {
+                                    Body = new List<AdaptiveElement>() { new AdaptiveTextBlock() { Text = "You have been signed out." } },
+                                    Actions = new List<AdaptiveAction>() { new AdaptiveSubmitAction() { Title = "Close" } },
+                                },
+                                ContentType = AdaptiveCard.ContentType,
+                            },
                             Height = 200,
                             Width = 400,
                             Title = "Adaptive Card: Inputs",
@@ -263,18 +361,25 @@ namespace Microsoft.BotBuilderSamples.Bots
             return null;
         }
 
-        private static Attachment CreateAdaptiveCardAttachment()
+        private static Attachment GetProfileCard(Graph.User profile)
         {
-            // combine path for cross platform support
-            string[] paths = { ".", "Resources", "adaptiveCard.json" };
-            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
+            var card = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0));
 
-            var adaptiveCardAttachment = new Attachment()
+            card.Body.Add(new AdaptiveTextBlock()
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
+                Text = $"Hello, {profile.DisplayName}",
+                Size = AdaptiveTextSize.ExtraLarge
+            });
+
+            card.Body.Add(new AdaptiveImage()
+            {
+                Url = new Uri("http://adaptivecards.io/content/cats/1.png")
+            });
+            return new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card,
             };
-            return adaptiveCardAttachment;
         }
 
         // Generate a set of substrings to illustrate the idea of a set of results coming back from a query. 
@@ -283,5 +388,21 @@ namespace Microsoft.BotBuilderSamples.Bots
             var obj = JObject.Parse(await (new HttpClient()).GetStringAsync($"https://azuresearch-usnc.nuget.org/query?q=id:{text}&prerelease=true"));
             return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString(), item["projectUrl"]?.ToString(), item["iconUrl"]?.ToString()));
         }
+
+        private async Task<TokenResponse> GetTokenResponse(ITurnContext<IInvokeActivity> turnContext, string state, CancellationToken cancellationToken)
+        {
+            var magicCode = string.Empty;
+
+            if (!string.IsNullOrEmpty(state))
+            {
+                if (int.TryParse(state, out var parsed))
+                {
+                    magicCode = parsed.ToString();
+                }
+            }
+            var tokenResponse = await (turnContext.Adapter as IUserTokenProvider).GetUserTokenAsync(turnContext, _connectionName, magicCode, cancellationToken: cancellationToken);
+            return tokenResponse;
+        }
+
     }
 }

@@ -9,6 +9,10 @@
         "percentageEntity.lu",
         "percentageEntity.lg",
         "percentageEntity-add-number.dialog",
-        "percentageEntity-remove-number.dialog"
+        "percentageEntity-remove-number.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
     ]
 }

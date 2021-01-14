@@ -21,12 +21,12 @@
         "moneyEntity.lu",
         "moneyEntity.lg",
         "moneyProperty.lg",
-        "string-missing.dialog",
+        "generic-missing.dialog",
         "moneyEntity-add.dialog",
-        "moneyEntity-remove.dialog",
-        "moneyEntity-clear.dialog",
-        "moneyEntity-show.dialog",
+        "genericEntity-remove.dialog",
         "generic-change.dialog",
-        "generic-help.dialog"
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
     ]
 }

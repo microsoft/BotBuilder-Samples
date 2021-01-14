@@ -21,12 +21,12 @@
         "dimensionEntity.lu",
         "dimensionEntity.lg",
         "dimensionProperty.lg",
-        "string-missing.dialog",
+        "generic-missing.dialog",
         "dimensionEntity-add.dialog",
-        "dimensionEntity-remove.dialog",
-        "dimensionEntity-clear.dialog",
-        "dimensionEntity-show.dialog",
+        "genericEntity-remove.dialog",
         "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
         "generic-help.dialog",
         "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
     ]

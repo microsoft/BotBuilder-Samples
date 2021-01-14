@@ -9,6 +9,10 @@
         "keyPhraseEntity.lu",
         "keyPhraseEntity.lg",
         "keyPhraseEntity-add-string.dialog",
-        "keyPhraseEntity-remove-string.dialog"
+        "keyPhraseEntity-remove-string.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
     ]
 }
