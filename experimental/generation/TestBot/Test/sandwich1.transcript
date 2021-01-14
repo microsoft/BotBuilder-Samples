@@ -1,0 +1,6441 @@
+[
+  {
+    "type": "conversationUpdate",
+    "membersAdded": [
+      {
+        "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+        "name": "Bot"
+      },
+      {
+        "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+        "name": "User"
+      }
+    ],
+    "membersRemoved": [],
+    "channelId": "emulator",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "5abc2490-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:30:58+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "timestamp": "2021-01-14T12:30:58.392Z",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Required properties include: name, bread, cheese, meat, toppings, sauces, price\r\nOptional properties include: quantity, length\r\n\r\nFor each property you can add/remove values, clear, show, change or ask for help.\r\nYou can also ask for over all help, cancel the whole form or skip a step.",
+    "speak": "Required properties include: name, bread, cheese, meat, toppings, sauces, price\r\nOptional properties include: quantity, length\r\n\r\nFor each property you can add/remove values, clear, show, change or ask for help.\r\nYou can also ask for over all help, cancel the whole form or skip a step.",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "5abc2490-5664-11eb-b231-d90b3d692047",
+    "id": "5d1eccb0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:02+08:00",
+    "timestamp": "2021-01-14T12:31:02.395Z"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Enter a string for name",
+    "speak": "Enter a string for name",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "5abc2490-5664-11eb-b231-d90b3d692047",
+    "id": "5d777400-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:02+08:00",
+    "timestamp": "2021-01-14T12:31:02.976Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "5abc2490-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "conversationUpdate",
+          "id": "5abc2490-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:30:58.392Z",
+          "localTimestamp": "2021-01-14T12:30:58Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "membersAdded": [
+            {
+              "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+              "name": "Bot"
+            },
+            {
+              "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+              "name": "User"
+            }
+          ],
+          "membersRemoved": [],
+          "locale": "en-US"
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "lastresult": {
+          "id": "5d777400-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 2,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 2
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "lastEvent": "endOfActions",
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Name"
+        ]
+      },
+      "this": {
+        "eventCounter": 2,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 2
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "lastEvent": "endOfActions",
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Name"
+        ]
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:00.8201912Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 2,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 2
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "lastEvent": "endOfActions",
+                            "retries": 0,
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Name"
+                            ]
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "5dc9d9c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:03+08:00",
+    "timestamp": "2021-01-14T12:31:03.516Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106274675395epslj2bfm",
+      "clientTimestamp": "2021-01-14T12:31:07.539Z"
+    },
+    "text": "abc",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:31:07.569Z",
+    "entities": [
+      {
+        "requiresBotState": true,
+        "supportsListening": true,
+        "supportsTts": true,
+        "type": "ClientCapabilities"
+      }
+    ],
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "60344a10-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:07+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:31:09.177Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "60344a10-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "abc",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9988831
+          }
+        },
+        "entities": {
+          "$instance": {}
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "abc",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9988831
+            }
+          },
+          "entities": {}
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6129a690-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:09+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What value do you want for bread?",
+    "speak": "What value do you want for bread?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "60344a10-5664-11eb-b231-d90b3d692047",
+    "id": "618979d0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:09+08:00",
+    "timestamp": "2021-01-14T12:31:09.805Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "60344a10-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "60344a10-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:31:07.569Z",
+          "localTimestamp": "2021-01-14T12:31:07Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "abc",
+          "entities": [
+            {
+              "type": "ClientCapabilities",
+              "requiresBotState": true,
+              "supportsListening": true,
+              "supportsTts": true
+            }
+          ],
+          "channelData": {
+            "clientActivityID": "16106274675395epslj2bfm",
+            "clientTimestamp": "2021-01-14T12:31:07.539Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "abc",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9988831
+            }
+          },
+          "entities": {
+            "$instance": {},
+            "utterance": [
+              "abc"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9988831
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "utterance",
+            "value": "abc",
+            "property": null,
+            "operation": null,
+            "start": 0,
+            "end": 3,
+            "score": 0,
+            "text": "abc",
+            "type": "string",
+            "rootEntity": "",
+            "priority": 2147483647,
+            "coverage": 1,
+            "whenRecognized": 0
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "618979d0-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 7,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 7
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "lastEvent": "endOfActions",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Bread"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 7,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 7
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "lastEvent": "endOfActions",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Bread"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:07.6055584Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 7,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 7
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "lastEvent": "endOfActions",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Bread"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "61d7c0e0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:10+08:00",
+    "timestamp": "2021-01-14T12:31:10.318Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106274737642qe42ndu4jc",
+      "clientTimestamp": "2021-01-14T12:31:13.764Z"
+    },
+    "text": "wheat",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:31:13.797Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "63ea9b50-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:13+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:31:14.742Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "63ea9b50-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "wheat",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9992507
+          }
+        },
+        "entities": {
+          "BreadProperty": [
+            {
+              "BreadEntity": [
+                [
+                  "multiGrainWheat",
+                  "wholeWheat"
+                ]
+              ],
+              "$instance": {
+                "BreadEntity": [
+                  {
+                    "type": "BreadEntity",
+                    "text": "wheat",
+                    "startIndex": 0,
+                    "endIndex": 5,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "$instance": {
+            "BreadProperty": [
+              {
+                "type": "BreadProperty",
+                "text": "wheat",
+                "startIndex": 0,
+                "endIndex": 5,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "wheat",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9992507
+            }
+          },
+          "entities": {
+            "BreadProperty": [
+              {
+                "BreadEntity": [
+                  [
+                    "multiGrainWheat",
+                    "wholeWheat"
+                  ]
+                ],
+                "$instance": {
+                  "BreadEntity": [
+                    {
+                      "type": "BreadEntity",
+                      "text": "wheat",
+                      "startIndex": 0,
+                      "length": 5,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "$instance": {
+              "BreadProperty": [
+                {
+                  "type": "BreadProperty",
+                  "text": "wheat",
+                  "startIndex": 0,
+                  "length": 5,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "647acd60-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:14+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Please choose a value for bread from [multi grain wheat, whole wheat] to add",
+    "speak": "Please choose a value for bread from [multi grain wheat, whole wheat] to add",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "63ea9b50-5664-11eb-b231-d90b3d692047",
+    "id": "64d2d870-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:15+08:00",
+    "timestamp": "2021-01-14T12:31:15.319Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "63ea9b50-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "63ea9b50-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:31:13.797Z",
+          "localTimestamp": "2021-01-14T12:31:13Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "wheat",
+          "channelData": {
+            "clientActivityID": "16106274737642qe42ndu4jc",
+            "clientTimestamp": "2021-01-14T12:31:13.764Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "chooseEntity",
+          "Value": {
+            "event": "chooseEntity",
+            "property": "Bread",
+            "operation": "Add()",
+            "entity": {
+              "name": "BreadEntity",
+              "value": [
+                "multiGrainWheat",
+                "wholeWheat"
+              ],
+              "property": "Bread",
+              "operation": null,
+              "start": 0,
+              "end": 5,
+              "score": 0,
+              "text": "wheat",
+              "type": "BreadEntity",
+              "rootEntity": "BreadProperty0",
+              "priority": 0,
+              "coverage": 1,
+              "whenRecognized": 9
+            },
+            "alternative": null,
+            "isExpected": true,
+            "raisedCount": 1,
+            "expectedProperties": null
+          }
+        },
+        "recognized": {
+          "text": "wheat",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9992507
+            }
+          },
+          "entities": {
+            "$instance": {
+              "BreadProperty": [
+                {
+                  "type": "BreadProperty",
+                  "text": "wheat",
+                  "startIndex": 0,
+                  "endIndex": 5,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "BreadProperty": [
+              {
+                "BreadEntity": [
+                  [
+                    "multiGrainWheat",
+                    "wholeWheat"
+                  ]
+                ],
+                "$instance": {
+                  "BreadEntity": [
+                    {
+                      "type": "BreadEntity",
+                      "text": "wheat",
+                      "startIndex": 0,
+                      "endIndex": 5,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9992507
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "BreadEntity",
+            "value": [
+              "multiGrainWheat",
+              "wholeWheat"
+            ],
+            "property": "Bread",
+            "operation": null,
+            "start": 0,
+            "end": 5,
+            "score": 0,
+            "text": "wheat",
+            "type": "BreadEntity",
+            "rootEntity": "BreadProperty0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 9
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "64d2d870-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 11,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 11
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": [
+            {
+              "event": "chooseEntity",
+              "property": "Bread",
+              "operation": "Add()",
+              "entity": {
+                "name": "BreadEntity",
+                "value": [
+                  "multiGrainWheat",
+                  "wholeWheat"
+                ],
+                "property": "Bread",
+                "operation": null,
+                "start": 0,
+                "end": 5,
+                "score": 0,
+                "text": "wheat",
+                "type": "BreadEntity",
+                "rootEntity": "BreadProperty0",
+                "priority": 0,
+                "coverage": 1,
+                "whenRecognized": 9
+              },
+              "alternative": null,
+              "isExpected": true,
+              "raisedCount": 0,
+              "expectedProperties": null
+            }
+          ]
+        },
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "chooseEntity",
+          "Value": {
+            "event": "chooseEntity",
+            "property": "Bread",
+            "operation": "Add()",
+            "entity": {
+              "name": "BreadEntity",
+              "value": [
+                "multiGrainWheat",
+                "wholeWheat"
+              ],
+              "property": "Bread",
+              "operation": null,
+              "start": 0,
+              "end": 5,
+              "score": 0,
+              "text": "wheat",
+              "type": "BreadEntity",
+              "rootEntity": "BreadProperty0",
+              "priority": 0,
+              "coverage": 1,
+              "whenRecognized": 9
+            },
+            "alternative": null,
+            "isExpected": true,
+            "raisedCount": 1,
+            "expectedProperties": null
+          }
+        },
+        "expectedProperties": [
+          "Bread"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "lastEvent": "chooseEntity"
+      },
+      "this": {
+        "eventCounter": 11,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 11
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": [
+            {
+              "event": "chooseEntity",
+              "property": "Bread",
+              "operation": "Add()",
+              "entity": {
+                "name": "BreadEntity",
+                "value": [
+                  "multiGrainWheat",
+                  "wholeWheat"
+                ],
+                "property": "Bread",
+                "operation": null,
+                "start": 0,
+                "end": 5,
+                "score": 0,
+                "text": "wheat",
+                "type": "BreadEntity",
+                "rootEntity": "BreadProperty0",
+                "priority": 0,
+                "coverage": 1,
+                "whenRecognized": 9
+              },
+              "alternative": null,
+              "isExpected": true,
+              "raisedCount": 0,
+              "expectedProperties": null
+            }
+          ]
+        },
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "chooseEntity",
+          "Value": {
+            "event": "chooseEntity",
+            "property": "Bread",
+            "operation": "Add()",
+            "entity": {
+              "name": "BreadEntity",
+              "value": [
+                "multiGrainWheat",
+                "wholeWheat"
+              ],
+              "property": "Bread",
+              "operation": null,
+              "start": 0,
+              "end": 5,
+              "score": 0,
+              "text": "wheat",
+              "type": "BreadEntity",
+              "rootEntity": "BreadProperty0",
+              "priority": 0,
+              "coverage": 1,
+              "whenRecognized": 9
+            },
+            "alternative": null,
+            "isExpected": true,
+            "raisedCount": 1,
+            "expectedProperties": null
+          }
+        },
+        "expectedProperties": [
+          "Bread"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "lastEvent": "chooseEntity"
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:13.8103124Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 11,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 11
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": [
+                                {
+                                  "event": "chooseEntity",
+                                  "property": "Bread",
+                                  "operation": "Add()",
+                                  "entity": {
+                                    "name": "BreadEntity",
+                                    "value": [
+                                      "multiGrainWheat",
+                                      "wholeWheat"
+                                    ],
+                                    "property": "Bread",
+                                    "operation": null,
+                                    "start": 0,
+                                    "end": 5,
+                                    "score": 0,
+                                    "text": "wheat",
+                                    "type": "BreadEntity",
+                                    "rootEntity": "BreadProperty0",
+                                    "priority": 0,
+                                    "coverage": 1,
+                                    "whenRecognized": 9
+                                  },
+                                  "alternative": null,
+                                  "isExpected": true,
+                                  "raisedCount": 0,
+                                  "expectedProperties": null
+                                }
+                              ]
+                            },
+                            "retries": 0,
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "chooseEntity",
+                              "Value": {
+                                "event": "chooseEntity",
+                                "property": "Bread",
+                                "operation": "Add()",
+                                "entity": {
+                                  "name": "BreadEntity",
+                                  "value": [
+                                    "multiGrainWheat",
+                                    "wholeWheat"
+                                  ],
+                                  "property": "Bread",
+                                  "operation": null,
+                                  "start": 0,
+                                  "end": 5,
+                                  "score": 0,
+                                  "text": "wheat",
+                                  "type": "BreadEntity",
+                                  "rootEntity": "BreadProperty0",
+                                  "priority": 0,
+                                  "coverage": 1,
+                                  "whenRecognized": 9
+                                },
+                                "alternative": null,
+                                "isExpected": true,
+                                "raisedCount": 1,
+                                "expectedProperties": null
+                              }
+                            },
+                            "expectedProperties": [
+                              "Bread"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "lastEvent": "chooseEntity"
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "65208340-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:15+08:00",
+    "timestamp": "2021-01-14T12:31:15.828Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106274849009l2otcknq2c",
+      "clientTimestamp": "2021-01-14T12:31:24.900Z"
+    },
+    "text": "whole wheat",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:31:24.936Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "6a8e4880-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:24+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:31:25.877Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "6a8e4880-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "whole wheat",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9994687
+          }
+        },
+        "entities": {
+          "BreadProperty": [
+            {
+              "BreadEntity": [
+                [
+                  "wholeWheat"
+                ]
+              ],
+              "$instance": {
+                "BreadEntity": [
+                  {
+                    "type": "BreadEntity",
+                    "text": "whole wheat",
+                    "startIndex": 0,
+                    "endIndex": 11,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "BreadEntity": [
+            [
+              "multiGrainWheat",
+              "wholeWheat"
+            ]
+          ],
+          "$instance": {
+            "BreadProperty": [
+              {
+                "type": "BreadProperty",
+                "text": "whole wheat",
+                "startIndex": 0,
+                "endIndex": 11,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ],
+            "BreadEntity": [
+              {
+                "type": "BreadEntity",
+                "text": "wheat",
+                "startIndex": 6,
+                "endIndex": 11,
+                "modelType": "List Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "whole wheat",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9994687
+            }
+          },
+          "entities": {
+            "BreadProperty": [
+              {
+                "BreadEntity": [
+                  [
+                    "wholeWheat"
+                  ]
+                ],
+                "$instance": {
+                  "BreadEntity": [
+                    {
+                      "type": "BreadEntity",
+                      "text": "whole wheat",
+                      "startIndex": 0,
+                      "length": 11,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "BreadEntity": [
+              [
+                "multiGrainWheat",
+                "wholeWheat"
+              ]
+            ],
+            "$instance": {
+              "BreadProperty": [
+                {
+                  "type": "BreadProperty",
+                  "text": "whole wheat",
+                  "startIndex": 0,
+                  "length": 11,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "BreadEntity": [
+                {
+                  "type": "BreadEntity",
+                  "text": "wheat",
+                  "startIndex": 6,
+                  "length": 5,
+                  "modelTypeId": 5,
+                  "modelType": "List Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "6b1e0560-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:25+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What value do you want for cheese?",
+    "speak": "What value do you want for cheese?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6a8e4880-5664-11eb-b231-d90b3d692047",
+    "id": "6b6f32a0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:26+08:00",
+    "timestamp": "2021-01-14T12:31:26.410Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "6a8e4880-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "6a8e4880-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:31:24.936Z",
+          "localTimestamp": "2021-01-14T12:31:24Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "whole wheat",
+          "channelData": {
+            "clientActivityID": "16106274849009l2otcknq2c",
+            "clientTimestamp": "2021-01-14T12:31:24.9Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "whole wheat",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9994687
+            }
+          },
+          "entities": {
+            "$instance": {
+              "BreadProperty": [
+                {
+                  "type": "BreadProperty",
+                  "text": "whole wheat",
+                  "startIndex": 0,
+                  "endIndex": 11,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "BreadEntity": [
+                {
+                  "type": "BreadEntity",
+                  "text": "wheat",
+                  "startIndex": 6,
+                  "endIndex": 11,
+                  "modelType": "List Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "BreadProperty": [
+              {
+                "BreadEntity": [
+                  [
+                    "wholeWheat"
+                  ]
+                ],
+                "$instance": {
+                  "BreadEntity": [
+                    {
+                      "type": "BreadEntity",
+                      "text": "whole wheat",
+                      "startIndex": 0,
+                      "endIndex": 11,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "BreadEntity": [
+              "wholeWheat"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9994687
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "BreadEntity",
+            "value": "wholeWheat",
+            "property": "Bread",
+            "operation": null,
+            "start": 0,
+            "end": 11,
+            "score": 0,
+            "text": "whole wheat",
+            "type": "BreadEntity",
+            "rootEntity": "BreadProperty0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 13
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "6b6f32a0-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 16,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 16
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "lastEvent": "endOfActions",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Cheese"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 16,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 16
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "lastEvent": "endOfActions",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Cheese"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:24.9511976Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 16,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 16
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "lastEvent": "endOfActions",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Cheese"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "6bbd52a0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:26+08:00",
+    "timestamp": "2021-01-14T12:31:26.922Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106274934606bvypjx2yza",
+      "clientTimestamp": "2021-01-14T12:31:33.460Z"
+    },
+    "text": "feta",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:31:33.499Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "6fa8e4b0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:33+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:31:34.452Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "6fa8e4b0-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "feta",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.999121547
+          }
+        },
+        "entities": {
+          "CheeseProperty": [
+            {
+              "CheeseEntity": [
+                [
+                  "feta"
+                ]
+              ],
+              "$instance": {
+                "CheeseEntity": [
+                  {
+                    "type": "CheeseEntity",
+                    "text": "feta",
+                    "startIndex": 0,
+                    "endIndex": 4,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "personName": [
+            "feta"
+          ],
+          "$instance": {
+            "CheeseProperty": [
+              {
+                "type": "CheeseProperty",
+                "text": "feta",
+                "startIndex": 0,
+                "endIndex": 4,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ],
+            "personName": [
+              {
+                "type": "builtin.personName",
+                "text": "feta",
+                "startIndex": 0,
+                "endIndex": 4,
+                "modelType": "Prebuilt Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "feta",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.999121547
+            }
+          },
+          "entities": {
+            "CheeseProperty": [
+              {
+                "CheeseEntity": [
+                  [
+                    "feta"
+                  ]
+                ],
+                "$instance": {
+                  "CheeseEntity": [
+                    {
+                      "type": "CheeseEntity",
+                      "text": "feta",
+                      "startIndex": 0,
+                      "length": 4,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "feta"
+            ],
+            "$instance": {
+              "CheeseProperty": [
+                {
+                  "type": "CheeseProperty",
+                  "text": "feta",
+                  "startIndex": 0,
+                  "length": 4,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "feta",
+                  "startIndex": 0,
+                  "length": 4,
+                  "modelTypeId": 2,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "703a4f40-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:34+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What value do you want for meat?",
+    "speak": "What value do you want for meat?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "6fa8e4b0-5664-11eb-b231-d90b3d692047",
+    "id": "708eb0d0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:35+08:00",
+    "timestamp": "2021-01-14T12:31:35.005Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "6fa8e4b0-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "6fa8e4b0-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:31:33.499Z",
+          "localTimestamp": "2021-01-14T12:31:33Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "feta",
+          "channelData": {
+            "clientActivityID": "16106274934606bvypjx2yza",
+            "clientTimestamp": "2021-01-14T12:31:33.46Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "feta",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.999121547
+            }
+          },
+          "entities": {
+            "$instance": {
+              "CheeseProperty": [
+                {
+                  "type": "CheeseProperty",
+                  "text": "feta",
+                  "startIndex": 0,
+                  "endIndex": 4,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "feta",
+                  "startIndex": 0,
+                  "endIndex": 4,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "CheeseProperty": [
+              {
+                "CheeseEntity": [
+                  [
+                    "feta"
+                  ]
+                ],
+                "$instance": {
+                  "CheeseEntity": [
+                    {
+                      "type": "CheeseEntity",
+                      "text": "feta",
+                      "startIndex": 0,
+                      "endIndex": 4,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "feta"
+            ],
+            "CheeseEntity": [
+              "feta"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.999121547
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "CheeseEntity",
+            "value": "feta",
+            "property": "Cheese",
+            "operation": null,
+            "start": 0,
+            "end": 4,
+            "score": 0,
+            "text": "feta",
+            "type": "CheeseEntity",
+            "rootEntity": "CheeseProperty0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 18
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "708eb0d0-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 21,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 21
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Meat"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 21,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 21
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Meat"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:33.5107413Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 21,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 21
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Meat"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "lastEvent": "endOfActions",
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "70dca9c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:35+08:00",
+    "timestamp": "2021-01-14T12:31:35.515Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "1610627516212g2gswmfdskp",
+      "clientTimestamp": "2021-01-14T12:31:56.212Z"
+    },
+    "text": "bacon",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:31:56.261Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "7d3a1950-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:56+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:31:57.404Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "7d3a1950-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "bacon",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.999054432
+          }
+        },
+        "entities": {
+          "MeatProperty": [
+            {
+              "MeatEntity": [
+                [
+                  "bacon"
+                ]
+              ],
+              "$instance": {
+                "MeatEntity": [
+                  {
+                    "type": "MeatEntity",
+                    "text": "bacon",
+                    "startIndex": 0,
+                    "endIndex": 5,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "personName": [
+            "bacon"
+          ],
+          "$instance": {
+            "MeatProperty": [
+              {
+                "type": "MeatProperty",
+                "text": "bacon",
+                "startIndex": 0,
+                "endIndex": 5,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ],
+            "personName": [
+              {
+                "type": "builtin.personName",
+                "text": "bacon",
+                "startIndex": 0,
+                "endIndex": 5,
+                "modelType": "Prebuilt Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "bacon",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.999054432
+            }
+          },
+          "entities": {
+            "MeatProperty": [
+              {
+                "MeatEntity": [
+                  [
+                    "bacon"
+                  ]
+                ],
+                "$instance": {
+                  "MeatEntity": [
+                    {
+                      "type": "MeatEntity",
+                      "text": "bacon",
+                      "startIndex": 0,
+                      "length": 5,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "bacon"
+            ],
+            "$instance": {
+              "MeatProperty": [
+                {
+                  "type": "MeatProperty",
+                  "text": "bacon",
+                  "startIndex": 0,
+                  "length": 5,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "bacon",
+                  "startIndex": 0,
+                  "length": 5,
+                  "modelTypeId": 2,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "7de881c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:57+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What values do you want to add for toppings?",
+    "speak": "What values do you want to add for toppings?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "7d3a1950-5664-11eb-b231-d90b3d692047",
+    "id": "7e3c2000-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:57+08:00",
+    "timestamp": "2021-01-14T12:31:57.952Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "7d3a1950-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "7d3a1950-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:31:56.261Z",
+          "localTimestamp": "2021-01-14T12:31:56Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "bacon",
+          "channelData": {
+            "clientActivityID": "1610627516212g2gswmfdskp",
+            "clientTimestamp": "2021-01-14T12:31:56.212Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "bacon",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.999054432
+            }
+          },
+          "entities": {
+            "$instance": {
+              "MeatProperty": [
+                {
+                  "type": "MeatProperty",
+                  "text": "bacon",
+                  "startIndex": 0,
+                  "endIndex": 5,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "bacon",
+                  "startIndex": 0,
+                  "endIndex": 5,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "MeatProperty": [
+              {
+                "MeatEntity": [
+                  [
+                    "bacon"
+                  ]
+                ],
+                "$instance": {
+                  "MeatEntity": [
+                    {
+                      "type": "MeatEntity",
+                      "text": "bacon",
+                      "startIndex": 0,
+                      "endIndex": 5,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "bacon"
+            ],
+            "MeatEntity": [
+              "bacon"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.999054432
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "MeatEntity",
+            "value": "bacon",
+            "property": "Meat",
+            "operation": null,
+            "start": 0,
+            "end": 5,
+            "score": 0,
+            "text": "bacon",
+            "type": "MeatEntity",
+            "rootEntity": "MeatProperty0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 23
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "7e3c2000-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 26,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 26
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Toppings"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 26,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 26
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Toppings"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:31:56.2730697Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 26,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 26
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Toppings"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "lastEvent": "endOfActions",
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "7e8a18f0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:31:58+08:00",
+    "timestamp": "2021-01-14T12:31:58.463Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106275255883fwod2mfx8z",
+      "clientTimestamp": "2021-01-14T12:32:05.588Z"
+    },
+    "text": "help toppings",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:32:05.640Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "82d13880-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:05+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:32:06.563Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "82d13880-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "help toppings",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9996701
+          }
+        },
+        "entities": {
+          "Help()": [
+            {
+              "ToppingsProperty": [
+                {}
+              ],
+              "$instance": {
+                "ToppingsProperty": [
+                  {
+                    "type": "ToppingsProperty",
+                    "text": "toppings",
+                    "startIndex": 5,
+                    "endIndex": 13,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "$instance": {
+            "Help()": [
+              {
+                "type": "Help()",
+                "text": "help toppings",
+                "startIndex": 0,
+                "endIndex": 13,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "help toppings",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9996701
+            }
+          },
+          "entities": {
+            "Help()": [
+              {
+                "ToppingsProperty": [
+                  {}
+                ],
+                "$instance": {
+                  "ToppingsProperty": [
+                    {
+                      "type": "ToppingsProperty",
+                      "text": "toppings",
+                      "startIndex": 5,
+                      "length": 8,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "$instance": {
+              "Help()": [
+                {
+                  "type": "Help()",
+                  "text": "help toppings",
+                  "startIndex": 0,
+                  "length": 13,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "835e0f30-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:06+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "toppings includes multiple values from: [tomato, lettuce, pickles, green peppers, red peppers, white onions, red onions]",
+    "speak": "toppings includes multiple values from: [tomato, lettuce, pickles, green peppers, red peppers, white onions, red onions]",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "82d13880-5664-11eb-b231-d90b3d692047",
+    "id": "83b57e00-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:07+08:00",
+    "timestamp": "2021-01-14T12:32:07.136Z"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What values do you want to add for toppings?",
+    "speak": "What values do you want to add for toppings?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "82d13880-5664-11eb-b231-d90b3d692047",
+    "id": "840572c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:07+08:00",
+    "timestamp": "2021-01-14T12:32:07.660Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "82d13880-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "82d13880-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:32:05.64Z",
+          "localTimestamp": "2021-01-14T12:32:05Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "help toppings",
+          "channelData": {
+            "clientActivityID": "16106275255883fwod2mfx8z",
+            "clientTimestamp": "2021-01-14T12:32:05.588Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "help toppings",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9996701
+            }
+          },
+          "entities": {
+            "$instance": {
+              "Help()": [
+                {
+                  "type": "Help()",
+                  "text": "help toppings",
+                  "startIndex": 0,
+                  "endIndex": 13,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "Help()": [
+              {
+                "ToppingsProperty": [
+                  {}
+                ],
+                "$instance": {
+                  "ToppingsProperty": [
+                    {
+                      "type": "ToppingsProperty",
+                      "text": "toppings",
+                      "startIndex": 5,
+                      "endIndex": 13,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "Toppings": [
+              null
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9996701
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "Toppings",
+            "value": null,
+            "property": "Toppings",
+            "operation": "Help()",
+            "start": 0,
+            "end": 13,
+            "score": 0,
+            "text": "help toppings",
+            "type": "ToppingsProperty",
+            "rootEntity": "Help()0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 28
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "840572c0-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 31,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 31
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Toppings"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "retries": 1,
+        "lastEvent": "endOfActions"
+      },
+      "this": {
+        "eventCounter": 31,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 31
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Toppings"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "retries": 1,
+        "lastEvent": "endOfActions"
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:32:05.6501453Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 31,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 31
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Toppings"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "retries": 1,
+                            "lastEvent": "endOfActions"
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "845344a0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:08+08:00",
+    "timestamp": "2021-01-14T12:32:08.170Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106275352998mskyxctm2r",
+      "clientTimestamp": "2021-01-14T12:32:15.299Z"
+    },
+    "text": "add tomato and lettuce",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:32:15.351Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "889b0070-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:15+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:32:16.287Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "889b0070-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "add tomato and lettuce",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9996863
+          }
+        },
+        "entities": {
+          "Add()": [
+            {
+              "ToppingsProperty": [
+                {
+                  "ToppingsEntity": [
+                    [
+                      "tomato"
+                    ],
+                    [
+                      "lettuce"
+                    ]
+                  ],
+                  "$instance": {
+                    "ToppingsEntity": [
+                      {
+                        "type": "ToppingsEntity",
+                        "text": "tomato",
+                        "startIndex": 4,
+                        "endIndex": 10,
+                        "modelType": "Entity Extractor",
+                        "recognitionSources": [
+                          "model"
+                        ]
+                      },
+                      {
+                        "type": "ToppingsEntity",
+                        "text": "lettuce",
+                        "startIndex": 15,
+                        "endIndex": 22,
+                        "modelType": "Entity Extractor",
+                        "recognitionSources": [
+                          "model"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              ],
+              "$instance": {
+                "ToppingsProperty": [
+                  {
+                    "type": "ToppingsProperty",
+                    "text": "tomato and lettuce",
+                    "startIndex": 4,
+                    "endIndex": 22,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "$instance": {
+            "Add()": [
+              {
+                "type": "Add()",
+                "text": "add tomato and lettuce",
+                "startIndex": 0,
+                "endIndex": 22,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "add tomato and lettuce",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9996863
+            }
+          },
+          "entities": {
+            "Add()": [
+              {
+                "ToppingsProperty": [
+                  {
+                    "ToppingsEntity": [
+                      [
+                        "tomato"
+                      ],
+                      [
+                        "lettuce"
+                      ]
+                    ],
+                    "$instance": {
+                      "ToppingsEntity": [
+                        {
+                          "type": "ToppingsEntity",
+                          "text": "tomato",
+                          "startIndex": 4,
+                          "length": 6,
+                          "modelTypeId": 1,
+                          "modelType": "Entity Extractor",
+                          "recognitionSources": [
+                            "model"
+                          ]
+                        },
+                        {
+                          "type": "ToppingsEntity",
+                          "text": "lettuce",
+                          "startIndex": 15,
+                          "length": 7,
+                          "modelTypeId": 1,
+                          "modelType": "Entity Extractor",
+                          "recognitionSources": [
+                            "model"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "$instance": {
+                  "ToppingsProperty": [
+                    {
+                      "type": "ToppingsProperty",
+                      "text": "tomato and lettuce",
+                      "startIndex": 4,
+                      "length": 18,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "$instance": {
+              "Add()": [
+                {
+                  "type": "Add()",
+                  "text": "add tomato and lettuce",
+                  "startIndex": 0,
+                  "length": 22,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "8929d2f0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:16+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What values do you want to add for sauces?",
+    "speak": "What values do you want to add for sauces?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "889b0070-5664-11eb-b231-d90b3d692047",
+    "id": "897f9410-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:16+08:00",
+    "timestamp": "2021-01-14T12:32:16.849Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "889b0070-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "889b0070-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:32:15.351Z",
+          "localTimestamp": "2021-01-14T12:32:15Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "add tomato and lettuce",
+          "channelData": {
+            "clientActivityID": "16106275352998mskyxctm2r",
+            "clientTimestamp": "2021-01-14T12:32:15.299Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "add tomato and lettuce",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9996863
+            }
+          },
+          "entities": {
+            "$instance": {
+              "Add()": [
+                {
+                  "type": "Add()",
+                  "text": "add tomato and lettuce",
+                  "startIndex": 0,
+                  "endIndex": 22,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "Add()": [
+              {
+                "ToppingsProperty": [
+                  {
+                    "ToppingsEntity": [
+                      [
+                        "tomato"
+                      ],
+                      [
+                        "lettuce"
+                      ]
+                    ],
+                    "$instance": {
+                      "ToppingsEntity": [
+                        {
+                          "type": "ToppingsEntity",
+                          "text": "tomato",
+                          "startIndex": 4,
+                          "endIndex": 10,
+                          "modelType": "Entity Extractor",
+                          "recognitionSources": [
+                            "model"
+                          ]
+                        },
+                        {
+                          "type": "ToppingsEntity",
+                          "text": "lettuce",
+                          "startIndex": 15,
+                          "endIndex": 22,
+                          "modelType": "Entity Extractor",
+                          "recognitionSources": [
+                            "model"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ],
+                "$instance": {
+                  "ToppingsProperty": [
+                    {
+                      "type": "ToppingsProperty",
+                      "text": "tomato and lettuce",
+                      "startIndex": 4,
+                      "endIndex": 22,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "ToppingsEntity": [
+              "lettuce"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9996863
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "ToppingsEntity",
+            "value": "tomato",
+            "property": "Toppings",
+            "operation": "Add()",
+            "start": 0,
+            "end": 22,
+            "score": 0,
+            "text": "add tomato and lettuce",
+            "type": "ToppingsEntity",
+            "rootEntity": "Add()0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 33
+          },
+          {
+            "name": "ToppingsEntity",
+            "value": "lettuce",
+            "property": "Toppings",
+            "operation": "Add()",
+            "start": 0,
+            "end": 22,
+            "score": 0,
+            "text": "add tomato and lettuce",
+            "type": "ToppingsEntity",
+            "rootEntity": "Add()0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 33
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "897f9410-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 37,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 37
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Sauces"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 37,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 37
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Sauces"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:32:15.361528Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 37,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 37
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Sauces"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "lastEvent": "endOfActions",
+                            "Toppings": [
+                              "tomato",
+                              "lettuce"
+                            ],
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "89ccf0c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:32:17+08:00",
+    "timestamp": "2021-01-14T12:32:17.356Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "161062759360559zobyba3n8",
+      "clientTimestamp": "2021-01-14T12:33:13.605Z"
+    },
+    "text": "help sauces",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:33:13.662Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:13+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:33:15.088Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "help sauces",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9996653
+          }
+        },
+        "entities": {
+          "Help()": [
+            {
+              "SaucesProperty": [
+                {}
+              ],
+              "$instance": {
+                "SaucesProperty": [
+                  {
+                    "type": "SaucesProperty",
+                    "text": "sauces",
+                    "startIndex": 5,
+                    "endIndex": 11,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "$instance": {
+            "Help()": [
+              {
+                "type": "Help()",
+                "text": "help sauces",
+                "startIndex": 0,
+                "endIndex": 11,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "help sauces",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9996653
+            }
+          },
+          "entities": {
+            "Help()": [
+              {
+                "SaucesProperty": [
+                  {}
+                ],
+                "$instance": {
+                  "SaucesProperty": [
+                    {
+                      "type": "SaucesProperty",
+                      "text": "sauces",
+                      "startIndex": 5,
+                      "length": 6,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "$instance": {
+              "Help()": [
+                {
+                  "type": "Help()",
+                  "text": "help sauces",
+                  "startIndex": 0,
+                  "length": 11,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "ac362500-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:15+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "sauces includes multiple values from: [pepper, salt, yellow mustard, dijon mustard, mayo, vinegar]",
+    "speak": "sauces includes multiple values from: [pepper, salt, yellow mustard, dijon mustard, mayo, vinegar]",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+    "id": "ac8b22d0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:15+08:00",
+    "timestamp": "2021-01-14T12:33:15.645Z"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "What values do you want to add for sauces?",
+    "speak": "What values do you want to add for sauces?",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+    "id": "acda5440-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:16+08:00",
+    "timestamp": "2021-01-14T12:33:16.164Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "ab5c8de0-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:33:13.662Z",
+          "localTimestamp": "2021-01-14T12:33:13Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "help sauces",
+          "channelData": {
+            "clientActivityID": "161062759360559zobyba3n8",
+            "clientTimestamp": "2021-01-14T12:33:13.605Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "help sauces",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9996653
+            }
+          },
+          "entities": {
+            "$instance": {
+              "Help()": [
+                {
+                  "type": "Help()",
+                  "text": "help sauces",
+                  "startIndex": 0,
+                  "endIndex": 11,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "Help()": [
+              {
+                "SaucesProperty": [
+                  {}
+                ],
+                "$instance": {
+                  "SaucesProperty": [
+                    {
+                      "type": "SaucesProperty",
+                      "text": "sauces",
+                      "startIndex": 5,
+                      "endIndex": 11,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "Sauces": [
+              null
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9996653
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "Sauces",
+            "value": null,
+            "property": "Sauces",
+            "operation": "Help()",
+            "start": 0,
+            "end": 11,
+            "score": 0,
+            "text": "help sauces",
+            "type": "SaucesProperty",
+            "rootEntity": "Help()0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 39
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "acda5440-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 42,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 42
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Sauces"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "retries": 1,
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "lastEvent": "endOfActions"
+      },
+      "this": {
+        "eventCounter": 42,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 42
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Sauces"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "retries": 1,
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "lastEvent": "endOfActions"
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:33:13.676237Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 42,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 42
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Sauces"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "retries": 1,
+                            "Toppings": [
+                              "tomato",
+                              "lettuce"
+                            ],
+                            "lastEvent": "endOfActions"
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "ad282620-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:16+08:00",
+    "timestamp": "2021-01-14T12:33:16.674Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "1610627602422zt6ubp88tm",
+      "clientTimestamp": "2021-01-14T12:33:22.422Z"
+    },
+    "text": "salt",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:33:22.485Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "b09ed650-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:22+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:33:23.508Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "b09ed650-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "salt",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9991011
+          }
+        },
+        "entities": {
+          "SaucesProperty": [
+            {
+              "SaucesEntity": [
+                [
+                  "salt"
+                ]
+              ],
+              "$instance": {
+                "SaucesEntity": [
+                  {
+                    "type": "SaucesEntity",
+                    "text": "salt",
+                    "startIndex": 0,
+                    "endIndex": 4,
+                    "modelType": "Entity Extractor",
+                    "recognitionSources": [
+                      "model"
+                    ]
+                  }
+                ]
+              }
+            }
+          ],
+          "personName": [
+            "salt"
+          ],
+          "$instance": {
+            "SaucesProperty": [
+              {
+                "type": "SaucesProperty",
+                "text": "salt",
+                "startIndex": 0,
+                "endIndex": 4,
+                "modelType": "Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ],
+            "personName": [
+              {
+                "type": "builtin.personName",
+                "text": "salt",
+                "startIndex": 0,
+                "endIndex": 4,
+                "modelType": "Prebuilt Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "salt",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9991011
+            }
+          },
+          "entities": {
+            "SaucesProperty": [
+              {
+                "SaucesEntity": [
+                  [
+                    "salt"
+                  ]
+                ],
+                "$instance": {
+                  "SaucesEntity": [
+                    {
+                      "type": "SaucesEntity",
+                      "text": "salt",
+                      "startIndex": 0,
+                      "length": 4,
+                      "modelTypeId": 1,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "salt"
+            ],
+            "$instance": {
+              "SaucesProperty": [
+                {
+                  "type": "SaucesProperty",
+                  "text": "salt",
+                  "startIndex": 0,
+                  "length": 4,
+                  "modelTypeId": 1,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "salt",
+                  "startIndex": 0,
+                  "length": 4,
+                  "modelTypeId": 2,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "b13aef40-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:23+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Enter a money for price",
+    "speak": "Enter a money for price",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "b09ed650-5664-11eb-b231-d90b3d692047",
+    "id": "b18da320-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:24+08:00",
+    "timestamp": "2021-01-14T12:33:24.050Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "b09ed650-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "b09ed650-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:33:22.485Z",
+          "localTimestamp": "2021-01-14T12:33:22Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "salt",
+          "channelData": {
+            "clientActivityID": "1610627602422zt6ubp88tm",
+            "clientTimestamp": "2021-01-14T12:33:22.422Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "salt",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9991011
+            }
+          },
+          "entities": {
+            "$instance": {
+              "SaucesProperty": [
+                {
+                  "type": "SaucesProperty",
+                  "text": "salt",
+                  "startIndex": 0,
+                  "endIndex": 4,
+                  "modelType": "Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "personName": [
+                {
+                  "type": "builtin.personName",
+                  "text": "salt",
+                  "startIndex": 0,
+                  "endIndex": 4,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "SaucesProperty": [
+              {
+                "SaucesEntity": [
+                  [
+                    "salt"
+                  ]
+                ],
+                "$instance": {
+                  "SaucesEntity": [
+                    {
+                      "type": "SaucesEntity",
+                      "text": "salt",
+                      "startIndex": 0,
+                      "endIndex": 4,
+                      "modelType": "Entity Extractor",
+                      "recognitionSources": [
+                        "model"
+                      ]
+                    }
+                  ]
+                }
+              }
+            ],
+            "personName": [
+              "salt"
+            ],
+            "SaucesEntity": [
+              "salt"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9991011
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "SaucesEntity",
+            "value": "salt",
+            "property": "Sauces",
+            "operation": null,
+            "start": 0,
+            "end": 4,
+            "score": 0,
+            "text": "salt",
+            "type": "SaucesEntity",
+            "rootEntity": "SaucesProperty0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 44
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "b18da320-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 47,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 47
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Price"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "Sauces": [
+          "salt"
+        ],
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 47,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 47
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Price"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "lastEvent": "endOfActions",
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "Sauces": [
+          "salt"
+        ],
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:33:22.4928787Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 47,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 47
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Price"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "lastEvent": "endOfActions",
+                            "Toppings": [
+                              "tomato",
+                              "lettuce"
+                            ],
+                            "Sauces": [
+                              "salt"
+                            ],
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "b1dc1140-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:24+08:00",
+    "timestamp": "2021-01-14T12:33:24.564Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106276074132wxhcl0o6uk",
+      "clientTimestamp": "2021-01-14T12:33:27.413Z"
+    },
+    "text": "2 $",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:33:27.472Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "b397cb00-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:27+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:33:28.424Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "b397cb00-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "2 $",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.999313354
+          }
+        },
+        "entities": {
+          "number": [
+            2
+          ],
+          "money": [
+            {
+              "number": 2,
+              "units": "Dollar"
+            }
+          ],
+          "$instance": {
+            "number": [
+              {
+                "type": "builtin.number",
+                "text": "2",
+                "startIndex": 0,
+                "endIndex": 1,
+                "modelType": "Prebuilt Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ],
+            "money": [
+              {
+                "type": "builtin.currency",
+                "text": "2 $",
+                "startIndex": 0,
+                "endIndex": 3,
+                "modelType": "Prebuilt Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "2 $",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.999313354
+            }
+          },
+          "entities": {
+            "number": [
+              2
+            ],
+            "money": [
+              {
+                "number": 2,
+                "units": "Dollar"
+              }
+            ],
+            "$instance": {
+              "number": [
+                {
+                  "type": "builtin.number",
+                  "text": "2",
+                  "startIndex": 0,
+                  "length": 1,
+                  "modelTypeId": 2,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "money": [
+                {
+                  "type": "builtin.currency",
+                  "text": "2 $",
+                  "startIndex": 0,
+                  "length": 3,
+                  "modelTypeId": 2,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "b4290e80-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:28+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "attachments": [
+      {
+        "contentType": "application/vnd.microsoft.card.adaptive",
+        "content": {
+          "type": "AdaptiveCard",
+          "version": "1.0",
+          "body": [
+            {
+              "type": "TextBlock",
+              "text": "sandwich",
+              "size": "large"
+            },
+            {
+              "type": "FactSet",
+              "facts": [
+                {
+                  "title": "quantity",
+                  "value": "no value"
+                },
+                {
+                  "title": "length",
+                  "value": "no value"
+                },
+                {
+                  "title": "name",
+                  "value": "abc"
+                },
+                {
+                  "title": "bread",
+                  "value": "whole wheat"
+                },
+                {
+                  "title": "meat",
+                  "value": "bacon"
+                },
+                {
+                  "title": "cheese",
+                  "value": "feta"
+                },
+                {
+                  "title": "toppings",
+                  "value": "[tomato, lettuce]"
+                },
+                {
+                  "title": "sauces",
+                  "value": "[salt]"
+                },
+                {
+                  "title": "price",
+                  "value": "(number: 2, units: Dollar)"
+                }
+              ]
+            }
+          ],
+          "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+        }
+      }
+    ],
+    "replyToId": "b397cb00-5664-11eb-b231-d90b3d692047",
+    "id": "b485fb90-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:29+08:00",
+    "timestamp": "2021-01-14T12:33:29.032Z"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Is there any property you want to change? (no or the property name)",
+    "speak": "Is there any property you want to change? (no or the property name)",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "b397cb00-5664-11eb-b231-d90b3d692047",
+    "id": "b4d469b0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:29+08:00",
+    "timestamp": "2021-01-14T12:33:29.547Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "b397cb00-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "b397cb00-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:33:27.472Z",
+          "localTimestamp": "2021-01-14T12:33:27Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "2 $",
+          "channelData": {
+            "clientActivityID": "16106276074132wxhcl0o6uk",
+            "clientTimestamp": "2021-01-14T12:33:27.413Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "2 $",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.999313354
+            }
+          },
+          "entities": {
+            "$instance": {
+              "number": [
+                {
+                  "type": "builtin.number",
+                  "text": "2",
+                  "startIndex": 0,
+                  "endIndex": 1,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ],
+              "money": [
+                {
+                  "type": "builtin.currency",
+                  "text": "2 $",
+                  "startIndex": 0,
+                  "endIndex": 3,
+                  "modelType": "Prebuilt Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "number": [
+              2
+            ],
+            "money": [
+              {
+                "number": 2,
+                "units": "Dollar"
+              }
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.999313354
+        },
+        "unrecognizedText": [
+          " $"
+        ],
+        "recognizedEntities": [
+          {
+            "name": "money",
+            "value": {
+              "number": 2,
+              "units": "Dollar"
+            },
+            "property": null,
+            "operation": null,
+            "start": 0,
+            "end": 3,
+            "score": 0,
+            "text": "2 $",
+            "type": "builtin.currency",
+            "rootEntity": "money0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 49
+          },
+          {
+            "name": "number",
+            "value": 2,
+            "property": null,
+            "operation": null,
+            "start": 0,
+            "end": 1,
+            "score": 0,
+            "text": "2",
+            "type": "builtin.number",
+            "rootEntity": "number0",
+            "priority": 0,
+            "coverage": 0.3333333333333333,
+            "whenRecognized": 49
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "b4d469b0-5664-11eb-b231-d90b3d692047"
+        }
+      },
+      "dialog": {
+        "eventCounter": 52,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 52
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "CompleteConfirmation"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "Price": {
+          "number": 2,
+          "units": "Dollar"
+        },
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "Sauces": [
+          "salt"
+        ],
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "this": {
+        "eventCounter": 52,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 52
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "events": {
+          "Assignments": []
+        },
+        "Cheese": "feta",
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "CompleteConfirmation"
+        ],
+        "lastIntent": "sandwich",
+        "Name": "abc",
+        "Bread": "wholeWheat",
+        "Meat": "bacon",
+        "Price": {
+          "number": 2,
+          "units": "Dollar"
+        },
+        "Toppings": [
+          "tomato",
+          "lettuce"
+        ],
+        "Sauces": [
+          "salt"
+        ],
+        "lastEvent": "endOfActions",
+        "retries": 0
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:33:27.4820196Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 52,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 52
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "events": {
+                              "Assignments": []
+                            },
+                            "Cheese": "feta",
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "CompleteConfirmation"
+                            ],
+                            "lastIntent": "sandwich",
+                            "Name": "abc",
+                            "Bread": "wholeWheat",
+                            "Meat": "bacon",
+                            "Price": {
+                              "number": 2,
+                              "units": "Dollar"
+                            },
+                            "Toppings": [
+                              "tomato",
+                              "lettuce"
+                            ],
+                            "Sauces": [
+                              "salt"
+                            ],
+                            "lastEvent": "endOfActions",
+                            "retries": 0
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "b522b0c0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:30+08:00",
+    "timestamp": "2021-01-14T12:33:30.060Z"
+  },
+  {
+    "channelData": {
+      "clientActivityID": "16106276269654tby61celk",
+      "clientTimestamp": "2021-01-14T12:33:46.966Z"
+    },
+    "text": "no",
+    "textFormat": "plain",
+    "type": "message",
+    "channelId": "emulator",
+    "from": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "name": "User",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "timestamp": "2021-01-14T12:33:47.034Z",
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "id": "bf40deb0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:47+08:00",
+    "recipient": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "serviceUrl": "https://5256fad0d315.ngrok.io"
+  },
+  {
+    "type": "trace",
+    "timestamp": "2021-01-14T12:33:48.192Z",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "bf40deb0-5664-11eb-b231-d90b3d692047",
+    "label": "LuisV3 Trace",
+    "valueType": "https://www.luis.ai/schemas/trace",
+    "value": {
+      "recognizerResult": {
+        "text": "no",
+        "alteredText": null,
+        "intents": {
+          "sandwich": {
+            "score": 0.9990394
+          }
+        },
+        "entities": {
+          "boolean": [
+            [
+              "false"
+            ]
+          ],
+          "$instance": {
+            "boolean": [
+              {
+                "type": "boolean",
+                "text": "no",
+                "startIndex": 0,
+                "endIndex": 2,
+                "modelType": "List Entity Extractor",
+                "recognitionSources": [
+                  "model"
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "luisModel": {
+        "ModelID": "7519f28c-43d6-4d08-922e-c3a24de7549a"
+      },
+      "luisOptions": {
+        "IncludeAllIntents": false,
+        "IncludeInstanceData": true,
+        "IncludeAPIResults": false,
+        "Log": true,
+        "DynamicLists": null,
+        "ExternalEntities": null,
+        "PreferExternalEntities": true,
+        "DateTimeReference": null,
+        "Slot": "production",
+        "Version": null
+      },
+      "luisResult": {
+        "query": "no",
+        "prediction": {
+          "topIntent": "sandwich",
+          "intents": {
+            "sandwich": {
+              "score": 0.9990394
+            }
+          },
+          "entities": {
+            "boolean": [
+              [
+                "false"
+              ]
+            ],
+            "$instance": {
+              "boolean": [
+                {
+                  "type": "boolean",
+                  "text": "no",
+                  "startIndex": 0,
+                  "length": 2,
+                  "modelTypeId": 5,
+                  "modelType": "List Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "name": "LuisRecognizer",
+    "id": "bff16a00-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:48+08:00"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Required properties include: name, bread, cheese, meat, toppings, sauces, price\r\nOptional properties include: quantity, length\r\n\r\nFor each property you can add/remove values, clear, show, change or ask for help.\r\nYou can also ask for over all help, cancel the whole form or skip a step.",
+    "speak": "Required properties include: name, bread, cheese, meat, toppings, sauces, price\r\nOptional properties include: quantity, length\r\n\r\nFor each property you can add/remove values, clear, show, change or ask for help.\r\nYou can also ask for over all help, cancel the whole form or skip a step.",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "bf40deb0-5664-11eb-b231-d90b3d692047",
+    "id": "c0470410-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:48+08:00",
+    "timestamp": "2021-01-14T12:33:48.753Z"
+  },
+  {
+    "type": "message",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "text": "Enter a string for name",
+    "speak": "Enter a string for name",
+    "attachments": [],
+    "entities": [],
+    "replyToId": "bf40deb0-5664-11eb-b231-d90b3d692047",
+    "id": "c096f8d0-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:49+08:00",
+    "timestamp": "2021-01-14T12:33:49.277Z"
+  },
+  {
+    "type": "trace",
+    "serviceUrl": "https://5256fad0d315.ngrok.io",
+    "channelId": "emulator",
+    "from": {
+      "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+      "name": "Bot",
+      "role": "bot"
+    },
+    "conversation": {
+      "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+    },
+    "recipient": {
+      "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+      "role": "user"
+    },
+    "locale": "en-US",
+    "replyToId": "bf40deb0-5664-11eb-b231-d90b3d692047",
+    "label": "Bot State",
+    "valueType": "https://www.botframework.com/schemas/botState",
+    "value": {
+      "turn": {
+        "activity": {
+          "type": "message",
+          "id": "bf40deb0-5664-11eb-b231-d90b3d692047",
+          "timestamp": "2021-01-14T12:33:47.034Z",
+          "localTimestamp": "2021-01-14T12:33:47Z",
+          "serviceUrl": "https://5256fad0d315.ngrok.io",
+          "channelId": "emulator",
+          "from": {
+            "id": "4350ee5a-9e5b-4d77-8903-209eacb31bf2",
+            "name": "User",
+            "role": "user"
+          },
+          "conversation": {
+            "id": "5aae41e0-5664-11eb-b231-d90b3d692047|livechat"
+          },
+          "recipient": {
+            "id": "5aad7e90-5664-11eb-b9ef-d500a6b315fa",
+            "name": "Bot",
+            "role": "bot"
+          },
+          "textFormat": "plain",
+          "locale": "en-US",
+          "text": "no",
+          "channelData": {
+            "clientActivityID": "16106276269654tby61celk",
+            "clientTimestamp": "2021-01-14T12:33:46.966Z"
+          }
+        },
+        "dialogEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "recognized": {
+          "text": "no",
+          "alteredText": null,
+          "intents": {
+            "sandwich": {
+              "score": 0.9990394
+            }
+          },
+          "entities": {
+            "$instance": {
+              "boolean": [
+                {
+                  "type": "boolean",
+                  "text": "no",
+                  "startIndex": 0,
+                  "endIndex": 2,
+                  "modelType": "List Entity Extractor",
+                  "recognitionSources": [
+                    "model"
+                  ]
+                }
+              ]
+            },
+            "boolean": [
+              "false"
+            ]
+          },
+          "intent": "sandwich",
+          "score": 0.9990394
+        },
+        "unrecognizedText": [],
+        "recognizedEntities": [
+          {
+            "name": "boolean",
+            "value": "false",
+            "property": null,
+            "operation": null,
+            "start": 0,
+            "end": 2,
+            "score": 0,
+            "text": "no",
+            "type": "boolean",
+            "rootEntity": "boolean0",
+            "priority": 0,
+            "coverage": 1,
+            "whenRecognized": 54
+          }
+        ],
+        "interrupted": true,
+        "lastresult": {
+          "id": "c096f8d0-5664-11eb-b231-d90b3d692047"
+        },
+        "__repeatDialogId": "AdaptiveDialog",
+        "repeatedIds": [
+          "AdaptiveDialog"
+        ],
+        "activityProcessed": true
+      },
+      "dialog": {
+        "eventCounter": 2,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 2
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "lastEvent": "endOfActions",
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Name"
+        ]
+      },
+      "this": {
+        "eventCounter": 2,
+        "requiredProperties": [
+          "Name",
+          "Bread",
+          "Cheese",
+          "Meat",
+          "Toppings",
+          "Sauces",
+          "Price"
+        ],
+        "_tracker": {
+          "paths": {
+            "dialog_retries": 2
+          },
+          "conditions": {
+            "80": {
+              "paths": [
+                "dialog_retries"
+              ],
+              "lastRun": 0
+            }
+          }
+        },
+        "_adaptive": {
+          "actions": []
+        },
+        "lastEvent": "endOfActions",
+        "retries": 0,
+        "lastTriggerEvent": {
+          "Bubble": false,
+          "Name": "endOfActions",
+          "Value": null
+        },
+        "expectedProperties": [
+          "Name"
+        ]
+      },
+      "conversation": {
+        "_lastAccess": "2021-01-14T12:33:47.0515416Z",
+        "DialogState": {
+          "dialogStack": [
+            {
+              "id": "AdaptiveDialog",
+              "state": {
+                "eventCounter": 1,
+                "_adaptive": {
+                  "actions": [
+                    {
+                      "dialogId": "ActionScope[sandwich,RepeatDialog[]]",
+                      "options": null,
+                      "dialogStack": [
+                        {
+                          "id": "sandwich",
+                          "state": {
+                            "eventCounter": 2,
+                            "requiredProperties": [
+                              "Name",
+                              "Bread",
+                              "Cheese",
+                              "Meat",
+                              "Toppings",
+                              "Sauces",
+                              "Price"
+                            ],
+                            "_tracker": {
+                              "paths": {
+                                "dialog_retries": 2
+                              },
+                              "conditions": {
+                                "80": {
+                                  "paths": [
+                                    "dialog_retries"
+                                  ],
+                                  "lastRun": 0
+                                }
+                              }
+                            },
+                            "_adaptive": {
+                              "actions": []
+                            },
+                            "lastEvent": "endOfActions",
+                            "retries": 0,
+                            "lastTriggerEvent": {
+                              "Bubble": false,
+                              "Name": "endOfActions",
+                              "Value": null
+                            },
+                            "expectedProperties": [
+                              "Name"
+                            ]
+                          },
+                          "StackIndex": null,
+                          "Version": "KnhZ5sA4wWC+GbZal87cD2MyuKk7MzTQ8YYS5FBfbyw="
+                        },
+                        {
+                          "id": "ActionScope[sandwich,RepeatDialog[]]",
+                          "state": {
+                            "offset": 0
+                          },
+                          "StackIndex": null,
+                          "Version": null
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              "StackIndex": null,
+              "Version": "Z7urrOeGwrhcJlL/1vKO5whbGr6m52YpqG0DONGARFc="
+            }
+          ]
+        }
+      },
+      "user": {}
+    },
+    "name": "BotState",
+    "id": "c0e60330-5664-11eb-b231-d90b3d692047",
+    "localTimestamp": "2021-01-14T20:33:49+08:00",
+    "timestamp": "2021-01-14T12:33:49.795Z"
+  }
+]

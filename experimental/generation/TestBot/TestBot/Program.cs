@@ -42,7 +42,7 @@ namespace TestBot
 
             var config = new ConfigurationBuilder()
                 .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment } })
-                .UseMockLuisSettings(root, root)
+                .UseMockLuisSettings(root, "TestBot")
                 .AddUserSecrets("RunBot")
                 .Build();
             var resourceExplorer = new ResourceExplorer().AddFolder(root, monitorChanges: false);
