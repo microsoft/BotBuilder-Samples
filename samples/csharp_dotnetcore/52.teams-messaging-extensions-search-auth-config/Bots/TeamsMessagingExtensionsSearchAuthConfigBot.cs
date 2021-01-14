@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Threading;
@@ -14,17 +13,16 @@ using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchAuthConfigBot : TeamsActivityHandler
     {
-        readonly string _connectionName;
-        readonly string _siteUrl;
-        readonly UserState _userState;
-        readonly IStatePropertyAccessor<string> _userConfigProperty;
+        private readonly string _connectionName;
+        private readonly string _siteUrl;
+        private readonly UserState _userState;
+        private readonly IStatePropertyAccessor<string> _userConfigProperty;
 
         public TeamsMessagingExtensionsSearchAuthConfigBot(IConfiguration configuration, UserState userState)
         {
@@ -131,7 +129,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 await _userConfigProperty.SetAsync(turnContext, userConfigSettings, cancellationToken);
             }
         }
-
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery action, CancellationToken cancellationToken)
         {
@@ -380,23 +377,9 @@ namespace Microsoft.BotBuilderSamples.Bots
             });
             return new Attachment()
             {
-                ContentType = "application/vnd.microsoft.card.adaptive",
+                ContentType = AdaptiveCard.ContentType,
                 Content = card,
             };
-        }
-
-        private static Attachment CreateAdaptiveCardAttachment()
-        {
-            // combine path for cross platform support
-            string[] paths = { ".", "Resources", "adaptiveCard.json" };
-            var adaptiveCardJson = File.ReadAllText(Path.Combine(paths));
-
-            var adaptiveCardAttachment = new Attachment()
-            {
-                ContentType = "application/vnd.microsoft.card.adaptive",
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
-            };
-            return adaptiveCardAttachment;
         }
 
         // Generate a set of substrings to illustrate the idea of a set of results coming back from a query. 
@@ -412,8 +395,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             if (!string.IsNullOrEmpty(state))
             {
-                var parsed = 0;
-                if (int.TryParse(state, out parsed))
+                if (int.TryParse(state, out var parsed))
                 {
                     magicCode = parsed.ToString();
                 }
@@ -421,7 +403,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             var tokenResponse = await (turnContext.Adapter as IUserTokenProvider).GetUserTokenAsync(turnContext, _connectionName, magicCode, cancellationToken: cancellationToken);
             return tokenResponse;
         }
-
 
     }
 }
