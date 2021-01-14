@@ -1,5 +1,5 @@
 [generator.lg](../generator.lg)
 
 # templates
-- ${propertyTemplates()}
+- ${genericPropertyTemplates()}
 

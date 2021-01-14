@@ -24,8 +24,7 @@
 - ${operationName(turn.dialogEvent.value.operation)}
 
 # chooseEntityValues()
-> List of entity values
-- [${join(foreach(turn.dialogEvent.value.entity.value, val, entityValue(chooseEntityProperty(), val)), ', ')}]
+- ${entityValue(turn.dialogEvent.value.entity)}
 
 >> OnChooseProperty
 

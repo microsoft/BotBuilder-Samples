@@ -4,9 +4,9 @@ Bot Framework Adaptive Tools is a Microsoft VS Code extension that helps develop
 
 Supported features include the following:
 <!--
-- LG/LU syntax highlighting
-- LG/LU diagnostic checks
-- LG/LU autocompletion
+- LG/LU/QNA syntax highlighting
+- LG/LU/QNA diagnostic checks
+- LG/LU/QNA autocompletion
 - LG template and function hover
 - LG template definition
 - LG template, function, and structure suggestions
@@ -16,13 +16,13 @@ Supported features include the following:
 
 | Feature                                       | File type supported |
 |-----------------------------------------------|---------------------|
-| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU              |
-| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU              |
-| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU              |
+| [Syntax highlighting](#syntax-highlighting-diagnostic-checks-and-autocompletion)                           | LG, LU, QNA              |
+| [Diagnostic checks](#syntax-highlighting-diagnostic-checks-and-autocompletion)                             | LG, LU, QNA              |
+| [Autocompletion](#syntax-highlighting-diagnostic-checks-and-autocompletion)                                | LG, LU, QNA              |
 | [Template and function hover](#hover-suggestions-and-navigation)                   | LG                  |
 | [Template definition](#hover-suggestions-and-navigation)                           | LG                  |
 | [Template, function, and structure suggestions](#hover-suggestions-and-navigation) | LG                  |
-| [Debugging](#debugging)                                     | LG, LU, Dialog      |
+| [Debugging](#debugging)                                     | LG, LU, QNA, Dialog      |
 
 ## Getting started
 
@@ -61,7 +61,7 @@ Adaptive Tools can be installed [from the Visual Studio Marketplace](#install-fr
     You're now ready to install Adaptive Tools.
 1. Open VS Code and open the **Extensions** view.
 1. Click the **Views and More Actions** button (...) in the upper-right corner of the Extensions panel. Then click **Install from VSIX..** and select the VSIX file you created earlier.
-1. Open an LG, LU, or dialog file and the extension will activate.
+1. Open an LG, LU, QNA, or dialog file and the extension will activate.
 
 ## Language features
 
@@ -79,6 +79,17 @@ Formatting warnings and errors:
 
 Automatic completion of some entities:
 ![lu_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/lu_completion.gif)
+
+#### QNA
+
+Different colors and styles for intent, entity, and comment components:
+![qna_syntax_highlighting](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_syntax_highlighting.png)
+
+Formatting warnings and errors:
+![qna_diagnostic](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_diagnostic.png)
+
+Automatic completion of some entities:
+![qna_completion](https://raw.githubusercontent.com/microsoft/BotBuilder-Samples/main/experimental/adaptive-tool/resources/images/qna_completion.gif)
 
 #### LG
 
@@ -139,7 +150,7 @@ Here's an example of a typical `launch.json`:
 
 ### Debug your bot
 
-1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, and dialog files.
+1. Run the VS Code program by clicking **F5** and set break points in the LG, LU, QNA, and dialog files.
 1. Chat with the bot in the Emulator.
 1. If the extension is working properly the cursor will stop when the code hits any of corresponding breakpoints.
 

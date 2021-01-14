@@ -76,8 +76,14 @@
 
 >> Template lists
 
+# genericPropertyTemplates()
+- ${[`${type}Property.lg`, `generic-missing.dialog`, `generic-help.dialog`, `generic-clear.dialog`, `generic-show.dialog`, `generic-change.dialog`]}
+
 # propertyTemplates()
 - ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`, `${type}-change.dialog`]}
+
+# genericEntityTemplates()
+- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `genericEntity-add.dialog`, `genericEntity-remove.dialog`]}
 
 # entityTemplates()
 - ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
@@ -108,21 +114,7 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${confirmationText('${property}', @${entity})}"
         },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@${entity}"          
-        },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
+        ${setOrPush()}
     ]               
     ${designerOpEntity('Add', entity)}      
 }
@@ -151,21 +143,7 @@
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${confirmationText('${property}',  @${entity})}"
                 },
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "= @${entity}"          
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind":"Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }
+                ${setOrPush()}
             ]
         }
     ]               
@@ -206,21 +184,7 @@
                             "$kind": "Microsoft.SendActivity",
                             "activity": "\${confirmationText('${property}',  @${entity})}"
                         },
-                        {
-                            "$kind": "Microsoft.SetProperty",
-                            "property": "$${property}",
-                            "value": "= @${entity}"          
-                        },
-                        {
-                            "$kind": "Microsoft.IfCondition",
-                            "condition": "$PropertyToChange == '${property}'",
-                            "actions": [
-                                {
-                                    "$kind":"Microsoft.DeleteProperty",
-                                    "property": "$PropertyToChange"
-                                }
-                            ]
-                        }
+                        ${setOrPush()}
                     ]
                 }
             ]
@@ -230,7 +194,7 @@
 }
 ```
 
-# addArrayDialog(entity)
+# addArrayDialogWithChecking(entity)
 -```
 {
     "$schema": "${appSchema}",
@@ -240,27 +204,40 @@
     "entity": "${entity}",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}',  @${entity})}"
-        },
-        {
-            "$kind": "Microsoft.EditArray",
-            "changeType": "push",
-            "itemsProperty": "$${property}",
-            "value": "=@${entity}"
-        },
-        {
             "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
+            "condition": "!contains($${property}, @${entity})",
             "actions": [
                 {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
+                },
+                {
+                    "$kind": "Microsoft.EditArray",
+                    "changeType": "push",
+                    "itemsProperty": "$${property}",
+                    "value": "=@${entity}"
+                },
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "$PropertyToChange == '${property}'",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
+                    ]
+                }            
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
                 }
             ]
         }
     ]               
-    ${designerOpEntity('Add', entity)}     
+    ${designerOpEntity('Add', entity)
+    }
 }
 ```
 
@@ -281,22 +258,8 @@
                 {
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${confirmationText('${property}', @${entity})}"
-                }, 
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "=@${entity}"          
                 },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind":"Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }
+                ${setOrPush()}
             ],
             "elseActions":[
                 {
@@ -322,21 +285,7 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${confirmationText('${property}', @${entity})}"
         }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@${entity}"          
-        },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
+        ${setOrPush()}
     ]
     ${designerOpEntity('Add', entity)}             
 }
@@ -354,26 +303,44 @@
         {
             "$kind": "Microsoft.SendActivity",
             "activity": "\${confirmUpdate('${property}', {number: @number, units: '${units()}'})}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "={number: @number, units: '${units()}'}"          
         },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
+        ${setOrPush()}
     ]
     ${designerOpEntity('Add', 'number with units')}             
 }
 ```
+
+> Set a singleton or push on an array and clear propertyToChange
+# setOrPush()
+- ```
+${setOrPushOperation()},
+{
+   "$kind": "Microsoft.IfCondition",
+    "condition": "$PropertyToChange == '${property}'",
+    "actions": [
+        {
+            "$kind":"Microsoft.DeleteProperty",
+            "property": "$PropertyToChange"
+        }
+    ]
+}```
+
+# setOrPushOperation()
+- IF: ${isArrayProperty(property)}
+    - ```
+{
+    "$kind": "Microsoft.EditArray",
+    "changeType": "push",
+    "itemsProperty": "$${property}",
+    "value": "=@${entity}"
+}```
+- ELSE:
+    -```
+{
+    "$kind": "Microsoft.SetProperty",
+    "property": "$${property}",
+    "value": "=@${entity}"          
+}```
 
 # removeDialog(entity)
 -```
@@ -554,8 +521,8 @@
 -```
 > Define phrase list for ${property} property.
 @ phraselist ${property}Phrases(interchangeable)=
-${if(schema.properties[property].title,
-    `    - ${schema.properties[property].title}`,
+${if(propertySchema.title,
+    `    - ${propertySchema.title}`,
      synonyms(property))}
 
 > Define property entity and optional value for ${property} property.
@@ -599,7 +566,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Test to see if property is an array
 # isArrayProperty(property)
-- ${schema.properties[property].type == 'array'}
+- ${propertySchema.type == 'array'}
 
 > Generate a raw entity value with optional label
 # entityValue(entity, value, label)
@@ -749,7 +716,7 @@ ${'#'} ${property}_Show
 > Show value of '${property}' property
 - ${show}```
 
-# incorrectUnitsTemplate
+# incorrectUnitsTemplate()
 - IF: ${hasUnits()}
 - ```
 ${'#'} ${property}_IncorrectUnits(actual)
@@ -760,8 +727,14 @@ ${'#'} ${property}_IncorrectUnits(actual)
 
 >> Helpers
 
-# hasUnits
-- ${schema.properties[property].$units != null}
+# hasUnits()
+- ${propertySchema.$units != null}
 
-# units
-- ${schema.properties[property].$units}
+# units()
+- ${propertySchema.$units}
+
+# enums()
+- IF: ${propertySchema.enum}
+    - ${propertySchema.enum}
+- ELSE:
+    - ${propertySchema.items.enum}

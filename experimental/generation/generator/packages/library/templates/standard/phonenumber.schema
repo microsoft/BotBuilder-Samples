@@ -9,6 +9,10 @@
         "phonenumberEntity.lu",
         "phonenumberEntity.lg",
         "phonenumberEntity-add-string.dialog",
-        "phonenumberEntity-remove-string.dialog"
+        "phonenumberEntity-remove-string.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
     ]
 }

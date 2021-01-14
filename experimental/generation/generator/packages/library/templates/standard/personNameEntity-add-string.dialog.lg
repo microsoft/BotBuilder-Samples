@@ -4,7 +4,7 @@
 - ${addFilename('personName')}
 
 # template
-- IF: ${schema.properties[property].pattern}
+- IF: ${propertySchema.pattern}
     - ${addDialogWithStringPattern('personName')}
 - ELSE:
     - ${addDialog('personName')}

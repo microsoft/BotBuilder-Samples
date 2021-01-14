@@ -4,6 +4,12 @@
     "properties": {
         "cost": {
             "$ref": "template:percentage.schema"
+        },
+        "costArray": {
+            "type": "array",
+            "items": {
+                "$ref": "template:percentage.schema"
+            }
         }
     },
     "required": [

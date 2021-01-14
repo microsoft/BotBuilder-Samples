@@ -1,7 +1,7 @@
 [standard.en-us.lg](standard.en-us.lg)
 
 # filename
-- ${entityLGFilename()}
+- ${filenameForEntityTypeLG('string')}
 
 # template
-- ${entityValueTemplate()}
+- ${entityTypeTemplate('string')}

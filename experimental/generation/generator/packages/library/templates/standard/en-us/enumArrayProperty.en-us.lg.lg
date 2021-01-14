@@ -37,6 +37,6 @@ ${enumArrayValueTemplate()}
 - ```
 ${'#'} ${property}_Value(val)
 > Display value for a '${property}' 
-- \${complexValue(val, `${property}Entity_Value`)}
+- \${complexValue(val, `${property}Enum_Value`)}
 ```
 

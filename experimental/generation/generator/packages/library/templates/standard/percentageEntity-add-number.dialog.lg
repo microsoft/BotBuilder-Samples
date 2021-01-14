@@ -4,7 +4,7 @@
 - ${addFilename('percentage')}
 
 # template
-- IF: ${schema.properties[property].minimum || schema.properties[property].maximum}
+- IF: ${propertySchema.minimum || propertySchema.maximum}
     - ${addDialogWithNumberMinMax('percentage')}
 - ELSE:
     - ${addDialog('percentage')}

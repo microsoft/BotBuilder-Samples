@@ -23,7 +23,7 @@ ${valueTemplate()}
 - Enter a number for ${propertyName()} ${numberRanges()}
 
 # repromptNumber()
-- Enter a number for ${propertyName()} ${numberRanges()}
+- The type of ${propertyName()} is number, and its range is ${numberRanges()}
 
 # helpNumber()
 - ${propertyName()} is a number ${numberRanges()}
@@ -34,7 +34,7 @@ ${tooBig()}```
 
 > TODO: Move comment before template
 # tooSmall()
-- IF: ${schema.properties[property].minimum}
+- IF: ${propertySchema.minimum}
     -```
 ${'#'} ${property}_IsTooSmall(val)
 > Value is less then minimum allowed for '${property}' property
@@ -44,7 +44,7 @@ ${'#'} ${property}_IsTooSmall(val)
 
 > TODO: Move comment before template
 # tooBig()
-- IF: ${schema.properties[property].maximum}
+- IF: ${propertySchema.maximum}
     -```
 ${'#'} ${property}_IsTooBig(val)
 > Value is greater than maximum allowed value for '${property}' property
