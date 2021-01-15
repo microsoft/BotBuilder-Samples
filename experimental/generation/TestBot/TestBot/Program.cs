@@ -21,6 +21,7 @@ namespace TestBot
             var root = ".";
             var region = "westus";
             var environment = Environment.UserName;
+            var userSecrets = "Runbot";
             for (var i = 0; i < args.Length; ++i)
             {
                 var arg = args[i];
@@ -29,6 +30,7 @@ namespace TestBot
                     case "--root": root = NextArg(ref i, args); break;
                     case "--region": region = NextArg(ref i, args); break;
                     case "--environment": environment = NextArg(ref i, args); break;
+                    case "--userSecrets": userSecrets = NextArg(ref i, args); break;
                     default: Usage(); break;
                 }
             }
@@ -41,9 +43,9 @@ namespace TestBot
             ComponentRegistration.Add(new QnAMakerComponentRegistration());
 
             var config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment } })
-                .UseMockLuisSettings(root, "TestBot")
-                .AddUserSecrets("RunBot")
+                .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment }, {"userSecrets", userSecrets} })
+                .UseMockLuisSettings(root, userSecrets)
+                .AddUserSecrets(userSecrets)
                 .Build();
             var resourceExplorer = new ResourceExplorer().AddFolder(root, monitorChanges: false);
             resourceExplorer.RegisterType(LuisAdaptiveRecognizer.Kind, typeof(MockLuisRecognizer), new MockLuisLoader(config));

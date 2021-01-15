@@ -63,6 +63,12 @@ export async function generateTest(path: string, dialog: string, output: string,
             ++userCount
             responses = 0
             description = `Response to input ${userCount}`
+        } else if (isSettingRandomValue(record)) {
+            script.push({
+                $kind: 'Microsoft.Test.CustomEvent', 
+                name: 'SetTestOptions',
+                value: `{randomValue : ${record.value.randomValue}}`
+            })
         } else if (isConversationUpdate(record)) {
             let membersAdded: string[] = []
             let membersRemoved: string[] = []
@@ -106,6 +112,10 @@ function isConversationUpdate(record: any): Boolean {
 
 function isHttpRequest(record: any): Boolean {
     return record.type === 'trace' && record.valueType === 'Microsoft.HttpRequest'
+}
+
+function isSettingRandomValue(record: any): Boolean {
+    return record.type === 'event' && record.name === 'SetTestOptions'
 }
 
 function objectAssertions(object: any, assertions: any[], path: string) {
