@@ -26,7 +26,7 @@ Supported features include the following:
 
 ## Getting started
 
-Adaptive Tools can be installed [from the Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
+Adaptive Tools can be installed [from Visual Studio Marketplace](#install-from-the-visual-studio-marketplace) or [from a local VSIX file](#install-from-a-local-vsix-file).
 
 ### Install from the Visual Studio Marketplace
 
