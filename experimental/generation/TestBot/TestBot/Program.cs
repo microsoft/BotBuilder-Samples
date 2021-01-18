@@ -43,7 +43,7 @@ namespace TestBot
             ComponentRegistration.Add(new QnAMakerComponentRegistration());
 
             var config = new ConfigurationBuilder()
-                .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment }, {"userSecrets", userSecrets} })
+                .AddInMemoryCollection(new Dictionary<string, string> { { "root", root }, { "region", region }, { "environment", environment} })
                 .UseMockLuisSettings(root, userSecrets)
                 .AddUserSecrets(userSecrets)
                 .Build();
