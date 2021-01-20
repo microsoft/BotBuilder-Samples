@@ -5,7 +5,7 @@
 
  /* eslint-disable @typescript-eslint/no-non-null-assertion */
 
-import { Files, WorkspaceFolder } from 'vscode-languageserver'
+import { WorkspaceFolder } from 'vscode-languageserver'
 import { TextDocument, Range, Position } from "vscode-languageserver-textdocument";
 import { LuFilesStatus } from './luFilesStatus';
 

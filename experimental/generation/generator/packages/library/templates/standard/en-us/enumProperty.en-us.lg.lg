@@ -32,12 +32,10 @@ ${enumValueTemplate()}
 # helpEnum()
 - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
 
-> TODO: Move comment before template
 # enumValueTemplate
 - ```
 ${'#'} ${property}_Value(val)
-> Display value for a '${property}'
-- \${${property}Entity_Value(val)}
+- \${${property}Enum_Value(val)}
 ```
 
 

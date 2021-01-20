@@ -18,12 +18,13 @@
     ],
     "$templates": [
         "temperatureEntity.lu",
+        "temperatureEntity.lg",
         "objectProperty.lg",
-        "string-missing.dialog",
+        "generic-missing.dialog",
         "temperatureEntity-add.dialog",
-        "temperatureEntity-remove.dialog",
-        "temperatureEntity-clear.dialog",
-        "temperatureEntity-show.dialog",
+        "genericEntity-remove.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
         "generic-change.dialog",
         "generic-help.dialog"
     ]

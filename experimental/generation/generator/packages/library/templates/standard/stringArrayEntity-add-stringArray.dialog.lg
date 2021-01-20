@@ -4,5 +4,5 @@
 - ${addFilename(`${property}Entity`)}
 
 # template
-- ${addArrayDialog(`${property}Entity`)}
+- ${addDialog(`${property}Entity`)}
 

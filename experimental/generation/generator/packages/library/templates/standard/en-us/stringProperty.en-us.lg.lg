@@ -26,7 +26,7 @@ ${valueTemplate()}
 - Any response is allowed for ${propertyName()}
 
 # validationTemplates()
-- IF: ${schema.properties[property].pattern}
+- IF: ${propertySchema.pattern}
     -```${'#'} ${property}_NoPatternMatch(val)
 - ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.properties.${property}.pattern}
 ```

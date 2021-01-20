@@ -59,6 +59,7 @@
     "$templates": [
         "booleanEntity.lg",
         "booleanEntity.lu",
+        "stringEntity.lg",
         "form-NoneIntent.lu",
         "form-triggerIntent.lu",
         "form-Choose.lg",

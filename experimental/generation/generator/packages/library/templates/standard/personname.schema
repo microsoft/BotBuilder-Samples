@@ -9,6 +9,10 @@
         "personNameEntity.lu",
         "personNameEntity.lg",
         "personNameEntity-add-string.dialog",
-        "personNameEntity-remove-string.dialog"
+        "personNameEntity-remove-string.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"        
     ]
 }

@@ -4,4 +4,4 @@
 - ${['email']}
 
 # templates
-- ${propertyTemplates()}
+- ${genericPropertyTemplates()}

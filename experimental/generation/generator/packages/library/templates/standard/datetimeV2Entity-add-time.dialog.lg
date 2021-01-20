@@ -26,21 +26,7 @@
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${confirmationText('${property}', @datetime.type)}"
                 },
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "=@datetimeV2"
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind":"Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }
+                ${setOrPush()}
             ]
         }
     ]

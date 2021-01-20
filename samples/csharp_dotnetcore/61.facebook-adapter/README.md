@@ -66,15 +66,15 @@ You can test your bot is connected to Facebook correctly by sending a message vi
 
 2. Click **Add a Button** button.
 
-![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/add-button.png)
+![Add a button](https://raw.githubusercontent.com/MicrosoftDocs/bot-docs/live/articles/media/bot-service-channel-connect-facebook/add-button.PNG)
 
 3. Select **Contact You** and **Send Message** and click **Next**.
 
-![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/button-settings.png)
+![Button settings](https://raw.githubusercontent.com/MicrosoftDocs/bot-docs/live/articles/media/bot-service-channel-connect-facebook/button-settings.PNG)
 
 4. When asked **Where would you like this button to send people to?** select **Messenger** and click **Finish**.
 
-![Add a button](/MicrosoftDocs/bot-docs/tree/live/articles/media/bot-service-channel-connect-facebook/button-settings-2.png)
+![Button settings](https://raw.githubusercontent.com/MicrosoftDocs/bot-docs/live/articles/media/bot-service-channel-connect-facebook/button-settings-2.PNG)
 
 5. Hover over the new **Send Message** button that is now shown on your Facebook Page and clikc **Test Button** from the popup menu.  This will start a new conversation with your app via Facebook Messenger, which you can use to test messaging your bot. Once the message is receieved by your bot it will send a message back to you, echoing the text from your message.
 

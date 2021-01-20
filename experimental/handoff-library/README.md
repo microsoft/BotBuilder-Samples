@@ -2,7 +2,7 @@
 
 Bot Framework v4 Handoff Library
 
-The library implements the additions to the Bot Framework SDK to support handoff to an agent (a.k.a. 'escalation'). The library contains definitons of three event types for signaling handoff operations. The events are exchanged between a bot and an _agent hub_ (sometimes also known as engagement hub), which is defined as an application or a system that allows agents (typically human) to receive and handle requests from users, as well as escalation requests from bots.
+The library implements the additions to the Bot Framework SDK to support handoff to an agent (a.k.a. 'escalation'). The library contains definitions of three event types for signaling handoff operations. The events are exchanged between a bot and an _agent hub_ (sometimes also known as engagement hub), which is defined as an application or a system that allows agents (typically human) to receive and handle requests from users, as well as escalation requests from bots.
 
 Integrations with specific agent hubs are not part of the library. 
 
