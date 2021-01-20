@@ -41,7 +41,7 @@ namespace Microsoft.BotBuilderSamples
         /// <returns>True if the bot should continue processing this TokenExchange request.</returns>
         public async Task<bool> ShouldProcessTokenExchange(ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            if (turnContext.Activity.Name == SignInConstants.TokenExchangeOperationName)
+            if (turnContext.Activity.Name != SignInConstants.TokenExchangeOperationName)
             {
                 throw new InvalidOperationException("Only 'signin/tokenExchange' invoke activities can be procssed by TokenExchangeHelper.");
             }
