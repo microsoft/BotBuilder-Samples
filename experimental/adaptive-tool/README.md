@@ -1,6 +1,6 @@
 # Bot Framework Adaptive Tools
 
-Bot Framework Adaptive Tools is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), and dialog (.dialog) files efficiently. Adaptive Tools has tools and settings that make it easy to debug, analyze and enhance you language files.
+Bot Framework Adaptive Tools is a Microsoft VS Code extension that helps developers handle LG (.lg), LU (.lu), QNA (.qna), and dialog (.dialog) files efficiently. Adaptive Tools has tools and settings that make it easy to debug, analyze and enhance you language files.
 
 Supported features include the following:
 <!--
@@ -31,7 +31,7 @@ Adaptive Tools can be installed [from Visual Studio Marketplace](#install-from-t
 ### Install from the Visual Studio Marketplace
 
 1. Install [Bot Framework Adaptive Tools](https://marketplace.visualstudio.com/items?itemName=BotBuilder.bot-framework-adaptive-tools) from the [VS Code](https://marketplace.visualstudio.com/vscode) tab of the Visual Studio Marketplace.
-1. Open an LG, LU, or dialog file and the extension will activate.
+1. Open an LG, LU, QNA, or dialog file and the extension will activate.
 
 ### Install from a local VSIX file
 
@@ -121,12 +121,12 @@ Template navigation:
 
 ## Debugging
 
-Adaptive Tools lets developers debug LG, LU, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG and LU files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
+Adaptive Tools lets developers debug LG, LU, QNA, and dialog files. When using a debugger you set breakpoints in your code, but those breakpoints correspond to classes and methods.  Setting breakpoints in dialogs, LG, LU and QNA files allow you to get breakpoints in specific instances of a template rather than a code breakpoint which applies to all instances. This section covers the steps and shows an example of how to [configure](#configuration), [initialize](#start-your-bot-and-complete-initialization), and [debug](#debug-your-bot) a bot.
 
 ### Configuration
 
 - [Install](#getting-started) the Adaptive Tools extension.
-- Open the LG, LU ,or dialog file to debug.
+- Open the LG, LU, QNA, or dialog file to debug.
 - To configure Visual Studio Code, add a target in your `launch.settings` file.
 
 Here's an example of a typical `launch.json`:
