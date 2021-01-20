@@ -401,6 +401,17 @@
       "subtitle": "Cancel dialog event"
     }
   },
+  "Microsoft.OnChooseEntity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "order": [
+        "condition",
+        "*"
+      ]
+    }
+  },
   "Microsoft.OnChooseIntent": {
     "form": {
       "hidden": [
