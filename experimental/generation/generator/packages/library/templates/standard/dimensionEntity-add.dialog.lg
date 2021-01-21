@@ -4,4 +4,7 @@
 - ${addFilename('dimension')}
 
 # template
-- ${addWithUnits('dimension')}
+- IF: ${propertySchema.minimum || propertySchema.maximum}
+    - ${addWithUnitsAndMinMax('dimension')}
+- ELSE:
+    - ${addWithUnits('dimension')}

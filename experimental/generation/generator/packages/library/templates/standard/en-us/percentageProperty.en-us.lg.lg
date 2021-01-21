@@ -38,7 +38,7 @@ ${tooBig()}```
     -```
 ${'#'} ${property}_IsTooSmall(val)
 > ${property} property is less than minimum allowed value
-- ${propertyValue('val')} must be at least \${dialogClass.properties.${property}.minimum}% for ${propertyName()}```
+- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}% for ${propertyName()}```
 - ELSE:
     -
 
@@ -48,6 +48,6 @@ ${'#'} ${property}_IsTooSmall(val)
     -```
 ${'#'} ${property}_IsTooBig(val)
 > ${property} property is greater than maximum allowed value
-- ${propertyValue('val')} must be no more than \${dialogClass.properties.${property}.maximum}% for ${propertyName()}```
+- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}% for ${propertyName()}```
 - ELSE:
     -

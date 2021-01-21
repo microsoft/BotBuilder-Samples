@@ -4,4 +4,7 @@
 - ${addFilename('age')}
 
 # template
-- ${addWithUnits('age')}
+- IF: ${propertySchema.minimum || propertySchema.maximum}
+    - ${addWithUnitsAndMinMax('age')}
+- ELSE:
+    - ${addWithUnits('age')}

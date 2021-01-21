@@ -4,5 +4,5 @@
 - ${removeFilename('dimension')}
 
 # template
-- ${removeDialog('dimension')}
+- ${removeValueOrArrayDialog('dimension')}
 

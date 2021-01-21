@@ -4,4 +4,7 @@
 - ${addFilename('temperature')}
 
 # template
-- ${addWithUnits('temperature')}
+- IF: ${propertySchema.minimum || propertySchema.maximum}
+    - ${addWithUnitsAndMinMax('temperature')}
+- ELSE:
+    - ${addWithUnits('temperature')}
