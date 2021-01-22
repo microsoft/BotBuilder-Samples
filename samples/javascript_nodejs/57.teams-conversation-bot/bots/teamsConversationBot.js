@@ -251,6 +251,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelRenamed(context) {
         const card = CardFactory.heroCard(
             "Channel Renamed",
@@ -259,6 +260,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelDeleted(context) {
         const card = CardFactory.heroCard(
             "Channel Deleted",
@@ -267,6 +269,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelRestored(context) {
         const card = CardFactory.heroCard(
             "Channel Restored",
