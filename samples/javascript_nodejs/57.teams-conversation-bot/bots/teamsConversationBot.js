@@ -270,7 +270,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsChannelRestored(context) {
         const card = CardFactory.heroCard(
             "Channel Restored",
-            `${context.activity.channelDatachannel.name} is the Channel restored`
+            `${context.activity.channelData.channel.name} is the Channel restored`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
