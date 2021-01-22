@@ -9,7 +9,10 @@ const {
 const axios = require("axios");
 const querystring = require("querystring");
 const { SimpleGraphClient } = require("..\\simpleGraphClient.js");
+<<<<<<< Updated upstream
 const { profile, Console } = require("console");
+=======
+>>>>>>> Stashed changes
 
 // User Configuration property name
 const USER_CONFIGURATION = "userConfigurationProperty";
@@ -50,6 +53,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             magicCode
         );
 
+<<<<<<< Updated upstream
         if (!tokenResponse || !tokenResponse.token) {
             // There is no token, so the user has not signed in yet.
 
@@ -95,6 +99,8 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         };
         return response;
     }
+=======
+>>>>>>> Stashed changes
     async handleTeamsMessagingExtensionConfigurationQuerySettingUrl(
         context,
         query
@@ -244,6 +250,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
+<<<<<<< Updated upstream
         if (action.commandId === "SHOWPROFILE") {
             debugger;
             const magicCode =
@@ -309,6 +316,8 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 },
             };
         }
+=======
+>>>>>>> Stashed changes
         if (action.commandId === "SignOutCommand") {
             const adapter = context.adapter;
             await adapter.signOutUser(context, this.connectionName);
