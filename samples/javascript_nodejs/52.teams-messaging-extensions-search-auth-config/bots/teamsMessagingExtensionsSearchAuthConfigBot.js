@@ -9,10 +9,6 @@ const {
 const axios = require("axios");
 const querystring = require("querystring");
 const { SimpleGraphClient } = require("..\\simpleGraphClient.js");
-<<<<<<< Updated upstream
-const { profile, Console } = require("console");
-=======
->>>>>>> Stashed changes
 
 // User Configuration property name
 const USER_CONFIGURATION = "userConfigurationProperty";
@@ -42,65 +38,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         // Save state changes
         await this.userState.saveChanges(context);
     }
-    async handleTeamsAppBasedLinkQuery(context, query) {
-        const magicCode =
-            query.state && Number.isInteger(Number(query.state))
-                ? query.state
-                : "";
-        const tokenResponse = await context.adapter.getUserToken(
-            context,
-            this.connectionName,
-            magicCode
-        );
 
-<<<<<<< Updated upstream
-        if (!tokenResponse || !tokenResponse.token) {
-            // There is no token, so the user has not signed in yet.
-
-            // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-            const signInLink = await context.adapter.getSignInLink(
-                context,
-                this.connectionName
-            );
-
-            return {
-                composeExtension: {
-                    type: "auth",
-                    suggestedActions: {
-                        actions: [
-                            {
-                                type: "openUrl",
-                                value: signInLink,
-                                title: "Bot Service OAuth",
-                            },
-                        ],
-                    },
-                },
-            };
-        }
-        const graphClient = new SimpleGraphClient(tokenResponse.token);
-        const profile = await graphClient.GetMyProfile();
-        const attachment = CardFactory.thumbnailCard(
-            "Thumbnail Card",
-            profile.Displayname,
-            query.url,
-            [
-                "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png",
-            ]
-        );
-        const result = {
-            attachmentLayout: "list",
-            type: "result",
-            attachments: [attachment],
-        };
-
-        const response = {
-            composeExtension: result,
-        };
-        return response;
-    }
-=======
->>>>>>> Stashed changes
     async handleTeamsMessagingExtensionConfigurationQuerySettingUrl(
         context,
         query
@@ -250,74 +188,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
-<<<<<<< Updated upstream
-        if (action.commandId === "SHOWPROFILE") {
-            debugger;
-            const magicCode =
-                action.state && Number.isInteger(Number(action.state))
-                    ? action.state
-                    : "";
-            const tokenResponse = await context.adapter.getUserToken(
-                context,
-                this.connectionName,
-                magicCode
-            );
-
-            if (!tokenResponse || !tokenResponse.token) {
-                // There is no token, so the user has not signed in yet.
-                // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-
-                const signInLink = await context.adapter.getSignInLink(
-                    context,
-                    this.connectionName
-                );
-
-                return {
-                    composeExtension: {
-                        type: "auth",
-                        suggestedActions: {
-                            actions: [
-                                {
-                                    type: "openUrl",
-                                    value: signInLink,
-                                    title: "Bot Service OAuth",
-                                },
-                            ],
-                        },
-                    },
-                };
-            }
-            const graphClient = new SimpleGraphClient(tokenResponse.token);
-            const profile = await graphClient.GetMyProfile();
-            //const photo = await graphClient.GetPhoto();
-            const profileCard = CardFactory.adaptiveCard({
-                version: "1.0.0",
-                type: "AdaptiveCard",
-                body: [
-                    {
-                        type: "TextBlock",
-                        text: "Hello: " + profile.displayName,
-                    },
-                    {
-                        type: "Image",
-                        url: "http://adaptivecards.io/content/cats/1.png",
-                    },
-                ],
-            });
-            return {
-                task: {
-                    type: "continue",
-                    value: {
-                        card: profileCard,
-                        heigth: 250,
-                        width: 400,
-                        title: "Show Profile Card",
-                    },
-                },
-            };
-        }
-=======
->>>>>>> Stashed changes
         if (action.commandId === "SignOutCommand") {
             const adapter = context.adapter;
             await adapter.signOutUser(context, this.connectionName);
@@ -354,7 +224,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 },
             };
         }
-        return null;
     }
 
     async handleTeamsMessagingExtensionSubmitAction(context, action) {
