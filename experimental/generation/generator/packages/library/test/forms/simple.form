@@ -3,6 +3,7 @@
     "type": "object",
     "properties": {
         "cost": {
+            "title": "How much it costs",
             "$ref": "template:percentage.schema"
         },
         "costArray": {

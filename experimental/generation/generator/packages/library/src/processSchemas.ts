@@ -21,8 +21,10 @@ export type IdToSchema = {[id: string]: any}
  */
 export async function schemas(templateDirs?: string[]): Promise<IdToSchema> {
     templateDirs = templateDirs || []
+    debugger
     let templates = await fg.templateDirectories(templateDirs)
     let schemas = await templateSchemas(templates, feedbackException)
+    debugger
     return schemas
 }
 

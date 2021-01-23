@@ -29,5 +29,19 @@
         "generic-change.dialog",
         "generic-help.dialog",
         "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
-    ]
+    ],
+    "$generator": {
+        "$units": {
+            "type": "string",
+            "enum": [
+                "Year",
+                "Month",
+                "Week",
+                "Day"
+            ],
+            "Title": "Units",
+            "Description": "Expected age units."
+        },
+        "$ref": "array.json"
+    }
 }

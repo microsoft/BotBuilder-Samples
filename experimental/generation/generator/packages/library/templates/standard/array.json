@@ -1,0 +1,9 @@
+{
+    "array": {
+        "$uniqueValue": {
+            "type": "boolean",
+            "title": "Unique Values",
+            "description": "Require all values to be unique."
+        }
+    }
+}
