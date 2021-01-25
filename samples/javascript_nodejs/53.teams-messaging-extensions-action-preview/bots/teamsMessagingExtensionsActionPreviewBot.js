@@ -57,7 +57,8 @@ class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandler {
             onBehalfOf: [
                 { itemId: 0, mentionType: 'person', mri: context.activity.from.id, displayname: context.activity.from.name }
             ]
-        }}; await context.sendActivity(responseActivity);
+        }}; 
+        await context.sendActivity(responseActivity);
     }
 
     async handleTeamsMessagingExtensionCardButtonClicked(context, obj) {
