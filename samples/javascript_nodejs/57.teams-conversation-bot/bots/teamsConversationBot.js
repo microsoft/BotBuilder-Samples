@@ -101,19 +101,19 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 type: ActionTypes.MessageBack,
                 title: 'Message all members',
                 value: null,
-                text: 'MessageAllMembers',
+                text: 'MessageAllMembers'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Who am I?',
                 value: null,
-                text: 'whoami',
+                text: 'whoami'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Delete card',
                 value: null,
-                text: 'Delete',
+                text: 'Delete'
             },
         ];
 
@@ -131,7 +131,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
             type: ActionTypes.MessageBack,
             title: 'Update Card',
             value: data,
-            text: 'UpdateCardAction',
+            text: 'UpdateCardAction'
         });
         const card = CardFactory.heroCard(
             'Updated card',
@@ -153,7 +153,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
             type: ActionTypes.MessageBack,
             title: 'Update Card',
             value: initialValue,
-            text: 'UpdateCardAction',
+            text: 'UpdateCardAction'
         });
         const card = CardFactory.heroCard(
             'Welcome card',
@@ -190,7 +190,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
             text: `<at>${new TextEncoder().encode(
                 context.activity.from.name
             )}</at>`,
-            type: 'mention',
+            type: 'mention'
         };
 
         const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
