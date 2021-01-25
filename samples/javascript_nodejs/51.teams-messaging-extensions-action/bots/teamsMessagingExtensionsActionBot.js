@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TeamsActivityHandler, CardFactory, TeamsInfo } = require("botbuilder");
+const { TeamsActivityHandler, CardFactory, TeamsInfo } = require('botbuilder');
 
 class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
     handleTeamsMessagingExtensionSubmitAction(context, action) {
         switch (action.commandId) {
-            case "createCard":
+            case 'createCard':
                 return createCardCommand(context, action);
-            case "shareMessage":
+            case 'shareMessage':
                 return shareMessageCommand(context, action);
             default:
-                throw new Error("NotImplemented");
+                throw new Error('NotImplemented');
         }
     }
 
@@ -20,14 +20,14 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         try {
             member = await this.getSingleMember(context);
         } catch (e) {
-            if (e.code === "BotNotInConversationRoster") {
+            if (e.code === 'BotNotInConversationRoster') {
                 return {
                     task: {
-                        type: "continue",
+                        type: 'continue',
                         value: {
                             card: GetJustInTimeCardAttachment(),
                             height: 400,
-                            title: "Adaptive Card - App Installation",
+                            title: 'Adaptive Card - App Installation',
                             width: 300,
                         },
                     },
@@ -37,11 +37,11 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         }
         return {
             task: {
-                type: "continue",
+                type: 'continue',
                 value: {
                     card: GetAdaptiveCardAttachment(),
                     height: 400,
-                    title: "Hello " + member,
+                    title: 'Hello ' + member,
                     width: 300,
                 },
             },
@@ -55,8 +55,8 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 context.activity.from.id
             );
         } catch (e) {
-            if (e.code === "MemberNotFoundInConversation") {
-                context.sendActivity(MessageFactory.text("Member not found."));
+            if (e.code === 'MemberNotFoundInConversation') {
+                context.sendActivity(MessageFactory.text('Member not found.'));
                 return e.code;
             } else {
                 console.log(e);
@@ -71,37 +71,37 @@ function GetJustInTimeCardAttachment() {
     return CardFactory.adaptiveCard({
         actions: [
             {
-                type: "Action.Submit",
-                title: "Continue",
+                type: 'Action.Submit',
+                title: 'Continue',
                 data: { msteams: { justInTimeInstall: true } },
             },
         ],
         body: [
             {
                 text:
-                    "Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.",
-                type: "TextBlock",
-                wrap: "bolder",
+                    'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
+                type: 'TextBlock',
+                wrap: 'bolder',
             },
         ],
-        type: "AdaptiveCard",
-        version: "1.0",
+        type: 'AdaptiveCard',
+        version: '1.0',
     });
 }
 function GetAdaptiveCardAttachment() {
     return CardFactory.adaptiveCard({
-        actions: [{ type: "Action.Submit", title: "Close" }],
+        actions: [{ type: 'Action.Submit', title: 'Close' }],
         body: [
             {
                 text:
-                    "This app is installed in this conversation. You can now use it to do some great stuff!!!",
-                type: "TextBlock",
+                    'This app is installed in this conversation. You can now use it to do some great stuff!!!',
+                type: 'TextBlock',
                 isSubtle: false,
                 warp: true,
             },
         ],
-        type: "AdaptiveCard",
-        version: "1.0",
+        type: 'AdaptiveCard',
+        version: '1.0',
     });
 }
 
@@ -118,8 +118,8 @@ function createCardCommand(context, action) {
 
     return {
         composeExtension: {
-            type: "result",
-            attachmentLayout: "list",
+            type: 'result',
+            attachmentLayout: 'list',
             attachments: [attachment],
         },
     };
@@ -127,7 +127,7 @@ function createCardCommand(context, action) {
 
 function shareMessageCommand(context, action) {
     // The user has chosen to share a message by choosing the 'Share Message' context menu command.
-    let userName = "unknown";
+    let userName = 'unknown';
     if (
         action.messagePayload.from &&
         action.messagePayload.from.user &&
@@ -140,9 +140,9 @@ function shareMessageCommand(context, action) {
     // shared message.  This demonstrates sending custom parameters along with the message payload.
     let images = [];
     const includeImage = action.data.includeImage;
-    if (includeImage === "true") {
+    if (includeImage === 'true') {
         images = [
-            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU",
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU',
         ];
     }
     const heroCard = CardFactory.heroCard(
@@ -168,8 +168,8 @@ function shareMessageCommand(context, action) {
 
     return {
         composeExtension: {
-            type: "result",
-            attachmentLayout: "list",
+            type: 'result',
+            attachmentLayout: 'list',
             attachments: [attachment],
         },
     };
