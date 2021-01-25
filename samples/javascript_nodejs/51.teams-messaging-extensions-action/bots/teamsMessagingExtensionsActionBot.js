@@ -48,7 +48,6 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         };
     }
     async getSingleMember(context) {
-        debugger;
         var member;
         try {
             member = await TeamsInfo.getMember(
