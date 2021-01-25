@@ -1,81 +1,98 @@
 {
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
-  "version": "1.0.0",
+  "version": "1.0",
   "id": "<<YOUR-MICROSOFT-APP-ID>>",
-  "packageName": "com.microsoft.teams.sample",
+  "packageName": "com.microsoft.teams.samples",
   "developer": {
     "name": "Microsoft",
     "websiteUrl": "https://dev.botframework.com",
-    "privacyUrl": "https://dev.botframework.com",
-    "termsOfUseUrl": "https://dev.botframework.com"
-  },
-  "icons": {
-    "color": "icon-color.png",
-    "outline": "icon-outline.png"
+    "privacyUrl": "https://privacy.microsoft.com",
+    "termsOfUseUrl": "https://www.microsoft.com/en-us/legal/intellectualproperty/copyright/default.aspx"
   },
   "name": {
-    "short": "Config Auth Search",
-    "full": "Config Auth Search"
+    "short": "Action Messaging Extension",
+    "full": "Microsoft Teams Action Based Messaging Extension"
   },
   "description": {
-    "short": "Config Auth Search",
-    "full": "Config Auth Search"
+    "short": "Sample demonstrating an Action Based Messaging Extension",
+    "full": "Sample Action Messaging Extension built with the Bot Builder SDK"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
   },
   "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal",
+        "groupchat"
+      ]
+    }
+  ],
   "composeExtensions": [
     {
       "botId": "<<YOUR-MICROSOFT-APP-ID>>",
-      "canUpdateConfiguration": true,
       "commands": [
         {
-          "id": "searchQuery",
-          "type": "query",
-          "title": "Search",
-          "description": "Perform a search",
-          "initialRun": false,
-          "fetchTask": false,
-          "context": [
-            "commandBox",
-            "compose"
-          ],
+          "id": "createCard",
+          "type": "action",
+          "context": [ "compose" ],
+          "description": "Command to run action to create a Card from Compose Box",
+          "title": "Create Card",
           "parameters": [
             {
-              "name": "searchQuery",
-              "title": "Search",
-              "description": "Your search query",
+              "name": "title",
+              "title": "Card title",
+              "description": "Title for the card",
               "inputType": "text"
+            },
+            {
+              "name": "subTitle",
+              "title": "Subtitle",
+              "description": "Subtitle for the card",
+              "inputType": "text"
+            },
+            {
+              "name": "text",
+              "title": "Text",
+              "description": "Text for the card",
+              "inputType": "textarea"
             }
           ]
         },
         {
-          "id": "SignOutCommand",
+          "id": "shareMessage",
           "type": "action",
-          "title": "Sign Out",
-          "description": "Sign out from authenticated services.",
-          "initialRun": false,
-          "fetchTask": true,
-          "context": [
-            "commandBox",
-            "compose"
-          ],
+          "context": [ "message" ],
+          "description": "Test command to run action on message context (message sharing)",
+          "title": "Share Message",
           "parameters": [
             {
-              "name": "param",
-              "title": "param",
-              "description": ""
+              "name": "includeImage",
+              "title": "Include Image",
+              "description": "Include image in Hero Card",
+              "inputType": "toggle"
             }
           ]
+        },
+        {
+          "id": "FetchRoster",
+          "description": "Fetch the conversation roster",
+          "title": "FetchRoster",
+          "type": "action",
+          "fetchTask": true,
+          "context": [ "compose" ]
         }
       ]
     }
   ],
   "permissions": [
     "identity"
-  ],
-  "validDomains": [
-    "*.githubusercontent.com",
-    "*.ngrok.io",
-    "*.botframework.com"
   ]
 }
