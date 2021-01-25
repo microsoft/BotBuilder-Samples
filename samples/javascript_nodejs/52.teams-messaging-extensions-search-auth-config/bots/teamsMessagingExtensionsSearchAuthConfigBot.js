@@ -67,7 +67,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                             {
                                 type: 'openUrl',
                                 value: signInLink,
-                                title: 'Bot Service OAuth',
+                                title: 'Bot Service OAuth'
                             },
                         ],
                     },
@@ -81,17 +81,17 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             profile.Displayname,
             query.url,
             [
-                'https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png',
+                'https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png'
             ]
         );
         const result = {
             attachmentLayout: 'list',
             type: 'result',
-            attachments: [attachment],
+            attachments: [attachment]
         };
 
         const response = {
-            composeExtension: result,
+            composeExtension: result
         };
         return response;
     }
@@ -115,7 +115,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     actions: [
                         {
                             type: ActionTypes.OpenUrl,
-                            value: `${process.env.SiteUrl}/public/searchSettings.html?settings=${escapedSettings}`,
+                            value: `${process.env.SiteUrl}/public/searchSettings.html?settings=${escapedSettings}`
                         },
                     ],
                 },
@@ -167,7 +167,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                 {
                                     type: 'openUrl',
                                     value: signInLink,
-                                    title: 'Bot Service OAuth',
+                                    title: 'Bot Service OAuth'
                                 },
                             ],
                         },
@@ -202,14 +202,14 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 attachments.push({
                     contentType: heroCard.contentType,
                     content: heroCard.content,
-                    preview: preview,
+                    preview: preview
                 });
             });
         } else {
             const response = await axios.get(
                 `http://registry.npmjs.com/-/v1/search?${querystring.stringify({
                     text: searchQuery,
-                    size: 8,
+                    size: 8
                 })}`
             );
 
@@ -218,7 +218,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 const preview = CardFactory.heroCard(obj.package.name);
                 preview.content.tap = {
                     type: 'invoke',
-                    value: { description: obj.package.description },
+                    value: { description: obj.package.description }
                 };
                 attachments.push({ ...heroCard, preview });
             });
@@ -228,7 +228,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             composeExtension: {
                 type: 'result',
                 attachmentLayout: 'list',
-                attachments: attachments,
+                attachments: attachments
             },
         };
     }
@@ -238,7 +238,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             composeExtension: {
                 type: 'result',
                 attachmentLayout: 'list',
-                attachments: [CardFactory.thumbnailCard(obj.description)],
+                attachments: [CardFactory.thumbnailCard(obj.description)]
             },
         };
     }
@@ -273,7 +273,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                 {
                                     type: 'openUrl',
                                     value: signInLink,
-                                    title: 'Bot Service OAuth',
+                                    title: 'Bot Service OAuth'
                                 },
                             ],
                         },
@@ -304,7 +304,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         card: profileCard,
                         heigth: 250,
                         width: 400,
-                        title: 'Show Profile Card',
+                        title: 'Show Profile Card'
                     },
                 },
             };
@@ -319,7 +319,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 body: [
                     {
                         type: 'TextBlock',
-                        text: 'You have been signed out.',
+                        text: 'You have been signed out.'
                     },
                 ],
                 actions: [
@@ -327,7 +327,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         type: 'Action.Submit',
                         title: 'Close',
                         data: {
-                            key: 'close',
+                            key: 'close'
                         },
                     },
                 ],
@@ -340,7 +340,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         card: card,
                         heigth: 200,
                         width: 400,
-                        title: 'Adaptive Card: Inputs',
+                        title: 'Adaptive Card: Inputs'
                     },
                 },
             };
