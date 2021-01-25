@@ -28,7 +28,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                             card: GetJustInTimeCardAttachment(),
                             height: 400,
                             title: 'Adaptive Card - App Installation',
-                            width: 300,
+                            width: 300
                         },
                     },
                 };
@@ -42,7 +42,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                     card: GetAdaptiveCardAttachment(),
                     height: 400,
                     title: 'Hello ' + member,
-                    width: 300,
+                    width: 300
                 },
             },
         };
@@ -73,7 +73,7 @@ function GetJustInTimeCardAttachment() {
             {
                 type: 'Action.Submit',
                 title: 'Continue',
-                data: { msteams: { justInTimeInstall: true } },
+                data: { msteams: { justInTimeInstall: true } }
             },
         ],
         body: [
@@ -81,13 +81,14 @@ function GetJustInTimeCardAttachment() {
                 text:
                     'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
-                wrap: 'bolder',
+                wrap: 'bolder'
             },
         ],
         type: 'AdaptiveCard',
         version: '1.0',
     });
 }
+
 function GetAdaptiveCardAttachment() {
     return CardFactory.adaptiveCard({
         actions: [{ type: 'Action.Submit', title: 'Close' }],
@@ -97,7 +98,7 @@ function GetAdaptiveCardAttachment() {
                     'This app is installed in this conversation. You can now use it to do some great stuff!!!',
                 type: 'TextBlock',
                 isSubtle: false,
-                warp: true,
+                warp: true
             },
         ],
         type: 'AdaptiveCard',
@@ -120,7 +121,7 @@ function createCardCommand(context, action) {
         composeExtension: {
             type: 'result',
             attachmentLayout: 'list',
-            attachments: [attachment],
+            attachments: [attachment]
         },
     };
 }
@@ -163,14 +164,14 @@ function shareMessageCommand(context, action) {
     const attachment = {
         contentType: heroCard.contentType,
         content: heroCard.content,
-        preview: heroCard,
+        preview: heroCard
     };
 
     return {
         composeExtension: {
             type: 'result',
             attachmentLayout: 'list',
-            attachments: [attachment],
+            attachments: [attachment]
         },
     };
 }
