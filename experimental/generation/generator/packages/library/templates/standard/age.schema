@@ -22,7 +22,7 @@
         "ageEntity.lg",
         "ageProperty.lg",
         "ageEntity-add.dialog",
-        "ageEntity-remove.dialog",
+        "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",

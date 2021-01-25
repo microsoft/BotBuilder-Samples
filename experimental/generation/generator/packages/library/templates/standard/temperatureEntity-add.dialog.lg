@@ -6,5 +6,7 @@
 # template
 - IF: ${propertySchema.minimum || propertySchema.maximum}
     - ${addWithUnitsAndMinMax('temperature')}
+- ELSEIF: ${propertySchema.items.minimum || propertySchema.items.maximum}
+    - ${addItemsWithUnitsAndMinMax('temperature')}
 - ELSE:
     - ${addWithUnits('temperature')}

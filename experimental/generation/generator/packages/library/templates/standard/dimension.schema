@@ -22,7 +22,7 @@
         "dimensionEntity.lg",
         "dimensionProperty.lg",
         "dimensionEntity-add.dialog",
-        "dimensionEntity-remove.dialog",
+        "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-change.dialog",
         "generic-clear.dialog",

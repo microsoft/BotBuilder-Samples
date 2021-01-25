@@ -194,8 +194,8 @@
 }
 ```
 
-# addDialogWithNumberMinMaxForObjectEntity(entity)
-- ```
+# addArrayDialogWithChecking(entity)
+-```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
@@ -205,42 +205,94 @@
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition":"@${entity}.number < dialogClass.schema.properties['${property}'].minimum",
-            "actions":[
+            "condition": "!contains($${property}, @${entity})",
+            "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooSmall(@${entity}.number)}"
-                }                    
-            ],
-            "elseActions":[
+                    "activity": "\${confirmationText('${property}',  @${entity})}"
+                },
+                {
+                    "$kind": "Microsoft.EditArray",
+                    "changeType": "push",
+                    "itemsProperty": "$${property}",
+                    "value": "=@${entity}"
+                },
                 {
                     "$kind": "Microsoft.IfCondition",
-                    "condition":"@${entity}.number > dialogClass.schema.properties['${property}'].maximum",
-                    "actions":[
+                    "condition": "$PropertyToChange == '${property}'",
+                    "actions": [
                         {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooBig(@${entity}.number)}"
-                        }                    
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                        },
-                        ${setOrPush()}
+                            "$kind": "Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
                     ]
+                }            
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
                 }
             ]
         }
     ]               
-    ${designerOpEntity('Add', entity)}     
+    ${designerOpEntity('Add', entity)
+    }
 }
 ```
 
+# addWithUnits(entity)
+- IF: ${hasUnits()}
+    -```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@${entity}.units == '${units()}'",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}', @${entity})}"
+                },
+                ${setOrPush()}
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
+                }
+            ]
+        }
+    ]
+    ${designerOpEntity('Add', entity)}             
+}
+```
+- ELSE:
+    - ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${confirmationText('${property}', @${entity})}"
+        }, 
+        ${setOrPush()}
+    ]
+    ${designerOpEntity('Add', entity)}             
+}
+```
 
 # addWithUnitsAndMinMax(entity)
-- IF: ${hasUnits()
-}
+- IF: ${hasUnits()}
     -```
 {
     "$schema": "${appSchema}",
@@ -339,54 +391,7 @@
 }
 ```
 
-# addArrayDialogWithChecking(entity)
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "!contains($${property}, @${entity})",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity})}"
-                },
-                {
-                    "$kind": "Microsoft.EditArray",
-                    "changeType": "push",
-                    "itemsProperty": "$${property}",
-                    "value": "=@${entity}"
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }            
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)
-    }
-}
-```
-
-# addWithUnits(entity)
+# addItemsWithUnitsAndMinMax(entity)
 - IF: ${hasUnits()}
     -```
 {
@@ -399,14 +404,38 @@
         {
             "$kind": "Microsoft.IfCondition",
             "condition": "@${entity}.units == '${units()}'",
-            "actions":[
+            "actions": [
                 {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}', @${entity})}"
-                },
-                ${setOrPush()}
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "\${${property}_IsTooSmallItemsItems(@${entity}.number)}"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.IfCondition",
+                            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
+                            "actions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "\${${property}_IsTooBigItemsItems(@${entity}.number)}"
+                                }
+                            ],
+                            "elseActions": [
+                                {
+                                    "$kind": "Microsoft.SendActivity",
+                                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
+                                },
+                            ${setOrPush()}
+                            ]
+                        }
+                    ]
+                }
             ],
-            "elseActions":[
+            "elseActions": [
                 {
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
@@ -414,7 +443,8 @@
             ]
         }
     ]
-    ${designerOpEntity('Add', entity)}             
+    ${designerOpEntity('Add', entity)
+    }
 }
 ```
 - ELSE:
@@ -427,12 +457,37 @@
     "entity": "${entity}",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        }, 
-        ${setOrPush()}
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IsTooSmallItems(@${entity}.number)}"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "\${${property}_IsTooBigItems(@${entity}.number)}"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SendActivity",
+                            "activity": "\${confirmationText('${property}',  @${entity}.number)}"
+                        },
+                        ${setOrPush()}
+                    ]
+                }
+            ]
+        }
     ]
-    ${designerOpEntity('Add', entity)}             
+    ${designerOpEntity('Add', entity)
+    }
 }
 ```
 
@@ -487,6 +542,57 @@ ${setOrPushOperation()},
     "value": "=@${entity}"          
 }```
 
+# removeDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Remove()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$${property} == @${entity}",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
+                },  
+                {
+                    "$kind": "Microsoft.DeleteProperty",
+                    "property": "$${property}"
+                }
+            ]
+        }
+    ]               
+    ${designerOpEntity('Remove', entity)}     
+}
+```
+
+# removeArrayDialog(entity)
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Remove()",
+    "property": "${property}",
+    "entity": "${entity}",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
+        },
+        {
+            "$kind": "Microsoft.EditArray",
+            "changeType": "remove",
+            "itemsProperty": "$${property}",
+            "value": "=@${entity}"
+        }
+    ]               
+    ${designerOpEntity('Remove', entity)}     
+}
+```
 
 # removeValueOrArrayDialog(entity)
 -```
@@ -532,60 +638,7 @@ ${setOrPushOperation()},
             }
         ]
     }```
-
-
-# removeArrayDialog(entity)
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
-        },
-        {
-            "$kind": "Microsoft.EditArray",
-            "changeType": "remove",
-            "itemsProperty": "$${property}",
-            "value": "=@${entity}"
-        }
-    ]               
-    ${designerOpEntity('Remove', entity)}     
-}
-```
-
-# removeDialog(entity)
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"$${property} == @${entity}",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
-                },  
-                {
-                    "$kind": "Microsoft.DeleteProperty",
-                    "property": "$${property}"
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Remove', entity)}     
-}
-```
-
+    
 # clearDialog()
 -```
 {

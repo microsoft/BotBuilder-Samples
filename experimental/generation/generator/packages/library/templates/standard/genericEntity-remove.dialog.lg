@@ -4,5 +4,4 @@
 - ${removeFilename(entity)}
 
 # template
-- ${removeDialog(entity)}
-
+- ${removeValueOrArrayDialog(entity)}
