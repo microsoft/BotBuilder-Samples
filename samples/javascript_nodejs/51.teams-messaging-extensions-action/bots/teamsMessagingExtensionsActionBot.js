@@ -28,7 +28,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                             card: GetJustInTimeCardAttachment(),
                             height: 400,
                             title: "Adaptive Card - App Installation",
-                            width: 200,
+                            width: 300,
                         },
                     },
                 };
@@ -42,7 +42,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                     card: GetAdaptiveCardAttachment(),
                     height: 400,
                     title: "Hello " + member,
-                    width: 200,
+                    width: 300,
                 },
             },
         };
