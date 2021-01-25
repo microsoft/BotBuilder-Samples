@@ -53,9 +53,11 @@ class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandler {
 
         // This is a send so we are done and we will create the adaptive card editor.
         const adaptiveCard = AdaptiveCardHelper.createAdaptiveCardAttachment(submitData);
-        const responseActivity = { type: 'message', attachments: [adaptiveCard] };
-
-        await context.sendActivity(responseActivity);
+        const responseActivity = { type: 'message', attachments: [adaptiveCard], channelData: {
+            onBehalfOf: [
+                { itemId: 0, mentionType: 'person', mri: context.activity.from.id, displayname: context.activity.from.name }
+            ]
+        }}; await context.sendActivity(responseActivity);
     }
 
     async handleTeamsMessagingExtensionCardButtonClicked(context, obj) {
