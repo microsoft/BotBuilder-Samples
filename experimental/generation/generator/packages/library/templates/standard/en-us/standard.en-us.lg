@@ -167,6 +167,24 @@ ${nameTemplate()}
 ${complexValueTemplate(type)}
 ```
 
+# unitsItemsTemplatesWithMinMax(type)
+- ```${formImport('form.en-us.lg')}
+${promptTemplates(missingDefault(type), changeDefault(type))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${validationItemsTemplatesWithMinMax()}
+${incorrectUnitsTemplate()}
+${helpTemplates(repromptDefault(type), helpDefault(type))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${complexValueTemplate(type)}
+```
+
+
 # validationTemplatesWithMinMax()
 - ```${IsSmall()}
 ${IsBig()}```
@@ -188,6 +206,30 @@ ${'#'} ${property}_IsTooSmall(val)
 ${'#'} ${property}_IsTooBig(val)
 > Value is greater than maximum allowed value for '${property}' property
 - ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum} for ${propertyName()}```
+- ELSE:
+    -
+
+# validationItemsTemplatesWithMinMax()
+- ```${tooSmallItems()}
+${tooBigItems()}```
+
+> TODO: Move comment before template
+# tooSmallItems()
+- IF: ${propertySchema.items.minimum}
+    -```
+${'#'} ${property}_IsTooSmallItems(val)
+> ${property} property is less than minimum allowed value
+- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.items.minimum} for ${propertyName()}```
+- ELSE:
+    -
+
+> TODO: Move comment before template
+# tooBigItems()
+- IF: ${propertySchema.items.maximum}
+    -```
+${'#'} ${property}_IsTooBigItems(val)
+> ${property} property is greater than maximum allowed value
+- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.items.maximum} for ${propertyName()}```
 - ELSE:
     -
 
