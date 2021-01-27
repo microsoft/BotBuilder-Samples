@@ -60,8 +60,9 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
         {
             var promptChoices = new List<Choice>();
             var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
-            var token = await adapter.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
 
+            // Present different choices depending on the user's sign in status.
+            var token = await adapter.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
             if (token == null)
             {
                 promptChoices.Add(new Choice("Login to the skill"));
@@ -84,9 +85,11 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             switch (action)
             {
                 case "login to the skill":
+                    // The SsoSkillSignInDialog will just show the user token if the user logged on to the host bot.
                     return await stepContext.BeginDialogAsync(nameof(SsoSkillSignInDialog), null, cancellationToken);
 
                 case "logout from the skill":
+                    // This will just clear the token from the skill.
                     var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
                     await adapter.SignOutUserAsync(stepContext.Context, _connectionName, cancellationToken: cancellationToken);
                     await stepContext.Context.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);

@@ -28,18 +28,5 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Bots
             // Save any state changes that might have occurred during the turn.
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
-
-        protected override async Task OnEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
-        {
-            if (turnContext.Activity.Name == "Sso")
-            {
-                await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
-            }
-            else
-            {
-                // We didn't get an event name we can handle.
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Unrecognized EventName: \"{turnContext.Activity.Name}\".", inputHint: InputHints.IgnoringInput), cancellationToken);
-            }
-        }
     }
 }

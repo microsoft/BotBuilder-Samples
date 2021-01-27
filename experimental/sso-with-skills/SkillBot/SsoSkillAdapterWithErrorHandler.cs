@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -14,17 +15,41 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.SkillBot
 {
-    public class SkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
+    /// <summary>
+    /// A specialized <see cref="BotFrameworkAdapter"/> for Skills that also supports SSO.
+    /// </summary>
+    /// <remarks>
+    /// In addition to handle different skill specific skill logic, this adapter also overrides
+    /// <see cref="SendActivitiesAsync"/> to save the state of the conversation when a OAuthPrompt is sent to the parent.
+    /// This prepares the bot to receive the Activity send by the TokenExchangeSkillHandler.
+    /// </remarks>
+    public class SsoSkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
         private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
 
-        public SkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState)
+        public SsoSkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState)
             : base(configuration, credentialProvider, authConfig, logger: logger)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             OnTurnError = HandleTurnError;
+        }
+
+        // This overrides ensures that the conversation state is saved when the outgoing activity contains an OAuthPrompt
+        public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)
+        {
+            foreach (var activity in activities)
+            {
+                if (activity.Attachments?.FirstOrDefault(a => a?.ContentType == OAuthCard.ContentType) != null)
+                {
+                    // Save any state changes that might have occurred during the turn before sending anything
+                    // this ensure the skill state is consistent if the SSO handler sends and invoke in.
+                    await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken).ConfigureAwait(false);
+                }
+            }
+
+            return await base.SendActivitiesAsync(turnContext, activities, cancellationToken).ConfigureAwait(false);
         }
 
         private async Task HandleTurnError(ITurnContext turnContext, Exception exception)
@@ -91,14 +116,6 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             {
                 _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
             }
-        }
-
-        public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)
-        {
-            // Save any state changes that might have occured during the turn before sending anything
-            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken).ConfigureAwait(false);
-
-            return await base.SendActivitiesAsync(turnContext, activities, cancellationToken).ConfigureAwait(false);
         }
     }
 }

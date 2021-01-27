@@ -31,6 +31,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             // A skill can send trace activities, if needed.
             await stepContext.Context.TraceActivityAsync($"{GetType().Name}.ProcessActivityAsync()", label: $"Got ActivityType: {stepContext.Context.Activity.Type}", cancellationToken: cancellationToken);
 
+            // In this simple skill, we only handle Sso events
             if (stepContext.Context.Activity.Type == ActivityTypes.Event && stepContext.Context.Activity.Name == "Sso")
             {
                 return await stepContext.BeginDialogAsync(nameof(SsoSkillDialog), cancellationToken: cancellationToken);
