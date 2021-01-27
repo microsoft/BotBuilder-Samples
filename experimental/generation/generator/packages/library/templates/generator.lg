@@ -255,11 +255,7 @@
             "$kind": "Microsoft.IfCondition",
             "condition": "@${entity}.units == '${units()}'",
             "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}', @${entity})}"
-                },
-                ${setOrPush()}
+                ${isWithMinMax()}
             ],
             "elseActions":[
                 {
@@ -281,213 +277,9 @@
     "property": "${property}",
     "entity": "${entity}",
     "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        }, 
-        ${setOrPush()}
+        ${isWithMinMax()}
     ]
     ${designerOpEntity('Add', entity)}             
-}
-```
-
-# addWithUnitsAndMinMax(entity)
-- IF: ${hasUnits()}
-    -```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.units == '${units()}'",
-            "actions": [
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].minimum",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooSmall(@${entity}.number)}"
-                        }
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.IfCondition",
-                            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].maximum",
-                            "actions": [
-                                {
-                                    "$kind": "Microsoft.SendActivity",
-                                    "activity": "\${${property}_IsTooBig(@${entity}.number)}"
-                                }
-                            ],
-                            "elseActions": [
-                                {
-                                    "$kind": "Microsoft.SendActivity",
-                                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                                },
-                            ${setOrPush()}
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)
-    }
-}
-```
-- ELSE:
-    - ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].minimum",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooSmall(@${entity}.number)}"
-                }
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].maximum",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooBig(@${entity}.number)}"
-                        }
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                        },
-                        ${setOrPush()}
-                    ]
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)
-    }
-}
-```
-
-# addItemsWithUnitsAndMinMax(entity)
-- IF: ${hasUnits()}
-    -```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.units == '${units()}'",
-            "actions": [
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooSmallItemsItems(@${entity}.number)}"
-                        }
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.IfCondition",
-                            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
-                            "actions": [
-                                {
-                                    "$kind": "Microsoft.SendActivity",
-                                    "activity": "\${${property}_IsTooBigItemsItems(@${entity}.number)}"
-                                }
-                            ],
-                            "elseActions": [
-                                {
-                                    "$kind": "Microsoft.SendActivity",
-                                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                                },
-                            ${setOrPush()}
-                            ]
-                        }
-                    ]
-                }
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)
-    }
-}
-```
-- ELSE:
-    - ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooSmallItems(@${entity}.number)}"
-                }
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooBigItems(@${entity}.number)}"
-                        }
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                        },
-                        ${setOrPush()}
-                    ]
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)
-    }
 }
 ```
 
@@ -541,6 +333,79 @@ ${setOrPushOperation()},
     "property": "$${property}",
     "value": "=@${entity}"          
 }```
+
+# isWithMinMax()
+- IF: ${propertySchema.minimum || propertySchema.maximum}
+    -```
+{
+    "$kind": "Microsoft.IfCondition",
+    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].minimum",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${${property}_IsTooSmall(@${entity}.number)}"
+        }
+    ],
+    "elseActions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].maximum",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IsTooBig(@${entity}.number)}"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
+                },
+            ${setOrPush()}
+            ]
+        }
+    ]
+}``` 
+- ELSEIF: ${propertySchema.items.minimum || propertySchema.items.maximum}
+    - ```
+{
+    "$kind": "Microsoft.IfCondition",
+    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${${property}_IsTooSmallItems(@${entity}.number)}"
+        }
+    ],
+    "elseActions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IsTooBigItems(@${entity}.number)}"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
+                },
+            ${setOrPush()}
+            ]
+        }
+    ]
+} ```
+- ELSE:
+    -```
+{
+    "$kind": "Microsoft.SendActivity",
+    "activity": "\${confirmationText('${property}', @${entity})}"
+},
+${setOrPush()}```
+
+
 
 # removeDialog(entity)
 -```

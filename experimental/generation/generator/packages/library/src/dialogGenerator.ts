@@ -467,6 +467,13 @@ async function processTemplates(
     force: boolean,
     feedback: Feedback): Promise<void> {
     scope.templates = {}
+    // foreach property
+    //   foreach entity
+    //     foreach template
+    //       process template
+    // 1) property only template -> first time it get populated I've got it
+    // 2) property+entity template -> entity must be bound
+    // 3) property + fixed entity template -> will only get generated once
     for (let locale of locales) {
         scope.locale = locale
         for (let property of schema.schemaProperties()) {
@@ -477,33 +484,40 @@ async function processTemplates(
             if (!templates) {
                 templates = [scope.type]
             }
-            for (let template of templates) {
-                await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
-            }
             let entities = property.schema.$entities
             if (!entities) {
                 feedback(FeedbackType.error, `${property.path} does not have $entities defined in schema or template.`)
             } else if (!property.schema.$templates) {
+                // Fill in templates from entities
+                let templates: string[] = []
                 for (let entityName of entities) {
-                    scope.entity = entityName
                     if (entityName === `${scope.property}Entity`) {
                         entityName = `${scope.type}`
                     }
-
-                    // Look for entity examples in global $examples
-                    scope.examples = schema.schema.$examples[entityName]
-
-                    // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                        scope.examples = property.schema.examples
-                    }
-
-                    // If neither specify, then it is up to templates
-                    await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
+                    templates.push(`${entityName}Entity-${scope.type}`)
                 }
-                delete scope.entity
-                delete scope.examples
             }
+            for (let entityName of entities) {
+                // TODO: What do we do with utterance?  I think we don't want to bind it as an entity.
+                scope.entity = entityName
+                if (entityName === `${scope.property}Entity`) {
+                    entityName = `${scope.type}`
+                }
+
+                // Look for entity examples in global $examples
+                scope.examples = schema.schema.$examples[entityName]
+
+                // Pick up examples from property schema if unique entity
+                if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
+                    scope.examples = property.schema.examples
+                }
+
+                for (const template of templates) {
+                    await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                }
+            }
+            delete scope.entity
+            delete scope.examples
         }
         delete scope.property
         delete scope.type
