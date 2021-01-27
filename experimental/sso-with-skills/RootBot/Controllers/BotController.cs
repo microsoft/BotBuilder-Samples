@@ -15,7 +15,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Controllers
     [ApiController]
     public class BotController : ControllerBase
     {
-        private readonly BotFrameworkHttpAdapter _adapter;
+        private readonly IBotFrameworkHttpAdapter _adapter;
         private readonly IBot _bot;
 
         public BotController(BotFrameworkHttpAdapter adapter, IBot bot)
@@ -25,8 +25,11 @@ namespace Microsoft.BotBuilderSamples.RootBot.Controllers
         }
 
         [HttpPost]
+        [HttpGet]
         public async Task PostAsync()
         {
+            // Delegate the processing of the HTTP POST to the adapter.
+            // The adapter will invoke the bot.
             await _adapter.ProcessAsync(Request, Response, _bot);
         }
     }

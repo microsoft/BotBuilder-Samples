@@ -11,6 +11,7 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
+using Microsoft.BotBuilderSamples.RootBot.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
@@ -18,17 +19,17 @@ namespace Microsoft.BotBuilderSamples.RootBot
 {
     public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        private readonly ConversationState _conversationState;
         private readonly IConfiguration _configuration;
+        private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
 
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null, SkillHttpClient skillClient = null, SkillsConfiguration skillsConfig = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState, SkillHttpClient skillClient = null, SkillsConfiguration skillsConfig = null)
             : base(configuration, logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
-            _conversationState = conversationState;
+            _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _skillClient = skillClient;
             _skillsConfig = skillsConfig;
@@ -39,6 +40,9 @@ namespace Microsoft.BotBuilderSamples.RootBot
         private async Task HandleTurnError(ITurnContext turnContext, Exception exception)
         {
             // Log any leaked exception from the application.
+            // NOTE: In production environment, you should consider logging this to
+            // Azure Application Insights. Visit https://aka.ms/bottelemetry to see how
+            // to add telemetry capture to your bot.
             _logger.LogError(exception, $"[OnTurnError] unhandled error : {exception.Message}");
 
             await SendErrorMessageAsync(turnContext, exception);
@@ -70,18 +74,17 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
         private async Task EndSkillConversationAsync(ITurnContext turnContext)
         {
-            if (_conversationState == null || _skillClient == null || _skillsConfig == null)
+            if (_skillClient == null || _skillsConfig == null)
             {
                 return;
             }
 
             try
             {
-                // Inform the active skill that the conversation is ended so that it has
-                // a chance to clean up.
-                // Note: ActiveSkillPropertyName is set by the RooBot while messages are being
-                // forwarded to a Skill.
-                var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(Bots.RootBot.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
+                // Inform the active skill that the conversation is ended so that it has a chance to clean up.
+                // Note: the MainDialog manages the ActiveSkillPropertyName, which has a value while the root bot
+                // has an active conversation with a skill.
+                var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(MainDialog.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
                 if (activeSkill != null)
                 {
                     var botId = _configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
@@ -102,19 +105,16 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
         private async Task ClearConversationStateAsync(ITurnContext turnContext)
         {
-            if (_conversationState != null)
+            try
             {
-                try
-                {
-                    // Delete the conversationState for the current conversation to prevent the
-                    // bot from getting stuck in a error-loop caused by being in a bad state.
-                    // ConversationState should be thought of as similar to "cookie-state" in a Web pages.
-                    await _conversationState.DeleteAsync(turnContext);
-                }
-                catch (Exception ex)
-                {
-                    _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
-                }
+                // Delete the conversationState for the current conversation to prevent the
+                // bot from getting stuck in a error-loop caused by being in a bad state.
+                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+                await _conversationState.DeleteAsync(turnContext);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
             }
         }
     }

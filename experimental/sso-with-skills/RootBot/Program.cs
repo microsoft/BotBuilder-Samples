@@ -2,11 +2,9 @@
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.BotBuilderSamples.RootBot;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.RootBot
 {
     public class Program
     {
@@ -19,11 +17,6 @@ namespace Microsoft.BotBuilderSamples
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.ConfigureLogging((logging) =>
-                    {
-                        logging.AddDebug();
-                        logging.AddConsole();
-                    });
                     webBuilder.UseStartup<Startup>();
                 });
     }

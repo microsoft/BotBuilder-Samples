@@ -19,10 +19,18 @@ namespace Microsoft.BotBuilderSamples.SkillBot
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers()
+                .AddNewtonsoftJson();
 
             // Configure credentials
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
@@ -33,17 +41,15 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, SkillAdapterWithErrorHandler>();
 
-            // Register the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
 
-            // Register Conversation state (used by the Dialog system itself).
+            // Create the Conversation state. (Used by the Dialog system itself.)
             services.AddSingleton<ConversationState>();
-            services.AddSingleton<UserState>();
-
-            services.AddSingleton<Dialog, MainDialog>();
+            services.AddSingleton<Dialog, ActivityRouterDialog>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, ChildBot>();
+            services.AddTransient<IBot, ChildBot<ActivityRouterDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -56,12 +62,16 @@ namespace Microsoft.BotBuilderSamples.SkillBot
 
             app.UseDefaultFiles()
                 .UseStaticFiles()
+                .UseWebSockets()
                 .UseRouting()
                 .UseAuthorization()
                 .UseEndpoints(endpoints =>
                 {
                     endpoints.MapControllers();
                 });
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
         }
     }
 }

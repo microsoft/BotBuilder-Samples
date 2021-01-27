@@ -11,7 +11,9 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.RootBot.Authentication;
+using Microsoft.BotBuilderSamples.RootBot.Bots;
 using Microsoft.BotBuilderSamples.RootBot.Dialogs;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
@@ -19,12 +21,20 @@ namespace Microsoft.BotBuilderSamples.RootBot
 {
     public class Startup
     {
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers()
+                .AddNewtonsoftJson();
 
-            // Configure credentials
+            // Register credential provider.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Register the skills configuration class
@@ -34,11 +44,12 @@ namespace Microsoft.BotBuilderSamples.RootBot
             services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedSkillsClaimsValidator(sp.GetService<SkillsConfiguration>()) });
 
             // Register the Bot Framework Adapter with error handling enabled.
-            // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
+            // Note: some classes expect a BotAdapter and some expect a BotFrameworkHttpAdapter, so
+            // register the same adapter instance for both types.
             services.AddSingleton<BotFrameworkHttpAdapter, AdapterWithErrorHandler>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
-            // Register the skills client and skills request handler.
+            // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
@@ -48,11 +59,11 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
             // Register Conversation state (used by the Dialog system itself).
             services.AddSingleton<ConversationState>();
-            services.AddSingleton<UserState>();
 
+            // Register the MainDialog that will be run by the bot.
             services.AddSingleton<Dialog, MainDialog>();
             // Register the bot as a transient. In this case the ASP Controller is expecting an IBot.
-            services.AddTransient<IBot, Bots.RootBot>();
+            services.AddTransient<IBot, RootBot<MainDialog>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,14 +74,22 @@ namespace Microsoft.BotBuilderSamples.RootBot
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles()
-                .UseStaticFiles()
-                .UseRouting()
-                .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
+
+            // Uncomment this to support HTTPS.
+            // app.UseHttpsRedirection();
+
+            app.UseRouting();
+
+            app.UseWebSockets();
+
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

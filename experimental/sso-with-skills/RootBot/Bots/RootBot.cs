@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
@@ -13,28 +12,25 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
-using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.RootBot.Bots
 {
-    public class RootBot : ActivityHandler
+    public class RootBot<T> : ActivityHandler
+        where T : Dialog
     {
+        public const string ActiveSkillPropertyName = "activeSkillProperty";
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
-        private readonly UserState _userState;
-        private readonly Dialog _dialog;
+        private readonly Dialog _mainDialog;
         private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
 
-        public const string ActiveSkillPropertyName = "activeSkillProperty";
-
-        public RootBot(ConversationState conversationState, UserState userState, Dialog dialog, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
+        public RootBot(ConversationState conversationState, Dialog dialog, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
-            _userState = userState ?? throw new ArgumentNullException(nameof(userState));
-            _dialog = dialog ?? throw new ArgumentNullException(nameof(dialog));
+            _mainDialog = dialog ?? throw new ArgumentNullException(nameof(dialog));
 
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
             _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillsConfig));
@@ -65,21 +61,18 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
             await base.OnTurnAsync(turnContext, cancellationToken);
 
             await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
-            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
         protected override async Task OnTokenResponseEventAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)
         {
             await _conversationState.LoadAsync(turnContext, true, cancellationToken);
-            await _userState.LoadAsync(turnContext, true, cancellationToken);
-            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             await _conversationState.LoadAsync(turnContext, true, cancellationToken);
-            await _userState.LoadAsync(turnContext, true, cancellationToken);
-            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnEndOfConversationActivityAsync(ITurnContext<IEndOfConversationActivity> turnContext, CancellationToken cancellationToken)
@@ -88,17 +81,20 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
             await _activeSkillProperty.DeleteAsync(turnContext, cancellationToken);
 
             await _conversationState.LoadAsync(turnContext, true, cancellationToken);
-            await _userState.LoadAsync(turnContext, true, cancellationToken);
-            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
         }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in membersAdded)
             {
+                // Greet anyone that was not the target (recipient) of this message.
+                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
+
                     await turnContext.SendActivityAsync(MessageFactory.Text("Hello and welcome!"), cancellationToken);
+                    await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
                 }
             }
         }
