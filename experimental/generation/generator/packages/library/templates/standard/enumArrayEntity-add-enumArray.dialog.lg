@@ -4,5 +4,8 @@
 - ${addFilename(`${property}Entity`)}
 
 # template
-- ${addArrayDialog(`${property}Entity`)}
+- IF: ${propertySchema.$uniqueValuesOnly && propertySchema.$uniqueValuesOnly == 'true'}
+- ${addArrayDialogWithChecking(`${property}Entity`)}
+- ELSE:
+- ${addDialog(`${property}Entity`)}
 

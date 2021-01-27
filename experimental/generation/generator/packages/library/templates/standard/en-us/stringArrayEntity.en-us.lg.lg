@@ -23,6 +23,7 @@ ${chooseEntity()}
 # namePlusSwitch
 -```
 # ${property}Entity_Value(value) 
+> Display value for '${property}Entity'
 - SWITCH: \${value}```
 
 # case(option)
@@ -31,7 +32,7 @@ ${chooseEntity()}
     - ${phrase(option)}```
 
 # cases
-- ${join(foreach(schema.properties[property].items.enum, enum, case(enum)), '')}
+- ${join(foreach(enums(), enum, case(enum)), '')}
 
 # default
 - ```

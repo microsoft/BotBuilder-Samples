@@ -4,5 +4,5 @@
 - ${['datetimeV2']}
 
 # templates
-- ${propertyTemplates()}
+- ${genericPropertyTemplates()}
 

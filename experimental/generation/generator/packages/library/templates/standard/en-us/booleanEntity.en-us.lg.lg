@@ -6,6 +6,7 @@
 # template
 - ```
 # booleanEntity_Value(value)
+> Display value for a boolean entity
 - SWITCH: \${value}
 - CASE: \${'true'}
     - true  

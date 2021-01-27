@@ -4,4 +4,4 @@
 - ${addFilename('money')}
 
 # template
-- ${addDialog('money')}
+- ${addWithUnits('money')}

@@ -4,5 +4,5 @@
 - ${[`${property}Entity`]}
 
 # templates
-- ${propertyTemplates()}
+- ${genericPropertyTemplates()}
 

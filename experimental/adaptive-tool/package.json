@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.0.7",
+    "version": "0.1.1-preview",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {
@@ -21,7 +21,8 @@
         "debuggers",
         "bot",
         "lg",
-        "lu"
+        "lu",
+        "qna"
     ],
     "contributes": {
         "configuration": [
@@ -71,6 +72,18 @@
                 "configuration": "./resources/lu/lu-language-configuration.json"
             },
             {
+                "id": "qna",
+                "aliases": [
+                    "QNA",
+                    "qna",
+                    "QnA"
+                ],
+                "extensions": [
+                    ".qna"
+                ],
+                "configuration": "./resources/qna/qna-language-configuration.json"
+            },
+            {
                 "id": "json",
                 "extensions": [
                     ".dialog"
@@ -87,6 +100,11 @@
                 "language": "lu",
                 "scopeName": "source.lu",
                 "path": "./resources/lu/lu.tmLanguage.json"
+            },
+            {
+                "language": "qna",
+                "scopeName": "source.qna",
+                "path": "./resources/qna/qna.tmLanguage.json"
             }
         ],
         "keybindings": [
@@ -104,6 +122,11 @@
                 "command": "lu.extension.labelingExperienceRequest",
                 "key": "shift+enter",
                 "when": "editorTextFocus && !editorReadonly && editorLangId == lu && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
+            },
+            {
+                "command": "qna.extension.onEnterKey",
+                "key": "enter",
+                "when": "editorTextFocus && !editorReadonly && editorLangId == qna && !suggestWidgetVisible && vim.mode != 'Normal' && vim.mode != 'Visual' && vim.mode != 'VisualBlock' && vim.mode != 'VisualLine' && vim.mode != 'SearchInProgressMode' && vim.mode != 'CommandlineInProgress' && vim.mode != 'Replace' && vim.mode != 'EasyMotionMode' && vim.mode != 'EasyMotionInputMode' && vim.mode != 'SurroundInputMode'"
             }
         ],
         "debuggers": [
@@ -192,6 +215,9 @@
             },
             {
                 "language": "lu"
+            },
+            {
+                "language": "qna"
             }
         ]
     },
@@ -199,16 +225,17 @@
         "onCommand:lg.extension.onEnterKey",
         "onDebug",
         "onLanguage:lg",
-        "onLanguage:lu"
+        "onLanguage:lu",
+        "onLanguage:qna"
     ],
     "main": "./client/out/extension",
     "scripts": {
         "vscode:prepublish": "npm run webpack",
-        "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
-        "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
+        "webpack": "npm run clean && webpack --mode production --config ./client/webpack.config.js && webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js && webpack --mode production --config ./server/qna/webpack.config.js",
+        "webpack:dev": "npm run clean && webpack --mode none --config ./client/webpack.config.js && webpack --mode none --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js && webpack --mode production --config ./server/qna/webpack.config.js",
         "build": "npm run webpack && cd client && tsc && cd ../server && tsc && cd ..",
         "build:client": "webpack --mode production --config ./client/webpack.config.js",
-        "build:server": "webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js",
+        "build:server": "webpack --mode production --config ./server/lg/webpack.config.js && webpack --mode production --config ./server/lu/webpack.config.js && webpack --mode production --config ./server/qna/webpack.config.js",
         "clean": "rimraf client/out && rimraf server/out",
         "postinstall": "cd client && npm install && cd ../server && npm install && cd .."
     },

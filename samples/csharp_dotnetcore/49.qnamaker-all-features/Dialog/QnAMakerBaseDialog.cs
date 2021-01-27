@@ -17,13 +17,12 @@ namespace Microsoft.BotBuilderSamples.Dialog
     public class QnAMakerBaseDialog : QnAMakerDialog
     {
         // Dialog Options parameters
-        public const string DefaultNoAnswer = "No QnAMaker answers found.";
         public const string DefaultCardTitle = "Did you mean:";
         public const string DefaultCardNoMatchText = "None of the above.";
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
 
         private readonly IBotServices _services;
-        private readonly IConfiguration _configuration;
+        private readonly string DefaultAnswer = "No QnAMaker answers found.";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
@@ -33,7 +32,10 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public QnAMakerBaseDialog(IBotServices services, IConfiguration configuration) : base()
         {
             this._services = services;
-            this._configuration = configuration;
+            if (!string.IsNullOrWhiteSpace(configuration["DefaultAnswer"]))
+            {
+                this.DefaultAnswer = configuration["DefaultAnswer"];
+            }
         }
 
         protected async override Task<IQnAMakerClient> GetQnAMakerClientAsync(DialogContext dc)
@@ -55,8 +57,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
-            var noAnswer = (Activity)Activity.CreateMessageActivity();
-            noAnswer.Text = this._configuration["DefaultAnswer"] ?? DefaultNoAnswer;
+            var defaultAnswerActivity = MessageFactory.Text(this.DefaultAnswer);
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
@@ -64,7 +65,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             {
                 ActiveLearningCardTitle = DefaultCardTitle,
                 CardNoMatchText = DefaultCardNoMatchText,
-                NoAnswer = noAnswer,
+                NoAnswer = defaultAnswerActivity,
                 CardNoMatchResponse = cardNoMatchResponse,
             };
 

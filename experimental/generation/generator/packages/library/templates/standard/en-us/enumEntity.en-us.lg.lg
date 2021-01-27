@@ -8,21 +8,31 @@
 ${formImport('form.en-us.lg')}
 ${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
+${propertyEnumValue()}
 ${chooseEntity()}
 ```
 
 # chooseEntity
 -```
-# ${property}Entity_chooseEntity
-- \${chooseEnumEntity(${concat("'", property, "'")})}
+${'#'} ${property}Entity_chooseEntity()
+> Choose between '${property}Entity' values
+- \${chooseEnumEntity()}
 ```
 
 # propertyEntityValue
+-```
+${'#'} ${property}Entity_Value(entity) 
+> Display value for '${property}Entity'
+- \${complexValue(entity.value, '${property}Enum_Value')}
+```
+
+# propertyEnumValue
 - ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch
 -```
-# ${property}Entity_Value(value) 
+${'#'} ${property}Enum_Value(value) 
+> Display value for '${property}Entity' enumeration value
 - SWITCH: \${value}```
 
 # case(option)
@@ -31,7 +41,7 @@ ${chooseEntity()}
     - ${phrase(option)}```
 
 # cases
-- ${join(foreach(schema.properties[property].enum, enum, case(enum)), '')}
+- ${join(foreach(enums(), enum, case(enum)), '')}
 
 # default
 -```

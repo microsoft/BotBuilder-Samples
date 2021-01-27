@@ -4,5 +4,5 @@
 - ${addFilename('utterance')}
 
 # template
-- ${addArrayDialog('utterance')}
+- ${addDialog('utterance')}
 
