@@ -14,16 +14,17 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 ## Key concepts in this sample
 
-The solution includes a parent bot (`rootBot`) and a skill bot (`echo-skillBot`) and shows how the parent bot can post activities to the skill bot.
+The solution includes a parent bot ([`rootBot`](rootBot/bots/rootBot.js)) and a skill bot ([`skillBot`](skillBot/bots/skillBot.js)) and shows how the skill bot can accept OAuth credentials from the root bot, without needing to send it's own OAuthPrompt.
 
-- [RootBot](rootBot/rootBot.js): this project is a simple skill consumer bot, and supports:
-  - `login` command that gets the user to sign into the skill consumer bot's aad application.
-  - `token` command that displays the user's token.
-  - `logout` command that logs the user out of the skill consumer.
-- [SkillBot](skillBot/skillBot.js) this project shows a simple skill that supports OAuth for AADV2 and can respond to the following commands:
-  - `skill login` command that gets the skill consumer bot to sign into the skill's aadV2 app, on behalf of the user. The user is not shown a signin card, unless SSO fails.
-  - `skill token` command that displays the user's token from the skill.
-  - `skill logout` command that logs the user out of the skill.
+This is the general authentication flow :
+
+1. Root bot prompts user to authenticate with an OAuth Prompt card.
+2. Authentication succeeds and the user is granted a token.
+3. User performs and action on the Skill bot that requires authentication.
+4. The Skill bot sends an OAuth Prompt card to the Root bot.
+5. The Root bot intercepts the OAuth Prompt card, aware that the user is already authenticated and that the user should authenticate with the skill via SSO.
+6. Instead of showing the OAuth Prompt card to the user, the Root bot sends a token exchange request invoke activity along with the token to the Skill.
+7. The Skill's OAuth Prompt receives the token exchange request and uses the token from the Root bot to continue authenticating.
 
 ## To try this sample
 
@@ -79,8 +80,8 @@ The solution includes a parent bot (`rootBot`) and a skill bot (`echo-skillBot`)
 - Launch Bot Framework Emulator
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`, the `MicrosoftAppId` and `MicrosoftAppPassword` for the `rootBot`
-- Type `login` and complete the sign-in flow.  When the flow is complete, a token should be displayed.
-- Type `skill login`.  This should initiate the token exchange between the `SkillBot` and `RootBot`, resulting in a valid token displayed.
+- Click Connect
+- Follow the prompts to initiate the token exchange between the `SkillBot` and `RootBot`, resulting in a valid token displayed
 
 ## Deploy the bots to Azure
 
