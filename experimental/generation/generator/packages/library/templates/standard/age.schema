@@ -21,7 +21,7 @@
         "ageEntity.lu",
         "ageEntity.lg",
         "ageProperty.lg",
-        "ageEntity-add.dialog",
+        "genericEntityUnits-add.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",

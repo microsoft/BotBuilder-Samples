@@ -255,7 +255,7 @@
             "$kind": "Microsoft.IfCondition",
             "condition": "@${entity}.units == '${units()}'",
             "actions":[
-                ${isWithMinMax()}
+                ${addMinMaxValidation()}
             ],
             "elseActions":[
                 {
@@ -277,7 +277,7 @@
     "property": "${property}",
     "entity": "${entity}",
     "actions": [
-        ${isWithMinMax()}
+        ${addMinMaxValidation()}
     ]
     ${designerOpEntity('Add', entity)}             
 }
@@ -334,7 +334,7 @@ ${setOrPushOperation()},
     "value": "=@${entity}"          
 }```
 
-# isWithMinMax()
+# addMinMaxValidation()
 - IF: ${propertySchema.minimum || propertySchema.maximum}
     -```
 {
@@ -361,42 +361,11 @@ ${setOrPushOperation()},
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${confirmationText('${property}',  @${entity}.number)}"
                 },
-            ${setOrPush()}
+                ${setOrPush()}
             ]
         }
     ]
 }``` 
-- ELSEIF: ${propertySchema.items.minimum || propertySchema.items.maximum}
-    - ```
-{
-    "$kind": "Microsoft.IfCondition",
-    "condition": "@${entity}.number < dialogClass.schema.properties['${property}'].items.minimum",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_IsTooSmallItems(@${entity}.number)}"
-        }
-    ],
-    "elseActions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.number > dialogClass.schema.properties['${property}'].items.maximum",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooBigItems(@${entity}.number)}"
-                }
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity}.number)}"
-                },
-            ${setOrPush()}
-            ]
-        }
-    ]
-} ```
 - ELSE:
     -```
 {
@@ -404,8 +373,6 @@ ${setOrPushOperation()},
     "activity": "\${confirmationText('${property}', @${entity})}"
 },
 ${setOrPush()}```
-
-
 
 # removeDialog(entity)
 -```

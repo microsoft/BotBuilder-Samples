@@ -4,9 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- IF: ${propertySchema.minimum || propertySchema.maximum}
-    - ${unitsTemplatesWithMinMax('age')}
-- ELSEIF: ${propertySchema.items.minimum || propertySchema.items.maximum}
-    - ${unitsItemsTemplatesWithMinMax('age')}
-- ELSE:
-    - ${unitsTemplates('age')}
+- ${unitsTemplates('age')}

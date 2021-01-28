@@ -4,10 +4,5 @@
 - ${propertyFilename()}
 
 # template
-- IF: ${propertySchema.minimum || propertySchema.maximum}
-    - ${unitsTemplatesWithMinMax('money')}
-- ELSEIF: ${propertySchema.items.minimum || propertySchema.items.maximum}
-    - ${unitsItemsTemplatesWithMinMax('money')}
-- ELSE:
-    - ${unitsTemplates('money')}
+- ${unitsTemplates('money')}
 

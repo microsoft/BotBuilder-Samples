@@ -498,7 +498,6 @@ async function processTemplates(
                 }
             }
             for (let entityName of entities) {
-                // TODO: What do we do with utterance?  I think we don't want to bind it as an entity.
                 scope.entity = entityName
                 if (entityName === `${scope.property}Entity`) {
                     entityName = `${scope.type}`

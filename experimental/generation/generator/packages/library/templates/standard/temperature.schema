@@ -20,7 +20,7 @@
         "temperatureEntity.lu",
         "temperatureEntity.lg",
         "objectProperty.lg",
-        "temperatureEntity-add.dialog",
+        "genericEntityUnits-add.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",

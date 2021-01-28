@@ -21,7 +21,7 @@
         "moneyEntity.lu",
         "moneyEntity.lg",
         "moneyProperty.lg",
-        "moneyEntity-add.dialog",
+        "genericEntityUnits-add.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-change.dialog",
