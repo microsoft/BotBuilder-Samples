@@ -82,8 +82,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
             try
             {
                 // Inform the active skill that the conversation is ended so that it has a chance to clean up.
-                // Note: the MainDialog manages the ActiveSkillPropertyName, which has a value while the root bot
-                // has an active conversation with a skill.
+                // Note: the MainDialog manages which skill, if any, the user has an active conversation with.
                 var activeSkill = await _conversationState.CreateProperty<BotFrameworkSkill>(MainDialog.ActiveSkillPropertyName).GetAsync(turnContext, () => null);
                 if (activeSkill != null)
                 {
@@ -107,9 +106,9 @@ namespace Microsoft.BotBuilderSamples.RootBot
         {
             try
             {
-                // Delete the conversationState for the current conversation to prevent the
+                // Delete the conversation state for the current conversation to prevent the
                 // bot from getting stuck in a error-loop caused by being in a bad state.
-                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+                // Conversation state should be thought of as similar to "cookie-state" for a web page.
                 await _conversationState.DeleteAsync(turnContext);
             }
             catch (Exception ex)

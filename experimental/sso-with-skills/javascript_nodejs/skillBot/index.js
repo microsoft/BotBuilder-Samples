@@ -84,10 +84,10 @@ async function clearConversationState(context) {
     try {
         // Delete the conversationState for the current conversation to prevent the
         // bot from getting stuck in a error-loop caused by being in a bad state.
-        // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+        // ConversationState should be thought of as similar to "cookie-state" for a web page.
         await conversationState.delete(context);
     } catch (err) {
-        console.error(`\n [onTurnError] Exception caught on attempting to Delete ConversationState : ${ err }`);
+        console.error(`\n [onTurnError] Exception caught on attempting to delete ConversationState : ${ err }`);
     }
 }
 
@@ -103,13 +103,13 @@ adapter.onTurnError = onTurnErrorHandler;
 const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
-// This overrides ensures that the conversation state is saved when the outgoing activity contains an OAuthPrompt
+// This overrides ensures that the conversation state is saved when the outgoing activity contains an OAuthPrompt.
 const originalSendActivities = adapter.sendActivities.bind(adapter);
 adapter.sendActivities = async (context, activities) => {
     for (const activity of activities) {
         if (activity.attachments && activity.attachments[0]?.contentType === 'application/vnd.microsoft.card.oauth') {
-            // Save any state changes that might have occurred during the turn before sending anything
-            // this ensure the skill state is consistent if the SSO handler sends and invoke in.
+            // Save any state changes that might have occurred during the turn before sending anything.
+            // This ensures the skill state is consistent if the SSO handler sends in an invoke activity.
             await conversationState.saveChanges(context, false);
         }
     };

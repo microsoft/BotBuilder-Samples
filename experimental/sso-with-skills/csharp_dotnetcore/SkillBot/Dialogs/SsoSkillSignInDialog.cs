@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
 
         private async Task<DialogTurnResult> SignInStepAsync(WaterfallStepContext context, CancellationToken cancellationToken)
         {
-            // This prompt won't show if the user is signed in to the host using SSO.
+            // This prompt won't show if the user is signed in to the root using SSO.
             return await context.BeginDialogAsync(nameof(OAuthPrompt), null, cancellationToken);
         }
 

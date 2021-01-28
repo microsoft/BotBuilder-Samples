@@ -102,7 +102,7 @@ class SsoSkillDialog extends ComponentDialog {
     }
 
     async promptFinalStep(stepContext) {
-        // Restart the dialog (we will exit when the user says end).
+        // Restart the dialog (we will exit when the user says "end").
         return stepContext.replaceDialog(this.initialDialogId);
     }
 }

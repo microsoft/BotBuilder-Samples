@@ -85,7 +85,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             switch (action)
             {
                 case "login to the skill":
-                    // The SsoSkillSignInDialog will just show the user token if the user logged on to the host bot.
+                    // The SsoSkillSignInDialog will just show the user token if the user logged on to the root bot.
                     return await stepContext.BeginDialogAsync(nameof(SsoSkillSignInDialog), null, cancellationToken);
 
                 case "logout from the skill":
@@ -104,7 +104,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
                     }
                     else
                     {
-                        await stepContext.Context.SendActivityAsync($"Here is your current SSO token: {token.Token}", cancellationToken: cancellationToken);
+                        await stepContext.Context.SendActivityAsync($"Here is your current SSO token for the skill: {token.Token}", cancellationToken: cancellationToken);
                     }
 
                     return await stepContext.NextAsync(cancellationToken: cancellationToken);
@@ -113,14 +113,14 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
                     return new DialogTurnResult(DialogTurnStatus.Complete);
 
                 default:
-                    // This should never be hit since the previous prompt validates the choice
+                    // This should never be hit since the previous prompt validates the choice.
                     throw new InvalidOperationException($"Unrecognized action: {action}");
             }
         }
 
         private async Task<DialogTurnResult> PromptFinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            // Restart the dialog (we will exit when the user says end)
+            // Restart the dialog (we will exit when the user says "end").
             return await stepContext.ReplaceDialogAsync(InitialDialogId, null, cancellationToken);
         }
     }

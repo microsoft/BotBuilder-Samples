@@ -19,9 +19,9 @@ namespace Microsoft.BotBuilderSamples.SkillBot
     /// A specialized <see cref="BotFrameworkAdapter"/> for Skills that also supports SSO.
     /// </summary>
     /// <remarks>
-    /// In addition to handle different skill specific skill logic, this adapter also overrides
+    /// In addition to handling different skill specific skill logic, this adapter also overrides
     /// <see cref="SendActivitiesAsync"/> to save the state of the conversation when a OAuthPrompt is sent to the parent.
-    /// This prepares the bot to receive the Activity send by the TokenExchangeSkillHandler.
+    /// This prepares the bot to receive the activity send by the TokenExchangeSkillHandler.
     /// </remarks>
     public class SsoSkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
@@ -36,15 +36,15 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             OnTurnError = HandleTurnError;
         }
 
-        // This overrides ensures that the conversation state is saved when the outgoing activity contains an OAuthPrompt
+        // This overrides ensures that the conversation state is saved when the outgoing activity contains an OAuthPrompt.
         public override async Task<ResourceResponse[]> SendActivitiesAsync(ITurnContext turnContext, Activity[] activities, CancellationToken cancellationToken)
         {
             foreach (var activity in activities)
             {
                 if (activity.Attachments?.FirstOrDefault(a => a?.ContentType == OAuthCard.ContentType) != null)
                 {
-                    // Save any state changes that might have occurred during the turn before sending anything
-                    // this ensure the skill state is consistent if the SSO handler sends and invoke in.
+                    // Save any state changes that might have occurred during the turn before sending anything.
+                    // This ensures the skill state is consistent if the SSO handler sends in an invoke activity.
                     await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken).ConfigureAwait(false);
                 }
             }
@@ -109,12 +109,12 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             {
                 // Delete the conversationState for the current conversation to prevent the
                 // bot from getting stuck in a error-loop caused by being in a bad state.
-                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
+                // ConversationState should be thought of as similar to "cookie-state" for a web page.
                 await _conversationState.DeleteAsync(turnContext);
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Exception caught on attempting to Delete ConversationState : {ex}");
+                _logger.LogError(ex, $"Exception caught on attempting to delete ConversationState : {ex}");
             }
         }
     }

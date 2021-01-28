@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
             // Register credential provider.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
-            // Register the skills configuration class
+            // Register the skills configuration class.
             services.AddSingleton<SkillsConfiguration>();
 
             // Register AuthConfiguration to enable custom claim validation.
@@ -49,7 +49,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
             services.AddSingleton<BotFrameworkHttpAdapter, AdapterWithErrorHandler>();
             services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
 
-            // Register the skills conversation ID factory, the client and the request handler.
+            // Register the skills conversation ID factory, the client, and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddHttpClient<SkillHttpClient>();
             services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();

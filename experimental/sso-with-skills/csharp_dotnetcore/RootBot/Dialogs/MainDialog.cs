@@ -101,7 +101,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
                 // User is not signed in.
                 promptChoices.Add(new Choice("Login to the root bot"));
                 
-                // Token exchange will fail when the host is not logged on and the skill should 
+                // Token exchange will fail when the root is not logged on and the skill should 
                 // show a regular OAuthPrompt
                 promptChoices.Add(new Choice("Call Skill (without SSO)"));
             }

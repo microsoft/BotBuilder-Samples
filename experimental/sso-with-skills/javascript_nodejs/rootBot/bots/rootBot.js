@@ -21,7 +21,7 @@ class RootBot extends ActivityHandler {
 
         this.onTurn(async (context, next) => {
             if (context.activity.type !== ActivityTypes.ConversationUpdate) {
-                // Run the Dialog with the new Token Response Event Activity.
+                // Forward the activity to the dialog.
                 await runDialog(this.mainDialog, context, this.dialogState);
             }
 

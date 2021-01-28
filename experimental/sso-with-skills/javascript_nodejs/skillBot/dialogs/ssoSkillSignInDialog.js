@@ -28,7 +28,7 @@ class SsoSkillSignInDialog extends ComponentDialog {
      * Display the OAuthPrompt, asking the user to log in.
      */
     async signInStep(stepContext) {
-        // This prompt won't show if the user is signed in to the host using SSO.
+        // This prompt won't show if the user is signed in to the root using SSO.
         return stepContext.beginDialog(OAUTH_PROMPT);
     }
 

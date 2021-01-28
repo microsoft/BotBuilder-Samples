@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             services.AddControllers()
                 .AddNewtonsoftJson();
 
-            // Configure credentials
+            // Configure credentials.
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Register AuthConfiguration to enable custom claim validation.

@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
             AddDialog(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings
             {
                 ConnectionName = connectionName,
-                Text = "Sign in to the host bot using AAD for SSO",
+                Text = "Sign in to the root bot using AAD for SSO",
                 Title = "Sign In"
             }));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] { SignInStepAsync, DisplayTokenAsync }));

@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
         {
             if (turnContext.Activity.Type != ActivityTypes.ConversationUpdate)
             {
-                // Run the Dialog with the Activity.
+                // Forward the activity to the dialog.
                 await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
             }
             else
@@ -46,7 +46,6 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
             foreach (var member in membersAdded)
             {
                 // Greet anyone that was not the target (recipient) of this message.
-                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards.
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
                     await turnContext.SendActivityAsync(MessageFactory.Text("Hello and welcome!"), cancellationToken);
