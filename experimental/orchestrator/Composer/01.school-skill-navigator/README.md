@@ -108,4 +108,45 @@ Next we are going to use the two mis-classified query utterances to show how to 
 
 ## Part 2: Use Composer to build a bot from a training set (.lu file)
 
+Once you have edited the .LU file such that the report show satisfactory language recognition, replace the contents of the corresponding file [schoolnavigatorbot.en-us.lu](./SchoolNavigatorBot/language-understanding/en-us/schoolnavigatorbot.en-us.lu)  in the Composer solution (either overwrite the file or copy/paste the contents inside Composer LU corresponding to the SchoolNavigator dialog). 
 
+Build and run Composer project and test that language recognition is satisfactory.
+
+This process shall be repeated periodically as new utterances are discovered as users interact with the bot (see next section)
+
+
+
+## Part 3: Language Recognition Tuning with Application Insights
+
+Language development cycle is an iterative process. Once the bot is deployed and users interact with the bot, new utterances may not be detected correctly. Use Application Insights to inspect how Orchestrator Recognizer maps utterances intent labels. Once incorrect mappings are discovered repeat the tuning process above and redeploy.
+
+Refer to the following documentation to configure Composer to [capture your bot's telemetry data](https://docs.microsoft.com/en-us/composer/how-to-capture-telemetry).
+
+Analyzing Orchestrator telemetry is the similar to any recognizer's data (it is using the same base class for instrumentation).  
+
+### Example
+
+The following query illustrates how to retrieve specific range of utterances:
+
+```
+let queryStartDate = ago(2h);
+let queryEndDate = now();
+customEvents
+| where timestamp > queryStartDate
+| where timestamp < queryEndDate
+| where name == 'OrchestratorAdaptiveRecognizer'
+| extend utterance = customDimensions['Text']
+| extend topIntent = customDimensions['TopIntent']
+| extend intentBag = parse_json(customDimensions['Intents'])
+| extend recognizerResults = parse_json(customDimensions['AdditionalProperties'])
+| project timestamp, utterance, topIntent, intentBag, name, recognizerResults, customDimensions
+```
+
+Results contain:
+
+* Original user utterance
+* Detected top intent 
+* Intent score
+* Additional Results contain similar lower scoring intents.
+
+![](./AppInsightsResults.png)
