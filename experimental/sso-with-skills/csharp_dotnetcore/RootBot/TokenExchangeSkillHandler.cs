@@ -111,7 +111,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
                         {
                             context.TurnState.Add<IIdentity>("BotIdentity", claimsIdentity);
 
-                            // AAD token exchange
+                            // Azure AD token exchange
                             try
                             {
                                 var result = await _tokenExchangeProvider.ExchangeTokenAsync(

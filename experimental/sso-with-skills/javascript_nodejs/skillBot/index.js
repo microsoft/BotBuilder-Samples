@@ -20,7 +20,7 @@ const { AuthenticationConfiguration } = require('botframework-connector');
 const { SkillBot } = require('./bots/skillBot');
 const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
 
-// Import Skills modules.
+// Import skill modules.
 const { allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
 
 // Define our authentication configuration.
@@ -134,14 +134,14 @@ server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest',
 
 // Listen for incoming activities and route them to your bot main dialog.
 server.post('/api/messages', (req, res) => {
-    // Route received requests to the adapter for processing
+    // Route received requests to the adapter for processing.
     adapter.processActivity(req, res, async (turnContext) => {
         // Route requests to bot activity handler.
         await bot.run(turnContext);
     });
 });
 
-// Listen for Upgrade requests for Streaming.
+// Listen for upgrade requests for streaming.
 server.on('upgrade', (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
     const streamingAdapter = new BotFrameworkAdapter({

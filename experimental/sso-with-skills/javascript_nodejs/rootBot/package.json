@@ -1,7 +1,7 @@
 {
     "name": "sso-with-skills",
     "version": "1.0.0",
-    "description": "A bot that demonstrates SSO using Skills",
+    "description": "A bot that demonstrates SSO using skills",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",

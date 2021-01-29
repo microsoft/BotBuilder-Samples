@@ -17,7 +17,7 @@ class ActivityRouterDialog extends ComponentDialog {
                 this.processActivity.bind(this)
             ]));
 
-        // The initial child Dialog to run.
+        // The initial child dialog to run.
         this.initialDialogId = WATERFALL_DIALOG;
     }
 

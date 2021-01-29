@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             AddDialog(new OAuthPrompt(nameof(OAuthPrompt), new OAuthPromptSettings
             {
                 ConnectionName = connectionName,
-                Text = "Sign in to the Skill using AAD",
+                Text = "Sign in to the Skill using Azure AD",
                 Title = "Sign In"
             }));
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] { SignInStepAsync, DisplayTokenAsync }));

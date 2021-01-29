@@ -13,7 +13,7 @@ const allowedCallers = process.env.AllowedCallers ? process.env.AllowedCallers.s
 /**
  * Sample claims validator that loads an allowed list from configuration if present
  * and checks that requests are coming from allowed parent bots.
- * @param claims An array of Claims decoded from the HTTP request's auth header.
+ * @param claims An array of claims decoded from the HTTP request's auth header.
  */
 const allowedCallersClaimsValidator = async (claims) => {
     // For security, developer must specify allowedCallers.

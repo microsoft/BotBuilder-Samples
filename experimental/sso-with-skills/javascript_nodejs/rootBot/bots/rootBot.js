@@ -50,7 +50,7 @@ class RootBot extends ActivityHandler {
     async run(context) {
         await super.run(context);
 
-        // Save any state changes. The load happened during the execution of the Dialog.
+        // Save any state changes. The load happened during the execution of the dialog.
         await this.conversationState.saveChanges(context, false);
     }
 }

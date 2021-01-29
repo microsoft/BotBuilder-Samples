@@ -13,7 +13,7 @@ class SsoSkillSignInDialog extends ComponentDialog {
 
         this.addDialog(new OAuthPrompt(OAUTH_PROMPT, {
             connectionName,
-            text: 'Sign in to the Skill using AAD for SSO',
+            text: 'Sign in to the Skill using Azure AD for SSO',
             title: 'Sign In'
         }))
             .addDialog(new WaterfallDialog(WATERFALL_DIALOG, [

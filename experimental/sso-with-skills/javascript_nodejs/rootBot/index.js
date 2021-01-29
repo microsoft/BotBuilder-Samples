@@ -20,7 +20,7 @@ require('dotenv').config({ path: ENV_FILE });
 const { RootBot } = require('./bots/rootBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
-// Import Skills modules.
+// Import skill modules.
 const { allowedSkillsClaimsValidator } = require('./authentication/allowedSkillsClaimsValidator');
 const { SkillsConfiguration } = require('./skillsConfiguration');
 const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
@@ -157,7 +157,7 @@ const handler = new TokenExchangeSkillHandler(adapter, bot, conversationIdFactor
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
 
-// Listen for Upgrade requests for Streaming.
+// Listen for Upgrade requests for streaming.
 server.on('upgrade', (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
     const streamingAdapter = new BotFrameworkAdapter({

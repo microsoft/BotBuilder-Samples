@@ -75,7 +75,7 @@ class TokenExchangeSkillHandler extends SkillHandler {
 
                     context.turnState.set('BotIdentity', claimsIdentity);
 
-                    // AAD Token Exchange
+                    // Azure AD Token Exchange
                     try {
                         const result = await this.adapter.exchangeToken(
                             context,

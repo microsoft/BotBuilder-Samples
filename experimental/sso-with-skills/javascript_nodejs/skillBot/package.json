@@ -1,7 +1,7 @@
 {
     "name": "skill-to-skill-skill-bot",
     "version": "1.0.0",
-    "description": "A bot that demonstrates Skill to Skill Dialogs (Skill Bot)",
+    "description": "A bot that demonstrates skill to skill dialogs (skill bot)",
     "author": "Microsoft",
     "license": "MIT",
     "main": "index.js",
