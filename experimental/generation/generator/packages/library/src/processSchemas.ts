@@ -164,8 +164,10 @@ export async function expandPropertyDefinition(property: any, templateDirs: stri
     return schema
 }
 
+// Items keywords that are constraints and can be promoted to the property level
+const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'pattern']
 /**
- * Promote any $properties in items to the parent property unless already specified.
+ * Promote any $properties or constraints in items to the parent property unless already specified.
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
@@ -177,9 +179,11 @@ function promoteItems(schema: any): void {
     } else if (typeof schema === 'object' && schema !== null) {
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
-                for (var [prop, itemVal] of Object.entries(val as object)) {
-                    if (prop.startsWith('$') && prop !== '$schema' && !schema[prop]) {
-                        schema[prop] = itemVal
+                if (val && typeof val === 'object' && !Array.isArray(val)) {
+                    for (var [prop, itemVal] of Object.entries(val as object)) {
+                        if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
+                            schema[prop] = itemVal
+                        }
                     }
                 }
             } else {

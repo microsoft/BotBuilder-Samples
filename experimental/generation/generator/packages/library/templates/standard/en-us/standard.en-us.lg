@@ -131,12 +131,6 @@ ${'#'} ${type}Entity_Value(entity)
 
 >> Units
 # unitsTemplates(type)
-- IF: ${propertySchema.minimum || propertySchema.maximum}
-- ${unitsTemplatesWithoutMinMax(type)} ${validationTemplatesWithMinMax()}
-- ELSE:
-- ${unitsTemplatesWithoutMinMax(type)}
-
-# unitsTemplatesWithoutMinMax(type)
 - ```${formImport('form.en-us.lg')}
 ${promptTemplates(missingDefault(type), changeDefault(type))}
 ${confirmationTemplates(expectedSetDefault(), 
@@ -145,6 +139,7 @@ ${confirmationTemplates(expectedSetDefault(),
                         unexpectedUpdateDefault(),
                         removeDefault(),
                         clearDefault())}
+${validationTemplatesWithMinMax()}
 ${incorrectUnitsTemplate()}
 ${helpTemplates(repromptDefault(type), helpDefault(type))}
 ${showTemplate(showDefault())}
