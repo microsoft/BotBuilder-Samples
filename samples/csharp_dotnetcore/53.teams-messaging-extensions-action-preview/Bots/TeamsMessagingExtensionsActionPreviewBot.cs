@@ -143,7 +143,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             var activityPreview = action.BotActivityPreview[0];
             var attachmentContent = activityPreview.Attachments[0].Content;
             var previewedCard = JsonConvert.DeserializeObject<AdaptiveCard>(attachmentContent.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-            previewedCard.Version = "1.0";
             var exampleData = AdaptiveCardHelper.CreateExampleData(previewedCard);
 
             // This is a send so we are done and we will create the adaptive card editor.
