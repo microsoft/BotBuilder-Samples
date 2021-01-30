@@ -7,7 +7,8 @@
 -```
 {
     "botName": "${prefix}",
-    "deleteOldVersion": true, 
+    "deleteOldVersion": true,
+    "directVersionPublish": true,
     "out": "generated",
     "models": [${join(foreach(locales, locale, `"${understandingDir()}${locale}/${prefix}.${locale}.lu"`), ', ')}],
     "schema": "${appSchema}"
