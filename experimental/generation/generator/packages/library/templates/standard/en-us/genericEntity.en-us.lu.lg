@@ -5,6 +5,5 @@
 
 # template
 - ```
-
 ${operations(entity, null, true)}
 ```

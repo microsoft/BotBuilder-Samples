@@ -1,8 +1,7 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${showFilename()}
+- ${addFilename(entity)}
 
 # template
-- ${showDialog()}
-
+- ${addWithUnits(entity)}

@@ -5,14 +5,18 @@
         "percentage"
     ],
     "$templates": [
-        "number",
-        "percentageEntity.lu",
-        "percentageEntity.lg",
-        "percentageEntity-add-number.dialog",
-        "percentageEntity-remove-number.dialog",
+        "genericEntity.lg",
+        "genericEntity.lu",
+        "genericProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-remove.dialog",
         "generic-change.dialog",
         "generic-clear.dialog",
         "generic-help.dialog",
+        "generic-missing.dialog",
         "generic-show.dialog"
-    ]
+    ],
+    "$generator": {
+        "$ref": "array.json"
+    }
 }

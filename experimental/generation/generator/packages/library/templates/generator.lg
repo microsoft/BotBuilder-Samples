@@ -101,7 +101,9 @@
 - ${`${locale}/form-${name}.${locale}${type}`}
 
 >> Dialog templates
+
 # addDialog(entity)
+> Add dialog with optional verification of patterns, min/max, units and uniqueness for singletons or arrays
 -```
 {
     "$schema": "${appSchema}",
@@ -109,211 +111,24 @@
     "operation": "Add()",
     "property": "${property}",
     "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        },
-        ${setOrPush()}
-    ]               
+    "actions": [${verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnits(entity, verifyUnique(entity, assignEntity(entity))))))}]
     ${designerOpEntity('Add', entity)}      
 }
 ```
 
-# addDialogWithStringPattern(entity)
+# assignEntity(entity)
 - ```
 {
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_NoPatternMatch(@${entity})}"
-                }                    
-            ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity})}"
-                },
-                ${setOrPush()}
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)}     
-}
+    "$kind": "Microsoft.SendActivity",
+    "activity": "\${confirmationText('${property}', @${entity})}"
+},
+${setOrPush()}
 ```
 
-# addDialogWithNumberMinMax(entity)
+# setOrPush(entity)
+> Set or push entity into property and clear propertyToChange
 - ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"@${entity} < dialogClass.schema.properties['${property}'].minimum",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooSmall(@${entity})}"
-                }                    
-            ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
-                    "actions":[
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooBig(@${entity})}"
-                        }                    
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${confirmationText('${property}',  @${entity})}"
-                        },
-                        ${setOrPush()}
-                    ]
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)}     
-}
-```
-
-# addArrayDialogWithChecking(entity)
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "!contains($${property}, @${entity})",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity})}"
-                },
-                {
-                    "$kind": "Microsoft.EditArray",
-                    "changeType": "push",
-                    "itemsProperty": "$${property}",
-                    "value": "=@${entity}"
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind": "Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }            
-            ],
-            "elseActions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)
-    }
-}
-```
-
-# addWithUnits(entity)
-- IF: ${hasUnits()}
-    -```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.units == '${units()}'",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}', @${entity})}"
-                },
-                ${setOrPush()}
-            ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)}             
-}
-```
-- ELSE:
-    - ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        }, 
-        ${setOrPush()}
-    ]
-    ${designerOpEntity('Add', entity)}             
-}
-```
-
-# addNumberWithUnits
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "number",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmUpdate('${property}', {number: @number, units: '${units()}'})}"
-        },
-        ${setOrPush()}
-    ]
-    ${designerOpEntity('Add', 'number with units')}             
-}
-```
-
-> Set a singleton or push on an array and clear propertyToChange
-# setOrPush()
-- ```
-${setOrPushOperation()},
+${setOrPushOperation(entity)},
 {
    "$kind": "Microsoft.IfCondition",
     "condition": "$PropertyToChange == '${property}'",
@@ -325,7 +140,8 @@ ${setOrPushOperation()},
     ]
 }```
 
-# setOrPushOperation()
+# setOrPushOperation(entity)
+> Set or push entity based on singelton or array
 - IF: ${isArrayProperty(property)}
     - ```
 {
@@ -342,7 +158,97 @@ ${setOrPushOperation()},
     "value": "=@${entity}"          
 }```
 
+# verifyPattern(entity, else)
+> Verify entity matches pattern
+- IF: ${propertySchema.pattern}
+    - ```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_NoPatternMatch(@${entity})}"
+            }                    
+        ],
+        "elseActions":[${else}]
+    }```
+- ELSE:
+    - ${else}
+
+# verifyMin(entity, else)
+> Verify entity minimum value
+- IF: ${propertySchema.minimum}
+    -```
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"@${entity} < dialogClass.schema.properties['${property}'].minimum",
+            "actions":[
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_IsTooSmall(@${entity})}"
+                }                    
+            ],
+            "elseActions":[${else}]
+        }```
+- ELSE:
+    - ${else}
+
+# verifyMax(entity, else)
+> Verify entity maximum value
+- IF: ${propertySchema.maximum}
+    -```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_IsTooBig(@${entity})}"
+            }                    
+        ],
+        "elseActions": [${else}]
+    }```
+- ELSE:
+    - ${else}
+
+# verifyUnique(entity, else)
+> Verify entity is unique in array
+- IF: ${isArrayProperty(property) && propertySchema.uniqueItems == true}
+    -```
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "contains($${property}, @${entity})",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${alreadyExistsText(${property},  @${entity})}"
+                }
+            ],
+            "elseActions": [${else}]```
+- ELSE:
+    - ${else}
+
+# verifyUnits(entity, else)
+> Verify units
+- IF: ${propertySchema.$units}
+    -```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition": "@${entity}.units != '${units()}'",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
+            }
+        ],
+        "elseActions":[${else}]
+    }```
+- ELSE:
+    - ${else}
+
 # removeDialog(entity)
+> Dialog to remove entity from property
 -```
 {
     "$schema": "${appSchema}",
@@ -359,10 +265,7 @@ ${setOrPushOperation()},
                     "$kind": "Microsoft.SendActivity",
                     "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
                 },  
-                {
-                    "$kind": "Microsoft.DeleteProperty",
-                    "property": "$${property}"
-                }
+                ${deleteOrRemove(entity)}
             ]
         }
     ]               
@@ -370,27 +273,37 @@ ${setOrPushOperation()},
 }
 ```
 
-# removeArrayDialog(entity)
--```
+# deleteOrRemove(entity)
+> Delete property or remove entity from array
+- IF: ${isArrayProperty(property)}
+    -```
+    {
+        "$kind": "Microsoft.EditArray",
+        "changeType": "remove",
+        "itemsProperty": "$${property}",
+        "value": "=@${entity}"
+    }```
+- ELSE:
+    -```
+    {
+        "$kind": "Microsoft.DeleteProperty",
+        "property": "$${property}"
+    }```
+
+# chooseEntityDialog(entity)
+- ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove()",
-    "property": "${property}",
+    "$kind": "Microsoft.OnChooseEntity",
     "entity": "${entity}",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
-        },
-        {
-            "$kind": "Microsoft.EditArray",
-            "changeType": "remove",
-            "itemsProperty": "$${property}",
-            "value": "=@${entity}"
+            "$kind": "Microsoft.Ask",
+            "activity": "\${${entity}_chooseEntity()}",
+            "expectedProperties": ["${property}"]
         }
-    ]               
-    ${designerOpEntity('Remove', entity)}     
+    ]
+    ${designerChooseEntity()}
 }
 ```
 

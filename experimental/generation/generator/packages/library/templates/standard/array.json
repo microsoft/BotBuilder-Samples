@@ -1,6 +1,7 @@
 {
     "array": {
-        "$uniqueValue": {
+        "$comment": "Support arrays.",
+        "uniqueItems": {
             "type": "boolean",
             "title": "Unique Values",
             "description": "Require all values to be unique."

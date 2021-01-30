@@ -4,18 +4,19 @@
     "$entities": [
         "number"
     ],
-    "$generator": {
-        "$ref": "minmax.json"
-    },
     "$templates": [
-        "numberEntity.lu",
-        "numberEntity.lg",
-        "generic-missing.dialog",
+        "genericEntity.lg",
+        "genericEntity.lu",
+        "genericProperty.lg",
         "genericEntity-add.dialog",
         "genericEntity-remove.dialog",
         "generic-change.dialog",
         "generic-clear.dialog",
         "generic-help.dialog",
+        "generic-missing.dialog",
         "generic-show.dialog"
-    ]
+    ],
+    "$generator": {
+        "$ref": "array.json"
+    }
 }

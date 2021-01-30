@@ -1,0 +1,28 @@
+{
+    "type": "string",
+    "$entities": ["${property}Entity"],
+    "$templates": [
+        "enumEntity.lg",
+        "enumEntity.lu",
+        "enumProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-remove.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-missing.dialog",
+        "generic-show.dialog"
+    ],
+    "$generator": {
+        "enum": {
+            "title": "Enumeration",
+            "description": "Legal enumeration values for this property.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "$ref": "array.json"
+    }
+}

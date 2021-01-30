@@ -2,7 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "$entities": [
-        "temperature"
+        "temperature",
+        "${if(propertySchema.$units, 'number', [])}"
     ],
     "properties": {
         "number": {
@@ -17,15 +18,31 @@
         "units"
     ],
     "$templates": [
-        "temperatureEntity.lu",
-        "temperatureEntity.lg",
-        "objectProperty.lg",
-        "generic-missing.dialog",
-        "temperatureEntity-add.dialog",
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "genericUnitEntity-add.dialog",
         "genericEntity-remove.dialog",
+        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
         "generic-change.dialog",
         "generic-help.dialog"
-    ]
+    ],
+    "$generator": {
+        "$units": {
+            "type": "string",
+            "enum": [
+                "F",
+                "K",
+                "R",
+                "D",
+                "C",
+                "Degree"
+            ],
+            "Title": "Units",
+            "Description": "Form dialogs will default to units and convert if possible."
+        },
+        "$ref": "array.json"
+    }
 }

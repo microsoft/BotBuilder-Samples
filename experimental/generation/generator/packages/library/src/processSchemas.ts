@@ -7,12 +7,12 @@ import * as fg from './dialogGenerator'
 import * as glob from 'globby'
 import * as ppath from 'path'
 import * as s from './schema'
-let allof: any = require('json-schema-merge-allof')
-let clone = require('clone')
-let parser: any = require('json-schema-ref-parser')
+const allof: any = require('json-schema-merge-allof')
+const clone = require('clone')
+const parser: any = require('json-schema-ref-parser')
 
 /** Mapping from schema name to schema definition. */
-export type IdToSchema = {[id: string]: any}
+export type IdToSchema = { [id: string]: any }
 
 /** 
  * Find all schemas in template directories.
@@ -21,10 +21,8 @@ export type IdToSchema = {[id: string]: any}
  */
 export async function schemas(templateDirs?: string[]): Promise<IdToSchema> {
     templateDirs = templateDirs || []
-    debugger
-    let templates = await fg.templateDirectories(templateDirs)
-    let schemas = await templateSchemas(templates, feedbackException)
-    debugger
+    const templates = await fg.templateDirectories(templateDirs)
+    const schemas = await templateSchemas(templates, feedbackException)
     return schemas
 }
 
@@ -39,13 +37,20 @@ export function feedbackException(type: fg.FeedbackType, message: string) {
     }
 }
 
+// Cache of all schemas
+const SchemaCache: { [path: string]: any } = {}
+
 // All .schema files found in template directories
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<IdToSchema> {
-    let map: IdToSchema = {}
-    for (let dir of templateDirs) {
-        for (let file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
-            let schema = await getSchema(file, feedback)
-            let id: string = schema.$id || ppath.basename(file)
+    const map: IdToSchema = {}
+    for (const dir of templateDirs) {
+        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
+            let schema = SchemaCache[file]
+            if (!schema) {
+                schema = await getSchema(file, feedback)
+                SchemaCache[file] = schema
+            }
+            const id = schema.$id || ppath.basename(file, '.schema')
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
@@ -60,9 +65,9 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
 
 // Find recursive requires
 async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, resolver: any, feedback: fg.Feedback): Promise<void> {
-    let addRequired = async (required: string) => {
+    const addRequired = async (required: string) => {
         if (!found[required]) {
-            let schema = map[required] || await getSchema(required, feedback, resolver)
+            const schema = map[required] || await getSchema(required, feedback, resolver)
             if (!schema) {
                 feedback(fg.FeedbackType.error, `Schema ${required} cannot be found`)
             } else {
@@ -71,10 +76,10 @@ async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, res
         }
     }
     if (typeof schema === 'object') {
-        for (let [child, val] of Object.entries(schema)) {
+        for (const [child, val] of Object.entries(schema)) {
             if (child === '$requires') {
-                for (let required of val as string[]) {
-                    await addRequired(required)
+                for (const required of val as string[]) {
+                    await addRequired(ppath.basename(required, '.schema'))
                 }
             } else {
                 await findRequires(val, map, found, resolver, feedback)
@@ -87,7 +92,7 @@ async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, res
 async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): Promise<any> {
     let schema
     try {
-        let noref = await parser.dereference(path, {resolve: {template: resolver}})
+        const noref = await parser.dereference(path, { resolve: { template: resolver } })
         schema = allof(noref)
     } catch (err) {
         feedback(fg.FeedbackType.error, err)
@@ -97,15 +102,15 @@ async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): P
 
 // Merge together multiple schemas
 function mergeSchemas(allSchema: any, schemas: any[]) {
-    for (let schema of schemas) {
+    for (const schema of schemas) {
         // Merge definitions
-        allSchema.properties = {...allSchema.properties, ...schema.properties}
-        allSchema.definitions = {...allSchema.definitions, ...schema.definitions}
+        allSchema.properties = { ...allSchema.properties, ...schema.properties }
+        allSchema.definitions = { ...allSchema.definitions, ...schema.definitions }
         if (schema.required) allSchema.required = allSchema.required.concat(schema.required)
         if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
         if (schema.$requiresValue) allSchema.$requiresValue = allSchema.$requiresValue.concat(schema.$requiresValue)
-        if (schema.$examples) allSchema.$examples = {...allSchema.$examples, ...schema.$examples}
-        if (schema.$parameters) allSchema.$parameters = {...allSchema.$parameters, ...schema.$parameters}
+        if (schema.$examples) allSchema.$examples = { ...allSchema.$examples, ...schema.$examples }
+        if (schema.$parameters) allSchema.$parameters = { ...allSchema.$parameters, ...schema.$parameters }
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
         if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
@@ -136,14 +141,14 @@ export function typeName(property: any): string {
     return type
 }
 
-async function templateResolver(templateDirs: string[], feedback: fg.Feedback): Promise<{allRequired: any, resolver: any}> {
-    let allRequired = await templateSchemas(templateDirs, feedback)
+async function templateResolver(templateDirs: string[], feedback: fg.Feedback): Promise<{ allRequired: any, resolver: any }> {
+    const allRequired = await templateSchemas(templateDirs, feedback)
     return {
         allRequired,
         resolver: {
             canRead: /template:/,
             read(file: any): any {
-                let base = file.url.substring(file.url.indexOf(':') + 1)
+                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.schema')
                 return allRequired[base]
             }
         }
@@ -157,8 +162,8 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
  * @returns Expanded schema definition including $templateDirs if not present.
  */
 export async function expandPropertyDefinition(property: any, templateDirs: string[]): Promise<any> {
-    let {allRequired, resolver} = await templateResolver(templateDirs, feedbackException)
-    let schema = await parser.dereference(property, {resolve: {template: resolver}})
+    const { allRequired, resolver } = await templateResolver(templateDirs, feedbackException)
+    let schema = await parser.dereference(property, { resolve: { template: resolver } })
     schema = allof(schema)
     if (!schema.$templateDirs) {
         schema.$templateDirs = templateDirs
@@ -166,8 +171,11 @@ export async function expandPropertyDefinition(property: any, templateDirs: stri
     return schema
 }
 
+// Items keywords that are constraints and can be promoted to the property level
+const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'pattern']
+
 /**
- * Promote any $properties in items to the parent property unless already specified.
+ * Promote any $properties or constraints in items to the parent property unless already specified.
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
@@ -179,9 +187,11 @@ function promoteItems(schema: any): void {
     } else if (typeof schema === 'object' && schema !== null) {
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
-                for (var [prop, itemVal] of Object.entries(val as object)) {
-                    if (prop.startsWith('$') && prop !== '$schema' && !schema[prop]) {
-                        schema[prop] = itemVal
+                if (val && typeof val === 'object' && !Array.isArray(val)) {
+                    for (var [prop, itemVal] of Object.entries(val as object)) {
+                        if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
+                            schema[prop] = itemVal
+                        }
                     }
                 }
             } else {
@@ -191,43 +201,86 @@ function promoteItems(schema: any): void {
     }
 }
 
-    /**
-     * Process the root schema to generate a single merged schema.
-     * Involves resolving $ref including template:, removing allOf and combining with $requires.
-     * @param schemaPath Path to schema to process.
-     * @param templateDirs Template directories to use when resolving template: and $requires.
-     * @param feedback Feedback channel
-     */
-    export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
-        : Promise<s.Schema> {
-        let {allRequired, resolver} = await templateResolver(templateDirs, feedback)
-        let formSchema = await getSchema(schemaPath, feedback, resolver)
-        let required = {}
-        if (!formSchema.$requires) {
-            // Default to standard schema
-            formSchema.$requires = ['standard.schema']
-        }
-        if (!formSchema.$templateDirs) {
-            // Default to including schema directory
-            formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
-        }
-        await findRequires(formSchema, allRequired, required, resolver, feedback)
-        let allSchema = clone(formSchema)
-        if (!allSchema.required) allSchema.required = []
-        if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
-        if (!allSchema.$templates) allSchema.$templates = []
-        if (!allSchema.$operations) allSchema.$operations = []
-        if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
-        if (!allSchema.$requiresValue) allSchema.$requiresValue = []
-        if (!allSchema.$examples) allSchema.$examples = []
-        if (!allSchema.$parameters) allSchema.$parameters = []
-        if (formSchema.$public) {
-            allSchema.$public = formSchema.$public
-        } else {
-            // Default to properties in root schema
-            allSchema.$public = Object.keys(formSchema.properties)
-        }
-        mergeSchemas(allSchema, Object.values(required))
-        promoteItems(allSchema)
-        return new s.Schema(schemaPath, allSchema)
+// Return the schema name for a type
+function propertySchemaName(property: any): string {
+    let schemaName = property.type
+    switch (schemaName) {
+        case 'array':
+            if (typeof property.items === 'object' && !Array.isArray(property.items)) {
+                schemaName = propertySchemaName(property.items)
+            }
+            break
+        case 'string':
+            if (property.format) {
+                schemaName = property.format
+            } else if (property.enum) {
+                schemaName = 'enum'
+            }
+            break
     }
+    return `${schemaName}`
+}
+
+// Ensure each property definition has $entities and $templates from the corresponding schema file
+async function ensureEntitiesAndTemplates(templateDirs: string[], schema: any, feedback: fg.Feedback): Promise<void> {
+    const idToSchema = await templateSchemas(templateDirs, feedback)
+    for (const def of Object.values(schema.properties)) {
+        const definition = def as any
+        if (!definition.$entities || !definition.$templates) {
+            const schemaName = propertySchemaName(definition)
+            const propertySchema = idToSchema[schemaName]
+            if (!propertySchema) {
+                feedback(fg.FeedbackType.error, `Missing schema definition for ${schemaName}`)
+            } else {
+                if (!definition.$entities) {
+                    definition.$entities = propertySchema.$entities
+                }
+                if (!definition.$templates) {
+                    definition.$templates = propertySchema.$templates
+                }
+            }
+        }
+    }
+}
+
+/**
+ * Process the root schema to generate a single merged schema.
+ * Involves resolving $ref including template:, removing allOf and combining with $requires.
+ * @param schemaPath Path to schema to process.
+ * @param templateDirs Template directories to use when resolving template: and $requires.
+ * @param feedback Feedback channel
+ */
+export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
+    : Promise<s.Schema> {
+    const { allRequired, resolver } = await templateResolver(templateDirs, feedback)
+    const formSchema = await getSchema(schemaPath, feedback, resolver)
+    const required = {}
+    if (!formSchema.$requires) {
+        // Default to standard schema
+        formSchema.$requires = ['standard.schema']
+    }
+    if (!formSchema.$templateDirs) {
+        // Default to including schema directory
+        formSchema.$templateDirs = [ppath.resolve(ppath.dirname(schemaPath))]
+    }
+    await findRequires(formSchema, allRequired, required, resolver, feedback)
+    const allSchema = clone(formSchema)
+    if (!allSchema.required) allSchema.required = []
+    if (!allSchema.$expectedOnly) allSchema.$expectedOnly = []
+    if (!allSchema.$templates) allSchema.$templates = []
+    if (!allSchema.$operations) allSchema.$operations = []
+    if (!allSchema.$defaultOperation) allSchema.$defaultOperation = []
+    if (!allSchema.$requiresValue) allSchema.$requiresValue = []
+    if (!allSchema.$examples) allSchema.$examples = []
+    if (!allSchema.$parameters) allSchema.$parameters = []
+    if (formSchema.$public) {
+        allSchema.$public = formSchema.$public
+    } else {
+        // Default to properties in root schema
+        allSchema.$public = Object.keys(formSchema.properties)
+    }
+    mergeSchemas(allSchema, Object.values(required))
+    promoteItems(allSchema)
+    await ensureEntitiesAndTemplates(templateDirs, allSchema, feedback)
+    return new s.Schema(schemaPath, allSchema)
+}

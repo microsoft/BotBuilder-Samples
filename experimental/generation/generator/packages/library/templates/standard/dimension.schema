@@ -18,17 +18,16 @@
         "units"
     ],
     "$templates": [
-        "dimensionEntity.lu",
-        "dimensionEntity.lg",
-        "dimensionProperty.lg",
-        "generic-missing.dialog",
-        "dimensionEntity-add.dialog",
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "genericUnitEntity-add.dialog",
         "genericEntity-remove.dialog",
-        "generic-change.dialog",
+        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-help.dialog",
-        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
+        "generic-change.dialog",
+        "generic-help.dialog"
     ],
     "$generator": {
         "$units": {
