@@ -13,11 +13,13 @@ namespace Microsoft.BotBuilderSamples
         {
             string userText = (adaptiveCard.Body[1] as AdaptiveTextBlock).Text;
             var choiceSet = adaptiveCard.Body[3] as AdaptiveChoiceSetInput;
+            var attributionFlag = (adaptiveCard.Body[4] as AdaptiveTextBlock).Text.Split(":")[1];
 
             return new ExampleData
             {
                 Question = userText,
                 MultiSelect = choiceSet.IsMultiSelect ? "true" : "false",
+                UserAttributionSelect=attributionFlag,
                 Option1 = choiceSet.Choices[0].Title,
                 Option2 = choiceSet.Choices[1].Title,
                 Option3 = choiceSet.Choices[2].Title,
@@ -55,6 +57,19 @@ namespace Microsoft.BotBuilderSamples
                     new AdaptiveTextInput() { Id = "Option1", Placeholder = "Option 1 here", Value = cardData.Option1 },
                     new AdaptiveTextInput() { Id = "Option2", Placeholder = "Option 2 here", Value = cardData.Option2 },
                     new AdaptiveTextInput() { Id = "Option3", Placeholder = "Option 3 here", Value = cardData.Option3 },
+
+                    new AdaptiveTextBlock("Do you want to send this card on behalf of User?"),
+                    new AdaptiveChoiceSetInput
+                    {
+                        Type = AdaptiveChoiceSetInput.TypeName,
+                        Id = "UserAttributionSelect",
+                        Value = cardData.UserAttributionSelect,
+                        Choices = new List<AdaptiveChoice>
+                        {
+                            new AdaptiveChoice() { Title = "True", Value = "true" },
+                            new AdaptiveChoice() { Title = "False", Value = "false" },
+                        },
+                    },
                 },
                 Actions = new List<AdaptiveAction>
                 {
@@ -89,6 +104,9 @@ namespace Microsoft.BotBuilderSamples
                             new AdaptiveChoice() { Title = data.Option3, Value = data.Option3 },
                         },
                     },
+                  new AdaptiveTextBlock("Sending card on behalf of user is set to:"+$"{data.UserAttributionSelect}") {
+                      Id = "AttributionChoice"
+                  },
                 },
                 Actions = new List<AdaptiveAction>
                 {
