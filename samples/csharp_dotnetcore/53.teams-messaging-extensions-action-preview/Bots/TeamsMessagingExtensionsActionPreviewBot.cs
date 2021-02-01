@@ -151,10 +151,12 @@ namespace Microsoft.BotBuilderSamples.Bots
             var message = MessageFactory.Attachment(new Attachment { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard });
 
             //User Attribution for Bot messages
-            message.ChannelData = new
+            if (exampleData.UserAttributionSelect=="true")
             {
-                OnBehalfOf = new[]
-               {
+                message.ChannelData = new
+                {
+                    OnBehalfOf = new[]
+                   {
                     new
                        {
                          ItemId = 0,
@@ -163,7 +165,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                          DisplayName = turnContext.Activity.From.Name
                     }
                 }
-            };
+                };
+            }
 
             // THIS WILL WORK IF THE BOT IS INSTALLED. (SendActivityAsync will throw if the bot is not installed.)
             await turnContext.SendActivityAsync(message, cancellationToken);
