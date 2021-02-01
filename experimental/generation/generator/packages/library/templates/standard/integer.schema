@@ -17,6 +17,6 @@
         "generic-show.dialog"
     ],
     "$generator": {
-        "$ref": "array.json"
+        "$ref": "minmax.json"
     }
 }

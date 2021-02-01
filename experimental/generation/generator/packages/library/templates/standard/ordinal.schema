@@ -17,15 +17,18 @@
         "relativeTo"
     ],
     "$templates": [
-        "ordinalV2Entity.lu",
-        "ordinalV2Entity.lg",
-        "objectProperty.lg",
-        "generic-missing.dialog",
-        "genericEntity-add.dialog",
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "genericUnitEntity-add.dialog",
         "genericEntity-remove.dialog",
-        "generic-change.dialog",
+        "generic-missing.dialog",
         "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-show.dialog"
-    ]
+        "generic-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
+    ],
+    "$generator": {
+        "$ref": "array.json"
+    }
 }
