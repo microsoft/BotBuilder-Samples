@@ -476,21 +476,24 @@ async function processTemplates(
                 feedback(FeedbackType.error, `${property.path} does not have $entities and $templates from schema.`)
             } else {
                 for (let entityName of entities) {
-                    scope.entity = entityName
-                    if (entityName === `${scope.property}Entity`) {
-                        entityName = `${scope.type}`
-                    }
+                    if (!entityName.startsWith('$')) {
+                        // Plain entity name vs. expression
+                        scope.entity = entityName
+                        if (entityName === `${scope.property}Entity`) {
+                            entityName = `${scope.type}`
+                        }
 
-                    // Look for entity examples in global $examples
-                    scope.examples = schema.schema.$examples[entityName]
+                        // Look for entity examples in global $examples
+                        scope.examples = schema.schema.$examples[entityName]
 
-                    // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                        scope.examples = property.schema.examples
-                    }
+                        // Pick up examples from property schema if unique entity
+                        if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
+                            scope.examples = property.schema.examples
+                        }
 
-                    for (const template of templates) {
-                        await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                        for (const template of templates) {
+                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                        }
                     }
                 }
             }
@@ -501,7 +504,7 @@ async function processTemplates(
         delete scope.type
         delete scope.propertySchema
 
-        // Process templates found at the top
+        // Process templates found at the top which should not depend on locale/property/entity
         if (schema.schema.$templates) {
             scope.examples = await globalExamples(outDir, scope)
             for (let templateName of schema.schema.$templates) {

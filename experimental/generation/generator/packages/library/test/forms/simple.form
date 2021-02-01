@@ -5,11 +5,9 @@
         "foo": {
             "type": "array",
             "items": {
-                "type": "number",
-                "minimum": 0,
-                "maximum": 10,
-                "exclusiveMinimum": 0,
-                "exclusiveMaximum": 10
+                "$ref": "template:dimension.schema",
+                "$units": "Foot",
+                "minimum": 1
             }
         }
     },

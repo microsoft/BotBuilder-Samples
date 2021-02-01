@@ -20,7 +20,7 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
-        "genericUnitEntity-add.dialog",
+        "genericEntity-add.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",
