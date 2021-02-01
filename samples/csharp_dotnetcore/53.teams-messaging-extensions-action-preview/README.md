@@ -2,7 +2,9 @@
 
 Bot Framework v4 Teams Messaging Extension Action Preview sample.
 
-This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). It shows how to create a simple card based on parameters entered by the user from a Task Module.it also display the scenairo where a Bot sends messages on behalf of a User, attributing the message to that user can help with engagement and showcase a more natural interaction flow
+This Messaging Extension has been created using [Bot Framework](https://dev.botframework.com). 
+ - It shows how to create a simple card based on parameters entered by the user from a Task Module.
+ - It also display the scenairo where a Bot sends messages on behalf of a User, attributing the message to that user can help with engagement and showcase a more natural     interaction flow
 
 ## Prerequisites
 
