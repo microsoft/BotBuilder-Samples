@@ -37,9 +37,6 @@ class SimpleGraphClient {
     async GetMyProfile() {
         return await this.graphClient.api('/me').get();
     }
-    // async GetPhoto() {
-    //     return await this.graphClient.api("/me/photo/$value").get();
-    // }
 }
 
 exports.SimpleGraphClient = SimpleGraphClient;
