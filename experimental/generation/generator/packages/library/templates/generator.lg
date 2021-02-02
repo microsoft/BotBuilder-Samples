@@ -92,10 +92,18 @@
 - ${`${locale}/${type}Property.${locale}.lg`}
 
 # entityLUTemplates(entity)
-- ${`${locale}/${entity}Entity.${locale}.lu`}
+> LU template name for LUIS entities
+- IF: ${isLUISEntity(entity)}
+    - ${`${locale}/${entity}Entity.${locale}.lu`}
+- ELSE:
+    -
 
 # entityLGTemplates(entity)
-- ${`${locale}/${entity}Entity.${locale}.lg`}
+> LG template name for LUIS entities
+- IF: ${isLUISEntity(entity)}
+    - ${`${locale}/${entity}Entity.${locale}.lg`}
+- ELSE:
+    -
 
 # formTemplates(name, type)
 - ${`${locale}/form-${name}.${locale}${type}`}
@@ -103,7 +111,11 @@
 >> Dialog templates
 
 # addDialog(entity)
-> Add dialog with optional verification of patterns, min/max, units and uniqueness for singletons or arrays
+> Add dialog with optional verification of patterns, min/max, units and uniqueness for singletons or arrays.
+> This is built out of three kinds of templates which can optionally generate output: verifications, actions and transforms.
+> Verifications start with verify* and optionally inject an if with a passed in else or just the else.
+> Actions return a string for inside a list of actions or an empty string and start with action*.
+> Transforms transform an entity before assigning it and start with transform*.
 -```
 {
     "$schema": "${appSchema}",
@@ -111,24 +123,51 @@
     "operation": "Add()",
     "property": "${property}",
     "entity": "${entity}",
-    "actions": [${verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnits(entity, verifyUnique(entity, assignEntity(entity))))))}]
+    "actions": [${verifyUnits(entity, verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnique(entity, actionAssign(entity))))))}]
     ${designerOpEntity('Add', entity)}      
 }
 ```
 
-# assignEntity(entity)
+# actionAssign(entity)
+> Assign entity to current property
+- ${join(where([actionConfirm(), actionSetOrPush(transformUnits(entity)), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+
+# actionConfirm(entity)
+> Confirm we are setting entity to property
 - ```
 {
     "$kind": "Microsoft.SendActivity",
     "activity": "\${confirmationText('${property}', @${entity})}"
-},
-${setOrPush()}
-```
+}```
 
-# setOrPush(entity)
-> Set or push entity into property and clear propertyToChange
+# transformUnits(entity)
+> Set the default units if any
+- IF: ${units() && !isUnitsEntity(entity)}
+    - {number: @${entity}, units: '${units()}'}
+- ELSE:
+    -@${entity}
+
+# actionSetOrPush(value)
+> Set or push value based on singelton or array
+- IF: ${isArrayProperty(property)}
+    - ```
+    {
+        "$kind": "Microsoft.EditArray",
+        "changeType": "push",
+        "itemsProperty": "$${property}",
+        "value": "=${value}"
+    }```
+- ELSE:
+    -```
+    {
+        "$kind": "Microsoft.SetProperty",
+        "property": "$${property}",
+        "value": "=${value}"          
+    }```
+
+# actionDeletePropertyToChange()
+> Delete propertyToChange
 - ```
-${setOrPushOperation(entity)},
 {
    "$kind": "Microsoft.IfCondition",
     "condition": "$PropertyToChange == '${property}'",
@@ -138,24 +177,6 @@ ${setOrPushOperation(entity)},
             "property": "$PropertyToChange"
         }
     ]
-}```
-
-# setOrPushOperation(entity)
-> Set or push entity based on singelton or array
-- IF: ${isArrayProperty(property)}
-    - ```
-{
-    "$kind": "Microsoft.EditArray",
-    "changeType": "push",
-    "itemsProperty": "$${property}",
-    "value": "=@${entity}"
-}```
-- ELSE:
-    -```
-{
-    "$kind": "Microsoft.SetProperty",
-    "property": "$${property}",
-    "value": "=@${entity}"          
 }```
 
 # verifyPattern(entity, else)
@@ -231,7 +252,7 @@ ${setOrPushOperation(entity)},
 
 # verifyUnits(entity, else)
 > Verify units
-- IF: ${propertySchema.$units}
+- IF: ${units() && isUnitsEntity(entity)}
     -```
     {
         "$kind": "Microsoft.IfCondition",
@@ -473,16 +494,28 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # propertyEntity()
 - ${`${property}Property`}
 
-> Check to see if entity is only found in one property
 # oneProperty(entity)
+> Check to see if entity is only found in one property
 - ${count(entities[entity]) == 1}
 
-> Test to see if property is an array
 # isArrayProperty(property)
+> Test to see if property is an array
 - ${propertySchema.type == 'array'}
 
-> Generate a raw entity value with optional label
+# isUnitsEntity(entity)
+> Entities that have units
+- ${contains(['age', 'dimension', 'money', 'temperature'], entity)}
+
+# units
+> Property units if specified
+- ${propertySchema.$units}
+
+# isLUISEntity(entity)
+> Assume LUIS entity unless built-in utterance
+- ${entity != 'utterance'}
+
 # entityValue(entity, value, label)
+> Generate a raw entity value with optional label
 - IF: ${label}
 - {@${entity}=${value}}
 - ELSE:
@@ -520,11 +553,9 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${join(foreach(phrases(value), phrase, `        - ${phrase}`), EOL())}
 
 # luHeader()
--```
-> !# @app.culture = ${locale}
+-```> !# @app.culture = ${locale}
 > !# @app.settings.NormalizeWordForm = true
-> !# @app.settings.UseAllTrainingData = true
-```
+> !# @app.settings.UseAllTrainingData = true```
 
 >> Templates to use when expanding schemas
 
@@ -630,7 +661,7 @@ ${'#'} ${property}_Show
 - ${show}```
 
 # incorrectUnitsTemplate()
-- IF: ${hasUnits()}
+- IF: ${units()}
 - ```
 ${'#'} ${property}_IncorrectUnits(actual)
 > Incorrect units for '${property}' property
@@ -640,14 +671,12 @@ ${'#'} ${property}_IncorrectUnits(actual)
 
 >> Helpers
 
-# hasUnits()
-- ${propertySchema.$units != null}
-
-# units()
-- ${propertySchema.$units}
-
 # enums()
 - IF: ${propertySchema.enum}
     - ${propertySchema.enum}
 - ELSE:
     - ${propertySchema.items.enum}
+
+# sortObject(object, key)
+> Sort the values in object by key and return the collection of values
+- ${sortBy(select(indicesAndValues(object), entry, entry.value), key)}

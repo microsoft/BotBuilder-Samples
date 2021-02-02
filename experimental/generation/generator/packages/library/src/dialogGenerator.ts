@@ -476,8 +476,8 @@ async function processTemplates(
                 feedback(FeedbackType.error, `${property.path} does not have $entities and $templates from schema.`)
             } else {
                 for (let entityName of entities) {
-                    if (!entityName.startsWith('$')) {
-                        // Plain entity name vs. expression
+                    if (!entityName.startsWith('$') && entityName !== 'utterance') {
+                        // Plain entity name vs. expression or built-in utterance
                         scope.entity = entityName
                         if (entityName === `${scope.property}Entity`) {
                             entityName = `${scope.type}`

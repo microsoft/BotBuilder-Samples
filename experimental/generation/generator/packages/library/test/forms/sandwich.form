@@ -9,7 +9,9 @@
         },
         "Length": {
             "$ref": "template:dimension.schema",
-            "$units": "Inch"
+            "$units": "Inch",
+            "minimum": 6,
+            "maximum": 12
         },
         "Name": {
             "$ref": "template:personName.schema"
