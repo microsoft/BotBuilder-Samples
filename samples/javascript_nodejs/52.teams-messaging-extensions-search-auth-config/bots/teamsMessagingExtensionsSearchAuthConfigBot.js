@@ -9,7 +9,6 @@ const {
 const axios = require('axios');
 const querystring = require('querystring');
 const { SimpleGraphClient } = require('..\\simpleGraphClient.js');
-const { profile, Console } = require('console');
 
 // User Configuration property name
 const USER_CONFIGURATION = 'userConfigurationProperty';
@@ -78,7 +77,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         const profile = await graphClient.GetMyProfile();
         const attachment = CardFactory.thumbnailCard(
             'Thumbnail Card',
-            profile.Displayname,
+            profile.displayName,
             query.url,
             [
                 'https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png'
@@ -245,7 +244,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
         if (action.commandId === 'SHOWPROFILE') {
-            debugger;
             const magicCode =
                 action.state && Number.isInteger(Number(action.state))
                     ? action.state
@@ -282,7 +280,6 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             }
             const graphClient = new SimpleGraphClient(tokenResponse.token);
             const profile = await graphClient.GetMyProfile();
-            //const photo = await graphClient.GetPhoto();
             const profileCard = CardFactory.adaptiveCard({
                 version: '1.0.0',
                 type: 'AdaptiveCard',
