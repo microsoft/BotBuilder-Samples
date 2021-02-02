@@ -9,7 +9,6 @@ const {
 const axios = require('axios');
 const querystring = require('querystring');
 const { SimpleGraphClient } = require('..\\simpleGraphClient.js');
-const { profile, Console } = require('console');
 
 // User Configuration property name
 const USER_CONFIGURATION = 'userConfigurationProperty';
