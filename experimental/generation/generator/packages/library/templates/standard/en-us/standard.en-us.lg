@@ -129,6 +129,39 @@ ${'#'} ${type}Entity_Value(entity)
 # unexpectedAddUpdateDefault()
 - ${unexpectedAddDefault()}
 
+>> Strings
+# stringTemplates(type)
+- ```
+${promptTemplates(missingDefault(type), changeDefault(type))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptString(), helpString())}
+${stringValidationTemplates()}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# repromptString()
+- Any response is allowed for ${propertyName()}
+
+# helpString()
+- Any response is allowed for ${propertyName()}
+
+# stringValidationTemplates()
+- IF: ${propertySchema.pattern}
+    -```${'#'} ${property}_NoPatternMatch(val)
+- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.properties.${property}.pattern}
+```
+- ELSE:
+    -
+
+
+
 >> Units
 
 # unitsTemplates(type)
