@@ -61,12 +61,12 @@ namespace Microsoft.BotBuilderSamples
 
         private OrchestratorRecognizer InitializeOrchestrator()
         {
-            string modelPath = Path.GetFullPath(OrchestratorConfig.ModelPath);
-            string snapshotPath = Path.GetFullPath(OrchestratorConfig.SnapshotPath);
+            string modelFolder = Path.GetFullPath(OrchestratorConfig.ModelFolder);
+            string snapshotFile = Path.GetFullPath(OrchestratorConfig.SnapshotFile);
             OrchestratorRecognizer orc = new OrchestratorRecognizer()
             {
-                ModelPath = modelPath,
-                SnapshotPath = snapshotPath
+                ModelFolder = modelFolder,
+                SnapshotFile = snapshotFile
             };
             return orc;
         }
