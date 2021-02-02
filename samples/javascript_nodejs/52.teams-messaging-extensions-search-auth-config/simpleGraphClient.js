@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { Client } = require("@microsoft/microsoft-graph-client");
+const { Client } = require('@microsoft/microsoft-graph-client');
 
 /**
  * This class is a wrapper for the Microsoft Graph API.
@@ -10,7 +10,7 @@ const { Client } = require("@microsoft/microsoft-graph-client");
 class SimpleGraphClient {
     constructor(token) {
         if (!token || !token.trim()) {
-            throw new Error("SimpleGraphClient: Invalid token received.");
+            throw new Error('SimpleGraphClient: Invalid token received.');
         }
 
         this._token = token;
@@ -30,12 +30,12 @@ class SimpleGraphClient {
     async searchMailInbox(searchQuery) {
         // Searches the user's mail Inbox using the Microsoft Graph API
         return await this.graphClient
-            .api("me/mailfolders/inbox/messages")
+            .api('me/mailfolders/inbox/messages')
             .search(searchQuery)
             .get();
     }
     async GetMyProfile() {
-        return await this.graphClient.api("/me").get();
+        return await this.graphClient.api('/me').get();
     }
     // async GetPhoto() {
     //     return await this.graphClient.api("/me/photo/$value").get();
