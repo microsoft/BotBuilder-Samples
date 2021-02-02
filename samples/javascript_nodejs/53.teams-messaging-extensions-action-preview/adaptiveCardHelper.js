@@ -9,7 +9,7 @@ class AdaptiveCardHelper {
         const attachmentContent = activityPreview.attachments[0].content;
         const userText = attachmentContent.body[1].text;
         const choiceSet = attachmentContent.body[3];
-        const attributionFlag= attachmentContent.body[4].text.split(':')[1];
+        const attributionFlag = attachmentContent.body[4].text.split(':')[1];
         return {
             MultiSelect: choiceSet.isMultiSelect ? 'true' : 'false',
             UserAttributionSelect: attributionFlag,
