@@ -74,7 +74,7 @@ class AdaptiveCardHelper {
                 },
                 { type: 'TextBlock', text: 'Do you want to send this card on behalf of User?' },
                 {
-                    choices: [{ title: 'True', value: 'true' }, { title: 'False', value: 'false' }],
+                    choices: [{ title: 'Yes', value: 'true' }, { title: 'No', value: 'false' }],
                     id: 'UserAttributionSelect',
                     isMultiSelect: false,
                     style: 'expanded',
@@ -107,7 +107,7 @@ class AdaptiveCardHelper {
                     style: 'expanded',
                     type: 'Input.ChoiceSet'
                 },
-                { text: 'Sending card on behalf of user is set to:'+`${ data.UserAttributionSelect }`, type: 'TextBlock', id: 'AttributionChoice' }
+                { text: `Sending card on behalf of user is set to: ${ data.UserAttributionSelect }`, type: 'TextBlock', id: 'AttributionChoice' }
             ],
             type: 'AdaptiveCard',
             version: '1.0'
