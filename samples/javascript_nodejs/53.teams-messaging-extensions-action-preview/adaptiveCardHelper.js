@@ -72,9 +72,9 @@ class AdaptiveCardHelper {
                     type: 'Input.Text',
                     value: option3
                 },
-                { type: 'TextBlock', text: 'Do you want to send this card on behalf of User?' },
+                { type: 'TextBlock', text: 'Do you want to send this card on behalf of the User?' },
                 {
-                    choices: [{ title: 'True', value: 'true' }, { title: 'False', value: 'false' }],
+                    choices: [{ title: 'Yes', value: 'true' }, { title: 'No', value: 'false' }],
                     id: 'UserAttributionSelect',
                     isMultiSelect: false,
                     style: 'expanded',
