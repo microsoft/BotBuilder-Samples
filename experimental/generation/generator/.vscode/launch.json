@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*Schema discovery.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

@@ -12,16 +12,16 @@ import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
 import * as glob from 'globby'
-import {generateTest} from '../src/testGenerator'
+import { generateTest } from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
-import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
+import { Templates, DiagnosticSeverity } from 'botbuilder-lg'
 import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
 import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
-import {ComponentRegistration} from 'botbuilder-core'
-import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
-import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
-import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
+import { ComponentRegistration } from 'botbuilder-core'
+import { AdaptiveComponentRegistration } from 'botbuilder-dialogs-adaptive'
+import { ResourceExplorer } from 'botbuilder-dialogs-declarative'
+import { LuisComponentRegistration, QnAMakerComponentRegistration } from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -107,8 +107,8 @@ describe('dialog:generate library', async () => {
         'array_enum',
         'array_personName',
         'boolean',
-        'date-time',
-        'date',
+        // 'date-time',
+        // 'date',
         'datetime',
         'dimension_with_units',
         'dimension',
@@ -135,7 +135,7 @@ describe('dialog:generate library', async () => {
         'phonenumber',
         'temperature_with_units',
         'temperature',
-        'time',
+        // 'time',
         'uri'
     ]
 
@@ -185,7 +185,7 @@ describe('dialog:generate library', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = {$comment: 'this is a .dialog file'}
+        let dialog = { $comment: 'this is a .dialog file' }
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -359,5 +359,18 @@ describe('dialog:generate library', async () => {
         } catch (e) {
             assert.fail(e.message)
         }
+    })
+
+    // This is only meaningful after running unit tests
+    it('Unit test unused standard templates', async () => {
+        // Compare cache to all standard template files
+        const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
+        const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
+        for (const path of unused) {
+            feedback(gen.FeedbackType.warning, `Unused template ${ppath.relative('templates/standard', path)}`)
+        }
+
+        // After running unit tests this should be 0 unless we have a future template present.
+        assert.strictEqual(unused.length, 0)
     })
 })

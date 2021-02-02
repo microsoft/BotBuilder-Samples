@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('yes/no')}
+- ${genericTemplates('key phrase')}

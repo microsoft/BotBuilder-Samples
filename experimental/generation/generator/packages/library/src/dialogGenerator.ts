@@ -234,7 +234,7 @@ function setPath(obj: any, path: string, value: any) {
 
 type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
-const TemplateCache: Map<string, lg.Templates> = new Map<string, lg.Templates>()
+export const TemplateCache: Map<string, lg.Templates> = new Map<string, lg.Templates>()
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
     let template: Template

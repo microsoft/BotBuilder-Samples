@@ -4,20 +4,7 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${promptTemplates(missingDefault('time'), changeDefault('time'))}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedUpdateDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedUpdateDefault(),
-                        removeDefault(),
-                        clearDefault())}
-${helpTemplates(repromptDefault('time'), helpDefault('time'))}
-${showTemplate(showDefault())}
-${validationTemplate()}
-${nameTemplate()}
-${valueTemplate()}
-```
+- ${genericTemplates('time')}${validationTemplate()}
 
 > TODO: Move comment before template
 # validationTemplate
