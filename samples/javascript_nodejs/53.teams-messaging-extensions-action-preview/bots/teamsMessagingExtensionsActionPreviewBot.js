@@ -55,21 +55,20 @@ class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandler {
         const adaptiveCard = AdaptiveCardHelper.createAdaptiveCardAttachment(submitData);
         var responseActivity = { type: 'message', attachments: [adaptiveCard] };
         if (submitData.UserAttributionSelect === 'true') {
-            responseActivity = {
-                type: 'message',
-                attachments: [adaptiveCard],
-                channelData: {
-                    onBehalfOf: [
-                       {
-                           itemId: 0,
-                           mentionType: 'person',
-                           mri: context.activity.from.id,
-                           displayName: context.activity.from.name
-                       }
-                   ]
-           }}; 
-       }
-      
+             responseActivity = {
+                 type: 'message',
+                 attachments: [adaptiveCard],
+                 channelData: {
+                     onBehalfOf: [
+                        {
+                            itemId: 0,
+                            mentionType: 'person',
+                            mri: context.activity.from.id,
+                            displayName: context.activity.from.name
+                        }
+                    ]
+            }}; 
+        }  
         await context.sendActivity(responseActivity);
     }
 
