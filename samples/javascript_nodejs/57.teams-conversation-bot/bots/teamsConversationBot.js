@@ -34,11 +34,10 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
 
         this.onMembersAddedActivity(async (context, next) => {
-            //  console.log(context);
             context.activity.membersAdded.forEach(async (teamMember) => {
                 if (teamMember.id !== context.activity.recipient.id) {
                     await context.sendActivity(
-                        `Welcome to the team ${teamMember.givenName} ${teamMember.surname}`
+                        `Welcome to the team, ${teamMember.givenName} ${teamMember.surname}`
                     );
                 }
             });
@@ -76,8 +75,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 for (let i = 0; i < reactionsAdded.length; i++) {
                     const reaction = reactionsAdded[i];
                     const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
-                    const resourceResponse = context.sendActivity(newReaction);
-                    // Save information about the sent message and its ID (resourceResponse.id).
+                    context.sendActivity(newReaction);
                 }
             }
         });
@@ -88,8 +86,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 for (let i = 0; i < reactionsRemoved.length; i++) {
                     const reaction = reactionsRemoved[i];
                     const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
-                    const resourceResponse = context.sendActivity(newReaction);
-                    // Save information about the sent message and its ID (resourceResponse.id).
+                    context.sendActivity(newReaction);
                 }
             }
         });
@@ -176,7 +173,6 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return;
             } else {
-                console.log(e);
                 throw e;
             }
         }
