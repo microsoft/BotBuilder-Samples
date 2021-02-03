@@ -131,7 +131,7 @@ ${'#'} ${template}Entity_Value(entity)
 - ${propertyName()}: ${propertyValue(`$${property}`)}
 
 >> Strings
-# stringTemplates(type)
+# stringMessages(type)
 - ```
 ${promptTemplates(missingDefault(type), changeDefault(type))}
 ${confirmationTemplates(expectedSetDefault(), 
@@ -166,7 +166,7 @@ ${valueTemplate()}
 
 >> Units
 
-# unitsTemplates(type)
+# unitsMessages(type)
 - ```${formImport('form.en-us.lg')}
 ${promptTemplates(missingDefault(type), changeDefault(type))}
 ${confirmationTemplates(expectedSetDefault(), 
@@ -184,7 +184,7 @@ ${complexValueTemplate(type)}
 
 >> Number templates
 
-# numberTemplates(type)
+# numberMessages(type)
 - ```
 ${promptTemplates(missingNumber(type), changeDefault(type))}
 ${confirmationTemplates(expectedSetDefault(), 
@@ -202,7 +202,7 @@ ${valueTemplate()}
 
 # missingNumber(type)
 - IF: ${isArrayProperty(property)}
-    - Enter multiple ${type} for ${propertyName()} ${numberRanges()}
+    - Enter multiple ${type}s for ${propertyName()} ${numberRanges()}
 - ELSE:
     - Enter ${definite(type)} for ${propertyName()} ${numberRanges()}
 
@@ -237,9 +237,20 @@ ${'#'} ${property}_IsTooBig(val)
 - ELSE:
     -
 
+>> Date format templates
+
+# dateFormatMessages(description)
+- ${genericMessages(description)}${dateFormatValidationMessage()}
+
+# dateFormatValidationMessage()
+- ```
+${'#'} ${property}_invalid${propertySchema.format}(val)
+> Invalid ${propertySchema.format} for '${property}' property
+- \${complexValue(val)} is not a ${propertySchema.format}```
+
 >> Generic templates
 
-# genericTemplates(description)
+# genericMessages(description)
 > Generic text templates where type is the description of the desired values
 - ```
 ${promptTemplates(missingDefault(type), changeDefault(type))}

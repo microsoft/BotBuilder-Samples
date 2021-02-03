@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('ordinal')}
+- ${genericMessages('ordinal')}

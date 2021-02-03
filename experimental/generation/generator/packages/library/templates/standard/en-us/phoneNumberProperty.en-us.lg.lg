@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('phone number')}
+- ${genericMessages('phone number')}

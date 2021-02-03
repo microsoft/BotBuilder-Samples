@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${numberTemplates('percentage')
+- ${numberMessages('percentage')}

@@ -473,7 +473,7 @@ async function processTemplates(
             const entities = property.schema.$entities
             const templates = property.schema.$templates
             if (!entities || !templates) {
-                feedback(FeedbackType.error, `${property.path} does not have $entities and $templates from schema.`)
+                feedback(FeedbackType.error, `${property.path} does not define $template, $entities or $templates.`)
             } else {
                 for (let entityName of entities) {
                     if (!entityName.startsWith('$') && entityName !== 'utterance') {

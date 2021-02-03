@@ -4,7 +4,7 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('date')}${validationTemplate()}
+- ${genericMessages('date or time expression')}${validationTemplate()}
 
 # validationTemplate
 - ```

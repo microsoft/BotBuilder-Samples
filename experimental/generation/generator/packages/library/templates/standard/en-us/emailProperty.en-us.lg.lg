@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('email')}
+- ${genericMessages('email')}

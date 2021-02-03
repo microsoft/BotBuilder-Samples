@@ -107,8 +107,8 @@ describe('dialog:generate library', async () => {
         'array_enum',
         'array_personName',
         'boolean',
-        // 'date-time',
-        // 'date',
+        'date-time',
+        'date',
         'datetime',
         'dimension_with_units',
         'dimension',
@@ -135,7 +135,7 @@ describe('dialog:generate library', async () => {
         'phonenumber',
         'temperature_with_units',
         'temperature',
-        // 'time',
+        'time',
         'uri'
     ]
 

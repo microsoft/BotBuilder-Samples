@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${stringTemplates('person name')}
+- ${stringMessages('person name')}

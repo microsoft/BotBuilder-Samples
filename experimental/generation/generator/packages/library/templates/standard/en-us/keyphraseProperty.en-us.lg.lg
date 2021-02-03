@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('key phrase')}
+- ${genericMessages('key phrase')}

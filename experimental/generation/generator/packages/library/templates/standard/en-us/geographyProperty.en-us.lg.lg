@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('location')}
+- ${genericMessages('location')}

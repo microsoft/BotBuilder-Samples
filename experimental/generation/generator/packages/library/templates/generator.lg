@@ -76,9 +76,6 @@
 
 >> Template lists
 
-# entityTemplates()
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${template}.dialog`, `${entity}Entity-remove-${template}.dialog`]}
-
 # propertyLGTemplates(type)
 - ${`${locale}/${template}Property.${locale}.lg`}
 
@@ -88,6 +85,20 @@
         "genericEntity.lg",
         "genericProperty.lg",
         "genericEntity-add.dialog",
+        "genericEntity-remove.dialog",
+        "generic-missing.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
+    ]}
+
+# dateFormatTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "dateFormat-add.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",
@@ -135,14 +146,14 @@
 
 # actionAssign(entity)
 > Assign entity to current property
-- ${join(where([actionConfirm(), actionSetOrPush(transformUnits(entity)), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+- ${join(where([actionSetOrPush(transformUnits(entity)), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
 
-# actionConfirm(entity)
+# actionConfirm(value)
 > Confirm we are setting entity to property
 - ```
 {
     "$kind": "Microsoft.SendActivity",
-    "activity": "\${confirmationText('${property}', @${entity})}"
+    "activity": "\${confirmationText('${property}', ${entity})}"
 }```
 
 # transformUnits(entity)
@@ -153,6 +164,10 @@
     -@${entity}
 
 # actionSetOrPush(value)
+> Confirm and set or push value
+- ${actionConfirm(value)}, ${actionSetOrPushOperation(value)}
+
+# actionSetOrPushOperation(value)
 > Set or push value based on singelton or array
 - IF: ${isArrayProperty(property)}
     - ```
@@ -272,6 +287,35 @@
     }```
 - ELSE:
     - ${else}
+
+# addDateFormatDialog()
+> Add a dialog for transforming a timex into a specific format
+> TODO: We likely need to beef this up for all the corner cases like multiple timex, missing year, etc.
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "datetimeV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@datetime.type != '${propertySchema.format}'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_invalid${propertySchema.format}(@datetime)}"
+                }
+            ],
+            "elseActions": [
+                ${actionSetOrPush(@datetime.timex[0])}
+            ]
+        }
+    ]
+    ${designerOpEntity('Add', 'datetimeV2')}
+}
+```
 
 # removeDialog(entity)
 > Dialog to remove entity from property

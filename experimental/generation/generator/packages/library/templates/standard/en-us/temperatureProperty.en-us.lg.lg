@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${unitsTemplates('temperature')}
+- ${unitsMessages('temperature')}

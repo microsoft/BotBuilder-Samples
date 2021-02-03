@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericMessages('yes/no')}
+- ${dateFormatMessages('date and time')}
