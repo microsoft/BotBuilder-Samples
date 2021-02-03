@@ -36,15 +36,15 @@ ${'#'} ${property}Entity_Value(val)
 
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
-> Display value for '${type}' entity
-${'#'} ${type}Entity_Value(entity)
+> Display value for '${template}' entity
+${'#'} ${template}Entity_Value(entity)
 - \${value(entity.value)}
 ```
 
 # entityTextTemplate(type)
 -```
-${'#'} ${type}Entity_Value(entity)
-> Display value for '${type}' entity
+${'#'} ${template}Entity_Value(entity)
+> Display value for '${template}' entity
 - \${entity.text}
 ```
 

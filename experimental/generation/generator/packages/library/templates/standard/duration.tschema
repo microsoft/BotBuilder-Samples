@@ -2,23 +2,8 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "string",
     "format": "duration",
-    "$entities": [
-        "datetimeV2"
-    ],
-    "$comment": "TODO: We need to convert to P[nY][nM][nD][T[nH][nM][nS]] https://tools.ietf.org/html/rfc3339#appendix-A",
-    "$templates": [
-        "genericEntity.lg",
-        "genericEntity.lu",
-        "genericProperty.lg",
-        "genericEntity-add.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-missing.dialog",
-        "generic-show.dialog"
-    ],
     "$generator": {
+        "$comment": "TODO: We need to convert to P[nY][nM][nD][T[nH][nM][nS]] https://tools.ietf.org/html/rfc3339#appendix-A",
         "$ref": "array.json"
     }
 }

@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${numberTemplates('number')
+- ${numberTemplates('number')}

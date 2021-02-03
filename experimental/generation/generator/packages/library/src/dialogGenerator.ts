@@ -461,14 +461,14 @@ async function processTemplates(
     force: boolean,
     feedback: Feedback): Promise<void> {
     scope.templates = {}
-    // We expand each template in the context of a combination of locale, property and entity.
+    // We expand each template in the context of a combination of locale, property, type (schema name) and entity.
     // Since we only generate each filename once this means property only templates don't care about the entity and entity templates will be expanded for each entity.
     // If a template author wants to do different things with different entities they will need explicit templates for each desired entity.
     for (let locale of locales) {
         scope.locale = locale
         for (let property of schema.schemaProperties()) {
             scope.property = property.path
-            scope.type = property.typeName()
+            scope.template = property.schema.$template
             scope.propertySchema = property.schema
             const entities = property.schema.$entities
             const templates = property.schema.$templates
@@ -518,6 +518,50 @@ async function processTemplates(
         scope.templates.qna = []
     }
     delete scope.locale
+}
+
+// Ensure every property has $entities and $templates from $template
+async function ensureEntitiesAndTemplates(
+    schema: s.Schema,
+    templateDirs: string[],
+    scope: any,
+    feedback: Feedback)
+    : Promise<void> {
+    for (let property of schema.schemaProperties()) {
+        if (!property.schema.$entities || !property.schema.$templates) {
+            const template = property.schema.$template
+            if (!template) {
+                feedback(FeedbackType.error, `${property.path} has no $template`)
+            } else {
+                try {
+                    scope.property = property.path
+                    scope.template = property.schema.$template
+                    const rootTemplate = await findTemplate(template, templateDirs)
+                    let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
+                    if (!lgTemplate) {
+                        feedback(FeedbackType.error, `Cannot find ${rootTemplate} for ${property.path}`)
+                    } else {
+                        if (!property.schema.$entities) {
+                            feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $entities`)
+                            property.schema.$entities = lgTemplate.evaluate('entities', scope) as string[]
+                            if (!property.schema.$entities) {
+                                feedback(FeedbackType.error, `${property.path} has no $entities`)
+                            }
+                        }
+                        if (!property.schema.$templates) {
+                            feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $templates`)
+                            property.schema.$templates = lgTemplate.evaluate('templates', scope) as string[]
+                            if (!property.schema.$templates) {
+                                feedback(FeedbackType.error, `${property.path} has no $templates`)
+                            }
+                        }
+                    }
+                } catch (e) {
+                    feedback(FeedbackType.error, e.message)
+                }
+            }
+        }
+    }
 }
 
 // Expand strings with ${} expression in them by evaluating and then interpreting as JSON.
@@ -800,7 +844,6 @@ export async function generate(
         }
 
         let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
-        schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // User templates + used schema template directories
         let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
@@ -809,6 +852,10 @@ export async function generate(
             ...templateDirs,
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
         ]
+
+        // Expand root $template and computed schema
+        await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
+        schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // Process templates
         let scope: any = {
@@ -834,7 +881,7 @@ export async function generate(
 
         if (!error) {
             // Write final schema
-            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
+            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files

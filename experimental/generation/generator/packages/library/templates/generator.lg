@@ -76,20 +76,25 @@
 
 >> Template lists
 
-# genericPropertyTemplates()
-- ${[`${type}Property.lg`, `generic-missing.dialog`, `generic-help.dialog`, `generic-clear.dialog`, `generic-show.dialog`, `generic-change.dialog`]}
-
-# propertyTemplates()
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`, `${type}-change.dialog`]}
-
-# genericEntityTemplates()
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `genericEntity-add.dialog`, `genericEntity-remove.dialog`]}
-
 # entityTemplates()
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
+- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${template}.dialog`, `${entity}Entity-remove-${template}.dialog`]}
 
 # propertyLGTemplates(type)
-- ${`${locale}/${type}Property.${locale}.lg`}
+- ${`${locale}/${template}Property.${locale}.lg`}
+
+# standardTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-remove.dialog",
+        "generic-missing.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
+    ]}
 
 # entityLUTemplates(entity)
 > LU template name for LUIS entities

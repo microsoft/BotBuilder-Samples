@@ -1,22 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "string",
-    "$entities": [
-        "${poperty}Entity",
-        "utterance"
-    ],
-    "$templates": [
-        "genericEntity.lg",
-        "genericEntity.lu",
-        "genericProperty.lg",
-        "genericEntity-add.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-missing.dialog",
-        "generic-show.dialog"
-    ],
     "$generator": {
         "$ref": "array.json"
     }

@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${genericTemplates('date and time')}
+- ${genericTemplates('ordinal')}

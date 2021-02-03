@@ -201,45 +201,36 @@ function promoteItems(schema: any): void {
     }
 }
 
-// Return the schema name for a type
-function propertySchemaName(property: any): string {
-    let schemaName = property.type
-    switch (schemaName) {
-        case 'array':
-            if (typeof property.items === 'object' && !Array.isArray(property.items)) {
-                schemaName = propertySchemaName(property.items)
-            }
-            break
-        case 'string':
-            if (property.format) {
-                schemaName = property.format
-            } else if (property.enum) {
-                schemaName = 'enum'
-            }
-            break
+// Return the template name from a property definition
+// Either $template or inferred from primitive types or array items
+function propertyTemplate(property: any): string {
+    let template = property.$template
+    if (!template) {
+        template = property.type
+        switch (template) {
+            case 'array':
+                if (typeof property.items === 'object' && !Array.isArray(property.items)) {
+                    template = propertyTemplate(property.items)
+                }
+                break
+            case 'string':
+                if (property.format) {
+                    template = property.format
+                } else if (property.enum) {
+                    template = 'enum'
+                }
+                break
+        }
     }
-    return `${schemaName}`
+    return template
 }
 
-// Ensure each property definition has $entities and $templates from the corresponding schema file
-async function ensureEntitiesAndTemplates(templateDirs: string[], schema: any, feedback: fg.Feedback): Promise<void> {
-    const idToSchema = await templateSchemas(templateDirs, feedback)
+// Ensure each property definition has a $template
+function ensureTemplate(schema: any): void {
     for (const def of Object.values(schema.properties)) {
         const definition = def as any
-        if (!definition.$entities || !definition.$templates) {
-            const schemaName = propertySchemaName(definition)
-            const propertySchema = idToSchema[schemaName]
-            if (!propertySchema) {
-                feedback(fg.FeedbackType.error, `Missing schema definition for ${schemaName}`)
-            } else {
-                if (!definition.$entities) {
-                    definition.$entities = propertySchema.$entities
-                }
-                if (!definition.$templates) {
-                    definition.$templates = propertySchema.$templates
-                }
-            }
-        }
+        const template = propertyTemplate(definition)
+        definition.$template = template
     }
 }
 
@@ -281,6 +272,6 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     }
     mergeSchemas(allSchema, Object.values(required))
     promoteItems(allSchema)
-    await ensureEntitiesAndTemplates(templateDirs, allSchema, feedback)
+    ensureTemplate(allSchema)
     return new s.Schema(schemaPath, allSchema)
 }

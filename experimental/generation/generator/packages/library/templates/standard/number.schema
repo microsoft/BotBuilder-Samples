@@ -1,21 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "number",
-    "$entities": [
-        "number"
-    ],
-    "$templates": [
-        "genericEntity.lg",
-        "genericEntity.lu",
-        "genericProperty.lg",
-        "genericEntity-add.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-missing.dialog",
-        "generic-show.dialog"
-    ],
     "$generator": {
         "$ref": "minmax.json"
     }
