@@ -475,13 +475,12 @@ async function processTemplates(
             if (!entities || !templates) {
                 feedback(FeedbackType.error, `${property.path} does not define $template, $entities or $templates.`)
             } else {
+                // Assume non-array are expressions to be interpreted in expandSchema
                 for (let entityName of entities) {
-                    if (!entityName.startsWith('$') && entityName !== 'utterance') {
-                        // Plain entity name vs. expression or built-in utterance
+                    // If expression will get handled by expandSchema
+                    if (!entityName.startsWith('$')) {
                         scope.entity = entityName
-                        if (entityName === `${scope.property}Entity`) {
-                            entityName = `${scope.type}`
-                        }
+                        feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
 
                         // Look for entity examples in global $examples
                         scope.examples = schema.schema.$examples[entityName]
@@ -494,18 +493,20 @@ async function processTemplates(
                         for (const template of templates) {
                             await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
                         }
+
+                        delete scope.entity
+                        delete scope.examples
                     }
                 }
             }
-            delete scope.entity
-            delete scope.examples
+            delete scope.property
+            delete scope.type
+            delete scope.propertySchema
         }
-        delete scope.property
-        delete scope.type
-        delete scope.propertySchema
 
         // Process templates found at the top which should not depend on locale/property/entity
         if (schema.schema.$templates) {
+            feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (let templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
@@ -535,7 +536,8 @@ async function ensureEntitiesAndTemplates(
             } else {
                 try {
                     scope.property = property.path
-                    scope.template = property.schema.$template
+                    scope.template = property.schema.$templateDirs
+                    scope.propertySchema = property.schema
                     const rootTemplate = await findTemplate(template, templateDirs)
                     let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
                     if (!lgTemplate) {
@@ -944,6 +946,7 @@ export async function expandPropertyDefinition(property: string, schema: any, te
     if (!schema.$entities) {
         let scope = {
             property,
+            propertySchema: schema,
             type: ps.typeName(schema)
         }
         let foundTemplate = await findTemplate(scope.type, templateDirs)

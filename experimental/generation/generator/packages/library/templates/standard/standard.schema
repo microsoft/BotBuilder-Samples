@@ -30,7 +30,9 @@
         },
         "PropertyToChange": {
             "type": "string",
-            "$entities": "${foreach(properties, property, `${property}Property`)}",
+            "$entities": [
+                "${foreach(properties, property, `${property}Property`)}"
+            ],
             "$templates": [
                 "PropertyToChange-add-PROPERTYName.dialog"
             ]

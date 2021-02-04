@@ -74,6 +74,10 @@
 # importLG(name)
 -[${name}](${prefix}-${name}.${locale}.lg)
 
+>> Enity lists
+# unitsEntities(entity)
+- ${union([entity], if(propertySchema.$units, ['number'], []))}
+
 >> Template lists
 
 # propertyLGTemplates(type)
@@ -112,14 +116,11 @@
 - IF: ${isLUISEntity(entity)}
     - ${`${locale}/${entity}Entity.${locale}.lu`}
 - ELSE:
-    -
+    - ${[]}
 
 # entityLGTemplates(entity)
-> LG template name for LUIS entities
-- IF: ${isLUISEntity(entity)}
-    - ${`${locale}/${entity}Entity.${locale}.lg`}
-- ELSE:
-    -
+> LG template name for entities
+- ${`${locale}/${entity}Entity.${locale}.lg`}
 
 # formTemplates(name, type)
 - ${`${locale}/form-${name}.${locale}${type}`}
@@ -153,7 +154,7 @@
 - ```
 {
     "$kind": "Microsoft.SendActivity",
-    "activity": "\${confirmationText('${property}', ${entity})}"
+    "activity": "\${confirmationText('${property}', ${value})}"
 }```
 
 # transformUnits(entity)
@@ -161,7 +162,7 @@
 - IF: ${units() && !isUnitsEntity(entity)}
     - {number: @${entity}, units: '${units()}'}
 - ELSE:
-    -@${entity}
+    - @${entity}
 
 # actionSetOrPush(value)
 > Confirm and set or push value

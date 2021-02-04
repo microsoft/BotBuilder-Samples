@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${['money']}
+- ${unitsEntities('money')}
 
 # templates
 - ${standardTemplates()}

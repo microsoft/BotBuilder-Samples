@@ -236,7 +236,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 135)
+            await checkPattern(ppath.join(output, '**'), 136)
         } catch (e) {
             assert.fail(e.message)
         }
