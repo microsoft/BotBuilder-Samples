@@ -234,26 +234,30 @@ function setPath(obj: any, path: string, value: any) {
 
 type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
-export const TemplateCache: Map<string, lg.Templates> = new Map<string, lg.Templates>()
+export const TemplateCache: Map<string, Template> = new Map<string, Template>()
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
     let template: Template
     for (let dir of templateDirs) {
         let loc = templatePath(name, dir)
-        if (await fs.pathExists(loc)) {
-            // Direct file
-            template = { source: loc, template: await fs.readFile(loc, 'utf8') }
-            break
-        } else {
-            // LG file
-            loc = templatePath(name + '.lg', dir)
-            template = TemplateCache.get(loc)
-            if (template) {
-                break
-            } else if (await fs.pathExists(loc)) {
-                template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+        template = TemplateCache.get(loc)
+        if (!template) {
+            if (await fs.pathExists(loc)) {
+                // Direct file
+                template = { source: loc, template: await fs.readFile(loc, 'utf8') }
                 TemplateCache.set(loc, template)
                 break
+            } else {
+                // LG file
+                loc = templatePath(name + '.lg', dir)
+                template = TemplateCache.get(loc)
+                if (template) {
+                    break
+                } else if (await fs.pathExists(loc)) {
+                    template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                    TemplateCache.set(loc, template)
+                    break
+                }
             }
         }
     }
@@ -349,18 +353,14 @@ async function processTemplate(
                         filename = `${assetDirectory(ppath.extname(filename))}${locale}${scope.property ?? 'form'}/${ppath.basename(filename)}`
                     }
 
-                    // Add prefix to constant imports
-                    if (plainTemplate) {
-                        plainTemplate.template = addPrefixToImports(plainTemplate.template, scope)
-                    }
-
                     outPath = ppath.join(outDir, filename)
                     let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
                             feedback(FeedbackType.info, `Generating ${outPath}`)
-                            let result = plainTemplate?.template
+                            // Add prefix to constant imports
+                            let result = plainTemplate ? addPrefixToImports(plainTemplate.template, scope) : undefined
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
                                 result = lgTemplate.evaluate('template', scope) as string
@@ -473,7 +473,9 @@ async function processTemplates(
             const entities = property.schema.$entities
             const templates = property.schema.$templates
             if (!entities || !templates) {
-                feedback(FeedbackType.error, `${property.path} does not define $template, $entities or $templates.`)
+                feedback(FeedbackType.error, `'${property.path}' does not define $template, $entities or $templates.`)
+            } else if (scope.property.includes('-') || scope.property.includes(' ')) {
+                feedback(FeedbackType.error, `'${property.path}' cannot include space or dash.`)
             } else {
                 // Assume non-array are expressions to be interpreted in expandSchema
                 for (let entityName of entities) {

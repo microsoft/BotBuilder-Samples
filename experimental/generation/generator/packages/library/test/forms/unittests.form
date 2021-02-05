@@ -11,19 +11,13 @@
             "type": "integer"
         },
         "Complete": {
-            "type": "string",
-            "$entities": [
-                "boolean"
-            ]
+            "$ref": "template:boolean.schema"
         },
         "NameArray": {
             "type": "array",
             "items": {
-                "type": "string"
-            },
-            "$entities": [
-                "personName"
-            ]
+                "$ref": "template:personname.schema"
+            }
         },       
         "EnumFruit": {
             "type": "string",
@@ -72,23 +66,14 @@
             "format": "time"
         },
         "Name": {
-            "type": "string",
-            "$entities": [
-                "personName"
-            ],
+            "$ref": "template:personname.schema",
             "pattern" : "^[a-z]{1,3}$"
         },
         "PhoneNumber": {
-            "type": "string",
-            "$entities": [
-                "phonenumber"
-            ]
+            "$ref": "template:phonenumber.schema"
         },
         "KeyphraseProperty": {
-            "type": "string",
-            "$entities": [
-                "keyPhrase"
-            ]
+            "$ref": "template:keyphrase.schema"
         },
         "Percentage": {
             "$ref": "template:percentage.schema"

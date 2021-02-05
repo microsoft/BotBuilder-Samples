@@ -119,7 +119,6 @@ describe('dialog:generate library', async () => {
         'integer',
         'iri',
         'keyPhrase_with_pattern',
-        'keyPhrase_with_ref',
         'keyPhrase',
         'money_with_units',
         'money',
@@ -129,10 +128,9 @@ describe('dialog:generate library', async () => {
         'percentage_with_limits',
         'percentage',
         'personName_with_pattern',
-        'personName_with_ref',
         'personName',
-        'phonenumber_with_ref',
         'phonenumber',
+        'string',
         'temperature_with_units',
         'temperature',
         'time',
@@ -244,25 +242,27 @@ describe('dialog:generate library', async () => {
 
     for (let i = 0; i < unittestSchemaNames.length; i++) {
         const name = unittestSchemaNames[i]
-        const prefix = name.replace('-', '_')
+        const prefix = name.replace('-', '_').replace(' ', '_')
         const description = `Unit test ${name}`
         it(description, async () => {
+            const testOutput = ppath.join(os.tmpdir(), 'unitTests', name)
             console.log(`\n\n${description}`)
-            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            await fs.remove(testOutput)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, testOutput, undefined, ['en-us'], undefined, false, false, true, feedback)
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
-                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
+                    const templates = Templates.parseFile(`${testOutput}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
                         let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
                         if (errors && errors.length > 0) {
                             let errorList: string[] = []
                             for (let j = 0; j < allDiagnostics.length; j++) {
-                                errorList.push(allDiagnostics[j].message)
+                                const error = allDiagnostics[j]
+                                errorList.push(`${error.message}: ${error.source} ${error.range}`)
                             }
-                            let errorString: string = errorList.join(' ')
-                            throw new Error(errorString)
+                            assert.fail(errorList.join('\n'))
                         }
                     }
                 } catch (e) {
@@ -272,11 +272,11 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${prefix}.en-us.lu`, true, '.lu')
+                    const luFiles = await luFile.getLuObjects(undefined, `${testOutput}/language-understanding/en-us/unittest_${prefix}.en-us.lu`, true, '.lu')
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
-                    assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)
+                    assert.fail(`${e.source}: ${e.message}`)
                 }
 
                 try {
@@ -285,15 +285,14 @@ describe('dialog:generate library', async () => {
                     ComponentRegistration.add(new LuisComponentRegistration())
                     ComponentRegistration.add(new QnAMakerComponentRegistration())
                     const resourceExplorer = new ResourceExplorer()
-                    resourceExplorer.addFolder(`${output}`, true, false)
-                    const script = resourceExplorer.loadType(`unittest_${prefix}.dialog`)
+                    resourceExplorer.addFolder(`${testOutput}`, true, false)
+                    resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
                     assert.fail(e.message)
                 }
             } else {
                 assert.fail('Did not generate')
             }
-            await fs.remove(output)
         })
     }
 
@@ -317,8 +316,8 @@ describe('dialog:generate library', async () => {
 
     it('Schema discovery', async () => {
         try {
-            let schemas = await ps.schemas()
-            assert.strictEqual(Object.keys(schemas).length, 14, 'Wrong number of schemas discovered')
+            const schemas = await ps.schemas()
+            assert.strictEqual(Object.keys(schemas).length, 25, `Expected 25 schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -328,8 +327,8 @@ describe('dialog:generate library', async () => {
                     ++property
                 }
             }
-            assert.strictEqual(global, 3, 'Wrong number of global schemas')
-            assert.strictEqual(property, 11, 'Wrong number of property schemas')
+            assert.strictEqual(global, 3, `Expected 3 global schemas and found ${global}`)
+            assert.strictEqual(property, 22, `Expected 22 property schemas and found ${property}`)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -348,14 +347,15 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Expand $ref property definition', async () => {
+    it('Bad property names', async () => {
         try {
-            let schema = {
-                $ref: 'template:dimension.schema'
-            }
-            let expansion = await gen.expandPropertyDefinition('ref', schema)
-            assert(expansion.$entities, 'Did not generate $entities')
-            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
+            let errors = 0
+            assert(!(await gen.generate('test/forms/bad-propertyNames.form', undefined, output, undefined, undefined, undefined, true, false, false,
+                (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                })))
+            assert.strictEqual(errors, 4)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -370,7 +370,7 @@ describe('dialog:generate library', async () => {
             feedback(gen.FeedbackType.warning, `Unused template ${ppath.relative('templates/standard', path)}`)
         }
 
-        // After running unit tests this should be 0 unless we have a future template present.
-        assert.strictEqual(unused.length, 0)
+        // After running unit tests this should be 1 because of standard.en-us.lg
+        assert.strictEqual(unused.length, 1)
     })
 })

@@ -4,4 +4,4 @@
 - ${filenameForEntityTypeLG('utterance')}
 
 # template
-- ${entityTypeTemplate('utterance')}
+- ${entityTextTemplate('utterance')}

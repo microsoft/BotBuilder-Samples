@@ -1,4 +1,0 @@
-[generator.lg](../generator.lg)
-
-# templates
-- ${entityLGTemplates('datetimeV2')}
