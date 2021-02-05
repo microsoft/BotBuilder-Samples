@@ -4,13 +4,13 @@
 # nameTemplate()
 -```
 ${'#'} ${templateName(property)}_Name
-> Name of the '${property}' property
+> Name of the '${templateName(property)}' property
 - ${phrase(property, locale)}```
 
 # valueTemplate()
 -```
 ${'#'} ${templateName(property)}_Value(val)
-> Display value for '${property}'
+> Display value for '${templateName(property)}'
  - IF: \${val}
  - \${val}
  - ELSE:
@@ -20,18 +20,8 @@ ${'#'} ${templateName(property)}_Value(val)
 # complexValueTemplate(type)
 -```
 ${'#'} ${templateName(property)}_Value(val)
-> Display value for '${property}'
+> Display value for '${templateName(property)}'
 - \${value(val)}
-```
-
-# entityValueTemplate()
--```
-${'#'} ${templateName(property)}Entity_Value(val)
-> Display value for `${templateName(property)}Entity`)}
- - IF: \${val}
- - \${val}
- - ELSE:
- - no value
 ```
 
 # entityTypeTemplate(type)
@@ -47,11 +37,6 @@ ${'#'} ${type}Entity_Value(entity)
 > Display value for '${type}' entity
 - \${entity.text}
 ```
-
->> String
-
-# missingStringArray()
-- What values do you want to add for ${propertyName()}?
 
 >> Specific property calls to generated templates
 # propertyName()

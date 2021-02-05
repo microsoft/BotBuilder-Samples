@@ -361,16 +361,126 @@ describe('dialog:generate library', async () => {
         }
     })
 
+    type FullTemplateName = string
+    type TemplateName = string
+    type Source = string
+    type SourceToReferences = Map<Source, TemplateName[]>
+    type TemplateToReferences = Map<FullTemplateName, SourceToReferences>
+    const SourceToReferences = <{ new (): SourceToReferences}> Map
+    const TemplateToReferences = <{new (): TemplateToReferences}> Map
+
+    /**
+     * Given a list of source LG templates return the references for each template inside.
+     * Each imported file is only analyzed once.
+     * @param templates List of templates to analyze.
+     * @returns {Source:TemplateName} -> {source -> [references]}
+     */
+    function templateUsage(templates: Templates[]): TemplateToReferences {
+        const usage = new TemplateToReferences()
+        const analyzed = new Set<Source>()
+        for (const source of templates) {
+            // Map from simple to full name and initialize template usage
+            const nameToFullname = new Map<string, string>()
+            for (const template of source.allTemplates) {
+                const fullName = `${template.sourceRange.source}:${template.name}`
+                nameToFullname.set(template.name, fullName)
+                if (!usage.get(fullName)) {
+                    usage.set(fullName, new SourceToReferences())
+                }
+            }
+
+            // Add references from each template that is in an unanalyzed source file
+            for (const template of source.allTemplates) {
+                // Analyze each original source template only once
+                if (!analyzed.has(template.sourceRange.source)) {
+                    const info = source.analyzeTemplate(template.name)
+                    for (const reference of info.TemplateReferences) {
+                        const source = template.sourceRange.source as string
+                        const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
+                        let referenceSource = referenceSources.get(source)
+                        if (!referenceSource) {
+                            referenceSource = []
+                            referenceSources.set(source, referenceSource)
+                        }
+                        referenceSource.push(template.name)
+                    }
+                }
+            }
+
+            // Add in the newly analyzed sources
+            for (const imported of source.imports) {
+                analyzed.add(ppath.resolve(ppath.dirname(source.source), imported.id))
+            }
+            analyzed.add(source.source)
+        }
+        return usage
+    }
+
+    /**
+     * Return the simple template name from a full template name.
+     * @param fullname Full template name including source.
+     */
+    function templateName(fullname: string): string {
+        const colon = fullname.lastIndexOf(':')
+        return fullname.substring(colon + 1)
+    }
+
+    /**
+     * Simplify full template name which is source:template to just filename:template.
+     * @param fullname Full template name including source.
+     * @returns filename:template
+     */
+    function shortTemplateName(fullname: string): string {
+        const colon = fullname.lastIndexOf(':')
+        return ppath.basename(fullname.substring(0, colon)) + fullname.substring(colon)
+    }
+
     // This is only meaningful after running unit tests
     it('Unit test unused standard templates', async () => {
         // Compare cache to all standard template files
         const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
         const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
+        // These are files that are only imported
+        const excludeFiles = ['en-us\\standard.en-us.lg']
+        let unusedCount = 0
         for (const path of unused) {
-            feedback(gen.FeedbackType.warning, `Unused template ${ppath.relative('templates/standard', path)}`)
+            const relative = ppath.relative('templates/standard', path)
+            if (!excludeFiles.includes(relative)) {
+                feedback(gen.FeedbackType.warning, `Unused template ${relative}`)
+                ++unusedCount
+            }
         }
 
-        // After running unit tests this should be 1 because of standard.en-us.lg
-        assert.strictEqual(unused.length, 1)
+        // Analyze LG templates for usage
+        const templates: Templates[] = []
+        for (let template of gen.TemplateCache.values()) {
+            if (template instanceof Templates) {
+                templates.push(template)
+            }
+        }
+        const usage = templateUsage(templates)
+        
+        // Dump out all template usage
+        for (const [template, templateUsage] of usage) {
+            feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)
+            for (const [source, sourceUsage] of templateUsage) {
+                feedback(gen.FeedbackType.debug, `    ${ppath.basename(source)}: ${sourceUsage.join(', ')}`)
+            }
+        }
+
+        // Identify unused templates
+        // Exclusions are top-level templates called by the generator in standard.schema
+        const exclude = ['filename', 'template', 'entities', 'templates', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation']
+        let unusedTemplates = 0
+        for (const [template, templateUsage] of usage) {
+            const name = templateName(template)
+            if (!exclude.includes(name) && templateUsage.size === 0) {
+                feedback(gen.FeedbackType.error, `${shortTemplateName(template)} is unused`)
+                ++unusedTemplates
+            }
+        }
+
+        assert.strictEqual(unusedCount, 0, `Found ${unusedCount} unused template files`)
+        assert.strictEqual(unusedTemplates, 0, `Found ${unusedTemplates} unused templates`)
     })
 })
