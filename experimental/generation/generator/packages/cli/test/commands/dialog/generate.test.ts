@@ -5,7 +5,7 @@
 // tslint:disable:no-console
 // tslint:disable:no-object-literal-type-assertion
 
-import {expect, test} from '@oclif/test';
+import { expect, test } from '@oclif/test';
 import * as fs from 'fs-extra'
 import 'mocha'
 import * as os from 'os'
@@ -21,7 +21,41 @@ describe('dialog:generate', async () => {
     let method = 'post'
     let route = '/store/order'
     let schemaName = 'petOrder.form'
-    let unittestSchemaNames = ['number', "number_with_limits", 'integer', 'integer_with_limits', 'boolean', 'array_personName', 'enum', 'array_enum', 'email', 'uri', 'iri', 'date-time', 'date', 'time', 'personName', 'personName_with_pattern', 'personName_with_ref', 'phonenumber', 'phonenumber_with_ref', 'keyPhrase', 'keyPhrase_with_pattern', 'keyPhrase_with_ref', 'percentage', 'percentage_with_limits', 'age', 'age_with_units', 'ordinal', 'geography', 'money', 'money_with_units', 'temperature', 'temperature_with_units', 'dimension', 'dimension_with_units', 'datetime']
+    let unittestSchemaNames = [
+        'age_with_units',
+        'age',
+        'array_enum',
+        'array_personName',
+        'boolean',
+        'date-time',
+        'date',
+        'datetime',
+        'dimension_with_units',
+        'dimension',
+        'email',
+        'enum',
+        'geography',
+        'integer_with_limits',
+        'integer',
+        'iri',
+        'keyPhrase_with_pattern',
+        'keyPhrase',
+        'money_with_units',
+        'money',
+        'number_with_limits',
+        'number',
+        'ordinal',
+        'percentage_with_limits',
+        'percentage',
+        'personName_with_pattern',
+        'personName',
+        'phonenumber',
+        'string',
+        'temperature_with_units',
+        'temperature',
+        'time',
+        'uri'
+    ]
 
     beforeEach(async () => {
         await fs.remove(output)
