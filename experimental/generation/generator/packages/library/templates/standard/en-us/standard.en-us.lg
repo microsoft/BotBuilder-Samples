@@ -3,24 +3,24 @@
 
 # nameTemplate()
 -```
-${'#'} ${templateName(property)}_Name
-> Name of the '${templateName(property)}' property
+${'#'} ${property}_Name
+> Name of the '${property}' property
 - ${phrase(property, locale)}```
 
 # valueTemplate()
 -```
-${'#'} ${templateName(property)}_Value(val)
-> Display value for '${templateName(property)}'
+${'#'} ${property}_Value(val)
+> Display value for '${property}'
  - IF: \${val}
- - \${val}
+ - \${${if(isArrayProperty(property), 'value(val)', 'val')}}
  - ELSE:
  - no value
 ```
 
 # complexValueTemplate(type)
 -```
-${'#'} ${templateName(property)}_Value(val)
-> Display value for '${templateName(property)}'
+${'#'} ${property}_Value(val)
+> Display value for '${property}'
 - \${value(val)}
 ```
 
@@ -43,10 +43,10 @@ ${'#'} ${type}Entity_Value(entity)
 - ${phrase(property, locale)}
 
 # propertyCurrentValue()
-- ${propertyValue(`$${templateName(property)}`)}
+- ${propertyValue(`$${property}`)}
 
 # propertyValue(val)
-- \${${templateName(property)}_Value(${val})}
+- \${${property}_Value(${val})}
 
 >> Utilities for confirmations
 
@@ -113,11 +113,11 @@ ${'#'} ${type}Entity_Value(entity)
 - Cleared ${propertyName()}
 
 # showDefault()
-- ${propertyName()}: ${propertyValue(`$${templateName(property)}`)}
+- ${propertyName()}: ${propertyValue(`$${property}`)}
 
 >> Strings
 # stringMessages(template)
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingDefault(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -143,9 +143,15 @@ ${valueTemplate()}
 
 # stringValidationTemplates()
 - IF: ${propertySchema.pattern}
-    -```${'#'} ${templateName(property)}_NoPatternMatch(val)
-- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.properties.${property}.pattern}
+    -```${'#'} ${property}_NoPatternMatch(val)
+- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
 ```
+- ELSE:
+    -
+
+# importFormsIfArray()
+- IF: ${isArrayProperty(property)}
+    - ${formImport('form.en-us.lg')}
 - ELSE:
     -
 
@@ -161,6 +167,7 @@ ${confirmationTemplates(expectedSetDefault(),
                         removeDefault(),
                         clearDefault())}
 ${incorrectUnitsTemplate()}
+${validationTemplates()}
 ${helpTemplates(repromptDefault(template), helpDefault(template))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
@@ -207,18 +214,24 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${propertySchema.minimum}
     -```
-${'#'} ${templateName(property)}_IsTooSmall(val)
+${'#'} ${property}_IsTooSmall(val)
 > ${property} property is less than minimum allowed value
-- ${propertyValue('val')} must be at least \${dialogClass.properties.${property}.minimum} for ${propertyName()}```
+- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
-    -
+    - 
 
 # tooBig()
 - IF: ${propertySchema.maximum}
     -```
-${'#'} ${templateName(property)}_IsTooBig(val)
+${'#'} ${property}_IsTooBig(val)
 > ${property} property is greater than maximum allowed value
-- ${propertyValue('val')} must be no more than \${dialogClass.properties.${property}.maximum} for ${propertyName()}```
+- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
+- ELSE:
+    - 
+
+# unitsMessage()
+- IF: ${propertySchema.$units}
+    - ${concat(' ', propertySchema.$units)}
 - ELSE:
     -
 
@@ -229,7 +242,7 @@ ${'#'} ${templateName(property)}_IsTooBig(val)
 
 # dateFormatValidationMessage()
 - ```
-${'#'} ${templateName(property)}_invalid${templateName(propertySchema.format)}(val)
+${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
 > Invalid ${propertySchema.format} for '${property}' property
 - \${value(val)} is not a ${propertySchema.format}```
 

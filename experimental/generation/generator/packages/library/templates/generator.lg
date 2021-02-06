@@ -26,40 +26,40 @@
 >> Filenames and Paths
 
 # propertyFilename()
-- ${generationDir()}${locale}/${templateName(property)}/${prefix}-${templateName(property)}.${locale}.lg
+- ${generationDir()}${locale}/${property}/${prefix}-${property}.${locale}.lg
 
 # entityLGFilename()
-- ${generationDir()}${locale}/${templateName(property)}/${prefix}-${templateName(property)}Entity.${locale}.lg
+- ${generationDir()}${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
 
 # entityLUFilename()
-- ${understandingDir()}${locale}/${templateName(property)}/${prefix}-${templateName(property)}-${templateName(property)}Entity.${locale}.lu
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
 
 # missingFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-missing.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-missing.dialog
 
 # helpFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-help.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-help.dialog
 
 # builtinEntityFilename(entity)
-- ${understandingDir()}${locale}/${templateName(property)}/${prefix}-${templateName(property)}-${entity}.${locale}.lu
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
 # addFilename(entity)
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-add-${entity}.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-add-${entity}.dialog
 
 # removeFilename(entity)
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-remove-${entity}.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-remove-${entity}.dialog
 
 # clearFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-clear.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-clear.dialog
 
 # showFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-show.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-show.dialog
 
 # changeFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}-change.dialog
+- ${dialogDir()}${property}/${prefix}-${property}-change.dialog
 
 # chooseEntityFilename()
-- ${dialogDir()}${templateName(property)}/${prefix}-${templateName(property)}Entity-choose.dialog
+- ${dialogDir()}${property}/${prefix}-${property}Entity-choose.dialog
 
 # formDialogFilename(name)
 - ${dialogDir()}form/${prefix}-form-${name}
@@ -210,7 +210,7 @@
         "actions":[
             {
                 "$kind": "Microsoft.SendActivity",
-                "activity": "\${${templateName(property)}_NoPatternMatch(@${entity})}"
+                "activity": "\${${property}_NoPatternMatch(@${entity})}"
             }                    
         ],
         "elseActions":[${else}]
@@ -228,7 +228,7 @@
             "actions":[
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${templateName(property)}_IsTooSmall(@${entity})}"
+                    "activity": "\${${property}_IsTooSmall(@${entity})}"
                 }                    
             ],
             "elseActions":[${else}]
@@ -246,7 +246,7 @@
         "actions":[
             {
                 "$kind": "Microsoft.SendActivity",
-                "activity": "\${${templateName(property)}_IsTooBig(@${entity})}"
+                "activity": "\${${property}_IsTooBig(@${entity})}"
             }                    
         ],
         "elseActions": [${else}]
@@ -281,7 +281,7 @@
         "actions":[
             {
                 "$kind": "Microsoft.SendActivity",
-                "activity": "\${${templateName(property)}_IncorrectUnits(@${entity}.units)}"
+                "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
             }
         ],
         "elseActions":[${else}]
@@ -306,7 +306,7 @@
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${templateName(property)}_invalid${templateName(propertySchema.format)}(@datetime)}"
+                    "activity": "\${${property}_invalid${templateName(propertySchema.format)}(@datetime)}"
                 }
             ],
             "elseActions": [
@@ -327,22 +327,32 @@
     "operation": "Remove()",
     "property": "${property}",
     "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"$${property} == @${entity}",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${templateName(property)}_RemoveConfirmation(@${entity})}}"
-                },  
-                ${deleteOrRemove(entity)}
-            ]
-        }
-    ]               
+    "actions": ${checkIfPresent(entity, removeActions(entity))}
     ${designerOpEntity('Remove', entity)}     
 }
 ```
+
+# removeActions(entity)
+> Actions to remove an item
+- ```
+    [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
+        },  
+        ${deleteOrRemove(entity)}
+    ]```
+
+# checkIfPresent(entity, actions)
+> Optional condition to verify if value is the current value
+- IF: ${isArrayProperty(property)}
+    - ${actions}
+- ELSE:
+    -```[{
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$${property} == @${entity}",
+            "actions": ${actions}
+        }]```
 
 # deleteOrRemove(entity)
 > Delete property or remove entity from array
@@ -384,11 +394,11 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Clear()",
-    "property": "${templateName(property)}",
+    "property": "${property}",
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${templateName(property)}_ClearConfirmation()}"
+            "activity": "\${${property}_ClearConfirmation()}"
         },
         {
             "$kind": "Microsoft.DeleteProperty",
@@ -409,7 +419,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${templateName(property)}_Show()}"
+            "activity": "\${${property}_Show()}"
         }
     ]               
     ${designerOp('Show')}     
@@ -426,7 +436,7 @@
     "actions": [
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${templateName(property)}_MissingPrompt()}",
+            "activity": "\${${property}_MissingPrompt()}",
             "expectedProperties": [
                 "${property}"
             ]
@@ -446,7 +456,7 @@
     "actions": [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${templateName(property)}_Help()}"
+            "activity": "\${${property}_Help()}"
         }
     ]
     
@@ -464,7 +474,7 @@
     "actions": [
         {
             "$kind": "Microsoft.Ask",
-            "activity": "\${${templateName(property)}_ChangePrompt()}",
+            "activity": "\${${property}_ChangePrompt()}",
             "expectedProperties": [
                 "${property}"
             ]
@@ -503,17 +513,17 @@
 > TODO: Would be nice to be able to have multi-line object here for clarity
 # generateOperations(entity, values, label)
 -```
-> Define phrase list for '${templateName(property)} property.
-@ phraselist ${templateName(property)}Phrases(interchangeable)=
+> Define phrase list for '${property} property.
+@ phraselist ${property}Phrases(interchangeable)=
 ${if(propertySchema.title,
     `    - ${propertySchema.title}`,
      synonyms(property))}
 
-> Define property entity and optional value for '${templateName(property)}' property.
-@ ml ${propertyEntity()} usesFeature ${templateName(property)}Phrases
+> Define property entity and optional value for '${property}' property.
+@ ml ${propertyEntity()} usesFeature ${property}Phrases
     - @ ${entity} ${entity}
 
-> Define operations on '${templateName(property)}' property.
+> Define operations on '${property}' property.
 ${defineOperation('Add', entity)}
 ${defineOperation('Remove', entity)}
 ${defineOperation('Clear', entity)}
@@ -542,7 +552,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Name for property entity
 # propertyEntity()
-- ${`${templateName(property)}Property`}
+- ${`${property}Property`}
 
 # oneProperty(entity)
 > Check to see if entity is only found in one property
@@ -631,7 +641,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${designerName(`${property} - ${op}(@${entity})`)}
 
 # designerChooseEntity()
-- ${designerName(`${templateName(property)}Entity - Choose()`)}
+- ${designerName(`${property}Entity - Choose()`)}
 
 # designerChooseProperty()
 - ${designerName(`ChooseProperty()`)}
@@ -654,11 +664,11 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ```
 >> Prompts
 
-${'#'} ${templateName(property)}_MissingPrompt
+${'#'} ${property}_MissingPrompt
 > Prompt when '${property}' property is missing
 - ${missing}
 
-${'#'} ${templateName(property)}_ChangePrompt
+${'#'} ${property}_ChangePrompt
 > Prompt when '${property}' property has a value, but is being changed
 - ${change}```
 
@@ -666,27 +676,27 @@ ${'#'} ${templateName(property)}_ChangePrompt
 - ```
 >> Confirmation
 
-${'#'} ${templateName(property)}_ExpectedSetConfirmation(newVal)
+${'#'} ${property}_ExpectedSetConfirmation(newVal)
 > Confirmation when adding expected value to empty '${property}' property
 - ${expectedSet}
 
-${'#'} ${templateName(property)}_ExpectedUpdateConfirmation(newVal)
+${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
 > Confirmation when replacing expected value in '${property}' property
 - ${expectedReplace}
 
-${'#'} ${templateName(property)}_UnexpectedSetConfirmation(newVal)
+${'#'} ${property}_UnexpectedSetConfirmation(newVal)
 > Confirmation when adding unexpected value to empty '${property}' property
 - ${unexpectedSet}
 
-${'#'} ${templateName(property)}_UnexpectedUpdateConfirmation(newVal)
+${'#'} ${property}_UnexpectedUpdateConfirmation(newVal)
 > Confirmation when replacing unexpected value in '${property}' property
 - ${unexpectedReplace}
 
-${'#'} ${templateName(property)}_RemoveConfirmation(val)
+${'#'} ${property}_RemoveConfirmation(val)
 > Confirmation when value is removed from '${property}' property
 - ${remove}
 
-${'#'} ${templateName(property)}_ClearConfirmation
+${'#'} ${property}_ClearConfirmation
 > Confirmation when '${property}' property is cleared
 - ${clear}```
 
@@ -694,25 +704,25 @@ ${'#'} ${templateName(property)}_ClearConfirmation
 - ```
 >> Help
 
-${'#'} ${templateName(property)}_RepromptHelp
+${'#'} ${property}_RepromptHelp
 > Help for '${property}' property reprompt
 - ${reprompt}
 
-${'#'} ${templateName(property)}_Help
+${'#'} ${property}_Help
 > Help for '${property}' property
 - ${help}```
 
 # showTemplate(show)
 - ```
 >> Show
-${'#'} ${templateName(property)}_Show
+${'#'} ${property}_Show
 > Show value of '${property}' property
 - ${show}```
 
 # incorrectUnitsTemplate()
 - IF: ${units()}
 - ```
-${'#'} ${templateName(property)}_IncorrectUnits(actual)
+${'#'} ${property}_IncorrectUnits(actual)
 > Incorrect units for '${property}' property
 - \${actual} must be '${units()}'```
 - ELSE:

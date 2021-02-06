@@ -17,11 +17,11 @@
 
 # propertyName(property)
 > Display value for a property
-- ${template(`${templateName(property)}_Name`)}
+- ${template(`${property}_Name`)}
 
 # propertyValue(property, val)
 > Display value for a property value
-- ${template(`${templateName(property)}_Value`, val)}
+- ${template(`${property}_Value`, val)}
 
 # entityValue(entity)
 > Display value for an entity
@@ -99,13 +99,13 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 # confirmationText(property, val)
 > Display confirmation text based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}
-    - ${template(if(dialog[property], `${templateName(property)}_ExpectedUpdateConfirmation`, `${templateName(property)}_ExpectedSetConfirmation`), val)}
+    - ${template(if(dialog[property], `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
     - ${confirmUpdate(property, val)}
 
 # confirmUpdate(property, val)
 > Display confirmation message on update
-- ${template(if(dialog[property], `${templateName(property)}_UnexpectedUpdateConfirmation`, `${templateName(property)}_UnexpectedSetConfirmation`), val)}
+- ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
     
 # cancelPrompt
 > Prompt to cancel a form
@@ -136,7 +136,3 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 # skipExpectedProperties()
 > Create new required properties where expected properties are moved to the end
 - ${union(where($requiredProperties, property, !contains($expectedProperties, property)), where($expectedProperties, property, contains($requiredProperties, property)))}
-
-# templateName(name)
-> Ensure space and - are converted to _ in template names
-- ${replace(replace(name, '-', '_'), ' ', '_')}
