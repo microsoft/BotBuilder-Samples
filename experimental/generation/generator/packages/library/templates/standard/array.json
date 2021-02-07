@@ -4,7 +4,8 @@
         "uniqueItems": {
             "type": "boolean",
             "title": "Unique Values",
-            "description": "Require all values to be unique."
+            "description": "Require all values to be unique.",
+            "default": false
         }
     }
 }
