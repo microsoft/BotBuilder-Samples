@@ -441,12 +441,11 @@ describe('dialog:generate library', async () => {
         const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
         const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
         // These are files that are only imported
-        const excludeFiles = ['en-us\\standard.en-us.lg']
+        const excludeFiles = ['standard.en-us.lg']
         let unusedCount = 0
         for (const path of unused) {
-            const relative = ppath.relative('templates/standard', path)
-            if (!excludeFiles.includes(relative)) {
-                feedback(gen.FeedbackType.warning, `Unused template ${relative}`)
+            if (!excludeFiles.includes(ppath.basename(path))) {
+                feedback(gen.FeedbackType.warning, `Unused template ${path}`)
                 ++unusedCount
             }
         }
