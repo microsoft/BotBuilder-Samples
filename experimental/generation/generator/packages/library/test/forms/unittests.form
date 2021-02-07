@@ -16,7 +16,7 @@
         "NameArray": {
             "type": "array",
             "items": {
-                "$ref": "template:personname.schema"
+                "$ref": "template:personName.schema"
             }
         },       
         "EnumFruit": {
@@ -66,14 +66,14 @@
             "format": "time"
         },
         "Name": {
-            "$ref": "template:personname.schema",
+            "$ref": "template:personName.schema",
             "pattern" : "^[a-z]{1,3}$"
         },
         "PhoneNumber": {
             "$ref": "template:phonenumber.schema"
         },
         "KeyphraseProperty": {
-            "$ref": "template:keyphrase.schema"
+            "$ref": "template:keyPhrase.schema"
         },
         "Percentage": {
             "$ref": "template:percentage.schema"

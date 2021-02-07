@@ -50,7 +50,7 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
                 schema = await getSchema(file, feedback)
                 SchemaCache[file] = schema
             }
-            const id = schema.$id || ppath.basename(file, '.schema')
+            const id = schema.$id || ppath.basename(file, '.schema').toLowerCase()
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
@@ -149,7 +149,11 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
             canRead: /template:/,
             read(file: any): any {
                 const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.schema')
-                return allRequired[base]
+                const schema = allRequired[base.toLowerCase()]
+                if (!schema) {
+                    throw new Error(`Could not find ${file.url}`)
+                }
+                return schema
             }
         }
     }

@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "string",
-    "$template": "personname",
+    "$template": "personName",
     "$generator": {
         "$ref": "array.json"
     }
