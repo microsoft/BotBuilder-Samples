@@ -4,5 +4,4 @@
 - ${['datetimeV2']}
 
 # templates
-- ${propertyTemplates()}
-
+- ${dateFormatTemplates()}

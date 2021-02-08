@@ -1,2 +1,0 @@
-# templates
-- ${['stringArrayEntity.lg', 'stringArrayEntity.lu', 'stringArrayEntity-choose.dialog', 'stringArrayEntity-add-stringArray.dialog', `stringArrayEntity-remove-stringArray.dialog`]}

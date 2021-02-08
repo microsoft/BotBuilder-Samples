@@ -1,8 +1,7 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${['string', 'utterance']}
+- ${['string']}
 
 # templates
-- ${genericPropertyTemplates()}
-
+- ${standardTemplates()}

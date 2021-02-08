@@ -1,8 +1,0 @@
-[standard.en-us.lg](standard.en-us.lg)
-
-# filename
-- ${filenameForEntityTypeLG('integer')}
-
-# template
-- ${entityTypeTemplate('integer')}
-

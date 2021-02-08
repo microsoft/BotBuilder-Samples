@@ -1,0 +1,7 @@
+[generator.lg](../generator.lg)
+
+# entities
+- ${unitsEntities('age')}
+
+# templates
+- ${standardTemplates()}
