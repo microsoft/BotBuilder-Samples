@@ -87,7 +87,7 @@
         },
         {
           "id": "FetchRoster",
-          "description": "Fetch the conversation roster",
+          "description": "Fetch the conversation roster command",
           "title": "FetchRoster",
           "type": "action",
           "fetchTask": true,
