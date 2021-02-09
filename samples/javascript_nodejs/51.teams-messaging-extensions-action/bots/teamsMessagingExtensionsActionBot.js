@@ -15,10 +15,20 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         }
     }
 
-    async handleTeamsMessagingExtensionFetchTask(context, action) {
-        var member;
+	async handleTeamsMessagingExtensionFetchTask(context, action) {
         try {
-            member = await this.getSingleMember(context);
+            const member = await this.getSingleMember(context);
+            return {
+                task: {
+                    type: 'continue',
+                    value: {
+                        card: GetAdaptiveCardAttachment(),
+                        height: 400,
+                        title: 'Hello ' + member,
+                        width: 300
+                    },
+                },
+            };
         } catch (e) {
             if (e.code === 'BotNotInConversationRoster') {
                 return {
@@ -35,17 +45,6 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
             }
             throw e;
         }
-        return {
-            task: {
-                type: 'continue',
-                value: {
-                    card: GetAdaptiveCardAttachment(),
-                    height: 400,
-                    title: 'Hello ' + member,
-                    width: 300
-                },
-            },
-        };
     }
     async getSingleMember(context) {
         var member;
