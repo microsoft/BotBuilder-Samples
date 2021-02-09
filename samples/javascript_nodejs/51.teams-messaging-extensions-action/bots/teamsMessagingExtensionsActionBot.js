@@ -16,9 +16,19 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
-        var member;
         try {
-            member = await this.getSingleMember(context);
+           const member = await this.getSingleMember(context);
+            return {
+                task: {
+                    type: 'continue',
+                    value: {
+                        card: GetAdaptiveCardAttachment(),
+                        height: 400,
+                        title: 'Hello ' + member,
+                        width: 300
+                    },
+                },
+            };
         } catch (e) {
             if (e.code === 'BotNotInConversationRoster') {
                 return {
@@ -34,36 +44,24 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 };
             }
             throw e;
-        }
-        return {
-            task: {
-                type: 'continue',
-                value: {
-                    card: GetAdaptiveCardAttachment(),
-                    height: 400,
-                    title: 'Hello ' + member,
-                    width: 300
-                },
-            },
-        };
+        }   
     }
+
     async getSingleMember(context) {
-        var member;
         try {
-            member = await TeamsInfo.getMember(
+           const member = await TeamsInfo.getMember(
                 context,
                 context.activity.from.id
             );
-        } catch (e) {
+            return member.name;
+        } 
+        catch (e) {
             if (e.code === 'MemberNotFoundInConversation') {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return e.code;
-            } else {
-                console.log(e);
-                throw e;
-            }
+            }              
+            throw e;           
         }
-        return member.name;
     }
 }
 
@@ -78,8 +76,7 @@ function GetJustInTimeCardAttachment() {
         ],
         body: [
             {
-                text:
-                    'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
+                text:'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
                 wrap: 'bolder'
             },
