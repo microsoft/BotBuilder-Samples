@@ -16,19 +16,9 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
+        var member;
         try {
-            const member = await this.getSingleMember(context);
-            return {
-                task: {
-                    type: 'continue',
-                    value: {
-                        card: GetAdaptiveCardAttachment(),
-                        height: 400,
-                        title: 'Hello ' + member,
-                        width: 300
-                    },
-                },
-            };
+            member = await this.getSingleMember(context);
         } catch (e) {
             if (e.code === 'BotNotInConversationRoster') {
                 return {
@@ -44,24 +34,36 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 };
             }
             throw e;
-        }   
+        }
+        return {
+            task: {
+                type: 'continue',
+                value: {
+                    card: GetAdaptiveCardAttachment(),
+                    height: 400,
+                    title: 'Hello ' + member,
+                    width: 300
+                },
+            },
+        };
     }
-
     async getSingleMember(context) {
+        var member;
         try {
-           const member = await TeamsInfo.getMember(
+            member = await TeamsInfo.getMember(
                 context,
                 context.activity.from.id
             );
-            return member.name;
-        } 
-        catch (e) {
+        } catch (e) {
             if (e.code === 'MemberNotFoundInConversation') {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return e.code;
-            } 
-                throw e;          
-        }     
+            } else {
+                console.log(e);
+                throw e;
+            }
+        }
+        return member.name;
     }
 }
 
@@ -76,7 +78,8 @@ function GetJustInTimeCardAttachment() {
         ],
         body: [
             {
-                text: 'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
+                text:
+                    'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
                 wrap: 'bolder'
             },
@@ -91,7 +94,8 @@ function GetAdaptiveCardAttachment() {
         actions: [{ type: 'Action.Submit', title: 'Close' }],
         body: [
             {
-                text: 'This app is installed in this conversation. You can now use it to do some great stuff!!!',
+                text:
+                    'This app is installed in this conversation. You can now use it to do some great stuff!!!',
                 type: 'TextBlock',
                 isSubtle: false,
                 warp: true
