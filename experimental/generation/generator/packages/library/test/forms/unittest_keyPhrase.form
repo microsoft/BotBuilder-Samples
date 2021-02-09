@@ -3,10 +3,7 @@
     "type": "object",
     "properties": {
         "KeyphraseProperty": {
-            "type": "string",
-            "$entities": [
-                "keyPhrase"
-            ]
+            "$ref": "template:keyPhrase.schema"
         }
     },
     "required": [

@@ -21,21 +21,37 @@ ${enumValueTemplate()}
 ```
 
 # missingEnum()
-- What value do you want for ${propertyName()}?
+- IF: ${isArrayProperty(property)}
+    - What values do you want to add for ${propertyName()}?
+- ELSE:
+    - What value do you want for ${propertyName()}?
 
 # changeEnum()
-- What value should replace ${propertyCurrentValue()} in ${propertyName()}?
+- IF: ${isArrayProperty(property)}
+    - How do you want to change ${propertyName()} of ${propertyCurrentValue()}?
+- ELSE:
+    - What value should replace ${propertyCurrentValue()} in ${propertyName()}?
 
 # repromptEnum()
-- Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+- ELSE:
+    - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
 
 # helpEnum()
-- Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+- ELSE:
+    - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
 
 # enumValueTemplate
-- ```
+- IF: ${isArrayProperty(property)}
+    -```
 ${'#'} ${property}_Value(val)
-- \${${property}Enum_Value(val)}
-```
+- \${complexValue(val, '${property}Enum_Value')}```
+- ELSE:
+    -```
+${'#'} ${property}_Value(val)
+- \${${property}Enum_Value(val)}```
 
 

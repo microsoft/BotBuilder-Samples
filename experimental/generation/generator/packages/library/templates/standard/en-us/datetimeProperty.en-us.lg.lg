@@ -1,0 +1,13 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ${genericMessages('date or time expression')}${validationTemplate()}
+
+# validationTemplate
+- ```
+${'#'} ${property}_invalidDate(val)
+> Invalid value for '${property}' property
+- \${${property}_Value(val)} is not a date```

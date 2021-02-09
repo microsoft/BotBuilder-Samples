@@ -2,17 +2,14 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
     "properties": {
-        "cost": {
-            "$ref": "template:percentage.schema"
-        },
-        "costArray": {
+        "foo": {
             "type": "array",
             "items": {
-                "$ref": "template:percentage.schema"
+                "$ref": "template:dimension.schema",
+                "$units": "Foot",
+                "minimum": 1
             }
         }
     },
-    "required": [
-        "cost"
-    ]
+    "required": []
 }

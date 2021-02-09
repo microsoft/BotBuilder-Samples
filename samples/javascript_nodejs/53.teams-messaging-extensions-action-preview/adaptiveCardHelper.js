@@ -9,8 +9,10 @@ class AdaptiveCardHelper {
         const attachmentContent = activityPreview.attachments[0].content;
         const userText = attachmentContent.body[1].text;
         const choiceSet = attachmentContent.body[3];
+        const attributionFlag = attachmentContent.body[4].text.split(':')[1];
         return {
             MultiSelect: choiceSet.isMultiSelect ? 'true' : 'false',
+            UserAttributionSelect: attributionFlag,
             Option1: choiceSet.choices[0].title,
             Option2: choiceSet.choices[1].title,
             Option3: choiceSet.choices[2].title,
@@ -69,6 +71,15 @@ class AdaptiveCardHelper {
                     placeholder: 'Option 3 here',
                     type: 'Input.Text',
                     value: option3
+                },
+                { type: 'TextBlock', text: 'Do you want to send this card on behalf of the User?' },
+                {
+                    choices: [{ title: 'Yes', value: 'true' }, { title: 'No', value: 'false' }],
+                    id: 'UserAttributionSelect',
+                    isMultiSelect: false,
+                    style: 'expanded',
+                    type: 'Input.ChoiceSet',
+                    value: isMultiSelect ? 'true' : 'false'
                 }
             ],
             type: 'AdaptiveCard',
@@ -95,7 +106,8 @@ class AdaptiveCardHelper {
                     isMultiSelect: data.MultiSelect,
                     style: 'expanded',
                     type: 'Input.ChoiceSet'
-                }
+                },
+                { text: `Sending card on behalf of user is set to: ${ data.UserAttributionSelect }`, type: 'TextBlock', id: 'AttributionChoice' }
             ],
             type: 'AdaptiveCard',
             version: '1.0'
