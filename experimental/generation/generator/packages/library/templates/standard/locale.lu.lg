@@ -4,6 +4,7 @@
 - ${understandingDir()}${locale}/${prefix}.${locale}.lu
 
 # template
--```${luHeader()}
-${join(foreach(sortObject(templates.lu, 'shortName'), lu, `[${lu.shortName}](${localePath(replace(lu.relative, '\\', '/'))})`), EOL())}
+-```
+${luHeader()}
+${join(foreach(templates.lu, lu, `[${lu.shortName}](${localePath(replace(lu.relative, '\\', '/'))})`), EOL())}
 ```

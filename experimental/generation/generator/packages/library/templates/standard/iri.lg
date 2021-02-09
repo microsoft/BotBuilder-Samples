@@ -4,4 +4,5 @@
 - ${['url']}
 
 # templates
-- ${standardTemplates()}
+- ${genericPropertyTemplates()}
+

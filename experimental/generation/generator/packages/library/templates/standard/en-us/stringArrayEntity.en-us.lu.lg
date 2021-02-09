@@ -1,0 +1,16 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${entityLUFilename()}
+
+# template
+- ```
+@ list ${property}Entity =
+${join(foreach(enums(), enum, concat('  - ', enum, ' :', EOL(), synonyms(enum))), EOL())}
+
+${operations(`${property}Entity`, allSynonyms(), true)}
+```
+
+# allSynonyms
+- ${flatten(foreach(enums(), enum, phrases(enum)))}
+

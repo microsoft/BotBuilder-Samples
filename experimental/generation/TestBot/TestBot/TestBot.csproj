@@ -8,12 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.12.0-daily.*" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.12.0-daily.*" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.12.0-daily.*" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.0-daily.*" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Testing" Version="4.12.0-daily.*" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.12.0-daily.*" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.12.0-daily.20210113.202048.3ea375e" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.12.0-daily.20210113.202048.3ea375e" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.12.0-daily.20210113.202048.3ea375e" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.0-daily.20210113.202048.3ea375e" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Testing" Version="4.12.0-daily.preview.20210113.202048.3ea375e" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.12.0-daily.20210113.202048.3ea375e" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
   </ItemGroup>
 

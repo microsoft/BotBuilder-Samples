@@ -10,8 +10,8 @@ class DispatchBot extends ActivityHandler {
         super();
 
         const dispatchRecognizer = new OrchestratorRecognizer().configure({
-            modelFolder: process.env.ModelFolder, 
-            snapshotFile: process.env.SnapshotFile
+            modelPath: process.env.ModelPath, 
+            snapshotPath: process.env.SnapShotPath
         });
 
         const weatherLuisRecognizer = new LuisRecognizer({

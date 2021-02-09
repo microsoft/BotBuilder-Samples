@@ -4,4 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ${unitsMessages('dimension')}
+- ${unitsTemplates('dimension')}

@@ -1,7 +1,0 @@
-[generator.lg](../generator.lg)
-
-# entities
-- ${['phonenumber']}
-
-# templates
-- ${standardTemplates()}

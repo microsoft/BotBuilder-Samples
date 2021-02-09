@@ -1,0 +1,35 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${addFilename('datetime')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "datetimeV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@datetime.type != 'time'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_invalidTime(@datetime)}"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${confirmationText('${property}', @datetime.type)}"
+                },
+                ${setOrPush()}
+            ]
+        }
+    ]
+    ${designerOpEntity('Add', 'datetimeV2')}
+}
+```

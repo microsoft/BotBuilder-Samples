@@ -1,0 +1,10 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${addFilename('number')}
+
+# template
+- IF: ${propertySchema.minimum || propertySchema.maximum}
+    - ${addDialogWithNumberMinMax('number')}
+- ELSE:
+    - ${addDialog('number')}

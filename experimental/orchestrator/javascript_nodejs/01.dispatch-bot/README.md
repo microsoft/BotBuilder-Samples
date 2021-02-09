@@ -88,8 +88,8 @@ This sample **requires** prerequisites in order to run.
     - Verify .env has the following:
 
       ```
-      ModelFolder=./model
-      SnapshotFile=./generated/orchestrator.blu
+      ModelPath=./model
+      SnapShotPath=./generated/orchestrator.blu
       ```
 
 - Install modules

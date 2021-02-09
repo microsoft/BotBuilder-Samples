@@ -1,0 +1,11 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${addFilename('utterance')}
+
+# template
+- IF: ${propertySchema.pattern}
+    - ${addDialogWithStringPattern('utterance')}
+- ELSE:
+    - ${addDialog('utterance')}
+

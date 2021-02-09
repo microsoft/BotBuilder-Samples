@@ -2,8 +2,8 @@
 {
     public class OrchestratorConfig
     {
-        public string SnapshotFile { get; set; }
+        public string SnapshotPath { get; set; }
         
-        public string ModelFolder { get; set; }
+        public string ModelPath { get; set; }
     }
 }

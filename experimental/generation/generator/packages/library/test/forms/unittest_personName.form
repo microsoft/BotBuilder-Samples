@@ -3,7 +3,10 @@
     "type": "object",
     "properties": {
         "Name": {
-             "$ref": "template:personName.schema"
+            "type": "string",
+            "$entities": [
+                "personName"
+            ]
         }
     },
     "required": [

@@ -89,28 +89,6 @@
         {
             "type": "node",
             "request": "launch",
-            "name": "Generate Tutorial",
-            "preLaunchTask": "${defaultBuildTask}",
-            "program": "${workspaceFolder}/packages/cli/bin/run",
-            "outputCapture": "std",
-            "outFiles": [
-                "${workspaceFolder}/packages/cli/lib/**",
-                "${workspaceFolder}/packages/library/lib/**"
-            ],
-            "args": [
-                "dialog:generate",
-                "${workspaceFolder}/packages/library/test/forms/tutorial.form",
-                "-o",
-                "${env:TEMP}/tutorial.out",
-                "--force",
-                "--verbose"
-            ],
-            "sourceMaps": true,
-            "internalConsoleOptions": "openOnSessionStart"
-        },
-        {
-            "type": "node",
-            "request": "launch",
             "name": "Generate Action",
             "preLaunchTask": "${defaultBuildTask}",
             "program": "${workspaceFolder}/packages/cli/bin/run",
@@ -166,8 +144,7 @@
                 "-o",
                 "${env:TEMP}/simple.out",
                 "--force",
-                "--verbose",
-                "--debug"
+                "--verbose"
             ],
             "internalConsoleOptions": "openOnSessionStart"
         },

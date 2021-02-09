@@ -1,0 +1,4 @@
+[generator.lg](../generator.lg)
+
+# templates
+- ${entityLUTemplates('integer')}

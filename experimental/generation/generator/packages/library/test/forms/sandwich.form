@@ -9,12 +9,14 @@
         },
         "Length": {
             "$ref": "template:dimension.schema",
-            "$units": "Inch",
-            "minimum": 6,
-            "maximum": 12
+            "$units": "Inch"
         },
         "Name": {
-            "$ref": "template:personName.schema"
+            "type": "string",
+            "$entities": [
+                "personName",
+                "utterance"
+            ]
         },
         "Bread": {
             "type": "string",

@@ -1,0 +1,18 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$entities": [
+        "personName"
+    ],
+    "$templates": [
+        "string",
+        "personNameEntity.lu",
+        "personNameEntity.lg",
+        "personNameEntity-add-string.dialog",
+        "personNameEntity-remove-string.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"        
+    ]
+}

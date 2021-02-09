@@ -23,6 +23,18 @@
     "color": "icon-color.png"
   },
   "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal",
+        "groupchat"
+      ]
+    }
+  ],
   "composeExtensions": [
     {
       "botId": "<<YOUR-MICROSOFT-APP-ID>>",
@@ -68,6 +80,14 @@
               "inputType": "toggle"
             }
           ]
+        },
+        {
+          "id": "FetchRoster",
+          "description": "Fetch the conversation roster",
+          "title": "FetchRoster",
+          "type": "action",
+          "fetchTask": true,
+          "context": [ "compose" ]
         }
       ]
     }

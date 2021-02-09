@@ -4,4 +4,16 @@
 - ${propertyFilename()}
 
 # template
-- ${genericMessages('email')}
+- ```
+${promptTemplates(missingDefault('email'), changeDefault('email'))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}'
+${helpTemplates(repromptDefault('email'), helpDefault('email'))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```

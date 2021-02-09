@@ -1,6 +1,9 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
+    "$entities": [
+        "ordinalV2"
+    ],
     "properties": {
         "offset": {
             "type": "number"
@@ -13,8 +16,16 @@
         "offset",
         "relativeTo"
     ],
-    "$template": "ordinal",
-    "$generator": {
-        "$ref": "array.json"
-    }
+    "$templates": [
+        "ordinalV2Entity.lu",
+        "ordinalV2Entity.lg",
+        "objectProperty.lg",
+        "generic-missing.dialog",
+        "genericEntity-add.dialog",
+        "genericEntity-remove.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
+    ]
 }

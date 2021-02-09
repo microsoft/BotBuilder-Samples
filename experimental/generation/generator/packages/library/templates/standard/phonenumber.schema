@@ -1,8 +1,18 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "string",
-    "$template": "phonenumber",
-    "$generator": {
-        "$ref": "array.json"
-    }
+    "$entities": [
+        "phonenumber"
+    ],
+    "$templates": [
+        "string",
+        "phonenumberEntity.lu",
+        "phonenumberEntity.lg",
+        "phonenumberEntity-add-string.dialog",
+        "phonenumberEntity-remove-string.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
+    ]
 }

@@ -1,0 +1,22 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```${formImport('form.en-us.lg')}
+${promptTemplates(missingDefault(objectType()), changeDefault(objectType()))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptDefault(objectType()), helpDefault(objectType()))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${complexValueTemplate(objectType())}
+```
+
+# objectType()
+- ${phrase(propertySchema.$entities[0])}

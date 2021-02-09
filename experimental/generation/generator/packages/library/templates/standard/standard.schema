@@ -9,8 +9,6 @@
                 "boolean"
             ],
             "$templates": [
-                "genericEntity.lg",
-                "genericEntity.lu",
                 "CancelConfirmation-add-boolean.dialog"
             ]
         },
@@ -21,8 +19,6 @@
                 "${foreach(properties, property, `${property}Property`)}"
             ],
             "$templates": [
-                "genericEntity.lg",
-                "genericEntity.lu",
                 "form-CompleteConfirmation.dialog",
                 "CompleteConfirmation-add-boolean.dialog",
                 "CompleteConfirmation-add-PROPERTYName.dialog"
@@ -30,9 +26,7 @@
         },
         "PropertyToChange": {
             "type": "string",
-            "$entities": [
-                "${foreach(properties, property, `${property}Property`)}"
-            ],
+            "$entities": "${foreach(properties, property, `${property}Property`)}",
             "$templates": [
                 "PropertyToChange-add-PROPERTYName.dialog"
             ]
@@ -63,6 +57,9 @@
         "personName"
     ],
     "$templates": [
+        "booleanEntity.lg",
+        "booleanEntity.lu",
+        "stringEntity.lg",
         "form-NoneIntent.lu",
         "form-triggerIntent.lu",
         "form-Choose.lg",
