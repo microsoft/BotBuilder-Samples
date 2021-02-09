@@ -45,30 +45,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
 
         //Subscribe to different conversation events
-
-        this.onTeamsChannelCreatedEvent(async (context, next) => {
-            await this.onTeamsChannelCreated(context);
-            await next();
-        });
-
-        this.onTeamsChannelRenamedEvent(async (context, next) => {
-            await this.onTeamsChannelRenamed(context);
-            await next();
-        });
-        this.onTeamsChannelDeletedEvent(async (context, next) => {
-            await this.onTeamsChannelDeleted(context);
-            await next();
-        });
-        this.onTeamsChannelRestoredEvent(async (context, next) => {
-            await this.onTeamsChannelRestored(context);
-            await next();
-        });
-
-        this.onTeamsTeamRenamedEvent(async (context, next) => {
-            await this.onTeamsTeamRenamed(context);
-            await next();
-        });
-
+           
         this.onReactionsAdded(async (context) => {
             const reactionsAdded = context.activity.reactionsAdded;
             if (reactionsAdded && reactionsAdded.length > 0) {
