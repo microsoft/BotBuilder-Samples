@@ -12,7 +12,7 @@ ${'#'} ${property}_Name
 ${'#'} ${property}_Value(val)
 > Display value for '${property}'
  - IF: \${val}
- - \${val}
+ - \${${if(isArrayProperty(property), 'value(val)', 'val')}}
  - ELSE:
  - no value
 ```
@@ -22,16 +22,6 @@ ${'#'} ${property}_Value(val)
 ${'#'} ${property}_Value(val)
 > Display value for '${property}'
 - \${value(val)}
-```
-
-# entityValueTemplate()
--```
-${'#'} ${property}Entity_Value(val)
-> Display value for `${property}Entity`)}
- - IF: \${val}
- - \${val}
- - ELSE:
- - no value
 ```
 
 # entityTypeTemplate(type)
@@ -47,11 +37,6 @@ ${'#'} ${type}Entity_Value(entity)
 > Display value for '${type}' entity
 - \${entity.text}
 ```
-
->> String
-
-# missingStringArray()
-- What values do you want to add for ${propertyName()}?
 
 >> Specific property calls to generated templates
 # propertyName()
@@ -82,16 +67,25 @@ ${'#'} ${type}Entity_Value(entity)
     - a ${word}
 
 # missingDefault(type)
-- Enter ${definite(type)} for ${propertyName()}
+- IF: ${isArrayProperty(property)}
+    - Enter ${definite(type)} to add to ${propertyName()}
+- ELSE:
+    - Enter ${definite(type)} for ${propertyName()}
 
 # changeDefault(type)
-- Change ${propertyCurrentValue()} in ${propertyName()} to?
+- IF: ${isArrayProperty(property)}
+    - How do you want to change ${propertyCurrentValue()} in ${propertyName()}
+- ELSE:
+    - Change ${propertyCurrentValue()} in ${propertyName()} to?
 
 # repromptDefault(type)
-- The type of ${propertyName()} is ${definite(type)}
+- ${helpDefault(type)}
 
 # helpDefault(type)
-- ${propertyName()} is ${definite(type)} property
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection of ${type}
+- ELSE:
+    - ${propertyName()} is ${definite(type)} property
 
 > TODO: This is because of a bug in template expansion
 # expectedSetDefault()
@@ -101,10 +95,16 @@ ${'#'} ${type}Entity_Value(entity)
 - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # unexpectedSetDefault()
-- Set ${propertyName()} to ${propertyValue('newVal')}
+- IF: ${isArrayProperty(property)}
+    - Added ${propertyValue('newVal')} to ${propertyName()}
+- ELSE:
+    - Set ${propertyName()} to ${propertyValue('newVal')}
 
 # unexpectedUpdateDefault()
-- Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+- IF: ${isArrayProperty(property)}
+    - ${unexpectedSetDefault()}
+- ELSE:
+    - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # removeDefault()
 - Removed ${propertyValue('val')} from ${propertyName()}
@@ -115,25 +115,51 @@ ${'#'} ${type}Entity_Value(entity)
 # showDefault()
 - ${propertyName()}: ${propertyValue(`$${property}`)}
 
-> Arrays
+>> Strings
+# stringMessages(template)
+- ```${importFormsIfArray()}
+${promptTemplates(missingDefault(template), changeDefault(template))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptString(), helpString())}
+${stringValidationTemplates()}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
 
-# expectedAddDefault()
-- ${' '}
+# repromptString()
+- ${helpString()}
 
-# expectedAddUpdateDefault()
-- ${' '}
+# helpString()
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection any value
+- ELSE:
+    - Any response is allowed for ${propertyName()}
 
-# unexpectedAddDefault()
-- Added ${propertyValue('newVal')} to ${propertyName()}
+# stringValidationTemplates()
+- IF: ${propertySchema.pattern}
+    -```${'#'} ${property}_NoPatternMatch(val)
+- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
+```
+- ELSE:
+    -
 
-# unexpectedAddUpdateDefault()
-- ${unexpectedAddDefault()}
+# importFormsIfArray()
+- IF: ${isArrayProperty(property)}
+    - ${formImport('form.en-us.lg')}
+- ELSE:
+    -
 
 >> Units
 
-# unitsTemplates(type)
+# unitsMessages(template)
 - ```${formImport('form.en-us.lg')}
-${promptTemplates(missingDefault(type), changeDefault(type))}
+${promptTemplates(missingDefault(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
                         unexpectedSetDefault(),
@@ -141,13 +167,102 @@ ${confirmationTemplates(expectedSetDefault(),
                         removeDefault(),
                         clearDefault())}
 ${incorrectUnitsTemplate()}
-${helpTemplates(repromptDefault(type), helpDefault(type))}
+${validationTemplates()}
+${helpTemplates(repromptDefault(template), helpDefault(template))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
-${complexValueTemplate(type)}
+${complexValueTemplate(template)}
 ```
+
+>> Number templates
+
+# numberMessages(template)
+- ```
+${promptTemplates(missingNumber(template), changeDefault(template))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${validationTemplates()}
+${helpTemplates(repromptNumber(template), helpNumber(template))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
+# missingNumber(template)
+- IF: ${isArrayProperty(property)}
+    - Enter multiple ${type}s for ${propertyName()} ${numberRanges()}
+- ELSE:
+    - Enter ${definite(template)} for ${propertyName()} ${numberRanges()}
+
+# repromptNumber(template)
+- ${helpNumber(template)}
+
+# helpNumber(template)
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection of ${definite(template)} ${numberRanges()}
+- ELSE:
+    - ${propertyName()} is ${definite(template)} ${numberRanges()}
+
+# validationTemplates()
+- ```${tooSmall()}
+${tooBig()}```
+
+# tooSmall()
+- IF: ${propertySchema.minimum}
+    -```
+${'#'} ${property}_IsTooSmall(val)
+> ${property} property is less than minimum allowed value
+- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
+- ELSE:
+    - 
+
+# tooBig()
+- IF: ${propertySchema.maximum}
+    -```
+${'#'} ${property}_IsTooBig(val)
+> ${property} property is greater than maximum allowed value
+- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
+- ELSE:
+    - 
+
+# unitsMessage()
+- IF: ${propertySchema.$units}
+    - ${concat(' ', propertySchema.$units)}
+- ELSE:
+    -
+
+>> Date format templates
+
+# dateFormatMessages(description)
+- ${formImport('form.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
+
+# dateFormatValidationMessage()
+- ```
+${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
+> Invalid ${propertySchema.format} for '${property}' property
+- \${value(val)} is not a ${propertySchema.format}```
+
+>> Generic templates
+
+# genericMessages(description)
+> Generic text templates where type is the description of the desired values
+- ```
+${promptTemplates(missingDefault(description), changeDefault(description))}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}'
+${helpTemplates(repromptDefault(description), helpDefault(description))}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${valueTemplate()}
+```
+
 #filenameForEntityTypeLG(type)
 - ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
-
-
-

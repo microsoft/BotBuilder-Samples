@@ -4,5 +4,5 @@
 - ${filenameForEntityTypeLG('keyPhrase')}
 
 # template
-- ${entityTypeTemplate('keyPhrase')}
+- ${entityTextTemplate('keyPhrase')}
 

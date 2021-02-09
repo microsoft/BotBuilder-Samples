@@ -4,5 +4,4 @@
 - ${['number']}
 
 # templates
-- ${genericPropertyTemplates()}
-
+- ${standardTemplates()}

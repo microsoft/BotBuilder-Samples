@@ -35,7 +35,7 @@ OPTIONS
 - **--merge, -m** Merge the newly generated assets into the output directory. (optional)
 - **--output, -o** Output directory. (optional)
 - **--prefix, -p** Prefix for generated files. (optional, default: schema name)
-- **--schema, -s** Path to your app.schema file. (optional, default: https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/runbot.schema)
+- **--schema, -s** Path to your app.schema file. (optional, default: https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/generation/runbot/RunBot.schema)
 - **--templates, -t** Directories with templates to use for generating assets. First definition wins.  
 - **--verbose, -v** Verbose logging of generated files. (optional, default: standard)
 

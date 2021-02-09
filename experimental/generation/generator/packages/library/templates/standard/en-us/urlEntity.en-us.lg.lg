@@ -4,5 +4,5 @@
 - ${filenameForEntityTypeLG('url')}
 
 # template
-- ${entityTypeTemplate('url')}
+- ${entityTextTemplate('url')}
 
