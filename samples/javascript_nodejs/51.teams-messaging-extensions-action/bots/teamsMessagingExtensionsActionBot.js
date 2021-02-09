@@ -77,8 +77,7 @@ function GetJustInTimeCardAttachment() {
         ],
         body: [
             {
-                text:
-                    'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
+                text: 'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
                 wrap: 'bolder'
             },
