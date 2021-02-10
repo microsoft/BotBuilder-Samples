@@ -1,0 +1,122 @@
+//{
+
+
+//  "@context": "https://schema.org/extensions",
+//  "@type": "MessageCard",
+//  "potentialAction": [
+//    {
+//      "@type": "OpenUri",
+//      "name": "View All Tweets",
+//      "targets": [
+//        {
+//          "os": "default",
+//          "uri": "https://twitter.com/search?q=%23MicrosoftTeams"
+//        }
+//      ]
+//    }
+//  ],
+//  "sections": [
+//    {
+//      "activityTitle": "John Doe commented",
+//      "activitySubtitle": "On Project Tango",
+//      "activityText": "\"Here are the designs\"",
+//      "activityImage": "http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg"
+//    },
+
+//    {
+//      "title": "**Details**",
+//      "facts": [
+//        {
+//          "name": "Posted By:",
+//          "value": ""
+//        },
+//        {
+//          "name": "Posted At:",
+//          "value": ""
+//        },
+//        {
+//          "name": "Tweet:",
+//          "value": ""
+//        }
+//      ],
+//      "text": "A tweet with #MicrosoftTeams has been posted:"
+//    },
+
+//    {
+//      "title": "Images",
+//      "images": [
+//        {
+//          "image": "http://connectorsdemo.azurewebsites.net/images/MicrosoftSurface_024_Cafe_OH-06315_VS_R1c.jpg"
+//        },
+//        {
+//          "image": "http://connectorsdemo.azurewebsites.net/images/WIN12_Scene_01.jpg"
+//        },
+//        {
+//          "image": "http://connectorsdemo.azurewebsites.net/images/WIN12_Anthony_02.jpg"
+//        }
+//      ]
+//    }
+//  ],
+//  "summary": "Tweet Posted",
+//  "themeColor": "0072C6",
+//  "title": "Tweet Posted"
+//}
+
+
+
+{
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+
+  "sections": [
+    {
+      "activityTitle": "Steve Tweeted",
+      "activitySubtitle": "With #MicrosoftTeams",
+      "activityImage": "http://connectorsdemo.azurewebsites.net/images/MSC12_Oscar_002.jpg"
+    },
+    {
+      "facts": [
+        {
+          "name": "Posted By:",
+          "value": "Steve"
+        },
+        {
+          "name": "Posted At:",
+          "value": "12:00 PM"
+        },
+        {
+          "name": "Tweet:",
+          "value": "Hello Everyone!! Good Afternoon :-)"
+        }
+      ],
+      "text": "A tweet with #MicrosoftTeams has been posted:"
+    }
+  ],
+
+  "potentialAction": [
+    {
+      "@context": "http://schema.org",
+      "@type": "ViewAction",
+      "name": "View all Tweets",
+      "target": [
+        "https://twitter.com/search?q=%23MicrosoftTeams"
+      ]
+    }
+  ]
+
+  //"potentialAction": [
+  //  {
+  //    "@context": "http://schema.org",
+  //    "@type": "OpenUri",
+  //    "name": "View All Tweets",
+  //    "target": [
+  //      "https://twitter.com/search?q=%23MicrosoftTeams"
+
+  //    ]
+  //  }
+  //] //,
+
+  //"summary": "Tweet Posted",
+  //"themeColor": "0072C6",
+  //"title": "Tweet Posted"
+}

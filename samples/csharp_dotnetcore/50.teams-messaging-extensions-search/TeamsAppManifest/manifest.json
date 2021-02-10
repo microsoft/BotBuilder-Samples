@@ -30,10 +30,14 @@
       "commands": [
         {
           "id": "searchQuery",
-          "context": [ "compose", "commandBox" ],
+          "context": [
+            "compose",
+            "commandBox"
+          ],
           "description": "Test command to run query",
           "title": "Search",
           "type": "query",
+          "initialRun": true,
           "parameters": [
             {
               "name": "searchQuery",
