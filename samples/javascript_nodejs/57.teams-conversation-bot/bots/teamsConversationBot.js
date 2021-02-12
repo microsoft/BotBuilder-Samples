@@ -48,25 +48,19 @@ class TeamsConversationBot extends TeamsActivityHandler {
         //Subscribe to different conversation events
 
         this.onReactionsAdded(async (context) => {
-            const reactionsAdded = context.activity.reactionsAdded;
-            if (reactionsAdded && reactionsAdded.length > 0) {
-                for (let i = 0; i < reactionsAdded.length; i++) {
-                    const reaction = reactionsAdded[i];
-                    const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
-                    context.sendActivity(newReaction);
-                }
-            }
+            await Promise.all((context.activity.reactionsAdded || []).map((reaction) => {
+                const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
+                const resourceResponse = await context.sendActivity(newReaction);
+                // Save information about the sent message and its ID (resourceResponse.id).
+            }));
         });
 
         this.onReactionsRemoved(async (context) => {
-            const reactionsRemoved = context.activity.reactionsRemoved;
-            if (reactionsRemoved && reactionsRemoved.length > 0) {
-                for (let i = 0; i < reactionsRemoved.length; i++) {
-                    const reaction = reactionsRemoved[i];
-                    const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
-                    context.sendActivity(newReaction);
-                }
-            }
+            await Promise.all((context.activity.reactionsRemoved || []).map((reaction) => {
+                const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
+                const resourceResponse = await context.sendActivity(newReaction);
+                // Save information about the sent message and its ID (resourceResponse.id).
+            }));
         });
     }
 
