@@ -53,7 +53,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 StatusCode = 200,
                 Type = AdaptiveCard.ContentType,
-                Value = new CardResource(Path.Combine(".", "Cards", "CardOne.json")).AsJObject()
+                Value = new CardResource(Path.Combine(".", "Cards", "CardTwo.json")).AsJObject()
             });
         }
 
@@ -63,7 +63,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 StatusCode = 200,
                 Type = AdaptiveCard.ContentType,
-                Value = new CardResource(Path.Combine(".", "Cards", "CardTwo.json")).AsJObject()
+                Value = new CardResource(Path.Combine(".", "Cards", "CardOne.json")).AsJObject()
             });
         }
 
