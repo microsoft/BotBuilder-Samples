@@ -48,7 +48,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         //Subscribe to different conversation events
 
         this.onReactionsAdded(async (context) => {
-            await Promise.all((context.activity.reactionsAdded || []).map((reaction) => {
+            await Promise.all((context.activity.reactionsAdded || []).map(async (reaction) => {
                 const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
                 const resourceResponse = await context.sendActivity(newReaction);
                 // Save information about the sent message and its ID (resourceResponse.id).
@@ -56,7 +56,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         });
 
         this.onReactionsRemoved(async (context) => {
-            await Promise.all((context.activity.reactionsRemoved || []).map((reaction) => {
+            await Promise.all((context.activity.reactionsRemoved || []).map(async (reaction) => {
                 const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
                 const resourceResponse = await context.sendActivity(newReaction);
                 // Save information about the sent message and its ID (resourceResponse.id).
