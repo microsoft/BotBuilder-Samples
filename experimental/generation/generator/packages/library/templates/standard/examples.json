@@ -1,0 +1,36 @@
+{
+    "title": "Entity examples",
+    "description": "Entity examples to use when generating LU files.",
+    "type": "object",
+    "$comment": "We only support US English in templates",
+    "properties": {
+        "en-us": {
+            "title": "US English entity examples",
+            "anyOf": [
+                {
+                    "title": "Entity examples",
+                    "description": "Entity examples to use when generating LU files.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                {
+                    "title": "List entity entries",
+                    "description": "Synonyms for each list entity entry.",
+                    "type": "object",
+                    "additionalProperties": {
+                        "title": "List entry",
+                        "description": "Synonyms for a list entity entry.",
+                        "type": "array",
+                        "items": {
+                            "title": "Synonyms",
+                            "description": "List of synonyms for a list entry.",
+                            "type": "string"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}

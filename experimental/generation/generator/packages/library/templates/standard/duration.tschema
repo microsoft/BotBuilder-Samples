@@ -4,6 +4,6 @@
     "format": "duration",
     "$generator": {
         "$comment": "TODO: We need to convert to P[nY][nM][nD][T[nH][nM][nS]] https://tools.ietf.org/html/rfc3339#appendix-A",
-        "$ref": "array.json"
+        "array": { "$ref": "array.json" }
     }
 }

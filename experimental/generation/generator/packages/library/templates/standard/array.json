@@ -1,11 +1,8 @@
 {
-    "array": {
-        "$comment": "Support arrays.",
-        "uniqueItems": {
-            "type": "boolean",
-            "title": "Unique Values",
-            "description": "Require all values to be unique.",
-            "default": false
-        }
+    "uniqueItems": {
+        "type": "boolean",
+        "title": "Unique Values",
+        "description": "Require all values to be unique.",
+        "default": false
     }
 }

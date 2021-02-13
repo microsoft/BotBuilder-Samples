@@ -3,6 +3,8 @@
     "type": "string",
     "$template": "keyPhrase",
     "$generator": {
-        "$ref": "array.json"
+        "array": {
+            "$ref": "array.json"
+        }
     }
 }

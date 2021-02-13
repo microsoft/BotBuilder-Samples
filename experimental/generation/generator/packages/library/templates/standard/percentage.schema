@@ -3,6 +3,8 @@
     "type": "number",
     "$template": "percentage",
     "$generator": {
-        "$ref": "array.json"
+        "array": {
+            "$ref": "array.json"
+        }
     }
 }

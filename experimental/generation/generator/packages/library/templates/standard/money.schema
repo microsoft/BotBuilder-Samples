@@ -270,6 +270,8 @@
             "Title": "Units",
             "Description": "Form dialogs will default to units and convert if possible."
         },
-        "$ref": "array.json"
+        "array": {
+            "$ref": "array.json"
+        }
     }
 }

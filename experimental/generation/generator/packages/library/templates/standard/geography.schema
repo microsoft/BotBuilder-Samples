@@ -13,5 +13,10 @@
     "required": [
         "type",
         "location"
-    ]
+    ],
+    "$generator": {
+        "array": {
+            "$ref": "array.json"
+        }
+    }
 }

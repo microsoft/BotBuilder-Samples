@@ -3,6 +3,8 @@
     "type": "string",
     "format": "iri",
     "$generator": {
-        "$ref": "array.json"
+        "array": {
+            "$ref": "array.json"
+        }
     }
 }

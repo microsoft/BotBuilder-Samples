@@ -26,6 +26,8 @@
             "Title": "Units",
             "Description": "Expected age units."
         },
-        "$ref": "array.json"
+        "array": {
+            "$ref": "array.json"
+        }
     }
 }
