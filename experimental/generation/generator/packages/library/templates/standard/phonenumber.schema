@@ -3,8 +3,6 @@
     "type": "string",
     "$template": "phonenumber",
     "$generator": {
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

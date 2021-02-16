@@ -15,8 +15,6 @@
     ],
     "$template": "ordinal",
     "$generator": {
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

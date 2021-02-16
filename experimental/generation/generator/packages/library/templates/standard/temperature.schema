@@ -15,21 +15,25 @@
     ],
     "$template": "temperature",
     "$generator": {
-        "$units": {
-            "type": "string",
-            "enum": [
-                "F",
-                "K",
-                "R",
-                "D",
-                "C",
-                "Degree"
-            ],
-            "Title": "Units",
-            "Description": "Form dialogs will default to units and convert if possible."
-        },
-        "array": {
-            "$ref": "array.json"
-        }
+        "allOf": [
+            {
+                "$units": {
+                    "type": "string",
+                    "enum": [
+                        "F",
+                        "K",
+                        "R",
+                        "D",
+                        "C",
+                        "Degree"
+                    ],
+                    "Title": "Units",
+                    "Description": "Form dialogs will default to units and convert if possible."
+                }
+            },
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }

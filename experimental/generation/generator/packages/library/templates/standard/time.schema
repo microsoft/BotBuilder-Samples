@@ -4,8 +4,6 @@
     "format": "time",
     "$generator": {
         "$comment": "TODO: We need to convert to HH:MM:SS[.FS][Z|+offset|-offset] https://tools.ietf.org/html/rfc3339#appendix-A",
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

@@ -15,19 +15,23 @@
     ],
     "$template": "age",
     "$generator": {
-        "$units": {
-            "type": "string",
-            "enum": [
-                "Year",
-                "Month",
-                "Week",
-                "Day"
-            ],
-            "Title": "Units",
-            "Description": "Expected age units."
-        },
-        "array": {
-            "$ref": "array.json"
-        }
+        "allOf": [
+            {
+                "$units": {
+                    "type": "string",
+                    "enum": [
+                        "Year",
+                        "Month",
+                        "Week",
+                        "Day"
+                    ],
+                    "Title": "Units",
+                    "Description": "Expected age units."
+                }
+            },
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }

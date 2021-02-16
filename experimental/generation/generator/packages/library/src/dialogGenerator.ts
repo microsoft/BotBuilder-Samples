@@ -14,7 +14,7 @@ import * as ppath from 'path'
 import * as ph from './generatePhrases'
 import * as ps from './processSchemas'
 import * as s from './schema'
-import { SubstitutionsEvaluator } from './substitutions'
+import {SubstitutionsEvaluator} from './substitutions'
 
 export enum FeedbackType {
     message,
@@ -232,7 +232,7 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 export const TemplateCache: Map<string, Template> = new Map<string, Template>()
 
@@ -244,7 +244,7 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
         if (!template) {
             if (await fs.pathExists(loc)) {
                 // Direct file
-                template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+                template = {source: loc, template: await fs.readFile(loc, 'utf8')}
                 TemplateCache.set(loc, template)
                 break
             } else {
@@ -284,7 +284,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = { name: string, shortName: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
 function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -484,12 +484,20 @@ async function processTemplates(
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
 
-                        // Look for entity examples in global $examples
-                        scope.examples = schema.schema.$examples[entityName]
-
                         // Pick up examples from property schema if unique entity
-                        if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                            scope.examples = property.schema.examples
+                        if (!property.schema.$examples) {
+                            if (property.schema.examples) {
+                                const entity = entities.filter((e: string) => e !== 'utterance')
+                                if (entity.length == 1) {
+                                    const entityExamples = {}
+                                    entityExamples[entity[0]] = property.schema.examples
+                                    property.schema.$examples = {
+                                        '': entityExamples
+                                    }
+                                } else {
+                                    feedback(FeedbackType.warning, `For ${property.path} use $examples rather than examples`)
+                                }
+                            }
                         }
 
                         for (const template of templates) {
@@ -594,7 +602,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
@@ -613,7 +621,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                     // Bind property schema to use when expanding
                     scope.propertySchema = val
                 }
-                const newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
                 if (isTopLevel) {
                     delete scope.propertySchema
@@ -688,7 +696,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
@@ -874,10 +882,10 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
-        scope = { ...scope, entities: schema.entityToProperties() }
+        scope = {...scope, entities: schema.entityToProperties()}
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand all remaining schema expressions

@@ -4,8 +4,6 @@
     "format": "date-time",
     "$generator": {
         "$comment": "TODO: We need to convert to YYYY-MM-DDTHH:MM:SS[.FS] https://tools.ietf.org/html/rfc3339#appendix-A",
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

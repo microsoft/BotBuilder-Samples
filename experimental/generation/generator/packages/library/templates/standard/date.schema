@@ -4,8 +4,6 @@
     "format": "date",
     "$generator": {
         "$comment": "TODO: We need to convert to YYYY-MM-DD https://tools.ietf.org/html/rfc3339#appendix-A",
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

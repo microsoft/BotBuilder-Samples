@@ -2,17 +2,21 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "string",
     "$generator": {
-        "enum": {
-            "title": "Enumeration",
-            "description": "Legal enumeration values for this property.",
-            "type": "array",
-            "items": {
-                "type": "string"
+        "allOf": [
+            {
+                "enum": {
+                    "title": "Enumeration",
+                    "description": "Legal enumeration values for this property.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "default": []
+                }
             },
-            "default": []
-        },
-        "array": {
-            "$ref": "array.json"
-        }
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }

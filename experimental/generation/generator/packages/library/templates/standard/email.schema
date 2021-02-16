@@ -3,8 +3,6 @@
     "type": "string",
     "format": "email",
     "$generator": {
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

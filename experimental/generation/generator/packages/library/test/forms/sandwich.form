@@ -5,7 +5,8 @@
         "Quantity": {
             "type": "number",
             "minimum": 1,
-            "maximum": 10
+            "maximum": 10,
+            "examples": [1, 2, 3]
         },
         "Length": {
             "$ref": "template:dimension.schema",
@@ -36,7 +37,15 @@
                 "salami",
                 "turkey",
                 "none"
-            ]
+            ],
+            "$examples": {
+                "": {
+                    "MeatEntity": {
+                        "pulled pork": ["pork"],
+                        "salami": []
+                    }
+                }
+            }
         },
         "Cheese": {
             "type": "string",

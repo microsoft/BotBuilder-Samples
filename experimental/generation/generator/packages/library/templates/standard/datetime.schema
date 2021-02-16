@@ -15,8 +15,6 @@
     ],
     "$template": "datetime",
     "$generator": {
-        "array": {
-            "$ref": "array.json"
-        }
+        "$ref": "array.json"
     }
 }

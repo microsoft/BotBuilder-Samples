@@ -1,8 +1,10 @@
 {
-    "uniqueItems": {
-        "type": "boolean",
-        "title": "Unique Values",
-        "description": "Require all values to be unique.",
-        "default": false
+    "array": {
+        "uniqueItems": {
+            "type": "boolean",
+            "title": "Unique Values",
+            "description": "Require all values to be unique.",
+            "default": false
+        }
     }
 }

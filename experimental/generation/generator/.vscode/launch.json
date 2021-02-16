@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*"
+                ".*email.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
