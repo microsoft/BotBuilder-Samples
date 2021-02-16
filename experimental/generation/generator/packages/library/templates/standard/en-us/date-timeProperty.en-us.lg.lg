@@ -4,16 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${promptTemplates(missingDefault('date and time'), changeDefault('date and time'))}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedUpdateDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedUpdateDefault(),
-                        removeDefault(),
-                        clearDefault())}
-${helpTemplates(repromptDefault('date and time'), helpDefault('date and time'))}
-${showTemplate(showDefault())}
-${nameTemplate()}
-${valueTemplate()}
-```
+- ${dateFormatMessages('date and time')}

@@ -14,7 +14,7 @@ import * as ppath from 'path'
 import * as ph from './generatePhrases'
 import * as ps from './processSchemas'
 import * as s from './schema'
-import {SubstitutionsEvaluator} from './substitutions'
+import { SubstitutionsEvaluator } from './substitutions'
 
 export enum FeedbackType {
     message,
@@ -232,28 +232,32 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
-type Plain = {source: string, template: string}
+type Plain = { source: string, template: string }
 type Template = lg.Templates | Plain | undefined
-const TemplateCache: Map<string, lg.Templates> = new Map<string, lg.Templates>()
+export const TemplateCache: Map<string, Template> = new Map<string, Template>()
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
     let template: Template
     for (let dir of templateDirs) {
         let loc = templatePath(name, dir)
-        if (await fs.pathExists(loc)) {
-            // Direct file
-            template = {source: loc, template: await fs.readFile(loc, 'utf8')}
-            break
-        } else {
-            // LG file
-            loc = templatePath(name + '.lg', dir)
-            template =  TemplateCache.get(loc)
-            if (template) {
-                break
-            } else if (await fs.pathExists(loc)) {
-                template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+        template = TemplateCache.get(loc)
+        if (!template) {
+            if (await fs.pathExists(loc)) {
+                // Direct file
+                template = { source: loc, template: await fs.readFile(loc, 'utf8') }
                 TemplateCache.set(loc, template)
                 break
+            } else {
+                // LG file
+                loc = templatePath(name + '.lg', dir)
+                template = TemplateCache.get(loc)
+                if (template) {
+                    break
+                } else if (await fs.pathExists(loc)) {
+                    template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                    TemplateCache.set(loc, template)
+                    break
+                }
             }
         }
     }
@@ -280,7 +284,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = { name: string, shortName: string, fallbackName: string, fullName: string, relative: string }
 function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     let basename = ppath.basename(fullPath, '.dialog')
@@ -328,12 +332,6 @@ async function processTemplate(
             outPath = ppath.join(outDir, ref.relative)
         } else {
             let foundTemplate = await findTemplate(templateName, templateDirs)
-            if (foundTemplate === undefined && templateName.includes('Entity')) {
-                // If we can't find an entity, try for a generic definition
-                feedback(FeedbackType.debug, `Generic of ${templateName}`)
-                templateName = templateName.replace(/.*Entity/, 'generic')
-                foundTemplate = await findTemplate(templateName, templateDirs)
-            }
             if (foundTemplate !== undefined) {
                 let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
@@ -355,18 +353,14 @@ async function processTemplate(
                         filename = `${assetDirectory(ppath.extname(filename))}${locale}${scope.property ?? 'form'}/${ppath.basename(filename)}`
                     }
 
-                    // Add prefix to constant imports
-                    if (plainTemplate) {
-                        plainTemplate.template = addPrefixToImports(plainTemplate.template, scope)
-                    }
-
                     outPath = ppath.join(outDir, filename)
                     let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
                             feedback(FeedbackType.info, `Generating ${outPath}`)
-                            let result = plainTemplate?.template
+                            // Add prefix to constant imports
+                            let result = plainTemplate ? addPrefixToImports(plainTemplate.template, scope) : undefined
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
                                 result = lgTemplate.evaluate('template', scope) as string
@@ -467,50 +461,54 @@ async function processTemplates(
     force: boolean,
     feedback: Feedback): Promise<void> {
     scope.templates = {}
+    // We expand each template in the context of a combination of locale, property, type (schema name) and entity.
+    // Since we only generate each filename once this means property only templates don't care about the entity and entity templates will be expanded for each entity.
+    // If a template author wants to do different things with different entities they will need explicit templates for each desired entity.
     for (let locale of locales) {
         scope.locale = locale
         for (let property of schema.schemaProperties()) {
             scope.property = property.path
-            scope.type = property.typeName()
+            scope.template = property.schema.$template
             scope.propertySchema = property.schema
-            let templates = property.schema.$templates
-            if (!templates) {
-                templates = [scope.type]
-            }
-            for (let template of templates) {
-                await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
-            }
-            let entities = property.schema.$entities
-            if (!entities) {
-                feedback(FeedbackType.error, `${property.path} does not have $entities defined in schema or template.`)
-            } else if (!property.schema.$templates) {
+            const entities = property.schema.$entities
+            const templates = property.schema.$templates
+            if (!entities || !templates) {
+                feedback(FeedbackType.error, `'${property.path}' does not define $template, $entities or $templates.`)
+            } else if (scope.property.includes('-') || scope.property.includes(' ')) {
+                feedback(FeedbackType.error, `'${property.path}' cannot include space or dash.`)
+            } else {
+                // Assume non-array are expressions to be interpreted in expandSchema
                 for (let entityName of entities) {
-                    scope.entity = entityName
-                    if (entityName === `${scope.property}Entity`) {
-                        entityName = `${scope.type}`
+                    // If expression will get handled by expandSchema
+                    if (!entityName.startsWith('$')) {
+                        scope.entity = entityName
+                        feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
+
+                        // Look for entity examples in global $examples
+                        scope.examples = schema.schema.$examples[entityName]
+
+                        // Pick up examples from property schema if unique entity
+                        if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
+                            scope.examples = property.schema.examples
+                        }
+
+                        for (const template of templates) {
+                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                        }
+
+                        delete scope.entity
+                        delete scope.examples
                     }
-
-                    // Look for entity examples in global $examples
-                    scope.examples = schema.schema.$examples[entityName]
-
-                    // Pick up examples from property schema if unique entity
-                    if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                        scope.examples = property.schema.examples
-                    }
-
-                    // If neither specify, then it is up to templates
-                    await processTemplate(`${entityName}Entity-${scope.type}`, templateDirs, outDir, scope, force, feedback, false)
                 }
-                delete scope.entity
-                delete scope.examples
             }
+            delete scope.property
+            delete scope.type
+            delete scope.propertySchema
         }
-        delete scope.property
-        delete scope.type
-        delete scope.propertySchema
 
-        // Process templates found at the top
+        // Process templates found at the top which should not depend on locale/property/entity
         if (schema.schema.$templates) {
+            feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (let templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
@@ -525,42 +523,47 @@ async function processTemplates(
     delete scope.locale
 }
 
-// Ensure every property has $entities
-async function ensureEntities(
+// Ensure every property has $entities and $templates from $template
+async function ensureEntitiesAndTemplates(
     schema: s.Schema,
     templateDirs: string[],
     scope: any,
     feedback: Feedback)
     : Promise<void> {
     for (let property of schema.schemaProperties()) {
-        if (!property.schema.$entities) {
-            try {
-                scope.property = property.path
-                scope.type = property.typeName()
-                let templates = property.schema.$templates
-                if (!templates) {
-                    templates = [scope.type]
-                }
-                for (let template of templates) {
-                    let foundTemplate = await findTemplate(template, templateDirs)
-                    let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
-                    if (lgTemplate
-                        && lgTemplate.allTemplates.some(f => f.name === 'entities')
-                        && !scope.schema.properties[scope.property].$entities) {
-                        feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $entities`)
-                        let entities = lgTemplate.evaluate('entities', scope) as string[]
-                        if (entities) {
-                            property.schema.$entities = entities
+        if (!property.schema.$entities || !property.schema.$templates) {
+            const template = property.schema.$template
+            if (!template) {
+                feedback(FeedbackType.error, `${property.path} has no $template`)
+            } else {
+                try {
+                    scope.property = property.path
+                    scope.template = property.schema.$templateDirs
+                    scope.propertySchema = property.schema
+                    const rootTemplate = await findTemplate(template, templateDirs)
+                    let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
+                    if (!lgTemplate) {
+                        feedback(FeedbackType.error, `Cannot find ${rootTemplate} for ${property.path}`)
+                    } else {
+                        if (!property.schema.$entities) {
+                            feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $entities`)
+                            property.schema.$entities = lgTemplate.evaluate('entities', scope) as string[]
+                            if (!property.schema.$entities) {
+                                feedback(FeedbackType.error, `${property.path} has no $entities`)
+                            }
+                        }
+                        if (!property.schema.$templates) {
+                            feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $templates`)
+                            property.schema.$templates = lgTemplate.evaluate('templates', scope) as string[]
+                            if (!property.schema.$templates) {
+                                feedback(FeedbackType.error, `${property.path} has no $templates`)
+                            }
                         }
                     }
+                } catch (e) {
+                    feedback(FeedbackType.error, e.message)
                 }
-                if (!property.schema.$entities) {
-                    feedback(FeedbackType.error, `${property.path} has no $entities`)
-                }
-            } catch (e) {
-                feedback(FeedbackType.error, e.message)
             }
-
         }
     }
 }
@@ -591,7 +594,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                 // Merge into single object
                 let obj = {}
                 for (let elt of newSchema) {
-                    obj = {...obj, ...elt}
+                    obj = { ...obj, ...elt }
                 }
                 newSchema = obj
             }
@@ -610,7 +613,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                     // Bind property schema to use when expanding
                     scope.propertySchema = val
                 }
-                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
+                const newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
                 if (isTopLevel) {
                     delete scope.propertySchema
@@ -685,7 +688,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
             let outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '  '})
+                await fs.writeJSON(outPath, main, { spaces: '  ' })
             } else {
                 await fs.copy(path, outPath)
             }
@@ -748,7 +751,7 @@ export async function generate(
     feedback?: Feedback)
     : Promise<boolean> {
     const start = process.hrtime.bigint()
-    
+
     if (!feedback) {
         feedback = (_info, _message) => true
     }
@@ -774,7 +777,7 @@ export async function generate(
     }
 
     if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/runbot.schema'
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/RunBot.schema'
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
@@ -845,7 +848,6 @@ export async function generate(
         }
 
         let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
-        schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // User templates + used schema template directories
         let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
@@ -854,6 +856,10 @@ export async function generate(
             ...templateDirs,
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
         ]
+
+        // Expand root $template and computed schema
+        await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
+        schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
         // Process templates
         let scope: any = {
@@ -868,12 +874,10 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = {...scope, ...schema.schema.$parameters}
+            scope = { ...scope, ...schema.schema.$parameters }
         }
 
-        await ensureEntities(schema, templateDirs, scope, feedback)
-        scope = {...scope, entities: schema.entityToProperties()}
-
+        scope = { ...scope, entities: schema.entityToProperties() }
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand all remaining schema expressions
@@ -881,7 +885,7 @@ export async function generate(
 
         if (!error) {
             // Write final schema
-            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples') ? undefined : val)
+            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files
@@ -944,6 +948,7 @@ export async function expandPropertyDefinition(property: string, schema: any, te
     if (!schema.$entities) {
         let scope = {
             property,
+            propertySchema: schema,
             type: ps.typeName(schema)
         }
         let foundTemplate = await findTemplate(scope.type, templateDirs)

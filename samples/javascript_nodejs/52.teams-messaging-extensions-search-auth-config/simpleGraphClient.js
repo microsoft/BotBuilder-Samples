@@ -19,7 +19,7 @@ class SimpleGraphClient {
         this.graphClient = Client.init({
             authProvider: (done) => {
                 done(null, this._token); // First parameter takes an error if you can't get an access token.
-            }
+            },
         });
     }
 
@@ -29,7 +29,13 @@ class SimpleGraphClient {
      */
     async searchMailInbox(searchQuery) {
         // Searches the user's mail Inbox using the Microsoft Graph API
-        return await this.graphClient.api('me/mailfolders/inbox/messages').search(searchQuery).get();
+        return await this.graphClient
+            .api('me/mailfolders/inbox/messages')
+            .search(searchQuery)
+            .get();
+    }
+    async GetMyProfile() {
+        return await this.graphClient.api('/me').get();
     }
 }
 
