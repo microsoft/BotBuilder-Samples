@@ -539,16 +539,41 @@ ${defineOperation('Help', entity)}
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(
-    `form-operations.${locale}.data`, 
-    { utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
+    `form-operations.${locale}.data`,
+    substitutionScope(utterances, entityValues(value), label),
     5)}
 ```
+
+# substitutionScope(utterances, values, label)
+> Scope variables for substitutions
+- ${{ utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []}}
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
     -@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
         - @ ${entity} ${entity}
 ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
+
+# entityValues(values)
+> Return the list of possible entity values for utterances
+> Either $examples in property schema or $examples globally or default values
+- IF: ${propertySchema.$examples[locale][entity]}
+    - ${flattenObject(propertySchema.$examples[locale][entity])}
+- ELSEIF: ${propertySchema.$examples[''][entity]}
+    - ${flattenObject(propertySchema.$examples[locale][entity])}
+- ELSEIF: ${schema.$examples[locale][entity]}
+    - ${flattenObject(schema.$examples[locale][entity])}
+- ELSEIF: ${schema.$examples[''][entity]}
+    - ${flattenObject(schema.$examples[locale][entity])}
+- ELSE:
+    - ${values}
+
+# flattenObject(val)
+> Flatten an object including keys and values
+- IF: ${isObject(val)}
+    - ${flatten(foreach(indicesAndValues(val), entry, union([entry.key], entry.value)))}
+- ELSE: 
+    - ${val}
 
 > Name for property entity
 # propertyEntity()
