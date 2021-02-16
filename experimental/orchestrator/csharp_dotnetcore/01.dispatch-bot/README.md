@@ -113,6 +113,7 @@ This sample **requires** prerequisites in order to run.
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Further reading
+- [Dispatch Migration Example](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/DispatchMigrationExample.md)
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [BF Orchestrator Command Usage](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorUsage.md)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
