@@ -4,31 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${promptTemplates(missingDefault('string'), changeDefault('string'))}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedUpdateDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedUpdateDefault(),
-                        removeDefault(),
-                        clearDefault())}
-${helpTemplates(repromptString(), helpString())}
-${validationTemplates()}
-${showTemplate(showDefault())}
-${nameTemplate()}
-${valueTemplate()}
-```
-
-# repromptString()
-- Any response is allowed for ${propertyName()}
-
-# helpString()
-- Any response is allowed for ${propertyName()}
-
-# validationTemplates()
-- IF: ${schema.properties[property].pattern}
-    -```${'#'} ${property}_NoPatternMatch(val)
-- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.properties.${property}.pattern}
-```
-- ELSE:
-    -
+- ${stringMessages('string')}

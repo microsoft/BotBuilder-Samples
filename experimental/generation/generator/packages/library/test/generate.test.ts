@@ -12,16 +12,16 @@ import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
 import * as glob from 'globby'
-import {generateTest} from '../src/testGenerator'
+import { generateTest } from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
-import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
+import { Templates, DiagnosticSeverity } from 'botbuilder-lg'
 import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
 import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
-import {ComponentRegistration} from 'botbuilder-core'
-import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
-import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
-import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
+import { ComponentRegistration } from 'botbuilder-core'
+import { AdaptiveComponentRegistration } from 'botbuilder-dialogs-adaptive'
+import { ResourceExplorer } from 'botbuilder-dialogs-declarative'
+import { LuisComponentRegistration, QnAMakerComponentRegistration } from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -119,7 +119,6 @@ describe('dialog:generate library', async () => {
         'integer',
         'iri',
         'keyPhrase_with_pattern',
-        'keyPhrase_with_ref',
         'keyPhrase',
         'money_with_units',
         'money',
@@ -129,10 +128,9 @@ describe('dialog:generate library', async () => {
         'percentage_with_limits',
         'percentage',
         'personName_with_pattern',
-        'personName_with_ref',
         'personName',
-        'phonenumber_with_ref',
         'phonenumber',
+        'string',
         'temperature_with_units',
         'temperature',
         'time',
@@ -185,7 +183,7 @@ describe('dialog:generate library', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = {$comment: 'this is a .dialog file'}
+        let dialog = { $comment: 'this is a .dialog file' }
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -236,7 +234,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 133)
+            await checkPattern(ppath.join(output, '**'), 136)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -244,25 +242,27 @@ describe('dialog:generate library', async () => {
 
     for (let i = 0; i < unittestSchemaNames.length; i++) {
         const name = unittestSchemaNames[i]
-        const prefix = name.replace('-', '_')
+        const prefix = name.replace('-', '_').replace(' ', '_')
         const description = `Unit test ${name}`
         it(description, async () => {
+            const testOutput = ppath.join(os.tmpdir(), 'unitTests', name)
             console.log(`\n\n${description}`)
-            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            await fs.remove(testOutput)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, testOutput, undefined, ['en-us'], undefined, false, false, true, feedback)
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
-                    const templates = Templates.parseFile(`${output}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
+                    const templates = Templates.parseFile(`${testOutput}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
                         let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
                         if (errors && errors.length > 0) {
                             let errorList: string[] = []
                             for (let j = 0; j < allDiagnostics.length; j++) {
-                                errorList.push(allDiagnostics[j].message)
+                                const error = allDiagnostics[j]
+                                errorList.push(`${error.message}: ${error.source} ${error.range}`)
                             }
-                            let errorString: string = errorList.join(' ')
-                            throw new Error(errorString)
+                            assert.fail(errorList.join('\n'))
                         }
                     }
                 } catch (e) {
@@ -272,11 +272,11 @@ describe('dialog:generate library', async () => {
                 try {
                     console.log(`LU Testing schema ${name}`)
                     let result: any
-                    const luFiles = await luFile.getLuObjects(undefined, `${output}/language-understanding/en-us/unittest_${prefix}.en-us.lu`, true, '.lu')
+                    const luFiles = await luFile.getLuObjects(undefined, `${testOutput}/language-understanding/en-us/unittest_${prefix}.en-us.lu`, true, '.lu')
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
-                    assert.fail(e.text ? `${e.source}: ${e.text}` : e.message)
+                    assert.fail(`${e.source}: ${e.message}`)
                 }
 
                 try {
@@ -285,13 +285,14 @@ describe('dialog:generate library', async () => {
                     ComponentRegistration.add(new LuisComponentRegistration())
                     ComponentRegistration.add(new QnAMakerComponentRegistration())
                     const resourceExplorer = new ResourceExplorer()
-                    resourceExplorer.addFolder(`${output}`, true, false)
-                    const script = resourceExplorer.loadType(`unittest_${prefix}.dialog`)
+                    resourceExplorer.addFolder(`${testOutput}`, true, false)
+                    resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
                     assert.fail(e.message)
                 }
+            } else {
+                assert.fail('Did not generate')
             }
-            await fs.remove(output)
         })
     }
 
@@ -315,8 +316,8 @@ describe('dialog:generate library', async () => {
 
     it('Schema discovery', async () => {
         try {
-            let schemas = await ps.schemas()
-            assert.strictEqual(Object.keys(schemas).length, 14, 'Wrong number of schemas discovered')
+            const schemas = await ps.schemas()
+            assert.strictEqual(Object.keys(schemas).length, 25, `Expected 25 schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -326,8 +327,8 @@ describe('dialog:generate library', async () => {
                     ++property
                 }
             }
-            assert.strictEqual(global, 3, 'Wrong number of global schemas')
-            assert.strictEqual(property, 11, 'Wrong number of property schemas')
+            assert.strictEqual(global, 3, `Expected 3 global schemas and found ${global}`)
+            assert.strictEqual(property, 22, `Expected 22 property schemas and found ${property}`)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -346,16 +347,139 @@ describe('dialog:generate library', async () => {
         }
     })
 
-    it('Expand $ref property definition', async () => {
+    it('Bad property names', async () => {
         try {
-            let schema = {
-                $ref: 'template:dimension.schema'
-            }
-            let expansion = await gen.expandPropertyDefinition('ref', schema)
-            assert(expansion.$entities, 'Did not generate $entities')
-            assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
+            let errors = 0
+            assert(!(await gen.generate('test/forms/bad-propertyNames.form', undefined, output, undefined, undefined, undefined, true, false, false,
+                (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                })))
+            assert.strictEqual(errors, 4)
         } catch (e) {
             assert.fail(e.message)
         }
+    })
+
+    type FullTemplateName = string
+    type TemplateName = string
+    type Source = string
+    type SourceToReferences = Map<Source, TemplateName[]>
+    type TemplateToReferences = Map<FullTemplateName, SourceToReferences>
+    const SourceToReferences = <{ new (): SourceToReferences}> Map
+    const TemplateToReferences = <{new (): TemplateToReferences}> Map
+
+    /**
+     * Given a list of source LG templates return the references for each template inside.
+     * Each imported file is only analyzed once.
+     * @param templates List of templates to analyze.
+     * @returns {Source:TemplateName} -> {source -> [references]}
+     */
+    function templateUsage(templates: Templates[]): TemplateToReferences {
+        const usage = new TemplateToReferences()
+        const analyzed = new Set<Source>()
+        for (const source of templates) {
+            // Map from simple to full name and initialize template usage
+            const nameToFullname = new Map<string, string>()
+            for (const template of source.allTemplates) {
+                const fullName = `${template.sourceRange.source}:${template.name}`
+                nameToFullname.set(template.name, fullName)
+                if (!usage.get(fullName)) {
+                    usage.set(fullName, new SourceToReferences())
+                }
+            }
+
+            // Add references from each template that is in an unanalyzed source file
+            for (const template of source.allTemplates) {
+                // Analyze each original source template only once
+                if (!analyzed.has(template.sourceRange.source)) {
+                    const info = source.analyzeTemplate(template.name)
+                    for (const reference of info.TemplateReferences) {
+                        const source = template.sourceRange.source as string
+                        const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
+                        let referenceSource = referenceSources.get(source)
+                        if (!referenceSource) {
+                            referenceSource = []
+                            referenceSources.set(source, referenceSource)
+                        }
+                        referenceSource.push(template.name)
+                    }
+                }
+            }
+
+            // Add in the newly analyzed sources
+            for (const imported of source.imports) {
+                analyzed.add(ppath.resolve(ppath.dirname(source.source), imported.id))
+            }
+            analyzed.add(source.source)
+        }
+        return usage
+    }
+
+    /**
+     * Return the simple template name from a full template name.
+     * @param fullname Full template name including source.
+     */
+    function templateName(fullname: string): string {
+        const colon = fullname.lastIndexOf(':')
+        return fullname.substring(colon + 1)
+    }
+
+    /**
+     * Simplify full template name which is source:template to just filename:template.
+     * @param fullname Full template name including source.
+     * @returns filename:template
+     */
+    function shortTemplateName(fullname: string): string {
+        const colon = fullname.lastIndexOf(':')
+        return ppath.basename(fullname.substring(0, colon)) + fullname.substring(colon)
+    }
+
+    // This is only meaningful after running unit tests
+    it('Unit test unused standard templates', async () => {
+        // Compare cache to all standard template files
+        const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
+        const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
+        // These are files that are only imported
+        const excludeFiles = ['standard.en-us.lg']
+        let unusedCount = 0
+        for (const path of unused) {
+            if (!excludeFiles.includes(ppath.basename(path))) {
+                feedback(gen.FeedbackType.warning, `Unused template ${path}`)
+                ++unusedCount
+            }
+        }
+
+        // Analyze LG templates for usage
+        const templates: Templates[] = []
+        for (let template of gen.TemplateCache.values()) {
+            if (template instanceof Templates) {
+                templates.push(template)
+            }
+        }
+        const usage = templateUsage(templates)
+        
+        // Dump out all template usage
+        for (const [template, templateUsage] of usage) {
+            feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)
+            for (const [source, sourceUsage] of templateUsage) {
+                feedback(gen.FeedbackType.debug, `    ${ppath.basename(source)}: ${sourceUsage.join(', ')}`)
+            }
+        }
+
+        // Identify unused templates
+        // Exclusions are top-level templates called by the generator in standard.schema
+        const exclude = ['filename', 'template', 'entities', 'templates', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation']
+        let unusedTemplates = 0
+        for (const [template, templateUsage] of usage) {
+            const name = templateName(template)
+            if (!exclude.includes(name) && templateUsage.size === 0) {
+                feedback(gen.FeedbackType.error, `${shortTemplateName(template)} is unused`)
+                ++unusedTemplates
+            }
+        }
+
+        assert.strictEqual(unusedCount, 0, `Found ${unusedCount} unused template files`)
+        assert.strictEqual(unusedTemplates, 0, `Found ${unusedTemplates} unused templates`)
     })
 })

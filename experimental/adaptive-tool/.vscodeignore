@@ -12,4 +12,5 @@ client/**
 server/**
 !server/out/lgserver.js
 !server/out/luserver.js
+!server/out/qnaserver.js
 scripts/**

@@ -1,0 +1,15 @@
+{
+    "type": "string",
+    "$generator": {
+        "enum": {
+            "title": "Enumeration",
+            "description": "Legal enumeration values for this property.",
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "default": []
+        },
+        "$ref": "array.json"
+    }
+}

@@ -11,6 +11,10 @@
 > Default welcome prompt for form
 - ${helpGlobal()}
 
+# alreadyExistsText(property, entity)
+> Message if a value already exists in an array
+- ${value(entity)} is already in ${propertyName(property)}
+
 # propertyName(property)
 > Display value for a property
 - ${template(`${property}_Name`)}
@@ -19,9 +23,12 @@
 > Display value for a property value
 - ${template(`${property}_Value`, val)}
 
-# entityValue(property, val)
+# entityValue(entity)
 > Display value for an entity
-- ${template(`${property}Entity_Value`, val)}
+- IF: ${contains(entity.type, 'Entity')}
+- ${template(`${entity.type}_Value`, entity)}
+- ELSE:
+- ${template(`${entity.type}Entity_Value`, entity)}
 
 # value(val)
 > Display a complex value

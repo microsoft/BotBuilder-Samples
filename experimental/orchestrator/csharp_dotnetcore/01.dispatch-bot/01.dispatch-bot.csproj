@@ -13,10 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.0-daily*" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.0-daily*" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.0-daily*" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.0-daily*" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Orchestrator" Version="4.11.1-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -86,8 +86,8 @@ This sample **requires** prerequisites in order to run.
 
        ```
       "Orchestrator": {
-          "ModelPath": ".\\model",
-          "SnapshotPath": ".\\generated\\orchestrator.blu"
+          "ModelFolder": ".\\model",
+          "SnapshotFile": ".\\generated\\orchestrator.blu"
       }
        ```
     

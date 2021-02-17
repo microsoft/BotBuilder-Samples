@@ -1,9 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "$entities": [
-        "geographyV2"
-    ],
+    "$template": "geography",
     "properties": {
         "type": {
             "type": "string"
@@ -15,15 +13,5 @@
     "required": [
         "type",
         "location"
-    ],
-    "$templates": [
-        "geographyV2Entity.lu",
-        "objectProperty.lg",
-        "string-missing.dialog",
-        "geographyV2Entity-add.dialog",
-        "geographyV2Entity-remove.dialog",
-        "geographyV2Entity-clear.dialog",
-        "geographyV2Entity-show.dialog",
-        "generic-help.dialog"
     ]
 }

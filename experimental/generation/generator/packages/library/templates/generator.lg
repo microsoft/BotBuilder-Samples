@@ -74,28 +74,65 @@
 # importLG(name)
 -[${name}](${prefix}-${name}.${locale}.lg)
 
+>> Enity lists
+# unitsEntities(entity)
+- ${union([entity], if(propertySchema.$units, ['number'], []))}
+
 >> Template lists
 
-# propertyTemplates()
-- ${[`${type}Property.lg`, `${type}-missing.dialog`, `${type}-help.dialog`, `${type}-clear.dialog`, `${type}-show.dialog`, `${type}-change.dialog`]}
+# propertyLGTemplates(template)
+- ${`${locale}/${template}Property.${locale}.lg`}
 
-# entityTemplates()
-- ${[`${entity}Entity.lu`, `${entity}Entity.lg`, `${entity}Entity-add-${type}.dialog`, `${entity}Entity-remove-${type}.dialog`]}
+# standardTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-remove.dialog",
+        "generic-missing.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
+    ]}
 
-# propertyLGTemplates(type)
-- ${`${locale}/${type}Property.${locale}.lg`}
+# dateFormatTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "dateFormat-add.dialog",
+        "genericEntity-remove.dialog",
+        "generic-missing.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-change.dialog",
+        "generic-help.dialog"
+    ]}
 
 # entityLUTemplates(entity)
-- ${`${locale}/${entity}Entity.${locale}.lu`}
+> LU template name for LUIS entities
+- IF: ${isLUISEntity(entity)}
+    - ${`${locale}/${entity}Entity.${locale}.lu`}
+- ELSE:
+    - ${[]}
 
 # entityLGTemplates(entity)
+> LG template name for entities
 - ${`${locale}/${entity}Entity.${locale}.lg`}
 
 # formTemplates(name, type)
 - ${`${locale}/form-${name}.${locale}${type}`}
 
 >> Dialog templates
+
 # addDialog(entity)
+> Add dialog with optional verification of patterns, min/max, units and uniqueness for singletons or arrays.
+> This is built out of three kinds of templates which can optionally generate output: verifications, actions and transforms.
+> Verifications start with verify* and optionally inject an if with a passed in else or just the else.
+> Actions return a string for inside a list of actions or an empty string and start with action*.
+> Transforms transform an entity before assigning it and start with transform*.
 -```
 {
     "$schema": "${appSchema}",
@@ -103,85 +140,88 @@
     "operation": "Add()",
     "property": "${property}",
     "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        },
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@${entity}"          
-        },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
-    ]               
+    "actions": [${verifyUnits(entity, verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnique(entity, actionAssign(entity))))))}]
     ${designerOpEntity('Add', entity)}      
 }
 ```
 
-# addDialogWithStringPattern(entity)
+# actionAssign(entity)
+> Assign entity to current property
+- ${join(where([actionSetOrPush(transformUnits(entity)), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+
+# actionConfirm(value)
+> Confirm we are setting entity to property
 - ```
 {
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
+    "$kind": "Microsoft.SendActivity",
+    "activity": "\${confirmationText('${property}', ${value})}"
+}```
+
+# transformUnits(entity)
+> Set the default units if any
+- IF: ${units() && !isUnitsEntity(entity)}
+    - {number: @${entity}, units: '${units()}'}
+- ELSE:
+    - @${entity}
+
+# actionSetOrPush(value)
+> Confirm and set or push value
+- ${actionConfirm(value)}, ${actionSetOrPushOperation(value)}
+
+# actionSetOrPushOperation(value)
+> Set or push value based on singelton or array
+- IF: ${isArrayProperty(property)}
+    - ```
+    {
+        "$kind": "Microsoft.EditArray",
+        "changeType": "push",
+        "itemsProperty": "$${property}",
+        "value": "=${value}"
+    }```
+- ELSE:
+    -```
+    {
+        "$kind": "Microsoft.SetProperty",
+        "property": "$${property}",
+        "value": "=${value}"          
+    }```
+
+# actionDeletePropertyToChange()
+> Delete propertyToChange
+- ```
+{
+   "$kind": "Microsoft.IfCondition",
+    "condition": "$PropertyToChange == '${property}'",
     "actions": [
         {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_NoPatternMatch(@${entity})}"
-                }                    
-            ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}',  @${entity})}"
-                },
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "= @${entity}"          
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind":"Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
-                }
-            ]
+            "$kind":"Microsoft.DeleteProperty",
+            "property": "$PropertyToChange"
         }
-    ]               
-    ${designerOpEntity('Add', entity)}     
-}
-```
+    ]
+}```
 
-# addDialogWithNumberMinMax(entity)
-- ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
+# verifyPattern(entity, else)
+> Verify entity matches pattern
+- IF: ${propertySchema.pattern}
+    - ```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_NoPatternMatch(@${entity})}"
+            }                    
+        ],
+        "elseActions":[${else}]
+    }```
+- ELSE:
+    - ${else}
+
+# verifyMin(entity, else)
+> Verify entity minimum value
+- IF: ${propertySchema.minimum}
+    -```
         {
             "$kind": "Microsoft.IfCondition",
             "condition":"@${entity} < dialogClass.schema.properties['${property}'].minimum",
@@ -191,191 +231,95 @@
                     "activity": "\${${property}_IsTooSmall(@${entity})}"
                 }                    
             ],
-            "elseActions":[
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
-                    "actions":[
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${${property}_IsTooBig(@${entity})}"
-                        }                    
-                    ],
-                    "elseActions": [
-                        {
-                            "$kind": "Microsoft.SendActivity",
-                            "activity": "\${confirmationText('${property}',  @${entity})}"
-                        },
-                        {
-                            "$kind": "Microsoft.SetProperty",
-                            "property": "$${property}",
-                            "value": "= @${entity}"          
-                        },
-                        {
-                            "$kind": "Microsoft.IfCondition",
-                            "condition": "$PropertyToChange == '${property}'",
-                            "actions": [
-                                {
-                                    "$kind":"Microsoft.DeleteProperty",
-                                    "property": "$PropertyToChange"
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)}     
-}
-```
+            "elseActions":[${else}]
+        }```
+- ELSE:
+    - ${else}
 
-# addArrayDialog(entity)
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}',  @${entity})}"
-        },
-        {
-            "$kind": "Microsoft.EditArray",
-            "changeType": "push",
-            "itemsProperty": "$${property}",
-            "value": "=@${entity}"
-        },
+# verifyMax(entity, else)
+> Verify entity maximum value
+- IF: ${propertySchema.maximum}
+    -```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_IsTooBig(@${entity})}"
+            }                    
+        ],
+        "elseActions": [${else}]
+    }```
+- ELSE:
+    - ${else}
+
+# verifyUnique(entity, else)
+> Verify entity is unique in array
+- IF: ${isArrayProperty(property) && propertySchema.uniqueItems == true}
+    -```
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
+            "condition": "contains($${property}, @${entity})",
             "actions": [
                 {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
-    ]               
-    ${designerOpEntity('Add', entity)}     
-}
-```
-
-# addWithUnits(entity)
-- IF: ${hasUnits()}
-    -```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "@${entity}.units == '${units()}'",
-            "actions":[
-                {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${confirmationText('${property}', @${entity})}"
-                }, 
-                {
-                    "$kind": "Microsoft.SetProperty",
-                    "property": "$${property}",
-                    "value": "=@${entity}"          
-                },
-                {
-                    "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange == '${property}'",
-                    "actions": [
-                        {
-                            "$kind":"Microsoft.DeleteProperty",
-                            "property": "$PropertyToChange"
-                        }
-                    ]
+                    "activity": "\${alreadyExistsText('${property}',  @${entity})}"
                 }
             ],
-            "elseActions":[
+            "elseActions": [${else}]```
+- ELSE:
+    - ${else}
+
+# verifyUnits(entity, else)
+> Verify units
+- IF: ${units() && isUnitsEntity(entity)}
+    -```
+    {
+        "$kind": "Microsoft.IfCondition",
+        "condition": "@${entity}.units != '${units()}'",
+        "actions":[
+            {
+                "$kind": "Microsoft.SendActivity",
+                "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
+            }
+        ],
+        "elseActions":[${else}]
+    }```
+- ELSE:
+    - ${else}
+
+# addDateFormatDialog()
+> Add a dialog for transforming a timex into a specific format
+> TODO: We likely need to beef this up for all the corner cases like multiple timex, missing year, etc.
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Add()",
+    "property": "${property}",
+    "entity": "datetimeV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@datetime.type != '${propertySchema.format}'",
+            "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
+                    "activity": "\${${property}_invalid${templateName(propertySchema.format)}(@datetime)}"
                 }
+            ],
+            "elseActions": [
+                ${actionSetOrPush(@datetime.timex[0])}
             ]
         }
     ]
-    ${designerOpEntity('Add', entity)}             
-}
-```
-- ELSE:
-    - ```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmationText('${property}', @${entity})}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "=@${entity}"          
-        },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', entity)}             
-}
-```
-
-# addNumberWithUnits
--```
-{
-    "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
-    "property": "${property}",
-    "entity": "number",
-    "actions": [
-        {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${confirmUpdate('${property}', {number: @number, units: '${units()}'})}"
-        }, 
-        {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$${property}",
-            "value": "={number: @number, units: '${units()}'}"          
-        },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "$PropertyToChange == '${property}'",
-            "actions": [
-                {
-                    "$kind":"Microsoft.DeleteProperty",
-                    "property": "$PropertyToChange"
-                }
-            ]
-        }
-    ]
-    ${designerOpEntity('Add', 'number with units')}             
+    ${designerOpEntity('Add', 'datetimeV2')}
 }
 ```
 
 # removeDialog(entity)
+> Dialog to remove entity from property
 -```
 {
     "$schema": "${appSchema}",
@@ -383,47 +327,64 @@
     "operation": "Remove()",
     "property": "${property}",
     "entity": "${entity}",
-    "actions": [
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"$${property} == @${entity}",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
-                },  
-                {
-                    "$kind": "Microsoft.DeleteProperty",
-                    "property": "$${property}"
-                }
-            ]
-        }
-    ]               
+    "actions": ${checkIfPresent(entity, removeActions(entity))}
     ${designerOpEntity('Remove', entity)}     
 }
 ```
 
-# removeArrayDialog(entity)
--```
+# removeActions(entity)
+> Actions to remove an item
+- ```
+    [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
+        },  
+        ${deleteOrRemove(entity)}
+    ]```
+
+# checkIfPresent(entity, actions)
+> Optional condition to verify if value is the current value
+- IF: ${isArrayProperty(property)}
+    - ${actions}
+- ELSE:
+    -```[{
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$${property} == @${entity}",
+            "actions": ${actions}
+        }]```
+
+# deleteOrRemove(entity)
+> Delete property or remove entity from array
+- IF: ${isArrayProperty(property)}
+    -```
+    {
+        "$kind": "Microsoft.EditArray",
+        "changeType": "remove",
+        "itemsProperty": "$${property}",
+        "value": "=@${entity}"
+    }```
+- ELSE:
+    -```
+    {
+        "$kind": "Microsoft.DeleteProperty",
+        "property": "$${property}"
+    }```
+
+# chooseEntityDialog(entity)
+- ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Remove()",
-    "property": "${property}",
+    "$kind": "Microsoft.OnChooseEntity",
     "entity": "${entity}",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
-        },
-        {
-            "$kind": "Microsoft.EditArray",
-            "changeType": "remove",
-            "itemsProperty": "$${property}",
-            "value": "=@${entity}"
+            "$kind": "Microsoft.Ask",
+            "activity": "\${${entity}_chooseEntity()}",
+            "expectedProperties": ["${property}"]
         }
-    ]               
-    ${designerOpEntity('Remove', entity)}     
+    ]
+    ${designerChooseEntity()}
 }
 ```
 
@@ -552,13 +513,13 @@
 > TODO: Would be nice to be able to have multi-line object here for clarity
 # generateOperations(entity, values, label)
 -```
-> Define phrase list for ${property} property.
+> Define phrase list for '${property} property.
 @ phraselist ${property}Phrases(interchangeable)=
-${if(schema.properties[property].title,
-    `    - ${schema.properties[property].title}`,
+${if(propertySchema.title,
+    `    - ${propertySchema.title}`,
      synonyms(property))}
 
-> Define property entity and optional value for ${property} property.
+> Define property entity and optional value for '${property}' property.
 @ ml ${propertyEntity()} usesFeature ${property}Phrases
     - @ ${entity} ${entity}
 
@@ -593,16 +554,28 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # propertyEntity()
 - ${`${property}Property`}
 
-> Check to see if entity is only found in one property
 # oneProperty(entity)
+> Check to see if entity is only found in one property
 - ${count(entities[entity]) == 1}
 
-> Test to see if property is an array
 # isArrayProperty(property)
-- ${schema.properties[property].type == 'array'}
+> Test to see if property is an array
+- ${propertySchema.type == 'array'}
 
-> Generate a raw entity value with optional label
+# isUnitsEntity(entity)
+> Entities that have units
+- ${contains(['age', 'dimension', 'money', 'temperature'], entity)}
+
+# units
+> Property units if specified
+- ${propertySchema.$units}
+
+# isLUISEntity(entity)
+> Assume LUIS entity unless built-in utterance
+- ${entity != 'utterance'}
+
 # entityValue(entity, value, label)
+> Generate a raw entity value with optional label
 - IF: ${label}
 - {@${entity}=${value}}
 - ELSE:
@@ -640,11 +613,9 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${join(foreach(phrases(value), phrase, `        - ${phrase}`), EOL())}
 
 # luHeader()
--```
-> !# @app.culture = ${locale}
+-```> !# @app.culture = ${locale}
 > !# @app.settings.NormalizeWordForm = true
-> !# @app.settings.UseAllTrainingData = true
-```
+> !# @app.settings.UseAllTrainingData = true```
 
 >> Templates to use when expanding schemas
 
@@ -689,7 +660,6 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Per-property LG templates
 
-> TODO: Comments have been moved inside of templates until Composer supports them before
 # promptTemplates(missing, change)
 - ```
 >> Prompts
@@ -749,8 +719,8 @@ ${'#'} ${property}_Show
 > Show value of '${property}' property
 - ${show}```
 
-# incorrectUnitsTemplate
-- IF: ${hasUnits()}
+# incorrectUnitsTemplate()
+- IF: ${units()}
 - ```
 ${'#'} ${property}_IncorrectUnits(actual)
 > Incorrect units for '${property}' property
@@ -760,8 +730,17 @@ ${'#'} ${property}_IncorrectUnits(actual)
 
 >> Helpers
 
-# hasUnits
-- ${schema.properties[property].$units != null}
+# enums()
+- IF: ${propertySchema.enum}
+    - ${propertySchema.enum}
+- ELSE:
+    - ${propertySchema.items.enum}
 
-# units
-- ${schema.properties[property].$units}
+# sortObject(object, key)
+> Sort object values by key
+- ${sortBy(select(indicesAndValues(object), entry, entry.value), key)}
+
+# templateName(name)
+> Ensure name is valid for templates
+> NOTE: Property names must not include space or - or they will not work easily as memory expressions
+- ${replace(replace(name, '-', '_'), ' ', '_')}

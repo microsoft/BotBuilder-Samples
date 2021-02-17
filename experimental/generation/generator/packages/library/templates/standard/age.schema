@@ -1,10 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "$entities": [
-        "age",
-        "${if(propertySchema.$units, 'number', [])}"
-    ],
     "properties": {
         "number": {
             "type": "number"
@@ -17,16 +13,19 @@
         "number",
         "units"
     ],
-    "$templates": [
-        "ageEntity.lu",
-        "ageProperty.lg",
-        "string-missing.dialog",
-        "ageEntity-add.dialog",
-        "ageEntity-remove.dialog",
-        "ageEntity-clear.dialog",
-        "ageEntity-show.dialog",
-        "generic-help.dialog",
-        "generic-change.dialog",
-        "${if(propertySchema.$units, [\"numberEntity.lu\", \"numberEntity.lg\", \"number-add-dimension.dialog\"], [])}"
-    ]
+    "$template": "age",
+    "$generator": {
+        "$units": {
+            "type": "string",
+            "enum": [
+                "Year",
+                "Month",
+                "Week",
+                "Day"
+            ],
+            "Title": "Units",
+            "Description": "Expected age units."
+        },
+        "$ref": "array.json"
+    }
 }

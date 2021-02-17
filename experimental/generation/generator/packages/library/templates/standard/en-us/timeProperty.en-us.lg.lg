@@ -4,24 +4,4 @@
 - ${propertyFilename()}
 
 # template
-- ```
-${promptTemplates(missingDefault('time'), changeDefault('time'))}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedUpdateDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedUpdateDefault(),
-                        removeDefault(),
-                        clearDefault())}
-${helpTemplates(repromptDefault('time'), helpDefault('time'))}
-${showTemplate(showDefault())}
-${validationTemplate()}
-${nameTemplate()}
-${valueTemplate()}
-```
-
-> TODO: Move comment before template
-# validationTemplate
-- ```
-${'#'} ${property}_invalidTime(val)
-> Value for '${property}' must be a time
-- \${${property}_Value(val)} is not a time```
+- ${dateFormatMessages('time')}

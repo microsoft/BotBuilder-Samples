@@ -5,7 +5,7 @@
         "NameArray": {
             "type": "array",
             "items": {
-                "$ref": "template:personname.schema"
+                "$ref": "template:personName.schema"
             }
         }
     },
