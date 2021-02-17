@@ -125,7 +125,7 @@
           ]
         },
         {
-          "id": "WebView",
+          "id": "webView",
           "description": "Fetch the Web View",
           "title": "Web View",
           "type": "action",
@@ -138,6 +138,16 @@
           "id": "HTML",
           "description": "Fetch the HTML",
           "title": "HTML",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "razorView",
+          "description": "Fetch the Razor View",
+          "title": "Razor View",
           "type": "action",
           "fetchTask": true,
           "context": [

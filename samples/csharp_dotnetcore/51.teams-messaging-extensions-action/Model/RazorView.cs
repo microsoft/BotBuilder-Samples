@@ -5,10 +5,9 @@ using System.Threading.Tasks;
 
 namespace TeamsMessagingExtensionsAction.Models
 {
-    public class CustomForm
+    public class RazorView
     {
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public bool Addon { get; set; }
+            public int Title { get; set; }
+            public string DisplayData { get; set; }
     }
 }

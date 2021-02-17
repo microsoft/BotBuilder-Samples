@@ -25,9 +25,11 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddMvc();
             services.AddControllers().AddNewtonsoftJson();
             services.AddRazorPages();
-            services.AddMvc();
+
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
@@ -62,7 +64,9 @@ namespace Microsoft.BotBuilderSamples
                 endpoints.MapControllerRoute(
                    name: "default",
                    pattern: "{controller=Home}/{action=CustomForm}/{id?}");
+
             });
+
         }
     }
 }
