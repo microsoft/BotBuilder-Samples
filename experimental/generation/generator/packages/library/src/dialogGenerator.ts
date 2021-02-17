@@ -586,7 +586,6 @@ async function ensureEntitiesAndTemplates(
             } else {
                 try {
                     scope.property = property.path
-                    scope.template = property.schema.$templateDirs
                     scope.propertySchema = property.schema
                     const rootTemplate = await findTemplate(template, templateDirs)
                     let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
@@ -969,14 +968,6 @@ export async function generate(
     }
 
     return !error
-}
-
-/**
- * Sleep function
- * @param ms The time in millisecond.
- */
-async function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**

@@ -4,7 +4,7 @@
             "type": "boolean",
             "title": "Unique Values",
             "description": "Require all values to be unique.",
-            "default": false
+            "default": true
         }
     }
 }

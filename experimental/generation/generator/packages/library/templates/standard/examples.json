@@ -1,36 +1,40 @@
 {
-    "title": "Entity examples",
-    "description": "Entity examples to use when generating LU files.",
-    "type": "object",
-    "$comment": "We only support US English in templates",
-    "properties": {
-        "en-us": {
-            "title": "US English entity examples",
-            "anyOf": [
-                {
-                    "title": "Entity examples",
-                    "description": "Entity examples to use when generating LU files.",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                },
-                {
-                    "title": "List entity entries",
-                    "description": "Synonyms for each list entity entry.",
-                    "type": "object",
-                    "additionalProperties": {
-                        "title": "List entry",
-                        "description": "Synonyms for a list entity entry.",
+    "$examples": {
+        "title": "Entity examples",
+        "description": "Entity examples to use when generating LU files.",
+        "type": "object",
+        "additionalProperties": {
+            "title": "Locale",
+            "description": "Locale of examples or empty string for all.",
+            "type": "object",
+            "additionalProperties": {
+                "anyOf": [
+                    {
+                        "title": "Entity",
                         "type": "array",
                         "items": {
-                            "title": "Synonyms",
-                            "description": "List of synonyms for a list entry.",
+                            "title": "Examples",
+                            "description": "Examples for entity.",
                             "type": "string"
                         }
+                    },
+                    {
+                        "title": "Enum examples",
+                        "description": "Enum examples for each possible value.",
+                        "type": "object",
+                        "additionalProperties": {
+                            "title": "Enum value",
+                            "description": "Examples for enum value.",
+                            "type": "array",
+                            "items": {
+                                "title": "Enum examples",
+                                "description": "Examples for enum.",
+                                "type": "string"
+                            }
+                        }
                     }
-                }
-            ]
+                ]
+            }
         }
     }
 }

@@ -510,7 +510,7 @@
 @ phraselist ${property}Phrases(interchangeable)=
 ${if(propertySchema.title,
     `    - ${propertySchema.title}`,
-     synonyms(property))}
+     synonyms(phrases(property)))}
 
 > Define property entity and optional value for '${property}' property.
 @ ml ${propertyEntity()} usesFeature ${property}Phrases
@@ -623,8 +623,8 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # propertyList(property)
 - ${foreach(phrases(property), phrase, `${phrase}`)}
 
-# synonyms(value)
-- ${join(foreach(phrases(value), phrase, `        - ${phrase}`), EOL())}
+# synonyms(phrases)
+- ${join(foreach(phrases, phrase, `        - ${phrase}`), EOL())}
 
 # luHeader()
 -```> !# @app.culture = ${locale}

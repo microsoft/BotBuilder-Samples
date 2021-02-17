@@ -11,11 +11,15 @@
                     "items": {
                         "type": "string"
                     },
+                    "uniqueItems": true,
                     "default": []
                 }
             },
             {
                 "$ref": "array.json"
+            },
+            {
+                "$ref": "examples.json"
             }
         ]
     }

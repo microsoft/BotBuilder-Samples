@@ -87,9 +87,27 @@
             ],
             "$examples": {
                 "en-us": {
-                    "missingExampleValue": {
-                        "a": [],
+                    "okValue": {
+                        "a": ["this is ok"],
                         "b": []
+                    }
+                }
+            }
+        },
+        "okArray": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "a",
+                    "b"
+                ],
+                "$examples": {
+                    "en-us": {
+                        "okArrayValue": {
+                            "a": ["this is okArray"],
+                            "b": []
+                        }
                     }
                 }
             }

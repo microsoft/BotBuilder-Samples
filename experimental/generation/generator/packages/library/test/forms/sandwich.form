@@ -44,7 +44,7 @@
             ],
             "$examples": {
                 "": {
-                    "MeatEntity": {
+                    "MeatValue": {
                         "bacon": [],
                         "chicken": [],
                         "ham": [],

@@ -376,6 +376,8 @@ describe('dialog:generate library', async () => {
                     if (type === gen.FeedbackType.error) ++errors
                 })), 'Should have failed generation')
             assert.strictEqual(errors, 7)
+            await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
+            await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
             await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
             await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
         } catch (e) {
