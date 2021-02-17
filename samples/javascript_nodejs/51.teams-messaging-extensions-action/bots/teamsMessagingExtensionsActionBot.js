@@ -59,7 +59,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return e.code;
             } 
-                throw e;        
+        throw e;        
         }   
     }
 }
