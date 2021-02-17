@@ -33,7 +33,7 @@ class TeamsAdaptiveCardTabsBot extends TeamsActivityHandler {
     };
 
     async handleTeamsTabFetch(context, tabRequest) {
-        if (tabRequest?.tabEntityContext?.tebEntityId === 'workday') {
+        if (tabRequest?.tabEntityContext?.tabEntityId === 'workday') {
             let magicCode;
             if (tabRequest.state) {
                 magicCode = tabRequest.state.toString();
