@@ -85,7 +85,8 @@
                     "whiteOnions",
                     "redOnions"
                 ]
-            }
+            },
+            "uniqueItems": true
         },
         "Sauces": {
             "type": "array",
@@ -99,7 +100,8 @@
                     "mayo",
                     "vinegar"
                 ]
-            }
+            },
+            "uniqueItems": true
         },
         "Price": {
             "$ref": "template:money.schema"

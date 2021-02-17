@@ -6,10 +6,10 @@
 # template
 - ```
 > List entity for ${property} enum values
-@ list ${property}Entity =
+@ list ${property}Value =
 ${join(foreach(enums(), enum, `    - ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
 
-${operations(`${property}Entity`, allSynonyms(), false)}
+${operations(`${property}Value`, allSynonyms(), false)}
 ```
 
 # allSynonyms

@@ -24,7 +24,7 @@
 - ${operationName(turn.dialogEvent.value.operation)}
 
 # chooseEntityValues()
-- ${entityValue(turn.dialogEvent.value.entity)}
+- ${entityValue(turn.dialogEvent.value.value)}
 
 >> OnChooseProperty
 
