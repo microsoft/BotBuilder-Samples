@@ -10,7 +10,7 @@
             ],
             "$examples": {
                 "en-us": {
-                    "missingEnumLocaleEntity": {
+                    "missingEnumLocaleValue": {
                         "a": [],
                         "b": [],
                         "c": []
@@ -26,7 +26,7 @@
             ],
             "$examples": {
                 "": {
-                    "missingEnumDefaultEntity": {
+                    "missingEnumDefaultValue": {
                         "a": [],
                         "b": [],
                         "c": []
@@ -56,7 +56,7 @@
             ],
             "$examples": {
                 "en-us": {
-                    "missingExampleEntity": {
+                    "missingExampleValue": {
                         "a": []
                     }
                 }
@@ -72,7 +72,7 @@
                 ],
                 "$examples": {
                     "en-us": {
-                        "missingExampleArrayEntity": {
+                        "missingExampleArrayValue": {
                             "a": []
                         }
                     }
@@ -87,7 +87,7 @@
             ],
             "$examples": {
                 "en-us": {
-                    "missingExampleEntity": {
+                    "missingExampleValue": {
                         "a": [],
                         "b": []
                     }
@@ -115,14 +115,14 @@
     "required": [],
     "$examples": {
         "en-us": {
-            "missingEnumGlobalLocaleEntity": {
+            "missingEnumGlobalLocaleValue": {
                 "a": [],
                 "b": [],
                 "c": []
             }
         },
         "": {
-            "missingEnumGlobalDefaultEntity": {
+            "missingEnumGlobalDefaultValue": {
                 "a": [],
                 "b": [],
                 "c": []

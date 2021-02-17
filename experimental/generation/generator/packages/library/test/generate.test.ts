@@ -374,10 +374,10 @@ describe('dialog:generate library', async () => {
                 (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
-                })))
+                })), 'Should have failed generation')
             assert.strictEqual(errors, 7)
-            await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesEntity.en-us.lu`, 'why not')
-            await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayEntity.en-us.lu`, 'repent again')
+            await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
+            await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
         } catch (e) {
             assert.fail(e.message)
         }
