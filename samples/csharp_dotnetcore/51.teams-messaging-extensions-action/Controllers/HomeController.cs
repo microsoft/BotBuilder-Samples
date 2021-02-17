@@ -8,12 +8,6 @@ namespace TeamsMessagingExtensionsAction.Controllers
 {
     public class HomeController : Controller
     {
-        [Route("/Home/RazorView")]
-        public ActionResult RazorView()
-        {
-            return View("RazorView");
-        }
-
         [Route("CustomForm")]
         public ActionResult CustomForm(int empId, string empName, string empEmail)
         {

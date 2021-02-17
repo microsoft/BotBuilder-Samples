@@ -42,9 +42,7 @@
         {
           "id": "createCard",
           "type": "action",
-          "context": [
-            "compose"
-          ],
+          "context": [ "compose" ],
           "description": "Command to run action to create a Card from Compose Box",
           "title": "Create Card",
           "parameters": [
@@ -71,9 +69,7 @@
         {
           "id": "shareMessage",
           "type": "action",
-          "context": [
-            "message"
-          ],
+          "context": [ "message" ],
           "description": "Test command to run action on message context (message sharing)",
           "title": "Share Message",
           "parameters": [
@@ -91,16 +87,12 @@
           "title": "FetchRoster",
           "type": "action",
           "fetchTask": true,
-          "context": [
-            "compose"
-          ]
+          "context": [ "compose" ]
         },
         {
           "id": "createAdaptiveCard",
           "type": "action",
-          "context": [
-            "compose"
-          ],
+          "context": [ "compose" ],
           "description": "Command to run action to create a Card from Compose Box",
           "title": "Adaptive Card",
           "parameters": [
@@ -125,14 +117,12 @@
           ]
         },
         {
-          "id": "webView",
+          "id": "WebView",
           "description": "Fetch the Web View",
           "title": "Web View",
           "type": "action",
           "fetchTask": true,
-          "context": [
-            "compose"
-          ]
+          "context": [ "compose" ]
         },
         {
           "id": "HTML",
@@ -140,24 +130,14 @@
           "title": "HTML",
           "type": "action",
           "fetchTask": true,
-          "context": [
-            "compose"
-          ]
-        },
-        {
-          "id": "razorView",
-          "description": "Fetch the Razor View",
-          "title": "Razor View",
-          "type": "action",
-          "fetchTask": true,
-          "context": [
-            "compose"
-          ]
+          "context": [ "compose" ]
         }
+
       ]
     }
   ],
   "permissions": [
     "identity"
   ]
+
 }

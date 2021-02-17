@@ -62,22 +62,6 @@ or
 
 3) Selecting the **Fetch Roster** command from the Compose Box command list. You will presented with prompt for Just In Time installation if app is not already added to current team/chat.
 
-or
-
-4) Selecting the **createAdaptiveCard** command from the Compose Box command list. You will presented with adaptive card within task Module, which you can send in the Chat.
-
-or
-
-5) Selecting the **webView** command from the Compose Box command list. You will presented with a MVC driven web view which will be displayed in task module
-
-or
-
-6) Selecting the **HTML** command from the Compose Box command list. You will presented with a normal HTML razor page.
-
-or
-
-7) Selecting the **razorView** command from the Compose Box command list. You will presented with a normal  razor view page.
-
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
