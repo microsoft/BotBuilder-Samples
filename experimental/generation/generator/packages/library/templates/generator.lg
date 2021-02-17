@@ -549,19 +549,12 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # entityValues(values)
 > Return the list of possible entity values for utterances
 > Either locale or default $examples in property schema or $examples globally or default values
-- IF: ${propertySchema.$examples[locale][entity]}
-    - ${flattenObject(propertySchema.$examples[locale][entity])}
-- ELSEIF: ${propertySchema.$examples[''][entity]}
-    - ${flattenObject(propertySchema.$examples[''][entity])}
-- ELSEIF: ${schema.$examples[locale][entity]}
-    - ${flattenObject(schema.$examples[locale][entity])}
-- ELSEIF: ${schema.$examples[''][entity]}
-    - ${flattenObject(schema.$examples[''][entity])}
+- IF: ${examples}
+    - ${flattenObject(examples)}
 - ELSEIF: ${values}
     - ${values}
 -ELSE:
     - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
-
 
 # flattenObject(val)
 > Flatten an object including keys and values into an array

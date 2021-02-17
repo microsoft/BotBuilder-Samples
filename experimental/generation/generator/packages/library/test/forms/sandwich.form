@@ -6,7 +6,11 @@
             "type": "number",
             "minimum": 1,
             "maximum": 10,
-            "examples": [1, 2, 3]
+            "examples": [
+                1,
+                2,
+                3
+            ]
         },
         "Length": {
             "$ref": "template:dimension.schema",
@@ -41,8 +45,16 @@
             "$examples": {
                 "": {
                     "MeatEntity": {
-                        "pulled pork": ["pork"],
-                        "salami": []
+                        "bacon": [],
+                        "chicken": [],
+                        "ham": [],
+                        "pulled pork": [
+                            "pork"
+                        ],
+                        "roast beef": [],
+                        "salami": [],
+                        "turkey": [],
+                        "none": []
                     }
                 }
             }
@@ -103,10 +115,12 @@
         "Price"
     ],
     "$examples": {
-        "personName": [
-            "Bart Simpson",
-            "Thomas Matthews",
-            "Christopher Robin"
-        ]
+        "": {
+            "personName": [
+                "Bart Simpson",
+                "Thomas Matthews",
+                "Christopher Robin"
+            ]
+        }
     }
 }

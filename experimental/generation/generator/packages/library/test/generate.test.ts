@@ -94,6 +94,11 @@ async function checkPattern(pattern: string, files: number): Promise<void> {
     }
 }
 
+async function includes(path: string, content: string): Promise<void> {
+    const file = await fs.readFile(path, 'utf-8')
+    assert(file.includes(content), `${path} does not contain ${content}`)
+}
+
 describe('dialog:generate library', async () => {
     let output = tempDir
     let schemaPath = 'test/forms/sandwich.form'
@@ -356,6 +361,23 @@ describe('dialog:generate library', async () => {
                     if (type === gen.FeedbackType.error) ++errors
                 })))
             assert.strictEqual(errors, 4)
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Examples verification', async () => {
+        try {
+            const testOutput = `${output}/enum`
+            let errors = 0
+            assert(!(await gen.generate('test/forms/enum.form', undefined, testOutput, undefined, undefined, undefined, true, false, false,
+                (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                })))
+            assert.strictEqual(errors, 7)
+            await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesEntity.en-us.lu`, 'why not')
+            await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayEntity.en-us.lu`, 'repent again')
         } catch (e) {
             assert.fail(e.message)
         }

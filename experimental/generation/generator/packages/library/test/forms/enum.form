@@ -1,0 +1,132 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "missingEnumLocale": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ],
+            "$examples": {
+                "en-us": {
+                    "missingEnumLocaleEntity": {
+                        "a": [],
+                        "b": [],
+                        "c": []
+                    }
+                }
+            }
+        },
+        "missingEnumDefault": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ],
+            "$examples": {
+                "": {
+                    "missingEnumDefaultEntity": {
+                        "a": [],
+                        "b": [],
+                        "c": []
+                    }
+                }
+            }
+        },
+        "missingEnumGlobalLocale": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ]
+        },
+        "missingEnumGlobalDefault": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ]
+        },
+        "missingExample": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ],
+            "$examples": {
+                "en-us": {
+                    "missingExampleEntity": {
+                        "a": []
+                    }
+                }
+            }
+        },
+        "missingExampleArray": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "a",
+                    "b"
+                ],
+                "$examples": {
+                    "en-us": {
+                        "missingExampleArrayEntity": {
+                            "a": []
+                        }
+                    }
+                }
+            }
+        },
+        "ok": {
+            "type": "string",
+            "enum": [
+                "a",
+                "b"
+            ],
+            "$examples": {
+                "en-us": {
+                    "missingExampleEntity": {
+                        "a": [],
+                        "b": []
+                    }
+                }
+            }
+        },
+        "examples": {
+            "type": "string",
+            "examples": [
+                "help me",
+                "why not"
+            ]
+        },
+        "examplesArray": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "examples": [
+                    "repent again",
+                    "bard of doom"
+                ]
+            }
+        }
+    },
+    "required": [],
+    "$examples": {
+        "en-us": {
+            "missingEnumGlobalLocaleEntity": {
+                "a": [],
+                "b": [],
+                "c": []
+            }
+        },
+        "": {
+            "missingEnumGlobalDefaultEntity": {
+                "a": [],
+                "b": [],
+                "c": []
+            }
+        }
+    }
+}
