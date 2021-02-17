@@ -27,14 +27,46 @@ namespace Microsoft.BotBuilderSamples.Bots
                     return CreateCardCommand(turnContext, action);
                 case "shareMessage":
                     return ShareMessageCommand(turnContext, action);
-                case "WebView":
+                case "webView":
                     return CreateThumbnailCard(turnContext, action);
                 case "HTML":
                     return CreateHeroCard(turnContext, action);
                 case "createAdaptiveCard":
-                    return createAdaptiveCard(turnContext, action);
+                    return CreateAdaptiveCard(turnContext, action);
+                case "razorView":
+                    return CreateRazorViewCard(turnContext, action);
             }
             return await Task.FromResult(new MessagingExtensionActionResponse());
+        }
+
+        private MessagingExtensionActionResponse CreateRazorViewCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            // The user has chosen to create a card by choosing the 'Create Card' context menu command.
+            CreateRazorCardData cardData = JsonConvert.DeserializeObject<CreateRazorCardData>(action.Data.ToString());
+            var card = new HeroCard
+            {
+                Title = "Requested User: " + turnContext.Activity.From.Name,
+                Subtitle = cardData.Title,
+                Text = cardData.DisplayData,
+            };
+
+            var attachments = new List<MessagingExtensionAttachment>();
+            attachments.Add(new MessagingExtensionAttachment
+            {
+                Content = card,
+                ContentType = HeroCard.ContentType,
+                Preview = card.ToAttachment(),
+            });
+
+            return new MessagingExtensionActionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    AttachmentLayout = "list",
+                    Type = "result",
+                    Attachments = attachments,
+                },
+            };
         }
 
         private MessagingExtensionActionResponse CreateCardCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
@@ -114,14 +146,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-
-        private TeamsMessagingExtensionsActionBot createTummnail 
         private MessagingExtensionActionResponse CreateThumbnailCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
             CreatThumbnailCardData cardData = JsonConvert.DeserializeObject<CreatThumbnailCardData>(action.Data.ToString());
-            var card = new ThumbnailCar
-                d
+            var card = new ThumbnailCard
             {
                 Title = "ID: " + cardData.EmpId,
                 Subtitle = "Name: " + cardData.EmpName,
@@ -177,7 +206,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse createAdaptiveCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse CreateAdaptiveCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var createCardData = ((JObject)action.Data).ToObject<CreateCardData>();
             AdaptiveCard adaptiveCard = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0));
@@ -289,7 +318,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 Content = adaptiveCard,
                 ContentType = AdaptiveCard.ContentType
-               
+
             });
 
             return new MessagingExtensionActionResponse
@@ -301,6 +330,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Attachments = attachments,
                 },
             };
+        }
+
+        private class CreateRazorCardData
+        {
+            public string Title { get; set; }
+            public string DisplayData { get; set; }
         }
 
         private class CreateCardData
@@ -316,7 +351,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             public string EmpName { get; set; }
             public string EmpEmail { get; set; }
         }
-        
+
         private class CreatHeroCardData
         {
             public string UserName { get; set; }
@@ -324,43 +359,44 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
-            // we are handling two cases within try/catch block 
-            //if the bot is installed it will create adaptive card attachment and show card with input fields
-            string memberName;
-            try
-            {
-                // Check if your app is installed by fetching member information.
-                var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
-                memberName = member.Name;
-            }
-            catch (ErrorResponseException ex)
-            {
-                if (ex.Body.Error.Code == "BotNotInConversationRoster")
-                {
-                    return new MessagingExtensionActionResponse
-                    {
-                        Task = new TaskModuleContinueResponse
-                        {
-                            Value = new TaskModuleTaskInfo
-                            {
-                                Card = GetAdaptiveCardAttachmentFromFile("justintimeinstallation.json"),
-                                Height = 200,
-                                Width = 400,
-                                Title = "Adaptive Card - App Installation",
-                            },
-                        },
-                    };
-                }
-                throw; // It's a different error.
-            }
-
             switch (action.CommandId)
             {
-                case "WebView":
+                case "webView":
                     return webView(turnContext, action);
                 case "HTML":
                     return htmlMethod(turnContext, action);
+                case "razorView":
+                    return razorMethod(turnContext, action);
                 default:
+                    // we are handling two cases within try/catch block 
+                    //if the bot is installed it will create adaptive card attachment and show card with input fields
+                    string memberName;
+                    try
+                    {
+                        // Check if your app is installed by fetching member information.
+                        var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+                        memberName = member.Name;
+                    }
+                    catch (ErrorResponseException ex)
+                    {
+                        if (ex.Body.Error.Code == "BotNotInConversationRoster")
+                        {
+                            return new MessagingExtensionActionResponse
+                            {
+                                Task = new TaskModuleContinueResponse
+                                {
+                                    Value = new TaskModuleTaskInfo
+                                    {
+                                        Card = GetAdaptiveCardAttachmentFromFile("justintimeinstallation.json"),
+                                        Height = 200,
+                                        Width = 400,
+                                        Title = "Adaptive Card - App Installation",
+                                    },
+                                },
+                            };
+                        }
+                        throw; // It's a different error.
+                    }
                     return new MessagingExtensionActionResponse
                     {
                         Task = new TaskModuleContinueResponse
@@ -377,6 +413,24 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
+        private MessagingExtensionActionResponse razorMethod(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var response = new MessagingExtensionActionResponse()
+            {
+                Task = new TaskModuleContinueResponse()
+                {
+                    Value = new TaskModuleTaskInfo()
+                    {
+                        Height = 300,
+                        Width = 300,
+                        Title = "Task Module Razor View",
+                        Url = "YourDeployedBotUrl" + "/Home/RazorView",
+                    },
+                },
+            };
+            return response;
+        }
+
         private MessagingExtensionActionResponse htmlMethod(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
@@ -388,14 +442,14 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Height = 300,
                         Width = 300,
                         Title = "Task Module HTML",
-                        Url = "YourDeployedBotUrl.com" + "/htmlpage",
+                        Url = "YourDeployedBotUrl" + "/htmlpage",
                     },
                 },
             };
             return response;
         }
-        
-        private MessagingExtensionActionResponse webView (ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+
+        private MessagingExtensionActionResponse webView(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
             {
@@ -406,7 +460,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Height = 500,
                         Width = 450,
                         Title = "Task module WebView",
-                        Url = "YourDeployedBotUrl.com" + "/CustomForm",
+                        Url = "YourDeployedBotUrl" + "/CustomForm",
                     },
                 },
             };
