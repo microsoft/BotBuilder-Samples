@@ -8,5 +8,9 @@ from .task_module_ids import TaskModuleIds
 class UIConstants:
     YOUTUBE = UISettings(1000, 700, "YouTube Video", TaskModuleIds.YOUTUBE, "YouTube")
     ADAPTIVE_CARD = UISettings(
-        400, 200, "Adaptive Card: Inputs", TaskModuleIds.ADAPTIVE_CARD, "Adaptive Card",
+        400,
+        200,
+        "Adaptive Card: Inputs",
+        TaskModuleIds.ADAPTIVE_CARD,
+        "Adaptive Card",
     )

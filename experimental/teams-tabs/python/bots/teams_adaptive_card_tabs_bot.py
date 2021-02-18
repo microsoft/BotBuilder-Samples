@@ -110,15 +110,16 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
                 credentials = self._get_credentials(turn_context)
 
                 await turn_context.adapter.sign_out_user(
-                    turn_context, credentials, self._connection_name
+                    turn_context,
+                    self._connection_name,
+                    turn_context.activity.from_property.id,
+                    credentials,
                 )
                 return self._get_tab_response([CardResources.SUCCESS])
 
             response = await self.get_primary_tab_response(turn_context, None)
             # If the user is not signed in, the .Tab type will be auth.
-            success_card = TabResponseCard(
-                card=self._create_adaptive_card_attachment(CardResources.SUCCESS)
-            )
+            success_card = self._create_adaptive_card_attachment(CardResources.SUCCESS)
             response.tab.value.cards.insert(0, success_card)
 
             return response
@@ -139,7 +140,7 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
             if task_module_request.data
             else None
         )
-        video_id = str(video_id)
+        video_id = str(video_id) if video_id else None
         task_info = TaskModuleTaskInfo(
             height=UIConstants.YOUTUBE.height,
             width=UIConstants.YOUTUBE.width,
@@ -148,13 +149,17 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
         if video_id:
             task_info.url = (
                 task_info.fallback_url
-            ) = f"https:#www.youtube.com/embed/{ video_id }"
+            ) = f"https://www.youtube.com/embed/{ video_id }"
         else:
             # No video ID is present, so return the InputText card.
             attachment = Attachment(
                 content_type="application/vnd.microsoft.card.adaptive",
-                content=self._create_adaptive_card_attachment(CardResources.INPUT_TEXT),
+                content=self._create_adaptive_card_attachment(
+                    CardResources.INPUT_TEXT
+                ).card,
             )
+            task_info.height = UIConstants.ADAPTIVE_CARD.height
+            task_info.width = UIConstants.ADAPTIVE_CARD.width
             task_info.card = attachment
 
         return TaskModuleResponseFactory.to_task_module_response(task_info)
@@ -187,10 +192,8 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
             user = await client.get_me()
             display_name = user.get("displayName", "[unknown]") if user else "[unknown]"
 
-            manager_card = TabResponseCard(
-                card=self._create_adaptive_card_attachment(
-                    CardResources.MANAGER_DASHBOARD, "{{profileName}}", display_name
-                )
+            manager_card = self._create_adaptive_card_attachment(
+                CardResources.MANAGER_DASHBOARD, "[profileName]", display_name
             )
             cards.insert(1, manager_card)
 
@@ -201,11 +204,13 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
             )
 
         # The user is not logged in, so send an "auth" response.
-        sign_in_resource = await turn_context.adapter.get_sign_in_resource_from_user_and_credentials(
-            turn_context,
-            credentials,
-            self._connection_name,
-            turn_context.activity.from_property.id,
+        sign_in_resource = (
+            await turn_context.adapter.get_sign_in_resource_from_user_and_credentials(
+                turn_context,
+                credentials,
+                self._connection_name,
+                turn_context.activity.from_property.id,
+            )
         )
         return TabResponse(
             tab=TabResponsePayload(
@@ -265,6 +270,6 @@ class TeamsAdaptiveCardTabsBot(TeamsActivityHandler):
             if replace_text and replacement:
                 data = data.replace(replace_text, replacement)
 
-            card_data = json.load(data)
+            card_data = json.loads(data)
 
-        return card_data
+        return TabResponseCard(card=card_data)

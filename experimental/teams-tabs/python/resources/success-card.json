@@ -11,7 +11,7 @@
                     "inlines": [
                         {
                             "type": "TextRun",
-                            "text": "✅ Success!"
+                            "text": "Success!"
                         }
                     ]
                 }

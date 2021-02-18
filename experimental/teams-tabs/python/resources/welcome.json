@@ -8,7 +8,7 @@
       "spacing": "medium",
       "size": "default",
       "weight": "bolder",
-      "text": "More actions ✨",
+      "text": "More actions",
       "wrap": true,
       "maxLines": 0
     },

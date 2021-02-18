@@ -35,13 +35,13 @@
                         {
                             "type": "TextBlock",
                             "weight": "Bolder",
-                            "text": "{profileName}",
+                            "text": "[profileName]",
                             "wrap": true
                         },
                         {
                             "type": "TextBlock",
                             "spacing": "None",
-                            "text": "🎉   5 year anniversary this week",
+                            "text": "    5 year anniversary this week",
                             "isSubtle": true,
                             "wrap": true,
                             "fontType": "Default",
@@ -96,7 +96,7 @@
                         {
                             "type": "TextBlock",
                             "spacing": "None",
-                            "text": "📅  Upcoming time off: Mar 20-25, Apr 1",
+                            "text": "   Upcoming time off: Mar 20-25, Apr 1",
                             "isSubtle": true,
                             "weight": "Lighter",
                             "fontType": "Default"
@@ -150,7 +150,7 @@
                         {
                             "type": "TextBlock",
                             "spacing": "None",
-                            "text": "🎂  Birthday this week",
+                            "text": "   Birthday this week",
                             "isSubtle": true,
                             "wrap": true,
                             "weight": "Lighter"

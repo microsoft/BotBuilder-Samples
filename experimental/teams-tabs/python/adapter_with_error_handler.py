@@ -13,10 +13,7 @@ from botbuilder.schema import ActivityTypes, Activity
 
 
 class AdapterWithErrorHandler(BotFrameworkAdapter):
-    def __init__(
-        self,
-        settings: BotFrameworkAdapterSettings
-    ):
+    def __init__(self, settings: BotFrameworkAdapterSettings):
         super().__init__(settings)
 
         # Catch-all for errors.

@@ -5,3 +5,4 @@
 class TaskModuleIds:
     YOUTUBE = "YouTube"
     INPUT_TEXT_CARD = "InputText"
+    ADAPTIVE_CARD = "ADAPTIVE_CARD"

@@ -5,7 +5,7 @@
       "type": "TextBlock",
       "size": "Medium",
       "weight": "Bolder",
-      "text": "Quick actions ✨"
+      "text": "Quick actions"
     },
     {
       "type": "ActionSet",
@@ -19,7 +19,7 @@
           "title": "Look up a coworker",
           "data": {
             "msteams": {
-              "type": "tab/submit",
+              "type": "tab/submit"
             },
             "actionId":  "coworker"
           }
