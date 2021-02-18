@@ -3,6 +3,8 @@
     "type": "string",
     "format": "email",
     "$generator": {
+        "title": "Email",
+        "description": "Recognize entities like 'bob@gmail.com'.",
         "$ref": "array.json"
     }
 }

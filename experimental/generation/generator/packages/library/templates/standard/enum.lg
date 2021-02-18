@@ -7,7 +7,7 @@
 - ${[
         "enumEntity.lg",
         "enumEntity.lu",
-        "enumProperty.lg",
+        "genericProperty.lg",
         "genericEntity-add.dialog",
         "genericEntity-choose.dialog",
         "genericEntity-remove.dialog",

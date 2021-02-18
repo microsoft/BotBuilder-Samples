@@ -15,6 +15,8 @@
     ],
     "$template": "money",
     "$generator": {
+        "title": "Money",
+        "description": "Map a LUIS money entity like '$3' into a number and units.",
         "allOf": [
             {
                 "$units": {

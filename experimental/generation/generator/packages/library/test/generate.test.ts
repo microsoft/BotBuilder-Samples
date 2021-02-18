@@ -330,6 +330,8 @@ describe('dialog:generate library', async () => {
                     ++global
                 } else {
                     ++property
+                    assert(schema.$generator.title, `${schema.$templateDirs} missing title`)
+                    assert(schema.$generator.description, `${schema.$templateDirs} missing description`)
                 }
             }
             assert.strictEqual(global, 3, `Expected 3 global schemas and found ${global}`)
@@ -383,6 +385,14 @@ describe('dialog:generate library', async () => {
         } catch (e) {
             assert.fail(e.message)
         }
+    })
+
+    it('Examples generation', () => {
+        const examples = gen.examples(['abcDef', 'ghi jkl', 'MnoPQR', 'stu_vwx'])
+        assert.deepStrictEqual(examples['abcDef'], ["abc", "def", "abc def"])
+        assert.deepStrictEqual(examples['ghi jkl'], ["ghi", "jkl", "ghi jkl"])
+        assert.deepStrictEqual(examples['MnoPQR'], ["mno", "pqr", "mno pqr"])
+        assert.deepStrictEqual(examples['stu_vwx'], ["stu", "vwx", "stu vwx"])
     })
 
     type FullTemplateName = string

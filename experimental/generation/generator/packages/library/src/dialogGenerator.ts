@@ -26,6 +26,27 @@ export enum FeedbackType {
 
 export type Feedback = (type: FeedbackType, message: string) => void
 
+/**
+ * Generate examples for a list of enum values by breaking on case space or underscore and generating subphrases.
+ * @param values List of enum values to generate examples.
+ */
+export function examples(values: string[]): any {
+    const examples: any = {}
+    const engine = getExpressionEngine()
+    for (const choice of values) {
+        const values: string[] = []
+        const { value, error } = engine.parse(`phrases('${choice}')`).tryEvaluate({})
+        if (error) {
+            throw new Error(error)
+        }
+        for (const phrase of value) {
+            values.push(phrase)
+        }
+        examples[choice] = values
+    }
+    return examples
+}
+
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
 }

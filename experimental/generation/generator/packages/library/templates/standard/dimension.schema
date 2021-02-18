@@ -15,6 +15,8 @@
     ],
     "$template": "dimension",
     "$generator": {
+        "title": "Dimension",
+        "description": "Map entities like '2 feet' into a number and units.",
         "allOf": [
             {
                 "$units": {
