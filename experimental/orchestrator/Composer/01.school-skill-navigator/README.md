@@ -150,3 +150,31 @@ Results contain:
 * Additional Results contain similar lower scoring intents.
 
 ![](./AppInsightsResults.png)
+
+
+
+
+
+## Part 4: Resolve Mixed Recognizers Conflicts
+
+In case of mixed recognizers, where Orchestrator is used for example in root dialog for routing to a skill, and the skill recognizer uses LUIS for entity extraction, there may be a recognition disparity between Orchestrator and LUIS recognizers. This will lead to routing to the correct skill but the skill failing to handle the intent appropriately. 
+
+Suppose an extension to this sample (not provided here) where School Navigator routes utterances to a Library skill. The skill uses LUIS for further handling. In this case, the following condition may arise:
+
+- Utterance: “*query article db*”
+- Both LU’s contain the example “*Articles database*”
+- Parent School Navigator: Detects (Orchestrator score = 0.80) and routes utterance correctly to child skill.
+- Child Library Skill :  Fails to recognize utterance (LUIS score = 0.14) and returns *unknown intent*.
+
+The corrective action is for the child skill to improve its language handling by adding the failed utterance to their LU. The skill author has the best the chance to instrument, detect and correct unknown intents or handle them more gracefully whereas if the utterance was misrouted by parent, say to a QnAMaker or some other handler, corrective actions could be harder to detect, process or correct.
+
+Illustration of scenario with Emulator trace:
+
+![](./libraryskill.png) 
+
+
+
+
+
+
+
