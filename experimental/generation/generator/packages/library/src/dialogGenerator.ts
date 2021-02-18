@@ -26,6 +26,27 @@ export enum FeedbackType {
 
 export type Feedback = (type: FeedbackType, message: string) => void
 
+/**
+ * Generate examples for a list of enum values by breaking on case space or underscore and generating subphrases.
+ * @param values List of enum values to generate examples.
+ */
+export function examples(values: string[]): any {
+    const examples: any = {}
+    const engine = getExpressionEngine()
+    for (const choice of values) {
+        const values: string[] = []
+        const { value, error } = engine.parse(`phrases('${choice}')`).tryEvaluate({})
+        if (error) {
+            throw new Error(error)
+        }
+        for (const phrase of value) {
+            values.push(phrase)
+        }
+        examples[choice] = values
+    }
+    return examples
+}
+
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
 }
@@ -452,6 +473,48 @@ async function globalExamples(outDir: string, scope: any): Promise<object> {
     return examples
 }
 
+// Verify enum and examples match
+function verifyEnumAndGetExamples(schema: any, property: string, locale: string, entity: string, feedback: Feedback): string[] | object {
+    const propertySchema = schema.properties[property]
+    let examples = propertySchema.$examples?.[locale]?.[entity]
+    let usedLocale = true
+    let global = false
+    if (!examples) {
+        usedLocale = false
+        global = false
+        examples = propertySchema.$examples?.['']?.[entity]
+    }
+    if (!examples) {
+        usedLocale = true
+        global = true
+        examples = schema.$examples?.[locale]?.[entity]
+    }
+    if (!examples) {
+        usedLocale = false
+        global = true
+        examples = schema.$examples?.['']?.[entity]
+    }
+    if (!usedLocale) {
+        locale = ''
+    }
+
+    const enums = propertySchema.enum ?? propertySchema.items?.enum
+    if (examples && enums && entity === `${property}Value`) {
+        const exampleSet = new Set<string>(Object.keys(examples))
+        const enumSet = new Set<string>(enums)
+        const enumOnly = [...enumSet].filter(e => !exampleSet.has(e))
+        const exampleOnly = [...exampleSet].filter(e => !enumSet.has(e))
+        const description = `${global ? 'global ' : ''}${locale}/${entity} $examples`
+        if (enumOnly.length > 0) {
+            feedback(FeedbackType.error, `${property} has enums [${enumOnly.join(', ')}] not in ${description}.`)
+        }
+        if (exampleOnly.length > 0) {
+            feedback(FeedbackType.error, `${property} has ${description} [${exampleOnly.join(', ')}] not in enum.`)
+        }
+    }
+    return examples
+}
+
 async function processTemplates(
     schema: s.Schema,
     templateDirs: string[],
@@ -477,21 +540,27 @@ async function processTemplates(
             } else if (scope.property.includes('-') || scope.property.includes(' ')) {
                 feedback(FeedbackType.error, `'${property.path}' cannot include space or dash.`)
             } else {
+                // Pick up examples from property schema if unique entity
+                if (!property.schema.$examples && (property.schema.examples || property.schema.items?.examples)) {
+                    const entity = entities.filter((e: string) => e !== 'utterance')
+                    if (entity.length == 1) {
+                        const entityExamples = {}
+                        entityExamples[entity[0]] = property.schema.examples ?? property.schema.items?.examples
+                        property.schema.$examples = {
+                            '': entityExamples
+                        }
+                    } else {
+                        feedback(FeedbackType.warning, `For property ${property.path} use $examples rather than examples.`)
+                    }
+                }
+
                 // Assume non-array are expressions to be interpreted in expandSchema
                 for (let entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
-
-                        // Look for entity examples in global $examples
-                        scope.examples = schema.schema.$examples[entityName]
-
-                        // Pick up examples from property schema if unique entity
-                        if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                            scope.examples = property.schema.examples
-                        }
-
+                        scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
                             await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
                         }
@@ -538,7 +607,6 @@ async function ensureEntitiesAndTemplates(
             } else {
                 try {
                     scope.property = property.path
-                    scope.template = property.schema.$templateDirs
                     scope.propertySchema = property.schema
                     const rootTemplate = await findTemplate(template, templateDirs)
                     let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
@@ -921,14 +989,6 @@ export async function generate(
     }
 
     return !error
-}
-
-/**
- * Sleep function
- * @param ms The time in millisecond.
- */
-async function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
 }
 
 /**

@@ -15,6 +15,8 @@
     ],
     "$template": "ordinal",
     "$generator": {
+        "title": "Ordinal",
+        "description": "Map a LUIS ordinal entity like 'the first one' into an offset and base.",
         "$ref": "array.json"
     }
 }

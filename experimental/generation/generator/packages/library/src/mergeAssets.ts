@@ -247,7 +247,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
             if (newPropertySet.has(extractedProperty)) {
                 resultRefs.push(ref)
                 let file = refFilename(ref, feedback)
-                if (file.match(extractedProperty + 'Entity')) {
+                if (file.match(`${extractedProperty}Value`)) {
                     if (extension === '.lu') {
                         await changeEntityEnumLU(schemaName, oldPath, oldFileList, newFileList, mergedPath, file, feedback)
                     } else if (extension === '.lg') {
@@ -320,7 +320,7 @@ async function changeEntityEnumLU(schemaName: string, oldPath: string, oldFileLi
 
     let oldListEntitySections = oldEntitySections.filter(s => s.Type === 'list')
     for (let oldListEntitySection of oldListEntitySections) {
-        if (!oldListEntitySection.Name.match('Entity')) {
+        if (!oldListEntitySection.Name.match('Value')) {
             continue
         }
 
@@ -708,7 +708,7 @@ function equalPattern(filename: string, propertySet: Set<string>, schemaName: st
 
     for (let property of propertySet) {
         let pattern1 = schemaName + '-' + property + '-'
-        let pattern2 = schemaName + '-' + property + 'Entity'
+        let pattern2 = schemaName + '-' + property + 'Value'
         let pattern3 = schemaName + '-' + property + '.'
         if (filename.match(pattern1) || filename.match(pattern2) || filename.match(pattern3)) {
             result = property

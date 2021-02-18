@@ -2,6 +2,15 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "integer",
     "$generator": {
-        "$ref": "minmax.json"
+        "title": "Integer",
+        "description": "Map LUIS number entity like '3' into an integer.",
+        "allOf": [
+            {
+                "$ref": "minmax.json"
+            },
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }
