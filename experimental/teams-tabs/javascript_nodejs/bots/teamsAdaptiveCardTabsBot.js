@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { ActionTypes, TeamsActivityHandler, MessageFactory } = require('botbuilder');
+const { ActionTypes, TeamsActivityHandler } = require('botbuilder');
 const { CardResources } = require('../models/cardResources');
 const { UIConstants } = require('../models/UIConstants');
 const { TaskModuleResponseFactory } = require('../models/taskModuleResponseFactory');
@@ -51,7 +51,7 @@ class TeamsAdaptiveCardTabsBot extends TeamsActivityHandler {
 
     async handleTeamsTabSubmit(context, tabSubmit) {
         if (tabSubmit?.tabEntityContext?.tabEntityId === 'workday') {
-            if (context.activity?.value?.data?.shouldLogOut) {
+            if (context.activity?.value?.data?.shouldLogout) {
                 const credentials = this.getCredentials(context);
 
                 await context.adapter.signOutUser(context, credentials, this.connectionName);
@@ -97,7 +97,6 @@ class TeamsAdaptiveCardTabsBot extends TeamsActivityHandler {
     }
 
     async handleTeamsTaskModuleSubmit(context, taskModuleRequest) {
-        await context.sendActivity(MessageFactory.text('handleTeamsTaskModuleSubmit: ' + JSON.stringify(taskModuleRequest.data)));
         return {
             task: {
                 type: 'message',
