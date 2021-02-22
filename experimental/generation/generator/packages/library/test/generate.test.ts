@@ -322,7 +322,10 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             const schemas = await ps.schemas()
-            assert.strictEqual(Object.keys(schemas).length, 25, `Expected 25 schemas and found ${Object.keys(schemas).length}`)
+            const totalExpected = 25
+            const globalExpected = 3
+            const propertyExpected = 22
+            assert.strictEqual(Object.keys(schemas).length, totalExpected, `Expected ${totalExpected} schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -334,8 +337,8 @@ describe('dialog:generate library', async () => {
                     assert(schema.$generator.description, `${schema.$templateDirs} missing description`)
                 }
             }
-            assert.strictEqual(global, 3, `Expected 3 global schemas and found ${global}`)
-            assert.strictEqual(property, 22, `Expected 22 property schemas and found ${property}`)
+            assert.strictEqual(global, globalExpected, `Expected ${globalExpected} global schemas and found ${global}`)
+            assert.strictEqual(property, propertyExpected, `Expected ${propertyExpected} property schemas and found ${property}`)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -400,8 +403,8 @@ describe('dialog:generate library', async () => {
     type Source = string
     type SourceToReferences = Map<Source, TemplateName[]>
     type TemplateToReferences = Map<FullTemplateName, SourceToReferences>
-    const SourceToReferences = <{ new (): SourceToReferences}> Map
-    const TemplateToReferences = <{new (): TemplateToReferences}> Map
+    const SourceToReferences = <{ new(): SourceToReferences }>Map
+    const TemplateToReferences = <{ new(): TemplateToReferences }>Map
 
     /**
      * Given a list of source LG templates return the references for each template inside.
@@ -492,7 +495,7 @@ describe('dialog:generate library', async () => {
             }
         }
         const usage = templateUsage(templates)
-        
+
         // Dump out all template usage
         for (const [template, templateUsage] of usage) {
             feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)

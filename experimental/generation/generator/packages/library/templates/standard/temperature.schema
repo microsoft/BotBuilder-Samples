@@ -28,8 +28,8 @@
                         "D",
                         "C"
                     ],
-                    "Title": "Units",
-                    "Description": "Form dialogs will default to units and convert if possible."
+                    "title": "Units",
+                    "description": "Form dialogs will default to units and convert if possible."
                 }
             },
             {
