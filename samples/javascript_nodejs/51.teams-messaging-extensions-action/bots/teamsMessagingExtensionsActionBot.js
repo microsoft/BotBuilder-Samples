@@ -18,7 +18,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
     async handleTeamsMessagingExtensionFetchTask(context, action) {
         try {
            const member = await this.getSingleMember(context);
-            return {
+           return {
                 task: {
                     type: 'continue',
                     value: {
