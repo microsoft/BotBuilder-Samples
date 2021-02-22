@@ -147,10 +147,7 @@ function shareMessageCommand(context, action) {
         images
     );
 
-    if (
-        action.messagePayload.attachments &&
-        action.messagePayload.attachments.length > 0
-    ) {
+    if (action.messagePayload.attachments?.length > 0) {
         // This sample does not add the MessagePayload Attachments.  This is left as an
         // exercise for the user.
         heroCard.content.subtitle = `(${action.messagePayload.attachments.length} Attachments not included)`;
