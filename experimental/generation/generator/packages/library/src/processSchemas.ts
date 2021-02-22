@@ -14,6 +14,8 @@ const parser: any = require('json-schema-ref-parser')
 /** Mapping from schema name to schema definition. */
 export type IdToSchema = { [id: string]: any }
 
+const skipSchemas: string[] = ["boolean", "date-time", "date", "email", "enum", "integer", "iri", "number", "string", "time", "uri"]
+
 /** 
  * Find all schemas in template directories.
  * @param templateDirs User supplied ordered list of template directories.
@@ -23,7 +25,14 @@ export async function schemas(templateDirs?: string[]): Promise<IdToSchema> {
     templateDirs = templateDirs || []
     const templates = await fg.templateDirectories(templateDirs)
     const schemas = await templateSchemas(templates, feedbackException)
-    return schemas
+    // TODO: Temporarily filter out built-in types until composer can be updated
+    const filteredSchemas = {}
+    for (const [name, definition] of Object.entries(schemas)) {
+        if (!skipSchemas.includes(name)) {
+            filteredSchemas[name] = definition
+        }
+    }
+    return filteredSchemas
 }
 
 /** Check to see if schema is global. */
