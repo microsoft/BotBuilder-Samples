@@ -124,11 +124,7 @@ function createCardCommand(context, action) {
 function shareMessageCommand(context, action) {
     // The user has chosen to share a message by choosing the 'Share Message' context menu command.
     let userName = 'unknown';
-    if (
-        action.messagePayload.from &&
-        action.messagePayload.from.user &&
-        action.messagePayload.from.user.displayName
-    ) {
+    if (action.messagePayload?.from?.user?.displayName) {
         userName = action.messagePayload.from.user.displayName;
     }
 
