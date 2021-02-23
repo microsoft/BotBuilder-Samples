@@ -177,7 +177,7 @@ ${complexValueTemplate(template)}
 >> Number templates
 
 # numberMessages(template)
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingNumber(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -250,7 +250,7 @@ ${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
 
 # genericMessages(description)
 > Generic text templates where type is the description of the desired values
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingDefault(description), changeDefault(description))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
