@@ -6,7 +6,10 @@
             "$ref": "bread.json"
         },
         "Bottom": {
-            "$ref": "bread.json"
+            "type": "array",
+            "items": {
+                "$ref": "bread.json"
+            }
         }
     },
     "required": [

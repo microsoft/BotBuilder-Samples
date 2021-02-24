@@ -32,7 +32,7 @@
 - ${generationDir()}${locale}/${entity}/${prefix}-${entity}.${locale}.lg
 
 # entityLUFilename()
-- ${understandingDir()}${locale}/${entity}/${prefix}-${property}-${entity}.${locale}.lu
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
 # missingFilename()
 - ${dialogDir()}${property}/${prefix}-${property}-missing.dialog

@@ -238,7 +238,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
             await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
-            await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 10)
+            await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 15)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
             await checkPattern(ppath.join(output, '**'), 136)
         } catch (e) {
@@ -376,13 +376,16 @@ describe('dialog:generate library', async () => {
         try {
             const testOutput = `${output}/enum`
             let errors = 0
+            let warnings = 0
             assert(!(await gen.generate('test/forms/enum.form', undefined, testOutput, undefined, undefined, undefined, true, false, false,
                 (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
+                    if (type === gen.FeedbackType.warning) ++warnings
                 })), 'Should have failed generation')
-            assert.strictEqual(errors, 7)
-            await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
+                assert.strictEqual(errors, 7)
+                assert.strictEqual(warnings, 3)
+                await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
             await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
             await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
             await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
