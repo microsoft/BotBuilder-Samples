@@ -3,17 +3,37 @@
     "type": "object",
     "properties": {
         "Top": {
-            "$ref": "bread.json"
+            "$ref": "#/definitions/enum"
         },
         "Bottom": {
             "type": "array",
             "items": {
-                "$ref": "bread.json"
+                "$ref": "#/definitions/enum"
             }
         }
     },
     "required": [
         "Top",
         "Bottom"
-    ]
+    ],
+    "definitions": {
+        "enum": {
+            "$ref": "template:enum.schema",
+            "enum": [
+                "a",
+                "b"
+            ],
+            "$examples": {
+                "": {
+                    "breadValue": {
+                        "a": [],
+                        "b": []
+                    }
+                }
+            },
+            "$entities": [
+                "breadValue"
+            ]
+        }
+    }
 }
