@@ -4,37 +4,49 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
-using System.Security.Cryptography.X509Certificates;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
+using Microsoft.AspNetCore.Hosting.Server;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using TeamsMessagingExtensionsSearch;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchBot : TeamsActivityHandler
     {
+        public readonly string _configuration;
+        public TeamsMessagingExtensionsSearchBot(IConfiguration configuration):base()
+        {
+            this._configuration = configuration["BaseUrl"];
+        }
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
             var text = query?.Parameters?[0]?.Value as string ?? string.Empty;
-            switch(text)
+
+            switch (text)
             {
                 case "adaptive card":
-                  MessagingExtensionResponse response =  GetAdaptiveCard();
-                  return response;
-                    
+                    MessagingExtensionResponse response = GetAdaptiveCard();
+                    return response;
+
                 case "connector card":
-                  MessagingExtensionResponse connectorCard = GetConnectorCard();
+                    MessagingExtensionResponse connectorCard = GetConnectorCard();
                     return connectorCard;
 
                 case "result grid":
@@ -46,7 +58,6 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // We take every row of the results and wrap them in cards wrapped in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-           
             var attachments = packages.Select(package =>
             {
                 var previewCard = new ThumbnailCard { Title = package.Item1, Tap = new CardAction { Type = "invoke", Value = package } };
@@ -84,7 +95,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-        
+
             var card = new ThumbnailCard
             {
                 Title = $"{packageId}, {version}",
@@ -127,7 +138,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public MessagingExtensionResponse GetAdaptiveCard()
         {
-            string filepath = "./Resources/RestaurantCard.json";
+
+            string filepath = "./RestaurantCard.json";
             var previewcard = new ThumbnailCard
             {
                 Title = "Adaptive Card",
@@ -155,7 +167,8 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public MessagingExtensionResponse GetConnectorCard()
         {
-            string filepath = "./Resources/connectorCard.json";
+            string filepath = "./connectorCard.json";
+
             var previewcard = new ThumbnailCard
             {
                 Title = "O365 Connector Card",
@@ -187,10 +200,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             var adaptiveCardAttachment = new Attachment
             {
                 ContentType = AdaptiveCard.ContentType,
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson)               
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
             };
 
-            return adaptiveCardAttachment;           
+            return adaptiveCardAttachment;
+
         }
 
         public Attachment FetchConnector(string filepath)
@@ -199,39 +213,41 @@ namespace Microsoft.BotBuilderSamples.Bots
             var connectorCardAttachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType,
-                Content = JsonConvert.DeserializeObject(connectorCardJson)
+                Content = JsonConvert.DeserializeObject(connectorCardJson),
+
             };
 
             return connectorCardAttachment;
         }
 
         public MessagingExtensionResponse GetResultGrid()
-        {
-            List<string> images = new List<string>();
-            images.Add("https://picsum.photos/300?image=882");
-            images.Add("http://connectorsdemo.azurewebsites.net/images/WIN12_Scene_01.jpg");
-            images.Add("https://image.flaticon.com/icons/png/512/732/732221.png");
-            images.Add("https://cdn0.iconfinder.com/data/icons/flat-round-system/512/microsoft_windows-512.png");
-            images.Add("http://connectorsdemo.azurewebsites.net/images/WIN12_Anthony_02.jpg");
-            images.Add("https://icons-for-free.com/iconfiles/png/512/business+company+estate+office+work+icon-1320086520504455343.png");
-            images.Add("https://cdn1.iconfinder.com/data/icons/application-file-formats/128/microsoft-excel-512.png");
-            images.Add("http://connectorsdemo.azurewebsites.net/images/WIN14_Jan_04.jpg");
-            images.Add("https://image.shutterstock.com/image-photo/image-150nw-148441982.jpg");
-            images.Add("https://avatars.slack-edge.com/2019-05-15/636116561829_46b2865d45aa5e56cf5e_512.png");
-            images.Add("https://cdn.iconscout.com/icon/free/png-512/microsoft-office-2-761689.png");
+        {           
+            var files = Directory.GetFiles("wwwroot");
+            List<string> imageFiles = new List<string>();
+
+            foreach (string filename in files)
+            {
+                if (Regex.IsMatch(filename, @".jpg"))
+                    imageFiles.Add(filename);
+                
+            }
 
             List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
 
-            foreach (string img in images)
+            foreach (string img in imageFiles)
             {
-                var thumbnailCard = new ThumbnailCard();              
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(img) };
+                var image = img.Split("\\");
+                string url = ConfigurationManager.AppSettings["BaseUrl"];
+                var thumbnailCard = new ThumbnailCard();
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration+ image[1]) };
                 var attachment = new MessagingExtensionAttachment
                 {
                     ContentType = ThumbnailCard.ContentType,
-                    Content = new ThumbnailCard { Images = thumbnailCard.Images },
+                    Content = thumbnailCard,
                 };
+
                 attachments.Add(attachment);
+
             }
 
             return new MessagingExtensionResponse
@@ -243,6 +259,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Attachments = attachments
                 }
             };
+
         }
     }
 }
