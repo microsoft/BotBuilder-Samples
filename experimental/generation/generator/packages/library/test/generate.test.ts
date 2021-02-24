@@ -127,6 +127,7 @@ describe('dialog:generate library', async () => {
         'keyPhrase',
         'money_with_units',
         'money',
+        'multiple_enum',
         'number_with_limits',
         'number',
         'ordinal',

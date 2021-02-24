@@ -21,7 +21,7 @@
 
 
 > Define phrase list for Bread property.
-@ phraselist BreadPhrases(interchangeable)=
+@ phraselist BreadPhrases(interchangeable) disabledForAllModels =
         - bread
 
 > Define property entity and optional value for Bread property.

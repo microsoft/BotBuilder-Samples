@@ -1,0 +1,17 @@
+{
+    "$ref": "template:enum.schema",
+    "enum": [
+        "a", "b"
+    ],
+    "$examples": {
+        "": {
+            "breadValue": {
+                "a": [],
+                "b": []
+            }
+        }
+    },
+    "$entities": [
+        "breadValue"
+    ]
+}

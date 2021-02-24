@@ -6,10 +6,10 @@
 # template
 -```
 > List entity for ${property} enum values
-@ list ${property}Value =
+@ list ${entity} =
 ${listDefinition()}
 
-${operations(`${property}Value`, allSynonyms(), false)}
+${operations(`${entity}`, allSynonyms(), false)}
 ```
 
 # listDefinition()
