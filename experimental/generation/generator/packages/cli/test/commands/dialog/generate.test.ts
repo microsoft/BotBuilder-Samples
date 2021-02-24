@@ -43,6 +43,7 @@ describe('dialog:generate', async () => {
         'money_with_units',
         'money',
         'multiple_enum',
+        'multiple_string',
         'number_with_limits',
         'number',
         'ordinal',
