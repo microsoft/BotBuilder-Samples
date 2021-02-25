@@ -27,8 +27,8 @@
                         "Week",
                         "Day"
                     ],
-                    "Title": "Units",
-                    "Description": "Expected age units."
+                    "title": "Units",
+                    "description": "Expected age units."
                 }
             },
             {

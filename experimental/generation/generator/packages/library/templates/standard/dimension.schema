@@ -114,8 +114,8 @@
                         "Yard per minute",
                         "Yard per second"
                     ],
-                    "Title": "Units",
-                    "Description": "Form dialogs will default to units and convert if possible."
+                    "title": "Units",
+                    "description": "Form dialogs will default to units and convert if possible."
                 }
             },
             {
