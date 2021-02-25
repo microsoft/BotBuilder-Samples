@@ -164,7 +164,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
             const {oldPropertySet, newPropertySet} = await parseSchemas(schemaName, oldPath, newPath, newFileList, mergedPath, feedback)
 
             await mergeDialogs(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
-            await mergeRootFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lu', oldPropertySet, newPropertySet, feedback)
+            await mergeRootLUFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lu', oldPropertySet, newPropertySet, feedback)
             await mergeRootFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lg', oldPropertySet, newPropertySet, feedback)
             await mergeOtherFiles(oldPath, oldFileList, newPath, newFileList, mergedPath, feedback)
         }
@@ -291,6 +291,79 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
     }
 
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}${extension}`, oldFileList, val, feedback)
+}
+
+async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, extension: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
+    const outDir = assetDirectory(extension)
+    let oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+    let newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+    let newRefs = newText.split(os.EOL)
+
+    let resultRefs: string[] = []
+
+    for (let ref of newRefs) {
+        if (!ref.startsWith('[')) {
+            continue
+        }
+        else if (!ref.includes('custom')) {
+            resultRefs.push(ref)
+            let file = refFilename(ref, feedback)
+            await copySingleFile(newPath, mergedPath, file, newFileList, feedback)
+        }else {
+            resultRefs.push(ref)
+            await updateCustomLUFile(schemaName, oldPath, newPath, oldFileList, mergedPath, locale, feedback)
+        }
+    }
+
+    let val = resultRefs.join(os.EOL)
+
+    let patternIndex = oldText.search(GeneratorPattern)
+    if (patternIndex !== -1) {
+        val = val + os.EOL + oldText.substring(patternIndex)
+    }
+
+    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}${extension}`, oldFileList, val, feedback)
+}
+
+const enumPattern = /{@([a-zA-Z0-9]+)Value=([a-zA-Z0-9\s]+)}/
+async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback):Promise<void>{
+    let customLuFilePath = oldFileList.filter(file => file.match(`${schemaName}-custom.${locale}.lu`))[0]
+    let text = await fs.readFile(customLuFilePath, 'utf8')
+    let lines = text.split(os.EOL)
+    let resultLines: string[] = []
+
+    let propertyValueSysnonyms = await getSynonyms(schemaName, newPath)
+    for(let line in lines){
+        console.log(`###############${line}`)
+        if(line.match(enumPattern)){
+            let newLine = await replaceLine(line, propertyValueSysnonyms)
+            resultLines.push(newLine)
+  
+        }else{
+            resultLines.push(line)
+        }
+    }
+    let val = resultLines.join(os.EOL)
+    await writeToFile(oldPath, mergedPath, `${schemaName}.-custom.${locale}.lu`, oldFileList, val, feedback)
+}
+
+async function replaceLine(line: string, propertyValueSysnonyms: Map<string, Set<string>>):Promise<string>{
+    let matches = line.match(enumPattern)
+    for(let match in matches){
+        let phrases = match.split('=')
+        let key = phrases[0].replace('{@','')
+        let value = phrases[1].replace('}','')
+        if(propertyValueSysnonyms.has(key)){
+            let synonymsSet  =  propertyValueSysnonyms.get(key)
+            if(synonymsSet?.has(value)){
+                let items = Array.from(synonymsSet)
+                let randomSynomym = items[Math.floor(Math.random() * items.length)]
+                let replacePattern = `{@${key}=${randomSynomym}}`
+                line.replace(match, replacePattern)
+            }
+        }
+    }
+    return line
 }
 
 /**
@@ -746,4 +819,24 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
 
     await copySingleFile(newPath, mergedPath, schemaName + '.json', newFileList, feedback)
     return {oldPropertySet, newPropertySet}
+}
+
+
+async function getSynonyms(schemaName: string, newPath: string): Promise<Map<string, Set<string>>>{
+    let template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
+    let newObj = JSON.parse(template)
+    let propertyValueSynonyms = new Map<string, Set<string>>()
+
+    for (let property in newObj['properties']) {
+        if(newObj['properties'][property]['$examples'][''][`${property}Value`]){
+            let synonymsSet = new Set<string>()
+            for(let enumEntity in newObj['properties'][property]['$examples'][''][`${property}Value`]){
+                for(let synonym in newObj['properties'][property]['$examples'][''][`${property}Value`][enumEntity]){
+                    synonymsSet.add(synonym)
+                }
+            }
+            propertyValueSynonyms.set(`${property}Value`,synonymsSet)
+        }
+    }
+    return  propertyValueSynonyms
 }

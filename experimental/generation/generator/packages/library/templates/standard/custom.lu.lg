@@ -1,0 +1,12 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${understandingDir()}${locale}/form/${prefix}-custom.${locale}.lu
+
+# template
+-```
+> Add custom utterances
+> Label with: Add(), Remove(), Help(), Clear(), Show() and Help()
+${'#'} ${prefix}
+> ADD YOUR LABELS HERE
+```
