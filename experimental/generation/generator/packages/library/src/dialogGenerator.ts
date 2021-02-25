@@ -280,6 +280,8 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                     break
                 }
             }
+        } else {
+            break
         }
     }
     return template
@@ -499,7 +501,7 @@ function verifyEnumAndGetExamples(schema: any, property: string, locale: string,
     }
 
     const enums = propertySchema.enum ?? propertySchema.items?.enum
-    if (examples && enums && entity === `${property}Value`) {
+    if (examples && enums && entity.endsWith('Value')) {
         const exampleSet = new Set<string>(Object.keys(examples))
         const enumSet = new Set<string>(enums)
         const enumOnly = [...enumSet].filter(e => !exampleSet.has(e))
