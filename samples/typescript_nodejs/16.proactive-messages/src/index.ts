@@ -90,8 +90,6 @@ server.on('upgrade', (req, socket, head) => {
 server.get('/api/notify', async (req, res) => {
     for (const conversationReference of Object.values(conversationReferences)) {
         await adapter.continueConversation(conversationReference, async turnContext => {
-            // If you encounter permission-related errors when sending this message, see
-            // https://aka.ms/BotTrustServiceUrl
             await turnContext.sendActivity('proactive hello');
         });
     }
@@ -107,8 +105,6 @@ server.post('/api/notify', async (req, res) => {
         var msg = req.body[prop];
         for (const conversationReference of Object.values(conversationReferences)) {
             await adapter.continueConversation(conversationReference, async turnContext => {
-                // If you encounter permission-related errors when sending this message, see
-                // https://aka.ms/BotTrustServiceUrl
                 await turnContext.sendActivity(msg);
             });
         }
