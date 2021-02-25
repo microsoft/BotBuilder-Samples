@@ -17,6 +17,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         this.onMessage(async (context, next) => {
             TurnContext.removeRecipientMention(context.activity);
+
             const text = context.activity.text.trim().toLocaleLowerCase();
             if (text.includes('mention')) {
                 await this.mentionActivityAsync(context);
@@ -31,21 +32,21 @@ class TeamsConversationBot extends TeamsActivityHandler {
             } else {
                 await this.cardActivityAsync(context, false);
             }
-        });
 
-        this.onMembersAddedActivity(async (context, next) => {
-            //  console.log(context);
-            context.activity.membersAdded.forEach(async (teamMember) => {
-                if (teamMember.id !== context.activity.recipient.id) {
-                    await context.sendActivity(
-                        `Welcome to the team ${teamMember.givenName} ${teamMember.surname}`
-                    );
-                }
-            });
             await next();
         });
 
-        //Subscribe to different conversation events
+        this.onMembersAddedActivity(async (context, next) => {
+            await Promise.all((context.activity.membersAdded || []).map(async (member) => {
+                if (member.id !== context.activity.recipient.id) {
+                    await context.sendActivity(
+                        `Welcome to the team ${member.givenName} ${member.surname}`
+                    );
+                }
+            }));
+
+            await next();
+        });
 
         this.onReactionsAdded(async (context) => {
             await Promise.all((context.activity.reactionsAdded || []).map(async (reaction) => {
@@ -143,8 +144,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
             await context.sendActivity(message);
         } catch (e) {
             if (e.code === 'MemberNotFoundInConversation') {
-                context.sendActivity(MessageFactory.text('Member not found.'));
-                return;
+                return context.sendActivity(MessageFactory.text('Member not found.'));
             } else {
                 throw e;
             }
@@ -174,39 +174,42 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async messageAllMembersAsync(context) {
         const members = await this.getPagedMembers(context);
 
-        members.forEach(async (teamMember) => {
+        await Promise.all(members.map(async (member) => {
             const message = MessageFactory.text(
-                `Hello ${teamMember.givenName} ${teamMember.surname}. I'm a Teams conversation bot.`
+                `Hello ${member.givenName} ${member.surname}. I'm a Teams conversation bot.`
             );
 
-            var ref = TurnContext.getConversationReference(context.activity);
-            ref.user = teamMember;
+            const ref = TurnContext.getConversationReference(context.activity);
+            ref.user = member;
 
-            await context.adapter.createConversation(ref, async (t1) => {
-                const ref2 = TurnContext.getConversationReference(t1.activity);
-                await t1.adapter.continueConversation(ref2, async (t2) => {
-                    await t2.sendActivity(message);
+            await context.adapter.createConversation(ref, async (context) => {
+                const ref = TurnContext.getConversationReference(context.activity);
+
+                await context.adapter.continueConversation(ref, async (context) => {
+                    await context.sendActivity(message);
                 });
             });
-        });
+        }));
 
-        await context.sendActivity(
-            MessageFactory.text('All messages have been sent.')
-        );
+        await context.sendActivity(MessageFactory.text('All messages have been sent.'));
     }
 
     async getPagedMembers(context) {
-        var continuationToken;
-        var members = [];
+        let continuationToken;
+        const members = [];
+
         do {
-            var pagedMembers = await TeamsInfo.getPagedMembers(
+            const page = await TeamsInfo.getPagedMembers(
                 context,
                 100,
                 continuationToken
             );
-            continuationToken = pagedMembers.continuationToken;
-            members.push(...pagedMembers.members);
+
+            continuationToken = page.continuationToken;
+
+            members.push(...page.members);
         } while (continuationToken !== undefined);
+
         return members;
     }
 
@@ -218,6 +221,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelRenamed(context) {
         const card = CardFactory.heroCard(
             'Channel Renamed',
@@ -226,6 +230,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelDeleted(context) {
         const card = CardFactory.heroCard(
             'Channel Deleted',
@@ -234,6 +239,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
     }
+
     async onTeamsChannelRestored(context) {
         const card = CardFactory.heroCard(
             'Channel Restored',
