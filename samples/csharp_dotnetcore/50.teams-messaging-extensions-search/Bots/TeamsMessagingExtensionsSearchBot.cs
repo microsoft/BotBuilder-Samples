@@ -23,16 +23,15 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using TeamsMessagingExtensionsSearch;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchBot : TeamsActivityHandler
     {
-        public readonly string _configuration;
-        public TeamsMessagingExtensionsSearchBot(IConfiguration configuration):base()
+        private readonly IConfiguration _configuration;
+        public TeamsMessagingExtensionsSearchBot(IConfiguration configuration)
         {
-            this._configuration = configuration["BaseUrl"];
+            _configuration = configuration;
         }
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
@@ -237,7 +236,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             foreach (string img in imageFiles)
             {
                 var image = img.Split("\\");
-                string url = ConfigurationManager.AppSettings["BaseUrl"];
+                string url = _configuration["BaseUrl"];
                 var thumbnailCard = new ThumbnailCard();
                 thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration+ image[1]) };
                 var attachment = new MessagingExtensionAttachment
