@@ -55,6 +55,7 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
                 // First definition found wins
                 map[id] = schema
                 if (!schema.$templateDirs) {
+                    // We pick up template directories by where schemas are found
                     schema.$templateDirs = [ppath.dirname(file)]
                 }
             }
@@ -94,6 +95,9 @@ async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): P
     try {
         const noref = await parser.dereference(path, { resolve: { template: resolver } })
         schema = allof(noref)
+        if (schema.$generator) {
+            schema.$generator = allof(schema.$generator)
+        }
     } catch (err) {
         feedback(fg.FeedbackType.error, err)
     }
@@ -169,9 +173,6 @@ export async function expandPropertyDefinition(property: any, templateDirs: stri
     const { allRequired, resolver } = await templateResolver(templateDirs, feedbackException)
     let schema = await parser.dereference(property, { resolve: { template: resolver } })
     schema = allof(schema)
-    if (!schema.$templateDirs) {
-        schema.$templateDirs = templateDirs
-    }
     return schema
 }
 

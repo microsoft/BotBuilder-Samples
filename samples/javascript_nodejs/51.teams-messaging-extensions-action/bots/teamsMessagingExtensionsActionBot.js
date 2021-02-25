@@ -18,7 +18,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
     async handleTeamsMessagingExtensionFetchTask(context, action) {
         try {
            const member = await this.getSingleMember(context);
-            return {
+           return {
                 task: {
                     type: 'continue',
                     value: {
@@ -53,13 +53,12 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 context,
                 context.activity.from.id
             );
-            return member.name;
         } catch (e) {
             if (e.code === 'MemberNotFoundInConversation') {
                 context.sendActivity(MessageFactory.text('Member not found.'));
                 return e.code;
             } 
-                throw e;        
+            throw e;        
         }   
     }
 }
@@ -124,11 +123,7 @@ function createCardCommand(context, action) {
 function shareMessageCommand(context, action) {
     // The user has chosen to share a message by choosing the 'Share Message' context menu command.
     let userName = 'unknown';
-    if (
-        action.messagePayload.from &&
-        action.messagePayload.from.user &&
-        action.messagePayload.from.user.displayName
-    ) {
+    if (action.messagePayload?.from?.user?.displayName) {
         userName = action.messagePayload.from.user.displayName;
     }
 
@@ -146,11 +141,7 @@ function shareMessageCommand(context, action) {
         action.messagePayload.body.content,
         images
     );
-
-    if (
-        action.messagePayload.attachments &&
-        action.messagePayload.attachments.length > 0
-    ) {
+    if (action.messagePayload.attachments?.length > 0) {
         // This sample does not add the MessagePayload Attachments.  This is left as an
         // exercise for the user.
         heroCard.content.subtitle = `(${action.messagePayload.attachments.length} Attachments not included)`;

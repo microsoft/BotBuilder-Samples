@@ -11,11 +11,7 @@
             "$ref": "template:dimension.schema"
         },
         "Name": {
-            "type": "string",
-            "$entities": [
-                "personName",
-                "utterance"
-            ]
+            "$ref": "template:personName.schema"
         },
         "Bread": {
             "type": "string",

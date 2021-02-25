@@ -27,13 +27,13 @@ ${'#'} ${property}_Value(val)
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
 > Display value for '${type}' entity
-${'#'} ${type}Entity_Value(entity)
+${'#'} ${type}Value_Value(entity)
 - \${value(entity.value)}
 ```
 
 # entityTextTemplate(type)
 -```
-${'#'} ${type}Entity_Value(entity)
+${'#'} ${type}Value_Value(entity)
 > Display value for '${type}' entity
 - \${entity.text}
 ```
@@ -177,7 +177,7 @@ ${complexValueTemplate(template)}
 >> Number templates
 
 # numberMessages(template)
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingNumber(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -250,7 +250,7 @@ ${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
 
 # genericMessages(description)
 > Generic text templates where type is the description of the desired values
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingDefault(description), changeDefault(description))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -265,4 +265,4 @@ ${valueTemplate()}
 ```
 
 #filenameForEntityTypeLG(type)
-- ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
+- ${generationDir()}${locale}/form/${prefix}-${type}Value.${locale}.lg

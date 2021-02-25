@@ -94,6 +94,11 @@ async function checkPattern(pattern: string, files: number): Promise<void> {
     }
 }
 
+async function includes(path: string, content: string): Promise<void> {
+    const file = await fs.readFile(path, 'utf-8')
+    assert(file.includes(content), `${path} does not contain ${content}`)
+}
+
 describe('dialog:generate library', async () => {
     let output = tempDir
     let schemaPath = 'test/forms/sandwich.form'
@@ -317,7 +322,10 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             const schemas = await ps.schemas()
-            assert.strictEqual(Object.keys(schemas).length, 25, `Expected 25 schemas and found ${Object.keys(schemas).length}`)
+            const totalExpected = 25
+            const globalExpected = 3
+            const propertyExpected = 22
+            assert.strictEqual(Object.keys(schemas).length, totalExpected, `Expected ${totalExpected} schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0
             for (let [_, schema] of Object.entries(schemas)) {
@@ -325,10 +333,12 @@ describe('dialog:generate library', async () => {
                     ++global
                 } else {
                     ++property
+                    assert(schema.$generator.title, `${schema.$templateDirs} missing title`)
+                    assert(schema.$generator.description, `${schema.$templateDirs} missing description`)
                 }
             }
-            assert.strictEqual(global, 3, `Expected 3 global schemas and found ${global}`)
-            assert.strictEqual(property, 22, `Expected 22 property schemas and found ${property}`)
+            assert.strictEqual(global, globalExpected, `Expected ${globalExpected} global schemas and found ${global}`)
+            assert.strictEqual(property, propertyExpected, `Expected ${propertyExpected} property schemas and found ${property}`)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -361,13 +371,40 @@ describe('dialog:generate library', async () => {
         }
     })
 
+    it('Examples verification', async () => {
+        try {
+            const testOutput = `${output}/enum`
+            let errors = 0
+            assert(!(await gen.generate('test/forms/enum.form', undefined, testOutput, undefined, undefined, undefined, true, false, false,
+                (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                })), 'Should have failed generation')
+            assert.strictEqual(errors, 7)
+            await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
+            await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
+            await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
+            await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Examples generation', () => {
+        const examples = gen.examples(['abcDef', 'ghi jkl', 'MnoPQR', 'stu_vwx'])
+        assert.deepStrictEqual(examples['abcDef'], ["abc", "def", "abc def"])
+        assert.deepStrictEqual(examples['ghi jkl'], ["ghi", "jkl", "ghi jkl"])
+        assert.deepStrictEqual(examples['MnoPQR'], ["mno", "pqr", "mno pqr"])
+        assert.deepStrictEqual(examples['stu_vwx'], ["stu", "vwx", "stu vwx"])
+    })
+
     type FullTemplateName = string
     type TemplateName = string
     type Source = string
     type SourceToReferences = Map<Source, TemplateName[]>
     type TemplateToReferences = Map<FullTemplateName, SourceToReferences>
-    const SourceToReferences = <{ new (): SourceToReferences}> Map
-    const TemplateToReferences = <{new (): TemplateToReferences}> Map
+    const SourceToReferences = <{ new(): SourceToReferences }>Map
+    const TemplateToReferences = <{ new(): TemplateToReferences }>Map
 
     /**
      * Given a list of source LG templates return the references for each template inside.
@@ -458,7 +495,7 @@ describe('dialog:generate library', async () => {
             }
         }
         const usage = templateUsage(templates)
-        
+
         // Dump out all template usage
         for (const [template, templateUsage] of usage) {
             feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)

@@ -4,14 +4,23 @@
 - ${entityLUFilename()}
 
 # template
-- ```
+-```
 > List entity for ${property} enum values
-@ list ${property}Entity =
-${join(foreach(enums(), enum, `    - ${enum}:${EOL()}${synonyms(enum)}`), EOL())}
+@ list ${property}Value =
+${listDefinition()}
 
-${operations(`${property}Entity`, allSynonyms(), false)}
+${operations(`${property}Value`, allSynonyms(), false)}
 ```
 
-# allSynonyms
-- ${flatten(foreach(enums(), enum, phrases(enum)))}
+# listDefinition()
+- IF: ${examples}
+    - ${join(foreach(indicesAndValues(examples), enum, `    - ${enum.index}:${EOL()}${synonyms(enum.value)}`), EOL())}
+- ELSE:
+    - ${join(foreach(enums(), enum, `    - ${enum}:${EOL()}${synonyms(phrases(enum))}`), EOL())}
+
+# allSynonyms()
+- IF: ${examples}
+    - ${flattenObject(examples)}
+- ELSE:
+    - ${flatten(foreach(enums(), enum, phrases(enum)))}
 

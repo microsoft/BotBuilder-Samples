@@ -25,10 +25,10 @@
 
 # entityValue(entity)
 > Display value for an entity
-- IF: ${contains(entity.type, 'Entity')}
+- IF: ${endsWith(entity.type, 'Value')}
 - ${template(`${entity.type}_Value`, entity)}
 - ELSE:
-- ${template(`${entity.type}Entity_Value`, entity)}
+- ${template(`${entity.type}Value_Value`, entity)}
 
 # value(val)
 > Display a complex value

@@ -13,5 +13,10 @@
         "type",
         "timex"
     ],
-    "$template": "datetime"
+    "$template": "datetime",
+    "$generator": {
+        "title": "LUIS Datetime",
+        "description": "Map entities like 'first of the month' into a type and timex expression.",
+        "$ref": "array.json"
+    }
 }

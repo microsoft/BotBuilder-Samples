@@ -2,6 +2,15 @@
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "number",
     "$generator": {
-        "$ref": "minmax.json"
+        "title": "Number",
+        "description": "Map a LUIS number entity like '1' or '3.2' into a number and units.",
+        "allOf": [
+            {
+                "$ref": "minmax.json"
+            },
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }

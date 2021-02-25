@@ -287,6 +287,9 @@
       "$ref": "#/definitions/Microsoft.SendActivity"
     },
     {
+      "$ref": "#/definitions/Microsoft.SendHandoffActivity"
+    },
+    {
       "$ref": "#/definitions/Microsoft.SetProperties"
     },
     {
@@ -343,7 +346,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -379,7 +382,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -476,7 +479,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -511,9 +514,14 @@
       "title": "Send activity to ask a question",
       "description": "This is an action which sends an activity to the user when a response is expected",
       "type": "object",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -588,9 +596,14 @@
       ],
       "title": "Attachment input dialog",
       "description": "Collect information - Ask for a file or image.",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "type": "object",
       "required": [
@@ -782,7 +795,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -876,7 +889,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -993,9 +1006,14 @@
       "required": [
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -1037,9 +1055,14 @@
       "title": "Cancel all dialogs",
       "description": "Cancel all active dialogs. All dialogs in the dialog chain will need a trigger to capture the event configured in this action.",
       "type": "object",
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1101,9 +1124,14 @@
       "title": "Cancel all dialogs",
       "description": "Cancel all active dialogs. All dialogs in the dialog chain will need a trigger to capture the event configured in this action.",
       "type": "object",
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1169,7 +1197,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1204,9 +1232,14 @@
       "title": "Choice input dialog",
       "description": "Collect information - Pick from a list of choices",
       "type": "object",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1562,7 +1595,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -1607,9 +1640,14 @@
       "title": "Confirm input dialog",
       "description": "Collect information - Ask for confirmation (yes or no).",
       "type": "object",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1908,7 +1946,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -1946,7 +1984,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2020,7 +2058,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2078,9 +2116,14 @@
       "required": [
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2128,7 +2171,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2176,7 +2219,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2213,7 +2256,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2254,9 +2297,14 @@
         "description": "Default locale.",
         "default": "en-us"
       },
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2423,7 +2471,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2474,7 +2522,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2530,7 +2578,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2588,7 +2636,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2640,7 +2688,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2679,7 +2727,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2757,7 +2805,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2845,7 +2893,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -2883,7 +2931,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -2970,9 +3018,14 @@
       "title": "End dialog",
       "description": "End this dialog.",
       "type": "object",
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3028,7 +3081,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3075,7 +3128,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3113,7 +3166,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -3190,7 +3243,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -3269,7 +3322,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3332,7 +3385,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3387,7 +3440,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3444,9 +3497,14 @@
         "actionId",
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -3498,7 +3556,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3535,7 +3593,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -3574,7 +3632,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -3712,7 +3770,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Declarative",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       }
     },
     "Microsoft.IDialog": {
@@ -3835,6 +3893,9 @@
           "$ref": "#/definitions/Microsoft.SendActivity"
         },
         {
+          "$ref": "#/definitions/Microsoft.SendHandoffActivity"
+        },
+        {
           "$ref": "#/definitions/Microsoft.SetProperties"
         },
         {
@@ -3867,7 +3928,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Declarative",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       }
     },
     "Microsoft.IEntityRecognizer": {
@@ -3877,7 +3938,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "oneOf": [
         {
@@ -3958,7 +4019,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       }
     },
     "Microsoft.IRecognizer": {
@@ -4047,7 +4108,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Declarative",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       }
     },
     "Microsoft.ITextTemplate": {
@@ -4064,7 +4125,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Declarative",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       }
     },
     "Microsoft.ITrigger": {
@@ -4073,7 +4134,7 @@
       "description": "Components which derive from OnCondition class.",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "oneOf": [
         {
@@ -4170,7 +4231,7 @@
       "description": "Components which derive from TriggerSelector class.",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "oneOf": [
         {
@@ -4206,7 +4267,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -4274,7 +4335,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4418,7 +4479,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4451,7 +4512,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4498,7 +4559,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -4565,7 +4626,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.AI.Luis",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -4706,7 +4767,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4740,7 +4801,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4782,7 +4843,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -4837,7 +4898,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -4872,9 +4933,14 @@
       "title": "Number input dialog",
       "description": "Collect information - Ask for a number.",
       "type": "object",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5051,7 +5117,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5087,9 +5153,14 @@
         "connectionName",
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5229,7 +5300,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5295,11 +5366,11 @@
         "extends(Microsoft.OnCondition)"
       ],
       "title": "On entity assignment",
-      "description": "Actions to take when an entity should be assigned to a property.",
+      "description": "Actions to apply an operation on a property and value.",
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5312,20 +5383,20 @@
         }
       },
       "properties": {
-        "property": {
-          "type": "string",
-          "title": "Property",
-          "description": "Property that will be set after entity is selected."
-        },
-        "entity": {
-          "type": "string",
-          "title": "Entity",
-          "description": "Entity being put into property"
-        },
         "operation": {
           "type": "string",
           "title": "Operation",
-          "description": "Operation for assigning entity."
+          "description": "Operation filter on event."
+        },
+        "property": {
+          "type": "string",
+          "title": "Property",
+          "description": "Property filter on event."
+        },
+        "value": {
+          "type": "string",
+          "title": "Value",
+          "description": "Value filter on event."
         },
         "condition": {
           "$ref": "#/definitions/condition",
@@ -5382,7 +5453,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5450,7 +5521,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5514,11 +5585,11 @@
         "extends(Microsoft.OnCondition)"
       ],
       "title": "On choose entity",
-      "description": "Actions to be performed when an entity value needs to be resolved.",
+      "description": "Actions to be performed when value is ambiguous for operator and property.",
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -5531,15 +5602,20 @@
         }
       },
       "properties": {
+        "operation": {
+          "type": "string",
+          "title": "Operation",
+          "description": "Operation filter on event."
+        },
         "property": {
           "type": "string",
-          "title": "Property to be set",
-          "description": "Property that will be set after entity is selected."
+          "title": "Property",
+          "description": "Property filter on event."
         },
-        "entity": {
+        "value": {
           "type": "string",
-          "title": "Ambiguous entity",
-          "description": "Ambiguous entity"
+          "title": "Ambiguous value",
+          "description": "Ambiguous value filter on event."
         },
         "condition": {
           "$ref": "#/definitions/condition",
@@ -5599,7 +5675,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5670,12 +5746,12 @@
         "extends(Microsoft.OnCondition)"
       ],
       "title": "On choose property",
-      "description": "Actions to take when there are multiple possible mappings of entities to properties.",
-      "type": "object",
+      "description": "Actions to take when there are multiple possible mappings of entities to properties and operations.",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
+      "type": "object",
       "required": [
         "$kind"
       ],
@@ -5687,31 +5763,6 @@
         }
       },
       "properties": {
-        "entity": {
-          "type": "string",
-          "title": "Entity being assigned",
-          "description": "Entity being assigned to property choice"
-        },
-        "properties": {
-          "type": "array",
-          "title": "Possible properties",
-          "description": "Properties to be chosen between.",
-          "items": {
-            "type": "string",
-            "title": "Property name",
-            "description": "Possible property to choose."
-          }
-        },
-        "entities": {
-          "type": "array",
-          "title": "Entities",
-          "description": "Ambiguous entity names.",
-          "items": {
-            "type": "string",
-            "title": "Entity name",
-            "description": "Entity name being chosen between."
-          }
-        },
         "condition": {
           "$ref": "#/definitions/condition",
           "title": "Condition",
@@ -5767,7 +5818,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5835,7 +5886,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5903,7 +5954,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -5972,7 +6023,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6041,7 +6092,7 @@
       "description": "Actions to take when there are no more actions in the current dialog.",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "type": "object",
       "required": [
@@ -6111,9 +6162,14 @@
       "required": [
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "triggerNotInteractive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6178,7 +6234,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -6249,7 +6305,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6317,7 +6373,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6385,7 +6441,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6453,7 +6509,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6536,7 +6592,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6604,7 +6660,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6672,7 +6728,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6740,7 +6796,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6808,7 +6864,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6876,7 +6932,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -6941,7 +6997,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7012,7 +7068,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7080,7 +7136,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7145,7 +7201,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7182,7 +7238,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7219,7 +7275,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7259,7 +7315,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.AI.QnA",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7424,7 +7480,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.AI.QnA",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7607,7 +7663,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7650,7 +7706,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7703,7 +7759,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -7744,7 +7800,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7812,9 +7868,14 @@
       "type": "object",
       "title": "Repeat dialog",
       "description": "Repeat current dialog.",
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7883,9 +7944,14 @@
       "type": "object",
       "title": "Replace dialog",
       "description": "Replace current dialog with another dialog.",
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -7966,7 +8032,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8016,7 +8082,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8059,6 +8125,50 @@
         }
       }
     },
+    "Microsoft.SendHandoffActivity": {
+      "$role": "implements(Microsoft.IDialog)",
+      "title": "Send a handoff activity",
+      "description": "Sends a handoff activity to trigger a handoff request.",
+      "type": "object",
+      "$package": {
+        "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
+        "version": "4.12.0-daily.20210217.214441.ece6783"
+      },
+      "required": [
+        "$kind"
+      ],
+      "additionalProperties": false,
+      "patternProperties": {
+        "^\\$": {
+          "title": "Tooling property",
+          "description": "Open ended property for tooling."
+        }
+      },
+      "properties": {
+        "context": {
+          "$ref": "#/definitions/objectExpression",
+          "title": "Context",
+          "description": "Context to send with the handoff request"
+        },
+        "transcript": {
+          "$ref": "#/definitions/objectExpression",
+          "title": "transcript",
+          "description": "Transcript to send with the handoff request"
+        },
+        "$kind": {
+          "title": "Kind of dialog object",
+          "description": "Defines the valid properties for the component you are configuring (from a dialog .schema file)",
+          "type": "string",
+          "pattern": "^[a-zA-Z][a-zA-Z0-9.]*$",
+          "const": "Microsoft.SendHandoffActivity"
+        },
+        "$designer": {
+          "title": "Designer information",
+          "type": "object",
+          "description": "Extra information for the Bot Framework Composer."
+        }
+      }
+    },
     "Microsoft.SetProperties": {
       "$role": "implements(Microsoft.IDialog)",
       "title": "Set property",
@@ -8070,7 +8180,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8150,7 +8260,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8213,7 +8323,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8276,7 +8386,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8319,7 +8429,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8425,7 +8535,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8489,7 +8599,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8523,7 +8633,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8563,9 +8673,14 @@
       "type": "object",
       "title": "Text input dialog",
       "description": "Collection information - Ask for a word or sentence.",
+      "policies": [
+        {
+          "type": "interactive"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8739,7 +8854,7 @@
       ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8777,9 +8892,14 @@
         "errorValue",
         "$kind"
       ],
+      "policies": [
+        {
+          "type": "lastAction"
+        }
+      ],
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "additionalProperties": false,
       "patternProperties": {
@@ -8828,7 +8948,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8896,7 +9016,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8930,7 +9050,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"
@@ -8995,7 +9115,7 @@
       "type": "object",
       "$package": {
         "name": "Microsoft.Bot.Builder.Dialogs.Adaptive",
-        "version": "4.12.0-daily.20210201.208249.512604f"
+        "version": "4.12.0-daily.20210217.214441.ece6783"
       },
       "required": [
         "$kind"

@@ -15,19 +15,26 @@
     ],
     "$template": "temperature",
     "$generator": {
-        "$units": {
-            "type": "string",
-            "enum": [
-                "F",
-                "K",
-                "R",
-                "D",
-                "C",
-                "Degree"
-            ],
-            "Title": "Units",
-            "Description": "Form dialogs will default to units and convert if possible."
-        },
-        "$ref": "array.json"
+        "title": "Temperature",
+        "description": "Map a LUIS temperature entity into a number and units.",
+        "allOf": [
+            {
+                "$units": {
+                    "type": "string",
+                    "enum": [
+                        "F",
+                        "K",
+                        "R",
+                        "D",
+                        "C"
+                    ],
+                    "title": "Units",
+                    "description": "Form dialogs will default to units and convert if possible."
+                }
+            },
+            {
+                "$ref": "array.json"
+            }
+        ]
     }
 }

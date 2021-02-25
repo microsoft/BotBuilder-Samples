@@ -29,10 +29,10 @@
 - ${generationDir()}${locale}/${property}/${prefix}-${property}.${locale}.lg
 
 # entityLGFilename()
-- ${generationDir()}${locale}/${property}/${prefix}-${property}Entity.${locale}.lg
+- ${generationDir()}${locale}/${property}/${prefix}-${property}Value.${locale}.lg
 
 # entityLUFilename()
-- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${property}Entity.${locale}.lu
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${property}Value.${locale}.lu
 
 # missingFilename()
 - ${dialogDir()}${property}/${prefix}-${property}-missing.dialog
@@ -59,7 +59,7 @@
 - ${dialogDir()}${property}/${prefix}-${property}-change.dialog
 
 # chooseEntityFilename()
-- ${dialogDir()}${property}/${prefix}-${property}Entity-choose.dialog
+- ${dialogDir()}${property}/${prefix}-${property}Value-choose.dialog
 
 # formDialogFilename(name)
 - ${dialogDir()}form/${prefix}-form-${name}
@@ -139,7 +139,7 @@
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Add()",
     "property": "${property}",
-    "entity": "${entity}",
+    "value": "${entity}",
     "actions": [${verifyUnits(entity, verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnique(entity, actionAssign(entity))))))}]
     ${designerOpEntity('Add', entity)}      
 }
@@ -267,7 +267,8 @@
                     "activity": "\${alreadyExistsText('${property}',  @${entity})}"
                 }
             ],
-            "elseActions": [${else}]```
+            "elseActions": [${else}]
+        }```
 - ELSE:
     - ${else}
 
@@ -298,7 +299,7 @@
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Add()",
     "property": "${property}",
-    "entity": "datetimeV2",
+    "value": "datetimeV2",
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
@@ -326,7 +327,7 @@
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Remove()",
     "property": "${property}",
-    "entity": "${entity}",
+    "value": "${entity}",
     "actions": ${checkIfPresent(entity, removeActions(entity))}
     ${designerOpEntity('Remove', entity)}     
 }
@@ -338,7 +339,7 @@
     [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_RemoveConfirmation(@${entity})}}"
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
         },  
         ${deleteOrRemove(entity)}
     ]```
@@ -376,7 +377,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnChooseEntity",
-    "entity": "${entity}",
+    "value": "${entity}",
     "actions": [
         {
             "$kind": "Microsoft.Ask",
@@ -486,14 +487,6 @@
 
 >> *** LU Generation
 
-# operations(entity, values, label)
-- IF: ${examples}
-- ${generateOperations(entity, examples, label)}
-- ELSEIF: ${values}
-- ${generateOperations(entity, values, label)}
-- ELSE:
-- ${generateOperations(entity, [`**${entity}1**`, `**${entity}2**`, `**${entity}3**`], label)}
-
 > Each entity is either ambiguous, i.e. found in multiple properties or not.
 > 1) For ambiguous entities, generate standalone entities and operators with a mix of standalone labeled entities and properties with entity and property name.
 > 2) For unique entities, standalone properties around entity and operators with properties.
@@ -511,13 +504,13 @@
 > isArray: true if property supports multiple values
 > comment: empty value to filter out meta-comments
 > TODO: Would be nice to be able to have multi-line object here for clarity
-# generateOperations(entity, values, label)
+# operations(entity, values, label)
 -```
 > Define phrase list for '${property} property.
 @ phraselist ${property}Phrases(interchangeable)=
 ${if(propertySchema.title,
     `    - ${propertySchema.title}`,
-     synonyms(property))}
+     synonyms(phrases(property)))}
 
 > Define property entity and optional value for '${property}' property.
 @ ml ${propertyEntity()} usesFeature ${property}Phrases
@@ -539,16 +532,37 @@ ${defineOperation('Help', entity)}
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 ${'#'} ${triggerIntent}
 ${substitutions(
-    `form-operations.${locale}.data`, 
-    { utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []},
+    `form-operations.${locale}.data`,
+    substitutionScope(utterances, entityValues(values), label),
     5)}
 ```
+
+# substitutionScope(utterances, values, label)
+> Scope variables for substitutions
+- ${{ utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []}}
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
     -@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
         - @ ${entity} ${entity}
 ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
+
+# entityValues(values)
+> Return the list of possible entity values for utterances
+> Either locale or default $examples in property schema or $examples globally or default values
+- IF: ${examples}
+    - ${flattenObject(examples)}
+- ELSEIF: ${values}
+    - ${values}
+-ELSE:
+    - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
+
+# flattenObject(val)
+> Flatten an object including keys and values into an array
+- IF: ${isArray(val)}
+    - ${val}
+- ELSE:
+    - ${flatten(foreach(indicesAndValues(val), entry, union([entry.index], entry.value)))}
 
 > Name for property entity
 # propertyEntity()
@@ -609,8 +623,8 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # propertyList(property)
 - ${foreach(phrases(property), phrase, `${phrase}`)}
 
-# synonyms(value)
-- ${join(foreach(phrases(value), phrase, `        - ${phrase}`), EOL())}
+# synonyms(phrases)
+- ${join(foreach(phrases, phrase, `        - ${phrase}`), EOL())}
 
 # luHeader()
 -```> !# @app.culture = ${locale}
@@ -641,7 +655,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${designerName(`${property} - ${op}(@${entity})`)}
 
 # designerChooseEntity()
-- ${designerName(`${property}Entity - Choose()`)}
+- ${designerName(`${property}Value - Choose()`)}
 
 # designerChooseProperty()
 - ${designerName(`ChooseProperty()`)}

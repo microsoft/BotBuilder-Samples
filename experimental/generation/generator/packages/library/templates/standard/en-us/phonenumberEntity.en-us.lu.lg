@@ -7,5 +7,5 @@
 - ```
 @ prebuilt phonenumber
 
-${operations('phonenumber', ["555-1212", "425-555-3456", "206-555-4321"], false)}
+${operations('phonenumber', ["555-1212", "425-555-3456", "206-555-4321", "+1 123 456 5555", "(123) 456-7865"], false)}
 ```
