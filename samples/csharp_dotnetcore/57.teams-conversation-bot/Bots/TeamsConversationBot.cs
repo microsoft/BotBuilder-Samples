@@ -126,8 +126,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             await turnContext.DeleteActivityAsync(turnContext.Activity.ReplyToId, cancellationToken);
         }
 
-        // If you encounter permission-related errors when sending this message, see
-        // https://aka.ms/BotTrustServiceUrl
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
