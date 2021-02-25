@@ -280,6 +280,8 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                     break
                 }
             }
+        } else {
+            break
         }
     }
     return template
