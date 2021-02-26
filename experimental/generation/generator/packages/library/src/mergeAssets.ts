@@ -302,14 +302,23 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
     let resultRefs: string[] = []
 
     for (let ref of newRefs) {
-        if (!ref.startsWith('[')) {
+       if(ref.match('> Generator:')) {
+            if (resultRefs.length !== 0 && resultRefs[resultRefs.length - 1] === '') {
+                resultRefs.pop()
+            }
+            break
+        }
+        else if (!ref.startsWith('[')) {
+            resultRefs.push(ref)
             continue
         }
         else if (!ref.match('custom')) {
             resultRefs.push(ref)
             let file = refFilename(ref, feedback)
             await copySingleFile(newPath, mergedPath, file, newFileList, feedback)
-        }else {
+        }
+  
+        else {
             resultRefs.push(ref)
             await updateCustomLUFile(schemaName, oldPath, newPath, oldFileList, mergedPath, locale, feedback)
         }
