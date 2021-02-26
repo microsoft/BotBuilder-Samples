@@ -10,6 +10,13 @@
             },
             {
                 "$ref": "examples.json"
+            },
+            {
+                "pattern": {
+                    "type": "string",
+                    "title": "Regular expression pattern",
+                    "description": "Regular expression pattern that must match string."
+                }
             }
         ]
     }
