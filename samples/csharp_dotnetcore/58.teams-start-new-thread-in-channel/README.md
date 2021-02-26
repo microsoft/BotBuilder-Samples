@@ -52,10 +52,6 @@ the Teams service needs to call into the bot.
 
 You can interact with this bot by sending it a message. The bot will respond by creating a new thread in the channel and replying to that new thread.
 
-### Avoiding Permission-Related Errors
-
-You may encounter permission-related errors when sending a proactive message. This can often be mitigated by using `MicrosoftAppCredentials.TrustServiceUrl()`. See [the documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=csharp#avoiding-401-unauthorized-errors) for more information.
-
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
