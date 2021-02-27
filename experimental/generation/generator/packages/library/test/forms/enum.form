@@ -14,7 +14,11 @@
                         "a": [],
                         "b": [],
                         "c": []
-                    }
+                    },
+                    "missingEnumDefault": [],
+                    "missingEnumLocalePhrases": [
+                        "locale phrases"
+                    ]
                 }
             }
         },
@@ -30,7 +34,11 @@
                         "a": [],
                         "b": [],
                         "c": []
-                    }
+                    },
+                    "addPhrases": [
+                        "add"
+                    ],
+                    "missingEntity": []
                 }
             }
         },
@@ -88,9 +96,14 @@
             "$examples": {
                 "en-us": {
                     "okValue": {
-                        "a": ["this is ok"],
+                        "a": [
+                            "this is ok"
+                        ],
                         "b": []
-                    }
+                    },
+                    "okPhrases": [
+                        "ok phrases"
+                    ]
                 }
             }
         },
@@ -105,7 +118,9 @@
                 "$examples": {
                     "en-us": {
                         "okArrayValue": {
-                            "a": ["this is okArray"],
+                            "a": [
+                                "this is okArray"
+                            ],
                             "b": []
                         }
                     }
@@ -137,14 +152,20 @@
                 "a": [],
                 "b": [],
                 "c": []
-            }
+            },
+            "missingGlobal": [],
+            "addPhrases": [
+                "add"
+            ],
+            "missingEntity": []
         },
         "": {
             "missingEnumGlobalDefaultValue": {
                 "a": [],
                 "b": [],
                 "c": []
-            }
+            },
+            "missingGlobal": []
         }
     }
 }

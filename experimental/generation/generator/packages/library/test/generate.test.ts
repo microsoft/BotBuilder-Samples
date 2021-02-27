@@ -12,16 +12,16 @@ import * as ppath from 'path'
 import * as ft from '../src/schema'
 import * as gen from '../src/dialogGenerator'
 import * as glob from 'globby'
-import { generateTest } from '../src/testGenerator'
+import {generateTest} from '../src/testGenerator'
 import * as ps from '../src/processSchemas'
 import * as assert from 'assert'
-import { Templates, DiagnosticSeverity } from 'botbuilder-lg'
+import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
 import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
 import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
-import { ComponentRegistration } from 'botbuilder-core'
-import { AdaptiveComponentRegistration } from 'botbuilder-dialogs-adaptive'
-import { ResourceExplorer } from 'botbuilder-dialogs-declarative'
-import { LuisComponentRegistration, QnAMakerComponentRegistration } from 'botbuilder-ai'
+import {ComponentRegistration} from 'botbuilder-core'
+import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
+import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
+import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -190,7 +190,7 @@ describe('dialog:generate library', async () => {
     })
 
     it('Hash JSON', async () => {
-        let dialog = { $comment: 'this is a .dialog file' }
+        let dialog = {$comment: 'this is a .dialog file'}
         let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
@@ -234,14 +234,14 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nNon singleton Generation')
             await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, false, feedback)
-            await checkDirectory(output, 8, 4)
+            await checkDirectory(output, 9, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
             await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 15)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 136)
+            await checkPattern(ppath.join(output, '**'), 137)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -384,9 +384,10 @@ describe('dialog:generate library', async () => {
                     if (type === gen.FeedbackType.error) ++errors
                     if (type === gen.FeedbackType.warning) ++warnings
                 })), 'Should have failed generation')
-                assert.strictEqual(errors, 7)
-                assert.strictEqual(warnings, 3)
-                await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
+            assert.strictEqual(errors, 7)
+            assert.strictEqual(warnings, 8)
+            await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
+            await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'ok phrases')
             await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
             await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
             await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
@@ -408,8 +409,8 @@ describe('dialog:generate library', async () => {
     type Source = string
     type SourceToReferences = Map<Source, TemplateName[]>
     type TemplateToReferences = Map<FullTemplateName, SourceToReferences>
-    const SourceToReferences = <{ new(): SourceToReferences }>Map
-    const TemplateToReferences = <{ new(): TemplateToReferences }>Map
+    const SourceToReferences = <{new(): SourceToReferences}>Map
+    const TemplateToReferences = <{new(): TemplateToReferences}>Map
 
     /**
      * Given a list of source LG templates return the references for each template inside.
