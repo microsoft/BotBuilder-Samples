@@ -264,18 +264,13 @@ describe('dialog:generate --merge library', async function () {
             assertRemovedProperty(comparison, 'Toppings', errors)
             assertRemovedProperty(comparison, 'Sauces', errors)
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
-            //await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            //await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
             await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
-            //await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
 
             // Unchanged hash + optional enum fixes = hash updated
             await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
-            //await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
-            //wait assertUnchanged('language-understanding/en-us/Name/sandwichMerge-Name-personName.en-us.lu', true, errors)
             assertCheck(comparison, errors)
         } catch (e) {
             assert.fail(e.message)
@@ -291,6 +286,7 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
             await copyToMerged('**/language-generation/en-us/Bread/*')
+            await copyToMerged('**/language-understanding/en-us/form/*')
             await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
             await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
@@ -300,11 +296,9 @@ describe('dialog:generate --merge library', async function () {
 
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
-            //await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
-            //await assertUnchanged('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', false, errors)
             await assertUnchanged('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', false, errors)
 
             // Main should still be updated
@@ -316,12 +310,10 @@ describe('dialog:generate --merge library', async function () {
 
             // Still get enum updates
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
-            //await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
-            //await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
-            //await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
+            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+
 
             assertCheck(comparison, errors)
         } catch (e) {

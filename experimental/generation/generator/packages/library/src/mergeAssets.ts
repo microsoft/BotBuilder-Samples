@@ -164,7 +164,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
             const {oldPropertySet, newPropertySet} = await parseSchemas(schemaName, oldPath, newPath, newFileList, mergedPath, feedback)
 
             await mergeDialogs(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
-            await mergeRootLUFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lu', feedback)
+            await mergeRootLUFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, feedback)
             await mergeRootFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lg', oldPropertySet, newPropertySet, feedback)
             await mergeOtherFiles(oldPath, oldFileList, newPath, newFileList, mergedPath, feedback)
         }
@@ -207,7 +207,7 @@ async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: 
 }
 
 /**
- * @description: Merge root lu or lg file from two assets based on the new and old root files.
+ * @description: Merge root lg file from two assets based on the new and old root files.
  * @param schemaName Name of the .schema file.
  * @param oldPath Path to the folder of the old asset.
  * @param oldFileList List of old file paths.
@@ -248,9 +248,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
                 resultRefs.push(ref)
                 let file = refFilename(ref, feedback)
                 if (file.match(`${extractedProperty}Value`)) {
-                    if (extension === '.lu') {
-                        await changeEntityEnumLU(schemaName, oldPath, oldFileList, newFileList, mergedPath, file, feedback)
-                    } else if (extension === '.lg') {
+                    if (extension === '.lg') {
                         await changeEntityEnumLG(oldPath, oldFileList, newFileList, mergedPath, file, feedback)
                     }
                 } else {
@@ -293,16 +291,27 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}${extension}`, oldFileList, val, feedback)
 }
 
-async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, extension: string, feedback: Feedback): Promise<void> {
-    const outDir = assetDirectory(extension)
-    let oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
-    let newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+/**
+ * @description: Merge root lu file from two assets based on the new and old root files.
+ * @param schemaName Name of the .schema file.
+ * @param oldPath Path to the folder of the old asset.
+ * @param oldFileList List of old file paths.
+ * @param newPath Path to the folder of the new asset.
+ * @param newFileList List of new file paths.
+ * @param mergedPath Path to the folder of the merged asset.
+ * @param locale Locale.
+ * @param feedback Callback function for progress and errors.
+ */
+async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
+    const outDir = assetDirectory('.lu')
+    let oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
+    let newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
     let newRefs = newText.split(os.EOL)
 
     let resultRefs: string[] = []
 
     for (let ref of newRefs) {
-       if(ref.match('> Generator:')) {
+        if (ref.match('> Generator:')) {
             if (resultRefs.length !== 0 && resultRefs[resultRefs.length - 1] === '') {
                 resultRefs.pop()
             }
@@ -317,7 +326,6 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
             let file = refFilename(ref, feedback)
             await copySingleFile(newPath, mergedPath, file, newFileList, feedback)
         }
-  
         else {
             resultRefs.push(ref)
             await updateCustomLUFile(schemaName, oldPath, newPath, oldFileList, mergedPath, locale, feedback)
@@ -331,197 +339,65 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
         val = val + os.EOL + oldText.substring(patternIndex)
     }
 
-    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}${extension}`, oldFileList, val, feedback)
+    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
 }
 
 const enumPattern = /\{@([a-zA-Z0-9]+)Value=([a-zA-Z0-9\s]+)\}/g
-async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback):Promise<void>{
+/**
+ * @description: Update custom lu file if the schema has been changed.
+ * @param schemaName Name of the .schema file.
+ * @param oldPath Path to the folder of the old bot asset.
+ * @param newPath Path to the folder of the new bot asset.
+ * @param oldFileList List of old file paths.
+ * @param mergedPath Path to the folder of the merged asset.
+ * @param locale Locale.
+ * @param feedback Callback function for progress and errors.
+ */
+async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
     let customLuFilePath = oldFileList.filter(file => file.match(`${schemaName}-custom.${locale}.lu`))[0]
     let text = await fs.readFile(customLuFilePath, 'utf8')
     let lines = text.split(os.EOL)
     let resultLines: string[] = []
 
-    let propertyValueSysnonyms = await getSynonyms(schemaName, newPath)
-    for(let line of lines){
-        if(line.match(enumPattern)){
-            let newLine = await replaceLine(line, propertyValueSysnonyms)
+    let propertyValueSynonyms = await getSynonyms(schemaName, newPath)
+    for (let line of lines) {
+        if (line.match(enumPattern)) {
+            let newLine = await replaceLine(line, propertyValueSynonyms)
             resultLines.push(newLine)
-  
-        }else{
+
+        } else {
             resultLines.push(line)
         }
     }
-    let val = resultLines.join(os.EOL)
 
+    let val = resultLines.join(os.EOL)
     await writeToFile(oldPath, mergedPath, `${schemaName}-custom.${locale}.lu`, oldFileList, val, feedback)
 }
 
-async function replaceLine(line: string, propertyValueSysnonyms: Map<string, Set<string>>):Promise<string>{
-    let matches = line.match(enumPattern)
-    if(matches !== undefined && matches !== null){
-    for(let i = 0 ; i < matches.length; i++){
-        let phrases = matches[i].split('=')
-        let key = phrases[0].replace('{@','')
-        let value = phrases[1].replace('}','')
-        if(propertyValueSysnonyms.has(key)){
-            let synonymsSet  =  propertyValueSysnonyms.get(key)
-            if(synonymsSet !== undefined && !synonymsSet.has(value)){
-                let items = Array.from(synonymsSet)
-                let randomSynomym = items[Math.floor(Math.random() * items.length)]
-                let replacePattern = `{@${key}=${randomSynomym}}`
-                line = line.replace(matches[i], replacePattern)
-            }
-        }
-    }
-}
-    return line
-}
-
 /**
- * @description: Merge individual lu files which have List Entity Section.
- * @param schemaName Schema Name
- * @param oldPath Path to the folder of the old asset.
- * @param oldFileList List of old file paths.
- * @param newFileList List of new file paths
- * @param mergedPath Path to the folder of the merged asset.
- * @param filename File name of .lu file.
- * @param feedback Callback function for progress and errors.
+ * @description: Replace the non-existing synonym in the utterance with the exisiting one.
+ * @param line Example utterance.
+ * @param propertyValueSynonyms Map of property value to its synonyms.
  */
-async function changeEntityEnumLU(schemaName: string, oldPath: string, oldFileList: string[], newFileList: string[], mergedPath: string, filename: string, feedback: Feedback): Promise<void> {
-    let newFilePath = newFileList.filter(file => file.match(filename))[0]
-    let text = await fs.readFile(newFilePath, 'utf8')
-    let newLUResource = LUParser.parse(text)
-    let newEntitySections = newLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
-
-    let oldFilePath = oldFileList.filter(file => file.match(filename))[0]
-    text = await fs.readFile(oldFilePath, 'utf8')
-    let oldLUResource = LUParser.parse(text)
-    let oldEntitySections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.NEWENTITYSECTION)
-    let oldIntentSections = oldLUResource.Sections.filter(s => s.SectionType === lusectiontypes.SIMPLEINTENTSECTION && s.Name === schemaName)
-
-    let oldSectionOp = new sectionOperator(oldLUResource)
-    let updatedLUResource: any = null
-
-    let oldListEntitySections = oldEntitySections.filter(s => s.Type === 'list')
-    for (let oldListEntitySection of oldListEntitySections) {
-        if (!oldListEntitySection.Name.match('Value')) {
-            continue
-        }
-
-        for (let newEntitySection of newEntitySections) {
-            if (newEntitySection.Name !== oldListEntitySection.Name) {
-                continue
-            }
-
-            let keepEnumValue = new Set<string>()
-            let deletedEnumValue = new Set<string>()
-
-            let enumValueMap = new Map<string, string[]>()
-            let enumSet = new Set<string>()
-            let resultStatements: string[] = []
-
-            //get new enum value set
-            for (let i = 0; i < newEntitySection.ListBody.length; i++) {
-                // if the string has : (e.g., - multiGrainWheat :), parse it as an enum entity
-                if (newEntitySection.ListBody[i].match(':')) {
-                    let enumEntity = newEntitySection.ListBody[i].replace('-', '').replace(':', '').trim()
-                    // add all statements following current enum entity
-                    let temp: string[] = []
-                    let j = i + 1
-                    while (j < newEntitySection.ListBody.length) {
-                        if (!newEntitySection.ListBody[j].match(':')) {
-                            temp.push(newEntitySection.ListBody[j])
-                            j++
-                            if (j === newEntitySection.ListBody.length) {
-                                enumValueMap.set(enumEntity, temp)
-                            }
-                        } else {
-                            enumValueMap.set(enumEntity, temp)
-                            i = j - 1
-                            break
-                        }
-                    }
+async function replaceLine(line: string, propertyValueSynonyms: Map<string, Set<string>>): Promise<string> {
+    let matches = line.match(enumPattern)
+    if (matches !== undefined && matches !== null) {
+        for (let i = 0; i < matches.length; i++) {
+            let phrases = matches[i].split('=')
+            let key = phrases[0].replace('{@', '')
+            let value = phrases[1].replace('}', '')
+            if (propertyValueSynonyms.has(key)) {
+                let synonymsSet = propertyValueSynonyms.get(key)
+                if (synonymsSet !== undefined && !synonymsSet.has(value)) {
+                    let items = Array.from(synonymsSet)
+                    let randomSynomym = items[Math.floor(Math.random() * items.length)]
+                    let replacePattern = `{@${key}=${randomSynomym}}`
+                    line = line.replace(matches[i], replacePattern)
                 }
             }
-
-            //parse old lu entity list and delete the enum entity which does not exist in new lu file
-            for (let i = 0; i < oldListEntitySection.ListBody.length; i++) {
-                // if the string has : (e.g., - multiGrainWheat :), parse it as an enum entity
-                if (oldListEntitySection.ListBody[i].match(':')) {
-                    let enumEntity = oldListEntitySection.ListBody[i].replace('-', '').replace(':', '').trim()
-                    enumSet.add(enumEntity)
-                    if (enumValueMap.has(enumEntity)) {
-                        resultStatements.push(oldListEntitySection.ListBody[i])
-                    }
-                    let j = i + 1
-                    while (j < oldListEntitySection.ListBody.length) {
-                        if (!oldListEntitySection.ListBody[j].match(':')) {
-                            let enumSyn = oldListEntitySection.ListBody[j].replace('-', '').trim()
-                            if (enumValueMap.has(enumEntity)) {
-                                resultStatements.push(oldListEntitySection.ListBody[j])
-                                keepEnumValue.add(enumSyn)
-                            } else {
-                                deletedEnumValue.add(enumSyn)
-                            }
-                            j++
-                        } else {
-                            i = j - 1
-                            break
-                        }
-                    }
-                }
-            }
-
-            // add  new enum entity in the new  lu file 
-            for (let [key, values] of enumValueMap) {
-                if (!enumSet.has(key)) {
-                    resultStatements.push('    - ' + key + ' :')
-                    for (let newStatement of values) {
-                        resultStatements.push(newStatement)
-                    }
-                }
-            }
-
-            // update content 
-            let listEntitySectionName = `@ list ${oldListEntitySection.Name} =`
-            let entityLUContent = listEntitySectionName + os.EOL + resultStatements.join(os.EOL)
-            updatedLUResource = oldSectionOp.updateSection(oldListEntitySection.Id, entityLUContent)
-
-            // update intent content
-            if (oldIntentSections.length === 0) {
-                continue
-            }
-
-            let oldIntentSection = oldIntentSections[0]
-            let removedEnumValue = new Set<string>()
-            for (let enumSyn of deletedEnumValue) {
-                if (!keepEnumValue.has(enumSyn)) {
-                    removedEnumValue.add(enumSyn)
-                }
-            }
-
-            let intentBodyStatements = oldIntentSection.Body.split(os.EOL)
-            let intentResult: string[] = []
-            for (let intentBodyStatement of intentBodyStatements) {
-                let matching = false
-                for (let enumSyn of removedEnumValue) {
-                    if (intentBodyStatement.match(enumSyn)) {
-                        matching = true
-                        break
-                    }
-                }
-                if (!matching) {
-                    intentResult.push(intentBodyStatement)
-                }
-            }
-
-            let intentSectionBody = '# ' + schemaName + os.EOL + intentResult.join(os.EOL)
-            let updateSectionOp = new sectionOperator(updatedLUResource)
-            updatedLUResource = updateSectionOp.updateSection(oldIntentSection.Id, intentSectionBody)
         }
     }
-    let content = (updatedLUResource || oldLUResource).Content
-    await writeToFile(oldPath, mergedPath, filename, oldFileList, content, feedback)
+    return line
 }
 
 /**
@@ -832,25 +708,29 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
     return {oldPropertySet, newPropertySet}
 }
 
-
-async function getSynonyms(schemaName: string, newPath: string): Promise<Map<string, Set<string>>>{
+/**
+ * @description: Get the synonyms of the enum entity.
+ * @param schemaName Name of the .schema file.
+ * @param newPath Path to the folder of the new asset.
+ */
+async function getSynonyms(schemaName: string, newPath: string): Promise<Map<string, Set<string>>> {
     let template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     let newObj = JSON.parse(template)
     let propertyValueSynonyms = new Map<string, Set<string>>()
 
     for (let property in newObj['properties']) {
         let examples = newObj['properties'][property]['$examples']
-        if(examples !== undefined && examples[''][`${property}Value`] !== undefined){
+        if (examples !== undefined && examples[''][`${property}Value`] !== undefined) {
             let synonymsSet = new Set<string>()
-            for(let enumEntity in examples[''][`${property}Value`]){
+            for (let enumEntity in examples[''][`${property}Value`]) {
                 synonymsSet.add(enumEntity)
-                for(let synonym in examples[''][`${property}Value`][enumEntity]){
+                for (let synonym in examples[''][`${property}Value`][enumEntity]) {
                     synonymsSet.add(synonym)
                 }
             }
-            propertyValueSynonyms.set(`${property}Value`,synonymsSet)
+            propertyValueSynonyms.set(`${property}Value`, synonymsSet)
         }
     }
 
-    return  propertyValueSynonyms
+    return propertyValueSynonyms
 }
