@@ -23,7 +23,7 @@ function generateParam(obj: any) {
           $ref: 'template:datetime.schema'
         }
       } else if ('enum' in obj) {
-        let structType = {}
+        const structType = {}
         structType['type'] = 'string'
         structType['enum'] = obj['enum']
         return structType
@@ -85,27 +85,27 @@ export async function swaggerGenerate(
   schemaName: string,
   feedback: Feedback): Promise<boolean> {
   // need to dereference the swagger file
-  let swfile = await sw.dereference(path) as OpenAPIV2.Document
+  const swfile = await sw.dereference(path) as OpenAPIV2.Document
   // tslint:disable-next-line:no-http-string
-  let protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://'
+  const protocol = swfile.schemes ? `${swfile.schemes[0]}://` : 'http://'
 
   // the name of output schema file to be used in dialogGenerator
   let url = protocol + swfile.host as string + swfile.basePath as string + route
   let firstTag = false
 
   // the output schema file structure, pass the swagger related param in
-  let result = generateJsonSchema()
-  let dialogResponse = 'dialog.response'
-  let jsonProperties = generateJsonProperties(url, method, dialogResponse)
-  let body = {}
+  const result = generateJsonSchema()
+  const dialogResponse = 'dialog.response'
+  const jsonProperties = generateJsonProperties(url, method, dialogResponse)
+  const body = {}
 
-  for (let param of swfile.paths[route][method].parameters) {
+  for (const param of swfile.paths[route][method].parameters) {
     if (param.type === undefined) {
       if (param.schema !== undefined && param.schema.properties !== undefined) {
-        let subBody = {}
-        for (let subParam in param.schema.properties) {
-          let subVal = param.schema.properties[subParam]
-          let subGenerated = generateParam(subVal)
+        const subBody = {}
+        for (const subParam in param.schema.properties) {
+          const subVal = param.schema.properties[subParam]
+          const subGenerated = generateParam(subVal)
           if (subGenerated) {
             result.properties[subParam] = generateParam(subVal)
             if (subVal.format === 'date-time') {
@@ -141,7 +141,7 @@ export async function swaggerGenerate(
     jsonProperties.swaggerBody = body
   }
 
-  let headers = { 'User-Agent': 'Mozilla/5.0' }
+  const headers = { 'User-Agent': 'Mozilla/5.0' }
   jsonProperties.swaggerHeaders = headers
 
   result.$parameters = jsonProperties
