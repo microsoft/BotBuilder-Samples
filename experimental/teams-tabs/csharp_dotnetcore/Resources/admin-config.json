@@ -25,7 +25,7 @@
                         {
                             "type": "TextBlock",
                             "weight": "Bolder",
-                            "text": "Configure the Workday App",
+                            "text": "Configure the App",
                             "wrap": true
                         },
                         {
@@ -67,7 +67,7 @@
                             "type": "TextBlock",
                             "weight": "Bolder",
                             "wrap": true,
-                            "text": "View Diagnostics"
+                            "text": "Diagnostics"
                         },
                         {
                             "type": "TextBlock",
@@ -88,10 +88,10 @@
                         {
                             "type": "ActionSet",
                             "actions": [
-                                {
-                                    "type": "Action.Submit",
-                                    "title": "View diagnostics"
-                                }
+                              {
+                                "type": "Action.Submit",
+                                "title": "Diagnostics"
+                              }
                             ]
                         }
                     ]
@@ -109,13 +109,13 @@
                         {
                             "type": "TextBlock",
                             "weight": "Bolder",
-                            "text": "Disconnect from Workday",
+                            "text": "Disconnect",
                             "wrap": true
                         },
                         {
                             "type": "TextBlock",
                             "spacing": "None",
-                            "text": "⚠️ Taking this action will sever all connections between Workday and Microsoft Teams for all of your users.",
+                            "text": "⚠️ Taking this action will disconnect Tabs from Teams.",
                             "isSubtle": true,
                             "wrap": true,
                             "weight": "Lighter"
@@ -151,13 +151,13 @@
                         {
                             "type": "TextBlock",
                             "weight": "Bolder",
-                            "text": "Innovation Services Agreement",
+                            "text": "Services Agreement",
                             "wrap": true
                         },
                         {
                             "type": "TextBlock",
                             "spacing": "None",
-                            "text": "Status: ENABLED\nCredentials: Logan McNeil (CHRO, HRExe, Mgr 4000, MatMgr, ProMgr,TalMgr,VPRept)",
+                            "text": "Status: ENABLED",
                             "isSubtle": true,
                             "wrap": true,
                             "weight": "Lighter"
@@ -174,7 +174,7 @@
                             "actions": [
                                 {
                                     "type": "Action.Submit",
-                                    "title": "Use my credentials"
+                                    "title": "Disable"
                                 }
                             ]
                         }

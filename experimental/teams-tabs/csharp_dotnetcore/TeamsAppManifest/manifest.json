@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://YourDeployedBotUrl.azurewebsites.net/tou.html"
   },
   "name": {
-    "short": "Workday Cards",
-    "full": "Workday Adaptive Cards Prototype"
+    "short": "Adaptive Card Tabs",
+    "full": "Adaptive Card Tabs Sample"
   },
   "description": {
     "short": "TODO: add short description here",
@@ -26,7 +26,7 @@
   "configurableTabs": [],
   "staticTabs": [
     {
-      "entityId": "workday",
+      "entityId": "home",
       "name": "Home",
       "contentBotId": "<<YOUR-MICROSOFT-APP-ID>>",
       "scopes": [ "personal" ]

@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task<TabResponse> OnTeamsTabFetchAsync(ITurnContext<IInvokeActivity> turnContext, TabRequest tabRequest, CancellationToken cancellationToken)
         {
-            if (tabRequest.TabEntityContext.TabEntityId == "workday")
+            if (tabRequest.TabEntityContext.TabEntityId == "home")
             {
                 var magicCode = string.Empty;
                 if (!string.IsNullOrEmpty(tabRequest.State))
@@ -72,7 +72,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected async override Task<TabResponse> OnTeamsTabSubmitAsync(ITurnContext<IInvokeActivity> turnContext, TabSubmit tabSubmit, CancellationToken cancellationToken)
         {
-            if (tabSubmit.TabEntityContext.TabEntityId == "workday")
+            if (tabSubmit.TabEntityContext.TabEntityId == "home")
             {
                 if (turnContext.Activity.Value is JObject logoutData && logoutData.ContainsKey("data"))
                 {
