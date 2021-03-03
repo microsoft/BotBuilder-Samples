@@ -2,7 +2,7 @@
 
 
 
-The following sample is identical to the sample in [../01.school-skill-navigator](../01.school-skill-navigator) but migrated to the new Composer runtime. 
+The following sample is identical to the sample in [../01.school-skill-navigator](../01.school-skill-navigator/README.md) but migrated to the new Composer runtime. 
 
 ## Migration Steps
 
