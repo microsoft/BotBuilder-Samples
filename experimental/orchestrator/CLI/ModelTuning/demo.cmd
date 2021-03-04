@@ -54,7 +54,7 @@ IF NOT EXIST .\model (
   call bf orchestrator:basemodel:get  --out model
 )
 @echo Create orchestrator snapshot .blu file
-call bf orchestrator:create --model model --out ./generated --in %LUFILE%
+call bf orchestrator:create --model model --out %BLU% --in %LUFILE%
 
 @echo running orchestrator test to generate a report (see report folder) 
 call bf orchestrator:test --in %BLU% --model ./model  --out report --test %TESTFILE%
