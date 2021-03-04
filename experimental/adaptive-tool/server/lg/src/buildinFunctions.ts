@@ -217,7 +217,7 @@ export const buildInfunctionsMap: Map<string, FunctionEntity> = new Map<string, 
   [
     'contains',
     new FunctionEntity(
-      ['collection: string|Array|Map', 'value: stirng|Array|Map'],
+      ['collection: string|Array|Map', 'value: string|Array|Map'],
       ReturnType.Boolean,
       'Works to find an item in a string or to find an item in an array or to find a parameter in a complex object. E.g. contains(‘hello world, ‘hello); contains([‘1’, ‘2’], ‘1’); contains({“foo”:”bar”}, “foo”)'
     ),
