@@ -1,12 +1,14 @@
-﻿@model TeamsMessagingExtensionsAction.Models.RazorView
+﻿@{
+    ViewData["Title"] = "RazorView";
+    Layout = "~/Views/Shared/_Layout.cshtml"; 
+}
 
-@{ ViewData["Title"] = "RazorView";
-    Layout = "~/Views/Shared/_Layout.cshtml"; }
-
-@{ var Title = "Welcome to RazorView!";
+@{
+    var Title = "Welcome to RazorView!";
     var weekDay = DateTime.Now.DayOfWeek;
     var weekDate = DateTime.Now.Day + "-" + DateTime.Now.Month + "-" + DateTime.Now.Year;
-    var DisplayMessage = " Today's date is " + weekDate + ", " + weekDay; }
+    var DisplayMessage = " Today's date is " + weekDate + ", " + weekDay; 
+}
 
 <p>@Title</p>
 <p>@DisplayMessage</p>

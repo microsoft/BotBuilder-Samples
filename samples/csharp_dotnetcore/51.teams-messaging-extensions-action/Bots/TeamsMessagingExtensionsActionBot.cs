@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -19,6 +20,13 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsActionBot : TeamsActivityHandler
     {
+
+        public readonly string baseUrl;
+        public TeamsMessagingExtensionsActionBot(IConfiguration configuration) : base()
+        {
+            this.baseUrl = configuration["BaseUrl"];
+        }
+
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             switch (action.CommandId)
@@ -28,18 +36,18 @@ namespace Microsoft.BotBuilderSamples.Bots
                 case "shareMessage":
                     return ShareMessageCommand(turnContext, action);
                 case "webView":
-                    return CreateThumbnailCard(turnContext, action);
+                    return SendWebViewResponse(turnContext, action);
                 case "HTML":
-                    return CreateHeroCard(turnContext, action);
+                    return SendHTMLResponse(turnContext, action);
                 case "createAdaptiveCard":
-                    return CreateAdaptiveCard(turnContext, action);
+                    return SendAdaptiveCardResponse(turnContext, action);
                 case "razorView":
-                    return CreateRazorViewCard(turnContext, action);
+                    return SendRazorViewResponse(turnContext, action);
             }
-            return await Task.FromResult(new MessagingExtensionActionResponse());
+            return new MessagingExtensionActionResponse();
         }
 
-        private MessagingExtensionActionResponse CreateRazorViewCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendRazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
             CreateRazorCardData cardData = JsonConvert.DeserializeObject<CreateRazorCardData>(action.Data.ToString());
@@ -146,7 +154,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse CreateThumbnailCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendWebViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
             CreatThumbnailCardData cardData = JsonConvert.DeserializeObject<CreatThumbnailCardData>(action.Data.ToString());
@@ -177,7 +185,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse CreateHeroCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendHTMLResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
             CreatHeroCardData cardData = JsonConvert.DeserializeObject<CreatHeroCardData>(action.Data.ToString());
@@ -206,7 +214,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse CreateAdaptiveCard(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendAdaptiveCardResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var createCardData = ((JObject)action.Data).ToObject<CreateCardData>();
             AdaptiveCard adaptiveCard = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0));
@@ -318,7 +326,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 Content = adaptiveCard,
                 ContentType = AdaptiveCard.ContentType
-               
+
             });
 
             return new MessagingExtensionActionResponse
@@ -351,7 +359,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             public string EmpName { get; set; }
             public string EmpEmail { get; set; }
         }
-        
+
         private class CreatHeroCardData
         {
             public string UserName { get; set; }
@@ -362,11 +370,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             switch (action.CommandId)
             {
                 case "webView":
-                    return webView(turnContext, action);
+                    return EmpDetails(turnContext, action);
                 case "HTML":
-                    return htmlMethod(turnContext, action);
+                    return LoginPage(turnContext, action);
                 case "razorView":
-                    return razorMethod(turnContext, action);
+                    return DateDayInfo(turnContext, action);
                 default:
                     // we are handling two cases within try/catch block 
                     //if the bot is installed it will create adaptive card attachment and show card with input fields
@@ -397,6 +405,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         }
                         throw; // It's a different error.
                     }
+
                     return new MessagingExtensionActionResponse
                     {
                         Task = new TaskModuleContinueResponse
@@ -413,7 +422,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        private MessagingExtensionActionResponse razorMethod(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse DateDayInfo(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
             {
@@ -424,14 +433,14 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Height = 300,
                         Width = 300,
                         Title = "Task Module Razor View",
-                        Url = "YourDeployedBotUrl" + "/Home/RazorView",
+                        Url = baseUrl + "/Home/RazorView",
                     },
                 },
             };
             return response;
         }
 
-        private MessagingExtensionActionResponse htmlMethod(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse LoginPage(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
             {
@@ -442,14 +451,14 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Height = 300,
                         Width = 300,
                         Title = "Task Module HTML",
-                        Url = "YourDeployedBotUrl" + "/htmlpage",
+                        Url = baseUrl + "/htmlpage",
                     },
                 },
             };
             return response;
         }
 
-        private MessagingExtensionActionResponse webView (ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse EmpDetails(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
             {
@@ -460,7 +469,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                         Height = 500,
                         Width = 450,
                         Title = "Task module WebView",
-                        Url = "YourDeployedBotUrl" + "/CustomForm",
+                        Url = baseUrl + "/CustomForm",
                     },
                 },
             };

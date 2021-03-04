@@ -44,14 +44,9 @@ namespace Microsoft.BotBuilderSamples
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
             app.UseDefaultFiles();
             app.UseStaticFiles();
-            app.UseWebSockets();
 
             // Runs matching. An endpoint is selected and set on the HttpContext if a match is found.
             app.UseRouting();
@@ -64,7 +59,6 @@ namespace Microsoft.BotBuilderSamples
                 endpoints.MapControllerRoute(
                    name: "default",
                    pattern: "{controller=Home}/{action=CustomForm}/{id?}");
-
             });
 
         }
