@@ -83,7 +83,7 @@ async function writeToFile(sourcePath: string, destPath: string, fileName: strin
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  * @param feedback Callback function for progress and errors.
  */
-function changedMessage(fileName: string, feedback: Feedback): void{
+function changedMessage(fileName: string, feedback: Feedback): void {
     feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${fileName} ***`)
 }
 
@@ -305,8 +305,17 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
 async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
     const outDir = assetDirectory('.lu')
     let oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
+    let oldRefs = oldText.split(os.EOL)
     let newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
     let newRefs = newText.split(os.EOL)
+
+    let delUtteranceSet = new Set<string>()
+    for (let ref of oldRefs) {
+        if (ref.startsWith('[') && !ref.match('custom')) {
+            let filename = refFilename(ref, feedback)
+            await getDeletedUtteranceSet(filename, oldFileList, delUtteranceSet)
+        }
+    }
 
     let resultRefs: string[] = []
 
@@ -323,8 +332,8 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
         }
         else if (!ref.match('custom')) {
             resultRefs.push(ref)
-            let file = refFilename(ref, feedback)
-            await copySingleFile(newPath, mergedPath, file, newFileList, feedback)
+            let filename = refFilename(ref, feedback)
+            await updateGeneratedLuFile(filename, newFileList, newPath, mergedPath, delUtteranceSet, feedback)
         }
         else {
             resultRefs.push(ref)
@@ -342,7 +351,77 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
 }
 
-const enumPattern = /\{@([a-zA-Z0-9]+)Value=([a-zA-Z0-9\s]+)\}/g
+const propertyPattern = /\{@([a-zA-Z0-9]+)Property=/g
+
+/**
+ * @description: Get the set of deleted utterance patterns.
+ * @param filename Name of the lu file.
+ * @param newFileList List of old file paths.
+ * @param delUtteranceSet Set of deleted utterance patterns.
+ */
+async function getDeletedUtteranceSet(filename: string, oldFileList: string[], delUtteranceSet: Set<string>): Promise<void> {
+    let filePath = oldFileList.filter(file => file.match(filename))[0]
+    let text = await fs.readFile(filePath, 'utf8')
+    let lines = text.split(os.EOL)
+    for (let line of lines) {
+        if (line.startsWith('>') && line.match(propertyPattern)) {
+            line = line.replace('>', '')
+            let newLine = await generatePatternUtterance(line)
+            delUtteranceSet.add(newLine)
+        }
+    }
+}
+
+/**
+ * @description: Update generated lu file if the old lu file has been modified.
+ * @param filename Name of the lu file.
+ * @param newFileList List of new file paths.
+ * @param newPath Path to the folder of the new asset.
+ * @param mergedPath Path to the folder of the merged asset.
+ * @param delUtteranceSet Set of deleted utterance patterns.
+ * @param feedback Callback function for progress and errors.
+ */
+async function updateGeneratedLuFile(filename: string, newFileList: string[], newPath: string, mergedPath: string, delUtteranceSet: Set<string>, feedback: Feedback): Promise<void> {
+    let filePath = newFileList.filter(file => file.match(filename))[0]
+    let text = await fs.readFile(filePath, 'utf8')
+    let lines = text.split(os.EOL)
+    let resultLines: string[] = []
+    for (let line of lines) {
+        if (line.match(propertyPattern)) {
+            let newLine = await generatePatternUtterance(line)
+            if (delUtteranceSet.has(newLine)) {
+                resultLines.push(`>${line}`)
+            } else {
+                resultLines.push(line)
+            }
+        } else {
+            resultLines.push(line)
+        }
+    }
+    let val = resultLines.join(os.EOL)
+    await writeToFile(newPath, mergedPath, filename, newFileList, val, feedback)
+}
+
+/**
+ * @description: Generate the common pattern of the utterances.
+ * @param line Line of the lu file.
+ */
+async function generatePatternUtterance(line: string): Promise<string> {
+    let matches = line.match(propertyPattern)
+    if (matches !== null && matches !== undefined) {
+        for (let match of matches) {
+            let propertyName = match.replace('{@', '').replace('Property=', '')
+            let propertyRegExp = new RegExp(propertyName, 'g')
+            let propertyRegExpLower = new RegExp(propertyName.toLowerCase(), 'g')
+            line = line.replace(propertyRegExp, 'Dummy').replace(propertyRegExpLower, 'dummy')
+        }
+    }
+    line = line.replace('-', '').trim()
+    return line
+}
+
+const valuePattern = /\{@([a-zA-Z0-9]+)Value=([a-zA-Z0-9\s]+)\}/g
+
 /**
  * @description: Update custom lu file if the schema has been changed.
  * @param schemaName Name of the .schema file.
@@ -361,7 +440,7 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
 
     let propertyValueSynonyms = await getSynonyms(schemaName, newPath)
     for (let line of lines) {
-        if (line.match(enumPattern)) {
+        if (line.match(valuePattern)) {
             let newLine = await replaceLine(line, propertyValueSynonyms)
             resultLines.push(newLine)
 
@@ -380,7 +459,7 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
  * @param propertyValueSynonyms Map of property value to its synonyms.
  */
 async function replaceLine(line: string, propertyValueSynonyms: Map<string, Set<string>>): Promise<string> {
-    let matches = line.match(enumPattern)
+    let matches = line.match(valuePattern)
     if (matches !== undefined && matches !== null) {
         for (let i = 0; i < matches.length; i++) {
             let phrases = matches[i].split('=')

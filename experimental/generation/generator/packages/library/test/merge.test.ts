@@ -286,6 +286,8 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
             await copyToMerged('**/language-generation/en-us/Bread/*')
+            await copyToMerged('**/language-generation/en-us/BreadValue/*')
+            await copyToMerged('**/language-understanding/en-us/Bread/*')
             await copyToMerged('**/language-understanding/en-us/form/*')
             await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
@@ -313,6 +315,7 @@ describe('dialog:generate --merge library', async function () {
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
             await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
 
 
             assertCheck(comparison, errors)
