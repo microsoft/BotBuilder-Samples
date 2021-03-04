@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Configuration;
 using System.IO;
 using System.Linq;
@@ -12,15 +11,11 @@ using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
-using Microsoft.Bot.Connector;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
-using Microsoft.IdentityModel.Protocols;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -138,14 +133,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         public MessagingExtensionResponse GetAdaptiveCard()
         {
 
-            string filepath = "./RestaurantCard.json";
+            string filepath = "./Resources/RestaurantCard.json";
             var previewcard = new ThumbnailCard
             {
                 Title = "Adaptive Card",
                 Text = "Please select to get Adaptive card"
             };
 
-            var adaptiveList = FetchAdaptive(filepath);
+            var adaptiveList = FetchAdaptiveCard(filepath);
             var attachment = new MessagingExtensionAttachment
             {
                 ContentType = AdaptiveCards.AdaptiveCard.ContentType,
@@ -166,7 +161,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public MessagingExtensionResponse GetConnectorCard()
         {
-            string filepath = "./connectorCard.json";
+            string filepath = "./Resources/connectorCard.json";
 
             var previewcard = new ThumbnailCard
             {
@@ -174,7 +169,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 Text = "Please select to get Connector card"
             };
 
-            var connector = FetchConnector(filepath);
+            var connector = FetchConnectorCard(filepath);
             var attachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType,
@@ -193,7 +188,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        public static Attachment FetchAdaptive(string filepath)
+        public static Attachment FetchAdaptiveCard(string filepath)
         {
             var adaptiveCardJson = File.ReadAllText(filepath);
             var adaptiveCardAttachment = new Attachment
@@ -206,7 +201,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         }
 
-        public Attachment FetchConnector(string filepath)
+        public Attachment FetchConnectorCard(string filepath)
         {
             var connectorCardJson = File.ReadAllText(filepath);
             var connectorCardAttachment = new MessagingExtensionAttachment
@@ -220,7 +215,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         }
 
         public MessagingExtensionResponse GetResultGrid()
-        {           
+        {
             var files = Directory.GetFiles("wwwroot");
             List<string> imageFiles = new List<string>();
 
@@ -228,23 +223,21 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 if (Regex.IsMatch(filename, @".jpg"))
                     imageFiles.Add(filename);
-                
+
             }
 
             List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
 
             foreach (string img in imageFiles)
             {
-                var image = img.Split("\\");
-                string url = _configuration["BaseUrl"];
+                var image = img.Split("\\");           
                 var thumbnailCard = new ThumbnailCard();
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration+ image[1]) };
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration["BaseUrl"]+ image[1]) };
                 var attachment = new MessagingExtensionAttachment
                 {
                     ContentType = ThumbnailCard.ContentType,
                     Content = thumbnailCard,
                 };
-
                 attachments.Add(attachment);
 
             }
