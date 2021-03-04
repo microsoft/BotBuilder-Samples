@@ -6,7 +6,7 @@
 import * as expr from 'adaptive-expressions';
 
 function generateWords(name: string, locale?: string): string[] {
-    let words: string[] = []
+    const words: string[] = []
     switch (locale) {
         default:
             let current = 'lower'
@@ -50,7 +50,7 @@ function generateWords(name: string, locale?: string): string[] {
 
 export function* generatePhrases(name?: string, locale?: string, minLen?: number, maxLen?: number): IterableIterator<string> {
     if (name) {
-        let words = generateWords(name, locale)
+        const words = generateWords(name, locale)
         minLen = minLen || 1
         maxLen = maxLen || words.length
         for (let len = minLen; len <= maxLen; ++len) {
@@ -61,11 +61,11 @@ export function* generatePhrases(name?: string, locale?: string, minLen?: number
     }
 }
 
-export let PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
+export const PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
     expr.FunctionUtils.apply(
         args => {
-            let name = args[0]
-            let locale = args.length > 1 ? args[1] : 'en-us'
+            const name = args[0]
+            const locale = args.length > 1 ? args[1] : 'en-us'
             return generateWords(name, locale).join(' ')
         },
         (val, expr, pos) => {
@@ -82,13 +82,13 @@ export let PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
     expr.ReturnType.String,
     e => expr.FunctionUtils.validateOrder(e, [expr.ReturnType.String], expr.ReturnType.String))
 
-export let PhrasesEvaluator = new expr.ExpressionEvaluator('phrases',
+export const PhrasesEvaluator = new expr.ExpressionEvaluator('phrases',
     expr.FunctionUtils.apply(
         args => {
-            let name = args[0]
-            let locale = args.length > 1 ? args[1] : 'en-us'
-            let min = args.length > 2 ? args[2] : undefined
-            let max = args.length > 3 ? args[3] : undefined
+            const name = args[0]
+            const locale = args.length > 1 ? args[1] : 'en-us'
+            const min = args.length > 2 ? args[2] : undefined
+            const max = args.length > 3 ? args[3] : undefined
             return Array.from(generatePhrases(name, locale, min, max))
         },
         (val, expr, pos) => {

@@ -171,8 +171,7 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
  */
 export async function expandPropertyDefinition(property: any, templateDirs: string[]): Promise<any> {
     const { allRequired, resolver } = await templateResolver(templateDirs, feedbackException)
-    let schema = await parser.dereference(property, { resolve: { template: resolver } })
-    schema = allof(schema)
+    const schema = allof(await parser.dereference(property, { resolve: { template: resolver } }))
     return schema
 }
 
@@ -184,15 +183,18 @@ const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveM
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
-function promoteItems(schema: any): void {
+function promoteItemsAndRemoveGenerator(schema: any): void {
     if (Array.isArray(schema)) {
         for (var child in schema) {
-            promoteItems(child)
+            promoteItemsAndRemoveGenerator(child)
         }
     } else if (typeof schema === 'object' && schema !== null) {
+        // $generator is only for UI
+        delete schema.$generator
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
                 if (val && typeof val === 'object' && !Array.isArray(val)) {
+                    delete val['$generator']
                     for (var [prop, itemVal] of Object.entries(val as object)) {
                         if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
                             schema[prop] = itemVal
@@ -200,7 +202,7 @@ function promoteItems(schema: any): void {
                     }
                 }
             } else {
-                promoteItems(val)
+                promoteItemsAndRemoveGenerator(val)
             }
         }
     }
@@ -276,7 +278,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         allSchema.$public = Object.keys(formSchema.properties)
     }
     mergeSchemas(allSchema, Object.values(required))
-    promoteItems(allSchema)
+    promoteItemsAndRemoveGenerator(allSchema)
     ensureTemplate(allSchema)
     return new s.Schema(schemaPath, allSchema)
 }
