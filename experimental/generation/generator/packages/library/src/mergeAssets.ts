@@ -438,7 +438,7 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
     let lines = text.split(os.EOL)
     let resultLines: string[] = []
 
-    let propertyValueSynonyms = await getSynonyms(schemaName, newPath)
+    let propertyValueSynonyms = await getSynonyms(schemaName, newPath, locale)
     for (let line of lines) {
         if (line.match(valuePattern)) {
             let newLine = await replaceLine(line, propertyValueSynonyms)
@@ -786,18 +786,26 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
  * @param schemaName Name of the .schema file.
  * @param newPath Path to the folder of the new asset.
  */
-async function getSynonyms(schemaName: string, newPath: string): Promise<Map<string, Set<string>>> {
+async function getSynonyms(schemaName: string, newPath: string, locale: string): Promise<Map<string, Set<string>>> {
     let template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     let newObj = JSON.parse(template)
     let propertyValueSynonyms = new Map<string, Set<string>>()
 
     for (let property in newObj['properties']) {
         let examples = newObj['properties'][property]['$examples']
-        if (examples !== undefined && examples[''][`${property}Value`] !== undefined) {
+        if (examples !== undefined) {
+            let valueExamples
+            if (examples[''][`${property}Value`] !== undefined) {
+                valueExamples = examples[''][`${property}Value`]
+            }else if (examples[locale][`${property}Value`] !== undefined) {
+                valueExamples = examples[locale][`${property}Value`]
+            }else{
+                continue
+            }
             let synonymsSet = new Set<string>()
-            for (let enumEntity in examples[''][`${property}Value`]) {
+            for (let enumEntity in valueExamples) {
                 synonymsSet.add(enumEntity)
-                for (let synonym in examples[''][`${property}Value`][enumEntity]) {
+                for (let synonym in valueExamples[enumEntity]) {
                     synonymsSet.add(synonym)
                 }
             }

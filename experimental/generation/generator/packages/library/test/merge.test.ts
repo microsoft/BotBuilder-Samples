@@ -316,7 +316,7 @@ describe('dialog:generate --merge library', async function () {
             //sandwichMerge
             await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
-
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
             assertCheck(comparison, errors)
         } catch (e) {
