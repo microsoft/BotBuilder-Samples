@@ -3,6 +3,8 @@
     "type": "string",
     "$template": "personName",
     "$generator": {
+        "title": "Person Name",
+        "description": "Map a LUIS personame entity like 'John Smith' into a string.",
         "$ref": "array.json"
     }
 }

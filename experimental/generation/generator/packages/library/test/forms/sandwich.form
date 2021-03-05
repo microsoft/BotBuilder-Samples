@@ -5,7 +5,12 @@
         "Quantity": {
             "type": "number",
             "minimum": 1,
-            "maximum": 10
+            "maximum": 10,
+            "examples": [
+                1,
+                2,
+                3
+            ]
         },
         "Length": {
             "$ref": "template:dimension.schema",
@@ -36,7 +41,27 @@
                 "salami",
                 "turkey",
                 "none"
-            ]
+            ],
+            "$examples": {
+                "": {
+                    "MeatPhrases": [
+                        "meat",
+                        "protein"
+                    ],
+                    "MeatValue": {
+                        "bacon": [],
+                        "chicken": [],
+                        "ham": [],
+                        "pulled pork": [
+                            "pork"
+                        ],
+                        "roast beef": [],
+                        "salami": [],
+                        "turkey": [],
+                        "none": []
+                    }
+                }
+            }
         },
         "Cheese": {
             "type": "string",
@@ -64,7 +89,8 @@
                     "whiteOnions",
                     "redOnions"
                 ]
-            }
+            },
+            "uniqueItems": true
         },
         "Sauces": {
             "type": "array",
@@ -78,7 +104,8 @@
                     "mayo",
                     "vinegar"
                 ]
-            }
+            },
+            "uniqueItems": true
         },
         "Price": {
             "$ref": "template:money.schema"
@@ -94,10 +121,12 @@
         "Price"
     ],
     "$examples": {
-        "personName": [
-            "Bart Simpson",
-            "Thomas Matthews",
-            "Christopher Robin"
-        ]
+        "": {
+            "personName": [
+                "Bart Simpson",
+                "Thomas Matthews",
+                "Christopher Robin"
+            ]
+        }
     }
 }

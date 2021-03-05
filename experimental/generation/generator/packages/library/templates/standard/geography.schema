@@ -13,5 +13,10 @@
     "required": [
         "type",
         "location"
-    ]
+    ],
+    "$generator": {
+        "title": "Geography",
+        "description": "Map geography entities like 'Ames' into a type and location.",
+        "$ref": "array.json"
+    }
 }

@@ -10,8 +10,8 @@ import * as Validator from 'ajv'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ps from './processSchemas'
-let allof: any = require('json-schema-merge-allof')
-let parser: any = require('json-schema-ref-parser')
+const allof: any = require('json-schema-merge-allof')
+const parser: any = require('json-schema-ref-parser')
 
 // Map from entity name to property paths where it is used
 export type EntityToProperties = Record<string, string[]>
@@ -27,12 +27,12 @@ export class Schema {
      * @param schemaPath URL for schema.
      */
     static async readSchema(schemaPath: string): Promise<Schema> {
-        let noref = await parser.dereference(schemaPath)
-        let schema = allof(noref)
-        let validator = new Validator()
+        const noref = await parser.dereference(schemaPath)
+        const schema = allof(noref)
+        const validator = new Validator()
         if (!validator.validateSchema(schema)) {
             let message = ''
-            for (let error in validator.errors) {
+            for (const error in validator.errors) {
                 message = message + error + os.EOL
             }
             throw new Error(message)
@@ -44,7 +44,7 @@ export class Schema {
     }
 
     static basename(loc: string): string {
-        let name = ppath.basename(loc)
+        const name = ppath.basename(loc)
         return name.substring(0, name.indexOf('.'))
     }
 
@@ -74,8 +74,8 @@ export class Schema {
     }
 
     * schemaProperties(): Iterable<Schema> {
-        for (let prop in this.schema.properties) {
-            let newPath = this.path + (this.path === '' ? '' : '.') + prop
+        for (const prop in this.schema.properties) {
+            const newPath = this.path + (this.path === '' ? '' : '.') + prop
             yield new Schema(this.source, this.schema.properties[prop], newPath)
         }
     }
@@ -92,7 +92,7 @@ export class Schema {
      * Return map from entity to properties that use it.
      */
     entityToProperties(): EntityToProperties {
-        let entities: EntityToProperties = {}
+        const entities: EntityToProperties = {}
         this.addEntities(entities)
         return entities
     }
@@ -100,7 +100,7 @@ export class Schema {
     private addEntities(entities: EntityToProperties) {
         if (this.schema.$entities) {
             // Don't explore properties below an explicit mapping
-            for (let entity of this.schema.$entities) {
+            for (const entity of this.schema.$entities) {
                 let list = entities[entity]
                 if (!list) {
                     entities[entity] = list = []
@@ -109,7 +109,7 @@ export class Schema {
             }
         } else {
             // Add child properties
-            for (let prop of this.schemaProperties()) {
+            for (const prop of this.schemaProperties()) {
                 prop.addEntities(entities)
             }
         }

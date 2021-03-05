@@ -263,17 +263,17 @@ describe('dialog:generate --merge library', async function () {
             assertRemovedProperty(comparison, 'Meat', errors)
             assertRemovedProperty(comparison, 'Toppings', errors)
             assertRemovedProperty(comparison, 'Sauces', errors)
-            await assertContains('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
-            await assertMissing('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
-            await assertContains('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
+            await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
+            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
 
             // Unchanged hash + optional enum fixes = hash updated
-            await assertUnchanged('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
+            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
             await assertUnchanged('language-understanding/en-us/Name/sandwichMerge-Name-personName.en-us.lu', true, errors)
             assertCheck(comparison, errors)
@@ -299,13 +299,13 @@ describe('dialog:generate --merge library', async function () {
             const errors = []
 
             // Changed + optional enum fixes = hash not updated, so still changed
-            await assertUnchanged('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
+            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
-            await assertUnchanged('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', false, errors)
-            await assertUnchanged('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', false, errors)
+            await assertUnchanged('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', false, errors)
+            await assertUnchanged('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', false, errors)
 
             // Main should still be updated
             await assertContains('sandwichMerge.dialog', /sandwichMerge-foo/, errors)
@@ -315,13 +315,13 @@ describe('dialog:generate --merge library', async function () {
             assertRemoved(comparison, 'dialogs/sandwichMerged-price-remove-money.dialog', errors)
 
             // Still get enum updates
-            await assertContains('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
-            await assertMissing('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
-            await assertContains('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
+            await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
+            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
 
             assertCheck(comparison, errors)
         } catch (e) {

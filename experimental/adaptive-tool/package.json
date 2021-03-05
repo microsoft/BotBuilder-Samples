@@ -3,7 +3,7 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.1.1-preview",
+    "version": "0.1.1",
     "license": "MIT",
     "publisher": "Microsoft",
     "repository": {

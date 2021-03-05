@@ -14,7 +14,7 @@ import * as ppath from 'path'
 import * as ph from './generatePhrases'
 import * as ps from './processSchemas'
 import * as s from './schema'
-import { SubstitutionsEvaluator } from './substitutions'
+import {SubstitutionsEvaluator} from './substitutions'
 
 export enum FeedbackType {
     message,
@@ -25,6 +25,27 @@ export enum FeedbackType {
 }
 
 export type Feedback = (type: FeedbackType, message: string) => void
+
+/**
+ * Generate examples for a list of enum values by breaking on case space or underscore and generating subphrases.
+ * @param values List of enum values to generate examples.
+ */
+export function examples(values: string[]): any {
+    const examples: any = {}
+    const engine = getExpressionEngine()
+    for (const choice of values) {
+        const values: string[] = []
+        const {value, error} = engine.parse(`phrases('${choice}')`).tryEvaluate({})
+        if (error) {
+            throw new Error(error)
+        }
+        for (const phrase of value) {
+            values.push(phrase)
+        }
+        examples[choice] = values
+    }
+    return examples
+}
 
 function templatePath(name: string, dir: string): string {
     return ppath.join(dir, name)
@@ -64,7 +85,7 @@ const JSONHashExtensions = ['.dialog']
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
 const ReplaceGeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/g
 function addHash(path: string, val: any): any {
-    let ext = ppath.extname(path)
+    const ext = ppath.extname(path)
     if (CommentHashExtensions.includes(ext)) {
         val = val.replace(ReplaceGeneratorPattern, '')
         if (!val.endsWith(os.EOL)) {
@@ -72,7 +93,7 @@ function addHash(path: string, val: any): any {
         }
         val += `${os.EOL}> Generator: ${computeHash(val)}`
     } else if (JSONHashExtensions.includes(ext)) {
-        let json = JSON.parse(val)
+        const json = JSON.parse(val)
         delete json.$Generator
         json.$Generator = computeJSONHash(json)
         val = stringify(json)
@@ -83,22 +104,22 @@ function addHash(path: string, val: any): any {
 // Check to see if the contents of path are unchanged since generated
 export async function isUnchanged(path: string): Promise<boolean> {
     let result = false
-    let ext = ppath.extname(path)
+    const ext = ppath.extname(path)
     let file = await fs.readFile(path, 'utf8')
     if (CommentHashExtensions.includes(ext)) {
-        let match = file.match(GeneratorPattern)
+        const match = file.match(GeneratorPattern)
         if (match) {
-            let oldHash = match[1]
+            const oldHash = match[1]
             file = file.replace(GeneratorPattern, '')
-            let hash = computeHash(file)
+            const hash = computeHash(file)
             result = oldHash === hash
         }
     } else if (JSONHashExtensions.includes(ext)) {
-        let json = JSON.parse(file)
-        let oldHash = json.$Generator
+        const json = JSON.parse(file)
+        const oldHash = json.$Generator
         if (oldHash) {
             delete json.$Generator
-            let hash = computeJSONHash(json)
+            const hash = computeJSONHash(json)
             result = oldHash === hash
         }
     }
@@ -108,15 +129,15 @@ export async function isUnchanged(path: string): Promise<boolean> {
 // Get hashcode of the file
 export async function getHashCode(path: string): Promise<string> {
     let oldHash
-    let ext = ppath.extname(path)
-    let file = await fs.readFile(path, 'utf8')
+    const ext = ppath.extname(path)
+    const file = await fs.readFile(path, 'utf8')
     if (CommentHashExtensions.includes(ext)) {
-        let match = file.match(GeneratorPattern)
+        const match = file.match(GeneratorPattern)
         if (match) {
             oldHash = match[1]
         }
     } else if (JSONHashExtensions.includes(ext)) {
-        let json = JSON.parse(file)
+        const json = JSON.parse(file)
         oldHash = json.$Generator
     }
     return oldHash
@@ -125,7 +146,7 @@ export async function getHashCode(path: string): Promise<string> {
 // Write file with error checking and hash code generation.
 export async function writeFile(path: string, val: string, feedback: Feedback, skipHash?: boolean) {
     try {
-        let dir = ppath.dirname(path)
+        const dir = ppath.dirname(path)
         await fs.ensureDir(dir)
         val = normalizeEOL(val)
         if (!skipHash) {
@@ -133,9 +154,9 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
         }
         await fs.writeFile(path, val)
     } catch (e) {
-        let match = /position ([0-9]+)/.exec(e.message)
+        const match = /position ([0-9]+)/.exec(e.message)
         if (match) {
-            let offset = Number(match[1])
+            const offset = Number(match[1])
             val = `${val.substring(0, offset)}^^^${val.substring(offset)}`
         }
         feedback(FeedbackType.error, `${e.message}${os.EOL}${val}`)
@@ -149,9 +170,9 @@ export async function templateDirectories(templateDirs?: string[]): Promise<stri
     let startDirs = [...templateDirs]
     if (startDirs.length === 0) {
         // Default to children of built-in templates
-        let templates = normalize(ppath.join(__dirname, '../templates'))
-        for (let dirName of await fs.readdir(templates)) {
-            let dir = ppath.join(templates, dirName)
+        const templates = normalize(ppath.join(__dirname, '../templates'))
+        for (const dirName of await fs.readdir(templates)) {
+            const dir = ppath.join(templates, dirName)
             if ((await fs.lstat(dir)).isDirectory()) {
                 // Add templates subdirectories as templates
                 startDirs.push(dir)
@@ -213,10 +234,10 @@ export function assetDirectory(extension: string): string {
 // Walker gets the current value, the parent object and full path to that object
 // and returns false to continue, true to stop going deeper.
 async function walkJSON(elt: any, fun: (val: any, obj?: any, path?: string) => Promise<boolean>, obj?: any, path?: any): Promise<void> {
-    let done = await fun(elt, obj, path)
+    const done = await fun(elt, obj, path)
     if (!done) {
         if (typeof elt === 'object' || Array.isArray(elt)) {
-            for (let key in elt) {
+            for (const key in elt) {
                 await walkJSON(elt[key], fun, elt, pathName(path, key))
             }
         }
@@ -228,23 +249,23 @@ function pathName(path: string | undefined, extension: string): string {
 }
 
 function setPath(obj: any, path: string, value: any) {
-    let key = path.substring(path.lastIndexOf('/') + 1)
+    const key = path.substring(path.lastIndexOf('/') + 1)
     obj[key] = value
 }
 
-type Plain = { source: string, template: string }
+type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 export const TemplateCache: Map<string, Template> = new Map<string, Template>()
 
 async function findTemplate(name: string, templateDirs: string[]): Promise<Template> {
     let template: Template
-    for (let dir of templateDirs) {
+    for (const dir of templateDirs) {
         let loc = templatePath(name, dir)
         template = TemplateCache.get(loc)
         if (!template) {
             if (await fs.pathExists(loc)) {
                 // Direct file
-                template = { source: loc, template: await fs.readFile(loc, 'utf8') }
+                template = {source: loc, template: await fs.readFile(loc, 'utf8')}
                 TemplateCache.set(loc, template)
                 break
             } else {
@@ -259,6 +280,8 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                     break
                 }
             }
+        } else {
+            break
         }
     }
     return template
@@ -268,13 +291,13 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
 const RefPattern = /^[ \t]*\[[^\]\n\r]*\].*$/gm
 function addPrefixToImports(template: string, scope: any): string {
     return template.replace(RefPattern, (match: string) => {
-        let ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
+        const ref = match.substring(match.indexOf('[') + 1, match.indexOf(']'))
         return `[${scope.prefix}-${ref}](${scope.prefix}-${ref})`
     })
 }
 
 function addPrefix(prefix: string, name: string): string {
-    let dir = name.lastIndexOf('/')
+    const dir = name.lastIndexOf('/')
     if (dir >= 0) {
         return `${name.substring(0, dir)}/${prefix}-${name.substring(dir + 1)}`
     } else {
@@ -284,14 +307,14 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = { name: string, shortName: string, fallbackName: string, fullName: string, relative: string }
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
 function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
-    let basename = ppath.basename(fullPath, '.dialog')
-    let ext = ppath.extname(fullPath).substring(1)
-    let arr: FileRef[] = tracker[ext]
+    const basename = ppath.basename(fullPath, '.dialog')
+    const ext = ppath.extname(fullPath).substring(1)
+    const arr: FileRef[] = tracker[ext]
     if (!arr.find(ref => ref.name === basename)) {
-        let shortName = basename.substring(prefix.length + 1, basename.indexOf('.'))
+        const shortName = basename.substring(prefix.length + 1, basename.indexOf('.'))
         ref = {
             name: basename,
             shortName: shortName,
@@ -305,7 +328,7 @@ function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: a
 }
 
 function existingRef(name: string, tracker: any): FileRef | undefined {
-    let ext = ppath.extname(name).substring(1)
+    const ext = ppath.extname(name).substring(1)
     let arr: FileRef[] = tracker[ext]
     if (!arr) {
         arr = []
@@ -323,18 +346,18 @@ async function processTemplate(
     feedback: Feedback,
     ignorable: boolean): Promise<string> {
     let outPath = ''
-    let oldDir = process.cwd()
+    const oldDir = process.cwd()
     try {
-        let ref = existingRef(templateName, scope.templates)
+        const ref = existingRef(templateName, scope.templates)
         if (ref) {
             // Simple file already existed
             feedback(FeedbackType.debug, `Reusing ${templateName}`)
             outPath = ppath.join(outDir, ref.relative)
         } else {
-            let foundTemplate = await findTemplate(templateName, templateDirs)
+            const foundTemplate = await findTemplate(templateName, templateDirs)
             if (foundTemplate !== undefined) {
-                let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
-                let plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
+                const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+                const plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
                 if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
                     // Constant file or .lg template so output
@@ -354,7 +377,7 @@ async function processTemplate(
                     }
 
                     outPath = ppath.join(outDir, filename)
-                    let ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
+                    const ref = addFileRef(outPath, outDir, scope.prefix, scope.templates)
                     if (ref) {
                         // This is a new file
                         if (force || !await fs.pathExists(outPath)) {
@@ -371,7 +394,7 @@ async function processTemplate(
                             }
 
                             // See if generated file has been overridden in templates
-                            let existing = await findTemplate(filename, templateDirs) as Plain
+                            const existing = await findTemplate(filename, templateDirs) as Plain
                             if (existing && existing.source.endsWith(ppath.normalize(filename))) {
                                 feedback(FeedbackType.info, `  Overridden by ${existing.source}`)
                                 result = existing.template
@@ -379,11 +402,11 @@ async function processTemplate(
 
                             // Ignore empty templates
                             if (result) {
-                                let resultString = result as string
+                                const resultString = result as string
                                 if (resultString.includes('**MISSING**')) {
                                     feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
                                 } else {
-                                    let match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
+                                    const match = resultString.match(/\*\*([^0-9\s]+)[0-9]+\*\*/)
                                     if (match) {
                                         feedback(FeedbackType.warning, `Replace **${match[1]}<N>** with values in ${outPath}`)
                                     }
@@ -402,10 +425,10 @@ async function processTemplate(
                         if (!Array.isArray(generated)) {
                             generated = [generated]
                         }
-                        for (let generate of generated as any as string[]) {
+                        for (const generate of generated as any as string[]) {
                             feedback(FeedbackType.debug, `  ${generate}`)
                         }
-                        for (let generate of generated as any as string[]) {
+                        for (const generate of generated as any as string[]) {
                             await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false)
                         }
                     }
@@ -424,11 +447,11 @@ async function processTemplate(
 
 // Walk over locale .lu files and extract examples in >> var: comment blocks
 async function globalExamples(outDir: string, scope: any): Promise<object> {
-    let examples = {}
-    let luFiles = scope.templates.lu
-    for (let file of luFiles) {
-        let path = ppath.join(outDir, file.relative)
-        let contents = await fs.readFile(path, 'utf8')
+    const examples = {}
+    const luFiles = scope.templates.lu
+    for (const file of luFiles) {
+        const path = ppath.join(outDir, file.relative)
+        const contents = await fs.readFile(path, 'utf8')
         let lines = contents.split(os.EOL)
         if (lines.length < 2) {
             // Windows uses CRLF and that is how it is checked-in, but when an npm
@@ -436,7 +459,7 @@ async function globalExamples(outDir: string, scope: any): Promise<object> {
             lines = contents.split('\n')
         }
         let collect: string | undefined
-        for (let line of lines) {
+        for (const line of lines) {
             if (line.startsWith('>>')) {
                 collect = line.substring(2, line.indexOf(':')).trim()
                 if (!examples[collect]) {
@@ -452,6 +475,87 @@ async function globalExamples(outDir: string, scope: any): Promise<object> {
     return examples
 }
 
+// Verify all $examples entries are entities or phrases
+async function verifyExamples(schema: any, feedback: Feedback): Promise<void> {
+    const allEntities = new Set<string>()
+    await walkJSON(schema, async (elt, _obj, path) => {
+        if (elt.$entities) {
+            for (const entity of elt.$entities) {
+                allEntities.add(entity)
+            }
+        }
+        return false
+    })
+    await walkJSON(schema, async (elt, _obj, path) => {
+        if (elt.$examples && !path?.endsWith('/items')) {
+            if (path) {
+                if (!elt.$entities) {
+                    feedback(FeedbackType.error, `${path} is missing $entities`)
+                } else {
+                    for (const [locale, examples] of Object.entries(elt.$examples)) {
+                        for (const entityOrPhrases of Object.keys(examples as object)) {
+                            if (!entityOrPhrases.endsWith('Phrases') && !elt.$entities.includes(entityOrPhrases)) {
+                                feedback(FeedbackType.warning, `Unknown $examples ${locale}/${entityOrPhrases} in ${path}`)
+                            }
+                        }
+                    }
+                }
+            } else {
+                for (const [locale, examples] of Object.entries(elt.$examples)) {
+                    for (const entityOrPhrases of Object.keys(examples as object)) {
+                        if (!entityOrPhrases.endsWith('Phrases') && !allEntities.has(entityOrPhrases)) {
+                            feedback(FeedbackType.warning, `Unknown global $examples ${locale}/${entityOrPhrases}`)
+                        }
+                    }
+                }
+            }
+        }
+        return false
+    })
+}
+
+// Verify enum and examples match
+function verifyEnumAndGetExamples(schema: any, property: string, locale: string, entity: string, feedback: Feedback): string[] | object {
+    const propertySchema = schema.properties[property]
+    let examples = propertySchema.$examples?.[locale]?.[entity]
+    let usedLocale = true
+    let global = false
+    if (!examples) {
+        usedLocale = false
+        global = false
+        examples = propertySchema.$examples?.['']?.[entity]
+    }
+    if (!examples) {
+        usedLocale = true
+        global = true
+        examples = schema.$examples?.[locale]?.[entity]
+    }
+    if (!examples) {
+        usedLocale = false
+        global = true
+        examples = schema.$examples?.['']?.[entity]
+    }
+    if (!usedLocale) {
+        locale = ''
+    }
+
+    const enums = propertySchema.enum ?? propertySchema.items?.enum
+    if (examples && enums && entity.endsWith('Value')) {
+        const exampleSet = new Set<string>(Object.keys(examples))
+        const enumSet = new Set<string>(enums)
+        const enumOnly = [...enumSet].filter(e => !exampleSet.has(e))
+        const exampleOnly = [...exampleSet].filter(e => !enumSet.has(e))
+        const description = `${global ? 'global ' : ''}${locale}/${entity} $examples`
+        if (enumOnly.length > 0) {
+            feedback(FeedbackType.error, `${property} has enums [${enumOnly.join(', ')}] not in ${description}.`)
+        }
+        if (exampleOnly.length > 0) {
+            feedback(FeedbackType.error, `${property} has ${description} [${exampleOnly.join(', ')}] not in enum.`)
+        }
+    }
+    return examples
+}
+
 async function processTemplates(
     schema: s.Schema,
     templateDirs: string[],
@@ -460,13 +564,14 @@ async function processTemplates(
     scope: any,
     force: boolean,
     feedback: Feedback): Promise<void> {
+    await verifyExamples(schema.schema, feedback)
     scope.templates = {}
     // We expand each template in the context of a combination of locale, property, type (schema name) and entity.
     // Since we only generate each filename once this means property only templates don't care about the entity and entity templates will be expanded for each entity.
     // If a template author wants to do different things with different entities they will need explicit templates for each desired entity.
-    for (let locale of locales) {
+    for (const locale of locales) {
         scope.locale = locale
-        for (let property of schema.schemaProperties()) {
+        for (const property of schema.schemaProperties()) {
             scope.property = property.path
             scope.template = property.schema.$template
             scope.propertySchema = property.schema
@@ -477,21 +582,27 @@ async function processTemplates(
             } else if (scope.property.includes('-') || scope.property.includes(' ')) {
                 feedback(FeedbackType.error, `'${property.path}' cannot include space or dash.`)
             } else {
+                // Pick up examples from property schema if unique entity
+                if (!property.schema.$examples && (property.schema.examples || property.schema.items?.examples)) {
+                    const entity = entities.filter((e: string) => e !== 'utterance')
+                    if (entity.length == 1) {
+                        const entityExamples = {}
+                        entityExamples[entity[0]] = property.schema.examples ?? property.schema.items?.examples
+                        property.schema.$examples = {
+                            '': entityExamples
+                        }
+                    } else {
+                        feedback(FeedbackType.warning, `For property ${property.path} use $examples rather than examples.`)
+                    }
+                }
+
                 // Assume non-array are expressions to be interpreted in expandSchema
-                for (let entityName of entities) {
+                for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
-
-                        // Look for entity examples in global $examples
-                        scope.examples = schema.schema.$examples[entityName]
-
-                        // Pick up examples from property schema if unique entity
-                        if (!scope.examples && property.schema.examples && entities.filter((e: string) => e !== 'utterance').length === 1) {
-                            scope.examples = property.schema.examples
-                        }
-
+                        scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
                             await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
                         }
@@ -510,7 +621,7 @@ async function processTemplates(
         if (schema.schema.$templates) {
             feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
-            for (let templateName of schema.schema.$templates) {
+            for (const templateName of schema.schema.$templates) {
                 await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
             }
         }
@@ -530,7 +641,7 @@ async function ensureEntitiesAndTemplates(
     scope: any,
     feedback: Feedback)
     : Promise<void> {
-    for (let property of schema.schemaProperties()) {
+    for (const property of schema.schemaProperties()) {
         if (!property.schema.$entities || !property.schema.$templates) {
             const template = property.schema.$template
             if (!template) {
@@ -538,10 +649,9 @@ async function ensureEntitiesAndTemplates(
             } else {
                 try {
                     scope.property = property.path
-                    scope.template = property.schema.$templateDirs
                     scope.propertySchema = property.schema
                     const rootTemplate = await findTemplate(template, templateDirs)
-                    let lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
+                    const lgTemplate: lg.Templates | undefined = rootTemplate instanceof lg.Templates ? rootTemplate as lg.Templates : undefined
                     if (!lgTemplate) {
                         feedback(FeedbackType.error, `Cannot find ${rootTemplate} for ${property.path}`)
                     } else {
@@ -575,9 +685,9 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
     if (Array.isArray(schema)) {
         newSchema = []
         let isExpanded = false
-        for (let val of schema) {
-            let isExpr = typeof val === 'string' && val.startsWith('${')
-            let newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
+        for (const val of schema) {
+            const isExpr = typeof val === 'string' && val.startsWith('${')
+            const newVal = expandSchema(val, scope, path, false, missingIsError, feedback)
             isExpanded = isExpanded || (isExpr && (typeof newVal !== 'string' || !val.startsWith('${')))
             if (newVal !== null) {
                 if (Array.isArray(newVal)) {
@@ -593,15 +703,15 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             if (typeof newSchema[0] === 'object') {
                 // Merge into single object
                 let obj = {}
-                for (let elt of newSchema) {
-                    obj = { ...obj, ...elt }
+                for (const elt of newSchema) {
+                    obj = {...obj, ...elt}
                 }
                 newSchema = obj
             }
         }
     } else if (typeof schema === 'object') {
         newSchema = {}
-        for (let [key, val] of Object.entries(schema)) {
+        for (const [key, val] of Object.entries(schema)) {
             let newPath = path
             if (inProperties) {
                 newPath += newPath === '' ? key : '.' + key
@@ -613,7 +723,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
                     // Bind property schema to use when expanding
                     scope.propertySchema = val
                 }
-                const newVal = expandSchema(val, { ...scope, property: newPath }, newPath, key === 'properties', missingIsError, feedback)
+                const newVal = expandSchema(val, {...scope, property: newPath}, newPath, key === 'properties', missingIsError, feedback)
                 newSchema[key] = newVal
                 if (isTopLevel) {
                     delete scope.propertySchema
@@ -622,7 +732,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
         }
     } else if (typeof schema === 'string' && schema.startsWith('${')) {
         try {
-            let value = generatorTemplate.evaluateText(schema, scope)
+            const value = generatorTemplate.evaluateText(schema, scope)
             if (value && value !== 'null') {
                 newSchema = value
             } else {
@@ -641,10 +751,10 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
 
 // Get all files recursively in root
 async function allFiles(root: string): Promise<Map<string, string>> {
-    let files = new Map<string, string>()
+    const files = new Map<string, string>()
     async function walker(dir: string) {
         if ((await fs.lstat(dir)).isDirectory()) {
-            for (let child of await fs.readdir(dir)) {
+            for (const child of await fs.readdir(dir)) {
                 await walker(ppath.join(dir, child))
             }
         } else {
@@ -657,18 +767,18 @@ async function allFiles(root: string): Promise<Map<string, string>> {
 
 // Generate a singleton dialog by pulling in all dialog refs
 async function generateSingleton(schema: string, inDir: string, outDir: string, feedback: Feedback) {
-    let files = await allFiles(inDir)
-    let mainName = `${schema}.dialog`
-    let main = await fs.readJSON(files.get(mainName) as string)
-    let used = new Set<string>()
+    const files = await allFiles(inDir)
+    const mainName = `${schema}.dialog`
+    const main = await fs.readJSON(files.get(mainName) as string)
+    const used = new Set<string>()
     await walkJSON(main, async (elt, obj, key) => {
         if (typeof elt === 'string') {
-            let ref = `${elt}.dialog`
-            let path = files.get(ref)
+            const ref = `${elt}.dialog`
+            const path = files.get(ref)
             // Keep recognizers as a reference
             if (ref !== mainName && path && key && !ref.endsWith('.lu.dialog')) {
                 // Replace reference with inline object
-                let newElt = await fs.readJSON(path)
+                const newElt = await fs.readJSON(path)
                 let id = ppath.basename(path)
                 id = id.substring(0, id.indexOf('.dialog'))
                 delete newElt.$schema
@@ -683,12 +793,12 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
     })
     delete main.$Generator
     main.$Generator = computeJSONHash(main)
-    for (let [name, path] of files) {
+    for (const [name, path] of files) {
         if (!used.has(name)) {
-            let outPath = ppath.join(outDir, ppath.relative(inDir, path))
+            const outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, { spaces: '  ' })
+                await fs.writeJSON(outPath, main, {spaces: '  '})
             } else {
                 await fs.copy(path, outPath)
             }
@@ -699,7 +809,7 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
 const templatePrefix: string = 'template:'
 
 function resolveDir(dirs: string[]): string[] {
-    let expanded: string[] = []
+    const expanded: string[] = []
     for (let dir of dirs) {
         if (dir.startsWith(templatePrefix)) {
             // Expand template:<name> relative to built-in templates
@@ -756,7 +866,7 @@ export async function generate(
         feedback = (_info, _message) => true
     }
     let error = false
-    let externalFeedback = feedback
+    const externalFeedback = feedback
     feedback = (info, message) => {
         if (info === FeedbackType.error) {
             error = true
@@ -803,7 +913,7 @@ export async function generate(
             await fs.ensureDir(outDir)
         }
 
-        let existingFiles = await fs.readdir(outDir)
+        const existingFiles = await fs.readdir(outDir)
         if (existingFiles.length === 0) {
             force = false
             merge = false
@@ -833,11 +943,11 @@ export async function generate(
             await fs.emptyDir(outPathSingle)
         }
 
-        let startDirs = await templateDirectories(templateDirs)
+        const startDirs = await templateDirectories(templateDirs)
 
         // Find generator.lg for schema expansion
-        for (let dir of startDirs) {
-            let loc = ppath.join(dir, '../generator.lg')
+        for (const dir of startDirs) {
+            const loc = ppath.join(dir, '../generator.lg')
             if (await fs.pathExists(loc)) {
                 generatorTemplate = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
                 break
@@ -847,10 +957,10 @@ export async function generate(
             feedback(FeedbackType.error, 'Templates must include a parent generator.lg')
         }
 
-        let schema = await ps.processSchemas(schemaPath, startDirs, feedback)
+        const schema = await ps.processSchemas(schemaPath, startDirs, feedback)
 
         // User templates + used schema template directories
-        let schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
+        const schemaDirs = schema.schema.$templateDirs.map(d => normalize(d))
         templateDirs = resolveDir(templateDirs)
         templateDirs = [
             ...templateDirs,
@@ -874,18 +984,18 @@ export async function generate(
         }
 
         if (schema.schema.$parameters) {
-            scope = { ...scope, ...schema.schema.$parameters }
+            scope = {...scope, ...schema.schema.$parameters}
         }
 
-        scope = { ...scope, entities: schema.entityToProperties() }
+        scope = {...scope, entities: schema.entityToProperties()}
         await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
 
         // Expand all remaining schema expressions
-        let expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
+        const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         if (!error) {
             // Write final schema
-            let body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
+            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files
@@ -906,6 +1016,11 @@ export async function generate(
                     await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
                 }
             }
+
+            // Copy source schema
+            const outSchemaPath = ppath.join(outDir, ppath.basename(schemaPath))
+            feedback(FeedbackType.info, `Copying to ${outSchemaPath}`)
+            await fs.copyFile(schemaPath, outSchemaPath)
         }
     } catch (e) {
         feedback(FeedbackType.error, e.message)
@@ -924,14 +1039,6 @@ export async function generate(
 }
 
 /**
- * Sleep function
- * @param ms The time in millisecond.
- */
-async function delay(ms: number) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-/**
  * Expand a property definition by resolving $ref including template:, removing allOf and generating $entities if missing.
  * @param property Name of property.
  * @param schema Schema definition.
@@ -940,21 +1047,21 @@ async function delay(ms: number) {
 export async function expandPropertyDefinition(property: string, schema: any, templateDirs?: string[]): Promise<any> {
     templateDirs = await templateDirectories(templateDirs)
     schema = await ps.expandPropertyDefinition(schema, templateDirs)
-    let fullSchema = {
+    const fullSchema = {
         properties: {}
     }
     fullSchema.properties[property] = schema
     schema = expandSchema(fullSchema, {}, '', false, false, ps.feedbackException).properties[property]
     if (!schema.$entities) {
-        let scope = {
+        const scope = {
             property,
             propertySchema: schema,
             type: ps.typeName(schema)
         }
-        let foundTemplate = await findTemplate(scope.type, templateDirs)
-        let lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+        const foundTemplate = await findTemplate(scope.type, templateDirs)
+        const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
         if (lgTemplate && lgTemplate.allTemplates.some(f => f.name === 'entities')) {
-            let entities = lgTemplate.evaluate('entities', scope) as string[]
+            const entities = lgTemplate.evaluate('entities', scope) as string[]
             if (entities) {
                 schema.$entities = entities
             }
