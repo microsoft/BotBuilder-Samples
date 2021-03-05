@@ -65,8 +65,8 @@ namespace Microsoft.BotBuilderSamples
             string snapshotFile = Path.GetFullPath(OrchestratorConfig.SnapshotFile);
             OrchestratorRecognizer orc = new OrchestratorRecognizer()
             {
-                ModelPath = modelFolder,
-                SnapshotPath = snapshotFile
+                ModelFolder = modelFolder,
+                SnapshotFile = snapshotFile
             };
             return orc;
         }
