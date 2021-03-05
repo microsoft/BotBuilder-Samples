@@ -15,6 +15,12 @@ This bot uses Orchestrator to route user utterances to multiple LUIS models and 
 
 ## Prerequisites
 
+| OS      | Version             | Architectures   |
+| ------- | ------------------- | --------------- |
+| Windows | 10 (1607+)          | ia32 (x86), x64 |
+| MacOS   | 10.14+              | x64             |
+| Linux   | Ubuntu 18.04, 20.04 | x64             |
+
 This sample **requires** prerequisites in order to run.
 - Install latest supported version of [Visual C++ Redistributable](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 - Install latest [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator/releases)
@@ -88,7 +94,7 @@ This sample **requires** prerequisites in order to run.
           "ModelFolder": ".\\model",
           "SnapshotFile": ".\\generated\\orchestrator.blu"
       }
-       ```
+      ```
     
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
     A) From a terminal

@@ -15,7 +15,16 @@ This bot uses Orchestrator to route user utterances to multiple LUIS models and 
 
 ## Prerequisites
 
+| OS      | Version    | Architectures   |
+| ------- | ---------- | --------------- |
+| Windows | 10 (1607+) | ia32 (x86), x64 |
+| MacOS | 10.14+ | x64 |
+| Linux | Ubuntu 18.04, 20.04 | x64|
+
+
+
 This sample **requires** prerequisites in order to run.
+
 - Install latest supported version of [Visual C++ Redistributable](https://support.microsoft.com/en-gb/help/2977003/the-latest-supported-visual-c-downloads)
 
 - Install latest [Bot Framework Emulator](https://github.com/microsoft/BotFramework-Emulator/releases)
@@ -63,14 +72,14 @@ This sample **requires** prerequisites in order to run.
     ```bash
     > bf luis:build --in CognitiveModels --authoringKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
-    - Update application settings in `./appsettings.json`
+    - Update application settings in `./.env`
     
 - Configure the QnA Maker KB required for this sample.
     - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
     ```bash
     > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY>
     ```
-    - Update kb information in `./appsettings.json`
+    - Update kb information in `./.env`
     
 - Configure Orchestrator to route utterances to LUIS/QnA language services set up above
     - Download Orchestrator base model
