@@ -786,30 +786,50 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
  * @param schemaName Name of the .schema file.
  * @param newPath Path to the folder of the new asset.
  */
-async function getSynonyms(schemaName: string, newPath: string, locale: string): Promise<Map<string, Set<string>>> {
+ async function getSynonyms(schemaName: string, newPath: string, locale: string): Promise<Map<string, Set<string>>> {
     let template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     let newObj = JSON.parse(template)
     let propertyValueSynonyms = new Map<string, Set<string>>()
+
+    if (newObj['$examples'] !== undefined) {
+        let globalExamples
+        if (locale in newObj['$examples']) {
+            globalExamples = newObj['$examples'][locale]
+        } else if ('' in newObj['$examples']) {
+            globalExamples = newObj['$examples']['']
+        }
+
+        if (globalExamples) {
+            for (let entity in globalExamples) {
+                let synonymsSet = new Set<string>()
+                for (let synonym in globalExamples[entity]) {
+                    synonymsSet.add(synonym)
+                }
+                propertyValueSynonyms.set(entity, synonymsSet)
+            }
+        }
+    }
 
     for (let property in newObj['properties']) {
         let examples = newObj['properties'][property]['$examples']
         if (examples !== undefined) {
             let valueExamples
-            if (examples[''][`${property}Value`] !== undefined) {
-                valueExamples = examples[''][`${property}Value`]
-            }else if (examples[locale][`${property}Value`] !== undefined) {
+            if (locale in examples) {
                 valueExamples = examples[locale][`${property}Value`]
-            }else{
-                continue
+            } else if ('' in examples) {
+                valueExamples = examples[''][`${property}Value`]
             }
-            let synonymsSet = new Set<string>()
-            for (let enumEntity in valueExamples) {
-                synonymsSet.add(enumEntity)
-                for (let synonym in valueExamples[enumEntity]) {
-                    synonymsSet.add(synonym)
+
+            if (valueExamples) {
+                let synonymsSet = new Set<string>()
+                for (let enumEntity in valueExamples) {
+                    synonymsSet.add(enumEntity)
+                    for (let synonym in valueExamples[enumEntity]) {
+                        synonymsSet.add(synonym)
+                    }
                 }
+                propertyValueSynonyms.set(`${property}Value`, synonymsSet)
             }
-            propertyValueSynonyms.set(`${property}Value`, synonymsSet)
         }
     }
 
