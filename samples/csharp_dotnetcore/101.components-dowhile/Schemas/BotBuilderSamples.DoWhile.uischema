@@ -1,0 +1,35 @@
+﻿{
+  "$schema": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "form": {
+    "label": "Do actions while condition is true",
+    "subtitle": "DoWhile",
+    "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+    "order": [
+      "condition",
+      "runOnce",
+      "*"
+    ],
+    "hidden": [
+      "actions"
+    ],
+    "properties": {
+      "condition": {
+        "intellisenseScopes": [
+          "variable-scopes"
+        ]
+      }
+    }
+  },
+  "menu": {
+    "label": "DoWhile loop",
+    "submenu": [ "Looping" ]
+  },
+  "flow": {
+    "widget": "ForeachWidget",
+    "nowrap": true,
+    "loop": {
+      "widget": "ActionCard",
+      "body": "=action.condition"
+    }
+  }
+}

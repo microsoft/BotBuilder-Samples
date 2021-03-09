@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RepositoryUrl>https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/101.components-dowhile</RepositoryUrl>
+    <PackageIcon>package-icon.png</PackageIcon>
+    <PackageLicenseUrl />
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Description>Sample composer action to execute a loop while a condition is true.</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/101.components-dowhile</PackageProjectUrl>
+    <Version>1.0.1-preview</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>bf-component</PackageTags>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder.Runtime.Plugins" Version="4.12.0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.0" />
+    <PackageReference Include="ParallelExtensionsExtras.CrossPlatform" Version="1.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="**/*.dialog" />
+    <Content Include="**/*.lg" />
+    <Content Include="**/*.lu" />
+    <Content Include="**/*.schema" />
+    <Content Include="**/*.uischema" />
+    <Content Include="**/*.qna" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Schemas\BotBuilderSamples.DoWhile.schema" />
+    <None Remove="Schemas\BotBuilderSamples.DoWhile.uischema" />
+    <None Include="LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="package-icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+﻿{
+  "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+  "$role": "implements(Microsoft.IDialog)",
+  "title": "DoWhile",
+  "description": "Performs a set of actions while a condition is true.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id",
+      "description": "Optional id for the dialog"
+    },
+    "disabled": {
+      "$ref": "schema:#/definitions/booleanExpression",
+      "title": "Disabled",
+      "description": "Optional condition which if true will disable this action.",
+      "examples": [
+        "user.age > 3"
+      ]
+    },
+    "condition": {
+      "$ref": "schema:#/definitions/booleanExpression",
+      "title": "Condition",
+      "description": "Name of the property with the array of dialogs to call.",
+      "examples": [
+        "dialog.dialogList"
+      ]
+    },
+    "runOnce": {
+      "$ref": "schema:#/definitions/booleanExpression",
+      "title": "Run once",
+      "description": "Execute the actions once, before checking the condition.",
+      "default": true
+    },
+    "actions": {
+      "type": "array",
+      "items": {
+        "$kind": "Microsoft.IDialog"
+      },
+      "title": "Actions",
+      "description": "Actions to execute while the condition is true."
+    }
+  }
+}
