@@ -6,6 +6,7 @@
 # template
 -```
 > Add custom utterances
+> Required properties include: ${join(foreach(schema.required, property, property), ', ')}
 > Label with: Add(), Remove(), Help(), Clear(), Show() and Help()
 ${'#'} ${prefix}
 > ADD YOUR LABELS HERE
