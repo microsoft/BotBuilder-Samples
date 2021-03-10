@@ -1,0 +1,47 @@
+<VSTemplate Version="3.0.0" xmlns="http://schemas.microsoft.com/developer/vstemplate/2005" Type="Project">
+  <TemplateData>
+    <Name>Custom Action Component (Bot Framework v4 - .NET Core 3.1)</Name>
+    <Description>A template for creating Bot Framework Custom Actions.
+    </Description>
+    <ProjectType>CSharp</ProjectType>
+    <ProjectSubType>Bot Framework</ProjectSubType>
+    <SortOrder>1810</SortOrder>
+    <CreateNewFolder>true</CreateNewFolder>
+    <DefaultName>CustomComponent</DefaultName>
+    <ProvideDefaultName>true</ProvideDefaultName>
+    <LocationField>Enabled</LocationField>
+    <CreateInPlace>true</CreateInPlace>
+    <EnableLocationBrowseButton>true</EnableLocationBrowseButton>
+    <Icon>package-icon.png</Icon>
+    <PreviewImage></PreviewImage>
+    <Tags>C#; Windows; Azure; AI; Bots</Tags>
+    <LanguageTag>csharp</LanguageTag>
+    <PlatformTag>Windows</PlatformTag>
+    <PlatformTag>macOS</PlatformTag>
+    <PlatformTag>Linux</PlatformTag>
+    <ProjectTypeTag>AI Bots</ProjectTypeTag>
+  </TemplateData>
+  <TemplateContent>
+    <CustomParameters>
+      <CustomParameter Name="$templateversion$" Value="4.12.0"/>
+    </CustomParameters>
+    <Project File="CustomComponent.csproj" ReplaceParameters="true">
+      <Folder Name="Actions" TargetFolderName="Actions">
+        <ProjectItem ReplaceParameters="true">CustomAction.cs</ProjectItem>
+      </Folder>
+
+      <Folder Name="Schemas" TargetFolderName="Schemas">
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.CustomAction.schema">CustomComponent.CustomAction.schema</ProjectItem>
+        <ProjectItem ReplaceParameters="true" TargetFileName="$safeprojectname$.CustomAction.uischema">CustomComponent.CustomAction.uischema</ProjectItem>
+      </Folder>
+
+
+      <ProjectItem ReplaceParameters="true">ComponentPlugin.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">CustomComponentRegistration.cs</ProjectItem>
+      <ProjectItem ReplaceParameters="true">package-icon.png</ProjectItem>
+      <ProjectItem ReplaceParameters="true">LICENSE.md</ProjectItem>
+      <ProjectItem ReplaceParameters="true">README.md</ProjectItem>
+
+    </Project>
+  </TemplateContent>
+</VSTemplate>

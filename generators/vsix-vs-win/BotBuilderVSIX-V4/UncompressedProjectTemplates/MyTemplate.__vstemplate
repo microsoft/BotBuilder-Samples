@@ -12,6 +12,7 @@
       <ProjectTemplateLink ProjectName="EmptyBot">EmptyBot\EmptyBot.vstemplate</ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="EchoBot">EchoBot\EchoBot.vstemplate</ProjectTemplateLink>
       <ProjectTemplateLink ProjectName="CoreBot">CoreBot\CoreBot.vstemplate</ProjectTemplateLink>
+      <ProjectTemplateLink ProjectName="Component">Component\CustomComponent.vstemplate</ProjectTemplateLink>
     </ProjectCollection>
   </TemplateContent>
 </VSTemplate>

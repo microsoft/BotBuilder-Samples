@@ -1,0 +1,38 @@
+﻿{
+  "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+  "$role": "implements(Microsoft.IDialog)",
+  "title": "$safeprojectname$.CustomAction",
+  "description": "Description of what the custom action performs here.",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "Id",
+      "description": "Optional id for the dialog"
+    },
+    "disabled": {
+      "$ref": "schema:#/definitions/booleanExpression",
+      "title": "Disabled",
+      "description": "Optional condition which if true will disable this action.",
+      "examples": [
+        "user.age > 3"
+      ]
+    },
+    "property1": {
+      "$ref": "schema:#/definitions/stringExpression",
+      "title": "Property",
+      "description": "Property value or a memory path to bind to for property1 value.",
+      "examples": [
+          "dialog.userId"
+      ]
+    },
+    "resultProperty": {
+        "$ref": "schema:#/definitions/stringExpression",
+        "title": "Result property",
+        "description": "Property to store any value returned by the dialog that is called.",
+        "examples": [
+            "dialog.userName"
+        ]
+    }
+  }
+}

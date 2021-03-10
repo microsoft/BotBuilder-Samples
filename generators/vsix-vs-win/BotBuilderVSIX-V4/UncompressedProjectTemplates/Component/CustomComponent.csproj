@@ -1,0 +1,47 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <RepositoryUrl>https://docs.microsoft.com/en-us/composer/how-to-add-custom-action</RepositoryUrl>
+    <PackageIcon>package-icon.png</PackageIcon>
+    <PackageLicenseUrl />
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <Description>Microsoft Bot Framework custom action template.</Description>
+    <PackageLicenseFile>LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/microsoft/botbuilder-dotnet</PackageProjectUrl>
+    <Version>1.0.0-preview</Version>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageTags>bf-component</PackageTags>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Runtime.Plugins" Version="4.12.0-preview" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="**/*.dialog" />
+    <Content Include="**/*.lg" />
+    <Content Include="**/*.lu" />
+    <Content Include="**/*.schema" />
+    <Content Include="**/*.uischema" />
+    <Content Include="**/*.qna" />
+  </ItemGroup>
+
+    <ItemGroup>
+    <None Remove="Schemas\CustomComponent.CustomAction.schema" />
+    <None Remove="Schemas\CustomComponent.CustomAction.uischema" />
+    <None Include="LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="package-icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+  </ItemGroup>
+</Project>

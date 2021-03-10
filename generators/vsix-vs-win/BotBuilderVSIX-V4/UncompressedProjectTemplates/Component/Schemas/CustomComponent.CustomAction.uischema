@@ -1,0 +1,23 @@
+﻿{
+  "$schema": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "form": {
+    "label": "$safeprojectname$.CustomAction label here",
+    "subtitle": "$safeprojectname$.CustomAction subtitle",
+    "helpLink": "https://aka.ms/bfc-understanding-dialogs",
+    "order": [
+      "property1",
+      "resultProperty",
+      "*"
+    ],
+    "hidden": [
+      "actions"
+    ],
+    "properties": {
+      "property1": {
+        "intellisenseScopes": [
+          "variable-scopes"
+        ]
+      }
+    }
+  }
+}
