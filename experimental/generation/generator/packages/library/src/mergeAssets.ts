@@ -351,7 +351,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
 }
 
-const valuePattern = /(?<open>{@)(?<lable>[^@]+)=((?<value>[a-zA-Z]*)|($1))/g
+const valuePattern = /(?<open>{@)(?<lable>[^=]+)=((?<value>[a-zA-Z]*)|($1))/g
 
 /**
  * @description: Get the set of deleted utterance patterns.
