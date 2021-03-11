@@ -351,7 +351,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
 }
 
-const valuePattern = /(?<open>{@)(?<lable>[^=]+)=((?<value>[a-zA-Z]*)|($1))/g
+const valuePattern = /(?<open>{@)(?<label>[^=]+)=((?<value>[^{}]*)|($1))/g
 
 /**
  * @description: Get the set of deleted utterance patterns.
@@ -365,7 +365,6 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
     const lines = text.split(os.EOL)
     for (let line of lines) {
         if (line.startsWith('>') && line.match(valuePattern)) {
-            line = line.replace('>', '')
             const newLine = await generatePatternUtterance(line)
             delUtteranceSet.add(newLine)
         }
@@ -407,16 +406,7 @@ async function updateGeneratedLuFile(filename: string, newFileList: string[], ne
  * @param line Line of the lu file.
  */
 async function generatePatternUtterance(line: string): Promise<string> {
-    line = line.replace('-', '').trim()
-    const underLineStr : string[] = []
-    const matches = line.match(valuePattern)
-    if (matches !== null && matches !== undefined) {
-        for (const match of matches) {
-            const word = match.split('=')[1]
-            underLineStr.push(word)
-        }
-    }
-    line = underLineStr.join(' ')
+    line = line.replace(/{@?[^=]+=|}|^>+\s*-?\s*|^\s*-\s*|^\s+|\s+$/gm, '') 
     return line
 }
 
