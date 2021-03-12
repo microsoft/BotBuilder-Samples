@@ -333,7 +333,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
         else if (!ref.match('custom')) {
             resultRefs.push(ref)
             const filename = refFilename(ref, feedback)
-            await updateGeneratedLuFile(filename, newFileList, newPath, mergedPath, delUtteranceSet, feedback)
+            await updateGeneratedLUFile(filename, newFileList, newPath, mergedPath, delUtteranceSet, feedback)
         }
         else {
             resultRefs.push(ref)
@@ -351,7 +351,9 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
     await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
 }
 
-const valuePattern = /(?<open>{@)(?<label>[^=]+)=((?<value>[^{}]*)|($1))/g
+const valuePattern = /{@?([^=]*Value)\s*=([^}]*)}/g
+// Use property pattern to check if the utternace is the lu example, notice that value pattern might not always be in the lu example.
+const propertyPattern = /{@?([^=]*Property)\s*=/g
 
 /**
  * @description: Get the set of deleted utterance patterns.
@@ -364,7 +366,7 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     for (let line of lines) {
-        if (line.startsWith('>') && line.match(valuePattern)) {
+        if (line.startsWith('>') && line.match(propertyPattern)) {
             const newLine = await generatePatternUtterance(line)
             delUtteranceSet.add(newLine)
         }
@@ -380,13 +382,13 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
  * @param delUtteranceSet Set of deleted utterance patterns.
  * @param feedback Callback function for progress and errors.
  */
-async function updateGeneratedLuFile(filename: string, newFileList: string[], newPath: string, mergedPath: string, delUtteranceSet: Set<string>, feedback: Feedback): Promise<void> {
+async function updateGeneratedLUFile(filename: string, newFileList: string[], newPath: string, mergedPath: string, delUtteranceSet: Set<string>, feedback: Feedback): Promise<void> {
     const filePath = newFileList.filter(file => file.match(filename))[0]
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
     for (const line of lines) {
-        if (line.match(valuePattern)) {
+        if (line.match(propertyPattern)) {
             const newLine = await generatePatternUtterance(line)
             if (delUtteranceSet.has(newLine)) {
                 resultLines.push(`>${line}`)
@@ -428,7 +430,7 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
 
     const propertyValueSynonyms = await getSynonyms(schemaName, newPath, locale)
     for (const line of lines) {
-        if (line.match(valuePattern)) {
+        if (line.match(propertyPattern)) {
             const newLine = await replaceLine(line, propertyValueSynonyms)
             resultLines.push(newLine)
 
@@ -451,8 +453,8 @@ async function replaceLine(line: string, propertyValueSynonyms: Map<string, Set<
     if (matches !== undefined && matches !== null) {
         for (let i = 0; i < matches.length; i++) {
             const phrases = matches[i].split('=')
-            const key = phrases[0].replace('{@', '')
-            const value = phrases[1]
+            const key = phrases[0].replace('{@', '').trim()
+            const value = phrases[1].replace('}','').trim()
             if (propertyValueSynonyms.has(key)) {
                 const synonymsSet = propertyValueSynonyms.get(key)
                 if (synonymsSet !== undefined && !synonymsSet.has(value)) {
