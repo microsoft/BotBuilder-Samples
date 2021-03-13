@@ -67,10 +67,7 @@ ${'#'} ${type}Value_Value(entity)
     - a ${word}
 
 # missingDefault(type)
-- IF: ${isArrayProperty(property)}
-    - Add to ${propertyName()}?
-- ELSE:
-    - ${sentenceCase(propertyName())}?
+- ${sentenceCase(propertyName())}?
 
 # changeDefault(type)
 - IF: ${isArrayProperty(property)}

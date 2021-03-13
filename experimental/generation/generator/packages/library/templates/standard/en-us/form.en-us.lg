@@ -153,3 +153,5 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 # TODO
 - Update message to add/set depending on array
 - Quote values in correct places
+- Distinguish between Add() and Set() as operations
+
