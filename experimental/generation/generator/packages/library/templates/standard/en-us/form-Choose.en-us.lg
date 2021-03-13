@@ -5,11 +5,7 @@
 
 # chooseEnumEntity()
 > Choose between enum entity values
-- Please choose a value for ${chooseEntityPropertyName()} from ${chooseEntityValues()} to ${chooseEntityOperation()}
-
-# chooseEnumArrayEntity(property)
-> Choose between a list of enum entity values
-- Please choose a value for ${chooseEntityPropertyName()} from ${chooseEntityValues()} to ${chooseEntityOperation()}
+- Did you mean ${choices(turn.dialogEvent.value.value.value, enumName(turn.dialogEvent.value.value.type), 'or')} for ${chooseEntityPropertyName()}?
 
 # chooseEntityProperty
 > Property from the current event entity
@@ -23,15 +19,16 @@
 > Operation name from the current event entity
 - ${operationName(turn.dialogEvent.value.operation)}
 
-# chooseEntityValues()
-- ${entityValue(turn.dialogEvent.value.value)}
+# enumName(type)
+> Return the name of the template for enum values of entity
+- ${substring(type, 0, indexOf(type, 'Value'))}Enum_Value
 
 >> OnChooseProperty
 
 # chooseProperties
 > Choose between different properties
-- Did you mean ${join(foreach(turn.dialogevent.value, choice, chooseProperty(choice)), " or ")}?
+- Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
 
 # chooseProperty(property)
 > Display a possible property assignment
-- ${displayOperation(property.operation, property.property, property.entity)}
+- ${displayOperation(property.operation, property.property, property.value)}

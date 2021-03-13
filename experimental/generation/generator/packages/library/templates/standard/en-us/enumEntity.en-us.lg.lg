@@ -22,7 +22,7 @@ ${'#'} ${entity}_chooseEntity()
 -```
 ${'#'} ${entity}_Value(entity) 
 > Display value for '${entity}'
-- \${complexValue(entity.value, '${enumName(entity)}')}```
+- \${choices(entity.value, '${enumName(entity)}', 'and')}```
 
 # propertyEnumValue
 - ${join([namePlusSwitch(), cases(), default()], '')}

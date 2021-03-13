@@ -7,7 +7,7 @@
 - ```
 ${formImport('form.en-us.lg')}
 ${importLG(`${entity}`)}
-${promptTemplates(missingEnum(), changeEnum())}
+${promptTemplates(missingDefault(), changeDefault())}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
                         unexpectedSetDefault(),
@@ -19,18 +19,6 @@ ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${enumValueTemplate()}
 ```
-
-# missingEnum()
-- IF: ${isArrayProperty(property)}
-    - What values do you want to add for ${propertyName()}?
-- ELSE:
-    - What value do you want for ${propertyName()}?
-
-# changeEnum()
-- IF: ${isArrayProperty(property)}
-    - How do you want to change ${propertyName()} of ${propertyCurrentValue()}?
-- ELSE:
-    - What value should replace ${propertyCurrentValue()} in ${propertyName()}?
 
 # repromptEnum()
 - IF: ${isArrayProperty(property)}
@@ -48,7 +36,7 @@ ${enumValueTemplate()}
 - IF: ${isArrayProperty(property)}
     -```
 ${'#'} ${property}_Value(val)
-- \${complexValue(val, '${property}Enum_Value')}```
+- \${choices(val, '${enumName(entity)}', 'and')}```
 - ELSE:
     -```
 ${'#'} ${property}_Value(val)

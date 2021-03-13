@@ -341,7 +341,8 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${${property}_RemoveConfirmation(@${entity})}"
         },  
-        ${deleteOrRemove(entity)}
+        ${deleteOrRemove(entity)},
+        ${actionDeletePropertyToChange()}
     ]```
 
 # checkIfPresent(entity, actions)
@@ -691,11 +692,11 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ```
 >> Prompts
 
-${'#'} ${property}_MissingPrompt
+${'#'} ${property}_MissingPrompt()
 > Prompt when '${property}' property is missing
 - ${missing}
 
-${'#'} ${property}_ChangePrompt
+${'#'} ${property}_ChangePrompt()
 > Prompt when '${property}' property has a value, but is being changed
 - ${change}```
 
@@ -707,10 +708,7 @@ ${'#'} ${property}_ExpectedSetConfirmation(newVal)
 > Confirmation when adding expected value to empty '${property}' property
 - ${expectedSet}
 
-${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
-> Confirmation when replacing expected value in '${property}' property
-- ${expectedReplace}
-
+${expectedUpdateTemplate(expectedReplace)}
 ${'#'} ${property}_UnexpectedSetConfirmation(newVal)
 > Confirmation when adding unexpected value to empty '${property}' property
 - ${unexpectedSet}
@@ -723,26 +721,35 @@ ${'#'} ${property}_RemoveConfirmation(val)
 > Confirmation when value is removed from '${property}' property
 - ${remove}
 
-${'#'} ${property}_ClearConfirmation
+${'#'} ${property}_ClearConfirmation()
 > Confirmation when '${property}' property is cleared
 - ${clear}```
+
+# expectedUpdateTemplate(expectedReplace)
+- IF: ${!isArrayProperty(property)}
+    - ```${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
+> Confirmation when replacing expected value in '${property}' property
+- ${expectedReplace}
+```
+- ELSE:
+    -
 
 # helpTemplates(reprompt, help)
 - ```
 >> Help
 
-${'#'} ${property}_RepromptHelp
+${'#'} ${property}_RepromptHelp()
 > Help for '${property}' property reprompt
 - ${reprompt}
 
-${'#'} ${property}_Help
+${'#'} ${property}_Help()
 > Help for '${property}' property
 - ${help}```
 
 # showTemplate(show)
 - ```
 >> Show
-${'#'} ${property}_Show
+${'#'} ${property}_Show()
 > Show value of '${property}' property
 - ${show}```
 

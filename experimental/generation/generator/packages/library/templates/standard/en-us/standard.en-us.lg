@@ -68,13 +68,13 @@ ${'#'} ${type}Value_Value(entity)
 
 # missingDefault(type)
 - IF: ${isArrayProperty(property)}
-    - Enter ${definite(type)} to add to ${propertyName()}
+    - Add to ${propertyName()}?
 - ELSE:
-    - Enter ${definite(type)} for ${propertyName()}
+    - ${sentenceCase(propertyName())}?
 
 # changeDefault(type)
 - IF: ${isArrayProperty(property)}
-    - How do you want to change ${propertyCurrentValue()} in ${propertyName()}
+    - Changes to ${propertyCurrentValue()} in ${propertyName()}?
 - ELSE:
     - Change ${propertyCurrentValue()} in ${propertyName()} to?
 
