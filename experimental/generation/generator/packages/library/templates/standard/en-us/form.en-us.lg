@@ -151,7 +151,8 @@ You can also ask for over all help, cancel the whole form or skip a step.```
     - ${concat(join(foreach(subArray(list, 0, count(list) - 1), entry, `"${template(templateName, entry)}"`), ', '), `, ${final} `, `"${template(templateName, last(list))}"`)}
 
 # TODO
-- Update message to add/set depending on array
 - Quote values in correct places
-- Distinguish between Add() and Set() as operations
+- Revisit how choices and PROPERTY_Value interact, right now arrays end up with quotes and values do not which makes other templates variable in a weird way.
+- Add value to property vs. set property to value.  Probably need to update display operation to be smart on add/set.
+
 

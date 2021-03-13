@@ -73,7 +73,7 @@ ${'#'} ${type}Value_Value(entity)
 - IF: ${isArrayProperty(property)}
     - Changes to ${propertyCurrentValue()} in ${propertyName()}?
 - ELSE:
-    - Change ${propertyCurrentValue()} in ${propertyName()} to?
+    - Change "${propertyCurrentValue()}" in ${propertyName()} to?
 
 # repromptDefault(type)
 - ${helpDefault(type)}
@@ -95,16 +95,16 @@ ${'#'} ${type}Value_Value(entity)
 - IF: ${isArrayProperty(property)}
     - Added ${propertyValue('newVal')} to ${propertyName()}
 - ELSE:
-    - Set ${propertyName()} to ${propertyValue('newVal')}
+    - Set ${propertyName()} to "${propertyValue('newVal')}"
 
 # unexpectedUpdateDefault()
 - IF: ${isArrayProperty(property)}
     - ${unexpectedSetDefault()}
 - ELSE:
-    - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
+    - Changed ${propertyName()} from "${propertyCurrentValue()}" to "${propertyValue('newVal')}"
 
 # removeDefault()
-- Removed ${propertyValue('val')} from ${propertyName()}
+- Removed "${propertyValue('val')}" from ${propertyName()}
 
 # clearDefault()
 - Cleared ${propertyName()}

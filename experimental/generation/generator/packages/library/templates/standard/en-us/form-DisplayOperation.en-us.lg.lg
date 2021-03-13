@@ -9,17 +9,23 @@
 ${'#'} displayOperation(op, property, entity)
 > Display value for a combination of operation, property and entity
 - IF: \${op && property && entity.value} 
-        - \${operationName(op)} \${entity.text} to \${propertyName(property)}
+        - \${operationName(op, property)} \${entity.text} to \${propertyName(property)}
 - ELSEIF: \${op && property}
-        - \${operationName(op)} \${propertyName(property)}
+        - \${operationName(op, property)} \${propertyName(property)}
 - ELSE:
-        - \${operationName(op)}
+        - \${operationName(op, property)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+
+${'#'} addOrSetOp(property)
+- IF: \${isArrayProperty(property)}
+- add
+- ELSE:
+- set
 ```
 
 # namePlusSwitch
--```${'#'} operationName(op) 
+-```${'#'} operationName(op, property) 
 > Display value for an operation
 - SWITCH: \${op}```
 
@@ -27,6 +33,11 @@ ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 - ${foreach(operations, op, case(op))}
 
 # case(op)
+- SWITCH: ${op}
+- CASE: ${'Add()'}
+-```    - CASE: \${'${op}'}
+        - \${addOrSetOp(property)}```
+- DEFAULT:
 -```    - CASE: \${'${op}'}
         - ${phrase(substring(op, 0, indexOf(op, '(')))}```
 
