@@ -162,7 +162,13 @@ namespace Microsoft.BotBuilderSamples.Bots
         public MessagingExtensionResponse GetConnectorCard()
         {
             string filepath = "./Resources/connectorCard.json";
+            var json = File.ReadAllText(filepath);
 
+            var cardJson = JsonConvert.DeserializeObject<ConnectorJsonSerializer>(json);
+
+            cardJson.sections[0].activityImage = _configuration + "/imgConnector.jpg";
+
+            var ConnectorCardJson = JsonConvert.SerializeObject(cardJson);
             var previewcard = new ThumbnailCard
             {
                 Title = "O365 Connector Card",

@@ -5,7 +5,7 @@
     {
       "activityTitle": "Steve Tweeted",
       "activitySubtitle": "With #MicrosoftTeams",
-      "activityImage": "https://teamsmessagingextensionssearch20210304124622.azurewebsites.net/MSC12_Oscar_002.jpg"
+      "activityImage": "${ImageBaseUrl}"
     },
     {
       "facts": [

@@ -2,7 +2,7 @@
   "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
   "manifestVersion": "1.5",
   "version": "1.0",
-  "id": "<<Your-Microsoft-App_Id>>",
+  "id": "<<Your Microsoft App Id>>",
   "packageName": "com.microsoft.teams.samples.searchExtension",
   "developer": {
     "name": "Microsoft Corp",
@@ -25,7 +25,7 @@
   "accentColor": "#abcdef",
   "composeExtensions": [
     {
-      "botId": "<<Your-Microsoft-App_Id>>",
+      "botId": "<<Your Microsoft App Id>>",
       "canUpdateConfiguration": true,
       "commands": [
         {
