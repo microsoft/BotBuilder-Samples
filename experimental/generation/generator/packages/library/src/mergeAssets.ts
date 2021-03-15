@@ -354,6 +354,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
 const valuePattern = /{@?([^=]*Value)\s*=([^}]*)}/g
 // Use property pattern to check if the utternace is the lu example, notice that value pattern might not always be in the lu example.
 const propertyPattern = /{@?([^=]*Property)\s*=/g
+const commentOutPattern = /^>\s*-/m     
 
 /**
  * @description: Get the set of deleted utterance patterns.
@@ -366,7 +367,7 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     for (let line of lines) {
-        if (line.startsWith('>') && line.match(propertyPattern)) {
+        if (line.match(commentOutPattern) && line.match(propertyPattern)) {
             const newLine = await generatePatternUtterance(line)
             delUtteranceSet.add(newLine)
         }
