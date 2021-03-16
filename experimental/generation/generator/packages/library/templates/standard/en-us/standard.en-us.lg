@@ -71,7 +71,7 @@
 
 # changeDefault(type)
 - IF: ${isArrayProperty(property)}
-    - Changes to ${propertyCurrentValue()} in ${propertyName()}?
+    - Changes to "${propertyCurrentValue()}" in ${propertyName()}?
 - ELSE:
     - Change "${propertyCurrentValue()}" in ${propertyName()} to?
 
