@@ -343,7 +343,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
 
     let val = resultRefs.join(os.EOL)
 
-    let patternIndex = oldText.search(GeneratorPattern)
+    const patternIndex = oldText.search(GeneratorPattern)
     if (patternIndex !== -1) {
         val = val + os.EOL + oldText.substring(patternIndex)
     }
@@ -366,7 +366,7 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
     const filePath = oldFileList.filter(file => file.match(filename))[0]
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
-    for (let line of lines) {
+    for (const line of lines) {
         if (line.match(commentOutPattern) && line.match(propertyPattern)) {
             const newLine = await generatePatternUtterance(line)
             delUtteranceSet.add(newLine)
@@ -440,7 +440,7 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
         }
     }
 
-    let val = resultLines.join(os.EOL)
+    const val = resultLines.join(os.EOL)
     await writeToFile(oldPath, mergedPath, `${schemaName}-custom.${locale}.lu`, oldFileList, val, feedback)
 }
 
