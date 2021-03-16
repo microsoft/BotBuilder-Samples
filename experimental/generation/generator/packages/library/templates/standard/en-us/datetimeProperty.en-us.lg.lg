@@ -8,6 +8,6 @@
 
 # validationTemplate
 - ```
-${'#'} ${property}_invalidDate(val)
+# ${property}_invalidDate(val)
 > Invalid value for '${property}' property
 - \${${property}_Value(val)} is not a date```

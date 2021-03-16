@@ -14,22 +14,22 @@ ${chooseEntity()}
 
 # chooseEntity
 -```
-${'#'} ${entity}_chooseEntity()
+# ${entity}_chooseEntity()
 > Choose between '${entity}' values
 - \${chooseEnumEntity()}```
 
 # propertyEntityValue
 -```
-${'#'} ${entity}_Value(entity) 
+# ${entity}_Value(entity) 
 > Display value for '${entity}'
-- \${complexValue(entity.value, '${enumName(entity)}')}```
+- \${choices(entity.value, '${enumName(entity)}', 'and')}```
 
 # propertyEnumValue
 - ${join([namePlusSwitch(), cases(), default()], '')}
 
 # namePlusSwitch
 -```
-${'#'} ${enumName(entity)}(value) 
+# ${enumName(entity)}(value) 
 > Display value for '${entity}' enumeration value
 - SWITCH: \${value}```
 

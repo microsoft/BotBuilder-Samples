@@ -521,14 +521,14 @@ function verifyEnumAndGetExamples(schema: any, property: string, locale: string,
     let usedLocale = true
     let global = false
     if (!examples) {
-        usedLocale = false
-        global = false
-        examples = propertySchema.$examples?.['']?.[entity]
-    }
-    if (!examples) {
         usedLocale = true
         global = true
         examples = schema.$examples?.[locale]?.[entity]
+    }
+    if (!examples) {
+        usedLocale = false
+        global = false
+        examples = propertySchema.$examples?.['']?.[entity]
     }
     if (!examples) {
         usedLocale = false

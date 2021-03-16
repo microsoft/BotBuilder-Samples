@@ -341,7 +341,8 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${${property}_RemoveConfirmation(@${entity})}"
         },  
-        ${deleteOrRemove(entity)}
+        ${deleteOrRemove(entity)},
+        ${actionDeletePropertyToChange()}
     ]```
 
 # checkIfPresent(entity, actions)
@@ -530,7 +531,7 @@ ${defineOperation('Help', entity)}
     - @ ml dummyProperty
 
 > Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
-${'#'} ${triggerIntent}
+# ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`,
     substitutionScope(utterances, entityValues(values), label),
@@ -691,11 +692,11 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ```
 >> Prompts
 
-${'#'} ${property}_MissingPrompt
+# ${property}_MissingPrompt()
 > Prompt when '${property}' property is missing
 - ${missing}
 
-${'#'} ${property}_ChangePrompt
+# ${property}_ChangePrompt()
 > Prompt when '${property}' property has a value, but is being changed
 - ${change}```
 
@@ -703,53 +704,59 @@ ${'#'} ${property}_ChangePrompt
 - ```
 >> Confirmation
 
-${'#'} ${property}_ExpectedSetConfirmation(newVal)
+# ${property}_ExpectedSetConfirmation(newVal)
 > Confirmation when adding expected value to empty '${property}' property
 - ${expectedSet}
 
-${'#'} ${property}_ExpectedUpdateConfirmation(newVal)
-> Confirmation when replacing expected value in '${property}' property
-- ${expectedReplace}
-
-${'#'} ${property}_UnexpectedSetConfirmation(newVal)
+${expectedUpdateTemplate(expectedReplace)}
+# ${property}_UnexpectedSetConfirmation(newVal)
 > Confirmation when adding unexpected value to empty '${property}' property
 - ${unexpectedSet}
 
-${'#'} ${property}_UnexpectedUpdateConfirmation(newVal)
+# ${property}_UnexpectedUpdateConfirmation(newVal)
 > Confirmation when replacing unexpected value in '${property}' property
 - ${unexpectedReplace}
 
-${'#'} ${property}_RemoveConfirmation(val)
+# ${property}_RemoveConfirmation(val)
 > Confirmation when value is removed from '${property}' property
 - ${remove}
 
-${'#'} ${property}_ClearConfirmation
+# ${property}_ClearConfirmation()
 > Confirmation when '${property}' property is cleared
 - ${clear}```
+
+# expectedUpdateTemplate(expectedReplace)
+- IF: ${!isArrayProperty(property)}
+    - ```# ${property}_ExpectedUpdateConfirmation(newVal)
+> Confirmation when replacing expected value in '${property}' property
+- ${expectedReplace}
+```
+- ELSE:
+    -
 
 # helpTemplates(reprompt, help)
 - ```
 >> Help
 
-${'#'} ${property}_RepromptHelp
+# ${property}_RepromptHelp()
 > Help for '${property}' property reprompt
 - ${reprompt}
 
-${'#'} ${property}_Help
+# ${property}_Help()
 > Help for '${property}' property
 - ${help}```
 
 # showTemplate(show)
 - ```
 >> Show
-${'#'} ${property}_Show
+# ${property}_Show()
 > Show value of '${property}' property
 - ${show}```
 
 # incorrectUnitsTemplate()
 - IF: ${units()}
 - ```
-${'#'} ${property}_IncorrectUnits(actual)
+# ${property}_IncorrectUnits(actual)
 > Incorrect units for '${property}' property
 - \${actual} must be '${units()}'```
 - ELSE:
