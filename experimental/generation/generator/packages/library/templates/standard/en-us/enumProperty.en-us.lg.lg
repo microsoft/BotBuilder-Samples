@@ -35,11 +35,11 @@ ${enumValueTemplate()}
 # enumValueTemplate
 - IF: ${isArrayProperty(property)}
     -```
-${'#'} ${property}_Value(val)
+# ${property}_Value(val)
 - \${choices(val, '${enumName(entity)}', 'and')}```
 - ELSE:
     -```
-${'#'} ${property}_Value(val)
-- \${${enumName(entity)}(val)}```
+# ${property}_Value(val)
+- '\${${enumName(entity)}(val)}'```
 
 

@@ -17,7 +17,7 @@
 
 # chooseEntityOperation()
 > Operation name from the current event entity
-- ${operationName(turn.dialogEvent.value.operation, turn.dialogEvent.value.property)}
+- ${operationName(turn.dialogEvent.value.operation)}
 
 # enumName(type)
 > Return the name of the template for enum values of entity
