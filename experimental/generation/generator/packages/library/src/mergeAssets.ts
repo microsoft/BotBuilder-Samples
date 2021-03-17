@@ -352,8 +352,6 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
 }
 
 const valuePattern = /{@?([^=]*Value)\s*=([^}]*)}/g
-// Use property pattern to check if the utternace is the lu example, notice that value pattern might not always be in the lu example.
-const propertyPattern = /{@?([^=]*Property)\s*=/g
 const commentOutPattern = /^>\s*-/m     
 
 /**
@@ -367,7 +365,7 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     for (const line of lines) {
-        if (line.match(commentOutPattern) && line.match(propertyPattern)) {
+        if (line.match(commentOutPattern)) {
             const newLine = await generatePatternUtterance(line)
             delUtteranceSet.add(newLine)
         }
@@ -389,16 +387,13 @@ async function updateGeneratedLUFile(filename: string, newFileList: string[], ne
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
     for (const line of lines) {
-        if (line.match(propertyPattern)) {
-            const newLine = await generatePatternUtterance(line)
-            if (delUtteranceSet.has(newLine)) {
-                resultLines.push(`>${line}`)
-            } else {
-                resultLines.push(line)
-            }
+       const newLine = await generatePatternUtterance(line)
+       if (delUtteranceSet.has(newLine)) {
+           resultLines.push(`>${line}`)
         } else {
             resultLines.push(line)
         }
+     
     }
     let val = resultLines.join(os.EOL)
     await writeToFile(newPath, mergedPath, filename, newFileList, val, feedback)
@@ -431,10 +426,9 @@ async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: 
 
     const propertyValueSynonyms = await getSynonyms(schemaName, newPath, locale)
     for (const line of lines) {
-        if (line.match(propertyPattern)) {
+        if (line.match(valuePattern)) {
             const newLine = await replaceLine(line, propertyValueSynonyms)
             resultLines.push(newLine)
-
         } else {
             resultLines.push(line)
         }
