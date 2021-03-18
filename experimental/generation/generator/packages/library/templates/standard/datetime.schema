@@ -1,9 +1,6 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "$entities": [
-        "datetimeV2"
-    ],
     "properties": {
         "type": {
             "type": "string"
@@ -16,16 +13,10 @@
         "type",
         "timex"
     ],
-    "$templates": [
-        "datetimeV2Entity.lu",
-        "datetimeV2Entity.lg",
-        "objectProperty.lg",
-        "generic-missing.dialog",
-        "datetimeV2Entity-add.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-show.dialog"
-    ]
+    "$template": "datetime",
+    "$generator": {
+        "title": "LUIS Datetime",
+        "description": "Map entities like 'first of the month' into a type and timex expression.",
+        "$ref": "array.json"
+    }
 }

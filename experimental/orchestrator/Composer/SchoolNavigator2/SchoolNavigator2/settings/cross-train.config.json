@@ -1,0 +1,16 @@
+{
+  "schoolnavigatorbot.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "schoolnavigator": [
+        "SchoolNavigator.en-us"
+      ]
+    }
+  },
+  "SchoolNavigator.en-us": {
+    "rootDialog": false,
+    "triggers": {
+      "exit": []
+    }
+  }
+}

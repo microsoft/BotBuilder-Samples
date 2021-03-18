@@ -1,18 +1,10 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "number",
-    "$entities": [
-        "percentage"
-    ],
-    "$templates": [
-        "number",
-        "percentageEntity.lu",
-        "percentageEntity.lg",
-        "percentageEntity-add-number.dialog",
-        "percentageEntity-remove-number.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-show.dialog"
-    ]
+    "$template": "percentage",
+    "$generator": {
+        "title": "Percentage",
+        "description": "Map a LUIS percentage entity like '4 percent' into a number.",
+        "$ref": "array.json"
+    }
 }

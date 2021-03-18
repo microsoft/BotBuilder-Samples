@@ -14,7 +14,7 @@
         {
             "$kind": "Microsoft.SetProperty",
             "property": "$PropertyToChange",
-            "value": "=turn.dialogEvent.value.entity.name"
+            "value": "=turn.dialogEvent.value.value.name"
         }
     ]
     ${designerOpEntityProperty('Set', 'PROPERTYName', 'CompleteConfirmation')}

@@ -1,9 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema",
     "type": "object",
-    "$entities": [
-        "geographyV2"
-    ],
+    "$template": "geography",
     "properties": {
         "type": {
             "type": "string"
@@ -16,16 +14,9 @@
         "type",
         "location"
     ],
-    "$templates": [
-        "geographyV2Entity.lu",
-        "geographyV2Entity.lg",
-        "objectProperty.lg",
-        "generic-missing.dialog",
-        "genericEntity-add.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-show.dialog"
-    ]
+    "$generator": {
+        "title": "Geography",
+        "description": "Map geography entities like 'Ames' into a type and location.",
+        "$ref": "array.json"
+    }
 }

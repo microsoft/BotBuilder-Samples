@@ -4,4 +4,4 @@
 - ${['boolean']}
 
 # templates
-- ${genericPropertyTemplates()}
+- ${standardTemplates()}

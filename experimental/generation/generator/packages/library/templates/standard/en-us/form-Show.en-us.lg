@@ -41,4 +41,4 @@
 
 # getPropertyAsFact(property)
 > Display property value as a card fact
-- {"title": "${propertyName(property)}", "value": "${propertyValue(property, dialog[property])}"}
+- {"title": "${propertyName(property)}", "value": "${replace(propertyValue(property, dialog[property]), '"', '\"')}"}

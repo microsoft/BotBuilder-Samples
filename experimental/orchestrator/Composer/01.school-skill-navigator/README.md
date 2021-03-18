@@ -58,7 +58,7 @@ This sample **requires** prerequisites in order to run.
 
 ## Part 1: Evaluate and improve the quality of the training set
 
-To statistically evaluate the performance of a training set, we need a test set. If you do not have a test set, please skip to [Part 2](#part-2:-use-composer-to-build-a-bot-from-a-training-file). To explain the example, we have two files attached in this folder: a training file [schoolnavigatorbot.train.lu](schoolnavigatorbot.train.lu) to build the language model, and a test file [schoolnavigatorbot.test.lu](schoolnavigatorbot.test.lu) to evaluate the accuracy of the language model.
+To statistically evaluate the performance of a training set, we need a test set. If you do not have a test set, please skip to [Part 2](#part-2:-use-composer-to-build-a-bot-from-a-training-file). To explain the example, we have two files attached in this folder: a training file [schoolnavigatorbot.train.lu](schoolnavigatorbot.train.lu) to build the language model, and a test file [schoolnavigatorbot.test.lu](schoolnavigatorbot.test.lu) to evaluate the accuracy of the language model. Note that for proper evaluation the utterances in the test file should not be included in the training file.
 
 ### Evaluation
 
@@ -83,7 +83,7 @@ Evaluation reports should be written to folder [report](report). Detail report i
 
 ### Improve
 
-Accuracy 0.9869 is high but not perfect yet. To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mis-labeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions. In our example, there are 2 mis-labeled utterances, we will use them to illustrate the improving process here.![Misclassified](report/misclassified.PNG)
+Accuracy 0.9869 is high but not perfect yet (note that in most real-life case one should not expect 100% accuracy ). To improve the quality of the training set, we could benefit from the **Misclassified** information from the evaluation report. In this page, all mislabeled query utterances from the test set are listed. **Labels** refer to the ground-truth labels, and **predictions** refer to the model predictions. In our example, there are 2 mislabeled utterances, we will use them to illustrate the improving process here.![Misclassified](report/misclassified.PNG)
 
 Next we are going to use the two mis-classified query utterances to show how to improve the training set. 
 
@@ -108,11 +108,11 @@ Next we are going to use the two mis-classified query utterances to show how to 
 
 ## Part 2: Use Composer to build a bot from a training set (.lu file)
 
-Once you have edited the .LU file such that the report show satisfactory language recognition, replace the contents of the corresponding file [schoolnavigatorbot.en-us.lu](./SchoolNavigatorBot/language-understanding/en-us/schoolnavigatorbot.en-us.lu)  in the Composer solution (either overwrite the file or copy/paste the contents inside Composer LU corresponding to the SchoolNavigator dialog). 
+If you used a test file or have modified the .LU file such that the report show satisfactory language recognition, replace the contents of the corresponding file [schoolnavigatorbot.en-us.lu](./SchoolNavigatorBot/language-understanding/en-us/schoolnavigatorbot.en-us.lu)  in the Composer solution (either overwrite the file or copy/paste the contents inside Composer LU corresponding to the SchoolNavigator dialog). 
 
-Build and run Composer project and test that language recognition is satisfactory.
+Build and run Composer project and test that language recognition is satisfactory such as by interacting with your bot using Bot Framework Emulator.
 
-This process shall be repeated periodically as new utterances are discovered as users interact with the bot (see next section)
+This process shall be repeated periodically as new utterances are discovered as users interact with the bot (see next section).
 
 
 

@@ -4,4 +4,4 @@
 - ${filenameForEntityTypeLG('personName')}
 
 # template
-- ${entityTypeTemplate('personName')}
+- ${entityTextTemplate('personName')}
