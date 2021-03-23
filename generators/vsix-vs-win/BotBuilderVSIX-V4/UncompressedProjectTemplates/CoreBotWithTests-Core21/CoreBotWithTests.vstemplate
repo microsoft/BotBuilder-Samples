@@ -24,7 +24,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.12.1"/>
+      <CustomParameter Name="$templateversion$" Value="4.12.2"/>
     </CustomParameters>
     <ProjectCollection>
       <ProjectTemplateLink CopyParameters="true" ProjectName="$safeprojectname$">
