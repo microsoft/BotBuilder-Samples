@@ -44,10 +44,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.12.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.12.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.12.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.12.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.11.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.11.2" />
   </ItemGroup>
 
   <ItemGroup>

@@ -6,10 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="AdaptiveExpressions" Version="4.12.1" />
+    <PackageReference Include="AdaptiveExpressions" Version="4.11.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.12.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.12.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.11.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.11.2" />
   </ItemGroup>
 
   <ItemGroup>
