@@ -5,7 +5,7 @@ The following sample illustrates how to evaluate and improve a simple language m
 ## Prerequisites
 
 * [Bot Framework CLI][5]
-* [Bot Framework CLI Orchestrator plugin](1) 
+* [Bot Framework CLI Orchestrator plugin][1] 
 * An understanding of [Orchestrator][6] feature usage.
 
 ## Walkthrough
@@ -139,8 +139,8 @@ This walkthrough showed how to improve your bot's language model before ever dep
 
 
 [1]: https://aka.ms/bforchestratorcli	"Orchestrator Plugin"
-[2]:https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0	"LU file format"
-[3]:https://aka.ms/bforchestratorreport "report interpretation"
+[2]: https://docs.microsoft.com/en-us/azure/bot-service/file-format/bot-builder-lu-file-format?view=azure-bot-service-4.0	"LU file format"
+[3]: https://aka.ms/bforchestratorreport "report interpretation"
 [4]: https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/BFOrchestratorUsage.md "BF Orchestrator usage"
 [5]: https://github.com/microsoft/botframework-cli
 [6]: https://aka.ms/bf-orchestrator
