@@ -24,7 +24,34 @@
                     "bubbleEvent": false
                 }
             ]
-        }
+        },
+        ${setProperties()}
     ]
 }
 ```
+
+# setProperties()
+- ${join(foreach(where(schema.properties, property, property.value.$examples), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
+
+
+# setPropertyAction(property)
+-```
+{
+    "$kind": "Microsoft.SetProperty",
+    "property": "dialog.${property.key}Value",
+    "value":  {
+    "entity": "${property.key}Value",
+    "list": [
+        ${listElements(property)}
+    ]
+    }
+}
+```
+
+# listElements(property)
+- IF: ${getProperty(property.value.$examples[""], concat(property.key, 'Value'))}
+    - ${join(foreach(indicesAndValues(getProperty(property.value.$examples[""], concat(property.key, 'Value'))), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- ELSEIF: ${getProperty(property.value.$examples[locale], concat(property.key, 'Value'))}
+    - ${join(foreach(indicesAndValues(getProperty(property.value.$examples[locale], concat(property.key, 'Value'))), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- ELSE:
+    -

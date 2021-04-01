@@ -14,10 +14,13 @@
     "endpointKey": "=settings.luis.endpointKey",
     "predictionOptions": {
         "includeInstanceData": true
-    }
+    },
+    "dynamiclist": ${addList()}
 }
 ```
 
 # appName
 - ${prefix}_${replace(locale, '-', '_')}_lu
 
+# addList
+- [${join(foreach(where(schema.properties, property, property.value.$examples), result, `"dialog.${result.key}Value"`), `,`)}]

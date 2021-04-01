@@ -640,6 +640,12 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # synonyms(phrases)
 - ${join(foreach(phrases, phrase, `        - ${phrase}`), EOL())}
 
+# synonymsForDynamicList(phrases)
+- IF: ${phrases}
+- ${join(foreach(phrases, phrase, `"${phrase}"`), `,`)}
+- ELSE:
+-
+
 # luHeader()
 -```> !# @app.culture = ${locale}
 > !# @app.settings.NormalizeWordForm = true
