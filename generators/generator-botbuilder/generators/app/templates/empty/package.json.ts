@@ -24,8 +24,8 @@
     },
     "devDependencies": {
         "@types/restify": "8.4.2",
-        "nodemon": "~2.0.4",
-        "tslint": "~6.1.2",
-        "typescript": "~3.9.2"
+        "nodemon": "^2.0.4",
+        "tslint": "^6.1.2",
+        "typescript": "^3.9.2"
     }
 }
