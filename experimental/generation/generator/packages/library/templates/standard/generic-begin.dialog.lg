@@ -1,0 +1,35 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${beginFilename()}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnBeginDialog",
+    "actions":  [
+        ${setPropertyAction()}
+    ]
+}
+```
+
+# setPropertyAction()
+-```
+{
+    "$kind": "Microsoft.SetProperty",
+    "property": "dialog.${property}Value",
+    "value":  {
+    "entity": "${property}Value",
+    "list": [
+        ${listElements()}
+        ]
+    }
+}
+```
+
+# listElements()
+- IF: ${examples}
+    - ${join(foreach(examples, enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- ELSE:
+    -

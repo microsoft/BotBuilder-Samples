@@ -24,8 +24,7 @@
                     "bubbleEvent": false
                 }
             ]
-        },
-        ${setProperties()}
+        }
     ]
 }
 ```

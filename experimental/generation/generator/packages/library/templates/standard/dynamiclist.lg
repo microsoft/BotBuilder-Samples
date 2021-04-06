@@ -1,0 +1,9 @@
+[generator.lg](../generator.lg)
+
+# entities
+- ${['${property}Value']}
+
+# templates
+- ${[
+        "generic-begin.dialog"
+    ]}

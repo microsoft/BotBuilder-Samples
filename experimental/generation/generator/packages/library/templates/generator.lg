@@ -40,6 +40,9 @@
 # helpFilename()
 - ${dialogDir()}${property}/${prefix}-${property}-help.dialog
 
+# beginFilename()
+- ${dialogDir()}${property}/${prefix}-${property}-begin.dialog
+
 # builtinEntityFilename(entity)
 - ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
