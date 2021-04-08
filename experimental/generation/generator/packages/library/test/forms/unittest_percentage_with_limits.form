@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Percentage": {
-            "$ref": "template:percentage.schema",
+            "$ref": "template:percentage.template",
             "minimum": 1,
             "maximum": 10
         }

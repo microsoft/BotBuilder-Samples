@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "From": {
-            "$ref": "template:string.schema",
+            "$ref": "template:string.template",
             "$examples": {
                 "": ["Chris", "Bob"]
             },

@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "OrdinalV2": {
-            "$ref": "template:ordinal.schema"
+            "$ref": "template:ordinal.template"
         }
     },
     "required": [

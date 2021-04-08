@@ -40,17 +40,17 @@ export function feedbackException(type: fg.FeedbackType, message: string) {
 // Cache of all schemas
 const SchemaCache: { [path: string]: any } = {}
 
-// All .schema files found in template directories
+// All .template files found in template directories
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<IdToSchema> {
     const map: IdToSchema = {}
     for (const dir of templateDirs) {
-        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
+        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.template'))) {
             let schema = SchemaCache[file]
             if (!schema) {
                 schema = await getSchema(file, feedback)
                 SchemaCache[file] = schema
             }
-            const id = schema.$id || ppath.basename(file, '.schema').toLowerCase()
+            const id = schema.$id || ppath.basename(file, '.template').toLowerCase()
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
@@ -80,7 +80,7 @@ async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, res
         for (const [child, val] of Object.entries(schema)) {
             if (child === '$requires') {
                 for (const required of val as string[]) {
-                    await addRequired(ppath.basename(required, '.schema'))
+                    await addRequired(ppath.basename(required, '.template'))
                 }
             } else {
                 await findRequires(val, map, found, resolver, feedback)
@@ -152,7 +152,7 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
         resolver: {
             canRead: /template:/,
             read(file: any): any {
-                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.schema')
+                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.template')
                 const schema = allRequired[base.toLowerCase()]
                 if (!schema) {
                     throw new Error(`Could not find ${file.url}`)
@@ -255,7 +255,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     const required = {}
     if (!formSchema.$requires) {
         // Default to standard schema
-        formSchema.$requires = ['standard.schema']
+        formSchema.$requires = ['standard.template']
     }
     if (!formSchema.$templateDirs) {
         // Default to including schema directory
