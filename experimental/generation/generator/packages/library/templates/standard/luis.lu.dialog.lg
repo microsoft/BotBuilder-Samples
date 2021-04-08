@@ -15,7 +15,7 @@
     "predictionOptions": {
         "includeInstanceData": true
     },
-    "dynamiclist": ${addList()}
+    "dynamicLists": "=${addList()}"
 }
 ```
 
@@ -23,4 +23,4 @@
 - ${prefix}_${replace(locale, '-', '_')}_lu
 
 # addList
-- [${join(foreach(where(schema.properties, property, property.value.$examples), result, `"dialog.${result.key}Value"`), `,`)}]
+- [${join(foreach(where(schema.properties, property, property.value.$dynamiclist == "true"), result, `dialog.${result.key}Value`), `,`)}]

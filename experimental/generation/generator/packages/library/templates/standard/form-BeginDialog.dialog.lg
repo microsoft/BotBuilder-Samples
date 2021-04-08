@@ -31,7 +31,7 @@
 ```
 
 # setProperties()
-- ${join(foreach(where(schema.properties, property, property.value.$examples), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
+- ${join(foreach(where(schema.properties, property, property.value.$dynamiclist == "true"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
 
 
 # setPropertyAction(property)
