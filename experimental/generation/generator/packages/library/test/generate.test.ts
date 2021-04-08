@@ -324,9 +324,9 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             const schemas = await ps.schemas()
-            const totalExpected = 25
+            const totalExpected = 26
             const globalExpected = 3
-            const propertyExpected = 22
+            const propertyExpected = 23
             assert.strictEqual(Object.keys(schemas).length, totalExpected, `Expected ${totalExpected} schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0

@@ -13,26 +13,42 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${welcome()}"           
         },
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "!turn.activityProcessed",
-            "actions": [
-                {
-                    "$kind": "Microsoft.EmitEvent",
-                    "eventName": "activityReceived",
-                    "eventValue": "=turn.activity",
-                    "bubbleEvent": false
-                }
-            ]
-        },
-        ${setProperties()}
+        ${setActions()}
     ]
 }
 ```
 
-# setProperties()
-- ${join(foreach(where(schema.properties, property, property.value.$dynamiclist == "true"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
+# setActions
+- IF: ${!empty(where(schema.properties, property, property.value.$dynamiclist == "true"))}
+-```{
+        "$kind": "Microsoft.IfCondition",
+        "condition": "!turn.activityProcessed",
+        "actions": [
+            {
+                "$kind": "Microsoft.EmitEvent",
+                "eventName": "activityReceived",
+                "eventValue": "=turn.activity",
+                "bubbleEvent": false
+            }
+        ]
+    },
+    ${setPropertiesForDynamiclists()}```
+- ELSE: 
+-``` {
+        "$kind": "Microsoft.IfCondition",
+        "condition": "!turn.activityProcessed",
+        "actions": [
+            {
+                "$kind": "Microsoft.EmitEvent",
+                "eventName": "activityReceived",
+                "eventValue": "=turn.activity",
+                "bubbleEvent": false
+            }
+        ]
+    }```
 
+# setPropertiesForDynamiclists()
+- ${join(foreach(where(schema.properties, property, property.value.$dynamiclist == "true"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
 
 # setPropertyAction(property)
 -```
