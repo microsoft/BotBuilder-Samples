@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Meat": {
+            "$ref": "template:dynamiclist.schema",
+            "enum": [
+                "bacon",
+                "chicken",
+                "ham",
+                "pulled pork",
+                "roast beef",
+                "salami",
+                "turkey",
+                "none"
+            ],
+            "$examples": {
+                "": {
+                    "MeatPhrases": [
+                        "meat",
+                        "protein"
+                    ],
+                    "MeatValue": {
+                        "bacon": [],
+                        "chicken": [],
+                        "ham": [],
+                        "pulled pork": [
+                            "pork"
+                        ],
+                        "roast beef": [],
+                        "salami": [],
+                        "turkey": [],
+                        "none": []
+                    }
+                }
+            }
+        }
+    },
+    "required": [
+        "Meat"
+    ]
+}

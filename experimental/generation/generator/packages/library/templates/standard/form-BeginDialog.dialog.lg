@@ -13,42 +13,28 @@
             "$kind": "Microsoft.SendActivity",
             "activity": "\${welcome()}"           
         },
-        ${setActions()}
+        {
+        "$kind": "Microsoft.IfCondition",
+        "condition": "!turn.activityProcessed",
+        "actions": [
+            {
+                "$kind": "Microsoft.EmitEvent",
+                "eventName": "activityReceived",
+                "eventValue": "=turn.activity",
+                "bubbleEvent": false
+            }
+        ]
+        }${setPropertiesForDynamiclists()}
     ]
 }
 ```
 
-# setActions
-- IF: ${!empty(where(schema.properties, property, property.value.$dynamiclist == "true"))}
--```{
-        "$kind": "Microsoft.IfCondition",
-        "condition": "!turn.activityProcessed",
-        "actions": [
-            {
-                "$kind": "Microsoft.EmitEvent",
-                "eventName": "activityReceived",
-                "eventValue": "=turn.activity",
-                "bubbleEvent": false
-            }
-        ]
-    },
-    ${setPropertiesForDynamiclists()}```
+# setPropertiesForDynamiclists
+- IF: ${!empty(where(schema.properties, property, property.value.$dynamiclist))}
+-```,
+${join(foreach(where(schema.properties, property, property.value.$dynamiclist), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
 - ELSE: 
--``` {
-        "$kind": "Microsoft.IfCondition",
-        "condition": "!turn.activityProcessed",
-        "actions": [
-            {
-                "$kind": "Microsoft.EmitEvent",
-                "eventName": "activityReceived",
-                "eventValue": "=turn.activity",
-                "bubbleEvent": false
-            }
-        ]
-    }```
-
-# setPropertiesForDynamiclists()
-- ${join(foreach(where(schema.properties, property, property.value.$dynamiclist == "true"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}
+- 
 
 # setPropertyAction(property)
 -```
@@ -65,9 +51,7 @@
 ```
 
 # listElements(property)
-- IF: ${getProperty(property.value.$examples[""], concat(property.key, 'Value'))}
-    - ${join(foreach(indicesAndValues(getProperty(property.value.$examples[""], concat(property.key, 'Value'))), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
-- ELSEIF: ${getProperty(property.value.$examples[locale], concat(property.key, 'Value'))}
-    - ${join(foreach(indicesAndValues(getProperty(property.value.$examples[locale], concat(property.key, 'Value'))), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- IF: ${propertyValueList(property.key)}
+    - ${join(foreach(indicesAndValues(propertyValueList(property.key)), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
 - ELSE:
     -

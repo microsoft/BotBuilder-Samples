@@ -117,6 +117,7 @@ describe('dialog:generate library', async () => {
         'datetime',
         'dimension_with_units',
         'dimension',
+        'dynamiclist',
         'email',
         'enum',
         'geography',
