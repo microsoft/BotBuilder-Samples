@@ -119,8 +119,8 @@ a task. You can use this tool to:
 To add professional chit-chat to your schema put this into your schema:
 ```json
 "$requires": [
-   "standard.schema",
-   "professional-chit-chat.schema"
+   "standard.template",
+   "professional-chit-chat.template"
 ]
 ```
 This indicates that you want to make use of the standard schema for your
@@ -166,6 +166,8 @@ Open a [new issue](https://github.com/microsoft/BotBuilder-Samples/issues/new/ch
     1. [Pre-built templates][templates]
 1. [Presentation (pptx)](docs/2020%20Feb%20MVP%20Generated%20Dialogs.pptx)
 1. [White paper (docx)](docs/Generating%20Dialogs%20from%20Schema,%20APIs%20and%20Databases.docx)
+2. [Event driven dialog (docx)](docs/Event%20Driven%20Dialog.docx)
+3. [Form Generation NLU model (docx)](docs/Form%20Generation%20NLU%20Model.docx)
 
 [schema]:docs/bot-schema.md
 [templates]:generator/packages/library/templates

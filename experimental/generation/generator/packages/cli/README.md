@@ -59,7 +59,7 @@ EXAMPLE
          $ bf dialog:generate sandwich.form --output c:/tmp
 ```
 
-_See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate.ts)_
+_See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate.ts)_
 
 ## `bf dialog:generate:swagger PATH`
 
@@ -87,7 +87,7 @@ EXAMPLE
   petSearch.form
 ```
 
-_See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/swagger.ts)_
+_See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate/swagger.ts)_
 
 ## `bf dialog:generate:test TRANSCRIPT DIALOG`
 
@@ -113,6 +113,6 @@ EXAMPLE
          $ bf dialog:test bot.transcript myBot.dialog
 ```
 
-_See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/test.ts)_
+_See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate/test.ts)_
 <!-- commandsstop -->
 <!-- commandsstop -->
