@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "DateTime": {
-            "$ref": "template:datetime.schema"
+            "$ref": "template:datetime.template"
         }
     },
     "required": [

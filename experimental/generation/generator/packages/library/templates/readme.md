@@ -9,9 +9,9 @@ The files are organized so that `generator.lg` which contains non-language speci
 Within each directory are language agnostic templates with all language specific files in `<locale>` sub-directories.  Each locale directory also has common language specific generation templates in `<schema>.<locale>.lg`.
 
 ## Conventions
-The overall definition of a template starts with a `<schema>.schema` file which defines JSON schema and a mixture of per-property and global templates for the machinery defined by the template.
+The overall definition of a template starts with a `<schema>.form` file which defines JSON schema and a mixture of per-property and global templates for the machinery defined by the template.
 
-There are also `<entity>.schema` files for defining the JSON schema and templates needed for defining how to map complex LUIS entities.  To use these you use `$ref` inside a property definition.
+There are also `<entity>.template` files for defining the JSON schema and templates needed for defining how to map complex LUIS entities.  To use these you use `$ref` inside a property definition.
 
 For language specific files like LG/LU, there is usually a language agnostic file in the root which includes templates that are specialized for the current locale.  This allows including a non-locale specific file in the templates of a schema that then expands into a locale specific file for each locale.
 

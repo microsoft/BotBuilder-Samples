@@ -40,7 +40,7 @@
             "type": "number"
         },
         "Ordinal": {
-            "$ref": "template:ordinal.schema"
+            "$ref": "template:ordinal.template"
         }
     },
     "required": [

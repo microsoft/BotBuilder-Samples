@@ -24,7 +24,7 @@ describe('dialog:generate:swagger', async () => {
     let swaggerPath = 'test/forms/petSwagger.json'
     let method = 'post'
     let route = '/store/order'
-    let schemaName = 'petOrder.schema'
+    let schemaName = 'petOrder.form'
 
     before(async () => {
         await fs.remove(output)        
