@@ -42,12 +42,13 @@ generates adaptive dialog assets. The overall workflow for generation is (see
 
 There are three key components to understand, which are outlined below.
 
-### Schema file
+### JSON Schema .form File
 
-A JSON schema file defines the properties your bot needs to collect, and
+A JSON schema .form file defines the properties your bot needs to collect, and
 (optionally) the entity definitions those properties map to. Schemas are written
 using [JSON Schema][JSONSchema]. You can use the normal mechanisms including
-`$ref` and `allOf` which will be resolved into a single schema.
+`$ref` and `allOf` which will be resolved into a single schema.  Your file
+should end in the `.form` extension.
 
 For additional information see:
 
