@@ -1,0 +1,5 @@
+com\microsoft\bot\sample\authentication\MainDialog.class
+com\microsoft\bot\sample\authentication\AuthBot.class
+com\microsoft\bot\sample\authentication\DialogBot.class
+com\microsoft\bot\sample\authentication\LogoutDialog.class
+com\microsoft\bot\sample\authentication\Application.class
