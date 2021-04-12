@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "GeographyV2": {
-            "$ref": "template:geography.schema"
+            "$ref": "template:geography.template"
         }
     },
     "required": [

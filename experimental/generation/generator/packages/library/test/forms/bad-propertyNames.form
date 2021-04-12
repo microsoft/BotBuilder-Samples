@@ -3,10 +3,10 @@
     "type": "object",
     "properties": {
         "Phone-Number": {
-            "$ref": "template:phonenumber.schema"
+            "$ref": "template:phonenumber.template"
         },
         "Date time": {
-            "$ref": "template:datetime.schema"
+            "$ref": "template:datetime.template"
         },
         "An enum": {
             "type": "string",

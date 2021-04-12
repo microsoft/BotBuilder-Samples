@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Name": {
-            "$ref": "template:personName.schema",
+            "$ref": "template:personName.template",
             "pattern" : "^[a-z]{1,3}$"
         }
     },

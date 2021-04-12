@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "PhoneNumber": {
-            "$ref": "template:phonenumber.schema"
+            "$ref": "template:phonenumber.template"
         }
     },
     "required": [

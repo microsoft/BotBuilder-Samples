@@ -5,7 +5,7 @@
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-cli-command": "^4.9.0",
+    "@microsoft/bf-cli-command": "rc",
     "@microsoft/bf-generate-library": "^1.0.0",
     "fs-extra": "^8.1.0"
   },

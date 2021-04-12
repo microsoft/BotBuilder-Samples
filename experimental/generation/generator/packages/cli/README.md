@@ -17,15 +17,19 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 # Commands
 
 <!-- commands -->
-* [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
-* [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
-* [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
+- [Relevant docs](#relevant-docs)
+- [Commands](#commands)
+  - [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
+  - [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
+  - [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
 
 ## `bf dialog:generate SCHEMA`
 
 [PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.
 
 ```
+[PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.
+
 USAGE
   $ bf dialog:generate SCHEMA
 
@@ -62,6 +66,8 @@ _See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBui
 [PREVIEW] Generate JSON schema given swagger file.
 
 ```
+[PREVIEW] Generate JSON schema given swagger file.
+
 USAGE
   $ bf dialog:generate:swagger PATH
 
@@ -78,7 +84,7 @@ OPTIONS
 EXAMPLE
 
          $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n 
-  petSearch.schema
+  petSearch.form
 ```
 
 _See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/swagger.ts)_
@@ -88,6 +94,8 @@ _See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsof
 [PREVIEW] Generate a .dialog test file from a .transcript file.
 
 ```
+[PREVIEW] Generate a .dialog test file from a .transcript file.
+
 USAGE
   $ bf dialog:generate:test TRANSCRIPT DIALOG
 
@@ -106,4 +114,5 @@ EXAMPLE
 ```
 
 _See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/test.ts)_
+<!-- commandsstop -->
 <!-- commandsstop -->

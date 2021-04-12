@@ -38,6 +38,6 @@ For each entity there is usually:
 - `$entity$Entity-add-$type$.dialog.lg` -- Define how to add an `$entity$` to a property of $type$.
 - `$entity$Entity-remove-$type$.dialog.lg` -- Define how to remove an `$entity$` from a property of `$type$`.
 
-In addition to property and entity templates there are also schema files like [standard.schema](standard.schema) or [age.schema](age.schema) that can be explicitly included into your schema in order to bring in more advanced functionality.
+In addition to property and entity templates there are also schema files like [standard.template](standard.template) or [age.template](age.template) that can be explicitly included into your form in order to bring in more advanced functionality.
 
 The standard templates extend the naming conventions to add `-$operation$` to the end of files to reflect a particular built-in operation.  

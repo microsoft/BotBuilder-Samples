@@ -18,10 +18,11 @@ import * as assert from 'assert'
 import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
 import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
 import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
-import {ComponentRegistration} from 'botbuilder-core'
-import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
-import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
-import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
+
+import {AdaptiveBotComponent} from 'botbuilder-dialogs-adaptive'
+import {LuisBotComponent, QnAMakerBotComponent} from 'botbuilder-ai'
+import {ComponentDeclarativeTypes, ResourceExplorer} from 'botbuilder-dialogs-declarative'
+import {ServiceCollection, noOpConfiguration} from 'botbuilder-dialogs-adaptive-runtime-core'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -289,10 +290,18 @@ describe('dialog:generate library', async () => {
 
                 try {
                     console.log(`Dialog Testing schema ${name}`)
-                    ComponentRegistration.add(new AdaptiveComponentRegistration())
-                    ComponentRegistration.add(new LuisComponentRegistration())
-                    ComponentRegistration.add(new QnAMakerComponentRegistration())
-                    const resourceExplorer = new ResourceExplorer()
+
+                    // Setup declarations
+                    const services = new ServiceCollection({
+                        declarativeTypes: [],
+                    })
+                    new AdaptiveBotComponent().configureServices(services, noOpConfiguration)
+                    new LuisBotComponent().configureServices(services, noOpConfiguration)
+                    new QnAMakerBotComponent().configureServices(services, noOpConfiguration)
+                    const declarativeTypes = services.mustMakeInstance<ComponentDeclarativeTypes[]>('declarativeTypes')
+                    const resourceExplorer = new ResourceExplorer({declarativeTypes})
+
+                    // Add folder and load type
                     resourceExplorer.addFolder(`${testOutput}`, true, false)
                     resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
