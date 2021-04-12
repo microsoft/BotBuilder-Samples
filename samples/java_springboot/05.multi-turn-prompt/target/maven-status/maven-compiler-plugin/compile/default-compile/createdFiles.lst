@@ -1,0 +1,4 @@
+com\microsoft\bot\sample\multiturnprompt\UserProfileDialog.class
+com\microsoft\bot\sample\multiturnprompt\UserProfile.class
+com\microsoft\bot\sample\multiturnprompt\DialogBot.class
+com\microsoft\bot\sample\multiturnprompt\Application.class
