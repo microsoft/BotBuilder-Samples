@@ -91,7 +91,7 @@
         "Price"
     ],
     "$requires": [
-        "professional-chit-chat.schema",
-        "standard.schema"
+        "professional-chit-chat.template",
+        "standard.template"
     ]
 }
