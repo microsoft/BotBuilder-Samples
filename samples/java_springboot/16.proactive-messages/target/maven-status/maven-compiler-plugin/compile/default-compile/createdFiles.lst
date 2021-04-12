@@ -1,0 +1,4 @@
+com\microsoft\bot\sample\proactive\Application.class
+com\microsoft\bot\sample\proactive\NotifyController.class
+com\microsoft\bot\sample\proactive\ConversationReferences.class
+com\microsoft\bot\sample\proactive\ProactiveBot.class
