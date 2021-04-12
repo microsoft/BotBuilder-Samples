@@ -4,16 +4,6 @@
     "properties": {
         "Meat": {
             "$ref": "template:dynamiclist.schema",
-            "enum": [
-                "bacon",
-                "chicken",
-                "ham",
-                "pulled pork",
-                "roast beef",
-                "salami",
-                "turkey",
-                "none"
-            ],
             "$examples": {
                 "": {
                     "MeatPhrases": [

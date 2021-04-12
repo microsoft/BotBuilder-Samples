@@ -1,0 +1,19 @@
+[generator.lg](../generator.lg)
+
+# entities
+- ${['${property}Value']}
+
+# templates
+- ${[
+        "dynamiclistEntity.lg",
+        "dynamiclistEntity.lu",
+        "genericProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-remove.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-missing.dialog",
+        "generic-show.dialog"
+    ]}
