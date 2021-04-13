@@ -30,9 +30,9 @@
 ```
 
 # setPropertiesForDynamiclists
-- IF: ${!empty(where(schema.properties, property, property.value.$dynamiclist))}
+- IF: ${!empty(where(schema.properties, property, property.value.$template == "dynamiclist"))}
 -```,
-${join(foreach(where(schema.properties, property, property.value.$dynamiclist), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
+${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
 - ELSE: 
 - 
 

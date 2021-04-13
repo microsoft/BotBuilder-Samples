@@ -23,4 +23,4 @@
 - ${prefix}_${replace(locale, '-', '_')}_lu
 
 # addList
-- [${join(foreach(where(schema.properties, property, property.value.$dynamiclist), result, `dialog.${result.key}Value`), `,`)}]
+- [${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `dialog.${result.key}Value`), `,`)}]

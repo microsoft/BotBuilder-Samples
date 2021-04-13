@@ -96,6 +96,17 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 > Display value for possible values from an enum
 - [${join(possibleValues(property), ', ')}]
 
+# possibleValuesForDynamiclist(property)
+- IF: ${dialogClass.schema.properties[property].$examples['en-us'][propertyNameValue()]}
+- ${join(foreach(dialogClass.schema.properties[property].$examples['en-us'][propertyNameValue()], enum, `${enum.key}`), `, `)}
+- ELSEIF: ${dialogClass.schema.properties[property].$examples[''][propertyNameValue()]}
+- ${join(foreach(dialogClass.schema.properties[property].$examples[''][propertyNameValue()], enum, `${enum.key}`), `, `)}
+- ELSE:
+-
+
+# propertyNameValue
+- ${property}Value
+
 # confirmationText(property, val)
 > Display confirmation text based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}

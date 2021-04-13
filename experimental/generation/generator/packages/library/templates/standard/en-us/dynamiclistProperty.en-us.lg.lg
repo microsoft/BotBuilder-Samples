@@ -22,15 +22,15 @@ ${enumValueTemplate()}
 
 # repromptEnum()
 - IF: ${isArrayProperty(property)}
-    - ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesForDynamiclist(`${property}`)}
 - ELSE:
-    - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+    - Possible values for ${propertyName()} include: \${possibleValuesForDynamiclist(`${property}`)}
 
 # helpEnum()
 - IF: ${isArrayProperty(property)}
-    - ${propertyName()} includes multiple values from: \${possibleValuesList(`${property}`)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesForDynamiclist(`${property}`)}
 - ELSE:
-    - Possible values for ${propertyName()} include: \${possibleValuesList(`${property}`)}
+    - Possible values for ${propertyName()} include: \${possibleValuesForDynamiclist(`${property}`)}
 
 # enumValueTemplate
 - IF: ${isArrayProperty(property)}
