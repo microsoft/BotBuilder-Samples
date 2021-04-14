@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
         //Create field for telemetry client. Add IBotTelemetryClient parameter to AdapterWithErrorHandler
         private IBotTelemetryClient _adapterBotTelemetryClient;
 
-        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, TelemetryInitializerMiddleware telemetryInitializerMiddleware, IBotTelemetryClient botTelemetryClient, ConversationState conversationState)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, TelemetryInitializerMiddleware telemetryInitializerMiddleware, IBotTelemetryClient botTelemetryClient, ConversationState conversationState = default)
             : base(configuration, httpClientFactory, logger)
         {
             Use(telemetryInitializerMiddleware);

@@ -16,7 +16,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class AdapterWithErrorHandler : CloudAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware, ConversationState conversationState = null)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware, ConversationState conversationState = default)
             : base(configuration, httpClientFactory, logger)
         {
             if (translationMiddleware == null)
