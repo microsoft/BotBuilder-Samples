@@ -463,6 +463,7 @@
     <module>24.bot-authentication-msgraph</module>
     <module>25.message-reaction</module>
     <module>40.timex-resolution</module>
+    <module>42.scaleout</module>
     <module>43.complex-dialog</module>
     <module>44.prompt-users-for-input</module>
     <module>45.state-management</module>
