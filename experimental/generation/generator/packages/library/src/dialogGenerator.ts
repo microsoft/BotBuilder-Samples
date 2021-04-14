@@ -995,7 +995,7 @@ export async function generate(
 
         if (!error) {
             // Write final schema
-            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$template' || key === '$generator') ? undefined : val)
+            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files
