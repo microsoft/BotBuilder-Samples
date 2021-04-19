@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.12.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.12.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.12.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.13.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.0" />
   </ItemGroup>
 
   <ItemGroup>
