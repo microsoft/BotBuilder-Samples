@@ -1,0 +1,32 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "YourSandwichBotHandle",
+  "name": "Sandwich Skill Bot",
+  "version": "1.0",
+  "description": "This is a sample skill for ordering a sandwich.",
+  "publisherName": "Microsoft",
+  "privacyUrl": "https://microsoft.com/privacy",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "iconUrl": "https://myskill.contoso.com/icon.png",
+  "tags": [
+    "sample",
+    "pizza"
+  ],
+  "endpoints": [
+    {
+      "name": "YourSandwichBotName",
+      "protocol": "BotFrameworkV3",
+      "description": "Default endpoint for the skill",
+      "endpointUrl": "http://localhost:3981/api/messages",
+      "msAppId": "YOUR Sandwich Bots MicrosoftAppId"
+    }
+  ],
+  "activities": {
+    "OrderSandwich": {
+      "description": "Order a sandwich",
+      "type": "message",
+      "name": "OrderSandwich"
+    }
+  }
+}
