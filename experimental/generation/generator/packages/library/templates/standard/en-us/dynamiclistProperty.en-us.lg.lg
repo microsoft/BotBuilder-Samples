@@ -17,7 +17,7 @@ ${confirmationTemplates(expectedSetDefault(),
 ${helpTemplates(repromptEnum(), helpEnum())}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
-${enumValueTemplate()}
+${dynamicValueTemplate()}
 ```
 
 # repromptEnum()
@@ -32,12 +32,13 @@ ${enumValueTemplate()}
 - ELSE:
     - Possible values for ${propertyName()} include: \${possibleValuesForDynamiclist(`${property}`)}
 
-# enumValueTemplate
+# dynamicValueTemplate()
 - IF: ${isArrayProperty(property)}
-    -```
+- ```
 # ${property}_Value(val)
-- \${choices(val, '${enumName(entity)}', 'and')}```
+- \${choices(val, 'value', 'and')}```
 - ELSE:
-    -```
+- ```
 # ${property}_Value(val)
-- '\${${enumName(entity)}(val)}'```
+- \${value(val)}
+```

@@ -8,7 +8,6 @@
 ${formImport('form.en-us.lg')}
 ${formImport('form-Choose.en-us.lg')}
 ${propertyEntityValue()}
-${propertyEnumValue()}
 ${chooseEntity()}
 ```
 
@@ -23,20 +22,3 @@ ${chooseEntity()}
 # ${entity}_Value(entity) 
 > Display value for '${entity}'
 - \${value(entity.value)}```
-
-# propertyEnumValue
-- ${join([namePlusSwitch(), cases()], '')}
-
-# namePlusSwitch
--```
-# ${enumName(entity)}(value) 
-> Display value for '${entity}' enumeration value
-- SWITCH: \${value}```
-
-# case(option)
--```
-  - CASE: \${'${option}'} 
-    - ${phrase(option)}```
-
-# cases
-- ${join(foreach(indicesAndValues(examples), enum, case(enum.index)), '')}
