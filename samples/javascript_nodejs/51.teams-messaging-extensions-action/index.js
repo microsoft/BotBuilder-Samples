@@ -59,3 +59,8 @@ server.post('/api/messages', (req, res) => {
         await bot.run(context);
     });
 });
+
+//rendering pages
+server.get('/*', restify.plugins.serveStatic({
+    directory: './pages'
+}));

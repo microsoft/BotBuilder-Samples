@@ -1,0 +1,30 @@
+<html>
+<head>
+    <style>
+        #display_time {
+            text-align: center;
+        }
+    </style>
+    <title>Microsoft Teams ME Action StaticPage</title>
+</head>
+<body>
+    <script src="https://statics.teams.microsoft.com/sdk/v1.7.0/js/MicrosoftTeams.min.js"></script>
+    <script>
+    microsoftTeams.initialize();
+        window.onload = function() {
+            var displayMessage = "Hi user, this is a Static HTML page. You can customize this as per your requirement.";
+            var dateTime = new Date();
+            var currentDate = dateTime.toDateString();
+            var currentTime = dateTime.getHours() + ":" + dateTime.getMinutes() + ":" + dateTime.getSeconds() ;
+            var displayTime = " Today is " + currentDate + " and time is " + currentTime;
+            document.getElementById("display_message").innerHTML = displayMessage;
+            document.getElementById("display_time").innerHTML = displayTime;
+        }
+    </script>
+
+    <div style="font-family: 'Segoe UI'">
+        <p id="display_message"></p>
+        <p id="display_time"></p>
+    </div>
+
+</body>

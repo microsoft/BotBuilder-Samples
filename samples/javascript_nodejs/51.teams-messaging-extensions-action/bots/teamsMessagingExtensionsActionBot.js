@@ -10,43 +10,52 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                 return createCardCommand(context, action);
             case 'shareMessage':
                 return shareMessageCommand(context, action);
+            case 'webView':
+                return await webViewResponse(context, action);
             default:
                 throw new Error('NotImplemented');
         }
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
-        try {
-           const member = await this.getSingleMember(context);
-           return {
-                task: {
-                    type: 'continue',
-                    value: {
-                        card: GetAdaptiveCardAttachment(),
-                        height: 400,
-                        title: 'Hello ' + member,
-                        width: 300
-                    },
-                },
-            };
-        } catch (e) {
-            if (e.code === 'BotNotInConversationRoster') {
+        switch (action.commandId) {
+           case 'webView':
+              return empDetails(context, action);
+           case "Static HTML":
+              return dateTimeInfo(context, action);
+           default:
+              try {
+                const member = await this.getSingleMember(context);
                 return {
-                    task: {
-                        type: 'continue',
-                        value: {
-                            card: GetJustInTimeCardAttachment(),
-                            height: 400,
-                            title: 'Adaptive Card - App Installation',
-                            width: 300
-                        },
-                    },
-                };
-            }
-            throw e;
-        }
-       
+                     task: {
+                         type: 'continue',
+                         value: {
+                             card: GetAdaptiveCardAttachment(),
+                             height: 400,
+                             title: 'Hello ' + member,
+                             width: 300
+                         },
+                     },
+                 };
+             } catch (e) {
+                 if (e.code === 'BotNotInConversationRoster') {
+                     return {
+                         task: {
+                             type: 'continue',
+                             value: {
+                                 card: GetJustInTimeCardAttachment(),
+                                 height: 400,
+                                 title: 'Adaptive Card - App Installation',
+                                 width: 300
+                             },
+                         },
+                     };
+                 }
+                 throw e;
+             }
+        }    
     }
+
     async getSingleMember(context) {
         try {
            const member = await TeamsInfo.getMember(
@@ -161,6 +170,53 @@ function shareMessageCommand(context, action) {
             attachmentLayout: 'list',
             attachments: [attachment]
         },
+    };
+}
+
+function empDetails(context, action)
+{
+    return {
+        task: {
+          type: 'continue',
+          value: {
+            width: 350,
+            height: 300,
+            title: 'Task module WebView',
+            url: baseurl + "/CustomForm.html",
+          }
+        }
+    };
+}
+
+function dateTimeInfo(context, action)
+{
+    return {
+        task: {
+          type: 'continue',
+          value: {
+            width: 450,
+            height: 125,
+            title: 'Task module Static HTML',
+            url: baseurl + "/StaticPage.html",
+          }
+        }
+    };
+}
+
+async function webViewResponse(context, action) {
+    // The user has chosen to create a card by choosing the 'Create Card' context menu command.
+    const data = await action.data;
+    const heroCard = CardFactory.heroCard("ID: " + data.EmpId, "E-Mail: " + data.EmpEmail);
+    heroCard.content.subtitle = "Name: " + data.EmpName;
+    const attachment = { contentType: heroCard.contentType, content: heroCard.content, preview: heroCard };
+    return {
+        composeExtension: {
+            type: 'result',
+            attachmentLayout: 'list',
+            attachments: [
+                attachment
+            ]
+        }
     };
 }
 
