@@ -2,7 +2,7 @@
 
 Bot Framework v4 NLP with Dispatch bot sample
 
-*Dispatch is on the path to be deprecated and replaced with [Orchestrator](https://aka.ms/bf-orchestrator).  Please refer to this [documentation](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/DispatchMigrationExample.md) to migrate your bot to use Orchestrator.*
+*Dispatch is on the path to be deprecated and replaced with [Orchestrator](https://aka.ms/bf-orchestrator).  This [sample](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/javascript_nodejs/14.nlp-with-orchestrator) is the equivalent sample using Orchestrator for routing.  Please refer to this [documentation](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/DispatchMigrationExample.md) for more information on migrating your bot to use Orchestrator.*
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
 
