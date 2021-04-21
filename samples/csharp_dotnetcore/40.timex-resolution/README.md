@@ -44,7 +44,7 @@ the code in this sample is not a bot. It is a console application that demonstra
 
 ## Experimenting with Recognizers
 
-TIMEX has been introduced into the bot authoring platform by the [Text Recognizers](https://github.com/Microsoft/Recognizers-Text) package. One of the best ways to understand the TIMEX behavior is to experiment directly with the Rcognizers. You can do this by install the appropriate Recognizer package, instantiating the date time recognizer and calling it with your test string. In Node you can use the following 3 lines of code, but the behavior is identical in C#, Python and Java.
+TIMEX has been introduced into the bot authoring platform by the [Text Recognizers](https://github.com/Microsoft/Recognizers-Text) package. One of the best ways to understand the TIMEX behavior is to experiment directly with the Recognizers. You can do this by install the appropriate Recognizer package, instantiating the date time recognizer and calling it with your test string. In Node you can use the following 3 lines of code, but the behavior is identical in C#, Python and Java.
 
 ```
   const Recognizer = require('@microsoft/recognizers-text-date-time')
