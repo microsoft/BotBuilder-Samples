@@ -22,13 +22,10 @@ ${chooseEntity()}
 -```
 # ${entity}_Value(entity) 
 > Display value for '${entity}'
-- IF: \${isArray(entity.value)}
-    - \${join(foreach(entity.value, result, `${result} `), 'and')}
-- ELSE:
-    - \${entity.value}```
+- \${value(entity.value)}```
 
 # propertyEnumValue
-- ${join([namePlusSwitch(), cases(), default()], '')}
+- ${join([namePlusSwitch(), cases()], '')}
 
 # namePlusSwitch
 -```
@@ -43,10 +40,3 @@ ${chooseEntity()}
 
 # cases
 - ${join(foreach(indicesAndValues(examples), enum, case(enum.index)), '')}
-
-# default
--```
-  - DEFAULT: 
-    - no value
-```
-
