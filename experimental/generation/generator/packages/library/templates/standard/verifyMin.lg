@@ -1,0 +1,8 @@
+# transforms()
+- ${'verifyMin'}
+
+# verifyMin(ext, ref)
+- IF: ${ext == '.dialog' && ref.$kind == 'Microsoft.OnAssignEntity' && schema[ref.property].minimum}
+    - ${{foo: ref}}
+- ELSE:
+    - ${ref}

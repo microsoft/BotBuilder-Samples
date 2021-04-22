@@ -337,6 +337,7 @@ function existingRef(name: string, tracker: any): FileRef | undefined {
     return arr.find(ref => ref.fullName === name)
 }
 
+type Transform = {name: string, template: lg.Templates}
 async function processTemplate(
     templateName: string,
     templateDirs: string[],
@@ -344,7 +345,8 @@ async function processTemplate(
     scope: any,
     force: boolean,
     feedback: Feedback,
-    ignorable: boolean): Promise<string> {
+    ignorable: boolean,
+    transforms: Transform[]): Promise<string> {
     let outPath = ''
     const oldDir = process.cwd()
     try {
@@ -402,6 +404,12 @@ async function processTemplate(
 
                             // Ignore empty templates
                             if (result) {
+                                let body = result
+                                try {
+                                    body = JSON.parse(result)
+                                } catch (e) {
+                                }
+                                debugger
                                 const resultString = result as string
                                 if (resultString.includes('**MISSING**')) {
                                     feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
@@ -419,6 +427,20 @@ async function processTemplate(
                         }
                     }
                 } else if (lgTemplate) {
+                    // Pick up # transforms
+                    if (lgTemplate.allTemplates.some(f => f.name == 'transforms')) {
+                        debugger
+                        let newTransforms = lgTemplate.evaluate('transforms', scope)
+                        if (!Array.isArray(newTransforms)) {
+                            newTransforms = [newTransforms]
+                        }
+                        for (const transform of newTransforms) {
+                            feedback(FeedbackType.debug, `Adding transform ${transform}`)
+                            transforms.push({name: transform, template: lgTemplate})
+                        }
+                    }
+
+                    // Expand # templates
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
@@ -429,9 +451,10 @@ async function processTemplate(
                             feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (const generate of generated as any as string[]) {
-                            await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false)
+                            await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false, transforms)
                         }
                     }
+
                 }
             } else if (!ignorable) {
                 feedback(FeedbackType.error, `Missing template ${templateName}`)
@@ -597,6 +620,7 @@ async function processTemplates(
                 }
 
                 // Assume non-array are expressions to be interpreted in expandSchema
+                const transforms = []
                 for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
@@ -604,7 +628,7 @@ async function processTemplates(
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
                         scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
-                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false, transforms)
                         }
 
                         delete scope.entity
@@ -622,7 +646,7 @@ async function processTemplates(
             feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (const templateName of schema.schema.$templates) {
-                await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
+                await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false, [])
             }
         }
 
