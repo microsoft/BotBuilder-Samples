@@ -36,6 +36,14 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
     - File -> Open Bot
     - Enter a Bot URL of `http://localhost:3978/api/messages`
 
+## Interacting with the bot
+
+In addition to responding to incoming messages, bots are frequently called on to send "proactive" messages based on activity, scheduled tasks, or external events.
+
+In order to send a proactive message using Bot Framework, the bot must first capture a conversation reference from an incoming message using `activity.getConversationReference()`. This reference can be stored for later use.
+
+To send proactive messages, acquire a conversation reference, then use `adapter.continueConversation()` to create a TurnContext object that will allow the bot to deliver the new outgoing message.
+
 ## Deploy the bot to Azure
 
 As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli), you will perform the first 4 steps to setup the Azure app, then deploy the code using the azure-webapp Maven plugin.
@@ -43,7 +51,7 @@ As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-ser
 ### 1. Login to Azure
 From a command (or PowerShell) prompt in the root of the bot folder, execute:  
 `az login`
-  
+
 ### 2. Set the subscription
 `az account set --subscription "<azure-subscription>"`
 
@@ -84,10 +92,8 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 ## Further reading
 
-- [Maven Plugin for Azure App Service](https://docs.microsoft.com/en-us/java/api/overview/azure/maven/azure-webapp-maven-plugin/readme?view=azure-java-stable)
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
-- [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
