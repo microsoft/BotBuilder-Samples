@@ -3,6 +3,6 @@
 // license information.
 
 /**
- * This package contains the classes for the proactive messages sample.
+ * This package contains the classes for the welcome user sample.
  */
 package com.microsoft.bot.sample.welcomeuser;

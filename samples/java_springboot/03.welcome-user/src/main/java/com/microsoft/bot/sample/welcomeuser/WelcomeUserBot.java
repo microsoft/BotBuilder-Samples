@@ -61,7 +61,7 @@ public class WelcomeUserBot extends ActivityHandler {
             + "of the 'ConversationUpdate' event depends on the channel. You can "
             + "read more information at: " + "https://aka.ms/about-botframework-welcome-user";
 
-    private String LOCALE_MESSAGE =
+    private String localeMessage =
         "You can use the activity's GetLocale() method to welcome the user "
             + "using the locale received from the channel. "
             + "If you are using the Emulator, you can set this value in Settings.";
@@ -130,8 +130,8 @@ public class WelcomeUserBot extends ActivityHandler {
                         ),
                         MessageFactory.text(INFO_MESSAGE),
                         MessageFactory.text(
-                            LOCALE_MESSAGE
-                            + " Current locale is " + turnContext.getActivity().getLocale()),
+                            localeMessage
+                            + " Current locale is " + turnContext.getActivity().getLocale() + "."),
                         MessageFactory.text(PATTERN_MESSAGE)
                     )
             )
@@ -183,10 +183,10 @@ public class WelcomeUserBot extends ActivityHandler {
                 }
             }
         })
-            .thenApply(response -> userState.saveChanges(turnContext))
-                
+            // Save any state changes. 
+            .thenApply(response -> userState.saveChanges(turnContext))                
             // make the return value happy.
-            .thenApply(resourceResponse -> null);
+            .thenApply(task -> null);
     }
 
     private CompletableFuture<ResourceResponse> sendIntroCard(TurnContext turnContext) {
