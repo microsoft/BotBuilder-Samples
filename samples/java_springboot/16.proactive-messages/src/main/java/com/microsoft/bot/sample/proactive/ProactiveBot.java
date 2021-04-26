@@ -32,7 +32,8 @@ public class ProactiveBot extends ActivityHandler {
     @Value("${server.port:3978}")
     private int port;
 
-    private static final String WELCOMEMESSAGE =
+    // Message to send to users when the bot receives a Conversation Update event
+    private final String welcomeMessage =
         "Welcome to the Proactive Bot sample.  Navigate to http://localhost:%d/api/notify to proactively message everyone who has previously messaged this bot.";
 
     private ConversationReferences conversationReferences;
@@ -45,8 +46,9 @@ public class ProactiveBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         addConversationReference(turnContext.getActivity());
 
+        // Echo back what the user said
         return turnContext
-            .sendActivity(MessageFactory.text("Echo: " + turnContext.getActivity().getText()))
+            .sendActivity(MessageFactory.text(String.format("You sent '%s'", turnContext.getActivity().getText())))
             .thenApply(sendResult -> null);
     }
 
@@ -57,12 +59,13 @@ public class ProactiveBot extends ActivityHandler {
     ) {
         return membersAdded.stream()
             .filter(
+                // Greet anyone that was not the target (recipient) of this message.
                 member -> !StringUtils
                     .equals(member.getId(), turnContext.getActivity().getRecipient().getId())
             )
             .map(
                 channel -> turnContext
-                    .sendActivity(MessageFactory.text(String.format(WELCOMEMESSAGE, port)))
+                    .sendActivity(MessageFactory.text(String.format(welcomeMessage, port)))
             )
             .collect(CompletableFutures.toFutureList())
             .thenApply(resourceResponses -> null);

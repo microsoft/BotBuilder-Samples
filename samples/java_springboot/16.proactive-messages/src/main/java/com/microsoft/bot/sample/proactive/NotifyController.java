@@ -44,14 +44,7 @@ public class NotifyController {
     ) {
         adapter = withAdapter;
         conversationReferences = withReferences;
-
-        // If the channel is the Emulator, and authentication is not in use,
-        // the AppId will be null. We generate a random AppId for this case only.
-        // This is not required for production, since the AppId will have a value.
         appId = withConfiguration.getProperty("MicrosoftAppId");
-        if (StringUtils.isEmpty(appId)) {
-            appId = UUID.randomUUID().toString();
-        }
     }
 
     @GetMapping("/api/notify")
