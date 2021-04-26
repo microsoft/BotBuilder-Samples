@@ -404,12 +404,20 @@ async function processTemplate(
 
                             // Ignore empty templates
                             if (result) {
-                                let body = result
-                                try {
-                                    body = JSON.parse(result)
-                                } catch (e) {
+                                const extension = ppath.extname(outPath).substring(1)
+                                if (transforms.length > 0) {
+                                    let body = result
+                                    debugger
+                                    try {
+                                        body = JSON.parse(result)
+                                    } catch (e) {
+                                    }
+                                    for (const transform of transforms) {
+                                        body = transform.template.evaluate(
+                                            transform.name, 
+                                            {...scope, extension, body})
+                                    }
                                 }
-                                debugger
                                 const resultString = result as string
                                 if (resultString.includes('**MISSING**')) {
                                     feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
@@ -420,7 +428,7 @@ async function processTemplate(
                                     }
                                 }
                                 await writeFile(outPath, resultString, feedback)
-                                scope.templates[ppath.extname(outPath).substring(1)].push(ref)
+                                scope.templates[extension].push(ref)
                             }
                         } else {
                             feedback(FeedbackType.warning, `Skipping already existing ${outPath}`)
@@ -429,7 +437,6 @@ async function processTemplate(
                 } else if (lgTemplate) {
                     // Pick up # transforms
                     if (lgTemplate.allTemplates.some(f => f.name == 'transforms')) {
-                        debugger
                         let newTransforms = lgTemplate.evaluate('transforms', scope)
                         if (!Array.isArray(newTransforms)) {
                             newTransforms = [newTransforms]

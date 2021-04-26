@@ -1,8 +1,31 @@
-# transforms()
-- ${'verifyMin'}
+[generator.lg](../generator.lg)
 
-# verifyMin(ext, ref)
-- IF: ${ext == '.dialog' && ref.$kind == 'Microsoft.OnAssignEntity' && schema[ref.property].minimum}
-    - ${{foo: ref}}
+# transforms()
+- ${'verifyMinX'}
+
+# verifyMinX(extension, body)
+- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && schema.properties[body.property].minimum}
+    - ${transformProperty(body, 'actions', addVerifyMin)}
 - ELSE:
-    - ${ref}
+    - ${body}
+
+# addVerifyMin(actions)
+- ${
+[
+    {   $kind: "Microsoft.IfCondition", 
+        condition: "@${entity} < dialogClass.schema.properties['${property}'].minimum", 
+        actions: [{$kind: "Microsoft.SendActivity", activity: "\${${property}_IsTooSmall(@${entity})}"}], 
+        elseActions: "a"
+    }
+]}
+
+# foo(q)
+- ${
+[
+    {   
+        a: 1,
+        b: 2
+    }
+]
+}
+

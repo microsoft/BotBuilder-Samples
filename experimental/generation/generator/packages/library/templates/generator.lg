@@ -804,3 +804,9 @@ ${expectedUpdateTemplate(expectedReplace)}
 
 # enumName(entity)
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
+
+# transformProperty(object, property, templateName)
+- ${transformObject(object, property, templateName, {})}
+
+# transformObject(old, property, templateName, new)
+- ${foreach(indicesAndValues(old), value, addProperty(new, value.index, if(value.index == property, template(templateName, index.value), index.value)))}
