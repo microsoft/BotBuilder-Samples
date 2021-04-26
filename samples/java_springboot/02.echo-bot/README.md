@@ -20,7 +20,7 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 ## Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-  - Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
   - Launch Bot Framework Emulator
@@ -57,12 +57,12 @@ Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` 
 
 #### To a new Resource Group
 ```
-az deployment sub create --name "proactiveBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="proactiveBotPlan" newWebAppName="proactiveBot" groupLocation="westus" newAppServicePlanLocation="westus"
+az deployment sub create --name "echoBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="echoBotPlan" newWebAppName="echoBot" groupLocation="westus" newAppServicePlanLocation="westus"
 ```
 
 #### To an existing Resource Group
 ```
-az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="proactiveBot" newAppServicePlanName="proactiveBotPlan" appServicePlanLocation="westus" --name "proactiveBot"
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="echoBot" newAppServicePlanName="echoBotPlan" appServicePlanLocation="westus" --name "echoBot"
 ```
 
 ### 5. Update app id and password
