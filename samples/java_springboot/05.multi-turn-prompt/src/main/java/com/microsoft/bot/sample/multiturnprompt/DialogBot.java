@@ -21,9 +21,9 @@ import java.util.concurrent.CompletableFuture;
  * saved at the end of a turn.
  */
 public class DialogBot extends ActivityHandler {
-    protected Dialog dialog;
-    protected BotState conversationState;
-    protected BotState userState;
+    protected final Dialog dialog;
+    protected final BotState conversationState;
+    protected final BotState userState;
 
     public DialogBot(
         ConversationState withConversationState,
@@ -41,6 +41,7 @@ public class DialogBot extends ActivityHandler {
     ) {
         return super.onTurn(turnContext)
             .thenCompose(result -> conversationState.saveChanges(turnContext))
+            // Save any state changes that might have occurred during the turn.
             .thenCompose(result -> userState.saveChanges(turnContext));
     }
 
@@ -48,6 +49,7 @@ public class DialogBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(
         TurnContext turnContext
     ) {
+        // Run the Dialog with the new message Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
     }
 }
