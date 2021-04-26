@@ -27,6 +27,15 @@ import java.util.concurrent.CompletableFuture;
 /**
  * This class implements the functionality of the Bot.
  *
+ * Represents a bot that processes incoming activities.
+ * For each user interaction, an instance of this class is created and the onTurn method is called.
+ * This is a Transient lifetime service. Transient lifetime services are created
+ * each time they're requested. For each Activity received, a new instance of this
+ * class is created. Objects that are expensive to construct, or have a lifetime
+ * beyond the single turn, should be carefully managed.
+ * For example, the "MemoryStorage" object and associated
+ * StatePropertyAccessor{T} object are created with a singleton lifetime.
+ * 
  * <p>
  * This is where application specific logic for interacting with the users would
  * be added. This class tracks the conversation state through a POJO saved in
@@ -37,14 +46,14 @@ import java.util.concurrent.CompletableFuture;
  */
 public class WelcomeUserBot extends ActivityHandler {
     // Messages sent to the user.
-    private static final String WELCOMEMESSAGE =
+    private static final String WELCOME_MESSAGE =
         "This is a simple Welcome Bot sample. This bot will introduce you "
             + "to welcoming and greeting users. You can say 'intro' to see the "
             + "introduction card. If you are running this bot in the Bot Framework "
             + "Emulator, press the 'Start Over' button to simulate user joining "
             + "a bot or a channel";
 
-    private static final String INFOMESSAGE =
+    private static final String INFO_MESSAGE =
         "You are seeing this message because the bot received at least one "
             + "'ConversationUpdate' event, indicating you (and possibly others) "
             + "joined the conversation. If you are using the emulator, pressing "
@@ -52,12 +61,12 @@ public class WelcomeUserBot extends ActivityHandler {
             + "of the 'ConversationUpdate' event depends on the channel. You can "
             + "read more information at: " + "https://aka.ms/about-botframework-welcome-user";
 
-    private String LOCALEMESSAGE =
+    private String LOCALE_MESSAGE =
         "You can use the activity's GetLocale() method to welcome the user "
             + "using the locale received from the channel. "
             + "If you are using the Emulator, you can set this value in Settings.";
 
-    private static final String PATTERNMESSAGE =
+    private static final String PATTERN_MESSAGE =
         "It is a good pattern to use this event to send general greeting"
             + "to user, explaining what your bot can do. In this example, the bot "
             + "handles 'hello', 'hi', 'help' and 'intro'. Try it now, type 'hi'";
@@ -66,10 +75,11 @@ public class WelcomeUserBot extends ActivityHandler {
         "You are seeing this message because this was your first message ever to this bot.";
 
     private static final String FIRST_WELCOME_TWO =
-        "It is a good practice to welcome the user and provide personal greeting. For example: Welcome %s";
+        "It is a good practice to welcome the user and provide personal greeting. For example: Welcome %s.";
 
-    private UserState userState;
+    private final UserState userState;
 
+    // Initializes a new instance of the "WelcomeUserBot" class.
     @Autowired
     public WelcomeUserBot(UserState withUserState) {
         userState = withUserState;
@@ -116,13 +126,13 @@ public class WelcomeUserBot extends ActivityHandler {
                 channel -> turnContext
                     .sendActivities(
                         MessageFactory.text(
-                            "Hi there - " + channel.getName() + ". " + WELCOMEMESSAGE
+                            "Hi there - " + channel.getName() + ". " + WELCOME_MESSAGE
                         ),
+                        MessageFactory.text(INFO_MESSAGE),
                         MessageFactory.text(
-                            LOCALEMESSAGE
+                            LOCALE_MESSAGE
                             + " Current locale is " + turnContext.getActivity().getLocale()),
-                        MessageFactory.text(INFOMESSAGE),
-                        MessageFactory.text(PATTERNMESSAGE)
+                        MessageFactory.text(PATTERN_MESSAGE)
                     )
             )
             .collect(CompletableFutures.toFutureList())
@@ -148,6 +158,7 @@ public class WelcomeUserBot extends ActivityHandler {
             if (!thisUserState.getDidBotWelcomeUser()) {
                 thisUserState.setDidBotWelcomeUser(true);
 
+                // the channel should send the user name in the 'from' object
                 String userName = turnContext.getActivity().getFrom().getName();
                 return turnContext
                     .sendActivities(
@@ -155,6 +166,8 @@ public class WelcomeUserBot extends ActivityHandler {
                         MessageFactory.text(String.format(FIRST_WELCOME_TWO, userName))
                     );
             } else {
+                // This example hardcodes specific utterances. 
+                // You should use LUIS or QnA for more advance language understanding.
                 String text = turnContext.getActivity().getText().toLowerCase();
                 switch (text) {
                     case "hello":
@@ -166,10 +179,12 @@ public class WelcomeUserBot extends ActivityHandler {
                         return sendIntroCard(turnContext);
 
                     default:
-                        return turnContext.sendActivity(WELCOMEMESSAGE);
+                        return turnContext.sendActivity(WELCOME_MESSAGE);
                 }
             }
         })
+            .thenApply(response -> userState.saveChanges(turnContext))
+                
             // make the return value happy.
             .thenApply(resourceResponse -> null);
     }
