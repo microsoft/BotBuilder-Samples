@@ -92,7 +92,7 @@
       <dependency>
         <groupId>com.microsoft.bot</groupId>
         <artifactId>bot-integration-spring</artifactId>
-        <version>4.13.0-SNAPSHOT</version>
+        <version>4.13.0</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
