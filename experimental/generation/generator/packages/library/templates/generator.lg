@@ -83,9 +83,9 @@
 # propertyLGTemplates(template)
 - ${`${locale}/${template}Property.${locale}.lg`}
 
-# standardTemplates()
+# genericTemplates()
 - ${[
-        "verifyMin",
+        "verifyUnique",
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
@@ -97,6 +97,15 @@
         "generic-change.dialog",
         "generic-help.dialog"
     ]}
+
+# numericTemplates
+- ${union(["verifyMin", "verifyMax"], genericTemplates())}
+
+# unitTemplates
+- ${union(["verifyUnits", "verifyMin", "verifyMax"], genericTemplates())}
+
+# stringTemplates
+- ${union(["verifyPattern"], genericTemplates())}
 
 # dateFormatTemplates()
 - ${[
@@ -141,7 +150,7 @@
     "operation": "Add()",
     "property": "${property}",
     "value": "${entity}",
-    "actions": [${verifyUnits(entity, verifyPattern(entity, verifyMin(entity, verifyMax(entity, verifyUnique(entity, actionAssign(entity))))))}]
+    "actions": [${actionAssign(entity)}]
     ${designerOpEntity('Add', entity)}      
 }
 ```
@@ -200,96 +209,6 @@
         }
     ]
 }```
-
-# verifyPattern(entity, else)
-> Verify entity matches pattern
-- IF: ${propertySchema.pattern}
-    - ```
-    {
-        "$kind": "Microsoft.IfCondition",
-        "condition":"not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
-        "actions":[
-            {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "\${${property}_NoPatternMatch(@${entity})}"
-            }                    
-        ],
-        "elseActions":[${else}]
-    }```
-- ELSE:
-    - ${else}
-
-# verifyMin(entity, else)
-> Verify entity minimum value
-- IF: ${propertySchema.minimum}
-    -```
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition":"@${entity} < dialogClass.schema.properties['${property}'].minimum",
-            "actions":[
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_IsTooSmall(@${entity})}"
-                }                    
-            ],
-            "elseActions":[${else}]
-        }```
-- ELSE:
-    - ${else}
-
-# verifyMax(entity, else)
-> Verify entity maximum value
-- IF: ${propertySchema.maximum}
-    -```
-    {
-        "$kind": "Microsoft.IfCondition",
-        "condition":"@${entity} > dialogClass.schema.properties['${property}'].maximum",
-        "actions":[
-            {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "\${${property}_IsTooBig(@${entity})}"
-            }                    
-        ],
-        "elseActions": [${else}]
-    }```
-- ELSE:
-    - ${else}
-
-# verifyUnique(entity, else)
-> Verify entity is unique in array
-- IF: ${isArrayProperty(property) && propertySchema.uniqueItems == true}
-    -```
-        {
-            "$kind": "Microsoft.IfCondition",
-            "condition": "contains($${property}, @${entity})",
-            "actions": [
-                {
-                    "$kind": "Microsoft.SendActivity",
-                    "activity": "\${alreadyExistsText('${property}',  @${entity})}"
-                }
-            ],
-            "elseActions": [${else}]
-        }```
-- ELSE:
-    - ${else}
-
-# verifyUnits(entity, else)
-> Verify units
-- IF: ${units() && isUnitsEntity(entity)}
-    -```
-    {
-        "$kind": "Microsoft.IfCondition",
-        "condition": "@${entity}.units != '${units()}'",
-        "actions":[
-            {
-                "$kind": "Microsoft.SendActivity",
-                "activity": "\${${property}_IncorrectUnits(@${entity}.units)}"
-            }
-        ],
-        "elseActions":[${else}]
-    }```
-- ELSE:
-    - ${else}
 
 # addDateFormatDialog()
 > Add a dialog for transforming a timex into a specific format
@@ -806,7 +725,15 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
 
 # transformProperty(object, property, templateName)
-- ${transformObject(object, property, templateName, {})}
+> Copy all properties in object and transform property using templateName
+- ${addEntries(addProperty({}, property, template(templateName, object[property])), where(indicesAndValues(object), entry, entry.index != property))}
 
-# transformObject(old, property, templateName, new)
-- ${foreach(indicesAndValues(old), value, addProperty(new, value.index, if(value.index == property, template(templateName, index.value), index.value)))}
+# addEntries(object, entries)
+> Add entries into object
+> NOTE: There is a bug in adaptive that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
+- ${if(count(entries) == 1, addEntry(object, first(entries)), addEntries(addEntry(object, first(entries)), subArray(entries, 1, count(entries))))}
+
+# addEntry(object, entry)
+> Add an {index, value} entry to object
+- ${addProperty(object, entry.index, entry.value)}
+

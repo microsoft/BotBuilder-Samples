@@ -1,0 +1,21 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyUnique'}
+
+# verifyUnique(extension, body)
+- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && isArrayProperty(property) && propertySchema.uniqueItems == true}
+    - ${transformProperty(body, 'actions', 'addVerifyUnique')}
+- ELSE:
+    - ${body}
+
+# addVerifyUnique(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: "contains($${property}, @${entity})", 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${alreadyExistsText('${property}', @${entity})}"}], 
+        elseActions: actions
+    }
+]}
+

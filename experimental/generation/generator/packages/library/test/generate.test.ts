@@ -446,8 +446,17 @@ describe('dialog:generate library', async () => {
             for (const template of source.allTemplates) {
                 // Analyze each original source template only once
                 if (!analyzed.has(template.sourceRange.source)) {
-                    const info = source.analyzeTemplate(template.name)
-                    for (const reference of info.TemplateReferences) {
+                    let references: string[]
+                    try {
+                        references = source.analyzeTemplate(template.name).TemplateReferences
+                    } catch (e) {
+                        // TODO: This is necessary because of a bug in analyzing recursive templates.
+                        // https://github.com/microsoft/botbuilder-js/issues/3619
+                        // Once fixed we can remove try/catch and the exclusions
+                        // This pretends a template refers to itself
+                        references = [template.name]
+                    }
+                    for (const reference of references) {
                         const source = template.sourceRange.source as string
                         const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
                         let referenceSource = referenceSources.get(source)
@@ -522,7 +531,10 @@ describe('dialog:generate library', async () => {
 
         // Identify unused templates
         // Exclusions are top-level templates called by the generator in standard.schema
-        const exclude = ['filename', 'template', 'entities', 'templates', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation']
+        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation',
+            // TODO: These are because analyzeTemplate has a bug with recursive templates
+            'addEntry', 'addVerifyMin', 'addVerifyMax', 'addVerifyUnique', 'addVerifyUnits', 'addVerifyPattern'
+        ]
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {
             const name = templateName(template)

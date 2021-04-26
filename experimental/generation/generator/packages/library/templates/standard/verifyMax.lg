@@ -1,0 +1,20 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyMax'}
+
+# verifyMax(extension, body)
+- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && propertySchema.maximum}
+    - ${transformProperty(body, 'actions', 'addVerifyMax')}
+- ELSE:
+    - ${body}
+
+# addVerifyMax(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: "@${entity} > dialogClass.schema.properties['${property}'].maximum", 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${${property}_IsTooBig(@${entity})}"}], 
+        elseActions: actions
+    }
+]}

@@ -4,4 +4,4 @@
 - ${['geographyV2']}
 
 # templates
-- ${standardTemplates()}
+- ${genericTemplates()}

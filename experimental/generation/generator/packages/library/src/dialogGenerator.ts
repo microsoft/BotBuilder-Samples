@@ -407,16 +407,18 @@ async function processTemplate(
                                 const extension = ppath.extname(outPath).substring(1)
                                 if (transforms.length > 0) {
                                     let body = result
-                                    debugger
+                                    let converted = false
                                     try {
                                         body = JSON.parse(result)
+                                        converted = true
                                     } catch (e) {
                                     }
                                     for (const transform of transforms) {
                                         body = transform.template.evaluate(
-                                            transform.name, 
+                                            transform.name,
                                             {...scope, extension, body})
                                     }
+                                    result = converted ? stringify(body) : body
                                 }
                                 const resultString = result as string
                                 if (resultString.includes('**MISSING**')) {

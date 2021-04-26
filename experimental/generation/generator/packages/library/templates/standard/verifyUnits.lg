@@ -1,0 +1,22 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyUnits'}
+
+# verifyUnits(extension, body)
+- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && units() && isUnitsEntity(entity)}
+    - ${transformProperty(body, 'actions', 'addVerifyUnits')}
+- ELSE:
+    - ${body}
+
+# addVerifyUnits(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: "@${entity}.units != '${units()}'",
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${${property}_IsIncorrectUnits(@${entity}.units)}"}], 
+        elseActions: actions
+    }
+]}
+
+

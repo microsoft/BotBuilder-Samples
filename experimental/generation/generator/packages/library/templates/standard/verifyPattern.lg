@@ -1,0 +1,20 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyPattern'}
+
+# verifyPattern(extension, body)
+- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && patternSchema.pattern}
+    - ${transformProperty(body, 'actions', 'addVerifyPattern')}
+- ELSE:
+    - ${body}
+
+# addVerifyPattern(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: "not(isMatch( @${entity},  dialogClass.schema.properties['${property}'].pattern))",
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${${property}_NoPatternMatch(@${entity})}"}], 
+        elseActions: actions
+    }
+]}
