@@ -1,7 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -23,12 +22,11 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchBot : TeamsActivityHandler
     {
-        public readonly string _configuration;
+        public readonly string _baseURL;
         public TeamsMessagingExtensionsSearchBot(IConfiguration configuration):base()
         {
-            this._configuration = configuration["BaseUrl"];
+            this._baseURL = configuration["BaseUrl"];
         }
-
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
         {
@@ -40,7 +38,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     MessagingExtensionResponse response = GetAdaptiveCard();
                     return response;
 
-
                 case "connector card":
                     MessagingExtensionResponse connectorCard = GetConnectorCard();
                     return connectorCard;
@@ -49,8 +46,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     MessagingExtensionResponse resultGrid = GetResultGrid();
                     return resultGrid;
             }
-
-
 
             var packages = await FindPackages(text);
 
@@ -86,8 +81,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-
-
         protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
         {
             // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
@@ -95,7 +88,6 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
             // The Preview is optional, if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItemAsync event back on this bot.
-
 
             var card = new ThumbnailCard
             {
@@ -137,29 +129,23 @@ namespace Microsoft.BotBuilderSamples.Bots
             return obj["data"].Select(item => (item["id"].ToString(), item["version"].ToString(), item["description"].ToString(), item["projectUrl"]?.ToString(), item["iconUrl"]?.ToString()));
         }
 
-
         public MessagingExtensionResponse GetAdaptiveCard()
         {
 
             string filepath = "./RestaurantCard.json";
-
-            //string filepath = "./WeatherCard.json";
-
             var previewcard = new ThumbnailCard
             {
                 Title = "Adaptive Card",
                 Text = "Please select to get Adaptive card"
             };
-
             var adaptiveList = FetchAdaptive(filepath);
+
             var attachment = new MessagingExtensionAttachment
             {
                 ContentType = AdaptiveCards.AdaptiveCard.ContentType,
                 Content = adaptiveList.Content,
                 Preview = previewcard.ToAttachment()
             };
-
-            // return attachment;
 
             return new MessagingExtensionResponse
             {
@@ -172,18 +158,13 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-
         public MessagingExtensionResponse GetConnectorCard()
         {
           
             string filepath = "./connectorCard.json";
-
             var json = File.ReadAllText(filepath);
-
             var cardJson = JsonConvert.DeserializeObject<ConnectorJsonSerializer>(json);
-
-            cardJson.sections[0].activityImage = _configuration+"/imgConnector.jpg";
-
+            cardJson.sections[0].activityImage = _baseURL+"/imgConnector.jpg";
             var ConnectorCardJson = JsonConvert.SerializeObject(cardJson);
 
             var previewcard = new ThumbnailCard
@@ -211,7 +192,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-
         public static Attachment FetchAdaptive(string filepath)
         {
             var adaptiveCardJson = File.ReadAllText(filepath);
@@ -222,24 +202,19 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
 
             return adaptiveCardAttachment;
-
         }
-
 
         public Attachment FetchConnector(string cardJson)
         {
-
-           // var connectorCardJson = File.ReadAllText(filepath);
             var connectorCardAttachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType/*"application/vnd.microsoft.teams.card.o365connector"*/,
                 Content = JsonConvert.DeserializeObject(cardJson),
 
             };
-
+            
             return connectorCardAttachment;
         }
-
 
         public MessagingExtensionResponse GetResultGrid()
         {
@@ -261,7 +236,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var image = img.Split("\\");
                 
                 var thumbnailCard = new ThumbnailCard();
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration +"/" + image[1]) };
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseURL +"/" + image[1]) };
                 var attachment = new MessagingExtensionAttachment
                 {
                     ContentType = ThumbnailCard.ContentType,
