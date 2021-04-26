@@ -36,11 +36,12 @@ public class EchoBot extends ActivityHandler {
         List<ChannelAccount> membersAdded,
         TurnContext turnContext
     ) {
+        String welcomeText = "Hello and welcome!";
         return membersAdded.stream()
             .filter(
                 member -> !StringUtils
                     .equals(member.getId(), turnContext.getActivity().getRecipient().getId())
-            ).map(channel -> turnContext.sendActivity(MessageFactory.text("Hello and welcome!")))
+            ).map(channel -> turnContext.sendActivity(MessageFactory.text(welcomeText, welcomeText, null)))
             .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 }
