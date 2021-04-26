@@ -1,3 +1,6 @@
+# Experimental Status
+1) The SendMention custom action may (and probably shouldn't be needed).  I couldn't figure out how to to a LG template that set the list of Entities to work.
+
 ## Bot Project
 
 Bot project is the launcher project for the bots written in declarative form (JSON), using the Runtime, for the Bot Framework SDK.
