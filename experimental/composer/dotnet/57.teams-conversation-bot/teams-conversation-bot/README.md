@@ -1,5 +1,6 @@
 # Experimental Status
 1) The SendMention custom action may (and probably shouldn't be needed).  I couldn't figure out how to to a LG template that set the list of Entities to work.
+2) The MessageAllMembers custom action really isn't cool.  It makes up for CloudAdapter not having CreateConversation.  This custom actions hacks this in and isn't complete.
 
 ## Bot Project
 
