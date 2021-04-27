@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+import org.slf4j.LoggerFactory;
 
 public class MainDialog extends ComponentDialog {
     public MainDialog() {
@@ -41,6 +42,8 @@ public class MainDialog extends ComponentDialog {
     // 1. Prompts the user if the user is not in the middle of a dialog.
     // 2. Re-prompts the user when an invalid input is received.
     private CompletableFuture<DialogTurnResult> choiceCardStep(WaterfallStepContext stepContext) {
+        LoggerFactory.getLogger(MainDialog.class).info("MainDialog.choiceCardStep");
+        
         // Create the PromptOptions which contain the prompt and re-prompt messages.
         // PromptOptions also contains the list of choices available to the user.
         PromptOptions promptOptions = new PromptOptions();
@@ -48,15 +51,23 @@ public class MainDialog extends ComponentDialog {
         promptOptions.setRetryPrompt(MessageFactory.text("That was not a valid choice, please select a card or number from 1 to 9."));
         promptOptions.setChoices(getChoices());
 
+        // Prompt the user with the configured PromptOptions.
         return stepContext.prompt("ChoicePrompt", promptOptions);
     }
 
     // Send a Rich Card response to the user based on their choice.
     // This method is only called when a valid prompt response is parsed from the user's response to the ChoicePrompt.
     private CompletableFuture<DialogTurnResult> showCardStep(WaterfallStepContext stepContext) {
+        LoggerFactory.getLogger(MainDialog.class).info("MainDialog.showCardStep");
+        
+        // Cards are sent as Attachments in the Bot Framework.
+        // So we need to create a list of attachments for the reply activity.
         List<Attachment> attachments = new ArrayList<>();
+        
+        // Reply to the activity we received with an activity.
         Activity reply = MessageFactory.attachment(attachments);
 
+        // Decide which type of card(s) we are going to show the user
         switch (((FoundChoice) stepContext.getResult()).getValue()) {
             case "Adaptive Card":
                 // Display an Adaptive Card

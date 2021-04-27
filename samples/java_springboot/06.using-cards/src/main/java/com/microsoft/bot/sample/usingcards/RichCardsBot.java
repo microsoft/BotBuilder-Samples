@@ -35,6 +35,8 @@ public class RichCardsBot extends DialogBot<Dialog> {
             .filter(member -> !StringUtils
                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
             .map(channel -> {
+                // Greet anyone that was not the target (recipient) of this message.
+                // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
                 Activity reply = MessageFactory.text("Welcome to CardBot."
                     + " This bot will show you different types of Rich Cards."
                     + " Please type anything to get started.");
