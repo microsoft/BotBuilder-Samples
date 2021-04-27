@@ -1,0 +1,18 @@
+# WelcomeUser
+-```I can show you examples on how to use actions. Enter the number next to the entity that you with to see in action.
+01 - Actions
+02 - EndTurn
+03 - IfCondiftion
+04 - EditArray, Foreach
+05 - EndDialog
+06 - HttpRequest
+07 - SwitchCondition
+08 - RepeatDialog
+09 - TraceAndLog
+10 - EditActions
+11 - ReplaceDialog
+12 - EmitEvent
+13 - QnAMaker```
+
+# SendActivity_839941
+-Hello ${user.name}, nice to meet you!
