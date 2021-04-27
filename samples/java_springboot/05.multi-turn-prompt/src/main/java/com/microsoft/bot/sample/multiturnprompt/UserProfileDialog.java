@@ -29,7 +29,7 @@ import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.StringUtils;
 
 public class UserProfileDialog extends ComponentDialog {
-    private StatePropertyAccessor<UserProfile> userProfileAccessor;
+    private final StatePropertyAccessor<UserProfile> userProfileAccessor;
 
     public UserProfileDialog(UserState withUserState) {
         super("UserProfileDialog");
@@ -39,10 +39,10 @@ public class UserProfileDialog extends ComponentDialog {
         WaterfallStep[] waterfallSteps = {
             UserProfileDialog::transportStep,
             UserProfileDialog::nameStep,
-            UserProfileDialog::nameConfirmStep,
-            UserProfileDialog::ageStep,
+            this::nameConfirmStep,
+            this::ageStep,
             UserProfileDialog::pictureStep,
-            UserProfileDialog::confirmStep,
+            this::confirmStep,
             this::summaryStep
         };
 
@@ -76,11 +76,11 @@ public class UserProfileDialog extends ComponentDialog {
         return stepContext.prompt("TextPrompt", promptOptions);
     }
 
-    private static CompletableFuture<DialogTurnResult> nameConfirmStep(WaterfallStepContext stepContext) {
+    private CompletableFuture<DialogTurnResult> nameConfirmStep(WaterfallStepContext stepContext) {
         stepContext.getValues().put("name", stepContext.getResult());
 
         // We can send messages to the user at any point in the WaterfallStep.
-        return stepContext.getContext().sendActivity(MessageFactory.text(String.format("Thanks %s", stepContext.getResult())))
+        return stepContext.getContext().sendActivity(MessageFactory.text(String.format("Thanks %s.", stepContext.getResult())))
             .thenCompose(resourceResponse -> {
                 // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
                 PromptOptions promptOptions = new PromptOptions();
@@ -89,7 +89,7 @@ public class UserProfileDialog extends ComponentDialog {
             });
     }
 
-    private static CompletableFuture<DialogTurnResult> ageStep(WaterfallStepContext stepContext) {
+    private CompletableFuture<DialogTurnResult> ageStep(WaterfallStepContext stepContext) {
         if ((Boolean)stepContext.getResult()) {
             // User said "yes" so we will be prompting for the age.
             // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is a Prompt Dialog.
@@ -129,7 +129,7 @@ public class UserProfileDialog extends ComponentDialog {
             });
     }
 
-    private static CompletableFuture<DialogTurnResult> confirmStep(WaterfallStepContext stepContext) {
+    private CompletableFuture<DialogTurnResult> confirmStep(WaterfallStepContext stepContext) {
         List<Attachment> attachments = (List<Attachment>)stepContext.getResult();
         stepContext.getValues().put("picture", attachments == null ? null : attachments.get(0));
 
@@ -165,10 +165,17 @@ public class UserProfileDialog extends ComponentDialog {
                 })
                 .thenCompose(userProfile -> {
                     if (userProfile.picture != null) {
-                        return stepContext.getContext().sendActivity(
-                            MessageFactory.attachment(userProfile.picture,
-                                "This is your profile picture."
-                            ));
+                        try {
+                            return stepContext.getContext().sendActivity(
+                                    MessageFactory.attachment(userProfile.picture,
+                                            "This is your profile picture."
+                                    ));
+                        } catch(Exception ex) {
+                            return stepContext.getContext().sendActivity(
+                                    MessageFactory.text(
+                                            "A profile picture was saved but could not be displayed here."
+                                    ));
+                        }
                     }
 
                     return stepContext.getContext().sendActivity(
@@ -181,6 +188,16 @@ public class UserProfileDialog extends ComponentDialog {
         // WaterfallStep always finishes with the end of the Waterfall or with another dialog; here it is the end.
         return stepContext.getContext().sendActivity(MessageFactory.text("Thanks. Your profile will not be kept."))
             .thenCompose(resourceResponse -> stepContext.endDialog());
+    }
+
+    private static CompletableFuture<Boolean> agePromptValidator(
+            PromptValidatorContext<Integer> promptContext
+    ) {
+        // This condition is our validation rule. You can also change the value at this point.
+        return CompletableFuture.completedFuture(
+                promptContext.getRecognized().getSucceeded()
+                        && promptContext.getRecognized().getValue() > 0
+                        && promptContext.getRecognized().getValue() < 150);
     }
 
     private static CompletableFuture<Boolean> picturePromptValidator(
@@ -208,15 +225,5 @@ public class UserProfileDialog extends ComponentDialog {
             return promptContext.getContext().sendActivity("No attachments received. Proceeding without a profile picture...")
                 .thenApply(resourceResponse -> true);
         }
-    }
-
-    private static CompletableFuture<Boolean> agePromptValidator(
-        PromptValidatorContext<Integer> promptContext
-    ) {
-        // This condition is our validation rule. You can also change the value at this point.
-        return CompletableFuture.completedFuture(
-            promptContext.getRecognized().getSucceeded()
-                && promptContext.getRecognized().getValue() > 0
-                && promptContext.getRecognized().getValue() < 150);
     }
 }
