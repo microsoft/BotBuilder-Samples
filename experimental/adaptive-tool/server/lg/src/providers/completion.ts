@@ -5,7 +5,7 @@
  */
 
 import {
-	CompletionItem, CompletionItemKind, TextDocumentPositionParams,	Files, TextDocuments
+	CompletionItem, CompletionItemKind, TextDocumentPositionParams, TextDocuments
 } from 'vscode-languageserver';
 
 import {
@@ -16,7 +16,7 @@ import * as util from '../util';
 import { TemplatesStatus } from '../templatesStatus';
 import * as path from 'path';
 
-export function provideCompletionItems(_textDocumentPosition: TextDocumentPositionParams, documents: TextDocuments<TextDocument>){
+export function provideCompletionItems(_textDocumentPosition: TextDocumentPositionParams, documents: TextDocuments<TextDocument>): CompletionItem[] {
 	const document = documents.get(_textDocumentPosition.textDocument.uri)!;
 	const fspath = URI.parse(document.uri).fsPath;
 	const position = _textDocumentPosition.position;
@@ -36,7 +36,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 		// []() import suggestion
 		const paths = Array.from(new Set(TemplatesStatus.lgFilesOfWorkspace));
 
-		return paths.filter(u => fspath !== u).reduce((prev : any[], curr: string) => {
+		return paths.filter(u => fspath !== u).reduce((prev : CompletionItem[], curr: string) => {
 			const relativePath = path.relative(path.dirname(fspath!), curr);
 			const item = {
 				label: relativePath, 
