@@ -5,7 +5,7 @@
     "description": "Bot Framework Adaptive Tools",
     "version": "0.1.2",
     "license": "MIT",
-    "publisher": "Microsoft",
+    "publisher": "BotBuilder",
     "icon": "resources/images/icon.jpg",
     "repository": {
         "type": "git",
