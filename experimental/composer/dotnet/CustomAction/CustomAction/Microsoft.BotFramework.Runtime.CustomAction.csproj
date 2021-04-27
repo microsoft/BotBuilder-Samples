@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+	<PackageId>Microsoft.BotFramework.Runtime.MultiplyDialog</PackageId>
+	<Description>This library implements .NET support for the MultiplyDialog custom action sample BotComponent.</Description>
+	<Summary>This library implements .NET support for the MultiplyDialog custom action sample BotComponent.</Summary>
+	<ContentTargetFolders>content</ContentTargetFolders>
+	<!--<PackageTags>msbot-component;msbot-action;msbot-trigger</PackageTags>-->
+	<PackageTags>msbot-component;msbot-action</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="**/*.dialog" />
+    <Content Include="**/*.lg" />
+    <Content Include="**/*.lu" />
+    <Content Include="**/*.schema" />
+    <Content Include="**/*.uischema" />
+    <Content Include="**/*.qna" />
+  </ItemGroup>
+	
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime" Version="4.13.0-rc4" />
+  </ItemGroup>
+
+</Project>
