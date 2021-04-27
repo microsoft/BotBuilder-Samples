@@ -4,10 +4,8 @@
 - ${'verifyUnits'}
 
 # verifyUnits(extension, body)
-- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && units() && isUnitsEntity(entity)}
-    - ${transformProperty(body, 'actions', 'addVerifyUnits')}
-- ELSE:
-    - ${body}
+> Verify units match $units
+- ${transformVerify(extension, body, units() && entity == 'number', 'addVerifyUnits')}
 
 # addVerifyUnits(actions)
 - ${

@@ -533,7 +533,7 @@ describe('dialog:generate library', async () => {
         // Exclusions are top-level templates called by the generator in standard.schema
         const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation',
             // TODO: These are because analyzeTemplate has a bug with recursive templates
-            'addEntry', 'addVerifyMin', 'addVerifyMax', 'addVerifyUnique', 'addVerifyUnits', 'addVerifyPattern'
+            'addEntry', 'addVerifyMin', 'addVerifyMax', 'addVerifyUnique', 'addVerifyUnits', 'addVerifyPattern', 'isOnAssign', 'isSetProperty', 'addConversion'
         ]
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {

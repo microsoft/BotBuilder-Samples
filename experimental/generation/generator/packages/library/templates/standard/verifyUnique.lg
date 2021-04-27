@@ -4,10 +4,8 @@
 - ${'verifyUnique'}
 
 # verifyUnique(extension, body)
-- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && isArrayProperty(property) && propertySchema.uniqueItems == true}
-    - ${transformProperty(body, 'actions', 'addVerifyUnique')}
-- ELSE:
-    - ${body}
+> Verify unique value in collection
+- ${transformVerify(extension, body, isArrayProperty(property) && propertySchema.uniqueItems == true, 'addVerifyUnique')}
 
 # addVerifyUnique(actions)
 - ${

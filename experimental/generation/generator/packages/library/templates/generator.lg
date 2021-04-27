@@ -102,7 +102,7 @@
 - ${union(["verifyMin", "verifyMax"], genericTemplates())}
 
 # unitTemplates
-- ${union(["verifyUnits", "verifyMin", "verifyMax"], genericTemplates())}
+- ${union(["convertUnits", "verifyUnits", "verifyMin", "verifyMax"], genericTemplates())}
 
 # stringTemplates
 - ${union(["verifyPattern"], genericTemplates())}
@@ -137,10 +137,9 @@
 
 >> Dialog templates
 
-# addDialog(entity)
-> Add dialog with optional verification of patterns, min/max, units and uniqueness for singletons or arrays.
-> This is built out of three kinds of templates which can optionally generate output: verifications, actions and transforms.
-> Verifications start with verify* and optionally inject an if with a passed in else or just the else.
+# addAssign(entity)
+> Add assignment dialog.
+> This is built out of two kinds of templates which can optionally generate output: actions and transforms.
 > Actions return a string for inside a list of actions or an empty string and start with action*.
 > Transforms transform an entity before assigning it and start with transform*.
 -```
@@ -157,7 +156,7 @@
 
 # actionAssign(entity)
 > Assign entity to current property
-- ${join(where([actionSetOrPush(transformUnits(entity)), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+- ${join(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
 
 # actionConfirm(value)
 > Confirm we are setting entity to property
@@ -166,13 +165,6 @@
     "$kind": "Microsoft.SendActivity",
     "activity": "\${confirmationText('${property}', ${value})}"
 }```
-
-# transformUnits(entity)
-> Set the default units if any
-- IF: ${units() && !isUnitsEntity(entity)}
-    - {number: @${entity}, units: '${units()}'}
-- ELSE:
-    - @${entity}
 
 # actionSetOrPush(value)
 > Confirm and set or push value
@@ -497,10 +489,6 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 > Test to see if property is an array
 - ${propertySchema.type == 'array'}
 
-# isUnitsEntity(entity)
-> Entities that have units
-- ${contains(['age', 'dimension', 'money', 'temperature'], entity)}
-
 # units
 > Property units if specified
 - ${propertySchema.$units}
@@ -724,16 +712,48 @@ ${expectedUpdateTemplate(expectedReplace)}
 # enumName(entity)
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
 
-# transformProperty(object, property, templateName)
+>> Transformer support
+
+# transformProperty(object, property, transform)
 > Copy all properties in object and transform property using templateName
-- ${addEntries(addProperty({}, property, template(templateName, object[property])), where(indicesAndValues(object), entry, entry.index != property))}
+- ${addEntries(addProperty({}, property, template(transform, object[property])), where(indicesAndValues(object), entry, entry.index != property))}
 
 # addEntries(object, entries)
 > Add entries into object
-> NOTE: There is a bug in adaptive that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
+> NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
 - ${if(count(entries) == 1, addEntry(object, first(entries)), addEntries(addEntry(object, first(entries)), subArray(entries, 1, count(entries))))}
 
 # addEntry(object, entry)
 > Add an {index, value} entry to object
 - ${addProperty(object, entry.index, entry.value)}
 
+# transformVerify(extension, body, condition, transform)
+> Transform OnAssignEntity body.actions if condition is true
+- IF: ${extension == 'dialog' && isOnAssign(body) && condition}
+    - ${transformProperty(body, 'actions', transform)}
+- ELSE:
+    - ${body}
+
+# transformConvert(extension, body, condition, transform)
+> Transform a recursive child action that matches filter if condition is true
+- IF: ${extension == 'dialog' && isOnAssign(body) && condition}
+    - ${copyObject(body, 'isSetProperty', transform)}
+- ELSE:
+    - ${body}
+
+# copyObject(old, filter, transform)
+> Copy an object and when the object matches filter call transform on it
+- IF: ${isArray(old)}
+    - ${foreach(old, element, copyObject(element, filter, transform))}
+- ELSEIF: ${isObject(old)}
+    - ${if(template(filter, old), template(transform, old), addEntries({}, indicesAndValues(old)))}
+- ELSE:
+    - ${old}
+
+# isOnAssign(body)
+> Action to assign current property and entity
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
+
+# isSetProperty(body)
+> Action to set the current property
+- ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}

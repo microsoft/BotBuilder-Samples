@@ -4,10 +4,8 @@
 - ${'verifyPattern'}
 
 # verifyPattern(extension, body)
-- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && patternSchema.pattern}
-    - ${transformProperty(body, 'actions', 'addVerifyPattern')}
-- ELSE:
-    - ${body}
+> Verify string pattern restrictions
+- ${transformVerify(extension, body, propertySchema.pattern, 'addVerifyPattern')}
 
 # addVerifyPattern(actions)
 - ${

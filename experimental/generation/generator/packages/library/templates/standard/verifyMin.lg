@@ -1,13 +1,11 @@
 [generator.lg](../generator.lg)
 
 # transforms()
+> Verify schema minimum
 - ${'verifyMin'}
 
 # verifyMin(extension, body)
-- IF: ${extension == 'dialog' && body.$kind == 'Microsoft.OnAssignEntity' && propertySchema.minimum}
-    - ${transformProperty(body, 'actions', 'addVerifyMin')}
-- ELSE:
-    - ${body}
+- ${transformVerify(extension, body, propertySchema.minimum, 'addVerifyMin')}
 
 # addVerifyMin(actions)
 - ${
