@@ -1,6 +1,6 @@
 # Multi-turn prompt
 
-Bot Framework v4 multi-turn prompt bot sample
+Bot Framework v4 multi-turn prompt bot sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use the prompts classes included in `botbuilder-dialogs`.  This bot will ask for the user's name and age, then store the responses. It demonstrates a multi-turn dialog flow using a text prompt, a number prompt, and state accessors to store and retrieve values.
 
@@ -12,12 +12,12 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 - Install [Maven](https://maven.apache.org/)
 - An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 
-## To try this sample locally
+## To try this sample
 - From the root of this project folder:
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\bot-multiturnprompt-sample.jar`
 
-## Test the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
 [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
 - Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
@@ -77,7 +77,7 @@ In src/main/resources/application.properties update
 
 ### 6. Deploy the code
 - Execute `mvn clean package` 
-- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<botname>"`
+- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<bot-app-service-name>"`
 
 If the deployment is successful, you will be able to test it via "Test in Web Chat" from the Azure Portal using the "Bot Channel Registration" for the bot.
 
