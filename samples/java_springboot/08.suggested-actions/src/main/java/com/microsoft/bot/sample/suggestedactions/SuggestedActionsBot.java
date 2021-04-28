@@ -20,6 +20,10 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * This class implements the functionality of the Bot.
+ * 
+ * This bot will respond to the user's input with suggested actions.
+ * Suggested actions enable your bot to present buttons that the user
+ * can tap to provide input. 
  *
  * <p>
  * This is where application specific logic for interacting with the users would
@@ -30,14 +34,16 @@ import java.util.concurrent.CompletableFuture;
  * </p>
  */
 public class SuggestedActionsBot extends ActivityHandler {
-    public static final String WELCOMETEXT =
-        "This bot will introduce you to suggestedActions." + " Please answer the question:";
+    public static final String WELCOME_TEXT =
+        "This bot will introduce you to suggestedActions. Please answer the question:";
 
     @Override
     protected CompletableFuture<Void> onMembersAdded(
         List<ChannelAccount> membersAdded,
         TurnContext turnContext
     ) {
+        // Send a welcome message to the user and tell them what actions 
+        // they may perform to use this bot
         return sendWelcomeMessage(turnContext);
     }
 
@@ -51,11 +57,12 @@ public class SuggestedActionsBot extends ActivityHandler {
 
         // Respond to the user.
         return turnContext
-            .sendActivities(MessageFactory.text(responseText), createSuggestedActions())
-            .thenApply(responses -> null);
+            .sendActivity(MessageFactory.text(responseText))
+            .thenCompose(responses -> sendSuggestedActions(turnContext))
+            .thenApply(response -> null);
     }
 
-    private CompletableFuture<Void> sendWelcomeMessage(TurnContext turnContext) {
+    private static CompletableFuture<Void> sendWelcomeMessage(TurnContext turnContext) {
         return turnContext.getActivity()
             .getMembersAdded()
             .stream()
@@ -64,11 +71,12 @@ public class SuggestedActionsBot extends ActivityHandler {
                     .equals(member.getId(), turnContext.getActivity().getRecipient().getId())
             )
             .map(
-                channel -> turnContext.sendActivities(
+                channel -> turnContext.sendActivity(
                     MessageFactory.text(
-                        "Welcome to SuggestedActionsBot " + channel.getName() + ". " + WELCOMETEXT
-                    ), createSuggestedActions()
-                )
+                        "Welcome to SuggestedActionsBot " + channel.getName() + ". " + WELCOME_TEXT
+                    )
+                ).thenCompose(responses -> sendSuggestedActions(turnContext))
+                 .thenApply(response -> null)
             )
             .collect(CompletableFutures.toFutureList())
             .thenApply(resourceResponses -> null);
@@ -91,7 +99,13 @@ public class SuggestedActionsBot extends ActivityHandler {
         }
     }
 
-    private Activity createSuggestedActions() {
+    /**
+     * Creates and sends an activity with suggested actions to the user. When the user
+     * clicks one of the buttons the text value from the "CardAction" will be
+     * displayed in the channel just as if the user entered the text. There are multiple
+     * "ActionTypes" that may be used for different situations.
+     */
+    private static CompletableFuture<Void> sendSuggestedActions(TurnContext turnContext) {
         Activity reply = MessageFactory.text("What is your favorite color?");
 
         CardAction redAction = new CardAction();
@@ -118,7 +132,7 @@ public class SuggestedActionsBot extends ActivityHandler {
         SuggestedActions actions = new SuggestedActions();
         actions.setActions(Arrays.asList(redAction, yellowAction, blueAction));
         reply.setSuggestedActions(actions);
-
-        return reply;
+        
+        return turnContext.sendActivity(reply).thenApply(sendResult -> null);
     }
 }
