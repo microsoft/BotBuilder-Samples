@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MT License.
 
-package com.microsoft.bot.sample.nlpwithdispatch.bots;
+package com.microsoft.bot.sample.nlpwithdispatch;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,9 +17,6 @@ import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.RecognizerResult;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.RecognizerResult.NamedIntentScore;
-import com.microsoft.bot.sample.nlpwithdispatch.BotServices;
-import com.microsoft.bot.sample.nlpwithdispatch.Intent;
-import com.microsoft.bot.sample.nlpwithdispatch.PredictionResult;
 import com.microsoft.bot.schema.ChannelAccount;
 
 import org.apache.commons.lang3.StringUtils;
