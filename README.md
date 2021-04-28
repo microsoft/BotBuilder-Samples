@@ -285,7 +285,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#55]:samples/java_springboot/55.teams-link-unfurling
 [java#56]:samples/java_springboot/56.teams-file-upload
 [java#57]:samples/java_springboot/57.teams-conversation-bot
-[java#58]:samples/java_springboot/58.teams-start-thread-in-channel
+[java#58]:samples/java_springboot/58.teams-start-new-thread-in-channel
 [java#80]:samples/java_springboot/80.skills-simple-bot-to-bot
 [java#81]:samples/java_springboot/81.skills-skilldialog
 
