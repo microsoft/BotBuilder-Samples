@@ -44,7 +44,7 @@ public class SuggestedActionsBot extends ActivityHandler {
     ) {
         // Send a welcome message to the user and tell them what actions 
         // they may perform to use this bot
-        return sendWelcomeMessage(turnContext);
+        return SuggestedActionsBot.sendWelcomeMessage(turnContext);
     }
 
     @Override
@@ -58,8 +58,8 @@ public class SuggestedActionsBot extends ActivityHandler {
         // Respond to the user.
         return turnContext
             .sendActivity(MessageFactory.text(responseText))
-            .thenCompose(responses -> sendSuggestedActions(turnContext))
-            .thenApply(response -> null);
+            .thenCompose(response -> sendSuggestedActions(turnContext))
+            .thenApply(result -> null);
     }
 
     private static CompletableFuture<Void> sendWelcomeMessage(TurnContext turnContext) {
@@ -75,8 +75,8 @@ public class SuggestedActionsBot extends ActivityHandler {
                     MessageFactory.text(
                         "Welcome to SuggestedActionsBot " + channel.getName() + ". " + WELCOME_TEXT
                     )
-                ).thenCompose(responses -> sendSuggestedActions(turnContext))
-                 .thenApply(response -> null)
+                ).thenCompose(response -> sendSuggestedActions(turnContext))
+                 .thenApply(result -> null)
             )
             .collect(CompletableFutures.toFutureList())
             .thenApply(resourceResponses -> null);
