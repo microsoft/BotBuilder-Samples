@@ -1,0 +1,44 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# template
+- ```
+${formImport('form.en-us.lg')}
+${importLG(`${entity}`)}
+${promptTemplates(missingDefault(), changeDefault())}
+${confirmationTemplates(expectedSetDefault(), 
+                        expectedUpdateDefault(),
+                        unexpectedSetDefault(),
+                        unexpectedUpdateDefault(),
+                        removeDefault(),
+                        clearDefault())}
+${helpTemplates(repromptEnum(), helpEnum())}
+${showTemplate(showDefault())}
+${nameTemplate()}
+${dynamicValueTemplate()}
+```
+
+# repromptEnum()
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesForDynamiclist(`${property}`)}
+- ELSE:
+    - Possible values for ${propertyName()} include: \${possibleValuesForDynamiclist(`${property}`)}
+
+# helpEnum()
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} includes multiple values from: \${possibleValuesForDynamiclist(`${property}`)}
+- ELSE:
+    - Possible values for ${propertyName()} include: \${possibleValuesForDynamiclist(`${property}`)}
+
+# dynamicValueTemplate()
+- IF: ${isArrayProperty(property)}
+- ```
+# ${property}_Value(val)
+- \${choices(val, 'value', 'and')}```
+- ELSE:
+- ```
+# ${property}_Value(val)
+- \${value(val)}
+```

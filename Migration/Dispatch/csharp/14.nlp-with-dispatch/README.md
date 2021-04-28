@@ -2,6 +2,8 @@
 
 Bot Framework v4 NLP with Dispatch bot sample
 
+*Dispatch is on the path to be deprecated and replaced with [Orchestrator](https://aka.ms/bf-orchestrator).  This [sample](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/14.nlp-with-orchestrator) is the equivalent sample using Orchestrator for routing.  Please refer to this [documentation](https://github.com/microsoft/botframework-sdk/blob/main/Orchestrator/docs/DispatchMigrationExample.md) for more information on migrating your bot to use Orchestrator.*
+
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
 
 Use the Dispatch model in cases when:
@@ -18,14 +20,16 @@ This sample **requires** prerequisites in order to run.
 
 This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
 
-- [Node.js](https://nodejs.org) version 10.14 or higher
+### Install .NET Core CLI
 
-    ```bash
-    # determine node version
-    node --version
-    ```
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
 
-### Use Dispatch with Mulitple LUIS and QnA Models
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
+### Use Dispatch with Multiple LUIS and QnA Models
 
 To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0).
 
@@ -34,30 +38,25 @@ To learn how to configure Dispatch with multiple LUIS models and QnA Maker servi
 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/14.nlp-with-dispatch`
+- Run the bot from a terminal or from Visual Studio:
 
-    ```bash
-    cd samples/javascript_nodejs/14.nlp-with-dispatch
-    ```
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch`
 
-- Install modules
+  ```bash
+  # run the bot
+  dotnet run
+  ```
 
-    ```bash
-    npm install
-    ```
+  B) Or from Visual Studio
 
-- Setup Dispatch
-
-    The prerequisite outlined above contain the steps necessary to configure Dispatch with multiple LUIS models and QnA Maker services.  Refer to [Use multiple LUIS and QnA models](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0) for directions to setup and configure Dispatch.
-
-- Start the bot
-
-    ```bash
-    npm start
-    ```
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/14.nlp-with-dispatch` folder
+  - Select `NLP-With-Dispatch-Bot.csproj` file
+  - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -88,9 +87,8 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
+- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Restify](https://www.npmjs.com/package/restify)
-- [dotenv](https://www.npmjs.com/package/dotenv)

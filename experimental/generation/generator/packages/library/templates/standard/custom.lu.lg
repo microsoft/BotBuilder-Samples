@@ -10,4 +10,5 @@
 > Label with: Add(), Remove(), Help(), Clear(), Show() and Help()
 ${'#'} ${prefix}
 > ADD YOUR LABELS HERE
+- ${prefix}
 ```

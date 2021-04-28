@@ -634,11 +634,33 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ELSE:
     - ${phrases(property)}
 
+> Return any explicit property value list
+# propertyValueList(property)
+- IF: ${schema.properties[property].$examples[locale][propertyValueName()]}
+    - ${schema.properties[property].$examples[locale][propertyValueName()]}
+- ELSEIF: ${schema.properties[property].$examples[''][propertyValueName()]}
+    - ${schema.properties[property].$examples[''][propertyValueName()]}
+- ELSEIF: ${schema.$examples[locale][propertyValueName()]}
+    - ${schema.$examples[locale][propertyValueName()]}
+- ELSEIF: ${schema.$examples[''][propertyValueName()]}
+    - ${schema.$examples[''][propertyValueName()]}
+- ELSE:
+    - 
+
 # propertyPhrasesName(property)
 - ${property}Phrases
 
+# propertyValueName(property)
+- ${property}Value
+
 # synonyms(phrases)
 - ${join(foreach(phrases, phrase, `        - ${phrase}`), EOL())}
+
+# synonymsForDynamicList(phrases)
+- IF: ${phrases}
+- ${join(foreach(phrases, phrase, `"${phrase}"`), `,`)}
+- ELSE:
+-
 
 # luHeader()
 -```> !# @app.culture = ${locale}

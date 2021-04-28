@@ -96,6 +96,15 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 > Display value for possible values from an enum
 - [${join(possibleValues(property), ', ')}]
 
+# possibleValuesForDynamiclist(property)
+- IF: ${dialog[propertyNameValue()]['list']}
+- ${join(foreach(dialog[propertyNameValue()]['list'], enum, `${enum.canonicalForm}`), `, `)}
+- ELSE:
+-
+
+# propertyNameValue
+- ${property}Value
+
 # confirmationText(property, val)
 > Display confirmation text based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}

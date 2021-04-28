@@ -31,7 +31,7 @@ This sample **requires** prerequisites in order to run.
   ```
 - Install BF CLI with Orchestrator plugin
     ```bash
-    > npm i -g @microsoft/botframework-cli@next
+    > npm i -g @microsoft/botframework-cli
     ```
     Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
