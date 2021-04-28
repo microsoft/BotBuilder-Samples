@@ -1,0 +1,21 @@
+{
+  "configuration": {
+    "name": "Default",
+    "appenders": {
+      "Console": {
+        "name": "Console-Appender",
+        "target": "SYSTEM_OUT",
+        "PatternLayout": {
+          "pattern":
+            "[%-5level] %d{yyyy-MM-dd HH:mm:ss.SSS} [%t] %c{1} - %msg%n"
+        }
+      }
+    },
+    "loggers": {
+      "root": {
+        "level": "debug",
+        "appender-ref": { "ref": "Console-Appender", "level": "debug" }
+      }
+    }
+  }
+}
