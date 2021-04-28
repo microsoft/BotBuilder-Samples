@@ -45,9 +45,9 @@ This sample **requires** prerequisites in order to run.
     > git clone https://github.com/microsoft/botbuilder-samples.git
     ```
     
-- CD experimental/orchestrator/csharp_dotnetcore/01.dispatch-bot
+- CD samples\csharp_dotnetcore\14.nlp-with-orchestrator
     ```bash
-    > cd experimental/orchestrator/csharp_dotnetcore/01.dispatch-bot
+    > cd samples\csharp_dotnetcore\14.nlp-with-orchestrator
     ```
     
 - Configure the LUIS applications (HomeAutomation and Weather) required for this sample.
@@ -90,7 +90,7 @@ This sample **requires** prerequisites in order to run.
     A) From a terminal
 
     ```bash
-    > cd experimental/orchestrator/csharp_dotnetcore/01.dispatch-bot
+    > cd samples\csharp_dotnetcore\14.nlp-with-orchestrator
     > dotnet run
     ```
     B) Or from Visual Studio
