@@ -272,7 +272,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#40]:samples/java_springboot/40.timex-resolution
 [java#42]:samples/java_springboot/42.scaleout
 [java#43]:samples/java_springboot/43.complex-dialog
-[java#44]:samples/java_springboot/44.prompt-for-user-input
+[java#44]:samples/java_springboot/44.prompt-users-for-input
 [java#45]:samples/java_springboot/45.state-management
 [java#46]:samples/java_springboot/46.teams-auth
 [java#47]:samples/java_springboot/47.inspection
