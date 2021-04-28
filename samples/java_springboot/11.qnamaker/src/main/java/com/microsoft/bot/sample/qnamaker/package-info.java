@@ -3,6 +3,6 @@
 // license information.
 
 /**
- * This package contains the classes for the adaptive cards sample.
+ * This package contains the classes for the qnamaker sample.
  */
 package com.microsoft.bot.sample.qnamaker;
