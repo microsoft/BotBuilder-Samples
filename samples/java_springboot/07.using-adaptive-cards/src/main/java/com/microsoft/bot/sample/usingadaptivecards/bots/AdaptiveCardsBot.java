@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MT License.
 
-package com.microsoft.bot.sample.usingadaptivecards.bots;
+package com.microsoft.bot.sample.usingadaptivecards;
 
 import java.io.InputStream;
 import java.io.IOException;
