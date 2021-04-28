@@ -16,6 +16,7 @@ import {
 	TextDocument
 } from 'vscode-languageserver-textdocument';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/parseFileContents.js').parseFile;
 
 /**
@@ -38,7 +39,7 @@ export function provideCompletionItems(_textDocumentPosition: TextDocumentPositi
 	}).toString();
 
 	if (!util.isQnaFile(path.basename(document.uri)))
-		return;
+		return [];
 
 	const fullContent = document.getText();
 	const lines = fullContent.split('\n');
