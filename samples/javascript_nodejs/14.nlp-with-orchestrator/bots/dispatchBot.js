@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 const { ActivityHandler } = require('botbuilder');
+const { DialogContext, DialogSet } = require('botbuilder-dialogs');
 const { LuisRecognizer, QnAMaker } = require('botbuilder-ai');
 const { OrchestratorRecognizer } = require('botbuilder-ai-orchestrator');
 
@@ -46,8 +47,10 @@ class DispatchBot extends ActivityHandler {
         this.onMessage(async (context, next) => {
             console.log('Processing Message Activity.');
 
+            const dc = new DialogContext(new DialogSet(), context, { dialogStack: [] });
+
             // First, we use the dispatch model to determine which cognitive service (LUIS or QnA) to use.
-            const recognizerResult = await dispatchRecognizer.recognize(context);
+            const recognizerResult = await dispatchRecognizer.recognize(dc, context.activity);
 
             // Top intent tell us which cognitive service to use.
             const intent = LuisRecognizer.topIntent(recognizerResult);
