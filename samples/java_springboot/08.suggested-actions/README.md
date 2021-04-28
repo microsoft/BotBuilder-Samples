@@ -17,17 +17,18 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\bot-suggestedactions-sample.jar`
 
-- Test the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
 
-  [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-  - Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-  - Connect to the bot using Bot Framework Emulator
+## Connect to the bot using Bot Framework Emulator
+  - Launch Bot Framework Emulator
+  - File -> Open Bot
+  - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-    - Launch Bot Framework Emulator
-    - File -> Open Bot
-    - Enter a Bot URL of `http://localhost:3978/api/messages`
+With the Bot Framework Emulator connected to your running bot, the prompt you for options.
 
 ## Interacting with the bot
 
@@ -89,7 +90,6 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
-- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Suggested Actions](https://docs.microsoft.com/azure/bot-service/bot-builder-howto-add-suggested-actions?view=azure-bot-service-4.0&tabs=csharp#suggest-action-using-button)
 - [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
@@ -99,4 +99,5 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
