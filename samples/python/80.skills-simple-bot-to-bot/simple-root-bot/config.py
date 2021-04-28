@@ -12,10 +12,10 @@ class DefaultConfig:
 
     PORT = 3978
     APP_ID = os.environ.get(
-        "MicrosoftAppId", "TODO: Add here the App ID for the root bot"
+        "MicrosoftAppId", ""
     )
     APP_PASSWORD = os.environ.get(
-        "MicrosoftAppPassword", "TODO: Add here the App Password for the root bot"
+        "MicrosoftAppPassword", ""
     )
     SKILL_HOST_ENDPOINT = "http://localhost:3978/api/skills"
     SKILLS = [
