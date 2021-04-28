@@ -40,21 +40,22 @@ export function feedbackException(type: fg.FeedbackType, message: string) {
 // Cache of all schemas
 const SchemaCache: { [path: string]: any } = {}
 
-// All .schema files found in template directories
+// All .template files found in template directories
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<IdToSchema> {
     const map: IdToSchema = {}
     for (const dir of templateDirs) {
-        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
+        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.template'))) {
             let schema = SchemaCache[file]
             if (!schema) {
                 schema = await getSchema(file, feedback)
                 SchemaCache[file] = schema
             }
-            const id = schema.$id || ppath.basename(file, '.schema').toLowerCase()
+            const id = schema.$id || ppath.basename(file, '.template').toLowerCase()
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
                 if (!schema.$templateDirs) {
+                    // We pick up template directories by where schemas are found
                     schema.$templateDirs = [ppath.dirname(file)]
                 }
             }
@@ -79,7 +80,7 @@ async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, res
         for (const [child, val] of Object.entries(schema)) {
             if (child === '$requires') {
                 for (const required of val as string[]) {
-                    await addRequired(ppath.basename(required, '.schema'))
+                    await addRequired(ppath.basename(required, '.template'))
                 }
             } else {
                 await findRequires(val, map, found, resolver, feedback)
@@ -94,6 +95,9 @@ async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): P
     try {
         const noref = await parser.dereference(path, { resolve: { template: resolver } })
         schema = allof(noref)
+        if (schema.$generator) {
+            schema.$generator = allof(schema.$generator)
+        }
     } catch (err) {
         feedback(fg.FeedbackType.error, err)
     }
@@ -148,7 +152,7 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
         resolver: {
             canRead: /template:/,
             read(file: any): any {
-                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.schema')
+                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.template')
                 const schema = allRequired[base.toLowerCase()]
                 if (!schema) {
                     throw new Error(`Could not find ${file.url}`)
@@ -167,11 +171,7 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
  */
 export async function expandPropertyDefinition(property: any, templateDirs: string[]): Promise<any> {
     const { allRequired, resolver } = await templateResolver(templateDirs, feedbackException)
-    let schema = await parser.dereference(property, { resolve: { template: resolver } })
-    schema = allof(schema)
-    if (!schema.$templateDirs) {
-        schema.$templateDirs = templateDirs
-    }
+    const schema = allof(await parser.dereference(property, { resolve: { template: resolver } }))
     return schema
 }
 
@@ -183,15 +183,18 @@ const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveM
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
-function promoteItems(schema: any): void {
+function promoteItemsAndRemoveGenerator(schema: any): void {
     if (Array.isArray(schema)) {
         for (var child in schema) {
-            promoteItems(child)
+            promoteItemsAndRemoveGenerator(child)
         }
     } else if (typeof schema === 'object' && schema !== null) {
+        // $generator is only for UI
+        delete schema.$generator
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
                 if (val && typeof val === 'object' && !Array.isArray(val)) {
+                    delete val['$generator']
                     for (var [prop, itemVal] of Object.entries(val as object)) {
                         if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
                             schema[prop] = itemVal
@@ -199,7 +202,7 @@ function promoteItems(schema: any): void {
                     }
                 }
             } else {
-                promoteItems(val)
+                promoteItemsAndRemoveGenerator(val)
             }
         }
     }
@@ -252,7 +255,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
     const required = {}
     if (!formSchema.$requires) {
         // Default to standard schema
-        formSchema.$requires = ['standard.schema']
+        formSchema.$requires = ['standard.template']
     }
     if (!formSchema.$templateDirs) {
         // Default to including schema directory
@@ -275,7 +278,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         allSchema.$public = Object.keys(formSchema.properties)
     }
     mergeSchemas(allSchema, Object.values(required))
-    promoteItems(allSchema)
+    promoteItemsAndRemoveGenerator(allSchema)
     ensureTemplate(allSchema)
     return new s.Schema(schemaPath, allSchema)
 }

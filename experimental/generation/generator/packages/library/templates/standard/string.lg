@@ -1,7 +1,19 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${['string']}
+- ${['${property}Value', 'utterance']}
 
 # templates
-- ${standardTemplates()}
+- ${[
+        "stringEntity.lg",
+        "stringEntity.lu",
+        "genericProperty.lg",
+        "genericEntity-add.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-remove.dialog",
+        "generic-change.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-missing.dialog",
+        "generic-show.dialog"
+    ]}

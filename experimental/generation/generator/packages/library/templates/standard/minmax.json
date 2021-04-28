@@ -8,6 +8,5 @@
         "type": "number",
         "title": "Maximum",
         "description": "Form dialog will check to ensure value is <= maximum."
-    },
-    "$ref": "array.json"
+    }
 }

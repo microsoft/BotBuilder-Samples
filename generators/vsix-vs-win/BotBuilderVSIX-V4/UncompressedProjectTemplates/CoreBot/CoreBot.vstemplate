@@ -23,7 +23,7 @@
   </TemplateData>
   <TemplateContent>
     <CustomParameters>
-      <CustomParameter Name="$templateversion$" Value="4.11.1"/>
+      <CustomParameter Name="$templateversion$" Value="4.12.2"/>
     </CustomParameters>
     <Project File="CoreBot.csproj" ReplaceParameters="true">
       <Folder Name="Bots" TargetFolderName="Bots">

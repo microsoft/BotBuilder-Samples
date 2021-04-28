@@ -3,23 +3,23 @@
 
 # nameTemplate()
 -```
-${'#'} ${property}_Name
+# ${property}_Name()
 > Name of the '${property}' property
 - ${phrase(property, locale)}```
 
 # valueTemplate()
 -```
-${'#'} ${property}_Value(val)
+# ${property}_Value(val)
 > Display value for '${property}'
  - IF: \${val}
- - \${${if(isArrayProperty(property), 'value(val)', 'val')}}
+ - '\${${if(isArrayProperty(property), 'value(val)', 'val')}}'
  - ELSE:
  - no value
 ```
 
 # complexValueTemplate(type)
 -```
-${'#'} ${property}_Value(val)
+# ${property}_Value(val)
 > Display value for '${property}'
 - \${value(val)}
 ```
@@ -27,13 +27,13 @@ ${'#'} ${property}_Value(val)
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
 > Display value for '${type}' entity
-${'#'} ${type}Entity_Value(entity)
+# ${type}Value_Value(entity)
 - \${value(entity.value)}
 ```
 
 # entityTextTemplate(type)
 -```
-${'#'} ${type}Entity_Value(entity)
+# ${type}Value_Value(entity)
 > Display value for '${type}' entity
 - \${entity.text}
 ```
@@ -67,16 +67,13 @@ ${'#'} ${type}Entity_Value(entity)
     - a ${word}
 
 # missingDefault(type)
-- IF: ${isArrayProperty(property)}
-    - Enter ${definite(type)} to add to ${propertyName()}
-- ELSE:
-    - Enter ${definite(type)} for ${propertyName()}
+- ${sentenceCase(propertyName())}?
 
 # changeDefault(type)
 - IF: ${isArrayProperty(property)}
-    - How do you want to change ${propertyCurrentValue()} in ${propertyName()}
+    - Changes to "${propertyCurrentValue()}" in ${propertyName()}?
 - ELSE:
-    - Change ${propertyCurrentValue()} in ${propertyName()} to?
+    - Change "${propertyCurrentValue()}" in ${propertyName()} to?
 
 # repromptDefault(type)
 - ${helpDefault(type)}
@@ -143,7 +140,7 @@ ${valueTemplate()}
 
 # stringValidationTemplates()
 - IF: ${propertySchema.pattern}
-    -```${'#'} ${property}_NoPatternMatch(val)
+    -```# ${property}_NoPatternMatch(val)
 - ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
 ```
 - ELSE:
@@ -177,7 +174,7 @@ ${complexValueTemplate(template)}
 >> Number templates
 
 # numberMessages(template)
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingNumber(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -214,7 +211,7 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${propertySchema.minimum}
     -```
-${'#'} ${property}_IsTooSmall(val)
+# ${property}_IsTooSmall(val)
 > ${property} property is less than minimum allowed value
 - ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -223,7 +220,7 @@ ${'#'} ${property}_IsTooSmall(val)
 # tooBig()
 - IF: ${propertySchema.maximum}
     -```
-${'#'} ${property}_IsTooBig(val)
+# ${property}_IsTooBig(val)
 > ${property} property is greater than maximum allowed value
 - ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -242,7 +239,7 @@ ${'#'} ${property}_IsTooBig(val)
 
 # dateFormatValidationMessage()
 - ```
-${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
+# ${property}_invalid${templateName(propertySchema.format)}(val)
 > Invalid ${propertySchema.format} for '${property}' property
 - \${value(val)} is not a ${propertySchema.format}```
 
@@ -250,7 +247,7 @@ ${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
 
 # genericMessages(description)
 > Generic text templates where type is the description of the desired values
-- ```
+- ```${importFormsIfArray()}
 ${promptTemplates(missingDefault(description), changeDefault(description))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -265,4 +262,4 @@ ${valueTemplate()}
 ```
 
 #filenameForEntityTypeLG(type)
-- ${generationDir()}${locale}/form/${prefix}-${type}Entity.${locale}.lg
+- ${generationDir()}${locale}/form/${prefix}-${type}Value.${locale}.lg

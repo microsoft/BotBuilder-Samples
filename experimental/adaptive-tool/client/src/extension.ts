@@ -6,6 +6,7 @@
 import * as path from 'path';
 import { workspace, ExtensionContext, window, DiagnosticCollection } from 'vscode';
 import * as keyBinding from './providers/keyBinding';
+import * as debuggerProvider from './providers/debugger';
 import * as env from 'dotenv';
 
 import {
@@ -25,6 +26,7 @@ export function activate(context: ExtensionContext) {
 	startLuClient(context);
 	startQnaClient(context);
 	keyBinding.activate(context);
+    debuggerProvider.activate(context);
 }
 
 function startLgClient(context: ExtensionContext) {

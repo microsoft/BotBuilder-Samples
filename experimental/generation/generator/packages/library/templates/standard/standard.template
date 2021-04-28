@@ -1,0 +1,96 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$global": true,
+    "type": "object",
+    "properties": {
+        "CancelConfirmation": {
+            "type": "boolean",
+            "$entities": [
+                "boolean"
+            ],
+            "$templates": [
+                "genericEntity.lg",
+                "genericEntity.lu",
+                "CancelConfirmation-add-boolean.dialog"
+            ]
+        },
+        "CompleteConfirmation": {
+            "type": "string",
+            "$entities": [
+                "boolean",
+                "${foreach(properties, property, `${property}Property`)}"
+            ],
+            "$templates": [
+                "genericEntity.lg",
+                "genericEntity.lu",
+                "form-CompleteConfirmation.dialog",
+                "CompleteConfirmation-add-boolean.dialog",
+                "CompleteConfirmation-add-PROPERTYName.dialog"
+            ]
+        },
+        "PropertyToChange": {
+            "type": "string",
+            "$entities": [
+                "${foreach(properties, property, `${property}Property`)}"
+            ],
+            "$templates": [
+                "PropertyToChange-add-PROPERTYName.dialog"
+            ]
+        }
+    },
+    "$operations": [
+        "${schemaOperations()}"
+    ],
+    "$defaultOperation": [
+        {
+            "CancelConfirmation": {
+                "": "Set()"
+            },
+            "CompleteConfirmation": {
+                "": "Set()"
+            }
+        },
+        "${schemaDefaultOperation()}"
+    ],
+    "$requiresValue": [
+        "Add()",
+        "Remove()"
+    ],
+    "$expectedOnly": [
+        "boolean",
+        "utterance",
+        "keyPhrase",
+        "personName"
+    ],
+    "$templates": [
+        "form-NoneIntent.lu",
+        "form-triggerIntent.lu",
+        "form-Choose.lg",
+        "form-DisplayOperation.lg",
+        "form-phrases.lu",
+        "form-global.lu",
+        "custom.lu",
+        "form-Show.lg",
+        "form.lg",
+        "locale.lu",
+        "locale.lg",
+        "luis.lu.dialog",
+        "multilingual.dialog",
+        "form-BeginDialog.dialog",
+        "form-CancelGlobal.dialog",
+        "form-Change.dialog",
+        "form-ChooseProperty.dialog",
+        "form-HelpGlobal.dialog",
+        "form-HelpReprompt.dialog",
+        "form-NotUnderstood.dialog",
+        "form-Show.dialog",
+        "form-SkipGlobal.dialog",
+        "form-triggerIntent.dialog",
+        "main.dialog",
+        "luconfig.json",
+        "build",
+        "build.cmd",
+        "run",
+        "run.cmd"
+    ]
+}

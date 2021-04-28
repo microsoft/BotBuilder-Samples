@@ -8,12 +8,50 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnBeginDialog",
-    "$comment": "TODO: This is a hack to work around the lack of a way to remit activity or not when invoked.",
     "actions":  [
         {
             "$kind": "Microsoft.SendActivity",
             "activity": "\${welcome()}"           
-        }
+        },
+        {
+        "$kind": "Microsoft.IfCondition",
+        "condition": "!turn.activityProcessed",
+        "actions": [
+            {
+                "$kind": "Microsoft.EmitEvent",
+                "eventName": "activityReceived",
+                "eventValue": "=turn.activity",
+                "bubbleEvent": false
+            }
+        ]
+        }${setPropertiesForDynamiclists()}
     ]
 }
 ```
+
+# setPropertiesForDynamiclists
+- IF: ${!empty(where(schema.properties, property, property.value.$template == "dynamiclist"))}
+-```,
+${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
+- ELSE: 
+- 
+
+# setPropertyAction(property)
+-```
+{
+    "$kind": "Microsoft.SetProperty",
+    "property": "dialog.${property.key}Value",
+    "value":  {
+    "entity": "${property.key}Value",
+    "list": [
+        ${listElements(property)}
+    ]
+    }
+}
+```
+
+# listElements(property)
+- IF: ${propertyValueList(property.key)}
+    - ${join(foreach(indicesAndValues(propertyValueList(property.key)), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- ELSE:
+    -

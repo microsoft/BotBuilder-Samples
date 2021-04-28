@@ -141,7 +141,7 @@ class MainDialog(ComponentDialog):
 
     def create_audio_card(self) -> Attachment:
         card = AudioCard(
-            media=[MediaUrl(url="http://www.wavlist.com/movies/004/father.wav")],
+            media=[MediaUrl(url="https://wavlist.com/wav/father.wav")],
             title="I am your father",
             subtitle="Star Wars: Episode V - The Empire Strikes Back",
             text="The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes "

@@ -1,0 +1,10 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$template": "phonenumber",
+    "$generator": {
+        "title": "Phone Number",
+        "description": "Map a LUIS phonenumber entity like '425 555-1212' into a string.",
+        "$ref": "array.json"
+    }
+}

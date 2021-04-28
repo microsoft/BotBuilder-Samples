@@ -1,0 +1,17 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$template": "dynamiclist",
+    "$generator": {
+        "title": "dynamiclist",
+        "description": "dynamiclist",
+        "allOf": [
+            {
+                "$ref": "array.json"
+            },
+            {
+                "$ref": "examples.json"
+            }
+        ]
+    }
+}

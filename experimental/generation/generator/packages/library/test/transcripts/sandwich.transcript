@@ -532,14 +532,14 @@
         "entities": {
           "Bread": [
             {
-              "BreadEntity": [
+              "BreadValue": [
                 [
                   "multiGrainWheat",
                   "wholeWheat"
                 ]
               ],
               "$instance": {
-                "BreadEntity": [
+                "BreadValue": [
                   {
                     "type": "BreadEntity",
                     "text": "wheat",
@@ -597,14 +597,14 @@
           "entities": {
             "Bread": [
               {
-                "BreadEntity": [
+                "BreadValue": [
                   [
                     "multiGrainWheat",
                     "wholeWheat"
                   ]
                 ],
                 "$instance": {
-                  "BreadEntity": [
+                  "BreadValue": [
                     {
                       "type": "BreadEntity",
                       "text": "wheat",
@@ -759,7 +759,7 @@
               "event": "chooseProperty",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -781,7 +781,7 @@
                 "event": null,
                 "property": "Name",
                 "operation": "Add()",
-                "entity": {
+                "value": {
                   "name": "utterance",
                   "value": "wheat",
                   "property": null,
@@ -805,7 +805,7 @@
               "event": null,
               "property": "Name",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "utterance",
                 "value": "wheat",
                 "property": null,
@@ -954,7 +954,7 @@
               "event": "chooseProperty",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -976,7 +976,7 @@
                 "event": null,
                 "property": "Name",
                 "operation": "Add()",
-                "entity": {
+                "value": {
                   "name": "utterance",
                   "value": "wheat",
                   "property": null,
@@ -1007,7 +1007,7 @@
               "event": "chooseProperty",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -1029,7 +1029,7 @@
                 "event": null,
                 "property": "Name",
                 "operation": "Add()",
-                "entity": {
+                "value": {
                   "name": "utterance",
                   "value": "wheat",
                   "property": null,
@@ -1053,7 +1053,7 @@
               "event": null,
               "property": "Name",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "utterance",
                 "value": "wheat",
                 "property": null,
@@ -1156,7 +1156,7 @@
               "event": "chooseProperty",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -1178,7 +1178,7 @@
                 "event": null,
                 "property": "Name",
                 "operation": "Add()",
-                "entity": {
+                "value": {
                   "name": "utterance",
                   "value": "wheat",
                   "property": null,
@@ -1209,7 +1209,7 @@
               "event": "chooseProperty",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -1231,7 +1231,7 @@
                 "event": null,
                 "property": "Name",
                 "operation": "Add()",
-                "entity": {
+                "value": {
                   "name": "utterance",
                   "value": "wheat",
                   "property": null,
@@ -1255,7 +1255,7 @@
               "event": null,
               "property": "Name",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "utterance",
                 "value": "wheat",
                 "property": null,
@@ -1374,7 +1374,7 @@
                                   "event": "chooseProperty",
                                   "property": "Bread",
                                   "operation": "Add()",
-                                  "entity": {
+                                  "value": {
                                     "name": "BreadEntity",
                                     "value": [
                                       "multiGrainWheat",
@@ -1396,7 +1396,7 @@
                                     "event": null,
                                     "property": "Name",
                                     "operation": "Add()",
-                                    "entity": {
+                                    "value": {
                                       "name": "utterance",
                                       "value": "wheat",
                                       "property": null,
@@ -1427,7 +1427,7 @@
                                   "event": "chooseProperty",
                                   "property": "Bread",
                                   "operation": "Add()",
-                                  "entity": {
+                                  "value": {
                                     "name": "BreadEntity",
                                     "value": [
                                       "multiGrainWheat",
@@ -1449,7 +1449,7 @@
                                     "event": null,
                                     "property": "Name",
                                     "operation": "Add()",
-                                    "entity": {
+                                    "value": {
                                       "name": "utterance",
                                       "value": "wheat",
                                       "property": null,
@@ -1473,7 +1473,7 @@
                                   "event": null,
                                   "property": "Name",
                                   "operation": "Add()",
-                                  "entity": {
+                                  "value": {
                                     "name": "utterance",
                                     "value": "wheat",
                                     "property": null,
@@ -1784,7 +1784,7 @@
             "event": "chooseEntity",
             "property": "Bread",
             "operation": "Add()",
-            "entity": {
+            "value": {
               "name": "BreadEntity",
               "value": [
                 "multiGrainWheat",
@@ -1917,7 +1917,7 @@
               "event": "chooseEntity",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -1948,7 +1948,7 @@
             "event": "chooseEntity",
             "property": "Bread",
             "operation": "Add()",
-            "entity": {
+            "value": {
               "name": "BreadEntity",
               "value": [
                 "multiGrainWheat",
@@ -2053,7 +2053,7 @@
               "event": "chooseEntity",
               "property": "Bread",
               "operation": "Add()",
-              "entity": {
+              "value": {
                 "name": "BreadEntity",
                 "value": [
                   "multiGrainWheat",
@@ -2084,7 +2084,7 @@
             "event": "chooseEntity",
             "property": "Bread",
             "operation": "Add()",
-            "entity": {
+            "value": {
               "name": "BreadEntity",
               "value": [
                 "multiGrainWheat",
@@ -2205,7 +2205,7 @@
                                   "event": "chooseEntity",
                                   "property": "Bread",
                                   "operation": "Add()",
-                                  "entity": {
+                                  "value": {
                                     "name": "BreadEntity",
                                     "value": [
                                       "multiGrainWheat",
@@ -2236,7 +2236,7 @@
                                 "event": "chooseEntity",
                                 "property": "Bread",
                                 "operation": "Add()",
-                                "entity": {
+                                "value": {
                                   "name": "BreadEntity",
                                   "value": [
                                     "multiGrainWheat",
@@ -2361,13 +2361,13 @@
         "entities": {
           "Bread": [
             {
-              "BreadEntity": [
+              "BreadValue": [
                 [
                   "wholeWheat"
                 ]
               ],
               "$instance": {
-                "BreadEntity": [
+                "BreadValue": [
                   {
                     "type": "BreadEntity",
                     "text": "whole wheat",
@@ -2382,7 +2382,7 @@
               }
             }
           ],
-          "BreadEntity": [
+          "BreadValue": [
             [
               "multiGrainWheat",
               "wholeWheat"
@@ -2401,7 +2401,7 @@
                 ]
               }
             ],
-            "BreadEntity": [
+            "BreadValue": [
               {
                 "type": "BreadEntity",
                 "text": "wheat",
@@ -2443,13 +2443,13 @@
           "entities": {
             "Bread": [
               {
-                "BreadEntity": [
+                "BreadValue": [
                   [
                     "wholeWheat"
                   ]
                 ],
                 "$instance": {
-                  "BreadEntity": [
+                  "BreadValue": [
                     {
                       "type": "BreadEntity",
                       "text": "whole wheat",
@@ -2465,7 +2465,7 @@
                 }
               }
             ],
-            "BreadEntity": [
+            "BreadValue": [
               [
                 "multiGrainWheat",
                 "wholeWheat"
@@ -2485,7 +2485,7 @@
                   ]
                 }
               ],
-              "BreadEntity": [
+              "BreadValue": [
                 {
                   "type": "BreadEntity",
                   "text": "wheat",
@@ -2603,7 +2603,7 @@
             }
           },
           "entities": {
-            "BreadEntity": [
+            "BreadValue": [
               "wholeWheat"
             ]
           },
@@ -3581,13 +3581,13 @@
             {
               "Cheese": [
                 {
-                  "CheeseEntity": [
+                  "CheeseValue": [
                     [
                       "swiss"
                     ]
                   ],
                   "$instance": {
-                    "CheeseEntity": [
+                    "CheeseValue": [
                       {
                         "type": "CheeseEntity",
                         "text": "swiss",
@@ -3604,7 +3604,7 @@
               ],
               "Toppings": [
                 {
-                  "ToppingsEntity": [
+                  "ToppingsValue": [
                     [
                       "pickles"
                     ],
@@ -3613,7 +3613,7 @@
                     ]
                   ],
                   "$instance": {
-                    "ToppingsEntity": [
+                    "ToppingsValue": [
                       {
                         "type": "ToppingsEntity",
                         "text": "pickles",
@@ -3666,7 +3666,7 @@
               }
             }
           ],
-          "MeatEntity": [
+          "MeatValue": [
             [
               "ham"
             ]
@@ -3687,7 +3687,7 @@
                 ]
               }
             ],
-            "MeatEntity": [
+            "MeatValue": [
               {
                 "type": "MeatEntity",
                 "text": "ham",
@@ -3743,13 +3743,13 @@
               {
                 "Cheese": [
                   {
-                    "CheeseEntity": [
+                    "CheeseValue": [
                       [
                         "swiss"
                       ]
                     ],
                     "$instance": {
-                      "CheeseEntity": [
+                      "CheeseValue": [
                         {
                           "type": "CheeseEntity",
                           "text": "swiss",
@@ -3767,7 +3767,7 @@
                 ],
                 "Toppings": [
                   {
-                    "ToppingsEntity": [
+                    "ToppingsValue": [
                       [
                         "pickles"
                       ],
@@ -3776,7 +3776,7 @@
                       ]
                     ],
                     "$instance": {
-                      "ToppingsEntity": [
+                      "ToppingsValue": [
                         {
                           "type": "ToppingsEntity",
                           "text": "pickles",
@@ -3833,7 +3833,7 @@
                 }
               }
             ],
-            "MeatEntity": [
+            "MeatValue": [
               [
                 "ham"
               ]
@@ -3855,7 +3855,7 @@
                   ]
                 }
               ],
-              "MeatEntity": [
+              "MeatValue": [
                 {
                   "type": "MeatEntity",
                   "text": "ham",
@@ -4067,13 +4067,13 @@
             }
           },
           "entities": {
-            "MeatEntity": [
+            "MeatValue": [
               "ham"
             ],
-            "ToppingsEntity": [
+            "ToppingsValue": [
               "lettuce"
             ],
-            "CheeseEntity": [
+            "CheeseValue": [
               "swiss"
             ]
           },
@@ -4549,13 +4549,13 @@
             {
               "Toppings": [
                 {
-                  "ToppingsEntity": [
+                  "ToppingsValue": [
                     [
                       "pickles"
                     ]
                   ],
                   "$instance": {
-                    "ToppingsEntity": [
+                    "ToppingsValue": [
                       {
                         "type": "ToppingsEntity",
                         "text": "pickles",
@@ -4607,7 +4607,7 @@
               }
             }
           ],
-          "SaucesEntity": [
+          "SaucesValue": [
             [
               "dijonMustard"
             ]
@@ -4637,7 +4637,7 @@
                 ]
               }
             ],
-            "SaucesEntity": [
+            "SaucesValue": [
               {
                 "type": "SaucesEntity",
                 "text": "dijon",
@@ -4681,13 +4681,13 @@
               {
                 "Toppings": [
                   {
-                    "ToppingsEntity": [
+                    "ToppingsValue": [
                       [
                         "pickles"
                       ]
                     ],
                     "$instance": {
-                      "ToppingsEntity": [
+                      "ToppingsValue": [
                         {
                           "type": "ToppingsEntity",
                           "text": "pickles",
@@ -4742,7 +4742,7 @@
                 }
               }
             ],
-            "SaucesEntity": [
+            "SaucesValue": [
               [
                 "dijonMustard"
               ]
@@ -4774,7 +4774,7 @@
                   ]
                 }
               ],
-              "SaucesEntity": [
+              "SaucesValue": [
                 {
                   "type": "SaucesEntity",
                   "text": "dijon",
@@ -4946,10 +4946,10 @@
             }
           },
           "entities": {
-            "SaucesEntity": [
+            "SaucesValue": [
               "dijonMustard"
             ],
-            "ToppingsEntity": [
+            "ToppingsValue": [
               "pickles"
             ],
             "Toppings": [
@@ -7593,13 +7593,13 @@
         "entities": {
           "Bread": [
             {
-              "BreadEntity": [
+              "BreadValue": [
                 [
                   "rye"
                 ]
               ],
               "$instance": {
-                "BreadEntity": [
+                "BreadValue": [
                   {
                     "type": "BreadEntity",
                     "text": "rye",
@@ -7672,13 +7672,13 @@
           "entities": {
             "Bread": [
               {
-                "BreadEntity": [
+                "BreadValue": [
                   [
                     "rye"
                   ]
                 ],
                 "$instance": {
-                  "BreadEntity": [
+                  "BreadValue": [
                     {
                       "type": "BreadEntity",
                       "text": "rye",
@@ -7903,7 +7903,7 @@
             }
           },
           "entities": {
-            "BreadEntity": [
+            "BreadValue": [
               "rye"
             ]
           },

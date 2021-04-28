@@ -10,7 +10,7 @@ export default class Swagger extends Command {
   static description = '[PREVIEW] Generate JSON schema given swagger file.'
 
   static examples = [`
-      $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n petSearch.schema`]
+      $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n petSearch.form`]
 
   static args = [
     { name: 'path', required: true, description: 'The path to the swagger file' },

@@ -10,7 +10,7 @@
     "$kind": "Microsoft.OnAssignEntity",
     "operation": "Set()",
     "property": "CompleteConfirmation",
-    "entity": "boolean",
+    "value": "boolean",
     "actions": [
         {
             "$kind": "Microsoft.SetProperty",

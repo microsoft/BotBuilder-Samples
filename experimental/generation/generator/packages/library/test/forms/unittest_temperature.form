@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Temperature": {
-            "$ref": "template:temperature.schema"
+            "$ref": "template:temperature.template"
         }
     },
     "required": [

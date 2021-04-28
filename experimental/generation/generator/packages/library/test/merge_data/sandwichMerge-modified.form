@@ -8,14 +8,10 @@
             "maximum": 10
         },
         "Length": {
-            "$ref": "template:dimension.schema"
+            "$ref": "template:dimension.template"
         },
         "Name": {
-            "type": "string",
-            "$entities": [
-                "personName",
-                "utterance"
-            ]
+            "$ref": "template:personName.template"
         },
         "Bread": {
             "type": "string",
@@ -47,7 +43,7 @@
             ]
         },
         "Price": {
-            "$ref": "template:money.schema"
+            "$ref": "template:money.template"
         }
     },
     "required": [
