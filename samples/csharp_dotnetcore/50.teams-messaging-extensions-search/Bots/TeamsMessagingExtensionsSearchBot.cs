@@ -131,18 +131,17 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public MessagingExtensionResponse GetAdaptiveCard()
         {
-
-            string filepath = "./RestaurantCard.json";
+            var paths = new[] { ".", "Resources", "RestaurantCard.json" };
+            string filepath = Path.Combine(paths); 
             var previewcard = new ThumbnailCard
             {
                 Title = "Adaptive Card",
                 Text = "Please select to get Adaptive card"
             };
             var adaptiveList = FetchAdaptive(filepath);
-
             var attachment = new MessagingExtensionAttachment
             {
-                ContentType = AdaptiveCards.AdaptiveCard.ContentType,
+                ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = adaptiveList.Content,
                 Preview = previewcard.ToAttachment()
             };
@@ -157,23 +156,18 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
-
+        
         public MessagingExtensionResponse GetConnectorCard()
         {
-          
-            string filepath = "./connectorCard.json";
-            var json = File.ReadAllText(filepath);
-            var cardJson = JsonConvert.DeserializeObject<ConnectorJsonSerializer>(json);
-            cardJson.sections[0].activityImage = _baseURL+"/imgConnector.jpg";
-            var ConnectorCardJson = JsonConvert.SerializeObject(cardJson);
-
+            var path = new[] { ".", "Resources", "connectorCard.json" };
+            var filepath = Path.Combine(path);   
             var previewcard = new ThumbnailCard
             {
                 Title = "O365 Connector Card",
                 Text = "Please select to get Connector card"
             };
 
-            var connector = FetchConnector(ConnectorCardJson);
+            var connector = FetchConnector(filepath);
             var attachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType,
@@ -192,61 +186,48 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        public static Attachment FetchAdaptive(string filepath)
+        public  Attachment FetchAdaptive(string filepath)
         {
             var adaptiveCardJson = File.ReadAllText(filepath);
             var adaptiveCardAttachment = new Attachment
             {
-                ContentType = /*"application/vnd.microsoft.card.adaptive"*/ AdaptiveCard.ContentType,
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
-            };
-
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson)
+            };      
             return adaptiveCardAttachment;
         }
 
-        public Attachment FetchConnector(string cardJson)
+        public Attachment FetchConnector(string filepath)
         {
+            var connectorCardJson = File.ReadAllText(filepath);
             var connectorCardAttachment = new MessagingExtensionAttachment
             {
-                ContentType = O365ConnectorCard.ContentType/*"application/vnd.microsoft.teams.card.o365connector"*/,
-                Content = JsonConvert.DeserializeObject(cardJson),
+                ContentType = O365ConnectorCard.ContentType,
+                Content = JsonConvert.DeserializeObject(connectorCardJson),
 
             };
-            
             return connectorCardAttachment;
         }
 
         public MessagingExtensionResponse GetResultGrid()
         {
-            var files = Directory.GetFiles("wwwroot");
-
-            List<string> imageFiles = new List<string>();
-
-            foreach (string filename in files)
-            {
-                if (Regex.IsMatch(filename, @".jpg"))
-                    imageFiles.Add(filename);
-
-            }
+            var imageFiles = Directory.EnumerateFiles("wwwroot", "*.*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith(".jpg"));
 
             List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
 
             foreach (string img in imageFiles)
             {
-                var image = img.Split("\\");
-                
+                var image = img.Split("\\");                
                 var thumbnailCard = new ThumbnailCard();
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseURL +"/" + image[1]) };
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseUrl + "/" + image[1]) };
                 var attachment = new MessagingExtensionAttachment
                 {
                     ContentType = ThumbnailCard.ContentType,
                     Content = thumbnailCard,
                 };
-
                 attachments.Add(attachment);
-
             }
-
             return new MessagingExtensionResponse
             {
                 ComposeExtension = new MessagingExtensionResult
@@ -256,7 +237,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Attachments = attachments
                 }
             };
-
         }
 
     }
