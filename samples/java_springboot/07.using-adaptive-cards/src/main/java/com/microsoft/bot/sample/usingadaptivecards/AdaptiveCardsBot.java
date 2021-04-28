@@ -11,6 +11,7 @@ import java.util.Random;
 import java.util.concurrent.CompletableFuture;
 
 
+import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.microsoft.bot.builder.ActivityHandler;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
@@ -19,6 +20,7 @@ import com.microsoft.bot.schema.ChannelAccount;
 import com.microsoft.bot.schema.Serialization;
 
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 // This bot will respond to the user's input with an Adaptive Card.
 // Adaptive Cards are a way for developers to exchange card content
@@ -65,14 +67,22 @@ public class AdaptiveCardsBot extends ActivityHandler {
     }
 
     private static CompletableFuture<Void> sendWelcomeMessage(TurnContext turnContext) {
-        for (ChannelAccount member : turnContext.getActivity().getMembersAdded()) {
-            if (!member.getId().equals(turnContext.getActivity().getRecipient().getId())) {
-                 turnContext.sendActivity(
-                     String.format("Welcome to Adaptive Cards Bot %s. %s", member.getName(), welcomeText)
-                 ).join();
-            }
-        }
-        return CompletableFuture.completedFuture(null);
+        return turnContext.getActivity()
+            .getMembersAdded()
+            .stream()
+            .filter(
+                member -> !StringUtils
+                    .equals(member.getId(), turnContext.getActivity().getRecipient().getId())
+            )
+            .map(
+                channel -> turnContext.sendActivities(
+                    MessageFactory.text(
+                        String.format("Welcome to Adaptive Cards Bot %s. %s", channel.getName(), welcomeText)
+                    )
+                )
+            )
+            .collect(CompletableFutures.toFutureList())
+            .thenApply(resourceResponses -> null);
     }
 
     private static Attachment createAdaptiveCardAttachment(String filePath) {
