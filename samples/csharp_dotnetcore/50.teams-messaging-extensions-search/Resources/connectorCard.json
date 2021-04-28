@@ -5,7 +5,7 @@
     {
       "activityTitle": "Steve Tweeted",
       "activitySubtitle": "With #MicrosoftTeams",
-      "activityImage": ""
+      "activityImage": "${ImageBaseUrl}"
     },
     {
       "facts": [
