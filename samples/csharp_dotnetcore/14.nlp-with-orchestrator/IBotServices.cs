@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
         
         LuisRecognizer LuisWeatherRecognizer { get; }
 
-        OrchestratorRecognizerHelper Dispatch { get; }
+        OrchestratorRecognizer Dispatch { get; }
         
         QnAMaker SampleQnA { get; }
     }

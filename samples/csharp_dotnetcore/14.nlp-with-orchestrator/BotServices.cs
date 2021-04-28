@@ -10,7 +10,7 @@ namespace Microsoft.BotBuilderSamples
 {
     public class BotServices : IBotServices
     {
-        public BotServices(IConfiguration configuration, OrchestratorRecognizerHelper dispatcher)
+        public BotServices(IConfiguration configuration, OrchestratorRecognizer dispatcher)
         {
             // Read the setting for cognitive services (LUIS, QnA) from the appsettings.json
             // If includeApiResults is set to true, the full response from the LUIS api (LuisResult)
@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
             });
         }
 
-        public OrchestratorRecognizerHelper Dispatch { get; private set; }
+        public OrchestratorRecognizer Dispatch { get; private set; }
         
         public QnAMaker SampleQnA { get; private set; }
         
