@@ -132,7 +132,6 @@ public class SuggestedActionsBot extends ActivityHandler {
         SuggestedActions actions = new SuggestedActions();
         actions.setActions(Arrays.asList(redAction, yellowAction, blueAction));
         reply.setSuggestedActions(actions);
-        
         return turnContext.sendActivity(reply).thenApply(sendResult -> null);
     }
 }
