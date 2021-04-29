@@ -23,22 +23,26 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0).
 
 
-## To try this sample locally
+## To try this sample
 - From the root of this project folder:
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\nlp-with-dispatch-sample.jar`
 
-- Test the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
 
-  [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-  - Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+  - Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-  - Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
 
-    - Launch Bot Framework Emulator
-    - File -> Open Bot
-    - Enter a Bot URL of `http://localhost:3978/api/messages`
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
+## Interacting with the bot
+
+Once you are comfortable with the concepts presented in this sample, you may want to configure Dispatch using a CLI tool.  [Dispatch CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Dispatch) is a CLI tool that enables you to create a dispatch NLP model across the different LUIS applications and/ or QnA Maker Knowledge Bases you have for your bot.
 
 ## Deploy the bot to Azure
 
@@ -47,7 +51,7 @@ As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-ser
 ### 1. Login to Azure
 From a command (or PowerShell) prompt in the root of the bot folder, execute:  
 `az login`
-  
+
 ### 2. Set the subscription
 `az account set --subscription "<azure-subscription>"`
 
@@ -67,10 +71,14 @@ Record the `appid` from the returned JSON
 Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
 
 #### To a new Resource Group
-`az deployment sub create --name "echoBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="echoBotPlan" newWebAppName="echoBot" groupLocation="westus" newAppServicePlanLocation="westus"` 
+```
+az deployment sub create --name "dispatchBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="dispatchBotPlan" newWebAppName="dispatchBot" groupLocation="westus" newAppServicePlanLocation="westus"
+```
 
 #### To an existing Resource Group
-`az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="echoBot" newAppServicePlanName="echoBotPlan" appServicePlanLocation="westus" --name "echoBot"`
+```
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="dispatchBot" newAppServicePlanName="dispatchBotPlan" appServicePlanLocation="westus" --name "dispatchBot"
+```
 
 ### 5. Update app id and password
 In src/main/resources/application.properties update 
@@ -79,7 +87,7 @@ In src/main/resources/application.properties update
 
 ### 6. Deploy the code
 - Execute `mvn clean package` 
-- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<botname>"`
+- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<bot-app-service-name>"`
 
 If the deployment is successful, you will be able to test it via "Test in Web Chat" from the Azure Portal using the "Bot Channel Registration" for the bot.
 
@@ -88,16 +96,16 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 ## Further reading
 
-- [Bot Framework Documentation](https://docs.botframework.com)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=js)
+- [Using LUIS for Language Understanding](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-v4-luis?view=azure-bot-service-4.0&tabs=csharp)
 - [LUIS documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/LUIS/)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
-- [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
