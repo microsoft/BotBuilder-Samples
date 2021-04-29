@@ -25,25 +25,24 @@ import org.slf4j.LoggerFactory;
 
 public class DispatchBot extends ActivityHandler {
 
-    private final Logger _logger;
-    private final BotServices _botServices;
+    private final Logger logger;
+    private final BotServices botServices;
 
     public DispatchBot(BotServices botServices) {
-        _logger = LoggerFactory.getLogger(DispatchBot.class);
-        _botServices = botServices;
+        logger = LoggerFactory.getLogger(DispatchBot.class);
+        this.botServices = botServices;
     }
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        // First, we use the dispatch model to determine which cognitive service (LUS or
-        // QnA) to use.
-        RecognizerResult recognizerResult = _botServices.getDispatch().recognize(turnContext).join();
+        // First, we use the dispatch model to determine which cognitive service (LUIS or QnA) to use.
+        return botServices.getDispatch().recognize(turnContext).thenCompose(result -> {
+            // Top intent tell us which cognitive service to use.
+            NamedIntentScore topIntent = result.getTopScoringIntent();
 
-        // Top intent tell us which cognitive service to use.
-        NamedIntentScore topIntent = recognizerResult.getTopScoringIntent();
-
-        // Next, we call the dispatcher with the top intent.
-        return dispatchToTopIntent(turnContext, topIntent.intent, recognizerResult);
+            // Next, we call the dispatcher with the top intent.
+            return dispatchToTopIntent(turnContext, topIntent.intent, result).thenApply(task -> null);
+        });
     }
 
     @Override
@@ -76,7 +75,7 @@ public class DispatchBot extends ActivityHandler {
                 return processSampleQnA(turnContext);
 
             default:
-                _logger.info(String.format("Dispatch unrecognized intent: %s.", intent));
+                logger.info(String.format("Dispatch unrecognized intent: %s.", intent));
                 return turnContext
                     .sendActivity(MessageFactory.text(String.format("Dispatch unrecognized intent: %s.", intent)))
                     .thenApply(result -> null);
@@ -84,7 +83,7 @@ public class DispatchBot extends ActivityHandler {
     }
 
     private CompletableFuture<Void> processHomeAutomation(TurnContext turnContext, RecognizerResult luisResult) {
-        _logger.info("ProcessHomeAutomationAsync");
+        logger.info("ProcessHomeAutomation");
 
         // Retrieve LUIS result for Process Automation.
         PredictionResult predictionResult = mapPredictionResult(luisResult.getProperties().get("luisResult"));
@@ -173,9 +172,9 @@ public class DispatchBot extends ActivityHandler {
     }
 
     private CompletableFuture<Void> processWeather(TurnContext turnContext, RecognizerResult luisResult) {
-        _logger.info("ProcessWeatherAsync");
+        logger.info("ProcessWeather");
 
-        // Retrieve LUIS result for Process Automation.
+        // Retrieve LUIS result for Weather.
         PredictionResult predictionResult = mapPredictionResult(luisResult.getProperties().get("luisResult"));
 
         Intent topIntent = predictionResult.getIntents().get(0);
@@ -211,9 +210,9 @@ public class DispatchBot extends ActivityHandler {
     }
 
     private CompletableFuture<Void> processSampleQnA(TurnContext turnContext) {
-        _logger.info("ProcessSampleQnAAsync");
+        logger.info("ProcessSampleQnA");
 
-        return _botServices.getSampleQnA().getAnswers(turnContext, null).thenCompose(results -> {
+        return botServices.getSampleQnA().getAnswers(turnContext, null).thenCompose(results -> {
             if (results.length > 0) {
                 return turnContext.sendActivity(MessageFactory.text(results[0].getAnswer())).thenApply(result -> null);
             } else {
