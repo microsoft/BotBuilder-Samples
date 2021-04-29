@@ -23,7 +23,6 @@ import {AdaptiveBotComponent} from 'botbuilder-dialogs-adaptive'
 import {LuisBotComponent, QnAMakerBotComponent} from 'botbuilder-ai'
 import {ComponentDeclarativeTypes, ResourceExplorer} from 'botbuilder-dialogs-declarative'
 import {ServiceCollection, noOpConfiguration} from 'botbuilder-dialogs-adaptive-runtime-core'
-import {assetDirectory} from '../lib/dialogGenerator'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -431,10 +430,10 @@ describe('dialog:generate library', async () => {
 
     it('Examples generation', () => {
         const examples = gen.examples(['abcDef', 'ghi jkl', 'MnoPQR', 'stu_vwx'])
-        assert.deepStrictEqual(examples['abcDef'], ["abc", "def", "abc def"])
-        assert.deepStrictEqual(examples['ghi jkl'], ["ghi", "jkl", "ghi jkl"])
-        assert.deepStrictEqual(examples['MnoPQR'], ["mno", "pqr", "mno pqr"])
-        assert.deepStrictEqual(examples['stu_vwx'], ["stu", "vwx", "stu vwx"])
+        assert.deepStrictEqual(examples['abcDef'], ['abc', 'def', 'abc def'])
+        assert.deepStrictEqual(examples['ghi jkl'], ['ghi', 'jkl', 'ghi jkl'])
+        assert.deepStrictEqual(examples['MnoPQR'], ['mno', 'pqr', 'mno pqr'])
+        assert.deepStrictEqual(examples['stu_vwx'], ['stu', 'vwx', 'stu vwx'])
     })
 
     it('Global transform', async () => {
@@ -493,25 +492,32 @@ describe('dialog:generate library', async () => {
             for (const template of source.allTemplates) {
                 // Analyze each original source template only once
                 if (!analyzed.has(template.sourceRange.source)) {
-                    let references: string[]
-                    try {
-                        references = source.analyzeTemplate(template.name).TemplateReferences
-                    } catch (e) {
-                        // TODO: This is necessary because of a bug in analyzing recursive templates.
-                        // https://github.com/microsoft/botbuilder-js/issues/3619
-                        // Once fixed we can remove try/catch and the exclusions
-                        // This pretends a template refers to itself
-                        debugger
-                        references = [template.name]
-                    }
+                    const references = source.analyzeTemplate(template.name).TemplateReferences
+                    const templateSource = template.sourceRange.source
                     for (const reference of references) {
-                        const source = template.sourceRange.source as string
                         const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
-                        let referenceSource = referenceSources.get(source)
+                        let referenceSource = referenceSources.get(templateSource)
                         if (!referenceSource) {
                             referenceSource = []
-                            referenceSources.set(source, referenceSource)
+                            referenceSources.set(templateSource, referenceSource)
                         }
+                        referenceSource.push(template.name)
+                    }
+                    if (template.name === 'transforms') {
+                      
+                    }
+                }
+            }
+
+            if (source.allTemplates.some(t => t.name == 'transforms')) {
+                // Mark all templates in transforms as being used.
+                // They are not picked up because they are called using template
+                for (const template of source.allTemplates) {
+                    const referenceSources = usage.get(nameToFullname.get(template.name) as string) as Map<string, string[]>
+                    let referenceSource = referenceSources.get('transforms')
+                    if (!referenceSource) {
+                        referenceSource = []
+                        referenceSources.set('transforms', referenceSource)
                         referenceSource.push(template.name)
                     }
                 }
@@ -550,6 +556,7 @@ describe('dialog:generate library', async () => {
         // Compare cache to all standard template files
         const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
         const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
+
         // These are files that are only imported
         const excludeFiles = ['standard.en-us.lg']
         let unusedCount = 0
@@ -578,11 +585,8 @@ describe('dialog:generate library', async () => {
         }
 
         // Identify unused templates
-        // Exclusions are top-level templates called by the generator in standard.schema
-        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation',
-            // TODO: These are because analyzeTemplate has a bug with recursive templates
-            'addEntry', 'addVerifyMin', 'addVerifyMax', 'addVerifyUnique', 'addVerifyUnits', 'addVerifyPattern', 'isOnAssign', 'isSetProperty', 'addConversion'
-        ]
+        // Exclusions are top-level templates called by the generator in standard.schema or called through template
+        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty']
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {
             const name = templateName(template)

@@ -923,7 +923,7 @@ export async function generate(
         prefix,
         outDir,
         metaSchema,
-        locales = ["en-us"],
+        locales = ['en-us'],
         templateDirs = [],
         transforms = [],
         force = false,
@@ -943,7 +943,6 @@ export async function generate(
         feedback?: Feedback
     })
     : Promise<boolean> {
-        debugger
     const start = process.hrtime.bigint()
 
     let error = false
