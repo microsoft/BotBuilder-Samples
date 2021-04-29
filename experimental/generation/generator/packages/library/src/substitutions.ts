@@ -165,7 +165,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
 export const SubstitutionsEvaluator = new expr.ExpressionEvaluator('substitutions',
     expr.FunctionUtils.apply(
         ([path, bindings, replications, seed]) => {
-            return substitutions(path, bindings, replications, seed)
+            return substitutions(path as string, bindings, replications as number, seed as string)
         },
         (val, expr, pos) => {
             let error: string | undefined

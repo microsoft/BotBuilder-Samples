@@ -4,7 +4,9 @@
     "properties": {
         "Temperature": {
             "$ref": "template:temperature.template",
-            "$units": "Degree"
+            "$units": "Degree",
+            "minimum": 0,
+            "maximum": 100
         }
     },
     "required": [

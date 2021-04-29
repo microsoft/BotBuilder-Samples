@@ -1,0 +1,14 @@
+[generator.lg](../../templates/generator.lg)
+
+# transforms()
+> Add one to number entity
+- ${'addOneTransform'}
+
+# addOneTransform(extension, body)
+- ${transformConvert(extension, body, entity == 'number', 'addOne')}
+
+# addOne(action)
+- ${transformProperty(action, 'value', 'addConversion')}
+
+# addConversion(value)
+- ${`=${substring(value, 1)}+1`}

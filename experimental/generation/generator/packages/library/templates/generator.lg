@@ -714,6 +714,8 @@ ${expectedUpdateTemplate(expectedReplace)}
 
 >> Transformer support
 
+>>> transformProperty
+
 # transformProperty(object, property, transform)
 > Copy all properties in object and transform property using templateName
 - ${addEntries(addProperty({}, property, template(transform, object[property])), where(indicesAndValues(object), entry, entry.index != property))}
@@ -727,6 +729,31 @@ ${expectedUpdateTemplate(expectedReplace)}
 > Add an {index, value} entry to object
 - ${addProperty(object, entry.index, entry.value)}
 
+>>> copyObject
+
+# copyObject(old, filter, transform)
+> Copy an object and when the object matches filter call transform on it
+- IF: ${isArray(old)}
+    - ${foreach(old, element, copyObject(element, filter, transform))}
+- ELSEIF: ${isObject(old)}
+    - ${if(template(filter, old), template(transform, old), copyEntries({}, indicesAndValues(old), filter, transform))}
+- ELSE:
+    - ${old}
+
+# copyEntries(object, entries, filter, transform)
+> Copy entries into object
+> NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
+- ${if(count(entries) == 1, 
+    copyEntry(object, first(entries), filter, transform), 
+    copyEntries(copyEntry(object, first(entries), filter, transform), subArray(entries, 1, count(entries)), filter, transform))
+  }
+
+# copyEntry(object, entry, filter, transform)
+> Add an {index, value} entry to object
+- ${addProperty(object, entry.index, copyObject(entry.value, filter, transform))}
+
+>>> High level transforms
+
 # transformVerify(extension, body, condition, transform)
 > Transform OnAssignEntity body.actions if condition is true
 - IF: ${extension == 'dialog' && isOnAssign(body) && condition}
@@ -735,25 +762,16 @@ ${expectedUpdateTemplate(expectedReplace)}
     - ${body}
 
 # transformConvert(extension, body, condition, transform)
-> Transform a recursive child action that matches filter if condition is true
+> Transform a recursive child set action if condition is true
 - IF: ${extension == 'dialog' && isOnAssign(body) && condition}
     - ${copyObject(body, 'isSetProperty', transform)}
 - ELSE:
     - ${body}
-
-# copyObject(old, filter, transform)
-> Copy an object and when the object matches filter call transform on it
-- IF: ${isArray(old)}
-    - ${foreach(old, element, copyObject(element, filter, transform))}
-- ELSEIF: ${isObject(old)}
-    - ${if(template(filter, old), template(transform, old), addEntries({}, indicesAndValues(old)))}
-- ELSE:
-    - ${old}
 
 # isOnAssign(body)
 > Action to assign current property and entity
 - ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
 
 # isSetProperty(body)
-> Action to set the current property
+> Action to set/push the current property
 - ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}

@@ -5,14 +5,21 @@
 - ${'verifyMin'}
 
 # verifyMin(extension, body)
-- ${transformVerify(extension, body, propertySchema.minimum, 'addVerifyMin')}
+- ${transformVerify(extension, body, propertySchema.minimum && entity == 'numnber', 'addVerifyMin')}
 
 # addVerifyMin(actions)
+> TODO: The concat is because back quote is not allowed when constructing objects.
 - ${
 [
     {   "$kind": "Microsoft.IfCondition", 
-        condition: "@${entity} < dialogClass.schema.properties['${property}'].minimum", 
-        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${${property}_IsTooSmall(@${entity})}"}], 
+        condition: comparison(), 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
         elseActions: actions
     }
 ]}
+
+# comparison()
+- ${`@${entity} < dialogClass.schema.properties.${property}.minimum`}
+
+# activity()
+- ${`\${${property}_IsTooSmall(@${entity})}`}

@@ -23,6 +23,7 @@ import {AdaptiveBotComponent} from 'botbuilder-dialogs-adaptive'
 import {LuisBotComponent, QnAMakerBotComponent} from 'botbuilder-ai'
 import {ComponentDeclarativeTypes, ResourceExplorer} from 'botbuilder-dialogs-declarative'
 import {ServiceCollection, noOpConfiguration} from 'botbuilder-dialogs-adaptive-runtime-core'
+import {assetDirectory} from '../lib/dialogGenerator'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -211,7 +212,12 @@ describe('dialog:generate library', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath,
+                {
+                    outDir: output,
+                    templateDirs: [override, 'template:standard'],
+                    feedback
+                })
             let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
@@ -224,7 +230,11 @@ describe('dialog:generate library', async () => {
     it('Singleton', async () => {
         try {
             console.log('\n\nSingleton Generation')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            await gen.generate(schemaPath, {
+                outDir: output,
+                singleton: true,
+                feedback
+            })
             assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
             assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
         } catch (e) {
@@ -235,7 +245,10 @@ describe('dialog:generate library', async () => {
     it('Non singleton', async () => {
         try {
             console.log('\n\nNon singleton Generation')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, false, feedback)
+            await gen.generate(schemaPath, {
+                outDir: output,
+                feedback
+            })
             await checkDirectory(output, 9, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
@@ -257,7 +270,11 @@ describe('dialog:generate library', async () => {
             const testOutput = ppath.join(os.tmpdir(), 'unitTests', name)
             console.log(`\n\n${description}`)
             await fs.remove(testOutput)
-            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, testOutput, undefined, ['en-us'], undefined, false, false, true, feedback)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, {
+                outDir: testOutput,
+                singleton: true,
+                feedback
+            })
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
@@ -372,11 +389,14 @@ describe('dialog:generate library', async () => {
     it('Bad property names', async () => {
         try {
             let errors = 0
-            assert(!(await gen.generate('test/forms/bad-propertyNames.form', undefined, output, undefined, undefined, undefined, true, false, false,
-                (type, msg) => {
+            assert(!(await gen.generate('test/forms/bad-propertyNames.form', {
+                outDir: output,
+                force: true,
+                feedback: (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
-                })))
+                }
+            })), 'Should have failed generation')
             assert.strictEqual(errors, 4)
         } catch (e) {
             assert.fail(e.message)
@@ -388,12 +408,15 @@ describe('dialog:generate library', async () => {
             const testOutput = `${output}/enum`
             let errors = 0
             let warnings = 0
-            assert(!(await gen.generate('test/forms/enum.form', undefined, testOutput, undefined, undefined, undefined, true, false, false,
-                (type, msg) => {
+            assert(!(await gen.generate('test/forms/enum.form', {
+                outDir: testOutput,
+                force: true,
+                feedback: (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
                     if (type === gen.FeedbackType.warning) ++warnings
-                })), 'Should have failed generation')
+                }
+            })), 'Should have failed generation')
             assert.strictEqual(errors, 7)
             assert.strictEqual(warnings, 8)
             await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
@@ -412,6 +435,30 @@ describe('dialog:generate library', async () => {
         assert.deepStrictEqual(examples['ghi jkl'], ["ghi", "jkl", "ghi jkl"])
         assert.deepStrictEqual(examples['MnoPQR'], ["mno", "pqr", "mno pqr"])
         assert.deepStrictEqual(examples['stu_vwx'], ["stu", "vwx", "stu vwx"])
+    })
+
+    it('Global transform', async () => {
+        try {
+            const testOutput = `${output}/transform`
+            let errors = 0
+            let warnings = 0
+            assert((await gen.generate('test/forms/unittest_temperature_with_units.form', {
+                outDir: testOutput,
+                templateDirs: ['test/templates', 'template:standard'],
+                transforms: ['addOne'],
+                force: true,
+                feedback: (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                    if (type === gen.FeedbackType.warning) ++warnings
+                }
+            })), 'Should not have failed generation')
+            assert.strictEqual(errors, 0)
+            assert.strictEqual(warnings, 0)
+            await compareToOracle('unittest_temperature_with_units.dialog')
+        } catch (e) {
+            assert.fail(e.message)
+        }
     })
 
     type FullTemplateName = string
@@ -454,6 +501,7 @@ describe('dialog:generate library', async () => {
                         // https://github.com/microsoft/botbuilder-js/issues/3619
                         // Once fixed we can remove try/catch and the exclusions
                         // This pretends a template refers to itself
+                        debugger
                         references = [template.name]
                     }
                     for (const reference of references) {

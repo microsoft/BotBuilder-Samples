@@ -5,14 +5,20 @@
 
 # verifyMax(extension, body)
 > Verify schema maximum
-- ${transformVerify(extension, body, propertySchema.maximum, 'addVerifyMax')}
+- ${transformVerify(extension, body, propertySchema.maximum && entity == 'number', 'addVerifyMax')}
 
 # addVerifyMax(actions)
 - ${
 [
     {   "$kind": "Microsoft.IfCondition", 
-        condition: "@${entity} > dialogClass.schema.properties['${property}'].maximum", 
-        actions: [{ "$kind": "Microsoft.SendActivity", activity: "\${${property}_IsTooBig(@${entity})}"}], 
+        condition: comparison(), 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
         elseActions: actions
     }
 ]}
+
+# comparison()
+- ${`@${entity} > dialogClass.schema.properties.${property}.minimum`}
+
+# activity()
+- ${`\${${property}_IsTooBig(@${entity})}`}

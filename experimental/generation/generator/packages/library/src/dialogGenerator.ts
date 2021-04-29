@@ -244,6 +244,33 @@ async function walkJSON(elt: any, fun: (val: any, obj?: any, path?: string) => P
     }
 }
 
+function compareObjects(a: any, b: any) {
+    if (a === b) {
+        return true
+    }
+
+    if (typeof a != 'object' || typeof b != 'object' || a == null || b == null) {
+        return false
+    }
+
+    const keysA = Object.keys(a), keysB = Object.keys(b)
+
+    if (keysA.length != keysB.length) {
+        return false
+    }
+
+    for (const key of keysA) {
+        if (!keysB.includes(key)) {
+            return false
+        }
+        if (!compareObjects(a[key], b[key])) {
+            return false
+        }
+    }
+
+    return true
+}
+
 function pathName(path: string | undefined, extension: string): string {
     return path ? `${path}/${extension}` : extension
 }
@@ -275,6 +302,9 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                 if (template) {
                     break
                 } else if (await fs.pathExists(loc)) {
+                    // TODO: We should add an import resolver here that looks through template directories if it can't 
+                    // find file and model it on defaultFileResolver.  That way people can refer to generator by 
+                    // just (generator.lg).
                     template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
                     TemplateCache.set(loc, template)
                     break
@@ -341,15 +371,16 @@ type Transform = {name: string, template: lg.Templates}
 async function processTemplate(
     templateName: string,
     templateDirs: string[],
+    transforms: Transform[],
     outDir: string,
     scope: any,
     force: boolean,
     feedback: Feedback,
-    ignorable: boolean,
-    transforms: Transform[]): Promise<string> {
+    ignorable: boolean): Promise<string> {
     let outPath = ''
     const oldDir = process.cwd()
     try {
+        transforms = [...transforms]
         const ref = existingRef(templateName, scope.templates)
         if (ref) {
             // Simple file already existed
@@ -414,9 +445,13 @@ async function processTemplate(
                                     } catch (e) {
                                     }
                                     for (const transform of transforms) {
-                                        body = transform.template.evaluate(
+                                        const newBody = transform.template.evaluate(
                                             transform.name,
                                             {...scope, extension, body})
+                                        if (!compareObjects(newBody, body)) {
+                                            feedback(FeedbackType.debug, `${transform.name} changed ${outPath}`)
+                                            body = newBody
+                                        }
                                     }
                                     result = converted ? stringify(body) : body
                                 }
@@ -460,7 +495,7 @@ async function processTemplate(
                             feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (const generate of generated as any as string[]) {
-                            await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false, transforms)
+                            await processTemplate(generate, templateDirs, transforms, outDir, scope, force, feedback, false)
                         }
                     }
 
@@ -591,6 +626,7 @@ function verifyEnumAndGetExamples(schema: any, property: string, locale: string,
 async function processTemplates(
     schema: s.Schema,
     templateDirs: string[],
+    transforms: Transform[],
     locales: string[],
     outDir: string,
     scope: any,
@@ -629,7 +665,6 @@ async function processTemplates(
                 }
 
                 // Assume non-array are expressions to be interpreted in expandSchema
-                const transforms = []
                 for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
@@ -637,7 +672,7 @@ async function processTemplates(
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
                         scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
-                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false, transforms)
+                            await processTemplate(template, templateDirs, transforms, outDir, scope, force, feedback, false)
                         }
 
                         delete scope.entity
@@ -655,7 +690,7 @@ async function processTemplates(
             feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (const templateName of schema.schema.$templates) {
-                await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false, [])
+                await processTemplate(templateName, templateDirs, transforms, outDir, scope, force, feedback, false)
             }
         }
 
@@ -873,8 +908,9 @@ function normalize(path: string): string {
  * @param prefix Prefix to use for generated files.
  * @param outDir Where to put generated files.
  * @param metaSchema Schema to use when generating .dialog files
- * @param allLocales Locales to generate.
+ * @param ocales Locales to generate.
  * @param templateDirs Where templates are found.
+ * @param transforms Name of global transforms to include from templateDirs.
  * @param force True to force overwriting existing files.
  * @param merge Merge generated results into target directory.
  * @param singleton Merge .dialog into a single .dialog.
@@ -883,21 +919,33 @@ function normalize(path: string): string {
  */
 export async function generate(
     schemaPath: string,
-    prefix?: string,
-    outDir?: string,
-    metaSchema?: string,
-    allLocales?: string[],
-    templateDirs?: string[],
-    force?: boolean,
-    merge?: boolean,
-    singleton?: boolean,
-    feedback?: Feedback)
+    {
+        prefix,
+        outDir,
+        metaSchema,
+        locales = ["en-us"],
+        templateDirs = [],
+        transforms = [],
+        force = false,
+        merge = false,
+        singleton = false,
+        feedback = (_info, _message) => true
+    }: {
+        prefix?: string,
+        outDir?: string,
+        metaSchema?: string,
+        locales?: string[],
+        templateDirs?: string[],
+        transforms?: string[],
+        force?: boolean,
+        merge?: boolean,
+        singleton?: boolean,
+        feedback?: Feedback
+    })
     : Promise<boolean> {
+        debugger
     const start = process.hrtime.bigint()
 
-    if (!feedback) {
-        feedback = (_info, _message) => true
-    }
     let error = false
     const externalFeedback = feedback
     feedback = (info, message) => {
@@ -924,14 +972,6 @@ export async function generate(
     } else if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
-    }
-
-    if (!allLocales) {
-        allLocales = ['en-us']
-    }
-
-    if (!templateDirs) {
-        templateDirs = []
     }
 
     if (force) {
@@ -962,7 +1002,7 @@ export async function generate(
             }
         }
         feedback(FeedbackType.message, `${op} resources for ${ppath.basename(schemaPath, '.schema')} in ${outDir}`)
-        feedback(FeedbackType.message, `Locales: ${JSON.stringify(allLocales)} `)
+        feedback(FeedbackType.message, `Locales: ${JSON.stringify(locales)} `)
         feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
@@ -1004,9 +1044,33 @@ export async function generate(
         await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
+        // Load global transforms
+        const transformers: Transform[] = []
+        for (const transformName of transforms) {
+            const foundTemplate = await findTemplate(transformName, templateDirs)
+            if (foundTemplate !== undefined) {
+                const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+                if (lgTemplate?.allTemplates.some(f => f.name === 'transforms')) {
+                    lgTemplate.importResolver
+                    let newTransforms = lgTemplate.evaluate('transforms', {})
+                    if (!Array.isArray(newTransforms)) {
+                        newTransforms = [newTransforms]
+                    }
+                    for (const transform of newTransforms) {
+                        feedback(FeedbackType.debug, `Adding global transform ${transform}`)
+                        transformers.push({name: transform, template: lgTemplate})
+                    }
+                } else {
+                    feedback(FeedbackType.error, `${transformName} must be an LG file with a transforms template.`)
+                }
+            } else {
+                feedback(FeedbackType.error, `Missing transformer ${transformName}.`)
+            }
+        }
+
         // Process templates
         let scope: any = {
-            locales: allLocales,
+            locales: locales,
             prefix: (prefix ?? schema.name()).replace('-', '_'),
             schema: schema.schema,
             operations: schema.schema.$operations,
@@ -1021,7 +1085,7 @@ export async function generate(
         }
 
         scope = {...scope, entities: schema.entityToProperties()}
-        await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
+        await processTemplates(schema, templateDirs, transformers, locales, outPath, scope, force, feedback)
 
         // Expand all remaining schema expressions
         const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
@@ -1044,9 +1108,9 @@ export async function generate(
             // Merge old and new directories
             if (merge) {
                 if (singleton) {
-                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, locales, feedback)
                 } else {
-                    await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                    await merger.mergeAssets(prefix, outDir, outPath, outDir, locales, feedback)
                 }
             }
 

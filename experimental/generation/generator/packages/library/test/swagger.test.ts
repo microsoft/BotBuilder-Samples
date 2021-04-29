@@ -46,7 +46,9 @@ describe('dialog:generate:swagger', async () => {
             let schemaPath = ppath.join(output, schemaName)
             let outDir = ppath.join(output, 'out')
             console.log('\n\nBot Asset Generation')
-            await gen.generate(schemaPath, undefined, outDir, undefined, ['en-us'], undefined, false, false, false, feedback)
+            await gen.generate(schemaPath, {
+                outDir, feedback
+            })
             assert.ok(await fs.pathExists(ppath.join(outDir, 'dialogs', 'form', 'petOrder-form-HttpRequestIntent.dialog')), 'Did not generate http request dialog')
         } catch (e) {
             assert.fail(e.message)
