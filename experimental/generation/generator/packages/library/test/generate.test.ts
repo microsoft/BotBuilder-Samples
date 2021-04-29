@@ -143,6 +143,7 @@ describe('dialog:generate library', async () => {
         'temperature_with_units',
         'temperature',
         'time',
+        'transforms',
         'uri'
     ]
 
@@ -441,7 +442,7 @@ describe('dialog:generate library', async () => {
             const testOutput = `${output}/transform`
             let errors = 0
             let warnings = 0
-            assert((await gen.generate('test/forms/unittest_temperature_with_units.form', {
+            assert((await gen.generate('test/forms/unittest_tranforms.form', {
                 outDir: testOutput,
                 templateDirs: ['test/templates', 'template:standard'],
                 transforms: ['addOne'],
@@ -454,7 +455,7 @@ describe('dialog:generate library', async () => {
             })), 'Should not have failed generation')
             assert.strictEqual(errors, 0)
             assert.strictEqual(warnings, 0)
-            await compareToOracle('unittest_temperature_with_units.dialog')
+            await compareToOracle('unittest_transforms.dialog')
         } catch (e) {
             assert.fail(e.message)
         }

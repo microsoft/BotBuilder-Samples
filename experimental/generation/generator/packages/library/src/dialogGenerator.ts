@@ -380,7 +380,6 @@ async function processTemplate(
     let outPath = ''
     const oldDir = process.cwd()
     try {
-        transforms = [...transforms]
         const ref = existingRef(templateName, scope.templates)
         if (ref) {
             // Simple file already existed
@@ -437,6 +436,7 @@ async function processTemplate(
                             if (result) {
                                 const extension = ppath.extname(outPath).substring(1)
                                 if (transforms.length > 0) {
+                                    // Apply transforms
                                     let body = result
                                     let converted = false
                                     try {
@@ -668,11 +668,12 @@ async function processTemplates(
                 for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
+                        const localTransforms = [...transforms]
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
                         scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
-                            await processTemplate(template, templateDirs, transforms, outDir, scope, force, feedback, false)
+                            await processTemplate(template, templateDirs, localTransforms, outDir, scope, force, feedback, false)
                         }
 
                         delete scope.entity
@@ -1003,6 +1004,9 @@ export async function generate(
         feedback(FeedbackType.message, `${op} resources for ${ppath.basename(schemaPath, '.schema')} in ${outDir}`)
         feedback(FeedbackType.message, `Locales: ${JSON.stringify(locales)} `)
         feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
+        if (transforms) {
+            feedback(FeedbackType.message, `Transforms: ${JSON.stringify(transforms)}`)
+        }
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
         let outPath = outDir

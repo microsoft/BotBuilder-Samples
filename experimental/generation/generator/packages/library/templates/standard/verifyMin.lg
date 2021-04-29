@@ -5,10 +5,9 @@
 - ${'verifyMin'}
 
 # verifyMin(extension, body)
-- ${transformVerify(extension, body, propertySchema.minimum && entity == 'numnber', 'addVerifyMin')}
+- ${transformVerify(extension, body, propertySchema.minimum && entity == 'number', 'addVerifyMin')}
 
 # addVerifyMin(actions)
-> TODO: The concat is because back quote is not allowed when constructing objects.
 - ${
 [
     {   "$kind": "Microsoft.IfCondition", 

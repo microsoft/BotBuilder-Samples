@@ -5,7 +5,7 @@
 
 # verifyUnits(extension, body)
 > Verify units match $units
-- ${transformVerify(extension, body, units() && entity == 'number', 'addVerifyUnits')}
+- ${transformVerify(extension, body, units() && entity != 'number', 'addVerifyUnits')}
 
 # addVerifyUnits(actions)
 - ${
