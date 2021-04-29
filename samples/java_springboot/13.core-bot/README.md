@@ -45,7 +45,7 @@ Once you created the LUIS model, update `application.properties` with your `Luis
 
 - Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-## Connect to the bot using Bot Framework Emulator
+### Connect to the bot using Bot Framework Emulator
   - Launch Bot Framework Emulator
   - File -> Open Bot
   - Enter a Bot URL of `http://localhost:3978/api/messages`
