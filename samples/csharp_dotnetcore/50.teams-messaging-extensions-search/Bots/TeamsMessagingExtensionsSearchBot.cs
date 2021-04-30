@@ -24,6 +24,7 @@ namespace Microsoft.BotBuilderSamples.Bots
     public class TeamsMessagingExtensionsSearchBot : TeamsActivityHandler
     {
         public readonly string _baseUrl;
+        
         public TeamsMessagingExtensionsSearchBot(IConfiguration configuration):base()
         {
             this._baseUrl = configuration["BaseUrl"];
@@ -81,6 +82,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
+
         protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
         {
             // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
@@ -156,6 +158,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
+
         public MessagingExtensionResponse GetConnectorCard()
         {
             var path = new[] { ".", "Resources", "connectorCard.json" };

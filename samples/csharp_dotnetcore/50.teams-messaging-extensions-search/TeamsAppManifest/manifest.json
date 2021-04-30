@@ -51,6 +51,6 @@
     }
   ],
   "validDomains": [
-    "<<Your-Domain-URL>>"
+    "<<Your-Base-URL>>"
   ]
 }
