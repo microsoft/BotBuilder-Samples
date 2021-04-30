@@ -5,7 +5,9 @@ Bot Framework v4 handling attachments bot sample
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to send outgoing attachments and how to save attachments to disk.
 
 > **NOTE: A specific example for Microsoft Teams, demonstrating how to
-upload files to Teams from a bot and how to receive a file sent to a bot as an attachment, can be found [here](../56.teams-file-upload)**
+> upload files to Teams from a bot and how to receive a file sent to a bot as an attachment, can be found [here](../56.teams-file-upload)**.
+
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
 
 ## Prerequisites
 
@@ -18,17 +20,18 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\bot-attachments-sample.jar`
 
-- Test the bot using Bot Framework Emulator
+## Testing the bot using Bot Framework Emulator
 
-  [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-  - Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
-  - Connect to the bot using Bot Framework Emulator
+## Connect to the bot using Bot Framework Emulator
+  - Launch Bot Framework Emulator
+  - File -> Open Bot
+  - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-    - Launch Bot Framework Emulator
-    - File -> Open Bot
-    - Enter a Bot URL of `http://localhost:3978/api/messages`
+With the Bot Framework Emulator connected to your running bot, the sample will show you different types of attachments.
 
 ## Interacting with the bot
 
@@ -42,7 +45,7 @@ As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-ser
 ### 1. Login to Azure
 From a command (or PowerShell) prompt in the root of the bot folder, execute:  
 `az login`
-  
+
 ### 2. Set the subscription
 `az account set --subscription "<azure-subscription>"`
 
@@ -89,7 +92,6 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 - [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Spring Boot](https://spring.io/projects/spring-boot)
-- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Attachments](https://docs.microsoft.com/en-us/azure/bot-service/nodejs/bot-builder-nodejs-send-receive-attachments?view=azure-bot-service-4.0)
@@ -98,4 +100,5 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

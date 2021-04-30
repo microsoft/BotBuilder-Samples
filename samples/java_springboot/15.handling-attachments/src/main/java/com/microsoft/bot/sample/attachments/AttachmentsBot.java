@@ -59,7 +59,8 @@ public class AttachmentsBot extends ActivityHandler {
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         return processInput(turnContext)
-            .thenCompose(activity -> turnContext.sendActivities(MessageFactory.text("Hi") , activity))
+            // Respond to the user.
+            .thenCompose(reply -> turnContext.sendActivities(MessageFactory.text("HI"), reply))
             .thenCompose(resourceResponse -> displayOptions(turnContext));     
     }    
  
@@ -117,7 +118,6 @@ public class AttachmentsBot extends ActivityHandler {
     private CompletableFuture<Activity> handleOutgoingAttachment(TurnContext turnContext, Activity activity) {
         // Look at the user input, and figure out what kind of attachment to send.
         CompletableFuture<Activity> result;
-        
         if (activity.getText().startsWith("1")) {
             result = getInlineAttachment()
                 .thenApply(attachment -> {
