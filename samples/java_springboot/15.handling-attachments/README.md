@@ -13,7 +13,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 - Install [Maven](https://maven.apache.org/)
 - An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 
-## To try this sample locally
+## To try this sample
 - From the root of this project folder:
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\bot-attachments-sample.jar`
@@ -62,10 +62,14 @@ Record the `appid` from the returned JSON
 Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
 
 #### To a new Resource Group
-`az deployment sub create --name "echoBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="echoBotPlan" newWebAppName="echoBot" groupLocation="westus" newAppServicePlanLocation="westus"` 
+```
+az deployment sub create --name "attachmentsBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="attachmentsBotPlan" newWebAppName="attachmentsBot" groupLocation="westus" newAppServicePlanLocation="westus"
+``` 
 
 #### To an existing Resource Group
-`az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="echoBot" newAppServicePlanName="echoBotPlan" appServicePlanLocation="westus" --name "echoBot"`
+```
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="attachmentsBot" newAppServicePlanName="attachmentsBotPlan" appServicePlanLocation="westus" --name "attachmentsBot"
+```
 
 ### 5. Update app id and password
 In src/main/resources/application.properties update 
@@ -74,7 +78,7 @@ In src/main/resources/application.properties update
 
 ### 6. Deploy the code
 - Execute `mvn clean package` 
-- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<botname>"`
+- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<bot-app-service-name>"`
 
 If the deployment is successful, you will be able to test it via "Test in Web Chat" from the Azure Portal using the "Bot Channel Registration" for the bot.
 
@@ -83,7 +87,7 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 ## Further reading
 
-- [Maven Plugin for Azure App Service](https://docs.microsoft.com/en-us/java/api/overview/azure/maven/azure-webapp-maven-plugin/readme?view=azure-java-stable)
+- [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Spring Boot](https://spring.io/projects/spring-boot)
 - [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Bot Framework Documentation](https://docs.botframework.com)

@@ -32,6 +32,13 @@ import java.util.concurrent.CompletableFuture;
 
 /**
  * This class implements the functionality of the Bot.
+ * 
+ * Represents a bot that processes incoming activities.
+ * For each user interaction, an instance of this class is created and the onTurn method is called.
+ * This is a Transient lifetime service. Transient lifetime services are created
+ * each time they're requested. For each Activity received, a new instance of this
+ * class is created. Objects that are expensive to construct, or have a lifetime
+ * beyond the single turn, should be carefully managed.
  *
  * <p>
  * This is where application specific logic for interacting with the users would be added. For this
@@ -43,9 +50,14 @@ public class AttachmentsBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        return processInput(turnContext)
-            .thenCompose(turnContext::sendActivity)
-            .thenCompose(resourceResponse -> displayOptions(turnContext));
+        return turnContext.sendActivity("Hi")
+            .thenCompose(result -> { 
+                return processInput(turnContext)
+                // Respond to the user.
+                .thenCompose(turnContext::sendActivity)
+                .thenCompose(resourceResponse -> displayOptions(turnContext));
+            }
+        );
     }
 
     @Override
@@ -74,7 +86,7 @@ public class AttachmentsBot extends ActivityHandler {
             .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
     }
 
-    private CompletableFuture<Void> displayOptions(TurnContext turnContext) {
+    private static CompletableFuture<Void> displayOptions(TurnContext turnContext) {
         // Create a HeroCard with options for the user to interact with the bot.
         HeroCard card = new HeroCard();
         card.setText("You can upload an image or select one of the following choices");
@@ -105,9 +117,11 @@ public class AttachmentsBot extends ActivityHandler {
         return handleOutgoingAttachment(turnContext, activity);
     }
 
+    // Returns a reply with the requested Attachment
     private CompletableFuture<Activity> handleOutgoingAttachment(TurnContext turnContext, Activity activity) {
+        // Look at the user input, and figure out what kind of attachment to send.
         CompletableFuture<Activity> result;
-
+        
         if (activity.getText().startsWith("1")) {
             result = getInlineAttachment()
                 .thenApply(attachment -> {
@@ -116,12 +130,9 @@ public class AttachmentsBot extends ActivityHandler {
                     return reply;
                 });
         } else if (activity.getText().startsWith("2")) {
-            result = getInternetAttachment()
-                .thenApply(attachment -> {
-                    Activity reply = MessageFactory.text("This is an attachment from a HTTP URL.");
-                    reply.setAttachment(attachment);
-                    return reply;
-                });
+            Activity reply = MessageFactory.text("This is an attachment from a HTTP URL.");
+            reply.setAttachment(getInternetAttachment());
+            result = CompletableFuture.completedFuture(reply);
         } else if (activity.getText().startsWith("3")) {
             // Get the uploaded attachment.
             result = getUploadedAttachment(
@@ -132,6 +143,7 @@ public class AttachmentsBot extends ActivityHandler {
                     return reply;
                 });
         } else {
+            // The user did not enter input that this bot was built to handle.
             result = CompletableFuture.completedFuture(
                 MessageFactory.text("Your input was not recognized please try again.")
             );
@@ -198,14 +210,16 @@ public class AttachmentsBot extends ActivityHandler {
     }
 
     // Creates an Attachment to be sent from the bot to the user from a HTTP URL.
-    private CompletableFuture<Attachment> getInternetAttachment() {
+    private static Attachment getInternetAttachment() {
+        // ContentUrl must be HTTPS.
         Attachment attachment = new Attachment();
         attachment.setName("architecture-resize.png");
         attachment.setContentType("image/png");
         attachment.setContentUrl("https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png");
-        return CompletableFuture.completedFuture(attachment);
+        return attachment;
     }
 
+    // Creates an "Attachment" to be sent from the bot to the user from an uploaded file.
     private CompletableFuture<Attachment> getUploadedAttachment(TurnContext turnContext, String serviceUrl, String conversationId) {
         if (StringUtils.isEmpty(serviceUrl)) {
             return Async.completeExceptionally(new IllegalArgumentException("serviceUrl"));
