@@ -50,14 +50,9 @@ public class AttachmentsBot extends ActivityHandler {
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
-        return turnContext.sendActivity("Hi")
-            .thenCompose(result -> { 
-                return processInput(turnContext)
-                // Respond to the user.
-                .thenCompose(turnContext::sendActivity)
-                .thenCompose(resourceResponse -> displayOptions(turnContext));
-            }
-        );
+        return processInput(turnContext)
+            .thenCompose(activity -> turnContext.sendActivities(MessageFactory.text("Hi") , activity))
+            .thenCompose(resourceResponse -> displayOptions(turnContext));     
     }
 
     @Override
