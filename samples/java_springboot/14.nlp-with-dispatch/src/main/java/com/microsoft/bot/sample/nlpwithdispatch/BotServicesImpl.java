@@ -22,7 +22,7 @@ public class BotServicesImpl implements BotServices {
                 && StringUtils.isNotBlank(configuration.getProperty("LuisAPIKey"))
                 && StringUtils.isNotBlank(configuration.getProperty("LuisAPIHostName"));
         if (luisIsConfigured) {
-            // Read the setting for cognitive services (LUS, QnA) from the application.properties file.
+            // Read the setting for cognitive services (LUIS, QnA) from the application.properties file.
             // If includeApiResults instanceof set to true, the full response from the LUS api (LuisResult)
             // will be made available in the properties collection of the RecognizerResult
             LuisApplication luisApplication = new LuisApplication(
