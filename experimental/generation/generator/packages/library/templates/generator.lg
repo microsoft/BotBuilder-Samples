@@ -752,6 +752,23 @@ ${expectedUpdateTemplate(expectedReplace)}
 > Add an {index, value} entry to object
 - ${addProperty(object, entry.index, copyObject(entry.value, filter, transform))}
 
+>>> Robust comparison and finding
+
+# equals(obj1, obj2)
+> Test two values to see if they are equal
+- ${if((isArray(obj1) && isArray(obj2)) || (isObject(obj1) && isObject(obj2)), 
+    count(indicesAndValues(obj1)) == count(indicesAndValues(obj2)) 
+    && count(where(indicesAndValues(obj1), val, !equals(val.value, obj2[val.index]))) == 0, 
+    obj1 == obj2)}
+
+# findValue(body, filter, selector)
+> Recursively find element that matches filter and then apply selector to it
+- ${if(template(filter, body),
+        template(selector, body),
+        if(isObject(body),
+            first(where(foreach(indicesAndValues(body), val, findValue(val.value, filter, selector)), val, val != null)),
+            null))}
+
 >>> High level transforms
 
 # transformVerify(extension, body, condition, transform)
@@ -775,3 +792,9 @@ ${expectedUpdateTemplate(expectedReplace)}
 # isSetProperty(body)
 > Action to set/push the current property
 - ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}
+
+# setPropertyValue(body)
+- ${findValue(body, 'isSetProperty', 'extractSetPropertyValue')}
+
+# extractSetPropertyValue(body)
+- ${substring(body.value, 1)}

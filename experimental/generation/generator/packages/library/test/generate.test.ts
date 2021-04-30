@@ -442,7 +442,7 @@ describe('dialog:generate library', async () => {
             const testOutput = `${output}/transform`
             let errors = 0
             let warnings = 0
-            assert((await gen.generate('test/forms/unittest_tranforms.form', {
+            assert((await gen.generate('test/forms/unittest_transforms.form', {
                 outDir: testOutput,
                 templateDirs: ['test/templates', 'template:standard'],
                 transforms: ['addOne'],

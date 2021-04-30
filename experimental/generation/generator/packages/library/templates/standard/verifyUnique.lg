@@ -11,14 +11,14 @@
 - ${
 [
     {   "$kind": "Microsoft.IfCondition", 
-        condition: comparison(), 
+        condition: comparison(actions), 
         actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
         elseActions: actions
     }
 ]}
 
-# comparison()
-- ${`contains($${property}, @${entity})`}
+# comparison(actions)
+- ${`contains($${property}, ${setPropertyValue(actions)})`}
 
 # activity()
-- ${`\${alreadyExistsText('${property}', @${entity})}`}
+- ${`\${alreadyExistsText('${property}', ${setPropertyValue(actions)})}`}
