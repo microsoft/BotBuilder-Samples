@@ -1,10 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-<<<<<<< HEAD
-=======
 using System;
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -26,17 +23,10 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsSearchBot : TeamsActivityHandler
     {
-<<<<<<< HEAD
-        public readonly string _baseURL;
+        public readonly string _baseUrl;
         public TeamsMessagingExtensionsSearchBot(IConfiguration configuration):base()
         {
-            this._baseURL = configuration["BaseUrl"];
-=======
-        private readonly IConfiguration _configuration;
-        public TeamsMessagingExtensionsSearchBot(IConfiguration configuration)
-        {
-            _configuration = configuration;
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
+            this._baseUrl = configuration["BaseUrl"];
         }
 
         protected override async Task<MessagingExtensionResponse> OnTeamsMessagingExtensionQueryAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionQuery query, CancellationToken cancellationToken)
@@ -91,7 +81,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
-
         protected override Task<MessagingExtensionResponse> OnTeamsMessagingExtensionSelectItemAsync(ITurnContext<IInvokeActivity> turnContext, JObject query, CancellationToken cancellationToken)
         {
             // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event. 
@@ -142,27 +131,17 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public MessagingExtensionResponse GetAdaptiveCard()
         {
-
-<<<<<<< HEAD
-            string filepath = "./RestaurantCard.json";
-=======
-            string filepath = "./Resources/RestaurantCard.json";
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
+            var paths = new[] { ".", "Resources", "RestaurantCard.json" };
+            string filepath = Path.Combine(paths); 
             var previewcard = new ThumbnailCard
             {
                 Title = "Adaptive Card",
                 Text = "Please select to get Adaptive card"
             };
-<<<<<<< HEAD
             var adaptiveList = FetchAdaptive(filepath);
-
-=======
-
-            var adaptiveList = FetchAdaptiveCard(filepath);
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
             var attachment = new MessagingExtensionAttachment
             {
-                ContentType = AdaptiveCards.AdaptiveCard.ContentType,
+                ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = adaptiveList.Content,
                 Preview = previewcard.ToAttachment()
             };
@@ -177,32 +156,17 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
             };
         }
-
         public MessagingExtensionResponse GetConnectorCard()
         {
-<<<<<<< HEAD
-          
-            string filepath = "./connectorCard.json";
-=======
-            string filepath = "./Resources/connectorCard.json";
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
-            var json = File.ReadAllText(filepath);
-            var cardJson = JsonConvert.DeserializeObject<ConnectorJsonSerializer>(json);
-<<<<<<< HEAD
-            cardJson.sections[0].activityImage = _baseURL+"/imgConnector.jpg";
-=======
-
-            cardJson.sections[0].activityImage = _configuration + "/imgConnector.jpg";
-
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
-            var ConnectorCardJson = JsonConvert.SerializeObject(cardJson);
+            var path = new[] { ".", "Resources", "connectorCard.json" };
+            var filepath = Path.Combine(path);   
             var previewcard = new ThumbnailCard
             {
                 Title = "O365 Connector Card",
                 Text = "Please select to get Connector card"
             };
 
-            var connector = FetchConnectorCard(filepath);
+            var connector = FetchConnector(filepath);
             var attachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType,
@@ -221,72 +185,48 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-<<<<<<< HEAD
-        public static Attachment FetchAdaptive(string filepath)
-=======
-        public static Attachment FetchAdaptiveCard(string filepath)
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
+        public  Attachment FetchAdaptive(string filepath)
         {
             var adaptiveCardJson = File.ReadAllText(filepath);
             var adaptiveCardAttachment = new Attachment
             {
-                ContentType = AdaptiveCard.ContentType,
-                Content = JsonConvert.DeserializeObject(adaptiveCardJson),
-            };
-
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(adaptiveCardJson)
+            };      
             return adaptiveCardAttachment;
         }
 
-<<<<<<< HEAD
-        public Attachment FetchConnector(string cardJson)
-        {
-=======
-        public Attachment FetchConnectorCard(string filepath)
+        public Attachment FetchConnector(string filepath)
         {
             var connectorCardJson = File.ReadAllText(filepath);
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
             var connectorCardAttachment = new MessagingExtensionAttachment
             {
                 ContentType = O365ConnectorCard.ContentType,
                 Content = JsonConvert.DeserializeObject(connectorCardJson),
 
             };
-            
             return connectorCardAttachment;
         }
 
         public MessagingExtensionResponse GetResultGrid()
         {
-            var files = Directory.GetFiles("wwwroot");
-            List<string> imageFiles = new List<string>();
-
-            foreach (string filename in files)
-            {
-                if (Regex.IsMatch(filename, @".jpg"))
-                    imageFiles.Add(filename);
-
-            }
+            var imageFiles = Directory.EnumerateFiles("wwwroot", "*.*", SearchOption.AllDirectories)
+            .Where(s => s.EndsWith(".jpg"));
 
             List<MessagingExtensionAttachment> attachments = new List<MessagingExtensionAttachment>();
 
             foreach (string img in imageFiles)
             {
-                var image = img.Split("\\");           
+                var image = img.Split("\\");                
                 var thumbnailCard = new ThumbnailCard();
-<<<<<<< HEAD
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseURL +"/" + image[1]) };
-=======
-                thumbnailCard.Images = new List<CardImage>() { new CardImage(_configuration["BaseUrl"]+ image[1]) };
->>>>>>> parent of 9ef6b974 (ME Search Issue fixes)
+                thumbnailCard.Images = new List<CardImage>() { new CardImage(_baseUrl + "/" + image[1]) };
                 var attachment = new MessagingExtensionAttachment
                 {
                     ContentType = ThumbnailCard.ContentType,
                     Content = thumbnailCard,
                 };
                 attachments.Add(attachment);
-
             }
-
             return new MessagingExtensionResponse
             {
                 ComposeExtension = new MessagingExtensionResult
@@ -296,7 +236,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                     Attachments = attachments
                 }
             };
-
         }
     }
 }
