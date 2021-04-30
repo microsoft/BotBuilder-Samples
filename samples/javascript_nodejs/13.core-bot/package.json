@@ -17,13 +17,13 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "~4.11.0",
-        "botbuilder-ai": "~4.11.0",
-        "botbuilder-dialogs": "~4.11.0",
-        "botbuilder-testing": "~4.11.0",
+        "botbuilder": "~4.13.1",
+        "botbuilder-ai": "~4.13.1",
+        "botbuilder-dialogs": "~4.13.1",
+        "botbuilder-testing": "~4.13.1",
         "dotenv": "^8.2.0",
-        "restify": "~8.5.1",
-        "moment-timezone": "~0.5.33"
+        "moment-timezone": "~0.5.33",
+        "restify": "~8.5.1"
     },
     "devDependencies": {
         "eslint": "^7.0.0",
