@@ -18,7 +18,7 @@
 ]}
 
 # comparison()
-- ${`${unitsNumber()} > dialogClass.schema.properties.${property}.minimum`}
+- ${`${unitsNumber()} > dialogClass.schema.properties.${property}.maximum`}
 
 # activity()
 - ${`\${${property}_IsTooBig(${unitsNumber()})}`}

@@ -10,7 +10,7 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "@temperature.number > dialogClass.schema.properties.Temperature.minimum",
+          "condition": "@temperature.number > dialogClass.schema.properties.Temperature.maximum",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
@@ -73,7 +73,7 @@
         "name": "Temperature - Add(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "e1b4f296cb3977a74eea99cb212dc625"
+      "$Generator": "2626cd14a5bfed6cd761b96185ddc9b5"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -202,7 +202,7 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "(@number+1) > dialogClass.schema.properties.Temperature.minimum",
+          "condition": "(@number+1) > dialogClass.schema.properties.Temperature.maximum",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
@@ -253,7 +253,7 @@
         "name": "Temperature - Add((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "5b9770dc6b387143b0a769221329588f"
+      "$Generator": "c912f708bfb52c171ed0e3efebc29780"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "af521bfce43f55cf5f71e8fdc6f25b2d"
+  "$Generator": "18b29af6e3aabd3bb46c9d704e528a70"
 }
