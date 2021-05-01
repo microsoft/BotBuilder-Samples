@@ -716,17 +716,19 @@ ${expectedUpdateTemplate(expectedReplace)}
 >>> transformProperty
 
 # transformProperty(object, property, transform)
-> Copy all properties in object and transform property using templateName
-- ${addEntries(addProperty({}, property, template(transform, object[property])), where(indicesAndValues(object), entry, entry.index != property))}
+> Copy all properties in object and transform property using transform
+- ${transformPropertyEntries({}, indicesAndValues(object), property, transform)}
 
-# addEntries(object, entries)
-> Add entries into object
+# transformPropertyEntries(object, entries, property, transform)
+> Add entries into object transforming property
 > NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
-- ${if(count(entries) == 1, addEntry(object, first(entries)), addEntries(addEntry(object, first(entries)), subArray(entries, 1, count(entries))))}
+- ${if(count(entries) == 1, 
+  transformPropertyEntry(object, first(entries), property, transform), 
+  transformPropertyEntries(transformPropertyEntry(object, first(entries), property, transform), subArray(entries, 1, count(entries)), property, transform))}
 
-# addEntry(object, entry)
-> Add an {index, value} entry to object
-- ${addProperty(object, entry.index, entry.value)}
+# transformPropertyEntry(object, entry, property, transform)
+> Add an {index, value} entry to object transforming if property
+- ${addProperty(object, entry.index, if(entry.index == property, template(transform, entry.value), entry.value))}
 
 >>> transform
 

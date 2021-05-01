@@ -7,6 +7,10 @@
   "schema": "unittest_transforms.json",
   "triggers": [
     {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "Temperature",
+      "value": "temperature",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
@@ -65,15 +69,11 @@
           ]
         }
       ],
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "Temperature",
-      "value": "temperature",
       "$designer": {
         "name": "Temperature - Add(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "2626cd14a5bfed6cd761b96185ddc9b5"
+      "$Generator": "ce1c667088e2173a44716f60f7375bf3"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -199,6 +199,10 @@
       "$Generator": "6b2d37e87297de08e7d4d0a69f54755f"
     },
     {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "Temperature",
+      "value": "number",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
@@ -225,10 +229,10 @@
                   "activity": "${confirmationText('Temperature', (@number+1))}"
                 },
                 {
-                  "value": "={number: (@number+1), units: 'Degree}",
                   "$kind": "Microsoft.EditArray",
                   "changeType": "push",
-                  "itemsProperty": "$Temperature"
+                  "itemsProperty": "$Temperature",
+                  "value": "={number: (@number+1), units: 'Degree}"
                 },
                 {
                   "$kind": "Microsoft.IfCondition",
@@ -245,15 +249,11 @@
           ]
         }
       ],
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "Temperature",
-      "value": "number",
       "$designer": {
         "name": "Temperature - Add((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "c912f708bfb52c171ed0e3efebc29780"
+      "$Generator": "f57f8251c80fdb227bcfab9231e6608b"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -289,6 +289,10 @@
       "$Generator": "3b0f3d73e0e4bb44e0da757e3a9e7d4e"
     },
     {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "AString",
+      "value": "AStringValue",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
@@ -323,15 +327,11 @@
           ]
         }
       ],
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "AString",
-      "value": "AStringValue",
       "$designer": {
         "name": "AString - Add(@AStringValue)"
       },
       "$source": "unittest_transforms-AString-add-AStringValue",
-      "$Generator": "a842512f25d13479f82dd2dd0ac1fb6d"
+      "$Generator": "f5babfbcd2870ed7591d79dda72db2ff"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -475,6 +475,10 @@
       "$Generator": "ed5a71db06aa7d9a4ef25b4e42b34c5f"
     },
     {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "AString",
+      "value": "utterance",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
@@ -509,15 +513,11 @@
           ]
         }
       ],
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "AString",
-      "value": "utterance",
       "$designer": {
         "name": "AString - Add(@utterance)"
       },
       "$source": "unittest_transforms-AString-add-utterance",
-      "$Generator": "a54e99a9e92234073de868153e7a9655"
+      "$Generator": "d269d01a2716fa3218b02d8a6a3b7716"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "18b29af6e3aabd3bb46c9d704e528a70"
+  "$Generator": "f15f31bc65787028905a80266e802db4"
 }
