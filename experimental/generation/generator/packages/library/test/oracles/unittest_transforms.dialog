@@ -10,41 +10,53 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "contains($Temperature, @temperature)",
+          "condition": "@temperature.number > dialogClass.schema.properties.Temperature.minimum",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${alreadyExistsText('Temperature', @temperature)}"
+              "activity": "${Temperature_IsTooBig(@temperature.number)}"
             }
           ],
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "@temperature.units != 'Degree'",
+              "condition": "@temperature.number < dialogClass.schema.properties.Temperature.minimum",
               "actions": [
                 {
                   "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsIncorrectUnits(@temperature.units)"
+                  "activity": "${Temperature_IsTooSmall(@temperature.number)}"
                 }
               ],
               "elseActions": [
                 {
-                  "$kind": "Microsoft.SendActivity",
-                  "activity": "${confirmationText('Temperature', @temperature)}"
-                },
-                {
-                  "$kind": "Microsoft.EditArray",
-                  "changeType": "push",
-                  "itemsProperty": "$Temperature",
-                  "value": "=@temperature"
-                },
-                {
                   "$kind": "Microsoft.IfCondition",
-                  "condition": "$PropertyToChange == 'Temperature'",
+                  "condition": "@temperature.units != 'Degree'",
                   "actions": [
                     {
-                      "$kind": "Microsoft.DeleteProperty",
-                      "property": "$PropertyToChange"
+                      "$kind": "Microsoft.SendActivity",
+                      "activity": "${Temperature_IsIncorrectUnits(@temperature.units)"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "activity": "${confirmationText('Temperature', @temperature)}"
+                    },
+                    {
+                      "$kind": "Microsoft.EditArray",
+                      "changeType": "push",
+                      "itemsProperty": "$Temperature",
+                      "value": "=@temperature"
+                    },
+                    {
+                      "$kind": "Microsoft.IfCondition",
+                      "condition": "$PropertyToChange == 'Temperature'",
+                      "actions": [
+                        {
+                          "$kind": "Microsoft.DeleteProperty",
+                          "property": "$PropertyToChange"
+                        }
+                      ]
                     }
                   ]
                 }
@@ -61,64 +73,40 @@
         "name": "Temperature - Add(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "1b0eb83a697114683206030d7212631f"
+      "$Generator": "e1b4f296cb3977a74eea99cb212dc625"
     },
     {
-      "actions": [
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "contains($Temperature, @temperature)",
-          "actions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "activity": "${alreadyExistsText('Temperature', @temperature)}"
-            }
-          ],
-          "elseActions": [
-            {
-              "$kind": "Microsoft.IfCondition",
-              "condition": "@temperature.units != 'Degree'",
-              "actions": [
-                {
-                  "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsIncorrectUnits(@temperature.units)"
-                }
-              ],
-              "elseActions": [
-                {
-                  "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_RemoveConfirmation(@temperature)}"
-                },
-                {
-                  "$kind": "Microsoft.EditArray",
-                  "changeType": "remove",
-                  "itemsProperty": "$Temperature",
-                  "value": "=@temperature"
-                },
-                {
-                  "$kind": "Microsoft.IfCondition",
-                  "condition": "$PropertyToChange == 'Temperature'",
-                  "actions": [
-                    {
-                      "$kind": "Microsoft.DeleteProperty",
-                      "property": "$PropertyToChange"
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Remove()",
       "property": "Temperature",
       "value": "temperature",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Temperature_RemoveConfirmation(@temperature)}"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "changeType": "remove",
+          "itemsProperty": "$Temperature",
+          "value": "=@temperature"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "$PropertyToChange == 'Temperature'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "property": "$PropertyToChange"
+            }
+          ]
+        }
+      ],
       "$designer": {
         "name": "Temperature - Remove(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-remove-temperature",
-      "$Generator": "1690e052ccc284d52c661024ece36b1f"
+      "$Generator": "b36c2272651d2b84557d47afdacea958"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -214,53 +202,41 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "contains($Temperature, @number)",
+          "condition": "(@number+1) > dialogClass.schema.properties.Temperature.minimum",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${alreadyExistsText('Temperature', @number)}"
+              "activity": "${Temperature_IsTooBig((@number+1))}"
             }
           ],
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "@number > dialogClass.schema.properties.Temperature.minimum",
+              "condition": "(@number+1) < dialogClass.schema.properties.Temperature.minimum",
               "actions": [
                 {
                   "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsTooBig(@number)}"
+                  "activity": "${Temperature_IsTooSmall((@number+1))}"
                 }
               ],
               "elseActions": [
                 {
+                  "$kind": "Microsoft.SendActivity",
+                  "activity": "${confirmationText('Temperature', (@number+1))}"
+                },
+                {
+                  "value": "={number: (@number+1), units: 'Degree}",
+                  "$kind": "Microsoft.EditArray",
+                  "changeType": "push",
+                  "itemsProperty": "$Temperature"
+                },
+                {
                   "$kind": "Microsoft.IfCondition",
-                  "condition": "@number < dialogClass.schema.properties.Temperature.minimum",
+                  "condition": "$PropertyToChange == 'Temperature'",
                   "actions": [
                     {
-                      "$kind": "Microsoft.SendActivity",
-                      "activity": "${Temperature_IsTooSmall(@number)}"
-                    }
-                  ],
-                  "elseActions": [
-                    {
-                      "$kind": "Microsoft.SendActivity",
-                      "activity": "${confirmationText('Temperature', @number)}"
-                    },
-                    {
-                      "value": "={number: @number+1, units: 'Degree}",
-                      "$kind": "Microsoft.EditArray",
-                      "changeType": "push",
-                      "itemsProperty": "$Temperature"
-                    },
-                    {
-                      "$kind": "Microsoft.IfCondition",
-                      "condition": "$PropertyToChange == 'Temperature'",
-                      "actions": [
-                        {
-                          "$kind": "Microsoft.DeleteProperty",
-                          "property": "$PropertyToChange"
-                        }
-                      ]
+                      "$kind": "Microsoft.DeleteProperty",
+                      "property": "$PropertyToChange"
                     }
                   ]
                 }
@@ -274,99 +250,30 @@
       "property": "Temperature",
       "value": "number",
       "$designer": {
-        "name": "Temperature - Add(@number)"
+        "name": "Temperature - Add((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "8a1f9d4d136c4e5a21e8fef07c8751dd"
+      "$Generator": "5b9770dc6b387143b0a769221329588f"
     },
     {
-      "actions": [
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "contains($Temperature, @number)",
-          "actions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "activity": "${alreadyExistsText('Temperature', @number)}"
-            }
-          ],
-          "elseActions": [
-            {
-              "$kind": "Microsoft.IfCondition",
-              "condition": "@number > dialogClass.schema.properties.Temperature.minimum",
-              "actions": [
-                {
-                  "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsTooBig(@number)}"
-                }
-              ],
-              "elseActions": [
-                {
-                  "$kind": "Microsoft.IfCondition",
-                  "condition": "@number < dialogClass.schema.properties.Temperature.minimum",
-                  "actions": [
-                    {
-                      "$kind": "Microsoft.SendActivity",
-                      "activity": "${Temperature_IsTooSmall(@number)}"
-                    }
-                  ],
-                  "elseActions": [
-                    {
-                      "$kind": "Microsoft.SendActivity",
-                      "activity": "${Temperature_RemoveConfirmation(@number)}"
-                    },
-                    {
-                      "$kind": "Microsoft.EditArray",
-                      "changeType": "remove",
-                      "itemsProperty": "$Temperature",
-                      "value": "=@number"
-                    },
-                    {
-                      "$kind": "Microsoft.IfCondition",
-                      "condition": "$PropertyToChange == 'Temperature'",
-                      "actions": [
-                        {
-                          "$kind": "Microsoft.DeleteProperty",
-                          "property": "$PropertyToChange"
-                        }
-                      ]
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ],
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Remove()",
       "property": "Temperature",
       "value": "number",
-      "$designer": {
-        "name": "Temperature - Remove(@number)"
-      },
-      "$source": "unittest_transforms-Temperature-remove-number",
-      "$Generator": "b765550c9fab19f8436bc101589cf3b4"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "AString",
-      "value": "AStringValue",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
-          "activity": "${confirmationText('AString', @AStringValue)}"
+          "activity": "${Temperature_RemoveConfirmation(@number)}"
         },
         {
           "$kind": "Microsoft.EditArray",
-          "changeType": "push",
-          "itemsProperty": "$AString",
-          "value": "=@AStringValue"
+          "changeType": "remove",
+          "itemsProperty": "$Temperature",
+          "value": "=@number"
         },
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'AString'",
+          "condition": "$PropertyToChange == 'Temperature'",
           "actions": [
             {
               "$kind": "Microsoft.DeleteProperty",
@@ -376,10 +283,55 @@
         }
       ],
       "$designer": {
+        "name": "Temperature - Remove(@number)"
+      },
+      "$source": "unittest_transforms-Temperature-remove-number",
+      "$Generator": "3b0f3d73e0e4bb44e0da757e3a9e7d4e"
+    },
+    {
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "not(isMatch( @AStringValue,  dialogClass.schema.properties['AString'].pattern))",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "activity": "${AString_NoPatternMatch(@AStringValue)}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "activity": "${confirmationText('AString', @AStringValue)}"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "changeType": "push",
+              "itemsProperty": "$AString",
+              "value": "=@AStringValue"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "condition": "$PropertyToChange == 'AString'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "property": "$PropertyToChange"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "AString",
+      "value": "AStringValue",
+      "$designer": {
         "name": "AString - Add(@AStringValue)"
       },
       "$source": "unittest_transforms-AString-add-AStringValue",
-      "$Generator": "1fbca8715328f789ffbda02ef9dc2da1"
+      "$Generator": "a842512f25d13479f82dd2dd0ac1fb6d"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -523,37 +475,49 @@
       "$Generator": "ed5a71db06aa7d9a4ef25b4e42b34c5f"
     },
     {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
-      "property": "AString",
-      "value": "utterance",
       "actions": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${confirmationText('AString', @utterance)}"
-        },
-        {
-          "$kind": "Microsoft.EditArray",
-          "changeType": "push",
-          "itemsProperty": "$AString",
-          "value": "=@utterance"
-        },
-        {
           "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'AString'",
+          "condition": "not(isMatch( @utterance,  dialogClass.schema.properties['AString'].pattern))",
           "actions": [
             {
-              "$kind": "Microsoft.DeleteProperty",
-              "property": "$PropertyToChange"
+              "$kind": "Microsoft.SendActivity",
+              "activity": "${AString_NoPatternMatch(@utterance)}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "activity": "${confirmationText('AString', @utterance)}"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "changeType": "push",
+              "itemsProperty": "$AString",
+              "value": "=@utterance"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "condition": "$PropertyToChange == 'AString'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.DeleteProperty",
+                  "property": "$PropertyToChange"
+                }
+              ]
             }
           ]
         }
       ],
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Add()",
+      "property": "AString",
+      "value": "utterance",
       "$designer": {
         "name": "AString - Add(@utterance)"
       },
       "$source": "unittest_transforms-AString-add-utterance",
-      "$Generator": "a52de8dd77cc32ebed6142a84934dc48"
+      "$Generator": "a54e99a9e92234073de868153e7a9655"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -917,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "0606a414dfd108b76ce60cd6f1bdfb87"
+  "$Generator": "af521bfce43f55cf5f71e8fdc6f25b2d"
 }

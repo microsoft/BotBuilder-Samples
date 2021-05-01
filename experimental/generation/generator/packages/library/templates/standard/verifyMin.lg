@@ -4,8 +4,8 @@
 > Verify schema minimum
 - ${'verifyMin'}
 
-# verifyMin(extension, body)
-- ${transformVerify(extension, body, propertySchema.minimum && entity == 'number', 'addVerifyMin')}
+# verifyMin(ref, body)
+- ${transformVerify(ref, body, propertySchema.minimum, 'addVerifyMin')}
 
 # addVerifyMin(actions)
 - ${
@@ -18,7 +18,8 @@
 ]}
 
 # comparison()
-- ${`@${entity} < dialogClass.schema.properties.${property}.minimum`}
+- ${`${unitsNumber()} < dialogClass.schema.properties.${property}.minimum`}
 
 # activity()
-- ${`\${${property}_IsTooSmall(@${entity})}`}
+- ${`\${${property}_IsTooSmall(${unitsNumber()})}`}
+

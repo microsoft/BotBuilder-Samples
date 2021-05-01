@@ -16,7 +16,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*integer_with_.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

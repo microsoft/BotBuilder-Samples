@@ -397,7 +397,7 @@ describe('dialog:generate library', async () => {
                     if (type === gen.FeedbackType.error) ++errors
                 }
             })), 'Should have failed generation')
-            assert.strictEqual(errors, 4)
+            assert.strictEqual(errors, 4, 'Wrong number of errors')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -417,8 +417,8 @@ describe('dialog:generate library', async () => {
                     if (type === gen.FeedbackType.warning) ++warnings
                 }
             })), 'Should have failed generation')
-            assert.strictEqual(errors, 7)
-            assert.strictEqual(warnings, 8)
+            assert.strictEqual(errors, 7, 'Wrong number of errors')
+            assert.strictEqual(warnings, 8, 'Wrong number of warnings')
             await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
             await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'ok phrases')
             await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
@@ -438,23 +438,25 @@ describe('dialog:generate library', async () => {
     })
 
     it('Global transform', async () => {
+        // TODO: debugger
+        // 3) Add LG resolver to pick up generator.lg
         try {
-            const testOutput = `${output}/transform`
             let errors = 0
             let warnings = 0
             assert((await gen.generate('test/forms/unittest_transforms.form', {
-                outDir: testOutput,
+                outDir: tempDir,
                 templateDirs: ['test/templates', 'template:standard'],
                 transforms: ['addOne'],
                 force: true,
+                singleton: true,
                 feedback: (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
                     if (type === gen.FeedbackType.warning) ++warnings
                 }
             })), 'Should not have failed generation')
-            assert.strictEqual(errors, 0)
-            assert.strictEqual(warnings, 0)
+            assert.strictEqual(errors, 0, 'Wrong number of errors')
+            assert.strictEqual(warnings, 3, 'Wrong number of warnings')
             await compareToOracle('unittest_transforms.dialog')
         } catch (e) {
             assert.fail(e.message)

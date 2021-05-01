@@ -3,9 +3,9 @@
 # transforms()
 - ${'verifyUnique'}
 
-# verifyUnique(extension, body)
+# verifyUnique(ref, body)
 > Verify unique value in collection
-- ${transformVerify(extension, body, isArrayProperty(property) && propertySchema.uniqueItems == true, 'addVerifyUnique')}
+- ${transformVerify(ref, body, isArrayProperty(property) && propertySchema.uniqueItems == true, 'addVerifyUnique')}
 
 # addVerifyUnique(actions)
 - ${

@@ -85,7 +85,6 @@
 
 # genericTemplates()
 - ${[
-        "verifyUnique",
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
@@ -105,7 +104,7 @@
 - ${union(["convertUnits", "verifyUnits", "verifyMin", "verifyMax"], genericTemplates())}
 
 # stringTemplates
-- ${union(["verifyPattern"], genericTemplates())}
+- ${union(["verifyPattern", "verifyUnique"], genericTemplates())}
 
 # dateFormatTemplates()
 - ${[
@@ -729,28 +728,32 @@ ${expectedUpdateTemplate(expectedReplace)}
 > Add an {index, value} entry to object
 - ${addProperty(object, entry.index, entry.value)}
 
->>> copyObject
+>>> transform
 
-# copyObject(old, filter, transform)
-> Copy an object and when the object matches filter call transform on it
-- IF: ${isArray(old)}
-    - ${foreach(old, element, copyObject(element, filter, transform))}
-- ELSEIF: ${isObject(old)}
-    - ${if(template(filter, old), template(transform, old), copyEntries({}, indicesAndValues(old), filter, transform))}
-- ELSE:
-    - ${old}
+# transform(old, filter, transform)
+> Transform old by copying and when old matches filter call transform
+- ${if(template(filter, old), 
+        template(transform, old),
+        if(isArray(old), 
+            foreach(old, element, transform(element, filter, transform)),
+            if(isObject(old),
+                transformEntries({}, indicesAndValues(old), filter, transform),
+                old
+            )
+        )
+    )}
 
-# copyEntries(object, entries, filter, transform)
-> Copy entries into object
+# transformEntries(object, entries, filter, transform)
+> Transform entries into object
 > NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
 - ${if(count(entries) == 1, 
-    copyEntry(object, first(entries), filter, transform), 
-    copyEntries(copyEntry(object, first(entries), filter, transform), subArray(entries, 1, count(entries)), filter, transform))
+    transformEntry(object, first(entries), filter, transform), 
+    transformEntries(transformEntry(object, first(entries), filter, transform), subArray(entries, 1, count(entries)), filter, transform))
   }
 
-# copyEntry(object, entry, filter, transform)
+# transformEntry(object, entry, filter, transform)
 > Add an {index, value} entry to object
-- ${addProperty(object, entry.index, copyObject(entry.value, filter, transform))}
+- ${addProperty(object, entry.index, transform(entry.value, filter, transform))}
 
 >>> Robust comparison and finding
 
@@ -771,30 +774,39 @@ ${expectedUpdateTemplate(expectedReplace)}
 
 >>> High level transforms
 
-# transformVerify(extension, body, condition, transform)
+# transformVerify(ref, body, condition, transform)
 > Transform OnAssignEntity body.actions if condition is true
-- IF: ${extension == 'dialog' && isOnAssign(body) && condition}
+- IF: ${ref.extension == 'dialog' && isOnAssign(body) && condition}
     - ${transformProperty(body, 'actions', transform)}
 - ELSE:
     - ${body}
 
-# transformConvert(extension, body, condition, transform)
+# transformConvert(ref, body, condition, transform)
 > Transform a recursive child set action if condition is true
-- IF: ${extension == 'dialog' && isOnAssign(body) && condition}
-    - ${copyObject(body, 'isSetProperty', transform)}
+- IF: ${ref.extension == 'dialog' && isOnAssign(body) && condition}
+    - ${transform(body, 'isSetProperty', transform)}
 - ELSE:
     - ${body}
 
 # isOnAssign(body)
 > Action to assign current property and entity
-- ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Add()' && body.property == property && body.value == entity}
 
 # isSetProperty(body)
 > Action to set/push the current property
 - ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}
+
+# containsEntityReference(body)
+- ${isString(body) && contains(body, `@${entity}`)}
+
+# isAssign(body)
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
 
 # setPropertyValue(body)
 - ${findValue(body, 'isSetProperty', 'extractSetPropertyValue')}
 
 # extractSetPropertyValue(body)
 - ${substring(body.value, 1)}
+
+# unitsNumber()
+- ${if(propertySchema.$generator.$units && entity != 'number', `@${entity}.number`, `@${entity}`)}

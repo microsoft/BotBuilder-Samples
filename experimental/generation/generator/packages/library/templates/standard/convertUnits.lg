@@ -4,8 +4,8 @@
 > Add $units to number entity
 - ${'convertUnits'}
 
-# convertUnits(extension, body)
-- ${transformConvert(extension, body, units() && entity == 'number', 'addConvertUnits')}
+# convertUnits(ref, body)
+- ${transformConvert(ref, body, units() && entity == 'number', 'addConvertUnits')}
 
 # addConvertUnits(action)
 - ${transformProperty(action, 'value', 'addConversion')}

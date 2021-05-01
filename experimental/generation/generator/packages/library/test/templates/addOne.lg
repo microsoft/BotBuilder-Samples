@@ -4,11 +4,8 @@
 > Add one to number entity
 - ${'addOneTransform'}
 
-# addOneTransform(extension, body)
-- ${transformConvert(extension, body, entity == 'number', 'addOne')}
+# addOneTransform(ref, body)
+- ${if(ref.extension == 'dialog' && isOnAssign(body) && entity == 'number', transform(body, 'containsEntityReference', 'addOne'), body)}
 
-# addOne(action)
-- ${transformProperty(action, 'value', 'addConversion')}
-
-# addConversion(value)
-- ${`=${substring(value, 1)}+1`}
+# addOne(value)
+- ${replace(value, `@${entity}`, `(@${entity}+1)`)}

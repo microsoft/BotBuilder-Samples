@@ -5,6 +5,8 @@
 
 # templates
 - ${[
+        "verifyUnique",
+        "verifyPattern",
         "stringEntity.lg",
         "stringEntity.lu",
         "genericProperty.lg",

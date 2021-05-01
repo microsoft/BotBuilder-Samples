@@ -3,9 +3,9 @@
 # transforms()
 - ${'verifyUnits'}
 
-# verifyUnits(extension, body)
+# verifyUnits(ref, body)
 > Verify units match $units
-- ${transformVerify(extension, body, units() && entity != 'number', 'addVerifyUnits')}
+- ${transformVerify(ref, body, units() && entity != 'number', 'addVerifyUnits')}
 
 # addVerifyUnits(actions)
 - ${

@@ -3,9 +3,9 @@
 # transforms()
 - ${'verifyMax'}
 
-# verifyMax(extension, body)
+# verifyMax(ref, body)
 > Verify schema maximum
-- ${transformVerify(extension, body, propertySchema.maximum && entity == 'number', 'addVerifyMax')}
+- ${transformVerify(ref, body, propertySchema.maximum, 'addVerifyMax')}
 
 # addVerifyMax(actions)
 - ${
@@ -18,7 +18,7 @@
 ]}
 
 # comparison()
-- ${`@${entity} > dialogClass.schema.properties.${property}.minimum`}
+- ${`${unitsNumber()} > dialogClass.schema.properties.${property}.minimum`}
 
 # activity()
-- ${`\${${property}_IsTooBig(@${entity})}`}
+- ${`\${${property}_IsTooBig(${unitsNumber()})}`}

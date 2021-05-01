@@ -337,7 +337,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string, extension: string}
 function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     const basename = ppath.basename(fullPath, '.dialog')
@@ -351,7 +351,8 @@ function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: a
             // Fallback is only used for .lg files
             fallbackName: basename.replace(/\.[^.]+\.lg/, '.lg'),
             fullName: ppath.basename(fullPath),
-            relative: ppath.relative(outDir, fullPath)
+            relative: ppath.relative(outDir, fullPath),
+            extension: ext
         }
     }
     return ref
@@ -372,6 +373,7 @@ async function processTemplate(
     templateName: string,
     templateDirs: string[],
     transforms: Transform[],
+    globalTransforms: Transform[],
     outDir: string,
     scope: any,
     force: boolean,
@@ -434,8 +436,7 @@ async function processTemplate(
 
                             // Ignore empty templates
                             if (result) {
-                                const extension = ppath.extname(outPath).substring(1)
-                                if (transforms.length > 0) {
+                                if (transforms.length > 0 || globalTransforms.length > 0) {
                                     // Apply transforms
                                     let body = result
                                     let converted = false
@@ -444,10 +445,8 @@ async function processTemplate(
                                         converted = true
                                     } catch (e) {
                                     }
-                                    for (const transform of transforms) {
-                                        const newBody = transform.template.evaluate(
-                                            transform.name,
-                                            {...scope, extension, body})
+                                    for (const transform of [...transforms, ...globalTransforms]) {
+                                        const newBody = transform.template.evaluate(transform.name, {...scope, ref, body})
                                         if (!compareObjects(newBody, body)) {
                                             feedback(FeedbackType.debug, `${transform.name} changed ${outPath}`)
                                             body = newBody
@@ -465,7 +464,7 @@ async function processTemplate(
                                     }
                                 }
                                 await writeFile(outPath, resultString, feedback)
-                                scope.templates[extension].push(ref)
+                                scope.templates[ref.extension].push(ref)
                             }
                         } else {
                             feedback(FeedbackType.warning, `Skipping already existing ${outPath}`)
@@ -495,7 +494,7 @@ async function processTemplate(
                             feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (const generate of generated as any as string[]) {
-                            await processTemplate(generate, templateDirs, transforms, outDir, scope, force, feedback, false)
+                            await processTemplate(generate, templateDirs, transforms, globalTransforms, outDir, scope, force, feedback, false)
                         }
                     }
 
@@ -554,7 +553,7 @@ async function verifyExamples(schema: any, feedback: Feedback): Promise<void> {
         return false
     })
     await walkJSON(schema, async (elt, _obj, path) => {
-        if (elt.$examples && !path?.endsWith('/items')) {
+        if (elt.$examples && !path?.endsWith('/items') && !path?.endsWith('/$generator')) {
             if (path) {
                 if (!elt.$entities) {
                     feedback(FeedbackType.error, `${path} is missing $entities`)
@@ -668,12 +667,12 @@ async function processTemplates(
                 for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
-                        const localTransforms = [...transforms]
+                        const entityTransforms = []
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
                         scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
-                            await processTemplate(template, templateDirs, localTransforms, outDir, scope, force, feedback, false)
+                            await processTemplate(template, templateDirs, entityTransforms, transforms, outDir, scope, force, feedback, false)
                         }
 
                         delete scope.entity
@@ -691,7 +690,7 @@ async function processTemplates(
             feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (const templateName of schema.schema.$templates) {
-                await processTemplate(templateName, templateDirs, transforms, outDir, scope, force, feedback, false)
+                await processTemplate(templateName, templateDirs, [], transforms, outDir, scope, force, feedback, false)
             }
         }
 
@@ -909,7 +908,7 @@ function normalize(path: string): string {
  * @param prefix Prefix to use for generated files.
  * @param outDir Where to put generated files.
  * @param metaSchema Schema to use when generating .dialog files
- * @param ocales Locales to generate.
+ * @param locales Locales to generate.
  * @param templateDirs Where templates are found.
  * @param transforms Name of global transforms to include from templateDirs.
  * @param force True to force overwriting existing files.
