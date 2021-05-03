@@ -6,6 +6,7 @@ This sample will present the user with a set of cards to pick their choice of la
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to translate incoming and outgoing text using a custom middleware and the [Microsoft Translator Text API](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/).
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
 ## Concepts introduced in this sample
 
 Translation Middleware: We create a translation middleware that can translate text from bot to user and from user to bot, allowing the creation of multi-lingual bots.
@@ -83,10 +84,14 @@ Record the `appid` from the returned JSON
 Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
 
 #### To a new Resource Group
-`az deployment sub create --name "multilingualBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="multilingualBotPlan" newWebAppName="multilingualBot" groupLocation="westus" newAppServicePlanLocation="westus"`
+```
+az deployment sub create --name "multilingualBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="multilingualBotPlan" newWebAppName="multilingualBot" groupLocation="westus" newAppServicePlanLocation="westus"
+```
 
 #### To an existing Resource Group
-`az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="multilingualBot" newAppServicePlanName="multilingualBotPlan" appServicePlanLocation="westus" --name "multilingualBot"`
+```
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="multilingualBot" newAppServicePlanName="multilingualBotPlan" appServicePlanLocation="westus" --name "multilingualBot"
+```
 
 ### 5. Update app id and password
 In src/main/resources/application.properties update
@@ -115,11 +120,15 @@ If you used the `application.properties` file to store your `TranslatorKey` then
 
 ## Further reading
 
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Bot State](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-storage-concept?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
-- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
