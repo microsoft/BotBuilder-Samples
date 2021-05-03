@@ -16,6 +16,7 @@ import com.microsoft.bot.schema.ChannelAccount;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.microsoft.bot.schema.Activity;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 
 public class AuthBot extends DialogBot<MainDialog> {
 
@@ -42,6 +43,8 @@ public class AuthBot extends DialogBot<MainDialog> {
 
     @Override
     protected CompletableFuture<Void> onTokenResponseEvent(TurnContext turnContext) {
+        LoggerFactory.getLogger(AuthBot.class).info("Running dialog with Token Response Event Activity.");
+
         // Run the Dialog with the new Token Response Event Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
     }

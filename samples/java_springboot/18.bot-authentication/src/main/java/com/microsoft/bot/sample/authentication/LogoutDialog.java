@@ -26,22 +26,24 @@ public class LogoutDialog extends ComponentDialog {
     protected CompletableFuture<DialogTurnResult> onBeginDialog(
         DialogContext innerDc, Object options
     ) {
-        DialogTurnResult result = interrupt(innerDc).join();
-        if (result != null) {
-            return CompletableFuture.completedFuture(result);
-        }
+        return interrupt(innerDc).thenCompose(result -> {
+            if (result != null) {
+                return CompletableFuture.completedFuture(result);
+            }
 
-        return super.onBeginDialog(innerDc, options);
+            return super.onBeginDialog(innerDc, options);
+        });
     }
 
     @Override
     protected CompletableFuture<DialogTurnResult> onContinueDialog(DialogContext innerDc) {
-        DialogTurnResult result = interrupt(innerDc).join();
-        if (result != null) {
-            return CompletableFuture.completedFuture(result);
-        }
+        return interrupt(innerDc).thenCompose(result -> {
+            if (result != null) {
+                return CompletableFuture.completedFuture(result);
+            }
 
-        return super.onContinueDialog(innerDc);
+            return super.onContinueDialog(innerDc);
+        });
     }
 
     private CompletableFuture<DialogTurnResult> interrupt(DialogContext innerDc) {
@@ -52,10 +54,9 @@ public class LogoutDialog extends ComponentDialog {
                 // The bot adapter encapsulates the authentication processes.
                 BotFrameworkAdapter botAdapter = (BotFrameworkAdapter) innerDc.getContext()
                     .getAdapter();
-                botAdapter.signOutUser(innerDc.getContext(), getConnectionName(), null).join();
-                innerDc.getContext().sendActivity(MessageFactory.text("You have been signed out."))
-                    .join();
-                return innerDc.cancelAllDialogs();
+                botAdapter.signOutUser(innerDc.getContext(), getConnectionName(), null)
+                        .thenCompose(result -> innerDc.getContext().sendActivity(MessageFactory.text("You have been signed out."))
+                        .thenCompose(sendResult -> innerDc.cancelAllDialogs()));
             }
         }
 

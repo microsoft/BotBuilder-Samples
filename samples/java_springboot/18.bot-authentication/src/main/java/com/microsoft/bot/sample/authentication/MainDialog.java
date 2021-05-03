@@ -93,7 +93,7 @@ class MainDialog extends LogoutDialog {
         TokenResponse tokenResponse = (TokenResponse) stepContext.getResult();
         if (tokenResponse != null) {
             stepContext.getContext().sendActivity(MessageFactory.text(
-                String.format("Here instanceof your token %s", tokenResponse.getToken()
+                String.format("Here is your token %s", tokenResponse.getToken()
                 )));
         }
 
