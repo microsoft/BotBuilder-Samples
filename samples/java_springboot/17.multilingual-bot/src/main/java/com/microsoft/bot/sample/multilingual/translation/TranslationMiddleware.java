@@ -22,8 +22,8 @@ import com.microsoft.bot.schema.ActivityTypes;
  * Uses the Microsoft Translator Text API.
  */
 public class TranslationMiddleware implements Middleware  {
-    private MicrosoftTranslator translator;
-    private StatePropertyAccessor<String> languageStateProperty;
+    private final MicrosoftTranslator translator;
+    private final StatePropertyAccessor<String> languageStateProperty;
 
     /**
      * Initializes a new instance of the {@link TranslationMiddleware} class.
