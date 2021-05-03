@@ -56,7 +56,7 @@ function computeHash(val: string): string {
 }
 
 // Normalize to OS line endings
-function normalizeEOL(val: string): string {
+export function normalizeEOL(val: string): string {
     if (val.startsWith('#!/')) {
         // For linux shell scripts want line feed only
         val = val.replace(/\r/g, '')
@@ -859,14 +859,12 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
         }
         return false
     })
-    delete main.$Generator
-    main.$Generator = computeJSONHash(main)
     for (const [name, path] of files) {
         if (!used.has(name)) {
             const outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '  '})
+                await writeFile(outPath, JSON.stringify(main), feedback)
             } else {
                 await fs.copy(path, outPath)
             }

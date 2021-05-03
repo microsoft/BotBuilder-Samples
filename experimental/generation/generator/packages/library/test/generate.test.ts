@@ -33,14 +33,20 @@ function feedback(type: gen.FeedbackType, msg: string) {
     }
 }
 
+// Remove hash because they differ depending on os.EOL
+function removeHash(val: string): string {
+    return val
+        .replace(/"\$Generator": .*/g, '')
+        .replace(/> Generator:.*/, '')
+}
+
 // NOTE: If you update dialog:merge functionality you need to execute the makeOracles.cmd to update them
-async function compareToOracle(name: string, oraclePath?: string): Promise<object> {
+async function compareToOracle(name: string, oraclePath?: string): Promise<void> {
     let generatedPath = ppath.join(tempDir, name)
-    let generated = await fs.readJSON(generatedPath)
+    const  generateds = removeHash(await fs.readFile(generatedPath, 'utf8'))
     oraclePath = oraclePath ? ppath.join(tempDir, oraclePath) : ppath.join('test/oracles', name)
-    let oracle = await fs.readJSON(oraclePath)
-    let oracles = JSON.stringify(oracle)
-    let generateds = JSON.stringify(generated)
+    const oracle = await fs.readFile(oraclePath, 'utf8')
+    const oracles = removeHash(gen.normalizeEOL(oracle))
     if (oracles !== generateds) {
         console.log(`Oracle   : ${oracles.length}`)
         console.log(`Generated: ${generateds.length}`)
@@ -67,7 +73,6 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
         assert(false,
             `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
     }
-    return generated
 }
 
 async function checkDirectory(path: string, files: number, directories: number): Promise<void> {
@@ -438,8 +443,6 @@ describe('dialog:generate library', async () => {
     })
 
     it('Global transform', async () => {
-        // TODO: debugger
-        // 3) Add LG resolver to pick up generator.lg
         try {
             let errors = 0
             let warnings = 0
