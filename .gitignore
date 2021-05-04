@@ -172,8 +172,8 @@ PublishScripts/
 # except build/, which is used as an MSBuild target.
 !**/packages/build/
 # except is specific places in composer-samples
-!composer-samples/csharp_dotnetcore/packages/
-!composer-samples/javascript_nodejs/packages/
+!composer-samples/csharp_dotnetcore/packages/*
+!composer-samples/javascript_nodejs/packages/*
 # Uncomment if necessary however generally it will be regenerated when needed
 #!**/packages/repositories.config
 # NuGet v3's project.json files produces more ignoreable files
