@@ -31,8 +31,8 @@ public class SlotFillingDialog extends Dialog {
     // However, rather than persisting an index we will persist the last property we prompted for.
     // This way when we resume this code following a prompt we will have remembered what property
     // we were filling.
-    private final String SLOT_NAME = "slot";
-    private final String PERSISTED_VALUES = "values";
+    private final String slotName = "slot";
+    private final String persistedValues = "values";
 
     // The list of slots defines the properties to collect and the dialogs to use to collect them.
     private final List<SlotDetails> slots;
@@ -109,9 +109,9 @@ public class SlotFillingDialog extends Dialog {
         }
 
         // Update the state with the result from the child prompt.
-        String slotName = (String) dc.getActiveDialog().getState().get(SLOT_NAME);
+        String nameOfSlot = (String) dc.getActiveDialog().getState().get(slotName);
         Map<String, Object> values = getPersistedValues(dc.getActiveDialog());
-        values.put(slotName, result);
+        values.put(nameOfSlot, result);
 
         // Run prompt.
         return runPrompt(dc);
@@ -125,10 +125,10 @@ public class SlotFillingDialog extends Dialog {
      */
     private Map<String, Object> getPersistedValues(DialogInstance dialogInstance) {
         Map<String, Object> state = (Map<String, Object>) dialogInstance.getState()
-                .get(PERSISTED_VALUES);
+                .get(persistedValues);
         if (state == null) {
             state = new HashMap<String, Object>();
-            dialogInstance.getState().put(PERSISTED_VALUES, state);
+            dialogInstance.getState().put(persistedValues, state);
         }
         return state;
     }
@@ -146,15 +146,15 @@ public class SlotFillingDialog extends Dialog {
 
         // Run through the list of slots until we find one that hasn't been filled yet.
         Optional<SlotDetails> optionalSlot = slots.stream()
-                .filter(item -> !state.containsKey(item.getName()))
-                .findFirst();
+            .filter(item -> !state.containsKey(item.getName()))
+            .findFirst();
 
         // If we have an unfilled slot we will try to fill it
         if (optionalSlot.isPresent()) {
             SlotDetails unfilledSlot = optionalSlot.get();
 
             // The name of the slot we will be prompting to fill.
-            dc.getActiveDialog().getState().put(SLOT_NAME, unfilledSlot.getName());
+            dc.getActiveDialog().getState().put(slotName, unfilledSlot.getName());
 
             // If the slot contains prompt text create the PromptOptions.
 

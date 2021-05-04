@@ -26,9 +26,9 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 
 ### Connect to the bot using Bot Framework Emulator
 
-    - Launch Bot Framework Emulator
-    - File -> Open Bot
-    - Enter a Bot URL of `http://localhost:3978/api/messages`
+  - Launch Bot Framework Emulator
+  - File -> Open Bot
+  - Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Interacting with the bot
 
@@ -70,12 +70,12 @@ Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` 
 
 #### To a new Resource Group
 ```
-az deployment sub create --name "multiTurnPromptBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="multiTurnPromptBotPlan" newWebAppName="multiTurnPromptBot" groupLocation="westus" newAppServicePlanLocation="westus"
+az deployment sub create --name "customDialogsBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="customDialogsBotPlan" newWebAppName="customDialogsBot" groupLocation="westus" newAppServicePlanLocation="westus"
 ```
 
 #### To an existing Resource Group
 ```
-az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="multiTurnPromptBot" newAppServicePlanName="multiTurnPromptBotPlan" appServicePlanLocation="westus" --name "multiTurnPromptBot"
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="customDialogsBot" newAppServicePlanName="customDialogsBotPlan" appServicePlanLocation="westus" --name "customDialogsBot"
 ```
 
 ### 5. Update app id and password

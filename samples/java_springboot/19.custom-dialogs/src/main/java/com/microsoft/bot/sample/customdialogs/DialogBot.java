@@ -22,9 +22,9 @@ import java.util.logging.Logger;
  * saved at the end of a turn.
  */
 public class DialogBot<T extends Dialog> extends ActivityHandler {
-    private Dialog dialog;
-    private BotState conversationState;
-    private BotState userState;
+    private final Dialog dialog;
+    private final BotState conversationState;
+    private final BotState userState;
 
     public DialogBot(
         ConversationState withConversationState,
@@ -50,8 +50,7 @@ public class DialogBot<T extends Dialog> extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(
         TurnContext turnContext
     ) {
-        Logger logger = Logger.getLogger(DialogBot.class.getName());
-        logger.info("Running dialog with Message Activity.");
+        Logger.getLogger(DialogBot.class.getName()).info("Running dialog with Message Activity.");
 
         // Run the Dialog with the new message Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
