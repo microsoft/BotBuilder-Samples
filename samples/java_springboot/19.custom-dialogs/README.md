@@ -6,6 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 BotFramework provides a built-in base class called `Dialog`. By subclassing `Dialog`, developers can create new ways to define and control dialog flows used by the bot.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
 ## Prerequisites
 
 - Java 1.8+
@@ -68,10 +69,14 @@ Record the `appid` from the returned JSON
 Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
 
 #### To a new Resource Group
-`az deployment sub create --name "multiTurnPromptBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="multiTurnPromptBotPlan" newWebAppName="multiTurnPromptBot" groupLocation="westus" newAppServicePlanLocation="westus"`
+```
+az deployment sub create --name "multiTurnPromptBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="multiTurnPromptBotPlan" newWebAppName="multiTurnPromptBot" groupLocation="westus" newAppServicePlanLocation="westus"
+```
 
 #### To an existing Resource Group
-`az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="multiTurnPromptBot" newAppServicePlanName="multiTurnPromptBotPlan" appServicePlanLocation="westus" --name "multiTurnPromptBot"`
+```
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="multiTurnPromptBot" newAppServicePlanName="multiTurnPromptBotPlan" appServicePlanLocation="westus" --name "multiTurnPromptBot"
+```
 
 ### 5. Update app id and password
 In src/main/resources/application.properties update 
@@ -80,7 +85,7 @@ In src/main/resources/application.properties update
 
 ### 6. Deploy the code
 - Execute `mvn clean package` 
-- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<botname>"`
+- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<bot-app-service-name>"`
 
 If the deployment is successful, you will be able to test it via "Test in Web Chat" from the Azure Portal using the "Bot Channel Registration" for the bot.
 
@@ -89,12 +94,14 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 
 ## Further reading
 
-- [Bot Framework Documentation](https://docs.botframework.com)
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
 - [Dialog class reference](https://docs.microsoft.com/en-us/javascript/api/botbuilder-dialogs/dialog)
 - [Manage complex conversation flows with dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-dialog-manage-complex-conversation-flow?view=azure-bot-service-4.0)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
