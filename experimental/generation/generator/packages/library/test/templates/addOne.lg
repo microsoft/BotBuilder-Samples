@@ -1,4 +1,5 @@
-[generator.lg](../../templates/generator.lg)
+[generator.lg](generator.lg)
+[testImport](addOneImport.lg)
 
 # transforms()
 > Add one to number entity

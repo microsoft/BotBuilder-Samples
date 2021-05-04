@@ -302,10 +302,42 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                 if (template) {
                     break
                 } else if (await fs.pathExists(loc)) {
-                    // TODO: We should add an import resolver here that looks through template directories if it can't 
-                    // find file and model it on defaultFileResolver.  That way people can refer to generator by 
-                    // just (generator.lg).
-                    template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                    const resolver = (resource: lg.LGResource, resourceId: string): lg.LGResource => {
+                        // If the import id contains "#", we would cut it to use the left path.
+                        // for example: [import](a.b.c#d.lg), after convertion, id would be d.lg
+                        const hashIndex = resourceId.indexOf('#')
+                        if (hashIndex > 0) {
+                            resourceId = resourceId.substr(hashIndex + 1)
+                        }
+
+                        let importPath = lg.TemplateExtensions.normalizePath(resourceId)
+                        if (!ppath.isAbsolute(importPath)) {
+                            // get full path for importPath relative to path which is doing the import.
+                            importPath = lg.TemplateExtensions.normalizePath(ppath.join(ppath.dirname(resource.fullName), importPath))
+                        }
+                        if (!fs.existsSync(importPath) || !fs.statSync(importPath).isFile()) {
+                            if (resourceId === 'generator.lg') {
+                                // Built-in support for the generator utilities
+                                importPath = generatorTemplate.source
+                            } else {
+                                // Look for template in template dirs
+                                importPath = ''
+                                for (const dir of templateDirs) {
+                                    let loc = templatePath(resourceId, dir)
+                                    if (fs.existsSync(loc)) {
+                                        importPath = loc
+                                        break
+                                    }
+                                }
+                            }
+                            if (!importPath) {
+                                throw Error(`Could not find file: ${resourceId}`)
+                            }
+                        }
+                        const content: string = fs.readFileSync(importPath, 'utf-8')
+                        return new lg.LGResource(importPath, importPath, content)
+                    }
+                    template = lg.Templates.parseFile(loc, resolver, getExpressionEngine())
                     TemplateCache.set(loc, template)
                     break
                 }
@@ -877,13 +909,17 @@ const templatePrefix: string = 'template:'
 function resolveDir(dirs: string[]): string[] {
     const expanded: string[] = []
     for (let dir of dirs) {
+
         if (dir.startsWith(templatePrefix)) {
             // Expand template:<name> relative to built-in templates
-            expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
+            dir = ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length)))
         } else {
-            dir = ppath.resolve(dir)
-            expanded.push(normalize(dir))
+            dir = normalize(ppath.resolve(dir))
         }
+        if (!fs.existsSync(dir)) {
+            throw new Error(`Template directory ${dir} does not exist`)
+        }
+        expanded.push(dir)
     }
     return expanded
 }

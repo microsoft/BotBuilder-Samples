@@ -442,13 +442,33 @@ describe('dialog:generate library', async () => {
         assert.deepStrictEqual(examples['stu_vwx'], ['stu', 'vwx', 'stu vwx'])
     })
 
+    it('Missing template directory', async () => {
+        try {
+            let errors = 0
+            let warnings = 0
+            assert(!(await gen.generate('test/forms/unittest_transforms.form', {
+                outDir: tempDir,
+                templateDirs: ['test/templates/overrides', 'template:standard'],
+                feedback: (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                    if (type === gen.FeedbackType.warning) ++warnings
+                }
+            })), 'Should have failed generation')
+            assert.strictEqual(errors, 2, 'Wrong number of errors')
+            assert.strictEqual(warnings, 0, 'Wrong number of warnings')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
     it('Global transform', async () => {
         try {
             let errors = 0
             let warnings = 0
             assert((await gen.generate('test/forms/unittest_transforms.form', {
                 outDir: tempDir,
-                templateDirs: ['test/templates', 'template:standard'],
+                templateDirs: ['test/templates', override, 'template:standard'],
                 transforms: ['addOne'],
                 force: true,
                 singleton: true,
