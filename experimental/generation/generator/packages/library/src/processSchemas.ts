@@ -183,18 +183,15 @@ const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveM
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
-function promoteItemsAndRemoveGenerator(schema: any): void {
+function promoteItems(schema: any): void {
     if (Array.isArray(schema)) {
         for (var child in schema) {
-            promoteItemsAndRemoveGenerator(child)
+            promoteItems(child)
         }
     } else if (typeof schema === 'object' && schema !== null) {
-        // $generator is only for UI
-        delete schema.$generator
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
                 if (val && typeof val === 'object' && !Array.isArray(val)) {
-                    delete val['$generator']
                     for (var [prop, itemVal] of Object.entries(val as object)) {
                         if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
                             schema[prop] = itemVal
@@ -202,7 +199,7 @@ function promoteItemsAndRemoveGenerator(schema: any): void {
                     }
                 }
             } else {
-                promoteItemsAndRemoveGenerator(val)
+                promoteItems(val)
             }
         }
     }
@@ -278,7 +275,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         allSchema.$public = Object.keys(formSchema.properties)
     }
     mergeSchemas(allSchema, Object.values(required))
-    promoteItemsAndRemoveGenerator(allSchema)
+    promoteItems(allSchema)
     ensureTemplate(allSchema)
     return new s.Schema(schemaPath, allSchema)
 }

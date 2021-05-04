@@ -2,6 +2,8 @@
 
 Bot Framework v4 NLP with Dispatch bot sample
 
+*Dispatch is on the path to be deprecated and replaced with [Orchestrator](https://aka.ms/bf-orchestrator).  There is currently no Python SDK support for Orchestrator but it is planned for future releases.*
+
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
 
 Use the Dispatch model in cases when:

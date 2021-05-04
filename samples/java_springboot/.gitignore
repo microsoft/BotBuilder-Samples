@@ -1,0 +1,68 @@
+*.class
+
+#External libs
+extlib/
+
+# Auth files
+*.auth
+*.azureauth
+
+# Local checkstyle
+*.checkstyle
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.ear
+
+# Azure Tooling #
+node_modules
+packages
+
+# Eclipse #
+*.pydevproject
+.project
+.metadata
+bin/**
+tmp/**
+tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/
+.loadpath
+
+# Other Tooling #
+.classpath
+.project
+target
+.idea
+*.iml
+
+# Mac OS #
+.DS_Store
+.DS_Store?
+
+# Windows #
+Thumbs.db
+
+# reduced pom files should not be included
+dependency-reduced-pom.xml
+*.factorypath
+.vscode/settings.json
+pom.xml.versionsBackup
+libraries/swagger/generated
+/javabotframework_pub.gpg
+/javabotframework_sec.gpg
+/private.pgp
+/privatekey.txt
+/public.pgp
+/.vs/slnx.sqlite
+/.vs/botbuilder-java/v16/.suo
+/.vs/ProjectSettings.json

@@ -5,3 +5,4 @@ lib/**
 !.vscode
 client/out/**
 server/out/**
+yarn.lock

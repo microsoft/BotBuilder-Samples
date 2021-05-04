@@ -1,0 +1,9 @@
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookSender.class
+com\microsoft\bot\sample\facebookevents\bot\FacebookBot.class
+com\microsoft\bot\sample\facebookevents\Application.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookMessage.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookPostback.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookPayload.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookQuickReply.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookRecipient.class
+com\microsoft\bot\sample\facebookevents\facebookmodel\FacebookOptin.class

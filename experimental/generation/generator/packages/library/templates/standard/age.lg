@@ -4,4 +4,4 @@
 - ${unitsEntities('age')}
 
 # templates
-- ${standardTemplates()}
+- ${unitTemplates()}

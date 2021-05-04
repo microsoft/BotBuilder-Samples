@@ -4,4 +4,4 @@
 - ${unitsEntities('temperature')}
 
 # templates
-- ${standardTemplates()}
+- ${unitTemplates()}

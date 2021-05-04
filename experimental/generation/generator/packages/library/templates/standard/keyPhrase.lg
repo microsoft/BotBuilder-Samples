@@ -4,4 +4,4 @@
 - ${['keyPhrase', 'utterance']}
 
 # templates
-- ${standardTemplates()}
+- ${stringTemplates()}

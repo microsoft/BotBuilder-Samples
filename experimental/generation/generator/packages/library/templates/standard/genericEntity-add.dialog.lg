@@ -4,5 +4,5 @@
 - ${addFilename(entity)}
 
 # template
-- ${addDialog(entity)}
+- ${addAssign(entity)}
 

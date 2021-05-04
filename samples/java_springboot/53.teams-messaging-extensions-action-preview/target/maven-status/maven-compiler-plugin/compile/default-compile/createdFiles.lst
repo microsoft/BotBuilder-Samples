@@ -1,0 +1,5 @@
+com\microsoft\bot\sample\teamsactionpreview\models\Body.class
+com\microsoft\bot\sample\teamsactionpreview\models\AdaptiveCard.class
+com\microsoft\bot\sample\teamsactionpreview\TeamsMessagingExtensionsActionPreviewBot.class
+com\microsoft\bot\sample\teamsactionpreview\Application.class
+com\microsoft\bot\sample\teamsactionpreview\models\Choice.class

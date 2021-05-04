@@ -156,7 +156,6 @@ describe('dialog:generate --merge library', async function () {
     const modified_data = `${merge_data}/modified`
     const originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
     const modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.form')
-    const locales = ['en-us']
     const originalDir = ppath.join(output_dir, 'sandwichMerge-original')
     const modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
     const mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
@@ -220,9 +219,17 @@ describe('dialog:generate --merge library', async function () {
             console.log('Deleting output directory')
             await fs.remove(output_dir)
             console.log('Generating original files')
-            await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, undefined, errorOnly)
+            await gen.generate(originalSchema, {
+                prefix: 'sandwichMerge',
+                outDir: originalDir,
+                feedback: errorOnly
+            })
             console.log('Generating modified files')
-            await gen.generate(modifiedSchema, 'sandwichMerge', modifiedDir, undefined, locales, undefined, undefined, false, undefined, errorOnly)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: modifiedDir,
+                feedback: errorOnly
+            })
         } catch (e) {
             assert.fail(e.message)
         }
@@ -242,7 +249,11 @@ describe('dialog:generate --merge library', async function () {
     it('merge: self', async function () {
         try {
             console.log('Self merging')
-            await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(originalSchema, {
+                outDir: mergedDir,
+                merge: true,
+                feedback
+            })
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
@@ -256,7 +267,11 @@ describe('dialog:generate --merge library', async function () {
     it('merge: modified', async function () {
         try {
             console.log('Modified merge')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge', 
+                outDir: mergedDir, 
+                merge: true, 
+                feedback})
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
             assertAddedProperty(comparison, 'Hobby', errors)
@@ -292,7 +307,11 @@ describe('dialog:generate --merge library', async function () {
             await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
             await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge', 
+                outDir: mergedDir, 
+                merge: true,
+                feedback})
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
 

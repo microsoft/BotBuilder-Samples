@@ -1,0 +1,36 @@
+{
+  "name": "@microsoft/generator-bot-command-list",
+  "version": "1.0.0",
+  "description": "Yeoman generator for creating an Adaptive bot built on the Azure Bot Framework using the Command List template.",
+  "keywords": [
+    "microsoft",
+    "bot",
+    "framework",
+    "adaptive",
+    "yeoman-generator",
+    "bf-dotnet-webapp",
+    "bf-dotnet-functions"
+  ],
+  "license": "MIT",
+  "author": "Bot Framework",
+  "main": "./generators/app/index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Microsoft/botframework-components.git"
+  },
+  "scripts": {
+    "lint": "eslint -c ../../.eslintrc.json .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@microsoft/generator-bot-adaptive": "^1.0.0-rc",
+    "yeoman-generator": "^2.0.5",
+    "yeoman-test": "^1.9.1"
+  },
+  "devDependencies": {
+    "eslint": "latest",
+    "eslint-config-prettier": "latest",
+    "eslint-plugin-prettier": "latest",
+    "prettier": "latest"
+  }
+}

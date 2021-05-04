@@ -1,0 +1,24 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyUnits'}
+
+# verifyUnits(ref, body)
+> Verify units match $units
+- ${transformVerify(ref, body, units() && entity != 'number', 'addVerifyUnits')}
+
+# addVerifyUnits(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: comparison(),
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
+        elseActions: actions
+    }
+]}
+
+# comparison()
+- ${`@${entity}.units != '${units()}'`}
+
+# activity()
+- ${`${${property}_IsIncorrectUnits(@${entity}.units)`}
