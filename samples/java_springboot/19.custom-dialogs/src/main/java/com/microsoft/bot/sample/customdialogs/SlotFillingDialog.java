@@ -146,25 +146,13 @@ public class SlotFillingDialog extends Dialog {
 
         // Run through the list of slots until we find one that hasn't been filled yet.
         Optional<SlotDetails> optionalSlot = slots.stream()
-            .filter(item -> !state.containsKey(item.getName()))
-            .findFirst();
-
-        SlotDetails unfilledSlot = optionalSlot.get();
-
-        if(!optionalSlot.isPresent()){
-            return dc.endDialog(state);
-        }else {
-            // The name of the slot we will be prompting to fill.
-            dc.getActiveDialog().getState().put(SLOT_NAME, unfilledSlot.getName());
-
-            // If the slot contains prompt text create the PromptOptions.
-
-            // Run the child dialog
-            return dc.beginDialog(unfilledSlot.getDialogId(), unfilledSlot.getOptions());
-        }
+                .filter(item -> !state.containsKey(item.getName()))
+                .findFirst();
 
         // If we have an unfilled slot we will try to fill it
-        /**if(unfilledSlot != null){
+        if (optionalSlot.isPresent()) {
+            SlotDetails unfilledSlot = optionalSlot.get();
+
             // The name of the slot we will be prompting to fill.
             dc.getActiveDialog().getState().put(SLOT_NAME, unfilledSlot.getName());
 
@@ -175,6 +163,6 @@ public class SlotFillingDialog extends Dialog {
         } else {
             // No more slots to fill so end the dialog.
             return dc.endDialog(state);
-        }*/
+        }
     }
 }

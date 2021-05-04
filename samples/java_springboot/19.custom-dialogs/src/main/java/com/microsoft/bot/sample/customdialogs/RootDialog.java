@@ -62,7 +62,7 @@ public class RootDialog extends ComponentDialog {
         addDialog(new SlotFillingDialog("fullname", fullname_slots));
         addDialog(new TextPrompt("text"));
         addDialog(new NumberPrompt<>("number", Integer.class));
-        addDialog(new NumberPrompt<Float>("shoesize", this::shoeSize, Culture.English , Float.class));
+        addDialog(new NumberPrompt<Float>("shoesize", this::shoeSize, Culture.English, Float.class));
         addDialog(new SlotFillingDialog("slot-dialog", slots));
 
         // Defines a simple two step Waterfall to test the slot dialog.
