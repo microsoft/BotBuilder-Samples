@@ -1,9 +1,0 @@
-[import](common.lg)
-
-# SendActivity_Welcome
-- ${WelcomeUser()}
-
-# SendActivity_ALG9uO()
-[Activity
-    Text = ${dialog.result}
-]
