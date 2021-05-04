@@ -48,13 +48,13 @@ public class RootDialog extends ComponentDialog {
         // Dialogs can be nested and the slot filling dialog makes use of that. In this example
         // some of the child dialogs are slot filling dialogs themselves.
         List<SlotDetails> slots = Arrays.asList(
-            new SlotDetails("fullname", "fullname", null, null),
+            new SlotDetails("fullname", "fullname"),
             new SlotDetails("age", "number", "Please enter your age."),
             new SlotDetails(
                 "shoesize", "shoesize", "Please enter your shoe size.",
                 "You must enter a size between 0 and 16. Half sizes are acceptable."
             ),
-            new SlotDetails("address", "address", null, null)
+            new SlotDetails("address", "address")
         );
 
         // Add the various dialogs that will be used to the DialogSet.

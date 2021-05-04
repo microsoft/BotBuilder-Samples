@@ -20,6 +20,12 @@ public class SlotDetails {
     private PromptOptions options;
 
     public SlotDetails(
+        String withName, String withDialogId
+    ) {
+        this(withName, withDialogId, null, null);
+    }
+
+    public SlotDetails(
         String withName, String withDialogId, String withPrompt
     ) {
         this(withName, withDialogId, withPrompt, null);
@@ -33,6 +39,14 @@ public class SlotDetails {
         options = new PromptOptions();
         options.setPrompt(MessageFactory.text(withPrompt));
         options.setRetryPrompt(MessageFactory.text(withRetryPrompt));
+    }
+
+    public SlotDetails(
+        String withName, String withDialogId, PromptOptions withPromptOptions
+    ) {
+        name = withName;
+        dialogId = withDialogId;
+        options = withPromptOptions;
     }
 
     public String getName() {
