@@ -10,6 +10,7 @@ import com.microsoft.bot.dialogs.Dialog;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
 import java.util.concurrent.CompletableFuture;
+import java.util.logging.Logger;
 
 /**
  * This IBot implementation can run any type of Dialog. The use of type parameterization is to
@@ -20,15 +21,15 @@ import java.util.concurrent.CompletableFuture;
  * been used in a Dialog implementation, and the requirement is that all BotState objects are
  * saved at the end of a turn.
  */
-public class DialogBot extends ActivityHandler {
-    protected Dialog dialog;
-    protected BotState conversationState;
-    protected BotState userState;
+public class DialogBot<T extends Dialog> extends ActivityHandler {
+    private Dialog dialog;
+    private BotState conversationState;
+    private BotState userState;
 
     public DialogBot(
         ConversationState withConversationState,
         UserState withUserState,
-        Dialog withDialog
+        T withDialog
     ) {
         dialog = withDialog;
         conversationState = withConversationState;
@@ -39,6 +40,7 @@ public class DialogBot extends ActivityHandler {
     public CompletableFuture<Void> onTurn(
         TurnContext turnContext
     ) {
+        // Save any state changes that might have occurred during the turn.
         return super.onTurn(turnContext)
             .thenCompose(result -> conversationState.saveChanges(turnContext))
             .thenCompose(result -> userState.saveChanges(turnContext));
@@ -48,6 +50,10 @@ public class DialogBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(
         TurnContext turnContext
     ) {
+        Logger logger = Logger.getLogger(DialogBot.class.getName());
+        logger.info("Running dialog with Message Activity.");
+
+        // Run the Dialog with the new message Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
     }
 }
