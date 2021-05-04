@@ -63,7 +63,7 @@ export function* generatePhrases(name?: string, locale?: string, minLen?: number
 
 export const PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
     expr.FunctionUtils.apply(
-        args => {
+        (args: any[]) => {
             const name = args[0]
             const locale = args.length > 1 ? args[1] : 'en-us'
             return generateWords(name, locale).join(' ')
@@ -84,7 +84,7 @@ export const PhraseEvaluator = new expr.ExpressionEvaluator('phrase',
 
 export const PhrasesEvaluator = new expr.ExpressionEvaluator('phrases',
     expr.FunctionUtils.apply(
-        args => {
+        (args: any[]) => {
             const name = args[0]
             const locale = args.length > 1 ? args[1] : 'en-us'
             const min = args.length > 2 ? args[2] : undefined

@@ -5,6 +5,7 @@
 
 # templates
 - ${[
+        "verifyUnique",
         "enumEntity.lg",
         "enumEntity.lu",
         "genericProperty.lg",

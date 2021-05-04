@@ -1,0 +1,24 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyMax'}
+
+# verifyMax(ref, body)
+> Verify schema maximum
+- ${transformVerify(ref, body, propertySchema.maximum, 'addVerifyMax')}
+
+# addVerifyMax(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: comparison(), 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
+        elseActions: actions
+    }
+]}
+
+# comparison()
+- ${`${unitsNumber()} > dialogClass.schema.properties.${property}.maximum`}
+
+# activity()
+- ${`\${${property}_IsTooBig(${unitsNumber()})}`}

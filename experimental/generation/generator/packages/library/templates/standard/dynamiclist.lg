@@ -5,6 +5,7 @@
 
 # templates
 - ${[
+        "verifyUnique",
         "dynamiclistEntity.lg",
         "dynamiclistEntity.lu",
         "genericProperty.lg",

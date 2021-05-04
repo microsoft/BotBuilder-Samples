@@ -4,4 +4,4 @@
 - ${['percentage']}
 
 # templates
-- ${standardTemplates()}
+- ${numericTemplates()}

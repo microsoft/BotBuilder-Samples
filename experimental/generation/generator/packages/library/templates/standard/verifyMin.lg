@@ -1,0 +1,25 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+> Verify schema minimum
+- ${'verifyMin'}
+
+# verifyMin(ref, body)
+- ${transformVerify(ref, body, propertySchema.minimum, 'addVerifyMin')}
+
+# addVerifyMin(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: comparison(), 
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
+        elseActions: actions
+    }
+]}
+
+# comparison()
+- ${`${unitsNumber()} < dialogClass.schema.properties.${property}.minimum`}
+
+# activity()
+- ${`\${${property}_IsTooSmall(${unitsNumber()})}`}
+

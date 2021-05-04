@@ -4,4 +4,4 @@
 - ${['datetimeV2']}
 
 # templates
-- ${standardTemplates()}
+- ${genericTemplates()}
