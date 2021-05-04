@@ -1,0 +1,49 @@
+> Language generation definition
+> See https://aka.ms/language-generation to learn more.
+
+# AskFirstName
+[Activity
+    Text = What is your first name?
+    SuggestedActions = Why? | No name | Cancel
+]
+
+# AskFirstName.Invalid()
+- Sorry '${this.value}' does not work. I'm looking for a value between 3-50 characters. ${AskFirstName()}
+
+# AskUserAage
+[Activity
+    Text = ${AckPhrase()} ${user.profile.name}, ${GetAge()}
+    SuggestedActions = Why? | No age | Cancel
+]
+
+# AskUserAge.Invalid
+- Sorry '${this.value}' does not work. I'm looking for a value between 1-150. ${GetAge()}
+
+# AskUserAge.Unrecognized
+- Sorry, I do not understand '${turn.activity.text}'. ${GetAge()}
+
+# GetAge
+- What is your age?
+
+# AckPhrase
+- Hello
+- Hi
+- Hiya
+
+# ProfileReadBack
+- ${AckPhrase()} ${user.profile.name}, I have your age as ${user.profile.age}
+
+# GetProfileHelp
+- Local help for get profile. Just for demo.
+
+# WhyJustificationReadBack
+- IF: ${user.profile.name == null}
+    - I need your name to be able to address you correctly. See http://contoso.com/privacy to learn more.
+- ELSE:
+    - I need your age to provide relevant product recommendations. See http://contoso.com/privacy to learn more.
+
+# NoValueForUserNameReadBack
+- No worries. I will set your name as 'Human' for now. You can always say "My name is <your name>" to re-introduce yourself to me.
+
+# NoValueForUserAgeReadBack
+- No issues. I will set your age as '30' for now. You can always say "I'm <your age> years old" to update your age.

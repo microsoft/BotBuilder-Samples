@@ -1,0 +1,11 @@
+﻿{
+  "rootDialog": {
+    "rootDialog": true,
+    "triggers": {
+      "AddItem": "addToDoDialog",
+      "DeleteItem": "deleteToDoDialog",
+      "ViewItem": "viewToDoDialog",
+      "GetUserProfile": "getUserProfileDialog"
+    }
+  }
+}
