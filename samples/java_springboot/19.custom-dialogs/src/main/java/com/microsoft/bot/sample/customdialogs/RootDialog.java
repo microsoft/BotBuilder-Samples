@@ -16,7 +16,10 @@ import com.microsoft.bot.dialogs.prompts.PromptValidatorContext;
 import com.microsoft.bot.dialogs.prompts.TextPrompt;
 import com.microsoft.recognizers.text.Culture;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 // This is an example root dialog. Replace this with your applications.

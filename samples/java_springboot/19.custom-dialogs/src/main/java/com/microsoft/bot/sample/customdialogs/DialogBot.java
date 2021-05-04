@@ -9,8 +9,9 @@ import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.dialogs.Dialog;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.CompletableFuture;
-import java.util.logging.Logger;
 
 /**
  * This IBot implementation can run any type of Dialog. The use of type parameterization is to
@@ -50,7 +51,7 @@ public class DialogBot<T extends Dialog> extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(
         TurnContext turnContext
     ) {
-        Logger.getLogger(DialogBot.class.getName()).info("Running dialog with Message Activity.");
+        LoggerFactory.getLogger(DialogBot.class).info("Running dialog with Message Activity.");
 
         // Run the Dialog with the new message Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
