@@ -52,11 +52,14 @@ public class LogoutDialog extends ComponentDialog {
 
             if (text.equals("logout")) {
                 // The bot adapter encapsulates the authentication processes.
-                BotFrameworkAdapter botAdapter = (BotFrameworkAdapter) innerDc.getContext()
-                    .getAdapter();
-                botAdapter.signOutUser(innerDc.getContext(), getConnectionName(), null)
-                        .thenCompose(result -> innerDc.getContext().sendActivity(MessageFactory.text("You have been signed out."))
-                        .thenCompose(sendResult -> innerDc.cancelAllDialogs()));
+                BotFrameworkAdapter botAdapter = (BotFrameworkAdapter) innerDc.getContext().getAdapter();
+                botAdapter.signOutUser(
+                    innerDc.getContext(),
+                    getConnectionName(),
+                    innerDc.getContext().getActivity().getFrom().getId())
+                        .thenApply(result -> innerDc.getContext().sendActivity(MessageFactory.text("You have been signed out."))
+                        .thenApply(sendResult -> null));
+                return innerDc.cancelAllDialogs();
             }
         }
 

@@ -18,9 +18,9 @@ import com.microsoft.bot.schema.Activity;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 
-public class AuthBot extends DialogBot<MainDialog> {
+public class AuthBot<T extends Dialog> extends DialogBot {
 
-    public AuthBot(ConversationState conversationState, UserState userState, MainDialog dialog) {
+    public AuthBot(ConversationState conversationState, UserState userState, T dialog) {
         super(conversationState, userState, dialog);
     }
 
@@ -32,7 +32,7 @@ public class AuthBot extends DialogBot<MainDialog> {
             .filter(member -> !StringUtils
                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
             .map(channel -> {
-                Activity reply = MessageFactory.text("Welcome to AuthBot."
+                Activity reply = MessageFactory.text("Welcome to AuthenticationBot."
                     + " Type anything to get logged in. Type 'logout' to sign-out.");
 
                 return turnContext.sendActivity(reply);
