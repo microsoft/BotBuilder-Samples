@@ -344,7 +344,6 @@ The TIMEX expression library is contained in the same GitHub repo as the recogni
 
 ## Further reading
 
-- [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [TIMEX](https://en.wikipedia.org/wiki/TimeML#TIMEX3)
 - [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601)
