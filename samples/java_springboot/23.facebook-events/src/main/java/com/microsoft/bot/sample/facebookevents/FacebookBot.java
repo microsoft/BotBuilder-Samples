@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.microsoft.bot.sample.facebookevents.bot;
+package com.microsoft.bot.sample.facebookevents;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.microsoft.bot.builder.ActivityHandler;
@@ -10,11 +10,6 @@ import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.connector.Channels;
 import com.microsoft.bot.dialogs.choices.Choice;
 import com.microsoft.bot.dialogs.choices.ChoiceFactory;
-import com.microsoft.bot.sample.facebookevents.facebookmodel.FacebookMessage;
-import com.microsoft.bot.sample.facebookevents.facebookmodel.FacebookOptin;
-import com.microsoft.bot.sample.facebookevents.facebookmodel.FacebookPayload;
-import com.microsoft.bot.sample.facebookevents.facebookmodel.FacebookPostback;
-import com.microsoft.bot.sample.facebookevents.facebookmodel.FacebookQuickReply;
 import com.microsoft.bot.schema.ActionTypes;
 import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.CardAction;
