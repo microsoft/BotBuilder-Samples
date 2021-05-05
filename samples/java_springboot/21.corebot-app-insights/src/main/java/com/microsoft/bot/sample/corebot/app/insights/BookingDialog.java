@@ -23,8 +23,8 @@ import java.util.concurrent.CompletableFuture;
  * The class containing the booking dialogs.
  */
 public class BookingDialog extends CancelAndHelpDialog {
-    private final String destinationStepMsgText = "Where would you like to travel to?";
-    private final String originStepMsgText = "Where are you traveling from?";
+    private static String destinationStepMsgText = "Where would you like to travel to?";
+    private static String originStepMsgText = "Where are you traveling from?";
 
     /**
      * The constructor of the Booking Dialog class.

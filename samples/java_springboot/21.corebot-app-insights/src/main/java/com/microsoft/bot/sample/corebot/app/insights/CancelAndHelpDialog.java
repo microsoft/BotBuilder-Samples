@@ -19,8 +19,8 @@ import java.util.concurrent.CompletableFuture;
  */
 public class CancelAndHelpDialog extends ComponentDialog {
 
-    private final String helpMsgText = "Show help here";
-    private final String cancelMsgText = "Cancelling...";
+    private static String helpMsgText = "Show help here";
+    private static String cancelMsgText = "Cancelling...";
 
     /**
      * The constructor of the CancelAndHelpDialog class.
