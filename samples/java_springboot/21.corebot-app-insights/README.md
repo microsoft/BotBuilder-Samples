@@ -13,7 +13,9 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
 ## Prerequisites
 
-This sample **requires** prerequisites in order to run.
+- Java 1.8+
+- Install [Maven](https://maven.apache.org/)
+- An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 
 ### Overview
 

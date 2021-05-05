@@ -227,7 +227,7 @@ public class MainDialog extends ComponentDialog {
             );
             Activity message = MessageFactory
                 .text(messageText, messageText, InputHints.IGNORING_INPUT);
-            return stepContext.getContext().sendActivity(message).thenApply(sendResult -> null);
+            stepResult = stepContext.getContext().sendActivity(message).thenApply(sendResult -> null);
         }
 
         // Restart the main dialog with a different message the second time around
