@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.CognitiveServices.Language.LUIS.Runtime.Models;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
@@ -25,8 +26,9 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
+            var dc = new DialogContext(new DialogSet(), turnContext, new DialogState());
             // Top intent tell us which cognitive service to use.
-            var allScores = await _botServices.Dispatch.RecognizeAsync(turnContext, cancellationToken);
+            var allScores = await _botServices.Dispatch.RecognizeAsync(dc, (Activity)turnContext.Activity, cancellationToken);
             var topIntent = allScores.Intents.First().Key;
             
             // Next, we call the dispatcher with the top intent.

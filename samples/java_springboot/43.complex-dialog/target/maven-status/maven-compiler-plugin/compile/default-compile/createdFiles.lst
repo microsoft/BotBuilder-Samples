@@ -1,0 +1,7 @@
+com\microsoft\bot\sample\complexdialog\DialogBot.class
+com\microsoft\bot\sample\complexdialog\ReviewSelectionDialog.class
+com\microsoft\bot\sample\complexdialog\Application.class
+com\microsoft\bot\sample\complexdialog\TopLevelDialog.class
+com\microsoft\bot\sample\complexdialog\DialogAndWelcome.class
+com\microsoft\bot\sample\complexdialog\UserProfile.class
+com\microsoft\bot\sample\complexdialog\MainDialog.class

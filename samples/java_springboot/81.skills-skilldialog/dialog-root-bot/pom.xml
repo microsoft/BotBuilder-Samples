@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.microsoft.bot.sample</groupId>
+    <artifactId>dialogrootbot</artifactId>
+    <version>sample</version>
+    <packaging>jar</packaging>
+
+    <name>${project.groupId}:${project.artifactId}</name>
+    <description>This package contains a Java Root Dialog Skill bot sample using Spring Boot.</description>
+    <url>http://maven.apache.org</url>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.4.0</version>
+        <relativePath/>
+    </parent>
+
+    <licenses>
+        <license>
+            <name>MIT License</name>
+            <url>http://www.opensource.org/licenses/mit-license.php</url>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Bot Framework Development</name>
+            <email></email>
+            <organization>Microsoft</organization>
+            <organizationUrl>https://dev.botframework.com/</organizationUrl>
+        </developer>
+    </developers>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <start-class>com.microsoft.bot.sample.dialogrootbot.Application</start-class>
+    </properties>
+
+    <repositories>    
+      <repository>
+        <id>oss-sonatype</id>
+        <name>oss-sonatype</name>
+        <url> https://oss.sonatype.org/content/repositories/snapshots/ </url>
+        <snapshots>
+            <enabled>true</enabled>
+        </snapshots>
+      </repository>
+    </repositories>
+
+    <dependencies>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.13.1</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+          <version>2.4.0</version>
+          <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.junit.vintage</groupId>
+        <artifactId>junit-vintage-engine</artifactId>
+        <scope>test</scope>
+      </dependency>
+
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-api</artifactId>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-api</artifactId>
+        <version>2.11.0</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.logging.log4j</groupId>
+        <artifactId>log4j-core</artifactId>
+        <version>2.13.2</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.microsoft.bot</groupId>
+        <artifactId>bot-integration-spring</artifactId>
+        <version>4.13.0</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.microsoft.bot</groupId>
+        <artifactId>bot-dialogs</artifactId>
+        <version>4.13.0</version>
+        <scope>compile</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.microsoft.bot</groupId>
+        <artifactId>bot-builder</artifactId>
+        <version>4.13.0</version>
+        <scope>compile</scope>
+      </dependency>  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>build</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <resources>
+          <resource>
+            <directory>src/main/resources</directory>
+            <filtering>false</filtering>
+          </resource>
+        </resources>
+          <plugins>
+              <plugin>
+                  <artifactId>maven-compiler-plugin</artifactId>
+                  <version>3.8.1</version>
+              </plugin>
+              <plugin>
+                  <artifactId>maven-war-plugin</artifactId>
+                  <version>3.2.3</version>
+                  <configuration>
+                      <warSourceDirectory>src/main/webapp</warSourceDirectory>
+                  </configuration>
+              </plugin>
+              <plugin>
+                  <groupId>org.springframework.boot</groupId>
+                  <artifactId>spring-boot-maven-plugin</artifactId>
+                  <executions>
+                      <execution>
+                          <goals>
+                              <goal>repackage</goal>
+                          </goals>
+                          <configuration>
+                              <mainClass>com.microsoft.bot.sample.dialogrootbot.Application</mainClass>
+                          </configuration>
+                      </execution>
+                  </executions>
+              </plugin>
+              <plugin>
+                  <groupId>com.microsoft.azure</groupId>
+                  <artifactId>azure-webapp-maven-plugin</artifactId>
+                  <version>1.12.0</version>
+                  <configuration>
+                      <schemaVersion>V2</schemaVersion>
+                      <resourceGroup>${groupname}</resourceGroup>
+                      <appName>${botname}</appName>
+                      <appSettings>
+                          <property>
+                              <name>JAVA_OPTS</name>
+                              <value>-Dserver.port=80</value>
+                          </property>
+                      </appSettings>
+                      <runtime>
+                          <os>linux</os>
+                          <javaVersion>Java 8</javaVersion>
+                          <webContainer>Java SE</webContainer>
+                      </runtime>
+                      <deployment>
+                          <resources>
+                              <resource>
+                                  <directory>${project.basedir}/target</directory>
+                                  <includes>
+                                      <include>*.jar</include>
+                                  </includes>
+                              </resource>
+                          </resources>
+                      </deployment>
+                  </configuration>
+              </plugin>
+          </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>publish</id>
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-compiler-plugin</artifactId>
+          </plugin>
+          <plugin>
+            <artifactId>maven-war-plugin</artifactId>
+            <version>3.2.3</version>
+            <configuration>
+                <warSourceDirectory>src/main/webapp</warSourceDirectory>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>1.6.8</version>
+            <extensions>true</extensions>
+            <configuration>
+              <skipRemoteStaging>true</skipRemoteStaging>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <configuration>
+              <source>8</source>
+              <failOnError>false</failOnError>
+            </configuration>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

@@ -1,0 +1,6 @@
+com\microsoft\bot\sample\promptusersforinput\ConversationFlow.class
+com\microsoft\bot\sample\promptusersforinput\CustomPromptBot.class
+com\microsoft\bot\sample\promptusersforinput\CustomPromptBot$1.class
+com\microsoft\bot\sample\promptusersforinput\UserProfile.class
+com\microsoft\bot\sample\promptusersforinput\Application.class
+com\microsoft\bot\sample\promptusersforinput\ConversationFlow$Question.class

@@ -36,7 +36,7 @@ This sample **requires** prerequisites in order to run.
     
 - Install BF CLI with Orchestrator plugin
     ```bash
-    > npm i -g @microsoft/botframework-cli@next
+    > npm i -g @microsoft/botframework-cli
     ```
     Make sure bf orchestrator command is working and shows all available orchestrator commands
     ```bash
@@ -50,9 +50,9 @@ This sample **requires** prerequisites in order to run.
     > git clone https://github.com/microsoft/botbuilder-samples.git
     ```
     
-- CD experimental/orchestrator/javascript_nodejs/01.dispatch-bot
+- CD samples\javascript_nodejs\14.nlp-with-orchestrator
     ```bash
-    > cd experimental/orchestrator/javascript_nodejs/01.dispatch-bot
+    > cd samples\javascript_nodejs\14.nlp-with-orchestrator
     ```
     
 - Configure the LUIS applications (HomeAutomation and Weather) required for this sample.
@@ -65,7 +65,7 @@ This sample **requires** prerequisites in order to run.
 - Configure the QnA Maker KB required for this sample.
     - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
     ```bash
-    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY>
+    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update kb information in `./.env`
     

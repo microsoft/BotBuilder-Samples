@@ -1,0 +1,13 @@
+com\microsoft\bot\sample\dialogskillbot\bots\SkillBot.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\Location.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\DateResolverDialog$dateTimePromptValidator.class
+com\microsoft\bot\sample\dialogskillbot\SkillAdapterWithErrorHandler.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\DialogSkillBotRecognizer.class
+com\microsoft\bot\sample\dialogskillbot\Application.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\BookingDialog.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\CancelAndHelpDialog.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\DateResolverDialog.class
+com\microsoft\bot\sample\dialogskillbot\SkillAdapterWithErrorHandler$1.class
+com\microsoft\bot\sample\dialogskillbot\SkillAdapterWithErrorHandler$SkillAdapterErrorHandler.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\ActivityRouterDialog.class
+com\microsoft\bot\sample\dialogskillbot\dialogs\BookingDetails.class
