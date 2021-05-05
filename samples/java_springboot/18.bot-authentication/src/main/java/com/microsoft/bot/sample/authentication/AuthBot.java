@@ -16,10 +16,11 @@ import com.microsoft.bot.schema.ChannelAccount;
 import com.codepoetics.protonpack.collectors.CompletableFutures;
 import com.microsoft.bot.schema.Activity;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 
-public class AuthBot extends DialogBot<MainDialog> {
+public class AuthBot<T extends Dialog> extends DialogBot {
 
-    public AuthBot(ConversationState conversationState, UserState userState, MainDialog dialog) {
+    public AuthBot(ConversationState conversationState, UserState userState, T dialog) {
         super(conversationState, userState, dialog);
     }
 
@@ -31,7 +32,7 @@ public class AuthBot extends DialogBot<MainDialog> {
             .filter(member -> !StringUtils
                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
             .map(channel -> {
-                Activity reply = MessageFactory.text("Welcome to AuthBot."
+                Activity reply = MessageFactory.text("Welcome to AuthenticationBot."
                     + " Type anything to get logged in. Type 'logout' to sign-out.");
 
                 return turnContext.sendActivity(reply);
@@ -42,6 +43,8 @@ public class AuthBot extends DialogBot<MainDialog> {
 
     @Override
     protected CompletableFuture<Void> onTokenResponseEvent(TurnContext turnContext) {
+        LoggerFactory.getLogger(AuthBot.class).info("Running dialog with Token Response Event Activity.");
+
         // Run the Dialog with the new Token Response Event Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
     }
