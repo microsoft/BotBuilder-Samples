@@ -12,12 +12,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="**/*.dialog" />
-    <Content Include="**/*.lg" />
-    <Content Include="**/*.lu" />
     <Content Include="**/*.schema" />
     <Content Include="**/*.uischema" />
-    <Content Include="**/*.qna" />
+    <None Include="exported/**/*.*" Pack="true" PackagePath="exported" />
+    <None Include="README.md" Condition="Exists('README.md')" Pack="true" PackagePath="" />
   </ItemGroup>
 	
   <ItemGroup>
