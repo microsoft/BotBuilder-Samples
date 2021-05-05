@@ -107,6 +107,7 @@ public class DialogBot<T extends Dialog> extends ActivityHandler {
     @Override
     public CompletableFuture<Void> onTurn(TurnContext turnContext) {
         return super.onTurn(turnContext)
+            // Save any state changes that might have occurred during the turn.
             .thenCompose(turnResult -> conversationState.saveChanges(turnContext, false))
             .thenCompose(saveResult -> userState.saveChanges(turnContext, false));
     }

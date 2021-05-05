@@ -39,7 +39,6 @@ public class DateResolverDialog extends CancelAndHelpDialog {
     public DateResolverDialog(@Nullable String id) {
         super(id != null ? id : "DateResolverDialog");
 
-
         addDialog(new DateTimePrompt("DateTimePrompt",
             DateResolverDialog::dateTimePromptValidator, null));
         WaterfallStep[] waterfallSteps = {

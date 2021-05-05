@@ -70,7 +70,7 @@ public class BookingDialog extends CancelAndHelpDialog {
     private CompletableFuture<DialogTurnResult> originStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        bookingDetails.setDestination(stepContext.getResult().toString());
+        bookingDetails.setDestination((String) stepContext.getResult());
 
         if (bookingDetails.getOrigin().isEmpty()) {
             Activity promptMessage =

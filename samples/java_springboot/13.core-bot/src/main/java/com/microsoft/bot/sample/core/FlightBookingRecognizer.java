@@ -65,7 +65,6 @@ public class FlightBookingRecognizer implements Recognizer {
      * @return A {link RecognizerResult}
      */
     public CompletableFuture<RecognizerResult> executeLuisQuery(TurnContext context) {
-        // Returns true if luis is configured in the application.properties and initialized.
         return this.recognizer.recognize(context);
     }
 
