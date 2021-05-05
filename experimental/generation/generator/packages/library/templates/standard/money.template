@@ -276,6 +276,9 @@
                 }
             },
             {
+                "$ref": "minmax.json"
+            },
+            {
                 "$ref": "array.json"
             }
         ]
