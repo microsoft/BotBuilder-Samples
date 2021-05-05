@@ -14,12 +14,15 @@ import com.microsoft.bot.dialogs.WaterfallStepContext;
 import com.microsoft.bot.dialogs.prompts.NumberPrompt;
 import com.microsoft.bot.dialogs.prompts.PromptValidatorContext;
 import com.microsoft.bot.dialogs.prompts.TextPrompt;
+import com.microsoft.recognizers.text.Culture;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
+// This is an example root dialog. Replace this with your applications.
 public class RootDialog extends ComponentDialog {
 
     private StatePropertyAccessor<Map<String, Map<String, String>>> userStateAccessor;
@@ -62,18 +65,33 @@ public class RootDialog extends ComponentDialog {
         addDialog(new SlotFillingDialog("fullname", fullname_slots));
         addDialog(new TextPrompt("text"));
         addDialog(new NumberPrompt<>("number", Integer.class));
-        addDialog(new NumberPrompt<Float>("shoesize", this::shoeSize, Float.class));
+        addDialog(new NumberPrompt<Float>("shoesize", this::shoeSize, Culture.English, Float.class));
         addDialog(new SlotFillingDialog("slot-dialog", slots));
 
         // Defines a simple two step Waterfall to test the slot dialog.
         WaterfallStep[] waterfallSteps = {
             this::startDialog,
-            this::processResult
+            this::processResults
         };
         addDialog(new WaterfallDialog("waterfall", Arrays.asList(waterfallSteps)));
 
         // The initial child Dialog to run.
         setInitialDialogId("waterfall");
+    }
+
+    private CompletableFuture<Boolean> shoeSize(PromptValidatorContext<Float> promptContext) {
+        Float shoesize = promptContext.getRecognized().getValue();
+
+        // show sizes can range from 0 to 16
+        if (shoesize >= 0 && shoesize <= 16) {
+            // we only accept round numbers or half sizes
+            if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2) {
+                // indicate success by returning the value
+                return CompletableFuture.completedFuture(true);
+            }
+        }
+
+        return CompletableFuture.completedFuture(false);
     }
 
     private CompletableFuture<DialogTurnResult> startDialog(WaterfallStepContext stepContext) {
@@ -82,7 +100,7 @@ public class RootDialog extends ComponentDialog {
         return stepContext.beginDialog("slot-dialog");
     }
 
-    private CompletableFuture<DialogTurnResult> processResult(WaterfallStepContext stepContext) {
+    private CompletableFuture<DialogTurnResult> processResults(WaterfallStepContext stepContext) {
         Map<String, Object> result = stepContext.getResult() instanceof Map
             ? (Map<String, Object>) stepContext.getResult()
             : null;
@@ -90,7 +108,7 @@ public class RootDialog extends ComponentDialog {
         // To demonstrate that the slot dialog collected all the properties we will echo them back to the user.
         if (result != null && result.size() > 0) {
             // Now the waterfall is complete, save the data we have gathered into UserState.
-            return userStateAccessor.get(stepContext.getContext(), HashMap::new)
+            userStateAccessor.get(stepContext.getContext(), HashMap::new)
                 .thenApply(obj -> {
                     Map<String, Object> fullname = (Map<String, Object>) result.get("fullname");
                     Float shoesize = (Float) result.get("shoesize");
@@ -108,25 +126,10 @@ public class RootDialog extends ComponentDialog {
                     MessageFactory.text(obj.get("data").get("fullname")),
                     MessageFactory.text(obj.get("data").get("shoesize")),
                     MessageFactory.text(obj.get("data").get("address"))
-                ))
-                .thenCompose(resourceResponse -> stepContext.endDialog());
+                ));
         }
 
         // Remember to call EndAsync to indicate to the runtime that this is the end of our waterfall.
         return stepContext.endDialog();
-    }
-
-    private CompletableFuture<Boolean> shoeSize(PromptValidatorContext<Float> promptContext) {
-        Float shoesize = promptContext.getRecognized().getValue();
-
-        // show sizes can range from 0 to 16
-        if (shoesize >= 0 && shoesize < 16) {
-            // we only accept round numbers or half sizes
-            if (Math.floor(shoesize) == shoesize || Math.floor(shoesize * 2) == shoesize * 2) {
-                return CompletableFuture.completedFuture(true);
-            }
-        }
-
-        return CompletableFuture.completedFuture(false);
     }
 }

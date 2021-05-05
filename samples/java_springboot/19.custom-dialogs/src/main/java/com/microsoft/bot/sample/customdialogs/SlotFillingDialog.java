@@ -31,11 +31,11 @@ public class SlotFillingDialog extends Dialog {
     // However, rather than persisting an index we will persist the last property we prompted for.
     // This way when we resume this code following a prompt we will have remembered what property
     // we were filling.
-    private static final String SLOT_NAME = "slot";
-    private static final String PERSISTED_VALUES = "values";
+    private final String slotName = "slot";
+    private final String persistedValues = "values";
 
     // The list of slots defines the properties to collect and the dialogs to use to collect them.
-    private List<SlotDetails> slots;
+    private final List<SlotDetails> slots;
 
     public SlotFillingDialog(String withDialogId, List<SlotDetails> withSlots) {
         super(withDialogId);
@@ -46,12 +46,12 @@ public class SlotFillingDialog extends Dialog {
     }
 
     /**
-     * Called when the dialog is started and pushed onto the dialog stack.
+     * Begin is called to start a new slot dialog.
      *
-     * @param dc      The {@link DialogContext} for the current turn of conversation.
-     * @param options Initial information to pass to the dialog.
-     * @return If the task is successful, the result indicates whether the dialog is still active
-     * after the turn has been processed by the dialog.
+     * @param dc      A handle on the runtime.
+     * @param options This isn't used in this implementation but required for the contract.
+     * Potentially it could be used to pass in existing state - already filled slots for example.
+     * @return A DialogTurnResult indicating the state of this dialog to the caller.
      */
     @Override
     public CompletableFuture<DialogTurnResult> beginDialog(DialogContext dc, Object options) {
@@ -69,15 +69,11 @@ public class SlotFillingDialog extends Dialog {
     }
 
     /**
-     * Called when the dialog is _continued_, where it is the active dialog and the user replies
-     * with a new activity.
+     * Continue is called to run an existing dialog.
+     * It will return the state of the current dialog. If there is no dialog it will return Empty.
      *
-     * <p>If this method is *not* overridden, the dialog automatically ends when the user
-     * replies.</p>
-     *
-     * @param dc The {@link DialogContext} for the current turn of conversation.
-     * @return If the task is successful, the result indicates whether the dialog is still active
-     * after the turn has been processed by the dialog. The result may also contain a return value.
+     * @param dc A handle on the runtime.
+     * @return A DialogTurnResult indicating the state of this dialog to the caller.
      */
     @Override
     public CompletableFuture<DialogTurnResult> continueDialog(
@@ -97,22 +93,12 @@ public class SlotFillingDialog extends Dialog {
     }
 
     /**
-     * Called when a child dialog completed this turn, returning control to this dialog.
+     * Resume is called when a child dialog completes and we need to carry on processing in this class.
      *
-     * <p>Generally, the child dialog was started with a call to
-     * {@link #beginDialog(DialogContext, Object)} However, if the {@link
-     * DialogContext#replaceDialog(String, Object)} method is called, the logical child dialog may
-     * be different than the original.</p>
-     *
-     * <p>If this method is *not* overridden, the dialog automatically ends when the user
-     * replies.</p>
-     *
-     * @param dc     The dialog context for the current turn of the conversation.
-     * @param reason Reason why the dialog resumed.
-     * @param result Optional, value returned from the dialog that was called. The type of the value
-     *               returned is dependent on the child dialog.
-     * @return If the task is successful, the result indicates whether this dialog is still active
-     * after this dialog turn has been processed.
+     * @param dc     A handle on the runtime.
+     * @param reason The reason we have control back in this dialog.
+     * @param result The result from the child dialog. For example this is the value from a prompt.
+     * @return A DialogTurnResult indicating the state of this dialog to the caller.
      */
     @Override
     public CompletableFuture<DialogTurnResult> resumeDialog(
@@ -123,17 +109,38 @@ public class SlotFillingDialog extends Dialog {
         }
 
         // Update the state with the result from the child prompt.
-        String slotName = (String) dc.getActiveDialog().getState().get(SLOT_NAME);
+        String nameOfSlot = (String) dc.getActiveDialog().getState().get(slotName);
         Map<String, Object> values = getPersistedValues(dc.getActiveDialog());
-        values.put(slotName, result);
+        values.put(nameOfSlot, result);
 
-        // Run prompt
+        // Run prompt.
         return runPrompt(dc);
     }
 
-    // This helper function contains the core logic of this dialog. The main idea is to compare
-    // the state we have gathered with the list of slots we have been asked to fill. When we find
-    // an empty slot we execute the corresponding prompt.
+    /**
+     * Helper function to deal with the persisted values we collect in this dialog.
+     *
+     * @param dialogInstance A handle on the runtime instance associated with this dialog, the State is a property.
+     * @return A dictionary representing the current state or a new dictionary if we have none.
+     */
+    private Map<String, Object> getPersistedValues(DialogInstance dialogInstance) {
+        Map<String, Object> state = (Map<String, Object>) dialogInstance.getState()
+                .get(persistedValues);
+        if (state == null) {
+            state = new HashMap<String, Object>();
+            dialogInstance.getState().put(persistedValues, state);
+        }
+        return state;
+    }
+
+    /**
+     * This helper function contains the core logic of this dialog.
+     * The main idea is to compare the state we have gathered with the list of slots we have been asked to fill.
+     * When we find an empty slot we execute the corresponding prompt.
+     *
+     * @param dc A handle on the runtime.
+     * @return A DialogTurnResult indicating the state of this dialog to the caller.
+     */
     private CompletableFuture<DialogTurnResult> runPrompt(DialogContext dc) {
         Map<String, Object> state = getPersistedValues(dc.getActiveDialog());
 
@@ -142,29 +149,20 @@ public class SlotFillingDialog extends Dialog {
             .filter(item -> !state.containsKey(item.getName()))
             .findFirst();
 
-        if (!optionalSlot.isPresent()) {
-            // No more slots to fill so end the dialog.
-            return dc.endDialog(state);
-        } else {
-            // If we have an unfilled slot we will try to fill it
+        // If we have an unfilled slot we will try to fill it
+        if (optionalSlot.isPresent()) {
             SlotDetails unfilledSlot = optionalSlot.get();
 
             // The name of the slot we will be prompting to fill.
-            dc.getActiveDialog().getState().put(SLOT_NAME, unfilledSlot.getName());
+            dc.getActiveDialog().getState().put(slotName, unfilledSlot.getName());
+
+            // If the slot contains prompt text create the PromptOptions.
 
             // Run the child dialog
             return dc.beginDialog(unfilledSlot.getDialogId(), unfilledSlot.getOptions());
+        } else {
+            // No more slots to fill so end the dialog.
+            return dc.endDialog(state);
         }
-    }
-
-    // Helper function to deal with the persisted values we collect in this dialog.
-    private Map<String, Object> getPersistedValues(DialogInstance dialogInstance) {
-        Map<String, Object> state = (Map<String, Object>) dialogInstance.getState()
-            .get(PERSISTED_VALUES);
-        if (state == null) {
-            state = new HashMap<String, Object>();
-            dialogInstance.getState().put(PERSISTED_VALUES, state);
-        }
-        return state;
     }
 }
