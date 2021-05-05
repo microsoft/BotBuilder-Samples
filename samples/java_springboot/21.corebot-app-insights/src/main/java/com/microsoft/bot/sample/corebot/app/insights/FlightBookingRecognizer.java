@@ -22,7 +22,7 @@ import java.util.concurrent.CompletableFuture;
  * The class in charge of recognizing the booking information.
  */
 public class FlightBookingRecognizer implements Recognizer {
-    private LuisRecognizer recognizer = null;
+    private final LuisRecognizer recognizer;
 
     /**
      * The constructor of the FlightBookingRecognizer class.
@@ -31,6 +31,8 @@ public class FlightBookingRecognizer implements Recognizer {
      * @param telemetryClient The BotTelemetryClient to use.
      */
     public FlightBookingRecognizer(Configuration configuration, BotTelemetryClient telemetryClient) {
+        LuisRecognizer recognizer1;
+        recognizer1 = null;
         Boolean luisIsConfigured = StringUtils.isNotBlank(configuration.getProperty("LuisAppId"))
             && StringUtils.isNotBlank(configuration.getProperty("LuisAPIKey"))
             && StringUtils.isNotBlank(configuration.getProperty("LuisAPIHostName"));
@@ -48,8 +50,9 @@ public class FlightBookingRecognizer implements Recognizer {
             LuisRecognizerOptionsV3 recognizerOptions = new LuisRecognizerOptionsV3(luisApplication);
             recognizerOptions.setTelemetryClient(telemetryClient);
 
-            recognizer = new LuisRecognizer(recognizerOptions);
+            recognizer1 = new LuisRecognizer(recognizerOptions);
         }
+        this.recognizer = recognizer1;
     }
 
     /**

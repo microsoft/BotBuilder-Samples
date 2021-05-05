@@ -4,10 +4,9 @@ This README contains information on how to create and deploy a LUIS application.
 
 > _For instructions on how to create a LUIS Application via the LUIS portal, see these Quickstart steps:_
 > 1. _[Quickstart: Create a new app in the LUIS portal][Quickstart-create]_
-> 2. _[Quickstart: Deploy an app in the LUIS portal][Quickstart-deploy]_
 
 [Quickstart-create]: https://docs.microsoft.com/azure/cognitive-services/luis/get-started-portal-build-app
-[Quickstart-deploy]:https://docs.microsoft.com/azure/cognitive-services/luis/get-started-portal-deploy-app
+
 
 ## Table of Contents:
 
