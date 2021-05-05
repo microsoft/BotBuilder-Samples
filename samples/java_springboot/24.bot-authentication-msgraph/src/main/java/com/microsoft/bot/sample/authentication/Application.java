@@ -52,10 +52,9 @@ public class Application extends BotDependencyConfiguration {
     public Bot getBot(
         Configuration configuration,
         ConversationState conversationState,
-        UserState userState,
-        MainDialog dialog
+        UserState userState
     ) {
-        return new AuthBot(conversationState, userState, new MainDialog(configuration));
+        return new AuthBot<>(conversationState, userState, new MainDialog(configuration));
     }
 
     /**
