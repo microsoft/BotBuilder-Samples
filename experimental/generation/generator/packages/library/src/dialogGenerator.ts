@@ -956,7 +956,7 @@ export async function generate(
     {
         prefix,
         outDir,
-        metaSchema,
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/RunBot.schema',
         locales = ['en-us'],
         templateDirs = [],
         transforms = [],
@@ -1000,9 +1000,7 @@ export async function generate(
         outDir = ppath.join(prefix + '-resources')
     }
 
-    if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/RunBot.schema'
-    } else if (!metaSchema.startsWith('http')) {
+    if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
     }
