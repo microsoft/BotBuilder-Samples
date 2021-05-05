@@ -46,8 +46,8 @@ public class MultiLingualBot extends ActivityHandler {
     private static final String SPANISH_ENGLISH = "in";
     private static final String SPANISH_SPANISH = "it";
 
-    private UserState userState;
-    private StatePropertyAccessor<String> languagePreference;
+    private final UserState userState;
+    private final StatePropertyAccessor<String> languagePreference;
 
     /**
      * Creates a Multilingual bot.
@@ -123,6 +123,8 @@ public class MultiLingualBot extends ActivityHandler {
     }
 
     private static CompletableFuture<Void> sendWelcomeMessage(TurnContext turnContext) {
+        // Greet anyone that was not the target (recipient) of this message.
+        // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
         return turnContext.getActivity().getMembersAdded().stream()
             .filter(member -> !StringUtils.equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
             .map(channel -> {

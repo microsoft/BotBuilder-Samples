@@ -1,7 +1,0 @@
-com\microsoft\bot\sample\multilingual\translation\model\TranslatorResponse.class
-com\microsoft\bot\sample\multilingual\translation\model\TranslatorResult.class
-com\microsoft\bot\sample\multilingual\translation\TranslationMiddleware.class
-com\microsoft\bot\sample\multilingual\Application.class
-com\microsoft\bot\sample\multilingual\MultiLingualBot.class
-com\microsoft\bot\sample\multilingual\translation\MicrosoftTranslator.class
-com\microsoft\bot\sample\multilingual\translation\TranslationSettings.class

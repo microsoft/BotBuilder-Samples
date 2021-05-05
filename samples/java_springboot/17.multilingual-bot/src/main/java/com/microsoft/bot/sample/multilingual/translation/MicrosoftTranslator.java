@@ -30,7 +30,7 @@ public class MicrosoftTranslator {
     private static final String PATH = "/translate?api-version=3.0";
     private static final String URI_PARAMS = "&to=";
 
-    private static String key;
+    private final String key;
 
     /**
      * @param configuration The configuration class with the translator key stored.
@@ -42,7 +42,7 @@ public class MicrosoftTranslator {
             throw new IllegalArgumentException("key");
         }
 
-        MicrosoftTranslator.key = translatorKey;
+        key = translatorKey;
     }
 
     /**
@@ -67,7 +67,7 @@ public class MicrosoftTranslator {
             OkHttpClient client = new OkHttpClient();
             Request request = new Request.Builder()
                 .url(uri)
-                .header("Ocp-Apim-Subscription-Key", MicrosoftTranslator.key)
+                .header("Ocp-Apim-Subscription-Key", key)
                 .post(requestBody)
                 .build();
 

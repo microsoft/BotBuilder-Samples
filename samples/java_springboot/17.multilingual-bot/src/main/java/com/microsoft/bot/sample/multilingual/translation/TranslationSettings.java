@@ -7,5 +7,5 @@ package com.microsoft.bot.sample.multilingual.translation;
  * General translation settings and constants.
  */
 public class TranslationSettings {
-    public static final String DEFAULT_LANGUAGE = "en";
+    public static String DEFAULT_LANGUAGE = "en";
 }
