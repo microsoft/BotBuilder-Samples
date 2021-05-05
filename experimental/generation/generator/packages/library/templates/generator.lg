@@ -98,10 +98,10 @@
     ]}
 
 # numericTemplates
-- ${union(["verifyMin", "verifyMax"], genericTemplates())}
+- ${union(["verifyMax", "verifyMin"], genericTemplates())}
 
 # unitTemplates
-- ${union(["convertUnits", "verifyUnits", "verifyMin", "verifyMax"], genericTemplates())}
+- ${union(["convertUnits", "verifyMax", "verifyMin", "verifyUnits"], genericTemplates())}
 
 # stringTemplates
 - ${union(["verifyPattern", "verifyUnique"], genericTemplates())}
