@@ -5,8 +5,8 @@ const axios = require('axios');
 const querystring = require('querystring');
 const { TeamsActivityHandler, CardFactory,MessageFactory, ConsoleTranscriptLogger } = require('botbuilder');
 const fs = require('fs');
-let AdaptiveCard = require('../Resources/RestaurantCard.json');
-let ConnectorCard = require('../Resources/ConnectorCard.json');
+const AdaptiveCard = require('../Resources/RestaurantCard.json');
+const ConnectorCard = require('../Resources/ConnectorCard.json');
 const configuration = require('dotenv').config();
 const env = configuration.parsed;
 const baseurl = env.BaseUrl;
@@ -15,9 +15,9 @@ const publicDir = require('path').join(__dirname,'../public/Images');
 class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
     
     async handleTeamsMessagingExtensionQuery(context, query) {
-        const searchQuery = query.parameters[0].value;
-      
+        const searchQuery = query.parameters[0].value;     
         const attachments = [];
+        
         switch(searchQuery){
             case 'adaptive card':           
                return this.GetAdaptiveCard();
@@ -50,7 +50,6 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         }
 
      GetAdaptiveCard() {
-
         const preview = CardFactory.thumbnailCard(
                 'Adaptive Card',
                 'Please select to get the card'
@@ -59,6 +58,7 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         const adaptive = CardFactory.adaptiveCard(AdaptiveCard);
         
         const attachment = { ...adaptive, preview };
+
         return {
             composeExtension: {
                    type: 'result',
@@ -76,6 +76,7 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
 
         const connector = CardFactory.o365ConnectorCard(ConnectorCard);
         const attachment = {...connector, preview };
+
         return {
             composeExtension: {
                    type: 'result',
@@ -87,19 +88,19 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
    
     GetResultGrid() {
         const attachments = [];    
-        let files = fs.readdirSync(publicDir,function(err, result) {
+        const files = fs.readdirSync(publicDir, (err, result) => {
             if(err) {    
-               console.log('error', err);
-                }
-            });
+               console.error('error', err);
+            }
+        });
 
-        var grid="";
-        files.forEach(file=>{
-        grid = CardFactory.thumbnailCard(
-            '',
-            [{ url: `${baseurl}/Images/${file}` }]
-        );
-        attachments.push(grid);
+        files.forEach((file) => {
+            const grid = CardFactory.thumbnailCard(
+                '',
+                [{ url: `${baseurl}/Images/${file}` }]
+            );
+
+            attachments.push(grid);
        });
        
         return {
@@ -112,6 +113,7 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         }
 
     async handleTeamsMessagingExtensionSelectItem(context, obj) {
+        
         return {
             composeExtension: {
                   type: 'result',
@@ -119,6 +121,7 @@ class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
                   attachments: [CardFactory.thumbnailCard(obj.description)]
             }
         };
+
     } 
 }
 
