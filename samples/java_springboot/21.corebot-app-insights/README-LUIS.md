@@ -3,11 +3,9 @@
 This README contains information on how to create and deploy a LUIS application. When the bot is ready to be deployed to production, we recommend creating a LUIS Endpoint Resource for usage with your LUIS App.
 
 > _For instructions on how to create a LUIS Application via the LUIS portal, see these Quickstart steps:_
-> 1. _[Quickstart: Create a new app in the LUIS portal][Quickstart-create]_
-> 2. _[Quickstart: Deploy an app in the LUIS portal][Quickstart-deploy]_
+> _[Quickstart: Create a new app in the LUIS portal][Quickstart-create]_
 
 [Quickstart-create]: https://docs.microsoft.com/azure/cognitive-services/luis/get-started-portal-build-app
-[Quickstart-deploy]:https://docs.microsoft.com/azure/cognitive-services/luis/get-started-portal-deploy-app
 
 ## Table of Contents:
 

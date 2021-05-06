@@ -25,9 +25,9 @@ import java.util.concurrent.CompletableFuture;
  */
 public class DialogBot<T extends Dialog> extends ActivityHandler {
 
-    private Dialog dialog;
-    private BotState conversationState;
-    private BotState userState;
+    private final Dialog dialog;
+    private final BotState conversationState;
+    private final BotState userState;
 
     /**
      * Gets the dialog in use.
@@ -54,33 +54,6 @@ public class DialogBot<T extends Dialog> extends ActivityHandler {
      */
     protected BotState getUserState() {
         return userState;
-    }
-
-    /**
-     * Sets the dialog in use.
-     *
-     * @param withDialog the dialog (of Dialog type) to be set
-     */
-    protected void setDialog(Dialog withDialog) {
-        dialog = withDialog;
-    }
-
-    /**
-     * Sets the conversation state.
-     *
-     * @param withConversationState the conversationState (of BotState type) to be set
-     */
-    protected void setConversationState(BotState withConversationState) {
-        conversationState = withConversationState;
-    }
-
-    /**
-     * Sets the user state.
-     *
-     * @param withUserState the userState (of BotState type) to be set
-     */
-    protected void setUserState(BotState withUserState) {
-        userState = withUserState;
     }
 
     /**
