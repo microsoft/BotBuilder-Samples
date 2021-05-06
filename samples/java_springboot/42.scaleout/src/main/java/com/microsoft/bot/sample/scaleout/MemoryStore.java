@@ -22,7 +22,7 @@ public class MemoryStore implements Store {
     // When setting up the database, calls are made to CosmosDB. If multiple calls are made, we'll end up setting the
     // collectionLink member variable more than once. The semaphore is for making sure the initialization of the
     // database is done only once.
-    private static final Semaphore SEMAPHORE = new Semaphore(1);
+    private Semaphore semaphore = new Semaphore(1);
 
     /**
      * {@inheritDoc}
@@ -30,7 +30,7 @@ public class MemoryStore implements Store {
     @Override
     public CompletableFuture<Pair<JsonNode, String>> load(String key) {
         try {
-            SEMAPHORE.acquire();
+            semaphore.acquire();
 
             Pair<JsonNode, String> value = store.get(key);
             if (value != null) {
@@ -41,7 +41,7 @@ public class MemoryStore implements Store {
             e.printStackTrace();
             return CompletableFuture.completedFuture(new Pair<>(null, null));
         } finally {
-            SEMAPHORE.release();
+            semaphore.release();
         }
     }
 
@@ -51,7 +51,7 @@ public class MemoryStore implements Store {
     @Override
     public CompletableFuture<Boolean> save(String key, JsonNode content, String eTag) {
         try {
-            SEMAPHORE.acquire();
+            semaphore.acquire();
             Pair<JsonNode, String> value = store.get(key);
             if (eTag != null && value != null) {
                 if (eTag != value.getRight()) {
@@ -65,7 +65,7 @@ public class MemoryStore implements Store {
             e.printStackTrace();
             return CompletableFuture.completedFuture(false);
         } finally {
-            SEMAPHORE.release();
+            semaphore.release();
         }
     }
 }
