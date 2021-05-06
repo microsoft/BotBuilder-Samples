@@ -24,13 +24,13 @@ public class TopLevelDialog extends ComponentDialog {
     // Define value names for values tracked inside the dialogs.
     private static final String USER_INFO = "value-userInfo";
 
-    public TopLevelDialog(String withId) {
-        super(withId);
+    public TopLevelDialog() {
+        super("TopLevelDialog");
 
         addDialog(new TextPrompt("TextPrompt"));
         addDialog(new NumberPrompt<Integer>("NumberPrompt", Integer.class));
 
-        addDialog(new ReviewSelectionDialog("ReviewSelectionDialog"));
+        addDialog(new ReviewSelectionDialog());
 
         WaterfallStep[] waterfallSteps = {
             this::nameStep,

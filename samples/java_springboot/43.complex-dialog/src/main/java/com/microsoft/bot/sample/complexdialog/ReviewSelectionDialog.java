@@ -30,8 +30,8 @@ public class ReviewSelectionDialog extends ComponentDialog {
         "Adatum Corporation", "Contoso Suites", "Graphic Design Institute", "Wide World Importers"
     );
 
-    public ReviewSelectionDialog(String withId) {
-        super(withId);
+    public ReviewSelectionDialog() {
+        super("ReviewSelectionDialog");
 
         addDialog(new ChoicePrompt("ChoicePrompt"));
 

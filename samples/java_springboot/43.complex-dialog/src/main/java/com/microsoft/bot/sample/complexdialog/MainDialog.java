@@ -14,14 +14,14 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class MainDialog extends ComponentDialog {
-    private UserState userState;
+    private final UserState userState;
 
     public MainDialog(UserState withUserState) {
         super("MainDialog");
 
         userState = withUserState;
 
-        addDialog(new TopLevelDialog("TopLevelDialog"));
+        addDialog(new TopLevelDialog());
 
         WaterfallStep[] waterfallSteps = {
             this::initialStep,
