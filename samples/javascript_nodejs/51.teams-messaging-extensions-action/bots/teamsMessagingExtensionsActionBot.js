@@ -19,12 +19,12 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
         switch (action.commandId) {
-           case 'webView':
-              return empDetails(context, action);
-           case "Static HTML":
-              return dateTimeInfo(context, action);
-           default:
-              try {
+            case 'webView':
+               return empDetails(context, action);
+            case 'Static HTML':
+               return dateTimeInfo(context, action);
+            default:
+               try {
                 const member = await this.getSingleMember(context);
                 return {
                      task: {
@@ -32,7 +32,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                          value: {
                              card: GetAdaptiveCardAttachment(),
                              height: 400,
-                             title: 'Hello ' + member,
+                             title: 'Hello ${member}',
                              width: 300
                          },
                      },
@@ -182,7 +182,7 @@ function empDetails(context, action)
             width: 350,
             height: 300,
             title: 'Task module WebView',
-            url: baseurl + "/CustomForm.html",
+            url: `${baseurl}/CustomForm.html`,
           }
         }
     };
@@ -197,7 +197,7 @@ function dateTimeInfo(context, action)
             width: 450,
             height: 125,
             title: 'Task module Static HTML',
-            url: baseurl + "/StaticPage.html",
+            url: `${baseurl}/StaticPage.html`,
           }
         }
     };
@@ -206,18 +206,24 @@ function dateTimeInfo(context, action)
 async function webViewResponse(context, action) {
     // The user has chosen to create a card by choosing the 'Create Card' context menu command.
     const data = await action.data;
-    const heroCard = CardFactory.heroCard("ID: " + data.EmpId, "E-Mail: " + data.EmpEmail);
-    heroCard.content.subtitle = "Name: " + data.EmpName;
-    const attachment = { contentType: heroCard.contentType, content: heroCard.content, preview: heroCard };
+    const heroCard = CardFactory.heroCard(`ID: ${data.EmpId}`, `E-Mail: ${data.EmpEmail}`);
+    heroCard.content.subtitle = `Name: ${data.EmpName}`;
+    const attachment = { 
+        contentType: heroCard.contentType, 
+        content: heroCard.content, 
+        preview: heroCard 
+    };
+    
     return {
         composeExtension: {
-            type: 'result',
-            attachmentLayout: 'list',
-            attachments: [
-                attachment
-            ]
+              type: 'result',
+              attachmentLayout: 'list',
+              attachments: [
+                 attachment
+              ]
         }
     };
 }
+
 
 module.exports.TeamsMessagingExtensionsActionBot = TeamsMessagingExtensionsActionBot;

@@ -12,11 +12,11 @@
     <script>
     microsoftTeams.initialize();
         window.onload = function() {
-            var displayMessage = "Hi user, this is a Static HTML page. You can customize this as per your requirement.";
-            var dateTime = new Date();
-            var currentDate = dateTime.toDateString();
-            var currentTime = dateTime.getHours() + ":" + dateTime.getMinutes() + ":" + dateTime.getSeconds() ;
-            var displayTime = " Today is " + currentDate + " and time is " + currentTime;
+            let displayMessage = "Hi user, this is a Static HTML page. You can customize this as per your requirement.";
+            let dateTime = new Date();
+            let currentDate = `${dateTime.toDateString()}`;
+            let currentTime = `${dateTime.getHours()}:${dateTime.getMinutes()}:${dateTime.getSeconds()}`;
+            let displayTime = ` Today is ${currentDate} and time is ${currentTime}`;
             document.getElementById("display_message").innerHTML = displayMessage;
             document.getElementById("display_time").innerHTML = displayTime;
         }
