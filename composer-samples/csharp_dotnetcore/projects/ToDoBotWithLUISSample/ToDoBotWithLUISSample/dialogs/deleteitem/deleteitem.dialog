@@ -1,0 +1,180 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "DeleteItem",
+    "id": "715675"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "479346"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "419199",
+            "name": "Set properties"
+          },
+          "assignments": [
+            {
+              "property": "dialog.itemTitle",
+              "value": "=coalesce(@itemTitle, $itemTitle)"
+            },
+            {
+              "property": "dialog.listType",
+              "value": "=coalesce(@listType, $listType)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "461607",
+            "name": "AskForListType"
+          },
+          "prompt": "${TextInput_Prompt_461607()}",
+          "maxTurnCount": "3",
+          "property": "$listType",
+          "value": "=@listType",
+          "allowInterruptions": "!@listType",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "todo",
+              "synonyms": [
+                "to do"
+              ]
+            },
+            {
+              "value": "grocery",
+              "synonyms": [
+                "groceries"
+              ]
+            },
+            {
+              "value": "shopping",
+              "synonyms": [
+                "shoppers"
+              ]
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "auto",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "074106",
+            "name": "Branch: if/else"
+          },
+          "condition": "count(user.lists[dialog.listType]) == 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "555579",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_555579()}"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "121384",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_121384()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "803801",
+                "name": "Branch: if/else"
+              },
+              "condition": "$itemTitle == null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "534454",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_534454()}"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.ChoiceInput",
+              "$designer": {
+                "id": "702637",
+                "name": "Multiple choice"
+              },
+              "prompt": "${TextInput_Prompt_702637()}",
+              "maxTurnCount": "3",
+              "property": "$itemTitle",
+              "value": "=coalesce(@itemTitle, $itemTitle, if(@number, user.lists[dialog.listType][int(@number) - 1], null))",
+              "allowInterruptions": "!@itemTitle && !@number",
+              "outputFormat": "value",
+              "choices": "=user.lists[dialog.listType]",
+              "defaultLocale": "en-us",
+              "style": "list",
+              "choiceOptions": {
+                "inlineSeparator": ", ",
+                "inlineOr": " or ",
+                "inlineOrMore": ", or ",
+                "includeNumbers": true
+              },
+              "recognizerOptions": {
+                "noValue": false
+              }
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "728630",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_728630()}"
+            },
+            {
+              "$kind": "Microsoft.EditArray",
+              "$designer": {
+                "id": "747071",
+                "name": "Edit an Array property"
+              },
+              "changeType": "remove",
+              "itemsProperty": "user.lists[dialog.listType]",
+              "value": "=dialog.itemTitle"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "015149",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_015149()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "deleteitem.lg",
+  "recognizer": "deleteitem.lu"
+}

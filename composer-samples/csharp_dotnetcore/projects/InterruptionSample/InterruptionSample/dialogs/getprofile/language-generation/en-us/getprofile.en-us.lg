@@ -1,0 +1,37 @@
+[import](common.lg)
+
+# SendActivity_296924
+[Activity
+    Text = Hello ${user.profile.name}, I have your age as ${user.profile.age}.
+	SuggestedActions = Reset profile
+]
+
+# SendActivity_907674
+[Activity
+    Text = I need your age to customize recommediations.
+	SuggestedActions = No age | Reset profile | Cancel
+]
+
+# SendActivity_558329
+[Activity
+    Text = I need your name to address you correctly!
+	SuggestedActions = No name | Reset profile | Cancel
+]
+
+# SendActivity_074631
+- No worries. I'll set your age to 30 for now.
+
+# SendActivity_758791
+- No worries. I'll set your name as 'Human' for now.
+
+# TextInput_InvalidPrompt_362298
+[Activity
+    Text = Sorry, '${this.value}' does not work. I'm looking for 2-150 characters. What is your name?
+	SuggestedActions = Why? | No name | Cancel | Reset profile
+]
+
+# TextInput_InvalidPrompt_005947
+[Activity
+    Text = Sorry, ${this.value} does not work. I'm looking for a value between 1-150. What is your age?
+	SuggestedActions = Why? | Reset profile | Cancel | No age
+]

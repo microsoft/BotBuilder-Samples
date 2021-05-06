@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# SendActivity_551445
+-${WelcomeUser()}
+
+# SendActivity_576166
+-Welcome to the Message Samples. You can use this sample to explore different capabilities of sending messages to users.

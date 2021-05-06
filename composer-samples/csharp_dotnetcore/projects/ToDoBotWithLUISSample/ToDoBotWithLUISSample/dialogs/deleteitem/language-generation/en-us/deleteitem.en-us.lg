@@ -1,0 +1,27 @@
+[import](common.lg)
+[import](viewitem.lg)
+
+# TextInput_Prompt_461607()
+- What list would you like to delete an item from?
+
+> This LG template is defined in viewitem. You can refer to this with an import statement (see line #2)
+
+# SendActivity_555579()
+- ${showLists()}
+
+# SendActivity_534454()
+- ${showLists()}
+
+# TextInput_Prompt_702637()
+- What would you like to delete? \n Give me the item number or exact item text
+
+# SendActivity_728630()
+- Sure, deleting ${dialog.itemTitle} from ${dialog.listType}
+
+# SendActivity_015149()
+- ${showLists()}
+
+# SendActivity_121384()
+- Nothing to delete...
+
+

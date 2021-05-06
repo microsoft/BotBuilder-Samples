@@ -1,0 +1,4 @@
+[import](common.lg)
+
+# SendActivity_004212
+-You select: ${user.style}
