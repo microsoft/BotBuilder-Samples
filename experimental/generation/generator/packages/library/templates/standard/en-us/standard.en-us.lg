@@ -134,7 +134,7 @@ ${valueTemplate()}
 
 # helpString()
 - IF: ${isArrayProperty(property)}
-    - ${propertyName()} is a collection any value
+    - ${propertyName()} is a collection of any values
 - ELSE:
     - Any response is allowed for ${propertyName()}
 
@@ -165,11 +165,32 @@ ${confirmationTemplates(expectedSetDefault(),
                         clearDefault())}
 ${incorrectUnitsTemplate()}
 ${validationTemplates()}
-${helpTemplates(repromptDefault(template), helpDefault(template))}
+${helpTemplates(repromptUnits(template), helpUnits(template))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(template)}
 ```
+
+# repromptUnits(type)
+- ${helpUnits(type)}
+
+# helpUnits(type)
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection of ${unitsDescription()}
+- ELSE:
+    - ${propertyName()} is ${unitDescription()}
+
+# unitDescription()
+- IF: ${propertySchema.$units}
+    - ${`in ${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${definite(type)}
+
+# unitsDescription()
+- IF: ${propertySchema.$units}
+    - ${`${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${type}s
 
 >> Number templates
 
@@ -228,7 +249,7 @@ ${tooBig()}```
 
 # unitsMessage()
 - IF: ${propertySchema.$units}
-    - ${concat(' ', propertySchema.$units)}
+    - ${` ${propertySchema.$units}s`}
 - ELSE:
     -
 
