@@ -20,15 +20,15 @@ import java.util.concurrent.CompletableFuture;
  * been used in a Dialog implementation, and the requirement is that all BotState objects are
  * saved at the end of a turn.
  */
-public class DialogBot extends ActivityHandler {
-    protected Dialog dialog;
-    protected BotState conversationState;
-    protected BotState userState;
+public class DialogBot<T extends Dialog> extends ActivityHandler {
+    protected final Dialog dialog;
+    protected final BotState conversationState;
+    protected final BotState userState;
 
     public DialogBot(
         ConversationState withConversationState,
         UserState withUserState,
-        Dialog withDialog
+        T withDialog
     ) {
         dialog = withDialog;
         conversationState = withConversationState;

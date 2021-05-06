@@ -15,12 +15,12 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import org.apache.commons.lang3.StringUtils;
 
-public class DialogAndWelcome extends DialogBot {
+public class DialogAndWelcome<T extends Dialog> extends DialogBot {
 
     public DialogAndWelcome(
         ConversationState withConversationState,
         UserState withUserState,
-        Dialog withDialog
+        T withDialog
     ) {
         super(withConversationState, withUserState, withDialog);
     }
