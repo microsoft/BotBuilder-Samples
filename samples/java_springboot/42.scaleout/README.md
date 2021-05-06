@@ -93,4 +93,3 @@ After the bot is deployed, you only need to execute #6 if you make changes to th
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Spring Boot](https://spring.io/projects/spring-boot)
