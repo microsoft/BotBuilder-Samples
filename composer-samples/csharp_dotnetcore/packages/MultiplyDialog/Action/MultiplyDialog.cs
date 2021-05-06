@@ -21,9 +21,16 @@ namespace Microsofts.Bot.Component.Samples.MultiplyDialog
             : base()
         {
             // enable instances of this command as debug break point
-            this.RegisterSourceLocation(sourceFilePath, sourceLineNumber);
+            RegisterSourceLocation(sourceFilePath, sourceLineNumber);
         }
 
+        /// <summary>
+        /// Gets the unique name (class identifier) of this trigger.
+        /// </summary>
+        /// <remarks>
+        /// There should be at least a .schema file of the same name.  There can optionally be a
+        /// .uischema file of the same name that describes how Composer displays this trigger.
+        /// </remarks>
         [JsonProperty("$kind")]
         public const string Kind = "MultiplyDialog";
 
