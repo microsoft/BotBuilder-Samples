@@ -28,15 +28,14 @@ class MainDialog extends LogoutDialog {
         super("MainDialog", configuration.getProperty("ConnectionName"));
 
         OAuthPromptSettings settings = new OAuthPromptSettings();
-        settings.setConnectionName("");
         settings.setText("Please login");
         settings.setTitle("Login");
         settings.setConnectionName(configuration.getProperty("ConnectionName"));
         settings.setTimeout(300000); // User has 5 minutes to login (1000 * 60 * 5)
-
         addDialog(new OAuthPrompt("OAuthPrompt", settings));
 
         addDialog(new TextPrompt("TextPrompt"));
+        addDialog(new ChoicePrompt("ChoicePrompt"));
 
         WaterfallStep[] waterfallSteps = {
             this::promptStep,
@@ -60,14 +59,15 @@ class MainDialog extends LogoutDialog {
         // token directly from the prompt itself. There instanceof an example of this in the next method.
         TokenResponse tokenResponse = (TokenResponse) stepContext.getResult();
         if (tokenResponse != null) {
-            stepContext.getContext().sendActivity(MessageFactory.text("You are now logged in.")).join();
+            stepContext.getContext().sendActivity(MessageFactory.text("You are now logged in."))
+                    .thenApply(result -> null);
             PromptOptions options = new PromptOptions();
             options.setPrompt(MessageFactory.text("Would you like to do? (type 'me', or 'email')"));
             return stepContext.prompt("TextPrompt", options);
         }
 
-        stepContext.getContext().sendActivity(
-                            MessageFactory.text("Login was not successful please try again.")).join();
+        stepContext.getContext().sendActivity(MessageFactory.text("Login was not successful please try again."))
+                .thenApply(result -> null);
         return stepContext.endDialog();
     }
 
@@ -76,7 +76,6 @@ class MainDialog extends LogoutDialog {
     ) {
 
         stepContext.getValues().put("command", stepContext.getResult());
-        stepContext.getContext().sendActivity(MessageFactory.text("Thank you.")).join();
 
         // Call the prompt again because we need the token. The reasons for this are:
         // 1. If the user instanceof already logged in we do not need to store the token locally in the bot and worry
@@ -111,17 +110,21 @@ class MainDialog extends LogoutDialog {
                 };
 
                 if (command.equals("me")) {
-                    OAuthHelpers.ListMeAsync(stepContext.getContext(), tokenResponse).join();
+                    OAuthHelpers.ListMeAsync(stepContext.getContext(), tokenResponse)
+                            .thenApply(result -> null);
                 } else if (command.startsWith("email")) {
-                    OAuthHelpers.ListEmailAddressAsync(stepContext.getContext(), tokenResponse).join();
+                    OAuthHelpers.ListEmailAddressAsync(stepContext.getContext(), tokenResponse)
+                            .thenApply(result -> null);
                 } else {
                     stepContext.getContext().sendActivity(
-                        MessageFactory.text(String.format("Your token is: %s", tokenResponse.getToken()))).join();
+                        MessageFactory.text(String.format("Your token is: %s", tokenResponse.getToken())))
+                            .thenApply(result -> null);
                 }
             }
         } else {
             stepContext.getContext().sendActivity(
-                            MessageFactory.text("We couldn't log you in. Please try again later.")).join();
+                    MessageFactory.text("We couldn't log you in. Please try again later."))
+                    .thenApply(result -> null);
         }
 
         return stepContext.endDialog();
