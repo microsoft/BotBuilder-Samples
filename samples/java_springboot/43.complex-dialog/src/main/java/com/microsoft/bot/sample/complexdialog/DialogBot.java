@@ -9,6 +9,8 @@ import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.dialogs.Dialog;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.CompletableFuture;
 
 /**
@@ -20,15 +22,15 @@ import java.util.concurrent.CompletableFuture;
  * been used in a Dialog implementation, and the requirement is that all BotState objects are
  * saved at the end of a turn.
  */
-public class DialogBot extends ActivityHandler {
-    protected Dialog dialog;
-    protected BotState conversationState;
-    protected BotState userState;
+public class DialogBot<T extends Dialog> extends ActivityHandler {
+    protected final Dialog dialog;
+    protected final BotState conversationState;
+    protected final BotState userState;
 
     public DialogBot(
         ConversationState withConversationState,
         UserState withUserState,
-        Dialog withDialog
+        T withDialog
     ) {
         dialog = withDialog;
         conversationState = withConversationState;
@@ -40,6 +42,7 @@ public class DialogBot extends ActivityHandler {
         TurnContext turnContext
     ) {
         return super.onTurn(turnContext)
+            // Save any state changes that might have occurred during the turn.
             .thenCompose(result -> conversationState.saveChanges(turnContext))
             .thenCompose(result -> userState.saveChanges(turnContext));
     }
@@ -48,6 +51,9 @@ public class DialogBot extends ActivityHandler {
     protected CompletableFuture<Void> onMessageActivity(
         TurnContext turnContext
     ) {
+        LoggerFactory.getLogger(DialogBot.class).info("Running dialog with Message Activity.");
+
+        // Run the Dialog with the new message Activity.
         return Dialog.run(dialog, turnContext, conversationState.createProperty("DialogState"));
     }
 }

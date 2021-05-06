@@ -55,7 +55,7 @@ public class Application extends BotDependencyConfiguration {
         UserState userState,
         Dialog dialog
     ) {
-        return new DialogAndWelcome(conversationState, userState, dialog);
+        return new DialogAndWelcome<>(conversationState, userState, dialog);
     }
 
     /**

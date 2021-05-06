@@ -14,14 +14,14 @@ import java.util.Arrays;
 import java.util.concurrent.CompletableFuture;
 
 public class MainDialog extends ComponentDialog {
-    private UserState userState;
+    private final UserState userState;
 
     public MainDialog(UserState withUserState) {
         super("MainDialog");
 
         userState = withUserState;
 
-        addDialog(new TopLevelDialog("TopLevelDialog"));
+        addDialog(new TopLevelDialog());
 
         WaterfallStep[] waterfallSteps = {
             this::initialStep,
@@ -41,9 +41,9 @@ public class MainDialog extends ComponentDialog {
         UserProfile userInfo = (UserProfile) stepContext.getResult();
 
         String status = String.format("You are signed up to review %s.",
-            userInfo.companiesToReview.size() == 0
+            userInfo.getCompaniesToReview().size() == 0
                 ? "no companies"
-                : String.join(",", userInfo.companiesToReview));
+                : String.join(" and ", userInfo.getCompaniesToReview()));
 
         return stepContext.getContext().sendActivity(status)
             .thenCompose(resourceResponse -> {

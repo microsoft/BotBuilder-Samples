@@ -30,8 +30,8 @@ public class ReviewSelectionDialog extends ComponentDialog {
         "Adatum Corporation", "Contoso Suites", "Graphic Design Institute", "Wide World Importers"
     );
 
-    public ReviewSelectionDialog(String withId) {
-        super(withId);
+    public ReviewSelectionDialog() {
+        super("ReviewSelectionDialog");
 
         addDialog(new ChoicePrompt("ChoicePrompt"));
 
@@ -52,6 +52,7 @@ public class ReviewSelectionDialog extends ComponentDialog {
             : new ArrayList<>();
         stepContext.getValues().put(COMPANIES_SELECTED, list);
 
+        // Create a prompt message.
         String message;
         if (list.size() == 0) {
             message = String.format("Please choose a company to review, or `%s` to finish.", DONE_OPTION);
