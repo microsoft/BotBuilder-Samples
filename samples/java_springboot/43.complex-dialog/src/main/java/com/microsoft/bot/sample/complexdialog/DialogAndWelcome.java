@@ -29,11 +29,13 @@ public class DialogAndWelcome<T extends Dialog> extends DialogBot {
     protected CompletableFuture<Void> onMembersAdded(
         List<ChannelAccount> membersAdded, TurnContext turnContext
     ) {
+        // Greet anyone that was not the target (recipient) of this message.
+        // To learn more about Adaptive Cards, see https://aka.ms/msbot-adaptivecards for more details.
         return turnContext.getActivity().getMembersAdded().stream()
             .filter(member -> !StringUtils
                 .equals(member.getId(), turnContext.getActivity().getRecipient().getId()))
             .map(channel -> {
-                Activity reply = MessageFactory.text("Welcome to Complex Dialog. "
+                Activity reply = MessageFactory.text("Welcome to Complex Dialog Bot User. "
                     + "This bot provides a complex conversation, with multiple dialogs. "
                     + "Type anything to get started.");
 
