@@ -232,7 +232,7 @@
                   "$kind": "Microsoft.EditArray",
                   "changeType": "push",
                   "itemsProperty": "$Temperature",
-                  "value": "={number: (@number+1), units: 'Degree}"
+                  "value": "={number: (@number+1), units: 'Degree'}"
                 },
                 {
                   "$kind": "Microsoft.IfCondition",
@@ -253,7 +253,7 @@
         "name": "Temperature - Add((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "cec8e628ace3270ce125689a69e8a56d"
+      "$Generator": "80517614b3ee4f76897508f9ce042c5a"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "de22358ef4aaeaf07f4cac05dbf728ca"
+  "$Generator": "1ed185c1d04cc39afc2b4bc9d702a3fd"
 }
