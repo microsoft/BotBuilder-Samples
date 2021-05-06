@@ -57,7 +57,7 @@ public class TopLevelDialog extends ComponentDialog {
     private CompletableFuture<DialogTurnResult> ageStep(WaterfallStepContext stepContext) {
         // Set the user's name to what they entered in response to the name prompt.
         UserProfile userProfile = (UserProfile) stepContext.getValues().get(USER_INFO);
-        userProfile.name = (String) stepContext.getResult();
+        userProfile.setName((String) stepContext.getResult());
 
         // Ask the user to enter their age.
         PromptOptions promptOptions = new PromptOptions();
@@ -68,10 +68,10 @@ public class TopLevelDialog extends ComponentDialog {
     private CompletableFuture<DialogTurnResult> startSelectionStep(WaterfallStepContext stepContext) {
         // Set the user's age to what they entered in response to the age prompt.
         UserProfile userProfile = (UserProfile) stepContext.getValues().get(USER_INFO);
-        userProfile.age = (Integer) stepContext.getResult();
+        userProfile.setAge((Integer) stepContext.getResult());
 
         // If they are too young, skip the review selection dialog, and pass an empty list to the next step.
-        if (userProfile.age < 25) {
+        if (userProfile.getAge() < 25) {
             return stepContext.getContext().sendActivity(MessageFactory.text("You must be 25 or older to participate."))
                 .thenCompose(resourceResponse -> stepContext.next(new ArrayList<String>()));
         }
@@ -83,13 +83,13 @@ public class TopLevelDialog extends ComponentDialog {
     private CompletableFuture<DialogTurnResult> acknowledgementStep(WaterfallStepContext stepContext) {
         // Set the user's company selection to what they entered in the review-selection dialog.
         UserProfile userProfile = (UserProfile) stepContext.getValues().get(USER_INFO);
-        userProfile.companiesToReview = stepContext.getResult() instanceof List
+        userProfile.setCompaniesToReview(stepContext.getResult() instanceof List
             ? (List<String>) stepContext.getResult()
-            : new ArrayList<>();
+            : new ArrayList<>());
 
         // Thank them for participating.
         return stepContext.getContext()
-            .sendActivity(MessageFactory.text(String.format("Thanks for participating, %s.", userProfile.name)))
+            .sendActivity(MessageFactory.text(String.format("Thanks for participating, %s.", userProfile.getName())))
             .thenCompose(resourceResponse -> stepContext.endDialog(stepContext.getValues().get(USER_INFO)));
     }
 }
