@@ -7,14 +7,6 @@
 *.userosscache
 *.sln.docstates
 
-# dotnet core app settings
-/*/appsettings.json
-/*/appsettings.production.json
-/*/appsettings.development.json
-
-# allow dotnet composer appsettings
-!/*/settings/appsettings.json
-
 # webapi app settings
 /*/web.config
 
