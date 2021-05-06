@@ -134,7 +134,7 @@ ${valueTemplate()}
 
 # helpString()
 - IF: ${isArrayProperty(property)}
-    - ${propertyName()} is a collection any value
+    - ${propertyName()} is a collection of any values
 - ELSE:
     - Any response is allowed for ${propertyName()}
 
@@ -165,11 +165,32 @@ ${confirmationTemplates(expectedSetDefault(),
                         clearDefault())}
 ${incorrectUnitsTemplate()}
 ${validationTemplates()}
-${helpTemplates(repromptDefault(template), helpDefault(template))}
+${helpTemplates(repromptUnits(template), helpUnits(template))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(template)}
 ```
+
+# repromptUnits(type)
+- ${helpUnits(type)}
+
+# helpUnits(type)
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection of ${unitsDescription()}
+- ELSE:
+    - ${propertyName()} is ${unitDescription()}
+
+# unitDescription()
+- IF: ${propertySchema.$units}
+    - ${`in ${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${definite(type)}
+
+# unitsDescription()
+- IF: ${propertySchema.$units}
+    - ${`${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${type}s
 
 >> Number templates
 
@@ -211,7 +232,7 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${propertySchema.minimum}
     -```
-# ${property}_IsTooSmall(val)
+# ${property}_TooSmall(val)
 > ${property} property is less than minimum allowed value
 - ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -220,7 +241,7 @@ ${tooBig()}```
 # tooBig()
 - IF: ${propertySchema.maximum}
     -```
-# ${property}_IsTooBig(val)
+# ${property}_TooBig(val)
 > ${property} property is greater than maximum allowed value
 - ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -228,7 +249,7 @@ ${tooBig()}```
 
 # unitsMessage()
 - IF: ${propertySchema.$units}
-    - ${concat(' ', propertySchema.$units)}
+    - ${` ${propertySchema.$units}s`}
 - ELSE:
     -
 

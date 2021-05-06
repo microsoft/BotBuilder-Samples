@@ -21,4 +21,4 @@
 - ${`@${entity}.units != '${units()}'`}
 
 # activity()
-- ${`${${property}_IsIncorrectUnits(@${entity}.units)}`}
+- ${`${${property}_IncorrectUnits(@${entity}.units)}`}

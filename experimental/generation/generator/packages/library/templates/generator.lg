@@ -687,7 +687,7 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ```
 # ${property}_IncorrectUnits(actual)
 > Incorrect units for '${property}' property
-- \${actual} must be '${units()}'```
+- \${actual} must be in '${units()}s'```
 - ELSE:
     -
 
