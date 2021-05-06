@@ -18,7 +18,7 @@
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${Temperature_IsIncorrectUnits(@temperature.units)"
+              "activity": "${Temperature_IsIncorrectUnits(@temperature.units)}"
             }
           ],
           "elseActions": [
@@ -73,7 +73,7 @@
         "name": "Temperature - Add(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "83405e80d191395c8d11643acbb42822"
+      "$Generator": "0025c75655f2c9b79459cbb66699c82b"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "1ed185c1d04cc39afc2b4bc9d702a3fd"
+  "$Generator": "61d46cc0f0cad64435a3c23ffb24a685"
 }
