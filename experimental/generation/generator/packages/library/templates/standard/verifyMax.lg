@@ -21,4 +21,4 @@
 - ${`${unitsNumber()} > dialogClass.schema.properties.${property}.maximum`}
 
 # activity()
-- ${`\${${property}_IsTooBig(${unitsNumber()})}`}
+- ${`\${${property}_TooBig(${unitsNumber()})}`}

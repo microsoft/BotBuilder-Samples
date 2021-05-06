@@ -211,7 +211,7 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${propertySchema.minimum}
     -```
-# ${property}_IsTooSmall(val)
+# ${property}_TooSmall(val)
 > ${property} property is less than minimum allowed value
 - ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -220,7 +220,7 @@ ${tooBig()}```
 # tooBig()
 - IF: ${propertySchema.maximum}
     -```
-# ${property}_IsTooBig(val)
+# ${property}_TooBig(val)
 > ${property} property is greater than maximum allowed value
 - ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
 - ELSE:

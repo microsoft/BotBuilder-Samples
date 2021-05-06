@@ -18,7 +18,7 @@
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${Temperature_IsIncorrectUnits(@temperature.units)}"
+              "activity": "${Temperature_IncorrectUnits(@temperature.units)}"
             }
           ],
           "elseActions": [
@@ -28,7 +28,7 @@
               "actions": [
                 {
                   "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsTooSmall(@temperature.number)}"
+                  "activity": "${Temperature_TooSmall(@temperature.number)}"
                 }
               ],
               "elseActions": [
@@ -38,7 +38,7 @@
                   "actions": [
                     {
                       "$kind": "Microsoft.SendActivity",
-                      "activity": "${Temperature_IsTooBig(@temperature.number)}"
+                      "activity": "${Temperature_TooBig(@temperature.number)}"
                     }
                   ],
                   "elseActions": [
@@ -73,7 +73,7 @@
         "name": "Temperature - Add(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "0025c75655f2c9b79459cbb66699c82b"
+      "$Generator": "b90bc45f3d5152bede808b2c44dad281"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -210,7 +210,7 @@
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${Temperature_IsTooSmall((@number+1))}"
+              "activity": "${Temperature_TooSmall((@number+1))}"
             }
           ],
           "elseActions": [
@@ -220,7 +220,7 @@
               "actions": [
                 {
                   "$kind": "Microsoft.SendActivity",
-                  "activity": "${Temperature_IsTooBig((@number+1))}"
+                  "activity": "${Temperature_TooBig((@number+1))}"
                 }
               ],
               "elseActions": [
@@ -253,7 +253,7 @@
         "name": "Temperature - Add((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "80517614b3ee4f76897508f9ce042c5a"
+      "$Generator": "63442703f00bd1c9b5972d58d82fb69c"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "61d46cc0f0cad64435a3c23ffb24a685"
+  "$Generator": "74b3aaae82d79bca64bae4a3c403198f"
 }
