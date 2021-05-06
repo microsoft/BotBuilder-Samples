@@ -7,7 +7,7 @@
   "dependencies": {
     "@microsoft/bf-cli-command": "rc",
     "@microsoft/bf-generate-library": "^1.0.0",
-    "fs-extra": "^8.1.0"
+    "fs-extra": "^10.0.0"
   },
   "devDependencies": {
     "@oclif/dev-cli": "^1.22.2",

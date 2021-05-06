@@ -6,12 +6,12 @@
 
 /* tslint:disable:no-unused */
 export * from './schema'
-import * as Validator from 'ajv'
 import * as os from 'os'
 import * as ppath from 'path'
 import * as ps from './processSchemas'
 const allof: any = require('json-schema-merge-allof')
 const parser: any = require('json-schema-ref-parser')
+const Validator: any = require('ajv')
 
 // Map from entity name to property paths where it is used
 export type EntityToProperties = Record<string, string[]>

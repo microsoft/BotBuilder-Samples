@@ -50,7 +50,8 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
                 schema = await getSchema(file, feedback)
                 SchemaCache[file] = schema
             }
-            const id = schema.$id || ppath.basename(file, '.template').toLowerCase()
+            // We are forced into lower case because the parsing derefencing lowercases $ref
+            const id = (schema.$id || ppath.basename(file, '.template')).toLowerCase()
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
@@ -142,8 +143,10 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
         resolver: {
             canRead: /template:/,
             read(file: any): any {
+                // Parser dereference always converts file.url to lower case.  If that is ever fixed, this will fail 
+                // and we can stop lower casing template names
                 const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.template')
-                const schema = allRequired[base.toLowerCase()]
+                const schema = allRequired[base]
                 if (!schema) {
                     throw new Error(`Could not find ${file.url}`)
                 }

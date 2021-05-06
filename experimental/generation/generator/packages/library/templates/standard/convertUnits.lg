@@ -11,4 +11,4 @@
 - ${transformProperty(action, 'value', 'addConversion')}
 
 # addConversion(value)
-- ${`={number: ${substring(value, 1)}, units: '${units()}}`}
+- ${`={number: ${substring(value, 1)}, units: '${units()}'}`}
