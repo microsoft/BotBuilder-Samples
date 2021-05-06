@@ -22,7 +22,7 @@ public class MemoryStore implements Store {
     // When setting up the database, calls are made to CosmosDB. If multiple calls are made, we'll end up setting the
     // collectionLink member variable more than once. The semaphore is for making sure the initialization of the
     // database is done only once.
-    private static final Semaphore SEMAPHORE = new Semaphore(1);
+    private Semaphore SEMAPHORE = new Semaphore(1);
 
     /**
      * {@inheritDoc}

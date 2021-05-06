@@ -1,7 +1,7 @@
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\package-info.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\BotServices.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\BotServicesImpl.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\QnAMakerBaseDialog.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\RootDialog.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\Application.java
-H:\BotFramework\botbuilder-java\samples\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\QnABot.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\BotServices.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\QnABot.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\QnAMakerBaseDialog.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\BotServicesImpl.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\package-info.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\Application.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\49.qnamaker-all-features\src\main\java\com\microsoft\bot\sample\qnamaker\all\features\RootDialog.java

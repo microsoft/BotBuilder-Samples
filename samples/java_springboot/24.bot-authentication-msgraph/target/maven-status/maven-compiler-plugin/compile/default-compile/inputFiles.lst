@@ -1,7 +1,7 @@
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\SimpleGraphClient.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\Application.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\OAuthHelpers.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\DialogBot.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\AuthBot.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\LogoutDialog.java
-H:\BotFramework\botbuilder-java\samples\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\MainDialog.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\AuthBot.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\DialogBot.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\LogoutDialog.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\SimpleGraphClient.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\Application.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\MainDialog.java
+C:\repos\southworks\BotBuilder-Samples-fork\samples\java_springboot\24.bot-authentication-msgraph\src\main\java\com\microsoft\bot\sample\authentication\OAuthHelpers.java
