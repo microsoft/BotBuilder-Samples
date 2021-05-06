@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Conditions;
 using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 
-namespace Microsoft.Bot.Component.Samples.MemberUpdates
+namespace Microsoft.Bot.Components.Samples.MemberUpdates
 {
     /// <summary>
     /// Actions triggered when ConversationUpdateActivity is received with Activity.MembersAdded > 0.

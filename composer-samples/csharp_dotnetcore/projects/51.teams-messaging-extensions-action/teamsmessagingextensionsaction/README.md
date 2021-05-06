@@ -1,7 +1,3 @@
-# Experimental Status
-1) The code-first sample will return an empty MessagingExtensionActionResponse in OnTeamsMessagingExtensionSubmitActionAsync when an action CommandId is not found.  This comes into play for the OnTeamsMessagingExtensionFetchTaskAsync, which will result in this happening when the "Close" button is pressed.
-2) Error handling is a little different.  This sample uses OnError, and handles the possible error from OnTeamsMessagingExtensionFetchTaskAsync, but for other errors its undetermined what should happen.  Nothing maybe?
-
 # Welcome to your new bot
 
 This Bot Project was created using the Empty Bot template, and contains a minimal set of files necessary to have a working bot.

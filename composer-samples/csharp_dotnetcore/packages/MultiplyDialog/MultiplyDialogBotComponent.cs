@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Bot.Component.Samples.MultiplyDialog
+namespace Microsoft.Bot.Components.Samples.MultiplyDialog
 {
     /// <summary>
     /// Definition of a <see cref="Microsoft.Bot.Builder.BotComponent"/> that allows registration of

@@ -1410,7 +1410,7 @@
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1418,7 +1418,7 @@
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1430,13 +1430,12 @@
         "pageSize",
         "continuationToken",
         "*"
-      ],
-      "subtitle": "Gets members of a one-on-one, group, or team conversation."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1449,13 +1448,12 @@
         "pageSize",
         "continuationToken",
         "*"
-      ],
-      "subtitle": "Gets members for a team conversation."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1463,7 +1461,7 @@
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1471,7 +1469,7 @@
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1479,7 +1477,7 @@
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Get Microsoft Teams data"
+        "Get Teams Info"
       ]
     }
   },
@@ -1492,8 +1490,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/queryLink'"
+      ]
     },
     "trigger": {
       "submenu": {
@@ -1512,8 +1509,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity with no activity.name"
+      ]
     },
     "trigger": {
       "label": "On card action",
@@ -1559,8 +1555,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke with activity.value.botMessagePreviewAction == 'edit'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - BotMessagePreviewEdit",
@@ -1576,8 +1571,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke with activity.value.botMessagePreviewAction == 'send'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - BotMessagePreviewSend",
@@ -1593,11 +1587,10 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/onCardButtonClicked'"
+      ]
     },
     "trigger": {
-      "label": "Messaging extension - car button clicked",
+      "label": "Messaging extension - card button clicked",
       "submenu": "Microsoft Teams"
     }
   },
@@ -1610,8 +1603,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/querySettingUrl'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on config query setting url",
@@ -1627,8 +1619,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/setting'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on config setting",
@@ -1644,8 +1635,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/fetchTask'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on fetch task",
@@ -1661,8 +1651,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/query'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on query",
@@ -1678,8 +1667,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/selectItem'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on select item",
@@ -1695,8 +1683,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='composeExtension/submitAction'"
+      ]
     },
     "trigger": {
       "label": "Messaging extension - on submit action",
@@ -1712,8 +1699,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='actionableMessage/executeAction'"
+      ]
     },
     "trigger": {
       "label": "On O365 connector card action",
@@ -1729,8 +1715,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='tab/fetch'"
+      ]
     },
     "trigger": {
       "label": "On Tab Fetch",
@@ -1752,8 +1737,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='task/fetch'"
+      ]
     },
     "trigger": {
       "label": "On task module fetch",
@@ -1769,8 +1753,7 @@
       "order": [
         "condition",
         "*"
-      ],
-      "subtitle": "Invoke activity.name='task/submit'"
+      ]
     },
     "trigger": {
       "label": "On task module submit",
@@ -1815,13 +1798,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a response to a query link request."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1837,13 +1819,12 @@
         "cacheDuration",
         "completionBotId",
         "*"
-      ],
-      "subtitle": "Send a response for a messaging extension request."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1856,13 +1837,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send an invoke response containing one or more attachments to a messaging extension request."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1874,13 +1854,12 @@
         "title",
         "resultProperty",
         "*"
-      ],
-      "subtitle": "Send a response to a messaging extensin requiring auth."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1892,13 +1871,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a bot message preview response to a messaging extension request."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1910,13 +1888,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a response to a query setting config url request."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1928,13 +1905,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a message response containing text only."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1946,13 +1922,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a messaging extension response when an item is selected"
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Messaging extension"
+        "Messaging Extensions"
       ]
     }
   },
@@ -1965,13 +1940,12 @@
         "activityIdProperty",
         "conversationReferenceProperty",
         "*"
-      ],
-      "subtitle": "Create a thread and send a message to a teams channel."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Send messages"
       ]
     }
   },
@@ -1983,13 +1957,12 @@
         "title",
         "resultProperty",
         "*"
-      ],
-      "subtitle": "Send a response to a cards tab requiring auth."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Task Modules and Tabs"
       ]
     }
   },
@@ -1999,13 +1972,12 @@
       "order": [
         "cards",
         "*"
-      ],
-      "subtitle": "Send a tab continue response containing adaptive cards."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Task Modules and Tabs"
       ]
     }
   },
@@ -2021,13 +1993,12 @@
         "cacheDuration",
         "completionBotId",
         "*"
-      ],
-      "subtitle": "Send a continue response containing a card."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Task Modules and Tabs"
       ]
     }
   },
@@ -2039,13 +2010,12 @@
         "cacheType",
         "cacheDuration",
         "*"
-      ],
-      "subtitle": "Send a message response containing text only."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Task Modules and Tabs"
       ]
     }
   },
@@ -2062,13 +2032,12 @@
         "cacheDuration",
         "completionBotId",
         "*"
-      ],
-      "subtitle": "Send a continue response containing a url."
+      ]
     },
     "menu": {
       "submenu": [
         "Microsoft Teams",
-        "Response"
+        "Task Modules and Tabs"
       ]
     }
   }
