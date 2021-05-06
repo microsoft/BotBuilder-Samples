@@ -3,7 +3,7 @@
   <PropertyGroup>
     <OutputType>Library</OutputType>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-	<PackageId>Microsofts.Bot.Component.Samples.MemberUpdates</PackageId>
+	<PackageId>Microsoft.Bot.Component.Samples.MemberUpdates</PackageId>
 	<Description>This library implements .NET support for custom triggers for conversation member updates.</Description>
 	<Summary>This library implements .NET support for custom triggers for conversation member updates.  OnMembersAdded and OnMembersRemoved.</Summary>
 	<ContentTargetFolders>content</ContentTargetFolders>
