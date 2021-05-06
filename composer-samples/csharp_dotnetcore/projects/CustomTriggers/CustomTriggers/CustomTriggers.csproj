@@ -1,0 +1,22 @@
+﻿
+<Project Sdk="Microsoft.NET.Sdk.Web">
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+    <UserSecretsId>b2291ea2-bbcd-4eba-b197-dc11c2a38432</UserSecretsId>
+  </PropertyGroup>
+  <ItemGroup>
+    <Content Include="**/*.blu;**/*.dialog;**/*.lg;**/*.lu;**/*.onnx;**/*.qna;**/*.txt" Exclude="$(BaseOutputPath)/**;$(BaseIntermediateOutputPath)/**;wwwroot/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.13.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime" Version="4.13.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MemberUpdates\Microsoft.Bot.Components.Samples.MemberUpdates.csproj" />
+  </ItemGroup>
+</Project>
