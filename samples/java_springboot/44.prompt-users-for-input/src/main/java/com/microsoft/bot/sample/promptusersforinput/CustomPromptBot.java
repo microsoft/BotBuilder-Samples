@@ -79,8 +79,13 @@ public class CustomPromptBot extends ActivityHandler {
                         .thenCompose(result -> turnContext.sendActivity("How old are you?", null, null))
                         .thenRun(() -> { flow.setLastQuestionAsked(ConversationFlow.Question.Age); });
                 } else {
-                    String message = StringUtils.isNotBlank(nameValidationResult.getRight())? nameValidationResult.getRight(): "I'm sorry, I didn't understand that.";
-                    return turnContext.sendActivity(message).thenApply(result -> null);
+                    if (StringUtils.isNotBlank(nameValidationResult.getRight())) {
+                        return turnContext.sendActivity(nameValidationResult.getRight(), null, null)
+                                .thenApply(result -> null);
+                    } else {
+                        return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
+                                .thenApply(result -> null);
+                    }
                 }
             case Age:
                 Triple<Boolean, Integer, String> ageValidationResult = ValidateAge(input);
@@ -90,10 +95,14 @@ public class CustomPromptBot extends ActivityHandler {
                         .thenCompose(result -> turnContext.sendActivity("When is your flight?", null, null))
                         .thenRun(() -> { flow.setLastQuestionAsked(ConversationFlow.Question.Date); });
                 } else {
-                    String message = StringUtils.isNotBlank(ageValidationResult.getRight())? ageValidationResult.getRight(): "I'm sorry, I didn't understand that.";
-                    return turnContext.sendActivity(message).thenApply(result -> null);
+                    if (StringUtils.isNotBlank(ageValidationResult.getRight())) {
+                        return turnContext.sendActivity(ageValidationResult.getRight(), null, null)
+                                .thenApply(result -> null);
+                    } else {
+                        return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
+                                .thenApply(result -> null);
+                    }
                 }
-
             case Date:
                 Triple<Boolean, String, String> dateValidationResult = ValidateDate(input);
                 AtomicReference<UserProfile> profileReference = new AtomicReference<UserProfile>(profile);
@@ -110,8 +119,13 @@ public class CustomPromptBot extends ActivityHandler {
                         profileReference.set(new UserProfile());
                     });
                 } else {
-                    String message = StringUtils.isNotBlank(dateValidationResult.getRight())? dateValidationResult.getRight(): "I'm sorry, I didn't understand that.";
-                    return turnContext.sendActivity(message).thenApply(result -> null);
+                    if (StringUtils.isNotBlank(dateValidationResult.getRight())) {
+                        return turnContext.sendActivity(dateValidationResult.getRight(), null, null)
+                                .thenApply(result -> null);
+                    } else {
+                        return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
+                                .thenApply(result -> null);
+                    }
                 }
             default:
                 return CompletableFuture.completedFuture(null);
