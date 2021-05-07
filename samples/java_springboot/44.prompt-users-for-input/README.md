@@ -4,13 +4,15 @@ Bot Framework v4 Prompt Users for Input bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com). The bot maintains conversation state to track and direct the conversation and ask the user questions. The bot maintains user state to track the user's answers.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
+
 ## Prerequisites
 
 - Java 1.8+
 - Install [Maven](https://maven.apache.org/)
 - An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 
-## To try this sample locally
+## To try this sample
 - From the root of this project folder:
   - Build the sample using `mvn package`
   - Run it by using `java -jar .\target\bot-promptusersforinput-sample.jar`
@@ -26,56 +28,21 @@ This bot has been created using [Bot Framework](https://dev.botframework.com). T
     - Launch Bot Framework Emulator
     - File -> Open Bot
     - Enter a Bot URL of `http://localhost:3978/api/messages`
+    
+## Interacting with the bot
 
-## Deploy the bot to Azure
+A bot is inherently stateless. Once your bot is deployed, it may not run in the same process or on the same machine from one turn to the next.
+However, your bot may need to track the context of a conversation, so that it can manage its behavior and remember answers to previous questions.
 
-As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli), you will perform the first 4 steps to setup the Azure app, then deploy the code using the azure-webapp Maven plugin.
+In this example, the bot's state is used to a track number of messages.
 
-### 1. Login to Azure
-From a command (or PowerShell) prompt in the root of the bot folder, execute:  
-`az login`
-  
-### 2. Set the subscription
-`az account set --subscription "<azure-subscription>"`
+- We use the bot's turn handler and user and conversation state properties to manage the flow of the conversation and the collection of input.
+- We ask the user a series of questions; parse, validate, and normalize their answers; and then save their input.
 
-If you aren't sure which subscription to use for deploying the bot, you can view the list of subscriptions for your account by using `az account list` command. 
-
-### 3. Create an App registration
-`az ad app create --display-name "<botname>" --password "<appsecret>" --available-to-other-tenants`
-
-Replace `<botname>` and `<appsecret>` with your own values.
-
-`<botname>` is the unique name of your bot.  
-`<appsecret>` is a minimum 16 character password for your bot. 
-
-Record the `appid` from the returned JSON
-
-### 4. Create the Azure resources
-Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
-
-#### To a new Resource Group
-`az deployment sub create --name "promptForInputBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="promptForInputBotPlan" newWebAppName="promptForInputBot" groupLocation="westus" newAppServicePlanLocation="westus"`
-
-#### To an existing Resource Group
-`az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="promptForInputBot" newAppServicePlanName="promptForInputBotPlan" appServicePlanLocation="westus" --name "promptForInputBot"`
-
-### 5. Update app id and password
-In src/main/resources/application.properties update 
-  - `MicrosoftAppPassword` with the botsecret value
-  - `MicrosoftAppId` with the appid from the first step
-
-### 6. Deploy the code
-- Execute `mvn clean package` 
-- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<botname>"`
-
-If the deployment is successful, you will be able to test it via "Test in Web Chat" from the Azure Portal using the "Bot Channel Registration" for the bot.
-
-After the bot is deployed, you only need to execute #6 if you make changes to the bot.
-
+This sample is intended to be run and tested locally and is not designed to be deployed to Azure.
 
 ## Further reading
 
-- [Bot Framework Documentation](https://docs.botframework.com)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
 - [Gathering Input Using Prompts](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=csharp)
