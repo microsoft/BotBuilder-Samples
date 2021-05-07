@@ -14,8 +14,10 @@ import com.microsoft.recognizers.text.number.NumberRecognizer;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.UserState;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +26,6 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.tuple.Triple;
-import org.springframework.stereotype.Component;
 
 /**
  * This Bot implementation can run any type of Dialog. The use of type
@@ -186,7 +187,15 @@ public class CustomPromptBot extends ActivityHandler {
                     }
                     if (StringUtils.isNotBlank(dateString)){
                         DateTimeFormatter f = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                        LocalDateTime candidate = LocalDateTime.from(f.parse(dateString));
+                        LocalDateTime candidate;
+                        try {
+                            candidate = LocalDateTime.from(f.parse(dateString));
+                        } catch (DateTimeParseException err) {
+                            // If the input is a date, it will throw an exception and it will create a datetime
+                            // with the MIN localtime
+                            DateTimeFormatter d = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                            candidate = LocalDateTime.of(LocalDate.parse(dateString, d), LocalDateTime.MIN.toLocalTime());
+                        }
                         if (earliest.isBefore(candidate)) {
                             DateTimeFormatter dateformat = DateTimeFormatter.ofPattern("MM-dd-yyyy");
                             date = candidate.format(dateformat);
