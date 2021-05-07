@@ -1,5 +1,0 @@
-{
-  "$kind": "Microsoft.MultiLanguageRecognizer",
-  "id": "LUIS_CustomAction",
-  "recognizers": {}
-}
