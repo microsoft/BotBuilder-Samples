@@ -36,5 +36,6 @@
     }
   ],
   "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
-  "generator": "emitevent.lg"
+  "generator": "emitevent.lg",
+  "id": "emitevent"
 }

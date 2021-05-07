@@ -1,0 +1,29 @@
+[import](common.lg)
+
+# TextInput_Prompt_308464()
+- What list would you like to see?
+
+# SendActivity_996807()
+- ${showLists()}
+
+# showLists
+- SWITCH : ${dialog.listType}
+    - CASE : ${'todo'}
+        - ${list(user.lists.todo, 'todo')}
+    - CASE : ${'grocery'}
+        - ${list(user.lists.grocery, 'grocery')}
+    - CASE : ${'shopping'}
+        - ${list(user.lists.shopping, 'shopping')}
+    - DEFAULT : 
+        - ```
+        ${list(user.lists.todo, 'todo')}
+        ${list(user.lists.grocery, 'grocery')}
+        ${list(user.lists.shopping, 'shopping')}
+        ```
+
+# list(collection, name)
+- IF : ${collection != null}
+    - You have ${count(collection)} item(s) in your **${name}** list. \n ${join(foreach(collection, item, concat('- ', item)), '\n')}
+- ELSE : 
+    - You do not have any items in your **${name}** list.
+

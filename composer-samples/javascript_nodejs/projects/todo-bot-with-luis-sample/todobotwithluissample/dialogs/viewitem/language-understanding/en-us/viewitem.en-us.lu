@@ -1,0 +1,25 @@
+
+# ChoiceInput_Response_308464
+- todo list
+- shopping list
+- how about the to do list?
+
+@ list listType = 
+	- all : 
+		- everything
+		- all items
+	- todo :
+	      - to do
+            - todos
+            - laundry            
+      - grocery :
+            - groceries
+            - fruits
+            - vegetables
+            - household items
+            - house hold items
+      - shopping : 
+            - shopping 
+            - shop
+            - shoppers
+
