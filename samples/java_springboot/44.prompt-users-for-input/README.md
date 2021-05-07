@@ -12,6 +12,18 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 - Install [Maven](https://maven.apache.org/)
 - An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 
+## Testing the bot using Bot Framework Emulator
+
+[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+
+- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+
+### Connect to the bot using Bot Framework Emulator
+
+- Launch Bot Framework Emulator
+- File -> Open Bot
+- Enter a Bot URL of `http://localhost:3978/api/messages`
+
 ## To try this sample
 - From the root of this project folder:
   - Build the sample using `mvn package`
@@ -43,15 +55,15 @@ This sample is intended to be run and tested locally and is not designed to be d
 
 ## Further reading
 
+- [Spring Boot](https://spring.io/projects/spring-boot)
+- [Maven Plugin for Azure App Service](https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin)
 - [Bot Basics](https://docs.microsoft.com/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
 - [Dialogs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-dialog?view=azure-bot-service-4.0)
-- [Gathering Input Using Prompts](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-prompts?view=azure-bot-service-4.0&tabs=csharp)
 - [Activity processing](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-concept-activity-processing?view=azure-bot-service-4.0)
+- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
 - [Azure Bot Service Introduction](https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0)
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
-- [Maven Plugin for Azure App Service](https://docs.microsoft.com/en-us/java/api/overview/azure/maven/azure-webapp-maven-plugin/readme?view=azure-java-stable)
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [Azure for Java cloud developers](https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable)
+

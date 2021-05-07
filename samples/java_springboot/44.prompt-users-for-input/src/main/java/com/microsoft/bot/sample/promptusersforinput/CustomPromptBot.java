@@ -81,10 +81,10 @@ public class CustomPromptBot extends ActivityHandler {
                 } else {
                     if (StringUtils.isNotBlank(nameValidationResult.getRight())) {
                         return turnContext.sendActivity(nameValidationResult.getRight(), null, null)
-                                .thenApply(result -> null);
+                               .thenApply(result -> null);
                     } else {
                         return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
-                                .thenApply(result -> null);
+                               .thenApply(result -> null);
                     }
                 }
             case Age:
@@ -97,10 +97,10 @@ public class CustomPromptBot extends ActivityHandler {
                 } else {
                     if (StringUtils.isNotBlank(ageValidationResult.getRight())) {
                         return turnContext.sendActivity(ageValidationResult.getRight(), null, null)
-                                .thenApply(result -> null);
+                            .thenApply(result -> null);
                     } else {
                         return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
-                                .thenApply(result -> null);
+                            .thenApply(result -> null);
                     }
                 }
             case Date:
@@ -121,7 +121,7 @@ public class CustomPromptBot extends ActivityHandler {
                 } else {
                     if (StringUtils.isNotBlank(dateValidationResult.getRight())) {
                         return turnContext.sendActivity(dateValidationResult.getRight(), null, null)
-                                .thenApply(result -> null);
+                            .thenApply(result -> null);
                     } else {
                         return turnContext.sendActivity("I'm sorry, I didn't understand that.", null, null)
                                 .thenApply(result -> null);
