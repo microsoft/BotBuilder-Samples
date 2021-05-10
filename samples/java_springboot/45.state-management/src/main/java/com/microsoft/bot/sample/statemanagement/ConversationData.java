@@ -16,9 +16,12 @@ package com.microsoft.bot.sample.statemanagement;
  * @see StateManagementBot
  */
 public class ConversationData {
+    // The time-stamp of the most recent incoming message.
     private String timestamp;
+    // The ID of the user's channel.
     private String channelId;
-    private boolean promptedUserForName;
+    // Track whether we have already asked the user's name.
+    private boolean promptedUserForName = false;
 
     public String getTimestamp() {
         return timestamp;
