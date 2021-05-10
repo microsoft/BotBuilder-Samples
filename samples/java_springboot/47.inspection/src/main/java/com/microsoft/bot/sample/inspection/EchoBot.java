@@ -27,8 +27,8 @@ import java.util.concurrent.CompletableFuture;
  * </p>
  */
 public class EchoBot extends ActivityHandler {
-    private ConversationState conversationState;
-    private UserState userState;
+    private final ConversationState conversationState;
+    private final UserState userState;
 
     public EchoBot(ConversationState withConversationState, UserState withUserState) {
         conversationState = withConversationState;
