@@ -55,7 +55,7 @@ public class Application extends BotDependencyConfiguration {
         UserState userState,
         Dialog rootDialog
     ) {
-        return new TeamsBot(conversationState, userState, rootDialog);
+        return new TeamsBot<>(conversationState, userState, rootDialog);
     }
 
     /**
