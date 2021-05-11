@@ -35,9 +35,9 @@ the Teams service needs to call into the bot.
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
     - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
 - From the root of this project folder:
-- Build the sample using `mvn package`
-- Unless done previously, install the packages in the local cache by using `mvn install`
-- Run it by using `java -jar .\target\bot-teams-auth-sample.jar`
+    - Build the sample using `mvn package`
+    - Unless done previously, install the packages in the local cache by using `mvn install`
+    - Run it by using `java -jar .\target\bot-teams-auth-sample.jar`
 
 ## Interacting with the bot in Teams
 
