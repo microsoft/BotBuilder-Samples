@@ -1,0 +1,71 @@
+[import](common.lg)
+
+# SendActivity_hUgNsF()
+[Activity
+    Text = **Partners Information (_LUIS recognizer_)**
+]
+
+# TextInput_Prompt_KpFrxh()
+[Activity
+    Text = Ask me about Bot Framework partner teams within Microsoft now (_exit_ when done) >>
+]
+
+# SendActivity_KLQrcx()
+[Activity
+    Text = Bot Framework is the foundation for the following teams:\r- Power Virtual Agents\r- HealthBot
+]
+
+# ChoiceInput_Prompt_GYWo8v()
+[Activity
+    Text = What do you want to know more about?
+]
+
+# SendActivity_wJ1PQA()
+[Activity
+    Text = To learn more aobut  PVA see the following: https://powervirtualagents.microsoft.com/en-us/
+]
+
+# SendActivity_AlVsyO()
+[Activity
+    Text = To learn more about HealthBot see the following: https://www.microsoft.com/en-us/research/project/health-bot/
+]
+
+# SendActivity_8ovgUu()
+[Activity
+    Text = Got you. You can always do a Bing search for more :)
+]
+
+# SendActivity_ZV3rta()
+[Activity
+    Text = I didn't understand. Please rephrase.
+]
+
+# SendActivity_lzlH8N()
+[Activity
+    Text = Alright. See you later.
+]
+
+# SendActivity_6ZhSsX()
+[Activity
+    Text = **Power Virtual Agents**
+]
+
+# SendActivity_TOU1P5()
+[Activity
+    Text = To learn more aobut  PVA see the following: https://powervirtualagents.microsoft.com/en-us/
+]
+
+# SendActivity_mroxNS()
+[Activity
+    Text = **Azure Health Bot**
+]
+
+# SendActivity_0wl8Dt()
+[Activity
+    Text = To learn more about HealthBot see the following: https://www.microsoft.com/en-us/research/project/health-bot/
+]
+
+# SendActivity_TK2gtL()
+[Activity
+    Text = Warning: unexpected response.
+]
