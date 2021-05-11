@@ -261,6 +261,12 @@ ${tooBig()}```
 # dateFormatValidationMessage()
 - ```
 # ${property}_invalid${templateName(propertySchema.format)}(val)
+> Show invalid property format activity
+[Activity
+    Text = \${${property}_invalid${templateName(propertySchema.format)}_text(val)}
+]
+
+# ${property}_invalid${templateName(propertySchema.format)}_text(val)
 > Invalid ${propertySchema.format} for '${property}' property
 - \${value(val)} is not a ${propertySchema.format}```
 

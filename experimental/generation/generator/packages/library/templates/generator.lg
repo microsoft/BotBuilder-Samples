@@ -162,7 +162,7 @@
 - ```
 {
     "$kind": "Microsoft.SendActivity",
-    "activity": "\${confirmationText('${property}', ${value})}"
+    "activity": "\${confirmationActivity('${property}', ${value})}"
 }```
 
 # actionSetOrPush(value)
@@ -622,10 +622,22 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 >> Prompts
 
 # ${property}_MissingPrompt()
+> Prompt activity when '${property}' property is missing
+[Activity
+    Text = \${${property}_MissingPrompt_text()}
+]
+
+# ${property}_MissingPrompt_text()
 > Prompt when '${property}' property is missing
 - ${missing}
 
 # ${property}_ChangePrompt()
+> Prompt activity when '${property}' property has a value, but is being changed
+[Activity
+    Text = \${${property}_ChangePrompt_text()}
+]
+
+# ${property}_ChangePrompt_text()
 > Prompt when '${property}' property has a value, but is being changed
 - ${change}```
 
@@ -647,11 +659,23 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ${unexpectedReplace}
 
 # ${property}_RemoveConfirmation(val)
+> Confirmation activity when value is removed from '${property}' property
+[Activity
+    Text = \${${property}_RemoveConfirmation_text(val)}
+]
+
+# ${property}_RemoveConfirmation_text(val)
 > Confirmation when value is removed from '${property}' property
 - ${remove}
 
 # ${property}_ClearConfirmation()
-> Confirmation when '${property}' property is cleared
+> Confirmation activity when '${property}' property is cleared
+[Activity
+    Text = \${${property}_ClearConfirmation_text()}
+]
+
+# ${property}_ClearConfirmation_text()
+> Confirmation  when '${property}' property is cleared
 - ${clear}```
 
 # expectedUpdateTemplate(expectedReplace)
@@ -672,6 +696,12 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ${reprompt}
 
 # ${property}_Help()
+> Help activity for '${property}' property
+[Activity
+    Text = \${${property}_Help_text()}
+]
+
+# ${property}_Help_text()
 > Help for '${property}' property
 - ${help}```
 
@@ -679,6 +709,12 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ```
 >> Show
 # ${property}_Show()
+> Show value activity
+[Activity
+    Text = \${${property}_Show_text()}
+]
+
+# ${property}_Show_text()
 > Show value of '${property}' property
 - ${show}```
 

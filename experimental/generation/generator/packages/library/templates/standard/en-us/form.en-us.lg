@@ -8,6 +8,12 @@
 -\n
 
 # welcome
+> Default welcome activity for form
+[Activity
+    Text = ${welcome_text()}
+]
+
+# welcome_text
 > Default welcome prompt for form
 - ${helpGlobal()}
 
@@ -70,6 +76,12 @@ For each property you can add/remove values, clear, show, change or ask for help
 You can also ask for over all help, cancel the whole form or skip a step.```
 
 # helpReprompt
+> Display reprompt activity
+[Activity
+    Text = ${helpReprompt_text()}
+]
+
+# helpReprompt_text
 > Display value on reprompt
 - ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp`)), expected, template(`${expected}_RepromptHelp`)), EOL()), '')}
 
@@ -105,8 +117,14 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 # propertyNameValue
 - ${property}Value
 
-# confirmationText(property, val)
-> Display confirmation text based on whether the property was expected or not
+# confirmationActivity(property, val)
+> Display confirmation activity based on whether the property was expected or not
+[Activity
+    Text = ${confirmation_text(property, val)}
+]
+
+# confirmation_text(property, val)
+> Display confirmation activity based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}
     - ${template(if(dialog[property] && !isArrayProperty(property), `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
 - ELSE:
@@ -117,18 +135,42 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
     
 # cancelPrompt
+> Prompt activity to cancel a form
+[Activity
+    Text = ${cancelPrompt_text()}
+]
+
+# cancelPrompt_text
 > Prompt to cancel a form
 - Do you want to end the form? (yes/no)
 
 # changePropertyPrompt
+> Prompt activity for property to change
+[Activity
+    Text = ${changePropertyPrompt_text()}
+]
+
+# changePropertyPrompt_text
 > Prompt for property to change
 - Is there any property you want to change? (no or the property name)
 
 # choosePropertyPrompt
+> Prompt activity for what property to change
+[Activity
+    Text = ${choosePropertyPrompt_text()}
+]
+
+# choosePropertyPrompt_text
 > Prompt for what property to change
 - Which property do you want to change?
 
 # notUnderstood
+> Message for not understanding activity
+[Activity
+    Text = ${notUnderstood_text()}
+]
+
+# notUnderstood_text
 > Message for not understanding
 - Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 

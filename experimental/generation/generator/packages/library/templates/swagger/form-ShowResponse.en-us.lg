@@ -1,4 +1,11 @@
 # showResponse(response)
+> Show http response activity
+[Activity
+    Text = ${showResponse_text(response)}
+]
+
+# showResponse_text(response)
+> Show http response
 - IF : ${response.statusCode == 200}
 - The response is ${response} .
 - ELSE : 
