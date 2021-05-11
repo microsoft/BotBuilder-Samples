@@ -7,9 +7,14 @@ import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.teams.TeamsActivityHandler;
 import com.microsoft.bot.schema.CardImage;
 import com.microsoft.bot.schema.HeroCard;
-import com.microsoft.bot.schema.teams.*;
+import com.microsoft.bot.schema.teams.MessagingExtensionAction;
+import com.microsoft.bot.schema.teams.MessagingExtensionActionResponse;
+import com.microsoft.bot.schema.teams.MessagingExtensionAttachment;
+import com.microsoft.bot.schema.teams.MessagingExtensionResult;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 /**
