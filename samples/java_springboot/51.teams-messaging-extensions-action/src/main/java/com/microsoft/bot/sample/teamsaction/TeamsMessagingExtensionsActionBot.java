@@ -42,6 +42,7 @@ public class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         TurnContext turnContext,
         MessagingExtensionAction action
     ) {
+        // The user has chosen to create a card by choosing the 'Create Card' context menu command.
         Map<String, String> actionData = (Map<String, String>) action.getData();
 
         HeroCard card = new HeroCard();
@@ -69,19 +70,25 @@ public class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         TurnContext turnContext,
         MessagingExtensionAction action
     ) {
+        // The user has chosen to share a message by choosing the 'Share Message' context menu command.
         Map<String, String> actionData = (Map<String, String>) action.getData();
 
         HeroCard card = new HeroCard();
         card.setTitle(
-            action.getMessagePayload().getFrom().getUser() != null ? action.getMessagePayload()
-                .getFrom().getUser().getDisplayName() : "");
+                action.getMessagePayload().getFrom() != null && action.getMessagePayload().getFrom().getUser() != null
+                    ? action.getMessagePayload().getFrom().getUser().getDisplayName() : "");
         card.setText(action.getMessagePayload().getBody().getContent());
 
         if (action.getMessagePayload().getAttachments() != null && !action.getMessagePayload()
             .getAttachments().isEmpty()) {
-            card.setSubtitle("Attachments not included)");
+            // This sample does not add the MessagePayload Attachments.  This is left as an
+            // exercise for the user.
+            card.setSubtitle(String.format("(%d Attachments not included)",
+                    action.getMessagePayload().getAttachments().size()));
         }
 
+        // This Messaging Extension example allows the user to check a box to include an image with the
+        // shared message.  This demonstrates sending custom parameters along with the message payload.
         boolean includeImage = actionData.get("includeImage") != null ? (
             Boolean.valueOf(actionData.get("includeImage"))
         ) : false;
