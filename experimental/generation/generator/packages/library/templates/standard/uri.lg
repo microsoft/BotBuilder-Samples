@@ -4,4 +4,4 @@
 - ${['url', 'utterance']}
 
 # templates
-- ${standardTemplates()}
+- ${stringTemplates()}

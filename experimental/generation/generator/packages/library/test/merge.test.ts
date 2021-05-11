@@ -156,7 +156,6 @@ describe('dialog:generate --merge library', async function () {
     const modified_data = `${merge_data}/modified`
     const originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
     const modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.form')
-    const locales = ['en-us']
     const originalDir = ppath.join(output_dir, 'sandwichMerge-original')
     const modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
     const mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
@@ -220,9 +219,17 @@ describe('dialog:generate --merge library', async function () {
             console.log('Deleting output directory')
             await fs.remove(output_dir)
             console.log('Generating original files')
-            await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, undefined, errorOnly)
+            await gen.generate(originalSchema, {
+                prefix: 'sandwichMerge',
+                outDir: originalDir,
+                feedback: errorOnly
+            })
             console.log('Generating modified files')
-            await gen.generate(modifiedSchema, 'sandwichMerge', modifiedDir, undefined, locales, undefined, undefined, false, undefined, errorOnly)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: modifiedDir,
+                feedback: errorOnly
+            })
         } catch (e) {
             assert.fail(e.message)
         }
@@ -242,7 +249,11 @@ describe('dialog:generate --merge library', async function () {
     it('merge: self', async function () {
         try {
             console.log('Self merging')
-            await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(originalSchema, {
+                outDir: mergedDir,
+                merge: true,
+                feedback
+            })
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
@@ -256,7 +267,11 @@ describe('dialog:generate --merge library', async function () {
     it('merge: modified', async function () {
         try {
             console.log('Modified merge')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge', 
+                outDir: mergedDir, 
+                merge: true, 
+                feedback})
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
             assertAddedProperty(comparison, 'Hobby', errors)
@@ -264,18 +279,13 @@ describe('dialog:generate --merge library', async function () {
             assertRemovedProperty(comparison, 'Toppings', errors)
             assertRemovedProperty(comparison, 'Sauces', errors)
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
             await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
 
             // Unchanged hash + optional enum fixes = hash updated
             await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
-            await assertUnchanged('language-understanding/en-us/Name/sandwichMerge-Name-personName.en-us.lu', true, errors)
             assertCheck(comparison, errors)
         } catch (e) {
             assert.fail(e.message)
@@ -290,21 +300,26 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lu file and it should have enum updated, but not hash
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
-            await copyToMerged('**/en-us/Bread/*')
+            await copyToMerged('**/language-generation/en-us/Bread/*')
+            await copyToMerged('**/language-generation/en-us/BreadValue/*')
+            await copyToMerged('**/language-understanding/en-us/Bread/*')
+            await copyToMerged('**/language-understanding/en-us/form/*')
             await copyToMerged('sandwichMerge.dialog')
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
             await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge', 
+                outDir: mergedDir, 
+                merge: true,
+                feedback})
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
 
             // Changed + optional enum fixes = hash not updated, so still changed
             await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', false, errors)
             await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
-            await assertUnchanged('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', false, errors)
             await assertUnchanged('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', false, errors)
 
             // Main should still be updated
@@ -316,12 +331,11 @@ describe('dialog:generate --merge library', async function () {
 
             // Still get enum updates
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /white/, errors)
-            await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseValue.en-us.lu', /brie/, errors)
+            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
             assertCheck(comparison, errors)
         } catch (e) {

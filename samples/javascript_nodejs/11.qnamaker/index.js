@@ -14,8 +14,7 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter } = require('botbuilder');
-const { ActivityTypes } = require('botbuilder-core');
+const { ActivityTypes, BotFrameworkAdapter } = require('botbuilder');
 
 // The bot.
 const { QnABot } = require('./bots/QnABot');
@@ -40,7 +39,7 @@ adapter.onTurnError = async (context, error) => {
     };
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 

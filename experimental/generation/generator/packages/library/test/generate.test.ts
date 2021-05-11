@@ -18,10 +18,11 @@ import * as assert from 'assert'
 import {Templates, DiagnosticSeverity} from 'botbuilder-lg'
 import * as luFile from '@microsoft/bf-lu/lib/utils/filehelper'
 import * as LuisBuilder from '@microsoft/bf-lu/lib/parser/luis/luisCollate'
-import {ComponentRegistration} from 'botbuilder-core'
-import {AdaptiveComponentRegistration} from 'botbuilder-dialogs-adaptive'
-import {ResourceExplorer} from 'botbuilder-dialogs-declarative'
-import {LuisComponentRegistration, QnAMakerComponentRegistration} from 'botbuilder-ai'
+
+import {AdaptiveBotComponent} from 'botbuilder-dialogs-adaptive'
+import {LuisBotComponent, QnAMakerBotComponent} from 'botbuilder-ai'
+import {ComponentDeclarativeTypes, ResourceExplorer} from 'botbuilder-dialogs-declarative'
+import {ServiceCollection, noOpConfiguration} from 'botbuilder-dialogs-adaptive-runtime-core'
 
 // Output temp directory
 let tempDir = ppath.join(os.tmpdir(), 'generate.out')
@@ -32,14 +33,20 @@ function feedback(type: gen.FeedbackType, msg: string) {
     }
 }
 
+// Remove hash because they differ depending on os.EOL
+function removeHash(val: string): string {
+    return val
+        .replace(/"\$Generator": .*/g, '')
+        .replace(/> Generator:.*/, '')
+}
+
 // NOTE: If you update dialog:merge functionality you need to execute the makeOracles.cmd to update them
-async function compareToOracle(name: string, oraclePath?: string): Promise<object> {
+async function compareToOracle(name: string, oraclePath?: string): Promise<void> {
     let generatedPath = ppath.join(tempDir, name)
-    let generated = await fs.readJSON(generatedPath)
+    const  generateds = removeHash(await fs.readFile(generatedPath, 'utf8'))
     oraclePath = oraclePath ? ppath.join(tempDir, oraclePath) : ppath.join('test/oracles', name)
-    let oracle = await fs.readJSON(oraclePath)
-    let oracles = JSON.stringify(oracle)
-    let generateds = JSON.stringify(generated)
+    const oracle = await fs.readFile(oraclePath, 'utf8')
+    const oracles = removeHash(gen.normalizeEOL(oracle))
     if (oracles !== generateds) {
         console.log(`Oracle   : ${oracles.length}`)
         console.log(`Generated: ${generateds.length}`)
@@ -66,7 +73,6 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<objec
         assert(false,
             `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
     }
-    return generated
 }
 
 async function checkDirectory(path: string, files: number, directories: number): Promise<void> {
@@ -117,6 +123,7 @@ describe('dialog:generate library', async () => {
         'datetime',
         'dimension_with_units',
         'dimension',
+        'dynamiclist',
         'email',
         'enum',
         'geography',
@@ -141,6 +148,7 @@ describe('dialog:generate library', async () => {
         'temperature_with_units',
         'temperature',
         'time',
+        'transforms',
         'uri'
     ]
 
@@ -209,7 +217,12 @@ describe('dialog:generate library', async () => {
     it('Generation with override', async () => {
         try {
             console.log('\n\nGeneration with override')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], [override, 'template:standard'], false, false, undefined, feedback)
+            await gen.generate(schemaPath,
+                {
+                    outDir: output,
+                    templateDirs: [override, 'template:standard'],
+                    feedback
+                })
             let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
             let dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
@@ -222,7 +235,11 @@ describe('dialog:generate library', async () => {
     it('Singleton', async () => {
         try {
             console.log('\n\nSingleton Generation')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, true, feedback)
+            await gen.generate(schemaPath, {
+                outDir: output,
+                singleton: true,
+                feedback
+            })
             assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
             assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
         } catch (e) {
@@ -233,7 +250,10 @@ describe('dialog:generate library', async () => {
     it('Non singleton', async () => {
         try {
             console.log('\n\nNon singleton Generation')
-            await gen.generate(schemaPath, undefined, output, undefined, ['en-us'], undefined, false, false, false, feedback)
+            await gen.generate(schemaPath, {
+                outDir: output,
+                feedback
+            })
             await checkDirectory(output, 9, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
@@ -241,7 +261,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 15)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 137)
+            await checkPattern(ppath.join(output, '**'), 138)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -255,7 +275,11 @@ describe('dialog:generate library', async () => {
             const testOutput = ppath.join(os.tmpdir(), 'unitTests', name)
             console.log(`\n\n${description}`)
             await fs.remove(testOutput)
-            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, undefined, testOutput, undefined, ['en-us'], undefined, false, false, true, feedback)
+            const success = await gen.generate(`${unitTestSchemaPath}${name}.form`, {
+                outDir: testOutput,
+                singleton: true,
+                feedback
+            })
             if (success) {
                 try {
                     console.log(`LG Testing schema ${name}`)
@@ -288,10 +312,18 @@ describe('dialog:generate library', async () => {
 
                 try {
                     console.log(`Dialog Testing schema ${name}`)
-                    ComponentRegistration.add(new AdaptiveComponentRegistration())
-                    ComponentRegistration.add(new LuisComponentRegistration())
-                    ComponentRegistration.add(new QnAMakerComponentRegistration())
-                    const resourceExplorer = new ResourceExplorer()
+
+                    // Setup declarations
+                    const services = new ServiceCollection({
+                        declarativeTypes: [],
+                    })
+                    new AdaptiveBotComponent().configureServices(services, noOpConfiguration)
+                    new LuisBotComponent().configureServices(services, noOpConfiguration)
+                    new QnAMakerBotComponent().configureServices(services, noOpConfiguration)
+                    const declarativeTypes = services.mustMakeInstance<ComponentDeclarativeTypes[]>('declarativeTypes')
+                    const resourceExplorer = new ResourceExplorer({declarativeTypes})
+
+                    // Add folder and load type
                     resourceExplorer.addFolder(`${testOutput}`, true, false)
                     resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
@@ -324,9 +356,9 @@ describe('dialog:generate library', async () => {
     it('Schema discovery', async () => {
         try {
             const schemas = await ps.schemas()
-            const totalExpected = 25
+            const totalExpected = 26
             const globalExpected = 3
-            const propertyExpected = 22
+            const propertyExpected = 23
             assert.strictEqual(Object.keys(schemas).length, totalExpected, `Expected ${totalExpected} schemas and found ${Object.keys(schemas).length}`)
             let global = 0
             let property = 0
@@ -362,12 +394,15 @@ describe('dialog:generate library', async () => {
     it('Bad property names', async () => {
         try {
             let errors = 0
-            assert(!(await gen.generate('test/forms/bad-propertyNames.form', undefined, output, undefined, undefined, undefined, true, false, false,
-                (type, msg) => {
+            assert(!(await gen.generate('test/forms/bad-propertyNames.form', {
+                outDir: output,
+                force: true,
+                feedback: (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
-                })))
-            assert.strictEqual(errors, 4)
+                }
+            })), 'Should have failed generation')
+            assert.strictEqual(errors, 4, 'Wrong number of errors')
         } catch (e) {
             assert.fail(e.message)
         }
@@ -378,14 +413,17 @@ describe('dialog:generate library', async () => {
             const testOutput = `${output}/enum`
             let errors = 0
             let warnings = 0
-            assert(!(await gen.generate('test/forms/enum.form', undefined, testOutput, undefined, undefined, undefined, true, false, false,
-                (type, msg) => {
+            assert(!(await gen.generate('test/forms/enum.form', {
+                outDir: testOutput,
+                force: true,
+                feedback: (type, msg) => {
                     feedback(type, msg)
                     if (type === gen.FeedbackType.error) ++errors
                     if (type === gen.FeedbackType.warning) ++warnings
-                })), 'Should have failed generation')
-            assert.strictEqual(errors, 7)
-            assert.strictEqual(warnings, 8)
+                }
+            })), 'Should have failed generation')
+            assert.strictEqual(errors, 7, 'Wrong number of errors')
+            assert.strictEqual(warnings, 8, 'Wrong number of warnings')
             await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'this is ok')
             await includes(`${testOutput}/language-understanding/en-us/ok/enum-ok-okValue.en-us.lu`, 'ok phrases')
             await includes(`${testOutput}/language-understanding/en-us/okArray/enum-okArray-okArrayValue.en-us.lu`, 'this is okArray')
@@ -398,10 +436,54 @@ describe('dialog:generate library', async () => {
 
     it('Examples generation', () => {
         const examples = gen.examples(['abcDef', 'ghi jkl', 'MnoPQR', 'stu_vwx'])
-        assert.deepStrictEqual(examples['abcDef'], ["abc", "def", "abc def"])
-        assert.deepStrictEqual(examples['ghi jkl'], ["ghi", "jkl", "ghi jkl"])
-        assert.deepStrictEqual(examples['MnoPQR'], ["mno", "pqr", "mno pqr"])
-        assert.deepStrictEqual(examples['stu_vwx'], ["stu", "vwx", "stu vwx"])
+        assert.deepStrictEqual(examples['abcDef'], ['abc', 'def', 'abc def'])
+        assert.deepStrictEqual(examples['ghi jkl'], ['ghi', 'jkl', 'ghi jkl'])
+        assert.deepStrictEqual(examples['MnoPQR'], ['mno', 'pqr', 'mno pqr'])
+        assert.deepStrictEqual(examples['stu_vwx'], ['stu', 'vwx', 'stu vwx'])
+    })
+
+    it('Missing template directory', async () => {
+        try {
+            let errors = 0
+            let warnings = 0
+            assert(!(await gen.generate('test/forms/unittest_transforms.form', {
+                outDir: tempDir,
+                templateDirs: ['test/templates/overrides', 'template:standard'],
+                feedback: (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                    if (type === gen.FeedbackType.warning) ++warnings
+                }
+            })), 'Should have failed generation')
+            assert.strictEqual(errors, 2, 'Wrong number of errors')
+            assert.strictEqual(warnings, 0, 'Wrong number of warnings')
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    it('Global transform', async () => {
+        try {
+            let errors = 0
+            let warnings = 0
+            assert((await gen.generate('test/forms/unittest_transforms.form', {
+                outDir: tempDir,
+                templateDirs: ['test/templates', override, 'template:standard'],
+                transforms: ['addOne'],
+                force: true,
+                singleton: true,
+                feedback: (type, msg) => {
+                    feedback(type, msg)
+                    if (type === gen.FeedbackType.error) ++errors
+                    if (type === gen.FeedbackType.warning) ++warnings
+                }
+            })), 'Should not have failed generation')
+            assert.strictEqual(errors, 0, 'Wrong number of errors')
+            assert.strictEqual(warnings, 3, 'Wrong number of warnings')
+            await compareToOracle('unittest_transforms.dialog')
+        } catch (e) {
+            assert.fail(e.message)
+        }
     })
 
     type FullTemplateName = string
@@ -436,15 +518,32 @@ describe('dialog:generate library', async () => {
             for (const template of source.allTemplates) {
                 // Analyze each original source template only once
                 if (!analyzed.has(template.sourceRange.source)) {
-                    const info = source.analyzeTemplate(template.name)
-                    for (const reference of info.TemplateReferences) {
-                        const source = template.sourceRange.source as string
+                    const references = source.analyzeTemplate(template.name).TemplateReferences
+                    const templateSource = template.sourceRange.source
+                    for (const reference of references) {
                         const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
-                        let referenceSource = referenceSources.get(source)
+                        let referenceSource = referenceSources.get(templateSource)
                         if (!referenceSource) {
                             referenceSource = []
-                            referenceSources.set(source, referenceSource)
+                            referenceSources.set(templateSource, referenceSource)
                         }
+                        referenceSource.push(template.name)
+                    }
+                    if (template.name === 'transforms') {
+                      
+                    }
+                }
+            }
+
+            if (source.allTemplates.some(t => t.name == 'transforms')) {
+                // Mark all templates in transforms as being used.
+                // They are not picked up because they are called using template
+                for (const template of source.allTemplates) {
+                    const referenceSources = usage.get(nameToFullname.get(template.name) as string) as Map<string, string[]>
+                    let referenceSource = referenceSources.get('transforms')
+                    if (!referenceSource) {
+                        referenceSource = []
+                        referenceSources.set('transforms', referenceSource)
                         referenceSource.push(template.name)
                     }
                 }
@@ -483,6 +582,7 @@ describe('dialog:generate library', async () => {
         // Compare cache to all standard template files
         const allTemplates = (await glob('templates/standard/**/*.lg')).map(t => ppath.resolve(t))
         const unused = allTemplates.filter(t => !gen.TemplateCache.has(t))
+
         // These are files that are only imported
         const excludeFiles = ['standard.en-us.lg']
         let unusedCount = 0
@@ -511,8 +611,8 @@ describe('dialog:generate library', async () => {
         }
 
         // Identify unused templates
-        // Exclusions are top-level templates called by the generator in standard.schema
-        const exclude = ['filename', 'template', 'entities', 'templates', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation']
+        // Exclusions are top-level templates called by the generator in standard.schema or called through template
+        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty']
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {
             const name = templateName(template)

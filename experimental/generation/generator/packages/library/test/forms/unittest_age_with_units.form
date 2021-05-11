@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Age": {
-            "$ref": "template:age.schema",
+            "$ref": "template:age.template",
              "$units": "Year"
         }
     },

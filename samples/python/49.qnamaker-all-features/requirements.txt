@@ -1,2 +1,3 @@
-botbuilder-integration-aiohttp>=4.11.0
-botbuilder-ai>=4.11.0
+botbuilder-integration-aiohttp>=4.13.0
+botbuilder-dialogs>=4.13.0
+botbuilder-ai>=4.13.0

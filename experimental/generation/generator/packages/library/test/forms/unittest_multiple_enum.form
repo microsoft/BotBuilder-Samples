@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Top": {
-            "$ref": "template:enum.schema",
+            "$ref": "template:enum.template",
             "enum": [
                 "a",
                 "b"

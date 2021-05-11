@@ -4,4 +4,4 @@
 - ${['phonenumber', 'utterance']}
 
 # templates
-- ${standardTemplates()}
+- ${stringTemplates()}

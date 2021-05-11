@@ -4,4 +4,4 @@
 - ${unitsEntities('dimension')}
 
 # templates
-- ${standardTemplates()}
+- ${unitTemplates()}

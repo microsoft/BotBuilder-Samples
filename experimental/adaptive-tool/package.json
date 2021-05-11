@@ -3,9 +3,10 @@
     "author": "Microsoft Corp.",
     "displayName": "Bot Framework Adaptive Tools",
     "description": "Bot Framework Adaptive Tools",
-    "version": "0.1.1",
+    "version": "0.1.2",
     "license": "MIT",
-    "publisher": "Microsoft",
+    "publisher": "BotBuilder",
+    "icon": "resources/images/icon.jpg",
     "repository": {
         "type": "git",
         "url": "https://github.com/microsoft/BotBuilder-Samples.git"

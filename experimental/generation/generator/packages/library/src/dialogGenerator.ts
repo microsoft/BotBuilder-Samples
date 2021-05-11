@@ -56,7 +56,7 @@ function computeHash(val: string): string {
 }
 
 // Normalize to OS line endings
-function normalizeEOL(val: string): string {
+export function normalizeEOL(val: string): string {
     if (val.startsWith('#!/')) {
         // For linux shell scripts want line feed only
         val = val.replace(/\r/g, '')
@@ -244,6 +244,33 @@ async function walkJSON(elt: any, fun: (val: any, obj?: any, path?: string) => P
     }
 }
 
+function compareObjects(a: any, b: any) {
+    if (a === b) {
+        return true
+    }
+
+    if (typeof a != 'object' || typeof b != 'object' || a == null || b == null) {
+        return false
+    }
+
+    const keysA = Object.keys(a), keysB = Object.keys(b)
+
+    if (keysA.length != keysB.length) {
+        return false
+    }
+
+    for (const key of keysA) {
+        if (!keysB.includes(key)) {
+            return false
+        }
+        if (!compareObjects(a[key], b[key])) {
+            return false
+        }
+    }
+
+    return true
+}
+
 function pathName(path: string | undefined, extension: string): string {
     return path ? `${path}/${extension}` : extension
 }
@@ -275,7 +302,42 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                 if (template) {
                     break
                 } else if (await fs.pathExists(loc)) {
-                    template = lg.Templates.parseFile(loc, undefined, getExpressionEngine())
+                    const resolver = (resource: lg.LGResource, resourceId: string): lg.LGResource => {
+                        // If the import id contains "#", we would cut it to use the left path.
+                        // for example: [import](a.b.c#d.lg), after convertion, id would be d.lg
+                        const hashIndex = resourceId.indexOf('#')
+                        if (hashIndex > 0) {
+                            resourceId = resourceId.substr(hashIndex + 1)
+                        }
+
+                        let importPath = lg.TemplateExtensions.normalizePath(resourceId)
+                        if (!ppath.isAbsolute(importPath)) {
+                            // get full path for importPath relative to path which is doing the import.
+                            importPath = lg.TemplateExtensions.normalizePath(ppath.join(ppath.dirname(resource.fullName), importPath))
+                        }
+                        if (!fs.existsSync(importPath) || !fs.statSync(importPath).isFile()) {
+                            if (resourceId === 'generator.lg') {
+                                // Built-in support for the generator utilities
+                                importPath = generatorTemplate.source
+                            } else {
+                                // Look for template in template dirs
+                                importPath = ''
+                                for (const dir of templateDirs) {
+                                    let loc = templatePath(resourceId, dir)
+                                    if (fs.existsSync(loc)) {
+                                        importPath = loc
+                                        break
+                                    }
+                                }
+                            }
+                            if (!importPath) {
+                                throw Error(`Could not find file: ${resourceId}`)
+                            }
+                        }
+                        const content: string = fs.readFileSync(importPath, 'utf-8')
+                        return new lg.LGResource(importPath, importPath, content)
+                    }
+                    template = lg.Templates.parseFile(loc, resolver, getExpressionEngine())
                     TemplateCache.set(loc, template)
                     break
                 }
@@ -307,7 +369,7 @@ function addPrefix(prefix: string, name: string): string {
 
 // Add information about a newly generated file.
 // This also ensures the file does not exist already.
-type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string}
+type FileRef = {name: string, shortName: string, fallbackName: string, fullName: string, relative: string, extension: string}
 function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: any): FileRef | undefined {
     let ref: FileRef | undefined
     const basename = ppath.basename(fullPath, '.dialog')
@@ -321,7 +383,8 @@ function addFileRef(fullPath: string, outDir: string, prefix: string, tracker: a
             // Fallback is only used for .lg files
             fallbackName: basename.replace(/\.[^.]+\.lg/, '.lg'),
             fullName: ppath.basename(fullPath),
-            relative: ppath.relative(outDir, fullPath)
+            relative: ppath.relative(outDir, fullPath),
+            extension: ext
         }
     }
     return ref
@@ -337,9 +400,12 @@ function existingRef(name: string, tracker: any): FileRef | undefined {
     return arr.find(ref => ref.fullName === name)
 }
 
+type Transform = {name: string, template: lg.Templates}
 async function processTemplate(
     templateName: string,
     templateDirs: string[],
+    transforms: Transform[],
+    globalTransforms: Transform[],
     outDir: string,
     scope: any,
     force: boolean,
@@ -402,6 +468,24 @@ async function processTemplate(
 
                             // Ignore empty templates
                             if (result) {
+                                if (transforms.length > 0 || globalTransforms.length > 0) {
+                                    // Apply transforms
+                                    let body = result
+                                    let converted = false
+                                    try {
+                                        body = JSON.parse(result)
+                                        converted = true
+                                    } catch (e) {
+                                    }
+                                    for (const transform of [...transforms, ...globalTransforms]) {
+                                        const newBody = transform.template.evaluate(transform.name, {...scope, ref, body})
+                                        if (!compareObjects(newBody, body)) {
+                                            feedback(FeedbackType.debug, `${transform.name} changed ${outPath}`)
+                                            body = newBody
+                                        }
+                                    }
+                                    result = converted ? stringify(body) : body
+                                }
                                 const resultString = result as string
                                 if (resultString.includes('**MISSING**')) {
                                     feedback(FeedbackType.error, `${outPath} has **MISSING** data`)
@@ -412,13 +496,26 @@ async function processTemplate(
                                     }
                                 }
                                 await writeFile(outPath, resultString, feedback)
-                                scope.templates[ppath.extname(outPath).substring(1)].push(ref)
+                                scope.templates[ref.extension].push(ref)
                             }
                         } else {
                             feedback(FeedbackType.warning, `Skipping already existing ${outPath}`)
                         }
                     }
                 } else if (lgTemplate) {
+                    // Pick up # transforms
+                    if (lgTemplate.allTemplates.some(f => f.name == 'transforms')) {
+                        let newTransforms = lgTemplate.evaluate('transforms', scope)
+                        if (!Array.isArray(newTransforms)) {
+                            newTransforms = [newTransforms]
+                        }
+                        for (const transform of newTransforms) {
+                            feedback(FeedbackType.debug, `Adding transform ${transform}`)
+                            transforms.push({name: transform, template: lgTemplate})
+                        }
+                    }
+
+                    // Expand # templates
                     if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
                         let generated = lgTemplate.evaluate('templates', scope)
@@ -429,9 +526,10 @@ async function processTemplate(
                             feedback(FeedbackType.debug, `  ${generate}`)
                         }
                         for (const generate of generated as any as string[]) {
-                            await processTemplate(generate, templateDirs, outDir, scope, force, feedback, false)
+                            await processTemplate(generate, templateDirs, transforms, globalTransforms, outDir, scope, force, feedback, false)
                         }
                     }
+
                 }
             } else if (!ignorable) {
                 feedback(FeedbackType.error, `Missing template ${templateName}`)
@@ -487,7 +585,7 @@ async function verifyExamples(schema: any, feedback: Feedback): Promise<void> {
         return false
     })
     await walkJSON(schema, async (elt, _obj, path) => {
-        if (elt.$examples && !path?.endsWith('/items')) {
+        if (elt.$examples && !path?.endsWith('/items') && !path?.endsWith('/$generator')) {
             if (path) {
                 if (!elt.$entities) {
                     feedback(FeedbackType.error, `${path} is missing $entities`)
@@ -521,14 +619,14 @@ function verifyEnumAndGetExamples(schema: any, property: string, locale: string,
     let usedLocale = true
     let global = false
     if (!examples) {
-        usedLocale = false
-        global = false
-        examples = propertySchema.$examples?.['']?.[entity]
-    }
-    if (!examples) {
         usedLocale = true
         global = true
         examples = schema.$examples?.[locale]?.[entity]
+    }
+    if (!examples) {
+        usedLocale = false
+        global = false
+        examples = propertySchema.$examples?.['']?.[entity]
     }
     if (!examples) {
         usedLocale = false
@@ -559,6 +657,7 @@ function verifyEnumAndGetExamples(schema: any, property: string, locale: string,
 async function processTemplates(
     schema: s.Schema,
     templateDirs: string[],
+    transforms: Transform[],
     locales: string[],
     outDir: string,
     scope: any,
@@ -600,11 +699,12 @@ async function processTemplates(
                 for (const entityName of entities) {
                     // If expression will get handled by expandSchema
                     if (!entityName.startsWith('$')) {
+                        const entityTransforms = []
                         scope.entity = entityName
                         feedback(FeedbackType.debug, `=== ${scope.locale} ${scope.property} ${scope.entity} ===`)
                         scope.examples = verifyEnumAndGetExamples(schema.schema, property.path, locale, entityName, feedback)
                         for (const template of templates) {
-                            await processTemplate(template, templateDirs, outDir, scope, force, feedback, false)
+                            await processTemplate(template, templateDirs, entityTransforms, transforms, outDir, scope, force, feedback, false)
                         }
 
                         delete scope.entity
@@ -622,7 +722,7 @@ async function processTemplates(
             feedback(FeedbackType.debug, `=== Global templates ===`)
             scope.examples = await globalExamples(outDir, scope)
             for (const templateName of schema.schema.$templates) {
-                await processTemplate(templateName, templateDirs, outDir, scope, force, feedback, false)
+                await processTemplate(templateName, templateDirs, [], transforms, outDir, scope, force, feedback, false)
             }
         }
 
@@ -791,14 +891,12 @@ async function generateSingleton(schema: string, inDir: string, outDir: string, 
         }
         return false
     })
-    delete main.$Generator
-    main.$Generator = computeJSONHash(main)
     for (const [name, path] of files) {
         if (!used.has(name)) {
             const outPath = ppath.join(outDir, ppath.relative(inDir, path))
             feedback(FeedbackType.info, `Generating ${outPath}`)
             if (name === mainName && path) {
-                await fs.writeJSON(outPath, main, {spaces: '  '})
+                await writeFile(outPath, JSON.stringify(main), feedback)
             } else {
                 await fs.copy(path, outPath)
             }
@@ -811,13 +909,17 @@ const templatePrefix: string = 'template:'
 function resolveDir(dirs: string[]): string[] {
     const expanded: string[] = []
     for (let dir of dirs) {
+
         if (dir.startsWith(templatePrefix)) {
             // Expand template:<name> relative to built-in templates
-            expanded.push(ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length))))
+            dir = ppath.resolve(ppath.join(__dirname, '../templates', dir.substring(templatePrefix.length)))
         } else {
-            dir = ppath.resolve(dir)
-            expanded.push(normalize(dir))
+            dir = normalize(ppath.resolve(dir))
         }
+        if (!fs.existsSync(dir)) {
+            throw new Error(`Template directory ${dir} does not exist`)
+        }
+        expanded.push(dir)
     }
     return expanded
 }
@@ -840,8 +942,9 @@ function normalize(path: string): string {
  * @param prefix Prefix to use for generated files.
  * @param outDir Where to put generated files.
  * @param metaSchema Schema to use when generating .dialog files
- * @param allLocales Locales to generate.
+ * @param locales Locales to generate.
  * @param templateDirs Where templates are found.
+ * @param transforms Name of global transforms to include from templateDirs.
  * @param force True to force overwriting existing files.
  * @param merge Merge generated results into target directory.
  * @param singleton Merge .dialog into a single .dialog.
@@ -850,21 +953,32 @@ function normalize(path: string): string {
  */
 export async function generate(
     schemaPath: string,
-    prefix?: string,
-    outDir?: string,
-    metaSchema?: string,
-    allLocales?: string[],
-    templateDirs?: string[],
-    force?: boolean,
-    merge?: boolean,
-    singleton?: boolean,
-    feedback?: Feedback)
+    {
+        prefix,
+        outDir,
+        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/RunBot.schema',
+        locales = ['en-us'],
+        templateDirs = [],
+        transforms = [],
+        force = false,
+        merge = false,
+        singleton = false,
+        feedback = (_info, _message) => true
+    }: {
+        prefix?: string,
+        outDir?: string,
+        metaSchema?: string,
+        locales?: string[],
+        templateDirs?: string[],
+        transforms?: string[],
+        force?: boolean,
+        merge?: boolean,
+        singleton?: boolean,
+        feedback?: Feedback
+    })
     : Promise<boolean> {
     const start = process.hrtime.bigint()
 
-    if (!feedback) {
-        feedback = (_info, _message) => true
-    }
     let error = false
     const externalFeedback = feedback
     feedback = (info, message) => {
@@ -886,19 +1000,9 @@ export async function generate(
         outDir = ppath.join(prefix + '-resources')
     }
 
-    if (!metaSchema) {
-        metaSchema = 'https://raw.githubusercontent.com/microsoft/botbuilder-samples/main/experimental/generation/runbot/RunBot.schema'
-    } else if (!metaSchema.startsWith('http')) {
+    if (!metaSchema.startsWith('http')) {
         // Adjust relative to outDir
         metaSchema = ppath.relative(outDir, metaSchema)
-    }
-
-    if (!allLocales) {
-        allLocales = ['en-us']
-    }
-
-    if (!templateDirs) {
-        templateDirs = []
     }
 
     if (force) {
@@ -929,8 +1033,11 @@ export async function generate(
             }
         }
         feedback(FeedbackType.message, `${op} resources for ${ppath.basename(schemaPath, '.schema')} in ${outDir}`)
-        feedback(FeedbackType.message, `Locales: ${JSON.stringify(allLocales)} `)
+        feedback(FeedbackType.message, `Locales: ${JSON.stringify(locales)} `)
         feedback(FeedbackType.message, `Templates: ${JSON.stringify(templateDirs)} `)
+        if (transforms) {
+            feedback(FeedbackType.message, `Transforms: ${JSON.stringify(transforms)}`)
+        }
         feedback(FeedbackType.message, `App.schema: ${metaSchema} `)
 
         let outPath = outDir
@@ -971,9 +1078,33 @@ export async function generate(
         await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
 
+        // Load global transforms
+        const transformers: Transform[] = []
+        for (const transformName of transforms) {
+            const foundTemplate = await findTemplate(transformName, templateDirs)
+            if (foundTemplate !== undefined) {
+                const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
+                if (lgTemplate?.allTemplates.some(f => f.name === 'transforms')) {
+                    lgTemplate.importResolver
+                    let newTransforms = lgTemplate.evaluate('transforms', {})
+                    if (!Array.isArray(newTransforms)) {
+                        newTransforms = [newTransforms]
+                    }
+                    for (const transform of newTransforms) {
+                        feedback(FeedbackType.debug, `Adding global transform ${transform}`)
+                        transformers.push({name: transform, template: lgTemplate})
+                    }
+                } else {
+                    feedback(FeedbackType.error, `${transformName} must be an LG file with a transforms template.`)
+                }
+            } else {
+                feedback(FeedbackType.error, `Missing transformer ${transformName}.`)
+            }
+        }
+
         // Process templates
         let scope: any = {
-            locales: allLocales,
+            locales: locales,
             prefix: (prefix ?? schema.name()).replace('-', '_'),
             schema: schema.schema,
             operations: schema.schema.$operations,
@@ -988,7 +1119,7 @@ export async function generate(
         }
 
         scope = {...scope, entities: schema.entityToProperties()}
-        await processTemplates(schema, templateDirs, allLocales, outPath, scope, force, feedback)
+        await processTemplates(schema, templateDirs, transformers, locales, outPath, scope, force, feedback)
 
         // Expand all remaining schema expressions
         const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
@@ -1011,9 +1142,9 @@ export async function generate(
             // Merge old and new directories
             if (merge) {
                 if (singleton) {
-                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, allLocales, feedback)
+                    await merger.mergeAssets(prefix, outDir, outPathSingle, outDir, locales, feedback)
                 } else {
-                    await merger.mergeAssets(prefix, outDir, outPath, outDir, allLocales, feedback)
+                    await merger.mergeAssets(prefix, outDir, outPath, outDir, locales, feedback)
                 }
             }
 

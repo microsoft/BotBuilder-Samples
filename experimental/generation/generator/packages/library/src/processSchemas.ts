@@ -12,7 +12,7 @@ const clone = require('clone')
 const parser: any = require('json-schema-ref-parser')
 
 /** Mapping from schema name to schema definition. */
-export type IdToSchema = { [id: string]: any }
+export type IdToSchema = {[id: string]: any}
 
 /** 
  * Find all schemas in template directories.
@@ -38,19 +38,20 @@ export function feedbackException(type: fg.FeedbackType, message: string) {
 }
 
 // Cache of all schemas
-const SchemaCache: { [path: string]: any } = {}
+const SchemaCache: {[path: string]: any} = {}
 
-// All .schema files found in template directories
+// All .template files found in template directories
 async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): Promise<IdToSchema> {
     const map: IdToSchema = {}
     for (const dir of templateDirs) {
-        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.schema'))) {
+        for (const file of await glob(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*.template'))) {
             let schema = SchemaCache[file]
             if (!schema) {
                 schema = await getSchema(file, feedback)
                 SchemaCache[file] = schema
             }
-            const id = schema.$id || ppath.basename(file, '.schema').toLowerCase()
+            // We are forced into lower case because the parsing derefencing lowercases $ref
+            const id = (schema.$id || ppath.basename(file, '.template')).toLowerCase()
             if (!map[id]) {
                 // First definition found wins
                 map[id] = schema
@@ -68,19 +69,14 @@ async function templateSchemas(templateDirs: string[], feedback: fg.Feedback): P
 async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, resolver: any, feedback: fg.Feedback): Promise<void> {
     const addRequired = async (required: string) => {
         if (!found[required]) {
-            const schema = map[required] || await getSchema(required, feedback, resolver)
-            if (!schema) {
-                feedback(fg.FeedbackType.error, `Schema ${required} cannot be found`)
-            } else {
-                found[required] = schema
-            }
+            found[required] = map[required] || await getSchema(required, feedback, resolver)
         }
     }
     if (typeof schema === 'object') {
         for (const [child, val] of Object.entries(schema)) {
             if (child === '$requires') {
                 for (const required of val as string[]) {
-                    await addRequired(ppath.basename(required, '.schema'))
+                    await addRequired(ppath.basename(required, '.template'))
                 }
             } else {
                 await findRequires(val, map, found, resolver, feedback)
@@ -91,15 +87,10 @@ async function findRequires(schema: any, map: IdToSchema, found: IdToSchema, res
 
 // Get a schema after following all references and removing allOf
 async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): Promise<any> {
-    let schema
-    try {
-        const noref = await parser.dereference(path, { resolve: { template: resolver } })
-        schema = allof(noref)
-        if (schema.$generator) {
-            schema.$generator = allof(schema.$generator)
-        }
-    } catch (err) {
-        feedback(fg.FeedbackType.error, err)
+    const noref = await parser.dereference(path, {resolve: {template: resolver}})
+    const schema = allof(noref)
+    if (schema.$generator) {
+        schema.$generator = allof(schema.$generator)
     }
     return schema
 }
@@ -108,13 +99,13 @@ async function getSchema(path: string, feedback: fg.Feedback, resolver?: any): P
 function mergeSchemas(allSchema: any, schemas: any[]) {
     for (const schema of schemas) {
         // Merge definitions
-        allSchema.properties = { ...allSchema.properties, ...schema.properties }
-        allSchema.definitions = { ...allSchema.definitions, ...schema.definitions }
+        allSchema.properties = {...allSchema.properties, ...schema.properties}
+        allSchema.definitions = {...allSchema.definitions, ...schema.definitions}
         if (schema.required) allSchema.required = allSchema.required.concat(schema.required)
         if (schema.$defaultOperation) allSchema.$defaultOperation = allSchema.$defaultOperation.concat(schema.$defaultOperation)
         if (schema.$requiresValue) allSchema.$requiresValue = allSchema.$requiresValue.concat(schema.$requiresValue)
-        if (schema.$examples) allSchema.$examples = { ...allSchema.$examples, ...schema.$examples }
-        if (schema.$parameters) allSchema.$parameters = { ...allSchema.$parameters, ...schema.$parameters }
+        if (schema.$examples) allSchema.$examples = {...allSchema.$examples, ...schema.$examples}
+        if (schema.$parameters) allSchema.$parameters = {...allSchema.$parameters, ...schema.$parameters}
         if (schema.$expectedOnly) allSchema.$expectedOnly = allSchema.$expectedOnly.concat(schema.$expectedOnly)
         if (schema.$operations) allSchema.$operations = allSchema.$operations.concat(schema.$operations)
         if (schema.$public) allSchema.$public = allSchema.$public.concat(schema.$public)
@@ -145,15 +136,17 @@ export function typeName(property: any): string {
     return type
 }
 
-async function templateResolver(templateDirs: string[], feedback: fg.Feedback): Promise<{ allRequired: any, resolver: any }> {
+async function templateResolver(templateDirs: string[], feedback: fg.Feedback): Promise<{allRequired: any, resolver: any}> {
     const allRequired = await templateSchemas(templateDirs, feedback)
     return {
         allRequired,
         resolver: {
             canRead: /template:/,
             read(file: any): any {
-                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.schema')
-                const schema = allRequired[base.toLowerCase()]
+                // Parser dereference always converts file.url to lower case.  If that is ever fixed, this will fail 
+                // and we can stop lower casing template names
+                const base = ppath.basename(file.url.substring(file.url.indexOf(':') + 1), '.template')
+                const schema = allRequired[base]
                 if (!schema) {
                     throw new Error(`Could not find ${file.url}`)
                 }
@@ -170,8 +163,8 @@ async function templateResolver(templateDirs: string[], feedback: fg.Feedback): 
  * @returns Expanded schema definition including $templateDirs if not present.
  */
 export async function expandPropertyDefinition(property: any, templateDirs: string[]): Promise<any> {
-    const { allRequired, resolver } = await templateResolver(templateDirs, feedbackException)
-    const schema = allof(await parser.dereference(property, { resolve: { template: resolver } }))
+    const {allRequired, resolver} = await templateResolver(templateDirs, feedbackException)
+    const schema = allof(await parser.dereference(property, {resolve: {template: resolver}}))
     return schema
 }
 
@@ -183,18 +176,15 @@ const ContraintKeywords = ['minimum', 'maximum', 'exclusiveMinimum', 'exclusiveM
  * This makes it easier to use a child schema in items.
  * @param schema Schema fragment to promote.
  */
-function promoteItemsAndRemoveGenerator(schema: any): void {
+function promoteItems(schema: any): void {
     if (Array.isArray(schema)) {
         for (var child in schema) {
-            promoteItemsAndRemoveGenerator(child)
+            promoteItems(child)
         }
     } else if (typeof schema === 'object' && schema !== null) {
-        // $generator is only for UI
-        delete schema.$generator
         for (var [prop, val] of Object.entries(schema)) {
             if (prop === 'items') {
                 if (val && typeof val === 'object' && !Array.isArray(val)) {
-                    delete val['$generator']
                     for (var [prop, itemVal] of Object.entries(val as object)) {
                         if (((prop.startsWith('$') && prop !== '$schema') || ContraintKeywords.includes(prop)) && !schema[prop]) {
                             schema[prop] = itemVal
@@ -202,7 +192,7 @@ function promoteItemsAndRemoveGenerator(schema: any): void {
                     }
                 }
             } else {
-                promoteItemsAndRemoveGenerator(val)
+                promoteItems(val)
             }
         }
     }
@@ -250,12 +240,12 @@ function ensureTemplate(schema: any): void {
  */
 export async function processSchemas(schemaPath: string, templateDirs: string[], feedback: fg.Feedback)
     : Promise<s.Schema> {
-    const { allRequired, resolver } = await templateResolver(templateDirs, feedback)
+    const {allRequired, resolver} = await templateResolver(templateDirs, feedback)
     const formSchema = await getSchema(schemaPath, feedback, resolver)
     const required = {}
     if (!formSchema.$requires) {
         // Default to standard schema
-        formSchema.$requires = ['standard.schema']
+        formSchema.$requires = ['standard.template']
     }
     if (!formSchema.$templateDirs) {
         // Default to including schema directory
@@ -278,7 +268,7 @@ export async function processSchemas(schemaPath: string, templateDirs: string[],
         allSchema.$public = Object.keys(formSchema.properties)
     }
     mergeSchemas(allSchema, Object.values(required))
-    promoteItemsAndRemoveGenerator(allSchema)
+    promoteItems(allSchema)
     ensureTemplate(allSchema)
     return new s.Schema(schemaPath, allSchema)
 }

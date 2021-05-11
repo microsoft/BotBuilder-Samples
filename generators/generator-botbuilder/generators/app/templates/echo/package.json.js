@@ -16,8 +16,8 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.11.0",
-        "dotenv": "^8.2.0",
+        "botbuilder": "~4.13.2",
+        "dotenv": "~8.2.0",
         "restify": "~8.5.1"
     },
     "devDependencies": {
@@ -27,6 +27,6 @@
         "eslint-plugin-node": "^11.1.0",
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
-        "nodemon": "~2.0.4"
+        "nodemon": "^2.0.4"
     }
 }

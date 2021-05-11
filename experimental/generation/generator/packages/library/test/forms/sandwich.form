@@ -13,13 +13,13 @@
             ]
         },
         "Length": {
-            "$ref": "template:dimension.schema",
+            "$ref": "template:dimension",
             "$units": "Inch",
             "minimum": 6,
             "maximum": 12
         },
         "Name": {
-            "$ref": "template:personName.schema"
+            "$ref": "template:personName"
         },
         "Bread": {
             "type": "string",
@@ -108,7 +108,7 @@
             "uniqueItems": true
         },
         "Price": {
-            "$ref": "template:money.schema"
+            "$ref": "template:money"
         }
     },
     "required": [

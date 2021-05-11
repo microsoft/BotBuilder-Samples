@@ -4,4 +4,4 @@
 - ${['personName', 'utterance']}
 
 # templates
-- ${standardTemplates()}
+- ${stringTemplates()}

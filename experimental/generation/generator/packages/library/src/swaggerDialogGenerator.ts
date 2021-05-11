@@ -20,7 +20,7 @@ function generateParam(obj: any) {
     case 'string':
       if (obj.format === 'date-time') {
         return {
-          $ref: 'template:datetime.schema'
+          $ref: 'template:datetime.template'
         }
       } else if ('enum' in obj) {
         const structType = {}
@@ -52,8 +52,8 @@ function generateJsonSchema() {
     ,
     required: new Array(),
     $requires: [
-      'http.schema',
-      'standard.schema'
+      'http.template',
+      'standard.template'
     ]
   }
 }

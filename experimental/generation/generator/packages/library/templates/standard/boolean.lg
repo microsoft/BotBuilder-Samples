@@ -4,4 +4,4 @@
 - ${['boolean']}
 
 # templates
-- ${standardTemplates()}
+- ${genericTemplates()}

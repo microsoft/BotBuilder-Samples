@@ -4,4 +4,4 @@
 - ${['ordinalV2']}
 
 # templates
-- ${standardTemplates()}
+- ${genericTemplates()}

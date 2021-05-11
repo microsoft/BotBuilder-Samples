@@ -3,23 +3,23 @@
 
 # nameTemplate()
 -```
-${'#'} ${property}_Name
+# ${property}_Name()
 > Name of the '${property}' property
 - ${phrase(property, locale)}```
 
 # valueTemplate()
 -```
-${'#'} ${property}_Value(val)
+# ${property}_Value(val)
 > Display value for '${property}'
  - IF: \${val}
- - \${${if(isArrayProperty(property), 'value(val)', 'val')}}
+ - '\${${if(isArrayProperty(property), 'value(val)', 'val')}}'
  - ELSE:
  - no value
 ```
 
 # complexValueTemplate(type)
 -```
-${'#'} ${property}_Value(val)
+# ${property}_Value(val)
 > Display value for '${property}'
 - \${value(val)}
 ```
@@ -27,13 +27,13 @@ ${'#'} ${property}_Value(val)
 # entityTypeTemplate(type)
 -```${formImport('form.en-us.lg')}
 > Display value for '${type}' entity
-${'#'} ${type}Value_Value(entity)
+# ${type}Value_Value(entity)
 - \${value(entity.value)}
 ```
 
 # entityTextTemplate(type)
 -```
-${'#'} ${type}Value_Value(entity)
+# ${type}Value_Value(entity)
 > Display value for '${type}' entity
 - \${entity.text}
 ```
@@ -67,16 +67,13 @@ ${'#'} ${type}Value_Value(entity)
     - a ${word}
 
 # missingDefault(type)
-- IF: ${isArrayProperty(property)}
-    - Enter ${definite(type)} to add to ${propertyName()}
-- ELSE:
-    - Enter ${definite(type)} for ${propertyName()}
+- ${sentenceCase(propertyName())}?
 
 # changeDefault(type)
 - IF: ${isArrayProperty(property)}
-    - How do you want to change ${propertyCurrentValue()} in ${propertyName()}
+    - Changes to "${propertyCurrentValue()}" in ${propertyName()}?
 - ELSE:
-    - Change ${propertyCurrentValue()} in ${propertyName()} to?
+    - Change "${propertyCurrentValue()}" in ${propertyName()} to?
 
 # repromptDefault(type)
 - ${helpDefault(type)}
@@ -137,13 +134,13 @@ ${valueTemplate()}
 
 # helpString()
 - IF: ${isArrayProperty(property)}
-    - ${propertyName()} is a collection any value
+    - ${propertyName()} is a collection of any values
 - ELSE:
     - Any response is allowed for ${propertyName()}
 
 # stringValidationTemplates()
 - IF: ${propertySchema.pattern}
-    -```${'#'} ${property}_NoPatternMatch(val)
+    -```# ${property}_NoPatternMatch(val)
 - ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
 ```
 - ELSE:
@@ -168,11 +165,32 @@ ${confirmationTemplates(expectedSetDefault(),
                         clearDefault())}
 ${incorrectUnitsTemplate()}
 ${validationTemplates()}
-${helpTemplates(repromptDefault(template), helpDefault(template))}
+${helpTemplates(repromptUnits(template), helpUnits(template))}
 ${showTemplate(showDefault())}
 ${nameTemplate()}
 ${complexValueTemplate(template)}
 ```
+
+# repromptUnits(type)
+- ${helpUnits(type)}
+
+# helpUnits(type)
+- IF: ${isArrayProperty(property)}
+    - ${propertyName()} is a collection of ${unitsDescription()}
+- ELSE:
+    - ${propertyName()} is ${unitDescription()}
+
+# unitDescription()
+- IF: ${propertySchema.$units}
+    - ${`in ${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${definite(type)}
+
+# unitsDescription()
+- IF: ${propertySchema.$units}
+    - ${`${propertySchema.$units}s ${numberRanges()}`}
+- ELSE:
+    - ${type}s
 
 >> Number templates
 
@@ -214,7 +232,7 @@ ${tooBig()}```
 # tooSmall()
 - IF: ${propertySchema.minimum}
     -```
-${'#'} ${property}_IsTooSmall(val)
+# ${property}_TooSmall(val)
 > ${property} property is less than minimum allowed value
 - ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -223,7 +241,7 @@ ${'#'} ${property}_IsTooSmall(val)
 # tooBig()
 - IF: ${propertySchema.maximum}
     -```
-${'#'} ${property}_IsTooBig(val)
+# ${property}_TooBig(val)
 > ${property} property is greater than maximum allowed value
 - ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
 - ELSE:
@@ -231,7 +249,7 @@ ${'#'} ${property}_IsTooBig(val)
 
 # unitsMessage()
 - IF: ${propertySchema.$units}
-    - ${concat(' ', propertySchema.$units)}
+    - ${` ${propertySchema.$units}s`}
 - ELSE:
     -
 
@@ -242,7 +260,7 @@ ${'#'} ${property}_IsTooBig(val)
 
 # dateFormatValidationMessage()
 - ```
-${'#'} ${property}_invalid${templateName(propertySchema.format)}(val)
+# ${property}_invalid${templateName(propertySchema.format)}(val)
 > Invalid ${propertySchema.format} for '${property}' property
 - \${value(val)} is not a ${propertySchema.format}```
 
