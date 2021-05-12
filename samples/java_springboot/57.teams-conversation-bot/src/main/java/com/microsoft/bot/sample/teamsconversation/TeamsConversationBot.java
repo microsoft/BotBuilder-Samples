@@ -10,6 +10,7 @@ import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.teams.TeamsActivityHandler;
 import com.microsoft.bot.builder.teams.TeamsInfo;
 import com.microsoft.bot.connector.authentication.MicrosoftAppCredentials;
+import com.microsoft.bot.connector.rest.ErrorResponseException;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.schema.ActionTypes;
 import com.microsoft.bot.schema.Activity;
@@ -29,6 +30,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * This class implements the functionality of the Bot.
@@ -56,6 +59,9 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         switch (turnContext.getActivity().getText().trim()) {
             case "MentionMe":
                 return mentionActivity(turnContext);
+
+            case "who":
+                return getSingleMember(turnContext);
 
             case "UpdateCardAction":
                 return updateCardActivity(turnContext);
@@ -103,6 +109,27 @@ public class TeamsConversationBot extends TeamsActivityHandler {
             )
             .collect(CompletableFutures.toFutureList())
             .thenApply(resourceResponses -> null);
+    }
+
+    private CompletableFuture<Void> getSingleMember(TurnContext turnContext) {
+        AtomicReference<TeamsChannelAccount> member = new AtomicReference<>(new TeamsChannelAccount());
+
+        try {
+            TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenAccept(member::set);
+        } catch (CompletionException ex) {
+            Throwable causeException = ex.getCause();
+            if (causeException instanceof ErrorResponseException) {
+                if (((ErrorResponseException) causeException).body()
+                        .getError().getCode().equals("MemberNotFoundInConversation")) {
+                    turnContext.sendActivity("Member not found.").thenApply(result -> null);
+                }
+            } else {
+                throw ex;
+            }
+        }
+
+        Activity message = MessageFactory.text(String.format("You are %s.", member.get().getName()));
+        return turnContext.sendActivity(message).thenApply(result -> null);
     }
 
     private CompletableFuture<Void> deleteCardActivity(TurnContext turnContext) {
