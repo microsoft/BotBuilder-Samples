@@ -7,16 +7,6 @@
 > EOL constant for templates
 -\n
 
-# welcome
-> Default welcome activity for form
-[Activity
-    Text = ${welcome_text()}
-]
-
-# welcome_text
-> Default welcome prompt for form
-- ${helpGlobal()}
-
 # alreadyExistsText(property, entity)
 > Message if a value already exists in an array
 - '${value(entity)}' is already in ${propertyName(property)}
@@ -68,7 +58,13 @@
 - 
 
 # helpGlobal
-> Global help message
+> Global help message activity
+[Activity
+    Text = ${helpGlobal_text()}
+]
+
+# helpGlobal_text
+> Global help message 
 - ```
 ${requiredProperties()}
 ${optionalProperties()}
