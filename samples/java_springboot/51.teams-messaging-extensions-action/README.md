@@ -6,6 +6,8 @@ Bot Framework v4 Conversation Bot sample for Teams.
 There are two basic types of Messaging Extension in Teams: [Search-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/search-commands/define-search-command) and [Action-based](https://docs.microsoft.com/en-us/microsoftteams/platform/messaging-extensions/how-to/action-commands/define-action-command). This sample illustrates how to
 build an Action-based Messaging Extension.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
+
 ## Prerequisites
 
 - Java 1.8+
@@ -77,12 +79,12 @@ Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` 
 
 #### To a new Resource Group
 ```
-az deployment sub create --name "suggestedActionsBotDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="teamsMessagingExtensionActionBotPlan" newWebAppName="teamsMessagingExtensionActionBot" groupLocation="westus" newAppServicePlanLocation="westus"
+az deployment sub create --name "teamsActionDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="teamsActionPlan" newWebAppName="teamsActionBot" groupLocation="westus" newAppServicePlanLocation="westus"
 ```
 
 #### To an existing Resource Group
 ```
-az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="teamsMessagingExtensionActionBot" newAppServicePlanName="teamsMessagingExtensionActionBotPlan" appServicePlanLocation="westus" --name "teamsMessagingExtensionActionBot"
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="teamsActionBot" newAppServicePlanName="teamsActionPlan" appServicePlanLocation="westus" --name "teamsActionBot"
 ```
 
 ### 5. Update app id and password
