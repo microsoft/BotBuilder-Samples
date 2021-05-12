@@ -41,11 +41,17 @@ public class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandl
         if (turnContext.getActivity().getValue() != null) {
             // This was a message from the card.
             LinkedHashMap obj = (LinkedHashMap) turnContext.getActivity().getValue();
-            String answer = (String) obj.get("Answer");
-            String choices = (String) obj.get("Choices");
+            String answer = "";
+            if (obj.get("Answer") != null) {
+                answer = (String) obj.get("Answer");
+            }
+            String choices = "";
+            if (obj.get("Choices") != null) {
+                choices = (String) obj.get("Choices");
+            }
          return turnContext.sendActivity(
              MessageFactory.text(
-                 String.format("%1$s answered '%2$s' and chose '%3$s",
+                 String.format("%1$s answered '%2$s' and chose '%3$s'",
                      turnContext.getActivity().getFrom().getName(),
                      answer,
                      choices)))
