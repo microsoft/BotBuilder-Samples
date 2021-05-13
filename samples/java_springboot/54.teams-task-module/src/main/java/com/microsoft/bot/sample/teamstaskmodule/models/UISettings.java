@@ -4,11 +4,11 @@
 package com.microsoft.bot.sample.teamstaskmodule.models;
 
 public class UISettings {
-    int width;
-    int height;
-    String title;
-    String id;
-    String buttonTitle;
+    private int width;
+    private int height;
+    private String title;
+    private String id;
+    private String buttonTitle;
 
     public UISettings(
         int withWidth,

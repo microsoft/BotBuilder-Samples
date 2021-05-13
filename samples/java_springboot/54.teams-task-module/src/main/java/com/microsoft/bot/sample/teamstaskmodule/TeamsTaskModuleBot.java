@@ -128,7 +128,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
             // Echo the users input back.  In a production bot, this is where you'd add behavior in
             // response to the input.
             MessageFactory.text(
-                "onTeamsTaskModuleSubmit TaskModuleRequest: "
+                "OnTeamsTaskModuleSubmitAsync Value:"
                     + new ObjectMapper().writeValueAsString(taskModuleRequest)
             )
         )
@@ -143,6 +143,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
     }
 
     private Attachment getTaskModuleHeroCardOptions() {
+        // Create a Hero Card with TaskModuleActions for each Task Module
         List<CardAction> buttons = actions.stream().map(cardType -> {
             CardTaskFetchValue fetchValue = new CardTaskFetchValue<String>();
             fetchValue.setData(cardType.getId());
@@ -157,6 +158,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
     }
 
     private Attachment getTaskModuleAdaptiveCardOptions() {
+        // Create an Adaptive Card with an AdaptiveSubmitAction for each Task Module
         try (InputStream inputStream = getClass().getClassLoader()
             .getResourceAsStream("adaptiveTemplate.json")
         ) {
