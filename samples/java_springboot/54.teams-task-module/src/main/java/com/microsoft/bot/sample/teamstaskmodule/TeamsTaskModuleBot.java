@@ -128,7 +128,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
             // Echo the users input back.  In a production bot, this is where you'd add behavior in
             // response to the input.
             MessageFactory.text(
-                "OnTeamsTaskModuleSubmitAsync Value:"
+                "OnTeamsTaskModuleSubmit Value: "
                     + new ObjectMapper().writeValueAsString(taskModuleRequest)
             )
         )
