@@ -1,6 +1,0 @@
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\authentication\AllowedSkillsClaimsValidator.java
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\RootBot.java
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\controller\SkillController.java
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\Application.java
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\SkillsConfiguration.java
-H:\BotFramework\botbuilder-java\samples\80.skills-simple-bot-to-bot\DialogRootBot\src\main\java\com\microsoft\bot\sample\simplerootbot\SkillAdapterWithErrorHandler.java
