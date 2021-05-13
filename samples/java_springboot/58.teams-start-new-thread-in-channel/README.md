@@ -1,9 +1,11 @@
-﻿# Teams Start Thread In A Team
+﻿# Microsoft Teams - Start Thread In A Specific Channel of a Team
 
 Bot Framework v4 Conversation Bot sample for Teams.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com). This sample shows
 how to incorporate basic conversational flow into a Teams application. It also illustrates a few of the Teams specific calls you can make from your bot.
+
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
 
 ## Prerequisites
 
