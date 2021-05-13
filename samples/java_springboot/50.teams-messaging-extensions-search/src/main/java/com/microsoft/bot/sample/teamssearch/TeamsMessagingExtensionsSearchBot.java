@@ -35,14 +35,20 @@ public class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         TurnContext turnContext,
         MessagingExtensionQuery query
     ) {
-        List<MessagingExtensionParameter> queryParams = query.getParameters();
         String text = "";
-        if (queryParams != null && !queryParams.isEmpty()) {
-            text = (String) queryParams.get(0).getValue();
+        if (query != null && query.getParameters() != null) {
+            List<MessagingExtensionParameter> queryParams = query.getParameters();
+            if (!queryParams.isEmpty()) {
+                text = (String) queryParams.get(0).getValue();
+            }
         }
 
         return findPackages(text)
             .thenApply(packages -> {
+                // We take every row of the results
+                // and wrap them in cards wrapped in MessagingExtensionAttachment objects.
+                // The Preview is optional, if it includes a Tap
+                // that will trigger the onTeamsMessagingExtensionSelectItem event back on this bot.
                 List<MessagingExtensionAttachment> attachments = new ArrayList<>();
                 for (String[] item : packages) {
                     ObjectNode data = Serialization.createObjectNode();
@@ -78,6 +84,8 @@ public class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
                 composeExtension.setAttachmentLayout("list");
                 composeExtension.setAttachments(attachments);
 
+                // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult
+                // wrapped in a MessagingExtensionResponse.
                 return new MessagingExtensionResponse(composeExtension);
             });
     }
@@ -88,6 +96,7 @@ public class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         Object query
     ) {
 
+        // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event.
         Map cardValue = (Map) query;
         List<String> data = (ArrayList) cardValue.get("data");
         CardAction cardAction = new CardAction();
@@ -95,12 +104,16 @@ public class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         cardAction.setTitle("Project");
         cardAction.setValue(data.get(3));
 
+        // We take every row of the results
+        // and wrap them in cards wrapped in MessagingExtensionAttachment objects.
+        // The Preview is optional, if it includes a Tap
+        // that will trigger the onTeamsMessagingExtensionSelectItem event back on this bot.
         ThumbnailCard card = new ThumbnailCard();
         card.setTitle(data.get(0));
         card.setSubtitle(data.get(2));
         card.setButtons(Arrays.asList(cardAction));
 
-        if (!StringUtils.isEmpty(data.get(4))) {
+        if (StringUtils.isNotBlank(data.get(4))) {
             CardImage cardImage = new CardImage();
             cardImage.setUrl(data.get(4));
             cardImage.setAlt("Icon");
@@ -118,6 +131,7 @@ public class TeamsMessagingExtensionsSearchBot extends TeamsActivityHandler {
         return CompletableFuture.completedFuture(new MessagingExtensionResponse(composeExtension));
     }
 
+    // Generate a set of substrings to illustrate the idea of a set of results coming back from a query.
     private CompletableFuture<List<String[]>> findPackages(String text) {
         return CompletableFuture.supplyAsync(() -> {
             OkHttpClient client = new OkHttpClient();
