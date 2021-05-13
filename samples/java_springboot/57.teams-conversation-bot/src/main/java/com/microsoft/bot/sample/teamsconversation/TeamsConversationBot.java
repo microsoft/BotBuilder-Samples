@@ -55,36 +55,19 @@ public class TeamsConversationBot extends TeamsActivityHandler {
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         turnContext.getActivity().removeRecipientMention();
-
-        switch (turnContext.getActivity().getText().trim()) {
-            case "MentionMe":
-                return mentionActivity(turnContext);
-
-            case "who":
-                return getSingleMember(turnContext);
-
-            case "UpdateCardAction":
-                return updateCardActivity(turnContext);
-
-            case "Delete":
-                return deleteCardActivity(turnContext);
-
-            case "MessageAllMembers":
-                return messageAllMembers(turnContext);
-
-            default:
-                // This will come back deserialized as a Map.
-                Object value = new Object() {
-                    int count = 0;
-                };
-
-                HeroCard card = new HeroCard();
-                card.setTitle("Welcome Card");
-                card.setText("Click the buttons below to update this card");
-                card.setButtons(getHeroCardButtons(value));
-
-                return turnContext.sendActivity(MessageFactory.attachment(card.toAttachment()))
-                    .thenApply(resourceResponse -> null);
+        String text = turnContext.getActivity().getText().trim().toLowerCase();
+        if (text.contains("mention")) {
+            return mentionActivity(turnContext);
+        } else if (text.contains("who")) {
+            return getSingleMember(turnContext);
+        } else if (text.contains("message")) {
+            return messageAllMembers(turnContext);
+        } else if (text.contains("update")) {
+            return cardActivity(turnContext, true);
+        } else if (text.contains("delete")) {
+            return deleteCardActivity(turnContext);
+        } else {
+            return cardActivity(turnContext, false);
         }
     }
 
@@ -111,11 +94,46 @@ public class TeamsConversationBot extends TeamsActivityHandler {
             .thenApply(resourceResponses -> null);
     }
 
+    private CompletableFuture<Void> cardActivity(TurnContext turnContext, Boolean update) {
+        CardAction allMembersAction = new CardAction();
+        allMembersAction.setType(ActionTypes.MESSAGE_BACK);
+        allMembersAction.setTitle("Message all members");
+        allMembersAction.setText("MessageAllMembers");
+
+        CardAction mentionAction = new CardAction();
+        mentionAction.setType(ActionTypes.MESSAGE_BACK);
+        mentionAction.setTitle("Who am I?");
+        mentionAction.setText("whoami");
+
+        CardAction deleteAction = new CardAction();
+        deleteAction.setType(ActionTypes.MESSAGE_BACK);
+        deleteAction.setTitle("Delete card");
+        deleteAction.setText("Delete");
+
+        HeroCard card = new HeroCard();
+        List<CardAction> buttons = new ArrayList<>();
+        buttons.add(allMembersAction);
+        buttons.add(mentionAction);
+        buttons.add(deleteAction);
+        card.setButtons(buttons);
+
+        if (update) {
+            return sendUpdatedCard(turnContext, card);
+        } else {
+            return sendWelcomeCard(turnContext, card);
+        }
+    }
+
     private CompletableFuture<Void> getSingleMember(TurnContext turnContext) {
-        AtomicReference<TeamsChannelAccount> member = new AtomicReference<>(new TeamsChannelAccount());
+        final TeamsChannelAccount[] member = { new TeamsChannelAccount() };
 
         try {
-            TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenAccept(member::set);
+            return TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenApply(innerMember -> {
+                member[0] = innerMember;
+                Activity message = MessageFactory.text(String.format("You are: %s.", member[0].getName()));
+                turnContext.sendActivity(message).thenApply(resourceResponse -> null);
+                return null;
+            });
         } catch (ErrorResponseException e) {
             if (e.body().getError().getCode().equals("MemberNotFoundInConversation")) {
                 return turnContext.sendActivity("Member not found.").thenApply(result -> null);
@@ -123,17 +141,12 @@ public class TeamsConversationBot extends TeamsActivityHandler {
                 throw e;
             }
         }
-
-        Activity message = MessageFactory.text(String.format("You are: %s.", member.get().getName()));
-        return turnContext.sendActivity(message).thenApply(result -> null);
     }
 
     private CompletableFuture<Void> deleteCardActivity(TurnContext turnContext) {
         return turnContext.deleteActivity(turnContext.getActivity().getReplyToId());
     }
 
-    // If you encounter permission-related errors when sending this message, see
-    // https://aka.ms/BotTrustServiceUrl
     private CompletableFuture<Void> messageAllMembers(TurnContext turnContext) {
         String teamsChannelId = turnContext.getActivity().teamsGetChannelId();
         String serviceUrl = turnContext.getActivity().getServiceUrl();
@@ -183,44 +196,39 @@ public class TeamsConversationBot extends TeamsActivityHandler {
             .thenApply(allSent -> null);
     }
 
-    private CompletableFuture<Void> updateCardActivity(TurnContext turnContext) {
-        Map data = (Map) turnContext.getActivity().getValue();
-        data.put("count", (int) data.get("count") + 1);
-
-        HeroCard card = new HeroCard();
-        card.setTitle("Welcome Card");
-        card.setText("Update count - " + data.get("count"));
-        card.setButtons(getHeroCardButtons(data));
-
-        Activity updatedActivity = MessageFactory.attachment(card.toAttachment());
-        updatedActivity.setId(turnContext.getActivity().getReplyToId());
-
-        return turnContext.updateActivity(updatedActivity).thenApply(resourceResponse -> null);
-    }
-
-    private List<CardAction> getHeroCardButtons(Object value) {
+    private static CompletableFuture<Void> sendWelcomeCard(TurnContext turnContext, HeroCard card) {
+        Object initialValue = new Object() {
+            int count = 0;
+        };
+        card.setTitle("Welcome!");
         CardAction updateAction = new CardAction();
         updateAction.setType(ActionTypes.MESSAGE_BACK);
         updateAction.setTitle("Update Card");
         updateAction.setText("UpdateCardAction");
-        updateAction.setValue(value);
+        updateAction.setValue(initialValue);
+        card.getButtons().add(updateAction);
 
-        CardAction allMembersAction = new CardAction();
-        allMembersAction.setType(ActionTypes.MESSAGE_BACK);
-        allMembersAction.setTitle("Message All Members");
-        allMembersAction.setText("MessageAllMembers");
+        Activity activity = MessageFactory.attachment(card.toAttachment());
 
-        CardAction deleteAction = new CardAction();
-        deleteAction.setType(ActionTypes.MESSAGE_BACK);
-        deleteAction.setTitle("Delete card");
-        deleteAction.setText("Delete");
+        return turnContext.sendActivity(activity).thenApply(resourceResponse -> null);
+    }
 
-        CardAction mentionAction = new CardAction();
-        mentionAction.setType(ActionTypes.MESSAGE_BACK);
-        mentionAction.setTitle("Who am I?");
-        mentionAction.setText("MentionMe");
+    private static CompletableFuture<Void> sendUpdatedCard(TurnContext turnContext, HeroCard card) {
+        card.setTitle("I've been updated");
+        Map data = (Map) turnContext.getActivity().getValue();
+        data.put("count", (int) data.get("count") + 1);
+        card.setText("Update count - " + data.get("count"));
+        CardAction updateAction = new CardAction();
+        updateAction.setType(ActionTypes.MESSAGE_BACK);
+        updateAction.setTitle("Update Card");
+        updateAction.setText("UpdateCardAction");
+        updateAction.setValue(data);
+        card.getButtons().add(updateAction);
 
-        return Arrays.asList(updateAction, allMembersAction, deleteAction, mentionAction);
+        Activity activity = MessageFactory.attachment(card.toAttachment());
+        activity.setId(turnContext.getActivity().getReplyToId());
+
+        return turnContext.updateActivity(activity).thenApply(resourceResponse -> null);
     }
 
     private CompletableFuture<Void> mentionActivity(TurnContext turnContext) {
