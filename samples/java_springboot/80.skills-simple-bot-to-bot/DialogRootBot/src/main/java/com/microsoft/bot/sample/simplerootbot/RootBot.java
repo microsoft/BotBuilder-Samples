@@ -56,7 +56,7 @@ public class RootBot extends ActivityHandler {
         }
 
         if (skillClient == null) {
-            throw new  IllegalArgumentException("skillsConfig cannot be null.");
+            throw new  IllegalArgumentException("skillsClient cannot be null.");
         }
 
         if (configuration == null) {
@@ -79,7 +79,7 @@ public class RootBot extends ActivityHandler {
         String targetSkillId = "EchoSkillBot";
         if (!skillsConfig.getSkills().containsKey(targetSkillId)) {
             throw new IllegalArgumentException(
-                String.format("Skill with D \"%s\" not found in configuration", targetSkillId)
+                String.format("Skill with ID \"%s\" not found in configuration", targetSkillId)
             );
         } else {
             targetSkill = (BotFrameworkSkill) skillsConfig.getSkills().get(targetSkillId);
