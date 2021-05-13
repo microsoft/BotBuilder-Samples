@@ -3,6 +3,9 @@
 
 package com.microsoft.bot.sample.statemanagement;
 
+import com.microsoft.bot.azure.CosmosDbPartitionedStorage;
+import com.microsoft.bot.azure.CosmosDbPartitionedStorageOptions;
+import com.microsoft.bot.azure.blobs.BlobsStorage;
 import com.microsoft.bot.builder.Bot;
 import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.builder.UserState;
@@ -66,4 +69,29 @@ public class Application extends BotDependencyConfiguration {
     public BotFrameworkHttpAdapter getBotFrameworkHttpAdaptor(Configuration configuration) {
         return new AdapterWithErrorHandler(configuration);
     }
+
+    /**
+     * AZURE BLOB STORAGE - Uncomment the code in this section to use Azure blob storage
+     * @return A BlobStorage
+     */
+    /*@Override
+    public Storage getStorage() {
+        // If using Blob Storage. Fill these connection details in from configuration.
+        return new BlobsStorage("<blob-storage-connection-string>", "bot-state");
+    }*/
+
+    /**
+     * COSMOSDB STORAGE - Uncomment the code in this section to use CosmosDB storage
+     * @return A CosmosDbPartitionedStorage
+     */
+    /*@Override
+    public Storage getStorage() {
+        // If using CosmosDbPartitionedStorage. Fill these connection details in from configuration.
+        CosmosDbPartitionedStorageOptions options = new CosmosDbPartitionedStorageOptions();
+        options.setCosmosDbEndpoint("<endpoint-for-your-cosmosdb-instance>");
+        options.setAuthKey("<your-cosmosdb-auth-key>");
+        options.setDatabaseId("<your-database-id>");
+        options.setContainerId("<cosmosdb-container-id>");
+        return new CosmosDbPartitionedStorage(options);
+    }*/
 }
