@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-package com.microsoft.bot.sample.teamstaskmodule.models;
+package com.microsoft.bot.sample.teamstaskmodule;
 
 public class UISettings {
     private int width;
