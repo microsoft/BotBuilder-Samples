@@ -116,19 +116,15 @@ public class TeamsConversationBot extends TeamsActivityHandler {
 
         try {
             TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenAccept(member::set);
-        } catch (CompletionException ex) {
-            Throwable causeException = ex.getCause();
-            if (causeException instanceof ErrorResponseException) {
-                if (((ErrorResponseException) causeException).body()
-                        .getError().getCode().equals("MemberNotFoundInConversation")) {
-                    turnContext.sendActivity("Member not found.").thenApply(result -> null);
-                }
+        } catch (ErrorResponseException e) {
+            if (e.body().getError().getCode().equals("MemberNotFoundInConversation")) {
+                return turnContext.sendActivity("Member not found.").thenApply(result -> null);
             } else {
-                throw ex;
+                throw e;
             }
         }
 
-        Activity message = MessageFactory.text(String.format("You are %s.", member.get().getName()));
+        Activity message = MessageFactory.text(String.format("You are: %s.", member.get().getName()));
         return turnContext.sendActivity(message).thenApply(result -> null);
     }
 
