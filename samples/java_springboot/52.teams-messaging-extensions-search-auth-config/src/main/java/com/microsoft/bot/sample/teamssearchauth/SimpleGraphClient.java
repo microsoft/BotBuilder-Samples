@@ -7,21 +7,28 @@ package com.microsoft.bot.sample.teamssearchauth;
 import com.microsoft.graph.logger.DefaultLogger;
 import com.microsoft.graph.logger.LoggerLevel;
 import com.microsoft.graph.models.extensions.Message;
+import com.microsoft.graph.models.extensions.User;
 import com.microsoft.graph.options.Option;
 import com.microsoft.graph.options.QueryOption;
 import com.microsoft.graph.requests.extensions.GraphServiceClient;
 import com.microsoft.graph.models.extensions.IGraphServiceClient;
 import com.microsoft.graph.requests.extensions.IMessageCollectionPage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class SimpleGraphClient {
-    private String token;
+    private final String token;
     public SimpleGraphClient(String token) {
+        if (StringUtils.isBlank(token)) {
+            throw new IllegalArgumentException("token cannot be null");
+        }
         this.token = token;
     }
 
+    // Searches the user's mail Inbox using the Microsoft Graph API
     public List<Message> searchMailInbox(String search) {
         IGraphServiceClient client = getAuthenticatedClient();
 
@@ -35,6 +42,13 @@ public class SimpleGraphClient {
         return message.getCurrentPage().subList(0, 10);
     }
 
+    // Fetching user's profile
+    public User getMyProfile() {
+        IGraphServiceClient graphClient = this.getAuthenticatedClient();
+        return graphClient.me().buildRequest().get();
+    }
+
+    // Get an Authenticated Microsoft Graph client using the token issued to the user.
     private IGraphServiceClient getAuthenticatedClient() {
         // Create default logger to only log errors
         DefaultLogger logger = new DefaultLogger();

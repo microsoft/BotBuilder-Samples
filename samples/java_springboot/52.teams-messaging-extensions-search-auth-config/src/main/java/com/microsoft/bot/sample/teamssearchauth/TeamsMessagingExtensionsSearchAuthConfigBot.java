@@ -13,9 +13,27 @@ import com.microsoft.bot.builder.UserTokenProvider;
 import com.microsoft.bot.builder.teams.TeamsActivityHandler;
 import com.microsoft.bot.connector.ExecutorFactory;
 import com.microsoft.bot.integration.Configuration;
-import com.microsoft.bot.schema.*;
-import com.microsoft.bot.schema.teams.*;
+import com.microsoft.bot.schema.ActionTypes;
+import com.microsoft.bot.schema.Attachment;
+import com.microsoft.bot.schema.CardAction;
+import com.microsoft.bot.schema.CardImage;
+import com.microsoft.bot.schema.HeroCard;
+import com.microsoft.bot.schema.Serialization;
+import com.microsoft.bot.schema.SignInResource;
+import com.microsoft.bot.schema.ThumbnailCard;
+import com.microsoft.bot.schema.TokenResponse;
+import com.microsoft.bot.schema.teams.AppBasedLinkQuery;
+import com.microsoft.bot.schema.teams.MessagingExtensionAction;
+import com.microsoft.bot.schema.teams.MessagingExtensionActionResponse;
+import com.microsoft.bot.schema.teams.MessagingExtensionAttachment;
+import com.microsoft.bot.schema.teams.MessagingExtensionQuery;
+import com.microsoft.bot.schema.teams.MessagingExtensionResponse;
+import com.microsoft.bot.schema.teams.MessagingExtensionResult;
+import com.microsoft.bot.schema.teams.MessagingExtensionSuggestedAction;
+import com.microsoft.bot.schema.teams.TaskModuleContinueResponse;
+import com.microsoft.bot.schema.teams.TaskModuleTaskInfo;
 import com.microsoft.graph.models.extensions.Message;
+import com.microsoft.graph.models.extensions.User;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -28,7 +46,11 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CompletionException;
 import java.util.concurrent.atomic.AtomicReference;
@@ -44,25 +66,95 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
 
-    private String siteUrl;
-    private String connectionName;
-    private UserState userState;
-    private StatePropertyAccessor<String> userConfigProperty;
+    private final String siteUrl;
+    private final String connectionName;
+    private final UserState userState;
+    private final StatePropertyAccessor<String> userConfigProperty;
 
     public TeamsMessagingExtensionsSearchAuthConfigBot(
         Configuration configuration,
         UserState userState
     ) {
+        if (StringUtils.isBlank(configuration.getProperty("ConnectionName"))) {
+            throw new IllegalArgumentException("ConnectionName cannot be null");
+        }
         connectionName = configuration.getProperty("ConnectionName");
+
+        if (StringUtils.isBlank(configuration.getProperty("SiteUrl"))) {
+            throw new IllegalArgumentException("SiteUrl cannot be null");
+        }
         siteUrl = configuration.getProperty("SiteUrl");
-        userConfigProperty = userState.createProperty("UserConfiguration");
+
+        if (userState == null) {
+            throw new IllegalArgumentException("userState cannot be null");
+        }
         this.userState = userState;
+        userConfigProperty = userState.createProperty("UserConfiguration");
     }
 
     @Override
     public CompletableFuture<Void> onTurn(TurnContext turnContext) {
         return super.onTurn(turnContext)
+            // After the turn is complete, persist any UserState changes.
             .thenCompose(saveResult -> userState.saveChanges(turnContext));
+    }
+
+    @Override
+    protected CompletableFuture<MessagingExtensionResponse> onTeamsAppBasedLinkQuery(
+            TurnContext turnContext,
+            AppBasedLinkQuery query) {
+        String state = query.getState(); // Check the state value
+        TokenResponse tokenResponse = this.getTokenResponse(turnContext, state).join();
+        if (tokenResponse == null || StringUtils.isBlank(tokenResponse.getToken())) {
+            // There is no token, so the user has not signed in yet.
+
+            // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+            UserTokenProvider userTokenClient = (UserTokenProvider) turnContext.getAdapter();
+            SignInResource resource = userTokenClient.getSignInResource(turnContext, this.connectionName).join();
+
+            String signInLink = resource.getSignInLink();
+
+            CardAction cardAction = new CardAction();
+            cardAction.setType(ActionTypes.OPEN_URL);
+            cardAction.setValue(signInLink);
+            cardAction.setTitle("Bot Service OAuth");
+
+            List<CardAction> actions = new ArrayList<>();
+            actions.add(cardAction);
+
+            MessagingExtensionSuggestedAction suggestedActions = new MessagingExtensionSuggestedAction();
+            suggestedActions.setActions(actions);
+
+            MessagingExtensionResult composeExtension = new MessagingExtensionResult();
+            composeExtension.setType("auth");
+            composeExtension.setSuggestedActions(suggestedActions);
+
+            MessagingExtensionResponse response = new MessagingExtensionResponse();
+            response.setComposeExtension(composeExtension);
+
+            return CompletableFuture.completedFuture(response);
+        }
+        SimpleGraphClient client = new SimpleGraphClient(tokenResponse.getToken());
+        User profile = client.getMyProfile();
+        CardImage image = new CardImage("https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png");
+        List<CardImage> images = new ArrayList<>();
+        images.add(image);
+        ThumbnailCard heroCard = new ThumbnailCard();
+        heroCard.setTitle("Thumbnail Card");
+        heroCard.setText("Hello, " + profile.displayName);
+        heroCard.setImages(images);
+
+        MessagingExtensionAttachment attachments = new MessagingExtensionAttachment();
+        attachments.setContentType(HeroCard.CONTENTTYPE);
+        attachments.setContentUrl(null);
+        attachments.setContent(heroCard);
+
+        MessagingExtensionResult result = new MessagingExtensionResult();
+        result.setAttachmentLayout("list");
+        result.setType("result");
+        result.setAttachment(attachments);
+
+        return CompletableFuture.completedFuture(new MessagingExtensionResponse(result));
     }
 
     @Override
@@ -70,9 +162,10 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         MessagingExtensionQuery query
     ) {
+        // The user has requested the Messaging Extension Configuration page.
         return userConfigProperty.get(turnContext, () -> "").thenApply(userConfigSettings -> {
             AtomicReference<String> escapedSettings = new AtomicReference<>("");
-            if (!StringUtils.isEmpty(userConfigSettings)) {
+            if (StringUtils.isNotBlank(userConfigSettings)) {
                 try {
                     escapedSettings.set(
                         URLEncoder.encode(userConfigSettings, StandardCharsets.UTF_8.toString()));
@@ -100,6 +193,7 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         Object settings
     ) {
+        // When the user submits the settings page, this event is fired.
         if (settings != null) {
             Map<String, String> settingsData = (Map<String, String>) settings;
             String state = settingsData.get("state");
@@ -132,6 +226,9 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
             search = (String) query.getParameters().get(0).getValue();
         }
 
+        // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
+        // The Preview is optional
+        // if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItem event back on this bot.
         return findPackages(search).thenApply(packages -> {
             List<MessagingExtensionAttachment> attachments = new ArrayList<>();
             for (String[] item : packages) {
@@ -145,7 +242,7 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
                 previewCard.setTitle(item[0]);
                 previewCard.setTap(cardAction);
 
-                if (!StringUtils.isEmpty(item[4])) {
+                if (StringUtils.isNotBlank(item[4])) {
                     CardImage cardImage = new CardImage();
                     cardImage.setUrl(item[4]);
                     cardImage.setAlt("Icon");
@@ -162,6 +259,7 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
                 attachments.add(attachment);
             }
 
+            // The list of MessagingExtensionAttachments must we wrapped in a MessagingExtensionResult wrapped in a MessagingExtensionResponse.
             MessagingExtensionResult result = new MessagingExtensionResult();
             result.setType("result");
             result.setAttachmentLayout("list");
@@ -176,46 +274,42 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
     ) {
         // When the Bot Service Auth flow completes, the action.State will contain a
         // magic code used for verification.
-        String magicCode = "";
-        String state = query.getState();
-        if (state != null && !state.isEmpty()) {
-            magicCode = state;
+        String state = query.getState(); // Check the state value
+        TokenResponse tokenResponse = this.getTokenResponse(turnContext, state).join();
+        if (tokenResponse == null || StringUtils.isBlank(tokenResponse.getToken())) {
+            // There is no token, so the user has not signed in yet.
+
+            // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+            UserTokenProvider userTokenClient = (UserTokenProvider) turnContext.getAdapter();
+            SignInResource resource = userTokenClient.getSignInResource(turnContext, connectionName).join();
+            String signInLink = resource.getSignInLink();
+            MessagingExtensionResponse extensionResponse = new MessagingExtensionResponse();
+            CardAction cardAction = new CardAction();
+            cardAction.setType(ActionTypes.OPEN_URL);
+            cardAction.setValue(signInLink);
+            cardAction.setTitle("Bot Service OAuth");
+
+            List<CardAction> actions = new ArrayList<>();
+            actions.add(cardAction);
+
+            MessagingExtensionSuggestedAction suggestedActions = new MessagingExtensionSuggestedAction();
+            suggestedActions.setActions(actions);
+
+            MessagingExtensionResult composeExtension = new MessagingExtensionResult();
+            composeExtension.setType("auth");
+            composeExtension.setSuggestedActions(suggestedActions);
+
+            extensionResponse.setComposeExtension(composeExtension);
+
+            return CompletableFuture.completedFuture(extensionResponse);
         }
 
-        UserTokenProvider tokenProvider = (UserTokenProvider) turnContext.getAdapter();
-        return tokenProvider.getUserToken(turnContext, connectionName, magicCode)
-            .thenCompose(response -> {
-                if (response == null || StringUtils.isEmpty(response.getToken())) {
-                    // There is no token, so the user has not signed in yet.
+        String search = "";
+        if (query.getParameters() != null && !query.getParameters().isEmpty()) {
+            search = (String) query.getParameters().get(0).getValue();
+        }
 
-                    return tokenProvider.getOAuthSignInLink(turnContext, connectionName)
-                        .thenApply(link -> {
-                            MessagingExtensionResponse extensionResponse = new MessagingExtensionResponse();
-                            CardAction cardAction = new CardAction();
-                            cardAction.setType(ActionTypes.OPEN_URL);
-                            cardAction.setValue(extensionResponse);
-                            cardAction.setTitle("Bot Service OAuth");
-
-                            MessagingExtensionSuggestedAction suggestedAction = new MessagingExtensionSuggestedAction();
-                            suggestedAction.setAction(cardAction);
-
-                            MessagingExtensionResult result = new MessagingExtensionResult();
-                            result.setType("auth");
-                            result.setSuggestedActions(suggestedAction);
-
-                            extensionResponse.setComposeExtension(result);
-
-                            return extensionResponse;
-                        });
-                }
-
-                String search = "";
-                if (query.getParameters() != null && !query.getParameters().isEmpty()) {
-                    search = (String) query.getParameters().get(0).getValue();
-                }
-
-                return CompletableFuture.completedFuture(new MessagingExtensionResponse(searchMail(search, response.getToken())));
-            });
+        return CompletableFuture.completedFuture(new MessagingExtensionResponse(searchMail(search, tokenResponse.getToken())));
     }
 
     @Override
@@ -223,18 +317,22 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         Object query
     ) {
+        // The Preview card's Tap should have a Value property assigned, this will be returned to the bot in this event.
         Map cardValue = (Map) query;
         List<String> data = (ArrayList) cardValue.get("data");
         CardAction cardAction = new CardAction();
         cardAction.setType(ActionTypes.OPEN_URL);
         cardAction.setTitle("Project");
         cardAction.setValue(data.get(3));
+        // We take every row of the results and wrap them in cards wrapped in in MessagingExtensionAttachment objects.
+        // The Preview is optional
+        // if it includes a Tap, that will trigger the OnTeamsMessagingExtensionSelectItem event back on this bot.
         ThumbnailCard card = new ThumbnailCard();
         card.setTitle(data.get(0));
         card.setSubtitle(data.get(2));
         card.setButtons(Arrays.asList(cardAction));
         
-        if (!StringUtils.isEmpty(data.get(4))) {
+        if (StringUtils.isNotBlank(data.get(4))) {
             CardImage cardImage = new CardImage();
             cardImage.setUrl(data.get(4));
             cardImage.setAlt("Icon");
@@ -258,6 +356,7 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         MessagingExtensionAction action
     ) {
+        // This method is to handle the 'Close' button on the confirmation Task Module after the user signs out.
         return CompletableFuture.completedFuture(new MessagingExtensionActionResponse());
     }
 
@@ -266,27 +365,68 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         TurnContext turnContext,
         MessagingExtensionAction action
     ) {
-        if (action.getCommandId().toUpperCase().equals("SIGNOUTCOMMAND")) {
-            UserTokenProvider tokenProvider = (UserTokenProvider) turnContext.getAdapter();
+        /* This can be uncommented once the MessagingExtensionAction contains the associated state property
+        if (action.getCommandId().equalsIgnoreCase("SHOWPROFILE")) {
+            String state = action.getState(); // Check the state value
+            return getTokenResponse(turnContext, state).thenCompose(tokenResponse -> {
+               if (tokenResponse == null || StringUtils.isBlank(tokenResponse.getToken())) {
+                   // There is no token, so the user has not signed in yet.
 
-            return tokenProvider.signOutUser(
-                turnContext,
-                connectionName,
-                turnContext.getActivity().getFrom().getId()
-            ).thenApply(response -> {
-                TaskModuleTaskInfo taskInfo = new TaskModuleTaskInfo();
-                taskInfo.setCard(createAdaptiveCardAttachment());
-                taskInfo.setHeight(200);
-                taskInfo.setWidth(400);
-                taskInfo.setTitle("Adaptive Card: Inputs");
+                   // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
+                   UserTokenProvider userTokenClient = (UserTokenProvider) turnContext.getAdapter();
+                   userTokenClient.getSignInResource(turnContext, this.connectionName).thenApply(resource -> {
+                        String signInLink = resource.getSignInLink();
+                        CardAction cardAction = new CardAction();
+                        cardAction.setType(ActionTypes.OPEN_URL);
+                        cardAction.setValue(signInLink);
+                        cardAction.setTitle("Bot Service OAuth");
 
-                TaskModuleContinueResponse continueResponse = new TaskModuleContinueResponse();
-                continueResponse.setValue(taskInfo);
+                        List<CardAction> actions = new ArrayList<>();
+                        actions.add(cardAction);
 
-                MessagingExtensionActionResponse actionResponse = new MessagingExtensionActionResponse();
-                actionResponse.setTask(continueResponse);
-                return actionResponse;
+                        MessagingExtensionSuggestedAction suggestedActions = new MessagingExtensionSuggestedAction();
+                        suggestedActions.setActions(actions);
+                        MessagingExtensionResult composeExtension = new MessagingExtensionResult();
+                        composeExtension.setType("auth");
+                        composeExtension.setSuggestedActions(suggestedActions);
+
+                        MessagingExtensionActionResponse result = new MessagingExtensionActionResponse();
+                        result.setComposeExtension(composeExtension);
+                        return result;
+                   });
+               };
+
+               TaskModuleTaskInfo value = new TaskModuleTaskInfo();
+               value.setCard(createAdaptiveCardAttachment());
+               value.setHeight(250);
+               value.setWidth(400);
+               value.setTitle("Adaptive Card: Inputs");
+
+               TaskModuleContinueResponse task = new TaskModuleContinueResponse();
+               task.setValue(value);
+
+               MessagingExtensionActionResponse result = new MessagingExtensionActionResponse();
+               result.setTask(task);
+
+               return CompletableFuture.completedFuture(result);
             });
+        }*/
+
+        if (action.getCommandId().equalsIgnoreCase("SIGNOUTCOMMAND")) {
+            UserTokenProvider userTokenClient = (UserTokenProvider) turnContext.getAdapter();
+            userTokenClient.signOutUser(turnContext, this.connectionName, turnContext.getActivity().getFrom().getId()).join();
+            TaskModuleTaskInfo taskInfo = new TaskModuleTaskInfo();
+            taskInfo.setCard(createAdaptiveCardAttachment());
+            taskInfo.setHeight(200);
+            taskInfo.setWidth(400);
+            taskInfo.setTitle("Adaptive Card: Inputs");
+
+            TaskModuleContinueResponse continueResponse = new TaskModuleContinueResponse();
+            continueResponse.setValue(taskInfo);
+
+            MessagingExtensionActionResponse actionResponse = new MessagingExtensionActionResponse();
+            actionResponse.setTask(continueResponse);
+            return CompletableFuture.completedFuture(actionResponse);
         }
 
         return notImplemented();
@@ -314,6 +454,8 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
         SimpleGraphClient graph = new SimpleGraphClient(token);
         List<Message> messages = graph.searchMailInbox(text);
 
+        // Here we construct a ThumbnailCard for every attachment, and provide a HeroCard which will be
+        // displayed if the selects that item.
         List<MessagingExtensionAttachment> attachments = new ArrayList<>();
         for (Message msg : messages) {
 
@@ -382,5 +524,26 @@ public class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHa
             }
             return filteredItems;
         }, ExecutorFactory.getExecutor());
+    }
+
+    private CompletableFuture<TokenResponse> getTokenResponse(TurnContext turnContext, String state) {
+        String magicCode = "";
+        if (StringUtils.isNotBlank(state)) {
+            Integer parsed = this.parseIntOrNull(state);
+            if (parsed != null) {
+                magicCode = parsed.toString();
+            }
+        }
+
+        UserTokenProvider userTokenClient = (UserTokenProvider) turnContext.getAdapter();
+        return userTokenClient.getUserToken(turnContext, this.connectionName, magicCode);
+    }
+
+    private Integer parseIntOrNull(String value) {
+        try {
+            return Integer.parseInt(value);
+        } catch (NumberFormatException e) {
+            return null;
+        }
     }
 }
