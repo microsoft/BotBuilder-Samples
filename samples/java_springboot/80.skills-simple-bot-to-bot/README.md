@@ -4,6 +4,8 @@ Bot Framework v4 skills echo sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple skill consumer (SimpleRootBot) that sends message activities to a skill (EchoSkillBot) that echoes it back.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
+
 ## Prerequisites
 
 - Java 1.8+
@@ -27,20 +29,12 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`EchoSkill
   - A [sample skill manifest](EchoSkillBot/src/main/webapp/manifest/echoskillbot-manifest-1.0.json) that describes what the skill can do
 
 ## To try this sample
-
-- Clone the repository
-
-    ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
-    ```
-
 - Create a bot registration in the azure portal for the `EchoSkillBot` and update [EchoSkillBot/application.properties](EchoSkillBot/src/main/resources/application.properties) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
 - Create a bot registration in the azure portal for the `SimpleRootBot` and update [SimpleRootBot/application.properties](SimpleRootBot/src/main/resources/application.properties) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
 - Update the `BotFrameworkSkills` section in [SimpleRootBot/application.properties](SimpleRootBot/src/main/resources/application.properties) with the app ID for the skill you created in the previous step
 - (Optionally) Add the `SimpleRootBot` `MicrosoftAppId` to the `AllowedCallers` list in [EchoSkillBot/application.properties](EchoSkillBot/src/main/resources/application.properties) 
 - Open the `SimpleBotToBot` project and start it for debugging
 - Open the `EchoSkillsBot` project and start it for debugging
-
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -54,6 +48,66 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`EchoSkill
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`, the `MicrosoftAppId` and `MicrosoftAppPassword` for the `SimpleRootBot`
 
-## Deploy the bots to Azure
+## Deploy the bot to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+As described on [Deploy your bot](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-deploy-az-cli), you will perform the first 4 steps to setup the Azure app, then deploy the code using the azure-webapp Maven plugin.
+
+These steps should be followed to deploy the DialogRootBot and DialogSkillBot.
+
+### 1. Login to Azure
+
+From a command (or PowerShell) prompt in the root of the bot folder, execute:
+`az login`
+
+### 2. Set the subscription
+
+```
+az account set --subscription "<azure-subscription>"
+```
+
+If you aren't sure which subscription to use for deploying the bot,  you can view the list of subscriptions for your account by using `az account list` command.
+
+### 3. Create an App registration
+
+```
+az ad app create --display-name "<botname>" --password "<appsecret>" --available-to-other-tenants
+```
+
+Replace `<botname>` and `<appsecret>` with your own values.
+
+`<botname>` is the unique name of your bot.
+`<appsecret>` is a minimum 16 character password for your bot.
+
+Record the `appid` from the returned JSON
+
+### 4. Create the Azure resources
+
+Replace the values for `<appid>`, `<appsecret>`, `<botname>`, and `<groupname>` in the following commands:
+
+#### To a new Resource Group
+
+```
+az deployment sub create --name "botDeploy" --location "westus" --template-file ".\deploymentTemplates\template-with-new-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" botSku=S1 newAppServicePlanName="botPlan" newWebAppName="bot" groupLocation="westus" newAppServicePlanLocation="westus"
+```
+
+#### To an existing Resource Group
+
+```
+az deployment group create --resource-group "<groupname>" --template-file ".\deploymentTemplates\template-with-preexisting-rg.json" --parameters appId="<appid>" appSecret="<appsecret>" botId="<botname>" newWebAppName="bot" newAppServicePlanName="botPlan" appServicePlanLocation="westus" --name "bot"
+```
+
+### 5. Update app id and password
+
+In src/main/resources/application.properties update
+
+- `MicrosoftAppPassword` with the botsecret value
+- `MicrosoftAppId` with the appid from the first step
+
+### 6. Deploy the code
+
+- Execute `mvn clean package`
+- Execute `mvn azure-webapp:deploy -Dgroupname="<groupname>" -Dbotname="<bot-app-service-name>"`
+
+If the deployment is successful, you will be able to test it via  "Test in Web Chat" from the Azure Portal using the "Bot Channel  Registration" for the bot.
+
+After the bot is deployed, you only need to execute #6 if you make changes to the bot.
