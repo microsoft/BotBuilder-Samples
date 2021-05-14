@@ -33,7 +33,7 @@ It demonstrates how to post activities from the parent bot to the skill bot and 
     - Message activities are sent to LUIS if configured and trigger the desired tasks if the intent is recognized.
   - A sample [ActivityHandler](dialog-skill-bot/src/main/java/com/microsoft/bot/sample/dialogskillbot/bots/SkillBot.java) that uses the `run` method on `DialogExtensions`.
   - A sample [SkillAdapterWithErrorHandler](dialog-skill-bot/src/main/java/com/microsoft/bot/sample/dialogskillbot/SkillAdapterWithErrorHandler.java) adapter that shows how to handle errors, terminate the skills, send traces back to the emulator to help debugging the bot and send `EndOfConversation` messages to the parent bot with details of the error.
-  - An [Application.java](dialog-skill-bot/src/main/java/com/microsoft/bot/sample/dialogskillbot/Application.java) class that shows how to register the different skill components.
+  - An [Application](dialog-skill-bot/src/main/java/com/microsoft/bot/sample/dialogskillbot/Application.java) class that shows how to register the different skill components.
   - A [sample skill manifest](dialog-skill-bot/src/main/webapp/manifest/echoskillbot-manifest-1.0.json) that describes what the skill can do.
 
 ## To try this sample
