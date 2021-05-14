@@ -76,8 +76,6 @@ public class TeamsFileUploadBot extends TeamsActivityHandler {
         }
     }
 
-
-
     @Override
     protected CompletableFuture<Void> onTeamsFileConsentAccept(
         TurnContext turnContext,
@@ -270,7 +268,6 @@ public class TeamsFileUploadBot extends TeamsActivityHandler {
                     return turnContext.sendActivity(reply);
                 }
             } catch (Throwable t) {
-
             }  finally {
                 if (connection[0] != null) {
                     connection[0].disconnect();
@@ -290,7 +287,6 @@ public class TeamsFileUploadBot extends TeamsActivityHandler {
             attachment.setContentType("image/png");
             attachment.setContentUrl("data:image/png;base64," + imageData);
         } catch (IOException e) {
-            e.printStackTrace();
         }
         return attachment;
     }
