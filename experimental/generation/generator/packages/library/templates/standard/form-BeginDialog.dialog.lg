@@ -11,7 +11,7 @@
     "actions":  [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${welcome()}"           
+            "activity": "\${helpGlobal()}"           
         },
         {
         "$kind": "Microsoft.IfCondition",

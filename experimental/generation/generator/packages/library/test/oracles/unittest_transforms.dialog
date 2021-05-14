@@ -44,7 +44,7 @@
                   "elseActions": [
                     {
                       "$kind": "Microsoft.SendActivity",
-                      "activity": "${confirmationText('Temperature', @temperature)}"
+                      "activity": "${confirmationActivity('Temperature', @temperature)}"
                     },
                     {
                       "$kind": "Microsoft.EditArray",
@@ -226,7 +226,7 @@
               "elseActions": [
                 {
                   "$kind": "Microsoft.SendActivity",
-                  "activity": "${confirmationText('Temperature', (@number+1))}"
+                  "activity": "${confirmationActivity('Temperature', (@number+1))}"
                 },
                 {
                   "$kind": "Microsoft.EditArray",
@@ -306,7 +306,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${confirmationText('AString', @AStringValue)}"
+              "activity": "${confirmationActivity('AString', @AStringValue)}"
             },
             {
               "$kind": "Microsoft.EditArray",
@@ -492,7 +492,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.SendActivity",
-              "activity": "${confirmationText('AString', @utterance)}"
+              "activity": "${confirmationActivity('AString', @utterance)}"
             },
             {
               "$kind": "Microsoft.EditArray",
@@ -678,7 +678,7 @@
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
-          "activity": "${welcome()}"
+          "activity": "${helpGlobal()}"
         },
         {
           "$kind": "Microsoft.IfCondition",
