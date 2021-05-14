@@ -10,12 +10,6 @@ import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.teams.TeamsActivityHandler;
 import com.microsoft.bot.connector.Async;
 import com.microsoft.bot.integration.Configuration;
-import com.microsoft.bot.sample.teamstaskmodule.models.AdaptiveCardTaskFetchValue;
-import com.microsoft.bot.sample.teamstaskmodule.models.CardTaskFetchValue;
-import com.microsoft.bot.sample.teamstaskmodule.models.TaskModuleIds;
-import com.microsoft.bot.sample.teamstaskmodule.models.TaskModuleResponseFactory;
-import com.microsoft.bot.sample.teamstaskmodule.models.TaskModuleUIConstants;
-import com.microsoft.bot.sample.teamstaskmodule.models.UISettings;
 import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.CardAction;
 import com.microsoft.bot.schema.HeroCard;
@@ -128,7 +122,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
             // Echo the users input back.  In a production bot, this is where you'd add behavior in
             // response to the input.
             MessageFactory.text(
-                "onTeamsTaskModuleSubmit TaskModuleRequest: "
+                "OnTeamsTaskModuleSubmit Value: "
                     + new ObjectMapper().writeValueAsString(taskModuleRequest)
             )
         )
@@ -143,6 +137,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
     }
 
     private Attachment getTaskModuleHeroCardOptions() {
+        // Create a Hero Card with TaskModuleActions for each Task Module
         List<CardAction> buttons = actions.stream().map(cardType -> {
             CardTaskFetchValue fetchValue = new CardTaskFetchValue<String>();
             fetchValue.setData(cardType.getId());
@@ -157,6 +152,7 @@ public class TeamsTaskModuleBot extends TeamsActivityHandler {
     }
 
     private Attachment getTaskModuleAdaptiveCardOptions() {
+        // Create an Adaptive Card with an AdaptiveSubmitAction for each Task Module
         try (InputStream inputStream = getClass().getClassLoader()
             .getResourceAsStream("adaptiveTemplate.json")
         ) {
