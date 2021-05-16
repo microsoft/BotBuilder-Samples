@@ -1422,8 +1422,10 @@
     },
     "trigger": {
       "label": "Members Added (ConversationUpdate activity)",
-      "order": 5.2,
-      "submenu": "Activities"
+      "order": 5.3,
+      "placeholder": "Select a type",
+      "prompt": "Which conversation update type?",
+      "submenu": "Member Updates"
     }
   },
   "OnMembersRemoved": {
@@ -1442,8 +1444,10 @@
     },
     "trigger": {
       "label": "Members Removed (ConversationUpdate activity)",
-      "order": 5.2,
-      "submenu": "Activities"
+      "order": 5.4,
+      "placeholder": "Select a type",
+      "prompt": "Which conversation update type?",
+      "submenu": "Member Updates"
     }
   }
 }

@@ -15,7 +15,9 @@
   },
   "trigger": {
 		"label": "Members Added (ConversationUpdate activity)",
-		"order": 5.2,
-		"submenu": "Activities"
+		"order": 5.3,
+    "submenu": "Member Updates",
+    "prompt": "Which conversation update type?",
+    "placeholder": "Select a type"
 	}
 }

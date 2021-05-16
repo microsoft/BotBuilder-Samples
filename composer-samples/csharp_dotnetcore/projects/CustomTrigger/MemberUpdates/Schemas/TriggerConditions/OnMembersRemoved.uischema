@@ -15,7 +15,9 @@
   },
   "trigger": {
     "label": "Members Removed (ConversationUpdate activity)",
-    "order": 5.2,
-    "submenu": "Activities"
+    "order": 5.4,
+    "submenu": "Member Updates",
+    "prompt": "Which conversation update type?",
+    "placeholder": "Select a type"
   }
 }
