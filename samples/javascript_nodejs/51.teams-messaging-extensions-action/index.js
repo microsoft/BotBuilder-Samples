@@ -27,7 +27,7 @@ const adapter = new BotFrameworkAdapter({
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -60,7 +60,6 @@ server.post('/api/messages', (req, res) => {
     });
 });
 
-//rendering pages
 server.get('/*', restify.plugins.serveStatic({
     directory: './pages'
 }));
