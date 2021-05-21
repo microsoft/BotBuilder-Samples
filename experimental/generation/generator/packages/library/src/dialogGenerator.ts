@@ -7,6 +7,7 @@ export * from './dialogGenerator'
 import * as crypto from 'crypto'
 import * as expressions from 'adaptive-expressions'
 import * as fs from 'fs-extra'
+import * as glob from 'globby'
 import * as merger from './mergeAssets'
 import * as lg from 'botbuilder-lg'
 import * as os from 'os'
@@ -323,9 +324,9 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                                 // Look for template in template dirs
                                 importPath = ''
                                 for (const dir of templateDirs) {
-                                    let loc = templatePath(resourceId, dir)
-                                    if (fs.existsSync(loc)) {
-                                        importPath = loc
+                                    const matches = glob.sync(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*', resourceId))
+                                    if (matches.length > 0) {
+                                        importPath = lg.TemplateExtensions.normalizePath(matches[0])
                                         break
                                     }
                                 }
