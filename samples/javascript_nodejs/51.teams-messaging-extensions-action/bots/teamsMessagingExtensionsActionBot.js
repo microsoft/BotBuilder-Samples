@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TeamsActivityHandler, CardFactory } = require('botbuilder');
+const { TeamsActivityHandler, CardFactory,TeamsInfo,MessageFactory } = require('botbuilder');
 const configuration = require('dotenv').config();
 const env = configuration.parsed;
 const baseurl = env.BaseUrl;
@@ -20,14 +20,15 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         }
     }
 
-    handleTeamsMessagingExtensionFetchTask(context, action) {
-      switch (action.commandId) {
+    async handleTeamsMessagingExtensionFetchTask(context, action) {
+        switch (action.commandId) {
         case 'webView':
+            return empDetails();
         case 'Static HTML':
-            return dateTimeInfo();
+            return dateTimeInfo();          
         default:
-            try {
-            const member = await this.getSingleMember(context);
+        try {
+        const member = await this.getSingleMember(context);
             return {
                      task: {
                          type: 'continue',
@@ -40,7 +41,7 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
                      },
                  };
              } 
-            catch (e) {
+        catch (e) {
             if (e.code === 'BotNotInConversationRoster') {
             return {
                          task: {
@@ -118,25 +119,6 @@ function createCardCommand(action) {
     const data = action.data;
     const heroCard = CardFactory.heroCard(data.title, data.text);
     heroCard.content.subtitle = data.subTitle;
-    const attachment = {
-        contentType: heroCard.contentType,
-        content: heroCard.content,
-        preview: heroCard,
-    };
-
-    return {
-        composeExtension: {
-            type: 'result',
-            attachmentLayout: 'list',
-            attachments: [attachment]
-        },
-    };
-}
-function createCardCommand(action) {
-    // The user has chosen to create a card by choosing the 'Create Card' context menu command.
-    const data = action.data;
-    const heroCard = CardFactory.heroCard(data.title, data.text);
-    heroCard.content.subtitle = data.subTitle;
     const attachment = { contentType: heroCard.contentType, content: heroCard.content, preview: heroCard };
 
     return {
@@ -152,7 +134,7 @@ function createCardCommand(action) {
 
 function shareMessageCommand(action) {
     // The user has chosen to share a message by choosing the 'Share Message' context menu command.
-    const userName = 'unknown';
+    let userName = 'unknown';
     if (action.messagePayload.from &&
             action.messagePayload.from.user &&
             action.messagePayload.from.user.displayName) {
@@ -161,7 +143,7 @@ function shareMessageCommand(action) {
 
     // This Messaging Extension example allows the user to check a box to include an image with the
     // shared message.  This demonstrates sending custom parameters along with the message payload.
-    const images = [];
+    let images = [];
     const includeImage = action.data.includeImage;
     if (includeImage === 'true') {
         images = ['https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQtB3AwMUeNoq4gUBGe6Ocj8kyh3bXa9ZbV7u1fVKQoyKFHdkqU'];
