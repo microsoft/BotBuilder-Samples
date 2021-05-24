@@ -1,0 +1,9 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+    "$role": [ "implements(Microsoft.ITrigger)", "extends(Microsoft.OnCondition)" ],
+    "title": "On Members Added",
+    "description": "Actions to perform on receipt of an activity with type 'ConversationUpdate' and MembersAdded > 0.",
+    "type": "object",
+    "required": [
+    ]
+}

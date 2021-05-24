@@ -1,0 +1,150 @@
+[import](common.lg)
+
+# SendActivity_z8FvEw()
+[Activity
+    Text = You said mention
+]
+
+# SendActivity_LAQomw()
+[Activity
+    Text = You are: ${dialog.memberInfo.name}
+]
+
+# MentionEntity()
+[Entity
+    Mentioned = ${turn.Activity.From}
+    Text = <at>${turn.Activity.From.Name}</at>
+]
+
+# SendActivity_ZOI80h()
+[Activity
+    Text = You are: ${dialog.memberInfo.name}
+]
+
+# SendActivity_K9p41B()
+[Activity
+    Attachments = ${SendActivity_K9p41B_attachment_nJxVWB()}
+]
+
+# SendActivity_K9p41B_attachment_nJxVWB()
+[HeroCard
+    Title = Welcome!
+    Buttons = ${CardAction_MessageAll()} | ${CardAction_WhoAmI()} | ${CardAction_Delete()} | ${CardAction_UpdateInitial()}
+]
+
+# CardAction_MessageAll()
+[CardAction
+    type = messageBack
+    title = Message all members
+    text = MessageAllMembers
+]
+
+# CardAction_WhoAmI()
+[CardAction
+    type = messageBack
+    title = Who am I?
+    text = whoami
+]
+
+# CardAction_Delete()
+[CardAction
+    type = messageBack
+    title = Delete card
+    text = Delete
+]
+
+# CardAction_UpdateInitial()
+[CardAction
+    type = messageBack
+    title = Update Card
+    text = UpdateCardAction
+    value = ${json({"count": 0})}
+]
+
+# CardAction_UpdateUpdated()
+[CardAction
+    type = messageBack
+    title = Update Card
+    text = UpdateCardAction
+    value = { "count": ${turn.Activity.Value.count + 1} }
+]
+
+# UpdateActivity_Activity_1fkbH4()
+[Activity
+    Attachments = ${UpdateActivity_Activity_1fkbH4_attachment_baLMXu()}
+]
+
+# UpdateActivity_Activity_1fkbH4_attachment_baLMXu()
+[HeroCard
+  title = I've been updated
+  text = Update count = ${turn.Activity.Value.count + 1}
+  Buttons = ${CardAction_MessageAll()} | ${CardAction_WhoAmI()} | ${CardAction_Delete()} | ${CardAction_UpdateUpdated()}
+]
+
+# SendActivity_SCaB61()
+[Activity
+    Text = You are: ${dialog.memberInfo.name}
+]
+
+# SendActivity_WzPl6K()
+[Activity
+    Text = You added '${dialog.foreach.value.type}' from the following message: ${turn.Activity.ReplyToId}
+]
+
+# SendActivity_cgt4wN()
+[Activity
+    Text = You removed '${dialog.foreach.value.type}' from the following message: ${turn.Activity.ReplyToId}
+]
+
+# SendActivity_RpXa3x()
+- ${WelcomeUser()}
+
+# SendActivity_E2ix2c()
+[Activity
+    Text = ${dialog.foreach.value.name} was removed from ${turn.activity.channelData.team.name}
+]
+
+# SendActivity_d24Mvv()
+[Activity
+    Text = The bot was removed
+]
+
+# SendActivity_ncxdN2()
+[Activity
+    Attachments = ${SendActivity_ncxdN2_attachment_7XGhZ3()}
+]
+
+# SendActivity_ncxdN2_attachment_7XGhZ3()
+[HeroCard
+  text = '${turn.activity.channeldata.channel.name}' is a new channel.
+]
+
+# SendActivity_CqYa1W()
+[Activity
+    Attachments = ${SendActivity_CqYa1W_attachment_wKZZKK()}
+]
+
+# SendActivity_CqYa1W_attachment_wKZZKK()
+[HeroCard
+  text = The '${turn.activity.channeldata.channel.name}' channel was deleted.
+]
+
+# SendActivity_m8AHsU()
+[Activity
+    Attachments = ${SendActivity_m8AHsU_attachment_YHQz6k()}
+]
+
+# SendActivity_m8AHsU_attachment_YHQz6k()
+[HeroCard
+  text = Channel renamed to '${turn.activity.channeldata.channel.name}'.
+]
+
+# SendActivity_A3plTS()
+[Activity
+    Attachments = ${SendActivity_A3plTS_attachment_53Khvp()}
+]
+
+# SendActivity_A3plTS_attachment_53Khvp()
+[HeroCard
+  text = Team renamed to '${turn.activity.channeldata.team.name}'.
+]

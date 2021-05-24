@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# SendActivity_303304
+-Hello, your age is ${user.age}!
+
+# SendActivity_284482
+-2 * 2.2 equals ${user.result}, that's right!
+
+# SendActivity_172233
+-2 * 2.2 equals ${user.result}, that's wrong!

@@ -1,0 +1,17 @@
+[import](common.lg)
+
+# SendActivity_991558
+-${ShowEmailSummary(user)}
+
+# ShowEmailSummary(user)
+- IF: ${count(user.getGraphEmails.value) == 1}
+  - You have ${count(user.getGraphEmails.value)} email. This email is ${ShowEmail(user.getGraphEmails.value[0])}.
+- ELSEIF: ${count(user.getGraphEmails.value) >= 2}
+  - You have ${count(user.getGraphEmails.value)} emails, the first email is ${ShowEmail(user.getGraphEmails.value[0])}.
+- ELSEIF: ${count(user.getGraphEmails.value) == 0}
+  - You don't have any email.
+- ELSE:
+  - You should not be here.
+
+# ShowEmail(email)
+- ${email.subject}

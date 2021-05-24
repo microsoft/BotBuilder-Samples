@@ -1,0 +1,61 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "WelcomeDialog",
+      "description": "Greets new and returning users",
+      "id": "8pOkoq"
+    },
+    "name": "WelcomeDialog"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "tcqJ5M",
+        "name": "BeginDialog"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "sF0fYv"
+          },
+          "condition": "exists(user.greeted)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "PsAJ3p"
+              },
+              "activity": "${SendActivity_WelcomeReturningUser()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "f3uG2y"
+              },
+              "activity": "${SendActivity_WelcomeNewUser()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "ucFnwQ"
+              },
+              "property": "user.greeted",
+              "value": "true"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "WelcomeDialog.lg",
+  "id": "WelcomeDialog",
+  "recognizer": "WelcomeDialog.lu.qna"
+}
