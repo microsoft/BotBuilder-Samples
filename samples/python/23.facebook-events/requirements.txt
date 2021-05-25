@@ -1,2 +1,0 @@
-jsonpickle==1.2
-botbuilder-integration-aiohttp>=4.13.0

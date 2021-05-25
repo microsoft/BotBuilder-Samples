@@ -1,8 +1,0 @@
-﻿{
-    "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
-    "$role": "implements(Microsoft.IDialog)",
-    "title": "MessageAllMembers",
-    "description": "This will send a message to all members",
-    "type": "object",
-    "additionalProperties": false
-}

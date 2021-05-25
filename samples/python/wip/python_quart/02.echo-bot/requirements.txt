@@ -1,2 +1,0 @@
-botbuilder-core>=4.4.0b1
-quart>=0.10.0

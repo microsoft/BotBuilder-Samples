@@ -1,2 +1,0 @@
-msrest
-botbuilder-integration-aiohttp>=4.13.0

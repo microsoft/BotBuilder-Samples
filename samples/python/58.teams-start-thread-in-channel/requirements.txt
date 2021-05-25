@@ -1,2 +1,0 @@
-requests==2.23.0
-botbuilder-integration-aiohttp>=4.13.0

@@ -1,6 +1,0 @@
-# WelcomeUser
--Hello!\n\nTime now  is ${utcNow()}
-
-# VersionMessage
--This sample is designed for Composer v1.4 or higher. It uses the updated Composer Runtime.
-

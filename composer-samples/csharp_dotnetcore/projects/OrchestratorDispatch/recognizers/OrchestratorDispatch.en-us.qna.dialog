@@ -1,7 +1,0 @@
-{
-  "$kind": "Microsoft.QnAMakerRecognizer",
-  "id": "QnA_OrchestratorDispatch",
-  "knowledgeBaseId": "=settings.qna.OrchestratorDispatch_en_us_qna",
-  "hostname": "=settings.qna.hostname",
-  "endpointKey": "=settings.qna.endpointKey"
-}

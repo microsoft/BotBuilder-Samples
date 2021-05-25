@@ -1,9 +1,0 @@
-{
-  "qnamakerluissample.en-us": {
-    "rootDialog": true,
-    "triggers": {
-      "Help": "",
-      "BuySurface": ""
-    }
-  }
-}

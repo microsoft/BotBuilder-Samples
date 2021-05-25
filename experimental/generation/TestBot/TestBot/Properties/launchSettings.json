@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "TestBot": {
-      "commandName": "Project",
-      "workingDirectory": "C:\\Users\\chrim\\AppData\\Local\\Temp\\TestBot"
-    }
-  }
-}

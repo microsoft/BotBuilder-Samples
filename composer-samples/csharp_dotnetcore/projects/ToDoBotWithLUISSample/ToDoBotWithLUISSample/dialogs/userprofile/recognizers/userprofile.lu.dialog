@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.MultiLanguageRecognizer",
-  "id": "LUIS_userprofile",
-  "recognizers": {
-    "en-us": "userprofile.en-us.lu",
-    "": "userprofile.en-us.lu"
-  }
-}

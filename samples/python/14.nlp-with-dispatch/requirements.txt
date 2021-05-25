@@ -1,3 +1,0 @@
-azure-cognitiveservices-language-luis~=0.2.0
-botbuilder-integration-aiohttp>=4.13.0
-botbuilder-ai>=4.13.0

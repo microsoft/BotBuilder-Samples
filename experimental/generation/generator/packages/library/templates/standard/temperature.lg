@@ -1,7 +1,0 @@
-[generator.lg](../generator.lg)
-
-# entities
-- ${unitsEntities('temperature')}
-
-# templates
-- ${unitTemplates()}

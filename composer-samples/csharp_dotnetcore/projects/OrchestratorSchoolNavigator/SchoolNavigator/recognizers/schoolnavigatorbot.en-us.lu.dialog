@@ -1,5 +1,0 @@
-{
-  "$kind": "Microsoft.OrchestratorRecognizer",
-  "modelFolder": "=settings.orchestrator.models.en",
-  "snapshotFile": "=settings.orchestrator.snapshots.schoolnavigatorbot_en_us"
-}

@@ -1,7 +1,0 @@
-[generator.lg](../generator.lg)
-
-# filename
-- ${generationDir()}${locale}/${prefix}.${locale}.lg
-
-# template
-- ${join(foreach(sortObject(templates.lg, 'shortName'), lg, `[${lg.shortName}](${localePath(replace(lg.relative, '\\', '/'))})`), EOL())}

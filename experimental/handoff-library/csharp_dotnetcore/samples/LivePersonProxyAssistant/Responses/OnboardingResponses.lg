@@ -1,8 +1,0 @@
-﻿# NamePrompt
-- What is your name?
-- What's your name?
-
-# HaveNameMessage
-- Hi ${Name}!
-- Hi there, ${Name}!
-- Pleased to meet you, ${Name}!

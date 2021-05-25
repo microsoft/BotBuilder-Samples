@@ -1,8 +1,0 @@
-{
-    "$global": true,
-    "$templates": [
-        "form-HttpRequestIntent.dialog",
-        "form-HttpRequestIntent.lu",
-        "form-ShowResponse.lg"
-    ]
-}

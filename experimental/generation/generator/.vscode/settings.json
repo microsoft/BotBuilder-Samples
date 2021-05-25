@@ -1,5 +1,0 @@
-{
-    "typescript.disableAutomaticTypeAcquisition": true,
-    "npm.packageManager": "npm",
-    "typescript.tsdk": "./packages/cli/node_modules/typescript/lib"
-}

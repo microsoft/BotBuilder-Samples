@@ -1,9 +1,0 @@
-# WelcomeUser
-[Activity
-    Text = ${helpText()}
-	SuggestedActions = IfCondition|SwitchCondition|ForeachStep|ForeachPageStep|Cancel|Endturn|RepeatDialog|ForeachWithBreakAndContinue|GotoAction
-]
-
-# helpText
--```Welcome to the Controlling Conversation sample. Choose from the list below to try.
-You can also type "Cancel" to cancel any dialog or "Endturn" to explicitly accept an input.```

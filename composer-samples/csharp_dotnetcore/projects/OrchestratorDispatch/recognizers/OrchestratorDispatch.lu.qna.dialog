@@ -1,7 +1,0 @@
-{
-  "$kind": "Microsoft.CrossTrainedRecognizerSet",
-  "recognizers": [
-    "OrchestratorDispatch.lu",
-    "OrchestratorDispatch.qna"
-  ]
-}

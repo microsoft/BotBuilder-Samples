@@ -1,3 +1,0 @@
-# prevent appsettings.json get checked in
-!**/settings/appsettings.json
-**/appsettings.development.json

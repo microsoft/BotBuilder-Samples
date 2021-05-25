@@ -1,6 +1,0 @@
-{
-  "$kind": "Microsoft.CrossTrainedRecognizerSet",
-  "recognizers": [
-    "interruptionsample.lu"
-  ]
-}

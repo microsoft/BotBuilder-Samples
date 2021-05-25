@@ -1,4 +1,0 @@
-jsonpickle
-botbuilder-integration-aiohttp>=4.13.0
-botbuilder-dialogs>=4.13.0
-azure>=4.0.0
