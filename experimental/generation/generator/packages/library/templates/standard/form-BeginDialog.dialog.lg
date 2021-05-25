@@ -30,9 +30,9 @@
 ```
 
 # setPropertiesForDynamiclists
-- IF: ${!empty(where(schema.properties, property, property.value.$template == "dynamiclist"))}
+- IF: ${!empty(where(schema.properties, property, property.value.$template == "dynamiclist" || property.value.$template == "LuceneDynamicList" ))}
 -```,
-${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
+${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist" ||  property.value.$template == "LuceneDynamicList"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
 - ELSE: 
 - 
 

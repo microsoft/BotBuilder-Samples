@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using Iciclecreek.Bot.Builder.Dialogs.Recognizers.Lucene;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -10,6 +11,7 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Obsolete;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
@@ -51,6 +53,12 @@ namespace RunBotServer
             ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
             ComponentRegistration.Add(new QnAMakerComponentRegistration());
             ComponentRegistration.Add(new LuisComponentRegistration());
+
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DynamicListBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<LuisBotComponent>());
+
+            /*            DynamicListBotComponent dynamicListBotComponent = new DynamicListBotComponent();
+                        dynamicListBotComponent.ConfigureServices(services, this._configuration);*/
 
             // Create the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
