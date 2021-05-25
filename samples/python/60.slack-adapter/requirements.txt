@@ -1,0 +1,2 @@
+botbuilder-integration-aiohttp>=4.13.0
+botbuilder-adapters-slack>=4.13.0

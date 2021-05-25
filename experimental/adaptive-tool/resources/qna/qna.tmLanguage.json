@@ -1,0 +1,135 @@
+{
+  "name": "QNA",
+  "scopeName": "source.qna",
+  "fileTypes": [
+    "qna"
+  ],
+  "patterns": [
+    {
+      "include": "#markdown"
+    },
+    {
+      "include": "#qa_pair_first_question"
+    },
+    {
+      "include": "#utterances"
+    },
+    {
+      "include": "#configuration"
+    },
+    {
+      "include": "#conventions"
+    },
+    {
+      "include": "#fence_block"
+    },
+    {
+      "include": "#imports"
+    },
+    {
+      "include": "#ids"
+    }
+  ],
+  "repository": {
+    "markdown": {
+      "patterns": {
+        "include": "text.html.markdown"
+      }
+    },
+    "qa_pair_first_question": {
+      "patterns": [
+        {
+          "comment": "qa pair definition",
+          "name": "markup.heading.qna",
+          "match": "(^#{1,2}\\s*\\?\\s*.*$)"
+        }
+      ]
+    },
+    "utterances": {
+      "patterns": [
+        {
+          "comment": "utterance",
+          "name": "markup.heading.qna",
+          "match": "([-]\\s*)"
+        },
+        {
+          "comment": "utterance",
+          "name": "markup.heading.qna",
+          "match": "(\\*\\*[^\\*]*\\*\\*)"
+        },
+        {
+          "comment": "utterance wild card",
+          "name": "support.type.qna",
+          "match": "(`context-only`)"
+        }
+      ]
+    },
+    "configuration": {
+      "patterns": [
+        {
+          "comment": "knowledge base configuration information",
+          "match": "(>.*)(!#\\s*)(@[a-zA-Z]+\\s*?.[a-zA-Z0-9&_\\.-]+)",
+          "captures": {
+            "1": {
+              "name": "comment.qna"
+            },
+            "2": {
+              "name": "entity.name.function.qna"
+            },
+            "3": {
+              "name": "entity.name.function.qna"
+            }
+          }
+        }
+      ]
+    },
+    "ids": {
+      "patterns": [
+        {
+          "comment": "qa pair id",
+          "match": "(<(a)\\s*(id)\\s*=\\s*(\"\\d+\")\\s*>\\s*</(a)>)",
+          "captures": {
+            "2": {
+              "name": "support.type.qna"
+            },
+            "3": {
+              "name": "entity.name.function.qna"
+            },
+            "4": {
+              "name": "string.other.link.title.qna"
+            },
+            "5": {
+              "name": "support.type.qna"
+            }
+          }
+        }
+      ]
+    },
+    "conventions": {
+      "patterns": [
+        {
+          "comment": "comment",
+          "name": "comment.qna",
+          "match": "(^>.*$)"
+        }
+      ]
+    },
+    "fence_block": {
+			"begin": "(`{3})\\s*",
+			"end": "(`{3})\\s*$",
+			"contentName": "constant.character.escape.multiline"
+    },
+    "imports": {
+			"captures": {
+				"1": {
+					"name": "string.other.link.title.qna"
+				},
+				"2": {
+					"name": "markup.underline.link.qna"
+				}
+			},
+			"match": "\\[([\\w\\W]+?)\\]\\(([\\w\\W]+?)\\)",
+			"name": "meta.link.reference.def.qna"
+		}
+  }
+}

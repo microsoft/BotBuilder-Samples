@@ -1,0 +1,19 @@
+{
+    "$global": true,
+    "$templates": [
+        "AboutBot.en-us.qna",
+        "AboutUser.en-us.qna",
+        "Command.en-us.qna",
+        "Compliment.en-us.qna",
+        "Criticism.en-us.qna",
+        "Dialog.en-us.qna",
+        "Greeting.en-us.qna",
+        "Relationship.en-us.qna",
+        "locale.qna",
+        "form-CrossTrain.lg",
+        "form-QnAIntent.dialog",
+        "form-ChooseIntent.dialog",
+        "config.json",
+        "qnaconfig.json"
+        ]
+}

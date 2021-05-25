@@ -1,0 +1,11 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('personName')}
+
+# template
+- ```
+@ prebuilt personName
+
+${operations('personName', ["Mike Smith", "Albert Einstein", "Padma Marie Olsaki", "tom"], false)}
+```

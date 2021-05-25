@@ -1,0 +1,77 @@
+﻿> Language Generation definition file. 
+> See https://aka.ms/language-generation to learn more
+
+> You can now add reference to other .lg files.
+[Common](../Common/Common.lg)
+
+> This template uses inline expressions. Expressions are defined using adaptive expressions. 
+> See https://aka.ms/adaptive-expressions to learn more.
+# ShowList
+[Activity
+    Text = ${ItemsReadback()}
+    ${WelcomeActions()}
+]
+
+> This template uses a foreach prebuilt function to call a template. The template helps with putting together each item in a line prefixed with `-`
+> This way, clients that support multi-line markdown for text can render the items as a list. 
+# ItemsReadback
+- SWITCH: ${dialog.listType}
+    - CASE: ${'todo'}
+        - ${ItemCountReadBack()} ${ListReadBack(user.lists[dialog.listType])}
+    - CASE: ${'shopping'}
+        - ${ItemCountReadBack()} ${ListReadBack(user.lists[dialog.listType])}
+    - CASE: ${'grocery'}
+        - ${ItemCountReadBack()} ${ListReadBack(user.lists[dialog.listType])}
+    - CASE: ${'all'}
+        - ${AllListReadBack()}
+    - DEFAULT:
+        - I do not understand that list type.
+
+# AllListReadBack
+- ```
+**Todo List** - ${count(user.lists.todo)} ${ItemsOrdinality(user.lists.todo)}
+${ListReadBack(user.lists.todo)}
+
+**Shopping List** - ${count(user.lists.shopping)} ${ItemsOrdinality(user.lists.shopping)}
+${ListReadBack(user.lists.shopping)}
+
+**Grocery List** - ${count(user.lists.grocery)} ${ItemsOrdinality(user.lists.grocery)}
+${ListReadBack(user.lists.grocery)}
+```
+ 
+# ItemCountReadBack
+- You have ${count(user.lists[dialog.listType])} ${ItemsOrdinality(user.lists[dialog.listType])} in your ${dialog.listType} list.
+
+# ListReadBack (list)
+- IF: ${list != null && count(list) != 0}
+    - ${join(foreach(list, item, TodoLine(item)), '')}
+- ELSE: 
+    - You do not have any items in your ${dialog.listType} collection.
+
+# ItemsOrdinality (list)
+- IF: ${list != null && count(list) == 1}
+    - item
+- ELSE:
+    - items
+
+# TodoLine (item)
+- ```
+- ${item}```
+
+# NoItemsInLists
+[Activity
+    Text = Sorry, you do not have any items in your lists. 
+    ${WelcomeActions()}
+]
+
+# GetListType
+[Activity
+    Text = Which list would you like to see?
+    SuggestedActions = Todo | Grocery | Shopping | All
+]
+
+# GetListType.Invalid
+[Activity
+    Text = Sorry, '${this.value}' does not work. Which list would you like to see?
+    SuggestedActions = Todo | Grocery | Shopping | All
+]

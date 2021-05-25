@@ -1,0 +1,25 @@
+{
+  "$schema": "../app.schema",
+  "$kind": "Microsoft.AdaptiveDialog",
+  "autoEndDialog": false,
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "Say something and I will echo it back..."
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity":  "You said '${turn.activity.text}'"
+        }
+      ]
+    }
+  ]
+}

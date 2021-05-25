@@ -1,0 +1,7 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${filenameForEntityTypeLG('temperature')}
+
+# template
+- ${entityTextTemplate('temperature')}

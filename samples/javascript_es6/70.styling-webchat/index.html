@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Web Chat: Customizing thru style options</title>
+    <script type="text/javascript" src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"></script>
+    <style>
+      html, body { height: 100% }
+      body { margin: 0 }
+
+      #webchat,
+      #webchat > * {
+        height: 100%;
+        width: 100%;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="webchat"></div>
+    <script>
+      const styleOptions = {
+        backgroundColor: 'Black',
+        bubbleBackground: '#222',
+        bubbleBorder: 'solid 1px #444',
+        bubbleBorderRadius: 20,
+        bubbleFromUserBackground: '#222',
+        bubbleFromUserBorder: 'solid 1px #444',
+        bubbleFromUserBorderRadius: 20,
+        bubbleFromUserTextColor: 'White',
+        bubbleTextColor: 'White'
+      };
+
+      // In this demo, we are showing how to initialize Web Chat with a secret. This is NOT RECOMMENDED for deployed bots.
+      // Your client code must provide either a secret or a token to talk to your bot.
+      // Tokens are more secure. To learn about the differences between secrets and tokens
+      // and to understand the risks associated with using secrets, visit https://docs.microsoft.com/en-us/azure/bot-service/rest-api/bot-framework-rest-direct-line-3-0-authentication?view=azure-bot-service-4.0
+
+      // The code commented out below exemplifies how to implement the same page while fetching a token from your own token server.
+      
+      // const res = await fetch('https:YOUR_TOKEN_SERVER.NET/API', { method: 'POST' });
+      // const { token } = await res.json();
+
+      window.WebChat.renderWebChat({
+        directLine: window.WebChat.createDirectLine({ secret: 'YOUR_BOT_SECRET_FROM_AZURE' }),
+        // directLine: window.WebChat.createDirectLine({ token }),
+        styleOptions
+      }, document.getElementById('webchat'));
+    </script>
+  </body>
+</html>

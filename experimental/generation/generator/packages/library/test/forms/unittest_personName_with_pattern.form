@@ -1,0 +1,13 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "Name": {
+            "$ref": "template:personName.template",
+            "pattern" : "^[a-z]{1,3}$"
+        }
+    },
+    "required": [
+        "Name"
+    ]
+}

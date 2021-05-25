@@ -1,0 +1,81 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "ViewItem",
+    "id": "944085"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "479346"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "308464",
+            "name": "AskForListType"
+          },
+          "prompt": "${TextInput_Prompt_308464()}",
+          "maxTurnCount": "3",
+          "property": "dialog.listType",
+          "value": "=@listType",
+          "allowInterruptions": "!@listType",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "todo",
+              "synonyms": [
+                "to do"
+              ]
+            },
+            {
+              "value": "grocery",
+              "synonyms": [
+                "groceries"
+              ]
+            },
+            {
+              "value": "shopping",
+              "synonyms": [
+                "shoppers"
+              ]
+            },
+            {
+              "value": "all",
+              "synonyms": [
+                "everything",
+                "all"
+              ]
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "auto",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "996807",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_996807()}"
+        }
+      ]
+    }
+  ],
+  "generator": "viewitem.lg",
+  "recognizer": "viewitem.lu"
+}

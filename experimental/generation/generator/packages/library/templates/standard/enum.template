@@ -1,0 +1,28 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$generator": {
+        "title": "Enum",
+        "description": "Recognize entities from a fixed set of choices.",
+        "allOf": [
+            {
+                "enum": {
+                    "title": "Enumeration",
+                    "description": "Legal enumeration values for this property.",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "uniqueItems": true,
+                    "default": []
+                }
+            },
+            {
+                "$ref": "array.json"
+            },
+            {
+                "$ref": "examples.json"
+            }
+        ]
+    }
+}

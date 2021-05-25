@@ -1,0 +1,51 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "808722",
+    "name": "addtodo"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "335456"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "298897"
+          },
+          "property": "dialog.todo",
+          "prompt": "${TextInput_Prompt_298897()}",
+          "maxTurnCount": 3,
+          "value": "=@title",
+          "alwaysPrompt": false,
+          "allowInterruptions": "true"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "567087"
+          },
+          "changeType": "push",
+          "itemsProperty": "user.todos",
+          "value": "=dialog.todo"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "116673"
+          },
+          "activity": "${SendActivity_116673()}"
+        }
+      ]
+    }
+  ],
+  "generator": "addtodo.lg",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "id": "addtodo",
+  "recognizer": "addtodo.lu.qna"
+}

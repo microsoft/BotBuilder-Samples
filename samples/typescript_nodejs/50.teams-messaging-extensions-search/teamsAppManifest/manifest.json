@@ -1,0 +1,69 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.5/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.5",
+  "version": "1.0.0",
+  "id": "<<YOUR-MICROSOFT-APP-ID>>",
+  "packageName": "com.teams.sample.teamsmessagingextensionssearch",
+  "developer": {
+    "name": "teamsStartNewThreadInChannel",
+    "websiteUrl": "https://www.microsoft.com",
+    "privacyUrl": "https://www.teams.com/privacy",
+    "termsOfUseUrl": "https://www.teams.com/termsofuser"
+  },
+  "icons": {
+    "outline": "icon-outline.png",
+    "color": "icon-color.png"
+  },
+  "name": {
+    "short": "Search Messaging Extension",
+    "full": "Microsoft Teams Search Based Messaging Extension"
+  },
+  "description": {
+    "short": "Sample demonstrating a Search Based Messaging Extension",
+    "full": "Sample Search Messaging Extension built with the Bot Builder SDK"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "scopes": [
+        "personal",
+        "groupchat",
+        "team"
+      ],
+      "supportsFiles": false,
+      "isNotificationOnly": false
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "canUpdateConfiguration": true,
+      "commands": [
+        {
+          "id": "searchQuery",
+          "context": [
+            "compose",
+            "commandBox"
+          ],
+          "description": "Test command to run query",
+          "title": "Search",
+          "type": "query",
+          "parameters": [
+            {
+              "name": "searchQuery",
+              "title": "Search Query",
+              "description": "Your search query",
+              "inputType": "text"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity",
+    "messageTeamMembers"
+  ],
+  "validDomains": []
+}

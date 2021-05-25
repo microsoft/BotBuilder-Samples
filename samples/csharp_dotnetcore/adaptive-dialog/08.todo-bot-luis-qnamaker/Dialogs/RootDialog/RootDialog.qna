@@ -1,0 +1,27 @@
+﻿> QnA definition.
+> See https://aka.ms/qna-file-format to learn more.
+
+[ChitChat](./ChitChat.qna)
+
+# ?Help
+- what can you do?
+- I need help
+- help please
+- What can I say?
+```
+${HelpRootDialog()}
+```
+
+# ?Can I move an item from one list to another?
+- move item
+- move mango to grocery list
+```
+Sorry, I do not support that yet. But I will let the development team know! 
+```
+
+# ?What do you do with my profile?
+- why profile?
+- profile?
+```
+I need your profile to provide you the best experience. See http://contoso.com/privacy to learn more about our privacy policy.
+```

@@ -1,0 +1,15 @@
+[form.en-us.lg]
+
+# qna_answer
+> Show QnA answer activity
+[Activity
+    Text = ${qnaAnswer_text()}
+]
+
+# qnaAnswer_text
+> Show QnA answer
+- ${@answer}
+
+# choose_intent
+> Choose intent from LUIS or QnA
+- which recognizer do you prefer?

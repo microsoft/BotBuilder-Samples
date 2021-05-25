@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.9.3" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.2" />
+    <PackageReference Include="AdaptiveExpressions" Version="4.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="AdapterWithErrorHandler.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\GetUserProfileDialog\GetUserProfileDialog.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\GetUserProfileDialog\GetUserProfileDialog.lu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\RootDialog\RootDialog.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Dialogs\RootDialog\RootDialog.lu">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,40 @@
+[form.en-us.lg](form.en-us.lg)
+[form-DisplayOperation.en-us.lg](form-DisplayOperation.en-us.lg)
+
+>> OnChooseEntity
+
+# chooseEnumEntity()
+> Choose between enum entity values
+- Did you mean ${choices(turn.dialogEvent.value.value.value, enumName(turn.dialogEvent.value.value.type), 'or')} for ${chooseEntityPropertyName()}?
+
+# chooseEntityProperty
+> Property from the current event entity
+- ${turn.dialogEvent.value.property}
+
+# chooseEntityPropertyName()
+> Property name from the current event entity
+- ${propertyName(chooseEntityProperty())}
+
+# chooseEntityOperation()
+> Operation name from the current event entity
+- ${operationName(turn.dialogEvent.value.operation)}
+
+# enumName(type)
+> Return the name of the template for enum values of entity
+- ${substring(type, 0, indexOf(type, 'Value'))}Enum_Value
+
+>> OnChooseProperty
+
+# chooseProperties
+> Choose properties activity
+[Activity
+    Text = ${chooseProperties_text()}
+]
+
+# chooseProperties_text
+> Choose between different properties
+- Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
+
+# chooseProperty(property)
+> Display a possible property assignment
+- ${displayOperation(property.operation, property.property, property.value)}

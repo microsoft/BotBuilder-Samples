@@ -1,0 +1,41 @@
+{
+  "text": "flight to madrid",
+  "intents": { "BookFlight": { "score": 0.8476145 } },
+  "entities": {
+    "$instance": {
+      "To": [
+        {
+          "startIndex": 10,
+          "endIndex": 16,
+          "score": 0.7892059,
+          "text": "madrid",
+          "type": "To"
+        }
+      ]
+    },
+    "To": [ { "$instance": {} } ]
+  },
+  "luisResult": {
+    "query": "flight to madrid",
+    "topScoringIntent": {
+      "intent": "BookFlight",
+      "score": 0.8476145
+    },
+    "entities": [
+      {
+        "entity": "madrid",
+        "type": "To",
+        "startIndex": 10,
+        "endIndex": 15,
+        "score": 0.7892059
+      }
+    ],
+    "compositeEntities": [
+      {
+        "parentType": "To",
+        "value": "madrid",
+        "children": []
+      }
+    ]
+  }
+}

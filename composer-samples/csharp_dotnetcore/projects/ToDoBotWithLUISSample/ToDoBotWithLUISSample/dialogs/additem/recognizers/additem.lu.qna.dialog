@@ -1,0 +1,6 @@
+{
+  "$kind": "Microsoft.CrossTrainedRecognizerSet",
+  "recognizers": [
+    "additem.lu"
+  ]
+}

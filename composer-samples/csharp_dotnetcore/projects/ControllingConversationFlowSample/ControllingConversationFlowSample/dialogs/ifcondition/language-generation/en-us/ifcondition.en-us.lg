@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# SendActivity_164444()
+-Your age is ${user.age} which satisified the condition that was evaluated
+
+# SendActivity_619321()
+-Your age is ${user.age} which did not satisfy the condition that we evaluated

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/botframework-sdk/master/schemas/component/component.schema",
+  "$role": "implements(Microsoft.IDialog)",
+  "title": "SchoolNavigator",
+  "type": "object",
+  "properties": {
+    "": {
+      "title": ""
+    }
+  },
+  "$result": {
+    "type": "object",
+    "properties": {}
+  }
+}

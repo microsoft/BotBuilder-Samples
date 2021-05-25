@@ -1,0 +1,32 @@
+[import](common.lg)
+
+# SendActivity_753396
+- Hello, I'm the interruption demo bot! \n \[Suggestions=Get started | Reset profile]
+
+# SendActivity_032735
+[Activity
+    Text = I've reset your profile.
+	SuggestedActions = Get started
+]
+
+# SendActivity_650736
+- Sure, I've cancelled that.
+
+# SendActivity_031899
+- ${user.profile.name}
+
+# SendActivity_309274
+- ```
+Here's what I know about you -
+- ${NameReadBack()}
+- ${AgeReadBack()}
+```
+
+# SendActivity_912837
+- I do not know much about you. I'd love to know more .. \n \[Suggestions=Get started]
+
+# SendActivity_924700
+[Activity
+    Text = Hello, I'm the interruption sample bot!
+	SuggestedActions = Get started | Reset profile | Cancel | Show profile
+]

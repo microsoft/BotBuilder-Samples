@@ -1,0 +1,61 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="Samples\01 - Steps\Steps.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\02 - IfCondition\IfCondition.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\03 - SwitchCondition\SwitchCondition.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\04 - DoSteps\DoSteps.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.FortuneTellerDialog.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\05 - BeginDialog\BeginDialog.TellJokeDialog.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\06 - UsingCards\usingCards.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\06 - UsingCards\UsingCards.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\07 - MultiTurnPrompt\multiTurnPrompt.lg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Samples\07 - MultiTurnPrompt\MultiTurnPrompt.main.dialog">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Declarative" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.AI.QnA" Version="4.13.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Update="Resources\adaptiveCard.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
+</Project>

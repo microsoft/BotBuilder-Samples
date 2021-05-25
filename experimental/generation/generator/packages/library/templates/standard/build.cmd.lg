@@ -1,0 +1,79 @@
+[generator.lg](../generator.lg)
+
+# filename
+-build.cmd
+
+# template
+- IF: ${templates.qna}
+    - ${setParamsForLUIS()} ${setParamsForQnA()} ${echoBuild()} ${crossTrainCmd()} ${luisBuildCmd()} ${qnaMakerBuildCmd()} ${echoGotoDone()} ${helpForQnA()}
+- ELSE:
+    - ${setParamsForLUIS()} ${echoBuild()} ${luisBuildCmd()} ${echoGotoDone()} ${helpForLUIS()}
+
+# setParamsForLUIS
+-```
+@echo off
+setlocal
+
+set region=%1
+if "%region%" EQU "" set region=westus
+
+set key=%2
+if "%key%" NEQ "" set key=--authoringKey %key%
+```
+
+# setParamsForQnA
+-```
+set qnaKey=%3
+if "%qnaKey%" NEQ "" set qnaKey=--subscriptionKey %qnaKey%
+```
+
+# echoBuild
+-```
+echo Building Models
+```
+
+# echoGotoDone
+-```
+goto done
+```
+
+# crossTrainCmd
+-```
+cmd.exe /c bf luis:cross-train --config ./config.json --in . 
+${join(foreach(locales, locale, copyForLocale(locale)) , EOL())}
+```
+
+# copyForLocale(locale)
+-```
+call copy .\cross-trained\\${prefix}.${locale}.lu .\\${locale}\ /y
+call copy .\cross-trained\\${prefix}.${locale}.qna .\\${locale}\ /y
+```
+
+# luisBuildCmd
+-```
+cmd.exe /c bf luis:build --luConfig luconfig.json --region=%region% %key% --out generated --log
+```
+
+# qnaMakerBuildCmd
+-```
+cmd.exe /c bf qnamaker:build --qnaConfig qnaconfig.json %qnaKey% --out generated --log
+```
+
+# helpForLUIS
+-```
+:help
+echo build.cmd [region] [LUISAuthoringKey]
+echo Region defaults to westus.
+echo Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>
+:done
+```
+
+# helpForQnA
+-```
+:help
+echo build.cmd [region] [LUISAuthoringKey] [qnaKey] 
+echo Region defaults to westus.
+echo Set LUISAuthoringKey default with bf config:set:luis --authoringKey=<yourKey>
+echo Set qnaKey default with bf config:set:qnamaker --subscriptionKey=<yourKey>
+:done
+```

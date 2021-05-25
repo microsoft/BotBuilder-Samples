@@ -1,0 +1,7 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${knowledgeDir()}${locale}/${prefix}.${locale}.qna
+
+# template
+- ${join(foreach(templates.qna, qna, `[${qna.fullName}](${localePath(qna.relative)})`), EOL())}

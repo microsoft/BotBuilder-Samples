@@ -1,0 +1,63 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
+
+# template
+-```${formImport('form.en-us.lg')}
+
+# displayOperation(op, property, value)
+> Display value for a combination of operation, property and value
+- SWITCH: \${op}
+- CASE: \${'Add()'}
+        - \${displayAddOperation(op, property, value)}
+- CASE: \${'Remove()'}
+        - \${displayRemoveOperation(op, property, value)}
+- DEFAULT:
+        - \${displayDefaultOperation(op, property, value)}
+
+# displayAddOperation(op, property, value)
+> Display value for an Add() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - Add "\${value.text}" to \${propertyName(property)}
+- ELSEIF: \${property && value}
+    - Set \${propertyName(property)} to "\${value.text}"
+- ELSE:
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayRemoveOperation(op, property, value)
+> Display value for a Remove() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - Remove "\${value.text}" from \${propertyName(property)}
+- ELSEIF: \${property}
+    - Clear \${propertyName(property)}
+- ELSE:
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayDefaultOperation(op, property, value)
+> Default display value for an operation, property and value
+- IF: \${op && property && value.value} 
+    - \${operationName(op)} \${value.text} to \${propertyName(property)}
+- ELSEIF: \${op && property}
+    - \${operationName(op)} \${propertyName(property)}
+- ELSE:
+    - \${operationName(op)}
+
+${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+```
+
+# namePlusSwitch
+-```# operationName(op) 
+> Display value for an operation
+- SWITCH: \${op}```
+
+# cases
+- ${foreach(operations, op, case(op))}
+
+# case(op)
+-```    - CASE: \${'${op}'}
+        - ${phrase(substring(op, 0, indexOf(op, '(')))}```
+
+# default
+-```    - DEFAULT: 
+        - I don't understand \${op}```

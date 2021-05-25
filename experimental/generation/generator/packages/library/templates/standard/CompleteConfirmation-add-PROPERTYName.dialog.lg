@@ -1,0 +1,22 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('CompleteConfirmation-add-PROPERTYName.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Set()",
+    "property": "CompleteConfirmation",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$PropertyToChange",
+            "value": "=turn.dialogEvent.value.value.name"
+        }
+    ]
+    ${designerOpEntityProperty('Set', 'PROPERTYName', 'CompleteConfirmation')}
+}
+```

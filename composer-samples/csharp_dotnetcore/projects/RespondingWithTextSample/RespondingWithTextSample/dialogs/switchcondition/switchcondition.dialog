@@ -1,0 +1,29 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "$designer": {
+    "name": "SwitchCondition",
+    "id": "292826"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "958316",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_958316()}"
+        }
+      ]
+    }
+  ],
+  "generator": "switchcondition.lg"
+}

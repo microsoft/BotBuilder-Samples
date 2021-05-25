@@ -1,0 +1,10 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "format": "email",
+    "$generator": {
+        "title": "Email",
+        "description": "Recognize entities like 'bob@gmail.com'.",
+        "$ref": "array.json"
+    }
+}

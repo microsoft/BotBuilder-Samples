@@ -1,0 +1,81 @@
+﻿> All cards can be defined and managed through .lg files.
+> All cards use the structured LG notation.
+> Multi-line text are enclosed in ```
+> Multi-line text can include inline expressions enclosed in ${expression}.
+> ${TemplateName()} is how you can refer to another languge genration template in multi-line resolution.
+
+# HeroCard
+[HeroCard   
+    title = BotFramework Hero Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Show more cards
+]
+
+# ThumbnailCard
+[ThumbnailCard
+    title = BotFramework Thumbnail Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Get Started
+]
+
+# SigninCard
+[SigninCard
+    text = BotFramework Sign-in Card
+    buttons = Sign-in
+]
+
+# AnimationCard
+[AnimationCard
+    title = Microsoft Bot Framework
+    subtitle = Animation Card
+    image = https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png
+    media = http://i.giphy.com/Ki55RUbOV5njy.gif
+]
+
+# VideoCard
+[VideoCard
+    title = Big Buck Bunny
+    subtitle = by the Blender Institute
+    text = Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute
+    image = https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg
+    media = http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
+    buttons = Learn More
+]
+
+# AudioCard
+[AudioCard
+    title = I am your father
+    subtitle = Star Wars: Episode V - The Empire Strikes Back
+    text = The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back)
+    image = https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg
+    media = https://wavlist.com/wav/father.wav
+    buttons = Read More
+]
+
+# AdaptiveCard
+[Activity
+    Attachments = ${json(AdaptiveCard.Definition())}
+]
+
+# PassengerName
+- Vishwac
+- Tom
+- Chris
+- Yochay
+
+# AttachmentLayoutType
+- carousel
+- list
+
+# AllCards
+[Activity
+    Attachments = ${HeroCard()} | ${ThumbnailCard()} | ${SigninCard()} | ${AnimationCard()} | ${VideoCard()} | ${AudioCard()} | ${json(AdaptiveCard.Definition())}
+    AttachmentLayout = ${AttachmentLayoutType()}
+]
+
+# AdaptiveCard.Definition
+- ${json(fromFile('./adaptiveCard.json'))}

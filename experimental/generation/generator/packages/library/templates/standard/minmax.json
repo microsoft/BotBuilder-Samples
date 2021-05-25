@@ -1,0 +1,12 @@
+{
+    "minimum": {
+        "type": "number",
+        "title": "Minimum",
+        "description": "Form dialog will check to ensure value is >= minimum."
+    },
+    "maximum": {
+        "type": "number",
+        "title": "Maximum",
+        "description": "Form dialog will check to ensure value is <= maximum."
+    }
+}
