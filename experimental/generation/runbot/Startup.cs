@@ -12,6 +12,7 @@ using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Adaptive;
 using Microsoft.Bot.Builder.Dialogs.Declarative;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Obsolete;
+using Microsoft.Bot.Builder.Dialogs.Declarative.Obsolete;
 using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
@@ -53,12 +54,16 @@ namespace RunBotServer
             ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
             ComponentRegistration.Add(new QnAMakerComponentRegistration());
             ComponentRegistration.Add(new LuisComponentRegistration());
-
             ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DynamicListBotComponent>());
             ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<LuisBotComponent>());
-
-            /*            DynamicListBotComponent dynamicListBotComponent = new DynamicListBotComponent();
-                        dynamicListBotComponent.ConfigureServices(services, this._configuration);*/
+/*
+            new DialogsBotComponent().ConfigureServices(services, this._configuration);
+            new DeclarativeBotComponent().ConfigureServices(services, this._configuration);
+            new AdaptiveBotComponent().ConfigureServices(services, this._configuration);
+            new LanguageGenerationBotComponent().ConfigureServices(services, this._configuration);
+            new QnAMakerBotComponent().ConfigureServices(services, this._configuration);
+            new LuisBotComponent().ConfigureServices(services, this._configuration);
+            new DynamicListBotComponent().ConfigureServices(services, this._configuration);*/
 
             // Create the Bot Framework Adapter with error handling enabled.
             // Note: some classes use the base BotAdapter so we add an extra registration that pulls the same instance.
