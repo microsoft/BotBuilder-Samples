@@ -22,8 +22,8 @@ Adaptive Runtime.
 
 ## Prerequisites
 
-- A basic understanding of [actions](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#action) in Composer.
-- [A basic bot built using Composer](https://docs.microsoft.com/en-us/composer/quickstart-create-bot?tabs=v2x).
+- A basic understanding of [actions](https://docs.microsoft.comcomposer/concept-dialog?tabs=v2x#action) in Composer.
+- [A basic bot built using Composer](https://docs.microsoft.com/composer/quickstart-create-bot?tabs=v2x).
 - [Bot Framework CLI 4.10](https://botbuilder.myget.org/feed/botframework-cli/package/npm/@microsoft/botframework-cli) or later.
 
 ## Setup the Bot Framework CLI tool
