@@ -1,0 +1,173 @@
+{
+    "$schema": "../../tests.schema",
+    "$kind": "Microsoft.Test.Script",
+    "httpRequestMocks": [
+        "LuisAskFirst.mock",
+        "LuisAskLast.mock",
+        "LuisAskNo.mock",
+        "LuisAskAll.mock"
+    ],
+    "dialog": {
+        "$kind": "Microsoft.AdaptiveDialog",
+        "autoEndDialog": false,
+        "schema": "example.json",
+        "recognizer": {
+            "$kind": "Microsoft.LuisRecognizer",
+            "applicationId": "00000000-0000-0000-0000-000000000000",
+            "endpointKey": "00000000000000000000000000000000",
+            "endpoint": "https://westus.api.cognitive.microsoft.com",
+            "predictionOptions": {
+                "IncludeAPIResults": true
+            }
+        },
+        "triggers": [
+            {
+                "$kind": "Microsoft.OnEndOfActions",
+                "actions": [
+                    {
+                        "$kind": "Microsoft.Ask",
+                        "activity": "test?",
+                        "expectedProperties": [
+                            "test"
+                        ]
+                    }
+                ]
+            },
+            {
+                "$kind": "Microsoft.OnAssignEntity",
+                "value": "testEntity",
+                "actions": [
+                    {
+                        "$kind": "Microsoft.SetProperty",
+                        "property": "$test",
+                        "value": "=@testEntity"
+                    },
+                    {
+                        "$kind": "Microsoft.SwitchCondition",
+                        "condition": "@testEntity",
+                        "cases": [
+                            {
+                                "value": "askFirst",
+                                "actions": [
+                                    {
+                                        "$kind": "Microsoft.ControlForm",
+                                        "askFirst": "=['c', 'e']"
+                                    }
+                                ]
+                            },
+                            {
+                                "value": "askLast",
+                                "actions": [
+                                    {
+                                        "$kind": "Microsoft.ControlForm",
+                                        "askLast": "=['a', 'e']"
+                                    }
+                                ]
+                            },
+                            {
+                                "value": "askNo",
+                                "actions": [
+                                    {
+                                        "$kind": "Microsoft.ControlForm",
+                                        "noAsk": "=['c', 'e']"
+                                    }
+                                ]
+                            },
+                            {
+                                "value": "askAll",
+                                "actions": [
+                                    {
+                                        "$kind": "Microsoft.ControlForm",
+                                        "askFirst": "=['a', 'c', 'e']",
+                                        "askLast": "=['b', 'c', 'd']",
+                                        "noAsk": "=['a', 'd']"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "script": [
+        {
+            "$kind": "Microsoft.Test.UserConversationUpdate",
+            "membersAdded": [
+                "Bot",
+                "User"
+            ],
+            "membersRemoved": []
+        },
+        {
+            "$kind": "Microsoft.Test.MemoryAssertions",
+            "assertions": [
+                "count($requiredProperties) == 3",
+                "$requiredProperties[0] == 'a'",
+                "$requiredProperties[1] == 'b'",
+                "$requiredProperties[2] == 'c'"
+            ]
+        },
+        {
+            "$kind": "Microsoft.Test.AssertReply",
+            "text": "test?"
+        },
+
+        {
+            "$kind": "Microsoft.Test.UserSays",
+            "text": "askFirst"
+        },
+        {
+            "$kind": "Microsoft.Test.MemoryAssertions",
+            "assertions": [
+                "count($requiredProperties) == 4",
+                "$requiredProperties[0] == 'c'",
+                "$requiredProperties[1] == 'e'",
+                "$requiredProperties[2] == 'a'",
+                "$requiredProperties[3] == 'b'"
+            ]
+        },
+
+        {
+            "$kind": "Microsoft.Test.UserSays",
+            "text": "askLast"
+        },
+        {
+            "$kind": "Microsoft.Test.MemoryAssertions",
+            "assertions": [
+                "count($requiredProperties) == 4",
+                "$requiredProperties[0] == 'c'",
+                "$requiredProperties[1] == 'b'",
+                "$requiredProperties[2] == 'a'",
+                "$requiredProperties[3] == 'e'"
+            ]
+        },
+
+        {
+            "$kind": "Microsoft.Test.UserSays",
+            "text": "askNo"
+        },
+        {
+            "$kind": "Microsoft.Test.MemoryAssertions",
+            "assertions": [
+                "count($requiredProperties) == 2",
+                "$requiredProperties[0] == 'b'",
+                "$requiredProperties[1] == 'a'"
+            ]
+        },
+
+        {
+            "$kind": "Microsoft.Test.UserSays",
+            "text": "askAll"
+        },
+        {
+            "$kind": "Microsoft.Test.MemoryAssertions",
+            "assertions": [
+                "count($requiredProperties) == 3",
+                "$requiredProperties[0] == 'c'",
+                "$requiredProperties[1] == 'e'",
+                "$requiredProperties[2] == 'b'"
+            ]
+        }
+    ]
+}

@@ -1,0 +1,47 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <PackageId>Microsoft.Form.Extensions</PackageId>
+    <Description>.NET extensions for forms including the action Microsoft.ControlForm and the trigger Microsoft.OnControlForm.</Description>
+    <Summary>.NET extensions for forms.</Summary>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <PackageTags>msbot-component;msbot-trigger;msbot-action</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageRequireLicenseAcceptance>true</PackageRequireLicenseAcceptance>
+    <Copyright>© Microsoft Corporation. All rights reserved.</Copyright>
+    <RepositoryUrl>https://github.com/Microsoft/botbuilder-samples</RepositoryUrl>
+    <iconUrl>https://raw.githubusercontent.com/microsoft/botframework-sdk/master/icon.png</iconUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon>icon.png</PackageIcon>
+    <Version>1.0.0-preview</Version>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="**/*.schema" />
+    <Content Include="**/*.uischema" />
+    <None Include="exported/**/*.*" Pack="true" PackagePath="exported" />
+    <None Include="icon.png">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
+    <None Include="README.md" Condition="Exists('README.md')" Pack="true" PackagePath="" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.13.2" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <GenerateNuspecDependsOn>$(GenerateNuspecDependsOn);SetPackageVersion</GenerateNuspecDependsOn>
+  </PropertyGroup>
+
+  <Target Name="SetPackageVersion" DependsOnTargets="Build">
+    <PropertyGroup>
+      <!-- <PackageVersion>$([System.DateTime]::Now.ToString(&quot;yyyy.MM.dd.HHmmss&quot;))</PackageVersion> -->
+      <!-- You can customize the format and the rule about how version increases here. -->
+      <PackageVersion>$([System.DateTime]::Now.ToString("1.MM.dd.HHmmss-preview"))</PackageVersion>
+    </PropertyGroup>
+  </Target>
+</Project>
