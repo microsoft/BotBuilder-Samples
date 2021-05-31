@@ -4,16 +4,16 @@
 const fs = require('fs');
 const path = require('path');
 const axios = require('axios');
-
-const {
-    TeamsActivityHandler,
-    MessageFactory
-} = require('botbuilder');
+const { TurnContext, MessageFactory, TeamsActivityHandler } = require('botbuilder');
+const { MicrosoftAppCredentials } = require('botframework-connector');
+const {GeneFileName, GetFileSize, WriteFile} = require('../services/fileService')
+const FileDir = 'Files'
 
 class TeamsFileUploadBot extends TeamsActivityHandler {
     constructor() {
         super();
         this.onMessage(async (context, next) => {
+            TurnContext.removeRecipientMention(context.activity);
             const attachments = context.activity.attachments;
             if (attachments && attachments[0] && attachments[0].contentType === 'application/vnd.microsoft.teams.file.download.info') {
                 const file = attachments[0];
@@ -23,7 +23,10 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
                 const reply = MessageFactory.text(`<b>${ file.name }</b> received and saved.`);
                 reply.textFormat = 'xml';
                 await context.sendActivity(reply);
-            } else {
+            }else if(attachments[0].contentType === 'image/*'){
+                await this.processInlineImage(context);
+            } 
+            else {
                 const filename = 'teams-logo.png';
                 const stats = fs.statSync(path.join('Files', filename));
                 const fileSize = stats.size;
@@ -97,6 +100,34 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
         const reply = MessageFactory.text(`<b>File upload failed.</b> Error: <pre>${ error }</pre>`);
         reply.textFormat = 'xml';
         await context.sendActivity(reply);
+    }
+
+    async processInlineImage(context){
+        const file = context.activity.attachments[0];
+        const credentials = new MicrosoftAppCredentials(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
+        let botToken = await credentials.getToken();
+        let config = { 
+            headers: {"Authorization" : `Bearer ${botToken}`},
+            responseType: 'stream'
+        }
+        let fileName = await GeneFileName(FileDir)
+        const filePath = path.join(FileDir, fileName);
+        await WriteFile(file.contentUrl, config, filePath)
+        let fileSize = await GetFileSize(filePath)
+        var reply = MessageFactory.text(`Image <b>${fileName}</b> of size <b>${fileSize}</b> bytes received and saved.`);
+        let inlineAttachment = this.getInlineAttachment(fileName)
+        reply.attachments = [inlineAttachment];
+        await context.sendActivity(reply);
+    }
+
+    getInlineAttachment(fileName) {
+        const imageData = fs.readFileSync(path.join(FileDir, fileName));
+        const base64Image = Buffer.from(imageData).toString('base64');
+        return {
+            name: fileName,
+            contentType: 'image/png',
+            contentUrl: `data:image/png;base64,${ base64Image }`
+        };
     }
 }
 
