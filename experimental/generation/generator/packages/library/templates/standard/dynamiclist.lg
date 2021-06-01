@@ -9,7 +9,7 @@
         "dynamiclistEntity.lg",
         "dynamiclistEntity.lu",
         "genericProperty.lg",
-        "genericEntity-add.dialog",
+        "genericEntity-assign.dialog",
         "genericEntity-choose.dialog",
         "genericEntity-remove.dialog",
         "generic-change.dialog",

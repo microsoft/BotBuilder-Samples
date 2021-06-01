@@ -1,7 +1,8 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${addFilename(template)}
+- ${assignFilename(entity)}
 
 # template
-- ${addDateFormatDialog()}
+- ${addAssign(entity)}
+

@@ -8,7 +8,7 @@
   "triggers": [
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
+      "operation": "Assign()",
       "property": "Temperature",
       "value": "temperature",
       "actions": [
@@ -70,10 +70,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Add(@temperature)"
+        "name": "Temperature - Assign(@temperature)"
       },
-      "$source": "unittest_transforms-Temperature-add-temperature",
-      "$Generator": "b90bc45f3d5152bede808b2c44dad281"
+      "$source": "unittest_transforms-Temperature-assign-temperature",
+      "$Generator": "03547861c2286c43e4b90b6f741b3328"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -200,7 +200,7 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
+      "operation": "Assign()",
       "property": "Temperature",
       "value": "number",
       "actions": [
@@ -250,10 +250,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Add((@number+1))"
+        "name": "Temperature - Assign((@number+1))"
       },
-      "$source": "unittest_transforms-Temperature-add-number",
-      "$Generator": "63442703f00bd1c9b5972d58d82fb69c"
+      "$source": "unittest_transforms-Temperature-assign-number",
+      "$Generator": "a154ad528d59f1019ecab2e190f39ba8"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -290,7 +290,7 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
+      "operation": "Assign()",
       "property": "AString",
       "value": "AStringValue",
       "actions": [
@@ -328,10 +328,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Add(@AStringValue)"
+        "name": "AString - Assign(@AStringValue)"
       },
-      "$source": "unittest_transforms-AString-add-AStringValue",
-      "$Generator": "f5babfbcd2870ed7591d79dda72db2ff"
+      "$source": "unittest_transforms-AString-assign-AStringValue",
+      "$Generator": "bb4305db148fd3ff3b64b8e0f6099cba"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -476,7 +476,7 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Add()",
+      "operation": "Assign()",
       "property": "AString",
       "value": "utterance",
       "actions": [
@@ -514,10 +514,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Add(@utterance)"
+        "name": "AString - Assign(@utterance)"
       },
-      "$source": "unittest_transforms-AString-add-utterance",
-      "$Generator": "d269d01a2716fa3218b02d8a6a3b7716"
+      "$source": "unittest_transforms-AString-assign-utterance",
+      "$Generator": "0c48069332e0a440ec49625ad55f1d8b"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -594,7 +594,7 @@
       "$designer": {
         "name": "CancelConfirmation - Set(@boolean)"
       },
-      "$source": "unittest_transforms-form-CancelConfirmation-add-boolean",
+      "$source": "unittest_transforms-form-CancelConfirmation-assign-boolean",
       "$Generator": "9961c78adbba72bcfda476f6fea72e07"
     },
     {
@@ -653,7 +653,7 @@
       "$designer": {
         "name": "CompleteConfirmation - Set(@boolean)"
       },
-      "$source": "unittest_transforms-form-CompleteConfirmation-add-boolean",
+      "$source": "unittest_transforms-form-CompleteConfirmation-assign-boolean",
       "$Generator": "075b6704b4e3f14d6ab2a58ba7a135e1"
     },
     {
@@ -670,7 +670,7 @@
       "$designer": {
         "name": "CompleteConfirmation - Set(@PROPERTYName)"
       },
-      "$source": "unittest_transforms-form-CompleteConfirmation-add-PROPERTYName",
+      "$source": "unittest_transforms-form-CompleteConfirmation-assign-PROPERTYName",
       "$Generator": "2b6543a2a4f43d7d8eb7b2d7e609acff"
     },
     {
@@ -694,7 +694,7 @@
         }
       ],
       "$source": "unittest_transforms-form-BeginDialog",
-      "$Generator": "e1c03551d89e4122c118595f91a38bbd"
+      "$Generator": "d6f3ab60e3de2cece5353caf7695e92b"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "74b3aaae82d79bca64bae4a3c403198f"
+  "$Generator": "1c44a3f23c9c70e2961f51881325a9b0"
 }

@@ -43,8 +43,8 @@
 # builtinEntityFilename(entity)
 - ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
-# addFilename(entity)
-- ${dialogDir()}${property}/${prefix}-${property}-add-${entity}.dialog
+# assignFilename(entity)
+- ${dialogDir()}${property}/${prefix}-${property}-assign-${entity}.dialog
 
 # removeFilename(entity)
 - ${dialogDir()}${property}/${prefix}-${property}-remove-${entity}.dialog
@@ -88,7 +88,7 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
-        "genericEntity-add.dialog",
+        "genericEntity-assign.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",
@@ -111,7 +111,7 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
-        "dateFormat-add.dialog",
+        "dateFormat-assign.dialog",
         "genericEntity-remove.dialog",
         "generic-missing.dialog",
         "generic-clear.dialog",
@@ -137,7 +137,7 @@
 >> Dialog templates
 
 # addAssign(entity)
-> Add assignment dialog.
+> Assign dialog.
 > This is built out of two kinds of templates which can optionally generate output: actions and transforms.
 > Actions return a string for inside a list of actions or an empty string and start with action*.
 > Transforms transform an entity before assigning it and start with transform*.
@@ -145,11 +145,11 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
+    "operation": "Assign()",
     "property": "${property}",
     "value": "${entity}",
     "actions": [${actionAssign(entity)}]
-    ${designerOpEntity('Add', entity)}      
+    ${designerOpEntity('Assign', entity)}      
 }
 ```
 
@@ -202,13 +202,13 @@
 }```
 
 # addDateFormatDialog()
-> Add a dialog for transforming a timex into a specific format
+> Assign a dialog for transforming a timex into a specific format
 > TODO: We likely need to beef this up for all the corner cases like multiple timex, missing year, etc.
 - ```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
+    "operation": "Assign()",
     "property": "${property}",
     "value": "datetimeV2",
     "actions": [
@@ -226,7 +226,7 @@
             ]
         }
     ]
-    ${designerOpEntity('Add', 'datetimeV2')}
+    ${designerOpEntity('Assign', 'datetimeV2')}
 }
 ```
 
@@ -429,7 +429,7 @@ ${if(propertySchema.title,
     - @ ${entity} ${entity}
 
 > Define operations on '${property}' property.
-${defineOperation('Add', entity)}
+${defineOperation('Assign', entity)}
 ${defineOperation('Remove', entity)}
 ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
@@ -441,7 +441,7 @@ ${defineOperation('Help', entity)}
 @ ml Cancel() usesFeature CancelPhrases
     - @ ml dummyProperty
 
-> Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
+> Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`,
@@ -578,11 +578,11 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Operations defined in .lu
 # schemaOperations()
-- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
+- ${['Assign()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
 
 > Define default operation for properties
 # schemaDefaultOperation()
-- ${{"": {"": "Add()"}}}
+- ${{"": {"": "Assign()"}}}
 
 > Designer information
 # designerName(name)
@@ -756,14 +756,14 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ${transformPropertyEntries({}, indicesAndValues(object), property, transform)}
 
 # transformPropertyEntries(object, entries, property, transform)
-> Add entries into object transforming property
+> Assign entries into object transforming property
 > NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
 - ${if(count(entries) == 1, 
   transformPropertyEntry(object, first(entries), property, transform), 
   transformPropertyEntries(transformPropertyEntry(object, first(entries), property, transform), subArray(entries, 1, count(entries)), property, transform))}
 
 # transformPropertyEntry(object, entry, property, transform)
-> Add an {index, value} entry to object transforming if property
+> Assign an {index, value} entry to object transforming if property
 - ${addProperty(object, entry.index, if(entry.index == property, template(transform, entry.value), entry.value))}
 
 >>> transform
@@ -790,7 +790,7 @@ ${expectedUpdateTemplate(expectedReplace)}
   }
 
 # transformEntry(object, entry, filter, transform)
-> Add an {index, value} entry to object
+> Assign an {index, value} entry to object
 - ${addProperty(object, entry.index, transform(entry.value, filter, transform))}
 
 >>> Robust comparison and finding
@@ -828,7 +828,7 @@ ${expectedUpdateTemplate(expectedReplace)}
 
 # isOnAssign(body)
 > Action to assign current property and entity
-- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Add()' && body.property == property && body.value == entity}
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Assign()' && body.property == property && body.value == entity}
 
 # isSetProperty(body)
 > Action to set/push the current property

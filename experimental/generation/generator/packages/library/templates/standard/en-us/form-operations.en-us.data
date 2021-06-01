@@ -11,23 +11,23 @@
 >> property: Standalone ${property} name
 - {@${property}=${name}}
 
-> Add() examples for ${property} and ${entity}
-- {@Add()=add {@${property}=${uniqueOrValue} ${name}}}
-- {@Add()=with {@${property}=${unique}}}
-- {@Add()=set ${value}}
-- {@Add()={@${property}=${name} is ${uniqueOrValue}}}
-- {@Add()={@${property}=${name} of ${uniqueOrValue}}}
+> Assign() examples for ${property} and ${entity}
+- {@Assign()=add {@${property}=${uniqueOrValue} ${name}}}
+- {@Assign()=with {@${property}=${unique}}}
+- {@Assign()=set ${value}}
+- {@Assign()={@${property}=${name} is ${uniqueOrValue}}}
+- {@Assign()={@${property}=${name} of ${uniqueOrValue}}}
 
-> ${isArray?}Add() examples with multiple ${entity}
-- {@Add()={@${property}=${name} are ${uniqueOrValue}}}
-- {@Add()=add {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {@Add()=set {@${property}=${unique} and ${unique}}
-- {@Add()=with ${value} and ${value}}
-- {@Add()=with {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {@Add()=add {@${property}=${unique}, ${unique} and ${unique}} 
-- {@Add()=set ${value}, ${value} and ${value}}
-- {@Add()={@${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
-- {@Add()={@${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
+> ${isArray?}Assign() examples with multiple ${entity}
+- {@Assign()={@${property}=${name} are ${uniqueOrValue}}}
+- {@Assign()=add {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Assign()=set {@${property}=${unique} and ${unique}}
+- {@Assign()=with ${value} and ${value}}
+- {@Assign()=with {@${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {@Assign()=add {@${property}=${unique}, ${unique} and ${unique}} 
+- {@Assign()=set ${value}, ${value} and ${value}}
+- {@Assign()={@${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
+- {@Assign()={@${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
 
 > Remove() examples for ${property} and ${entity}
 - {@Remove()=remove {@${property}=${unique}}
