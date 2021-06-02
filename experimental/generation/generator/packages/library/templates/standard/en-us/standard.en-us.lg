@@ -93,7 +93,7 @@
 
 # unexpectedSetDefault()
 - IF: ${isArrayProperty(property)}
-    - Added ${propertyValue('newVal')} to ${propertyName()}
+    - Assigned ${propertyValue('newVal')} to ${propertyName()}
 - ELSE:
     - Set ${propertyName()} to ${propertyValue('newVal')}
 

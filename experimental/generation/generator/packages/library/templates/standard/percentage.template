@@ -5,6 +5,6 @@
     "$generator": {
         "title": "Percentage",
         "description": "Map a LUIS percentage entity like '4 percent' into a number.",
-        "$ref": "array.json"
+        "$ref": "common.json"
     }
 }

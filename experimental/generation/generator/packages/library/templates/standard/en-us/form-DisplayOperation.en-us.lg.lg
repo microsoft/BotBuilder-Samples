@@ -9,17 +9,17 @@
 # displayOperation(op, property, value)
 > Display value for a combination of operation, property and value
 - SWITCH: \${op}
-- CASE: \${'Add()'}
-        - \${displayAddOperation(op, property, value)}
+- CASE: \${'Assign()'}
+        - \${displayAssignOperation(op, property, value)}
 - CASE: \${'Remove()'}
         - \${displayRemoveOperation(op, property, value)}
 - DEFAULT:
         - \${displayDefaultOperation(op, property, value)}
 
-# displayAddOperation(op, property, value)
-> Display value for an Add() operation
+# displayAssignOperation(op, property, value)
+> Display value for an Assign() operation
 - IF: \${property && value && isArrayProperty(property)}
-    - Add "\${value.text}" to \${propertyName(property)}
+    - Assign "\${value.text}" to \${propertyName(property)}
 - ELSEIF: \${property && value}
     - Set \${propertyName(property)} to "\${value.text}"
 - ELSE:

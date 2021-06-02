@@ -11,7 +11,7 @@
             "$templates": [
                 "genericEntity.lg",
                 "genericEntity.lu",
-                "CancelConfirmation-add-boolean.dialog"
+                "CancelConfirmation-assign-boolean.dialog"
             ]
         },
         "CompleteConfirmation": {
@@ -24,8 +24,8 @@
                 "genericEntity.lg",
                 "genericEntity.lu",
                 "form-CompleteConfirmation.dialog",
-                "CompleteConfirmation-add-boolean.dialog",
-                "CompleteConfirmation-add-PROPERTYName.dialog"
+                "CompleteConfirmation-assign-boolean.dialog",
+                "CompleteConfirmation-assign-PROPERTYName.dialog"
             ]
         },
         "PropertyToChange": {
@@ -34,7 +34,7 @@
                 "${foreach(properties, property, `${property}Property`)}"
             ],
             "$templates": [
-                "PropertyToChange-add-PROPERTYName.dialog"
+                "PropertyToChange-assign-PROPERTYName.dialog"
             ]
         }
     },
@@ -53,7 +53,7 @@
         "${schemaDefaultOperation()}"
     ],
     "$requiresValue": [
-        "Add()",
+        "Assign()",
         "Remove()"
     ],
     "$expectedOnly": [
