@@ -18,7 +18,7 @@
                 }
             },
             {
-                "$ref": "array.json"
+                "$ref": "common.json"
             },
             {
                 "$ref": "examples.json"

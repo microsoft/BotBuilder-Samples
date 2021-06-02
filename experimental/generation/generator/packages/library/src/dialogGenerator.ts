@@ -1126,10 +1126,27 @@ export async function generate(
         const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         if (!error) {
-            // Write final schema
-            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
-            await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
+            // Identify all references to schema properties either because part of runtime or used in templates
+            const references = new Set<string>()
+            for (const reference of ['$schema', '$ref', '$entities', '$expectedOnly', '$operations', '$defaultOperation', '$requiresValue', '$parameters', '$public']) {
+                references.add(reference)
+            }
+            const baseDir = ppath.posix.join(outPath.replace(/\\/g, '/'), '**/*.')
+            for (const file of await glob([baseDir + 'dialog', baseDir + 'lg'])) {
+                const contents = await fs.readFile(file, 'utf8')
+                const matcher = /dialogClass.schema[a-zA-Z.]*.(\$[a-zA-Z]+)/g
+                let match = matcher.exec(contents)
+                while (match != null) {
+                    references.add(match[1])
+                    match = matcher.exec(contents)
+                }
+            }
+
+            // Write final schema
+            const body = stringify(expanded, (key: any, val: any) => (!key.startsWith('$') || references.has(key) ? val : undefined))
+            await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
+                        
             // Merge together all dialog files
             if (singleton) {
                 if (!merge) {

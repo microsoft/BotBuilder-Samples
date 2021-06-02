@@ -222,7 +222,7 @@
                 }
             ],
             "elseActions": [
-                ${actionSetOrPush(@datetime.timex[0])}
+                ${actionSetOrPush('@datetime.timex[0]')}
             ]
         }
     ]
@@ -344,7 +344,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!\$${property}",
+    "condition":"!\$${property}${askIf()}",
     "priority": "=form.missingPriority(['${property}'])",
     "actions": [
         {
@@ -358,6 +358,9 @@
     ${designerMissing(property)}
 }
 ```
+
+# askIf
+- ${if(propertySchema.$askIf, ` && ${propertySchema.$askIf}`, '')}
 
 # helpPropertyDialog()
 - ```

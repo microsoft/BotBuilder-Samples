@@ -5,6 +5,6 @@
     "$generator": {
         "title": "URI",
         "description": "Map entities like 'http://contoso.com' into a URI.",
-        "$ref": "array.json"
+        "$ref": "common.json"
     }
 }

@@ -73,7 +73,7 @@
         "name": "Temperature - Assign(@temperature)"
       },
       "$source": "unittest_transforms-Temperature-assign-temperature",
-      "$Generator": "03547861c2286c43e4b90b6f741b3328"
+      "$Generator": "ce6a9e8740f44a864223573f202d160a"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -253,7 +253,7 @@
         "name": "Temperature - Assign((@number+1))"
       },
       "$source": "unittest_transforms-Temperature-assign-number",
-      "$Generator": "a154ad528d59f1019ecab2e190f39ba8"
+      "$Generator": "69d1b81bf225b5bd9f2aced733d8e433"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -331,7 +331,7 @@
         "name": "AString - Assign(@AStringValue)"
       },
       "$source": "unittest_transforms-AString-assign-AStringValue",
-      "$Generator": "bb4305db148fd3ff3b64b8e0f6099cba"
+      "$Generator": "98d392221fc24ed6ed90ca3e4ac2a9a8"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -517,7 +517,7 @@
         "name": "AString - Assign(@utterance)"
       },
       "$source": "unittest_transforms-AString-assign-utterance",
-      "$Generator": "0c48069332e0a440ec49625ad55f1d8b"
+      "$Generator": "fdee67cff4a9487927063e71d5ca2af5"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -595,7 +595,7 @@
         "name": "CancelConfirmation - Set(@boolean)"
       },
       "$source": "unittest_transforms-form-CancelConfirmation-assign-boolean",
-      "$Generator": "9961c78adbba72bcfda476f6fea72e07"
+      "$Generator": "ef6996c9ca3fcee3a6e68575f14a860b"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -654,7 +654,7 @@
         "name": "CompleteConfirmation - Set(@boolean)"
       },
       "$source": "unittest_transforms-form-CompleteConfirmation-assign-boolean",
-      "$Generator": "075b6704b4e3f14d6ab2a58ba7a135e1"
+      "$Generator": "b6c4912438656929e5639d875e5cc667"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -671,7 +671,7 @@
         "name": "CompleteConfirmation - Set(@PROPERTYName)"
       },
       "$source": "unittest_transforms-form-CompleteConfirmation-assign-PROPERTYName",
-      "$Generator": "2b6543a2a4f43d7d8eb7b2d7e609acff"
+      "$Generator": "ca8d4fbc91484469b3bf1d9af894f3e5"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "1c44a3f23c9c70e2961f51881325a9b0"
+  "$Generator": "19aec919283418315cf01f752463f428"
 }
