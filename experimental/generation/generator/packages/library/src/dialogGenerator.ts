@@ -77,7 +77,7 @@ export function stringify(val: any, replacer?: any): string {
     return val
 }
 
-function computeJSONHash(json: any): string {
+export function computeJSONHash(json: any): string {
     return computeHash(stringify(json))
 }
 
