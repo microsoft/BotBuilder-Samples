@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TeamsMessagingExtensionsAction.Models
+﻿namespace Microsoft.BotBuilderSamples.Models
 {
-    public class RazorView
+    public class RazorViewResponse
     {
-            public int Title { get; set; }
-            public string DisplayData { get; set; }
+        public string Title { get; set; }
+        public string DisplayData { get; set; }
     }
 }

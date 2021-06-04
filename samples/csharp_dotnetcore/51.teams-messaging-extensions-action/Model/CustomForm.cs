@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace TeamsMessagingExtensionsAction.Models
+﻿namespace Microsoft.BotBuilderSamples.Models
 {
-    public class CustomForm
+    public class CustomFormResponse
     {
-            public int ID { get; set; }
-            public string Name { get; set; }
-            public bool Addon { get; set; }
+        public string EmpId { get; set; }
+        public string EmpName { get; set; }
+        public string EmpEmail { get; set; }
     }
 }

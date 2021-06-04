@@ -14,8 +14,8 @@ namespace TeamsMessagingExtensionsAction.Controllers
             return View("RazorView");
         }
 
-        [Route("CustomForm")]
-        public ActionResult CustomForm(int empId, string empName, string empEmail)
+        [Route("/Home/CustomForm")]
+        public ActionResult CustomForm()
         {
             return View("CustomForm");
         }
