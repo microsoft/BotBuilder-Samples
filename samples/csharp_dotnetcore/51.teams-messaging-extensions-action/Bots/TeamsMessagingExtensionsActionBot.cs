@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using AdaptiveCards;
@@ -14,15 +15,13 @@ using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Microsoft.BotBuilderSamples.Helpers;
-using Microsoft.BotBuilderSamples.Models;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsActionBot : TeamsActivityHandler
     {
-        public readonly string baseUrl;
 
+        public readonly string baseUrl;
         public TeamsMessagingExtensionsActionBot(IConfiguration configuration) : base()
         {
             this.baseUrl = configuration["BaseUrl"];
@@ -37,19 +36,21 @@ namespace Microsoft.BotBuilderSamples.Bots
                 case "shareMessage":
                     return ShareMessageCommand(turnContext, action);
                 case "webView":
-                    return WebViewResponse(turnContext, action);
+                    return SendWebViewResponse(turnContext, action);
+                case "HTML":
+                    return SendHTMLResponse(turnContext, action);
                 case "createAdaptiveCard":
-                    return CreateAdaptiveCardResponse(turnContext, action);
+                    return SendAdaptiveCardResponse(turnContext, action);
                 case "razorView":
-                    return RazorViewResponse(turnContext, action);
+                    return SendRazorViewResponse(turnContext, action);
             }
             return new MessagingExtensionActionResponse();
         }
 
-        private MessagingExtensionActionResponse RazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendRazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
-            RazorViewResponse cardData = JsonConvert.DeserializeObject<RazorViewResponse>(action.Data.ToString());
+            CreateRazorCardData cardData = JsonConvert.DeserializeObject<CreateRazorCardData>(action.Data.ToString());
             var card = new HeroCard
             {
                 Title = "Requested User: " + turnContext.Activity.From.Name,
@@ -79,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         private MessagingExtensionActionResponse CreateCardCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
-            var createCardData = ((JObject)action.Data).ToObject<CardResponse>();
+            var createCardData = ((JObject)action.Data).ToObject<CreateCardData>();
 
             var card = new HeroCard
             {
@@ -153,17 +154,16 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse WebViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendWebViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
-            // The user has chosen to create a card by choosing the 'Web View' context menu command.
-            CustomFormResponse cardData = JsonConvert.DeserializeObject<CustomFormResponse>(action.Data.ToString());
-            var imgUrl = baseUrl + "/MSFT_logo.jpg";
+            // The user has chosen to create a card by choosing the 'Create Card' context menu command.
+            CreatThumbnailCardData cardData = JsonConvert.DeserializeObject<CreatThumbnailCardData>(action.Data.ToString());
             var card = new ThumbnailCard
             {
                 Title = "ID: " + cardData.EmpId,
                 Subtitle = "Name: " + cardData.EmpName,
                 Text = "E-Mail: " + cardData.EmpEmail,
-                Images = new List<CardImage> { new CardImage { Url = imgUrl } },
+                Images = new List<CardImage> { new CardImage("https://3er1viui9wo30pkxh1v2nh4w-wpengine.netdna-ssl.com/wp-content/uploads/prod/2014/10/MSFT_logo_rgb_C-Gray-768x283.png") },
             };
 
             var attachments = new List<MessagingExtensionAttachment>();
@@ -185,10 +185,23 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse CreateAdaptiveCardResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse SendHTMLResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
-            var createCardResponse = ((JObject)action.Data).ToObject<CardResponse>();
-            var attachments = CardHelper.CreateAdaptiveCardAttachment(action, createCardResponse);
+            // The user has chosen to create a card by choosing the 'Create Card' context menu command.
+            CreatHeroCardData cardData = JsonConvert.DeserializeObject<CreatHeroCardData>(action.Data.ToString());
+            var card = new HeroCard
+            {
+                Title = "User Name: " + cardData.UserName,
+                Text = "Successfully logged into " + cardData.UserName + " profile",
+            };
+
+            var attachments = new List<MessagingExtensionAttachment>();
+            attachments.Add(new MessagingExtensionAttachment
+            {
+                Content = card,
+                ContentType = HeroCard.ContentType,
+                Preview = card.ToAttachment(),
+            });
 
             return new MessagingExtensionActionResponse
             {
@@ -201,6 +214,157 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
+        private MessagingExtensionActionResponse SendAdaptiveCardResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var createCardData = ((JObject)action.Data).ToObject<CreateCardData>();
+            AdaptiveCard adaptiveCard = new AdaptiveCard(new AdaptiveSchemaVersion(1, 0));
+            adaptiveCard.Body = new List<AdaptiveElement>()
+            {
+                new AdaptiveColumnSet()
+                {
+                    Columns = new List<AdaptiveColumn>()
+                    {
+                        new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= "Name :",
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                    Weight=AdaptiveTextWeight.Bolder
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                         new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= createCardData.Title,
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                    }
+                },
+                new AdaptiveColumnSet()
+                {
+                    Columns = new List<AdaptiveColumn>()
+                    {
+                        new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= "Designation :",
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                    Weight=AdaptiveTextWeight.Bolder
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                        new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= createCardData.Subtitle,
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                    }
+                },
+                new AdaptiveColumnSet()
+                {
+                    Columns = new List<AdaptiveColumn>()
+                    {
+                        new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= "Description :",
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                    Weight=AdaptiveTextWeight.Bolder
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                         new AdaptiveColumn()
+                        {
+                            Items=new List<AdaptiveElement>()
+                            {
+                                new AdaptiveTextBlock()
+                                {
+                                    Text= createCardData.Text,
+                                    Wrap=true,
+                                    Size=AdaptiveTextSize.Medium,
+                                }
+                            },
+                            Width = AdaptiveColumnWidth.Auto
+                        },
+                    }
+                },
+            };
+
+            var attachments = new List<MessagingExtensionAttachment>();
+            attachments.Add(new MessagingExtensionAttachment
+            {
+                Content = adaptiveCard,
+                ContentType = AdaptiveCard.ContentType
+
+            });
+
+            return new MessagingExtensionActionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    AttachmentLayout = "list",
+                    Type = "result",
+                    Attachments = attachments,
+                },
+            };
+        }
+
+        private class CreateRazorCardData
+        {
+            public string Title { get; set; }
+            public string DisplayData { get; set; }
+        }
+
+        private class CreateCardData
+        {
+            public string Title { get; set; }
+            public string Subtitle { get; set; }
+            public string Text { get; set; }
+        }
+
+        private class CreatThumbnailCardData
+        {
+            public string EmpId { get; set; }
+            public string EmpName { get; set; }
+            public string EmpEmail { get; set; }
+        }
+
+        private class CreatHeroCardData
+        {
+            public string UserName { get; set; }
+        }
+
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             switch (action.CommandId)
@@ -208,7 +372,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 case "webView":
                     return EmpDetails(turnContext, action);
                 case "HTML":
-                    return TaskModuleHTMLPage(turnContext, action);
+                    return LoginPage(turnContext, action);
                 case "razorView":
                     return DateDayInfo(turnContext, action);
                 default:
@@ -266,7 +430,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Height = 175,
+                        Height = 300,
                         Width = 300,
                         Title = "Task Module Razor View",
                         Url = baseUrl + "/Home/RazorView",
@@ -276,7 +440,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             return response;
         }
 
-        private MessagingExtensionActionResponse TaskModuleHTMLPage(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse LoginPage(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             var response = new MessagingExtensionActionResponse()
             {
@@ -284,10 +448,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Height = 200,
-                        Width = 400,
+                        Height = 300,
+                        Width = 300,
                         Title = "Task Module HTML",
-                        Url = baseUrl + "/htmlTaskModule.html",
+                        Url = baseUrl + "/htmlpage",
                     },
                 },
             };
@@ -302,10 +466,10 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Height = 300,
+                        Height = 500,
                         Width = 450,
-                        Title = "Task Module WebView",
-                        Url = baseUrl + "/Home/CustomForm",
+                        Title = "Task module WebView",
+                        Url = baseUrl + "/CustomForm",
                     },
                 },
             };
