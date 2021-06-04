@@ -27,10 +27,9 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddControllers();
             services.AddMvc();
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddNewtonsoftJson();
             services.AddRazorPages();
-            services.AddHttpClient().AddControllers().AddNewtonsoftJson();
-          
+
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
@@ -55,11 +54,7 @@ namespace Microsoft.BotBuilderSamples
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                // Mapping of endpoints goes here:
                 endpoints.MapControllers();
-                endpoints.MapControllerRoute(
-                   name: "default",
-                   pattern: "{controller=Home}/{action=CustomForm}/{id?}");
             });
 
         }
