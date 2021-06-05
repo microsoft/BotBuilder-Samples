@@ -15,14 +15,21 @@ const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectio
 
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
 
+function filenamePath(filename: string, files: string[], required: boolean = true): string {
+    const path = files.find(file => file.endsWith(filename))
+    if (required && !path) {
+        throw new Error(`Could not find ${filename}`)
+    }
+    return path ?? ''
+}
+
 /**
  * @description：Detect if the old file was not changed.
  * @param oldFileList Paths to the old asset.
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  */
 async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<boolean> {
-    const filePaths = oldFileList.filter(file => file.endsWith(fileName))
-    const filePath = filePaths[0]
+    const filePath = filenamePath(fileName, oldFileList, false)
     return !filePath || isUnchanged(filePath)
 }
 
@@ -32,8 +39,7 @@ async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  */
 async function getHashCodeFromFile(fileList: string[], fileName: string): Promise<string> {
-    const filePaths = fileList.filter(file => file.endsWith(fileName))
-    const path = filePaths[0]
+    const path = filenamePath(fileName, fileList)
     return getHashCode(path)
 }
 
@@ -46,15 +52,12 @@ async function getHashCodeFromFile(fileList: string[], fileName: string): Promis
  * @param feedback Callback function for progress and errors.
  */
 async function copySingleFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], feedback: Feedback): Promise<void> {
-    const filePaths = sourceFileList.filter(file => file.endsWith(fileName))
-    if (filePaths.length !== 0) {
-        const sourceFilePath = filePaths[0]
-        const destFilePath = sourceFilePath.replace(sourcePath, destPath)
-        const destDirPath = ppath.dirname(destFilePath)
-        await fs.ensureDir(destDirPath)
-        await fs.copyFile(sourceFilePath, destFilePath)
-        feedback(FeedbackType.info, `Copying ${fileName} from ${sourcePath}`)
-    }
+    const sourceFilePath = filenamePath(fileName, sourceFileList)
+    const destFilePath = sourceFilePath.replace(sourcePath, destPath)
+    const destDirPath = ppath.dirname(destFilePath)
+    await fs.ensureDir(destDirPath)
+    await fs.copyFile(sourceFilePath, destFilePath)
+    feedback(FeedbackType.info, `Copying ${fileName} from ${sourceFilePath}`)
 }
 
 /**
@@ -67,24 +70,24 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
  * @param feedback Callback function for progress and errors.
  */
 async function writeToFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], val: string, feedback: Feedback): Promise<void> {
-    const filePaths = sourceFileList.filter(file => file.endsWith(fileName))
-    if (filePaths.length !== 0) {
-        const sourceFilePath = filePaths[0]
-        const destFilePath = sourceFilePath.replace(sourcePath, destPath)
-        const destDirPath = ppath.dirname(destFilePath)
-        await fs.ensureDir(destDirPath)
-        await writeFile(destFilePath, val, feedback, true)
-        feedback(FeedbackType.info, `Merging ${fileName}`)
-    }
+    const sourceFilePath = filenamePath(fileName, sourceFileList)
+    const destFilePath = sourceFilePath.replace(sourcePath, destPath)
+    const destDirPath = ppath.dirname(destFilePath)
+    await fs.ensureDir(destDirPath)
+    await writeFile(destFilePath, val, feedback, true)
+    feedback(FeedbackType.info, `Merging ${fileName}`)
 }
 
 /**
- * @description：Show up message.
- * @param fileName File name of the .lu, .lg, .dialog and .qna file.
+ * @description：Show message when cannot merge.
+ * @param oldFileList List of old file paths.
+ * @param newFileList List of new file paths.
  * @param feedback Callback function for progress and errors.
  */
-function changedMessage(fileName: string, feedback: Feedback): void {
-    feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${fileName} ***`)
+function cannotMergeMessage(fileName: string, oldFileList: string[], newFileList: string[], feedback: Feedback): void {
+    const oldPath = oldFileList.find(file => file.endsWith(fileName))
+    const newPath = newFileList.find(file => file.endsWith(fileName))
+    feedback(FeedbackType.info, `*** Old and new both changed, manually merge ${oldPath} and ${newPath} ***`)
 }
 
 /**
@@ -186,20 +189,15 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, feedback: Feedback): Promise<void> {
     for (const file of oldFileList) {
         if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
-            const index = file.lastIndexOf('/')
-            const fileName = file.substring(index)
+            const fileName = ppath.basename(file)
             await copySingleFile(oldPath, mergedPath, fileName, oldFileList, feedback)
         }
     }
 
     for (const file of newFileList) {
         if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
-            const index = file.lastIndexOf('/')
-            const fileName = file.substring(index)
-            const files = oldFileList.filter(f => f.match(file))
-            if (files.length === 0) {
-                await copySingleFile(newPath, mergedPath, fileName, newFileList, feedback)
-            }
+            const fileName = ppath.basename(file)
+            await copySingleFile(newPath, mergedPath, fileName, newFileList, feedback)
         }
 
     }
@@ -240,16 +238,16 @@ async function mergeRootLGFile(schemaName: string, oldPath: string, oldFileList:
             continue
         }
         oldRefSet.add(ref)
-        const extractedProperty = equalPattern(ref, oldPropertySet, schemaName)
+        const file = refFilename(ref, feedback)
+        const extractedProperty = extractProperty(file, oldPropertySet, schemaName)
         if (extractedProperty !== undefined) {
             if (newPropertySet.has(extractedProperty)) {
                 resultRefs.push(ref)
-                const file = refFilename(ref, feedback)
                 if (file.match(`${extractedProperty}Value`)) {
                     await changeEntityEnumLG(oldPath, oldFileList, newPath, newFileList, mergedPath, file, feedback)
                 } else {
                     if (await !isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
-                        changedMessage(file, feedback)
+                        cannotMergeMessage(file, oldFileList, newFileList, feedback)
                     } else {
                         await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
                     }
@@ -257,9 +255,8 @@ async function mergeRootLGFile(schemaName: string, oldPath: string, oldFileList:
             }
         } else {
             resultRefs.push(ref)
-            const file = refFilename(ref, feedback)
             if (newText.match(file) && !await isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
-                changedMessage(file, feedback)
+                cannotMergeMessage(file, oldFileList, newFileList, feedback)
             } else {
                 await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
             }
@@ -357,7 +354,7 @@ const commentOutPattern = /^>\s*-/m
  * @param delUtteranceSet Set of deleted utterance patterns.
  */
 async function getDeletedUtteranceSet(filename: string, oldFileList: string[], delUtteranceSet: Set<string>): Promise<void> {
-    const filePath = oldFileList.filter(file => file.endsWith(filename))[0]
+    const filePath = filenamePath(filename, oldFileList)
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     for (const line of lines) {
@@ -378,7 +375,7 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
  * @param feedback Callback function for progress and errors.
  */
 async function updateGeneratedLUFile(filename: string, newFileList: string[], newPath: string, mergedPath: string, delUtteranceSet: Set<string>, feedback: Feedback): Promise<void> {
-    const filePath = newFileList.filter(file => file.endsWith(filename))[0]
+    const filePath = filenamePath(filename, newFileList)
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
@@ -421,7 +418,7 @@ async function generatePatternUtterance(line: string): Promise<string> {
  */
 async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
     const filename = `${schemaName}-custom.${locale}.lu`
-    const customLuFilePath = oldFileList.filter(file => file.endsWith(filename))[0]
+    const customLuFilePath = filenamePath(filename, oldFileList)
     const text = await fs.readFile(customLuFilePath, 'utf8')
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
@@ -639,6 +636,7 @@ async function isUnchangedTrigger(trigger: any, fileList: string[], feedback: Fe
         const oldHash = trigger.$Generator
         delete trigger.$Generator
         const newHash = computeJSONHash(trigger)
+        trigger.$Generator = oldHash
         return oldHash === newHash
     }
 }
@@ -675,7 +673,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
     // Loop over old triggers and create merged triggers 
     for (let trigger of oldObj['triggers']) {
         const triggerName = getTriggerName(trigger)
-        const isGenerated = equalPattern(triggerName, oldPropertySet, schemaName)
+        const isGenerated = extractProperty(triggerName, oldPropertySet, schemaName)
         const newTrigger = newTriggerMap.get(triggerName)
         if (newTrigger && await isUnchangedTrigger(trigger, oldFileList, feedback)) {
             // Use new trigger
@@ -705,7 +703,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
             insertTrigger(i, newTriggers, mergedTriggers)
             mergedTriggerMap.set(triggerName, trigger)
             if (typeof trigger === 'string') {
-                await copySingleFile(oldPath, mergedPath, triggerName + '.dialog', oldFileList, feedback)
+                await copySingleFile(newPath, mergedPath, triggerName + '.dialog', newFileList, feedback)
             }
         }
     }
@@ -738,24 +736,18 @@ function getTriggerName(trigger: any): string {
 }
 
 /**
- * @description: Compare the filename pattern for .lu file.
+ * @description: Extract property from a filename.
  * @param filename File name of .lu, .lg, or .dialog file.
  * @param propertySet Property set from the .schema file.
  * @param schemaName Name of the .schema file.
  */
-function equalPattern(filename: string, propertySet: Set<string>, schemaName: string): string | undefined {
-    let result: string | undefined
-
-    for (const property of propertySet) {
-        const pattern1 = schemaName + '-' + property + '-'
-        const pattern2 = schemaName + '-' + property + 'Value'
-        const pattern3 = schemaName + '-' + property + '.'
-        if (filename.match(pattern1) || filename.match(pattern2) || filename.match(pattern3)) {
-            result = property
-            break
-        }
+function extractProperty(filename: string, propertySet: Set<string>, schemaName: string): string | undefined {
+    let property: string | undefined
+    const match = filename.match(`^${schemaName}-([^.-]+?)(Value)?[.-]`)
+    if (match && propertySet.has(match[1])) {
+        property = match[1]
     }
-    return result
+    return property
 }
 
 /**

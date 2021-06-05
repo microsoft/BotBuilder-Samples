@@ -308,7 +308,11 @@ describe('dialog:generate --merge files', async function () {
             await copyToMerged('**/language-generation/en-us/BreadValue/*')
             await copyToMerged('**/language-understanding/en-us/Bread/*')
             await copyToMerged('**/language-understanding/en-us/form/*')
-            await copyToMerged('sandwichMerge.dialog')
+            const dialogPath = ppath.join(mergedDir, 'sandwichMerge.dialog')
+            const old = await fs.readJSON(dialogPath)
+            old.$comment = 'changed dialog'
+            old.triggers = ["sandwichMerge-foo-missing", ...old.triggers.filter(t => t !== 'sandwichMerge-price-remove-money')]
+            await fs.writeJSON(dialogPath, old)
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
             await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
             await gen.generate(modifiedSchema, {
@@ -330,6 +334,7 @@ describe('dialog:generate --merge files', async function () {
             // Main should still be updated
             await assertContains('sandwichMerge.dialog', /sandwichMerge-foo/, errors)
             await assertMissing('sandwichMerge.dialog', /sandwichMerge-price-remove-money/, errors)
+            await assertContains('sandwichMerge.dialog', /changed dialog/, errors)
 
             // Removed should stay removed
             assertRemoved(comparison, 'dialogs/sandwichMerged-price-remove-money.dialog', errors)
@@ -423,9 +428,11 @@ describe('dialog:generate --merge singleton', async function () {
             const dialogPath = ppath.join(mergedDir, 'sandwichMerge.dialog')
             const oldDialog = await fs.readJSON(dialogPath)
             const modifiedTrigger = oldDialog.triggers[1]
+            const reorderedTrigger = oldDialog.triggers[2]
             modifiedTrigger.actions.push({$kind: "Microsoft.SetProperty"})
             const newTrigger = {$kind: "Microsoft.OnCondition", actions: []}
-            oldDialog.triggers.splice(3, 0, newTrigger)
+            oldDialog.triggers.splice(3, 1, newTrigger, reorderedTrigger)
+            oldDialog.triggers.splice(2, 1)
             await fs.writeFile(dialogPath, gen.stringify(oldDialog))
 
             await gen.generate(modifiedSchema, {
@@ -455,9 +462,9 @@ describe('dialog:generate --merge singleton', async function () {
             assertCheck(comparison, errors)
 
             const mergedDialog = await fs.readJSON(dialogPath)
-            delete modifiedTrigger.$Generator
             assert.deepStrictEqual(mergedDialog.triggers[1], modifiedTrigger, 'Did not preserve modified trigger')
-            assert.deepStrictEqual(mergedDialog.triggers[3], newTrigger, 'Did not preserve custom trigger')
+            assert.deepStrictEqual(mergedDialog.triggers[2], newTrigger, 'Did not preserve custom trigger')
+            assert.deepStrictEqual(mergedDialog.triggers[3], reorderedTrigger, 'Did not preserve reordered trigger')
         } catch (e) {
             assert.fail(e.message)
         }
