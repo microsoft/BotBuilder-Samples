@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-const { TeamsActivityHandler, CardFactory,TeamsInfo,MessageFactory } = require('botbuilder');
+const { TeamsActivityHandler, CardFactory, TeamsInfo, MessageFactory } = require('botbuilder');
 const configuration = require('dotenv').config();
 const env = configuration.parsed;
 const baseurl = env.BaseUrl;
@@ -25,56 +25,55 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
         case 'webView':
             return empDetails();
         case 'Static HTML':
-            return dateTimeInfo();          
+            return dateTimeInfo();
         default:
-        try {
-        const member = await this.getSingleMember(context);
-            return {
-                     task: {
-                         type: 'continue',
-                         value: {
-                             card: GetAdaptiveCardAttachment(),
-                             height: 400,
-                             title: `Hello ${member}`,
-                             width: 300
-                         },
-                     },
-                 };
-             } 
-        catch (e) {
-            if (e.code === 'BotNotInConversationRoster') {
-            return {
-                         task: {
-                             type: 'continue',
-                             value: {
-                                 card: GetJustInTimeCardAttachment(),
-                                 height: 400,
-                                 title: 'Adaptive Card - App Installation',
-                                 width: 300
-                             },
-                         },
-                     };
-                 }
-            throw e;
-         }
-      }
-   }
+            try {
+                const member = await this.getSingleMember(context);
+                return {
+                    task: {
+                        type: 'continue',
+                        value: {
+                            card: GetAdaptiveCardAttachment(),
+                            height: 400,
+                            title: `Hello ${ member }`,
+                            width: 300
+                        }
+                    }
+                };
+            } catch (e) {
+                if (e.code === 'BotNotInConversationRoster') {
+                    return {
+                        task: {
+                            type: 'continue',
+                            value: {
+                                card: GetJustInTimeCardAttachment(),
+                                height: 400,
+                                title: 'Adaptive Card - App Installation',
+                                width: 300
+                            }
+                        }
+                    };
+                }
+                throw e;
+            }
+        }
+    }
 
-async getSingleMember(context) {
-    try {
-       const member = await TeamsInfo.getMember(
-            context,
-            context.activity.from.id
-        );
-       return member.name;
-    } catch (e) {
-        if (e.code === 'MemberNotFoundInConversation') {
-            context.sendActivity(MessageFactory.text('Member not found.'));
-            return e.code;
-        } 
-        throw e;        
-    }   
-  }
+    async getSingleMember(context) {
+        try {
+            const member = await TeamsInfo.getMember(
+                context,
+                context.activity.from.id
+            );
+            return member.name;
+        } catch (e) {
+            if (e.code === 'MemberNotFoundInConversation') {
+                context.sendActivity(MessageFactory.text('Member not found.'));
+                return e.code;
+            }
+            throw e;
+        }
+    }
 }
 
 function GetJustInTimeCardAttachment() {
@@ -84,17 +83,17 @@ function GetJustInTimeCardAttachment() {
                 type: 'Action.Submit',
                 title: 'Continue',
                 data: { msteams: { justInTimeInstall: true } }
-            },
+            }
         ],
         body: [
             {
                 text: 'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
                 wrap: 'bolder'
-            },
+            }
         ],
         type: 'AdaptiveCard',
-        version: '1.0',
+        version: '1.0'
     });
 }
 
@@ -107,10 +106,10 @@ function GetAdaptiveCardAttachment() {
                 type: 'TextBlock',
                 isSubtle: false,
                 warp: true
-            },
+            }
         ],
         type: 'AdaptiveCard',
-        version: '1.0',
+        version: '1.0'
     });
 }
 
@@ -179,7 +178,7 @@ function empDetails() {
                 width: 350,
                 height: 300,
                 title: 'Task module WebView',
-                url: `${baseurl}/CustomForm.html`
+                url: `${ baseurl }/CustomForm.html`
             }
         }
     };
@@ -193,7 +192,7 @@ function dateTimeInfo() {
                 width: 450,
                 height: 125,
                 title: 'Task module Static HTML',
-                url: `${baseurl}/StaticPage.html`
+                url: `${ baseurl }/StaticPage.html`
             }
         }
     };
