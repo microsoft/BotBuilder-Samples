@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+require('dotenv').config();
 const { TeamsActivityHandler, CardFactory, TeamsInfo, MessageFactory } = require('botbuilder');
-const configuration = require('dotenv').config();
-const env = configuration.parsed;
+const env = process.env;
 const baseurl = env.BaseUrl;
 
 class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {

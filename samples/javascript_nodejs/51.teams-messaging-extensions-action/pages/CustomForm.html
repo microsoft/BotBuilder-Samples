@@ -1,13 +1,6 @@
 <html>
 <head>
-    <style>
-        .login {
-            text-align: center;
-        }
-    </style>
     <title>Microsoft Teams ME Action WebView</title>
-</head>
-<body>
     <script src="https://statics.teams.microsoft.com/sdk/v1.7.0/js/MicrosoftTeams.min.js"></script>
     <script>
     microsoftTeams.initialize();
@@ -19,8 +12,16 @@
             }
             microsoftTeams.tasks.submitTask(empInfo);
             return true;
-        }</script>
+        }
+    </script>
+    <style>
+            .login {
+                text-align: center;
+            }
+    </style>
 
+</head>
+<body>
     <div class="surface theme-light">
         <div class="panel">
             <div class="login">

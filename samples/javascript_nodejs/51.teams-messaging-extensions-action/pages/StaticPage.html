@@ -1,14 +1,7 @@
 <html>
 <head>
-    <style>
-        #display_time {
-            text-align: center;
-        }
-    </style>
     <title>Microsoft Teams ME Action StaticPage</title>
-</head>
-<body>
-    <script src="https://statics.teams.microsoft.com/sdk/v1.7.0/js/MicrosoftTeams.min.js"></script>
+    <script type="text/javascript" src="https://statics.teams.microsoft.com/sdk/v1.7.0/js/MicrosoftTeams.min.js"></script>
     <script>
     microsoftTeams.initialize();
         window.onload = function() {
@@ -21,10 +14,15 @@
             document.getElementById("display_time").innerHTML = displayTime;
         }
     </script>
-
+    <style>
+            #display_time {
+                text-align: center;
+            }
+    </style>
+</head>
+<body>
     <div style="font-family: 'Segoe UI'">
         <p id="display_message"></p>
         <p id="display_time"></p>
     </div>
-
 </body>
