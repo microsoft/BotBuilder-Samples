@@ -6,7 +6,7 @@ const path = require('path');
 const axios = require('axios');
 const { TurnContext, MessageFactory, TeamsActivityHandler } = require('botbuilder');
 const { MicrosoftAppCredentials } = require('botframework-connector');
-const { GeneFileName, GetFileSize, WriteFile } = require('../services/fileService');
+const { geneFileName, getFileSize, writeFile } = require('../services/fileService');
 const FILES_DIR = 'files';
 
 class TeamsFileUploadBot extends TeamsActivityHandler {
@@ -18,9 +18,11 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
             const imageRegex = /image\/.*/;
             if (attachments && attachments[0] && attachments[0].contentType === 'application/vnd.microsoft.teams.file.download.info') {
                 const file = attachments[0];
-                const response = await axios.get(file.content.downloadUrl, { responseType: 'stream' });
+                const config = {
+                    responseType: 'stream'
+                };
                 const filePath = path.join(FILES_DIR, file.name);
-                response.data.pipe(fs.createWriteStream(filePath));
+                await writeFile(file.content.downloadUrl, config, filePath);
                 const reply = MessageFactory.text(`<b>${ file.name }</b> received and saved.`);
                 reply.textFormat = 'xml';
                 await context.sendActivity(reply);
@@ -110,10 +112,10 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
             headers: { Authorization: `Bearer ${ botToken }` },
             responseType: 'stream'
         };
-        const fileName = await GeneFileName(FILES_DIR);
+        const fileName = await geneFileName(FILES_DIR);
         const filePath = path.join(FILES_DIR, fileName);
-        await WriteFile(file.contentUrl, config, filePath);
-        const fileSize = await GetFileSize(filePath);
+        await writeFile(file.contentUrl, config, filePath);
+        const fileSize = await getFileSize(filePath);
         var reply = MessageFactory.text(`Image <b>${ fileName }</b> of size <b>${ fileSize }</b> bytes received and saved.`);
         const inlineAttachment = this.getInlineAttachment(fileName);
         reply.attachments = [inlineAttachment];
