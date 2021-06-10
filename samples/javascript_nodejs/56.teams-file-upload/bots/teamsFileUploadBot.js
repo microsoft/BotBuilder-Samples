@@ -116,7 +116,7 @@ class TeamsFileUploadBot extends TeamsActivityHandler {
         const filePath = path.join(FILES_DIR, fileName);
         await writeFile(file.contentUrl, config, filePath);
         const fileSize = await getFileSize(filePath);
-        var reply = MessageFactory.text(`Image <b>${ fileName }</b> of size <b>${ fileSize }</b> bytes received and saved.`);
+        const reply = MessageFactory.text(`Image <b>${ fileName }</b> of size <b>${ fileSize }</b> bytes received and saved.`);
         const inlineAttachment = this.getInlineAttachment(fileName);
         reply.attachments = [inlineAttachment];
         await context.sendActivity(reply);
