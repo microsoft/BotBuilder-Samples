@@ -14,8 +14,11 @@ const geneFileName = async (fileDir) => {
 };
 
 // Download and Save Streams into File
-const response = await axios({ method: 'GET', url: contentUrl, responseType: 'stream' });
-await new Promise((resolve, reject) => response.pipe(fs.createWriteStream(filePath)).once('finish', resolve).once('error', reject));
+const writeFile = async (contentUrl, filePath) => {
+    const response = await axios({ method: 'GET', url: contentUrl, responseType: 'stream' });
+    return await new Promise((resolve, reject) => response.pipe(fs.createWriteStream(filePath)).once('finish', resolve).once('error', reject));
+    
+};
 
 // Returns File Size
 const getFileSize = async (FilePath) => {
