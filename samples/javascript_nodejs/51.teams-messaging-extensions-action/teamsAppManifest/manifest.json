@@ -94,6 +94,26 @@
           "context": [
             "compose"
           ]
+        },
+        {
+          "id": "webView",
+          "description": "Fetch the Web View",
+          "title": "Web View",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "Static HTML",
+          "description": "Fetch the Static HTML",
+          "title": "Static HTML",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
+          ]
         }
       ]
     }
