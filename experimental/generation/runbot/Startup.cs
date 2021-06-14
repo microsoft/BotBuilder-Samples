@@ -47,14 +47,14 @@ namespace RunBotServer
             services.AddSingleton<AuthenticationConfiguration>();
 
             // register components.
-            ComponentRegistration.Add(new DialogsComponentRegistration());
-            ComponentRegistration.Add(new DeclarativeComponentRegistration());
-            ComponentRegistration.Add(new AdaptiveComponentRegistration());
-            ComponentRegistration.Add(new LanguageGenerationComponentRegistration());
-            ComponentRegistration.Add(new QnAMakerComponentRegistration());
-            ComponentRegistration.Add(new LuisComponentRegistration());
-            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DynamicListBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DialogsBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DeclarativeBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<AdaptiveBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<LanguageGenerationBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<QnAMakerBotComponent>());
             ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<LuisBotComponent>());
+            ComponentRegistration.Add(new DeclarativeComponentRegistrationBridge<DynamicListBotComponent>());
+          
 /*
             new DialogsBotComponent().ConfigureServices(services, this._configuration);
             new DeclarativeBotComponent().ConfigureServices(services, this._configuration);
