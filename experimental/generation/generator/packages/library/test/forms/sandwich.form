@@ -90,7 +90,8 @@
                     "redOnions"
                 ]
             },
-            "uniqueItems": true
+            "uniqueItems": true,
+            "$askIf": "$Sauces"
         },
         "Sauces": {
             "type": "array",

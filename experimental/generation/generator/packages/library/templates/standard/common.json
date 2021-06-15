@@ -6,5 +6,6 @@
             "description": "Require all values to be unique.",
             "default": true
         }
-    }
+    },
+    "$ref": "askIf.json"
 }

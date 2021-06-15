@@ -6,8 +6,8 @@
 # template
 -```
 > Phrase lists for operations
-@ phraselist AddPhrases(interchangeable) disabledForAllModels =
-    - add, set, with, is, are, of
+@ phraselist AssignPhrases(interchangeable) disabledForAllModels =
+    - add, set, with, is, are, of, assign
 
 @ phraselist RemovePhrases(interchangeable) disabledForAllModels =
     - remove, delete, without, with no

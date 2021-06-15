@@ -5,6 +5,6 @@
     "$generator": {
         "title": "Keyphrase",
         "description": "Map a LUIS keyphrase entity into a string.",
-        "$ref": "array.json"
+        "$ref": "common.json"
     }
 }

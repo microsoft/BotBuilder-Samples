@@ -27,7 +27,7 @@
     - @ BreadValue BreadValue
 
 > Define operations on 'Bread' property.
-@ ml Add() usesFeature AddPhrases
+@ ml Assign() usesFeature AssignPhrases
     -@ ml BreadProperty usesFeature BreadProperty
         - @ BreadValue BreadValue
 
@@ -57,7 +57,7 @@
 @ ml Cancel() usesFeature CancelPhrases
     - @ ml dummyProperty
 
-> Add examples for operations on the 'Bread' property to the intent 'sandwich'.
+> Assign examples for operations on the 'Bread' property to the intent 'sandwich'.
 # sandwich
 >> entity: Standalone BreadProperty with BreadValue
 - {@BreadProperty={@BreadValue=multi}}
@@ -84,62 +84,62 @@
 >> property: Standalone BreadProperty name
 - {@BreadProperty=bread}
 
-> Add() examples for BreadProperty and BreadValue
-- {@Add()=add {@BreadProperty={@BreadValue=wheat} bread}}
-- {@Add()=add {@BreadProperty={@BreadValue=grain} bread}}
-- {@Add()=add {@BreadProperty={@BreadValue=multi grain} bread}}
-- {@Add()=add {@BreadProperty={@BreadValue=rye} bread}}
-- {@Add()=add {@BreadProperty={@BreadValue=multi} bread}}
-- {@Add()=with {@BreadProperty={@BreadValue=wheat}}}
-- {@Add()=with {@BreadProperty={@BreadValue=whole}}}
-- {@Add()=with {@BreadProperty={@BreadValue=multi grain}}}
-- {@Add()=with {@BreadProperty={@BreadValue=white}}}
-- {@Add()={@BreadProperty=bread is {@BreadValue=white}}}
-- {@Add()={@BreadProperty=bread is {@BreadValue=multi}}}
-- {@Add()={@BreadProperty=bread is {@BreadValue=wheat}}}
-- {@Add()={@BreadProperty=bread is {@BreadValue=grain}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=whole wheat}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=multi grain wheat}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=grain}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=multi grain}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=white}}}
+> Assign() examples for BreadProperty and BreadValue
+- {@Assign()=add {@BreadProperty={@BreadValue=wheat} bread}}
+- {@Assign()=add {@BreadProperty={@BreadValue=grain} bread}}
+- {@Assign()=add {@BreadProperty={@BreadValue=multi grain} bread}}
+- {@Assign()=add {@BreadProperty={@BreadValue=rye} bread}}
+- {@Assign()=add {@BreadProperty={@BreadValue=multi} bread}}
+- {@Assign()=with {@BreadProperty={@BreadValue=wheat}}}
+- {@Assign()=with {@BreadProperty={@BreadValue=whole}}}
+- {@Assign()=with {@BreadProperty={@BreadValue=multi grain}}}
+- {@Assign()=with {@BreadProperty={@BreadValue=white}}}
+- {@Assign()={@BreadProperty=bread is {@BreadValue=white}}}
+- {@Assign()={@BreadProperty=bread is {@BreadValue=multi}}}
+- {@Assign()={@BreadProperty=bread is {@BreadValue=wheat}}}
+- {@Assign()={@BreadProperty=bread is {@BreadValue=grain}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=whole wheat}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=multi grain wheat}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=grain}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=multi grain}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=white}}}
 
-> Add() examples with multiple BreadValue
-- {@Add()={@BreadProperty=bread are {@BreadValue=white}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=whole wheat}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=wheat}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=rye}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=multi}}}
-- {@Add()=add {@BreadProperty={@BreadValue=white} and {@BreadValue=multi grain} bread}
-- {@Add()=add {@BreadProperty={@BreadValue=whole} and {@BreadValue=grain} bread}
-- {@Add()=add {@BreadProperty={@BreadValue=rye} and {@BreadValue=whole} bread}
-- {@Add()=add {@BreadProperty={@BreadValue=wheat} and {@BreadValue=wheat} bread}
-- {@Add()=add {@BreadProperty={@BreadValue=multi grain} and {@BreadValue=wheat} bread}
-- {@Add()=set {@BreadProperty={@BreadValue=rye} and {@BreadValue=grain}}
-- {@Add()=set {@BreadProperty={@BreadValue=multi grain wheat} and {@BreadValue=grain}}
-- {@Add()=set {@BreadProperty={@BreadValue=multi} and {@BreadValue=multi grain wheat}}
-- {@Add()=set {@BreadProperty={@BreadValue=wheat} and {@BreadValue=grain wheat}}
-- {@Add()=set {@BreadProperty={@BreadValue=multi grain wheat} and {@BreadValue=wheat}}
-- {@Add()=with {@BreadProperty={@BreadValue=whole}, {@BreadValue=grain} and {@BreadValue=multi grain} bread}
-- {@Add()=with {@BreadProperty={@BreadValue=grain}, {@BreadValue=multi grain wheat} and {@BreadValue=rye} bread}
-- {@Add()=with {@BreadProperty={@BreadValue=multi grain wheat}, {@BreadValue=grain wheat} and {@BreadValue=rye} bread}
-- {@Add()=with {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=grain} and {@BreadValue=grain} bread}
-- {@Add()=with {@BreadProperty={@BreadValue=rye}, {@BreadValue=grain} and {@BreadValue=whole wheat} bread}
-- {@Add()=add {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=grain} and {@BreadValue=multi grain}} 
-- {@Add()=add {@BreadProperty={@BreadValue=multi grain wheat}, {@BreadValue=multi grain} and {@BreadValue=grain wheat}} 
-- {@Add()=add {@BreadProperty={@BreadValue=multi grain}, {@BreadValue=multi grain wheat} and {@BreadValue=wheat}} 
-- {@Add()=add {@BreadProperty={@BreadValue=multi}, {@BreadValue=multi grain wheat} and {@BreadValue=rye}} 
-- {@Add()=add {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=multi grain wheat} and {@BreadValue=whole}} 
-- {@Add()={@BreadProperty=bread are {@BreadValue=grain} and {@BreadValue=white}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=multi} and {@BreadValue=grain}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=multi grain} and {@BreadValue=multi grain}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=grain wheat} and {@BreadValue=grain wheat}}}
-- {@Add()={@BreadProperty=bread are {@BreadValue=multi} and {@BreadValue=multi grain wheat}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=whole wheat}, {@BreadValue=rye} and {@BreadValue=whole wheat}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=multi}, {@BreadValue=wheat} and {@BreadValue=multi grain}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=grain wheat}, {@BreadValue=grain wheat} and {@BreadValue=white}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=whole wheat}, {@BreadValue=multi grain wheat} and {@BreadValue=multi grain}}}
-- {@Add()={@BreadProperty=bread of {@BreadValue=whole}, {@BreadValue=grain wheat} and {@BreadValue=grain wheat}}}
+> Assign() examples with multiple BreadValue
+- {@Assign()={@BreadProperty=bread are {@BreadValue=white}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=whole wheat}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=wheat}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=rye}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=multi}}}
+- {@Assign()=add {@BreadProperty={@BreadValue=white} and {@BreadValue=multi grain} bread}
+- {@Assign()=add {@BreadProperty={@BreadValue=whole} and {@BreadValue=grain} bread}
+- {@Assign()=add {@BreadProperty={@BreadValue=rye} and {@BreadValue=whole} bread}
+- {@Assign()=add {@BreadProperty={@BreadValue=wheat} and {@BreadValue=wheat} bread}
+- {@Assign()=add {@BreadProperty={@BreadValue=multi grain} and {@BreadValue=wheat} bread}
+- {@Assign()=set {@BreadProperty={@BreadValue=rye} and {@BreadValue=grain}}
+- {@Assign()=set {@BreadProperty={@BreadValue=multi grain wheat} and {@BreadValue=grain}}
+- {@Assign()=set {@BreadProperty={@BreadValue=multi} and {@BreadValue=multi grain wheat}}
+- {@Assign()=set {@BreadProperty={@BreadValue=wheat} and {@BreadValue=grain wheat}}
+- {@Assign()=set {@BreadProperty={@BreadValue=multi grain wheat} and {@BreadValue=wheat}}
+- {@Assign()=with {@BreadProperty={@BreadValue=whole}, {@BreadValue=grain} and {@BreadValue=multi grain} bread}
+- {@Assign()=with {@BreadProperty={@BreadValue=grain}, {@BreadValue=multi grain wheat} and {@BreadValue=rye} bread}
+- {@Assign()=with {@BreadProperty={@BreadValue=multi grain wheat}, {@BreadValue=grain wheat} and {@BreadValue=rye} bread}
+- {@Assign()=with {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=grain} and {@BreadValue=grain} bread}
+- {@Assign()=with {@BreadProperty={@BreadValue=rye}, {@BreadValue=grain} and {@BreadValue=whole wheat} bread}
+- {@Assign()=add {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=grain} and {@BreadValue=multi grain}} 
+- {@Assign()=add {@BreadProperty={@BreadValue=multi grain wheat}, {@BreadValue=multi grain} and {@BreadValue=grain wheat}} 
+- {@Assign()=add {@BreadProperty={@BreadValue=multi grain}, {@BreadValue=multi grain wheat} and {@BreadValue=wheat}} 
+- {@Assign()=add {@BreadProperty={@BreadValue=multi}, {@BreadValue=multi grain wheat} and {@BreadValue=rye}} 
+- {@Assign()=add {@BreadProperty={@BreadValue=grain wheat}, {@BreadValue=multi grain wheat} and {@BreadValue=whole}} 
+- {@Assign()={@BreadProperty=bread are {@BreadValue=grain} and {@BreadValue=white}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=multi} and {@BreadValue=grain}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=multi grain} and {@BreadValue=multi grain}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=grain wheat} and {@BreadValue=grain wheat}}}
+- {@Assign()={@BreadProperty=bread are {@BreadValue=multi} and {@BreadValue=multi grain wheat}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=whole wheat}, {@BreadValue=rye} and {@BreadValue=whole wheat}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=multi}, {@BreadValue=wheat} and {@BreadValue=multi grain}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=grain wheat}, {@BreadValue=grain wheat} and {@BreadValue=white}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=whole wheat}, {@BreadValue=multi grain wheat} and {@BreadValue=multi grain}}}
+- {@Assign()={@BreadProperty=bread of {@BreadValue=whole}, {@BreadValue=grain wheat} and {@BreadValue=grain wheat}}}
 
 > Remove() examples for BreadProperty and BreadValue
 - {@Remove()=remove {@BreadProperty={@BreadValue=grain}}

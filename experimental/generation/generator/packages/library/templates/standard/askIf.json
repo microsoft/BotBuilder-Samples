@@ -1,0 +1,8 @@
+{
+    "$askIf": {
+        "type": "string",
+        "$role": "expression",
+        "title": "AskIf",
+        "description": "Boolean expression to add for when a property should be asked for.  For example, the property IsPregnant could have a condition like $gender = 'female'."
+    }
+}

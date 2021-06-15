@@ -758,7 +758,7 @@
             {
               "event": "chooseProperty",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -780,7 +780,7 @@
               "alternative": {
                 "event": null,
                 "property": "Name",
-                "operation": "Add()",
+                "operation": "Assign()",
                 "value": {
                   "name": "utterance",
                   "value": "wheat",
@@ -804,7 +804,7 @@
             {
               "event": null,
               "property": "Name",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "utterance",
                 "value": "wheat",
@@ -953,7 +953,7 @@
             {
               "event": "chooseProperty",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -975,7 +975,7 @@
               "alternative": {
                 "event": null,
                 "property": "Name",
-                "operation": "Add()",
+                "operation": "Assign()",
                 "value": {
                   "name": "utterance",
                   "value": "wheat",
@@ -1006,7 +1006,7 @@
             {
               "event": "chooseProperty",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -1028,7 +1028,7 @@
               "alternative": {
                 "event": null,
                 "property": "Name",
-                "operation": "Add()",
+                "operation": "Assign()",
                 "value": {
                   "name": "utterance",
                   "value": "wheat",
@@ -1052,7 +1052,7 @@
             {
               "event": null,
               "property": "Name",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "utterance",
                 "value": "wheat",
@@ -1155,7 +1155,7 @@
             {
               "event": "chooseProperty",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -1177,7 +1177,7 @@
               "alternative": {
                 "event": null,
                 "property": "Name",
-                "operation": "Add()",
+                "operation": "Assign()",
                 "value": {
                   "name": "utterance",
                   "value": "wheat",
@@ -1208,7 +1208,7 @@
             {
               "event": "chooseProperty",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -1230,7 +1230,7 @@
               "alternative": {
                 "event": null,
                 "property": "Name",
-                "operation": "Add()",
+                "operation": "Assign()",
                 "value": {
                   "name": "utterance",
                   "value": "wheat",
@@ -1254,7 +1254,7 @@
             {
               "event": null,
               "property": "Name",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "utterance",
                 "value": "wheat",
@@ -1373,7 +1373,7 @@
                                 {
                                   "event": "chooseProperty",
                                   "property": "Bread",
-                                  "operation": "Add()",
+                                  "operation": "Assign()",
                                   "value": {
                                     "name": "BreadEntity",
                                     "value": [
@@ -1395,7 +1395,7 @@
                                   "alternative": {
                                     "event": null,
                                     "property": "Name",
-                                    "operation": "Add()",
+                                    "operation": "Assign()",
                                     "value": {
                                       "name": "utterance",
                                       "value": "wheat",
@@ -1426,7 +1426,7 @@
                                 {
                                   "event": "chooseProperty",
                                   "property": "Bread",
-                                  "operation": "Add()",
+                                  "operation": "Assign()",
                                   "value": {
                                     "name": "BreadEntity",
                                     "value": [
@@ -1448,7 +1448,7 @@
                                   "alternative": {
                                     "event": null,
                                     "property": "Name",
-                                    "operation": "Add()",
+                                    "operation": "Assign()",
                                     "value": {
                                       "name": "utterance",
                                       "value": "wheat",
@@ -1472,7 +1472,7 @@
                                 {
                                   "event": null,
                                   "property": "Name",
-                                  "operation": "Add()",
+                                  "operation": "Assign()",
                                   "value": {
                                     "name": "utterance",
                                     "value": "wheat",
@@ -1783,7 +1783,7 @@
           "Value": {
             "event": "chooseEntity",
             "property": "Bread",
-            "operation": "Add()",
+            "operation": "Assign()",
             "value": {
               "name": "BreadEntity",
               "value": [
@@ -1916,7 +1916,7 @@
             {
               "event": "chooseEntity",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -1947,7 +1947,7 @@
           "Value": {
             "event": "chooseEntity",
             "property": "Bread",
-            "operation": "Add()",
+            "operation": "Assign()",
             "value": {
               "name": "BreadEntity",
               "value": [
@@ -2052,7 +2052,7 @@
             {
               "event": "chooseEntity",
               "property": "Bread",
-              "operation": "Add()",
+              "operation": "Assign()",
               "value": {
                 "name": "BreadEntity",
                 "value": [
@@ -2083,7 +2083,7 @@
           "Value": {
             "event": "chooseEntity",
             "property": "Bread",
-            "operation": "Add()",
+            "operation": "Assign()",
             "value": {
               "name": "BreadEntity",
               "value": [
@@ -2204,7 +2204,7 @@
                                 {
                                   "event": "chooseEntity",
                                   "property": "Bread",
-                                  "operation": "Add()",
+                                  "operation": "Assign()",
                                   "value": {
                                     "name": "BreadEntity",
                                     "value": [
@@ -2235,7 +2235,7 @@
                               "Value": {
                                 "event": "chooseEntity",
                                 "property": "Bread",
-                                "operation": "Add()",
+                                "operation": "Assign()",
                                 "value": {
                                   "name": "BreadEntity",
                                   "value": [
@@ -3577,7 +3577,7 @@
           }
         },
         "entities": {
-          "Add()": [
+          "Assign()": [
             {
               "Cheese": [
                 {
@@ -3675,9 +3675,9 @@
             "pickles"
           ],
           "$instance": {
-            "Add()": [
+            "Assign()": [
               {
-                "type": "Add()",
+                "type": "Assign()",
                 "text": "swiss with pickles and lettuce",
                 "startIndex": 8,
                 "endIndex": 38,
@@ -3739,7 +3739,7 @@
             }
           },
           "entities": {
-            "Add()": [
+            "Assign()": [
               {
                 "Cheese": [
                   {
@@ -3842,9 +3842,9 @@
               "pickles"
             ],
             "$instance": {
-              "Add()": [
+              "Assign()": [
                 {
-                  "type": "Add()",
+                  "type": "Assign()",
                   "text": "swiss with pickles and lettuce",
                   "startIndex": 8,
                   "length": 30,
@@ -4089,13 +4089,13 @@
             "name": "CheeseEntity",
             "value": "swiss",
             "property": "Cheese",
-            "operation": "Add()",
+            "operation": "Assign()",
             "start": 8,
             "end": 38,
             "score": 0,
             "text": "swiss with pickles and lettuce",
             "type": "CheeseEntity",
-            "rootEntity": "Add()0",
+            "rootEntity": "Assign()0",
             "priority": 0,
             "coverage": 0.7894736842105263,
             "whenRecognized": 30
@@ -4104,13 +4104,13 @@
             "name": "ToppingsEntity",
             "value": "pickles",
             "property": "Toppings",
-            "operation": "Add()",
+            "operation": "Assign()",
             "start": 8,
             "end": 38,
             "score": 0,
             "text": "swiss with pickles and lettuce",
             "type": "ToppingsEntity",
-            "rootEntity": "Add()0",
+            "rootEntity": "Assign()0",
             "priority": 0,
             "coverage": 0.7894736842105263,
             "whenRecognized": 30
@@ -4119,13 +4119,13 @@
             "name": "ToppingsEntity",
             "value": "lettuce",
             "property": "Toppings",
-            "operation": "Add()",
+            "operation": "Assign()",
             "start": 8,
             "end": 38,
             "score": 0,
             "text": "swiss with pickles and lettuce",
             "type": "ToppingsEntity",
-            "rootEntity": "Add()0",
+            "rootEntity": "Assign()0",
             "priority": 0,
             "coverage": 0.7894736842105263,
             "whenRecognized": 30

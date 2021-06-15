@@ -13,7 +13,7 @@ using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class Startup
+  public class Startup
     {
         public Startup(IConfiguration configuration)
         {
@@ -50,8 +50,6 @@ namespace Microsoft.BotBuilderSamples
                 {
                     endpoints.MapControllers();
                 });
-
-            // app.UseHttpsRedirection();
         }
     }
 }

@@ -26,6 +26,6 @@
         "@types/restify": "8.4.2",
         "nodemon": "~1.19.4",
         "tslint": "~5.20.0",
-        "typescript": "~3.6.4"
+        "typescript": "~4.3.2"
     }
 }

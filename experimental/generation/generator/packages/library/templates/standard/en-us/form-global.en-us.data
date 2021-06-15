@@ -1,7 +1,7 @@
 > ${comment?}Example operations across properties and operations
-> Add() examples across properties
-- {@Add()=add ${entity} and ${entity}}
-- {@Add()=with ${entity}, ${entity} and ${entity}}
+> Assign() examples across properties
+- {@Assign()=add ${entity} and ${entity}}
+- {@Assign()=with ${entity}, ${entity} and ${entity}}
 
 > Remove() examples across properties
 - {@Remove()=delete ${entity} and ${entity}}
@@ -45,7 +45,7 @@
 - {@Cancel()=quit}
 
 > Mixed operations
-- {@Add()=add ${entity}, ${entity}} and {@Show()=display ${property}}
+- {@Assign()=add ${entity}, ${entity}} and {@Show()=display ${property}}
 - {@Remove()=remove ${entity}, ${entity}} and {@Show()=show ${property}}
-- {@Add()=add ${entity}}, {@Remove()=remove ${entity}} and {@Show()=show ${property}}
-- {@Remove()=remove ${entity}}, {@Add()=add ${entity}} and {@Show()=show ${property}}
+- {@Assign()=add ${entity}}, {@Remove()=remove ${entity}} and {@Show()=show ${property}}
+- {@Remove()=remove ${entity}}, {@Assign()=add ${entity}} and {@Show()=show ${property}}

@@ -1,10 +1,13 @@
+
 [sandwichMerge-form.en-us.lg](../form/sandwichMerge-form.en-us.lg)
 [sandwichMerge-form-Choose.en-us.lg](../form/sandwichMerge-form-Choose.en-us.lg)
 
-# BreadEntity_Value(entity) 
-- ${BreadEnum_Value(entity.value)}
+# BreadValue_Value(entity) 
+> Display value for 'BreadValue'
+- ${choices(entity.value, 'BreadEnum_Value', 'and')}
 
 # BreadEnum_Value(value) 
+> Display value for 'BreadValue' enumeration value
 - SWITCH: ${value}
   - CASE: ${'multiGrainWheat'} 
     - multi grain wheat
@@ -18,8 +21,16 @@
     - wheaty
   - DEFAULT: 
     - no value
- 
-# BreadEntity_chooseEntity
-- ${chooseEnumEntity('Bread')}
 
-> Generator: 386d5713fd53e8e895e905ebe8d619af
+
+# BreadValue_chooseEntity()
+> Choose entity activity between 'BreadValue' values
+[Activity
+    Text = ${BreadValue_chooseEntity_text()}
+]
+
+# BreadValue_chooseEntity_text()
+> Choose between 'BreadValue' values
+- ${chooseEnumEntity()}
+
+> Generator: 52e83cf7b59166dd6753b283113da830

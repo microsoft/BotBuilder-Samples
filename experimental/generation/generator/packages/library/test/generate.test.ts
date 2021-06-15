@@ -41,9 +41,9 @@ function removeHash(val: string): string {
 }
 
 // NOTE: If you update dialog:merge functionality you need to execute the makeOracles.cmd to update them
-async function compareToOracle(name: string, oraclePath?: string): Promise<void> {
-    let generatedPath = ppath.join(tempDir, name)
-    const  generateds = removeHash(await fs.readFile(generatedPath, 'utf8'))
+export async function compareToOracle(path: string, oraclePath?: string): Promise<void> {
+    const name = ppath.basename(path)
+    const generateds = removeHash(await fs.readFile(path, 'utf8'))
     oraclePath = oraclePath ? ppath.join(tempDir, oraclePath) : ppath.join('test/oracles', name)
     const oracle = await fs.readFile(oraclePath, 'utf8')
     const oracles = removeHash(gen.normalizeEOL(oracle))
@@ -71,7 +71,7 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<void>
         console.log(`Oracle   : ${oracles.substring(start, end)}`)
         console.log(`Generated: ${generateds.substring(start, end)}`)
         assert(false,
-            `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
+            `${ppath.resolve(path)} does not match oracle ${ppath.resolve(oraclePath)}`)
     }
 }
 
@@ -160,7 +160,7 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nTranscript test')
             assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich', output, false), 'Could not generate test script')
-            await compareToOracle('sandwich.test.dialog')
+            await compareToOracle(ppath.join(tempDir, 'sandwich.test.dialog'))
         } catch (e) {
             assert.fail(e.message)
         }
@@ -170,7 +170,7 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nTranscript test')
             assert.ok(await generateTest('test/transcripts/addItemWithButton.transcript', 'msmeeting-actions', output, false), 'Could not generate test script')
-            await compareToOracle('addItemWithButton.test.dialog')
+            await compareToOracle(ppath.join(tempDir, 'addItemWithButton.test.dialog'))
         } catch (e) {
             assert.fail(e.message)
         }
@@ -480,7 +480,7 @@ describe('dialog:generate library', async () => {
             })), 'Should not have failed generation')
             assert.strictEqual(errors, 0, 'Wrong number of errors')
             assert.strictEqual(warnings, 3, 'Wrong number of warnings')
-            await compareToOracle('unittest_transforms.dialog')
+            await compareToOracle(ppath.join(tempDir, 'unittest_transforms.dialog'))
         } catch (e) {
             assert.fail(e.message)
         }

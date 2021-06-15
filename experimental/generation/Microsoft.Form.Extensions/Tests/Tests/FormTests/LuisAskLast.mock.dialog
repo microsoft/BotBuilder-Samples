@@ -1,0 +1,44 @@
+﻿{
+    "$schema": "../../tests.schema",
+    "$kind": "Microsoft.Test.HttpRequestSequenceMock",
+    "method": "POST",
+    "url": "https://westus.api.cognitive.microsoft.com/luis/prediction/v3.0/apps/00000000-0000-0000-0000-000000000000/*",
+    "body": "\"query\": \"askLast\"",
+    "responses": [
+        {
+            "content": {
+                "query": "askLast",
+                "prediction": {
+                    "topIntent": "none",
+                    "intents": {
+                        "none": {
+                            "score": 0.9
+                        }
+                    },
+                    "entities": {
+                        "testEntity": [
+                            [
+                                "askLast"
+                            ]
+                        ],
+                        "$instance": {
+                            "testEntity": [
+                                {
+                                    "type": "testEntity",
+                                    "text": "askLast",
+                                    "startIndex": 0,
+                                    "length": 8,
+                                    "modelTypeId": 1,
+                                    "modelType": "Entity Extractor",
+                                    "recognitionSources": [
+                                        "model"
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ]
+}
