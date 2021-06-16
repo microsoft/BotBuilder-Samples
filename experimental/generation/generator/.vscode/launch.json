@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*array_personName.*"
+                ".*dynamiclist.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",
