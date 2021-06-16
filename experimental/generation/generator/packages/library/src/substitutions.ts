@@ -44,8 +44,6 @@ function binding(key: string, bindings: State, rand: random.prng): string {
                 value = variable.values[variable.index]
             }
         }
-    } else {
-        value = `**Missing ${key}**`
     }
     return value
 }
@@ -75,7 +73,7 @@ function substitutions(path: string, bindings: any, copies?: number, seed?: stri
     for (const [binding, value] of Object.entries(bindings)) {
         if (Array.isArray(value)) {
             state.set(binding, {index: -1, values: (value as any).flat()})
-        } else if (typeof value === 'string' || typeof value === 'number') {
+        } else if (typeof value === 'string' || typeof value === 'number' || typeof value === 'boolean') {
             state.set(binding, {index: -1, values: value ? [value] : []})
         }
     }

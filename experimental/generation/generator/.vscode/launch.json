@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*"
+                ".*array_personName.*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

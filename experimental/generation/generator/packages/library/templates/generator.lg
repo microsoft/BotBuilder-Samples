@@ -438,11 +438,6 @@ ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
-> TODO: dummyProperty are to work around an issue in 4.11 of the SDK they can be removed on the next release
-@ ml Skip() usesFeature SkipPhrases
-    - @ ml dummyProperty
-@ ml Cancel() usesFeature CancelPhrases
-    - @ ml dummyProperty
 
 > Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
