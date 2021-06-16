@@ -7,5 +7,5 @@
 -```
 > Add examples for operations across properties
 # ${triggerIntent}
-${substitutions(`${locale}/form-global.${locale}.data`, examples, 6)}
+${substitutions(`form-global.${locale}.data`, examples, 6)}
 ```

@@ -281,6 +281,19 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
+// Find all .data files and ensure they are in the cache
+export const DataCache: Map<string, string> = new Map<string, string>()
+async function cacheData(templateDirs: string[]): Promise<void> {
+    for (const dir of templateDirs) {
+        for (const path of await glob(ppath.join(dir, '**/*.data').replace(/\\/g, '/'))) {
+            if (!DataCache.has(ppath.basename(path))) {
+                const template = await fs.readFile(path, 'utf8')
+                DataCache.set(ppath.basename(path), template)
+            }
+        }
+    }
+}
+
 type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 export const TemplateCache: Map<string, Template> = new Map<string, Template>()
@@ -1075,6 +1088,9 @@ export async function generate(
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
         ]
 
+        // Cache .data files for substitutions
+        await cacheData(templateDirs)
+
         // Expand root $template and computed schema
         await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
@@ -1146,7 +1162,7 @@ export async function generate(
             // Write final schema
             const body = stringify(expanded, (key: any, val: any) => (!key.startsWith('$') || references.has(key) ? val : undefined))
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
-                        
+
             // Merge together all dialog files
             if (singleton) {
                 if (!merge) {
