@@ -37,7 +37,7 @@
                 "999999",
                 "--colors",
                 "-g",
-                ".*dynamiclist.*"
+                ".*"
             ],
             "internalConsoleOptions": "openOnSessionStart",
             "outputCapture": "std",

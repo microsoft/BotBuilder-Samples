@@ -465,7 +465,10 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ELSEIF: ${values}
     - ${values}
 -ELSE:
-    - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
+    - ${placeHolderEntities(entity)}
+
+# placeHolderEntities(entity)
+-  ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
 
 # flattenObject(val)
 > Flatten an object including keys and values into an array
