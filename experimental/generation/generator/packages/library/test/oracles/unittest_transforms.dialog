@@ -765,7 +765,7 @@
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$retries",
+      "condition": "=$retries",
       "runOnce": true,
       "priority": 0,
       "actions": [
@@ -778,7 +778,7 @@
         "name": "Reprompt Help"
       },
       "$source": "unittest_transforms-form-HelpReprompt",
-      "$Generator": "07a02c082ad528fb7b526643bfcb0f3f"
+      "$Generator": "37cae710842490b6ac5cf1c4e491895b"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -827,7 +827,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "$PropertyToChange",
+              "condition": "=$PropertyToChange",
               "actions": [
                 {
                   "$kind": "Microsoft.DeleteProperty",
@@ -853,7 +853,7 @@
         "name": "OnSkip"
       },
       "$source": "unittest_transforms-form-SkipIntent",
-      "$Generator": "9417560f43fc6d5643884219c2722895"
+      "$Generator": "32aabe835d2b36a03468826868c4552d"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -881,5 +881,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "19aec919283418315cf01f752463f428"
+  "$Generator": "de9a9b29d987f646e539205066d6c685"
 }

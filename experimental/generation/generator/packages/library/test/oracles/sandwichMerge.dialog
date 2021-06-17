@@ -1461,7 +1461,7 @@
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$retries",
+      "condition": "=$retries",
       "runOnce": true,
       "priority": 0,
       "actions": [
@@ -1474,7 +1474,7 @@
         "name": "Reprompt Help"
       },
       "$source": "sandwichMerge-form-HelpReprompt",
-      "$Generator": "a8c89745ec7fdb8020ba3aca2097e3f0"
+      "$Generator": "2dc0ec05902925d5f8976936cf5843e9"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -1523,7 +1523,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "$PropertyToChange",
+              "condition": "=$PropertyToChange",
               "actions": [
                 {
                   "$kind": "Microsoft.DeleteProperty",
@@ -1549,7 +1549,7 @@
         "name": "OnSkip"
       },
       "$source": "sandwichMerge-form-SkipIntent",
-      "$Generator": "d05718f93092f1649618c61be8c797ef"
+      "$Generator": "833889cbb133d8ad89317c7941a996b7"
     },
     {
       "$kind": "Microsoft.OnIntent",
@@ -1577,5 +1577,5 @@
   "$designer": {
     "name": "sandwichMerge main dialog"
   },
-  "$Generator": "b6303c9c5ad992e40b15abd5340ed56f"
+  "$Generator": "5c5bef3b8245a239d1b7ce9ad72f57dc"
 }

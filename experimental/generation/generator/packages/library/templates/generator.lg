@@ -155,7 +155,7 @@
 
 # actionAssign(entity)
 > Assign entity to current property
-- ${join(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+- ${list(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''))}
 
 # actionConfirm(value)
 > Confirm we are setting entity to property
@@ -438,11 +438,6 @@ ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
-> TODO: dummyProperty are to work around an issue in 4.11 of the SDK they can be removed on the next release
-@ ml Skip() usesFeature SkipPhrases
-    - @ ml dummyProperty
-@ ml Cancel() usesFeature CancelPhrases
-    - @ ml dummyProperty
 
 > Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
@@ -470,7 +465,10 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ELSEIF: ${values}
     - ${values}
 -ELSE:
-    - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
+    - ${placeHolderEntities(entity)}
+
+# placeHolderEntities(entity)
+-  ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
 
 # flattenObject(val)
 > Flatten an object including keys and values into an array
@@ -620,73 +618,76 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Per-property LG templates
 
+# activityTemplate(name, args, comment, text)
+- ```# ${name}(${list(args)})
+> Activity ${comment}
+[Activity
+    Text = \${${name}_text()}
+]
+
+# ${name}_text(${list(args)})
+> ${comment}
+- ${text}```
+
 # promptTemplates(missing, change)
 - ```
 >> Prompts
 
-# ${property}_MissingPrompt()
-> Prompt activity when '${property}' property is missing
-[Activity
-    Text = \${${property}_MissingPrompt_text()}
-]
+${activityTemplate(
+    `${property}_MissingPrompt`, [],
+    `Prompt when '${property}' is missing`,
+    missing
+)}
 
-# ${property}_MissingPrompt_text()
-> Prompt when '${property}' property is missing
-- ${missing}
-
-# ${property}_ChangePrompt()
-> Prompt activity when '${property}' property has a value, but is being changed
-[Activity
-    Text = \${${property}_ChangePrompt_text()}
-]
-
-# ${property}_ChangePrompt_text()
-> Prompt when '${property}' property has a value, but is being changed
-- ${change}```
+${activityTemplate(
+    `${property}_ChangePrompt`, [],
+    `Prompt when '${property}' property has a value, but is being changed`,
+    change
+)}
+```
 
 # confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace, remove, clear)
 - ```
 >> Confirmation
 
-# ${property}_ExpectedSetConfirmation(newVal)
-> Confirmation when adding expected value to empty '${property}' property
-- ${expectedSet}
+${activityTemplate(
+    `${property}_ExpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    expectedSet
+)}
 
 ${expectedUpdateTemplate(expectedReplace)}
-# ${property}_UnexpectedSetConfirmation(newVal)
-> Confirmation when adding unexpected value to empty '${property}' property
-- ${unexpectedSet}
 
-# ${property}_UnexpectedUpdateConfirmation(newVal)
-> Confirmation when replacing unexpected value in '${property}' property
-- ${unexpectedReplace}
+${activityTemplate(
+    `${property}_UnexpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    unexpectedSet
+)}
 
-# ${property}_RemoveConfirmation(val)
-> Confirmation activity when value is removed from '${property}' property
-[Activity
-    Text = \${${property}_RemoveConfirmation_text(val)}
-]
+${activityTemplate(
+    `${property}_UnexpectedUpdateConfirmation`, ['newVal'],
+    `Confirmation when replacing unexpected value in '${property}' property`,
+    unexpectedReplace
+)}
 
-# ${property}_RemoveConfirmation_text(val)
-> Confirmation when value is removed from '${property}' property
-- ${remove}
+${activityTemplate(
+    `${property}_RemoveConfirmation`, ['newVal'],
+    `Confirmation activity when value is removed from '${property}' property`,
+    remove
+)}
 
-# ${property}_ClearConfirmation()
-> Confirmation activity when '${property}' property is cleared
-[Activity
-    Text = \${${property}_ClearConfirmation_text()}
-]
-
-# ${property}_ClearConfirmation_text()
-> Confirmation  when '${property}' property is cleared
-- ${clear}```
+${activityTemplate(
+    `${property}_ClearConfirmation`, [],
+    `Confirmation when '${property}' property is cleared`,
+    clear
+)}```
 
 # expectedUpdateTemplate(expectedReplace)
 - IF: ${!isArrayProperty(property)}
-    - ```# ${property}_ExpectedUpdateConfirmation(newVal)
-> Confirmation when replacing expected value in '${property}' property
-- ${expectedReplace}
-```
+    - ${activityTemplate(
+        `${property}_ExpectedUpdateConfirmation`, ['newVal'], 
+        `Confirmation when replacing expected value in '${property}' property`, 
+        expectedReplace)}
 - ELSE:
     -
 
@@ -694,39 +695,34 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ```
 >> Help
 
-# ${property}_RepromptHelp()
-> Help for '${property}' property reprompt
-- ${reprompt}
+${activityTemplate(
+    `${property}_RepromptHelp`, [],
+    `Help for '${property}' property reprompt`,
+    reprompt
+)}
 
-# ${property}_Help()
-> Help activity for '${property}' property
-[Activity
-    Text = \${${property}_Help_text()}
-]
-
-# ${property}_Help_text()
-> Help for '${property}' property
-- ${help}```
+${activityTemplate(
+    `${property}_Help`, [],
+    `Help for '${property}' property`,
+    help
+)}```
 
 # showTemplate(show)
 - ```
 >> Show
-# ${property}_Show()
-> Show value activity
-[Activity
-    Text = \${${property}_Show_text()}
-]
-
-# ${property}_Show_text()
-> Show value of '${property}' property
-- ${show}```
+${activityTemplate(
+    `${property}_Show`, [],
+     `Show value of '${property}' property`,
+     show
+)}```
 
 # incorrectUnitsTemplate()
 - IF: ${units()}
-- ```
-# ${property}_IncorrectUnits(actual)
-> Incorrect units for '${property}' property
-- \${actual} must be in '${units()}s'```
+- ${activityTemplate(
+    `${property}_IncorrectUnits`, ['actual'],
+    `Incorrect units for '${property}' property`,
+    `\${actual} must be in '${units()}s'`
+)}
 - ELSE:
     -
 
@@ -737,6 +733,9 @@ ${expectedUpdateTemplate(expectedReplace)}
     - ${propertySchema.enum}
 - ELSE:
     - ${propertySchema.items.enum}
+
+# list(array)
+- ${join(array, ', ')}
 
 # sortObject(object, key)
 > Sort object values by key
