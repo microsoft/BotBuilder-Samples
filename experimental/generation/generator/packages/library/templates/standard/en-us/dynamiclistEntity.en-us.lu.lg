@@ -1,4 +1,5 @@
 [standard.en-us.lg](standard.en-us.lg)
+[generator.lg](../../generator.lg)
 
 # filename
 - ${entityLUFilename()}
@@ -16,15 +17,13 @@ ${operations(`${entity}`, allSynonyms(), false)}
 - IF: ${examples}
     - ${join(foreach(indicesAndValues(examples), enum, `    - ${enum.index}:${EOL()}${synonyms(enum.value)}`), EOL())}
 - ELSE:
-    - ${join(foreach(generatedEntityValues(), enum, `    - ${enum}:${EOL()}${synonyms(phrases(enum))}`), EOL())}
+    - ${join(foreach(entityValues(null), enum, `    - ${enum}:${EOL()}${synonyms(phrases(enum))}`), EOL())}
 
 
 # allSynonyms()
 - IF: ${examples}
     - ${flattenObject(examples)}
 - ELSE:
-    - ${generatedEntityValues()}
+    - ${entityValues(null)}
 
-# generatedEntityValues
- - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
 
