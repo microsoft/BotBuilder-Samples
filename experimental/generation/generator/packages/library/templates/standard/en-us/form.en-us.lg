@@ -57,13 +57,13 @@
 - ELSE:
 - 
 
-# helpGlobal
+# helpGlobal()
 > Global help message activity
 [Activity
     Text = ${helpGlobal_text()}
 ]
 
-# helpGlobal_text
+# helpGlobal_text()
 > Global help message 
 - ```
 ${requiredProperties()}
@@ -79,7 +79,7 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 
 # helpReprompt_text
 > Display value on reprompt
-- ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp`)), expected, template(`${expected}_RepromptHelp`)), EOL()), '')}
+- ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp_text`)), expected, template(`${expected}_RepromptHelp_text`)), EOL()), '')}
 
 # publicProperties
 > Public properties from schema
@@ -114,12 +114,6 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 - ${property}Value
 
 # confirmationActivity(property, val)
-> Display confirmation activity based on whether the property was expected or not
-[Activity
-    Text = ${confirmation_text(property, val)}
-]
-
-# confirmation_text(property, val)
 > Display confirmation activity based on whether the property was expected or not
 - IF: ${contains($expectedProperties, property)}
     - ${template(if(dialog[property] && !isArrayProperty(property), `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}

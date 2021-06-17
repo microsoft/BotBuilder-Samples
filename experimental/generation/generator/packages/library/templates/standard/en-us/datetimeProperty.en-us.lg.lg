@@ -7,7 +7,8 @@
 - ${genericMessages('date or time expression')}${validationTemplate()}
 
 # validationTemplate
-- ```
-# ${property}_invalidDate(val)
-> Invalid value for '${property}' property
-- \${${property}_Value(val)} is not a date```
+- ${activityTemplate(
+    `${property}_invalidDate`, ['val'],
+    `Invalid date value for '${property}' property`,
+    `\${${property}_Value(val)} is not a date`)}
+

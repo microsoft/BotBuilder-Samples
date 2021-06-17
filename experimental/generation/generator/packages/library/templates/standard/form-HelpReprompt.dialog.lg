@@ -8,7 +8,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition": "$retries",
+    "condition": "=$retries",
     "runOnce": true,
     "priority": 0,
     "actions": [
