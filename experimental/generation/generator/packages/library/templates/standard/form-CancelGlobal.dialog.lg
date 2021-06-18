@@ -18,6 +18,6 @@
             ]           
         }
     ]
-    ${designerName('Cancel')}
+    ${designerName('Cancel Confirmation Prompt')}
 }
 ```

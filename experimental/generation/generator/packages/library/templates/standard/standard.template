@@ -42,14 +42,6 @@
         "${schemaOperations()}"
     ],
     "$defaultOperation": [
-        {
-            "CancelConfirmation": {
-                "": "Set()"
-            },
-            "CompleteConfirmation": {
-                "": "Set()"
-            }
-        },
         "${schemaDefaultOperation()}"
     ],
     "$requiresValue": [

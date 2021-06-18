@@ -318,7 +318,7 @@
             "property": "$${property}"
         }
     ]               
-    ${designerOp('Clear')}     
+    ${designerOp('Clear Property')}     
 }
 ```
 
@@ -335,7 +335,7 @@
             "activity": "\${${property}_Show()}"
         }
     ]               
-    ${designerOp('Show')}     
+    ${designerOp('Show Value')}     
 }
 ```
 
@@ -590,28 +590,28 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 -, "$designer": {"name": "${name}"}
 
 # designerOp(op)
-- ${designerName(`${property} - ${op}()`)}
+- ${designerName(`${property} - ${op}`)}
 
 # designerOpEntity(op, entity)
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${property} - ${op}(@${entity})`)}
+- ${designerName(`${property} - ${op} @${entity}`)}
 
 # designerChooseEntity()
-- ${designerName(`${entity} - Choose()`)}
+- ${designerName(`${entity} - Disambiguation Prompt`)}
 
 # designerChooseProperty()
 - ${designerName(`ChooseProperty()`)}
 
 # designerMissing(property)
-- ${designerName(`${property} - Missing()`)}
+- ${designerName(`${property} - Missing Prompt`)}
 
 # designerHelp(property)
-- ${designerName(`${property} - Help()`)}
+- ${designerName(`${property} - Help`)}
 
 # designerChange(property)
-- ${designerName(`${property} - Change()`)}
+- ${designerName(`${property} - Replacement Prompt`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}

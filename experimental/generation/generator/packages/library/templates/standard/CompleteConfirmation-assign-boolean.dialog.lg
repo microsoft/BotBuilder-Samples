@@ -8,18 +8,13 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Set()",
+    "operation": "Assign()",
     "property": "CompleteConfirmation",
     "value": "boolean",
     "actions": [
         {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$CompleteConfirmation",
-            "value": "=@boolean"
-        },
-        {
             "$kind": "Microsoft.IfCondition",
-            "condition":"$CompleteConfirmation == 'false'",
+            "condition":"@boolean == 'false'",
             "actions": [
                 {
                     "$kind": "Microsoft.EndDialog"
@@ -36,6 +31,6 @@
             ]
         }
     ]
-    ${designerOpEntityProperty('Set', 'boolean', 'CompleteConfirmation')}
+    ${designerName('Property to Change Prompt')}
 }
 ```

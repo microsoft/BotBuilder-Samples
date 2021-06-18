@@ -45,6 +45,6 @@
             "property": "$retries"
         }
     ]
-    ${designerIntent('Skip')}
+    ${designerName('Skip')}
 }
 ```

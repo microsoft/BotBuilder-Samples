@@ -19,6 +19,6 @@
             "activity": "\${helpGlobal()}"           
         }
     ]
-    ${designerName('Help Global')}
+    ${designerName('Global Help')}
 }
 ```

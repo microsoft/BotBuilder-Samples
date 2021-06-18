@@ -15,6 +15,6 @@
             "activity": "\${notUnderstood()}"           
         }
     ]
-    ${designerIntent('None')}
+    ${designerName('Unknown intent')}
 }
 ```

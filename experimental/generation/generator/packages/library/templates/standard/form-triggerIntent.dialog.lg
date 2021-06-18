@@ -22,7 +22,7 @@
           "elseActions": []
         }
     ]
-    ${designerIntent(triggerIntent)}
+    ${designerName('Nothing Recognized')}
 }
 ```
  

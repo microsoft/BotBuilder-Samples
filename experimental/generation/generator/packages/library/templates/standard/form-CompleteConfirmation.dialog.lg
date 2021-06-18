@@ -23,6 +23,6 @@
             ]
         }
     ]
-    ${designerMissing('PropertyToChange')}
+    ${designerName('Form Confirmation Prompt')}
 }
 ```
