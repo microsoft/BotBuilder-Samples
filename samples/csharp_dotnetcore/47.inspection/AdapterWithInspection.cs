@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Net.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
@@ -10,10 +11,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithInspection : BotFrameworkHttpAdapter
+    public class AdapterWithInspection : CloudAdapter
     {
-        public AdapterWithInspection(IConfiguration configuration, InspectionState inspectionState, UserState userState, ConversationState conversationState, ILogger<BotFrameworkHttpAdapter> logger)
-            : base(configuration, logger)
+        public AdapterWithInspection(IConfiguration configuration, IHttpClientFactory httpClientFactory, InspectionState inspectionState, UserState userState, ConversationState conversationState, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(configuration, httpClientFactory, logger)
         {
             // Inspection needs credentiaols because it will be sending the Activities and User and Conversation State to the emulator
             var credentials = new MicrosoftAppCredentials(configuration["MicrosoftAppId"], configuration["MicrosoftAppPassword"]);

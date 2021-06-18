@@ -1,0 +1,236 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "937757",
+    "name": "RespondingWithTextSample",
+    "description": ""
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "807187"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "551445"
+          },
+          "activity": "${SendActivity_551445()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "name": "Greeting (ConversationUpdate)",
+        "id": "452701"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "576166",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_576166()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "289770"
+          },
+          "prompt": "What type of message would you like to send?",
+          "maxTurnCount": 3,
+          "property": "user.choice",
+          "alwaysPrompt": true,
+          "allowInterruptions": "false",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "Simple Text"
+            },
+            {
+              "value": "Text With Memory"
+            },
+            {
+              "value": "LGWithParam"
+            },
+            {
+              "value": "LGComposition"
+            },
+            {
+              "value": "Structured LG"
+            },
+            {
+              "value": "MultiLineText"
+            },
+            {
+              "value": "IfElseCondition"
+            },
+            {
+              "value": "SwitchCondition"
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "list",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "981997"
+          },
+          "condition": "user.choice",
+          "cases": [
+            {
+              "value": "Simple Text",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "256544"
+                  },
+                  "dialog": "simpletext"
+                }
+              ]
+            },
+            {
+              "value": "Text With Memory",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "598449"
+                  },
+                  "dialog": "textwithmemory"
+                }
+              ]
+            },
+            {
+              "value": "LGWithParam",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "078497"
+                  },
+                  "dialog": "lgwithparam"
+                }
+              ]
+            },
+            {
+              "value": "LGComposition",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "349641"
+                  },
+                  "dialog": "lgcomposition"
+                }
+              ]
+            },
+            {
+              "value": "Structured LG",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "302012",
+                    "name": "Begin a new dialog"
+                  },
+                  "dialog": "structuredlg"
+                }
+              ]
+            },
+            {
+              "value": "MultiLineText",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "053737",
+                    "name": "Begin a new dialog"
+                  },
+                  "dialog": "multilinetext"
+                }
+              ]
+            },
+            {
+              "value": "IfElseCondition",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "542800",
+                    "name": "Begin a new dialog"
+                  },
+                  "dialog": "ifelsecondition"
+                }
+              ]
+            },
+            {
+              "value": "SwitchCondition",
+              "actions": [
+                {
+                  "$kind": "Microsoft.BeginDialog",
+                  "$designer": {
+                    "id": "469376",
+                    "name": "Begin a new dialog"
+                  },
+                  "dialog": "switchcondition"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.RepeatDialog",
+          "$designer": {
+            "id": "938048"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "respondingwithtextsample.lg",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "id": "respondingwithtextsample"
+}

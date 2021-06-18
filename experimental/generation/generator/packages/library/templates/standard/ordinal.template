@@ -1,0 +1,22 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "offset": {
+            "type": "number"
+        },
+        "relativeTo": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "offset",
+        "relativeTo"
+    ],
+    "$template": "ordinal",
+    "$generator": {
+        "title": "Ordinal",
+        "description": "Map a LUIS ordinal entity like 'the first one' into an offset and base.",
+        "$ref": "common.json"
+    }
+}

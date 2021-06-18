@@ -1,0 +1,90 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "727878"
+  },
+  "autoEndDialog": false,
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "JokeIntent",
+        "pattern": "(?i)joke"
+      },
+      {
+        "intent": "CancelIntent",
+        "pattern": "(?i)cancel|never mind"
+      }
+    ]
+  },
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "event": "cancelDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "ok."
+        },
+        {
+          "$kind": "Microsoft.EndDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "intent": "JokeIntent",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "dialog": "telljoke"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "917307"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "964165"
+          },
+          "condition": "user.name == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "543141"
+              },
+              "property": "user.name",
+              "prompt": "Hello, I'm Zoidberg. What is your name?",
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": "true"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "604381"
+          },
+          "activity": "${SendActivity_604381()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "338063"
+          },
+          "activity": "${SendActivity_338063()}"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "enddialog.lg",
+  "id": "enddialog"
+}

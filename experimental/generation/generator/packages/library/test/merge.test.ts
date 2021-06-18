@@ -10,8 +10,9 @@ import * as glob from 'globby'
 import 'mocha'
 import * as ppath from 'path'
 import * as os from 'os'
-import * as assert from 'assert';
-import * as gen from '../src/dialogGenerator';
+import * as assert from 'assert'
+import * as gen from '../src/dialogGenerator'
+import {compareToOracle} from './generate.test'
 
 type Diff = {
     file: string,
@@ -70,7 +71,7 @@ async function compareDirs(original: string, merged: string): Promise<Comparison
             if (originalVal === mergedVal) {
                 comparison.same.push(file1)
             } else {
-                let pos = 0;
+                let pos = 0
                 while (pos < originalVal.length && pos < mergedVal.length) {
                     if (originalVal[pos] !== mergedVal[pos]) {
                         break
@@ -134,7 +135,7 @@ function assertAddedProperty(comparison: Comparison, added: string, errors: stri
     if (found.length === 0) {
         errors.push(`Missing ${added} in merged files`)
     }
-    return found;
+    return found
 }
 
 function assertRemovedProperty(comparison: Comparison, removed: string, errors: string[]): string[] {
@@ -147,88 +148,91 @@ function assertRemovedProperty(comparison: Comparison, removed: string, errors: 
     if (found.length > 0) {
         errors.push(`Found ${removed} in merged files`)
     }
-    return found;
+    return found
 }
 
-describe('dialog:generate --merge library', async function () {
-    const output_dir = ppath.join(os.tmpdir(), 'mergeTest')
-    const merge_data = 'test/merge_data'
-    const modified_data = `${merge_data}/modified`
-    const originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
-    const modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.form')
-    const locales = ['en-us']
-    const originalDir = ppath.join(output_dir, 'sandwichMerge-original')
-    const modifiedDir = ppath.join(output_dir, 'sandwichMerge-modified')
-    const mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
+const output_dir = ppath.join(os.tmpdir(), 'mergeTest')
+const merge_data = 'test/merge_data'
+const modified_data = `${merge_data}/modified`
+const originalSchema = ppath.join(merge_data, 'sandwichMerge.form')
+const modifiedSchema = ppath.join(merge_data, 'sandwichMerge-modified.form')
+const originalDir = ppath.join(output_dir, 'sandwichMerge-original')
+const mergedDir = ppath.join(output_dir, 'sandwichMerge-merged')
 
-    function errorOnly(type: gen.FeedbackType, msg: string): void {
-        if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
-            assert.fail(`${type}: ${msg}`)
-        }
+function errorOnly(type: gen.FeedbackType, msg: string): void {
+    if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
+        assert.fail(`${type}: ${msg}`)
     }
+}
 
-    function feedback(type: gen.FeedbackType, msg: string): void {
-        if (type !== gen.FeedbackType.debug) {
-            console.log(`${type}: ${msg}`)
-        }
-        if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
-            assert.fail(`${type}: ${msg}`)
-        }
+function feedback(type: gen.FeedbackType, msg: string): void {
+    if (type !== gen.FeedbackType.debug) {
+        console.log(`${type}: ${msg}`)
     }
-
-    async function assertContains(file: string, regex: RegExp, errors: string[]) {
-        const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
-        if (!val.match(regex)) {
-            errors.push(`${file} does not contain expected ${regex}`)
-        }
+    if ((type === gen.FeedbackType.warning && !msg.startsWith('Replace')) || type === gen.FeedbackType.error) {
+        assert.fail(`${type}: ${msg}`)
     }
+}
 
-    async function assertMissing(file: string, regex: RegExp, errors: string[]) {
-        const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
-        if (val.match(regex)) {
-            errors.push(`${file} contains unexpected ${regex}`)
-        }
+async function assertContains(file: string, regex: RegExp, errors: string[]) {
+    const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
+    if (!val.match(regex)) {
+        errors.push(`${file} does not contain expected ${regex}`)
     }
+}
 
-    async function assertUnchanged(file: string, expected: boolean, errors: string[]) {
-        const unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
-        if (unchanged !== expected) {
-            errors.push(`${file} is unexpectedly ${expected ? 'changed' : 'unchanged'}`)
-        }
+async function assertMissing(file: string, regex: RegExp, errors: string[]) {
+    const val = await fs.readFile(ppath.join(mergedDir, file), 'utf8')
+    if (val.match(regex)) {
+        errors.push(`${file} contains unexpected ${regex}`)
     }
+}
 
-    async function copyToMerged(pattern: string) {
-        const pathPattern = ppath.join(modified_data, pattern).replace(/\\/g, '/')
-        for (const path of await glob(pathPattern)) {
-            const file = ppath.relative(modified_data, path)
-            const dest = ppath.join(mergedDir, file)
-            console.log(`Modifying ${dest}`)
-            await fs.copyFile(path, dest)
-        }
+async function assertUnchanged(file: string, expected: boolean, errors: string[]) {
+    const unchanged = await gen.isUnchanged(ppath.join(mergedDir, file))
+    if (unchanged !== expected) {
+        errors.push(`${file} is unexpectedly ${expected ? 'changed' : 'unchanged'}`)
     }
+}
 
-    async function deleteMerged(pattern: string) {
-        const pathPattern = ppath.join(mergedDir, pattern).replace(/\\/g, '/')
-        for (const file of await glob(pathPattern)) {
-            console.log(`Deleting ${file}`)
-            await fs.unlink(file)
-        }
+async function copyToMerged(pattern: string) {
+    const pathPattern = ppath.join(modified_data, pattern).replace(/\\/g, '/')
+    for (const path of await glob(pathPattern)) {
+        const file = ppath.relative(modified_data, path)
+        const dest = ppath.join(mergedDir, file)
+        console.log(`Modifying ${dest}`)
+        await fs.copyFile(path, dest)
     }
+}
 
-    before(async function () {
+async function deleteMerged(pattern: string) {
+    const pathPattern = ppath.join(mergedDir, pattern).replace(/\\/g, '/')
+    for (const file of await glob(pathPattern)) {
+        console.log(`Deleting ${file}`)
+        await fs.unlink(file)
+    }
+}
+
+function beforeSetup(singleton: boolean) {
+    return async function () {
         try {
             console.log('Deleting output directory')
             await fs.remove(output_dir)
             console.log('Generating original files')
-            await gen.generate(originalSchema, 'sandwichMerge', originalDir, undefined, locales, undefined, false, undefined, undefined, errorOnly)
-            console.log('Generating modified files')
-            await gen.generate(modifiedSchema, 'sandwichMerge', modifiedDir, undefined, locales, undefined, undefined, false, undefined, errorOnly)
+            await gen.generate(originalSchema, {
+                prefix: 'sandwichMerge',
+                outDir: originalDir,
+                singleton: singleton,
+                feedback: errorOnly
+            })
         } catch (e) {
             assert.fail(e.message)
         }
-    })
+    }
+}
 
-    beforeEach(async function () {
+function beforeEachSetup() {
+    return async function () {
         try {
             console.log('\n\nCopying original generated to merged')
             await fs.remove(mergedDir)
@@ -236,13 +240,23 @@ describe('dialog:generate --merge library', async function () {
         } catch (e) {
             assert.fail(e.message)
         }
-    })
+    }
+}
+
+describe('dialog:generate --merge files', async function () {
+    before(beforeSetup(false))
+
+    beforeEach(beforeEachSetup())
 
     // Ensure merge with no changes is unchanged
     it('merge: self', async function () {
         try {
             console.log('Self merging')
-            await gen.generate(originalSchema, undefined, mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(originalSchema, {
+                outDir: mergedDir,
+                merge: true,
+                feedback
+            })
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors: string[] = []
             assertCompare(comparison, errors, comparison.originalFiles.length)
@@ -256,26 +270,26 @@ describe('dialog:generate --merge library', async function () {
     it('merge: modified', async function () {
         try {
             console.log('Modified merge')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: mergedDir,
+                merge: true,
+                feedback
+            })
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
             assertAddedProperty(comparison, 'Hobby', errors)
             assertRemovedProperty(comparison, 'Meat', errors)
             assertRemovedProperty(comparison, 'Toppings', errors)
             assertRemovedProperty(comparison, 'Sauces', errors)
-            await assertContains('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
-            await assertMissing('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
-            await assertContains('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
 
             // Unchanged hash + optional enum fixes = hash updated
-            await assertUnchanged('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', true, errors)
             await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
-            await assertUnchanged('language-understanding/en-us/Name/sandwichMerge-Name-personName.en-us.lu', true, errors)
             assertCheck(comparison, errors)
         } catch (e) {
             assert.fail(e.message)
@@ -290,40 +304,167 @@ describe('dialog:generate --merge library', async function () {
             // Modify an .lu file and it should have enum updated, but not hash
             // Modify an .lg file and it should have enum updated, but not hash
             console.log('Respect changes merge')
-            await copyToMerged('**/en-us/Bread/*')
-            await copyToMerged('sandwichMerge.dialog')
+            await copyToMerged('**/language-generation/en-us/Bread/*')
+            await copyToMerged('**/language-generation/en-us/BreadValue/*')
+            await copyToMerged('**/language-understanding/en-us/Bread/*')
+            await copyToMerged('**/language-understanding/en-us/form/*')
+            const dialogPath = ppath.join(mergedDir, 'sandwichMerge.dialog')
+            const old = await fs.readJSON(dialogPath)
+            old.$comment = 'changed dialog'
+            old.triggers = ["sandwichMerge-foo-missing", ...old.triggers.filter(t => t !== 'sandwichMerge-price-remove-money')]
+            await fs.writeJSON(dialogPath, old)
             await copyToMerged('dialogs/sandwichMerge-foo-missing.dialog')
             await deleteMerged('dialogs/Price/sandwichMerge-price-remove-money.dialog')
-            await gen.generate(modifiedSchema, 'sandwichMerge', mergedDir, undefined, locales, undefined, undefined, true, undefined, feedback)
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: mergedDir,
+                merge: true,
+                feedback
+            })
             const comparison = await compareDirs(originalDir, mergedDir)
             const errors = []
 
             // Changed + optional enum fixes = hash not updated, so still changed
-            await assertUnchanged('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', false, errors)
-            await assertUnchanged('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', false, errors)
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
             await assertUnchanged('sandwichMerge.dialog', false, errors)
 
             // Despite enum update, hash updated so unchanged
-            await assertUnchanged('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', false, errors)
-            await assertUnchanged('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', false, errors)
+            await assertUnchanged('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', true, errors)
 
             // Main should still be updated
             await assertContains('sandwichMerge.dialog', /sandwichMerge-foo/, errors)
             await assertMissing('sandwichMerge.dialog', /sandwichMerge-price-remove-money/, errors)
+            await assertContains('sandwichMerge.dialog', /changed dialog/, errors)
 
             // Removed should stay removed
             assertRemoved(comparison, 'dialogs/sandwichMerged-price-remove-money.dialog', errors)
 
             // Still get enum updates
-            await assertContains('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /black/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /black/, errors)
-            await assertMissing('language-generation/en-us/Bread/sandwichMerge-BreadEntity.en-us.lg', /white/, errors)
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadEntity.en-us.lu', /white/, errors)
-            await assertContains('language-generation/en-us/Cheese/sandwichMerge-CheeseEntity.en-us.lg', /brie/, errors)
-            await assertContains('language-understanding/en-us/Cheese/sandwichMerge-Cheese-CheeseEntity.en-us.lu', /brie/, errors)
+            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
             assertCheck(comparison, errors)
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+})
+
+describe('dialog:generate --merge singleton', async function () {
+    before(beforeSetup(true))
+
+    beforeEach(beforeEachSetup())
+
+    // Ensure merge with no changes is unchanged
+    it('merge singleton: self', async function () {
+        try {
+            console.log('Self merging')
+            await gen.generate(originalSchema, {
+                outDir: mergedDir,
+                merge: true,
+                singleton: true,
+                feedback
+            })
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors: string[] = []
+            assertCompare(comparison, errors, comparison.originalFiles.length)
+            assertCheck(comparison, errors)
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    // Ensure merge with modified schema changes as expected
+    it('merge singleton: modified', async function () {
+        try {
+            console.log('Modified merge')
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: mergedDir,
+                merge: true,
+                singleton: true,
+                feedback
+            })
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors = []
+            assertAddedProperty(comparison, 'Hobby', errors)
+            assertRemovedProperty(comparison, 'Meat', errors)
+            assertRemovedProperty(comparison, 'Toppings', errors)
+            assertRemovedProperty(comparison, 'Sauces', errors)
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
+            await assertContains('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', /brie/, errors)
+
+            // Unchanged hash + optional enum fixes = hash updated
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', true, errors)
+            await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
+            assertCheck(comparison, errors)
+
+            await compareToOracle(ppath.join(mergedDir, 'sandwichMerge.dialog'))
+        } catch (e) {
+            assert.fail(e.message)
+        }
+    })
+
+    // Respect user changes
+    it('merge singleton: respect changes', async function () {
+        try {
+            // Modify a dialog file it should stay unchanged except for main.dialog which should be updated, but not hash updated
+            // Remove a dialog file and it should not come back
+            // Modify an .lu file and it should have enum updated, but not hash
+            // Modify an .lg file and it should have enum updated, but not hash
+            console.log('Respect changes merge')
+
+            await copyToMerged('**/language-generation/en-us/Bread/*')
+            await copyToMerged('**/language-generation/en-us/BreadValue/*')
+            await copyToMerged('**/language-understanding/en-us/Bread/*')
+            await copyToMerged('**/language-understanding/en-us/form/*')
+
+            // Modify an existing trigger and add a custom trigger
+            const dialogPath = ppath.join(mergedDir, 'sandwichMerge.dialog')
+            const oldDialog = await fs.readJSON(dialogPath)
+            const modifiedTrigger = oldDialog.triggers[1]
+            const reorderedTrigger = oldDialog.triggers[2]
+            modifiedTrigger.actions.push({$kind: "Microsoft.SetProperty"})
+            const newTrigger = {$kind: "Microsoft.OnCondition", actions: []}
+            oldDialog.triggers.splice(3, 1, newTrigger, reorderedTrigger)
+            oldDialog.triggers.splice(2, 1)
+            await fs.writeFile(dialogPath, gen.stringify(oldDialog))
+
+            await gen.generate(modifiedSchema, {
+                prefix: 'sandwichMerge',
+                outDir: mergedDir,
+                merge: true,
+                singleton: true,
+                feedback
+            })
+            const comparison = await compareDirs(originalDir, mergedDir)
+            const errors = []
+
+            // Changed + optional enum fixes = hash not updated, so still changed
+            await assertUnchanged('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', false, errors)
+            await assertUnchanged('sandwichMerge.dialog', false, errors)
+
+            // Despite enum update, hash updated so unchanged
+            await assertUnchanged('language-generation/en-us/CheeseValue/sandwichMerge-CheeseValue.en-us.lg', true, errors)
+
+            // Still get enum updates
+            await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
+            await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
+            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
+
+            assertCheck(comparison, errors)
+
+            const mergedDialog = await fs.readJSON(dialogPath)
+            assert.deepStrictEqual(mergedDialog.triggers[1], modifiedTrigger, 'Did not preserve modified trigger')
+            assert.deepStrictEqual(mergedDialog.triggers[2], newTrigger, 'Did not preserve custom trigger')
+            assert.deepStrictEqual(mergedDialog.triggers[3], reorderedTrigger, 'Did not preserve reordered trigger')
         } catch (e) {
             assert.fail(e.message)
         }

@@ -23,7 +23,7 @@
             ]
         },
         "Name": {
-            "$ref": "template:personName.schema"
+            "$ref": "template:personName.template"
         }
     },
     "required": [

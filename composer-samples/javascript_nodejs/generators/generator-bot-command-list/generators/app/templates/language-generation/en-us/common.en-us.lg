@@ -1,0 +1,110 @@
+# CommandListCard
+[Activity
+    Attachments = ${json(CommandListCardJson())}
+]
+
+# CommandListCardJson
+- ```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.2",
+    "body": [
+        {
+            "type": "Container",
+            "items": [
+                {
+                    "type": "TextBlock",
+                    "text": "Type help or hello, or click the buttons below",
+                    "wrap": true
+                }
+            ]
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Help",
+            "data": "Help"
+        },
+        {
+            "type": "Action.Submit",
+            "title": "Say hello",
+            "data": "Hello"
+        }
+    ]
+}
+```
+
+# AdaptiveCardJson()
+-```
+{
+      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+      "version": "1.0",
+      "type": "AdaptiveCard",
+      "speak": "",
+      "body": [
+          {
+              "type": "TextBlock",
+              "text": "${whichOneDidYouMean()}",
+              "weight": "Bolder"
+          },
+          {
+              "type": "TextBlock",
+              "text": "${pickOne()}",
+              "separator": "true"
+          },
+          {
+              "type": "Input.ChoiceSet",
+              "placeholder": "Placeholder text",
+              "id": "userChosenIntent",
+              "choices": [
+                           {
+                               "title": "${getIntentReadBack()}",
+                               "value": "luisResult"
+                           },
+                           {
+                               "title": "${getAnswerReadBack()}",
+                               "value": "qnaResult"
+                           },
+                           {
+                               "title": "None of the above",
+                               "value": "none"
+                           }
+             ],
+             "style": "expanded",
+             "value": "luis"
+         },
+         {
+             "type": "ActionSet",
+             "actions": [
+                {
+                     "type": "Action.Submit",
+                     "title": "Submit",
+                     "data": {
+                   "intent": "chooseIntentCardResponse"
+                }
+         }
+       ]
+     }
+    ]
+}
+```
+
+# whichOneDidYouMean()
+- I'm not sure which one you mean.
+- Hmmm, I find that to be ambiguous.
+
+# pickOne()
+- Can you pick one ?
+- Can you help clarify by choosing one ?
+
+# getAnswerReadBack()
+- See an answer from the Knowledge Base
+
+# getIntentReadBack()
+- SWITCH : ${toLower(dialog.luisResult.intent)}
+- CASE : ${'GetUserProfile'}
+  - Start filling in your profile(GetUserProfile intent)
+- DEFAULT :
+  - ${dialog.luisResult.intent}

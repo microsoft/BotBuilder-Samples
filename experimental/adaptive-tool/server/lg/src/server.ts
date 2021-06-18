@@ -17,7 +17,6 @@ import {
 	TextDocumentPositionParams,
 	TextDocumentSyncKind,
 	InitializeResult,
-	Files,
 	HoverParams,
 	DefinitionParams,
 	SignatureHelpParams,

@@ -1,0 +1,7 @@
+> Add custom utterances
+> Label with: Assign(), Remove(), Help(), Clear(), Show() and Help()
+# sandwich
+> ADD YOUR LABELS HERE
+- {@Assign()={@MeatProperty=meat are {@MeatValue=pulled}}}
+
+> Generator: a259b03113a76914f044a5b76e902b54

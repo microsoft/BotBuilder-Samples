@@ -4,4 +4,4 @@
 - ${unitsEntities('money')}
 
 # templates
-- ${standardTemplates()}
+- ${unitTemplates()}

@@ -1,0 +1,99 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.9/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.9",
+  "version": "1.0.0",
+  "id": "4f6dfcb1-2e0e-44c7-942f-38284048a5e0",
+  "packageName": "teamsmessagingextensionsaction",
+  "developer": {
+    "name": "Microsoft",
+    "websiteUrl": "https://contoso.com",
+    "privacyUrl": "https://cotoso.com/privacy",
+    "termsOfUseUrl": "https://contoso.com/terms"
+  },
+  "icons": {
+    "color": "",
+    "outline": ""
+  },
+  "name": {
+    "short": "teamsmessagingextensionsaction",
+    "full": "teamsmessagingextensionsaction"
+  },
+  "description": {
+    "short": "short description for teamsmessagingextensionsaction",
+    "full": "full description for teamsmessagingextensionsaction"
+  },
+  "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "691cbf5c-8383-43d5-be0e-e072906e03d9",
+      "scopes": [
+        "team",
+        "personal",
+        "groupchat"
+      ]
+    }
+  ],
+  "composeExtensions": [
+    {
+      "botId": "691cbf5c-8383-43d5-be0e-e072906e03d9",
+      "commands": [
+        {
+          "id": "createCard",
+          "type": "action",
+          "context": [ "compose" ],
+          "description": "Command to run action to create a Card from Compose Box",
+          "title": "Create Card",
+          "parameters": [
+            {
+              "name": "title",
+              "title": "Card title",
+              "description": "Title for the card",
+              "inputType": "text"
+            },
+            {
+              "name": "subTitle",
+              "title": "Subtitle",
+              "description": "Subtitle for the card",
+              "inputType": "text"
+            },
+            {
+              "name": "text",
+              "title": "Text",
+              "description": "Text for the card",
+              "inputType": "textarea"
+            }
+          ]
+        },
+        {
+          "id": "shareMessage",
+          "type": "action",
+          "context": [ "message" ],
+          "description": "Test command to run action on message context (message sharing)",
+          "title": "Share Message",
+          "parameters": [
+            {
+              "name": "includeImage",
+              "title": "Include Image",
+              "description": "Include image in Hero Card",
+              "inputType": "toggle"
+            }
+          ]
+        },
+        {
+          "id": "FetchRoster",
+          "description": "Fetch the conversation roster",
+          "title": "FetchRoster",
+          "type": "action",
+          "fetchTask": true,
+          "context": [ "compose" ]
+        }
+      ]
+    }
+  ],
+  "permissions": [
+    "identity"
+  ],
+  "validDomains": [
+    "token.botframework.com"
+  ]
+}

@@ -8,23 +8,10 @@
             "maximum": 10
         },
         "Length": {
-            "$ref": "template:dimension.schema"
+            "$ref": "template:dimension.template"
         },
         "Name": {
-            "type": "string",
-            "$entities": [
-                "personName",
-                "utterance"
-            ]
-        },
-        "Bread": {
-            "type": "string",
-            "enum": [
-                "multiGrainWheat",
-                "rye",
-                "wholeWheat",
-                "black"
-            ]
+            "$ref": "template:personName.template"
         },
         "Cheese": {
             "type": "string",
@@ -40,14 +27,24 @@
                 "none"
             ]
         },
+        "Bread": {
+            "type": "string",
+            "enum": [
+                "multiGrainWheat",
+                "rye",
+                "wholeWheat",
+                "black"
+            ]
+        },
         "Hobby": {
             "type": "string",
             "$entities": [
                 "utterance"
-            ]
+            ],
+            "$askIf": "$Price"
         },
         "Price": {
-            "$ref": "template:money.schema"
+            "$ref": "template:money.template"
         }
     },
     "required": [

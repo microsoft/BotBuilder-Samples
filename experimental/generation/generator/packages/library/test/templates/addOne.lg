@@ -1,0 +1,12 @@
+[generator.lg](generator.lg)
+[testImport](addOneImport.lg)
+
+# transforms()
+> Add one to number entity
+- ${'addOneTransform'}
+
+# addOneTransform(ref, body)
+- ${if(ref.extension == 'dialog' && isOnAssign(body) && entity == 'number', transform(body, 'containsEntityReference', 'addOne'), body)}
+
+# addOne(value)
+- ${replace(value, `@${entity}`, `(@${entity}+1)`)}

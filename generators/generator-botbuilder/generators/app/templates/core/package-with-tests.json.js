@@ -17,12 +17,12 @@
     },
     "dependencies": {
         "@microsoft/recognizers-text-data-types-timex-expression": "1.1.4",
-        "botbuilder": "~4.11.0",
-        "botbuilder-ai": "~4.11.0",
-        "botbuilder-dialogs": "~4.11.0",
-        "botbuilder-testing": "~4.11.0",
+        "botbuilder": "~4.13.4",
+        "botbuilder-ai": "~4.13.4",
+        "botbuilder-dialogs": "~4.13.4",
+        "botbuilder-testing": "~4.13.4",
         "dotenv": "^8.2.0",
-        "restify": "~8.5.1"
+        "restify": "^8.5.1"
     },
     "devDependencies": {
         "eslint": "^7.0.0",
@@ -32,7 +32,7 @@
         "eslint-plugin-promise": "^4.2.1",
         "eslint-plugin-standard": "^4.0.1",
         "mocha": "^7.1.2",
-        "nodemon": "~2.0.4",
+        "nodemon": "^2.0.4",
         "nyc": "^15.0.1"
     }
 }

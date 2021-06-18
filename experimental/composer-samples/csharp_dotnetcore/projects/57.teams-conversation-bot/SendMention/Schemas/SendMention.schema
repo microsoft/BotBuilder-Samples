@@ -1,0 +1,8 @@
+﻿{
+    "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "SendMention",
+    "description": "This will send mention info",
+    "type": "object",
+    "additionalProperties": false
+}

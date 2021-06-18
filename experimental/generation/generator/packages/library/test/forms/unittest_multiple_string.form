@@ -1,0 +1,30 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "From": {
+            "$ref": "template:string.template",
+            "$examples": {
+                "": {
+                    "personValue": [
+                        "Chris",
+                        "Bob"
+                    ]
+                }
+            },
+            "$entities": [
+                "personValue"
+            ]
+        },
+        "To": {
+            "type": "array",
+            "items": {
+                "$ref": "#/properties/From"
+            }
+        }
+    },
+    "required": [
+        "From",
+        "To"
+    ]
+}

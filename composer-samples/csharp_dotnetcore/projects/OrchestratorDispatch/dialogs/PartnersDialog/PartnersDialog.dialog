@@ -1,0 +1,244 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "wVxMxC",
+    "name": "PartnersDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "1BtyxI"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "hUgNsF"
+          },
+          "activity": "${SendActivity_hUgNsF()}"
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "KpFrxh"
+          },
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": true,
+          "allowInterruptions": true,
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "prompt": "${TextInput_Prompt_KpFrxh()}"
+        },
+        {
+          "$kind": "Microsoft.RepeatDialog",
+          "$designer": {
+            "id": "p11WI1"
+          },
+          "activityProcessed": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "mJDyaJ",
+        "name": "General"
+      },
+      "intent": "General",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "KLQrcx"
+          },
+          "activity": "${SendActivity_KLQrcx()}"
+        },
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "GYWo8v"
+          },
+          "defaultLocale": "en-us",
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": true,
+          "allowInterruptions": false,
+          "prompt": "${ChoiceInput_Prompt_GYWo8v()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "choiceOptions": {
+            "includeNumbers": true,
+            "inlineOrMore": ", or ",
+            "inlineOr": " or "
+          },
+          "property": "dialog.partnerchoice",
+          "choices": [
+            "Power Virtual Agents",
+            "HealthBot"
+          ],
+          "recognizerOptions": {
+            "recognizeOrdinals": true
+          }
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "9ypVLZ"
+          },
+          "condition": "dialog.partnerchoice",
+          "cases": [
+            {
+              "value": "Power Virtual Agents",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "wJ1PQA"
+                  },
+                  "activity": "${SendActivity_wJ1PQA()}"
+                }
+              ]
+            },
+            {
+              "value": "HealthBot",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "AlVsyO"
+                  },
+                  "activity": "${SendActivity_AlVsyO()}"
+                }
+              ]
+            },
+            {
+              "value": "No Thanks",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "8ovgUu"
+                  },
+                  "activity": "${SendActivity_8ovgUu()}"
+                }
+              ]
+            }
+          ],
+          "default": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "TK2gtL"
+              },
+              "activity": "${SendActivity_TK2gtL()}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "0p0e7t"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "ZV3rta"
+          },
+          "activity": "${SendActivity_ZV3rta()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Xq7yE9",
+        "name": "exit"
+      },
+      "intent": "exit",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "lzlH8N"
+          },
+          "activity": "${SendActivity_lzlH8N()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "l99ma4"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "o66cYm",
+        "name": "Healthbot"
+      },
+      "intent": "Healthbot",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "mroxNS"
+          },
+          "activity": "${SendActivity_mroxNS()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "0wl8Dt"
+          },
+          "activity": "${SendActivity_0wl8Dt()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "kJsfR9",
+        "name": "PVA"
+      },
+      "intent": "PVA",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "6ZhSsX"
+          },
+          "activity": "${SendActivity_6ZhSsX()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "TOU1P5"
+          },
+          "activity": "${SendActivity_TOU1P5()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "BP2yIj",
+        "name": "None"
+      },
+      "intent": "None"
+    }
+  ],
+  "generator": "PartnersDialog.lg",
+  "recognizer": "PartnersDialog.lu.qna",
+  "id": "PartnersDialog"
+}

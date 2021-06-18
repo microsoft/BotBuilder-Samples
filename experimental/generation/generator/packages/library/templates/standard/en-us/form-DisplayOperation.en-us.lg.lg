@@ -6,20 +6,48 @@
 # template
 -```${formImport('form.en-us.lg')}
 
-${'#'} displayOperation(op, property, entity)
-> Display value for a combination of operation, property and entity
-- IF: \${op && property && entity.value} 
-        - \${operationName(op)} \${entity.text} to \${propertyName(property)}
-- ELSEIF: \${op && property}
-        - \${operationName(op)} \${propertyName(property)}
+# displayOperation(op, property, value)
+> Display value for a combination of operation, property and value
+- SWITCH: \${op}
+- CASE: \${'Assign()'}
+        - \${displayAssignOperation(op, property, value)}
+- CASE: \${'Remove()'}
+        - \${displayRemoveOperation(op, property, value)}
+- DEFAULT:
+        - \${displayDefaultOperation(op, property, value)}
+
+# displayAssignOperation(op, property, value)
+> Display value for an Assign() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - Assign "\${value.text}" to \${propertyName(property)}
+- ELSEIF: \${property && value}
+    - Set \${propertyName(property)} to "\${value.text}"
 - ELSE:
-        - \${operationName(op)}
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayRemoveOperation(op, property, value)
+> Display value for a Remove() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - Remove "\${value.text}" from \${propertyName(property)}
+- ELSEIF: \${property}
+    - Clear \${propertyName(property)}
+- ELSE:
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayDefaultOperation(op, property, value)
+> Default display value for an operation, property and value
+- IF: \${op && property && value.value} 
+    - \${operationName(op)} \${value.text} to \${propertyName(property)}
+- ELSEIF: \${op && property}
+    - \${operationName(op)} \${propertyName(property)}
+- ELSE:
+    - \${operationName(op)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
 ```
 
 # namePlusSwitch
--```${'#'} operationName(op) 
+-```# operationName(op) 
 > Display value for an operation
 - SWITCH: \${op}```
 

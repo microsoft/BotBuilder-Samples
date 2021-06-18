@@ -12,7 +12,7 @@
 > to have example utterances.
 
 > Define the entity for recognizing the '${property}' property. You can add synonyms here.  
-@ ml ${property}Entity
+@ ml ${entity}
 
-${operations(`${property}Entity`, null, true)}
+${operations(`${entity}`, null, true)}
 ```

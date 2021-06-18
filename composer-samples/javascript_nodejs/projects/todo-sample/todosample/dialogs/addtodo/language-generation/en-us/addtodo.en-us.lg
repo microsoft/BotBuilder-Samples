@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# TextInput_Prompt_298897()
+- OK, please enter the title of your todo.
+
+# SendActivity_116673()
+- Successfully added a todo named ${dialog.todo}

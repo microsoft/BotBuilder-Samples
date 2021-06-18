@@ -23,6 +23,18 @@
     "color": "icon-color.png"
   },
   "accentColor": "#FFFFFF",
+  "bots": [
+    {
+      "botId": "<<YOUR-MICROSOFT-APP-ID>>",
+      "needsChannelSelector": false,
+      "isNotificationOnly": false,
+      "scopes": [
+        "team",
+        "personal",
+        "groupchat"
+      ]
+    }
+  ],
   "composeExtensions": [
     {
       "botId": "<<YOUR-MICROSOFT-APP-ID>>",
@@ -30,7 +42,9 @@
         {
           "id": "createCard",
           "type": "action",
-          "context": [ "compose" ],
+          "context": [
+            "compose"
+          ],
           "description": "Command to run action to create a Card from Compose Box",
           "title": "Create Card",
           "parameters": [
@@ -57,7 +71,9 @@
         {
           "id": "shareMessage",
           "type": "action",
-          "context": [ "message" ],
+          "context": [
+            "message"
+          ],
           "description": "Test command to run action on message context (message sharing)",
           "title": "Share Message",
           "parameters": [
@@ -67,6 +83,36 @@
               "description": "Include image in Hero Card",
               "inputType": "toggle"
             }
+          ]
+        },
+        {
+          "id": "FetchRoster",
+          "description": "Fetch the conversation roster",
+          "title": "FetchRoster",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "webView",
+          "description": "Fetch the Web View",
+          "title": "Web View",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
+          ]
+        },
+        {
+          "id": "Static HTML",
+          "description": "Fetch the Static HTML",
+          "title": "Static HTML",
+          "type": "action",
+          "fetchTask": true,
+          "context": [
+            "compose"
           ]
         }
       ]

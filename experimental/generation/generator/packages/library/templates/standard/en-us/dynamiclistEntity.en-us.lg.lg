@@ -1,0 +1,25 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${entityLGFilename()}
+
+# template
+-```
+${formImport('form.en-us.lg')}
+${formImport('form-Choose.en-us.lg')}
+${propertyEntityValue()}
+${chooseEntity()}
+```
+
+# chooseEntity
+- ${activityTemplate(
+    `${entity}_chooseEntity`, [], 
+    `Choose between '${entity}' values`,
+    '${chooseEnumEntity()}')}
+    
+# propertyEntityValue
+-```
+# ${entity}_Value(entity) 
+> Display value for '${entity}'
+- \${value(entity.value)}
+```

@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "format": "date",
+    "$generator": {
+        "title": "Date",
+        "description": "Map entities like '2020/7/3' into date format YYYY-MM-DD like 2020-07-03.",
+        "$comment": "TODO: We need to convert to YYYY-MM-DD https://tools.ietf.org/html/rfc3339#appendix-A",
+        "$ref": "common.json"
+    }
+}

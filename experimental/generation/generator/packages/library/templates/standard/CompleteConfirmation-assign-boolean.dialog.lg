@@ -1,0 +1,41 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('CompleteConfirmation-assign-boolean.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Set()",
+    "property": "CompleteConfirmation",
+    "value": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$CompleteConfirmation",
+            "value": "=@boolean"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$CompleteConfirmation == 'false'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ],
+            "elseActions":[
+                {
+                    "$kind": "Microsoft.Ask",
+                    "activity": "\${choosePropertyPrompt()}",
+                    "expectedProperties": [
+                        "PropertyToChange"
+                    ]
+                }
+            ]
+        }
+    ]
+    ${designerOpEntityProperty('Set', 'boolean', 'CompleteConfirmation')}
+}
+```

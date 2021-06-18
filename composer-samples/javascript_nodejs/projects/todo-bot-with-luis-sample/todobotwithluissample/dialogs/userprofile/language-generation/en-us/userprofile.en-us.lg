@@ -1,0 +1,33 @@
+[import](common.lg)
+
+# TextInput_Prompt_267073()
+- Hi, what is your name? You can  \n - state your name \n - say things like 'my name is <your name>' \n - ask 'why do you need my name' \n - say 'I'm not going to give you my name'. 
+
+# SendActivity_744717()
+- Thanks. I have ${user.name} as your name and ${user.age} as your age.
+
+# TextInput_Prompt_826115()
+- Hello ${user.name}, how old are you?
+
+# TextInput_InvalidPrompt_826115()
+- Sorry ${this.value} does not work. I'm expecting a value between 1-150. What is your age?
+
+# TextInput_DefaultValueResponse_826115()
+- Sorry, this is not working :(. For now, I'm going to set your age to 30.
+
+# SendActivity_210613()
+- Sure, cancelling user profile...
+
+# SendActivity_351007()
+- I need your name to address you correctly! \n You can say things like 'My name is <your name>' to introduce yourself to me.
+
+# SendActivity_977137()
+- I just like to know your age .. no good reason! \n Try saying "I'm <your age> years old"
+
+# SendActivity_304840()
+- No worries. I'm going to set your name to 'Human'. \n You can say "My name is <your name>" to re-introduce yourself to me.
+
+# SendActivity_991655()
+- No worries. I'm just going to assume you are 30!
+
+

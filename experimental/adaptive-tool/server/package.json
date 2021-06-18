@@ -12,8 +12,8 @@
 		"url": "https://github.com/Microsoft/BotBuilder-Samples"
 	},
 	"dependencies": {
-		"@microsoft/bf-lu": "4.11.1",
-		"botbuilder-lg": "~4.11.0",
+		"@microsoft/bf-lu": "~4.13.0",
+		"botbuilder-lg": "~4.13.4",
 		"vscode-languageserver": "6.1.1",
 		"vscode-languageserver-protocol": "3.15.3",
 		"vscode-languageserver-textdocument": "1.0.1",

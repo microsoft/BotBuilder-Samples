@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30503.244
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomTrigger", "CustomTrigger\CustomTrigger.csproj", "{9844B8B2-599C-4EBD-B8CB-8DB2578EE3DD}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MemberUpdates", "MemberUpdates\MemberUpdates.csproj", "{2B4ED045-D115-4E4C-A9A0-6B6903B6BB53}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9844B8B2-599C-4EBD-B8CB-8DB2578EE3DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9844B8B2-599C-4EBD-B8CB-8DB2578EE3DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9844B8B2-599C-4EBD-B8CB-8DB2578EE3DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9844B8B2-599C-4EBD-B8CB-8DB2578EE3DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4ED045-D115-4E4C-A9A0-6B6903B6BB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4ED045-D115-4E4C-A9A0-6B6903B6BB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4ED045-D115-4E4C-A9A0-6B6903B6BB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4ED045-D115-4E4C-A9A0-6B6903B6BB53}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5164629E-4375-47ED-A34B-DA64E76C9C09}
+	EndGlobalSection
+EndGlobal

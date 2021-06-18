@@ -4,4 +4,4 @@
 - ${['number']}
 
 # templates
-- ${standardTemplates()}
+- ${numericTemplates()}
