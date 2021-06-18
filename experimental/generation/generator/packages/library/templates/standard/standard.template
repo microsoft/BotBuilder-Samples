@@ -11,10 +11,10 @@
             "$templates": [
                 "genericEntity.lg",
                 "genericEntity.lu",
-                "CancelConfirmation-assign-boolean.dialog"
+                "form-CancelConfirmation-assign-boolean.dialog"
             ]
         },
-        "CompleteConfirmation": {
+        "PropertyToChange": {
             "type": "string",
             "$entities": [
                 "boolean",
@@ -23,18 +23,8 @@
             "$templates": [
                 "genericEntity.lg",
                 "genericEntity.lu",
-                "form-CompleteConfirmation.dialog",
-                "CompleteConfirmation-assign-boolean.dialog",
-                "CompleteConfirmation-assign-PROPERTYName.dialog"
-            ]
-        },
-        "PropertyToChange": {
-            "type": "string",
-            "$entities": [
-                "${foreach(properties, property, `${property}Property`)}"
-            ],
-            "$templates": [
-                "PropertyToChange-assign-PROPERTYName.dialog"
+                "form-PropertyToChange-prompt.dialog",
+                "form-PropertyToChange-assign.dialog"
             ]
         }
     },

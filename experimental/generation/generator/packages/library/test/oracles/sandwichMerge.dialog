@@ -1306,63 +1306,58 @@
           "$kind": "Microsoft.Ask",
           "activity": "${changePropertyPrompt()}",
           "expectedProperties": [
-            "CompleteConfirmation"
+            "PropertyToChange"
           ]
         }
       ],
       "$designer": {
         "name": "Form Confirmation Prompt"
       },
-      "$source": "sandwichMerge-form-CompleteConfirmation",
-      "$Generator": "055764d057a7e3fc64289862bbe3720d"
+      "$source": "sandwichMerge-form-PropertyToChange-prompt",
+      "$Generator": "968c0d30e2cead011c1ae17c76159a76"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
-      "property": "CompleteConfirmation",
-      "value": "boolean",
+      "property": "PropertyToChange",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "@boolean == 'false'",
+          "condition": "turn.dialogEvent.value.value.name == 'boolean'",
           "actions": [
             {
-              "$kind": "Microsoft.EndDialog"
+              "$kind": "Microsoft.IfCondition",
+              "condition": "@boolean == 'false'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.Ask",
+                  "activity": "${choosePropertyPrompt()}",
+                  "expectedProperties": [
+                    "PropertyToChange"
+                  ]
+                }
+              ]
             }
           ],
           "elseActions": [
             {
-              "$kind": "Microsoft.Ask",
-              "activity": "${choosePropertyPrompt()}",
-              "expectedProperties": [
-                "PropertyToChange"
-              ]
+              "$kind": "Microsoft.SetProperty",
+              "property": "$PropertyToChange",
+              "value": "=turn.dialogEvent.value.value.name"
             }
           ]
         }
       ],
       "$designer": {
-        "name": "Property to Change Prompt"
+        "name": "Finish or Property to Change"
       },
-      "$source": "sandwichMerge-form-CompleteConfirmation-assign-boolean",
-      "$Generator": "a85b6e2cb1c4431859cbc3667c884aa3"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "CompleteConfirmation",
-      "actions": [
-        {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$PropertyToChange",
-          "value": "=turn.dialogEvent.value.value.name"
-        }
-      ],
-      "$designer": {
-        "name": "CompleteConfirmation - Set @PROPERTYName"
-      },
-      "$source": "sandwichMerge-form-CompleteConfirmation-assign-PROPERTYName",
-      "$Generator": "4d44f05aafe42a916f57b2a0041cd63b"
+      "$source": "sandwichMerge-form-PropertyToChange-assign",
+      "$Generator": "13c449885a4933b0eecc994c7db93cbe"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -1575,5 +1570,5 @@
   "$designer": {
     "name": "sandwichMerge main dialog"
   },
-  "$Generator": "33b0ab41c1bf339d4e53f64fefd8a5e0"
+  "$Generator": "a60a9fde0e7df564f652bff4b12bb8b3"
 }

@@ -610,63 +610,58 @@
           "$kind": "Microsoft.Ask",
           "activity": "${changePropertyPrompt()}",
           "expectedProperties": [
-            "CompleteConfirmation"
+            "PropertyToChange"
           ]
         }
       ],
       "$designer": {
         "name": "Form Confirmation Prompt"
       },
-      "$source": "unittest_transforms-form-CompleteConfirmation",
-      "$Generator": "e3f6f706cd9f4e6e56b56258837880f3"
+      "$source": "unittest_transforms-form-PropertyToChange-prompt",
+      "$Generator": "bc3cc54d582b6f6094b3d9c19c4e4eaf"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
-      "property": "CompleteConfirmation",
-      "value": "boolean",
+      "property": "PropertyToChange",
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "@boolean == 'false'",
+          "condition": "turn.dialogEvent.value.value.name == 'boolean'",
           "actions": [
             {
-              "$kind": "Microsoft.EndDialog"
+              "$kind": "Microsoft.IfCondition",
+              "condition": "@boolean == 'false'",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EndDialog"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.Ask",
+                  "activity": "${choosePropertyPrompt()}",
+                  "expectedProperties": [
+                    "PropertyToChange"
+                  ]
+                }
+              ]
             }
           ],
           "elseActions": [
             {
-              "$kind": "Microsoft.Ask",
-              "activity": "${choosePropertyPrompt()}",
-              "expectedProperties": [
-                "PropertyToChange"
-              ]
+              "$kind": "Microsoft.SetProperty",
+              "property": "$PropertyToChange",
+              "value": "=turn.dialogEvent.value.value.name"
             }
           ]
         }
       ],
       "$designer": {
-        "name": "Property to Change Prompt"
+        "name": "Finish or Property to Change"
       },
-      "$source": "unittest_transforms-form-CompleteConfirmation-assign-boolean",
-      "$Generator": "65b3643917735a4121fe2a85d6e0c52c"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "CompleteConfirmation",
-      "actions": [
-        {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$PropertyToChange",
-          "value": "=turn.dialogEvent.value.value.name"
-        }
-      ],
-      "$designer": {
-        "name": "CompleteConfirmation - Set @PROPERTYName"
-      },
-      "$source": "unittest_transforms-form-CompleteConfirmation-assign-PROPERTYName",
-      "$Generator": "6d2973542f333b2a6d9286d005054023"
+      "$source": "unittest_transforms-form-PropertyToChange-assign",
+      "$Generator": "be77100d4df2a30cd55686089704325a"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -879,5 +874,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "6ec744fa2b4659bde3e6d81f0da3c29e"
+  "$Generator": "0a6a2a9262d1c6fa86082b457a7de05e"
 }
