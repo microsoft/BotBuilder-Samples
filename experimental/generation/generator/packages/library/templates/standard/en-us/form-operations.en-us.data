@@ -17,9 +17,9 @@
 - {@Assign()=set ${value}}
 - {@Assign()={@${property}=${name} is ${uniqueOrValue}}}
 - {@Assign()={@${property}=${name} of ${uniqueOrValue}}}
+- {@Assign()={@${property}=${name} are ${uniqueOrValue}}}
 
 > ${isArray?}Assign() examples with multiple ${entity}
-- {@Assign()={@${property}=${name} are ${uniqueOrValue}}}
 - {@Assign()=add {@${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
 - {@Assign()=set {@${property}=${unique} and ${unique}}
 - {@Assign()=with ${value} and ${value}}

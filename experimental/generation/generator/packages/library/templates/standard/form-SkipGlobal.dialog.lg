@@ -23,7 +23,7 @@
             "elseActions": [
                 {
                     "$kind": "Microsoft.IfCondition",
-                    "condition": "$PropertyToChange",
+                    "condition": "=$PropertyToChange",
                     "actions": [
                         {
                             "$kind": "Microsoft.DeleteProperty",
