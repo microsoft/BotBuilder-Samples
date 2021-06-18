@@ -15,6 +15,20 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class CardBot : ActivityHandler
     {
+        protected override Task OnConversationUpdateActivityAsync(ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            turnContext.SendActivityAsync(MessageFactory.Attachment(new CardResource(Path.Combine(".", "Cards", "CardOne.json")).AsAttachment()));
+
+            return Task.CompletedTask;
+        }
+
+        protected override Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            turnContext.SendActivityAsync(MessageFactory.Attachment(new CardResource(Path.Combine(".", "Cards", "CardOne.json")).AsAttachment()));
+
+            return Task.CompletedTask;
+        }
+
         protected override async Task<AdaptiveCardInvokeResponse> OnAdaptiveCardInvokeAsync(ITurnContext<IInvokeActivity> turnContext, AdaptiveCardInvokeValue invokeValue, CancellationToken cancellationToken)
         {
             try
