@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.11.1" />
-    <PackageReference Include="Microsoft.Bot.Connector" Version="4.11.1" />
-    <PackageReference Include="Microsoft.Bot.Schema" Version="4.11.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.13.3" />
+    <PackageReference Include="Microsoft.Bot.Connector" Version="4.13.3" />
+    <PackageReference Include="Microsoft.Bot.Schema" Version="4.13.3" />
   </ItemGroup>
 
 </Project>

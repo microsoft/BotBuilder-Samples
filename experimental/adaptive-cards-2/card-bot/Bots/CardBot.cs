@@ -15,36 +15,27 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class CardBot : ActivityHandler
     {
-        protected override async Task<InvokeResponse> OnInvokeActivityAsync(ITurnContext<IInvokeActivity> turnContext, CancellationToken cancellationToken)
+        protected override async Task<AdaptiveCardInvokeResponse> OnAdaptiveCardInvokeAsync(ITurnContext<IInvokeActivity> turnContext, AdaptiveCardInvokeValue invokeValue, CancellationToken cancellationToken)
         {
-            if (AdaptiveCardInvokeValidator.IsAdaptiveCardAction(turnContext))
+            try
             {
-                try
+                if (invokeValue.Action.Verb == "click")
                 {
-                    AdaptiveCardInvoke request = AdaptiveCardInvokeValidator.ValidateRequest(turnContext);
-
-                    if (request.Action.Verb == "click")
-                    {
-                        var responseBody = await ProcessClick();
-                        return CreateInvokeResponse(HttpStatusCode.OK, responseBody);
-                    }
-                    else if (request.Action.Verb == "back")
-                    {
-                        var responseBody = await ProcessBack();
-                        return CreateInvokeResponse(HttpStatusCode.OK, responseBody);
-                    }
-                    else
-                    {
-                        AdaptiveCardActionException.VerbNotSupported(request.Action.Type);
-                    }
+                    return await ProcessClick();
                 }
-                catch (AdaptiveCardActionException e)
+                else if (invokeValue.Action.Verb == "back")
                 {
-                    return CreateInvokeResponse(HttpStatusCode.OK, e.Response);
+                    return await ProcessBack();
+                }
+                else
+                {
+                    throw new InvokeResponseException(HttpStatusCode.NotImplemented);
                 }
             }
-
-            return null;
+            catch (AdaptiveCardActionException e)
+            {
+                throw new InvokeResponseException(HttpStatusCode.NotImplemented, e.Response);
+            }
         }
 
         private Task<AdaptiveCardInvokeResponse> ProcessClick()
