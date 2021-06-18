@@ -1,0 +1,218 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "UserProfile",
+    "id": "732608"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "479346"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "267073",
+            "name": "AskForName"
+          },
+          "prompt": "${TextInput_Prompt_267073()}",
+          "maxTurnCount": "3",
+          "property": "user.name",
+          "value": "=coalesce(@userName, @personName)",
+          "alwaysPrompt": "false",
+          "allowInterruptions": "!@userName && !@personName"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "id": "826115",
+            "name": "Number input"
+          },
+          "prompt": "${TextInput_Prompt_826115()}",
+          "invalidPrompt": "${TextInput_InvalidPrompt_826115()}",
+          "maxTurnCount": "3",
+          "validations": [
+            "int(this.value) >= 1",
+            "int(this.value) <= 150"
+          ],
+          "property": "user.age",
+          "defaultValue": "30",
+          "value": "=coalesce(@userAge, @age, @number)",
+          "alwaysPrompt": "true",
+          "allowInterruptions": "!@userAge && !@age && !@number",
+          "defaultLocale": "en-us",
+          "defaultValueResponse": "${TextInput_DefaultValueResponse_826115()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "744717",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_744717()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "993953"
+      },
+      "intent": "Cancel",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "210613",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_210613()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "632724",
+            "name": "End this dialog"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "660586"
+      },
+      "intent": "Why",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "796427",
+            "name": "Branch: if/else"
+          },
+          "condition": "user.name == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "351007",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_351007()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "090448",
+                "name": "Branch: if/else"
+              },
+              "condition": "user.age == null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "977137",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_977137()}"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "957864",
+            "name": "Set a property"
+          },
+          "property": "turn.interrupted",
+          "value": "=true"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "887328"
+      },
+      "intent": "NoValue",
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "914072",
+            "name": "Branch: if/else"
+          },
+          "condition": "user.name == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "304840",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_304840()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "023051",
+                "name": "Set a property"
+              },
+              "property": "user.name",
+              "value": "Human"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "524800",
+                "name": "Branch: if/else"
+              },
+              "condition": "user.age == null",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "991655",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_991655()}"
+                },
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "874049",
+                    "name": "Set a property"
+                  },
+                  "property": "user.age",
+                  "value": "30"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "376791",
+            "name": "Set a property"
+          },
+          "property": "turn.interrupted",
+          "value": "=true"
+        }
+      ]
+    }
+  ],
+  "generator": "userprofile.lg",
+  "recognizer": "userprofile.lu"
+}

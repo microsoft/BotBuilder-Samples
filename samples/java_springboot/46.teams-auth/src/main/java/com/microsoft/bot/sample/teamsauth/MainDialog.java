@@ -58,6 +58,7 @@ import org.apache.commons.lang3.StringUtils;
         // token directly from the prompt itself. There instanceof an example of this in the next method.
         TokenResponse tokenResponse = (TokenResponse)stepContext.getResult();
         if (tokenResponse != null && tokenResponse.getToken() != null) {
+            // Pull in the data from the Microsoft Graph.
             SimpleGraphClient client = new SimpleGraphClient(tokenResponse.getToken());
             User me = client.getMe();
             String title = !StringUtils.isEmpty(me.jobTitle) ? me.jobTitle :  "Unknown";
@@ -99,7 +100,7 @@ import org.apache.commons.lang3.StringUtils;
         TokenResponse tokenResponse = (TokenResponse)stepContext.getResult();
         if (tokenResponse != null) {
              stepContext.getContext().sendActivity(MessageFactory.text(
-                 String.format("Here instanceof your token %s", tokenResponse.getToken()
+                 String.format("Here is your token %s", tokenResponse.getToken()
                  )));
         }
 

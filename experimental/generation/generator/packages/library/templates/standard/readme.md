@@ -6,7 +6,7 @@ Current functionality includes:
 
 - Generating .lg, .lu and .dialog files that robustly handle out of order and
   multiple responses for simple and array properties.
-- Add, remove, clear and show for properties.
+- Assign, remove, clear and show for properties.
 - Support for choosing between ambiguous entity values and entity property mappings.
 - Recognizing and mapping all LUIS prebuilt entities.
 - Help including auto-help on multiple retries.
@@ -35,7 +35,7 @@ For each entity there is usually:
 - `$entity$Entity.lg.lg` -- Define the .lg resources for showing an `$entity$` value.
 - `$entity$Entity.lu.lg` -- Define the .lu resources need for recognizing an `$entity$` value and its property.
 - `$entity$Entity-$type$.lg` -- Define the templates needed for mapping `$entity$` to a property of $type$.
-- `$entity$Entity-add-$type$.dialog.lg` -- Define how to add an `$entity$` to a property of $type$.
+- `$entity$Entity-assign-$type$.dialog.lg` -- Define how to add an `$entity$` to a property of $type$.
 - `$entity$Entity-remove-$type$.dialog.lg` -- Define how to remove an `$entity$` from a property of `$type$`.
 
 In addition to property and entity templates there are also schema files like [standard.template](standard.template) or [age.template](age.template) that can be explicitly included into your form in order to bring in more advanced functionality.

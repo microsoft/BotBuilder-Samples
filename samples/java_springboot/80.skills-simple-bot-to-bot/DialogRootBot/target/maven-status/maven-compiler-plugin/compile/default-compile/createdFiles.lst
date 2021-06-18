@@ -1,8 +1,0 @@
-com\microsoft\bot\sample\simplerootbot\SkillAdapterWithErrorHandler$1.class
-com\microsoft\bot\sample\simplerootbot\Application.class
-com\microsoft\bot\sample\simplerootbot\RootBot.class
-com\microsoft\bot\sample\simplerootbot\controller\SkillController.class
-com\microsoft\bot\sample\simplerootbot\SkillsConfiguration.class
-com\microsoft\bot\sample\simplerootbot\SkillAdapterWithErrorHandler.class
-com\microsoft\bot\sample\simplerootbot\authentication\AllowedSkillsClaimsValidator.class
-com\microsoft\bot\sample\simplerootbot\SkillAdapterWithErrorHandler$SkillAdapterErrorHandler.class

@@ -26,6 +26,12 @@
 >> OnChooseProperty
 
 # chooseProperties
+> Choose properties activity
+[Activity
+    Text = ${chooseProperties_text()}
+]
+
+# chooseProperties_text
 > Choose between different properties
 - Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
 

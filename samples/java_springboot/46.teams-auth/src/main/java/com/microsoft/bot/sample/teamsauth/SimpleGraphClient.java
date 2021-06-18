@@ -12,16 +12,23 @@ import com.microsoft.graph.options.QueryOption;
 import com.microsoft.graph.requests.extensions.GraphServiceClient;
 import com.microsoft.graph.models.extensions.IGraphServiceClient;
 import com.microsoft.graph.requests.extensions.IMessageCollectionPage;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.LinkedList;
 import java.util.List;
 
+// This class is a wrapper for the Microsoft Graph API
+// See: https://developer.microsoft.com/en-us/graph
 public class SimpleGraphClient {
-    private String token;
+    private final String token;
     public SimpleGraphClient(String token) {
+        if (StringUtils.isBlank(token)) {
+            throw new IllegalArgumentException("token can't be null or empty");
+        }
         this.token = token;
     }
 
+    // Get information about the user.
     public User getMe() {
         IGraphServiceClient client = getAuthenticatedClient();
         final List<Option> options = new LinkedList<Option>();
@@ -29,6 +36,7 @@ public class SimpleGraphClient {
         return user;
     }
 
+    // Get an Authenticated Microsoft Graph client using the token issued to the user.
     private IGraphServiceClient getAuthenticatedClient() {
         // Create default logger to only log errors
         DefaultLogger logger = new DefaultLogger();

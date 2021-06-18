@@ -40,7 +40,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |7|Adaptive cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[.NET&nbsp;Core][cs#7] |[JavaScript][js#7] |[Python][py#7]|[Java][java#7]
 |8|Suggested actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[.NET&nbsp;Core][cs#8] |[JavaScript][js#8] |[Python][py#8]|[Java][java#8]
 |13|Core bot            | Core bot shows how to use cards, dialog, and Language Understanding (LUIS).                         |[.NET&nbsp;Core][cs#13], [.NET&nbsp;Web][wa#13]|[JavaScript][js#13], [TypeScript][ts#13]|[Python][py#13]|[Java][java#13]
-|14|NLP with Dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[.NET&nbsp;Core][cs#14]|[JavaScript][js#14]|[Python][py#14]|[Java][java#14]
+|14|NLP with dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[.NET&nbsp;Core][cs#14]|[JavaScript][js#14]|[Python][py#14]|[Java][java#14]
 |15|Handling&nbsp;attachments| Demonstrates how to listen for/handle user provided attachments.                |[.NET&nbsp;Core][cs#15]|[JavaScript][js#15]|[Python][py#15]|[Java][java#15]
 |40|TIMEX resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[.NET&nbsp;Core][cs#40] |[JavaScript][js#40]|[Python][py#40]|[Java][java#40]
 |43|Complex dialogs      | Demonstrates different ways for composing dialogs. |[.NET&nbsp;Core][cs#43]|[JavaScript][js#43] |[Python][py#43]|[Java][java#43]
@@ -124,7 +124,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#12]:samples/csharp_dotnetcore/11a.qnamaker
 [cs#13]:samples/csharp_dotnetcore/13.core-bot
 [cs#13.b]:samples/csharp_dotnetcore/13.core-bot.tests
-[cs#14]:samples/csharp_dotnetcore/14.nlp-with-dispatch
+[cs#14]:samples/csharp_dotnetcore/14.nlp-with-orchestrator
 [cs#15]:samples/csharp_dotnetcore/15.handling-attachments
 [cs#16]:samples/csharp_dotnetcore/16.proactive-messages
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
@@ -184,7 +184,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#11]:samples/javascript_nodejs/11.qnamaker
 [js#12]:samples/javascript_nodejs/11a.qnamaker
 [js#13]:samples/javascript_nodejs/13.core-bot
-[js#14]:samples/javascript_nodejs/14.nlp-with-dispatch
+[js#14]:samples/javascript_nodejs/14.nlp-with-orchestrator
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
 [js#17]:samples/javascript_nodejs/17.multilingual-bot

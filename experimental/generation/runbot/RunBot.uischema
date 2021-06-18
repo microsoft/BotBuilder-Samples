@@ -24,27 +24,6 @@
     }
   },
   "Microsoft.Ask": {
-    "flow": {
-      "body": {
-        "field": "activity",
-        "widget": "LgWidget"
-      },
-      "footer": {
-        "description": "= Default operation",
-        "property": "=action.defaultOperation",
-        "widget": "PropertyDescription"
-      },
-      "header": {
-        "colors": {
-          "icon": "#5C2E91",
-          "theme": "#EEEAF4"
-        },
-        "icon": "MessageBot",
-        "widget": "ActionHeader"
-      },
-      "hideFooter": "=!action.defaultOperation",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-send-activity",
       "label": "Send a response to ask a question",
@@ -56,40 +35,6 @@
     }
   },
   "Microsoft.AttachmentInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt for a file or an attachment",
@@ -104,19 +49,6 @@
     }
   },
   "Microsoft.BeginDialog": {
-    "flow": {
-      "body": {
-        "dialog": "=action.dialog",
-        "widget": "DialogRef"
-      },
-      "footer": {
-        "description": "= Return value",
-        "property": "=action.resultProperty",
-        "widget": "PropertyDescription"
-      },
-      "hideFooter": "=!action.resultProperty",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-understanding-dialogs",
       "label": "Begin a new dialog",
@@ -137,27 +69,6 @@
     }
   },
   "Microsoft.BeginSkill": {
-    "flow": {
-      "body": {
-        "operation": "Host",
-        "resource": "=coalesce(action.skillEndpoint, \"?\")",
-        "singleline": true,
-        "widget": "ResourceOperation"
-      },
-      "colors": {
-        "color": "#FFFFFF",
-        "icon": "#FFFFFF",
-        "theme": "#004578"
-      },
-      "footer": {
-        "description": "= Result",
-        "property": "=action.resultProperty",
-        "widget": "PropertyDescription"
-      },
-      "hideFooter": "=!action.resultProperty",
-      "icon": "Library",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bf-composer-docs-connect-skill",
       "label": "Connect to a skill",
@@ -178,14 +89,6 @@
     }
   },
   "Microsoft.CancelAllDialogs": {
-    "flow": {
-      "body": {
-        "description": "(Event)",
-        "property": "=coalesce(action.eventName, \"?\")",
-        "widget": "PropertyDescription"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-understanding-dialogs",
       "label": "Cancel all active dialogs",
@@ -193,40 +96,6 @@
     }
   },
   "Microsoft.ChoiceInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt with multi-choice",
@@ -241,40 +110,6 @@
     }
   },
   "Microsoft.ConfirmInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt for confirmation",
@@ -295,40 +130,6 @@
     }
   },
   "Microsoft.DateTimeInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt for a date or a time",
@@ -348,13 +149,6 @@
     }
   },
   "Microsoft.DeleteProperties": {
-    "flow": {
-      "body": {
-        "items": "=action.properties",
-        "widget": "ListOverview"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-memory",
       "label": "Delete properties",
@@ -369,10 +163,6 @@
     }
   },
   "Microsoft.DeleteProperty": {
-    "flow": {
-      "body": "=action.property",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-memory",
       "label": "Delete a property",
@@ -387,30 +177,12 @@
     }
   },
   "Microsoft.EditActions": {
-    "flow": {
-      "body": "=action.changeType",
-      "widget": "ActionCard"
-    },
     "form": {
       "label": "Modify active dialog",
       "subtitle": "Edit Actions"
     }
   },
   "Microsoft.EditArray": {
-    "flow": {
-      "body": {
-        "operation": "=coalesce(action.changeType, \"?\")",
-        "resource": "=coalesce(action.itemsProperty, \"?\")",
-        "widget": "ResourceOperation"
-      },
-      "footer": {
-        "description": "= Result",
-        "property": "=action.resultProperty",
-        "widget": "PropertyDescription"
-      },
-      "hideFooter": "=!action.resultProperty",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-memory",
       "label": "Edit an array property",
@@ -430,14 +202,6 @@
     }
   },
   "Microsoft.EmitEvent": {
-    "flow": {
-      "body": {
-        "description": "(Event)",
-        "property": "=coalesce(action.eventName, \"?\")",
-        "widget": "PropertyDescription"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-custom-events",
       "label": "Emit a custom event",
@@ -459,14 +223,6 @@
     }
   },
   "Microsoft.Foreach": {
-    "flow": {
-      "loop": {
-        "body": "=concat(\"Each value in \", coalesce(action.itemsProperty, \"?\"))",
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "widget": "ForeachWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
       "hidden": [
@@ -498,14 +254,6 @@
     }
   },
   "Microsoft.ForeachPage": {
-    "flow": {
-      "loop": {
-        "body": "=concat(\"Each page of \", coalesce(action.pageSize, \"?\"), \" in \", coalesce(action.page, \"?\"))",
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "widget": "ForeachWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
       "hidden": [
@@ -537,47 +285,7 @@
       "subtitle": "For Each Page"
     }
   },
-  "Microsoft.GetActivityMembers": {
-    "flow": {
-      "body": {
-        "description": "= ActivityId",
-        "property": "=coalesce(action.activityId, \"?\")",
-        "widget": "PropertyDescription"
-      },
-      "footer": {
-        "description": "= Result property",
-        "property": "=coalesce(action.property, \"?\")",
-        "widget": "PropertyDescription"
-      },
-      "widget": "ActionCard"
-    }
-  },
-  "Microsoft.GetConversationMembers": {
-    "flow": {
-      "footer": {
-        "description": "= Result property",
-        "property": "=action.property",
-        "widget": "PropertyDescription"
-      },
-      "widget": "ActionCard"
-    }
-  },
   "Microsoft.HttpRequest": {
-    "flow": {
-      "body": {
-        "operation": "=action.method",
-        "resource": "=action.url",
-        "singleline": true,
-        "widget": "ResourceOperation"
-      },
-      "footer": {
-        "description": "= Result property",
-        "property": "=action.resultProperty",
-        "widget": "PropertyDescription"
-      },
-      "hideFooter": "=!action.resultProperty",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-http",
       "label": "Send an HTTP request",
@@ -599,14 +307,6 @@
     }
   },
   "Microsoft.IfCondition": {
-    "flow": {
-      "judgement": {
-        "body": "=coalesce(action.condition, \"<condition>\")",
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "widget": "IfConditionWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
       "hidden": [
@@ -625,40 +325,6 @@
     }
   },
   "Microsoft.NumberInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt for a number",
@@ -673,21 +339,6 @@
     }
   },
   "Microsoft.OAuthInput": {
-    "flow": {
-      "body": {
-        "operation": "Connection",
-        "resource": "=coalesce(action.connectionName, \"?\")",
-        "singleline": true,
-        "widget": "ResourceOperation"
-      },
-      "footer": {
-        "description": "= Token property",
-        "property": "=action.property",
-        "widget": "PropertyDescription"
-      },
-      "hideFooter": "=!action.property",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-oauth",
       "label": "OAuth login",
@@ -1010,12 +661,6 @@
       "subtitle": "Unknown intent recognized"
     }
   },
-  "Microsoft.QnAMakerDialog": {
-    "flow": {
-      "body": "=action.hostname",
-      "widget": "ActionCard"
-    }
-  },
   "Microsoft.RegexRecognizer": {
     "form": {
       "hidden": [
@@ -1035,13 +680,6 @@
     }
   },
   "Microsoft.ReplaceDialog": {
-    "flow": {
-      "body": {
-        "dialog": "=action.dialog",
-        "widget": "DialogRef"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-understanding-dialogs",
       "label": "Replace this dialog",
@@ -1054,21 +692,6 @@
     }
   },
   "Microsoft.SendActivity": {
-    "flow": {
-      "body": {
-        "field": "activity",
-        "widget": "LgWidget"
-      },
-      "header": {
-        "colors": {
-          "icon": "#5C2E91",
-          "theme": "#EEEAF4"
-        },
-        "icon": "MessageBot",
-        "widget": "ActionHeader"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-send-activity",
       "label": "Send a response",
@@ -1079,21 +702,7 @@
       "subtitle": "Send Activity"
     }
   },
-  "Microsoft.SendHandoffActivity": {
-    "form": {
-      "helpLink": "https://aka.ms/bfc-send-handoff-activity",
-      "label": "Send a handoff request",
-      "subtitle": "Send Handoff Activity"
-    }
-  },
   "Microsoft.SetProperties": {
-    "flow": {
-      "body": {
-        "items": "=foreach(action.assignments, x => concat(coalesce(x.property, \"?\"), \" : \", coalesce(x.value, \"?\")))",
-        "widget": "ListOverview"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-memory",
       "label": "Set properties",
@@ -1112,10 +721,6 @@
     }
   },
   "Microsoft.SetProperty": {
-    "flow": {
-      "body": "${coalesce(action.property, \"?\")} : ${coalesce(action.value, \"?\")}",
-      "widget": "ActionCard"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-using-memory",
       "label": "Set a property",
@@ -1136,14 +741,6 @@
     }
   },
   "Microsoft.SwitchCondition": {
-    "flow": {
-      "judgement": {
-        "body": "=coalesce(action.condition, \"<condition>\")",
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "widget": "SwitchConditionWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-controlling-conversation-flow",
       "hidden": [
@@ -1166,40 +763,6 @@
     }
   },
   "Microsoft.TextInput": {
-    "flow": {
-      "body": "=action.prompt",
-      "botAsks": {
-        "body": {
-          "defaultContent": "<prompt>",
-          "field": "prompt",
-          "widget": "LgWidget"
-        },
-        "header": {
-          "colors": {
-            "icon": "#5C2E91",
-            "theme": "#EEEAF4"
-          },
-          "icon": "MessageBot",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "nowrap": true,
-      "userInput": {
-        "header": {
-          "colors": {
-            "icon": "#0078D4",
-            "theme": "#E5F0FF"
-          },
-          "disableSDKTitle": true,
-          "icon": "User",
-          "menu": "none",
-          "widget": "ActionHeader"
-        },
-        "widget": "ActionCard"
-      },
-      "widget": "PromptWidget"
-    },
     "form": {
       "helpLink": "https://aka.ms/bfc-ask-for-user-input",
       "label": "Prompt for text",
@@ -1214,14 +777,6 @@
     }
   },
   "Microsoft.ThrowException": {
-    "flow": {
-      "body": {
-        "description": "= ErrorValue",
-        "property": "=coalesce(action.errorValue, \"?\")",
-        "widget": "PropertyDescription"
-      },
-      "widget": "ActionCard"
-    },
     "form": {
       "label": "Throw an exception",
       "subtitle": "Throw an exception"
@@ -1232,28 +787,6 @@
       "helpLink": "https://aka.ms/composer-telemetry",
       "label": "Emit a trace event",
       "subtitle": "Trace Activity"
-    }
-  },
-  "Microsoft.UpdateActivity": {
-    "flow": {
-      "body": {
-        "field": "activity",
-        "widget": "LgWidget"
-      },
-      "header": {
-        "colors": {
-          "icon": "#656565",
-          "theme": "#D7D7D7"
-        },
-        "icon": "MessageBot",
-        "title": "Update activity",
-        "widget": "ActionHeader"
-      },
-      "widget": "ActionCard"
-    },
-    "form": {
-      "label": "Update an activity",
-      "subtitle": "Update Activity"
     }
   }
 }

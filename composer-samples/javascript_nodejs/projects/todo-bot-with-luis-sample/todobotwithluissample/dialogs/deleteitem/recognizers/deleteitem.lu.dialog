@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_deleteitem",
+  "recognizers": {
+    "en-us": "deleteitem.en-us.lu",
+    "": "deleteitem.en-us.lu"
+  }
+}

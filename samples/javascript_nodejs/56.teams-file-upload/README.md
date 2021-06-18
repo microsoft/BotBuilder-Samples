@@ -2,8 +2,9 @@
 
 Bot Framework v4 file upload bot sample for Teams.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to
-upload files to Teams from a bot and how to receive a file sent to a bot as an attachment.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to -
+-   Upload files to Teams from a bot and how to receive a file sent to a bot as an attachment.
+-   How to automatically fetch and save an inline image sent to a bot as a message.
 
 ## Prerequisites
 
@@ -58,9 +59,15 @@ the Teams service needs to call into the bot.
 
 > Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
 
-Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
+1. Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
 
-You can also send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
+![image](https://user-images.githubusercontent.com/85108465/120271113-53cb1d00-c2c8-11eb-9465-b8b0122fdb0b.png)
+
+2. Sending an inline image from the message compose section to bot will cause the image to be downloaded in the `Files` directory and bot will send an prompt with the image details and image in a card. This will be present in the attachments of the Activity and requires the Bot's access token to fetch the image.
+
+![image](https://user-images.githubusercontent.com/85108465/120273432-1bc5d900-c2cc-11eb-9182-a1167c76228f.png)
+
+3. You can also send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
 
 ## Deploy the bot to Azure
 

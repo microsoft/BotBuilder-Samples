@@ -6,9 +6,20 @@
 # template
 -```
 > Add custom utterances
-> Required properties include: ${join(foreach(schema.required, property, property), ', ')}
-> Label with: Add(), Remove(), Help(), Clear(), Show() and Help()
+> Labels are nested choices of operator?(property*(value*)) where the labels are chosen from:
+> Operator: ${join(foreach(schema.$operations, operation, operation), ', ')}
+> Property(value): ${join(foreach(schema.$public, property, propertyDescription(property)), ', ')}
+> The span of each label should include the words that mean the corresponding operation/property/value.
+> All of the labels are optional and inside a parent label you can have 0 or more of the nested labels.
+> The labels should be defined around the words that tell you that the appropriate operator/property/value should be found there.
+> Label patterns below show valid patterns and use 'words*' to indicate zero or more words.
+> Single: {@OPERATOR=words*}, {@PROPERTY=words*}, {@VALUE=words*}
+> Nested: {@OPERATOR=words*{@PROPERTY=words*}words*} {@OPERATOR=words*{@VALUE=words*}words*}, {@PROPERTY=words*{@VALUE=words*}words*}
+> Triples: {@OPERATOR=words*{@PROPERTY=words*{@VALUE=words*}words*}words*}
+> You can also nest multiple PROPERTY or VALUE labels inside of an OPERATOR.
 ${'#'} ${prefix}
-> ADD YOUR LABELS HERE
-- ${prefix}
+- ADD YOUR LABELS HERE
 ```
+
+# propertyDescription(property)
+- ${property}(${join(foreach(schema.properties[property].$entities, value, value), ', ')})

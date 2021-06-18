@@ -1,6 +1,0 @@
-com\microsoft\bot\sample\qnamaker\all\features\Application.class
-com\microsoft\bot\sample\qnamaker\all\features\QnABot.class
-com\microsoft\bot\sample\qnamaker\all\features\RootDialog.class
-com\microsoft\bot\sample\qnamaker\all\features\QnAMakerBaseDialog.class
-com\microsoft\bot\sample\qnamaker\all\features\BotServices.class
-com\microsoft\bot\sample\qnamaker\all\features\BotServicesImpl.class

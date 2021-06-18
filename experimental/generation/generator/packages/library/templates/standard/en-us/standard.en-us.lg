@@ -93,7 +93,7 @@
 
 # unexpectedSetDefault()
 - IF: ${isArrayProperty(property)}
-    - Added ${propertyValue('newVal')} to ${propertyName()}
+    - Assigned ${propertyValue('newVal')} to ${propertyName()}
 - ELSE:
     - Set ${propertyName()} to ${propertyValue('newVal')}
 
@@ -140,9 +140,10 @@ ${valueTemplate()}
 
 # stringValidationTemplates()
 - IF: ${propertySchema.pattern}
-    -```# ${property}_NoPatternMatch(val)
-- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
-```
+    -${activityTemplate(
+        `${property}_NoPatternMatch`, ['val'],
+        `Does not match pattern for '${property}'`,
+        `${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}`)}
 - ELSE:
     -
 
@@ -226,24 +227,28 @@ ${valueTemplate()}
     - ${propertyName()} is ${definite(template)} ${numberRanges()}
 
 # validationTemplates()
-- ```${tooSmall()}
+- ```
+${tooSmall()}
+
 ${tooBig()}```
 
 # tooSmall()
 - IF: ${propertySchema.minimum}
-    -```
-# ${property}_TooSmall(val)
-> ${property} property is less than minimum allowed value
-- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
+    - ${activityTemplate(
+            `${property}_TooSmall`, ['val'],
+            `${property} property is less than minimum allowed value`,
+            `${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}`
+        )}
 - ELSE:
     - 
 
 # tooBig()
 - IF: ${propertySchema.maximum}
-    -```
-# ${property}_TooBig(val)
-> ${property} property is greater than maximum allowed value
-- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
+    - ${activityTemplate(
+            `${property}_TooBig`, ['val'],
+            `${property} property is greater than maximum allowed value`,
+            `${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}`
+        )}
 - ELSE:
     - 
 
@@ -259,10 +264,10 @@ ${tooBig()}```
 - ${formImport('form.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
 
 # dateFormatValidationMessage()
-- ```
-# ${property}_invalid${templateName(propertySchema.format)}(val)
-> Invalid ${propertySchema.format} for '${property}' property
-- \${value(val)} is not a ${propertySchema.format}```
+- ${activityTemplate(
+    `${property}_invalid${templateName(propertySchema.format)}`, ['val'],
+    `Invalid ${propertySchema.format} for '${property}' property`,
+    `\${value(val)} is not a ${propertySchema.format}`)}
 
 >> Generic templates
 

@@ -25,7 +25,7 @@ Root templates define a list of templates that need to be expanded.  These root 
 * **`<entity>Entity-<property>.lg`** defines the templates needed to map between `<entity>` and `<property>`.  Usually includes:
   * `<entity>Entity.lu` LU definitions for entity and property together.
   * `<entity>Entity.lg` LG definitions for entity.
-  * `<entity>Entity-add-<type>.dialog` dialog for adding entity to property.
+  * `<entity>Entity-assign-<type>.dialog` dialog for assigning entity to property.
   * `<entity>Entity-remove-<type>.dialog` dialog for removing entity from property.
 
 In addition to the property and entity templates there are also `form-` templates which are specific to the mechanisms that are generated. 

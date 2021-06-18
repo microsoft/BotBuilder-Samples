@@ -1,3 +1,5 @@
-# SimpleRootBot
+# DialogRootBot
 
-See [81.skills-skilldialog](../Readme.md) for details on how to configure and run this sample.
+This is a sample root bot that uses SkillDialog to interact with a skill.
+
+See [SkillDialog](../) for details on how to configure and run this sample.

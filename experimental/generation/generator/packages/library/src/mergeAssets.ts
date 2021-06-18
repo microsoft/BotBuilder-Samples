@@ -6,7 +6,7 @@
 import * as fs from 'fs-extra';
 import * as ppath from 'path';
 import * as os from 'os';
-import {assetDirectory, Feedback, FeedbackType, getHashCode, isUnchanged, writeFile, stringify} from './dialogGenerator'
+import {assetDirectory, computeJSONHash, Feedback, FeedbackType, getHashCode, isUnchanged, writeFile, stringify} from './dialogGenerator'
 
 const {Templates, SwitchCaseBodyContext} = require('botbuilder-lg');
 const LUParser = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
@@ -15,14 +15,21 @@ const lusectiontypes = require('@microsoft/bf-lu/lib/parser/utils/enums/lusectio
 
 const GeneratorPattern = /\r?\n> Generator: ([a-zA-Z0-9]+)/
 
+function filenamePath(filename: string, files: string[], required: boolean = true): string {
+    const path = files.find(file => file.endsWith(filename))
+    if (required && !path) {
+        throw new Error(`Could not find ${filename}`)
+    }
+    return path ?? ''
+}
+
 /**
  * @description：Detect if the old file was not changed.
  * @param oldFileList Paths to the old asset.
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  */
 async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<boolean> {
-    const filePaths = oldFileList.filter(file => file.endsWith(fileName))
-    const filePath = filePaths[0]
+    const filePath = filenamePath(fileName, oldFileList, false)
     return !filePath || isUnchanged(filePath)
 }
 
@@ -32,8 +39,7 @@ async function isOldUnchanged(oldFileList: string[], fileName: string): Promise<
  * @param fileName File name of the .lu, .lg, .dialog and .qna file.
  */
 async function getHashCodeFromFile(fileList: string[], fileName: string): Promise<string> {
-    const filePaths = fileList.filter(file => file.endsWith(fileName))
-    const path = filePaths[0]
+    const path = filenamePath(fileName, fileList)
     return getHashCode(path)
 }
 
@@ -46,15 +52,12 @@ async function getHashCodeFromFile(fileList: string[], fileName: string): Promis
  * @param feedback Callback function for progress and errors.
  */
 async function copySingleFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], feedback: Feedback): Promise<void> {
-    const filePaths = sourceFileList.filter(file => file.match(fileName))
-    if (filePaths.length !== 0) {
-        const sourceFilePath = filePaths[0]
-        const destFilePath = sourceFilePath.replace(sourcePath, destPath)
-        const destDirPath = ppath.dirname(destFilePath)
-        await fs.ensureDir(destDirPath)
-        await fs.copyFile(sourceFilePath, destFilePath)
-        feedback(FeedbackType.info, `Copying ${fileName} from ${sourcePath}`)
-    }
+    const sourceFilePath = filenamePath(fileName, sourceFileList)
+    const destFilePath = sourceFilePath.replace(sourcePath, destPath)
+    const destDirPath = ppath.dirname(destFilePath)
+    await fs.ensureDir(destDirPath)
+    await fs.copyFile(sourceFilePath, destFilePath)
+    feedback(FeedbackType.info, `Copying ${fileName} from ${sourceFilePath}`)
 }
 
 /**
@@ -67,24 +70,24 @@ async function copySingleFile(sourcePath: string, destPath: string, fileName: st
  * @param feedback Callback function for progress and errors.
  */
 async function writeToFile(sourcePath: string, destPath: string, fileName: string, sourceFileList: string[], val: string, feedback: Feedback): Promise<void> {
-    const filePaths = sourceFileList.filter(file => file.match(fileName))
-    if (filePaths.length !== 0) {
-        const sourceFilePath = filePaths[0]
-        const destFilePath = sourceFilePath.replace(sourcePath, destPath)
-        const destDirPath = ppath.dirname(destFilePath)
-        await fs.ensureDir(destDirPath)
-        await writeFile(destFilePath, val, feedback, true)
-        feedback(FeedbackType.info, `Merging ${fileName}`)
-    }
+    const sourceFilePath = filenamePath(fileName, sourceFileList)
+    const destFilePath = sourceFilePath.replace(sourcePath, destPath)
+    const destDirPath = ppath.dirname(destFilePath)
+    await fs.ensureDir(destDirPath)
+    await writeFile(destFilePath, val, feedback, true)
+    feedback(FeedbackType.info, `Merging ${fileName}`)
 }
 
 /**
- * @description：Show up message.
- * @param fileName File name of the .lu, .lg, .dialog and .qna file.
+ * @description：Show message when cannot merge.
+ * @param oldFileList List of old file paths.
+ * @param newFileList List of new file paths.
  * @param feedback Callback function for progress and errors.
  */
-function changedMessage(fileName: string, feedback: Feedback): void {
-    feedback(FeedbackType.info, `*** Old and new both changed, manually merge from ${fileName} ***`)
+function cannotMergeMessage(fileName: string, oldFileList: string[], newFileList: string[], feedback: Feedback): void {
+    const oldPath = oldFileList.find(file => file.endsWith(fileName))
+    const newPath = newFileList.find(file => file.endsWith(fileName))
+    feedback(FeedbackType.info, `*** Old and new both changed, manually merge ${oldPath} and ${newPath} ***`)
 }
 
 /**
@@ -130,8 +133,7 @@ function refFilename(ref: string, feedback: Feedback): string {
  * 4) If a property exists in both old and new schema, but a file is not present
  *    in the new directory, the file should not be copied over again and
  *    references should not be added.
- * 5) The order of .dialog triggers should be respected, i.e. if changed by the
- *    user it should remain the same. 
+ * 5) The order of .dialog triggers should be the old order with new stuff coming after everything before it in old.
  * 6) If a file has changed and cannot be updated there will be a message to
  *    merge manually.
  *
@@ -165,7 +167,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 
             await mergeDialogs(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeRootLUFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, feedback)
-            await mergeRootFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, '.lg', oldPropertySet, newPropertySet, feedback)
+            await mergeRootLGFile(schemaName, oldPath, oldFileList, newPath, newFileList, mergedPath, locale, oldPropertySet, newPropertySet, feedback)
             await mergeOtherFiles(oldPath, oldFileList, newPath, newFileList, mergedPath, feedback)
         }
     } catch (e) {
@@ -187,20 +189,15 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
 async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, feedback: Feedback): Promise<void> {
     for (const file of oldFileList) {
         if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
-            const index = file.lastIndexOf('/')
-            const fileName = file.substring(index)
+            const fileName = ppath.basename(file)
             await copySingleFile(oldPath, mergedPath, fileName, oldFileList, feedback)
         }
     }
 
     for (const file of newFileList) {
         if ((file.endsWith('.lu.dialog') || !file.endsWith('.dialog')) && !file.endsWith('.lu') && !file.endsWith('.lg')) {
-            const index = file.lastIndexOf('/')
-            const fileName = file.substring(index)
-            const files = oldFileList.filter(f => f.match(file))
-            if (files.length === 0) {
-                await copySingleFile(newPath, mergedPath, fileName, newFileList, feedback)
-            }
+            const fileName = ppath.basename(file)
+            await copySingleFile(newPath, mergedPath, fileName, newFileList, feedback)
         }
 
     }
@@ -215,16 +212,15 @@ async function mergeOtherFiles(oldPath: string, oldFileList: string[], newPath: 
  * @param newFileList List of new file paths.
  * @param mergedPath Path to the folder of the merged asset.
  * @param locale Locale.
- * @param extension .lu or .lg
  * @param oldPropertySet Property Set from the old .schema file.
  * @param newPropertySet Property Set from the new .schema file.
  * @param feedback Callback function for progress and errors.
  */
-async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, extension: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
-    const outDir = assetDirectory(extension)
-    const oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+async function mergeRootLGFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
+    const outDir = assetDirectory('.lg')
+    const oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}${'.lg'}`), 'utf8')
     const oldRefs = oldText.split(os.EOL)
-    const newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}${extension}`), 'utf8')
+    const newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}${'.lg'}`), 'utf8')
     const newRefs = newText.split(os.EOL)
 
     const resultRefs: string[] = []
@@ -242,18 +238,16 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
             continue
         }
         oldRefSet.add(ref)
-        const extractedProperty = equalPattern(ref, oldPropertySet, schemaName)
+        const file = refFilename(ref, feedback)
+        const extractedProperty = extractProperty(file, oldPropertySet, schemaName)
         if (extractedProperty !== undefined) {
             if (newPropertySet.has(extractedProperty)) {
                 resultRefs.push(ref)
-                const file = refFilename(ref, feedback)
                 if (file.match(`${extractedProperty}Value`)) {
-                    if (extension === '.lg') {
-                        await changeEntityEnumLG(oldPath, oldFileList, newFileList, mergedPath, file, feedback)
-                    }
+                    await changeEntityEnumLG(oldPath, oldFileList, newPath, newFileList, mergedPath, file, feedback)
                 } else {
                     if (await !isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
-                        changedMessage(file, feedback)
+                        cannotMergeMessage(file, oldFileList, newFileList, feedback)
                     } else {
                         await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
                     }
@@ -261,9 +255,8 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
             }
         } else {
             resultRefs.push(ref)
-            const file = refFilename(ref, feedback)
             if (newText.match(file) && !await isOldUnchanged(oldFileList, file) && await getHashCodeFromFile(oldFileList, file) !== await getHashCodeFromFile(newFileList, file)) {
-                changedMessage(file, feedback)
+                cannotMergeMessage(file, oldFileList, newFileList, feedback)
             } else {
                 await copySingleFile(oldPath, mergedPath, file, oldFileList, feedback)
             }
@@ -288,7 +281,7 @@ async function mergeRootFile(schemaName: string, oldPath: string, oldFileList: s
         val = val + os.EOL + oldText.substring(patternIndex)
     }
 
-    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}${extension}`, oldFileList, val, feedback)
+    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lg`, oldFileList, val, feedback)
 }
 
 /**
@@ -352,7 +345,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
 }
 
 const valuePattern = /{@?([^=]*Value)\s*=([^}]*)}/g
-const commentOutPattern = /^>\s*-/m     
+const commentOutPattern = /^>\s*-/m
 
 /**
  * @description: Get the set of deleted utterance patterns.
@@ -361,7 +354,7 @@ const commentOutPattern = /^>\s*-/m
  * @param delUtteranceSet Set of deleted utterance patterns.
  */
 async function getDeletedUtteranceSet(filename: string, oldFileList: string[], delUtteranceSet: Set<string>): Promise<void> {
-    const filePath = oldFileList.filter(file => file.match(filename))[0]
+    const filePath = filenamePath(filename, oldFileList)
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     for (const line of lines) {
@@ -382,21 +375,26 @@ async function getDeletedUtteranceSet(filename: string, oldFileList: string[], d
  * @param feedback Callback function for progress and errors.
  */
 async function updateGeneratedLUFile(filename: string, newFileList: string[], newPath: string, mergedPath: string, delUtteranceSet: Set<string>, feedback: Feedback): Promise<void> {
-    const filePath = newFileList.filter(file => file.match(filename))[0]
+    const filePath = filenamePath(filename, newFileList)
     const text = await fs.readFile(filePath, 'utf8')
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
+    let changed = false
     for (const line of lines) {
-       const newLine = await generatePatternUtterance(line)
-       if (delUtteranceSet.has(newLine)) {
-           resultLines.push(`>${line}`)
+        const newLine = await generatePatternUtterance(line)
+        if (delUtteranceSet.has(newLine)) {
+            changed = true
+            resultLines.push(`>${line}`)
         } else {
             resultLines.push(line)
         }
-     
     }
-    let val = resultLines.join(os.EOL)
-    await writeToFile(newPath, mergedPath, filename, newFileList, val, feedback)
+    if (changed) {
+        let val = resultLines.join(os.EOL)
+        await writeToFile(newPath, mergedPath, filename, newFileList, val, feedback)
+    } else {
+        await copySingleFile(newPath, mergedPath, filename, newFileList, feedback)
+    }
 }
 
 /**
@@ -404,7 +402,7 @@ async function updateGeneratedLUFile(filename: string, newFileList: string[], ne
  * @param line Line of the lu file.
  */
 async function generatePatternUtterance(line: string): Promise<string> {
-    line = line.replace(/{@?[^=]+=|}|^>+\s*-?\s*|^\s*-\s*|^\s+|\s+$/gm, '') 
+    line = line.replace(/{@?[^=]+=|}|^>+\s*-?\s*|^\s*-\s*|^\s+|\s+$/gm, '')
     return line
 }
 
@@ -419,23 +417,26 @@ async function generatePatternUtterance(line: string): Promise<string> {
  * @param feedback Callback function for progress and errors.
  */
 async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
-    const customLuFilePath = oldFileList.filter(file => file.match(`${schemaName}-custom.${locale}.lu`))[0]
+    const filename = `${schemaName}-custom.${locale}.lu`
+    const customLuFilePath = filenamePath(filename, oldFileList)
     const text = await fs.readFile(customLuFilePath, 'utf8')
     const lines = text.split(os.EOL)
     const resultLines: string[] = []
 
     const propertyValueSynonyms = await getSynonyms(schemaName, newPath, locale)
+    let changed = false
     for (const line of lines) {
         if (line.match(valuePattern)) {
             const newLine = await replaceLine(line, propertyValueSynonyms)
             resultLines.push(newLine)
+            changed = true
         } else {
             resultLines.push(line)
         }
     }
 
     const val = resultLines.join(os.EOL)
-    await writeToFile(oldPath, mergedPath, `${schemaName}-custom.${locale}.lu`, oldFileList, val, feedback)
+    await writeToFile(oldPath, mergedPath, filename, oldFileList, val, feedback)
 }
 
 /**
@@ -449,7 +450,7 @@ async function replaceLine(line: string, propertyValueSynonyms: Map<string, Set<
         for (let i = 0; i < matches.length; i++) {
             const phrases = matches[i].split('=')
             const key = phrases[0].replace('{@', '').trim()
-            const value = phrases[1].replace('}','').trim()
+            const value = phrases[1].replace('}', '').trim()
             if (propertyValueSynonyms.has(key)) {
                 const synonymsSet = propertyValueSynonyms.get(key)
                 if (synonymsSet !== undefined && !synonymsSet.has(value)) {
@@ -473,78 +474,82 @@ async function replaceLine(line: string, propertyValueSynonyms: Map<string, Set<
  * @param filename File name of the .lg file.
  * @param feedback Callback function for progress and errors.
  */
-async function changeEntityEnumLG(oldPath: string, oldFileList: string[], newFileList: string[], mergedPath: string, filename: string, feedback: Feedback): Promise<void> {
+async function changeEntityEnumLG(oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, filename: string, feedback: Feedback): Promise<void> {
     const oldFilePath = oldFileList.filter(file => file.match(filename))[0]
-    const oldText = await fs.readFile(oldFilePath, 'utf8')
-    const oldStatements = oldText.split(os.EOL)
-    const oldTemplates = Templates.parseText(oldText)
+    if (await isOldUnchanged(oldFileList, filename)) {
+        await copySingleFile(newPath, mergedPath, filename, newFileList, feedback)
+    } else {
+        const oldText = await fs.readFile(oldFilePath, 'utf8')
+        const oldStatements = oldText.split(os.EOL)
+        const oldTemplates = Templates.parseText(oldText)
 
-    const newFilePath = newFileList.filter(file => file.match(filename))[0]
-    const newText = await fs.readFile(newFilePath, 'utf8')
-    const newStatements = newText.split(os.EOL)
-    const newTemplates = Templates.parseText(newText)
+        const newFilePath = newFileList.filter(file => file.endsWith(filename))[0]
+        const newText = await fs.readFile(newFilePath, 'utf8')
+        const newStatements = newText.split(os.EOL)
+        const newTemplates = Templates.parseText(newText)
 
-    let mergedStatements: string[] = []
+        let mergedStatements: string[] = []
 
-    const recordPart: object[] = []
+        const recordPart: object[] = []
 
-    for (const oldTemplate of oldTemplates) {
-        const oldBody = oldTemplate.templateBodyParseTree
-        if (oldBody === undefined) {
-            continue
-        }
-        if (oldBody instanceof SwitchCaseBodyContext) {
-            for (const newTemplate of newTemplates) {
-                if (newTemplate.name !== oldTemplate.name) {
-                    continue
-                }
-                const newBody = newTemplate.templateBodyParseTree
-                if (newBody instanceof SwitchCaseBodyContext) {
-                    const newSwitchStatements: string[] = []
-                    const newEnumValueMap = new Map<string, number>()
-                    const oldEnumEntitySet = new Set<string>()
-                    const newRules = newBody.switchCaseTemplateBody().switchCaseRule()
-                    for (const rule of newRules) {
-                        const state = rule.switchCaseStat()
-                        // get enumEntity and its following statements
-                        if (state.text.match('\s*-\s*CASE:')) {
-                            const enumEntity = state.text.replace('-CASE:${', '').replace('}', '')
-                            const start = state.start.line + newTemplate.sourceRange.range.start.line
-                            newEnumValueMap.set(enumEntity, start)
+        for (const oldTemplate of oldTemplates) {
+            const oldBody = oldTemplate.templateBodyParseTree
+            if (oldBody === undefined) {
+                continue
+            }
+            if (oldBody instanceof SwitchCaseBodyContext) {
+                for (const newTemplate of newTemplates) {
+                    if (newTemplate.name !== oldTemplate.name) {
+                        continue
+                    }
+                    const newBody = newTemplate.templateBodyParseTree
+                    if (newBody instanceof SwitchCaseBodyContext) {
+                        const newSwitchStatements: string[] = []
+                        const newEnumValueMap = new Map<string, number>()
+                        const oldEnumEntitySet = new Set<string>()
+                        const newRules = newBody.switchCaseTemplateBody().switchCaseRule()
+                        for (const rule of newRules) {
+                            const state = rule.switchCaseStat()
+                            // get enumEntity and its following statements
+                            if (state.text.match('\s*-\s*CASE:')) {
+                                const enumEntity = state.text.replace('-CASE:${', '').replace('}', '')
+                                const start = state.start.line + newTemplate.sourceRange.range.start.line
+                                newEnumValueMap.set(enumEntity, start)
+                            }
                         }
+                        const {startIndex, endIndex} = parseLGTemplate(oldTemplate, oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
+                        const statementInfo = {
+                            start: startIndex, end: endIndex, newSStatements: newSwitchStatements
+                        }
+                        recordPart.push(statementInfo)
                     }
-                    const {startIndex, endIndex} = parseLGTemplate(oldTemplate, oldBody, oldStatements, newStatements, newEnumValueMap, oldEnumEntitySet, newSwitchStatements)
-                    const statementInfo = {
-                        start: startIndex, end: endIndex, newSStatements: newSwitchStatements
-                    }
-                    recordPart.push(statementInfo)
                 }
             }
         }
-    }
 
-    if (recordPart.length !== 0) {
-        let startSplit = 0
-        const arrList: [string[]] = [[]]
-        for (const obj of recordPart) {
-            const arr = oldStatements.slice(startSplit, obj['start'])
-            arrList.push(arr)
-            arrList.push(obj['newSStatements'])
-            startSplit = obj['end']
-        }
+        if (recordPart.length !== 0) {
+            let startSplit = 0
+            const arrList: [string[]] = [[]]
+            for (const obj of recordPart) {
+                const arr = oldStatements.slice(startSplit, obj['start'])
+                arrList.push(arr)
+                arrList.push(obj['newSStatements'])
+                startSplit = obj['end']
+            }
 
-        if (startSplit !== oldStatements.length) {
-            const arr = oldStatements.slice(startSplit)
-            arrList.push(arr)
-        }
+            if (startSplit !== oldStatements.length) {
+                const arr = oldStatements.slice(startSplit)
+                arrList.push(arr)
+            }
 
-        for (const arr of arrList) {
-            mergedStatements = mergedStatements.concat(arr)
+            for (const arr of arrList) {
+                mergedStatements = mergedStatements.concat(arr)
+            }
+            const val = mergedStatements.join(os.EOL)
+            await writeToFile(oldPath, mergedPath, filename, oldFileList, val, feedback)
+        } else {
+            await writeToFile(oldPath, mergedPath, filename, oldFileList, oldText, feedback)
         }
-        const val = mergedStatements.join(os.EOL)
-        await writeToFile(oldPath, mergedPath, filename, oldFileList, val, feedback)
-    } else {
-        await writeToFile(oldPath, mergedPath, filename, oldFileList, oldText, feedback)
     }
 }
 
@@ -611,6 +616,31 @@ function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[]
     return {startIndex, endIndex}
 }
 
+// Insert a trigger from newTriggers into mergedTriggers so that it comes after every trigger before it
+function insertTrigger(trigger: number, newTriggers: string[], mergedTriggers: string[]) {
+    const name = newTriggers[trigger]
+    let max = -1
+    for (let i = 0; i < trigger; ++i) {
+        let pos = newTriggers.indexOf(name)
+        if (pos > max) {
+            max = pos
+        }
+    }
+    mergedTriggers.splice(max + 1, 0, name)
+}
+
+async function isUnchangedTrigger(trigger: any, fileList: string[], feedback: Feedback): Promise<boolean> {
+    if (typeof trigger === 'string') {
+        return await isOldUnchanged(fileList, trigger + '.dialog')
+    } else {
+        const oldHash = trigger.$Generator
+        delete trigger.$Generator
+        const newHash = computeJSONHash(trigger)
+        trigger.$Generator = oldHash
+        return oldHash === newHash
+    }
+}
+
 /**
  * @description: Merge two main .dialog files following the trigger ordering rule.
  * @param schemaName Name of the .schema file.
@@ -626,81 +656,68 @@ function parseLGTemplate(oldTemplate: any, oldBody: any, oldStatements: string[]
  */
 async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, oldPropertySet: Set<string>, newPropertySet: Set<string>, feedback: Feedback): Promise<void> {
     const oldObj = JSON.parse(await fs.readFile(ppath.join(oldPath, schemaName + '.dialog'), 'utf8'))
-
     const newObj = JSON.parse(await fs.readFile(ppath.join(newPath, schemaName + '.dialog'), 'utf8'))
-
     const newTriggers: string[] = []
     const newTriggerMap = new Map<string, any>()
+    const mergedTriggers: string[] = []
+    const mergedTriggerMap = new Map<string, any>()
 
-    // remove triggers whose property does not exist in new property set
-    const reducedOldTriggers: string[] = []
-    const reducedOldTriggerMap = new Map<string, any>()
-
-    const mergedTriggers: any[] = []
-
-    for (const trigger of oldObj['triggers']) {
-        const triggerName = getTriggerName(trigger)
-        const extractedProperty = equalPattern(triggerName, oldPropertySet, schemaName)
-        if (extractedProperty !== undefined) {
-            if (newPropertySet.has(extractedProperty)) {
-                reducedOldTriggers.push(triggerName)
-                reducedOldTriggerMap.set(triggerName, trigger)
-            }
-        } else {
-            reducedOldTriggers.push(triggerName)
-            reducedOldTriggerMap.set(triggerName, trigger)
-        }
-    }
-
+    // Collect new triggers where a trigger is either a string (for reference) or object (inline)
+    // Generated triggers have $source in object, custom triggers do not
     for (const trigger of newObj['triggers']) {
         const triggerName = getTriggerName(trigger)
-        const extractedProperty = equalPattern(triggerName, oldPropertySet, schemaName)
-        if (extractedProperty !== undefined && !reducedOldTriggerMap.has(triggerName)) {
-            continue
-        }
         newTriggers.push(triggerName)
         newTriggerMap.set(triggerName, trigger)
     }
 
-    let i = 0
-    while (!reducedOldTriggerMap.has(newTriggers[i]) && i < newTriggers.length) {
-        const resultMergedTrigger = newTriggerMap.get(newTriggers[i])
-        mergedTriggers.push(resultMergedTrigger)
-        if (typeof resultMergedTrigger === 'string') {
-            await copySingleFile(newPath, mergedPath, newTriggers[i] + '.dialog', newFileList, feedback)
+    // Loop over old triggers and create merged triggers 
+    for (let trigger of oldObj['triggers']) {
+        const triggerName = getTriggerName(trigger)
+        const isGenerated = extractProperty(triggerName, oldPropertySet, schemaName)
+        const newTrigger = newTriggerMap.get(triggerName)
+        if (newTrigger && await isUnchangedTrigger(trigger, oldFileList, feedback)) {
+            // Use new trigger
+            trigger = newTrigger
+            if (typeof trigger === 'string') {
+                await copySingleFile(newPath, mergedPath, triggerName + '.dialog', newFileList, feedback)
+            }
+        } else if (!newTrigger && isGenerated) {
+            // Drop old generated triggers not in new
+            trigger = null
+        } else if (typeof trigger === 'string') {
+            // Use old trigger
+            await copySingleFile(oldPath, mergedPath, triggerName + '.dialog', oldFileList, feedback)
         }
-        i++
+        if (trigger) {
+            mergedTriggers.push(triggerName)
+            mergedTriggerMap.set(triggerName, trigger)
+        }
     }
 
-    let j = 0
-
-    while (j < reducedOldTriggers.length) {
-        const resultReducedOldTrigger = reducedOldTriggerMap.get(reducedOldTriggers[j])
-        mergedTriggers.push(resultReducedOldTrigger)
-        if (typeof resultReducedOldTrigger === 'string') {
-            if (newTriggers.includes(reducedOldTriggers[j]) && !await isOldUnchanged(oldFileList, reducedOldTriggers[j] + '.dialog') && await getHashCodeFromFile(oldFileList, reducedOldTriggers[j] + '.dialog') !== await getHashCodeFromFile(newFileList, reducedOldTriggers[j] + '.dialog')) {
-                changedMessage(reducedOldTriggers[j] + '.dialog', feedback)
-            } else {
-                await copySingleFile(oldPath, mergedPath, reducedOldTriggers[j] + '.dialog', oldFileList, feedback)
+    // Copy any new triggers not found in merged
+    for (let i = 0; i < newTriggers.length; ++i) {
+        const triggerName = newTriggers[i]
+        if (!mergedTriggerMap.has(triggerName)) {
+            // Not in merged triggers yet
+            const trigger = newTriggerMap.get(triggerName)
+            insertTrigger(i, newTriggers, mergedTriggers)
+            mergedTriggerMap.set(triggerName, trigger)
+            if (typeof trigger === 'string') {
+                await copySingleFile(newPath, mergedPath, triggerName + '.dialog', newFileList, feedback)
             }
         }
-        let index = newTriggers.indexOf(reducedOldTriggers[j])
-        if (index !== -1) {
-            index++
-            while (index < newTriggers.length && !reducedOldTriggerMap.has(newTriggers[index])) {
-                const resultMergedTrigger = newTriggerMap.get(newTriggers[index])
-                mergedTriggers.push(resultMergedTrigger)
-                if (typeof resultMergedTrigger === 'string') {
-                    await copySingleFile(newPath, mergedPath, newTriggers[index] + '.dialog', newFileList, feedback)
-                }
-                index++
-            }
-        }
-        j++
     }
 
-    oldObj['triggers'] = mergedTriggers
+    // Create array of triggers from newTriggers
+    const triggers: any[] = []
+    for (const triggerName of mergedTriggers) {
+        triggers.push(mergedTriggerMap.get(triggerName))
+    }
+
+    oldObj['triggers'] = triggers
     await writeToFile(oldPath, mergedPath, schemaName + '.dialog', oldFileList, stringify(oldObj), feedback)
+
+    // Copy recognized dialog
     await copySingleFile(newPath, mergedPath, schemaName + '.' + locale + '.lu.dialog', newFileList, feedback)
 }
 
@@ -711,7 +728,7 @@ async function mergeDialogs(schemaName: string, oldPath: string, oldFileList: st
 function getTriggerName(trigger: any): string {
     let triggerName: string
     if (typeof trigger !== 'string') {
-        triggerName = trigger['$source']
+        triggerName = trigger['$source'] ?? JSON.stringify(trigger)
     } else {
         triggerName = trigger
     }
@@ -719,24 +736,18 @@ function getTriggerName(trigger: any): string {
 }
 
 /**
- * @description: Compare the filename pattern for .lu file.
+ * @description: Extract property from a filename.
  * @param filename File name of .lu, .lg, or .dialog file.
  * @param propertySet Property set from the .schema file.
  * @param schemaName Name of the .schema file.
  */
-function equalPattern(filename: string, propertySet: Set<string>, schemaName: string): string | undefined {
-    let result: string | undefined
-
-    for (const property of propertySet) {
-        const pattern1 = schemaName + '-' + property + '-'
-        const pattern2 = schemaName + '-' + property + 'Value'
-        const pattern3 = schemaName + '-' + property + '.'
-        if (filename.match(pattern1) || filename.match(pattern2) || filename.match(pattern3)) {
-            result = property
-            break
-        }
+function extractProperty(filename: string, propertySet: Set<string>, schemaName: string): string | undefined {
+    let property: string | undefined
+    const match = filename.match(`^${schemaName}-([^.-]+?)(Value)?[.-]`)
+    if (match && propertySet.has(match[1])) {
+        property = match[1]
     }
-    return result
+    return property
 }
 
 /**
@@ -771,7 +782,7 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
  * @param schemaName Name of the .schema file.
  * @param newPath Path to the folder of the new asset.
  */
- async function getSynonyms(schemaName: string, newPath: string, locale: string): Promise<Map<string, Set<string>>> {
+async function getSynonyms(schemaName: string, newPath: string, locale: string): Promise<Map<string, Set<string>>> {
     const template = await fs.readFile(ppath.join(newPath, schemaName + '.json'), 'utf8')
     const newObj = JSON.parse(template)
     const propertyValueSynonyms = new Map<string, Set<string>>()
@@ -793,6 +804,6 @@ async function parseSchemas(schemaName: string, oldPath: string, newPath: string
             propertyValueSynonyms.set(`${property}Value`, synonymsSet)
         }
     }
-    
+
     return propertyValueSynonyms
 }

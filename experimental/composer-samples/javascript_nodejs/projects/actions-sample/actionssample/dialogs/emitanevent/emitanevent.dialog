@@ -1,0 +1,64 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "$designer": {
+    "name": "EmitAnEvent",
+    "description": "This is to emit an event.",
+    "id": "645228"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": [
+      {
+        "intent": "EmitEvent",
+        "pattern": "emit"
+      },
+      {
+        "intent": "CowboyIntent",
+        "pattern": "moo"
+      }
+    ]
+  },
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnIntent",
+      "intent": "EmitEvent",
+      "actions": [
+        {
+          "$kind": "Microsoft.EmitEvent",
+          "eventName": "CustomEvent",
+          "bubbleEvent": true
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "intent": "CowboyIntent",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "Yippee ki-yay!"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "140685"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "576334",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_576334()}"
+        }
+      ]
+    }
+  ],
+  "generator": "emitanevent.lg"
+}

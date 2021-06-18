@@ -1,8 +1,0 @@
-{
-  "$kind": "Microsoft.MultiLanguageRecognizer",
-  "id": "LUIS_schoolnavigatorbot",
-  "recognizers": {
-    "en-us": "schoolnavigatorbot.en-us.lu",
-    "": "schoolnavigatorbot.en-us.lu"
-  }
-}

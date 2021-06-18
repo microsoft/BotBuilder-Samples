@@ -5,12 +5,16 @@
         "From": {
             "$ref": "template:string.template",
             "$examples": {
-                "": ["Chris", "Bob"]
+                "": {
+                    "personValue": [
+                        "Chris",
+                        "Bob"
+                    ]
+                }
             },
             "$entities": [
                 "personValue"
             ]
-
         },
         "To": {
             "type": "array",

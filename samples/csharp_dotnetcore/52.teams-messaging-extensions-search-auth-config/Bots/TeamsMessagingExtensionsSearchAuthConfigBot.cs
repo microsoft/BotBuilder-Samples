@@ -51,9 +51,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 // There is no token, so the user has not signed in yet.
 
                 // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-                var userTokenClient = turnContext.TurnState.Get<UserTokenClient>();
-                var resource = await userTokenClient.GetSignInResourceAsync(_connectionName, turnContext.Activity as Activity,  null, cancellationToken).ConfigureAwait(false);
-                var signInLink = resource.SignInLink;
+                var signInLink = await GetSignInLinkAsync(turnContext, cancellationToken).ConfigureAwait(false);
 
                 return new MessagingExtensionResponse
                 {
@@ -150,9 +148,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     // There is no token, so the user has not signed in yet.
 
                     // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-                    var userTokenClient = turnContext.TurnState.Get<UserTokenClient>();
-                    var resource = await userTokenClient.GetSignInResourceAsync(_connectionName, turnContext.Activity as Activity, null, cancellationToken).ConfigureAwait(false);
-                    var signInLink = resource.SignInLink;
+                    var signInLink = await GetSignInLinkAsync(turnContext, cancellationToken).ConfigureAwait(false);
 
                     return new MessagingExtensionResponse
                     {
@@ -295,9 +291,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                     // There is no token, so the user has not signed in yet.
 
                     // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-                    var userTokenClient = turnContext.TurnState.Get<UserTokenClient>();
-                    var resource = await userTokenClient.GetSignInResourceAsync(_connectionName, turnContext.Activity as Activity, null, cancellationToken).ConfigureAwait(false);
-                    var signInLink = resource.SignInLink;
+                    var signInLink = await GetSignInLinkAsync(turnContext, cancellationToken).ConfigureAwait(false);
 
                     return new MessagingExtensionActionResponse
                     {
@@ -367,6 +361,13 @@ namespace Microsoft.BotBuilderSamples.Bots
                 };
             }
             return null;
+        }
+
+        private async Task<string> GetSignInLinkAsync(ITurnContext turnContext, CancellationToken cancellationToken)
+        {
+            var userTokenClient = turnContext.TurnState.Get<UserTokenClient>();
+            var resource = await userTokenClient.GetSignInResourceAsync(_connectionName, turnContext.Activity as Activity, null, cancellationToken).ConfigureAwait(false);
+            return resource.SignInLink;
         }
 
         private static Attachment GetProfileCard(Graph.User profile)

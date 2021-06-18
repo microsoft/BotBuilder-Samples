@@ -4,6 +4,8 @@ Bot Framework v4 skills echo sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple skill consumer (SimpleRootBot) that sends message activities to a skill (EchoSkillBot) that echoes it back.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
+
 ## Prerequisites
 
 - Java 1.8+
@@ -27,20 +29,12 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`EchoSkill
   - A [sample skill manifest](EchoSkillBot/src/main/webapp/manifest/echoskillbot-manifest-1.0.json) that describes what the skill can do
 
 ## To try this sample
-
-- Clone the repository
-
-    ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
-    ```
-
 - Create a bot registration in the azure portal for the `EchoSkillBot` and update [EchoSkillBot/application.properties](EchoSkillBot/src/main/resources/application.properties) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
 - Create a bot registration in the azure portal for the `SimpleRootBot` and update [SimpleRootBot/application.properties](SimpleRootBot/src/main/resources/application.properties) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
 - Update the `BotFrameworkSkills` section in [SimpleRootBot/application.properties](SimpleRootBot/src/main/resources/application.properties) with the app ID for the skill you created in the previous step
 - (Optionally) Add the `SimpleRootBot` `MicrosoftAppId` to the `AllowedCallers` list in [EchoSkillBot/application.properties](EchoSkillBot/src/main/resources/application.properties) 
 - Open the `SimpleBotToBot` project and start it for debugging
 - Open the `EchoSkillsBot` project and start it for debugging
-
 
 ## Testing the bot using Bot Framework Emulator
 
@@ -54,6 +48,6 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`EchoSkill
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`, the `MicrosoftAppId` and `MicrosoftAppPassword` for the `SimpleRootBot`
 
-## Deploy the bots to Azure
+## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.

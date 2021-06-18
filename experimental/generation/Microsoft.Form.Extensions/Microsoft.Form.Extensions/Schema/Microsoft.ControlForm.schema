@@ -1,0 +1,38 @@
+{
+    "$schema": "https://schemas.botframework.com/schemas/component/v1.0/component.schema",
+    "$role": "implements(Microsoft.IDialog)",
+    "title": "Control form",
+    "description": "Control properties being asked in form.",
+    "type": "object",
+    "required": [],
+    "properties": {
+        "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Optional id for the dialog"
+        },
+        "disabled": {
+            "$ref": "schema:#/definitions/booleanExpression",
+            "title": "Disabled",
+            "description": "Optional condition which if true will disable this action.",
+            "examples": [
+                "user.age > 3"
+            ]
+        },
+        "askFirst": {
+            "$ref": "schema:#/definitions/arrayExpression",
+            "title": "Ask first properties",
+            "description": "List of properties to add to the front of dialog.requiredProperties."
+        },
+        "askLast": {
+            "$ref": "schema:#/definitions/arrayExpression",
+            "title": "Ask last properties",
+            "description": "List of properties to put at the end of dialog.requiredProperties."
+        },
+        "noAsk": {
+            "$ref": "schema:#/definitions/arrayExpression",
+            "title": "No ask properties",
+            "description": "List of properties to remove from dialog.requiredProperties."
+        }
+    }
+}

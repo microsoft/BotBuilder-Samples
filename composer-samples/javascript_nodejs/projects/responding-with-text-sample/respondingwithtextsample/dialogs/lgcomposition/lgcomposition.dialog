@@ -1,0 +1,38 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "662682"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "432892"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "823530"
+          },
+          "property": "user.name",
+          "prompt": "Hello, I'm Zoidberg. What is your name?",
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "823322"
+          },
+          "activity": "${SendActivity_823322()}"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "lgcomposition.lg"
+}

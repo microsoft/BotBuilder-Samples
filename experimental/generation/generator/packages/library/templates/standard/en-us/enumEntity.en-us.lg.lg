@@ -13,10 +13,10 @@ ${chooseEntity()}
 ```
 
 # chooseEntity
--```
-# ${entity}_chooseEntity()
-> Choose between '${entity}' values
-- \${chooseEnumEntity()}```
+- ${activityTemplate(
+    `${entity}_chooseEntity`, [], 
+    `Choose between '${entity}' values`,
+    '${chooseEnumEntity()}')}
 
 # propertyEntityValue
 -```

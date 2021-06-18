@@ -13,12 +13,12 @@
     "watch": "nodemon --watch ./src -e ts --exec \"npm run start\""
   },
   "dependencies": {
-    "botbuilder": "~4.13.2",
+    "botbuilder": "~4.13.4",
     "readline": "^1.3.0"
   },
   "devDependencies": {
     "nodemon": "~1.19.4",
     "tslint": "^5.20.0",
-    "typescript": "^3.6.4"
+    "typescript": "~4.3.2"
   }
 }

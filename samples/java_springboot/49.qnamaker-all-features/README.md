@@ -6,6 +6,8 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
 
+This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven plugin to deploy to Azure.
+
 ## Concepts introduced in this sample
 The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate
@@ -19,7 +21,6 @@ In this sample, we demonstrate
 - Update [application.properties](src/main/resources/application.properties) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. You may also change the default answer by updating `DefaultAnswer` (optional) field. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 - (Optional) Follow instructions [here](https://github.com/microsoft/botframework-cli/tree/main/packages/qnamaker) to set up the
   QnA Maker CLI to deploy the model.
-
 
 ### Create a QnAMaker Application to enable QnA Knowledge Bases
 
@@ -54,7 +55,6 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
 ##### Microsoft Teams channel group chat fix
 - Goto `QnABot.java`
-- Add References
 - Modify `onTurn` function as:
     ```java
     @Override
@@ -83,23 +83,20 @@ QnA knowledge base setup and application configuration steps can be found [here]
 - File -> Open Bot
 - Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Deploy the bot to Azure
-See [Deploy your Java bot to Azure][50] for instructions.
+## Deploy the bot to Azure
 
-The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][60].
-
-If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
-
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
 # Further reading
+- [Spring Boot][160]
+- [Maven Plugin for Azure App Service][161]
 - [Active learning Documentation][40]
-- [Bot Framework Documentation][80]
 - [Bot Basics][90]
 - [Azure Bot Service Introduction][100]
 - [Azure Bot Service Documentation][110]
 - [QnA Maker CLI][170]
 - [BF-CLI][130]
 - [Azure Portal][140]
-- [Spring Boot][160]
+- [Azure for Java cloud developers][162]
 
 [1]: https://dev.botframework.com
 [4]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
@@ -111,7 +108,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
 [60]: https://portal.azure.com
 [70]: https://azure.microsoft.com/get-started/
-[80]: https://docs.botframework.com
 [90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
@@ -120,6 +116,8 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [140]: https://portal.azure.com
 [150]: https://www.luis.ai
 [160]: https://spring.io/projects/spring-boot
+[161]: https://github.com/microsoft/azure-maven-plugins/tree/develop/azure-webapp-maven-plugin
+[162]: https://docs.microsoft.com/en-us/azure/java/?view=azure-java-stable
 [170]: https://github.com/microsoft/botframework-cli/tree/main/packages/qnamaker
 
 [71]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base

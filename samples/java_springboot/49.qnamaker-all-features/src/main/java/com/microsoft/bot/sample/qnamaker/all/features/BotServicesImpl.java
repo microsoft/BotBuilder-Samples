@@ -22,12 +22,18 @@ public class BotServicesImpl implements BotServices {
      * @param configuration A {@link Configuration} which contains the properties of the application.properties
      */
     public BotServicesImpl(Configuration configuration) {
-        QnAMakerEndpoint qnAMakerEndpoint = new QnAMakerEndpoint();
-        qnAMakerEndpoint.setKnowledgeBaseId(configuration.getProperty("QnAKnowledgebaseId"));
-        qnAMakerEndpoint.setHost(getHostname(configuration.getProperty("QnAEndpointHostName")));
-        qnAMakerEndpoint.setEndpointKey(getEndpointKey(configuration));
-        QnAMaker qnAMaker = new QnAMaker(qnAMakerEndpoint, null);
-        this.qnAMakerService = qnAMaker;
+        Boolean qnaIsConfigured = StringUtils.isNotBlank(configuration.getProperty("QnAKnowledgebaseId"))
+                && StringUtils.isNotBlank(configuration.getProperty("QnAEndpointHostName"))
+                && (StringUtils.isNotBlank(configuration.getProperty("QnAEndpointKey")) ||
+                    StringUtils.isNotBlank(configuration.getProperty("QnAAuthKey")));
+        if (qnaIsConfigured){
+            QnAMakerEndpoint qnAMakerEndpoint = new QnAMakerEndpoint();
+            qnAMakerEndpoint.setKnowledgeBaseId(configuration.getProperty("QnAKnowledgebaseId"));
+            qnAMakerEndpoint.setHost(getHostname(configuration.getProperty("QnAEndpointHostName")));
+            qnAMakerEndpoint.setEndpointKey(getEndpointKey(configuration));
+            QnAMaker qnAMaker = new QnAMaker(qnAMakerEndpoint, null);
+            this.qnAMakerService = qnAMaker;
+        }
     }
 
     /**

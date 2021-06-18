@@ -1,0 +1,7 @@
+{
+    "qna": {
+        "OrchestratorDispatch_en_us_qna": "7dc61c7a-69e5-4436-bcad-59909bccee01",
+        "hostname": "https://orchestratorqnasvc.azurewebsites.net/qnamaker",
+        "PartnersDialog_en_us_qna": "7dc61c7a-69e5-4436-bcad-59909bccee01"
+    }
+}

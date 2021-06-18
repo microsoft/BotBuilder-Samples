@@ -7,6 +7,7 @@ export * from './dialogGenerator'
 import * as crypto from 'crypto'
 import * as expressions from 'adaptive-expressions'
 import * as fs from 'fs-extra'
+import * as glob from 'globby'
 import * as merger from './mergeAssets'
 import * as lg from 'botbuilder-lg'
 import * as os from 'os'
@@ -76,7 +77,7 @@ export function stringify(val: any, replacer?: any): string {
     return val
 }
 
-function computeJSONHash(json: any): string {
+export function computeJSONHash(json: any): string {
     return computeHash(stringify(json))
 }
 
@@ -280,6 +281,19 @@ function setPath(obj: any, path: string, value: any) {
     obj[key] = value
 }
 
+// Find all .data files and ensure they are in the cache
+export const DataCache: Map<string, string> = new Map<string, string>()
+async function cacheData(templateDirs: string[]): Promise<void> {
+    for (const dir of templateDirs) {
+        for (const path of await glob(ppath.join(dir, '**/*.data').replace(/\\/g, '/'))) {
+            if (!DataCache.has(ppath.basename(path))) {
+                const template = await fs.readFile(path, 'utf8')
+                DataCache.set(ppath.basename(path), template)
+            }
+        }
+    }
+}
+
 type Plain = {source: string, template: string}
 type Template = lg.Templates | Plain | undefined
 export const TemplateCache: Map<string, Template> = new Map<string, Template>()
@@ -323,9 +337,9 @@ async function findTemplate(name: string, templateDirs: string[]): Promise<Templ
                                 // Look for template in template dirs
                                 importPath = ''
                                 for (const dir of templateDirs) {
-                                    let loc = templatePath(resourceId, dir)
-                                    if (fs.existsSync(loc)) {
-                                        importPath = loc
+                                    const matches = glob.sync(ppath.posix.join(dir.replace(/\\/g, '/'), '**/*', resourceId))
+                                    if (matches.length > 0) {
+                                        importPath = lg.TemplateExtensions.normalizePath(matches[0])
                                         break
                                     }
                                 }
@@ -1074,6 +1088,9 @@ export async function generate(
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
         ]
 
+        // Cache .data files for substitutions
+        await cacheData(templateDirs)
+
         // Expand root $template and computed schema
         await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
@@ -1125,8 +1142,25 @@ export async function generate(
         const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         if (!error) {
+
+            // Identify all references to schema properties either because part of runtime or used in templates
+            const references = new Set<string>()
+            for (const reference of ['$schema', '$ref', '$entities', '$expectedOnly', '$operations', '$defaultOperation', '$requiresValue', '$parameters', '$public']) {
+                references.add(reference)
+            }
+            const baseDir = ppath.posix.join(outPath.replace(/\\/g, '/'), '**/*.')
+            for (const file of await glob([baseDir + 'dialog', baseDir + 'lg'])) {
+                const contents = await fs.readFile(file, 'utf8')
+                const matcher = /dialogClass.schema[a-zA-Z.]*.(\$[a-zA-Z]+)/g
+                let match = matcher.exec(contents)
+                while (match != null) {
+                    references.add(match[1])
+                    match = matcher.exec(contents)
+                }
+            }
+
             // Write final schema
-            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
+            const body = stringify(expanded, (key: any, val: any) => (!key.startsWith('$') || references.has(key) ? val : undefined))
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files

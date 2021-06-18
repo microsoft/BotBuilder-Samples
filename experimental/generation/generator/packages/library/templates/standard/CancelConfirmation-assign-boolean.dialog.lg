@@ -1,0 +1,32 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('CancelConfirmation-assign-boolean.dialog')}
+
+# template
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Set()",
+    "property": "CancelConfirmation",
+    "value": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.SetProperty",
+            "property": "$CancelConfirmation",
+            "value": "=@boolean"
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"$CancelConfirmation == 'true'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ]
+        }
+    ]
+    ${designerOpEntityProperty('Set', 'boolean', 'CancelConfirmation')}
+}
+```

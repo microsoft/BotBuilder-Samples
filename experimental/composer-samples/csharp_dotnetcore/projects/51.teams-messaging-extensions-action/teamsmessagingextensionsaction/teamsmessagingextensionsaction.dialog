@@ -1,0 +1,154 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "teamsmessagingextensionsaction",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Teams.OnMESubmitAction",
+      "$designer": {
+        "id": "MClMhD"
+      },
+      "commandId": "createCard",
+      "actions": [
+        {
+          "$kind": "Teams.SendMEAttachmentsResponse",
+          "$designer": {
+            "id": "ZJxpgS"
+          },
+          "attachments": "${TeamsSendMEAttachmentsResponse_Attachments_LupD3e()}",
+          "attachmentLayout": "list"
+        }
+      ]
+    },
+    {
+      "$kind": "Teams.OnMESubmitAction",
+      "$designer": {
+        "id": "IDmEZN"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "ApwQJy"
+          },
+          "condition": "=bool(turn.activity.value.data.includeImage)",
+          "actions": [
+            {
+              "$kind": "Teams.SendMEAttachmentsResponse",
+              "$designer": {
+                "id": "rqHqSy"
+              },
+              "attachments": "${TeamsSendMEAttachmentsResponse_Attachments_WxiXwm()}",
+              "attachmentLayout": "list"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Teams.SendMEAttachmentsResponse",
+              "$designer": {
+                "id": "13KygK"
+              },
+              "attachmentLayout": "list",
+              "attachments": "${TeamsSendMEAttachmentsResponse_Attachments_13KygK()}"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "P88bLr"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value"
+        }
+      ],
+      "commandId": "shareMessage"
+    },
+    {
+      "$kind": "Teams.OnMESubmitAction",
+      "$designer": {
+        "id": "xBruPK"
+      },
+      "actions": [
+        {
+          "$kind": "Teams.SendMEAttachmentsResponse",
+          "$designer": {
+            "id": "83Sz1G"
+          },
+          "attachments": "${TeamsSendMEAttachmentsResponse_Attachments_83Sz1G()}",
+          "attachmentLayout": "list"
+        }
+      ]
+    },
+    {
+      "$kind": "Teams.OnMEFetchTask",
+      "$designer": {
+        "id": "bYwgoE"
+      },
+      "actions": [
+        {
+          "$kind": "Teams.GetMember",
+          "$designer": {
+            "id": "oq1tJl"
+          },
+          "property": "dialog.memberInfo",
+          "memberId": "=turn.activity.from.id"
+        },
+        {
+          "$kind": "Teams.SendTaskModuleCardResponse",
+          "$designer": {
+            "id": "qEOoJx"
+          },
+          "card": "${TeamsSendTaskModuleCardResponse_Card_qEOoJx()}",
+          "height": 200,
+          "width": 400,
+          "title": "Welcome ${dialog.memberInfo.name}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "tGZcey"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "YVskVK"
+          },
+          "condition": "=turn.dialogEvent.value.body.error.code == \"MemberNotFoundInConversation\"",
+          "actions": [
+            {
+              "$kind": "Teams.SendTaskModuleCardResponse",
+              "$designer": {
+                "id": "GZYlKA"
+              },
+              "title": "Adaptive Card - App Installation\"",
+              "height": 200,
+              "width": 400,
+              "card": "${TeamsSendTaskModuleCardResponse_Card_GZYlKA()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "SHipAb"
+              },
+              "activity": "${SendActivity_SHipAb()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "teamsmessagingextensionsaction.lg",
+  "id": "teamsmessagingextensionsaction",
+  "recognizer": "teamsmessagingextensionsaction.lu.qna"
+}

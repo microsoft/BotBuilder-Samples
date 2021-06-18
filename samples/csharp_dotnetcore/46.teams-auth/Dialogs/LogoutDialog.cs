@@ -51,7 +51,7 @@ namespace Microsoft.BotBuilderSamples
                 // Allow logout anywhere in the command
                 if (text.IndexOf("logout") >= 0)
                 {
-                    // The bot adapter encapsulates the authentication processes.
+                    // The UserTokenClient encapsulates the authentication processes.
                     var userTokenClient = innerDc.Context.TurnState.Get<UserTokenClient>();
                     await userTokenClient.SignOutUserAsync(innerDc.Context.Activity.From.Id, ConnectionName, innerDc.Context.Activity.ChannelId, cancellationToken).ConfigureAwait(false);
 

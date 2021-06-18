@@ -16,8 +16,11 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -55,6 +58,7 @@ public class StateManagementBot extends ActivityHandler {
     @Override
     public CompletableFuture<Void> onTurn(TurnContext turnContext) {
         return super.onTurn(turnContext)
+            // Save any state changes that might have occurred during the turn.
             .thenCompose(turnResult -> conversationState.saveChanges(turnContext))
             .thenCompose(saveResult -> userState.saveChanges(turnContext));
     }
@@ -109,13 +113,15 @@ public class StateManagementBot extends ActivityHandler {
             profileAccessor.get(turnContext, UserProfile::new);
 
         return dataFuture.thenCombine(profileFuture, (conversationData, userProfile) -> {
-            if (StringUtils.isEmpty(userProfile.getName())) {
+            if (StringUtils.isBlank(userProfile.getName())) {
+                // First time around this is set to false, so we will prompt user for name.
                 if (conversationData.getPromptedUserForName()) {
                     // Reset the flag to allow the bot to go though the cycle again.
                     conversationData.setPromptedUserForName(false);
 
                     // Set the name to what the user provided and reply.
                     userProfile.setName(turnContext.getActivity().getText());
+                    // Acknowledge that we got their name.
                     return turnContext.sendActivity(
                         MessageFactory.text(
                             "Thanks " + userProfile.getName()
@@ -123,16 +129,17 @@ public class StateManagementBot extends ActivityHandler {
                         )
                     );
                 } else {
+                    // Set the flag to true, so we don't prompt in the next turn.
                     conversationData.setPromptedUserForName(true);
+                    // Prompt the user for their name.
                     return turnContext.sendActivity(MessageFactory.text("What is your name?"));
                 }
             } else {
-                // Set the flag to true, so we don't prompt in the next turn.
-                conversationData.setPromptedUserForName(true);
-
                 OffsetDateTime messageTimeOffset = turnContext.getActivity().getTimestamp();
                 LocalDateTime localMessageTime = messageTimeOffset.toLocalDateTime();
-                conversationData.setTimestamp(localMessageTime.toString());
+                //Displaying current date and time in 12 hour format with AM/PM
+                DateTimeFormatter dateTimeAMPMFormat = DateTimeFormatter.ofPattern("MM/dd/yyyy, hh:mm:ss a");
+                conversationData.setTimestamp(dateTimeAMPMFormat.format(localMessageTime));
                 conversationData.setChannelId(turnContext.getActivity().getChannelId());
 
                 List<Activity> sendToUser = new ArrayList<>();
@@ -144,16 +151,12 @@ public class StateManagementBot extends ActivityHandler {
                 );
 
                 sendToUser.add(
-                    MessageFactory.text(
-                        userProfile.getName() + " message received at: "
-                            + conversationData.getTimestamp()
+                    MessageFactory.text("Message received at: " + conversationData.getTimestamp()
                     )
                 );
 
                 sendToUser.add(
-                    MessageFactory.text(
-                        userProfile.getName() + " message received from: "
-                            + conversationData.getChannelId()
+                    MessageFactory.text("Message received from: " + conversationData.getChannelId()
                     )
                 );
 

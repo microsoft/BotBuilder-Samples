@@ -13,15 +13,6 @@
         "Name": {
             "$ref": "template:personName.template"
         },
-        "Bread": {
-            "type": "string",
-            "enum": [
-                "multiGrainWheat",
-                "rye",
-                "wholeWheat",
-                "black"
-            ]
-        },
         "Cheese": {
             "type": "string",
             "enum": [
@@ -36,11 +27,21 @@
                 "none"
             ]
         },
+        "Bread": {
+            "type": "string",
+            "enum": [
+                "multiGrainWheat",
+                "rye",
+                "wholeWheat",
+                "black"
+            ]
+        },
         "Hobby": {
             "type": "string",
             "$entities": [
                 "utterance"
-            ]
+            ],
+            "$askIf": "$Price"
         },
         "Price": {
             "$ref": "template:money.template"

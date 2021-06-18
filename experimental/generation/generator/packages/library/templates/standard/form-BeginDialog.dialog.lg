@@ -11,7 +11,7 @@
     "actions":  [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${welcome()}"           
+            "activity": "\${helpGlobal()}"           
         },
         {
         "$kind": "Microsoft.IfCondition",
@@ -40,7 +40,7 @@ ${join(foreach(where(schema.properties, property, property.value.$template == "d
 -```
 {
     "$kind": "Microsoft.SetProperty",
-    "property": "dialog.${property.key}Value",
+    "property": "$${property.key}Value",
     "value":  {
     "entity": "${property.key}Value",
     "list": [
@@ -54,4 +54,4 @@ ${join(foreach(where(schema.properties, property, property.value.$template == "d
 - IF: ${propertyValueList(property.key)}
     - ${join(foreach(indicesAndValues(propertyValueList(property.key)), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
 - ELSE:
-    -
+    - ${join(foreach(placeHolderEntities(`${property.key}Value`), value, `{"canonicalForm": "${value}", "synonyms": []}`), `, ${EOL()}`)}

@@ -1,0 +1,46 @@
+# Greeting
+- nice to talk to you!
+
+# LGComposition(user)
+- ${user.name} ${Greeting()}
+
+# LGWithParam(user)
+- Hello ${user.name}, nice to talk to you!
+
+# SimpleText
+- Hi, this is simple text
+- Hey, this is simple text
+- Hello, this is simple text
+
+# WelcomeUser
+- ```
+    I can show you examples on sending messages. Restart the conversation to get started.
+```
+
+# greetInAWeek
+- SWITCH: ${dayOfWeek(utcNow())}
+- CASE: ${0}
+    - Happy Sunday!
+- CASE: ${6}
+    - Happy Saturday!
+- DEFAULT:
+    - Working day!
+
+# timeOfDayGreeting(timeOfDay)
+- IF: ${timeOfDay == 'morning'}
+    - good morning
+- ELSEIF: ${timeOfDay == 'afternoon'}
+    - good afternoon
+- ELSE:
+    - good evening
+
+# StructuredText
+[Activity
+   Text = text from structured
+]
+
+# multilineText
+- ``` You have the following alarms:
+alarm1: 7:00 am
+alarm2: 9:00 pm
+```

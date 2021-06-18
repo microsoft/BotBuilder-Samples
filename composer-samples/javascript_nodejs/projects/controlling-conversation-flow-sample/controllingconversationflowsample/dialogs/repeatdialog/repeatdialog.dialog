@@ -1,0 +1,63 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "607738"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "695225"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ConfirmInput",
+          "$designer": {
+            "id": "841600"
+          },
+          "property": "user.confirmed",
+          "prompt": "Do you want to repeat this dialog, yes to repeat, no to end this dialog",
+          "unrecognizedPrompt": "I need a yes or no.",
+          "maxTurnCount": 3,
+          "alwaysPrompt": true,
+          "allowInterruptions": "false",
+          "defaultLocale": "en-us",
+          "style": "auto",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          }
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "365292"
+          },
+          "condition": "user.confirmed",
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "221664"
+              }
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "573415"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "repeatdialog.lg"
+}

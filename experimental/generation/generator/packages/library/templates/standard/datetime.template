@@ -17,6 +17,6 @@
     "$generator": {
         "title": "LUIS Datetime",
         "description": "Map entities like 'first of the month' into a type and timex expression.",
-        "$ref": "array.json"
+        "$ref": "common.json"
     }
 }
