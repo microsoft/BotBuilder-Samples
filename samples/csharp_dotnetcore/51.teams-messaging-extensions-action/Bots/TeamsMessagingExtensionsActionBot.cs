@@ -285,8 +285,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                     {
                         Height = 200,
                         Width = 400,
-                        Title = "Task Module HTML",
-                        Url = baseUrl + "/htmlTaskModule.html",
+                        Title = "Task Module HTML Page",
+                        Url = baseUrl + "/htmlpage.html",
                     },
                 },
             };

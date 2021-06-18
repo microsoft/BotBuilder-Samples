@@ -146,6 +146,8 @@
   ],
   "permissions": [
     "identity"
+  ],
+  "validDomains": [
+    "<<Base_Url>>"
   ]
-
 }
