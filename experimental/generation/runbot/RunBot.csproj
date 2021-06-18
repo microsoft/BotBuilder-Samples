@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Iciclecreek.Bot.Builder.Dialogs.Recognizers.LuceneZY" Version="4.13.0" />
+    <PackageReference Include="Iciclecreek.Bot.Builder.Dialogs.Recognizers.Lucene.Dynamiclist" Version="4.13.0" />
     <PackageReference Include="Jint" Version="2.11.58" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.15.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.9" />
