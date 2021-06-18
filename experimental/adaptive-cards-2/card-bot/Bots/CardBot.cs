@@ -71,14 +71,5 @@ namespace Microsoft.BotBuilderSamples.Bots
                 Value = new CardResource(Path.Combine(".", "Cards", "CardOne.json")).AsJObject()
             });
         }
-
-        private static InvokeResponse CreateInvokeResponse(HttpStatusCode statusCode, object body = null)
-        {
-            return new InvokeResponse()
-            {
-                Status = (int)statusCode,
-                Body = body
-            };
-        }
     }
 }
