@@ -67,7 +67,6 @@
         "form-NotUnderstood.dialog",
         "form-Show.dialog",
         "form-SkipGlobal.dialog",
-        "form-triggerIntent.dialog",
         "main.dialog",
         "luconfig.json",
         "build",

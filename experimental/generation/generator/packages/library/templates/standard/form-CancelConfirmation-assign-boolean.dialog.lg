@@ -13,13 +13,8 @@
     "value": "boolean",
     "actions": [
         {
-            "$kind": "Microsoft.SetProperty",
-            "property": "$CancelConfirmation",
-            "value": "=@boolean"
-        },
-        {
             "$kind": "Microsoft.IfCondition",
-            "condition":"$CancelConfirmation == 'true'",
+            "condition":"@boolean == 'true'",
             "actions": [
                 {
                     "$kind": "Microsoft.EndDialog"

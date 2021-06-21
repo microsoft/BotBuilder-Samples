@@ -7,14 +7,15 @@
 - ```
 {
     "$schema": "${appSchema}",
-    "$kind": "Microsoft.OnIntent",
-    "intent": "None",
+    "$kind": "Microsoft.OnDialogEvent",
+    "event": "recognizedIntent",
+    "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == ${triggerIntent} && count(turn.recognizedEntities) == 0)",
     "actions": [
         {
-            "$kind": "Microsoft.SendActivity",
-            "activity": "\${notUnderstood()}"           
+         "$kind": "Microsoft.SendActivity",
+         "activity": "\${notUnderstood()}"
         }
     ]
-    ${designerName('Unknown intent')}
+    ${designerName('Not Understood')}
 }
 ```

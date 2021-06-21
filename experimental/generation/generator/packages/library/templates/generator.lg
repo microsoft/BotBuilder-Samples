@@ -88,12 +88,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
         "genericEntity-assign.dialog",
         "genericEntity-remove.dialog",
-        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 
@@ -111,12 +111,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
         "dateFormat-assign.dialog",
         "genericEntity-remove.dialog",
-        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 

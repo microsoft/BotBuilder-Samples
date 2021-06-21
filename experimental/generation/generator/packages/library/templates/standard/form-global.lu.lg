@@ -5,6 +5,10 @@
 
 # template
 -```
+> Global operations
+@ ml Skip() usesFeature SkipPhrases
+@ ml Cancel() usesFeature CancelPhrases
+
 > Add examples for operations across properties
 # ${triggerIntent}
 ${substitutions(`form-global.${locale}.data`, examples, 6)}

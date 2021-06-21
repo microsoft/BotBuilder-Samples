@@ -9,12 +9,12 @@
         "enumEntity.lg",
         "enumEntity.lu",
         "genericProperty.lg",
-        "genericEntity-assign.dialog",
-        "genericEntity-choose.dialog",
-        "genericEntity-remove.dialog",
-        "generic-change.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
         "generic-missing.dialog",
-        "generic-show.dialog"
+        "generic-change.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-assign.dialog",
+        "genericEntity-remove.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-help.dialog"
     ]}
