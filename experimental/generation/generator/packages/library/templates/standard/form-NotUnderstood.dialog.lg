@@ -9,7 +9,7 @@
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnDialogEvent",
     "event": "recognizedIntent",
-    "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == ${triggerIntent} && count(turn.recognizedEntities) == 0)",
+    "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == '${triggerIntent}' && count(turn.recognizedEntities) == 0)",
     "actions": [
         {
          "$kind": "Microsoft.SendActivity",

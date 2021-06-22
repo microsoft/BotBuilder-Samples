@@ -14,6 +14,6 @@
             "activity": "\${chooseProperties()}"
         }
     ]
-    ${designerChooseProperty()}
+    ${designerName('Choose Assignment Prompt')}
 }
 ```

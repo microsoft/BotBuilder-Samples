@@ -255,7 +255,7 @@ describe('dialog:generate library', async () => {
                 outDir: output,
                 feedback
             })
-            await checkDirectory(output, 9, 4)
+            await checkDirectory(output, 8, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
             await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)

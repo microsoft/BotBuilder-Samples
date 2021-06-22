@@ -7,6 +7,44 @@
   "schema": "unittest_transforms.json",
   "triggers": [
     {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Temperature",
+      "priority": "=form.missingPriority(['Temperature'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Temperature_MissingPrompt()}",
+          "expectedProperties": [
+            "Temperature"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Missing Prompt"
+      },
+      "$source": "unittest_transforms-Temperature-missing",
+      "$Generator": "2f83ec213d189aed7c5fed9276258b43"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Temperature'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Temperature_ChangePrompt()}",
+          "expectedProperties": [
+            "Temperature"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Replacement Prompt"
+      },
+      "$source": "unittest_transforms-Temperature-change",
+      "$Generator": "d5b3ec1dc811362947cbc5a7a56c87ff"
+    },
+    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "Temperature",
@@ -77,129 +115,6 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Remove()",
-      "property": "Temperature",
-      "value": "temperature",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Temperature_RemoveConfirmation(@temperature)}"
-        },
-        {
-          "$kind": "Microsoft.EditArray",
-          "changeType": "remove",
-          "itemsProperty": "$Temperature",
-          "value": "=@temperature"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'Temperature'",
-          "actions": [
-            {
-              "$kind": "Microsoft.DeleteProperty",
-              "property": "$PropertyToChange"
-            }
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Remove @temperature"
-      },
-      "$source": "unittest_transforms-Temperature-remove-temperature",
-      "$Generator": "0a437016910d1ab198054a6039ea34df"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Temperature",
-      "priority": "=form.missingPriority(['Temperature'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Temperature_MissingPrompt()}",
-          "expectedProperties": [
-            "Temperature"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Missing Prompt"
-      },
-      "$source": "unittest_transforms-Temperature-missing",
-      "$Generator": "2f83ec213d189aed7c5fed9276258b43"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Clear()",
-      "property": "Temperature",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Temperature_ClearConfirmation()}"
-        },
-        {
-          "$kind": "Microsoft.DeleteProperty",
-          "property": "$Temperature"
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Clear Property"
-      },
-      "$source": "unittest_transforms-Temperature-clear",
-      "$Generator": "34c0e33f344f8781c55129a2d7055b20"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "property": "Temperature",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Temperature_Show()}"
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Show Value"
-      },
-      "$source": "unittest_transforms-Temperature-show",
-      "$Generator": "5e7bc076d1ebaa0031c264d93b601908"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Temperature'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Temperature_ChangePrompt()}",
-          "expectedProperties": [
-            "Temperature"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Replacement Prompt"
-      },
-      "$source": "unittest_transforms-Temperature-change",
-      "$Generator": "d5b3ec1dc811362947cbc5a7a56c87ff"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "property": "Temperature",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Temperature_Help()}"
-        }
-      ],
-      "$designer": {
-        "name": "Temperature - Help"
-      },
-      "$source": "unittest_transforms-Temperature-help",
-      "$Generator": "ea613c949e4d2fdf0a2ad049b04bb7c8"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "Temperature",
       "value": "number",
@@ -259,6 +174,39 @@
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Remove()",
       "property": "Temperature",
+      "value": "temperature",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Temperature_RemoveConfirmation(@temperature)}"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "changeType": "remove",
+          "itemsProperty": "$Temperature",
+          "value": "=@temperature"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "$PropertyToChange == 'Temperature'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "property": "$PropertyToChange"
+            }
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Remove @temperature"
+      },
+      "$source": "unittest_transforms-Temperature-remove-temperature",
+      "$Generator": "0a437016910d1ab198054a6039ea34df"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Remove()",
+      "property": "Temperature",
       "value": "number",
       "actions": [
         {
@@ -287,6 +235,114 @@
       },
       "$source": "unittest_transforms-Temperature-remove-number",
       "$Generator": "1f980df13df5015c4a083c8ed49b26b5"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Clear()",
+      "property": "Temperature",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Temperature_ClearConfirmation()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "property": "$Temperature"
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Clear Property"
+      },
+      "$source": "unittest_transforms-Temperature-clear",
+      "$Generator": "34c0e33f344f8781c55129a2d7055b20"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
+      "property": "Temperature",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Temperature_Show()}"
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Show Value"
+      },
+      "$source": "unittest_transforms-Temperature-show",
+      "$Generator": "5e7bc076d1ebaa0031c264d93b601908"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Help()",
+      "property": "Temperature",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Temperature_Help()}"
+        }
+      ],
+      "$designer": {
+        "name": "Temperature - Help"
+      },
+      "$source": "unittest_transforms-Temperature-help",
+      "$Generator": "ea613c949e4d2fdf0a2ad049b04bb7c8"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$AString",
+      "priority": "=form.missingPriority(['AString'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${AString_MissingPrompt()}",
+          "expectedProperties": [
+            "AString"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "AString - Missing Prompt"
+      },
+      "$source": "unittest_transforms-AString-missing",
+      "$Generator": "197c6d0142290d6a43b0b8c0ace35326"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'AString'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${AString_ChangePrompt()}",
+          "expectedProperties": [
+            "AString"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "AString - Replacement Prompt"
+      },
+      "$source": "unittest_transforms-AString-change",
+      "$Generator": "9048e0ad8bcd9dff8e88efc855ab6351"
+    },
+    {
+      "$kind": "Microsoft.OnChooseEntity",
+      "value": "AStringValue",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${AStringValue_chooseEntity()}",
+          "expectedProperties": [
+            "AString"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "AStringValue - Disambiguation Prompt"
+      },
+      "$source": "unittest_transforms-AStringValue-choose",
+      "$Generator": "dad0acd8130ad6795f3a46081d9f6d11"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -334,147 +390,6 @@
       "$Generator": "eb2eb600dd2696f3ac03ef44238381cc"
     },
     {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "AStringValue",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${AStringValue_chooseEntity()}",
-          "expectedProperties": [
-            "AString"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "AStringValue - Disambiguation Prompt"
-      },
-      "$source": "unittest_transforms-AStringValue-choose",
-      "$Generator": "dad0acd8130ad6795f3a46081d9f6d11"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Remove()",
-      "property": "AString",
-      "value": "AStringValue",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${AString_RemoveConfirmation(@AStringValue)}"
-        },
-        {
-          "$kind": "Microsoft.EditArray",
-          "changeType": "remove",
-          "itemsProperty": "$AString",
-          "value": "=@AStringValue"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'AString'",
-          "actions": [
-            {
-              "$kind": "Microsoft.DeleteProperty",
-              "property": "$PropertyToChange"
-            }
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "AString - Remove @AStringValue"
-      },
-      "$source": "unittest_transforms-AString-remove-AStringValue",
-      "$Generator": "de6e12f9a82d2d29102ece84c187eb41"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'AString'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${AString_ChangePrompt()}",
-          "expectedProperties": [
-            "AString"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "AString - Replacement Prompt"
-      },
-      "$source": "unittest_transforms-AString-change",
-      "$Generator": "9048e0ad8bcd9dff8e88efc855ab6351"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Clear()",
-      "property": "AString",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${AString_ClearConfirmation()}"
-        },
-        {
-          "$kind": "Microsoft.DeleteProperty",
-          "property": "$AString"
-        }
-      ],
-      "$designer": {
-        "name": "AString - Clear Property"
-      },
-      "$source": "unittest_transforms-AString-clear",
-      "$Generator": "416134dc014d6fffd4c473e11294edef"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "property": "AString",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${AString_Help()}"
-        }
-      ],
-      "$designer": {
-        "name": "AString - Help"
-      },
-      "$source": "unittest_transforms-AString-help",
-      "$Generator": "9059fefae61a8d768eef85f72c3de173"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$AString",
-      "priority": "=form.missingPriority(['AString'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${AString_MissingPrompt()}",
-          "expectedProperties": [
-            "AString"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "AString - Missing Prompt"
-      },
-      "$source": "unittest_transforms-AString-missing",
-      "$Generator": "197c6d0142290d6a43b0b8c0ace35326"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "property": "AString",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${AString_Show()}"
-        }
-      ],
-      "$designer": {
-        "name": "AString - Show Value"
-      },
-      "$source": "unittest_transforms-AString-show",
-      "$Generator": "9c5fadb1ad890f6cabb34b16c115243a"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "AString",
@@ -520,22 +435,37 @@
       "$Generator": "a1e33c9e96ea588d60052e7f995366e5"
     },
     {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "utterance",
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Remove()",
+      "property": "AString",
+      "value": "AStringValue",
       "actions": [
         {
-          "$kind": "Microsoft.Ask",
-          "activity": "${utterance_chooseEntity()}",
-          "expectedProperties": [
-            "AString"
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${AString_RemoveConfirmation(@AStringValue)}"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "changeType": "remove",
+          "itemsProperty": "$AString",
+          "value": "=@AStringValue"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "$PropertyToChange == 'AString'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "property": "$PropertyToChange"
+            }
           ]
         }
       ],
       "$designer": {
-        "name": "utterance - Disambiguation Prompt"
+        "name": "AString - Remove @AStringValue"
       },
-      "$source": "unittest_transforms-utterance-choose",
-      "$Generator": "83ee8f0a739a3faef608aff04a66ea0d"
+      "$source": "unittest_transforms-AString-remove-AStringValue",
+      "$Generator": "de6e12f9a82d2d29102ece84c187eb41"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -572,30 +502,99 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "CancelConfirmation",
-      "value": "boolean",
+      "operation": "Clear()",
+      "property": "AString",
       "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$CancelConfirmation",
-          "value": "=@boolean"
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${AString_ClearConfirmation()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "property": "$AString"
+        }
+      ],
+      "$designer": {
+        "name": "AString - Clear Property"
+      },
+      "$source": "unittest_transforms-AString-clear",
+      "$Generator": "416134dc014d6fffd4c473e11294edef"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
+      "property": "AString",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${AString_Show()}"
+        }
+      ],
+      "$designer": {
+        "name": "AString - Show Value"
+      },
+      "$source": "unittest_transforms-AString-show",
+      "$Generator": "9c5fadb1ad890f6cabb34b16c115243a"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Help()",
+      "property": "AString",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${AString_Help()}"
+        }
+      ],
+      "$designer": {
+        "name": "AString - Help"
+      },
+      "$source": "unittest_transforms-AString-help",
+      "$Generator": "9059fefae61a8d768eef85f72c3de173"
+    },
+    {
+      "$kind": "Microsoft.OnChooseEntity",
+      "value": "utterance",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${utterance_chooseEntity()}",
+          "expectedProperties": [
+            "AString"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "utterance - Disambiguation Prompt"
+      },
+      "$source": "unittest_transforms-utterance-choose",
+      "$Generator": "83ee8f0a739a3faef608aff04a66ea0d"
+    },
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpGlobal()}"
         },
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "$CancelConfirmation == 'true'",
+          "condition": "!turn.activityProcessed",
           "actions": [
             {
-              "$kind": "Microsoft.EndDialog"
+              "$kind": "Microsoft.EmitEvent",
+              "eventName": "activityReceived",
+              "eventValue": "=turn.activity",
+              "bubbleEvent": false
             }
           ]
         }
       ],
       "$designer": {
-        "name": "Cancel Confirmation Assign"
+        "name": "Begin Dialog"
       },
-      "$source": "unittest_transforms-form-CancelConfirmation-assign-boolean",
-      "$Generator": "23e7ccc138836ec943c964e8755a50d5"
+      "$source": "unittest_transforms-form-BeginDialog",
+      "$Generator": "48d4edfcd942f57bb1f1d14e6618f2a2"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -664,30 +663,20 @@
       "$Generator": "be77100d4df2a30cd55686089704325a"
     },
     {
-      "$kind": "Microsoft.OnBeginDialog",
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Change()",
       "actions": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpGlobal()}"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "!turn.activityProcessed",
-          "actions": [
-            {
-              "$kind": "Microsoft.EmitEvent",
-              "eventName": "activityReceived",
-              "eventValue": "=turn.activity",
-              "bubbleEvent": false
-            }
-          ]
+          "$kind": "Microsoft.SetProperty",
+          "property": "$PropertyToChange",
+          "value": "=turn.dialogEvent.value.property"
         }
       ],
       "$designer": {
-        "name": "Begin Dialog"
+        "name": "Property to Change Assign"
       },
-      "$source": "unittest_transforms-form-BeginDialog",
-      "$Generator": "48d4edfcd942f57bb1f1d14e6618f2a2"
+      "$source": "unittest_transforms-form-Change",
+      "$Generator": "79977992e39c656ce5ea669653644b6a"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -704,24 +693,30 @@
       "$designer": {
         "name": "Cancel Confirmation Prompt"
       },
-      "$source": "unittest_transforms-form-CancelGlobal",
-      "$Generator": "e8b172699591e449ff16fb46557a8277"
+      "$source": "unittest_transforms-form-CancelConfirmation-prompt",
+      "$Generator": "85bfadd850eadc777f68fad415f5b759"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Change()",
+      "operation": "Assign()",
+      "property": "CancelConfirmation",
+      "value": "boolean",
       "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$PropertyToChange",
-          "value": "=turn.dialogEvent.value.property"
+          "$kind": "Microsoft.IfCondition",
+          "condition": "@boolean == 'true'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog"
+            }
+          ]
         }
       ],
       "$designer": {
-        "name": "Change property"
+        "name": "Cancel Confirmation Assign"
       },
-      "$source": "unittest_transforms-form-Change",
-      "$Generator": "a3213454375fe6659e43e47df76f94bf"
+      "$source": "unittest_transforms-form-CancelConfirmation-assign-boolean",
+      "$Generator": "c09196e0e6cd3db0a20beadb255abfd7"
     },
     {
       "$kind": "Microsoft.OnChooseProperty",
@@ -732,76 +727,10 @@
         }
       ],
       "$designer": {
-        "name": "ChooseProperty()"
+        "name": "Choose Assignment Prompt"
       },
       "$source": "unittest_transforms-form-ChooseProperty",
-      "$Generator": "8468d970c870473713475abb122feb42"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "actions": [
-        {
-          "$kind": "Microsoft.DeleteProperty",
-          "property": "$retries"
-        },
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpGlobal()}"
-        }
-      ],
-      "$designer": {
-        "name": "Global Help"
-      },
-      "$source": "unittest_transforms-form-HelpGlobal",
-      "$Generator": "60ac3233bfadefa53658eb541690253a"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "=$retries",
-      "runOnce": true,
-      "priority": 0,
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpReprompt()}"
-        }
-      ],
-      "$designer": {
-        "name": "Reprompt Help"
-      },
-      "$source": "unittest_transforms-form-HelpReprompt",
-      "$Generator": "37cae710842490b6ac5cf1c4e491895b"
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "intent": "None",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${notUnderstood()}"
-        }
-      ],
-      "$designer": {
-        "name": "Unknown intent"
-      },
-      "$source": "unittest_transforms-form-NotUnderstood",
-      "$Generator": "4ce26d24b79bf5dfce07a1a3a92d259d"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${propertiesAsActivity('unittest_transforms', publicProperties())}"
-        }
-      ],
-      "$designer": {
-        "name": "Show Form"
-      },
-      "$source": "unittest_transforms-form-Show",
-      "$Generator": "824d4835bdd8008e7ac94ea06ce2cf58"
+      "$Generator": "d11d8c9294ef4cf56e3c2fb88359b442"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -820,7 +749,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "=$PropertyToChange",
+              "condition": "exists($PropertyToChange)",
               "actions": [
                 {
                   "$kind": "Microsoft.DeleteProperty",
@@ -845,34 +774,79 @@
       "$designer": {
         "name": "Skip"
       },
-      "$source": "unittest_transforms-form-SkipIntent",
-      "$Generator": "57074a8b6c660aff167aa0766fb369c9"
+      "$source": "unittest_transforms-form-Skip",
+      "$Generator": "3e16d50979590cad9b748df0f897e3fc"
     },
     {
-      "$kind": "Microsoft.OnIntent",
-      "intent": "unittest_transforms",
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
       "actions": [
         {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "count(turn.recognizedEntities) == 0",
-          "actions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "activity": "${notUnderstood()}"
-            }
-          ],
-          "elseActions": []
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${propertiesAsActivity('unittest_transforms', publicProperties())}"
         }
       ],
       "$designer": {
-        "name": "Nothing Recognized"
+        "name": "Show Form"
       },
-      "$source": "unittest_transforms-trigger",
-      "$Generator": "dcc50563c2ba066ea61ca1987dc971a2"
+      "$source": "unittest_transforms-form-Show",
+      "$Generator": "824d4835bdd8008e7ac94ea06ce2cf58"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Help()",
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "property": "$retries"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpGlobal()}"
+        }
+      ],
+      "$designer": {
+        "name": "Global Help"
+      },
+      "$source": "unittest_transforms-form-HelpGlobal",
+      "$Generator": "60ac3233bfadefa53658eb541690253a"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "exists($retries)",
+      "runOnce": true,
+      "priority": 0,
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpReprompt()}"
+        }
+      ],
+      "$designer": {
+        "name": "Reprompt Help"
+      },
+      "$source": "unittest_transforms-form-HelpReprompt",
+      "$Generator": "e3884dd42d83cd96657d1678ffea4ae7"
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "event": "recognizedIntent",
+      "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == 'unittest_transforms' && count(turn.recognizedEntities) == 0)",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${notUnderstood()}"
+        }
+      ],
+      "$designer": {
+        "name": "Not Understood"
+      },
+      "$source": "unittest_transforms-form-NotUnderstood",
+      "$Generator": "2b0ab8a0851fe91b6b5a9216f68ee385"
     }
   ],
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "0a6a2a9262d1c6fa86082b457a7de05e"
+  "$Generator": "94d0692bd882762b4b02d848cc070860"
 }

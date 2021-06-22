@@ -7,6 +7,44 @@
   "schema": "sandwichMerge.json",
   "triggers": [
     {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Quantity",
+      "priority": "=form.missingPriority(['Quantity'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Quantity_MissingPrompt()}",
+          "expectedProperties": [
+            "Quantity"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Quantity - Missing Prompt"
+      },
+      "$source": "sandwichMerge-Quantity-missing",
+      "$Generator": "0a94055053dc9b5c545ff5d33a0b81bf"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Quantity'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Quantity_ChangePrompt()}",
+          "expectedProperties": [
+            "Quantity"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Quantity - Replacement Prompt"
+      },
+      "$source": "sandwichMerge-Quantity-change",
+      "$Generator": "78458e862325740ed12190291f88c4d5"
+    },
+    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "Quantity",
@@ -100,25 +138,6 @@
       "$Generator": "5f4ce412c8bb86988c26617366117582"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Quantity",
-      "priority": "=form.missingPriority(['Quantity'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Quantity_MissingPrompt()}",
-          "expectedProperties": [
-            "Quantity"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Quantity - Missing Prompt"
-      },
-      "$source": "sandwichMerge-Quantity-missing",
-      "$Generator": "0a94055053dc9b5c545ff5d33a0b81bf"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Quantity",
@@ -155,25 +174,6 @@
       "$Generator": "17c12a0b0c965875b8e9cdae7e796f15"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Quantity'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Quantity_ChangePrompt()}",
-          "expectedProperties": [
-            "Quantity"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Quantity - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Quantity-change",
-      "$Generator": "78458e862325740ed12190291f88c4d5"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Help()",
       "property": "Quantity",
@@ -188,6 +188,44 @@
       },
       "$source": "sandwichMerge-Quantity-help",
       "$Generator": "af2fd6baabcaddac70053af56ee5d462"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Length",
+      "priority": "=form.missingPriority(['Length'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Length_MissingPrompt()}",
+          "expectedProperties": [
+            "Length"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Length - Missing Prompt"
+      },
+      "$source": "sandwichMerge-Length-missing",
+      "$Generator": "9314ba07d2fed1ff4f728d29b4ee0054"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Length'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Length_ChangePrompt()}",
+          "expectedProperties": [
+            "Length"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Length - Replacement Prompt"
+      },
+      "$source": "sandwichMerge-Length-change",
+      "$Generator": "0fa9593dfd907a6a0dec90bdb884d790"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -259,25 +297,6 @@
       "$Generator": "53d536d064890a2b9219ca0bbf5576ea"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Length",
-      "priority": "=form.missingPriority(['Length'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Length_MissingPrompt()}",
-          "expectedProperties": [
-            "Length"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Length - Missing Prompt"
-      },
-      "$source": "sandwichMerge-Length-missing",
-      "$Generator": "9314ba07d2fed1ff4f728d29b4ee0054"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Length",
@@ -314,25 +333,6 @@
       "$Generator": "b85ad279502904d4d4ec04a550acb4e9"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Length'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Length_ChangePrompt()}",
-          "expectedProperties": [
-            "Length"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Length - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Length-change",
-      "$Generator": "0fa9593dfd907a6a0dec90bdb884d790"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Help()",
       "property": "Length",
@@ -347,6 +347,44 @@
       },
       "$source": "sandwichMerge-Length-help",
       "$Generator": "573c5c43fb53ac0f8db465a3be4b821a"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Name",
+      "priority": "=form.missingPriority(['Name'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Name_MissingPrompt()}",
+          "expectedProperties": [
+            "Name"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Name - Missing Prompt"
+      },
+      "$source": "sandwichMerge-Name-missing",
+      "$Generator": "ac958f63e07e166539b2c5cbf63e89a9"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Name'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Name_ChangePrompt()}",
+          "expectedProperties": [
+            "Name"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Name - Replacement Prompt"
+      },
+      "$source": "sandwichMerge-Name-change",
+      "$Generator": "ab199cec0516e4a7c7f49b3c1baed5b5"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -379,6 +417,38 @@
       },
       "$source": "sandwichMerge-Name-assign-personName",
       "$Generator": "b62c860219fe998a74210cdf5666f745"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Assign()",
+      "property": "Name",
+      "value": "utterance",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${confirmationActivity('Name', @utterance)}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "property": "$Name",
+          "value": "=@utterance"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "$PropertyToChange == 'Name'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "property": "$PropertyToChange"
+            }
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Name - Assign @utterance"
+      },
+      "$source": "sandwichMerge-Name-assign-utterance",
+      "$Generator": "3b95f32d140608bcc816ca02a2ca3842"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -416,128 +486,6 @@
       },
       "$source": "sandwichMerge-Name-remove-personName",
       "$Generator": "b5a2cf143c03610dd56e59bff73c4385"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Name",
-      "priority": "=form.missingPriority(['Name'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Name_MissingPrompt()}",
-          "expectedProperties": [
-            "Name"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Name - Missing Prompt"
-      },
-      "$source": "sandwichMerge-Name-missing",
-      "$Generator": "ac958f63e07e166539b2c5cbf63e89a9"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Clear()",
-      "property": "Name",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Name_ClearConfirmation()}"
-        },
-        {
-          "$kind": "Microsoft.DeleteProperty",
-          "property": "$Name"
-        }
-      ],
-      "$designer": {
-        "name": "Name - Clear Property"
-      },
-      "$source": "sandwichMerge-Name-clear",
-      "$Generator": "fab8b12ca5aa3f6082e9099e08f2ffa8"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "property": "Name",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Name_Show()}"
-        }
-      ],
-      "$designer": {
-        "name": "Name - Show Value"
-      },
-      "$source": "sandwichMerge-Name-show",
-      "$Generator": "adac67d03e2f50e5d8865905f047a187"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Name'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Name_ChangePrompt()}",
-          "expectedProperties": [
-            "Name"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Name - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Name-change",
-      "$Generator": "ab199cec0516e4a7c7f49b3c1baed5b5"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "property": "Name",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Name_Help()}"
-        }
-      ],
-      "$designer": {
-        "name": "Name - Help"
-      },
-      "$source": "sandwichMerge-Name-help",
-      "$Generator": "f90dcd69508063cda962ceef601186bb"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "Name",
-      "value": "utterance",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${confirmationActivity('Name', @utterance)}"
-        },
-        {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$Name",
-          "value": "=@utterance"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'Name'",
-          "actions": [
-            {
-              "$kind": "Microsoft.DeleteProperty",
-              "property": "$PropertyToChange"
-            }
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Name - Assign @utterance"
-      },
-      "$source": "sandwichMerge-Name-assign-utterance",
-      "$Generator": "3b95f32d140608bcc816ca02a2ca3842"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -578,6 +526,114 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Clear()",
+      "property": "Name",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Name_ClearConfirmation()}"
+        },
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "property": "$Name"
+        }
+      ],
+      "$designer": {
+        "name": "Name - Clear Property"
+      },
+      "$source": "sandwichMerge-Name-clear",
+      "$Generator": "fab8b12ca5aa3f6082e9099e08f2ffa8"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
+      "property": "Name",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Name_Show()}"
+        }
+      ],
+      "$designer": {
+        "name": "Name - Show Value"
+      },
+      "$source": "sandwichMerge-Name-show",
+      "$Generator": "adac67d03e2f50e5d8865905f047a187"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Help()",
+      "property": "Name",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Name_Help()}"
+        }
+      ],
+      "$designer": {
+        "name": "Name - Help"
+      },
+      "$source": "sandwichMerge-Name-help",
+      "$Generator": "f90dcd69508063cda962ceef601186bb"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Bread",
+      "priority": "=form.missingPriority(['Bread'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Bread_MissingPrompt()}",
+          "expectedProperties": [
+            "Bread"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Bread - Missing Prompt"
+      },
+      "$source": "sandwichMerge-Bread-missing",
+      "$Generator": "38e50782815583924e5be37d33cbb6e8"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Bread'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Bread_ChangePrompt()}",
+          "expectedProperties": [
+            "Bread"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Bread - Replacement Prompt"
+      },
+      "$source": "sandwichMerge-Bread-change",
+      "$Generator": "df3c0f487e47ae3864de0f99fae9fe38"
+    },
+    {
+      "$kind": "Microsoft.OnChooseEntity",
+      "value": "BreadValue",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${BreadValue_chooseEntity()}",
+          "expectedProperties": [
+            "Bread"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "BreadValue - Disambiguation Prompt"
+      },
+      "$source": "sandwichMerge-BreadValue-choose",
+      "$Generator": "20b5c835cdb5bd54730685b1314d664d"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "Bread",
       "value": "BreadValue",
@@ -607,24 +663,6 @@
       },
       "$source": "sandwichMerge-Bread-assign-BreadValue",
       "$Generator": "6cb41f546f474b3c088fb8f0f77bd00d"
-    },
-    {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "BreadValue",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${BreadValue_chooseEntity()}",
-          "expectedProperties": [
-            "Bread"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "BreadValue - Disambiguation Prompt"
-      },
-      "$source": "sandwichMerge-BreadValue-choose",
-      "$Generator": "20b5c835cdb5bd54730685b1314d664d"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -664,25 +702,6 @@
       "$Generator": "dab58c9fcc1e44e39b5ff1b9bf7dd57a"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Bread'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Bread_ChangePrompt()}",
-          "expectedProperties": [
-            "Bread"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Bread - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Bread-change",
-      "$Generator": "df3c0f487e47ae3864de0f99fae9fe38"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Bread",
@@ -704,6 +723,22 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
+      "property": "Bread",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Bread_Show()}"
+        }
+      ],
+      "$designer": {
+        "name": "Bread - Show Value"
+      },
+      "$source": "sandwichMerge-Bread-show",
+      "$Generator": "9f78f39abe9776bddfb0896b2a8f1f58"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
       "operation": "Help()",
       "property": "Bread",
       "actions": [
@@ -720,38 +755,59 @@
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Bread",
-      "priority": "=form.missingPriority(['Bread'])",
+      "condition": "!$Cheese",
+      "priority": "=form.missingPriority(['Cheese'])",
       "actions": [
         {
           "$kind": "Microsoft.Ask",
-          "activity": "${Bread_MissingPrompt()}",
+          "activity": "${Cheese_MissingPrompt()}",
           "expectedProperties": [
-            "Bread"
+            "Cheese"
           ]
         }
       ],
       "$designer": {
-        "name": "Bread - Missing Prompt"
+        "name": "Cheese - Missing Prompt"
       },
-      "$source": "sandwichMerge-Bread-missing",
-      "$Generator": "38e50782815583924e5be37d33cbb6e8"
+      "$source": "sandwichMerge-Cheese-missing",
+      "$Generator": "46dd61c57b0ed81151129d4d7722fc1f"
     },
     {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "property": "Bread",
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Cheese'",
+      "priority": 1,
       "actions": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Bread_Show()}"
+          "$kind": "Microsoft.Ask",
+          "activity": "${Cheese_ChangePrompt()}",
+          "expectedProperties": [
+            "Cheese"
+          ]
         }
       ],
       "$designer": {
-        "name": "Bread - Show Value"
+        "name": "Cheese - Replacement Prompt"
       },
-      "$source": "sandwichMerge-Bread-show",
-      "$Generator": "9f78f39abe9776bddfb0896b2a8f1f58"
+      "$source": "sandwichMerge-Cheese-change",
+      "$Generator": "b490d7ac34488023d3de07ac5f28240a"
+    },
+    {
+      "$kind": "Microsoft.OnChooseEntity",
+      "value": "CheeseValue",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${CheeseValue_chooseEntity()}",
+          "expectedProperties": [
+            "Cheese"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "CheeseValue - Disambiguation Prompt"
+      },
+      "$source": "sandwichMerge-CheeseValue-choose",
+      "$Generator": "09f34510b0b23282f573a6e72d1d8613"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -784,24 +840,6 @@
       },
       "$source": "sandwichMerge-Cheese-assign-CheeseValue",
       "$Generator": "12ec4874681a13d89786151ec4e019d9"
-    },
-    {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "CheeseValue",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${CheeseValue_chooseEntity()}",
-          "expectedProperties": [
-            "Cheese"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "CheeseValue - Disambiguation Prompt"
-      },
-      "$source": "sandwichMerge-CheeseValue-choose",
-      "$Generator": "09f34510b0b23282f573a6e72d1d8613"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -841,25 +879,6 @@
       "$Generator": "e13ba60af7628353cc38447ce760d0f7"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Cheese'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Cheese_ChangePrompt()}",
-          "expectedProperties": [
-            "Cheese"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Cheese - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Cheese-change",
-      "$Generator": "b490d7ac34488023d3de07ac5f28240a"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Cheese",
@@ -881,41 +900,6 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "property": "Cheese",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Cheese_Help()}"
-        }
-      ],
-      "$designer": {
-        "name": "Cheese - Help"
-      },
-      "$source": "sandwichMerge-Cheese-help",
-      "$Generator": "88c5e4ef7b3685c1e67598dfa38af818"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Cheese",
-      "priority": "=form.missingPriority(['Cheese'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Cheese_MissingPrompt()}",
-          "expectedProperties": [
-            "Cheese"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Cheese - Missing Prompt"
-      },
-      "$source": "sandwichMerge-Cheese-missing",
-      "$Generator": "46dd61c57b0ed81151129d4d7722fc1f"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
       "operation": "Show()",
       "property": "Cheese",
       "actions": [
@@ -932,35 +916,76 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "Price",
-      "value": "money",
+      "operation": "Help()",
+      "property": "Cheese",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
-          "activity": "${confirmationActivity('Price', @money)}"
-        },
+          "activity": "${Cheese_Help()}"
+        }
+      ],
+      "$designer": {
+        "name": "Cheese - Help"
+      },
+      "$source": "sandwichMerge-Cheese-help",
+      "$Generator": "88c5e4ef7b3685c1e67598dfa38af818"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Price",
+      "priority": "=form.missingPriority(['Price'])",
+      "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$Price",
-          "value": "=@money"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "$PropertyToChange == 'Price'",
-          "actions": [
-            {
-              "$kind": "Microsoft.DeleteProperty",
-              "property": "$PropertyToChange"
-            }
+          "$kind": "Microsoft.Ask",
+          "activity": "${Price_MissingPrompt()}",
+          "expectedProperties": [
+            "Price"
           ]
         }
       ],
       "$designer": {
-        "name": "Price - Assign @money"
+        "name": "Price - Missing Prompt"
       },
-      "$source": "sandwichMerge-Price-assign-money",
-      "$Generator": "0cb25dd8b5e90b8cc1647ea4d3f097b6"
+      "$source": "sandwichMerge-Price-missing",
+      "$Generator": "fcee77c3ae42fcbdd84a6a00e842df95"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "!$Hobby && $Price",
+      "priority": "=form.missingPriority(['Hobby'])",
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Hobby_MissingPrompt()}",
+          "expectedProperties": [
+            "Hobby"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Hobby - Missing Prompt"
+      },
+      "$source": "sandwichMerge-Hobby-missing",
+      "$Generator": "53a289bc130d673d8574c9a6e673e407"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Hobby'",
+      "priority": 1,
+      "actions": [
+        {
+          "$kind": "Microsoft.Ask",
+          "activity": "${Hobby_ChangePrompt()}",
+          "expectedProperties": [
+            "Hobby"
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Hobby - Replacement Prompt"
+      },
+      "$source": "sandwichMerge-Hobby-change",
+      "$Generator": "a22c0a310cf518f69329b856fdc9475e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -993,24 +1018,6 @@
       },
       "$source": "sandwichMerge-Hobby-assign-utterance",
       "$Generator": "b2bb8b1e25308da863c2529b868f301e"
-    },
-    {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "utterance",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${utterance_chooseEntity()}",
-          "expectedProperties": [
-            "Hobby"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "utterance - Disambiguation Prompt"
-      },
-      "$source": "sandwichMerge-utterance-choose",
-      "$Generator": "fcbca721948b1cd8175489f78ba980da"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1050,25 +1057,6 @@
       "$Generator": "7ee0852b35a5803615adce068271c022"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Hobby'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Hobby_ChangePrompt()}",
-          "expectedProperties": [
-            "Hobby"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Hobby - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Hobby-change",
-      "$Generator": "a22c0a310cf518f69329b856fdc9475e"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Hobby",
@@ -1090,6 +1078,22 @@
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
+      "property": "Hobby",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${Hobby_Show()}"
+        }
+      ],
+      "$designer": {
+        "name": "Hobby - Show Value"
+      },
+      "$source": "sandwichMerge-Hobby-show",
+      "$Generator": "43d9483d3b494362beb046b7e796fe43"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
       "operation": "Help()",
       "property": "Hobby",
       "actions": [
@@ -1105,39 +1109,73 @@
       "$Generator": "553d5f070534d8c4114455a0aac1fd39"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Hobby && $Price",
-      "priority": "=form.missingPriority(['Hobby'])",
+      "$kind": "Microsoft.OnChooseEntity",
+      "value": "utterance",
       "actions": [
         {
           "$kind": "Microsoft.Ask",
-          "activity": "${Hobby_MissingPrompt()}",
+          "activity": "${utterance_chooseEntity()}",
           "expectedProperties": [
             "Hobby"
           ]
         }
       ],
       "$designer": {
-        "name": "Hobby - Missing Prompt"
+        "name": "utterance - Disambiguation Prompt"
       },
-      "$source": "sandwichMerge-Hobby-missing",
-      "$Generator": "53a289bc130d673d8574c9a6e673e407"
+      "$source": "sandwichMerge-utterance-choose",
+      "$Generator": "fcbca721948b1cd8175489f78ba980da"
     },
     {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "property": "Hobby",
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "$PropertyToChange == 'Price'",
+      "priority": 1,
       "actions": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${Hobby_Show()}"
+          "$kind": "Microsoft.Ask",
+          "activity": "${Price_ChangePrompt()}",
+          "expectedProperties": [
+            "Price"
+          ]
         }
       ],
       "$designer": {
-        "name": "Hobby - Show Value"
+        "name": "Price - Replacement Prompt"
       },
-      "$source": "sandwichMerge-Hobby-show",
-      "$Generator": "43d9483d3b494362beb046b7e796fe43"
+      "$source": "sandwichMerge-Price-change",
+      "$Generator": "9396ced1beb6b4e2a9753a89cee6b9ae"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Assign()",
+      "property": "Price",
+      "value": "money",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${confirmationActivity('Price', @money)}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "property": "$Price",
+          "value": "=@money"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "condition": "$PropertyToChange == 'Price'",
+          "actions": [
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "property": "$PropertyToChange"
+            }
+          ]
+        }
+      ],
+      "$designer": {
+        "name": "Price - Assign @money"
+      },
+      "$source": "sandwichMerge-Price-assign-money",
+      "$Generator": "0cb25dd8b5e90b8cc1647ea4d3f097b6"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1177,25 +1215,6 @@
       "$Generator": "c05ff1100996df17fcb2881d966eaca3"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "!$Price",
-      "priority": "=form.missingPriority(['Price'])",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Price_MissingPrompt()}",
-          "expectedProperties": [
-            "Price"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Price - Missing Prompt"
-      },
-      "$source": "sandwichMerge-Price-missing",
-      "$Generator": "fcee77c3ae42fcbdd84a6a00e842df95"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Clear()",
       "property": "Price",
@@ -1232,25 +1251,6 @@
       "$Generator": "67411fb09d5a6a40f70fe718a366c1b2"
     },
     {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "$PropertyToChange == 'Price'",
-      "priority": 1,
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${Price_ChangePrompt()}",
-          "expectedProperties": [
-            "Price"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "Price - Replacement Prompt"
-      },
-      "$source": "sandwichMerge-Price-change",
-      "$Generator": "9396ced1beb6b4e2a9753a89cee6b9ae"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Help()",
       "property": "Price",
@@ -1267,31 +1267,30 @@
       "$Generator": "ac8acfca5a7ab532e09b6bc0dcab1156"
     },
     {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Assign()",
-      "property": "CancelConfirmation",
-      "value": "boolean",
+      "$kind": "Microsoft.OnBeginDialog",
       "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$CancelConfirmation",
-          "value": "=@boolean"
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpGlobal()}"
         },
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "$CancelConfirmation == 'true'",
+          "condition": "!turn.activityProcessed",
           "actions": [
             {
-              "$kind": "Microsoft.EndDialog"
+              "$kind": "Microsoft.EmitEvent",
+              "eventName": "activityReceived",
+              "eventValue": "=turn.activity",
+              "bubbleEvent": false
             }
           ]
         }
       ],
       "$designer": {
-        "name": "Cancel Confirmation Assign"
+        "name": "Begin Dialog"
       },
-      "$source": "sandwichMerge-form-CancelConfirmation-assign-boolean",
-      "$Generator": "47b42885e52d36f216277b3a1c8ae33e"
+      "$source": "sandwichMerge-form-BeginDialog",
+      "$Generator": "b40220ef77f7d99c255b3af484d29045"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -1360,30 +1359,20 @@
       "$Generator": "13c449885a4933b0eecc994c7db93cbe"
     },
     {
-      "$kind": "Microsoft.OnBeginDialog",
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Change()",
       "actions": [
         {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpGlobal()}"
-        },
-        {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "!turn.activityProcessed",
-          "actions": [
-            {
-              "$kind": "Microsoft.EmitEvent",
-              "eventName": "activityReceived",
-              "eventValue": "=turn.activity",
-              "bubbleEvent": false
-            }
-          ]
+          "$kind": "Microsoft.SetProperty",
+          "property": "$PropertyToChange",
+          "value": "=turn.dialogEvent.value.property"
         }
       ],
       "$designer": {
-        "name": "Begin Dialog"
+        "name": "Property to Change Assign"
       },
-      "$source": "sandwichMerge-form-BeginDialog",
-      "$Generator": "b40220ef77f7d99c255b3af484d29045"
+      "$source": "sandwichMerge-form-Change",
+      "$Generator": "7bc4bee37e4dfac02a3449c839caa7ba"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1400,24 +1389,30 @@
       "$designer": {
         "name": "Cancel Confirmation Prompt"
       },
-      "$source": "sandwichMerge-form-CancelGlobal",
-      "$Generator": "364cf2cf06054438e4dbb489472afd4a"
+      "$source": "sandwichMerge-form-CancelConfirmation-prompt",
+      "$Generator": "5e5f49b66481413befbc87b2898ded34"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Change()",
+      "operation": "Assign()",
+      "property": "CancelConfirmation",
+      "value": "boolean",
       "actions": [
         {
-          "$kind": "Microsoft.SetProperty",
-          "property": "$PropertyToChange",
-          "value": "=turn.dialogEvent.value.property"
+          "$kind": "Microsoft.IfCondition",
+          "condition": "@boolean == 'true'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog"
+            }
+          ]
         }
       ],
       "$designer": {
-        "name": "Change property"
+        "name": "Cancel Confirmation Assign"
       },
-      "$source": "sandwichMerge-form-Change",
-      "$Generator": "dad698424d934ef1de5e5622e4eb542a"
+      "$source": "sandwichMerge-form-CancelConfirmation-assign-boolean",
+      "$Generator": "06f0fe2cebfc1cb319b9fa36f3fd0b2e"
     },
     {
       "$kind": "Microsoft.OnChooseProperty",
@@ -1428,76 +1423,10 @@
         }
       ],
       "$designer": {
-        "name": "ChooseProperty()"
+        "name": "Choose Assignment Prompt"
       },
       "$source": "sandwichMerge-form-ChooseProperty",
-      "$Generator": "f1358134ff2db83a3b281fc529761fbc"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Help()",
-      "actions": [
-        {
-          "$kind": "Microsoft.DeleteProperty",
-          "property": "$retries"
-        },
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpGlobal()}"
-        }
-      ],
-      "$designer": {
-        "name": "Global Help"
-      },
-      "$source": "sandwichMerge-form-HelpGlobal",
-      "$Generator": "6a166c391cb5c8e1ad33fefdfc358ef5"
-    },
-    {
-      "$kind": "Microsoft.OnEndOfActions",
-      "condition": "=$retries",
-      "runOnce": true,
-      "priority": 0,
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${helpReprompt()}"
-        }
-      ],
-      "$designer": {
-        "name": "Reprompt Help"
-      },
-      "$source": "sandwichMerge-form-HelpReprompt",
-      "$Generator": "2dc0ec05902925d5f8976936cf5843e9"
-    },
-    {
-      "$kind": "Microsoft.OnIntent",
-      "intent": "None",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${notUnderstood()}"
-        }
-      ],
-      "$designer": {
-        "name": "Unknown intent"
-      },
-      "$source": "sandwichMerge-form-NotUnderstood",
-      "$Generator": "da008b10a79df45f46350fef4e297f37"
-    },
-    {
-      "$kind": "Microsoft.OnAssignEntity",
-      "operation": "Show()",
-      "actions": [
-        {
-          "$kind": "Microsoft.SendActivity",
-          "activity": "${propertiesAsActivity('sandwichMerge', publicProperties())}"
-        }
-      ],
-      "$designer": {
-        "name": "Show Form"
-      },
-      "$source": "sandwichMerge-form-Show",
-      "$Generator": "1e931ecddda228f86a20e2c68ef79b6c"
+      "$Generator": "3c3b18cd96e2b222aee40106207cdde7"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1516,7 +1445,7 @@
           "elseActions": [
             {
               "$kind": "Microsoft.IfCondition",
-              "condition": "=$PropertyToChange",
+              "condition": "exists($PropertyToChange)",
               "actions": [
                 {
                   "$kind": "Microsoft.DeleteProperty",
@@ -1541,34 +1470,79 @@
       "$designer": {
         "name": "Skip"
       },
-      "$source": "sandwichMerge-form-SkipIntent",
-      "$Generator": "401e98a3def5663599dc6baa680a70ff"
+      "$source": "sandwichMerge-form-Skip",
+      "$Generator": "5caf2558a3295f0221a6870b720b2860"
     },
     {
-      "$kind": "Microsoft.OnIntent",
-      "intent": "sandwichMerge-modified",
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Show()",
       "actions": [
         {
-          "$kind": "Microsoft.IfCondition",
-          "condition": "count(turn.recognizedEntities) == 0",
-          "actions": [
-            {
-              "$kind": "Microsoft.SendActivity",
-              "activity": "${notUnderstood()}"
-            }
-          ],
-          "elseActions": []
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${propertiesAsActivity('sandwichMerge', publicProperties())}"
         }
       ],
       "$designer": {
-        "name": "Nothing Recognized"
+        "name": "Show Form"
       },
-      "$source": "sandwichMerge-trigger",
-      "$Generator": "c5cd8fb3caaa17354fce79e51b15a529"
+      "$source": "sandwichMerge-form-Show",
+      "$Generator": "1e931ecddda228f86a20e2c68ef79b6c"
+    },
+    {
+      "$kind": "Microsoft.OnAssignEntity",
+      "operation": "Help()",
+      "actions": [
+        {
+          "$kind": "Microsoft.DeleteProperty",
+          "property": "$retries"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpGlobal()}"
+        }
+      ],
+      "$designer": {
+        "name": "Global Help"
+      },
+      "$source": "sandwichMerge-form-HelpGlobal",
+      "$Generator": "6a166c391cb5c8e1ad33fefdfc358ef5"
+    },
+    {
+      "$kind": "Microsoft.OnEndOfActions",
+      "condition": "exists($retries)",
+      "runOnce": true,
+      "priority": 0,
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${helpReprompt()}"
+        }
+      ],
+      "$designer": {
+        "name": "Reprompt Help"
+      },
+      "$source": "sandwichMerge-form-HelpReprompt",
+      "$Generator": "560782d707148e96369cbf6ff162d017"
+    },
+    {
+      "$kind": "Microsoft.OnDialogEvent",
+      "event": "recognizedIntent",
+      "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == 'sandwichMerge-modified' && count(turn.recognizedEntities) == 0)",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "activity": "${notUnderstood()}"
+        }
+      ],
+      "$designer": {
+        "name": "Not Understood"
+      },
+      "$source": "sandwichMerge-form-NotUnderstood",
+      "$Generator": "b39d7e30c35b491addf752c15cd7230a"
     }
   ],
   "$designer": {
     "name": "sandwichMerge main dialog"
   },
-  "$Generator": "a60a9fde0e7df564f652bff4b12bb8b3"
+  "$Generator": "8478bdf48ed4a1208d88d3381c763c1c"
 }

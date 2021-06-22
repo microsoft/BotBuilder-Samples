@@ -1,7 +1,7 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${formDialogFilename('SkipIntent.dialog')}
+- ${formDialogFilename('Skip.dialog')}
 
 # template
 - ```
@@ -23,7 +23,7 @@
             "elseActions": [
                 {
                     "$kind": "Microsoft.IfCondition",
-                    "condition": "=$PropertyToChange",
+                    "condition": "exists($PropertyToChange)",
                     "actions": [
                         {
                             "$kind": "Microsoft.DeleteProperty",

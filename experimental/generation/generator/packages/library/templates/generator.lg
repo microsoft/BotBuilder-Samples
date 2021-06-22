@@ -601,9 +601,6 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # designerChooseEntity()
 - ${designerName(`${entity} - Disambiguation Prompt`)}
 
-# designerChooseProperty()
-- ${designerName(`ChooseProperty()`)}
-
 # designerMissing(property)
 - ${designerName(`${property} - Missing Prompt`)}
 
@@ -748,6 +745,47 @@ ${activityTemplate(
 
 # enumName(entity)
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
+
+>> Grouping 
+
+# propertyFromSource(source)
+- ${removeValue(substring(substring(source, indexOf(source, '-') + 1), 0, indexOf(substring(source, indexOf(source, '-') + 1), '-')))}
+
+# removeValue(string)
+- ${if(endsWith(string, 'Value'), substring(string, 0, indexOf(string, 'Value')), string)}
+
+# addGroup(group, key, value)
+- ${if(group[key], setProperty(group, key, union(group[key], [value])), addProperty(group, key, [value]))}
+
+# groupByPropertyElement(groups, list, idx)
+- ${if(idx >= count(list), groups, groupByPropertyElement(addGroup(groups, propertyFromSource(list[idx]), list[idx]), list, idx + 1))}
+
+# groupByProperty(list)
+- ${groupByPropertyElement({}, list, 0)}
+
+# orderSortIndex(element, order, idx)
+- ${if(idx < count(order), 
+    if(indexOf(element, order[idx]) >= 0, 
+      idx, 
+      orderSortIndex(element, order, idx + 1)),
+    10000)}
+ 
+# orderSortValue(element, order)
+- ${{order: orderSortIndex(element, order, 0), value: element}}
+
+# orderedSort(list, order)
+- ${select(sortBy(foreach(list, elt, orderSortValue(elt, order)), 'order'), elt, elt.value)}
+
+# propertyGroups(groups)
+- ${where(indicesAndValues(groups), group, group.index != 'form')}
+
+# formGroup(groups)
+- ${first(where(indicesAndValues(groups), group, group.index == 'form')).value}
+
+# groupAndOrder(list, propertyOrder, formOrder)
+- ${flatten(union(
+    foreach(propertyGroups(groupByProperty(list)), group, orderedSort(group.value, propertyOrder)),
+    orderedSort(formGroup(groupByProperty(list)), formOrder)))}
 
 >> Transformer support
 
