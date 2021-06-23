@@ -3,5 +3,5 @@
 # filename
 - ${clearFilename()}
 
-# template
+# generator
 - ${clearDialog()}

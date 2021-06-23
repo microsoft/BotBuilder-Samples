@@ -3,12 +3,12 @@
 # filename
 - ${formDialogFilename('HelpReprompt.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition": "=$retries",
+    "condition": "exists($retries)",
     "runOnce": true,
     "priority": 0,
     "actions": [

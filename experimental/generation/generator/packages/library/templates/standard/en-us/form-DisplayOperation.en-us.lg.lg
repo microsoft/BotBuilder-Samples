@@ -3,7 +3,7 @@
 # filename
 - ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
 
-# template
+# generator
 -```${formImport('form.en-us.lg')}
 
 # displayOperation(op, property, value)

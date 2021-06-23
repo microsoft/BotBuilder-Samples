@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('ordinal')}
 
-# template
+# generator
 - ${entityTextTemplate('ordinal')}

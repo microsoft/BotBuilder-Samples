@@ -255,14 +255,14 @@ describe('dialog:generate library', async () => {
                 outDir: output,
                 feedback
             })
-            await checkDirectory(output, 9, 4)
+            await checkDirectory(output, 8, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
             await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 15)
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 138)
+            await checkPattern(ppath.join(output, '**'), 136)
         } catch (e) {
             assert.fail(e.message)
         }
@@ -534,19 +534,20 @@ describe('dialog:generate library', async () => {
             for (const template of source.allTemplates) {
                 // Analyze each original source template only once
                 if (!analyzed.has(template.sourceRange.source)) {
-                    const references = source.analyzeTemplate(template.name).TemplateReferences
-                    const templateSource = template.sourceRange.source
-                    for (const reference of references) {
-                        const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
-                        let referenceSource = referenceSources.get(templateSource)
-                        if (!referenceSource) {
-                            referenceSource = []
-                            referenceSources.set(templateSource, referenceSource)
+                    try {
+                        const references = source.analyzeTemplate(template.name).TemplateReferences
+                        const templateSource = template.sourceRange.source
+                        for (const reference of references) {
+                            const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
+                            let referenceSource = referenceSources.get(templateSource)
+                            if (!referenceSource) {
+                                referenceSource = []
+                                referenceSources.set(templateSource, referenceSource)
+                            }
+                            referenceSource.push(template.name)
                         }
-                        referenceSource.push(template.name)
-                    }
-                    if (template.name === 'transforms') {
-
+                    } catch (e) {
+                        // If you have a recursive template like sortNumber you will get an exception
                     }
                 }
             }
@@ -578,7 +579,7 @@ describe('dialog:generate library', async () => {
      * Return the simple template name from a full template name.
      * @param fullname Full template name including source.
      */
-    function templateName(fullname: string): string {
+    function generatorName(fullname: string): string {
         const colon = fullname.lastIndexOf(':')
         return fullname.substring(colon + 1)
     }
@@ -588,7 +589,7 @@ describe('dialog:generate library', async () => {
      * @param fullname Full template name including source.
      * @returns filename:template
      */
-    function shortTemplateName(fullname: string): string {
+    function shortgeneratorName(fullname: string): string {
         const colon = fullname.lastIndexOf(':')
         return ppath.basename(fullname.substring(0, colon)) + fullname.substring(colon)
     }
@@ -620,7 +621,7 @@ describe('dialog:generate library', async () => {
 
         // Dump out all template usage
         for (const [template, templateUsage] of usage) {
-            feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)
+            feedback(gen.FeedbackType.debug, `${shortgeneratorName(template)} references:`)
             for (const [source, sourceUsage] of templateUsage) {
                 feedback(gen.FeedbackType.debug, `    ${ppath.basename(source)}: ${sourceUsage.join(', ')}`)
             }
@@ -628,12 +629,12 @@ describe('dialog:generate library', async () => {
 
         // Identify unused templates
         // Exclusions are top-level templates called by the generator in standard.schema or called through template
-        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty']
+        const exclude = ['filename', 'generator', 'entities', 'generators', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty', 'sortPosition', 'triggerNames']
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {
-            const name = templateName(template)
+            const name = generatorName(template)
             if (!exclude.includes(name) && templateUsage.size === 0) {
-                feedback(gen.FeedbackType.error, `${shortTemplateName(template)} is unused`)
+                feedback(gen.FeedbackType.error, `${shortgeneratorName(template)} is unused`)
                 ++unusedTemplates
             }
         }

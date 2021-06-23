@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('Show.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -15,6 +15,6 @@
             "activity": "\${propertiesAsActivity('${prefix}', publicProperties())}"           
         }
     ]
-    ${designerIntent('Show')}
+    ${designerName('Show Form')}
 }
 ```

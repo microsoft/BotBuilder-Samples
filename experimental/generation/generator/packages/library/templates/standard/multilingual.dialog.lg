@@ -3,7 +3,7 @@
 # filename
 - ${recognizerDir()}${prefix}.lu.dialog
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",

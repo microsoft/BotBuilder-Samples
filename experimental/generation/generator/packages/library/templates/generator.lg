@@ -88,12 +88,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
         "genericEntity-assign.dialog",
         "genericEntity-remove.dialog",
-        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 
@@ -111,12 +111,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
         "dateFormat-assign.dialog",
         "genericEntity-remove.dialog",
-        "generic-missing.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 
@@ -218,7 +218,7 @@
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_invalid${templateName(propertySchema.format)}(@datetime)}"
+                    "activity": "\${${property}_invalid${generatorName(propertySchema.format)}(@datetime)}"
                 }
             ],
             "elseActions": [
@@ -318,7 +318,7 @@
             "property": "$${property}"
         }
     ]               
-    ${designerOp('Clear')}     
+    ${designerOp('Clear Property')}     
 }
 ```
 
@@ -335,7 +335,7 @@
             "activity": "\${${property}_Show()}"
         }
     ]               
-    ${designerOp('Show')}     
+    ${designerOp('Show Value')}     
 }
 ```
 
@@ -590,28 +590,25 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 -, "$designer": {"name": "${name}"}
 
 # designerOp(op)
-- ${designerName(`${property} - ${op}()`)}
+- ${designerName(`${property} - ${op}`)}
 
 # designerOpEntity(op, entity)
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${property} - ${op}(@${entity})`)}
+- ${designerName(`${property} - ${op} @${entity}`)}
 
 # designerChooseEntity()
-- ${designerName(`${entity} - Choose()`)}
-
-# designerChooseProperty()
-- ${designerName(`ChooseProperty()`)}
+- ${designerName(`${entity} - Disambiguation Prompt`)}
 
 # designerMissing(property)
-- ${designerName(`${property} - Missing()`)}
+- ${designerName(`${property} - Missing Prompt`)}
 
 # designerHelp(property)
-- ${designerName(`${property} - Help()`)}
+- ${designerName(`${property} - Help`)}
 
 # designerChange(property)
-- ${designerName(`${property} - Change()`)}
+- ${designerName(`${property} - Replacement Prompt`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
@@ -741,13 +738,40 @@ ${activityTemplate(
 > Sort object values by key
 - ${sortBy(select(indicesAndValues(object), entry, entry.value), key)}
 
-# templateName(name)
+# generatorName(name)
 > Ensure name is valid for templates
 > NOTE: Property names must not include space or - or they will not work easily as memory expressions
 - ${replace(replace(name, '-', '_'), ' ', '_')}
 
 # enumName(entity)
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
+
+>> Grouping 
+
+# sortNumber(number, divisor)
+> Return a string with leading zeros out to divisor
+- ${if(divisor == 1,
+    string(number),
+    concat(string(div(number, divisor)), sortNumber(mod(number, divisor), div(divisor, 10))))}
+
+# listPosition(value, list)
+> Return first position where value contains element of list
+- ${listPositionIdx(value, list, 0)}
+
+# listPositionIdx(value, list, idx)
+- ${if(idx < count(list),
+      if(contains(value, list[idx]), idx, listPositionIdx(value, list, idx + 1)),
+      count(list))}
+
+# groupedSortRecord(value, grouper, sorter)
+- ${{key: concat(sortNumber(template(grouper, value), 100), '/', sortNumber(template(sorter, value), 100)), value: value}}
+
+# groupedSort(list, grouper, sorter)
+> Grouper returns a number for the group and sorter returns a number for sort within group
+- ${select(sortBy(foreach(list, value, groupedSortRecord(value, grouper, sorter)), 'key'), record, record.value)}
+
+# propertyGroupPosition(trigger)
+- ${if(startsWith(trigger, 'form'), count(properties), listPosition(trigger, properties))}
 
 >> Transformer support
 

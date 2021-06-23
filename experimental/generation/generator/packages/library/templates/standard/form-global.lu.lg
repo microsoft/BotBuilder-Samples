@@ -3,8 +3,12 @@
 # filename
 - ${understandingDir()}${locale}/form/${prefix}-form-global.${locale}.lu
 
-# template
+# generator
 -```
+> Global operations
+@ ml Skip() usesFeature SkipPhrases
+@ ml Cancel() usesFeature CancelPhrases
+
 > Add examples for operations across properties
 # ${triggerIntent}
 ${substitutions(`form-global.${locale}.data`, examples, 6)}

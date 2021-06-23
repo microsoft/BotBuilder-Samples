@@ -3,7 +3,7 @@
 # filename
 - ${entityLGFilename()}
 
-# template
+# generator
 -```
 ${formImport('form.en-us.lg')}
 ${formImport('form-Choose.en-us.lg')}

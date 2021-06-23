@@ -3,7 +3,7 @@
 # filename
 - ${understandingDir()}${locale}/form/${prefix}-custom.${locale}.lu
 
-# template
+# generator
 -```
 > Add custom utterances
 > Labels are nested choices of operator?(property*(value*)) where the labels are chosen from:

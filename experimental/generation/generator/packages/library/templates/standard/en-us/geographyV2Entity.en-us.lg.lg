@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('geography')}
 
-# template
+# generator
 - ${entityTextTemplate('geography')}

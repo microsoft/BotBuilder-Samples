@@ -1,7 +1,7 @@
 # filename
 - qnaconfig.json
 
-# template
+# generator
 -```
 {
     "botName": "${prefix}",

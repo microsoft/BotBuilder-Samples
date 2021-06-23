@@ -1,0 +1,48 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('PropertyToChange-assign.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Assign()",
+    "property": "PropertyToChange",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "turn.dialogEvent.value.value.name == 'boolean'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "@boolean == 'false'",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.EndDialog"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.Ask",
+                            "activity": "\${choosePropertyPrompt()}",
+                            "expectedProperties": [
+                                "PropertyToChange"
+                            ]
+                        }
+                    ]
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.SetProperty",
+                    "property": "$PropertyToChange",
+                    "value": "=turn.dialogEvent.value.value.name"
+                }
+            ]
+        }
+    ]
+    ${designerName('Finish or Property to Change')}
+}
+```
