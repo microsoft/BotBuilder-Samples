@@ -20,7 +20,8 @@
                     "condition": "@boolean == 'false'",
                     "actions": [
                         {
-                            "$kind": "Microsoft.EndDialog"
+                            "$kind": "Microsoft.EndDialog",
+                            "value": "={${join(foreach(properties, property, `${property}: $${property}`), ', ')}}"
                         }
                     ],
                     "elseActions": [

@@ -13,7 +13,7 @@
     "generator": "${prefix}.lg",
     "schema": "${prefix}.json",
     "triggers": ${groupedSort(triggerNames(templates.dialog), 'propertyGroupPosition', 'sortPosition')}
-    ${designerName(`${prefix} main dialog`)}
+    ${designerName(`${prefix} form dialog`)}
 }
 ```
 

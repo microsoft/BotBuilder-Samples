@@ -597,7 +597,8 @@
               "condition": "@boolean == 'false'",
               "actions": [
                 {
-                  "$kind": "Microsoft.EndDialog"
+                  "$kind": "Microsoft.EndDialog",
+                  "value": "={Temperature: $Temperature, AString: $AString}"
                 }
               ],
               "elseActions": [
@@ -624,7 +625,7 @@
         "name": "Finish or Property to Change"
       },
       "$source": "unittest_transforms-form-PropertyToChange-assign",
-      "$Generator": "be77100d4df2a30cd55686089704325a"
+      "$Generator": "c613f0c5eb22ffb5fef4b18615a44708"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -810,7 +811,7 @@
     }
   ],
   "$designer": {
-    "name": "unittest_transforms main dialog"
+    "name": "unittest_transforms form dialog"
   },
-  "$Generator": "5fb316d4f72b7854918ecdcb7cab2025"
+  "$Generator": "08622b78e5c5d2dae88a30a35fe901ca"
 }
