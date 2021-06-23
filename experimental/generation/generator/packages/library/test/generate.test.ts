@@ -589,7 +589,7 @@ describe('dialog:generate library', async () => {
      * @param fullname Full template name including source.
      * @returns filename:template
      */
-    function shortgeneratorName(fullname: string): string {
+    function shortGeneratorName(fullname: string): string {
         const colon = fullname.lastIndexOf(':')
         return ppath.basename(fullname.substring(0, colon)) + fullname.substring(colon)
     }
@@ -621,7 +621,7 @@ describe('dialog:generate library', async () => {
 
         // Dump out all template usage
         for (const [template, templateUsage] of usage) {
-            feedback(gen.FeedbackType.debug, `${shortgeneratorName(template)} references:`)
+            feedback(gen.FeedbackType.debug, `${shortGeneratorName(template)} references:`)
             for (const [source, sourceUsage] of templateUsage) {
                 feedback(gen.FeedbackType.debug, `    ${ppath.basename(source)}: ${sourceUsage.join(', ')}`)
             }
@@ -634,7 +634,7 @@ describe('dialog:generate library', async () => {
         for (const [template, templateUsage] of usage) {
             const name = generatorName(template)
             if (!exclude.includes(name) && templateUsage.size === 0) {
-                feedback(gen.FeedbackType.error, `${shortgeneratorName(template)} is unused`)
+                feedback(gen.FeedbackType.error, `${shortGeneratorName(template)} is unused`)
                 ++unusedTemplates
             }
         }

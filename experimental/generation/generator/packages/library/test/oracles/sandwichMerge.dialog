@@ -1311,7 +1311,8 @@
               "condition": "@boolean == 'false'",
               "actions": [
                 {
-                  "$kind": "Microsoft.EndDialog"
+                  "$kind": "Microsoft.EndDialog",
+                  "value": "={Quantity: $Quantity, Length: $Length, Name: $Name, Cheese: $Cheese, Bread: $Bread, Hobby: $Hobby, Price: $Price}"
                 }
               ],
               "elseActions": [
@@ -1338,7 +1339,7 @@
         "name": "Finish or Property to Change"
       },
       "$source": "sandwichMerge-form-PropertyToChange-assign",
-      "$Generator": "13c449885a4933b0eecc994c7db93cbe"
+      "$Generator": "c7f14ab28b6a1710548db298a183efbd"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1524,7 +1525,7 @@
     }
   ],
   "$designer": {
-    "name": "sandwichMerge main dialog"
+    "name": "sandwichMerge form dialog"
   },
-  "$Generator": "8478bdf48ed4a1208d88d3381c763c1c"
+  "$Generator": "7580fc34703e2530aba523caeb3a8185"
 }
