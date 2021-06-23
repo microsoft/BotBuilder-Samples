@@ -439,7 +439,7 @@ async function processTemplate(
                 const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 const plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
-                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
+                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'generator')) {
                     // Constant file or .lg template so output
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
@@ -466,7 +466,7 @@ async function processTemplate(
                             let result = plainTemplate ? addPrefixToImports(plainTemplate.template, scope) : undefined
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
-                                result = lgTemplate.evaluate('template', scope) as string
+                                result = lgTemplate.evaluate('generator', scope) as string
                                 process.chdir(oldDir)
                                 if (Array.isArray(result)) {
                                     result = result.join(os.EOL)
@@ -529,10 +529,10 @@ async function processTemplate(
                         }
                     }
 
-                    // Expand # templates
-                    if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
+                    // Expand # generators
+                    if (lgTemplate.allTemplates.some(f => f.name === 'generators')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
-                        let generated = lgTemplate.evaluate('templates', scope)
+                        let generated = lgTemplate.evaluate('generators', scope)
                         if (!Array.isArray(generated)) {
                             generated = [generated]
                         }
@@ -778,7 +778,7 @@ async function ensureEntitiesAndTemplates(
                         }
                         if (!property.schema.$templates) {
                             feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $templates`)
-                            property.schema.$templates = lgTemplate.evaluate('templates', scope) as string[]
+                            property.schema.$templates = lgTemplate.evaluate('generators', scope) as string[]
                             if (!property.schema.$templates) {
                                 feedback(FeedbackType.error, `${property.path} has no $templates`)
                             }

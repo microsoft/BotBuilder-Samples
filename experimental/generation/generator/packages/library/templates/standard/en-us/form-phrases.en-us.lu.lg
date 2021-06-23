@@ -3,7 +3,7 @@
 # filename
 - ${understandingDir()}${locale}/form/${prefix}-form-phrases.en-us.lu
 
-# template
+# generator
 -```
 > Phrase lists for operations
 @ phraselist AssignPhrases(interchangeable) disabledForAllModels =

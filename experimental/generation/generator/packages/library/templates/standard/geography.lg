@@ -3,5 +3,5 @@
 # entities
 - ${['geographyV2']}
 
-# templates
+# generators
 - ${genericTemplates()}

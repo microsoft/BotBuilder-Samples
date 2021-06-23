@@ -3,5 +3,5 @@
 # entities
 - ${['keyPhrase', 'utterance']}
 
-# templates
+# generators
 - ${stringTemplates()}

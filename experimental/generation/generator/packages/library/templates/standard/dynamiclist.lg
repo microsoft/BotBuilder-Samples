@@ -3,7 +3,7 @@
 # entities
 - ${['${property}Value']}
 
-# templates
+# generators
 - ${[
         "verifyUnique",
         "dynamiclistEntity.lg",

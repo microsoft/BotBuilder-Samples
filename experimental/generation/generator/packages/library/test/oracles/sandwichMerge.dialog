@@ -1109,24 +1109,6 @@
       "$Generator": "553d5f070534d8c4114455a0aac1fd39"
     },
     {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "utterance",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${utterance_chooseEntity()}",
-          "expectedProperties": [
-            "Hobby"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "utterance - Disambiguation Prompt"
-      },
-      "$source": "sandwichMerge-utterance-choose",
-      "$Generator": "fcbca721948b1cd8175489f78ba980da"
-    },
-    {
       "$kind": "Microsoft.OnEndOfActions",
       "condition": "$PropertyToChange == 'Price'",
       "priority": 1,

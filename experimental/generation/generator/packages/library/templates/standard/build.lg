@@ -3,7 +3,7 @@
 # filename
 -build
 
-# template
+# generator
 - IF: ${templates.qna}
     - ${setParamsForLUIS()} ${setParamsForQnA()} ${crossTrainCmd()} ${luisBuildCmd()} ${qnaMakerBuildCmd()} ${helpForQnA()}
 - ELSE:

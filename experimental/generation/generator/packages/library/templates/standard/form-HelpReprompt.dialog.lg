@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('HelpReprompt.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",

@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('percentage')}
 
-# template
+# generator
 - ```
 @ prebuilt percentage
 

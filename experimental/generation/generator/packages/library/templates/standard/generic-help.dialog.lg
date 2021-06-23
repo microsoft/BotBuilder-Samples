@@ -3,5 +3,5 @@
 # filename
 - ${helpFilename()}
 
-# template
+# generator
 - ${helpPropertyDialog()}

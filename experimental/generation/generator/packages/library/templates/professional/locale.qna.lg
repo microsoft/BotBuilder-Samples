@@ -3,5 +3,5 @@
 # filename
 - ${knowledgeDir()}${locale}/${prefix}.${locale}.qna
 
-# template
+# generator
 - ${join(foreach(templates.qna, qna, `[${qna.fullName}](${localePath(qna.relative)})`), EOL())}

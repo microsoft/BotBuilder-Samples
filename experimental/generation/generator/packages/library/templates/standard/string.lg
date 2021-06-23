@@ -3,7 +3,7 @@
 # entities
 - ${['${property}Value', 'utterance']}
 
-# templates
+# generators
 - ${[
         "verifyUnique",
         "verifyPattern",
@@ -12,7 +12,6 @@
         "genericProperty.lg",
         "generic-missing.dialog",
         "generic-change.dialog",
-        "genericEntity-choose.dialog",
         "genericEntity-assign.dialog",
         "genericEntity-remove.dialog",
         "generic-clear.dialog",

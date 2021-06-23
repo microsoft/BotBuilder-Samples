@@ -3,5 +3,5 @@
 # entities
 - ${unitsEntities('temperature')}
 
-# templates
+# generators
 - ${unitTemplates()}

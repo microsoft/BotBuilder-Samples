@@ -327,24 +327,6 @@
       "$Generator": "9048e0ad8bcd9dff8e88efc855ab6351"
     },
     {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "AStringValue",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${AStringValue_chooseEntity()}",
-          "expectedProperties": [
-            "AString"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "AStringValue - Disambiguation Prompt"
-      },
-      "$source": "unittest_transforms-AStringValue-choose",
-      "$Generator": "dad0acd8130ad6795f3a46081d9f6d11"
-    },
-    {
       "$kind": "Microsoft.OnAssignEntity",
       "operation": "Assign()",
       "property": "AString",
@@ -551,24 +533,6 @@
       },
       "$source": "unittest_transforms-AString-help",
       "$Generator": "9059fefae61a8d768eef85f72c3de173"
-    },
-    {
-      "$kind": "Microsoft.OnChooseEntity",
-      "value": "utterance",
-      "actions": [
-        {
-          "$kind": "Microsoft.Ask",
-          "activity": "${utterance_chooseEntity()}",
-          "expectedProperties": [
-            "AString"
-          ]
-        }
-      ],
-      "$designer": {
-        "name": "utterance - Disambiguation Prompt"
-      },
-      "$source": "unittest_transforms-utterance-choose",
-      "$Generator": "83ee8f0a739a3faef608aff04a66ea0d"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -848,5 +812,5 @@
   "$designer": {
     "name": "unittest_transforms main dialog"
   },
-  "$Generator": "94d0692bd882762b4b02d848cc070860"
+  "$Generator": "5fb316d4f72b7854918ecdcb7cab2025"
 }

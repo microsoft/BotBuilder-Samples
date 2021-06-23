@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('BeginDialog.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",

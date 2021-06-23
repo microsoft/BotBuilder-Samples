@@ -3,5 +3,5 @@
 # filename
 - ${changeFilename()}
 
-# template
+# generator
 - ${changeDialog()}

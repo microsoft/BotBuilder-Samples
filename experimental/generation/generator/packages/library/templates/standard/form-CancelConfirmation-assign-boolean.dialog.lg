@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('CancelConfirmation-assign-boolean.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
