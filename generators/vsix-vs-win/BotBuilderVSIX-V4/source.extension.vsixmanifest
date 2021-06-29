@@ -11,7 +11,7 @@
         <Tags>Bot, Bots, Bot Framework, BotBuilder, NLP, AI, Cognitive Services, Azure, Microsoft</Tags>
     </Metadata>
     <Installation InstalledByMsi="false">
-        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0)">
+        <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[15.0,17.0)" >
           <ProductArchitecture>x86</ProductArchitecture>
         </InstallationTarget>
         <InstallationTarget Id="Microsoft.VisualStudio.Community" Version="[17.0,18.0)">
