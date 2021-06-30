@@ -20,10 +20,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "unittest_transforms-Temperature-missing",
-      "$Generator": "2f83ec213d189aed7c5fed9276258b43"
+      "$Generator": "0cfab8738e4d821e014af7c1cd4b53fa"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -39,10 +39,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "unittest_transforms-Temperature-change",
-      "$Generator": "d5b3ec1dc811362947cbc5a7a56c87ff"
+      "$Generator": "c595e49d7dd9767d90fb31dc3868c5aa"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -251,10 +251,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "unittest_transforms-Temperature-clear",
-      "$Generator": "34c0e33f344f8781c55129a2d7055b20"
+      "$Generator": "627257f0de90684f2b71e55325053864"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -267,10 +267,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Show Value"
+        "name": "Show Value"
       },
       "$source": "unittest_transforms-Temperature-show",
-      "$Generator": "5e7bc076d1ebaa0031c264d93b601908"
+      "$Generator": "7ce675de227253c3b502372d57d4b7d7"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -283,10 +283,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Help"
+        "name": "Help"
       },
       "$source": "unittest_transforms-Temperature-help",
-      "$Generator": "ea613c949e4d2fdf0a2ad049b04bb7c8"
+      "$Generator": "2d5a0910aee295d6afd167149f780e43"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -302,10 +302,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "unittest_transforms-AString-missing",
-      "$Generator": "197c6d0142290d6a43b0b8c0ace35326"
+      "$Generator": "555867e7f954e3d8c74ba9e05f97b2e1"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -321,10 +321,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "unittest_transforms-AString-change",
-      "$Generator": "9048e0ad8bcd9dff8e88efc855ab6351"
+      "$Generator": "5d4ce749559759ebd3e76bfcc3f93d7e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -497,10 +497,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "unittest_transforms-AString-clear",
-      "$Generator": "416134dc014d6fffd4c473e11294edef"
+      "$Generator": "3b6dbc63024ea71a682830b58c258025"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -513,10 +513,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Show Value"
+        "name": "Show Value"
       },
       "$source": "unittest_transforms-AString-show",
-      "$Generator": "9c5fadb1ad890f6cabb34b16c115243a"
+      "$Generator": "70f53a9542b443fc1a4cfaee1ebfebcb"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -529,10 +529,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Help"
+        "name": "Help"
       },
       "$source": "unittest_transforms-AString-help",
-      "$Generator": "9059fefae61a8d768eef85f72c3de173"
+      "$Generator": "1db9fad26e7a81a3e510bf941058be90"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -813,5 +813,5 @@
   "$designer": {
     "name": "unittest_transforms form dialog"
   },
-  "$Generator": "08622b78e5c5d2dae88a30a35fe901ca"
+  "$Generator": "73245414b9a574bdd459d00d776e6bf2"
 }

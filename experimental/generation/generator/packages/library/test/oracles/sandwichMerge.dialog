@@ -20,10 +20,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Quantity-missing",
-      "$Generator": "0a94055053dc9b5c545ff5d33a0b81bf"
+      "$Generator": "59cb2e63ae64d597c0bf197a6ec219a4"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -39,10 +39,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Quantity-change",
-      "$Generator": "78458e862325740ed12190291f88c4d5"
+      "$Generator": "5f01745930287c3bc7cd2c8efd789a26"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -152,10 +152,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Quantity-clear",
-      "$Generator": "947c1c5281b3b7444fe6b2e3d49723cb"
+      "$Generator": "9fa7abb47bd5d3041264127a73e06191"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -168,10 +168,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Quantity-show",
-      "$Generator": "17c12a0b0c965875b8e9cdae7e796f15"
+      "$Generator": "eae1796721247bc1b7289e1d99f45146"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -184,10 +184,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Quantity-help",
-      "$Generator": "af2fd6baabcaddac70053af56ee5d462"
+      "$Generator": "f2c9fbe498aa83d5c0a1e5744d475a4a"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -203,10 +203,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Length-missing",
-      "$Generator": "9314ba07d2fed1ff4f728d29b4ee0054"
+      "$Generator": "6db549fdab672cc9b3b932594b3c1f52"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -222,10 +222,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Length-change",
-      "$Generator": "0fa9593dfd907a6a0dec90bdb884d790"
+      "$Generator": "8d1715520eaf7e35689eb59fb359266b"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -311,10 +311,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Length-clear",
-      "$Generator": "f77430a258cb2a1fb68d4b906ecd1582"
+      "$Generator": "346d2b589bb2a98d8cf120b02a57e6fd"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -327,10 +327,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Length-show",
-      "$Generator": "b85ad279502904d4d4ec04a550acb4e9"
+      "$Generator": "54f5f0576911fc52da47037c22e65c03"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -343,10 +343,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Length-help",
-      "$Generator": "573c5c43fb53ac0f8db465a3be4b821a"
+      "$Generator": "43dde8e4f746c8ed2b913d1a813f18be"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -362,10 +362,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Name-missing",
-      "$Generator": "ac958f63e07e166539b2c5cbf63e89a9"
+      "$Generator": "ed346a908a54ad472f41e13f41fa93fb"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -381,10 +381,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Name-change",
-      "$Generator": "ab199cec0516e4a7c7f49b3c1baed5b5"
+      "$Generator": "bde15ec109eb4c2ceb2aab1e11775789"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -539,10 +539,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Name-clear",
-      "$Generator": "fab8b12ca5aa3f6082e9099e08f2ffa8"
+      "$Generator": "3dc962f8a3e17ab904bebbf635147363"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -555,10 +555,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Name-show",
-      "$Generator": "adac67d03e2f50e5d8865905f047a187"
+      "$Generator": "5e7461505b8f5df7b0491ad73cdc3742"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -571,10 +571,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Name-help",
-      "$Generator": "f90dcd69508063cda962ceef601186bb"
+      "$Generator": "781505fbd1dcf24d67f76c99971c4c41"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -590,10 +590,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Bread-missing",
-      "$Generator": "38e50782815583924e5be37d33cbb6e8"
+      "$Generator": "f707ac661860593b466d6783a454403f"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -609,10 +609,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Bread-change",
-      "$Generator": "df3c0f487e47ae3864de0f99fae9fe38"
+      "$Generator": "82f0ee2e590c2bf3a5f6642d67cb403a"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -627,10 +627,10 @@
         }
       ],
       "$designer": {
-        "name": "BreadValue - Disambiguation Prompt"
+        "name": "Disambiguation Prompt"
       },
       "$source": "sandwichMerge-BreadValue-choose",
-      "$Generator": "20b5c835cdb5bd54730685b1314d664d"
+      "$Generator": "a942c816494f5717af893e86c0a0061d"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -716,10 +716,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Bread-clear",
-      "$Generator": "f28e7c27e98ce8d682d548fb30071eb1"
+      "$Generator": "ed8fc5760a63c3669fe2bd4034b6628d"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -732,10 +732,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Bread-show",
-      "$Generator": "9f78f39abe9776bddfb0896b2a8f1f58"
+      "$Generator": "12b973be65f8c2676ce16768ceb71800"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -748,10 +748,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Bread-help",
-      "$Generator": "1809eaaaf545ed06367b737b4966f269"
+      "$Generator": "f1d8c742843ab128ecf47054888564f8"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -767,10 +767,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Cheese-missing",
-      "$Generator": "46dd61c57b0ed81151129d4d7722fc1f"
+      "$Generator": "bb87154ddcf85af3319418463e8d85a9"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -786,10 +786,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Cheese-change",
-      "$Generator": "b490d7ac34488023d3de07ac5f28240a"
+      "$Generator": "76ece7497fe16d3037cf6190b7cdc54a"
     },
     {
       "$kind": "Microsoft.OnChooseEntity",
@@ -804,10 +804,10 @@
         }
       ],
       "$designer": {
-        "name": "CheeseValue - Disambiguation Prompt"
+        "name": "Disambiguation Prompt"
       },
       "$source": "sandwichMerge-CheeseValue-choose",
-      "$Generator": "09f34510b0b23282f573a6e72d1d8613"
+      "$Generator": "7afe3502d899d56d7a5afa9e1656e590"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -893,10 +893,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Cheese-clear",
-      "$Generator": "29d520846220808a032d4e713369f2e7"
+      "$Generator": "4c7514e5e45afb3876858cb35476bee5"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -909,10 +909,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Cheese-show",
-      "$Generator": "ed4ec20eab25a2788b39a6ff254e17de"
+      "$Generator": "be58250576559b90af515e989228e8fe"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -925,10 +925,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Cheese-help",
-      "$Generator": "88c5e4ef7b3685c1e67598dfa38af818"
+      "$Generator": "87d5eb4b8a0eda83163ba71d8194d658"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -944,10 +944,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Price-missing",
-      "$Generator": "fcee77c3ae42fcbdd84a6a00e842df95"
+      "$Generator": "4ad7b1fd13d36d0d99da04cdae2c1005"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -963,10 +963,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Missing Prompt"
+        "name": "Missing Prompt"
       },
       "$source": "sandwichMerge-Hobby-missing",
-      "$Generator": "53a289bc130d673d8574c9a6e673e407"
+      "$Generator": "b4af31b48467b630e36b4173e42224e0"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -982,10 +982,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Hobby-change",
-      "$Generator": "a22c0a310cf518f69329b856fdc9475e"
+      "$Generator": "e17c4c1c25377d370bddaebb6b70c6a9"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1071,10 +1071,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Hobby-clear",
-      "$Generator": "2ccc3e972f5068afe57ec1012e2d0b45"
+      "$Generator": "62140843baef5eb230e62a5cdc6eeacc"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1087,10 +1087,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Hobby-show",
-      "$Generator": "43d9483d3b494362beb046b7e796fe43"
+      "$Generator": "9e6f8f88605c0f025af363cf85e867eb"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1103,10 +1103,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Hobby-help",
-      "$Generator": "553d5f070534d8c4114455a0aac1fd39"
+      "$Generator": "eca16741b917150e531b305ee9195d6d"
     },
     {
       "$kind": "Microsoft.OnEndOfActions",
@@ -1122,10 +1122,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Replacement Prompt"
+        "name": "Replacement Prompt"
       },
       "$source": "sandwichMerge-Price-change",
-      "$Generator": "9396ced1beb6b4e2a9753a89cee6b9ae"
+      "$Generator": "50ba1640525a60266181e4c2ecaead77"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1211,10 +1211,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Clear Property"
+        "name": "Clear Property"
       },
       "$source": "sandwichMerge-Price-clear",
-      "$Generator": "6f6bde8a664a6fcf5d6ed8a939a5c23a"
+      "$Generator": "eb96c0497e8ff925ab696a9ee02d1a4e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1227,10 +1227,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Show Value"
+        "name": "Show Value"
       },
       "$source": "sandwichMerge-Price-show",
-      "$Generator": "67411fb09d5a6a40f70fe718a366c1b2"
+      "$Generator": "7090338dcb6b31980b42c4dc69593c19"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1243,10 +1243,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Help"
+        "name": "Help"
       },
       "$source": "sandwichMerge-Price-help",
-      "$Generator": "ac8acfca5a7ab532e09b6bc0dcab1156"
+      "$Generator": "2fc4e29702f340d4a447aa6149cb5573"
     },
     {
       "$kind": "Microsoft.OnBeginDialog",
@@ -1527,5 +1527,5 @@
   "$designer": {
     "name": "sandwichMerge form dialog"
   },
-  "$Generator": "7580fc34703e2530aba523caeb3a8185"
+  "$Generator": "fa15897202651c91e74ed206b9f2dc2b"
 }
