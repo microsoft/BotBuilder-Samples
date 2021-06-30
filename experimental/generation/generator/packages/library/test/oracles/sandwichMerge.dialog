@@ -95,10 +95,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Assign @number"
+        "name": "Assign @number"
       },
       "$source": "sandwichMerge-Quantity-assign-number",
-      "$Generator": "81122f3192686f4a9e3e874bf1c43637"
+      "$Generator": "2d214a2659429d16607c6b22da08bf0e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -132,10 +132,10 @@
         }
       ],
       "$designer": {
-        "name": "Quantity - Remove @number"
+        "name": "Remove @number"
       },
       "$source": "sandwichMerge-Quantity-remove-number",
-      "$Generator": "5f4ce412c8bb86988c26617366117582"
+      "$Generator": "cf6b0d750615fd3828853c88c6575abe"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -254,10 +254,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Assign @dimension"
+        "name": "Assign @dimension"
       },
       "$source": "sandwichMerge-Length-assign-dimension",
-      "$Generator": "ad7ece06b52b4008647e09560c929188"
+      "$Generator": "1196f786f6116bc4bb835d2a3f98a252"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -291,10 +291,10 @@
         }
       ],
       "$designer": {
-        "name": "Length - Remove @dimension"
+        "name": "Remove @dimension"
       },
       "$source": "sandwichMerge-Length-remove-dimension",
-      "$Generator": "53d536d064890a2b9219ca0bbf5576ea"
+      "$Generator": "8ea8c003c70a97b4bcf8238c7ad9b245"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -413,10 +413,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Assign @personName"
+        "name": "Assign @personName"
       },
       "$source": "sandwichMerge-Name-assign-personName",
-      "$Generator": "b62c860219fe998a74210cdf5666f745"
+      "$Generator": "28b0e29cda92119d606acdfaa5d01241"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -445,10 +445,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Assign @utterance"
+        "name": "Assign @utterance"
       },
       "$source": "sandwichMerge-Name-assign-utterance",
-      "$Generator": "3b95f32d140608bcc816ca02a2ca3842"
+      "$Generator": "3c883ae5e4d9f9aab7259a1cfa3855f4"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -482,10 +482,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Remove @personName"
+        "name": "Remove @personName"
       },
       "$source": "sandwichMerge-Name-remove-personName",
-      "$Generator": "b5a2cf143c03610dd56e59bff73c4385"
+      "$Generator": "9cbbd18a5b6a0970ee5612ab082f08f8"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -519,10 +519,10 @@
         }
       ],
       "$designer": {
-        "name": "Name - Remove @utterance"
+        "name": "Remove @utterance"
       },
       "$source": "sandwichMerge-Name-remove-utterance",
-      "$Generator": "cc78262f659f5df50705d8b8e1c6aaa6"
+      "$Generator": "968e99c3feb6e91330065653087bf44d"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -627,10 +627,10 @@
         }
       ],
       "$designer": {
-        "name": "Disambiguation Prompt"
+        "name": "BreadValue - Disambiguation Prompt"
       },
       "$source": "sandwichMerge-BreadValue-choose",
-      "$Generator": "a942c816494f5717af893e86c0a0061d"
+      "$Generator": "20b5c835cdb5bd54730685b1314d664d"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -659,10 +659,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Assign @BreadValue"
+        "name": "Assign @BreadValue"
       },
       "$source": "sandwichMerge-Bread-assign-BreadValue",
-      "$Generator": "6cb41f546f474b3c088fb8f0f77bd00d"
+      "$Generator": "ece18a875f9f46d0db19a5469990460c"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -696,10 +696,10 @@
         }
       ],
       "$designer": {
-        "name": "Bread - Remove @BreadValue"
+        "name": "Remove @BreadValue"
       },
       "$source": "sandwichMerge-Bread-remove-BreadValue",
-      "$Generator": "dab58c9fcc1e44e39b5ff1b9bf7dd57a"
+      "$Generator": "ba6719ab470e6d2285e1da0a1e87e226"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -804,10 +804,10 @@
         }
       ],
       "$designer": {
-        "name": "Disambiguation Prompt"
+        "name": "CheeseValue - Disambiguation Prompt"
       },
       "$source": "sandwichMerge-CheeseValue-choose",
-      "$Generator": "7afe3502d899d56d7a5afa9e1656e590"
+      "$Generator": "09f34510b0b23282f573a6e72d1d8613"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -836,10 +836,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Assign @CheeseValue"
+        "name": "Assign @CheeseValue"
       },
       "$source": "sandwichMerge-Cheese-assign-CheeseValue",
-      "$Generator": "12ec4874681a13d89786151ec4e019d9"
+      "$Generator": "a6ab7b86ea8e4e50da7072f5e19d5eed"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -873,10 +873,10 @@
         }
       ],
       "$designer": {
-        "name": "Cheese - Remove @CheeseValue"
+        "name": "Remove @CheeseValue"
       },
       "$source": "sandwichMerge-Cheese-remove-CheeseValue",
-      "$Generator": "e13ba60af7628353cc38447ce760d0f7"
+      "$Generator": "ee29fb9e4921e5ba201b0f6b06ae222c"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1014,10 +1014,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Assign @utterance"
+        "name": "Assign @utterance"
       },
       "$source": "sandwichMerge-Hobby-assign-utterance",
-      "$Generator": "b2bb8b1e25308da863c2529b868f301e"
+      "$Generator": "ffe00c3d5ec836456b72d2d77d044d3b"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1051,10 +1051,10 @@
         }
       ],
       "$designer": {
-        "name": "Hobby - Remove @utterance"
+        "name": "Remove @utterance"
       },
       "$source": "sandwichMerge-Hobby-remove-utterance",
-      "$Generator": "7ee0852b35a5803615adce068271c022"
+      "$Generator": "0df51498b9767b77b80331acfcc171c6"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1154,10 +1154,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Assign @money"
+        "name": "Assign @money"
       },
       "$source": "sandwichMerge-Price-assign-money",
-      "$Generator": "0cb25dd8b5e90b8cc1647ea4d3f097b6"
+      "$Generator": "9d9fc3bfa9562a53564a9e2f7bfa9aca"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1191,10 +1191,10 @@
         }
       ],
       "$designer": {
-        "name": "Price - Remove @money"
+        "name": "Remove @money"
       },
       "$source": "sandwichMerge-Price-remove-money",
-      "$Generator": "c05ff1100996df17fcb2881d966eaca3"
+      "$Generator": "ca2d882d08c8831d7ffb9a79c324fc55"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -1527,5 +1527,5 @@
   "$designer": {
     "name": "sandwichMerge form dialog"
   },
-  "$Generator": "fa15897202651c91e74ed206b9f2dc2b"
+  "$Generator": "29d7b7a979622f934cc8ce1b4c5c60e2"
 }

@@ -108,10 +108,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Assign @temperature"
+        "name": "Assign @temperature"
       },
       "$source": "unittest_transforms-Temperature-assign-temperature",
-      "$Generator": "f8b09c3984912049b7b702f824782d85"
+      "$Generator": "a438812635d699d6f56a91024113e129"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -165,10 +165,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Assign (@number+1)"
+        "name": "Assign (@number+1)"
       },
       "$source": "unittest_transforms-Temperature-assign-number",
-      "$Generator": "5db6c15f5f5eb1eeefbea9c5d035acd0"
+      "$Generator": "681063b1a487c0567f93446db6d8abf0"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -198,10 +198,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Remove @temperature"
+        "name": "Remove @temperature"
       },
       "$source": "unittest_transforms-Temperature-remove-temperature",
-      "$Generator": "0a437016910d1ab198054a6039ea34df"
+      "$Generator": "becca4aaef948d061ef5f8c7c882b28e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -231,10 +231,10 @@
         }
       ],
       "$designer": {
-        "name": "Temperature - Remove @number"
+        "name": "Remove @number"
       },
       "$source": "unittest_transforms-Temperature-remove-number",
-      "$Generator": "1f980df13df5015c4a083c8ed49b26b5"
+      "$Generator": "1e0dd54d978496d37008b26d2003432e"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -366,10 +366,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Assign @AStringValue"
+        "name": "Assign @AStringValue"
       },
       "$source": "unittest_transforms-AString-assign-AStringValue",
-      "$Generator": "eb2eb600dd2696f3ac03ef44238381cc"
+      "$Generator": "2ece9b2452b36823352391849e1d2e77"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -411,10 +411,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Assign @utterance"
+        "name": "Assign @utterance"
       },
       "$source": "unittest_transforms-AString-assign-utterance",
-      "$Generator": "a1e33c9e96ea588d60052e7f995366e5"
+      "$Generator": "bc3e9f9a12207da613edbb7a1ce29dfe"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -444,10 +444,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Remove @AStringValue"
+        "name": "Remove @AStringValue"
       },
       "$source": "unittest_transforms-AString-remove-AStringValue",
-      "$Generator": "de6e12f9a82d2d29102ece84c187eb41"
+      "$Generator": "e095de685d9181c7e0f39654110718c2"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -477,10 +477,10 @@
         }
       ],
       "$designer": {
-        "name": "AString - Remove @utterance"
+        "name": "Remove @utterance"
       },
       "$source": "unittest_transforms-AString-remove-utterance",
-      "$Generator": "908f51ba5f6a2428864c12869078112d"
+      "$Generator": "78dbf112565352a20e806b8f6048491f"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -813,5 +813,5 @@
   "$designer": {
     "name": "unittest_transforms form dialog"
   },
-  "$Generator": "73245414b9a574bdd459d00d776e6bf2"
+  "$Generator": "32f8ad524fb7ea63f061330b4229f1f5"
 }

@@ -596,10 +596,10 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${property} - ${op} @${entity}`)}
+- ${designerName(`${op} @${entity}`)}
 
 # designerChooseEntity()
-- ${designerName(`Disambiguation Prompt`)}
+- ${designerName(`${entity} - Disambiguation Prompt`)}
 
 # designerMissing(property)
 - ${designerName(`Missing Prompt`)}
