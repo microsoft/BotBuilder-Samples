@@ -1,0 +1,65 @@
+[form-extensions.en-us.lg](form-extensions.en-us.lg)
+
+>> Change Property Prompt
+
+# changePropertyPrompt
+> Prompt activity for property to change
+[Activity
+    Text = ${changePropertyPrompt_text()}
+]
+
+>> Choose Property Prompt
+
+# choosePropertyPrompt
+> Prompt activity for what property to change
+[Activity
+    Text = ${choosePropertyPrompt_text()}
+]
+
+>> Cancel Prompt
+
+# cancelPrompt
+> Prompt activity to cancel a form
+[Activity
+    Text = ${cancelPrompt_text()}
+]
+
+>> OnChooseProperty Prompt
+
+# chooseProperties
+> Choose properties activity
+[Activity
+    Text = ${chooseProperties_text()}
+]
+
+>> Show Card Prompt
+
+# propertiesAsActivity(name, properties)
+> Display value for properties as an activity
+[Activity
+    Attachments=${json(propertiesAsCard(name, properties))}
+]
+
+>> Help Global Prompt
+
+# helpGlobal()
+> Global help message activity
+[Activity
+    Text = ${helpGlobal_text()}
+]
+
+>> Help Reprompt
+
+# helpReprompt
+> Display reprompt activity
+[Activity
+    Text = ${helpReprompt_text()}
+]
+
+>> not Understood Prompt
+
+# notUnderstood
+> Message for not understanding activity
+[Activity
+    Text = ${notUnderstood_text()}
+]

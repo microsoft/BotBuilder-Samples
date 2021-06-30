@@ -5,7 +5,7 @@
 
 # generator
 - ```
-${formImport('form.en-us.lg')}
+${formImport('form-extensions.en-us.lg')}
 ${importLG(`${entity}`)}
 ${promptTemplates(missingDefault(), changeDefault())}
 ${confirmationTemplates(expectedSetDefault(), 

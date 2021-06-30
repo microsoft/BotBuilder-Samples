@@ -1,4 +1,4 @@
 [generator.lg](../generator.lg)
 
 # generators
-- ${formTemplates('Choose', '.lg')}
+- ${formTemplates('extensions', '.lg')}

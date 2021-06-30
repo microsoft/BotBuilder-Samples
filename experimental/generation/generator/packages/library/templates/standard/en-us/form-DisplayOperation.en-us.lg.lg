@@ -4,7 +4,7 @@
 - ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
 
 # generator
--```${formImport('form.en-us.lg')}
+-```${formImport('form-extensions.en-us.lg')}
 
 # displayOperation(op, property, value)
 > Display value for a combination of operation, property and value
@@ -44,6 +44,15 @@
     - \${operationName(op)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+
+
+# chooseEntityOperation()
+> Operation name from the current event entity
+- \${operationName(turn.dialogEvent.value.operation)}
+
+# chooseProperty(property)
+> Display a possible property assignment
+- \${displayOperation(property.operation, property.property, property.value)}
 ```
 
 # namePlusSwitch

@@ -57,12 +57,6 @@
 - ELSE:
 - 
 
-# helpGlobal()
-> Global help message activity
-[Activity
-    Text = ${helpGlobal_text()}
-]
-
 # helpGlobal_text()
 > Global help message 
 - ```
@@ -70,12 +64,6 @@ ${requiredProperties()}
 ${optionalProperties()}
 For each property you can add/remove values, clear, show, change or ask for help.
 You can also ask for over all help, cancel the whole form or skip a step.```
-
-# helpReprompt
-> Display reprompt activity
-[Activity
-    Text = ${helpReprompt_text()}
-]
 
 # helpReprompt_text
 > Display value on reprompt
@@ -124,41 +112,17 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 > Display confirmation message on update
 - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
     
-# cancelPrompt
-> Prompt activity to cancel a form
-[Activity
-    Text = ${cancelPrompt_text()}
-]
-
 # cancelPrompt_text
 > Prompt to cancel a form
 - Do you want to end the form? (yes/no)
-
-# changePropertyPrompt
-> Prompt activity for property to change
-[Activity
-    Text = ${changePropertyPrompt_text()}
-]
 
 # changePropertyPrompt_text
 > Prompt for property to change
 - Is there any property you want to change? (no or the property name)
 
-# choosePropertyPrompt
-> Prompt activity for what property to change
-[Activity
-    Text = ${choosePropertyPrompt_text()}
-]
-
 # choosePropertyPrompt_text
 > Prompt for what property to change
 - Which property do you want to change?
-
-# notUnderstood
-> Message for not understanding activity
-[Activity
-    Text = ${notUnderstood_text()}
-]
 
 # notUnderstood_text
 > Message for not understanding
@@ -190,3 +154,69 @@ You can also ask for over all help, cancel the whole form or skip a step.```
     - '${template(templateName, list[0])}'
 - ELSE: 
     - ${concat(join(foreach(subArray(list, 0, count(list) - 1), entry, `'${template(templateName, entry)}'`), ', '), `, ${final} `, `'${template(templateName, last(list))}'`)}
+
+>>>>> from form-Choose
+
+>> OnChooseEntity
+
+# chooseEnumEntity()
+> Choose between enum entity values
+- Did you mean ${choices(turn.dialogEvent.value.value.value, enumName(turn.dialogEvent.value.value.type), 'or')} for ${chooseEntityPropertyName()}?
+
+# chooseEntityProperty
+> Property from the current event entity
+- ${turn.dialogEvent.value.property}
+
+# chooseEntityPropertyName()
+> Property name from the current event entity
+- ${propertyName(chooseEntityProperty())}
+
+# enumName(type)
+> Return the name of the template for enum values of entity
+- ${substring(type, 0, indexOf(type, 'Value'))}Enum_Value
+
+>> OnChooseProperty
+
+# chooseProperties_text
+> Choose between different properties
+- Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
+
+>>>>> from form-show
+
+# propertiesAsText
+> Display value for properties as text
+- ${join(foreach($requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
+
+# getPropertyValueDescriptionText(property)
+> Display value for a property
+- The value of ${propertyName(property)} is ${propertyValue(property, dialog[property])}.
+
+# propertiesAsCard(name, properties)
+> Display value for properties as a card
+-```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${name}",
+            "size": "large"
+        },
+        {
+            "type": "FactSet",
+            "facts": [${propertiesAsFacts(properties)}]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```
+
+# propertiesAsFacts(properties)
+> Display property values as card facts
+- ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
+
+# getPropertyAsFact(property)
+> Display property value as a card fact
+- {"title": "${propertyName(property)}", "value": "${replace(propertyValue(property, dialog[property]), '"', '\"')}"}
+
