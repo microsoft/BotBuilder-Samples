@@ -5,5 +5,28 @@
 
 # generator
 -```${luHeader()}
-${join(foreach(sortObject(templates.lu, 'shortName'), lu, `[${lu.shortName}](${localePath(replace(lu.relative, '\\', '/'))})`), EOL())}
+[definition](./${prefix}-definition.${locale}.lu)
+
+> LABELING EXAMPLE UTTERANCES
+>
+> In form dialogs, one entity is used to capture an operation, the properties its acts on, and the valid values for that property.
+> An entity is a nested choice of OPERATOR{PROPERTY(VALUE)}.
+>
+> OPERATOR indicates one of: ${join(foreach(schema.$operations, operation, operation), ', ')}
+> PROPERTY (and VALUE) can be: ${join(foreach(schema.$public, property, propertyDescription(property)), ', ')}
+>
+> The span of each label should include the words that mean the corresponding operation/property/value.
+>
+> Label patterns below show valid patterns and use 'words*' to indicate zero or more words.
+>  Single: {@OPERATOR=words*}, {@PROPERTY=words*}, {@VALUE=words*}
+>  Nested: {@OPERATOR=words*{@PROPERTY=words*}words*} {@OPERATOR=words*{@VALUE=words*}words*}, {@PROPERTY=words*{@VALUE=words*}words*}
+>  Triples: {@OPERATOR=words*{@PROPERTY=words*{@VALUE=words*}words*}words*}
+>
+> You can also nest multiple PROPERTY or VALUE labels inside of an OPERATOR.
+
+${'#'} ${prefix}
+- ADD YOUR LABELS HERE
 ```
+
+# propertyDescription(property)
+- ${property}(${join(foreach(schema.properties[property].$entities, value, value), ', ')})
