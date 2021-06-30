@@ -590,25 +590,25 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 -, "$designer": {"name": "${name}"}
 
 # designerOp(op)
-- ${designerName(`${property} - ${op}`)}
+- ${designerName(`${op}`)}
 
 # designerOpEntity(op, entity)
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${property} - ${op} @${entity}`)}
+- ${designerName(`${op} @${entity}`)}
 
 # designerChooseEntity()
 - ${designerName(`${entity} - Disambiguation Prompt`)}
 
 # designerMissing(property)
-- ${designerName(`${property} - Missing Prompt`)}
+- ${designerName(`Missing Prompt`)}
 
 # designerHelp(property)
-- ${designerName(`${property} - Help`)}
+- ${designerName(`Help`)}
 
 # designerChange(property)
-- ${designerName(`${property} - Replacement Prompt`)}
+- ${designerName(`Replacement Prompt`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
