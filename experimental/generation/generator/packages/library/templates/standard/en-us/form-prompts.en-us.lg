@@ -8,6 +8,10 @@
     Text = ${changePropertyPrompt_text()}
 ]
 
+# changePropertyPrompt_text
+> Prompt for property to change
+- Is there any property you want to change? (no or the property name)
+
 >> Choose Property Prompt
 
 # choosePropertyPrompt
@@ -15,6 +19,10 @@
 [Activity
     Text = ${choosePropertyPrompt_text()}
 ]
+
+# choosePropertyPrompt_text
+> Prompt for what property to change
+- Which property do you want to change?
 
 >> Cancel Prompt
 
@@ -24,6 +32,10 @@
     Text = ${cancelPrompt_text()}
 ]
 
+# cancelPrompt_text
+> Prompt to cancel a form
+- Do you want to end the form? (yes/no)
+
 >> OnChooseProperty Prompt
 
 # chooseProperties
@@ -31,6 +43,10 @@
 [Activity
     Text = ${chooseProperties_text()}
 ]
+
+# chooseProperties_text
+> Choose between different properties
+- Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
 
 >> Show Card Prompt
 
@@ -48,6 +64,14 @@
     Text = ${helpGlobal_text()}
 ]
 
+# helpGlobal_text()
+> Global help message 
+- ```
+${requiredProperties()}
+${optionalProperties()}
+For each property you can add/remove values, clear, show, change or ask for help.
+You can also ask for over all help, cancel the whole form or skip a step.```
+
 >> Help Reprompt
 
 # helpReprompt
@@ -56,6 +80,10 @@
     Text = ${helpReprompt_text()}
 ]
 
+# helpReprompt_text
+> Display value on reprompt
+- ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp_text`)), expected, template(`${expected}_RepromptHelp_text`)), EOL()), '')}
+
 >> not Understood Prompt
 
 # notUnderstood
@@ -63,3 +91,7 @@
 [Activity
     Text = ${notUnderstood_text()}
 ]
+
+# notUnderstood_text
+> Message for not understanding
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}

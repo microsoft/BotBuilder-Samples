@@ -57,18 +57,6 @@
 - ELSE:
 - 
 
-# helpGlobal_text()
-> Global help message 
-- ```
-${requiredProperties()}
-${optionalProperties()}
-For each property you can add/remove values, clear, show, change or ask for help.
-You can also ask for over all help, cancel the whole form or skip a step.```
-
-# helpReprompt_text
-> Display value on reprompt
-- ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp_text`)), expected, template(`${expected}_RepromptHelp_text`)), EOL()), '')}
-
 # publicProperties
 > Public properties from schema
 -${dialogClass.schema.$public}
@@ -111,22 +99,6 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 # confirmUpdate(property, val)
 > Display confirmation message on update
 - ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
-    
-# cancelPrompt_text
-> Prompt to cancel a form
-- Do you want to end the form? (yes/no)
-
-# changePropertyPrompt_text
-> Prompt for property to change
-- Is there any property you want to change? (no or the property name)
-
-# choosePropertyPrompt_text
-> Prompt for what property to change
-- Which property do you want to change?
-
-# notUnderstood_text
-> Message for not understanding
-- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}
 
 >> FUNCTIONS for dialogs
 
@@ -155,8 +127,6 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 - ELSE: 
     - ${concat(join(foreach(subArray(list, 0, count(list) - 1), entry, `'${template(templateName, entry)}'`), ', '), `, ${final} `, `'${template(templateName, last(list))}'`)}
 
->>>>> from form-Choose
-
 >> OnChooseEntity
 
 # chooseEnumEntity()
@@ -175,13 +145,7 @@ You can also ask for over all help, cancel the whole form or skip a step.```
 > Return the name of the template for enum values of entity
 - ${substring(type, 0, indexOf(type, 'Value'))}Enum_Value
 
->> OnChooseProperty
-
-# chooseProperties_text
-> Choose between different properties
-- Did you mean ${choices(turn.dialogEvent.value, 'chooseProperty', 'or')}?
-
->>>>> from form-show
+>> Show card
 
 # propertiesAsText
 > Display value for properties as text
