@@ -297,18 +297,20 @@ async function mergeRootLGFile(schemaName: string, oldPath: string, oldFileList:
  */
 async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList: string[], newPath: string, newFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
     const outDir = assetDirectory('.lu')
-    const oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
+    const oldText = await fs.readFile(ppath.join(oldPath, outDir, locale, `${schemaName}-definition.${locale}.lu`), 'utf8')
     const oldRefs = oldText.split(os.EOL)
-    const newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}.${locale}.lu`), 'utf8')
+    const newText = await fs.readFile(ppath.join(newPath, outDir, locale, `${schemaName}-definition.${locale}.lu`), 'utf8')
     const newRefs = newText.split(os.EOL)
 
     const delUtteranceSet = new Set<string>()
     for (const ref of oldRefs) {
-        if (ref.startsWith('[') && !ref.match('custom')) {
+        if (ref.startsWith('[')) {
             const filename = refFilename(ref, feedback)
             await getDeletedUtteranceSet(filename, oldFileList, delUtteranceSet)
         }
     }
+
+    await updateCustomLUFile(schemaName, oldPath, newPath, oldFileList, mergedPath, locale, feedback)
 
     const resultRefs: string[] = []
 
@@ -323,14 +325,10 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
             resultRefs.push(ref)
             continue
         }
-        else if (!ref.match('custom')) {
+        else {
             resultRefs.push(ref)
             const filename = refFilename(ref, feedback)
             await updateGeneratedLUFile(filename, newFileList, newPath, mergedPath, delUtteranceSet, feedback)
-        }
-        else {
-            resultRefs.push(ref)
-            await updateCustomLUFile(schemaName, oldPath, newPath, oldFileList, mergedPath, locale, feedback)
         }
     }
 
@@ -341,7 +339,7 @@ async function mergeRootLUFile(schemaName: string, oldPath: string, oldFileList:
         val = val + os.EOL + oldText.substring(patternIndex)
     }
 
-    await writeToFile(oldPath, mergedPath, `${schemaName}.${locale}.lu`, oldFileList, val, feedback)
+    await writeToFile(oldPath, mergedPath, `${schemaName}-definition.${locale}.lu`, oldFileList, val, feedback)
 }
 
 const valuePattern = /{@?([^=]*Value)\s*=([^}]*)}/g
@@ -417,7 +415,7 @@ async function generatePatternUtterance(line: string): Promise<string> {
  * @param feedback Callback function for progress and errors.
  */
 async function updateCustomLUFile(schemaName: string, oldPath: string, newPath: string, oldFileList: string[], mergedPath: string, locale: string, feedback: Feedback): Promise<void> {
-    const filename = `${schemaName}-custom.${locale}.lu`
+    const filename = `${schemaName}.${locale}.lu`
     const customLuFilePath = filenamePath(filename, oldFileList)
     const text = await fs.readFile(customLuFilePath, 'utf8')
     const lines = text.split(os.EOL)
