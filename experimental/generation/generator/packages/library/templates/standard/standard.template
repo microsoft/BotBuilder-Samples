@@ -49,7 +49,7 @@
         "form-triggerIntent.lu",
         "form-phrases.lu",
         "form-global.lu",
-        "form-custom.lu",
+        "locale-definition.lu",
         "form-DisplayOperation.lg",
         "form-extensions.lg",
         "form-prompts.lg",
