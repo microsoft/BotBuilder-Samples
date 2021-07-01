@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.13.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.13.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.13.2" />
-    <PackageReference Include="AdaptiveExpressions" Version="4.13.2" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs.Adaptive" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.14.0" />
+    <PackageReference Include="AdaptiveExpressions" Version="4.14.0" />
   </ItemGroup>
 </Project>
