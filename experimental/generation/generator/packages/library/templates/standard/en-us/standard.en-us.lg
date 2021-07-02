@@ -104,7 +104,7 @@
     - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # removeDefault()
-- Removed ${propertyValue('val')} from ${propertyName()}
+- Removed ${propertyValue('newVal')} from ${propertyName()}
 
 # clearDefault()
 - Cleared ${propertyName()}
