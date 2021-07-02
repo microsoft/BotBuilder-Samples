@@ -619,7 +619,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ```# ${name}(${list(args)})
 > Activity ${comment}
 [Activity
-    Text = \${${name}_text()}
+    Text = \${${name}_text(${list(args)})}
 ]
 
 # ${name}_text(${list(args)})
