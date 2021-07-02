@@ -1,11 +1,11 @@
 # Extending your bot with code
 
-# Add custom triggers in C#
+## Add custom triggers in C#
 
-## In this article
+### In this article
 
-In Bot Framework Composer, [actions](concept-dialog#action) are the main
-contents of a [trigger](concept-dialog#trigger). Actions help maintain
+In Bot Framework Composer, [actions](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#action) are the main
+contents of a [trigger](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#trigger). Actions help maintain
 conversation flow and instruct bots on how to fulfill user requests.
 Composer provides different types of actions, such as **Send a
 response**, **Ask a question**, and **Create a condition**. Besides
@@ -14,19 +14,18 @@ Composer.
 
 This article shows you how to include a custom triggers OnMembersAdded and OnMembersRemoved.
 
-#### Note
+### Note
 
 Composer currently supports the C\# runtime and JavaScript (preview)
 Adaptive Runtime.
 
 ## Prerequisites
 
-- A basic understanding of [triggers](concept-dialog#triggers) in Composer.
-- [A basic bot built using Composer](quickstart-create-bot).
+- A basic understanding of [triggers](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#trigger) in Composer.
+- [A basic bot built using Composer](https://docs.microsoft.com/en-us/composer/quickstart-create-bot?tabs=v2x).
 - [Bot Framework CLI 4.10](https://botbuilder.myget.org/feed/botframework-cli/package/npm/@microsoft/botframework-cli) or later.
 
 ## Setup the Bot Framework CLI tool
-----------------------
 
 The Bot Framework CLI tools include the *bf-dialog* tool which will
 create a *schema file* that describes the built-in and custom
@@ -40,7 +39,6 @@ Framework tools:
     npm i -g @microsoft/botframework-cli
 
 ## Key points
-----------------------
 
 This C\# sample consists of the following:
 
@@ -57,21 +55,17 @@ This C\# sample consists of the following:
 
     [Bot Framework Schemas](https://github.com/microsoft/botframework-sdk/tree/master/schemas)
     are specifications for JSON data. They define the shape of the data
-    and can be used to validate JSON. All of Bot Framework's [adaptive
-    dialogs](/en-us/azure/bot-service/bot-builder-adaptive-dialog-introduction)
-    are defined using this JSON schema. The schema files tell Composer
-    what capabilities the bot runtime supports. Composer uses the schema
-    to help it render the user interface when using the trigger in a
-    dialog. Read the section about [creating schema files in adaptive
-    dialogs](/en-us/azure/bot-service/bot-builder-dialogs-declarative)
-    for more information.
+    and can be used to validate JSON. All of Bot Framework's Adaptive Dialogs
+    are defined using [this](https://github.com/microsoft/botframework-sdk/blob/master/schemas/component/v1.0/component.schema) JSON schema. The schema files tell Composer
+    what capabilities the bot runtime supports. Composer uses the [uischema](https://github.com/microsoft/botframework-sdk/blob/master/schemas/ui/v1.0/ui.schema)
+    to help it render the user interface when using the action in a
+    dialog.
 
   - A BotComponent, [MemberUpdatesBotComponent.cs](MemberUpdates/MemberUpdatesBotComponent.cs) for component registration.  BotComponents are loaded by your bot (specifically by Adaptive Runtime), and made available to Composer.
 
     **Note** You can create a custom action without implementing BotComponent.  However, the Component Model in Bot Framework allows for easier reuse and is only slightly more work.  In a BotComponent, you add the needed services and objects via Dependency Injection, just as you would in Startup.cs.
 
 ## Outline of adding a custom trigger
-------------------------------
 
 1. Create a new project for the custom trigger.  Use the settings in [csproj](MemberUpdates/MemberUpdates.csproj) as a template.  This project contains important settings that are required if publishing your custom trigger.
 
@@ -105,7 +99,6 @@ This C\# sample consists of the following:
    ```
 
 ## Update the schema file
-----------------------
 
 Now you have customized your bot, the next step is to update the
 `sdk.schema` file to include the `OnMemberAdded.Schema` file.  This makes your custom trigger available for use in Composer.
@@ -133,7 +126,6 @@ Alternatively, you can select the `update-schema.sh` file inside the
 `powershell` file directly.
 
 ## Test
-----
 
 Open the bot project in Composer and you should be able to test your
 added custom trigger.  If the project is already loaded, return to `Home` in Composer, and reload the project.
@@ -146,15 +138,7 @@ added custom trigger.  If the project is already loaded, return to `Home` in Com
    will respond with the test result.
 
 ## Additional information
-----------------------
 
 - [Bot Framework SDK Schemas](https://github.com/microsoft/botframework-sdk/tree/master/schemas)
-- [Create schema files](/en-us/azure/bot-service/bot-builder-dialogs-declarative)
-
-## Docs table of contents
-
-1. [Overview](/docs/overview.md)
-2. [Extending your bot using packages](/docs/extending-with-packages.md)
-3. Extending your bot with code (this document)
-4. [Creating your own packages](/docs/creating-packages.md)
-5. [Creating your own templates](/docs/creating-templates.md)
+- [Bot Framework Component Schema](https://github.com/microsoft/botframework-sdk/blob/master/schemas/component/v1.0/component.schema)
+- [Bot Framework Composer UI Schema](https://github.com/microsoft/botframework-sdk/tree/master/schemas/ui/v1.0)
