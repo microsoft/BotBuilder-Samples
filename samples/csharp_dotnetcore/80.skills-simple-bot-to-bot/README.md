@@ -58,4 +58,4 @@ The solution includes a parent bot (`SimpleRootBot`) and a skill bot (`EchoSkill
 
 ## Deploy the bots to Azure
 
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions. 
