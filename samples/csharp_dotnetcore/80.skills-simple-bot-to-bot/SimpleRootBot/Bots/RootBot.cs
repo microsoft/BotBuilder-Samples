@@ -40,7 +40,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
 
             // We use a single skill in this example.
             var targetSkillId = "EchoSkillBot";
-            _skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill)
+            _skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill);
 
             // Create state property to track the active skill
             _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
