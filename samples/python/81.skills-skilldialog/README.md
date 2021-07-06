@@ -47,9 +47,9 @@ It demonstrates how to post activities from the parent bot to the skill bot and 
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Create a bot registration in the azure portal for the `dialog-skill-bot` and update [dialog-skill-bot/config.py](dialog-skill-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Create a bot registration in the azure portal for the `dialog-root-bot` and update [dialog-root-bot/config.py](dialog-root-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Update the `SKILLS.app_id` in [dialog-root-bot/config.py](dialog-root-bot/config.py) with the `MicrosoftAppId` for the skill you created in the previous step
+- (Optionally) Create a bot registration in the azure portal for the `dialog-skill-bot` and update [dialog-skill-bot/config.py](dialog-skill-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Create a bot registration in the azure portal for the `dialog-root-bot` and update [dialog-root-bot/config.py](dialog-root-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Update the `SKILLS.app_id` in [dialog-root-bot/config.py](dialog-root-bot/config.py) with the `MicrosoftAppId` for the skill you created in the previous step
 - (Optionally) Add the `dialog-root-bot` `MicrosoftAppId` to the `AllowedCallers` comma separated list in [dialog-skill-bot/config.py](dialog-skill-bot/config.py)
 
 ## Running the sample

@@ -34,9 +34,9 @@ The solution includes a parent bot (`simple-root-bot`) and a skill bot (`echo-sk
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Create a bot registration in the azure portal for the `echo-skill-bot` and update [echo-skill-bot/config.py](echo-skill-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Create a bot registration in the azure portal for the `simple-root-bot` and update [simple-root-bot/config.py](simple-root-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Update the `SKILLS.app_id` in [simple-root-bot/config.py](simple-root-bot/config.py) with the `MicrosoftAppId` for the skill you created in the previous step
+- (Optionally) Create a bot registration in the azure portal for the `echo-skill-bot` and update [echo-skill-bot/config.py](echo-skill-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Create a bot registration in the azure portal for the `simple-root-bot` and update [simple-root-bot/config.py](simple-root-bot/config.py) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Update the `SKILLS.app_id` in [simple-root-bot/config.py](simple-root-bot/config.py) with the `MicrosoftAppId` for the skill you created in the previous step
 - (Optionally) Add the `simple-root-bot` `MicrosoftAppId` to the `AllowedCallers` comma separated list in [echo-skill-bot/config.py](echo-skill-bot/config.py)
 
 ## Running the sample
