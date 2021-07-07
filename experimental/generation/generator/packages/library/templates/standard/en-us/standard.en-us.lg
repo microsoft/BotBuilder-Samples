@@ -25,7 +25,7 @@
 ```
 
 # entityTypeTemplate(type)
--```${formImport('form.en-us.lg')}
+-```${formImport('form-extensions.en-us.lg')}
 > Display value for '${type}' entity
 # ${type}Value_Value(entity)
 - \${value(entity.value)}
@@ -104,7 +104,7 @@
     - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # removeDefault()
-- Removed ${propertyValue('val')} from ${propertyName()}
+- Removed ${propertyValue('newVal')} from ${propertyName()}
 
 # clearDefault()
 - Cleared ${propertyName()}
@@ -149,14 +149,14 @@ ${valueTemplate()}
 
 # importFormsIfArray()
 - IF: ${isArrayProperty(property)}
-    - ${formImport('form.en-us.lg')}
+    - ${formImport('form-extensions.en-us.lg')}
 - ELSE:
     -
 
 >> Units
 
 # unitsMessages(template)
-- ```${formImport('form.en-us.lg')}
+- ```${formImport('form-extensions.en-us.lg')}
 ${promptTemplates(missingDefault(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -261,11 +261,11 @@ ${tooBig()}```
 >> Date format templates
 
 # dateFormatMessages(description)
-- ${formImport('form.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
+- ${formImport('form-extensions.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
 
 # dateFormatValidationMessage()
 - ${activityTemplate(
-    `${property}_invalid${templateName(propertySchema.format)}`, ['val'],
+    `${property}_invalid${generatorName(propertySchema.format)}`, ['val'],
     `Invalid ${propertySchema.format} for '${property}' property`,
     `\${value(val)} is not a ${propertySchema.format}`)}
 

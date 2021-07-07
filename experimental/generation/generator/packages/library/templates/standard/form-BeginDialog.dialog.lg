@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('BeginDialog.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -14,18 +14,21 @@
             "activity": "\${helpGlobal()}"           
         },
         {
-        "$kind": "Microsoft.IfCondition",
-        "condition": "!turn.activityProcessed",
-        "actions": [
-            {
-                "$kind": "Microsoft.EmitEvent",
-                "eventName": "activityReceived",
-                "eventValue": "=turn.activity",
-                "bubbleEvent": false
-            }
-        ]
+            "$kind": "Microsoft.IfCondition",
+            "condition": "!turn.activityProcessed",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EmitEvent",
+                    "eventName": "activityReceived",
+                    "eventValue": "=turn.activity",
+                    "bubbleEvent": false
+                }
+            ]
         }${setPropertiesForDynamiclists()}
-    ]
+    ],
+    "$designer": {
+        "name": "Begin Dialog"
+    }
 }
 ```
 

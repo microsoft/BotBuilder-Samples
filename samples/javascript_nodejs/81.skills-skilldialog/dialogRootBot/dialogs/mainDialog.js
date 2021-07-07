@@ -26,9 +26,6 @@ class MainDialog extends ComponentDialog {
         if (!skillClient) throw new Error('[MainDialog]: Missing parameter \'skillClient\' is required');
         if (!conversationIdFactory) throw new Error('[MainDialog]: Missing parameter \'conversationIdFactory\' is required');
 
-        if (!process.env.MicrosoftAppId) throw new Error('[MainDialog]: Missing parameter \'MicrosoftAppId\' is required');
-        if (!process.env.SkillHostEndpoint) throw new Error('[MainDialog]: Missing parameter \'SkillHostEndpoint\' is required');
-
         this.activeSkillPropertyName = `${ MAIN_DIALOG }.activeSkillProperty`;
         this.activeSkillProperty = conversationState.createProperty(this.activeSkillPropertyName);
         this.skillsConfig = skillsConfig;

@@ -3,5 +3,5 @@
 # entities
 - ${unitsEntities('dimension')}
 
-# templates
+# generators
 - ${unitTemplates()}

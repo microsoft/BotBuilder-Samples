@@ -4,7 +4,7 @@
 - ${entityLUFilename()}
 
 > There is nothing we can put in as values
-# template
+# generator
 - ```
 > If you see **xxxEntityN** in the generated entity definitions  then it means your schema has
 > no 'examples' or '$examples' to use as sample values.

@@ -3,5 +3,5 @@
 # filename
 - ${missingFilename()}
 
-# template
+# generator
 - ${missingDialog()}

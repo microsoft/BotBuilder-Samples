@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('temperature')}
 
-# template
+# generator
 - ```
 @ prebuilt temperature
 

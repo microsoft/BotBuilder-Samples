@@ -3,5 +3,5 @@
 # filename
 - ${propertyFilename()}
 
-# template
+# generator
 - ${unitsMessages('money')}

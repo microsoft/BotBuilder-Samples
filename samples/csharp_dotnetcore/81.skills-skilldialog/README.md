@@ -51,9 +51,9 @@ It demonstrates how to post activities from the parent bot to the skill bot and 
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
 
-- Create a bot registration in the azure portal for the `DialogSkillBot` and update [DialogSkillBot/appsettings.json](DialogSkillBot/appsettings.json) with the AppId and password.
-- Create a bot registration in the azure portal for the DialogRootBot and update [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId and password. 
-- Update the BotFrameworkSkills section in [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId for the skill you created in the previous step.
+- (Optionally) Create a bot registration in the azure portal for the `DialogSkillBot` and update [DialogSkillBot/appsettings.json](DialogSkillBot/appsettings.json) with the AppId and password.
+- (Optionally) Create a bot registration in the azure portal for the DialogRootBot and update [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId and password. 
+- (Optionally) Update the BotFrameworkSkills section in [DialogRootBot/appsettings.json](DialogRootBot/appsettings.json) with the AppId for the skill you created in the previous step.
 - (Optional) Configure the LuisAppId, LuisAPIKey and LuisAPIHostName section in the [DialogSkillBot/appsettings.json](DialogSkillBot/appsettings.json) if you want to run message activities through LUIS.
 - Open the `SkillDialogSample.sln` solution and configure it to [start debugging with multiple processes](https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#start-debugging-with-multiple-processes).
 

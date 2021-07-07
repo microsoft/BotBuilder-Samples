@@ -11,10 +11,10 @@
             "$templates": [
                 "genericEntity.lg",
                 "genericEntity.lu",
-                "CancelConfirmation-assign-boolean.dialog"
+                "form-CancelConfirmation-assign-boolean.dialog"
             ]
         },
-        "CompleteConfirmation": {
+        "PropertyToChange": {
             "type": "string",
             "$entities": [
                 "boolean",
@@ -23,18 +23,8 @@
             "$templates": [
                 "genericEntity.lg",
                 "genericEntity.lu",
-                "form-CompleteConfirmation.dialog",
-                "CompleteConfirmation-assign-boolean.dialog",
-                "CompleteConfirmation-assign-PROPERTYName.dialog"
-            ]
-        },
-        "PropertyToChange": {
-            "type": "string",
-            "$entities": [
-                "${foreach(properties, property, `${property}Property`)}"
-            ],
-            "$templates": [
-                "PropertyToChange-assign-PROPERTYName.dialog"
+                "form-PropertyToChange-prompt.dialog",
+                "form-PropertyToChange-assign.dialog"
             ]
         }
     },
@@ -42,14 +32,6 @@
         "${schemaOperations()}"
     ],
     "$defaultOperation": [
-        {
-            "CancelConfirmation": {
-                "": "Set()"
-            },
-            "CompleteConfirmation": {
-                "": "Set()"
-            }
-        },
         "${schemaDefaultOperation()}"
     ],
     "$requiresValue": [
@@ -65,27 +47,26 @@
     "$templates": [
         "form-NoneIntent.lu",
         "form-triggerIntent.lu",
-        "form-Choose.lg",
-        "form-DisplayOperation.lg",
         "form-phrases.lu",
         "form-global.lu",
-        "custom.lu",
-        "form-Show.lg",
-        "form.lg",
+        "locale-definition.lu",
+        "form-DisplayOperation.lg",
+        "form-extensions.lg",
+        "form-prompts.lg",
         "locale.lu",
         "locale.lg",
         "luis.lu.dialog",
         "multilingual.dialog",
         "form-BeginDialog.dialog",
-        "form-CancelGlobal.dialog",
+        "form-CancelConfirmation-prompt.dialog",
+        "form-CancelConfirmation-assign-boolean.dialog",
         "form-Change.dialog",
         "form-ChooseProperty.dialog",
         "form-HelpGlobal.dialog",
         "form-HelpReprompt.dialog",
         "form-NotUnderstood.dialog",
         "form-Show.dialog",
-        "form-SkipGlobal.dialog",
-        "form-triggerIntent.dialog",
+        "form-Skip.dialog",
         "main.dialog",
         "luconfig.json",
         "build",

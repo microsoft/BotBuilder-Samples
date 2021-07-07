@@ -1,9 +1,9 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${formDialogFilename('SkipIntent.dialog')}
+- ${formDialogFilename('Skip.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -23,7 +23,7 @@
             "elseActions": [
                 {
                     "$kind": "Microsoft.IfCondition",
-                    "condition": "=$PropertyToChange",
+                    "condition": "exists($PropertyToChange)",
                     "actions": [
                         {
                             "$kind": "Microsoft.DeleteProperty",
@@ -45,6 +45,6 @@
             "property": "$retries"
         }
     ]
-    ${designerIntent('Skip')}
+    ${designerName('Skip')}
 }
 ```

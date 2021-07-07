@@ -37,17 +37,10 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             }
 
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
-            if (string.IsNullOrWhiteSpace(_botId))
-            {
-                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not set in configuration");
-            }
 
             // We use a single skill in this example.
             var targetSkillId = "EchoSkillBot";
-            if (!_skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill))
-            {
-                throw new ArgumentException($"Skill with ID \"{targetSkillId}\" not found in configuration");
-            }
+            _skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill);
 
             // Create state property to track the active skill
             _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);

@@ -3,7 +3,7 @@
 # filename
 - ${prefix}.dialog
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -12,9 +12,19 @@
     "recognizer": "${prefix}.lu",
     "generator": "${prefix}.lg",
     "schema": "${prefix}.json",
-    "triggers": [ 
-        ${join(foreach(where(templates.dialog, dialog, !contains(dialog.name, '.')), dialog, `"${dialog.name}"`), `,${EOL()}`)} 
-        ]
-    ${designerName(`${prefix} main dialog`)}
+    "triggers": ${groupedSort(triggerNames(templates.dialog), 'propertyGroupPosition', 'sortPosition')}
+    ${designerName(`${prefix} form dialog`)}
 }
 ```
+
+# sortPosition(trigger)
+- ${if(contains(trigger, '-form-'), 
+    listPosition(trigger, 
+        ['-BeginDialog', '-PropertyToChange-prompt', '-PropertyToChange-assign', '-Change', '-CancelConfirmation-prompt', '-CancelConfirmation-assign', '-ChooseProperty', '-Skip', '-Show', '-HelpGlobal', '-HelpReprompt', '-NotUnderstood']
+    ),
+    listPosition(trigger, 
+        ['-missing', '-change', '-choose', '-assign-', '-remove-', '-clear', '-show', '-help']
+    ))}
+    
+# triggerNames(triggers)
+- ${select(where(triggers, trigger, !contains(trigger.name, '.')), trigger, trigger.name)}

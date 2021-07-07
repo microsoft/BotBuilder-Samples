@@ -3,5 +3,5 @@
 # entities
 - ${['phonenumber', 'utterance']}
 
-# templates
+# generators
 - ${stringTemplates()}

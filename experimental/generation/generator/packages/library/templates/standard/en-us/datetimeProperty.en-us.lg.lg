@@ -3,7 +3,7 @@
 # filename
 - ${propertyFilename()}
 
-# template
+# generator
 - ${genericMessages('date or time expression')}${validationTemplate()}
 
 # validationTemplate

@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('datetime')}
 
-# template
+# generator
 - ${entityTextTemplate('datetime')}

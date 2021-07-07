@@ -3,6 +3,6 @@
 # filename
 - ${assignFilename(entity)}
 
-# template
+# generator
 - ${addAssign(entity)}
 

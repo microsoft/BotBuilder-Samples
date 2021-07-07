@@ -343,7 +343,7 @@ describe('dialog:generate --merge files', async function () {
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
-            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertMissing('language-understanding/en-us/sandwichMerge.en-us.lu', /pulled/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
@@ -422,7 +422,7 @@ describe('dialog:generate --merge singleton', async function () {
             await copyToMerged('**/language-generation/en-us/Bread/*')
             await copyToMerged('**/language-generation/en-us/BreadValue/*')
             await copyToMerged('**/language-understanding/en-us/Bread/*')
-            await copyToMerged('**/language-understanding/en-us/form/*')
+            await copyToMerged('**/language-understanding/en-us/sandwichMerge.en-us.lu')
 
             // Modify an existing trigger and add a custom trigger
             const dialogPath = ppath.join(mergedDir, 'sandwichMerge.dialog')
@@ -455,7 +455,7 @@ describe('dialog:generate --merge singleton', async function () {
             // Still get enum updates
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
-            await assertMissing('language-understanding/en-us/form/sandwichMerge-custom.en-us.lu', /pulled/, errors)
+            await assertMissing('language-understanding/en-us/sandwichMerge.en-us.lu', /pulled/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={@BreadValue=rye}}/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
@@ -469,4 +469,4 @@ describe('dialog:generate --merge singleton', async function () {
             assert.fail(e.message)
         }
     })
-})
+ })

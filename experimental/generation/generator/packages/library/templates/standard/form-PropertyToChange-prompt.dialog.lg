@@ -1,9 +1,9 @@
 [generator.lg](../generator.lg)
 
 # filename
-- ${formDialogFilename('CompleteConfirmation.dialog')}
+- ${formDialogFilename('PropertyToChange-prompt.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -19,10 +19,10 @@
             "$kind": "Microsoft.Ask",
             "activity": "\${changePropertyPrompt()}",
             "expectedProperties": [
-                "CompleteConfirmation"
+                "PropertyToChange"
             ]
         }
     ]
-    ${designerMissing('PropertyToChange')}
+    ${designerName('Form Confirmation Prompt')}
 }
 ```

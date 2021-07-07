@@ -3,8 +3,8 @@
 # filename
 - ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
 
-# template
--```${formImport('form.en-us.lg')}
+# generator
+-```${formImport('form-extensions.en-us.lg')}
 
 # displayOperation(op, property, value)
 > Display value for a combination of operation, property and value
@@ -19,18 +19,18 @@
 # displayAssignOperation(op, property, value)
 > Display value for an Assign() operation
 - IF: \${property && value && isArrayProperty(property)}
-    - Assign "\${value.text}" to \${propertyName(property)}
+    - assign "\${value.text}" to \${propertyName(property)}
 - ELSEIF: \${property && value}
-    - Set \${propertyName(property)} to "\${value.text}"
+    - set \${propertyName(property)} to "\${value.text}"
 - ELSE:
     - \${displayDefaultOperation(op, property, value)}
 
 # displayRemoveOperation(op, property, value)
 > Display value for a Remove() operation
 - IF: \${property && value && isArrayProperty(property)}
-    - Remove "\${value.text}" from \${propertyName(property)}
+    - remove "\${value.text}" from \${propertyName(property)}
 - ELSEIF: \${property}
-    - Clear \${propertyName(property)}
+    - clear \${propertyName(property)}
 - ELSE:
     - \${displayDefaultOperation(op, property, value)}
 
@@ -44,6 +44,14 @@
     - \${operationName(op)}
 
 ${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+
+# chooseEntityOperation()
+> Operation name from the current event entity
+- \${operationName(turn.dialogEvent.value.operation)}
+
+# chooseProperty(property)
+> Display a possible property assignment
+- \${displayOperation(property.operation, property.property, property.value)}
 ```
 
 # namePlusSwitch

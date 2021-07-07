@@ -1,4 +1,4 @@
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
