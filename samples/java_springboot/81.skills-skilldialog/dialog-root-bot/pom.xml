@@ -44,7 +44,7 @@
         <start-class>com.microsoft.bot.sample.dialogrootbot.Application</start-class>
     </properties>
 
-    <repositories>    
+    <repositories>
       <repository>
         <id>oss-sonatype</id>
         <name>oss-sonatype</name>
@@ -92,19 +92,19 @@
       <dependency>
         <groupId>com.microsoft.bot</groupId>
         <artifactId>bot-integration-spring</artifactId>
-        <version>4.13.0</version>
+        <version>4.14.0</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>com.microsoft.bot</groupId>
         <artifactId>bot-dialogs</artifactId>
-        <version>4.13.0</version>
+        <version>4.14.0</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
         <groupId>com.microsoft.bot</groupId>
         <artifactId>bot-builder</artifactId>
-        <version>4.13.0</version>
+        <version>4.14.0</version>
         <scope>compile</scope>
       </dependency>  </dependencies>
 
