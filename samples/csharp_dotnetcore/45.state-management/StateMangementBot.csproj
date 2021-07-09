@@ -7,9 +7,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.14.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure.Blobs" Version="4.14.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure.Blobs" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.1" />
   </ItemGroup>
 
   <ItemGroup>
