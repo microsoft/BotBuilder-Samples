@@ -8,7 +8,7 @@
 
 # qnaAnswer_text()
 > Show QnA answer
-- ${@answer}
+- ${answer}
 
 # choose_intent()
 > Choose intent from LUIS or QnA

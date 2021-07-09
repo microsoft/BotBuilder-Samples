@@ -25,7 +25,7 @@
 > You can also nest multiple PROPERTY or VALUE labels inside of an OPERATOR.
 
 ${'#'} ${prefix}
-- ADD YOUR LABELS HERE
+- ADD AND LABEL INCORRECT UTTERANCES HERE
 ```
 
 # propertyDescription(property)
