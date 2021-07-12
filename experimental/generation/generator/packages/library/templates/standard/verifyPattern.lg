@@ -18,7 +18,7 @@
 ]}
 
 # comparison()
-- ${`not(isMatch( ${entity},  dialogClass.schema.properties['${property}'].pattern))`}
+- ${`not(isMatch(@${entity},  dialogClass.schema.properties['${property}'].pattern))`}
 
 # activity()
-- ${`\${${property}_NoPatternMatch(${entity})}`}
+- ${`\${${property}_NoPatternMatch(@${entity})}`}

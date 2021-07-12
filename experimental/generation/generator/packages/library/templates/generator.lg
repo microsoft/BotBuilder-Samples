@@ -155,7 +155,7 @@
 
 # actionAssign(entity)
 > Assign entity to current property
-- ${list(where([actionSetOrPush(`${entity}`), actionDeletePropertyToChange()], actions, actions != ''))}
+- ${list(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''))}
 
 # actionConfirm(value)
 > Confirm we are setting entity to property
@@ -214,15 +214,15 @@
     "actions": [
         {
             "$kind": "Microsoft.IfCondition",
-            "condition": "datetime.type != '${propertySchema.format}'",
+            "condition": "@datetime.type != '${propertySchema.format}'",
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_invalid${generatorName(propertySchema.format)}(datetime)}"
+                    "activity": "\${${property}_invalid${generatorName(propertySchema.format)}(@datetime)}"
                 }
             ],
             "elseActions": [
-                ${actionSetOrPush('datetime.timex[0]')}
+                ${actionSetOrPush('@datetime.timex[0]')}
             ]
         }
     ]
@@ -250,7 +250,7 @@
     [
         {
             "$kind": "Microsoft.SendActivity",
-            "activity": "\${${property}_RemoveConfirmation(${entity})}"
+            "activity": "\${${property}_RemoveConfirmation(@${entity})}"
         },  
         ${deleteOrRemove(entity)},
         ${actionDeletePropertyToChange()}
@@ -263,7 +263,7 @@
 - ELSE:
     -```[{
             "$kind": "Microsoft.IfCondition",
-            "condition":"$${property} == ${entity}",
+            "condition":"$${property} == @${entity}",
             "actions": ${actions}
         }]```
 
@@ -275,7 +275,7 @@
         "$kind": "Microsoft.EditArray",
         "changeType": "remove",
         "itemsProperty": "$${property}",
-        "value": "=${entity}"
+        "value": "=@${entity}"
     }```
 - ELSE:
     -```
@@ -409,9 +409,9 @@
 > We control the utterances through populating substitution variables which can either be a single
 > value or an array of choices.  If a variable is not present the whole utterance will be dropped.  
 > Variables:
-> simple: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {entity=foo}
-> value: labeled ambiguous entity for inside property/op like {entity=value}
-> unique: labeled unique entity always found inside of property, i.e. {entity=value} or {entity=3}
+> simple: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
+> value: labeled ambiguous entity for inside property/op like {@entity=value}
+> unique: labeled unique entity always found inside of property, i.e. {@entity=value} or {@entity=3}
 > uniqueOrValue: union of unique and value.
 > name: possible ways of naming property
 > property: current property
@@ -596,7 +596,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${op} ${entity}`)}
+- ${designerName(`${op} @${entity}`)}
 
 # designerChooseEntity()
 - ${designerName(`${entity} - Disambiguation Prompt`)}
@@ -861,7 +861,7 @@ ${activityTemplate(
 - ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}
 
 # containsEntityReference(body)
-- ${isString(body) && contains(body, `${entity}`)}
+- ${isString(body) && contains(body, `@${entity}`)}
 
 # isAssign(body)
 - ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
@@ -873,4 +873,4 @@ ${activityTemplate(
 - ${substring(body.value, 1)}
 
 # unitsNumber()
-- ${if(propertySchema.$generator.$units && entity != 'number', `${entity}.number`, `${entity}`)}
+- ${if(propertySchema.$generator.$units && entity != 'number', `@${entity}.number`, `@${entity}`)}

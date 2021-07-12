@@ -344,7 +344,7 @@ describe('dialog:generate --merge files', async function () {
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             //sandwichMerge
             await assertMissing('language-understanding/en-us/sandwichMerge.en-us.lu', /pulled/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={BreadValue=rye}}/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {BreadProperty={BreadValue=rye}}/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
             assertCheck(comparison, errors)
@@ -456,7 +456,7 @@ describe('dialog:generate --merge singleton', async function () {
             await assertContains('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /black/, errors)
             await assertMissing('language-generation/en-us/BreadValue/sandwichMerge-BreadValue.en-us.lg', /white/, errors)
             await assertMissing('language-understanding/en-us/sandwichMerge.en-us.lu', /pulled/, errors)
-            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {@BreadProperty={BreadValue=rye}}/, errors)
+            await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', />- {BreadProperty={BreadValue=rye}}/, errors)
             await assertContains('language-understanding/en-us/Bread/sandwichMerge-Bread-BreadValue.en-us.lu', /black/, errors)
 
             assertCheck(comparison, errors)

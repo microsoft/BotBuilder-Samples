@@ -17,7 +17,7 @@
             "actions": [
                 {
                     "$kind": "Microsoft.IfCondition",
-                    "condition": "boolean == 'false'",
+                    "condition": "@boolean == 'false'",
                     "actions": [
                         {
                             "$kind": "Microsoft.EndDialog",

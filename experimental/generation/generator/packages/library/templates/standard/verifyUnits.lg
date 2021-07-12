@@ -18,7 +18,7 @@
 ]}
 
 # comparison()
-- ${`${entity}.units != '${units()}'`}
+- ${`@${entity}.units != '${units()}'`}
 
 # activity()
-- ${`${${property}_IncorrectUnits(${entity}.units)}`}
+- ${`${${property}_IncorrectUnits(@${entity}.units)}`}
