@@ -3,5 +3,5 @@
 # entities
 - ${['number']}
 
-# templates
+# generators
 - ${numericTemplates()}

@@ -3,7 +3,7 @@
 # filename
 - ${understandingDir()}${locale}/form/${prefix}-trigger.en-us.lu
 
-# template
+# generator
 -```
 > This is where you would put utterances that should trigger ${triggerIntent}
 # ${triggerIntent}

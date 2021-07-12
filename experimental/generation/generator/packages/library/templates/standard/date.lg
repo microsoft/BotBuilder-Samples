@@ -3,5 +3,5 @@
 # entities
 - ${['datetimeV2']}
 
-# templates
+# generators
 - ${dateFormatTemplates()}

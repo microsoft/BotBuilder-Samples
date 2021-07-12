@@ -3,6 +3,6 @@
 # filename
 - ${filenameForEntityTypeLG('url')}
 
-# template
+# generator
 - ${entityTextTemplate('url')}
 

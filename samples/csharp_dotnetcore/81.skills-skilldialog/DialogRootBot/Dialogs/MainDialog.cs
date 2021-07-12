@@ -40,10 +40,6 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             : base(nameof(MainDialog))
         {
             var botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
-            if (string.IsNullOrWhiteSpace(botId))
-            {
-                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
-            }
 
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
 

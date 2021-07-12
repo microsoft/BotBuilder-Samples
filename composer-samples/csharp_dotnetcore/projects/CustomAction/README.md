@@ -1,11 +1,11 @@
 # Extending your bot with code
 
-# Add custom actions in C#
+## Add custom actions in C#
 
-## In this article
+### In this article
 
-In Bot Framework Composer, [actions](concept-dialog#action) are the main
-contents of a [trigger](concept-dialog#trigger). Actions help maintain
+In Bot Framework Composer, [actions](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#action) are the main
+contents of a [trigger](https://docs.microsoft.com/en-us/composer/concept-dialog?tabs=v2x#trigger). Actions help maintain
 conversation flow and instruct bots on how to fulfill user requests.
 Composer provides different types of actions, such as **Send a
 response**, **Ask a question**, and **Create a condition**. Besides
@@ -15,19 +15,18 @@ Composer.
 This article shows you how to include a custom action named
 `MultiplyDialog`.
 
-#### Note
+### Note
 
 Composer currently supports the C\# runtime and JavaScript (preview)
 Adaptive Runtime.
 
 ## Prerequisites
 
-- A basic understanding of [actions](concept-dialog#action) in Composer.
-- [A basic bot built using Composer](quickstart-create-bot).
+- A basic understanding of [actions](https://docs.microsoft.comcomposer/concept-dialog?tabs=v2x#action) in Composer.
+- [A basic bot built using Composer](https://docs.microsoft.com/composer/quickstart-create-bot?tabs=v2x).
 - [Bot Framework CLI 4.10](https://botbuilder.myget.org/feed/botframework-cli/package/npm/@microsoft/botframework-cli) or later.
 
 ## Setup the Bot Framework CLI tool
-----------------------
 
 The Bot Framework CLI tools include the *bf-dialog* tool which will
 create a *schema file* that describes the built-in and custom
@@ -41,7 +40,6 @@ Framework tools:
     npm i -g @microsoft/botframework-cli
 
 ## Key points
-----------------------
 
 This C\# sample consists of the following:
 
@@ -56,14 +54,11 @@ This C\# sample consists of the following:
 
     [Bot Framework Schemas](https://github.com/microsoft/botframework-sdk/tree/master/schemas)
     are specifications for JSON data. They define the shape of the data
-    and can be used to validate JSON. All of Bot Framework's [adaptive
-    dialogs](/en-us/azure/bot-service/bot-builder-adaptive-dialog-introduction)
-    are defined using this JSON schema. The schema files tell Composer
-    what capabilities the bot runtime supports. Composer uses the schema
+    and can be used to validate JSON. All of Bot Framework's Adaptive Dialogs
+    are defined using [this](https://github.com/microsoft/botframework-sdk/blob/master/schemas/component/v1.0/component.schema) JSON schema. The schema files tell Composer
+    what capabilities the bot runtime supports. Composer uses the [uischema](https://github.com/microsoft/botframework-sdk/blob/master/schemas/ui/v1.0/ui.schema)
     to help it render the user interface when using the action in a
-    dialog. Read the section about [creating schema files in adaptive
-    dialogs](/en-us/azure/bot-service/bot-builder-dialogs-declarative)
-    for more information.
+    dialog.
 
   - A BotComponent, [MultiplyDialogBotComponent.cs](MultiplyDialog/MultiplyDialogBotComponent.cs) for component registration.  BotComponents are loaded by your bot (specifically by Adaptive Runtime), and made available to Composer.
 
@@ -102,7 +97,6 @@ This C\# sample consists of the following:
    ```
 
 ## Update the schema file
-----------------------
 
 Now you have customized your bot, the next step is to update the
 `sdk.schema` file to include the `MultiplyDialog.Schema` file.  This makes your custom action available for use in Composer.
@@ -130,7 +124,6 @@ Alternatively, you can select the `update-schema.sh` file inside the
 `powershell` file directly.
 
 ## Test
-----
 
 Open the bot project in Composer and you should be able to test your
 added custom action.  If the project is already loaded, return to `Home` in Composer, and reload the project.
@@ -151,15 +144,7 @@ added custom action.  If the project is already loaded, return to `Home` in Comp
    will respond with the test result.
 
 ## Additional information
-----------------------
 
 - [Bot Framework SDK Schemas](https://github.com/microsoft/botframework-sdk/tree/master/schemas)
-- [Create schema files](/en-us/azure/bot-service/bot-builder-dialogs-declarative)
-
-## Docs table of contents
-
-1. [Overview](/docs/overview.md)
-2. [Extending your bot using packages](/docs/extending-with-packages.md)
-3. Extending your bot with code (this document)
-4. [Creating your own packages](/docs/creating-packages.md)
-5. [Creating your own templates](/docs/creating-templates.md)
+- [Bot Framework Component Schema](https://github.com/microsoft/botframework-sdk/blob/master/schemas/component/v1.0/component.schema)
+- [Bot Framework Composer UI Schema](https://github.com/microsoft/botframework-sdk/tree/master/schemas/ui/v1.0)

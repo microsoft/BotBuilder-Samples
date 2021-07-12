@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('dimension')}
 
-# template
+# generator
 - ${entityTextTemplate('dimension')}

@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('personName')}
 
-# template
+# generator
 - ${entityTextTemplate('personName')}

@@ -50,4 +50,13 @@ public class EchoBot extends ActivityHandler {
                 .thenApply(result -> null);
         }
     }
+
+    @Override
+    protected CompletableFuture<Void> onEndOfConversationActivity(TurnContext turnContext) {
+        // This will be called if the root bot is ending the conversation. Sending
+        // additional messages should be
+        // avoided as the conversation may have been deleted.
+        // Perform cleanup of resources if needed.
+        return CompletableFuture.completedFuture(null);
+    }
 }

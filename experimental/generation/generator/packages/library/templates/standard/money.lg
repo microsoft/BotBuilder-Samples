@@ -3,5 +3,5 @@
 # entities
 - ${unitsEntities('money')}
 
-# templates
+# generators
 - ${unitTemplates()}

@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('ordinalV2')}
 
-# template
+# generator
 - ```
 @ prebuilt ordinalV2
 

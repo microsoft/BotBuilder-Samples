@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 const { TeamsActivityHandler, MessageFactory, CardFactory } = require('botbuilder');
-const { TaskModuleUIConstants } = require('../models/TaskModuleUIConstants');
+const { TaskModuleUIConstants } = require('../models/taskModuleUIConstants');
 const { TaskModuleIds } = require('../models/taskmoduleids');
 const { TaskModuleResponseFactory } = require('../models/taskmoduleresponsefactory');
 

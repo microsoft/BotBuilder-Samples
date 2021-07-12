@@ -11,15 +11,15 @@ class DefaultConfig:
     """ Bot Configuration """
 
     PORT = 3978
-    APP_ID = os.environ.get("MicrosoftAppId", "TODO: Add here the App ID for the bot")
+    APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get(
-        "MicrosoftAppPassword", "TODO: Add here the password for the bot"
+        "MicrosoftAppPassword", ""
     )
     SKILL_HOST_ENDPOINT = "http://localhost:3978/api/skills"
     SKILLS = [
         {
             "id": "DialogSkillBot",
-            "app_id": "TODO: Add here the App ID for the skill",
+            "app_id": "",
             "skill_endpoint": "http://localhost:39783/api/messages",
         },
     ]

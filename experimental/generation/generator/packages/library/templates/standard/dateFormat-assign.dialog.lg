@@ -3,5 +3,5 @@
 # filename
 - ${assignFilename(template)}
 
-# template
+# generator
 - ${addDateFormatDialog()}
