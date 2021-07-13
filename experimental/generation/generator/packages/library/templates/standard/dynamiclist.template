@@ -3,8 +3,8 @@
     "type": "string",
     "$template": "dynamiclist",
     "$generator": {
-        "title": "dynamiclist",
-        "description": "dynamiclist",
+        "title": "Dynamic List",
+        "description": "A dynamic list is a LUIS list where values and synonyms are defined dynamically at runtime.",
         "allOf": [
             {
                 "$ref": "common.json"
