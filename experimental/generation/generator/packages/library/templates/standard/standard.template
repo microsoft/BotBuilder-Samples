@@ -46,7 +46,6 @@
     ],
     "$templates": [
         "form-NoneIntent.lu",
-        "form-triggerIntent.lu",
         "form-phrases.lu",
         "form-global.lu",
         "locale-definition.lu",

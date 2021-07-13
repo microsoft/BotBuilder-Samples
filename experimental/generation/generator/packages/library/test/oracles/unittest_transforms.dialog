@@ -334,7 +334,7 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "not(isMatch( @AStringValue,  dialogClass.schema.properties['AString'].pattern))",
+          "condition": "not(isMatch(@AStringValue,  dialogClass.schema.properties['AString'].pattern))",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
@@ -369,7 +369,7 @@
         "name": "Assign @AStringValue"
       },
       "$source": "unittest_transforms-AString-assign-AStringValue",
-      "$Generator": "2ece9b2452b36823352391849e1d2e77"
+      "$Generator": "afc805a720e9bfcae210f02815d75396"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -379,7 +379,7 @@
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
-          "condition": "not(isMatch( @utterance,  dialogClass.schema.properties['AString'].pattern))",
+          "condition": "not(isMatch(@utterance,  dialogClass.schema.properties['AString'].pattern))",
           "actions": [
             {
               "$kind": "Microsoft.SendActivity",
@@ -414,7 +414,7 @@
         "name": "Assign @utterance"
       },
       "$source": "unittest_transforms-AString-assign-utterance",
-      "$Generator": "bc3e9f9a12207da613edbb7a1ce29dfe"
+      "$Generator": "7e3022ddc8f94077461578807eb630d4"
     },
     {
       "$kind": "Microsoft.OnAssignEntity",
@@ -813,5 +813,5 @@
   "$designer": {
     "name": "unittest_transforms form dialog"
   },
-  "$Generator": "32f8ad524fb7ea63f061330b4229f1f5"
+  "$Generator": "5aaa27e76b56988c6a7b5e8f4f3eed88"
 }
