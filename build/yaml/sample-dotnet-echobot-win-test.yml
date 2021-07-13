@@ -1,0 +1,261 @@
+# 'Allow scripts to access the OAuth token' was selected in pipeline.  Add the following YAML to any steps requiring access:
+#       env:
+#           MY_ACCESS_TOKEN: $(System.AccessToken)
+# Variable 'AppId' was defined in the Variables tab
+# Variable 'AppSecret' was defined in the Variables tab
+# Variable 'AzureSubscription' was defined in the Variables tab
+# Variable 'BotGroup' was defined in the Variables tab
+# Variable 'BotName' was defined in the Variables tab
+# Variable 'DeleteResourceGroup' was defined in the Variables tab
+# Variable 'MyGetPersonalAccessToken' was defined in the Variables tab
+# Variable 'runCodesignValidationInjection' was defined in the Variables tab
+# Variable 'SampleFolderName' was defined in the Variables tab
+# Variable 'SampleRootPath' was defined in the Variables tab
+# Variable Group 'SamplesE2ETestsVariableGroup' was defined in the Variables tab
+# Variable Group 'MyGetPersonalAccessTokenVariableGroup' was defined in the Variables tab
+
+# Run this job every night at 2 AM (PST) on the main branch
+schedules:
+- cron: 0 9 * * *
+  branches:
+    include:
+    - main
+  always: true
+resources:
+  repositories:
+  - repository: self
+    type: git
+    ref: main
+jobs:
+- job: Job_1
+  displayName: Agent job 1
+  pool:
+    vmImage: windows-2019
+  steps:
+  - checkout: self
+    persistCredentials: True
+  - task: PowerShell@2
+    displayName: Create nuget.config for ConversationalAI/BotFramework feed
+    inputs:
+      targetType: inline
+      script: >-
+        $file = "$(SampleRootPath)\nuget.config";
+
+        $content = @"
+        <?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <packageSources>
+            <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
+            <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+          </packageSources>
+          <activePackageSource>
+            <add key="All" value="(Aggregate source)" />
+          </activePackageSource>
+        </configuration>
+        "@;
+
+        New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '===================';
+  - task: PowerShell@2
+    displayName: Create nuget.config for MyGet feed
+    enabled: False
+    inputs:
+      targetType: inline
+      script: >-
+        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/02.echo-bot/nuget.config";
+
+        $content = @"
+        <?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <packageSources>
+            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
+          </packageSources>
+          <activePackageSource>
+            <add key="All" value="(Aggregate source)" />
+          </activePackageSource>
+        </configuration>
+        "@;
+
+        New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '===================';
+  - task: PowerShell@2
+    displayName: Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK
+    inputs:
+      targetType: inline
+      script: >-
+        $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+        
+        #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1";
+        Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
+        $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json";
+        $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
+        [string]$latestVersion = $PackageList.Split(" ")[-1];
+        #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+        #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
+        
+        $packageName;
+        $latestVersion;
+        "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+  - task: PowerShell@2
+    displayName: Get latest botbuilder package version from MyGet - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily
+    enabled: False
+    inputs:
+      targetType: inline
+      script: >-
+        $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+        $myGetFeedName = "botbuilder-v4-dotnet-daily";
+        $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+
+        $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+
+        Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
+        $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+
+        $package = $result.packages | Where-Object {$_.id -eq $packageName};
+        [string]$latestVersion = $package.versions[-1];
+
+        $package.id;
+        $latestVersion;
+        "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+  - task: tagBuildOrRelease@0
+    displayName: Tag Build with botbuilder version
+    inputs:
+      tags: Using botbuilder version $(LatestVersion)
+  - task: PowerShell@2
+    displayName: Set dependency reference to latest version
+    inputs:
+      targetType: inline
+      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\EchoBot.csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(LatestVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
+  - task: NuGetToolInstaller@1
+    displayName: Use NuGet 5.5.1
+    inputs:
+      versionSpec: 5.5.1
+  - task: NuGetCommand@2
+    displayName: NuGet restore EchoBot.csproj
+    inputs:
+      solution: $(SampleRootPath)\EchoBot.csproj
+      selectOrConfig: config
+      nugetConfigPath: $(SampleRootPath)\nuget.config
+  - task: DotNetCoreCLI@2
+    displayName: dotnet publish EchoBot.csproj
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: $(SampleRootPath)\EchoBot.csproj
+      arguments: --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)
+  - task: AzureCLI@2
+    displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
+    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
+    continueOnError: True
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >-
+        Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
+        Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
+        Write-Host "************************************************************************";
+        Set-PSDebug -Trace 1;
+
+        az group create --location westus --name $(BotGroup)
+
+        # set up bot channels registration, app service, app service plan
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(BotName)" newWebAppName="$(BotName)" newAppServicePlanName="$(BotName)" appServicePlanLocation="westus" --name "$(BotName)";
+
+        Set-PSDebug -Trace 0;
+  - task: AzureCLI@2
+    displayName: 'New RG: create Azure resources. Runs in odd builds.'
+    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
+    continueOnError: True
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >-
+        Write-Host "`n***** Creating Azure resources using the new-rg template *****";
+        Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
+        Write-Host "****************************************************************";
+        Set-PSDebug -Trace 1;
+
+        # set up resource group, bot channels registration, app service, app service plan
+        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(BotName)" botSku=F0 newAppServicePlanName="$(BotName)" newWebAppName="$(BotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
+
+        Set-PSDebug -Trace 0;
+  - task: AzureCLI@2
+    displayName: 'Deploy bot, create DirectLine channel '
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >-
+        # prepare .deployment file
+        az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "EchoBot.csproj";
+
+        az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(BotName)" --src "$(Build.ArtifactStagingDirectory)/02.echo-bot.zip"
+
+        az bot directline create -n "$(BotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
+  - task: PowerShell@2
+    displayName: Set up bot directline keys
+    inputs:
+      targetType: inline
+      script: >-
+        $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
+        $key = $json.properties.properties.sites.key;
+        echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
+        echo "##vso[task.setvariable variable=BOTID;]$(BotName)";
+        Write-Host "setx DIRECTLINE $key";
+        Write-Host "setx BOTID $(BotName)";
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact: 02.echo-bot-zip'
+    continueOnError: True
+    enabled: False
+    inputs:
+      ArtifactName: 02.echo-bot-zip
+  - task: NuGetCommand@2
+    displayName: NuGet restore Samples.EchoBot.FunctionalTests.csproj
+    inputs:
+      solution: samples/csharp_dotnetcore/tests/Samples.EchoBot.FunctionalTests/Samples.EchoBot.FunctionalTests.csproj
+      selectOrConfig: config
+      nugetConfigPath: $(SampleRootPath)\nuget.config
+  - task: DotNetCoreCLI@2
+    displayName: dotnet build Samples.EchoBot.FunctionalTests.csproj
+    inputs:
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.EchoBot.FunctionalTests/Samples.EchoBot.FunctionalTests.csproj
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.EchoBot.FunctionalTests/**Tests.csproj
+      arguments: --verbosity Normal
+  - task: CmdLine@2
+    displayName: Dir workspace
+    condition: always()
+    continueOnError: True
+    inputs:
+      script: >
+        dir .. /s
+  - task: AzureCLI@2
+    displayName: Delete bot, app service, app service plan, group
+    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
+    continueOnError: True
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >-
+        Set-PSDebug -Trace 1;
+
+        Write-Host "1) Delete Bot:"
+        az bot delete --name $(BotName) --resource-group $(BotGroup)
+
+        Write-Host "2) Delete App Service:"
+        az webapp delete --name $(BotName) --resource-group $(BotGroup)
+
+        Write-Host "3) Delete App Service plan:"
+        az appservice plan delete --name $(BotName) --resource-group $(BotGroup) --yes
+
+        Write-Host "4) Delete Resource Group:"
+        az group delete --name $(BotGroup) --yes
+
+        Set-PSDebug -Trace 0;
+...
