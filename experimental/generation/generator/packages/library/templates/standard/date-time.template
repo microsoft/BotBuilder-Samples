@@ -5,7 +5,6 @@
     "$generator": {
         "title": "Date and Time",
         "description": "Map entities like '2020/7/3 at 4pm' into date-time format YYYY-MM-DDTHH:MM:SS like 2020-07-03T16:00:00.",
-        "$comment": "TODO: We need to convert to YYYY-MM-DDTHH:MM:SS[.FS] https://tools.ietf.org/html/rfc3339#appendix-A",
         "$ref": "common.json"
     }
 }
