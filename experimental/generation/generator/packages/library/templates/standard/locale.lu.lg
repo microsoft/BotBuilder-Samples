@@ -18,9 +18,9 @@
 > The span of each label should include the words that mean the corresponding operation/property/value.
 >
 > Label patterns below show valid patterns and use 'words*' to indicate zero or more words.
->  Single: {@OPERATOR=words*}, {@PROPERTY=words*}, {@VALUE=words*}
->  Nested: {@OPERATOR=words*{@PROPERTY=words*}words*} {@OPERATOR=words*{@VALUE=words*}words*}, {@PROPERTY=words*{@VALUE=words*}words*}
->  Triples: {@OPERATOR=words*{@PROPERTY=words*{@VALUE=words*}words*}words*}
+>  Single: {OPERATOR=words*}, {PROPERTY=words*}, {VALUE=words*}
+>  Nested: {OPERATOR=words*{PROPERTY=words*}words*} {OPERATOR=words*{VALUE=words*}words*}, {PROPERTY=words*{VALUE=words*}words*}
+>  Triples: {OPERATOR=words*{PROPERTY=words*{VALUE=words*}words*}words*}
 >
 > You can also nest multiple PROPERTY or VALUE labels inside of an OPERATOR.
 
