@@ -418,7 +418,6 @@
 > entity: current entity
 > isArray: true if property supports multiple values
 > comment: empty value to filter out meta-comments
-> TODO: Would be nice to be able to have multi-line object here for clarity
 # operations(entity, values, label)
 -```
 > Define phrase list for '${property} property.
@@ -449,7 +448,16 @@ ${substitutions(
 
 # substitutionScope(utterances, values, label)
 > Scope variables for substitutions
-- ${{ utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []}}
+- ${{ utterances: utterances, 
+      simple: entityList(entity, values, label), 
+      value: valueList(entity, values), 
+      unique: uniqueList(entity, values), 
+      uniqueOrValue: uniqueOrValueList(entity, values), 
+      name: propertyList(property), 
+      property: propertyEntity(), 
+      entity: entity, 
+      isArray: isArrayProperty(property), 
+      comment: []}}
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
