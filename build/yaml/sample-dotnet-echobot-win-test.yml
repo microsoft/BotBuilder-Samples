@@ -51,6 +51,7 @@ jobs:
         $content = @"
 
         <?xml version="1.0" encoding="utf-8"?>
+
         <configuration>
           <packageSources>
             <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
@@ -76,6 +77,7 @@ jobs:
         $content = @"
 
         <?xml version="1.0" encoding="utf-8"?>
+
         <configuration>
           <packageSources>
             <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
@@ -89,45 +91,44 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-  - task: PowerShell@2
-    displayName: Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK
-    inputs:
-      targetType: inline
-      script: >-
-        $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
-        
-        #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1";
-        Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
-        $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json";
-        $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
-        [string]$latestVersion = $PackageList.Split(" ")[-1];
-        #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-        #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
-        
-        $packageName;
-        $latestVersion;
-        "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
-  - task: PowerShell@2
-    displayName: Get latest botbuilder package version from MyGet - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
-        $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
-        $myGetFeedName = "botbuilder-v4-dotnet-daily";
-        $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+  - powershell: |
+     $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+   
+     #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
+   
+     Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
+   
+     $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
+     $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease
+     [string]$latestVersion = $PackageList.Split(" ")[-1]
+   
+     #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+     #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
+   
+     $packageName;
+     $latestVersion;
+     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+    displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
 
-        $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+  - powershell: |
+     $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+     $myGetFeedName = "botbuilder-v4-dotnet-daily";
+     $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+   
+     $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+   
+     Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
+     $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+   
+     $package = $result.packages | Where-Object {$_.id -eq $packageName};
+     [string]$latestVersion = $package.versions[-1];
+   
+     $package.id;
+     $latestVersion;
+     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+    displayName: 'Get latest botbuilder package version from MyGet - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    enabled: false
 
-        Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
-        $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-
-        $package = $result.packages | Where-Object {$_.id -eq $packageName};
-        [string]$latestVersion = $package.versions[-1];
-
-        $package.id;
-        $latestVersion;
-        "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
   - task: tagBuildOrRelease@0
     displayName: Tag Build with botbuilder version
     inputs:
