@@ -21,6 +21,13 @@ schedules:
     include:
     - main
   always: true
+
+# Do not run PR validation
+pr: none
+
+# Do not run CI validation
+trigger: none
+
 resources:
   repositories:
   - repository: self
