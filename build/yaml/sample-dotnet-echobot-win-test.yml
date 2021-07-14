@@ -60,6 +60,7 @@ jobs:
             <add key="All" value="(Aggregate source)" />
           </activePackageSource>
         </configuration>
+
         "@;
 
         New-Item -Path $file -ItemType "file" -Value $content;
@@ -83,6 +84,7 @@ jobs:
             <add key="All" value="(Aggregate source)" />
           </activePackageSource>
         </configuration>
+
         "@;
 
         New-Item -Path $file -ItemType "file" -Value $content;
