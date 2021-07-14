@@ -19,8 +19,8 @@ parameters:
     displayName: Test latest package preview version
     type: boolean
     default: true
-  - name: testVersion
-    displayName: Version to test ('Test latest' must be unchecked)
+  - name: versionToTest
+    displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
     default: 'E.g. 4.15.0-preview.20210706-256858'
 
@@ -124,6 +124,14 @@ jobs:
      $latestVersion;
      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    condition: ${{ parameters.testLatestPackage }}
+
+  - powershell: |
+     $targetVersion = ${{ parameters.testLatestPackage }};
+     $targetVersion;
+     "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
+    displayName: 'Set botbuilder package version to test as specified at queue time'
+    condition: ne(${{ parameters.testLatestPackage }}, 'true')
 
   - powershell: |
      $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
