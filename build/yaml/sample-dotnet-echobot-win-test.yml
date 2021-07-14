@@ -14,6 +14,21 @@
 # Variable Group 'SamplesE2ETestsVariableGroup' was defined in the Variables tab
 # Variable Group 'MyGetPersonalAccessTokenVariableGroup' was defined in the Variables tab
 
+parameters:
+  - name: configuration
+    displayName: Configuration
+    type: string
+    default: development
+    values:
+    - development
+    - demo
+    - staging
+    - production
+  - name: bannerName
+    displayName: Display name of the banner (Launch Icon Badge)
+    type: string
+    default: ''
+
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
 - cron: 0 9 * * *
