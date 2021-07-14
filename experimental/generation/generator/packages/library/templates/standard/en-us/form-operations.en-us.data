@@ -31,8 +31,8 @@
 
 > Remove() examples for ${property} and ${entity}
 - {Remove()=remove {${property}=${unique}}
-- {Remove()=remove ${value}}
-- {Remove()=with no ${uniqueOrValue} ${name}}
+- {Remove()=with no {${property}=${uniqueOrValue} ${name}}
+- {Remove()=without ${value}}
 
 > ${isArray?}Remove() examples for ${property} and 2-3 ${entity}
 - {Remove()=delete {${property}=${unique} and ${unique}}}
