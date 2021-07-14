@@ -49,6 +49,7 @@ jobs:
         $file = "$(SampleRootPath)\nuget.config";
 
         $content = @"
+
         <?xml version="1.0" encoding="utf-8"?>
         <configuration>
           <packageSources>
@@ -72,6 +73,7 @@ jobs:
         $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/02.echo-bot/nuget.config";
 
         $content = @"
+
         <?xml version="1.0" encoding="utf-8"?>
         <configuration>
           <packageSources>
