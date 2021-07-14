@@ -157,7 +157,7 @@ jobs:
     inputs:
       tags: Using botbuilder version $(TargetVersion)
   - task: PowerShell@2
-    displayName: Set dependency reference to latest version
+    displayName: Set dependency reference to target version
     inputs:
       targetType: inline
       script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\EchoBot.csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(TargetVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
