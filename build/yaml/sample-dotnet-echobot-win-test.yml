@@ -22,7 +22,7 @@ parameters:
   - name: versionToTest
     displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
-    default: 'E.g. 4.15.0-preview.20210706-256858'
+    default: 'E.g. 4.15.0-daily.20210714.258979.1220aed'
 
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
@@ -130,7 +130,7 @@ jobs:
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Set the botbuilder package version to test as specified at queue time'
+    displayName: 'Set botbuilder package version per user input at queue time'
     condition: ne(${{ parameters.testLatestPackage }}, 'true')
 
   - powershell: |
