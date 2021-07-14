@@ -16,7 +16,7 @@
 
 parameters:
   - name: testLatestPackage
-    displayName: Test latest package preview version
+    displayName: Test latest daily package version
     type: boolean
     default: true
   - name: versionToTest
