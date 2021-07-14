@@ -16,11 +16,11 @@
 
 parameters:
   - name: testLatestPackage
-    displayName: Test latest package
+    displayName: Test latest package preview version
     type: boolean
     default: true
   - name: testVersion
-    displayName: Version to test (Only if 'Test latest' is unchecked)
+    displayName: Version to test ('Test latest' must be unchecked)
     type: string
     default: 'E.g. 4.15.0-preview.20210706-256858'
 
