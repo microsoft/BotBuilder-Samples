@@ -15,19 +15,14 @@
 # Variable Group 'MyGetPersonalAccessTokenVariableGroup' was defined in the Variables tab
 
 parameters:
-  - name: configuration
-    displayName: Configuration
+  - name: testLatestPackage
+    displayName: Test latest package
+    type: boolean
+    default: true
+  - name: testVersion
+    displayName: Version to test (Only if not latest)
     type: string
-    default: development
-    values:
-    - development
-    - demo
-    - staging
-    - production
-  - name: bannerName
-    displayName: Display name of the banner (Launch Icon Badge)
-    type: string
-    default: ''
+    default: 'E.g. 4.15.0-preview.20210706-256858'
 
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
@@ -127,7 +122,7 @@ jobs:
    
      $packageName;
      $latestVersion;
-     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+     "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
 
   - powershell: |
@@ -145,19 +140,19 @@ jobs:
    
      $package.id;
      $latestVersion;
-     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+     "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from MyGet - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     enabled: false
 
   - task: tagBuildOrRelease@0
     displayName: Tag Build with botbuilder version
     inputs:
-      tags: Using botbuilder version $(LatestVersion)
+      tags: Using botbuilder version $(TargetVersion)
   - task: PowerShell@2
     displayName: Set dependency reference to latest version
     inputs:
       targetType: inline
-      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\EchoBot.csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(LatestVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
+      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\EchoBot.csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(TargetVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 5.5.1
     inputs:
