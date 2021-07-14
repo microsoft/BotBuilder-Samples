@@ -127,7 +127,7 @@ jobs:
     condition: ${{ parameters.testLatestPackage }}
 
   - powershell: |
-     $targetVersion = "${{ parameters.testLatestPackage }}";
+     $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
     displayName: 'Set the botbuilder package version to test as specified at queue time'
