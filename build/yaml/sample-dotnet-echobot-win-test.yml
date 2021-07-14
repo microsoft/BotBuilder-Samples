@@ -20,7 +20,7 @@ parameters:
     type: boolean
     default: true
   - name: testVersion
-    displayName: Version to test (Only if not latest)
+    displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
     default: 'E.g. 4.15.0-preview.20210706-256858'
 
