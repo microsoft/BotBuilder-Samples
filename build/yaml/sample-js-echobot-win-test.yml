@@ -195,24 +195,6 @@ jobs:
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
 
   - task: AzureCLI@2
-    displayName: 'New RG: create Azure resources. Runs in odd builds.'
-    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
-    inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
-      scriptType: ps
-      scriptLocation: inlineScript
-      inlineScript: >-
-        Write-Host "`n***** Creating Azure resources using the new-rg template *****";
-        Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
-        Write-Host "****************************************************************";
-        Set-PSDebug -Trace 1;
-
-        # set up resource group, bot channels registration, app service, app service plan
-        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=F0 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
-
-        Set-PSDebug -Trace 0;
-
-  - task: AzureCLI@2
     displayName: 'Deploy bot, create directline channel '
     inputs:
       connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
