@@ -142,11 +142,24 @@ jobs:
     displayName: Tag Build with botbuilder version
     inputs:
       tags: Using botbuilder version $(TargetVersion)
-  - task: PowerShell@2
+
+  - powershell: |
+      $path = "$(SampleRootPath)\\$(SampleBotName).csproj";
+      $package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';
+      $newVersion = "$(TargetVersion)";
+   
+      $find = "$package`" Version=`"\S*`"";
+      $replace = "$package`" Version=`"$newVersion`"";
+   
+      Get-ChildItem -Path "$path" | % {
+          $_.FullName; 
+          $content = Get-Content -Raw $_.FullName;
+   
+          $content -Replace "$find", "$replace" | Set-Content $_.FullName;
+          '-------------'; get-content $_.FullName; '===================';
+      }
     displayName: Set PackageReference to target version in $(SampleBotName).csproj
-    inputs:
-      targetType: inline
-      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\$(SampleBotName).csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(TargetVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
+
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 5.5.1
     inputs:

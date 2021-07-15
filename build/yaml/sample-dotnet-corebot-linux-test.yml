@@ -48,6 +48,7 @@ resources:
     ref: main
 
 #variables:
+#- group: AzureDeploymentCredsVariableGroup
 #- group: SamplesE2ETestsVariableGroup
 #- group: MyGetPersonalAccessTokenVariableGroup
 
