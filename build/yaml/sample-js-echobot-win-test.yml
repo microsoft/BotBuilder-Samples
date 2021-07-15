@@ -244,33 +244,8 @@ jobs:
     displayName: Use NuGet 5.5.1
     inputs:
       versionSpec: 5.5.1
+    condition: always()
 
-  - task: PowerShell@2
-    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for MyGet feed
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
-
-        $content = @"
-
-        <?xml version="1.0" encoding="utf-8"?>
-
-        <configuration>
-          <packageSources>
-            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-         '-------------'; get-content "$file"; '==================='
   - task: PowerShell@2
     displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed
     inputs:
@@ -296,6 +271,8 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
          '-------------'; get-content "$file"; '==================='
+    condition: always()
+
   - task: NuGetCommand@2
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
@@ -308,6 +285,7 @@ jobs:
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
     condition: always()
+
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
