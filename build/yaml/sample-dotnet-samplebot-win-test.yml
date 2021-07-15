@@ -1,20 +1,22 @@
+# This is used in the pipelines Sample-DotNet-CoreBot-Win-Test-yaml and Sample-DotNet-EchoBot-Win-Test-yaml.
+
 # 'Allow scripts to access the OAuth token' was selected in pipeline.  Add the following YAML to any steps requiring access:
 #       env:
 #           MY_ACCESS_TOKEN: $(System.AccessToken)
-# Variable 'AppId' was defined in the Variables tab
-# Variable 'AppSecret' was defined in the Variables tab
-# Variable 'AzureBotName' was defined in the Variables tab
-# Variable 'AzureSubscription' was defined in the Variables tab
-# Variable 'BotGroup' was defined in the Variables tab
-# Variable 'BuildConfiguration' was defined in the Variables tab
-# Variable 'DeleteResourceGroup' was defined in the Variables tab
-# Variable 'MyGetPersonalAccessToken' was defined in the Variables tab
-# Variable 'runCodesignValidationInjection' was defined in the Variables tab
-# Variable 'SampleBotName' was defined in the Variables tab
-# Variable 'SampleFolderName' was defined in the Variables tab
-# Variable 'SampleRootPath' was defined in the Variables tab
-# Variable Group 'SamplesE2ETestsVariableGroup' was defined in the Variables tab
-# Variable Group 'MyGetPersonalAccessTokenVariableGroup' was defined in the Variables tab
+# Variable 'AppId' is defined in Azure
+# Variable 'AppSecret' is defined in Azure
+# Variable 'AzureBotName' is defined in Azure
+# Variable 'AzureSubscription' is defined in Azure
+# Variable 'BotGroup' is defined in Azure
+# Variable 'BuildConfiguration' is defined in Azure
+# Variable 'DeleteResourceGroup' is defined in Azure
+# Variable 'MyGetPersonalAccessToken' is defined in Azure
+# Variable 'runCodesignValidationInjection' is defined in Azure
+# Variable 'SampleBotName' is defined in Azure
+# Variable 'SampleFolderName' is defined in Azure
+# Variable 'SampleRootPath' is defined in Azure
+# Variable Group 'SamplesE2ETestsVariableGroup' is defined in Azure
+# Variable Group 'MyGetPersonalAccessTokenVariableGroup' is defined in Azure
 
 parameters:
   - name: testLatestPackage
