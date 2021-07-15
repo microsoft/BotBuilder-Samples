@@ -125,23 +125,23 @@ jobs:
      $packageName;
      $latestVersion;
      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ parameters.testLatestPackage }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Set botbuilder package version per user input at queue time'
+    displayName: 'Set Bot.Builder package version per user input at queue time'
     condition: ne(${{ parameters.testLatestPackage }}, 'true')
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
     displayName: 'Display env vars'
  
   - task: tagBuildOrRelease@0
-    displayName: Tag Build with botbuilder version
+    displayName: Tag Build with Bot.Builder version
     inputs:
-      tags: Using botbuilder version $(TargetVersion)
+      tags: Using Bot.Builder version $(TargetVersion)
 
   - powershell: |
       $path = "$(SampleRootPath)\\$(SampleBotName).csproj";
@@ -158,7 +158,7 @@ jobs:
           $content -Replace "$find", "$replace" | Set-Content $_.FullName;
           '-------------'; get-content $_.FullName; '===================';
       }
-    displayName: Set PackageReference to target version in $(SampleBotName).csproj
+    displayName: Set Bot.Builder version reference in $(SampleBotName).csproj
 
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 5.5.1
@@ -263,7 +263,7 @@ jobs:
   - task: InlinePowershell@1
     displayName: Sleep for 15 seconds
     inputs:
-      Script: Start-Sleep -s 15
+      Script: Start-Sleep -Seconds 15
     enabled: false
   - task: DotNetCoreCLI@2
     displayName: dotnet test

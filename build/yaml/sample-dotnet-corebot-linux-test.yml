@@ -127,23 +127,23 @@ jobs:
      $packageName;
      $latestVersion;
      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ parameters.testLatestPackage }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Set botbuilder package version per user input at queue time'
+    displayName: 'Set Bot.Builder package version per user input at queue time'
     condition: ne(${{ parameters.testLatestPackage }}, 'true')
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
     displayName: 'Display env vars'
  
   - task: tagBuildOrRelease@0
-    displayName: Tag Build with botbuilder version
+    displayName: Tag Build with Bot.Builder version
     inputs:
-      tags: Using botbuilder version $(TargetVersion)
+      tags: Using Bot.Builder version $(TargetVersion)
 
   - powershell: |
       $path = "$(SampleRootPath)\\$(SampleBotName).csproj";
@@ -160,7 +160,7 @@ jobs:
 
       Set-Content -Path $path -Value $content;
       '-------------'; get-content $path; '===================';
-    displayName: Set PackageReference to target version in $(SampleBotName).csproj
+    displayName: Set Bot.Builder version reference in $(SampleBotName).csproj
 
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 5.5.1
@@ -197,10 +197,10 @@ jobs:
 
         # set up bot channels registration, app service, app service plan
 
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(BotName)" --name "$(BotName)";
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(SampleBotName)" --name "$(SampleBotName)";
 
 
-        #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "CoreBot.csproj";
+        #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
 
 
         Set-PSDebug -Trace 0;
@@ -210,7 +210,7 @@ jobs:
       connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
       scriptType: batch
       scriptLocation: inlineScript
-      inlineScript: call az bot directline create -n "$(BotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
+      inlineScript: call az bot directline create -n "$(SampleBotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
   - task: PowerShell@2
     displayName: Set up bot directline keys
     inputs:
@@ -250,10 +250,10 @@ jobs:
 
         git commit -m "cibuildtest"
 
-        git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(BotName).scm.azurewebsites.net:443/$(BotName).git
+        git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(SampleBotName).scm.azurewebsites.net:443/$(SampleBotName).git
 
         git push azure master
-      workingDirectory: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/13.core-bot
+      workingDirectory: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)
   - task: NuGetCommand@2
     displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
