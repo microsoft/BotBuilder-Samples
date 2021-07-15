@@ -5,10 +5,11 @@
 # Variable 'AppSecret' was defined in the Variables tab
 # Variable 'AzureSubscription' was defined in the Variables tab
 # Variable 'BotGroup' was defined in the Variables tab
-# Variable 'BotName' was defined in the Variables tab
+# Variable 'AzureBotName' was defined in the Variables tab
 # Variable 'DeleteResourceGroup' was defined in the Variables tab
 # Variable 'MyGetPersonalAccessToken' was defined in the Variables tab
 # Variable 'runCodesignValidationInjection' was defined in the Variables tab
+# Variable 'SampleBotName' was defined in the Variables tab
 # Variable 'SampleFolderName' was defined in the Variables tab
 # Variable 'SampleRootPath' was defined in the Variables tab
 # Variable Group 'SamplesE2ETestsVariableGroup' was defined in the Variables tab
@@ -63,7 +64,6 @@ jobs:
       script: >-
         $file = "$(SampleRootPath)\nuget.config";
 
-
         $content = @"
 
         <?xml version="1.0" encoding="utf-8"?>
@@ -80,18 +80,15 @@ jobs:
 
         "@;
 
-
         New-Item -Path $file -ItemType "file" -Value $content;
-
-         '-------------'; get-content "$file"; '===================';
+        '-------------'; get-content "$file"; '===================';
   - task: PowerShell@2
     displayName: Create nuget.config for MyGet feed
     enabled: False
     inputs:
       targetType: inline
       script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/13.core-bot/nuget.config";
-
+        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)/nuget.config";
 
         $content = @"
 
@@ -108,10 +105,8 @@ jobs:
 
         "@;
 
-
         New-Item -Path $file -ItemType "file" -Value $content;
-
-         '-------------'; get-content "$file"; '===================';
+        '-------------'; get-content "$file"; '===================';
   - powershell: |
      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
    
@@ -147,26 +142,26 @@ jobs:
     inputs:
       tags: Using botbuilder version $(TargetVersion)
   - task: PowerShell@2
-    displayName: Set PackageReference to target version in CoreBot.csproj
+    displayName: Set PackageReference to target version in $(SampleBotName).csproj
     inputs:
       targetType: inline
-      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\CoreBot.csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(TargetVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
+      script: "# SetDependencyVersionInProjectFile0.ps1\n$path = \"$(SampleRootPath)\\$(SampleBotName).csproj\";\n$package = 'Microsoft.Bot.Builder.Integration.AspNet.Core';\n$newVersion = \"$(TargetVersion)\";\n\n$find = \"$package`\" Version=`\"\\S*`\"\";\n$replace = \"$package`\" Version=`\"$newVersion`\"\";\n\nGet-ChildItem -Path \"$path\" | % {\n    $_.FullName; \n    $content = Get-Content -Raw $_.FullName;\n\n    $content -Replace \"$find\", \"$replace\" | Set-Content $_.FullName;\n    '-------------'; get-content $_.FullName; '==================='\n}"
   - task: NuGetToolInstaller@1
     displayName: Use NuGet 5.5.1
     inputs:
       versionSpec: 5.5.1
   - task: NuGetCommand@2
-    displayName: NuGet restore CoreBot.csproj
+    displayName: NuGet restore $(SampleBotName).csproj
     inputs:
-      solution: $(SampleRootPath)\CoreBot.csproj
+      solution: $(SampleRootPath)\$(SampleBotName).csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
   - task: DotNetCoreCLI@2
-    displayName: dotnet publish CoreBot.csproj
+    displayName: dotnet publish $(SampleBotName).csproj
     inputs:
       command: publish
       publishWebProjects: false
-      projects: $(SampleRootPath)\CoreBot.csproj
+      projects: $(SampleRootPath)\$(SampleBotName).csproj
       arguments: --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)
 
   - task: AzureCLI@2
@@ -177,20 +172,14 @@ jobs:
       scriptLocation: inlineScript
       inlineScript: |
         Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
-
         Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
-
         Write-Host "************************************************************************";
-
         Set-PSDebug -Trace 1;
-
-
+     
         az group create --location westus --name $(BotGroup)
-
-
+     
         # set up bot channels registration, app service, app service plan
-
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(BotName)" newWebAppName="$(BotName)" newAppServicePlanName="$(BotName)" appServicePlanLocation="westus" --name "$(BotName)";
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(AzureBotName)" newWebAppName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
 
         Set-PSDebug -Trace 0;
     continueOnError: true
@@ -204,18 +193,12 @@ jobs:
       scriptLocation: inlineScript
       inlineScript: |
         Write-Host "`n***** Creating Azure resources using the new-rg template *****";
-
         Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
-
         Write-Host "****************************************************************";
-
         Set-PSDebug -Trace 1;
 
-
         # set up resource group, bot channels registration, app service, app service plan
-
-        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(BotName)" botSku=F0 newAppServicePlanName="$(BotName)" newWebAppName="$(BotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
-
+        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=F0 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
 
         Set-PSDebug -Trace 0;
     continueOnError: true
@@ -229,55 +212,48 @@ jobs:
       scriptLocation: inlineScript
       inlineScript: >-
         # prepare .deployment file
+        az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
 
-        az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "CoreBot.csproj";
+        az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(Build.ArtifactStagingDirectory)/$(SampleFolderName).zip"
 
-
-        az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(BotName)" --src "$(Build.ArtifactStagingDirectory)/13.core-bot.zip"
-
-
-        az bot directline create -n "$(BotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
+        az bot directline create -n "$(AzureBotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
   - task: PowerShell@2
     displayName: Set up bot directline keys
     inputs:
       targetType: inline
       script: >-
         $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
-
         $key = $json.properties.properties.sites.key;
-
         echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
-
-        echo "##vso[task.setvariable variable=BOTID;]$(BotName)";
-
+        echo "##vso[task.setvariable variable=BOTID;]$(AzureBotName)";
         Write-Host "setx DIRECTLINE $key";
-
-        Write-Host "setx BOTID $(BotName)";
+        Write-Host "setx BOTID $(AzureBotName)";
   - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: 13.core-bot-zip'
+    displayName: 'Publish Artifact: $(SampleFolderName)-zip'
     continueOnError: True
     enabled: False
     inputs:
-      ArtifactName: 13.core-bot-zip
+      ArtifactName: $(SampleFolderName)-zip
   - task: NuGetCommand@2
-    displayName: NuGet restore Samples.CoreBot.FunctionalTests.csproj
+    displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
-      solution: samples/csharp_dotnetcore/tests/Samples.CoreBot.FunctionalTests/Samples.CoreBot.FunctionalTests.csproj
+      solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
   - task: DotNetCoreCLI@2
-    displayName: dotnet build Samples.CoreBot.FunctionalTests.csproj
+    displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
-      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.CoreBot.FunctionalTests/Samples.CoreBot.FunctionalTests.csproj
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
   - task: InlinePowershell@1
     displayName: Sleep for 15 seconds
     inputs:
       Script: Start-Sleep -s 15
+    enabled: false
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
       command: test
-      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.CoreBot.FunctionalTests/**Tests.csproj
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
   - task: CmdLine@2
     displayName: Dir workspace
@@ -289,6 +265,7 @@ jobs:
   - task: AzureCLI@2
     displayName: Delete bot, app service, app service plan, group
     condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
+    continueOnError: True
     inputs:
       connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
       scriptType: ps
@@ -297,13 +274,13 @@ jobs:
         Set-PSDebug -Trace 1;
 
         Write-Host "1) Delete Bot:"
-        az bot delete --name $(BotName) --resource-group $(BotGroup)
+        az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
 
         Write-Host "2) Delete App Service:"
-        az webapp delete --name $(BotName) --resource-group $(BotGroup)
+        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
 
         Write-Host "3) Delete App Service plan:"
-        az appservice plan delete --name $(BotName) --resource-group $(BotGroup) --yes
+        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
 
         Write-Host "4) Delete Resource Group:"
         az group delete --name $(BotGroup) --yes
