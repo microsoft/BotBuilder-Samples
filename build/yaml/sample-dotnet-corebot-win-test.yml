@@ -3,9 +3,10 @@
 #           MY_ACCESS_TOKEN: $(System.AccessToken)
 # Variable 'AppId' was defined in the Variables tab
 # Variable 'AppSecret' was defined in the Variables tab
+# Variable 'AzureBotName' was defined in the Variables tab
 # Variable 'AzureSubscription' was defined in the Variables tab
 # Variable 'BotGroup' was defined in the Variables tab
-# Variable 'AzureBotName' was defined in the Variables tab
+# Variable 'BuildConfiguration' was defined in the Variables tab
 # Variable 'DeleteResourceGroup' was defined in the Variables tab
 # Variable 'MyGetPersonalAccessToken' was defined in the Variables tab
 # Variable 'runCodesignValidationInjection' was defined in the Variables tab
