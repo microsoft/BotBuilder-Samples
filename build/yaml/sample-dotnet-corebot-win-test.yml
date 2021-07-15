@@ -167,7 +167,7 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
@@ -188,7 +188,7 @@ jobs:
   - task: AzureCLI@2
     displayName: 'New RG: create Azure resources. Runs in odd builds.'
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
@@ -240,10 +240,12 @@ jobs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
+    condition: always()
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
+    condition: always()
   - task: InlinePowershell@1
     displayName: Sleep for 15 seconds
     inputs:
@@ -255,6 +257,7 @@ jobs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
+    condition: always()
   - task: CmdLine@2
     displayName: Dir workspace
     condition: always()

@@ -240,16 +240,24 @@ jobs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
+    condition: always()
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
+    condition: always()
+  - task: InlinePowershell@1
+    displayName: Sleep for 15 seconds
+    inputs:
+      Script: Start-Sleep -s 15
+    enabled: false
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
+    condition: always()
   - task: CmdLine@2
     displayName: Dir workspace
     condition: always()
