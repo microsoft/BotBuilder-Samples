@@ -27,7 +27,7 @@ parameters:
   - name: versionToTest
     displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
-    default: 'E.g. 4.15.0-daily.20210714.258979.1220aed'
+    default: 'Example: 4.15.0-daily.20210714.258979.1220aed'
 
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
