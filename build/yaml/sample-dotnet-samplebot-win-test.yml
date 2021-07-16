@@ -85,31 +85,8 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-  - task: PowerShell@2
-    displayName: Create nuget.config for MyGet feed
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)/nuget.config";
+    condition: ${{ parameters.testLatestPackage }}
 
-        $content = @"
-
-        <?xml version="1.0" encoding="utf-8"?>
-
-        <configuration>
-          <packageSources>
-            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '===================';
   - powershell: |
      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
    
