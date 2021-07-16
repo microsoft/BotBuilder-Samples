@@ -91,6 +91,9 @@ jobs:
     displayName: 'Set botbuilder package version per user input at queue time'
     condition: ne(${{ parameters.testLatestPackage }}, 'true')
 
+  - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
+    displayName: 'Display env vars'
+ 
   - task: tagBuildOrRelease@0
     displayName: Tag Build with botbuilder version
     inputs:
@@ -141,7 +144,7 @@ jobs:
         az group create --location westus --name $(BotGroup);
      
         # set up bot channels registration, app service, app service plan
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\linux\template.json" --parameters botName="$(AzureBotName)" appId="$(AppId)" appSecret="$(AppSecret)" --name "$(AzureBotName)";
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\linux\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
      
         # Generate web.config for bot deploy
         az bot prepare-deploy --code-dir "$(System.DefaultWorkingDirectory)/samples/javascript_nodejs/$(SampleFolderName)" --lang Javascript
@@ -255,48 +258,19 @@ jobs:
     inputs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       nugetConfigPath: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config
+    condition: always()
   - task: DotNetCoreCLI@2
     displayName: dotnet build dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
+    condition: always()
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
-  - task: AzureCLI@2
-    displayName: Delete bot, app service, app service plan, group
-    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
-    inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
-      scriptType: ps
-      scriptLocation: inlineScript
-      inlineScript: >-
-        Set-PSDebug -Trace 1;
-
-
-        Write-Host "1) Delete Bot:"
-
-        az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
-
-
-        Write-Host "2) Delete App Service:"
-
-        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
-
-
-        Write-Host "3) Delete App Service plan:"
-
-        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
-
-
-        Write-Host "4) Delete Resource Group:"
-
-        az group delete --name $(BotGroup) --yes
-
-
-        Set-PSDebug -Trace 0;
+    condition: always()
   - task: CmdLine@2
     displayName: Dir workspace
     condition: always()
@@ -304,4 +278,28 @@ jobs:
     inputs:
       script: >
         dir .. /s
+  - task: AzureCLI@2
+    displayName: Delete bot, app service, app service plan, group
+    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
+    continueOnError: True
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >-
+        Set-PSDebug -Trace 1;
+
+        Write-Host "1) Delete Bot:"
+        az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
+
+        Write-Host "2) Delete App Service:"
+        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
+
+        Write-Host "3) Delete App Service plan:"
+        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
+
+        Write-Host "4) Delete Resource Group:"
+        az group delete --name $(BotGroup) --yes
+
+        Set-PSDebug -Trace 0;
 ...
