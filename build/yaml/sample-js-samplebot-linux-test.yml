@@ -72,7 +72,7 @@ jobs:
         Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
         " "
         "Available versions:";
-        npm view $packageName versions | Select -Last 25;
+        npm view $packageName versions | Select -Last 30;
 
         $dist = npm dist-tag ls $packageName;
         $next = $dist.Where({$_.StartsWith("next:")});
