@@ -96,12 +96,17 @@ jobs:
      Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
    
      $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
-     $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease
-     [string]$latestVersion = $PackageList.Split(" ")[-1]
+     " "
+     "Available versions:";
+     nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions;
+
+     $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
+     [string]$latestVersion = $PackageList.Split(" ")[-1];
    
      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
      #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
-   
+     " "
+     "Latest version:";
      $packageName;
      $latestVersion;
      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";

@@ -68,11 +68,15 @@ jobs:
         $packageName = "botbuilder";
 
         Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
+        " "
+        "Available versions:";
+        npm view $packageName versions | Select -Last 25;
 
         $dist = npm dist-tag ls $packageName;
         $next = $dist.Where({$_.StartsWith("next:")});
         [string]$latestVersion = $next.Split(':')[-1].Trim();
 
+        "Latest version:";
         $packageName;
         $latestVersion;
         "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
