@@ -60,6 +60,7 @@ jobs:
   steps:
   - checkout: self
     persistCredentials: True
+  
   - task: PowerShell@2
     displayName: Create nuget.config for ConversationalAI/BotFramework feed
     inputs:
@@ -143,6 +144,7 @@ jobs:
     displayName: Use NuGet 5.5.1
     inputs:
       versionSpec: 5.5.1
+
   - task: NuGetCommand@2
     displayName: NuGet restore $(SampleBotName).csproj
     inputs:
@@ -169,13 +171,12 @@ jobs:
         Write-Host "************************************************************************";
         Set-PSDebug -Trace 1;
      
-        az group create --location westus --name $(BotGroup)
+        az group create --location westus --name $(BotGroup);
      
         # set up bot channels registration, app service, app service plan
         az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(AzureBotName)" newWebAppName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
-
+     
         Set-PSDebug -Trace 0;
-    continueOnError: true
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
 
   - task: AzureCLI@2
@@ -192,11 +193,10 @@ jobs:
 
         # set up resource group, bot channels registration, app service, app service plan
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=F0 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
-
+     
         Set-PSDebug -Trace 0;
-    continueOnError: true
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
-  
+
   - task: AzureCLI@2
     displayName: 'Deploy bot, create DirectLine channel '
     inputs:
@@ -211,16 +211,18 @@ jobs:
 
         az bot directline create -n "$(AzureBotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
   - task: PowerShell@2
-    displayName: Set up bot directline keys
+    displayName: Set DIRECTLINE, BOTID env vars for running tests
     inputs:
       targetType: inline
       script: >-
+        # Key = Direct Line channel "Secret keys" in Azure portal
         $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
         $key = $json.properties.properties.sites.key;
         echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
         echo "##vso[task.setvariable variable=BOTID;]$(AzureBotName)";
         Write-Host "setx DIRECTLINE $key";
         Write-Host "setx BOTID $(AzureBotName)";
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: $(SampleFolderName)-zip'
     continueOnError: True

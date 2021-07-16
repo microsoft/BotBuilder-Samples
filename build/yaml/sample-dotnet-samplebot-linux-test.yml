@@ -62,11 +62,12 @@ jobs:
   steps:
   - checkout: self
     persistCredentials: True
+  
   - task: PowerShell@2
     displayName: Create nuget.config for ConversationalAI/BotFramework feed
     inputs:
       targetType: inline
-      script: >-
+      script: |
         $file = "$(SampleRootPath)\nuget.config";
 
         $content = @"
@@ -77,31 +78,6 @@ jobs:
           <packageSources>
             <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
             <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '===================';
-  - task: PowerShell@2
-    displayName: Create nuget.config for MyGet feed
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)/nuget.config";
-
-        $content = @"
-
-        <?xml version="1.0" encoding="utf-8"?>
-
-        <configuration>
-          <packageSources>
-            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
           </packageSources>
           <activePackageSource>
             <add key="All" value="(Aggregate source)" />
@@ -201,24 +177,27 @@ jobs:
         #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
 
         Set-PSDebug -Trace 0;
+
   - task: AzureCLI@2
     displayName: Create DirectLine channel
     inputs:
       connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
       scriptType: batch
       scriptLocation: inlineScript
-      inlineScript: call az bot directline create -n "$(SampleBotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
+      inlineScript: call az bot directline create -name "$(AzureBotName)" -resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
   - task: PowerShell@2
-    displayName: Set up bot directline keys
+    displayName: Set DIRECTLINE key, BOTID for running tests
     inputs:
       targetType: inline
       script: >-
+        # Key = Direct Line channel "Secret keys" in Azure portal
         $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
         $key = $json.properties.properties.sites.key;
         echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
         echo "##vso[task.setvariable variable=BOTID;]$(AzureBotName)";
         Write-Host "setx DIRECTLINE $key";
         Write-Host "setx BOTID $(AzureBotName)";
+
   - task: PowerShell@2
     displayName: Move .deployment, deploy.sh scripts into position
     inputs:
