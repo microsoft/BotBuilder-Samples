@@ -184,7 +184,6 @@ jobs:
       targetType: inline
       script: >-
         # Key = Direct Line channel "Secret keys" in Azure portal
-
         $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
         $key = $json.properties.properties.sites.key;
         echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
@@ -225,34 +224,7 @@ jobs:
         New-Item -Path $file -ItemType "file" -Value $content;
 
          '-------------'; get-content "$file"; '==================='
-  - task: PowerShell@2
-    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
 
-
-        $content = @"
-
-        <?xml version="1.0" encoding="utf-8"?>
-
-        <configuration>
-          <packageSources>
-            <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-
-         '-------------'; get-content "$file"; '==================='
   - task: NuGetCommand@2
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
