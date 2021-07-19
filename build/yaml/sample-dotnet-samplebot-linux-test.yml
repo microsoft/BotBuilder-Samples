@@ -166,7 +166,7 @@ jobs:
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    displayName: 'Get latest Bot.Builder version number from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
@@ -189,15 +189,15 @@ jobs:
       "Latest version:";
       $package.id;
       $latestVersion;
-      "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    
-    displayName: 'Get latest Bot.Builder package version from Myget feed - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
+    displayName: 'Get latest Bot.Builder version number from Myget feed - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Get specific Bot.Builder package version from user input at queue time'
+    displayName: 'Get specific Bot.Builder version number from user input at queue time'
     condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
