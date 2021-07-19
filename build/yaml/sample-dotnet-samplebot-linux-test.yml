@@ -31,9 +31,9 @@ parameters:
   - name: packageFeed
     displayName: Package feed to use
     type: string
-    default: Conversational AI
+    default: Azure
     values:
-    - Conversational AI
+    - Azure
     - MyGet
     - NuGet
 
@@ -95,7 +95,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq(${{ parameters.packageFeed }}, 'Conversational AI')
+    condition: eq(${{ parameters.packageFeed }}, 'Azure')
 
   - task: PowerShell@2
     displayName: Create nuget.config for MyGet feed
@@ -148,29 +148,52 @@ jobs:
     condition: eq(${{ parameters.packageFeed }}, 'NuGet')
 
   - powershell: |
-     $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
    
-     #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
+      #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
    
-     Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
+      Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
    
-     $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
-     " "
-     "Available versions:";
-     nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions | Select -First 30;
+      $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
+      " "
+      "Available versions:";
+      nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions | Select -First 30;
 
-     $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
-     [string]$latestVersion = $PackageList.Split(" ")[-1];
+      $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
+      [string]$latestVersion = $PackageList.Split(" ")[-1];
    
-     #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-     #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
-     " "
-     "Latest version:";
-     $packageName;
-     $latestVersion;
-     "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
+      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+      #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
+      " "
+      "Latest version:";
+      $packageName;
+      $latestVersion;
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: ${{ parameters.testLatestPackage }}
+    condition: and(${{ parameters.testLatestPackage }}, eq(${{ parameters.packageFeed }}, 'Azure'))
+
+  - powershell: |
+      $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+      $myGetFeedName = "botbuilder-v4-dotnet-daily";
+      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+
+      $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+
+      Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
+      $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+
+      $package = $result.packages | Where-Object {$_.id -eq $packageName};
+      " "
+      "Available versions:";
+      $package.versions | Select -Last 30;
+
+      [string]$latestVersion = $package.versions[-1];
+      " "
+      "Latest version:";
+      $package.id;
+      $latestVersion;
+      "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    displayName: 'Get latest Bot.Builder package version from MyGet feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    condition: and(${{ parameters.testLatestPackage }}, eq(${{ parameters.packageFeed }}, 'MyGet'))
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
