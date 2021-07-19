@@ -95,7 +95,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq(${{ parameters.packageFeed }}, 'Azure')
+    condition: eq("${{ parameters.packageFeed }}", "Azure")
 
   - task: PowerShell@2
     displayName: Create nuget.config for MyGet feed
@@ -120,7 +120,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq(${{ parameters.packageFeed }}, 'MyGet')
+    condition: eq("${{ parameters.packageFeed }}", "MyGet")
 
   - task: PowerShell@2
     displayName: Create nuget.config for ConversationalAI/BotFramework feed
@@ -170,7 +170,7 @@ jobs:
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: and(${{ parameters.testLatestPackage }}, eq(${{ parameters.packageFeed }}, 'Azure'))
+    condition: and(${{ parameters.testLatestPackage }}, eq("${{ parameters.packageFeed }}", "Azure"))
 
   - powershell: |
       $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
@@ -193,7 +193,7 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    displayName: 'Get latest Bot.Builder package version from MyGet feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: and(${{ parameters.testLatestPackage }}, eq(${{ parameters.packageFeed }}, 'MyGet'))
+    condition: and(${{ parameters.testLatestPackage }}, eq("${{ parameters.packageFeed }}", "Azure"))
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
@@ -231,12 +231,14 @@ jobs:
     displayName: Use NuGet 5.5.1
     inputs:
       versionSpec: 5.5.1
+
   - task: NuGetCommand@2
     displayName: NuGet restore $(SampleBotName).csproj
     inputs:
       solution: $(SampleRootPath)\$(SampleBotName).csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
+
   - task: DotNetCoreCLI@2
     displayName: dotnet publish $(SampleBotName).csproj
     inputs:
@@ -247,6 +249,7 @@ jobs:
       arguments: --runtime linux-x64 --configuration $(BuildConfiguration) --output $(SampleRootPath)\publishedbot
       zipAfterPublish: false
       modifyOutputPath: false
+
   - task: AzureCLI@2
     displayName: 'Preexisting RG: create group, create resources, #prepare .deployment file'
     inputs:
