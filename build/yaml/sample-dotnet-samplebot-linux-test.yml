@@ -256,12 +256,10 @@ jobs:
       scriptLocation: inlineScript
       inlineScript: >-
         Set-PSDebug -Trace 1;
-
         az group create --location westus --name $(BotGroup)
 
         # set up bot channels registration, app service, app service plan
         az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
-
         #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
 
         Set-PSDebug -Trace 0;
