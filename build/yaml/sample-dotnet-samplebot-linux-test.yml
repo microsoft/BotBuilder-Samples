@@ -274,52 +274,35 @@ jobs:
       scriptLocation: inlineScript
       inlineScript: call az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
 
-  - task: PowerShell@2
+  - powershell: |
+      # Key = Direct Line channel "Secret keys" in Azure portal
+      $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
+      $key = $json.properties.properties.sites.key;
+      echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
+      echo "##vso[task.setvariable variable=BOTID;]$(AzureBotName)";
+      Write-Host "setx DIRECTLINE $key";
+      Write-Host "setx BOTID $(AzureBotName)";
     displayName: Set DIRECTLINE key, BOTID for running tests
-    inputs:
-      targetType: inline
-      script: >-
-        # Key = Direct Line channel "Secret keys" in Azure portal
-        $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
-        $key = $json.properties.properties.sites.key;
-        echo "##vso[task.setvariable variable=DIRECTLINE;]$key";
-        echo "##vso[task.setvariable variable=BOTID;]$(AzureBotName)";
-        Write-Host "setx DIRECTLINE $key";
-        Write-Host "setx BOTID $(AzureBotName)";
 
-  - task: PowerShell@2
+  - powershell: |
+      Set-PSDebug -Trace 1;
+
+      # Copy Azure deploy scripts for Linux
+      Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
+
+      Set-PSDebug -Trace 0;
     displayName: Move .deployment, deploy.sh scripts into position
-    inputs:
-      targetType: inline
-      script: >-
-        Set-PSDebug -Trace 1;
 
-
-        # Copy Azure deploy scripts for Linux
-
-        Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
-
-
-        Set-PSDebug -Trace 0;
-
-  - task: CmdLine@2
-    displayName: Git bot deployment
-    inputs:
-      script: >
-        git config --global user.name "BotBuilderSamplesPipeline"
-
-        git config --global user.email BotBuilderSamples@Pipeline.com
-
-        git init
-
-        git add .
-
-        git commit -m "cibuildtest"
-
-        git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(SampleBotName).scm.azurewebsites.net:443/$(SampleBotName).git
-
-        git push azure master
-      workingDirectory: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)
+  - script: |
+      git config --global user.name "BotBuilderSamplesPipeline"
+      git config --global user.email BotBuilderSamples@Pipeline.com
+      git init
+      git add .
+      git commit -m "cibuildtest"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
+      git push azure master
+    workingDirectory: '$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)'
+    displayName: 'Git bot deployment'
 
   - task: NuGetCommand@2
     displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
@@ -335,10 +318,9 @@ jobs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
     condition: always()
 
-  - task: InlinePowershell@1
-    displayName: Sleep for 800 seconds
-    inputs:
-      Script: Start-Sleep -Seconds 800
+  - powershell: |
+      Start-Sleep -Seconds 800
+    displayName: 'Sleep for 800 seconds'
     enabled: false
 
   - task: DotNetCoreCLI@2
@@ -355,6 +337,7 @@ jobs:
     inputs:
       script: >
         dir .. /s
+
   - task: AzureCLI@2
     displayName: Delete bot, app service, app service plan, group
     condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
