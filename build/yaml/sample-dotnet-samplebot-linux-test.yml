@@ -193,7 +193,8 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    displayName: 'Get latest Bot.Builder package version from MyGet feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
+    displayName: 'Get latest Bot.Builder package version from Myget feed - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
