@@ -251,23 +251,25 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Preexisting RG: create group, create resources, #prepare .deployment file'
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >-
-        Set-PSDebug -Trace 1;
-        az group create --location westus --name $(BotGroup)
-
-        # set up bot channels registration, app service, app service plan
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
-        #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
-
-        Set-PSDebug -Trace 0;
+      inlineScript: |
+       Set-PSDebug -Trace 1;
+     
+       az group create --location westus --name $(BotGroup)
+     
+       # set up bot channels registration, app service, app service plan
+       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
+     
+       #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "CoreBot.csproj";
+     
+       Set-PSDebug -Trace 0;
 
   - task: AzureCLI@2
     displayName: Create DirectLine channel
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: batch
       scriptLocation: inlineScript
       inlineScript: call az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
