@@ -273,6 +273,7 @@ jobs:
       scriptType: batch
       scriptLocation: inlineScript
       inlineScript: call az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
+
   - task: PowerShell@2
     displayName: Set DIRECTLINE key, BOTID for running tests
     inputs:
@@ -300,6 +301,7 @@ jobs:
 
 
         Set-PSDebug -Trace 0;
+
   - task: CmdLine@2
     displayName: Git bot deployment
     inputs:
@@ -318,6 +320,7 @@ jobs:
 
         git push azure master
       workingDirectory: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)
+
   - task: NuGetCommand@2
     displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
@@ -325,23 +328,26 @@ jobs:
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
     condition: always()
+
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
     condition: always()
+
   - task: InlinePowershell@1
     displayName: Sleep for 800 seconds
     inputs:
       Script: Start-Sleep -Seconds 800
-    enabled: true
+    enabled: false
+
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
-    condition: always()
+
   - task: CmdLine@2
     displayName: Dir workspace
     condition: always()
