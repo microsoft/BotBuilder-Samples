@@ -95,7 +95,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq("${{ parameters.packageFeed }}", "Azure")
+    condition: ${{ eq(parameters.packageFeed, 'Azure') }}
 
   - task: PowerShell@2
     displayName: Create nuget.config for MyGet feed
@@ -120,7 +120,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq("${{ parameters.packageFeed }}", "MyGet")
+    condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
   - task: PowerShell@2
     displayName: Create nuget.config for ConversationalAI/BotFramework feed
@@ -145,7 +145,7 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
-    condition: eq(${{ parameters.packageFeed }}, 'NuGet')
+    condition: ${{ eq(parameters.packageFeed, 'NuGet') }}
 
   - powershell: |
       $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
@@ -170,7 +170,7 @@ jobs:
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest Bot.Builder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: and(${{ parameters.testLatestPackage }}, eq("${{ parameters.packageFeed }}", "Azure"))
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
       $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
@@ -193,14 +193,14 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    displayName: 'Get latest Bot.Builder package version from MyGet feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
-    condition: and(${{ parameters.testLatestPackage }}, eq("${{ parameters.packageFeed }}", "Azure"))
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
     displayName: 'Set Bot.Builder package version per user input at queue time'
-    condition: ne(${{ parameters.testLatestPackage }}, 'true')
+    condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
     displayName: 'Display env vars'
