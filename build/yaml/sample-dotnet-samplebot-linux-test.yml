@@ -73,7 +73,6 @@ jobs:
         $content = @"
 
         <?xml version="1.0" encoding="utf-8"?>
-
         <configuration>
           <packageSources>
             <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
