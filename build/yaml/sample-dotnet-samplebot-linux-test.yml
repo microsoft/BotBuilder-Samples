@@ -79,7 +79,6 @@ jobs:
         $file = "$(SampleRootPath)\nuget.config";
 
         $content = @"
-
         <?xml version="1.0" encoding="utf-8"?>
         <configuration>
           <packageSources>
@@ -105,7 +104,6 @@ jobs:
         $file = "$(SampleRootPath)\nuget.config";
 
         $content = @"
-
         <?xml version="1.0" encoding="utf-8"?>
         <configuration>
           <packageSources>
@@ -130,7 +128,6 @@ jobs:
         $file = "$(SampleRootPath)\nuget.config";
 
         $content = @"
-
         <?xml version="1.0" encoding="utf-8"?>
         <configuration>
           <packageSources>
@@ -200,7 +197,7 @@ jobs:
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Set Bot.Builder package version per user input at queue time'
+    displayName: 'Get specified Bot.Builder package version from user input at queue time'
     condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
