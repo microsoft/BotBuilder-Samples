@@ -28,7 +28,7 @@ parameters:
     displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
     default: 'Example: 4.15.0-daily.20210714.258979.1220aed'
-  - name: feed
+  - name: packageFeed
     displayName: Package feed to use
     type: string
     default: Conversational AI
@@ -95,6 +95,58 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '===================';
+    condition: eq(${{ parameters.packageFeed }}, 'Conversational AI')
+
+  - task: PowerShell@2
+    displayName: Create nuget.config for MyGet feed
+    inputs:
+      targetType: inline
+      script: |
+        $file = "$(SampleRootPath)\nuget.config";
+
+        $content = @"
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <packageSources>
+            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
+          </packageSources>
+          <activePackageSource>
+            <add key="All" value="(Aggregate source)" />
+          </activePackageSource>
+        </configuration>
+
+        "@;
+
+        New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '===================';
+    condition: eq(${{ parameters.packageFeed }}, 'MyGet')
+
+  - task: PowerShell@2
+    displayName: Create nuget.config for ConversationalAI/BotFramework feed
+    inputs:
+      targetType: inline
+      script: |
+        $file = "$(SampleRootPath)\nuget.config";
+
+        $content = @"
+
+        <?xml version="1.0" encoding="utf-8"?>
+        <configuration>
+          <packageSources>
+            <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+          </packageSources>
+          <activePackageSource>
+            <add key="All" value="(Aggregate source)" />
+          </activePackageSource>
+        </configuration>
+
+        "@;
+
+        New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '===================';
+    condition: eq(${{ parameters.packageFeed }}, 'NuGet')
+
   - powershell: |
      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
    
