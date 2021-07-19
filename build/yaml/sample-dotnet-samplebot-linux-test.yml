@@ -72,7 +72,7 @@ jobs:
     persistCredentials: True
   
   - task: PowerShell@2
-    displayName: Create nuget.config for ConversationalAI/BotFramework feed
+    displayName: Create nuget.config for Azure feed
     inputs:
       targetType: inline
       script: |
@@ -121,7 +121,7 @@ jobs:
     condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
   - task: PowerShell@2
-    displayName: Create nuget.config for ConversationalAI/BotFramework feed
+    displayName: Create nuget.config for NuGet feed
     inputs:
       targetType: inline
       script: |
@@ -149,7 +149,7 @@ jobs:
    
       #$url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
    
-      Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
+      Write-Host "Get latest $packageName version number from Azure ConversationalAI BotFramework SDK feed";
    
       $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
       " "
@@ -189,7 +189,7 @@ jobs:
       "Latest version:";
       $package.id;
       $latestVersion;
-      "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    displayName: 'Get latest Bot.Builder package version from MyGet feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+      "##vso[task.setvariable variable=LatestVersion;]$latestVersion";    
     displayName: 'Get latest Bot.Builder package version from Myget feed - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
@@ -197,7 +197,7 @@ jobs:
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Get specified Bot.Builder package version from user input at queue time'
+    displayName: 'Get specific Bot.Builder package version from user input at queue time'
     condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
@@ -272,7 +272,7 @@ jobs:
       connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
       scriptType: batch
       scriptLocation: inlineScript
-      inlineScript: call az bot directline create -name "$(AzureBotName)" -resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
+      inlineScript: call az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
   - task: PowerShell@2
     displayName: Set DIRECTLINE key, BOTID for running tests
     inputs:
