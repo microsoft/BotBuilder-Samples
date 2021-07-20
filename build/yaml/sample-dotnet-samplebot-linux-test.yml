@@ -228,7 +228,9 @@ jobs:
   - task: tagBuildOrRelease@0
     displayName: Tag Build with Bot.Builder version
     inputs:
-      tags: Using Bot.Builder version $(TargetVersion)
+      tags: |
+        Using Bot.Builder version $(TargetVersion)
+        From ${{ parameters.packageFeed }} feed 
 
   - powershell: |
       $path = "$(SampleRootPath)\\$(SampleBotName).csproj";
