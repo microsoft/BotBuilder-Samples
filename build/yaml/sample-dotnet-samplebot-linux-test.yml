@@ -194,6 +194,27 @@ jobs:
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
+      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+   
+      Write-Host "Get latest $packageName version number from NuGet.org feed";
+         
+      $registryUrlSource = "https://nuget.org/api/v2/";
+
+      $packageList = Find-package -AllVersions -source $registryUrlSource -Name $packageName -AllowPrereleaseVersions | Select -First 30;
+      " "
+      "Available versions:";
+      $PackageList.Version
+
+      $latestVersion = $PackageList.Version[0];
+      " "
+      "Latest version:";
+      $packageName;
+      $latestVersion;
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
+    displayName: 'Get latest Bot.Builder version number from NuGet feed - https://www.nuget.org/packages?q=Bot.Builder'
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'NuGet')) }}
+
+  - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
