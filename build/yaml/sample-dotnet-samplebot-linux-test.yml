@@ -218,7 +218,7 @@ jobs:
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Get specific Bot.Builder version number from user input at queue time'
+    displayName: 'From user input get specific Bot.Builder version number'
     condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
@@ -315,6 +315,7 @@ jobs:
     displayName: Move .deployment, deploy.sh scripts into position
 
   - script: |
+      echo on
       git config --global user.name "BotBuilderSamplesPipeline"
       git config --global user.email BotBuilderSamples@Pipeline.com
       git init
