@@ -332,13 +332,11 @@ jobs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
-    condition: always()
 
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
-    condition: always()
 
   - powershell: |
       Start-Sleep -Seconds 800
