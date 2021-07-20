@@ -164,7 +164,7 @@ jobs:
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest Bot.Builder version number from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    displayName: 'From Azure feed get latest Bot.Builder version number - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
@@ -188,7 +188,7 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
-    displayName: 'Get latest Bot.Builder version number from Myget feed - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    displayName: 'From MyGet feed get latest Bot.Builder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
@@ -209,7 +209,7 @@ jobs:
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest Bot.Builder version number from NuGet feed - https://www.nuget.org/packages?q=Bot.Builder'
+    displayName: 'From NuGet feed get latest Bot.Builder version number - https://www.nuget.org/packages?q=Bot.Builder'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'NuGet')) }}
 
   - powershell: |
@@ -379,13 +379,13 @@ jobs:
         Set-PSDebug -Trace 1;
      
         Write-Host "1) Delete Bot:";
-        az bot delete --name $(BotName) --resource-group $(BotGroup);
+        az bot delete --name $(AzureBotName) --resource-group $(BotGroup);
      
         Write-Host "2) Delete App Service:";
-        az webapp delete --name $(BotName) --resource-group $(BotGroup);
+        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup);
      
         Write-Host "3) Delete App Service plan:";
-        az appservice plan delete --name $(BotName) --resource-group $(BotGroup) --yes;
+        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes;
      
         Write-Host "4) Delete Resource Group:";
         az group delete --name $(BotGroup) --yes;
