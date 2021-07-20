@@ -57,10 +57,10 @@ resources:
     type: git
     ref: main
 
-variables:
-- group: AzureDeploymentCredsVariableGroup
-- group: SamplesE2ETestsVariableGroup
-- group: MyGetPersonalAccessTokenVariableGroup
+#variables:
+#- group: AzureDeploymentCredsVariableGroup
+#- group: SamplesE2ETestsVariableGroup
+#- group: MyGetPersonalAccessTokenVariableGroup
 
 jobs:
 - job: Job_1

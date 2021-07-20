@@ -56,9 +56,9 @@ resources:
     type: git
     ref: main
 
-variables:
-- group: SamplesE2ETestsVariableGroup
-- group: MyGetPersonalAccessTokenVariableGroup
+#variables:
+#- group: SamplesE2ETestsVariableGroup
+#- group: MyGetPersonalAccessTokenVariableGroup
 
 jobs:
 - job: Job_1
