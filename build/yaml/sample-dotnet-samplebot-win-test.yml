@@ -360,7 +360,7 @@ jobs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
-    condition: always()
+
   - task: CmdLine@2
     displayName: Dir workspace
     condition: always()
@@ -370,27 +370,28 @@ jobs:
         dir .. /s
 
   - task: AzureCLI@2
-    displayName: Delete bot, app service, app service plan, group
-    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
-    continueOnError: True
+    displayName: 'Delete bot, app service, app service plan, group'
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >-
+      inlineScript: |
         Set-PSDebug -Trace 1;
-
-        Write-Host "1) Delete Bot:"
-        az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
-
-        Write-Host "2) Delete App Service:"
-        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
-
-        Write-Host "3) Delete App Service plan:"
-        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
-
-        Write-Host "4) Delete Resource Group:"
-        az group delete --name $(BotGroup) --yes
-
+     
+        Write-Host "1) Delete Bot:";
+        az bot delete --name $(BotName) --resource-group $(BotGroup);
+     
+        Write-Host "2) Delete App Service:";
+        az webapp delete --name $(BotName) --resource-group $(BotGroup);
+     
+        Write-Host "3) Delete App Service plan:";
+        az appservice plan delete --name $(BotName) --resource-group $(BotGroup) --yes;
+     
+        Write-Host "4) Delete Resource Group:";
+        az group delete --name $(BotGroup) --yes;
+     
         Set-PSDebug -Trace 0;
+    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
+    continueOnError: True
+
 ...
