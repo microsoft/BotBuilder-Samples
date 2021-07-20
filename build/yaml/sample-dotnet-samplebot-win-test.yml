@@ -20,7 +20,7 @@
 
 parameters:
   - name: testLatestPackage
-    displayName: Test latest daily package version
+    displayName: Test latest package version
     type: boolean
     default: true
   - name: versionToTest
@@ -175,14 +175,15 @@ jobs:
       $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
 
       Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
-      $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
 
-      $package = $result.packages | Where-Object {$_.id -eq $packageName};
-      " "
-      "Available versions:";
-      $package.versions | Select -Last 30;
+      #$package = $result.packages | Where-Object {$_.id -eq $packageName};
+      #" "
+      #"Available versions:";
+      #$package.versions | Select -Last 30;
 
-      [string]$latestVersion = $package.versions[-1];
+      ### Hard-coded ##########
+      [string]$latestVersion = "4.15.0-preview.20210706-256858";  #$package.versions[-1];
       " "
       "Latest version:";
       $package.id;
@@ -216,7 +217,7 @@ jobs:
      $targetVersion = "${{ parameters.versionToTest }}";
      $targetVersion;
      "##vso[task.setvariable variable=TargetVersion;]$targetVersion";
-    displayName: 'Get specific Bot.Builder version number from user input at queue time'
+    displayName: 'From user input get specific Bot.Builder version number'
     condition: ${{ ne(parameters.testLatestPackage, true) }}
 
   - powershell: 'gci env:* | sort-object name | Format-Table -AutoSize -Wrap'
@@ -308,10 +309,10 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Deploy bot, create DirectLine channel '
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >-
+      inlineScript: |
         # prepare .deployment file
         az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
 
@@ -341,13 +342,11 @@ jobs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
       nugetConfigPath: $(SampleRootPath)\nuget.config
-    condition: always()
 
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
-    condition: always()
 
   - powershell: |
       Start-Sleep -Seconds 15
