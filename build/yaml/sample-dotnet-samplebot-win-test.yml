@@ -354,7 +354,7 @@ jobs:
   - powershell: |
       Start-Sleep -Seconds 15
     displayName: Sleep for 15 seconds
-    enabled: false
+    enabled: true
 
   - task: DotNetCoreCLI@2
     displayName: dotnet test
