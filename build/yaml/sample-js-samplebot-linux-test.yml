@@ -70,22 +70,6 @@ jobs:
     persistCredentials: True
 
   - powershell: |
-        Set-Location -Path "$(SampleRootPath)"
-
-        New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://registry.npmjs.com/"
-    displayName: Create .npmrc for npm feed - https://www.npmjs.com/search?q=botbuilder
-    condition: ${{ eq(parameters.packageFeed, 'npm') }}
-
-  - powershell: |
-      Set-Location -Path "$(SampleRootPath)"
-
-      New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
-    displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
-    condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
-
-  - powershell: |
-      Set-Location -Path "$(SampleRootPath)"
-
       $packageName = "botbuilder";
 
       Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
@@ -106,33 +90,32 @@ jobs:
       #$versions = npm show botbuilder versions | ConvertFrom-Json
       #$next = $versions[1][-1]
     displayName: From npm feed get latest botbuilder package version  - https://www.npmjs.com/package/botbuilder
-    condition: ${{ eq(parameters.testLatestPackage, true) }}
-    #condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
 
-  #- powershell: |
-  #    #$myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
-  #    $myGetFeedName = "botbuilder-v4-js-daily";
-  #    $packageName = "botbuilder-ai";
+  - powershell: |
+      #$myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+      $myGetFeedName = "botbuilder-v4-js-daily";
+      $packageName = "botbuilder-ai";
 
-  #    $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+      $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
 
-  #    Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
-  #    #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+      Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
+      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
 
-  #    #$package = $result.packages | Where-Object {$_.id -eq $packageName};
-  #    #" "
-  #    #"Available versions:";
-  #    #$package.versions | Select -Last 30;
+      #$package = $result.packages | Where-Object {$_.id -eq $packageName};
+      #" "
+      #"Available versions:";
+      #$package.versions | Select -Last 30;
 
-  #    ### Hard-coded ##########
-  #    [string]$latestVersion = "4.15.0-dev.ffde26a";  #$package.versions[-1];
-  #    " "
-  #    "Latest version:";
-  #    $package.id;
-  #    $latestVersion;
-  #    "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
-  #  displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
-  #  condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
+      ### Hard-coded ##########
+      [string]$latestVersion = "4.15.0-dev.ffde26a";  #$package.versions[-1];
+      " "
+      "Latest version:";
+      $package.id;
+      $latestVersion;
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
+    displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
@@ -169,19 +152,19 @@ jobs:
       '-------------'; get-content $path; '===================';
     displayName: 'Set botbuilder version reference in package.json'
 
-  #- powershell: |
-  #      Set-Location -Path "$(SampleRootPath)"
+  - powershell: |
+        Set-Location -Path "$(SampleRootPath)"
 
-  #      New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://registry.npmjs.com/"
-  #  displayName: Create .npmrc for npm feed - https://www.npmjs.com/search?q=botbuilder
-  #  condition: ${{ eq(parameters.packageFeed, 'npm') }}
+        New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://registry.npmjs.com/"
+    displayName: Create .npmrc for npm feed - https://www.npmjs.com/search?q=botbuilder
+    condition: ${{ eq(parameters.packageFeed, 'npm') }}
 
-  #- powershell: |
-  #      Set-Location -Path "$(SampleRootPath)"
+  - powershell: |
+        Set-Location -Path "$(SampleRootPath)"
 
-  #      New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
-  #  displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
-  #  condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
+        New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
+    displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
+    condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
   - task: Npm@1
     displayName: npm install $(SampleFolderName)
