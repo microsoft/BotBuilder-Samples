@@ -268,13 +268,11 @@ jobs:
     inputs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       nugetConfigPath: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config
-    condition: always()
 
   - task: DotNetCoreCLI@2
     displayName: dotnet build dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
-    condition: always()
 
   - task: DotNetCoreCLI@2
     displayName: dotnet test
@@ -282,7 +280,6 @@ jobs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
-    condition: always()
 
   - task: CmdLine@2
     displayName: Dir workspace
