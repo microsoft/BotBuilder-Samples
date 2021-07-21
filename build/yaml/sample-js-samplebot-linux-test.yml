@@ -93,7 +93,7 @@ jobs:
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
 
   - powershell: |
-      $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+      #$myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
       $myGetFeedName = "botbuilder-v4-dotnet-daily";
       $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
 
