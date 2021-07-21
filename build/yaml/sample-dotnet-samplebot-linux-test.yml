@@ -290,6 +290,27 @@ jobs:
      
        Set-PSDebug -Trace 0;
 
+  - powershell: |
+      Set-PSDebug -Trace 1;
+      # Copy Azure deploy scripts for Linux
+      Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
+      Set-PSDebug -Trace 0;
+    displayName: Move .deployment, deploy.sh scripts into position
+
+  - script: |
+      echo on
+      git config --global user.name "BotBuilderSamplesPipeline"
+      git config --global user.email BotBuilderSamples@Pipeline.com
+      git init
+   
+      git add .
+      git commit -m "Add bot source code"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
+   
+      git push azure master
+    workingDirectory: '$(SampleRootPath)'
+    displayName: 'Deploy the bot to Azure'
+
   - task: AzureCLI@2
     displayName: Create DirectLine channel
     inputs:
@@ -307,27 +328,6 @@ jobs:
       Write-Host "setx DIRECTLINE $key";
       Write-Host "setx BOTID $(AzureBotName)";
     displayName: Set DIRECTLINE key, BOTID for running tests
-
-  - powershell: |
-      Set-PSDebug -Trace 1;
-
-      # Copy Azure deploy scripts for Linux
-      Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
-
-      Set-PSDebug -Trace 0;
-    displayName: Move .deployment, deploy.sh scripts into position
-
-  - script: |
-      echo on
-      git config --global user.name "BotBuilderSamplesPipeline"
-      git config --global user.email BotBuilderSamples@Pipeline.com
-      git init
-      git add .
-      git commit -m "cibuildtest"
-      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
-      git push azure master
-    workingDirectory: '$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/$(SampleFolderName)'
-    displayName: 'Git bot deployment'
 
   - task: NuGetCommand@2
     displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
@@ -362,26 +362,26 @@ jobs:
         dir .. /s
 
   - task: AzureCLI@2
-    displayName: 'Delete bot, app service, app service plan, group'
+    displayName: Delete bot, app service, app service plan, group
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
         Set-PSDebug -Trace 1;
-     
+
         Write-Host "1) Delete Bot:";
         az bot delete --name $(AzureBotName) --resource-group $(BotGroup);
-     
+
         Write-Host "2) Delete App Service:";
         az webapp delete --name $(AzureBotName) --resource-group $(BotGroup);
-     
+
         Write-Host "3) Delete App Service plan:";
         az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes;
-     
+
         Write-Host "4) Delete Resource Group:";
         az group delete --name $(BotGroup) --yes;
-     
+
         Set-PSDebug -Trace 0;
     condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
     continueOnError: True

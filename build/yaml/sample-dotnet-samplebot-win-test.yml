@@ -226,7 +226,9 @@ jobs:
   - task: tagBuildOrRelease@0
     displayName: Tag Build with Bot.Builder version
     inputs:
-      tags: Using Bot.Builder version $(TargetVersion)
+      tags: |
+        Using Bot.Builder version $(TargetVersion)
+        From ${{ parameters.packageFeed }} feed 
 
   - powershell: |
       $path = "$(SampleRootPath)\\$(SampleBotName).csproj";
@@ -319,6 +321,7 @@ jobs:
         az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(Build.ArtifactStagingDirectory)/$(SampleFolderName).zip"
 
         az bot directline create -n "$(AzureBotName)" -g "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json"
+
   - powershell: |
       # Key = Direct Line channel "Secret keys" in Azure portal
       $json = Get-Content '$(System.DefaultWorkingDirectory)\DirectLineCreate.json' | Out-String | ConvertFrom-Json;
@@ -369,26 +372,26 @@ jobs:
         dir .. /s
 
   - task: AzureCLI@2
-    displayName: 'Delete bot, app service, app service plan, group'
+    displayName: Delete bot, app service, app service plan, group
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
         Set-PSDebug -Trace 1;
-     
+
         Write-Host "1) Delete Bot:";
         az bot delete --name $(AzureBotName) --resource-group $(BotGroup);
-     
+
         Write-Host "2) Delete App Service:";
         az webapp delete --name $(AzureBotName) --resource-group $(BotGroup);
-     
+
         Write-Host "3) Delete App Service plan:";
         az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes;
-     
+
         Write-Host "4) Delete Resource Group:";
         az group delete --name $(BotGroup) --yes;
-     
+
         Set-PSDebug -Trace 0;
     condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
     continueOnError: True

@@ -70,6 +70,29 @@ jobs:
     persistCredentials: True
 
   - powershell: |
+      $packageName = "botbuilder";
+
+      Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
+      " "
+      "Available versions:";
+      npm view $packageName versions | Select -Last 30;
+
+      $dist = npm dist-tag ls $packageName;
+      $next = $dist.Where({$_.StartsWith("next:")});
+      [string]$latestVersion = $next.Split(':')[-1].Trim();
+
+      "Latest version:";
+      $packageName;
+      $latestVersion;
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
+
+      # This gets latest version from all versions.
+      #$versions = npm show botbuilder versions | ConvertFrom-Json
+      #$next = $versions[1][-1]
+    displayName: From npm feed get latest botbuilder package version  - https://www.npmjs.com/package/botbuilder
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
+
+  - powershell: |
       $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
       $myGetFeedName = "botbuilder-v4-dotnet-daily";
       $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
@@ -91,34 +114,8 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
-    displayName: 'From MyGet feed get latest Bot.Builder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
-
-  - task: PowerShell@2
-    displayName: Get latest botbuilder package version from npmjs feed - https://www.npmjs.com/package/botbuilder
-    inputs:
-      targetType: inline
-      script: |
-        $packageName = "botbuilder";
-
-        Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
-        " "
-        "Available versions:";
-        npm view $packageName versions | Select -Last 30;
-
-        $dist = npm dist-tag ls $packageName;
-        $next = $dist.Where({$_.StartsWith("next:")});
-        [string]$latestVersion = $next.Split(':')[-1].Trim();
-
-        "Latest version:";
-        $packageName;
-        $latestVersion;
-        "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-
-        # This gets latest version from all versions.
-        #$versions = npm show botbuilder versions | ConvertFrom-Json
-        #$next = $versions[1][-1]
-    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
@@ -155,24 +152,18 @@ jobs:
       '-------------'; get-content $path; '===================';
     displayName: 'Set botbuilder version reference in package.json'
 
-  - task: PowerShell@2
-    displayName: Create .npmrc for npm feed - https://www.npmjs.com/search?q=botbuilder
-    inputs:
-      targetType: inline
-      script: |
+  - powershell: |
         Set-Location -Path "$(SampleRootPath)"
 
         New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://registry.npmjs.com/"
+    displayName: Create .npmrc for npm feed - https://www.npmjs.com/search?q=botbuilder
     condition: ${{ eq(parameters.packageFeed, 'npm') }}
 
-  - task: PowerShell@2
-    displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
-    inputs:
-      targetType: inline
-      script: |
+  - powershell: |
         Set-Location -Path "$(SampleRootPath)"
 
         New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
+    displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
     condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
   - task: Npm@1
@@ -200,24 +191,25 @@ jobs:
      
         Set-PSDebug -Trace 0;
 
+  - powershell: |
+      Set-PSDebug -Trace 1;
+      # Copy Azure deploy scripts for Linux
+      Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
+      Set-PSDebug -Trace 0;
+    displayName: Move .deployment, deploy.sh scripts into position
 
   - script: |
-     echo Move $(SampleRootPath)\deploymentScripts\linux\* $(SampleRootPath)
-     Move $(SampleRootPath)\deploymentScripts\linux\* $(SampleRootPath)
+      echo on
+      git config --global user.name "SampleJs$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderJs@Pipeline.com
+      git init
    
-     echo git config
-     git config --global user.name "SampleJs$(SampleBotName)LinuxTestPipeline"
-     git config --global user.email BotBuilderJs@Pipeline.com
-     git init
+      git add .
+      git commit -m "Add bot source code"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
    
-     echo git add .
-     git add .
-     git commit -m "Add bot source code"
-     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
-   
-     echo git push azure master
-     git push azure master
-    workingDirectory: '$(System.DefaultWorkingDirectory)/samples/javascript_nodejs/$(SampleFolderName)'
+      git push azure master
+    workingDirectory: '$(SampleRootPath)'
     displayName: 'Deploy the bot to Azure'
 
   - task: AzureCLI@2
@@ -252,7 +244,6 @@ jobs:
       script: >-
         $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
 
-
         $content = @"
 
         <?xml version="1.0" encoding="utf-8"?>
@@ -270,7 +261,6 @@ jobs:
 
 
         New-Item -Path $file -ItemType "file" -Value $content;
-
          '-------------'; get-content "$file"; '==================='
 
   - task: NuGetCommand@2
@@ -304,26 +294,27 @@ jobs:
 
   - task: AzureCLI@2
     displayName: Delete bot, app service, app service plan, group
-    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
-    continueOnError: True
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >-
+      inlineScript: |
         Set-PSDebug -Trace 1;
 
-        Write-Host "1) Delete Bot:"
-        az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
+        Write-Host "1) Delete Bot:";
+        az bot delete --name $(AzureBotName) --resource-group $(BotGroup);
 
-        Write-Host "2) Delete App Service:"
-        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
+        Write-Host "2) Delete App Service:";
+        az webapp delete --name $(AzureBotName) --resource-group $(BotGroup);
 
-        Write-Host "3) Delete App Service plan:"
-        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
+        Write-Host "3) Delete App Service plan:";
+        az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes;
 
-        Write-Host "4) Delete Resource Group:"
-        az group delete --name $(BotGroup) --yes
+        Write-Host "4) Delete Resource Group:";
+        az group delete --name $(BotGroup) --yes;
 
         Set-PSDebug -Trace 0;
+    condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
+    continueOnError: True
+
 ...
