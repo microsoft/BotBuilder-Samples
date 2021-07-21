@@ -170,23 +170,20 @@ jobs:
       workingDir: $(SampleRootPath)
       verbose: false
 
-  - task: PowerShell@2
+  - powershell: |
+      #Set-PSDebug -Trace 1;
+
+      move-item -path $(SampleRootPath)/deploymentScripts/windows/* -destination $(SampleRootPath);
+
+      $DirToCompress = "$(SampleRootPath)";
+      $DirtoExclude =@("node_modules", "deploymentTemplates", "deploymentScripts");
+      $files = Get-ChildItem -Path $DirToCompress -Exclude $DirtoExclude;
+      $ZipFileDestination ="$(SampleRootPath)/testbot.zip";
+
+      Compress-Archive -Path $files -DestinationPath $ZipFileDestination;
+
+      #Set-PSDebug -Trace 0;
     displayName: Set up deploy scripts, zip the bot
-    inputs:
-      targetType: inline
-      script: >-
-        #Set-PSDebug -Trace 1;
-
-        move-item -path $(SampleRootPath)/deploymentScripts/windows/* -destination $(SampleRootPath);
-
-        $DirToCompress = "$(SampleRootPath)";
-        $DirtoExclude =@("node_modules", "deploymentTemplates", "deploymentScripts");
-        $files = Get-ChildItem -Path $DirToCompress -Exclude $DirtoExclude;
-        $ZipFileDestination ="$(SampleRootPath)/testbot.zip";
-
-        Compress-Archive -Path $files -DestinationPath $ZipFileDestination;
-
-        #Set-PSDebug -Trace 0;
 
   - task: CopyFiles@2
     displayName: 'Copy testbot.zip to: $(Build.ArtifactStagingDirectory)'
@@ -266,31 +263,28 @@ jobs:
     inputs:
       versionSpec: 5.5.1
 
-  - task: PowerShell@2
+  - powershell: |
+      $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
+
+      $content = @"
+
+      <?xml version="1.0" encoding="utf-8"?>
+
+      <configuration>
+        <packageSources>
+          <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+        </packageSources>
+        <activePackageSource>
+          <add key="All" value="(Aggregate source)" />
+        </activePackageSource>
+      </configuration>
+
+      "@;
+
+
+      New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '==================='
     displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed
-    inputs:
-      targetType: inline
-      script: >-
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
-
-        $content = @"
-
-        <?xml version="1.0" encoding="utf-8"?>
-
-        <configuration>
-          <packageSources>
-            <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-         '-------------'; get-content "$file"; '==================='
 
   - task: NuGetCommand@2
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj

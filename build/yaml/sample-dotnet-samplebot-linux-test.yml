@@ -71,77 +71,68 @@ jobs:
   - checkout: self
     persistCredentials: True
   
-  - task: PowerShell@2
+  - powershell: |
+      $file = "$(SampleRootPath)\nuget.config";
+
+      $content = @"
+      <?xml version="1.0" encoding="utf-8"?>
+      <configuration>
+        <packageSources>
+          <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
+          <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+        </packageSources>
+        <activePackageSource>
+          <add key="All" value="(Aggregate source)" />
+        </activePackageSource>
+      </configuration>
+
+      "@;
+
+      New-Item -Path $file -ItemType "file" -Value $content;
+      '-------------'; get-content "$file"; '===================';
     displayName: Create nuget.config for Azure feed
-    inputs:
-      targetType: inline
-      script: |
-        $file = "$(SampleRootPath)\nuget.config";
-
-        $content = @"
-        <?xml version="1.0" encoding="utf-8"?>
-        <configuration>
-          <packageSources>
-            <add key="ConversationalAI" value="https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" />
-            <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '===================';
     condition: ${{ eq(parameters.packageFeed, 'Azure') }}
 
-  - task: PowerShell@2
+  - powershell: |
+      $file = "$(SampleRootPath)\nuget.config";
+
+      $content = @"
+      <?xml version="1.0" encoding="utf-8"?>
+      <configuration>
+        <packageSources>
+          <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
+        </packageSources>
+        <activePackageSource>
+          <add key="All" value="(Aggregate source)" />
+        </activePackageSource>
+      </configuration>
+
+      "@;
+
+      New-Item -Path $file -ItemType "file" -Value $content;
+      '-------------'; get-content "$file"; '===================';
     displayName: Create nuget.config for MyGet feed
-    inputs:
-      targetType: inline
-      script: |
-        $file = "$(SampleRootPath)\nuget.config";
-
-        $content = @"
-        <?xml version="1.0" encoding="utf-8"?>
-        <configuration>
-          <packageSources>
-            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '===================';
     condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
-  - task: PowerShell@2
+  - powershell: |
+      $file = "$(SampleRootPath)\nuget.config";
+
+      $content = @"
+      <?xml version="1.0" encoding="utf-8"?>
+      <configuration>
+        <packageSources>
+          <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
+        </packageSources>
+        <activePackageSource>
+          <add key="All" value="(Aggregate source)" />
+        </activePackageSource>
+      </configuration>
+
+      "@;
+
+      New-Item -Path $file -ItemType "file" -Value $content;
+      '-------------'; get-content "$file"; '===================';
     displayName: Create nuget.config for NuGet feed
-    inputs:
-      targetType: inline
-      script: |
-        $file = "$(SampleRootPath)\nuget.config";
-
-        $content = @"
-        <?xml version="1.0" encoding="utf-8"?>
-        <configuration>
-          <packageSources>
-            <add key="NuGet official package source" value="https://api.nuget.org/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
-
-        "@;
-
-        New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '===================';
     condition: ${{ eq(parameters.packageFeed, 'NuGet') }}
 
   - powershell: |

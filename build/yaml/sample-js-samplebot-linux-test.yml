@@ -236,12 +236,7 @@ jobs:
     inputs:
       versionSpec: 5.5.1
 
-  - task: PowerShell@2
-    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for MyGet feed
-    enabled: False
-    inputs:
-      targetType: inline
-      script: >-
+  - powershell: |
         $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
 
         $content = @"
@@ -262,6 +257,8 @@ jobs:
 
         New-Item -Path $file -ItemType "file" -Value $content;
          '-------------'; get-content "$file"; '==================='
+    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for MyGet feed
+    enabled: False
 
   - task: NuGetCommand@2
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
