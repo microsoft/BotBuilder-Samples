@@ -92,8 +92,8 @@ jobs:
 
   - powershell: |
       #$myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
-      $myGetFeedName = "botbuilder-v4-dotnet-daily";
-      $packageName = "Microsoft.Bot.Builder.Integration.AspNet.Core";
+      $myGetFeedName = "botbuilder-v4-js-daily";
+      $packageName = "botbuilder-ai";
 
       $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
 
@@ -106,7 +106,7 @@ jobs:
       #$package.versions | Select -Last 30;
 
       ### Hard-coded ##########
-      [string]$latestVersion = "4.15.0-preview.20210706-256858";  #$package.versions[-1];
+      [string]$latestVersion = "4.15.0-dev.ffde26a";  #$package.versions[-1];
       " "
       "Latest version:";
       $package.id;
