@@ -77,15 +77,13 @@ jobs:
     condition: ${{ eq(parameters.packageFeed, 'npm') }}
 
   - powershell: |
-      Set-Location -Path "$(SampleRootPath)"
+        Set-Location -Path "$(SampleRootPath)"
 
-      New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
+        New-Item -Path . -Name ".npmrc" -ItemType "file" -Value "registry=https://botbuilder.myget.org/F/botbuilder-v4-js-daily/npm/"
     displayName: Create .npmrc for MyGet feed - https://botbuilder.myget.org/feed/Packages/botbuilder-v4-js-daily
     condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
 
   - powershell: |
-      Set-Location -Path "$(SampleRootPath)"
-
       $packageName = "botbuilder";
 
       Write-Host "Get $packageName preview version tagged 'next' from npmjs.com";
