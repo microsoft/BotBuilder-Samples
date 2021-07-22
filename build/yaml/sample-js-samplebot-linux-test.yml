@@ -187,7 +187,7 @@ jobs:
         az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\linux\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
      
         # Generate web.config for bot deploy
-        az bot prepare-deploy --code-dir "$(System.DefaultWorkingDirectory)/samples/javascript_nodejs/$(SampleFolderName)" --lang Javascript
+        az bot prepare-deploy --code-dir "$(SampleRootPath)" --lang Javascript
      
         Set-PSDebug -Trace 0;
 
