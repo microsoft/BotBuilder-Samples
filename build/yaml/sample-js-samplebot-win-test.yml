@@ -91,22 +91,22 @@ jobs:
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
 
   - powershell: |
-      #$myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
+      $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
       $myGetFeedName = "botbuilder-v4-js-daily";
       $packageName = "botbuilder-ai";
 
       $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
 
       Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
-      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+      $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
 
-      #$package = $result.packages | Where-Object {$_.id -eq $packageName};
-      #" "
-      #"Available versions:";
-      #$package.versions | Select -Last 30;
+      $package = $result.packages | Where-Object {$_.id -eq $packageName};
+      " "
+      "Available versions:";
+      $package.versions | Select -Last 30;
 
-      ### Hard-coded ##########
-      [string]$latestVersion = "4.15.0-dev.ffde26a";  #$package.versions[-1];
+      ### Hard-coded ########## [string]$latestVersion = "4.15.0-dev.ffde26a";
+      [string]$latestVersion = $package.versions[-1];
       " "
       "Latest version:";
       $package.id;
