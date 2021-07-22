@@ -305,13 +305,11 @@ jobs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
 
-  - task: CmdLine@2
-    displayName: Dir workspace
+  - script: |
+      dir .. /s
+    displayName: 'Dir workspace'
+    continueOnError: true
     condition: always()
-    continueOnError: True
-    inputs:
-      script: >
-        dir .. /s
 
   - task: AzureCLI@2
     displayName: Delete bot, app service, app service plan, group

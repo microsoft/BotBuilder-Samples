@@ -236,28 +236,27 @@ jobs:
       versionSpec: 5.5.1
 
   - powershell: |
-        $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
+      $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
 
-        $content = @"
+      $content = @"
 
-        <?xml version="1.0" encoding="utf-8"?>
+      <?xml version="1.0" encoding="utf-8"?>
 
-        <configuration>
-          <packageSources>
-            <add key="MyGet" value="https://botbuilder.myget.org/F/botbuilder-v4-dotnet-daily/api/v3/index.json" />
-          </packageSources>
-          <activePackageSource>
-            <add key="All" value="(Aggregate source)" />
-          </activePackageSource>
-        </configuration>
+      <configuration>
+        <packageSources>
+          <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
+        </packageSources>
+        <activePackageSource>
+          <add key="All" value="(Aggregate source)" />
+        </activePackageSource>
+      </configuration>
 
-        "@;
+      "@;
 
 
-        New-Item -Path $file -ItemType "file" -Value $content;
-         '-------------'; get-content "$file"; '==================='
-    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for MyGet feed
-    enabled: False
+      New-Item -Path $file -ItemType "file" -Value $content;
+        '-------------'; get-content "$file"; '==================='
+    displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed
 
   - task: NuGetCommand@2
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
@@ -277,13 +276,11 @@ jobs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
 
-  - task: CmdLine@2
-    displayName: Dir workspace
+  - script: |
+      dir .. /s
+    displayName: 'Dir workspace'
+    continueOnError: true
     condition: always()
-    continueOnError: True
-    inputs:
-      script: >
-        dir .. /s
 
   - task: AzureCLI@2
     displayName: Delete bot, app service, app service plan, group
