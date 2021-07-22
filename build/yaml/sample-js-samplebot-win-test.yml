@@ -267,9 +267,7 @@ jobs:
       $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
 
       $content = @"
-
       <?xml version="1.0" encoding="utf-8"?>
-
       <configuration>
         <packageSources>
           <add key="nuget.org" value="https://api.nuget.org/v3/index.json" protocolVersion="3" />
@@ -280,7 +278,6 @@ jobs:
       </configuration>
 
       "@;
-
 
       New-Item -Path $file -ItemType "file" -Value $content;
         '-------------'; get-content "$file"; '==================='
