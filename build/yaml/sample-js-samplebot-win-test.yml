@@ -134,20 +134,20 @@ jobs:
 
   - powershell: |
      # SetDependencyVersionInPackageJsonFile0.ps1
-     $path = "$(SampleRootPath)/package.json";
-     $package = 'botbuilder';
-     $newVersion = "$(TargetVersion)";
-   
-     $find = "$package`": `"\S*`"";
-     $replace = "$package`": `"$newVersion`"";
-   
-     Get-ChildItem -Path "$path" | % {
-         $_.FullName; 
-         $content = Get-Content -Raw $_.FullName;
-   
-         $content -Replace "$find", "$replace" | Set-Content $_.FullName;
-         '-------------'; get-content $_.FullName; '==================='
-     }
+      $path = "$(SampleRootPath)/package.json";
+      $packages = @('botbuilder','botbuilder-ai','botbuilder-dialogs','botbuilder-testing');
+      $newVersion = "$(TargetVersion)";
+
+      $content = Get-ChildItem -Path "$path" | Get-Content -Raw
+
+      foreach ($package in $packages) {
+          $find = "$package`": `"\S*`"";
+          $replace = "$package`": `"$newVersion`"";
+          $content = $content -Replace "$find", "$replace";
+      }
+
+      Set-Content -Path $path -Value $content;
+      '-------------'; get-content $path; '===================';
     displayName: Set botbuilder version reference in package.json
 
   - powershell: |

@@ -150,7 +150,7 @@ jobs:
 
       Set-Content -Path $path -Value $content;
       '-------------'; get-content $path; '===================';
-    displayName: 'Set botbuilder version reference in package.json'
+    displayName: Set botbuilder version reference in package.json
 
   - powershell: |
         Set-Location -Path "$(SampleRootPath)"
