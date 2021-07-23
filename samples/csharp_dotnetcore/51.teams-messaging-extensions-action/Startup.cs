@@ -26,6 +26,7 @@ namespace Microsoft.BotBuilderSamples
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddHttpClient();
             services.AddMvc();
             services.AddControllers().AddNewtonsoftJson();
             services.AddRazorPages();
