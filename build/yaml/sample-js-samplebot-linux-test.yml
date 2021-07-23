@@ -114,7 +114,7 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
-    displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
+    displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
