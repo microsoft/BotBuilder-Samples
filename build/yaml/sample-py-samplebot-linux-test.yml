@@ -205,7 +205,7 @@ jobs:
 
   - script: |
      echo git config
-     git config --global user.name "SamplePyCoreBotLinuxTestPipeline"
+     git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
      git config --global user.email BotBuilderPy@Pipeline.com
      git init
    
@@ -236,7 +236,7 @@ jobs:
       checkLatest: true
 
   - powershell: |
-     $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.CoreBot.FunctionalTests/nuget.config";
+     $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";
    
      $content = @"
      <?xml version="1.0" encoding="utf-8"?>
@@ -253,7 +253,7 @@ jobs:
      New-Item -Path $file -ItemType "file" -Value $content;
    
       '-------------'; get-content "$file"; '==================='
-    displayName: 'Create nuget.config for Samples.CoreBot.FunctionalTests.csproj for NuGet.org feed'
+    displayName: 'Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed'
 
   - task: NuGetCommand@2
     displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
