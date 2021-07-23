@@ -200,8 +200,8 @@ jobs:
 
   - script: |
       echo on
-     git config --global user.name "SampleJs$(SampleBotName)LinuxTestPipeline"
-     git config --global user.email BotBuilderJs@Pipeline.com
+      git config --global user.name "SampleJs$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderJs@Pipeline.com
       git init
    
       git add .
