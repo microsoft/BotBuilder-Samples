@@ -79,13 +79,13 @@ jobs:
        Set-PSDebug -Trace 1;
      
        Write-Host "1) Delete Bot:"
-       az bot delete --name $(BotName) --resource-group $(BotGroup)
+       az bot delete --name $(AzureBotName) --resource-group $(BotGroup)
      
        Write-Host "2) Delete App Service:"
-       az webapp delete --name $(BotName) --resource-group $(BotGroup)
+       az webapp delete --name $(AzureBotName) --resource-group $(BotGroup)
      
        Write-Host "3) Delete App Service plan:"
-       az appservice plan delete --name $(BotName) --resource-group $(BotGroup) --yes
+       az appservice plan delete --name $(AzureBotName) --resource-group $(BotGroup) --yes
      
        Write-Host "4) Delete Resource Group:"
        az group delete --name $(BotGroup) --yes
@@ -169,7 +169,7 @@ jobs:
        az group create --location westus --name $(BotGroup);
      
        # set up bot channels registration, app service, app service plan
-       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\template-with-preexisting-rg.json" --parameters botId="$(BotName)" appId="$(AppId)" appSecret="$(AppSecret)" newAppServicePlanName="$(BotName)" appServicePlanLocation="westus" --name "$(BotName)";
+       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\template-with-preexisting-rg.json" --parameters botId="$(AzureBotName)" appId="$(AppId)" appSecret="$(AppSecret)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
      
        #Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
@@ -187,7 +187,7 @@ jobs:
        #Set-PSDebug -Trace 1;
      
        # set up resource group, bot channels registration, app service, app service plan
-       az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(BotName)" botSku=S1 newAppServicePlanName="$(BotName)" newWebAppName="$(BotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
+       az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=S1 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
      
        #Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
@@ -201,7 +201,7 @@ jobs:
       inlineScript: |
        az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
      
-       #az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(BotName)" --src "$(SampleRootPath)\testbot.zip" --debug
+       #az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(SampleRootPath)\testbot.zip" --debug
 
   - script: |
      echo git config
@@ -212,7 +212,7 @@ jobs:
      echo git add .
      git add .
      git commit -m "Add bot source code"
-     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(BotName).scm.azurewebsites.net:443/$(BotName).git
+     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
    
      echo git push azure master
      git push azure master
