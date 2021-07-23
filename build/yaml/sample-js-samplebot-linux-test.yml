@@ -194,14 +194,14 @@ jobs:
   - powershell: |
       Set-PSDebug -Trace 1;
       # Copy Azure deploy scripts for Linux
-      Move-Item -Path $(SampleRootPath)\DeploymentScripts\Linux\* -Destination $(SampleRootPath)\;
+      Move-Item -Path $(SampleRootPath)\deploymentScripts\linux\* -Destination $(SampleRootPath)\;
       Set-PSDebug -Trace 0;
     displayName: Move .deployment, deploy.sh scripts into position
 
   - script: |
       echo on
-      git config --global user.name "SampleJsTs$(SampleBotName)LinuxTestPipeline"
-      git config --global user.email BotBuilderJsTs@Pipeline.com
+      git config --global user.name "SampleTs$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderTs@Pipeline.com
       git init
    
       git add .
@@ -209,7 +209,7 @@ jobs:
       git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
    
       git push azure master
-    workingDirectory: '$(SampleRootPath)'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/samples/javascript_nodejs/$(SampleFolderName)'
     displayName: 'Deploy the bot to Azure'
 
   - task: AzureCLI@2
