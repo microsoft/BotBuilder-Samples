@@ -181,7 +181,7 @@ jobs:
     displayName: 'Fix start-up command script for Win deploy'
 
   - powershell: |
-      #Set-PSDebug -Trace 1;
+      Set-PSDebug -Trace 1;
 
       move-item -path $(SampleRootPath)/deploymentScripts/windows/* -destination $(SampleRootPath);
 
@@ -192,7 +192,7 @@ jobs:
 
       Compress-Archive -Path $files -DestinationPath $ZipFileDestination;
 
-      #Set-PSDebug -Trace 0;
+      Set-PSDebug -Trace 0;
     displayName: Set up deploy scripts, zip the bot
 
   - task: CopyFiles@2
@@ -201,6 +201,7 @@ jobs:
       SourceFolder: $(SampleRootPath)
       Contents: testbot.zip
       TargetFolder: $(Build.ArtifactStagingDirectory)
+
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: testbot-zip'
     inputs:
