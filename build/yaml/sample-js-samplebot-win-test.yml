@@ -171,6 +171,16 @@ jobs:
       verbose: false
 
   - powershell: |
+      $file = "$(SampleRootPath)\package.json";
+   
+      $content = Get-Content -Raw $file | ConvertFrom-Json
+      $content.scripts.start = 'node ./lib/index.js'
+      $content | ConvertTo-Json | Set-Content $file
+   
+      '-------------'; get-content $file; '==================='
+    displayName: 'Fix start-up command script for Win deploy'
+
+  - powershell: |
       #Set-PSDebug -Trace 1;
 
       move-item -path $(SampleRootPath)/deploymentScripts/windows/* -destination $(SampleRootPath);
