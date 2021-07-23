@@ -1,4 +1,4 @@
-# This is used in the pipelines Sample-Js-CoreBot-Win-Test-yaml and Sample-Js-EchoBot-Win-Test-yaml.
+# This is used in the pipelines Sample-Ts-CoreBot-Linux-Test-yaml and Sample-Ts-EchoBot-Linux-Test-yaml.
 
 # 'Allow scripts to access the OAuth token' was selected in pipeline.  Add the following YAML to any steps requiring access:
 #       env:
@@ -14,6 +14,7 @@
 # Variable 'SampleBotName' is defined in Azure
 # Variable 'SampleFolderName' is defined in Azure
 # Variable 'SampleRootPath' is defined in Azure
+# Variable Group 'AzureDeploymentCredsVariableGroup' is defined in Azure
 # Variable Group 'SamplesE2ETestsVariableGroup' is defined in Azure
 # Variable Group 'MyGetPersonalAccessTokenVariableGroup' is defined in Azure
 
@@ -55,6 +56,7 @@ resources:
     ref: main
 
 #variables:
+#- group: AzureDeploymentCredsVariableGroup
 #- group: SamplesE2ETestsVariableGroup
 #- group: MyGetPersonalAccessTokenVariableGroup
 
@@ -170,84 +172,53 @@ jobs:
       workingDir: $(SampleRootPath)
       verbose: false
 
-  - powershell: |
-      Set-PSDebug -Trace 1;
-
-      move-item -path $(SampleRootPath)/deploymentScripts/windows/* -destination $(SampleRootPath);
-
-      $DirToCompress = "$(SampleRootPath)";
-      $DirtoExclude =@("node_modules", "deploymentTemplates", "deploymentScripts");
-      $files = Get-ChildItem -Path $DirToCompress -Exclude $DirtoExclude;
-      $ZipFileDestination ="$(SampleRootPath)/testbot.zip";
-
-      Compress-Archive -Path $files -DestinationPath $ZipFileDestination;
-
-      Set-PSDebug -Trace 0;
-    displayName: Set up deploy scripts, zip the bot
-
-  - task: CopyFiles@2
-    displayName: 'Copy testbot.zip to: $(Build.ArtifactStagingDirectory)'
-    inputs:
-      SourceFolder: $(SampleRootPath)
-      Contents: testbot.zip
-      TargetFolder: $(Build.ArtifactStagingDirectory)
-
-  - task: PublishBuildArtifacts@1
-    displayName: 'Publish Artifact: testbot-zip'
-    inputs:
-      ArtifactName: testbot-zip
-
   - task: AzureCLI@2
-    displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
+    displayName: 'create group, create resources, generate web.config (uses dotnet template)'
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
-        Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
-        Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
-        Write-Host "************************************************************************";
         Set-PSDebug -Trace 1;
      
         az group create --location westus --name $(BotGroup);
      
         # set up bot channels registration, app service, app service plan
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(AzureBotName)" newWebAppName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\linux\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
      
-        Set-PSDebug -Trace 0;
-    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
-
-  - task: AzureCLI@2
-    displayName: 'New RG: create Azure resources. Runs in odd builds.'
-    inputs:
-      azureSubscription: 'FUSE Temporary'
-      scriptType: ps
-      scriptLocation: inlineScript
-      inlineScript: |
-        Write-Host "`n***** Creating Azure resources using the new-rg template *****";
-        Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
-        Write-Host "****************************************************************";
-        Set-PSDebug -Trace 1;
-
-        # set up resource group, bot channels registration, app service, app service plan
-        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=F0 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
-     
-        Set-PSDebug -Trace 0;
-    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
-
-  - task: AzureCLI@2
-    displayName: 'Deploy bot, create directline channel '
-    inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
-      scriptType: ps
-      scriptLocation: inlineScript
-      inlineScript: >
         # Generate web.config for bot deploy
         az bot prepare-deploy --code-dir "$(SampleRootPath)" --lang Javascript
+     
+        Set-PSDebug -Trace 0;
 
-        az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(Build.ArtifactStagingDirectory)\testbot.zip" --debug
+  - powershell: |
+      Set-PSDebug -Trace 1;
+      # Copy Azure deploy scripts for Linux
+      Move-Item -Path $(SampleRootPath)\deploymentScripts\linux\* -Destination $(SampleRootPath)\;
+      Set-PSDebug -Trace 0;
+    displayName: Move .deployment, deploy.sh scripts into position
 
-        az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
+  - script: |
+      echo on
+      git config --global user.name "SampleTs$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderTs@Pipeline.com
+      git init
+   
+      git add .
+      git commit -m "Add bot source code"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
+   
+      git push azure master
+    workingDirectory: '$(System.DefaultWorkingDirectory)/samples/javascript_nodejs/$(SampleFolderName)'
+    displayName: 'Deploy the bot to Azure'
+
+  - task: AzureCLI@2
+    displayName: Create DirectLine channel
+    inputs:
+      azureSubscription: 'FUSE Temporary'
+      scriptType: batch
+      scriptLocation: inlineScript
+      inlineScript: call az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
 
   - powershell: |
       # Key = Direct Line channel "Secret keys" in Azure portal
@@ -288,7 +259,6 @@ jobs:
     displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
-      selectOrConfig: config
       nugetConfigPath: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config
 
   - task: DotNetCoreCLI@2

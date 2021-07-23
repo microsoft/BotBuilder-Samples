@@ -1,4 +1,4 @@
-# This is used in the pipelines Sample-Js-CoreBot-Win-Test-yaml and Sample-Js-EchoBot-Win-Test-yaml.
+# This is used in the pipelines Sample-Ts-CoreBot-Win-Test-yaml and Sample-Ts-EchoBot-Win-Test-yaml.
 
 # 'Allow scripts to access the OAuth token' was selected in pipeline.  Add the following YAML to any steps requiring access:
 #       env:
@@ -169,6 +169,16 @@ jobs:
     inputs:
       workingDir: $(SampleRootPath)
       verbose: false
+
+  - powershell: |
+      $file = "$(SampleRootPath)\package.json";
+   
+      $content = Get-Content -Raw $file | ConvertFrom-Json
+      $content.scripts.start = 'node ./lib/index.js'
+      $content | ConvertTo-Json | Set-Content $file
+   
+      '-------------'; get-content $file; '==================='
+    displayName: 'Fix start-up command script for Win deploy'
 
   - powershell: |
       Set-PSDebug -Trace 1;
