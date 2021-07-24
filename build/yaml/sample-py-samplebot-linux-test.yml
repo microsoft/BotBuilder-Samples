@@ -30,10 +30,11 @@ parameters:
   - name: packageFeed
     displayName: Package feed to use
     type: string
-    default: npm
+    default: Azure
     values:
-    - npm
+    - Azure
     - MyGet
+    - PythonPI
 
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
@@ -107,6 +108,7 @@ jobs:
      $latestVersion;
      "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - task: tagBuildOrRelease@0
     displayName: Tag Build with botbuilder version
