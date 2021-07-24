@@ -258,11 +258,11 @@ jobs:
     displayName: 'Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed'
 
   - task: NuGetCommand@2
-    displayName: NuGet restore Samples.$(SampleBotName).FunctionalTests.csproj
+    displayName: NuGet restore dotnet Samples.$(SampleBotName).FunctionalTests.csproj
     inputs:
       solution: samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
       selectOrConfig: config
-      nugetConfigPath: $(SampleRootPath)\nuget.config
+      nugetConfigPath: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config
 
   - task: DotNetCoreCLI@2
     displayName: dotnet build Samples.$(SampleBotName).FunctionalTests.csproj
