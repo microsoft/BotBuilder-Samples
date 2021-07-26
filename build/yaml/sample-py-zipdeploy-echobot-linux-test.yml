@@ -99,16 +99,16 @@ jobs:
     condition: and(succeededOrFailed(), ne(variables['DeleteResourceGroup'], 'false'))
 
   - powershell: |
-     $packageName = "botbuilder-integration-aiohttp";
-     $url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
+      $packageName = "botbuilder-integration-aiohttp";
+      $url = "https://feeds.dev.azure.com/ConversationalAI/BotFramework/_apis/packaging/Feeds/SDK/Packages/26dde74d-6079-401c-a9e0-c6d839e02c18/versions?api-version=5.1-preview.1"
    
-     Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
-     $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-     [string]$latestVersion = $result.value[0].protocolMetadata.data.version;
+      Write-Host "Get latest $packageName version number from ConversationalAI BotFramework SDK feed";
+      $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
+      [string]$latestVersion = $result.value[0].protocolMetadata.data.version;
    
-     $packageName;
-     $latestVersion;
-     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+      $packageName;
+      $latestVersion;
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 

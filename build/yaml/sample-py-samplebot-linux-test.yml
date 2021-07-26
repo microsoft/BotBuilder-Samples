@@ -106,7 +106,7 @@ jobs:
    
      $packageName;
      $latestVersion;
-     "##vso[task.setvariable variable=LatestVersion;]$latestVersion";
+     "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
     displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
