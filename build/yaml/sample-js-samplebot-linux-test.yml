@@ -248,11 +248,10 @@ jobs:
           <add key="All" value="(Aggregate source)" />
         </activePackageSource>
       </configuration>
-
       "@;
 
       New-Item -Path $file -ItemType "file" -Value $content;
-        '-------------'; get-content "$file"; '==================='
+      '-------------'; get-content "$file"; '==================='
     displayName: Create nuget.config for Samples.$(SampleBotName).FunctionalTests.csproj for NuGet.org feed
 
   - task: NuGetCommand@2
