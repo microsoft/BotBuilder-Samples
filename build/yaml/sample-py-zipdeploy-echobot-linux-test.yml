@@ -1,4 +1,4 @@
-# This is used in the pipelines Sample-Py-CoreBot-Linux-Test-yaml and Sample-Py-EchoBot-Linux-Test-yaml.
+# This is used in the pipeline Sample-Py-Zipdeploy-EchoBot-Linux-Test-yaml.
 
 # 'Allow scripts to access the OAuth token' was selected in pipeline.  Add the following YAML to any steps requiring access:
 #       env:
@@ -10,6 +10,8 @@
 # Variable 'BotGroup' is defined in Azure
 # Variable 'DeleteResourceGroup' is defined in Azure
 # Variable 'MyGetPersonalAccessToken' is defined in Azure
+# Variable 'MyGetFeedName' was defined in the Variables tab
+# Variable 'PackageDependencyName' was defined in the Variables tab
 # Variable 'runCodesignValidationInjection' is defined in Azure
 # Variable 'SampleBotName' is defined in Azure
 # Variable 'SampleFolderName' is defined in Azure
@@ -193,8 +195,12 @@ jobs:
      '------ $file -------'; get-content $file; '===================';
     displayName: 'Set index urls and dependencies in requirements.txt to get latest botframework packages'
 
+  - task: UsePythonVersion@0
+    displayName: Use Python 3.x
+
   - task: AzureCLI@2
     displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
+    enabled: False
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
@@ -214,23 +220,22 @@ jobs:
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
 
   - task: AzureCLI@2
-    displayName: 'New RG: create Azure resources. Runs in odd builds.'
+    displayName: 'New RG: create Azure resources. '
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
         Write-Host "`n***** Creating Azure resources using the new-rg template *****";
-        Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
+
         Write-Host "****************************************************************";
 
-        #Set-PSDebug -Trace 1;
+        Set-PSDebug -Trace 1;
 
         # set up resource group, bot channels registration, app service, app service plan
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=S1 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
 
-        #Set-PSDebug -Trace 0;
-    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
+        Set-PSDebug -Trace 0;
 
   - task: AzureCLI@2
     displayName: Create directline channel
@@ -241,23 +246,27 @@ jobs:
       inlineScript: |
        az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
 
-       #az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(SampleRootPath)\testbot.zip" --debug
+  - task: ArchiveFiles@2
+    displayName: Zip the bot
+    inputs:
+      rootFolderOrFile: $(SampleRootPath)
+      includeRootFolder: false
+      archiveFile: $(Build.ArtifactStagingDirectory)/testbot.zip
 
-  - script: |
-     echo git config
-     git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
-     git config --global user.email BotBuilderPy@Pipeline.com
-     git init
-   
-     echo git add .
-     git add .
-     git commit -m "Add bot source code"
-     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
-   
-     echo git push azure master
-     git push azure master
-    workingDirectory: '$(SampleRootPath)'
-    displayName: 'git push the bot to Azure'
+  - task: PublishPipelineArtifact@1
+    displayName: Publish zip file to Pipeline Artifacts
+    inputs:
+      path: $(Build.ArtifactStagingDirectory)
+      artifactName: zipfile
+
+  - task: AzureCLI@2
+    displayName: Zip deploy the bot to Azure
+    inputs:
+      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: >
+        az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(Build.ArtifactStagingDirectory)/testbot.zip" --debug
 
   - powershell: |
       # Key = Direct Line channel "Secret keys" in Azure portal
@@ -305,8 +314,8 @@ jobs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
 
   - powershell: |
-      Start-Sleep -Seconds 700
-    displayName: 'Sleep for 700 seconds'
+      Start-Sleep -Seconds 800
+    displayName: 'Sleep for 800 seconds'
     enabled: true
 
   - task: DotNetCoreCLI@2
