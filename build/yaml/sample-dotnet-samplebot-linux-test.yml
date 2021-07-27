@@ -334,7 +334,7 @@ jobs:
 
   - powershell: |
       Start-Sleep -Seconds 800
-    displayName: 'Sleep for 800 seconds'
+    displayName: 'Sleep for 13 min 20 sec'
     enabled: true
 
   - task: DotNetCoreCLI@2

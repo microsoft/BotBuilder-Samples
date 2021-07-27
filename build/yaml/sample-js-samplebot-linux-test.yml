@@ -26,7 +26,7 @@ parameters:
   - name: versionToTest
     displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
-    default: 'Example: 4.15.0-dev.7afa288'
+    default: 'Example: 4.15.0-dev.20210726.c56bbf1'
   - name: packageFeed
     displayName: Package feed to use
     type: string
