@@ -1,0 +1,12 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('keyPhrase')}
+
+# generator
+- ```
+@ prebuilt keyPhrase
+
+${operations('keyPhrase', ["educational requirements", "development", "daily jobs"], false)}
+```
+

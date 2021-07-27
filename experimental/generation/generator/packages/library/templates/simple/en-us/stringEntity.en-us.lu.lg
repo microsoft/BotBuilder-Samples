@@ -1,0 +1,18 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${entityLUFilename()}
+
+> There is nothing we can put in as values
+# generator
+- ```
+> If you see **xxxEntityN** in the generated entity definitions  then it means your schema has
+> no 'examples' or '$examples' to use as sample values.
+> Search and replace the **xxEntityN** with suitable examples, or update your schema
+> to have example utterances.
+
+> Define the entity for recognizing the '${property}' property. You can add synonyms here.  
+@ ml ${entity}
+
+${operations(`${entity}`, null, true)}
+```

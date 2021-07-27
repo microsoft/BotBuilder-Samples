@@ -1,0 +1,49 @@
+[form-extensions.en-us.lg](form-extensions.en-us.lg)
+
+>> Show Card Prompt
+
+# propertiesAsActivity(name, properties)
+> Display value for properties as an activity
+[Activity
+    Attachments=${json(propertiesAsCard(name, properties))}
+]
+
+>> Help Global Prompt
+
+# helpGlobal()
+> Global help message activity
+[Activity
+    Text = ${helpGlobal_text()}
+]
+
+# helpGlobal_text()
+> Global help message 
+- ```
+${requiredProperties()}
+${optionalProperties()}
+For each property you can add/remove values, clear, show, change or ask for help.
+You can also ask for over all help, cancel the whole form or skip a step.```
+
+>> Help Reprompt
+
+# helpReprompt
+> Display reprompt activity
+[Activity
+    Text = ${helpReprompt_text()}
+]
+
+# helpReprompt_text
+> Display value on reprompt
+- ${if($expectedProperties, join(foreach(where($expectedProperties, expected, isTemplate(`${expected}_RepromptHelp_text`)), expected, template(`${expected}_RepromptHelp_text`)), EOL()), '')}
+
+>> not Understood Prompt
+
+# notUnderstood
+> Message for not understanding activity
+[Activity
+    Text = ${notUnderstood_text()}
+]
+
+# notUnderstood_text
+> Message for not understanding
+- Sorry, I do not understand ${join(foreach(turn.unrecognizedtext, chunk, `'${chunk}'`), ' or ')}

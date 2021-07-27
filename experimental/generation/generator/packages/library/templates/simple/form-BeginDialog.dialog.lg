@@ -1,0 +1,60 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('BeginDialog.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnBeginDialog",
+    "actions":  [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${helpGlobal()}"           
+        },
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "!turn.activityProcessed",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EmitEvent",
+                    "eventName": "activityReceived",
+                    "eventValue": "=turn.activity",
+                    "bubbleEvent": false
+                }
+            ]
+        }${setPropertiesForDynamiclists()}
+    ],
+    "$designer": {
+        "name": "Begin Dialog"
+    }
+}
+```
+
+# setPropertiesForDynamiclists
+- IF: ${!empty(where(schema.properties, property, property.value.$template == "dynamiclist"))}
+-```,
+${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `${setPropertyAction(result)}`), `,${EOL()}`)}```
+- ELSE: 
+- 
+
+# setPropertyAction(property)
+-```
+{
+    "$kind": "Microsoft.SetProperty",
+    "property": "$${property.key}Value",
+    "value":  {
+    "entity": "${property.key}Value",
+    "list": [
+        ${listElements(property)}
+    ]
+    }
+}
+```
+
+# listElements(property)
+- IF: ${propertyValueList(property.key)}
+    - ${join(foreach(indicesAndValues(propertyValueList(property.key)), enum, `{"canonicalForm": "${enum.index}", "synonyms": [${synonymsForDynamicList(enum.value)}] }`), `, ${EOL()}`)}
+- ELSE:
+    - ${join(foreach(placeHolderEntities(`${property.key}Value`), value, `{"canonicalForm": "${value}", "synonyms": []}`), `, ${EOL()}`)}

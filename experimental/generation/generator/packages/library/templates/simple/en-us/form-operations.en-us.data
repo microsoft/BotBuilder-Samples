@@ -1,0 +1,30 @@
+>${comment?} The >> is to mark this as the source of entities when doing cross entity examples
+
+>> entity: Standalone entities that map to multiple properties${simple?}
+- ${simple*}
+
+>${comment} We ensure that each value occurs at least once here to support reliably resolving entity ambiguity
+>> entity: Standalone ${property} with ${entity}
+- {${property}=${unique*}}
+- {${property}=${uniqueOrValue*} ${name}}
+
+>> property: Standalone ${property} name
+- {${property}=${name}}
+
+> Assign() examples for ${property} and ${entity}
+- {Assign()=add {${property}=${uniqueOrValue} ${name}}}
+- {Assign()=with {${property}=${unique}}}
+- {Assign()=set ${value}}
+- {Assign()={${property}=${name} is ${uniqueOrValue}}}
+- {Assign()={${property}=${name} of ${uniqueOrValue}}}
+- {Assign()={${property}=${name} are ${uniqueOrValue}}}
+
+> ${isArray?}Assign() examples with multiple ${entity}
+- {Assign()=add {${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {Assign()=set {${property}=${unique} and ${unique}}
+- {Assign()=with ${value} and ${value}}
+- {Assign()=with {${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- {Assign()=add {${property}=${unique}, ${unique} and ${unique}} 
+- {Assign()=set ${value}, ${value} and ${value}}
+- {Assign()={${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
+- {Assign()={${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}

@@ -1,0 +1,30 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${prefix}.dialog
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "id": "${prefix}",
+    "$kind": "Microsoft.AdaptiveDialog",
+    "recognizer": "${prefix}.lu",
+    "generator": "${prefix}.lg",
+    "schema": "${prefix}.json",
+    "triggers": ${groupedSort(triggerNames(templates.dialog), 'propertyGroupPosition', 'sortPosition')}
+    ${designerName(`${prefix} form dialog`)}
+}
+```
+
+# sortPosition(trigger)
+- ${if(contains(trigger, '-form-'), 
+    listPosition(trigger, 
+        ['-BeginDialog', '-CancelConfirmation-prompt', '-CancelConfirmation-assign', '-Skip', '-HelpGlobal', '-HelpReprompt', '-NotUnderstood']
+    ),
+    listPosition(trigger, 
+        ['-missing', '-assign-']
+    ))}
+    
+# triggerNames(triggers)
+- ${select(where(triggers, trigger, !contains(trigger.name, '.')), trigger, trigger.name)}

@@ -1,0 +1,16 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "number",
+    "$generator": {
+        "title": "Number",
+        "description": "Map a LUIS number entity like '1' or '3.2' into a number.",
+        "allOf": [
+            {
+                "$ref": "minmax.json"
+            },
+            {
+                "$ref": "common.json"
+            }
+        ]
+    }
+}

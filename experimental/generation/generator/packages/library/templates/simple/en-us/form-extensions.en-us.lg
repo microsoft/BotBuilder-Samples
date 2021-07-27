@@ -1,0 +1,186 @@
+> This file contains the generic templates to use for properties of particular types.
+
+> !# @Namespace = form
+> !# @Exports = missingCondition, missingPriority, skipExpectedProperties, helpCondition
+
+# EOL
+> EOL constant for templates
+-\n
+
+# alreadyExistsText(property, entity)
+> Message if a value already exists in an array
+- '${value(entity)}' is already in ${propertyName(property)}
+
+# propertyName(property)
+> Display value for a property
+- ${template(`${property}_Name`)}
+
+# propertyValue(property, val)
+> Display value for a property value
+- ${template(`${property}_Value`, val)}
+
+# entityValue(entity)
+> Display value for an entity
+- IF: ${endsWith(entity.type, 'Value')}
+- ${template(`${entity.type}_Value`, entity)}
+- ELSE:
+- ${template(`${entity.type}Value_Value`, entity)}
+
+# value(val)
+> Display a complex value
+- ${complexValue(val, null)}
+
+# complexValue(val, leaf)
+> Display a value handling arrays and objects and leaf display template
+> TODO: This is being blocked by emulator displaying {} 
+> https://github.com/microsoft/BotFramework-Emulator/issues/2154
+- IF: ${isArray(val)}
+- [${join(foreach(val, elt, complexValue(elt, leaf)), ', ')}]
+- ELSEIF: ${isObject(val)}
+- (${join(foreach(indicesAndValues(val), elt, `${elt.index}: ${complexValue(elt.value, leaf)}`), ', ')})
+- ELSEIF: ${val}
+- ${if(leaf, template(leaf, val), val)}
+- ELSE:
+- no value
+
+# requiredProperties
+> Display value for required properties
+- IF: ${count($requiredProperties) > 0}
+- Required properties include: ${join(foreach($requiredProperties, property, propertyName(property)), ', ')}
+- ELSE:
+- 
+
+# optionalProperties
+> Display value for optional properties
+- IF: ${count(publicProperties()) > count($requiredProperties)}
+- Optional properties include: ${join(foreach(where(publicProperties(), property, !contains($requiredProperties, property)), property, propertyName(property)), ', ')}${EOL()}
+- ELSE:
+- 
+
+# publicProperties
+> Public properties from schema
+-${dialogClass.schema.$public}
+
+# possibleValues(property)
+> Possible values for an enum property
+- ${foreach(enumValues(property), enum, propertyValue(property, enum))}
+
+# isArrayProperty(property)
+> Test a property to see if it is an array
+- ${dialogClass.schema.properties[property].type == 'array'}
+
+# enumValues(property)
+> Return the possible enumeration values for a property
+- IF: ${isArrayProperty(property)}
+    - ${dialogClass.schema.properties[property].items.enum}
+- ELSE:
+    - ${dialogClass.schema.properties[property].enum}
+
+# possibleValuesList(property)
+> Display value for possible values from an enum
+- [${join(possibleValues(property), ', ')}]
+
+# possibleValuesForDynamiclist(property)
+- IF: ${dialog[propertyNameValue()]['list']}
+- ${join(foreach(dialog[propertyNameValue()]['list'], enum, `${enum.canonicalForm}`), `, `)}
+- ELSE:
+-
+
+# propertyNameValue
+- ${property}Value
+
+# confirmationActivity(property, val)
+> Display confirmation activity based on whether the property was expected or not
+- IF: ${contains($expectedProperties, property)}
+    - ${template(if(dialog[property] && !isArrayProperty(property), `${property}_ExpectedUpdateConfirmation`, `${property}_ExpectedSetConfirmation`), val)}
+- ELSE:
+    - ${confirmUpdate(property, val)}
+
+# confirmUpdate(property, val)
+> Display confirmation message on update
+- ${template(if(dialog[property], `${property}_UnexpectedUpdateConfirmation`, `${property}_UnexpectedSetConfirmation`), val)}
+
+>> FUNCTIONS for dialogs
+
+# missingPropertyPriority(property)
+> Return the relative priority of a property with < 0 filtered and 0 the highest priority.
+- ${if(indexOf($requiredProperties, property) < 0, -1, 100 + indexOf($requiredProperties, property))}
+
+# missingPriority(properties)
+> Return the lowest priority of any property
+- ${min(foreach(properties, property, missingPropertyPriority(property)))}
+
+# skipExpectedProperties()
+> Create new required properties where expected properties are moved to the end
+- ${union(where($requiredProperties, property, !contains($expectedProperties, property)), where($expectedProperties, property, contains($requiredProperties, property)))}
+
+# choices(value, templateName, final)
+> Apply templateName to simple or list with commas and a final join like and/or.
+- IF: ${isArray(value)}
+    - ${choicesList(value, templateName, final)}
+- ELSE:
+    - ${`'${template(templateName, value)}'`}
+
+# choicesList(list, templateName, final)
+- IF: ${count(list) == 1}
+    - '${template(templateName, list[0])}'
+- ELSE: 
+    - ${concat(join(foreach(subArray(list, 0, count(list) - 1), entry, `'${template(templateName, entry)}'`), ', '), `, ${final} `, `'${template(templateName, last(list))}'`)}
+
+>> OnChooseEntity
+
+# chooseEnumEntity()
+> Choose between enum entity values
+- Did you mean ${choices(turn.dialogEvent.value.value.value, enumName(turn.dialogEvent.value.value.type), 'or')} for ${chooseEntityPropertyName()}?
+
+# chooseEntityProperty
+> Property from the current event entity
+- ${turn.dialogEvent.value.property}
+
+# chooseEntityPropertyName()
+> Property name from the current event entity
+- ${propertyName(chooseEntityProperty())}
+
+# enumName(type)
+> Return the name of the template for enum values of entity
+- ${substring(type, 0, indexOf(type, 'Value'))}Enum_Value
+
+>> Show card
+
+# propertiesAsText
+> Display value for properties as text
+- ${join(foreach($requiredProperties, property, getPropertyValueDescriptionText(property)), EOL())}
+
+# getPropertyValueDescriptionText(property)
+> Display value for a property
+- The value of ${propertyName(property)} is ${propertyValue(property, dialog[property])}.
+
+# propertiesAsCard(name, properties)
+> Display value for properties as a card
+-```
+{
+    "type": "AdaptiveCard",
+    "version": "1.0",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "${name}",
+            "size": "large"
+        },
+        {
+            "type": "FactSet",
+            "facts": [${propertiesAsFacts(properties)}]
+        }
+    ],
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json"
+}
+```
+
+# propertiesAsFacts(properties)
+> Display property values as card facts
+- ${join(foreach(properties, property, getPropertyAsFact(property)), ', ')}
+
+# getPropertyAsFact(property)
+> Display property value as a card fact
+- {"title": "${propertyName(property)}", "value": "${replace(propertyValue(property, dialog[property]), '"', '\"')}"}
+

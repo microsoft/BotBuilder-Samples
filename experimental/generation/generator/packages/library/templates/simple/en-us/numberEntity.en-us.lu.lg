@@ -1,0 +1,11 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('number')}
+
+# generator
+- ```
+@ prebuilt number
+
+${operations('number', [1, 32.4, 99, 215, 1000], false)}
+```

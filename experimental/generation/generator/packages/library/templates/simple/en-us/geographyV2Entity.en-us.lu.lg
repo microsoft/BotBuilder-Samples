@@ -1,0 +1,11 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${builtinEntityFilename('geographyV2')}
+
+# generator
+- ```
+@ prebuilt geographyV2
+
+${operations('geographyV2', ["Ames, Iowa", "Chicago", "seattle"], false)}
+```

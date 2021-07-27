@@ -1,0 +1,24 @@
+[generator.lg](../generator.lg)
+
+# transforms()
+- ${'verifyPattern'}
+
+# verifyPattern(ref, body)
+> Verify string pattern restrictions
+- ${transformVerify(ref, body, propertySchema.pattern, 'addVerifyPattern')}
+
+# addVerifyPattern(actions)
+- ${
+[
+    {   "$kind": "Microsoft.IfCondition", 
+        condition: comparison(),
+        actions: [{ "$kind": "Microsoft.SendActivity", activity: activity()}], 
+        elseActions: actions
+    }
+]}
+
+# comparison()
+- ${`not(isMatch(@${entity},  dialogClass.schema.properties['${property}'].pattern))`}
+
+# activity()
+- ${`\${${property}_NoPatternMatch(@${entity})}`}

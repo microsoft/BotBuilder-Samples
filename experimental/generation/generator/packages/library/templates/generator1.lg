@@ -1,0 +1,675 @@
+> This file contains language independent templates to help with the generation process
+
+>> Miscellaneous
+
+> TODO: Remove this when EOL is part of expressions, then it will be os specific as opposed to windows specifice.
+# EOL()
+-\r\n
+
+>> Root directories for different kinds of assets
+> These match composer structure
+# generationDir()
+- language-generation/
+
+# understandingDir()
+- language-understanding/
+
+# knowledgeDir()
+- knowledge-base/
+
+# recognizerDir()
+- recognizers/
+
+# dialogDir()
+- dialogs/
+
+>> Filenames and Paths
+
+# propertyFilename()
+- ${generationDir()}${locale}/${property}/${prefix}-${property}.${locale}.lg
+
+# entityLGFilename()
+- ${generationDir()}${locale}/${entity}/${prefix}-${entity}.${locale}.lg
+
+# entityLUFilename()
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
+
+# missingFilename()
+- ${dialogDir()}${property}/${prefix}-${property}-missing.dialog
+
+# builtinEntityFilename(entity)
+- ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
+
+# assignFilename(entity)
+- ${dialogDir()}${property}/${prefix}-${property}-assign-${entity}.dialog
+
+# formDialogFilename(name)
+- ${dialogDir()}form/${prefix}-form-${name}
+
+# formImport(name)
+- [${prefix}-${name}](../form/${prefix}-${name})
+
+# localePath(path)
+- ${join(subArray(split(path, '/'), count(split(path, '/')) - 2, count(split(path, '/'))), '/')}
+
+> This is useful when importing another .lg file in order to add prefix/locale
+# importLG(name)
+-[${name}](../${name}/${prefix}-${name}.${locale}.lg)
+
+>> Enity lists
+# unitsEntities(entity)
+- ${union([entity], if(propertySchema.$units, ['number'], []))}
+
+>> Template lists
+
+# propertyLGTemplates(template)
+- ${`${locale}/${template}Property.${locale}.lg`}
+
+# genericTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "generic-missing.dialog",
+        "genericEntity-assign.dialog"
+    ]}
+
+# numericTemplates
+- ${union(["verifyMax", "verifyMin"], genericTemplates())}
+
+# unitTemplates
+- ${union(["convertUnits", "verifyMax", "verifyMin", "verifyUnits"], genericTemplates())}
+
+# stringTemplates
+- ${union(["verifyPattern", "verifyUnique"], genericTemplates())}
+
+# dateFormatTemplates()
+- ${[
+        "genericEntity.lu",
+        "genericEntity.lg",
+        "genericProperty.lg",
+        "generic-missing.dialog",
+        "dateFormat-assign.dialog"
+    ]}
+
+# entityLUTemplates(entity)
+> LU template name for LUIS entities
+- IF: ${isLUISEntity(entity)}
+    - ${`${locale}/${entity}Entity.${locale}.lu`}
+- ELSE:
+    - ${[]}
+
+# entityLGTemplates(entity)
+> LG template name for entities
+- ${`${locale}/${entity}Entity.${locale}.lg`}
+
+# formTemplates(name, type)
+- ${`${locale}/form-${name}.${locale}${type}`}
+
+>> Dialog templates
+
+# addAssign(entity)
+> Assign dialog.
+> This is built out of two kinds of templates which can optionally generate output: actions and transforms.
+> Actions return a string for inside a list of actions or an empty string and start with action*.
+> Transforms transform an entity before assigning it and start with transform*.
+-```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Assign()",
+    "property": "${property}",
+    "value": "${entity}",
+    "actions": [${actionAssign(entity)}]
+    ${designerOpEntity('Assign', entity)}      
+}
+```
+
+# actionAssign(entity)
+> Assign entity to current property
+- ${list(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''))}
+
+# actionConfirm(value)
+> Confirm we are setting entity to property
+- ```
+{
+    "$kind": "Microsoft.SendActivity",
+    "activity": "\${confirmationActivity('${property}', ${value})}"
+}```
+
+# actionSetOrPush(value)
+> Confirm and set or push value
+- ${actionConfirm(value)}, ${actionSetOrPushOperation(value)}
+
+# actionSetOrPushOperation(value)
+> Set or push value based on singelton or array
+- IF: ${isArrayProperty(property)}
+    - ```
+    {
+        "$kind": "Microsoft.EditArray",
+        "changeType": "push",
+        "itemsProperty": "$${property}",
+        "value": "=${value}"
+    }```
+- ELSE:
+    -```
+    {
+        "$kind": "Microsoft.SetProperty",
+        "property": "$${property}",
+        "value": "=${value}"          
+    }```
+
+# addDateFormatDialog()
+> Assign a dialog for transforming a timex into a specific format
+> TODO: We likely need to beef this up for all the corner cases like multiple timex, missing year, etc.
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Assign()",
+    "property": "${property}",
+    "value": "datetimeV2",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "@datetime.type != '${propertySchema.format}'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.SendActivity",
+                    "activity": "\${${property}_invalid${generatorName(propertySchema.format)}(@datetime)}"
+                }
+            ],
+            "elseActions": [
+                ${actionSetOrPush('@datetime.timex[0]')}
+            ]
+        }
+    ]
+    ${designerOpEntity('Assign', 'datetimeV2')}
+}
+```
+
+# missingDialog()
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition":"!\$${property}${askIf()}",
+    "priority": "=form.missingPriority(['${property}'])",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${${property}_MissingPrompt()}",
+            "expectedProperties": [
+                "${property}"
+            ]
+        }
+    ]
+    ${designerMissing(property)}
+}
+```
+
+# askIf
+- ${if(propertySchema.$askIf, ` && ${propertySchema.$askIf}`, '')}
+
+>> *** LU Generation
+
+> Each entity is either ambiguous, i.e. found in multiple properties or not.
+> 1) For ambiguous entities, generate standalone entities and operators with a mix of standalone labeled entities and properties with entity and property name.
+> 2) For unique entities, standalone properties around entity and operators with properties.
+> 
+> We control the utterances through populating substitution variables which can either be a single
+> value or an array of choices.  If a variable is not present the whole utterance will be dropped.  
+> Variables:
+> simple: top level labeled/unlabled standalone ambiguous entity, i.e. 3 or {@entity=foo}
+> value: labeled ambiguous entity for inside property/op like {@entity=value}
+> unique: labeled unique entity always found inside of property, i.e. {@entity=value} or {@entity=3}
+> uniqueOrValue: union of unique and value.
+> name: possible ways of naming property
+> property: current property
+> entity: current entity
+> isArray: true if property supports multiple values
+> comment: empty value to filter out meta-comments
+# operations(entity, values, label)
+-```
+> Define phrase list for '${property} property.
+@ phraselist ${property}Phrases(interchangeable) disabledForAllModels =
+${if(propertySchema.title,
+    `    - ${propertySchema.title}`,
+     synonyms(propertyList(property)))}
+
+> Define property entity and optional value for '${property}' property.
+@ ml ${propertyEntity()} usesFeature ${property}Phrases
+    - @ ${entity} ${entity}
+
+> Define operations on '${property}' property.
+${defineOperation('Assign', entity)}
+
+> Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
+# ${triggerIntent}
+${substitutions(
+    `form-operations.${locale}.data`,
+    substitutionScope(utterances, entityValues(values), label),
+    5)}
+```
+
+# substitutionScope(utterances, values, label)
+> Scope variables for substitutions
+- ${{ utterances: utterances, 
+      simple: entityList(entity, values, label), 
+      value: valueList(entity, values), 
+      unique: uniqueList(entity, values), 
+      uniqueOrValue: uniqueOrValueList(entity, values), 
+      name: propertyList(property), 
+      property: propertyEntity(), 
+      entity: entity, 
+      isArray: isArrayProperty(property), 
+      comment: []}}
+
+# defineOperation(operation, entity)
+-```@ ml ${operation}() usesFeature ${operation}Phrases
+    -@ ml ${propertyEntity()} usesFeature ${propertyEntity()}
+        - @ ${entity} ${entity}
+${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
+
+# entityValues(values)
+> Return the list of possible entity values for utterances
+> Either locale or default $examples in property schema or $examples globally or default values
+- IF: ${examples}
+    - ${flattenObject(examples)}
+- ELSEIF: ${values}
+    - ${values}
+-ELSE:
+    - ${placeHolderEntities(entity)}
+
+# placeHolderEntities(entity)
+-  ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
+
+# flattenObject(val)
+> Flatten an object including keys and values into an array
+- IF: ${isArray(val)}
+    - ${val}
+- ELSE:
+    - ${flatten(foreach(indicesAndValues(val), entry, union([entry.index], entry.value)))}
+
+> Name for property entity
+# propertyEntity()
+- ${`${property}Property`}
+
+# oneProperty(entity)
+> Check to see if entity is only found in one property
+- ${count(entities[entity]) == 1}
+
+# isArrayProperty(property)
+> Test to see if property is an array
+- ${propertySchema.type == 'array'}
+
+# units
+> Property units if specified
+- ${propertySchema.$units}
+
+# isLUISEntity(entity)
+> Assume LUIS entity unless built-in utterance
+- ${entity != 'utterance'}
+
+# entityValue(entity, value, label)
+> Generate a raw entity value with optional label
+- IF: ${label}
+- {${entity}=${value}}
+- ELSE:
+- ${value}
+
+> List of primitive entities
+# entityList(entity, values, label)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, entityValue(entity, value, label))}
+- ELSE:
+- ${[]}
+
+> List of labeled multi-property values
+# valueList(entity, values)
+- IF: ${!oneProperty(entity)}
+- ${foreach(values, value, `{${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> List of labeled single-property labeled values
+# uniqueList(entity, values)
+- IF: ${oneProperty(entity)}
+- ${foreach(values, value, `{${entity}=${value}}`)}
+- ELSE:
+- ${[]}
+
+> Union of single and multiple property labled entities
+# uniqueOrValueList(entity, values)
+- ${union(uniqueList(entity, values), valueList(entity, values))}
+
+> Return any explicit property name list
+# propertyList(property)
+- IF: ${propertySchema.$examples[locale][propertyPhrasesName()]}
+    - ${propertySchema.$examples[locale][propertyPhrasesName()]}
+- ELSEIF: ${propertySchema.$examples[''][propertyPhrasesName()]}
+    - ${propertySchema.$examples[''][propertyPhrasesName()]}
+- ELSEIF: ${schema.$examples[locale][propertyPhrasesName()]}
+    - ${schema.$examples[locale][propertyPhrasesName()]}
+- ELSEIF: ${schema.$examples[''][propertyPhrasesName()]}
+    - ${schema.$examples[''][propertyPhrasesName()]}
+- ELSE:
+    - ${phrases(property)}
+
+> Return any explicit property value list
+# propertyValueList(property)
+- IF: ${schema.properties[property].$examples[locale][propertyValueName()]}
+    - ${schema.properties[property].$examples[locale][propertyValueName()]}
+- ELSEIF: ${schema.properties[property].$examples[''][propertyValueName()]}
+    - ${schema.properties[property].$examples[''][propertyValueName()]}
+- ELSEIF: ${schema.$examples[locale][propertyValueName()]}
+    - ${schema.$examples[locale][propertyValueName()]}
+- ELSEIF: ${schema.$examples[''][propertyValueName()]}
+    - ${schema.$examples[''][propertyValueName()]}
+- ELSE:
+    - 
+
+# propertyPhrasesName(property)
+- ${property}Phrases
+
+# propertyValueName(property)
+- ${property}Value
+
+# synonyms(phrases)
+- ${join(foreach(phrases, phrase, `        - ${phrase}`), EOL())}
+
+# luHeader()
+-```> !# @app.culture = ${locale}
+> !# @app.settings.NormalizeWordForm = true
+> !# @app.settings.UseAllTrainingData = true```
+
+>> Templates to use when expanding schemas
+
+> Operations defined in .lu
+# schemaOperations()
+- ${['Assign()', 'Skip()', 'Cancel()']}
+
+> Define default operation for properties
+# schemaDefaultOperation()
+- ${{"": {"": "Assign()"}}}
+
+> Designer information
+# designerName(name)
+-, "$designer": {"name": "${name}"}
+
+# designerOp(op)
+- ${designerName(`${op}`)}
+
+# designerOpEntity(op, entity)
+- ${designerOpEntityProperty(op, entity, property)}
+
+# designerOpEntityProperty(op, entity, property)
+- ${designerName(`${op} @${entity}`)}
+
+# designerMissing(property)
+- ${designerName(`Missing Prompt`)}
+
+# designerIntent(intent)
+- ${designerName(`On${intent}`)}
+
+> Per-property LG templates
+
+# activityTemplate(name, args, comment, text)
+- ```# ${name}(${list(args)})
+> Activity ${comment}
+[Activity
+    Text = \${${name}_text(${list(args)})}
+]
+
+# ${name}_text(${list(args)})
+> ${comment}
+- ${text}```
+
+# promptTemplates(missing, change)
+- ```
+>> Prompts
+
+${activityTemplate(
+    `${property}_MissingPrompt`, [],
+    `Prompt when '${property}' is missing`,
+    missing
+)}
+
+${activityTemplate(
+    `${property}_ChangePrompt`, [],
+    `Prompt when '${property}' property has a value, but is being changed`,
+    change
+)}
+```
+
+# confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace, remove, clear)
+- ```
+>> Confirmation
+
+${activityTemplate(
+    `${property}_ExpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    expectedSet
+)}
+
+${expectedUpdateTemplate(expectedReplace)}
+
+${activityTemplate(
+    `${property}_UnexpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    unexpectedSet
+)}
+
+${activityTemplate(
+    `${property}_UnexpectedUpdateConfirmation`, ['newVal'],
+    `Confirmation when replacing unexpected value in '${property}' property`,
+    unexpectedReplace
+)}
+
+${activityTemplate(
+    `${property}_RemoveConfirmation`, ['newVal'],
+    `Confirmation activity when value is removed from '${property}' property`,
+    remove
+)}
+
+${activityTemplate(
+    `${property}_ClearConfirmation`, [],
+    `Confirmation when '${property}' property is cleared`,
+    clear
+)}```
+
+# expectedUpdateTemplate(expectedReplace)
+- IF: ${!isArrayProperty(property)}
+    - ${activityTemplate(
+        `${property}_ExpectedUpdateConfirmation`, ['newVal'], 
+        `Confirmation when replacing expected value in '${property}' property`, 
+        expectedReplace)}
+- ELSE:
+    -
+
+# helpTemplates(reprompt, help)
+- ```
+>> Help
+
+${activityTemplate(
+    `${property}_RepromptHelp`, [],
+    `Help for '${property}' property reprompt`,
+    reprompt
+)}
+
+${activityTemplate(
+    `${property}_Help`, [],
+    `Help for '${property}' property`,
+    help
+)}```
+
+# showTemplate(show)
+- ```
+>> Show
+${activityTemplate(
+    `${property}_Show`, [],
+     `Show value of '${property}' property`,
+     show
+)}```
+
+# incorrectUnitsTemplate()
+- IF: ${units()}
+- ${activityTemplate(
+    `${property}_IncorrectUnits`, ['actual'],
+    `Incorrect units for '${property}' property`,
+    `\${actual} must be in '${units()}s'`
+)}
+- ELSE:
+    -
+
+>> Helpers
+
+# enums()
+- IF: ${propertySchema.enum}
+    - ${propertySchema.enum}
+- ELSE:
+    - ${propertySchema.items.enum}
+
+# list(array)
+- ${join(array, ', ')}
+
+# sortObject(object, key)
+> Sort object values by key
+- ${sortBy(select(indicesAndValues(object), entry, entry.value), key)}
+
+# generatorName(name)
+> Ensure name is valid for templates
+> NOTE: Property names must not include space or - or they will not work easily as memory expressions
+- ${replace(replace(name, '-', '_'), ' ', '_')}
+
+# enumName(entity)
+- ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
+
+>> Grouping 
+
+# sortNumber(number, divisor)
+> Return a string with leading zeros out to divisor
+- ${if(divisor == 1,
+    string(number),
+    concat(string(div(number, divisor)), sortNumber(mod(number, divisor), div(divisor, 10))))}
+
+# listPosition(value, list)
+> Return first position where value contains element of list
+- ${listPositionIdx(value, list, 0)}
+
+# listPositionIdx(value, list, idx)
+- ${if(idx < count(list),
+      if(contains(value, list[idx]), idx, listPositionIdx(value, list, idx + 1)),
+      count(list))}
+
+# groupedSortRecord(value, grouper, sorter)
+- ${{key: concat(sortNumber(template(grouper, value), 100), '/', sortNumber(template(sorter, value), 100)), value: value}}
+
+# groupedSort(list, grouper, sorter)
+> Grouper returns a number for the group and sorter returns a number for sort within group
+- ${select(sortBy(foreach(list, value, groupedSortRecord(value, grouper, sorter)), 'key'), record, record.value)}
+
+# propertyGroupPosition(trigger)
+- ${if(startsWith(trigger, 'form'), count(properties), listPosition(trigger, properties))}
+
+>> Transformer support
+
+>>> transformProperty
+
+# transformProperty(object, property, transform)
+> Copy all properties in object and transform property using transform
+- ${transformPropertyEntries({}, indicesAndValues(object), property, transform)}
+
+# transformPropertyEntries(object, entries, property, transform)
+> Assign entries into object transforming property
+> NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
+- ${if(count(entries) == 1, 
+  transformPropertyEntry(object, first(entries), property, transform), 
+  transformPropertyEntries(transformPropertyEntry(object, first(entries), property, transform), subArray(entries, 1, count(entries)), property, transform))}
+
+# transformPropertyEntry(object, entry, property, transform)
+> Assign an {index, value} entry to object transforming if property
+- ${addProperty(object, entry.index, if(entry.index == property, template(transform, entry.value), entry.value))}
+
+>>> transform
+
+# transform(old, filter, transform)
+> Transform old by copying and when old matches filter call transform
+- ${if(template(filter, old), 
+        template(transform, old),
+        if(isArray(old), 
+            foreach(old, element, transform(element, filter, transform)),
+            if(isObject(old),
+                transformEntries({}, indicesAndValues(old), filter, transform),
+                old
+            )
+        )
+    )}
+
+# transformEntries(object, entries, filter, transform)
+> Transform entries into object
+> NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
+- ${if(count(entries) == 1, 
+    transformEntry(object, first(entries), filter, transform), 
+    transformEntries(transformEntry(object, first(entries), filter, transform), subArray(entries, 1, count(entries)), filter, transform))
+  }
+
+# transformEntry(object, entry, filter, transform)
+> Assign an {index, value} entry to object
+- ${addProperty(object, entry.index, transform(entry.value, filter, transform))}
+
+>>> Robust comparison and finding
+
+# equals(obj1, obj2)
+> Test two values to see if they are equal
+- ${if((isArray(obj1) && isArray(obj2)) || (isObject(obj1) && isObject(obj2)), 
+    count(indicesAndValues(obj1)) == count(indicesAndValues(obj2)) 
+    && count(where(indicesAndValues(obj1), val, !equals(val.value, obj2[val.index]))) == 0, 
+    obj1 == obj2)}
+
+# findValue(body, filter, selector)
+> Recursively find element that matches filter and then apply selector to it
+- ${if(template(filter, body),
+        template(selector, body),
+        if(isObject(body),
+            first(where(foreach(indicesAndValues(body), val, findValue(val.value, filter, selector)), val, val != null)),
+            null))}
+
+>>> High level transforms
+
+# transformVerify(ref, body, condition, transform)
+> Transform OnAssignEntity body.actions if condition is true
+- IF: ${ref.extension == 'dialog' && isOnAssign(body) && condition}
+    - ${transformProperty(body, 'actions', transform)}
+- ELSE:
+    - ${body}
+
+# transformConvert(ref, body, condition, transform)
+> Transform a recursive child set action if condition is true
+- IF: ${ref.extension == 'dialog' && isOnAssign(body) && condition}
+    - ${transform(body, 'isSetProperty', transform)}
+- ELSE:
+    - ${body}
+
+# isOnAssign(body)
+> Action to assign current property and entity
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Assign()' && body.property == property && body.value == entity}
+
+# isSetProperty(body)
+> Action to set/push the current property
+- ${(body.$kind == 'Microsoft.SetProperty' && body.property == `$${property}`) || (body.$kind == 'Microsoft.EditArray' && body.changeType == 'push' && body.itemsProperty == `$${property}`)}
+
+# containsEntityReference(body)
+- ${isString(body) && contains(body, `@${entity}`)}
+
+# isAssign(body)
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.property == property && body.value == entity}
+
+# setPropertyValue(body)
+- ${findValue(body, 'isSetProperty', 'extractSetPropertyValue')}
+
+# extractSetPropertyValue(body)
+- ${substring(body.value, 1)}
+
+# unitsNumber()
+- ${if(propertySchema.$generator.$units && entity != 'number', `@${entity}.number`, `@${entity}`)}

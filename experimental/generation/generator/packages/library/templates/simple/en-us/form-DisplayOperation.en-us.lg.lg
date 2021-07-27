@@ -1,0 +1,71 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${generationDir()}${locale}/form/${prefix}-form-DisplayOperation.${locale}.lg
+
+# generator
+-```${formImport('form-extensions.en-us.lg')}
+
+# displayOperation(op, property, value)
+> Display value for a combination of operation, property and value
+- SWITCH: \${op}
+- CASE: \${'Assign()'}
+        - \${displayAssignOperation(op, property, value)}
+- CASE: \${'Remove()'}
+        - \${displayRemoveOperation(op, property, value)}
+- DEFAULT:
+        - \${displayDefaultOperation(op, property, value)}
+
+# displayAssignOperation(op, property, value)
+> Display value for an Assign() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - assign "\${value.text}" to \${propertyName(property)}
+- ELSEIF: \${property && value}
+    - set \${propertyName(property)} to "\${value.text}"
+- ELSE:
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayRemoveOperation(op, property, value)
+> Display value for a Remove() operation
+- IF: \${property && value && isArrayProperty(property)}
+    - remove "\${value.text}" from \${propertyName(property)}
+- ELSEIF: \${property}
+    - clear \${propertyName(property)}
+- ELSE:
+    - \${displayDefaultOperation(op, property, value)}
+
+# displayDefaultOperation(op, property, value)
+> Default display value for an operation, property and value
+- IF: \${op && property && value.value} 
+    - \${operationName(op)} \${value.text} to \${propertyName(property)}
+- ELSEIF: \${op && property}
+    - \${operationName(op)} \${propertyName(property)}
+- ELSE:
+    - \${operationName(op)}
+
+${join(flatten([namePlusSwitch(), cases(), default()]), EOL())}
+
+# chooseEntityOperation()
+> Operation name from the current event entity
+- \${operationName(turn.dialogEvent.value.operation)}
+
+# chooseProperty(property)
+> Display a possible property assignment
+- \${displayOperation(property.operation, property.property, property.value)}
+```
+
+# namePlusSwitch
+-```# operationName(op) 
+> Display value for an operation
+- SWITCH: \${op}```
+
+# cases
+- ${foreach(operations, op, case(op))}
+
+# case(op)
+-```    - CASE: \${'${op}'}
+        - ${phrase(substring(op, 0, indexOf(op, '(')))}```
+
+# default
+-```    - DEFAULT: 
+        - I don't understand \${op}```

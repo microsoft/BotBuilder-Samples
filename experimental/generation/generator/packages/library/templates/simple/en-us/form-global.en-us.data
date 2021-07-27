@@ -1,0 +1,23 @@
+> ${comment?}Example operations across properties and operations
+> Assign() examples across properties
+- {Assign()=add ${entity} and ${entity}}
+- {Assign()=with ${entity}, ${entity} and ${entity}}
+
+> Global help
+- {Help()=help}
+- {Help()=what do you know?}
+- {Help()=what can I say?}
+- {Help()=what do you want to know?}
+- {Help()=I don't understand}
+
+> Global skip
+- {Skip()=skip}
+- {Skip()=neither}
+- {Skip()=none of those}
+- {Skip()=I don't care}
+- {Skip()=nothing}
+
+> Global cancel
+- {Cancel()=cancel}
+- {Cancel()=forget it}
+- {Cancel()=quit}

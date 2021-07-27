@@ -1,0 +1,58 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$global": true,
+    "type": "object",
+    "properties": {
+        "CancelConfirmation": {
+            "type": "boolean",
+            "$entities": [
+                "boolean"
+            ],
+            "$templates": [
+                "genericEntity.lg",
+                "genericEntity.lu",
+                "form-CancelConfirmation-assign-boolean.dialog"
+            ]
+        }
+    },
+    "$operations": [
+        "${schemaOperations()}"
+    ],
+    "$defaultOperation": [
+        "${schemaDefaultOperation()}"
+    ],
+    "$requiresValue": [
+        "Assign()"
+    ],
+    "$expectedOnly": [
+        "boolean",
+        "utterance",
+        "keyPhrase",
+        "personName"
+    ],
+    "$templates": [
+        "form-NoneIntent.lu",
+        "form-phrases.lu",
+        "form-global.lu",
+        "locale-definition.lu",
+        "form-DisplayOperation.lg",
+        "form-extensions.lg",
+        "form-prompts.lg",
+        "locale.lu",
+        "locale.lg",
+        "luis.lu.dialog",
+        "multilingual.dialog",
+        "form-BeginDialog.dialog",
+        "form-CancelConfirmation-prompt.dialog",
+        "form-CancelConfirmation-assign-boolean.dialog",
+        "form-HelpGlobal.dialog",
+        "form-HelpReprompt.dialog",
+        "form-NotUnderstood.dialog"
+        "main.dialog",
+        "luconfig.json",
+        "build",
+        "build.cmd",
+        "run",
+        "run.cmd"
+    ]
+}

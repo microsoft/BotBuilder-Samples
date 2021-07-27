@@ -1,0 +1,8 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${assignFilename(entity)}
+
+# generator
+- ${addAssign(entity)}
+
