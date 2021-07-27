@@ -133,6 +133,7 @@ jobs:
       tags: |
         Using botbuilder version $(TargetVersion)
         From ${{ parameters.packageFeed }} feed 
+        Test latest = ${{ parameters.testLatestPackage }}
 
   - powershell: |
      # SetDependencyVersionInPackageJsonFile0.ps1

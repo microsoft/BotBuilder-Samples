@@ -220,6 +220,7 @@ jobs:
       tags: |
         Using Bot.Builder version $(TargetVersion)
         From ${{ parameters.packageFeed }} feed 
+        Test latest = ${{ parameters.testLatestPackage }}
 
   - powershell: |
       $path = "$(SampleRootPath)\\$(SampleBotName).csproj";

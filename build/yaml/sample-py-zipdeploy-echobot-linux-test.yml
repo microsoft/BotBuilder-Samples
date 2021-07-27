@@ -153,6 +153,7 @@ jobs:
       tags: |
         Using botbuilder version $(TargetVersion)
         From ${{ parameters.packageFeed }} feed 
+        Test latest = ${{ parameters.testLatestPackage }}
 
   - powershell: |
      # This adapted from PyPySkillBotFunctionalTest, file BotFramework-FunctionalTests\build\yaml\pythonDeploySteps.yml, task Set BotBuilder Package Version & Registry Url.
