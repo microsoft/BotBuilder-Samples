@@ -109,7 +109,7 @@ jobs:
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest botbuilder package version from Azure feed - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
+    displayName: 'From Azure feed get latest botbuilder package version - https://dev.azure.com/ConversationalAI/BotFramework/_packaging?_a=feed&feed=SDK'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
@@ -150,8 +150,8 @@ jobs:
       $latestVersion;
    
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-    displayName: 'Get latest botbuilder package version from PyPI feed - https://pypi.org/search/?q=botbuilder&o='
-    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'PythonPI')) }}
+    displayName: 'From PyPI feed get latest botbuilder package version - https://pypi.org/search/?q=botbuilder&o='
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'PyPI')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
