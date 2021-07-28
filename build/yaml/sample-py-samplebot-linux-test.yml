@@ -122,6 +122,10 @@ jobs:
       Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
       $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
 
+      "======================";
+      $result;
+      "======================";
+
       $package = $result.packages | Where-Object {$_.id -eq $packageName};
       " "
       "Available versions:";
