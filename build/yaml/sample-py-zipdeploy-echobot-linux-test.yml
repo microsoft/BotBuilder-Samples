@@ -36,7 +36,7 @@ parameters:
     values:
     - Azure
     - MyGet
-    - PythonPI
+    - PyPI
 
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
@@ -136,6 +136,22 @@ jobs:
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
     displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
+
+  - powershell: |
+      $packageName = "botbuilder-integration-aiohttp";
+   
+      py -m pip install yolk3k;
+      $result = py -m yolk -V $packageName;
+   
+      $array = $result -split " ";
+      $latestVersion = $array[1];
+      " ";
+      $packageName;
+      $latestVersion;
+   
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
+    displayName: 'Get latest botbuilder package version from PyPI feed - https://pypi.org/search/?q=botbuilder&o='
+    condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'PythonPI')) }}
 
   - powershell: |
      $targetVersion = "${{ parameters.versionToTest }}";
