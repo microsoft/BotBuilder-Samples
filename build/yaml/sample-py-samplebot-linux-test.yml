@@ -208,7 +208,92 @@ jobs:
      UpdatePackageVersion "botbuilder-ai" 
    
      '------ $file -------'; get-content $file; '===================';
-    displayName: 'Set index urls and dependencies in requirements.txt to get latest botframework packages'
+    displayName: 'For Azure feed, set requirements.txt to get targeted botframework packages'
+    condition: ${{ eq(parameters.packageFeed, 'Azure') }}
+
+  - powershell: |
+     # This adapted from PyPySkillBotFunctionalTest, file BotFramework-FunctionalTests\build\yaml\pythonDeploySteps.yml, task Set BotBuilder Package Version & Registry Url.
+   
+     $file = "$(SampleRootPath)/requirements.txt";
+   
+     $indexUrl = "https://botbuilder.myget.org/F/botbuilderdaily_python/python/"
+     $extraIndexUrl = "https://pypi.org/simple/"
+   
+     $comparisonOperator = ""
+     $newVersion = ""
+     $pipInstallOption =  "--pre" # Include prerelease and development versions.
+   
+     # Add the index URL specs at the beginning of the requirements.txt file
+     $content = @(Get-Content $file)
+     Set-Content -Path $file -Value ("$pipInstallOption --index-url $indexUrl --extra-index-url $extraIndexUrl".Trim())
+     Add-Content -Path $file -Value $content
+   
+     function UpdatePackageVersion($package) {
+       # Set Package version to empty value
+       $content = @(Get-Content $file)
+       $matchinfo = Select-String -Path $file -Pattern $package
+   
+       $script = "$package $comparisonOperator $newVersion"
+   
+       # Update or add dependency
+       if($matchinfo.LineNumber -gt 0) {
+         $content[$matchinfo.LineNumber - 1] = $script
+         Set-Content -Path $file -Value $content
+     
+       } else {
+         Add-Content -Path $file -Value $script
+       }
+     }
+   
+     UpdatePackageVersion "botbuilder-integration-aiohttp"
+     UpdatePackageVersion "botbuilder-dialogs" 
+     UpdatePackageVersion "botbuilder-ai" 
+   
+     '------ $file -------'; get-content $file; '===================';
+    displayName: 'For MyGet feed, set requirements.txt to get targeted botframework packages'
+    condition: ${{ eq(parameters.packageFeed, 'MyGet') }}
+
+  - powershell: |
+     # This adapted from PyPySkillBotFunctionalTest, file BotFramework-FunctionalTests\build\yaml\pythonDeploySteps.yml, task Set BotBuilder Package Version & Registry Url.
+   
+     $file = "$(SampleRootPath)/requirements.txt";
+   
+     $indexUrl = "https://pypi.org/simple/"
+     $extraIndexUrl = "https://pypi.org/simple/"
+   
+     $comparisonOperator = ""
+     $newVersion = ""
+     $pipInstallOption =  "--pre" # Include prerelease and development versions.
+   
+     # Add the index URL specs at the beginning of the requirements.txt file
+     $content = @(Get-Content $file)
+     Set-Content -Path $file -Value ("$pipInstallOption --index-url $indexUrl --extra-index-url $extraIndexUrl".Trim())
+     Add-Content -Path $file -Value $content
+   
+     function UpdatePackageVersion($package) {
+       # Set Package version to empty value
+       $content = @(Get-Content $file)
+       $matchinfo = Select-String -Path $file -Pattern $package
+   
+       $script = "$package $comparisonOperator $newVersion"
+   
+       # Update or add dependency
+       if($matchinfo.LineNumber -gt 0) {
+         $content[$matchinfo.LineNumber - 1] = $script
+         Set-Content -Path $file -Value $content
+     
+       } else {
+         Add-Content -Path $file -Value $script
+       }
+     }
+   
+     UpdatePackageVersion "botbuilder-integration-aiohttp"
+     UpdatePackageVersion "botbuilder-dialogs" 
+     UpdatePackageVersion "botbuilder-ai" 
+   
+     '------ $file -------'; get-content $file; '===================';
+    displayName: 'For PyPI feed, set requirements.txt to get targeted botframework packages'
+    condition: ${{ eq(parameters.packageFeed, 'PyPI') }}
 
   - task: AzureCLI@2
     displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
