@@ -111,6 +111,8 @@ jobs:
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
+      Set-PSDebug -Trace 1;
+
       $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
       $myGetFeedName = "botbuilderdaily_python";
       $packageName = "botbuilder-ai";
@@ -132,6 +134,8 @@ jobs:
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
+
+      Set-PSDebug -Trace 0;
     displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
