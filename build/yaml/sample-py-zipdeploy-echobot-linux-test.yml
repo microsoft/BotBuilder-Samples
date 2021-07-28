@@ -114,7 +114,7 @@ jobs:
 
   - powershell: |
       $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
-      $myGetFeedName = "botbuilder-v4-js-daily";
+      $myGetFeedName = "botbuilderdaily_python";
       $packageName = "botbuilder-ai";
 
       $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
