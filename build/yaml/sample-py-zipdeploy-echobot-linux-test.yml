@@ -113,28 +113,30 @@ jobs:
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'Azure')) }}
 
   - powershell: |
-      $myGetPersonalAccessToken = "$(MyGetPersonalAccessToken)";
       $myGetFeedName = "botbuilderdaily_python";
       $packageName = "botbuilder-ai";
+      $url = "https://botbuilder.myget.org/F/$myGetFeedName/python"
 
-      $url = "https://botbuilder.myget.org/F/$myGetFeedName/auth/$myGetPersonalAccessToken/api/v2/feed-state";
+      py -m pip install --index-url $url $packageName== 2>&1 | Tee-Object -Variable pipError | Out-Null
 
-      Write-Host "Get latest $packageName version number from MyGet $myGetFeedName";
-      $result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-
-      $package = $result.packages | Where-Object {$_.id -eq $packageName};
-      " "
+      [string]$errorString = $pipError
+      $start = $errorString.IndexOf("from versions:") + 15;
+      $end = $errorString.IndexOf(")");
+      $versions = $errorString.Substring($start, $end - $start);
+      $versionsArray = $versions -Split ", ";
+      $latestVersion = $versionsArray[-1];
+      " ";
+      $packageName;
       "Available versions:";
-      $package.versions | Select -Last 30;
-
-      ### Hard-coded ########## [string]$latestVersion = "4.15.0-dev.ffde26a";
-      [string]$latestVersion = $package.versions[-1];
-      " "
+      $versionsArray | Select -Last 30;
+      " ";
       "Latest version:";
-      $package.id;
       $latestVersion;
-      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
-    displayName: 'From MyGet feed get latest botbuilder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-js-daily'
+
+      "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
+    errorActionPreference: continue
+    ignoreLASTEXITCODE: true
+    displayName: 'From MyGet feed get latest Bot.Builder version number - https://botbuilder.myget.org/gallery/botbuilder-v4-dotnet-daily'
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'MyGet')) }}
 
   - powershell: |
