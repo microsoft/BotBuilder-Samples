@@ -12,52 +12,19 @@
 - {${property}=${name}}
 
 > Assign() examples for ${property} and ${entity}
-- {Assign()=add {${property}=${uniqueOrValue} ${name}}}
-- {Assign()=with {${property}=${unique}}}
-- {Assign()=set ${value}}
-- {Assign()={${property}=${name} is ${uniqueOrValue}}}
-- {Assign()={${property}=${name} of ${uniqueOrValue}}}
-- {Assign()={${property}=${name} are ${uniqueOrValue}}}
+- add {${property}=${uniqueOrValue} ${name}}
+- with {${property}=${unique}}
+- set ${value}
+- {${property}=${name} is ${uniqueOrValue}}
+- {${property}=${name} of ${uniqueOrValue}}
+- {${property}=${name} are ${uniqueOrValue}}
 
 > ${isArray?}Assign() examples with multiple ${entity}
-- {Assign()=add {${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {Assign()=set {${property}=${unique} and ${unique}}
-- {Assign()=with ${value} and ${value}}
-- {Assign()=with {${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
-- {Assign()=add {${property}=${unique}, ${unique} and ${unique}} 
-- {Assign()=set ${value}, ${value} and ${value}}
-- {Assign()={${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}}
-- {Assign()={${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}}
-
-> Remove() examples for ${property} and ${entity}
-- {Remove()=remove {${property}=${unique}}
-- {Remove()=with no {${property}=${uniqueOrValue} ${name}}
-- {Remove()=without ${value}}
-
-> ${isArray?}Remove() examples for ${property} and 2-3 ${entity}
-- {Remove()=delete {${property}=${unique} and ${unique}}}
-- {Remove()=without {${property}=${unique}, ${unique} and ${unique}}}
-- {Remove()=remove ${value} and ${value}}
-- {Remove()=remove ${value}, ${value} and ${value}}
-- {Remove()=remove {${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}}
-- {Remove()=delete {${property}=${uniqueOrValue}, ${uniqueOrValue} and ${unique} ${name}}}
-
-> Clear() examples for ${property}
-- {Clear()=clear {${property}=${name}}}
-- {Clear()=reset {${property}=${name}}}
-
-> Show() examples for ${property}
-- {Show()=show {${property}=${name}}}
-- {Show()=value of {${property}=${name}}}
-- {Show()={${property}=${name}} values}
-- {Show()={${property}=${name}} selection}
-
-> Help() examples for ${property}
-- {Help()=help {${property}=${name}}}
-- {Help()=help with {${property}=${name}}}
-- {Help()=what can I say for {${property}=${name}}}
-- {Help()={${property}=${name}} help}
-
-> Change() examples for ${property}
-- {Change()=change {${property}=${name}}}
-- {Change()=goto {${property}=${name}}}
+- add {${property}=${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- set {${property}=${unique} and ${unique}}
+- with ${value} and ${value}
+- with {${property}=${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue} ${name}}
+- add {${property}=${unique}, ${unique} and ${unique}} 
+- set ${value}, ${value} and ${value}
+- {${property}=${name} are ${uniqueOrValue} and ${uniqueOrValue}}
+- {${property}=${name} of ${uniqueOrValue}, ${uniqueOrValue} and ${uniqueOrValue}}

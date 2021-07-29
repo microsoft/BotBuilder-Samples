@@ -23,7 +23,7 @@
         ['-BeginDialog', '-PropertyToChange-prompt', '-PropertyToChange-assign', '-Change', '-CancelConfirmation-prompt', '-CancelConfirmation-assign', '-ChooseProperty', '-Skip', '-Show', '-HelpGlobal', '-HelpReprompt', '-NotUnderstood']
     ),
     listPosition(trigger, 
-        ['-missing', '-change', '-choose', '-assign-', '-remove-', '-clear', '-show', '-help']
+        ['-missing', '-assign-']
     ))}
     
 # triggerNames(triggers)

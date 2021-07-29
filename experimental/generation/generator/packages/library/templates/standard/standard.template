@@ -35,8 +35,7 @@
         "${schemaDefaultOperation()}"
     ],
     "$requiresValue": [
-        "Assign()",
-        "Remove()"
+        "Assign()"
     ],
     "$expectedOnly": [
         "boolean",

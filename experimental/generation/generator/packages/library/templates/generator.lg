@@ -89,12 +89,7 @@
         "genericEntity.lg",
         "genericProperty.lg",
         "generic-missing.dialog",
-        "generic-change.dialog",
-        "genericEntity-assign.dialog",
-        "genericEntity-remove.dialog",
-        "generic-clear.dialog",
-        "generic-show.dialog",
-        "generic-help.dialog"
+        "genericEntity-assign.dialog"
     ]}
 
 # numericTemplates
@@ -112,12 +107,7 @@
         "genericEntity.lg",
         "genericProperty.lg",
         "generic-missing.dialog",
-        "generic-change.dialog",
-        "dateFormat-assign.dialog",
-        "genericEntity-remove.dialog",
-        "generic-clear.dialog",
-        "generic-show.dialog",
-        "generic-help.dialog"
+        "dateFormat-assign.dialog"
     ]}
 
 # entityLUTemplates(entity)
@@ -430,14 +420,6 @@ ${if(propertySchema.title,
 @ ml ${propertyEntity()} usesFeature ${property}Phrases
     - @ ${entity} ${entity}
 
-> Define operations on '${property}' property.
-${defineOperation('Assign', entity)}
-${defineOperation('Remove', entity)}
-${defineOperation('Clear', entity)}
-${defineOperation('Change', entity)}
-${defineOperation('Show', entity)}
-${defineOperation('Help', entity)}
-
 > Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
 ${substitutions(
@@ -508,7 +490,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # entityValue(entity, value, label)
 > Generate a raw entity value with optional label
 - IF: ${label}
-- {${entity}=${value}}
+- ${value}
 - ELSE:
 - ${value}
 
@@ -522,14 +504,14 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 > List of labeled multi-property values
 # valueList(entity, values)
 - IF: ${!oneProperty(entity)}
-- ${foreach(values, value, `{${entity}=${value}}`)}
+- ${foreach(values, value, `${value}`)}
 - ELSE:
 - ${[]}
 
 > List of labeled single-property labeled values
 # uniqueList(entity, values)
 - IF: ${oneProperty(entity)}
-- ${foreach(values, value, `{${entity}=${value}}`)}
+- ${foreach(values, value, `${value}`)}
 - ELSE:
 - ${[]}
 

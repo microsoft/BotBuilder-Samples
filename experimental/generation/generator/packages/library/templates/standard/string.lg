@@ -11,10 +11,5 @@
         "stringEntity.lu",
         "genericProperty.lg",
         "generic-missing.dialog",
-        "generic-change.dialog",
-        "genericEntity-assign.dialog",
-        "genericEntity-remove.dialog",
-        "generic-clear.dialog",
-        "generic-help.dialog",
-        "generic-show.dialog"
+        "genericEntity-assign.dialog"
     ]}
