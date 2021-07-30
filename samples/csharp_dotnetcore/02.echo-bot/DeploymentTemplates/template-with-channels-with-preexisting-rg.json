@@ -163,7 +163,7 @@
                 "properties": {
                     "sites": [
                         {
-                            "siteName": "Default Site1",
+                            "siteName": "Default Site",
                             "isEnabled": true,
                             "isV1Enabled": true,
                             "isV3Enabled": true
