@@ -133,7 +133,7 @@
             "type": "Microsoft.BotService/botServices",
             "name": "[parameters('botId')]",
             "location": "global",
-            "kind": "bot",
+            "kind": "azurebot",
             "sku": {
                 "name": "[parameters('botSku')]"
             },
