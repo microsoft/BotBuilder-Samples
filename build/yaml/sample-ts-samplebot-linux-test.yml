@@ -86,10 +86,6 @@ jobs:
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
-
-      # This gets latest version from all versions.
-      #$versions = npm show botbuilder versions | ConvertFrom-Json
-      #$next = $versions[1][-1]
     displayName: From npm feed get latest botbuilder package version  - https://www.npmjs.com/package/botbuilder
     condition: ${{ and(eq(parameters.testLatestPackage, true), eq(parameters.packageFeed, 'npm')) }}
 
@@ -108,7 +104,6 @@ jobs:
       "Available versions:";
       $package.versions | Select -Last 30;
 
-      ### Hard-coded ########## [string]$latestVersion = "4.15.0-dev.ffde26a";
       [string]$latestVersion = $package.versions[-1];
       " "
       "Latest version:";

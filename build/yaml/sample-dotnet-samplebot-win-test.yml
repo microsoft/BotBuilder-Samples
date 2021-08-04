@@ -174,7 +174,6 @@ jobs:
       "Available versions:";
       $package.versions | Select -Last 30;
 
-      ### Hard-coded ########## [string]$latestVersion = "4.15.0-preview.20210706-256858";
       [string]$latestVersion = $package.versions[-1];
       " "
       "Latest version:";
