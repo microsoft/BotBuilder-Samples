@@ -258,7 +258,6 @@
         "name": "[parameters('botSku')]"
       },
       "properties": {
-        "name": "[parameters('botId')]",
         "displayName": "[parameters('botId')]",
         "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
         "endpoint": "[variables('botEndpoint')]",
