@@ -84,8 +84,7 @@
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2018-05-01",
             "location": "[parameters('groupLocation')]",
-            "properties": {
-            }
+            "properties": {}
         },
         {
             "type": "Microsoft.Resources/deployments",
@@ -162,14 +161,14 @@
                             },
                             "properties": {
                                 "name": "[parameters('botId')]",
-								"displayName": "[parameters('botId')]",
-								"iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
-								"endpoint": "[variables('botEndpoint')]",
-								"msaAppId": "[parameters('appId')]",
-								"luisAppIds": [],
-								"schemaTransformationVersion": "1.3",
-								"isCmekEnabled": false,
-								"isIsolated": false
+                                "displayName": "[parameters('botId')]",
+                                "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
+                                "endpoint": "[variables('botEndpoint')]",
+                                "msaAppId": "[parameters('appId')]",
+                                "luisAppIds": [],
+                                "schemaTransformationVersion": "1.3",
+                                "isCmekEnabled": false,
+                                "isIsolated": false
                             },
                             "dependsOn": [
                                 "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
