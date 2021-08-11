@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "handling-attachments": {
+    ".NET Core": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

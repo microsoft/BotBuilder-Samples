@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "Custom_Dialogs": {
+    ".NET Core": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

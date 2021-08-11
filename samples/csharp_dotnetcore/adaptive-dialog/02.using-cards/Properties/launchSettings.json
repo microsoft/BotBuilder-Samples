@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "03.Using-cards": {
+    ".NET Core": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {
