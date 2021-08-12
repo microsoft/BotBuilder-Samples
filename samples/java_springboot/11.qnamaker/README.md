@@ -23,6 +23,8 @@ This samples **requires** prerequisites in order to run.
 
 QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
 
+Once the Knowledge Base was created and published, refer to [this section](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna?view=azure-bot-service-4.0&tabs=java#obtain-values-to-connect-your-bot-to-the-knowledge-base) for the instructions on how to obtain the QnAMaker parameters to be used in the application settings.
+
 ## To try this sample
 
 - From the root of this project folder:
