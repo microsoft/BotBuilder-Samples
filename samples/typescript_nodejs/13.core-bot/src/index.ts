@@ -109,7 +109,7 @@ server.on('upgrade', (req, socket, head) => {
     // Set onTurnError for the BotFrameworkAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket as any, head, async (context) => {
+    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
         // After connecting via WebSocket, run this logic for every request sent over
         // the WebSocket connection.
         await bot.run(context);
