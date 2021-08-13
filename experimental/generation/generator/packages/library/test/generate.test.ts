@@ -333,7 +333,7 @@ describe('dialog:generate library', async () => {
                     const services = new ServiceCollection({
                         declarativeTypes: [],
                     })
-                    new AdaptiveBotComponent().configureServices(services, noOpConfiguration)
+                    new AdaptiveBotComponent().configureServices(services as any, noOpConfiguration)
                     new LuisBotComponent().configureServices(services, noOpConfiguration)
                     new QnAMakerBotComponent().configureServices(services, noOpConfiguration)
                     const declarativeTypes = services.mustMakeInstance<ComponentDeclarativeTypes[]>('declarativeTypes')
