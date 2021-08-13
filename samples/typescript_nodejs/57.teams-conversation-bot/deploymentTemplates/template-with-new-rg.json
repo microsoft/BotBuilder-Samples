@@ -156,7 +156,7 @@
                             "type": "Microsoft.BotService/botServices",
                             "name": "[parameters('botId')]",
                             "location": "global",
-                            "kind": "bot",
+                            "kind": "azurebot",
                             "sku": {
                                 "name": "[parameters('botSku')]"
                             },
@@ -172,7 +172,7 @@
                                 "isIsolated": false
                             },
                             "dependsOn": [
-                                "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
                         },
                         {
@@ -181,7 +181,7 @@
                             "name": "[concat(parameters('botId'), '/MsTeamsChannel')]",
                             "location": "global",
                             "dependsOn": [
-                                "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', parameters('botId'))]"
                             ],
                             "properties": {
                                 "properties": {
