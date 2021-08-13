@@ -181,7 +181,7 @@
                             "name": "[concat(parameters('botId'), '/MsTeamsChannel')]",
                             "location": "global",
                             "dependsOn": [
-                                "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', variables('webAppName'))]"
                             ],
                             "properties": {
                                 "properties": {
