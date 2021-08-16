@@ -25,6 +25,7 @@
     },
     "devDependencies": {
         "@types/dotenv": "6.1.1",
+        "@types/node": "^10.17.27",
         "@types/restify": "8.4.2",
         "nodemon": "~2.0.4",
         "tslint": "~6.1.2",
