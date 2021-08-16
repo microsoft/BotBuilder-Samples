@@ -40,6 +40,7 @@ parameters:
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
 - cron: 0 9 * * *
+  displayName: Daily 2AM PST build
   branches:
     include:
     - main
@@ -149,9 +150,6 @@ jobs:
 
       $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
       [string]$latestVersion = $PackageList.Split(" ")[-1];
-   
-      #$result = Invoke-RestMethod -Uri $url -Method Get -ContentType "application/json";
-      #[string]$latestVersion = $result.value[0].protocolMetadata.data.version;
       " "
       "Latest version:";
       $packageName;
@@ -175,7 +173,6 @@ jobs:
       "Available versions:";
       $package.versions | Select -Last 30;
 
-      ### Hard-coded ########## [string]$latestVersion = "4.15.0-preview.20210706-256858";
       [string]$latestVersion = $package.versions[-1];
       " "
       "Latest version:";
