@@ -28,7 +28,7 @@ parameters:
   - name: versionToTest
     displayName: Version to test (Only if 'Test latest' is unchecked)
     type: string
-    default: 'Example: 4.15.0-dev.7afa288'
+    default: 'Example: 4.12.0.20210413.dev234515'
   - name: packageFeed
     displayName: Package feed to use
     type: string
@@ -41,6 +41,7 @@ parameters:
 # Run this job every night at 2 AM (PST) on the main branch
 schedules:
 - cron: 0 9 * * *
+  displayName: Daily 2AM PST build
   branches:
     include:
     - main
