@@ -152,42 +152,43 @@
                             }
                         },
                         {
-                            "apiVersion": "2017-12-01",
+                            "apiVersion": "2021-03-01",
                             "type": "Microsoft.BotService/botServices",
                             "name": "[parameters('botId')]",
                             "location": "global",
-                            "kind": "bot",
+                            "kind": "azurebot",
                             "sku": {
                                 "name": "[parameters('botSku')]"
                             },
                             "properties": {
                                 "name": "[parameters('botId')]",
                                 "displayName": "[parameters('botId')]",
+                                "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
                                 "endpoint": "[variables('botEndpoint')]",
                                 "msaAppId": "[parameters('appId')]",
-                                "developerAppInsightsApplicationId": null,
-                                "developerAppInsightKey": null,
-                                "publishingCredentials": null,
-                                "storageResourceId": null
-                            },
-                            "resources": [
-                                {
-                                    "name": "MsTeamsChannel",
-                                    "type": "channels",
-                                    "location": "global",
-                                    "apiVersion": "2018-07-12",
-                                    "kind": "bot",
-                                    "properties": {
-                                        "channelName": "MsTeamsChannel"
-                                    },
-                                    "dependsOn": [
-                                        "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', parameters('botId'))]"
-                                    ]
-                                }
-                            ],
+                                "luisAppIds": [],
+                                "schemaTransformationVersion": "1.3",
+                                "isCmekEnabled": false,
+                                "isIsolated": false                            },
                             "dependsOn": [
                                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
+                        },
+                        {
+                            "type": "Microsoft.BotService/botServices/channels",
+                            "apiVersion": "2021-03-01",
+                            "name": "[concat(parameters('botId'), '/MsTeamsChannel')]",
+                            "location": "global",
+                            "dependsOn": [
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', variables('webAppName'))]"
+                            ],
+                            "properties": {
+                                "properties": {
+                                    "enableCalling": false,
+                                    "isEnabled": true
+                                },
+                                "channelName": "MsTeamsChannel"
+                            }
                         }
                     ],
                     "outputs": {}
