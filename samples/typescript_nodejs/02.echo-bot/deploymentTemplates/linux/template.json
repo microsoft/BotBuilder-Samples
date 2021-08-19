@@ -200,15 +200,15 @@
         {
             "apiVersion": "2021-03-01",
             "type": "Microsoft.BotService/botServices",
-            "name": "[parameters('botId')]",
+            "name": "[parameters('botName')]",
             "location": "global",
             "kind": "azurebot",
             "sku": {
-                "name": "[parameters('botSku')]"
+                "name": "[parameters('botName')]"
             },
             "properties": {
-                "name": "[parameters('botId')]",
-                "displayName": "[parameters('botId')]",
+                "name": "[parameters('botName')]",
+                "displayName": "[parameters('botName')]",
                 "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
                 "endpoint": "[variables('botEndpoint')]",
                 "msaAppId": "[parameters('appId')]",
@@ -218,7 +218,7 @@
                 "isIsolated": false
             },
             "dependsOn": [
-                "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
+                "[resourceId('Microsoft.Web/sites', parameters('botName'))]"
             ]
         },
         {
