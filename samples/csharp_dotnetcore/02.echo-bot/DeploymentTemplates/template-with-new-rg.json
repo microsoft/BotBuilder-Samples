@@ -170,7 +170,8 @@
                                 "luisAppIds": [],
                                 "schemaTransformationVersion": "1.3",
                                 "isCmekEnabled": false,
-                                "isIsolated": false                            },
+                                "isIsolated": false
+                            },
                             "dependsOn": [
                                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
