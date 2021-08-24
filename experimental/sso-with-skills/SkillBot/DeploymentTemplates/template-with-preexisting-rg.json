@@ -109,7 +109,7 @@
             "name": "[variables('webAppName')]",
             "properties": {
                 "name": "[variables('webAppName')]",
-                "serverFarmId": "[concat('/subscriptions/', Subscription().SubscriptionId,'/resourceGroups/', parameters('existingAppServicePlanResourceGroup'), '/providers/Microsoft.Web/serverfarms/', variables('servicePlanName'))]",
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]",
                 "siteConfig": {
                     "appSettings": [
                         {
