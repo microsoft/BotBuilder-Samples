@@ -84,8 +84,7 @@
             "type": "Microsoft.Resources/resourceGroups",
             "apiVersion": "2018-05-01",
             "location": "[parameters('groupLocation')]",
-            "properties": {
-            }
+            "properties": {}
         },
         {
             "type": "Microsoft.Resources/deployments",
@@ -152,26 +151,27 @@
                             }
                         },
                         {
-                            "apiVersion": "2017-12-01",
+                            "apiVersion": "2021-03-01",
                             "type": "Microsoft.BotService/botServices",
                             "name": "[parameters('botId')]",
                             "location": "global",
-                            "kind": "bot",
+                            "kind": "azurebot",
                             "sku": {
                                 "name": "[parameters('botSku')]"
                             },
                             "properties": {
                                 "name": "[parameters('botId')]",
                                 "displayName": "[parameters('botId')]",
+                                "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
                                 "endpoint": "[variables('botEndpoint')]",
                                 "msaAppId": "[parameters('appId')]",
-                                "developerAppInsightsApplicationId": null,
-                                "developerAppInsightKey": null,
-                                "publishingCredentials": null,
-                                "storageResourceId": null
+                                "luisAppIds": [],
+                                "schemaTransformationVersion": "1.3",
+                                "isCmekEnabled": false,
+                                "isIsolated": false
                             },
                             "dependsOn": [
-                                "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
                         }
                     ],
