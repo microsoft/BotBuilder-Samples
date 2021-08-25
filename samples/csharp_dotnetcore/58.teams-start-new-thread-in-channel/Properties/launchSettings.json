@@ -16,8 +16,8 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "EchoBot": {
-      "commandName": ".NET Core",
+    ".NET Core": {
+      "commandName": "Project",
       "launchBrowser": true,
       "applicationUrl": "https://localhost:3979;http://localhost:3978",
       "environmentVariables": {
