@@ -21,7 +21,7 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 > Note these instructions are for running the sample on your local machine, the tunnelling solution is required because
 the Teams service needs to call into the bot.
 
-- Run ngrok http -host-header=rewrite 3978
+- Run `ngrok http -host-header=rewrite 3978`
 
 - Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
     - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
@@ -45,11 +45,9 @@ the Teams service needs to call into the bot.
 
 > Note this `manifest.json` specified that the bot will be called from both the `compose` and `message` areas of Teams. Please refer to Teams documentation for more details.
 
-1) Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code. 
-
-or
-
-2) Selecting the **Share Message** command from the Message command list.  
+1. Selecting the **Create Card** command from the Compose Box command list. The parameters dialog will be displayed and can be submitted to initiate the card creation within the Messaging Extension code.
+2. Selecting the **Share Message** command from the Message command list.
+3. Selecting the **FetchRoster** command from the Message command list. *Even though this action is being shown on the contextual menu, it's not implemented and is expected to fail.*
 
 ## Deploy the bot to Azure
 

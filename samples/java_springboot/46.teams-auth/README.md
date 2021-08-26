@@ -25,10 +25,15 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 the Teams service needs to call into the bot.
 
 - Run ngrok - point to port 3978
+
+    ```bash
+    ngrok http -host-header=rewrite 3978
+    ```
 - Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
-    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
+    - Configure the messaging endpoint to the `https` URL you were given by ngrok and append a trailing `/api/messages`
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)  
+- Follow the instructions on [this document](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=java%2Caadv2) to set up the OAuth authentication
 - Update the `resources/application.properties` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 - Follow the instructions here [Add Authentication to Your Bot Via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp) to configure authentication for the bot. This is required for this sample to work correctly and prompt the user to authenticate.
 - __*This step is specific to Teams.*__
@@ -45,6 +50,8 @@ the Teams service needs to call into the bot.
 > Note this `manifest.json` specified that the bot will be installed in a "personal" scope only. Please refer to Teams documentation for more details.
 
 You can interact with this bot by sending it a message. The bot will respond by requesting you to login to AAD, then making a call to the Graph API on your behalf and returning the results.
+
+When signed in, sending `logout` will cause the bot to sign you out.
 
 ## Deploy the bot to Azure
 

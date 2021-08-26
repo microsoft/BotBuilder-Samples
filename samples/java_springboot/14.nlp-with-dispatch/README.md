@@ -22,6 +22,12 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 
 This bot uses the Dispatch service to route utterances as it demonstrates the use of multiple LUIS models and QnA maker services to support multiper conversational scenarios.
 
+### Create a QnAMaker Application to enable QnA Knowledge Bases
+
+QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+
+Once the Knowledge Base was created and published, refer to [this section](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-qna?view=azure-bot-service-4.0&tabs=java#obtain-values-to-connect-your-bot-to-the-knowledge-base) for the instructions on how to obtain the QnAMaker parameters to be used in the application settings.
+
 ### Use Dispatch with Multiple LUIS and QnA Models
 
 To learn how to configure Dispatch with multiple LUIS models and QnA Maker services, refer to the steps found [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-tutorial-dispatch?view=azure-bot-service-4.0).
