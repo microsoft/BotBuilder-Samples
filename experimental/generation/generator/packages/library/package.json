@@ -5,7 +5,7 @@
   "author": "Microsoft",
   "bugs": "https://github.com/Microsoft/BotBuilder-Samples/issues",
   "dependencies": {
-    "@microsoft/bf-lu": "^4.15.0-dev.20210702.cbf708d",
+    "@microsoft/bf-lu": "latest",
     "adaptive-expressions": "next",
     "ajv": "^8.2.0",
     "botbuilder": "next",
