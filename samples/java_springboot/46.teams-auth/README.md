@@ -50,7 +50,7 @@ the Teams service needs to call into the bot.
 
 You can interact with this bot by sending it a message. The bot will respond by requesting you to login to AAD, then making a call to the Graph API on your behalf and returning the results.
 
-When signed, sending `logout` will cause the bot to sign you out.
+When signed in, sending `logout` will cause the bot to sign you out.
 
 ## Deploy the bot to Azure
 
