@@ -41,7 +41,7 @@ With the Bot Framework Emulator connected to your running bot, the sample will n
 
 ### Using curl
 
-- Send a get request to `http://localhost:3978/api/notify` to proactively message users from the bot.
+- Send an HTTP `GET` request to `http://localhost:3978/api/notify` to proactively message users from the bot by opening the URL in the browser or using cURL as shown below:
 
    ```bash
     curl get http://localhost:3978/api/notify

@@ -16,7 +16,7 @@ This sample is a Spring Boot app and uses the Azure CLI and azure-webapp Maven p
 - Install [Maven](https://maven.apache.org/)
 - An account on [Azure](https://azure.microsoft.com) if you want to deploy to Azure.
 - Deploy your bot to Azure
-- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=aadv2%2Ccsharp)
+- Follow the instruction in this document to configure the OAuth authentication: [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=aadv2%2Ccsharp)
 
 ## To try this sample
 - From the root of this project folder:
