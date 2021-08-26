@@ -9,5 +9,15 @@
 	},
 	"devDependencies": {
 		"lerna": "^3.22.1"
+	},
+	"dependencies": {
+		"adaptive-expressions": "^4.15.0-dev.20210820.1a565e9",
+		"botbuilder": "^4.15.0-dev.20210820.1a565e9",
+		"botbuilder-ai": "^4.15.0-dev.20210820.1a565e9",
+		"botbuilder-core": "^4.15.0-dev.20210820.1a565e9",
+		"botbuilder-dialogs-adaptive": "^4.15.0-dev.preview.20210820.1a565e9",
+		"botbuilder-dialogs-adaptive-runtime-core": "^4.15.0-dev.preview.20210820.1a565e9",
+		"botbuilder-dialogs-declarative": "^4.15.0-dev.preview.20210820.1a565e9",
+		"botbuilder-lg": "^4.15.0-dev.20210820.1a565e9"
 	}
 }
