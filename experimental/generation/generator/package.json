@@ -9,5 +9,15 @@
 	},
 	"devDependencies": {
 		"lerna": "^3.22.1"
+	},
+	"dependencies": {
+		"adaptive-expressions": "next",
+		"botbuilder": "next",
+		"botbuilder-ai": "next",
+		"botbuilder-core": "next",
+		"botbuilder-dialogs-adaptive": "next",
+		"botbuilder-dialogs-adaptive-runtime-core": "next",
+		"botbuilder-dialogs-declarative": "next",
+		"botbuilder-lg": "next"
 	}
 }
