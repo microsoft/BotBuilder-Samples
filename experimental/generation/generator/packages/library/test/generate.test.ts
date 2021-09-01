@@ -323,7 +323,7 @@ describe('dialog:generate library', async () => {
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
-                    assert.fail(`${e.source}: ${(e as Error).message}`)
+                  assert.fail(`${description}: ${(e as Error).message}`)
                 }
 
                 try {
