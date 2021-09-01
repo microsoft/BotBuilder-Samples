@@ -155,13 +155,12 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
         }
         await fs.writeFile(path, val)
     } catch (e) {
-        const err = e as Error;
-        const match = /position ([0-9]+)/.exec(err.message)
+        const match = /position ([0-9]+)/.exec((e as Error).message)
         if (match) {
             const offset = Number(match[1])
             val = `${val.substring(0, offset)}^^^${val.substring(offset)}`
         }
-        feedback(FeedbackType.error, `${err.message}${os.EOL}${val}`)
+      feedback(FeedbackType.error, `${(e as Error).message}${os.EOL}${val}`)
     }
 }
 
@@ -449,8 +448,7 @@ async function processTemplate(
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
-                            const err = e as Error;
-                            throw new Error(`${templateName}: ${err.message}`)
+                            throw new Error(`${templateName}: ${(e as Error).message}`)
                         }
                     } else {
                         // Infer name
@@ -552,8 +550,7 @@ async function processTemplate(
             }
         }
     } catch (e) {
-        const err = e as Error;
-        feedback(FeedbackType.error, err.message)
+        feedback(FeedbackType.error, (e as Error).message)
     } finally {
         process.chdir(oldDir)
     }
@@ -788,8 +785,7 @@ async function ensureEntitiesAndTemplates(
                         }
                     }
                 } catch (e) {
-                    const err = e as Error;
-                    feedback(FeedbackType.error, err.message)
+                    feedback(FeedbackType.error, (e as Error).message)
                 }
             }
         }
@@ -860,8 +856,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             }
         } catch (e) {
             if (missingIsError) {
-                const err = e as Error;
-                feedback(FeedbackType.error, err.message)
+                feedback(FeedbackType.error, (e as Error).message)
             }
         }
     }
@@ -1193,8 +1188,7 @@ export async function generate(
             await fs.copyFile(schemaPath, outSchemaPath)
         }
     } catch (e) {
-        const err = e as Error;
-        feedback(FeedbackType.error, err.message)
+        feedback(FeedbackType.error, (e as Error).message)
     }
 
     const end = process.hrtime.bigint()
