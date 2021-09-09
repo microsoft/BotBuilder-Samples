@@ -226,7 +226,7 @@ function beforeSetup(singleton: boolean) {
                 feedback: errorOnly
             })
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     }
 }
@@ -238,7 +238,7 @@ function beforeEachSetup() {
             await fs.remove(mergedDir)
             await fs.copy(originalDir, mergedDir)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     }
 }
@@ -262,7 +262,7 @@ describe('dialog:generate --merge files', async function () {
             assertCompare(comparison, errors, comparison.originalFiles.length)
             assertCheck(comparison, errors)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -292,7 +292,7 @@ describe('dialog:generate --merge files', async function () {
             await assertUnchanged('language-generation/en-us/Name/sandwichMerge-Name.en-us.lg', true, errors)
             assertCheck(comparison, errors)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -349,7 +349,7 @@ describe('dialog:generate --merge files', async function () {
 
             assertCheck(comparison, errors)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 })
@@ -374,7 +374,7 @@ describe('dialog:generate --merge singleton', async function () {
             assertCompare(comparison, errors, comparison.originalFiles.length)
             assertCheck(comparison, errors)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -406,7 +406,7 @@ describe('dialog:generate --merge singleton', async function () {
 
             await compareToOracle(ppath.join(mergedDir, 'sandwichMerge.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -466,7 +466,7 @@ describe('dialog:generate --merge singleton', async function () {
             assert.deepStrictEqual(mergedDialog.triggers[2], newTrigger, 'Did not preserve custom trigger')
             assert.deepStrictEqual(mergedDialog.triggers[3], reorderedTrigger, 'Did not preserve reordered trigger')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
  })

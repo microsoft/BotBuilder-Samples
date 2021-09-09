@@ -163,7 +163,7 @@ describe('dialog:generate library', async () => {
             assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich', output, false), 'Could not generate test script')
             await compareToOracle(ppath.join(tempDir, 'sandwich.test.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -173,7 +173,7 @@ describe('dialog:generate library', async () => {
             assert.ok(await generateTest('test/transcripts/addItemWithButton.transcript', 'msmeeting-actions', output, false), 'Could not generate test script')
             await compareToOracle(ppath.join(tempDir, 'addItemWithButton.test.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -229,7 +229,7 @@ describe('dialog:generate library', async () => {
             const dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -244,7 +244,7 @@ describe('dialog:generate library', async () => {
             assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
             assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -264,7 +264,7 @@ describe('dialog:generate library', async () => {
             await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 2, 10)
             await checkPattern(ppath.join(output, '**'), 134)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -313,7 +313,7 @@ describe('dialog:generate library', async () => {
                         }
                     }
                 } catch (e) {
-                    assert.fail(e.message)
+                    assert.fail((e as Error).message)
                 }
 
                 try {
@@ -323,7 +323,7 @@ describe('dialog:generate library', async () => {
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
-                    assert.fail(`${e.source}: ${e.message}`)
+                  assert.fail(`${description}: ${(e as Error).message}`)
                 }
 
                 try {
@@ -343,7 +343,7 @@ describe('dialog:generate library', async () => {
                     resourceExplorer.addFolder(`${testOutput}`, true, false)
                     resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
-                    assert.fail(e.message)
+                    assert.fail((e as Error).message)
                 }
             } else {
                 assert.fail('Did not generate')
@@ -356,7 +356,7 @@ describe('dialog:generate library', async () => {
             await ft.Schema.readSchema(notObject)
             assert.fail('Did not detect bad schema')
         } catch (e) {
-            assert(e.message.includes('must be of type object'), 'Missing type object')
+            assert((e as Error).message.includes('must be of type object'), 'Missing type object')
         }
     })
 
@@ -365,7 +365,7 @@ describe('dialog:generate library', async () => {
             await ft.Schema.readSchema(badSchema)
             assert.fail('Did not detect bad schema')
         } catch (e) {
-            assert(e.message.includes('is not a valid JSON Schema'), 'Missing valid JSON schema')
+            assert((e as Error).message.includes('is not a valid JSON Schema'), 'Missing valid JSON schema')
         }
     })
 
@@ -390,7 +390,7 @@ describe('dialog:generate library', async () => {
             assert.strictEqual(global, globalExpected, `Expected ${globalExpected} global schemas and found ${global}`)
             assert.strictEqual(property, propertyExpected, `Expected ${propertyExpected} property schemas and found ${property}`)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -403,7 +403,7 @@ describe('dialog:generate library', async () => {
             assert(expansion.$entities, 'Did not generate $entities')
             assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -420,7 +420,7 @@ describe('dialog:generate library', async () => {
             })), 'Should have failed generation')
             assert.strictEqual(errors, 4, 'Wrong number of errors')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -446,7 +446,7 @@ describe('dialog:generate library', async () => {
             await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
             await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -474,7 +474,7 @@ describe('dialog:generate library', async () => {
             assert.strictEqual(errors, 2, 'Wrong number of errors')
             assert.strictEqual(warnings, 0, 'Wrong number of warnings')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -498,7 +498,7 @@ describe('dialog:generate library', async () => {
             assert.strictEqual(warnings, 3, 'Wrong number of warnings')
             await compareToOracle(ppath.join(tempDir, 'unittest_transforms.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
