@@ -36,6 +36,8 @@ namespace Microsoft.BotBuilderSamples
             Path.Combine(".", "Resources", "LargeWeatherCard.json"),
             Path.Combine(".", "Resources", "RestaurantCard.json"),
             Path.Combine(".", "Resources", "SolitaireCard.json"),
+            // Please replace the sample mentioned->id in UserMentionCard.json with valid ids in your tenant
+            Path.Combine(".", "Resources", "UserMentionCard.json")
         };
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)

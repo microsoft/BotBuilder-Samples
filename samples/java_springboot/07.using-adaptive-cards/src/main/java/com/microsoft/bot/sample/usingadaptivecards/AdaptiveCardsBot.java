@@ -44,7 +44,9 @@ public class AdaptiveCardsBot extends ActivityHandler {
         "ImageGalleryCard.json",
         "LargeWeatherCard.json",
         "RestaurantCard.json",
-        "SolitaireCard.json"
+        "SolitaireCard.json",
+        // Please replace the sample mentioned->id in UserMentionCard.json with valid ids in your tenant
+        "UserMentionCard.json"
     };
 
     @Override

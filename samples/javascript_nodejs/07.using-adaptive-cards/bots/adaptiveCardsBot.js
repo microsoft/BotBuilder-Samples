@@ -9,6 +9,8 @@ const ImageGalleryCard = require('../resources/ImageGalleryCard.json');
 const LargeWeatherCard = require('../resources/LargeWeatherCard.json');
 const RestaurantCard = require('../resources/RestaurantCard.json');
 const SolitaireCard = require('../resources/SolitaireCard.json');
+// Please replace the sample mentioned->id in UserMentionCard.json with valid ids in your tenant
+const UserMentionCard = require('../resources/UserMentionCard.json');
 
 // Create array of AdaptiveCard content, this will be used to send a random card to the user.
 const CARDS = [
@@ -16,7 +18,8 @@ const CARDS = [
     ImageGalleryCard,
     LargeWeatherCard,
     RestaurantCard,
-    SolitaireCard
+    SolitaireCard,
+    UserMentionCard
 ];
 
 const WELCOME_TEXT = 'This bot will introduce you to Adaptive Cards. Type anything to see an Adaptive Card.';
