@@ -13,9 +13,7 @@ CARDS = [
     "resources/ImageGalleryCard.json",
     "resources/LargeWeatherCard.json",
     "resources/RestaurantCard.json",
-    "resources/SolitaireCard.json",
-    # Please replace the sample mentioned->id in UserMentionCard.json with valid ids in your tenant
-    "resources/UserMentionCard.json"
+    "resources/SolitaireCard.json"
 ]
 
 
