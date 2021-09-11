@@ -14,14 +14,17 @@ import com.microsoft.bot.connector.rest.ErrorResponseException;
 import com.microsoft.bot.integration.Configuration;
 import com.microsoft.bot.schema.ActionTypes;
 import com.microsoft.bot.schema.Activity;
+import com.microsoft.bot.schema.Attachment;
 import com.microsoft.bot.schema.CardAction;
 import com.microsoft.bot.schema.ConversationParameters;
 import com.microsoft.bot.schema.ConversationReference;
 import com.microsoft.bot.schema.HeroCard;
 import com.microsoft.bot.schema.Mention;
+import com.microsoft.bot.schema.Serialization;
 import com.microsoft.bot.schema.teams.TeamInfo;
 import com.microsoft.bot.schema.teams.TeamsChannelAccount;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.io.IOUtils;
 
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -29,6 +32,9 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.io.InputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 /**
  * This class implements the functionality of the Bot.
@@ -49,11 +55,15 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         appPassword = configuration.getProperty("MicrosoftAppPassword");
     }
 
+    private static final String adaptiveCardTemplate = "UserMentionCardTemplate.json";
+
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
         turnContext.getActivity().removeRecipientMention();
         String text = turnContext.getActivity().getText().trim().toLowerCase();
-        if (text.contains("mention")) {
+        if (text.contains("mention me")) {
+            return mentionAdaptiveCardActivityAsync(turnContext);
+        } else if (text.contains("mention")) {
             return mentionActivity(turnContext);
         } else if (text.contains("who")) {
             return getSingleMember(turnContext);
@@ -102,6 +112,11 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         mentionAction.setTitle("Who am I?");
         mentionAction.setText("whoami");
 
+        CardAction mentionMeAction = new CardAction();
+        mentionMeAction.setType(ActionTypes.MESSAGE_BACK);
+        mentionMeAction.setTitle("Find me in Adaptive Card");
+        mentionMeAction.setText("mention me");
+
         CardAction deleteAction = new CardAction();
         deleteAction.setType(ActionTypes.MESSAGE_BACK);
         deleteAction.setTitle("Delete card");
@@ -111,6 +126,7 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         List<CardAction> buttons = new ArrayList<>();
         buttons.add(allMembersAction);
         buttons.add(mentionAction);
+        buttons.add(mentionMeAction);
         buttons.add(deleteAction);
         card.setButtons(buttons);
 
@@ -226,6 +242,43 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         activity.setId(turnContext.getActivity().getReplyToId());
 
         return turnContext.updateActivity(activity).thenApply(resourceResponse -> null);
+    }
+
+    private CompletableFuture<Void> mentionAdaptiveCardActivityAsync(TurnContext turnContext) {
+        try {
+            TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenApply(innerMember -> {
+                final TeamsChannelAccount member = innerMember;
+
+                try (
+                    InputStream inputStream = Thread.currentThread().
+                        getContextClassLoader().getResourceAsStream(adaptiveCardTemplate);
+                ) {
+                    String templateJSON = IOUtils
+                        .toString(inputStream, StandardCharsets.UTF_8.toString());
+                    String cardJSON = templateJSON.replaceAll("\\$\\{userName\\}", member.getName())
+                        .replaceAll("\\$\\{userAAD\\}", member.getObjectId())
+                        .replaceAll("\\$\\{userUPN\\}", member.getUserPrincipalName());
+
+                    Attachment adaptiveCardAttachment = new Attachment();
+                    adaptiveCardAttachment.setContentType("application/vnd.microsoft.card.adaptive");
+                    adaptiveCardAttachment.setContent(Serialization.jsonToTree(cardJSON));
+
+                    return turnContext.sendActivity(MessageFactory.attachment(adaptiveCardAttachment)).thenApply(resourceResponse -> null);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return new Attachment();
+                }
+            });
+        } catch (ErrorResponseException e) {
+            if (e.body().getError().getCode().equals("MemberNotFoundInConversation")) {
+                return turnContext.sendActivity("Member not found.").thenApply(result -> null);
+            } else {
+                throw e;
+            }
+        }
+
+        return CompletableFuture.runAsync(()->{});
     }
 
     private CompletableFuture<Void> mentionActivity(TurnContext turnContext) {

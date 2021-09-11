@@ -7,9 +7,11 @@ const {
     TeamsInfo,
     TeamsActivityHandler,
     CardFactory,
-    ActionTypes,
+    ActionTypes
 } = require('botbuilder');
 const TextEncoder = require('util').TextEncoder;
+const ACData = require('adaptivecards-templating');
+const AdaptiveCardTemplate = require('../resources/UserMentionCardTemplate.json');
 
 class TeamsConversationBot extends TeamsActivityHandler {
     constructor() {
@@ -19,7 +21,9 @@ class TeamsConversationBot extends TeamsActivityHandler {
             TurnContext.removeRecipientMention(context.activity);
 
             const text = context.activity.text.trim().toLocaleLowerCase();
-            if (text.includes('mention')) {
+            if (text.includes('mention me')) {
+                await this.mentionAdaptiveCardActivityAsync(context);
+            } else if (text.includes('mention')) {
                 await this.mentionActivityAsync(context);
             } else if (text.includes('update')) {
                 await this.cardActivityAsync(context, true);
@@ -78,6 +82,12 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 title: 'Who am I?',
                 value: null,
                 text: 'whoami',
+            },
+            {
+                type: ActionTypes.MessageBack,
+                title: 'Find me in Adaptive Card',
+                value: null,
+                text: 'mention me',
             },
             {
                 type: ActionTypes.MessageBack,
@@ -149,6 +159,37 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 throw e;
             }
         }
+    }
+
+    async mentionAdaptiveCardActivityAsync(context) {
+        var member;
+        try {
+            member = await TeamsInfo.getMember(
+                context,
+                context.activity.from.id
+            );
+        } catch (e) {
+            if (e.code === 'MemberNotFoundInConversation') {
+                return context.sendActivity(MessageFactory.text('Member not found.'));
+            } else {
+                throw e;
+            }
+        }
+
+        const template = new ACData.Template(AdaptiveCardTemplate);
+        const memberData = {
+            'userName': member.name,
+            'userUPN': member.userPrincipalName,
+            'userAAD': member.aadObjectId
+        }
+
+        const adaptiveCard = template.expand({
+            $root: memberData
+        });
+
+        await context.sendActivity({
+            attachments: [CardFactory.adaptiveCard(adaptiveCard)]
+        });    
     }
 
     async mentionActivityAsync(context) {
