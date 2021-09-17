@@ -3,6 +3,7 @@
 
 using System;
 using System.IO;
+using System.Net.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
@@ -11,12 +12,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
         private Templates _templates;
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, IConfiguration configuration)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, IStorage storage,
+            UserState userState, ConversationState conversationState)
+            : base(configuration, httpClientFactory, logger)
         {
             this.UseStorage(storage);
             this.UseBotState(userState);
