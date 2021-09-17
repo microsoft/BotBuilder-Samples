@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
         private readonly BotFrameworkClient _botFrameworkClient;
         private readonly SkillsConfiguration _skillsConfig;
 
-        public AdapterWithErrorHandler(BotFrameworkAuthentication botFrameworkAuthentication, IConfiguration configuration, ILogger<CloudAdapter> logger, ConversationState conversationState, SkillsConfiguration skillsConfig = null)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication botFrameworkAuthentication, IConfiguration configuration, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState, SkillsConfiguration skillsConfig = null)
             : base(botFrameworkAuthentication, logger)
         {
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
