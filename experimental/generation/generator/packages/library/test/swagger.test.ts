@@ -37,7 +37,7 @@ describe('dialog:generate:swagger', async () => {
             let schemaFile = await fs.readFile(ppath.join(output, schemaName))
             assert.ok(schemaFile.toString().includes('$parameters'), 'Did not generate parameters')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -51,7 +51,7 @@ describe('dialog:generate:swagger', async () => {
             })
             assert.ok(await fs.pathExists(ppath.join(outDir, 'dialogs', 'form', 'petOrder-form-HttpRequestIntent.dialog')), 'Did not generate http request dialog')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 

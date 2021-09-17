@@ -171,7 +171,7 @@ export async function mergeAssets(schemaName: string, oldPath: string, newPath: 
             await mergeOtherFiles(oldPath, oldFileList, newPath, newFileList, mergedPath, feedback)
         }
     } catch (e) {
-        feedback(FeedbackType.error, e.message)
+        feedback(FeedbackType.error, (e as Error).message)
     }
 
     return true
