@@ -10,6 +10,8 @@ config({ path: ENV_FILE });
 
 import * as restify from 'restify';
 
+import { INodeSocket } from 'botframework-streaming';
+
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
@@ -109,7 +111,7 @@ server.on('upgrade', (req, socket, head) => {
     // Set onTurnError for the BotFrameworkAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
+    streamingAdapter.useWebSocket(req, socket as unknown as INodeSocket, head, async (context) => {
         // After connecting via WebSocket, run this logic for every request sent over
         // the WebSocket connection.
         await bot.run(context);
