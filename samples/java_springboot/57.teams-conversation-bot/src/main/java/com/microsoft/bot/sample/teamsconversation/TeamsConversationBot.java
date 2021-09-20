@@ -32,6 +32,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.CompletionException;
 import java.io.InputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -55,7 +56,7 @@ public class TeamsConversationBot extends TeamsActivityHandler {
         appPassword = configuration.getProperty("MicrosoftAppPassword");
     }
 
-    private static final String adaptiveCardTemplate = "UserMentionCardTemplate.json";
+    private static final String ADAPTIVE_CARD_TEMPLATE = "UserMentionCardTemplate.json";
 
     @Override
     protected CompletableFuture<Void> onMessageActivity(TurnContext turnContext) {
@@ -138,22 +139,22 @@ public class TeamsConversationBot extends TeamsActivityHandler {
     }
 
     private CompletableFuture<Void> getSingleMember(TurnContext turnContext) {
-        final TeamsChannelAccount[] member = { new TeamsChannelAccount() };
-
-        try {
-            return TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenApply(innerMember -> {
-                member[0] = innerMember;
-                Activity message = MessageFactory.text(String.format("You are: %s.", member[0].getName()));
-                turnContext.sendActivity(message).thenApply(resourceResponse -> null);
-                return null;
-            });
-        } catch (ErrorResponseException e) {
-            if (e.body().getError().getCode().equals("MemberNotFoundInConversation")) {
-                return turnContext.sendActivity("Member not found.").thenApply(result -> null);
-            } else {
-                throw e;
-            }
-        }
+        return TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId())
+            .thenApply(member -> {
+                Activity message = MessageFactory.text(String.format("You are: %s.", member.getName()));
+                return turnContext.sendActivity(message);
+            })
+            .exceptionally(ex -> {
+                // report member not found cases
+                if (ex.getCause() instanceof ErrorResponseException
+                    && ((ErrorResponseException) ex.getCause()).body().getError().getCode().equals("MemberNotFoundInConversation")) {
+                    return turnContext.sendActivity("Member not found.");
+                } else {
+                    // rethrow otherwise
+                    throw new CompletionException(ex.getCause());
+                }
+            })
+            .thenApply(resourceResponse -> null);
     }
 
     private CompletableFuture<Void> deleteCardActivity(TurnContext turnContext) {
@@ -245,13 +246,11 @@ public class TeamsConversationBot extends TeamsActivityHandler {
     }
 
     private CompletableFuture<Void> mentionAdaptiveCardActivityAsync(TurnContext turnContext) {
-        try {
-            TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId()).thenApply(innerMember -> {
-                final TeamsChannelAccount member = innerMember;
-
+        return TeamsInfo.getMember(turnContext, turnContext.getActivity().getFrom().getId())
+            .thenApply(member -> {
                 try (
                     InputStream inputStream = Thread.currentThread().
-                        getContextClassLoader().getResourceAsStream(adaptiveCardTemplate);
+                        getContextClassLoader().getResourceAsStream(ADAPTIVE_CARD_TEMPLATE);
                 ) {
                     String templateJSON = IOUtils
                         .toString(inputStream, StandardCharsets.UTF_8.toString());
@@ -263,22 +262,24 @@ public class TeamsConversationBot extends TeamsActivityHandler {
                     adaptiveCardAttachment.setContentType("application/vnd.microsoft.card.adaptive");
                     adaptiveCardAttachment.setContent(Serialization.jsonToTree(cardJSON));
 
-                    return turnContext.sendActivity(MessageFactory.attachment(adaptiveCardAttachment)).thenApply(resourceResponse -> null);
-
+                    return turnContext.sendActivity(MessageFactory.attachment(adaptiveCardAttachment));
                 } catch (IOException e) {
-                    e.printStackTrace();
-                    return new Attachment();
+                    CompletableFuture<Void> failedFuture = new CompletableFuture<>();
+                    return failedFuture.completeExceptionally(e);
                 }
-            });
-        } catch (ErrorResponseException e) {
-            if (e.body().getError().getCode().equals("MemberNotFoundInConversation")) {
-                return turnContext.sendActivity("Member not found.").thenApply(result -> null);
-            } else {
-                throw e;
-            }
-        }
-
-        return CompletableFuture.runAsync(()->{});
+            })
+            .exceptionally(ex -> {
+                // report member not found cases
+                if (ex.getCause() instanceof ErrorResponseException
+                    && ((ErrorResponseException) ex.getCause()).body().getError().getCode().equals("MemberNotFoundInConversation")
+                ) {
+                    return turnContext.sendActivity("Member not found.");
+                } else {
+                    // rethrow otherwise
+                    throw new CompletionException(ex.getCause());
+                }
+            })
+            .thenApply(resourceResponse -> null);
     }
 
     private CompletableFuture<Void> mentionActivity(TurnContext turnContext) {
