@@ -9,6 +9,7 @@ import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
 import com.microsoft.bot.builder.teams.TeamsActivityHandler;
 import com.microsoft.bot.builder.teams.TeamsInfo;
+import com.microsoft.bot.connector.Async;
 import com.microsoft.bot.connector.authentication.MicrosoftAppCredentials;
 import com.microsoft.bot.connector.rest.ErrorResponseException;
 import com.microsoft.bot.integration.Configuration;
@@ -264,8 +265,7 @@ public class TeamsConversationBot extends TeamsActivityHandler {
 
                     return turnContext.sendActivity(MessageFactory.attachment(adaptiveCardAttachment));
                 } catch (IOException e) {
-                    CompletableFuture<Void> failedFuture = new CompletableFuture<>();
-                    return failedFuture.completeExceptionally(e);
+                    return Async.completeExceptionally(e);
                 }
             })
             .exceptionally(ex -> {
