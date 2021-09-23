@@ -39,7 +39,9 @@ namespace Microsoft.BotBuilderSamples.DialogSkillBot
             {
                 ClaimsValidator = new AllowedCallersClaimsValidator(new List<string>(sp.GetService<IConfiguration>().GetSection("AllowedCallers").Get<string[]>()))
             });
-            
+
+            services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, SkillAdapterWithErrorHandler>();
 

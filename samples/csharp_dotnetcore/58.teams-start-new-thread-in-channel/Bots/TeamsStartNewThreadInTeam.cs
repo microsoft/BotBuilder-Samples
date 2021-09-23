@@ -4,6 +4,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -39,10 +40,11 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             ConversationReference conversationReference = null;
 
-            await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
+            await ((CloudAdapter)turnContext.Adapter).CreateConversationAsync(
+                credentials.MicrosoftAppId,
                 teamsChannelId,
                 serviceUrl,
-                credentials,
+                credentials.OAuthScope,
                 conversationParameters,
                 (t, ct) =>
                 {
@@ -52,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 cancellationToken);
 
 
-            await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+            await ((CloudAdapter)turnContext.Adapter).ContinueConversationAsync(
                 _appId,
                 conversationReference,
                 async (t, ct) =>
