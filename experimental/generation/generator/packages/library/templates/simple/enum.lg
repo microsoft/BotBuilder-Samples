@@ -1,0 +1,14 @@
+[generator.lg](../generator.lg)
+
+# entities
+- ${['${property}Value']}
+
+# generators
+- ${[
+        "verifyUnique",
+        "enumEntity.lg",
+        "enumEntity.lu",
+        "genericProperty.lg",
+        "generic-missing.dialog",
+        "genericEntity-assign.dialog"
+    ]}
