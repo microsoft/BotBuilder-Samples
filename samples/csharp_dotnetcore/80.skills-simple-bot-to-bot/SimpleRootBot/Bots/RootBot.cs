@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -22,15 +21,18 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
-        private readonly SkillHttpClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
+        private readonly BotFrameworkAuthentication _auth;
+        private readonly SkillConversationIdFactoryBase _cidFactory;
         private readonly BotFrameworkSkill _targetSkill;
 
-        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
+        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, IConfiguration configuration, BotFrameworkAuthentication auth, SkillConversationIdFactoryBase cidFactory)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
-            _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillsConfig));
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
+            _cidFactory = cidFactory ?? throw new ArgumentNullException(nameof(cidFactory));
+
             if (configuration == null)
             {
                 throw new ArgumentNullException(nameof(configuration));
@@ -131,13 +133,27 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             // will have access to current accurate state.
             await _conversationState.SaveChangesAsync(turnContext, force: true, cancellationToken: cancellationToken);
 
-            // route the activity to the skill
-            var response = await _skillClient.PostActivityAsync(_botId, targetSkill, _skillsConfig.SkillHostEndpoint, turnContext.Activity, cancellationToken);
+            // Create a new Conversation Id for skill request
+            string skillConversationId = await _cidFactory.CreateSkillConversationIdAsync(
+                new SkillConversationIdFactoryOptions
+                {
+                    FromBotOAuthScope = _auth.GetOriginatingAudience(),
+                    FromBotId = _botId,
+                    Activity = turnContext.Activity,
+                    BotFrameworkSkill = targetSkill
+                },
+                cancellationToken);
 
-            // Check response status
-            if (!(response.Status >= 200 && response.Status <= 299))
+            // route the activity to the skill
+            using (BotFrameworkClient skillClient = _auth.CreateBotFrameworkClient())
             {
-                throw new HttpRequestException($"Error invoking the skill id: \"{targetSkill.Id}\" at \"{targetSkill.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
+                var response = await skillClient.PostActivityAsync(_botId, targetSkill.AppId, targetSkill.SkillEndpoint, _skillsConfig.SkillHostEndpoint, skillConversationId, turnContext.Activity, cancellationToken);
+
+                // Check response status
+                if (!(response.Status >= 200 && response.Status <= 299))
+                {
+                    throw new HttpRequestException($"Error invoking the skill id: \"{targetSkill.Id}\" at \"{targetSkill.SkillEndpoint}\" (status is {response.Status}). \r\n {response.Body}");
+                }
             }
         }
     }
