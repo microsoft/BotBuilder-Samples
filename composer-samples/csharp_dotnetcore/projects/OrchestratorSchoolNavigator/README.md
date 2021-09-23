@@ -26,10 +26,10 @@ This sample **requires** prerequisites in order to run.
   > git clone https://github.com/microsoft/botbuilder-samples.git
   ```
 
-- CD composer-samples/csharp_dotnetcore/projects/OrchestratorSchoolNavigator
+- CD composer-samples/csharp_dotnetcore/projects/OrchestratorSchoolNavigator/SchoolNavigator
 
   ```bash
-  > cd composer-samples/csharp_dotnetcore/projects/OrchestratorSchoolNavigator
+  > cd composer-samples/csharp_dotnetcore/projects/OrchestratorSchoolNavigator/SchoolNavigator
   ```
   
 - Download Orchestrator base model
