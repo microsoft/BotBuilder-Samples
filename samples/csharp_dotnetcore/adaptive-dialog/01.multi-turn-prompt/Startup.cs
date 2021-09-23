@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc();
+            services.AddHttpClient().AddMvc();
 
             // Register dialog. This sets up memory paths for adaptive.
             ComponentRegistration.Add(new DialogsComponentRegistration());

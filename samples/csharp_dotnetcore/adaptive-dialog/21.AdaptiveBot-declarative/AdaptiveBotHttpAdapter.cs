@@ -2,21 +2,21 @@
 // Licensed under the MIT License.
 
 using System;
+using System.Net.Http;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Dialogs.Declarative.Resources;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdaptiveBotHttpAdapter : BotFrameworkHttpAdapter
+    public class AdaptiveBotHttpAdapter : CloudAdapter
     {
-        public AdaptiveBotHttpAdapter(ICredentialProvider credentialProvider,
-            IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger,
-            IStorage storage, UserState userState, ConversationState conversationState, ResourceExplorer resourceExplorer)
-            : base(credentialProvider)
+        public AdaptiveBotHttpAdapter(IConfiguration configuration,
+            IHttpClientFactory httpClientFactory,
+            ILogger<IBotFrameworkHttpAdapter> logger,
+            IStorage storage, UserState userState, ConversationState conversationState)
+            : base(configuration, httpClientFactory, logger)
         {
             this.Use(new RegisterClassMiddleware<IConfiguration>(configuration));
             this.UseStorage(storage);

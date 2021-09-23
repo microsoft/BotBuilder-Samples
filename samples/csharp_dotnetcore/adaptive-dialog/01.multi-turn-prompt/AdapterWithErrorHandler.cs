@@ -3,20 +3,20 @@
 
 using System;
 using System.IO;
+using System.Net.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
         private Templates _templates;
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, IStorage storage,
-            UserState userState, ConversationState conversationState, IConfiguration configuration)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, IStorage storage,
+            UserState userState, ConversationState conversationState)
+            : base(configuration, httpClientFactory, logger)
         {
             // These methods add middleware to the adapter. The middleware adds the storage and state objects to the
             // turn context each turn so that the dialog manager can retrieve them.

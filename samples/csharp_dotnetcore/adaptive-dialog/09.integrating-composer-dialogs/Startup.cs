@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddMvc();
 
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddHttpClient().AddControllers().AddNewtonsoftJson();
 
             // Required for memory paths introduced by adaptive dialogs.
             ComponentRegistration.Add(new DialogsComponentRegistration());
