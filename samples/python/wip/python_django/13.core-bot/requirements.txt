@@ -1,5 +1,4 @@
-# Django 2.2 before 2.2.10 has a security vulnerability.
-Django~=2.2.10
+Django>=2.2.1
 requests==2.23.0
 botframework-connector>=4.4.0.b1
 botbuilder-schema>=4.4.0.b1
