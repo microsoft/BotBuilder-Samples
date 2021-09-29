@@ -103,6 +103,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogSkillBot", "81.skills
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Orchestrator", "14.nlp-with-orchestrator\NLP-With-Orchestrator.csproj", "{625CB637-3CA8-4F56-84E4-1D9028611C44}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBotWithLuisVNext", "90.core-bot-with-luisvnext\90.core-bot-with-luisvnext\CoreBotWithLuisVNext.csproj", "{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Microsoft.Bot.Builder.AI.LuisVNext", "90.core-bot-with-luisvnext\Microsoft.Bot.Builder.AI.LUISVNext\Microsoft.Bot.Builder.AI.LuisVNext.csproj", "{5EEF6634-4033-4FAA-8FAE-5BFA95300842}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -469,6 +473,22 @@ Global
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|Any CPU.ActiveCfg = Release|x64
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|x64.ActiveCfg = Release|x64
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|x64.Build.0 = Release|x64
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Debug|x64.Build.0 = Debug|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Release|x64.ActiveCfg = Release|Any CPU
+		{952BFA7F-D9FC-47C3-9C4F-73AA629652BC}.Release|x64.Build.0 = Release|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Debug|x64.Build.0 = Debug|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Release|x64.ActiveCfg = Release|Any CPU
+		{5EEF6634-4033-4FAA-8FAE-5BFA95300842}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,409 @@
+{
+    "api-version": "2021-07-15-preview",
+    "metadata": {
+        "name": "FlightBooking",
+        "description": "Luis Model for CoreBot",
+        "type": "Conversation",
+        "multilingual": false,
+        "language": "en-us"
+    },
+    "assets": {
+        "intents": [
+            {
+                "name": "BookFlight"
+            },
+            {
+                "name": "Cancel"
+            },
+            {
+                "name": "GetWeather"
+            },
+            {
+                "name": "None"
+            }
+        ],
+        "entities": [
+            {
+                "name": "datetimeV2"
+            },
+            {
+                "name": "toCity"
+            },
+            {
+                "name": "fromCity"
+            }
+        ],
+        "examples": [
+            {
+                "text": "buy a ticket from new york to london",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 18,
+                        "length": 8
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 30,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "buy a ticket from paris to cairo",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 18,
+                        "length": 5
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 27,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "buy a ticket from cairo to new york",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 18,
+                        "length": 5
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 27,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "book a flight from paris to london",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 19,
+                        "length": 5
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 28,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "book a flight",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": []
+            },
+            {
+                "text": "book a flight from new york",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 19,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "book a flight from seattle",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 19,
+                        "length": 7
+                    }
+                ]
+            },
+            {
+                "text": "book a hotel in new york",
+                "language": null,
+                "intent": "None",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 16,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "book a restaurant",
+                "language": null,
+                "intent": "None",
+                "entities": []
+            },
+            {
+                "text": "book flight from london to paris on feb 14th",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "datetimeV2",
+                        "offset": 36,
+                        "length": 8
+                    },
+                    {
+                        "entity": "fromCity",
+                        "offset": 17,
+                        "length": 6
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 27,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "book flight to berlin on feb 14th",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "datetimeV2",
+                        "offset": 25,
+                        "length": 8
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 15,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "book me a flight from london to paris",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 22,
+                        "length": 6
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 32,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "bye",
+                "language": null,
+                "intent": "Cancel",
+                "entities": []
+            },
+            {
+                "text": "cancel booking",
+                "language": null,
+                "intent": "Cancel",
+                "entities": []
+            },
+            {
+                "text": "exit",
+                "language": null,
+                "intent": "Cancel",
+                "entities": []
+            },
+            {
+                "text": "find an airport near me",
+                "language": null,
+                "intent": "None",
+                "entities": []
+            },
+            {
+                "text": "flight to paris",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "toCity",
+                        "offset": 10,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "flight to paris from london on feb 14th",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "datetimeV2",
+                        "offset": 31,
+                        "length": 8
+                    },
+                    {
+                        "entity": "fromCity",
+                        "offset": 21,
+                        "length": 6
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 10,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "fly from berlin to paris on may 5th",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "datetimeV2",
+                        "offset": 28,
+                        "length": 7
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 19,
+                        "length": 5
+                    },
+                    {
+                        "entity": "fromCity",
+                        "offset": 9,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "go to paris",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "toCity",
+                        "offset": 6,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "going from paris to berlin",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 11,
+                        "length": 5
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 20,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "i'd like to rent a car",
+                "language": null,
+                "intent": "None",
+                "entities": []
+            },
+            {
+                "text": "ignore",
+                "language": null,
+                "intent": "Cancel",
+                "entities": []
+            },
+            {
+                "text": "travel from new york to paris",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 12,
+                        "length": 8
+                    },
+                    {
+                        "entity": "toCity",
+                        "offset": 24,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "travel to new york",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "toCity",
+                        "offset": 10,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "travel to paris",
+                "language": null,
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entity": "toCity",
+                        "offset": 10,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "what's the forecast for this friday?",
+                "language": null,
+                "intent": "GetWeather",
+                "entities": []
+            },
+            {
+                "text": "what's the weather like for tomorrow",
+                "language": null,
+                "intent": "GetWeather",
+                "entities": []
+            },
+            {
+                "text": "what's the weather like in new york",
+                "language": null,
+                "intent": "GetWeather",
+                "entities": [
+                    {
+                        "entity": "fromCity",
+                        "offset": 27,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "what's the weather like?",
+                "language": null,
+                "intent": "GetWeather",
+                "entities": []
+            },
+            {
+                "text": "winter is coming",
+                "language": null,
+                "intent": "None",
+                "entities": []
+            }
+        ]
+    }
+}
