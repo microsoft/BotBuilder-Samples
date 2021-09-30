@@ -4,8 +4,6 @@
 package <%= packageName %>;
 
 import com.codepoetics.protonpack.collectors.CompletableFutures;
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.io.IOUtils;
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.lang3.StringUtils;
 import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
@@ -21,6 +19,9 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  * The class containing the welcome dialog.
