@@ -18,28 +18,28 @@ const BOT_TEMPLATE_NOPROMPT_SIMPLE = 'echo';
 const BOT_TEMPLATE_NOPROMPT_CORE = 'core';
 
 const bigBot =
-  `               ╭─────────────────────────────╮\n` +
-  `   ` +
-  chalk.blue.bold(`//`) +
-  `     ` +
-  chalk.blue.bold(`\\\\`) +
-  `   │        Welcome to the       │\n` +
-  `  ` +
-  chalk.blue.bold(`//`) +
-  ` () () ` +
-  chalk.blue.bold(`\\\\`) +
-  `  │  Microsoft Java Bot Builder │\n` +
-  `  ` +
-  chalk.blue.bold(`\\\\`) +
-  `       ` +
-  chalk.blue.bold(`//`) +
-  ` /│         generator!          │\n` +
-  `   ` +
-  chalk.blue.bold(`\\\\`) +
-  `     ` +
-  chalk.blue.bold(`//`) +
-  `   ╰─────────────────────────────╯\n` +
-  `                                    v${pkg.version}`;
+    `               ╭─────────────────────────────╮\n` +
+    `   ` +
+    chalk.blue.bold(`//`) +
+    `     ` +
+    chalk.blue.bold(`\\\\`) +
+    `   │        Welcome to the       │\n` +
+    `  ` +
+    chalk.blue.bold(`//`) +
+    ` () () ` +
+    chalk.blue.bold(`\\\\`) +
+    `  │  Microsoft Java Bot Builder │\n` +
+    `  ` +
+    chalk.blue.bold(`\\\\`) +
+    `       ` +
+    chalk.blue.bold(`//`) +
+    ` /│         generator!          │\n` +
+    `   ` +
+    chalk.blue.bold(`\\\\`) +
+    `     ` +
+    chalk.blue.bold(`//`) +
+    `   ╰─────────────────────────────╯\n` +
+    `                                    v${pkg.version}`;
 
 const tinyBot =
     ` ` + chalk.blue.bold(`<`) + ` ** ` + chalk.blue.bold(`>`) + ` `;
@@ -62,7 +62,7 @@ module.exports = class extends Generator {
 
     prompting() {
         // if we're told to not prompt, then pick what we need and return
-        if(this.options.noprompt) {
+        if (this.options.noprompt) {
             // this function will throw if it encounters errors/invalid options
             return this._verifyNoPromptOptions();
         }
@@ -70,8 +70,8 @@ module.exports = class extends Generator {
         const userPrompts = this._getPrompts();
         async function executePrompts([prompt, ...rest]) {
             if (prompt) {
-              await prompt();
-              return executePrompts(rest);
+                await prompt();
+                return executePrompts(rest);
             }
         }
 
@@ -81,11 +81,11 @@ module.exports = class extends Generator {
     writing() {
         // if the user confirmed their settings, then lets go ahead
         // an install module dependencies
-        if(this.templateConfig.finalConfirmation === true) {
+        if (this.templateConfig.finalConfirmation === true) {
             const botName = this.templateConfig.botName;
-            const packageName = this.templateConfig.packageName.toLowerCase();
+            const packageName = this.templateConfig.packageName.replace(/-/g, '_').toLowerCase();
             const packageTree = packageName.replace(/\./g, '/');
-            const artifact =  _.kebabCase(this.templateConfig.botName).replace(/([^a-z0-9-]+)/gi, ``);
+            const artifact = _.kebabCase(this.templateConfig.botName).replace(/([^a-z0-9-]+)/gi, ``);
             const directoryName = _.camelCase(this.templateConfig.botName);
             const template = this.templateConfig.template.toLowerCase();
 
@@ -126,7 +126,7 @@ module.exports = class extends Generator {
     }
 
     end() {
-        if(this.templateConfig.finalConfirmation === true) {
+        if (this.templateConfig.finalConfirmation === true) {
             this.log(chalk.green('------------------------ '));
             this.log(chalk.green(' Your new bot is ready!  '));
             this.log(chalk.green('------------------------ '));
@@ -224,9 +224,9 @@ module.exports = class extends Generator {
                         }
                     ],
                     default: (this.options.template ? _.toLower(this.options.template) : BOT_TEMPLATE_NOPROMPT_SIMPLE)
-                    }).then(answer => {
-                        // store the template prompt answer
-                        this.templateConfig.template = answer.template;
+                }).then(answer => {
+                    // store the template prompt answer
+                    this.templateConfig.template = answer.template;
                 });
             },
 
@@ -251,10 +251,10 @@ module.exports = class extends Generator {
         this.templateConfig = _.pick(this.options, ['botName', 'packageName', 'template'])
 
         // validate we have what we need, or we'll need to throw
-        if(!this.templateConfig.botName) {
-          throw new Error('Must specify a name for your bot when using --noprompt argument.  Use --botName or -N');
+        if (!this.templateConfig.botName) {
+            throw new Error('Must specify a name for your bot when using --noprompt argument.  Use --botName or -N');
         }
-        if(!this.templateConfig.packageName) {
+        if (!this.templateConfig.packageName) {
             throw new Error('Must specify a package name for your bot when using --noprompt argument.  Use --packageName or -P');
         }
 
