@@ -8,16 +8,16 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+namespace Microsoft.Bot.Builder.AI.CLU
 {
     /// <summary>
-    /// LUISVNext <see cref="BotComponent"/> definition.
+    /// CLU <see cref="BotComponent"/> definition.
     /// </summary>
-    public class LuisVNextBotComponent : BotComponent
+    public class CluBotComponent : BotComponent
     {
         public override void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddSingleton<DeclarativeType>(sp => new DeclarativeType<LuisVNextRecognizer>(LuisVNextRecognizer.Kind));
+            services.AddSingleton<DeclarativeType>(sp => new DeclarativeType<CluRecognizer>(CluRecognizer.Kind));
         }
     }
 }

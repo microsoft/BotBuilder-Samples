@@ -14,40 +14,40 @@ using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.TraceExtensions;
 
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+namespace Microsoft.Bot.Builder.AI.CLU
 {
     /// <summary>
-    /// Class for a recognizer that utilizes the LUISVNext service.
+    /// Class for a recognizer that utilizes the CLU service.
     /// </summary>
-    public class LuisVNextRecognizer : AdaptiveRecognizer, IRecognizer 
+    public class CluRecognizer : AdaptiveRecognizer, IRecognizer 
     {
         /// <summary>
         /// The Kind value for this recognizer.
         /// </summary>
         [JsonProperty("$kind")]
-        public const string Kind = "Microsoft.LuisVNextRecognizer";
+        public const string Kind = "Microsoft.CluRecognizer";
 
         /// <summary>
-        /// The context label for a LUISVNext trace activity.
+        /// The context label for a CLU trace activity.
         /// </summary>
-        private const string LuisVNextTraceLabel = "LuisVNext Trace";
+        private const string CluTraceLabel = "CLU Trace";
 
         /// <summary>
-        /// The LuisVNextClient instance that handles calls to the service.
+        /// The CluClient instance that handles calls to the service.
         /// </summary>
-        private LuisVNextClient LuisVNextClient;
+        private CluClient CluClient;
 
         /// <summary>
-        /// The LuisVNextRecognizer constructor.
+        /// The CluRecognizer constructor.
         /// </summary>
-        public LuisVNextRecognizer(LuisVNextOptions options, HttpClientHandler httpClientHandler = default)
+        public CluRecognizer(CluOptions options, HttpClientHandler httpClientHandler = default)
         {
-            LuisVNextClient = new LuisVNextClient(options, httpClientHandler);
+            CluClient = new CluClient(options, httpClientHandler);
         }
 
         /// <summary>
         /// The RecognizeAsync function used to recognize the intents and entities in the utterance present in the turn context. 
-        /// The function uses the options provided in the constructor of the LUISVNextRecognizer object.
+        /// The function uses the options provided in the constructor of the CluRecognizer object.
         /// </summary>
         public async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
@@ -67,33 +67,33 @@ namespace Microsoft.Bot.Builder.AI.LuisVNext
 
         internal async Task<RecognizerResult> RecognizeInternalAsync(string utterance, ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var luisResponse = await LuisVNextClient.Predict(utterance, cancellationToken);
-            var recognizerResult = BuildRecognizerResultFromLuisResponse(luisResponse, utterance);
+            var cluResponse = await CluClient.Predict(utterance, cancellationToken);
+            var recognizerResult = BuildRecognizerResultFromCluResponse(cluResponse, utterance);
 
             var traceInfo = JObject.FromObject(
                 new
                 {
-                    response = luisResponse,
-                    luisResult = recognizerResult,
+                    response = cluResponse,
+                    recognizerResult = recognizerResult,
                 });
 
-            await turnContext.TraceActivityAsync("LuisVNext Recognizer", traceInfo, nameof(LuisVNextRecognizer), LuisVNextTraceLabel, cancellationToken).ConfigureAwait(false);
+            await turnContext.TraceActivityAsync("CLU Recognizer", traceInfo, nameof(CluRecognizer), CluTraceLabel, cancellationToken).ConfigureAwait(false);
 
             return recognizerResult;
         }
 
-        private RecognizerResult BuildRecognizerResultFromLuisResponse(JObject luisResponse, string utterance)
+        private RecognizerResult BuildRecognizerResultFromCluResponse(JObject cluResponse, string utterance)
         {
-            var prediction = (JObject)luisResponse["prediction"];
+            var prediction = (JObject)cluResponse["prediction"];
             var recognizerResult = new RecognizerResult
             {
                 Text = utterance,
                 AlteredText = prediction["alteredQuery"]?.Value<string>(),
-                Intents = LuisUtil.GetIntents(prediction),
-                Entities = LuisUtil.ExtractEntitiesAndMetadata(prediction)
+                Intents = CluUtil.GetIntents(prediction),
+                Entities = CluUtil.ExtractEntitiesAndMetadata(prediction)
             };
 
-            LuisUtil.AddProperties(prediction, recognizerResult);
+            CluUtil.AddProperties(prediction, recognizerResult);
 
             return recognizerResult;
         }

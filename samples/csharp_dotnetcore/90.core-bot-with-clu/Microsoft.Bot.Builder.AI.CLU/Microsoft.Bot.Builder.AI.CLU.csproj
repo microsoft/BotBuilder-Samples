@@ -5,14 +5,14 @@
     <PackageVersion Condition=" '$(ReleasePackageVersion)' == '' ">$(LocalPackageVersion)</PackageVersion>
     <PackageVersion Condition=" '$(ReleasePackageVersion)' != '' ">$(ReleasePackageVersion)</PackageVersion>
     <Configurations>Debug;Release</Configurations>
-    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Microsoft.Bot.Builder.AI.Luis.xml</DocumentationFile>
+    <DocumentationFile>bin\$(Configuration)\netstandard2.0\Microsoft.Bot.Builder.AI.CLU.xml</DocumentationFile>
   </PropertyGroup>
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <PackageId>Microsoft.Bot.Builder.AI.LuisVNext</PackageId>
-    <Description>LUIS Middleware and Recognizers for the Microsoft Bot Builder SDK</Description>
-    <Summary>This library implements C# classes for building bots using LUIS.</Summary>
+    <PackageId>Microsoft.Bot.Builder.AI.CLU</PackageId>
+    <Description>CLU Middleware and Recognizers for the Microsoft Bot Builder SDK</Description>
+    <Summary>This library implements C# classes for building bots using CLU.</Summary>
     <ContentTargetFolders>content</ContentTargetFolders>
     <PackageTags>msbot-component</PackageTags>
     <Version>1.0.8</Version>

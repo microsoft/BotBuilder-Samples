@@ -22,7 +22,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Microsoft.Bot.Builder.AI.LUISVNext\Microsoft.Bot.Builder.AI.LuisVNext.csproj" />
+    <ProjectReference Include="..\Microsoft.Bot.Builder.AI.CLU\Microsoft.Bot.Builder.AI.CLU.csproj" />
   </ItemGroup>
 
   <ItemGroup>

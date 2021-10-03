@@ -1,10 +1,10 @@
-# CoreBot With LUISVNext
+# CoreBot With CLU
 
-Bot Framework v4 core bot sample using the LUISVNext Recognizer.
+Bot Framework v4 core bot sample using the CLU Recognizer.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to:
 
-- Use [LUISVNext][LuisVNext_ServiceDocHomepage] to implement core AI capabilities
+- Use [CLU][CLU_ServiceDocHomepage] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
 - Handle user interruptions for such things as `Help` or `Cancel`
 - Prompt for and validate requests for information from the user
@@ -15,7 +15,7 @@ This sample **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [LUISVNext][LuisVNext_ServiceDocHomepage], an AI based cognitive service, to implement language understanding. The service uses natively multilingual models, which means that users would be able to train their models in one language but predict in others. Users of the service have access to the [language studio][languagestudio], which simplifies the process of adding/importing data, labelling it, training a model, and then finally evaluating it. For more information, visit the official [service docs][LuisVNext_ServiceDocHomepage]. 
+This bot uses [Conversational Language Understanding (CLU)][CLU_ServiceDocHomepage], an AI based cognitive service, to implement language understanding. The service uses natively multilingual models, which means that users would be able to train their models in one language but predict in others. Users of the service have access to the [language studio][languagestudio], which simplifies the process of adding/importing data, labelling it, training a model, and then finally evaluating it. For more information, visit the official [service docs][CLU_ServiceDocHomepage]. 
 
 This new version of [CoreBot - sample 13 -](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/13.core-bot) illustrates that the new API covers the existing functionalities of the LUIS Recognizer and that you can easily migrate your existing Bot Framework code using this sample as a guide.
 
@@ -28,16 +28,17 @@ This new version of [CoreBot - sample 13 -](https://github.com/microsoft/BotBuil
   dotnet --version
   ```
 
-### Create a LUISVNext Application to enable language understanding
+### Create a CLU Application to enable language understanding
 
-The (updated) LUISVNext model for this example can be found under `CognitiveModels/FlightBooking.json` and the LUIS language model setup, training, and application configuration steps can be found [here](https://github.com/Azure/clu-private-preview).
+The (updated) CLU model for this example can be found under `CognitiveModels/FlightBooking.json` and the CLU language model setup, training, and application configuration steps can be found [here][CLU_ServiceHowTo].
 
-Once you created the LUISVNext model, update `appsettings.json` with your `LuisAppId`, `LuisAPIKey` and `LuisAPIHostName`.
+Once you created the CLU model, update `appsettings.json` with your `CluProjectName`, `CluDeploymentName`, `CluAPIKey` and `CluAPIHostName`.
 
 ```json
-  "LuisAppId": "Your LUISVNext project name",
-  "LuisAPIKey": "Your LUISVNext Subscription key here",
-  "LuisAPIHostName": "Your LUISVNext Host Name (i.e: sampleTextAnalyticsResource.cognitiveservices.azure.com)"
+  "CluProjectName": "Your CLU project name",
+  "CluDeploymentName": "Your CLU model deployment name",
+  "CluAPIKey": "Your CLU Subscription key here",
+  "CluAPIHostName": "Your CLU Host Name (i.e: sampleTextAnalyticsResource.cognitiveservices.azure.com)"
 ```
 
 ## To try this sample
@@ -50,7 +51,7 @@ Once you created the LUISVNext model, update `appsettings.json` with your `LuisA
 
 - Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/90.core-bot-with-LuisVNext/90.core-bot-with-luisvnext`
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/90.core-bot-with-clu/90.core-bot-with-clu`
 
   ```bash
   # run the bot
@@ -61,8 +62,8 @@ Once you created the LUISVNext model, update `appsettings.json` with your `LuisA
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/90.core-bot-with-LuisVNext/90.core-bot-with-luisvnext` folder
-  - Select `CoreBotWithLuisVNext.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/90.core-bot-with-clu/90.core-bot-with-clu` folder
+  - Select `CoreBotWithCLU.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator
@@ -97,5 +98,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
 <!--Remember to change when docs are public -->
-[LuisVNext_ServiceDocHomepage]: https://www.LuisVNext.placeholder.com
+[CLU_ServiceDocHomepage]: https://www.CLU.placeholder.com
+[CLU_ServiceHowTo]: https://www.CLU.placeholder.com
 [languagestudio]: https://language.azure.com/

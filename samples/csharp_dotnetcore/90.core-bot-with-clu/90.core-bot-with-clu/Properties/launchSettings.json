@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CoreBotWithLuisVNext": {
+    "CoreBotWithCLU": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

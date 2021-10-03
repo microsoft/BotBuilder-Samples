@@ -6,9 +6,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+namespace Microsoft.Bot.Builder.AI.CLU
 {
-    public class LuisVNextEntity
+    public class CluEntity
     {
         [JsonProperty("category")]
         public string category { get; set; }

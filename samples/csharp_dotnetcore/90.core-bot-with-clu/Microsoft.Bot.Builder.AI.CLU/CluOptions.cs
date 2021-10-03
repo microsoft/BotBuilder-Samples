@@ -6,22 +6,22 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+namespace Microsoft.Bot.Builder.AI.CLU
 {
-    public class LuisVNextOptions
+    public class CluOptions
     {
         /// <summary>
-        /// An instance of the <see cref="LuisApplication"/> class containing connection details for you LuisVNext application.
+        /// An instance of the <see cref="CluApplication"/> class containing connection details for your CLU application.
         /// </summary>
-        [JsonProperty("luisApplication")]
-        internal LuisApplication luisApplication;
+        [JsonProperty("cluApplication")]
+        internal CluApplication cluApplication;
 
         /// <summary>
-        /// Creates an instance of  <see cref="LuisVNextOptions"/> containing the Luis Application as well as optional configurations.
+        /// Creates an instance of  <see cref="CluOptions"/> containing the CLU Application as well as optional configurations.
         /// </summary>
-        public LuisVNextOptions(LuisApplication app)
+        public CluOptions(CluApplication app)
         {
-            luisApplication = app;
+            cluApplication = app;
         }
 
         /// <summary>
@@ -48,16 +48,10 @@ namespace Microsoft.Bot.Builder.AI.LuisVNext
         [JsonProperty("apiVersion")]
         public string ApiVersion = "2021-07-15-preview";
 
-        /// <summary>
-        /// The deployment slot for the LuisVNext application
-        /// </summary>
-        [JsonProperty("slot")]
-        public string Slot = LuisSlot.Production;
-
-
-        internal string ApplicationId => luisApplication.ApplicationId;
-        internal string EndpointKey => luisApplication.EndpointKey;
-        internal string Endpoint => luisApplication.Endpoint;
+        internal string ProjectName => cluApplication.ProjectName;
+        internal string DeploymentName => cluApplication.DeploymentName;
+        internal string EndpointKey => cluApplication.EndpointKey;
+        internal string Endpoint => cluApplication.Endpoint;
 
     }
 }

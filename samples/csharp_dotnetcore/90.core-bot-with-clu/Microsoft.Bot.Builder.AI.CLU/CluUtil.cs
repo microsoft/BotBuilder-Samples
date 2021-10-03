@@ -6,18 +6,18 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json.Linq;
 
-[assembly: InternalsVisibleTo("Microsoft.Bot.Builder.AI.LuisVNext.Tests")]
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+[assembly: InternalsVisibleTo("Microsoft.Bot.Builder.AI.CLU.Tests")]
+namespace Microsoft.Bot.Builder.AI.CLU
 {
-    // Utility functions used to extract and transform data from LuisVNext SDK
-    internal static class LuisUtil
+    // Utility functions used to extract and transform data from CLU
+    internal static class CluUtil
     {
         internal static string NormalizedIntent(string intent) => intent.Replace('.', '_').Replace(' ', '_');
 
-        internal static IDictionary<string, IntentScore> GetIntents(JObject luisResult)
+        internal static IDictionary<string, IntentScore> GetIntents(JObject cluResult)
         {
             var result = new Dictionary<string, IntentScore>();
-            var intents = luisResult["intents"];
+            var intents = cluResult["intents"];
             if (intents != null)
             {
                 foreach (var intent in intents)
@@ -38,10 +38,10 @@ namespace Microsoft.Bot.Builder.AI.LuisVNext
             return entityObject;
         }
 
-        internal static void AddProperties(JObject luis, RecognizerResult result)
+        internal static void AddProperties(JObject clu, RecognizerResult result)
         {
-            var topIntent = luis["topIntent"];
-            var projectType = luis["projectType"];
+            var topIntent = clu["topIntent"];
+            var projectType = clu["projectType"];
 
             if (topIntent != null)
             {

@@ -11,21 +11,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace Microsoft.Bot.Builder.AI.LuisVNext
+namespace Microsoft.Bot.Builder.AI.CLU
 {
-    internal class LuisVNextClient
+    internal class CluClient
     {
-        /// <summary>
-        /// The value type for a LUIS trace activity.
-        /// </summary>
-        private const string LuisVNextTraceType = "https://www.luis.ai/schemas/trace";
-
         [JsonIgnore]
         internal HttpClient HttpClient { get; set; }
 
-        [JsonProperty("luisVNextOptions")]
-        private LuisVNextOptions Options { get; set; }
-        internal LuisVNextClient(LuisVNextOptions options, HttpClientHandler httpClientHandler)
+        [JsonProperty("cluOptions")]
+        private CluOptions Options { get; set; }
+        internal CluClient(CluOptions options, HttpClientHandler httpClientHandler)
         {
             Options = options;
             var clientHandler = httpClientHandler == default ? new HttpClientHandler() : httpClientHandler;
@@ -52,7 +47,7 @@ namespace Microsoft.Bot.Builder.AI.LuisVNext
             return (JObject)JsonConvert.DeserializeObject(await response.Content.ReadAsStringAsync().ConfigureAwait(false));
         }
 
-        private UriBuilder BuildUri(LuisVNextOptions options)
+        private UriBuilder BuildUri(CluOptions options)
         {
             var path = new StringBuilder(options.Endpoint);
             path.Append("/language/:analyze-conversations");
@@ -60,14 +55,14 @@ namespace Microsoft.Bot.Builder.AI.LuisVNext
             var uri = new UriBuilder(path.ToString());
             var query = HttpUtility.ParseQueryString(uri.Query);
 
-            query["projectName"] = options.ApplicationId;
-            query["deploymentName"] = options.Slot;
+            query["projectName"] = options.ProjectName;
+            query["deploymentName"] = options.DeploymentName;
             query["api-version"] = options.ApiVersion;
 
             uri.Query = query.ToString();
             return uri;
         }
-        private static JObject BuildRequestBody(string utterance, LuisVNextOptions options)
+        private static JObject BuildRequestBody(string utterance, CluOptions options)
         {
             var jsonBody = new JObject();
             jsonBody.Add("query", utterance);

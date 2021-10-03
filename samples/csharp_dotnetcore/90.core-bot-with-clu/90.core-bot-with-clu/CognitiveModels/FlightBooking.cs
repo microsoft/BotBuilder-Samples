@@ -11,7 +11,7 @@ using Newtonsoft.Json;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Builder.AI.LuisVNext;
+using Microsoft.Bot.Builder.AI.CLU;
 using System.Linq;
 
 namespace Microsoft.BotBuilderSamples
@@ -35,11 +35,11 @@ namespace Microsoft.BotBuilderSamples
             public DateTimeSpec[] datetime;
 
             //[JsonProperty("entities")]
-            public LuisVNextEntity[] entities;
+            public CluEntity[] entities;
 
-            public LuisVNextEntity[] fromCityList => entities.Where(e => e.category == "fromCity").ToArray();
+            public CluEntity[] fromCityList => entities.Where(e => e.category == "fromCity").ToArray();
 
-            public LuisVNextEntity[] toCityList => entities.Where(e => e.category == "toCity").ToArray();
+            public CluEntity[] toCityList => entities.Where(e => e.category == "toCity").ToArray();
 
             public string fromCity => fromCityList.FirstOrDefault()?.text;
 

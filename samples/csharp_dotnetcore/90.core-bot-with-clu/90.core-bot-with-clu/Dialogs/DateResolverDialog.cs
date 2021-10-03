@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class DateResolverDialog : CancelAndHelpDialog
     {
-        private const string PromptMsgText = "When would you like to travel? \n Prebuilt entities are not yet a part of LUISVNext. Date entity detection will be added to the service and this sample soon!";
+        private const string PromptMsgText = "When would you like to travel? \n Prebuilt entities are not yet a part of CLU. Date entity detection will be added to the service and this sample soon!";
         private const string RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
 
         public DateResolverDialog(string id = null)

@@ -4,36 +4,37 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.AI.LuisVNext;
+using Microsoft.Bot.Builder.AI.CLU;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class FlightBookingRecognizer : IRecognizer
     {
-        private readonly LuisVNextRecognizer _recognizer;
+        private readonly CluRecognizer _recognizer;
 
         public FlightBookingRecognizer(IConfiguration configuration)
         {
-            var luisIsConfigured = !string.IsNullOrEmpty(configuration["LuisAppId"]) && !string.IsNullOrEmpty(configuration["LuisAPIKey"]) && !string.IsNullOrEmpty(configuration["LuisAPIHostName"]);
-            if (luisIsConfigured)
+            var cluIsConfigured = !string.IsNullOrEmpty(configuration["CluProjectName"]) && !string.IsNullOrEmpty(configuration["CluDeploymentName"]) && !string.IsNullOrEmpty(configuration["CluAPIKey"]) && !string.IsNullOrEmpty(configuration["CluAPIHostName"]);
+            if (cluIsConfigured)
             {
-                var luisApplication = new LuisApplication(
-                    configuration["LuisAppId"],
-                    configuration["LuisAPIKey"],
-                    "https://" + configuration["LuisAPIHostName"]);
+                var cluApplication = new CluApplication(
+                    configuration["CluProjectName"],
+                    configuration["CluDeploymentName"],
+                    configuration["CluAPIKey"],
+                    "https://" + configuration["CluAPIHostName"]);
                 // Set the recognizer options depending on which endpoint version you want to use.
                 // More details can be found in https://docs.microsoft.com/en-gb/azure/cognitive-services/luis/luis-migration-api-v3
-                var recognizerOptions = new LuisVNextOptions(luisApplication)
+                var recognizerOptions = new CluOptions(cluApplication)
                 {
                     Language = "en"
                 };
 
-                _recognizer = new LuisVNextRecognizer(recognizerOptions);
+                _recognizer = new CluRecognizer(recognizerOptions);
             }
         }
 
-        // Returns true if luis is configured in the appsettings.json and initialized.
+        // Returns true if clu is configured in the appsettings.json and initialized.
         public virtual bool IsConfigured => _recognizer != null;
 
         public virtual async Task<RecognizerResult> RecognizeAsync(ITurnContext turnContext, CancellationToken cancellationToken)
