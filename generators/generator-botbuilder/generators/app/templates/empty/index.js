@@ -5,23 +5,33 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter } = require('botbuilder');
+const {
+    createBotFrameworkAuthenticationFromConfiguration,
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory
+} = require('botbuilder');
 
 // This bot's main dialog.
 const { EmptyBot } = require('./bot');
 
 // Create HTTP server
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
 });
 
-// Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about .bot file its use and bot configuration.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword
 });
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+
+// Create adapter.
+// See https://aka.ms/about-bot-adapter to learn more about adapters.
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -47,9 +57,7 @@ adapter.onTurnError = async (context, error) => {
 const myBot = new EmptyBot();
 
 // Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
-        // Route to main dialog.
-        await myBot.run(context);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => myBot.run(context));
 });
