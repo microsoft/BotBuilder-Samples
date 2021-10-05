@@ -63,7 +63,7 @@ const onTurnErrorHandler = async (context, error) => {
     await context.sendActivity('To continue to run this bot, please fix the bot source code.');
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Create the main dialog.
