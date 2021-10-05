@@ -74,7 +74,7 @@ const onTurnErrorHandler = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Add telemetry middleware to the adapter middleware pipeline
