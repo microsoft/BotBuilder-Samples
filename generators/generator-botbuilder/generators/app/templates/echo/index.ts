@@ -14,9 +14,9 @@ import { INodeSocket } from 'botframework-streaming';
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
-    createBotFrameworkAuthenticationFromConfiguration,
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory
+    ConfigurationServiceClientCredentialFactory,
+    createBotFrameworkAuthenticationFromConfiguration
 } from 'botbuilder';
 
 // This bot's main dialog.

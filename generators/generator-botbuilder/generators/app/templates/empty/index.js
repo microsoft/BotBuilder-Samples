@@ -6,9 +6,9 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
-    createBotFrameworkAuthenticationFromConfiguration,
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory
+    ConfigurationServiceClientCredentialFactory,
+    createBotFrameworkAuthenticationFromConfiguration
 } = require('botbuilder');
 
 // This bot's main dialog.
