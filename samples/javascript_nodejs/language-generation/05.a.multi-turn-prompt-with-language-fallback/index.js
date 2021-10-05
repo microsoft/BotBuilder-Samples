@@ -13,9 +13,9 @@ const { Templates, MultiLanguageLG } = require('botbuilder-lg');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
-    createBotFrameworkAuthenticationFromConfiguration,
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
+    createBotFrameworkAuthenticationFromConfiguration,
     ConversationState,
     MemoryStorage,
     UserState
@@ -38,8 +38,8 @@ const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Create template engine for language generation.
 const templatesPerLocale = new Map();
-templatesPerLocale.set('', Templates.parseFile(`${ __dirname }/Resources/adapterWithErrorHandler.lg`));
-templatesPerLocale.set('fr', Templates.parseFile(`${ __dirname }/Resources/adapterWithErrorHandler.fr-fr.lg`));
+templatesPerLocale.set('', Templates.parseFile(`${__dirname}/Resources/adapterWithErrorHandler.lg`)),
+templatesPerLocale.set('fr', Templates.parseFile(`${__dirname}/Resources/adapterWithErrorHandler.fr-fr.lg`));
 const multiLangLG = new MultiLanguageLG(templatesPerLocale);
 
 // Catch-all for errors.
@@ -94,5 +94,5 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    await adapter.process(req, res, (turnContext) => bot.run(turnContext));
+    await adapter.process(req, res, (context) => bot.run(context));
 });

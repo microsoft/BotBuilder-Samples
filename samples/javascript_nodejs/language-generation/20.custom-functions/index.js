@@ -14,9 +14,9 @@ const { Templates } = require('botbuilder-lg');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
-    createBotFrameworkAuthenticationFromConfiguration,
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory
+    ConfigurationServiceClientCredentialFactory,
+    createBotFrameworkAuthenticationFromConfiguration,
 } = require('botbuilder');
 
 // This bot's main dialog.
@@ -77,7 +77,7 @@ const myBot = new EchoBot();
 // Listen for incoming requests.
 server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    await adapter.process(req, res, (turnContext) => myBot.run(turnContext));
+    await adapter.process(req, res, (context) => myBot.run(context));
 });
 
 // Listen for Upgrade requests for Streaming.
@@ -88,9 +88,5 @@ server.on('upgrade', async (req, socket, head) => {
     // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
-        // After connecting via WebSocket, run this logic for every request sent over
-        // the WebSocket connection.
-        await myBot.run(context);
-    });
+    await streamingAdapter.process(req, socket, head, (context) => bot.run(context));
 });
