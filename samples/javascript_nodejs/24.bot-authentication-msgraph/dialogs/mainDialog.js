@@ -12,7 +12,7 @@ const TEXT_PROMPT = 'textPrompt';
 
 class MainDialog extends LogoutDialog {
     constructor() {
-        super('MainDialog');
+        super('MainDialog', process.env.connectionName);
         this.addDialog(new ChoicePrompt(CHOICE_PROMPT))
             .addDialog(new OAuthPrompt(OAUTH_PROMPT, {
                 connectionName: process.env.ConnectionName,
