@@ -68,7 +68,7 @@ const onTurnErrorHandler = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
