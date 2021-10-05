@@ -48,8 +48,8 @@ class UserProfileDialog extends ComponentDialog {
 
         // Define per locale LG files.
         const templatesPerLocale = new Map();
-        templatesPerLocale.set('', Templates.parseFile(`${__dirname}/../Resources/UserProfileDialog.lg`)),
-        templatesPerLocale.set('fr', Templates.parseFile(`${__dirname}/../Resources/UserProfileDialog.fr-fr.lg`));
+        templatesPerLocale.set('', Templates.parseFile(`${ __dirname }/../Resources/UserProfileDialog.lg`));
+        templatesPerLocale.set('fr', Templates.parseFile(`${ __dirname }/../Resources/UserProfileDialog.fr-fr.lg`));
         this.lgTemplates = new MultiLanguageLG(templatesPerLocale);
     }
 
