@@ -9,8 +9,20 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { ActivityTypes, BotFrameworkAdapter, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient, TurnContext } = require('botbuilder');
-const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
+const {
+    ActivityTypes,
+    ChannelServiceRoutes,
+    CloudAdapter,
+    CloudSkillHandler,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    InputHints,
+    MemoryStorage,
+    SkillConversationIdFactory,
+    TurnContext
+} = require('botbuilder');
+const { allowedCallersClaimsValidator, AuthenticationConfiguration } = require('botframework-connector');
 
 // Note: Ensure you have a .env file and include LuisAppId, LuisAPIKey and LuisAPIHostName.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -21,20 +33,26 @@ const { RootBot } = require('./bots/rootBot');
 const { MainDialog } = require('./dialogs/mainDialog');
 
 // Import Skills modules.
-const { allowedSkillsClaimsValidator } = require('./authentication/allowedSkillsClaimsValidator');
 const { SkillsConfiguration } = require('./skillsConfiguration');
-const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
+
+// Load skills configuration.
+const skillsConfig = new SkillsConfiguration();
+
+const allowedCallers = Object.values(skillsConfig.skills).map(skill => skill.appId);
 
 // Define our authentication configuration.
-const authConfig = new AuthenticationConfiguration([], allowedSkillsClaimsValidator);
+const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator(allowedCallers));
+
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory, authConfig);
 
 // Create adapter, passing in authConfig so that we can use skills.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword,
-    authConfig: authConfig
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Use the logger middleware to log messages. The default logger argument for LoggerMiddleware is Node's console.log().
 const { LoggerMiddleware } = require('./middleware/loggerMiddleware');
@@ -44,7 +62,7 @@ adapter.use(new LoggerMiddleware());
 const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to the console log, instead of to app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -91,7 +109,7 @@ async function endSkillConversation(context) {
                 endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
             await conversationState.saveChanges(context, true);
-            await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
+            await skillClient.postActivity(botId, activeSkill.appId, activeSkill.skillEndpoint, skillsConfig.skillHostEndpoint, endOfConversation.conversation.id, endOfConversation);
         }
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
@@ -109,7 +127,7 @@ async function clearConversationState(context) {
     }
 }
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -122,16 +140,11 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the conversationIdFactory.
-const conversationIdFactory = new SkillConversationIdFactory();
-
-// Create the credential provider;
-const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
+const conversationIdFactory = new SkillConversationIdFactory(new MemoryStorage());
 
 // Create the skill client.
-const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
-
-// Load skills configuration.
-const skillsConfig = new SkillsConfiguration();
+// const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
+const skillClient = botFrameworkAuthentication.createBotFrameworkClient();
 
 // Create the main dialog.
 const mainDialog = new MainDialog(conversationState, skillsConfig, skillClient, conversationIdFactory);
@@ -141,6 +154,8 @@ const bot = new RootBot(conversationState, mainDialog);
 // maxParamLength defaults to 100, which is too short for the conversationId created in skillConversationIdFactory.
 // See: https://github.com/microsoft/BotBuilder-Samples/issues/2194.
 const server = restify.createServer({ maxParamLength: 1000 });
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -148,32 +163,23 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
-server.post('/api/messages', (req, res) => {
-    // Route received requests to the adapter for processing.
-    adapter.processActivity(req, res, async (turnContext) => {
-        // Route request to bot activity handler.
-        await bot.run(turnContext);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => bot.run(context));
 });
 
 // Create and initialize the skill classes.
-const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
+const handler = new CloudSkillHandler(adapter, (context) => bot.run(context), conversationIdFactory, botFrameworkAuthentication);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
 
 // Listen for Upgrade requests for Streaming.
-server.on('upgrade', (req, socket, head) => {
+server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter({
-        appId: process.env.MicrosoftAppId,
-        appPassword: process.env.MicrosoftAppPassword
-    });
-    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
+
+    // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
-        // After connecting via WebSocket, run this logic for every request sent over
-        // the WebSocket connection.
-        await bot.run(context);
-    });
+    await streamingAdapter.process(req, socket, head, (context) => bot.run(context));
 });
