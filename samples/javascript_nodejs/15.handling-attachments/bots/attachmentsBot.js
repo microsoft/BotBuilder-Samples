@@ -196,7 +196,8 @@ class AttachmentsBot extends ActivityHandler {
      */
     async getUploadedAttachment(turnContext) {
         const imageData = fs.readFileSync(path.join(__dirname, '../resources/architecture-resize.png'));
-        const connector = turnContext.adapter.createConnectorClient(turnContext.activity.serviceUrl);
+        const connectorFactory = turnContext.turnState.get(turnContext.adapter.ConnectorFactoryKey);
+        const connector = await connectorFactory.create(turnContext.activity.serviceUrl);
         const conversationId = turnContext.activity.conversation.id;
         const response = await connector.conversations.uploadAttachment(conversationId, {
             name: 'architecture-resize.png',
