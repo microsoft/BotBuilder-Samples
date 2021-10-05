@@ -12,18 +12,29 @@ const { Templates } = require('botbuilder-lg');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+const {
+    createBotFrameworkAuthenticationFromConfiguration,
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    MemoryStorage,
+    UserState
+} = require('botbuilder');
 
 // Import our custom bot class that provides a turn handling function.
 const { DialogBot } = require('./bots/dialogBot');
 const { UserProfileDialog } = require('./dialogs/userProfileDialog');
 
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
 // the .bot file when configuring your adapter.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Create template engine for language generation.
 const lgTemplates = Templates.parseFile('./Resources/AdapterWithErrorHandler.lg');
@@ -32,7 +43,7 @@ const lgTemplates = Templates.parseFile('./Resources/AdapterWithErrorHandler.lg'
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(lgTemplates.evaluate('SomethingWentWrong', {
         message: `${ error }`
@@ -68,6 +79,8 @@ const bot = new DialogBot(conversationState, userState, dialog);
 
 // Create HTTP server.
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }.`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -75,9 +88,7 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
-        // Route the message to the bot's main handler.
-        await bot.run(context);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (turnContext) => bot.run(turnContext));
 });
