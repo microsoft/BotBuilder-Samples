@@ -3,22 +3,23 @@
 
 using System;
 using System.IO;
+using System.Net.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using System.Collections.Generic;
 using Microsoft.Bot.Builder.LanguageGeneration;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
         private MultiLanguageLG _lgManager;
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(configuration, httpClientFactory, logger)
         {
-            Dictionary<string, string> lgFilesPerLocale = new Dictionary<string, string>() 
+            Dictionary<string, string> lgFilesPerLocale = new Dictionary<string, string>()
             {
                 {"", Path.Combine(".", "Resources", "AdapterWithErrorHandler.lg")},
                 {"fr", Path.Combine(".", "Resources", "AdapterWithErrorHandler.fr-fr.lg")}
