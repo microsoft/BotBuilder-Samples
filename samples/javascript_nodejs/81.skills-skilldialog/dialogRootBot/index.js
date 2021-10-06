@@ -143,7 +143,6 @@ const conversationState = new ConversationState(memoryStorage);
 const conversationIdFactory = new SkillConversationIdFactory(new MemoryStorage());
 
 // Create the skill client.
-// const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
 const skillClient = botFrameworkAuthentication.createBotFrameworkClient();
 
 // Create the main dialog.

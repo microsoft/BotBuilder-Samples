@@ -13,21 +13,16 @@ const {
     ActivityTypes,
     ChannelServiceRoutes,
     CloudAdapter,
+    CloudSkillHandler,
     ConfigurationServiceClientCredentialFactory,
     ConversationState,
     createBotFrameworkAuthenticationFromConfiguration,
     InputHints,
     MemoryStorage,
     SkillConversationIdFactory,
-    SkillHandler,
-    SkillHttpClient,
     TurnContext
 } = require('botbuilder');
-const {
-    allowedCallersClaimsValidator,
-    AuthenticationConfiguration,
-    SimpleCredentialProvider
-} = require('botframework-connector');
+const { allowedCallersClaimsValidator, AuthenticationConfiguration } = require('botframework-connector');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -107,7 +102,7 @@ async function endSkillConversation(context) {
                 endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
             await conversationState.saveChanges(context, true);
-            await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
+            await skillClient.postActivity(botId, activeSkill.appId, activeSkill.skillEndpoint, skillsConfig.skillHostEndpoint, endOfConversation.conversation.id, endOfConversation);
         }
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
@@ -137,14 +132,11 @@ const conversationState = new ConversationState(memoryStorage);
 // Create the conversationIdFactory
 const conversationIdFactory = new SkillConversationIdFactory(new MemoryStorage());
 
-// Create the credential provider;
-const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
-
-// Create the skill client
-const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
+// Create the skill client.
+const skillClient = botFrameworkAuthentication.createBotFrameworkClient();
 
 // Create the main dialog.
-const bot = new RootBot(conversationState, skillsConfig, skillClient);
+const bot = new RootBot(conversationState, skillsConfig, skillClient, conversationIdFactory);
 
 // Create HTTP server.
 // maxParamLength defaults to 100, which is too short for the conversationId created in skillConversationIdFactory.
@@ -164,7 +156,6 @@ server.post('/api/messages', async (req, res) => {
     await adapter.process(req, res, (context) => bot.run(context));
 });
 
-// Create and initialize the skill classes
-const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
+const handler = new CloudSkillHandler(adapter, (context) => bot.run(context), conversationIdFactory, botFrameworkAuthentication);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
