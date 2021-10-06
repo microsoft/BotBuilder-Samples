@@ -18,8 +18,8 @@ const { Templates } = require('botbuilder-lg');
 const {
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration,
     ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
     InputHints,
     MemoryStorage,
     UserState
