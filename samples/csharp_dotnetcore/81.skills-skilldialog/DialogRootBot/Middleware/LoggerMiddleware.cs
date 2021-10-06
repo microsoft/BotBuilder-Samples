@@ -17,9 +17,9 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Middleware
     /// </summary>
     public class LoggerMiddleware : IMiddleware
     {
-        private readonly ILogger<BotFrameworkHttpAdapter> _logger;
+        private readonly ILogger<IBotFrameworkHttpAdapter> _logger;
 
-        public LoggerMiddleware(ILogger<BotFrameworkHttpAdapter> logger)
+        public LoggerMiddleware(ILogger<IBotFrameworkHttpAdapter> logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
