@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="AdaptiveExpressions" Version="4.14.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.8" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.15.0-daily.20211006.271232.c20cc39" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.14.1" />
   </ItemGroup>
 
@@ -16,6 +16,12 @@
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\main.lg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
