@@ -5,9 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.15.0-daily.20211006.271232.c20cc39" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.14.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.15.0-daily.20211006.271232.c20cc39" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.14.1" />
   </ItemGroup>
 
@@ -15,6 +15,18 @@
     <Content Update="Resources\adaptiveCard.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\AdapterWithErrorHandler.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\Cards.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\MainDialog.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
