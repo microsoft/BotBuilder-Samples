@@ -5,12 +5,27 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Bot.Builder" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder" Version="4.15.0-daily.20211006.271232.c20cc39" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.14.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.14.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.15.0-daily.20211006.271232.c20cc39" />
     <PackageReference Include="Microsoft.Bot.Builder.LanguageGeneration" Version="4.14.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.14.1" />
     <PackageReference Include="Microsoft.Recognizers.Text.DataTypes.TimexExpression" Version="1.4.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Resources\AdapterWithErrorHandler.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\BookingDialog.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\MainDialog.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\welcomeCard.LG">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
