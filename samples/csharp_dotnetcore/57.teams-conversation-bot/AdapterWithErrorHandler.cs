@@ -9,10 +9,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger)
-            : base(configuration, logger)
+        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(configuration, httpClientFactory, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {

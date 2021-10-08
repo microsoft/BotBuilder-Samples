@@ -9,6 +9,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -160,15 +161,16 @@ namespace Microsoft.BotBuilderSamples.Bots
                     TenantId = turnContext.Activity.Conversation.TenantId,
                 };
 
-                await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
+                await ((CloudAdapter)turnContext.Adapter).CreateConversationAsync(
+                    credentials.MicrosoftAppId,
                     teamsChannelId,
                     serviceUrl,
-                    credentials,
+                    credentials.OAuthScope,
                     conversationParameters,
                     async (t1, c1) =>
                     {
                         conversationReference = t1.Activity.GetConversationReference();
-                        await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+                        await ((CloudAdapter)turnContext.Adapter).ContinueConversationAsync(
                             _appId,
                             conversationReference,
                             async (t2, c2) =>
