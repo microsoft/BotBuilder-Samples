@@ -8,8 +8,8 @@ package com.microsoft.bot.sample.core;
  */
 public class BookingDetails {
 
-    private String destination = "";
-    private String origin = "";
+    private String destination;
+    private String origin;
     private String travelDate;
 
     /**
