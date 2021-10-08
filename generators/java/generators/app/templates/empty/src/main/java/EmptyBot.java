@@ -23,4 +23,17 @@ import java.util.concurrent.CompletableFuture;
  * </p>
  */
 public class EmptyBot extends ActivityHandler {
+	
+    @Override
+    protected CompletableFuture<Void> onMembersAdded(
+        List<ChannelAccount> membersAdded,
+        TurnContext turnContext
+    ) {
+        return membersAdded.stream()
+            .filter(
+                member -> !StringUtils
+                    .equals(member.getId(), turnContext.getActivity().getRecipient().getId())
+            ).map(channel -> turnContext.sendActivity(MessageFactory.text("Hello world!")))
+            .collect(CompletableFutures.toFutureList()).thenApply(resourceResponses -> null);
+    }
 }
