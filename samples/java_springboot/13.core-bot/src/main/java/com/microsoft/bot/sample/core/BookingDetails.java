@@ -8,8 +8,8 @@ package com.microsoft.bot.sample.core;
  */
 public class BookingDetails {
 
-    private String destination;
-    private String origin;
+    private String destination = "";
+    private String origin = "";
     private String travelDate;
 
     /**
@@ -20,7 +20,6 @@ public class BookingDetails {
     public String getDestination() {
         return destination;
     }
-
 
     /**
      * Sets the destination of the booking.
