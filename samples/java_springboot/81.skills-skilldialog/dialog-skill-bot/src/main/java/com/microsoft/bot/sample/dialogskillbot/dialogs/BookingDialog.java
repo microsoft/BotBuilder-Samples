@@ -19,39 +19,46 @@ import com.microsoft.bot.schema.InputHints;
 import com.microsoft.recognizers.datatypes.timex.expression.Constants;
 import com.microsoft.recognizers.datatypes.timex.expression.TimexProperty;
 
+/**
+ * The class containing the booking dialogs.
+ */
 public class BookingDialog extends CancelAndHelpDialog {
 
-    private final String DestinationStepMsgText = "Where would you like to travel to?";
-    private final String OriginStepMsgText = "Where are you traveling from?";
+    private final String destinationStepMsgText = "Where would you like to travel to?";
+    private final String originStepMsgText = "Where are you traveling from?";
 
+    /**
+     * The constructor of the Booking Dialog class.
+     */
     public BookingDialog() {
         super("BookingDialog");
+
         addDialog(new TextPrompt("TextPrompt"));
         addDialog(new ConfirmPrompt("ConfirmPrompt"));
         addDialog(new DateResolverDialog(null));
-        WaterfallStep[] waterfallSteps = { this::destinationStep, this::originStep, this::travelDateStep,
-                this::confirmStep, this::finalStep };
+        WaterfallStep[] waterfallSteps = {
+            this::destinationStep,
+            this::originStep,
+            this::travelDateStep,
+            this::confirmStep,
+            this::finalStep
+        };
         addDialog(new WaterfallDialog("WaterfallDialog", Arrays.asList(waterfallSteps)));
 
         // The initial child Dialog to run.
         setInitialDialogId("WaterfallDialog");
     }
 
-    private static boolean IsAmbiguous(String timex) {
-        TimexProperty timexProperty = new TimexProperty(timex);
-        return !timexProperty.getTypes().contains(Constants.TimexTypes.DEFINITE);
-    }
-
     private CompletableFuture<DialogTurnResult> destinationStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        if (bookingDetails.getDestination() == null) {
-            Activity promptMessage = MessageFactory.text(DestinationStepMsgText, DestinationStepMsgText,
-                    InputHints.EXPECTING_INPUT);
+        if (bookingDetails.getDestination() == null || bookingDetails.getDestination().trim().isEmpty()) {
+            Activity promptMessage = 
+                MessageFactory.text(destinationStepMsgText, destinationStepMsgText, InputHints.EXPECTING_INPUT);
 
-            PromptOptions options = new PromptOptions();
-            options.setPrompt(promptMessage);
-            return stepContext.prompt("TextPrompt", options);
+            PromptOptions promptOptions = new PromptOptions();
+            promptOptions.setPrompt(promptMessage);
+            return stepContext.prompt("TextPrompt", promptOptions);
         }
 
         return stepContext.next(bookingDetails.getDestination());
@@ -62,12 +69,12 @@ public class BookingDialog extends CancelAndHelpDialog {
 
         bookingDetails.setDestination((String) stepContext.getResult());
 
-        if (bookingDetails.getOrigin() == null) {
-            Activity promptMessage = MessageFactory.text(OriginStepMsgText, OriginStepMsgText,
-                    InputHints.EXPECTING_INPUT);
-            PromptOptions options = new PromptOptions();
-            options.setPrompt(promptMessage);
-            return stepContext.prompt("TextPrompt", options);
+        if (bookingDetails.getOrigin() == null || bookingDetails.getOrigin().trim().isEmpty()) {
+            Activity promptMessage = 
+                MessageFactory.text(originStepMsgText, originStepMsgText, InputHints.EXPECTING_INPUT);
+            PromptOptions promptOptions = new PromptOptions();
+            promptOptions.setPrompt(promptMessage);
+            return stepContext.prompt("TextPrompt", promptOptions);
         }
 
         return stepContext.next(bookingDetails.getOrigin());
@@ -78,7 +85,7 @@ public class BookingDialog extends CancelAndHelpDialog {
 
         bookingDetails.setOrigin((String) stepContext.getResult());
 
-        if (bookingDetails.getTravelDate() == null || IsAmbiguous(bookingDetails.getTravelDate())) {
+        if (bookingDetails.getTravelDate() == null || isAmbiguous(bookingDetails.getTravelDate())) {
             return stepContext.beginDialog("DateResolverDialog", bookingDetails.getTravelDate());
         }
 
@@ -95,18 +102,23 @@ public class BookingDialog extends CancelAndHelpDialog {
                 bookingDetails.getDestination(), bookingDetails.getOrigin(), bookingDetails.getTravelDate());
         Activity promptMessage = MessageFactory.text(messageText, messageText, InputHints.EXPECTING_INPUT);
 
-        PromptOptions options = new PromptOptions();
-        options.setPrompt(promptMessage);
-        return stepContext.prompt("ConfirmPrompt", options);
+        PromptOptions promptOptions = new PromptOptions();
+        promptOptions.setPrompt(promptMessage);
+
+        return stepContext.prompt("ConfirmPrompt", promptOptions);
     }
 
     private CompletableFuture<DialogTurnResult> finalStep(WaterfallStepContext stepContext) {
         if ((Boolean) stepContext.getResult()) {
             BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
-
             return stepContext.endDialog(bookingDetails);
         }
 
         return stepContext.endDialog(null);
+    }
+
+    private static boolean isAmbiguous(String timex) {
+        TimexProperty timexProperty = new TimexProperty(timex);
+        return !timexProperty.getTypes().contains(Constants.TimexTypes.DEFINITE);
     }
 }

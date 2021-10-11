@@ -4,7 +4,6 @@
 package com.microsoft.bot.sample.corebot.app.insights;
 
 import com.codepoetics.protonpack.collectors.CompletableFutures;
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.io.IOUtils;
 import com.microsoft.bot.builder.ConversationState;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.builder.TurnContext;
@@ -21,6 +20,8 @@ import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
+
+import org.apache.commons.io.IOUtils;
 
 /**
  * The class containing the welcome dialog.

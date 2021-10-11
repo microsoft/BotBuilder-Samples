@@ -3,6 +3,8 @@
 
 package com.microsoft.bot.sample.core;
 
+import java.util.concurrent.CompletableFuture;
+
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.dialogs.ComponentDialog;
 import com.microsoft.bot.dialogs.DialogContext;
@@ -11,8 +13,6 @@ import com.microsoft.bot.dialogs.DialogTurnStatus;
 import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.ActivityTypes;
 import com.microsoft.bot.schema.InputHints;
-
-import java.util.concurrent.CompletableFuture;
 
 /**
  * The class in charge of the dialog interruptions.
