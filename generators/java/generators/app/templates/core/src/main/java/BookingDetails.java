@@ -21,7 +21,6 @@ public class BookingDetails {
         return destination;
     }
 
-
     /**
      * Sets the destination of the booking.
      *
