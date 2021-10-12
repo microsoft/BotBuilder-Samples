@@ -36,8 +36,9 @@ namespace Microsoft.BotBuilderSamples.Bots
                     return CreateCardCommand(turnContext, action);
                 case "shareMessage":
                     return ShareMessageCommand(turnContext, action);
-                case "webView":
-                    return WebViewResponse(turnContext, action);
+                case "scheduleMeeting":
+                    //TODO: call create meeting api and return adaptive card in message.
+                    return ScheduleMeetingResponse(turnContext, action);
                 case "createAdaptiveCard":
                     return CreateAdaptiveCardResponse(turnContext, action);
                 case "razorView":
@@ -152,7 +153,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private MessagingExtensionActionResponse WebViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse ScheduleMeetingResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Web View' context menu command.
             CustomFormResponse cardData = JsonConvert.DeserializeObject<CustomFormResponse>(action.Data.ToString());
@@ -204,8 +205,8 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             switch (action.CommandId)
             {
-                case "webView":
-                    return EmpDetails(turnContext, action);
+                case "scheduleMeeting":
+                    return MeetingDetails(turnContext, action);
                 case "HTML":
                     return TaskModuleHTMLPage(turnContext, action);
                 case "razorView":
@@ -293,18 +294,19 @@ namespace Microsoft.BotBuilderSamples.Bots
             return response;
         }
 
-        private MessagingExtensionActionResponse EmpDetails(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        private MessagingExtensionActionResponse MeetingDetails(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
+            // @esha fetch required properties from context or action, then call graph apis to fetch converstation details like conversation title, conversation attendees
             var response = new MessagingExtensionActionResponse()
             {
                 Task = new TaskModuleContinueResponse()
                 {
                     Value = new TaskModuleTaskInfo()
                     {
-                        Height = 300,
+                        Height = 600,
                         Width = 450,
-                        Title = "Task Module WebView",
-                        Url = baseUrl + "/Home/CustomForm",
+                        Title = "Schedule meeting",
+                        Card = GetAdaptiveCardAttachmentForMeeting("Hack 2021", new string[2] { "eshalath@microsoft.com", "yashna@microsoft.com"}),
                     },
                 },
             };
@@ -321,6 +323,32 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 ContentType = "application/vnd.microsoft.card.adaptive",
                 Content = JsonConvert.DeserializeObject(adaptiveCardJson),
+            };
+            return adaptiveCardAttachment;
+        }
+
+        private static Attachment GetAdaptiveCardAttachmentForMeeting(string title, string[] attendees)
+        {
+            var adaptiveCardAttachment = new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = new AdaptiveCard("1.0")
+                {
+                    Body = new List<AdaptiveElement>()
+                    {
+                      new AdaptiveTextInput() { Id = "title", Value = title, Label = "Title" },
+                      new AdaptiveTextInput() { Id = "attendees", Value = string.Join("; ", attendees), Label = "Attendees" },
+                      new AdaptiveTextInput() { Id = "time", Value = string.Join(" - ", "03:00 pm", "04:00 pm"), Label = "Time" },
+                    },
+                    Actions = new List<AdaptiveAction>()
+                    {
+                      new AdaptiveSubmitAction()
+                      {
+                        Type = AdaptiveSubmitAction.TypeName,
+                        Title = "Book",
+                      },
+                    },
+                },
             };
             return adaptiveCardAttachment;
         }

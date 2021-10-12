@@ -117,12 +117,12 @@
           ]
         },
         {
-          "id": "webView",
-          "description": "Fetch the Web View",
-          "title": "Web View",
+          "id": "scheduleMeeting",
+          "description": "Schedule meeting",
+          "title": "Schedule Meeting",
           "type": "action",
           "fetchTask": true,
-          "context": [ "compose" ]
+          "context": [ "compose", "message" ]
         },
         {
           "id": "HTML",
