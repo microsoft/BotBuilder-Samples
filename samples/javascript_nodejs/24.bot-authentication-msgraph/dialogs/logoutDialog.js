@@ -5,6 +5,11 @@ const { ActivityTypes } = require('botbuilder');
 const { ComponentDialog } = require('botbuilder-dialogs');
 
 class LogoutDialog extends ComponentDialog {
+    constructor(id, connectionName) {
+        super(id);
+        this.connectionName = connectionName;
+    }
+
     async onBeginDialog(innerDc, options) {
         const result = await this.interrupt(innerDc);
         if (result) {
@@ -28,8 +33,11 @@ class LogoutDialog extends ComponentDialog {
             const text = innerDc.context.activity.text ? innerDc.context.activity.text.toLowerCase() : '';
             if (text === 'logout') {
                 // The bot adapter encapsulates the authentication processes.
-                const botAdapter = innerDc.context.adapter;
-                await botAdapter.signOutUser(innerDc.context, process.env.ConnectionName);
+                const userTokenClient = innerDc.context.turnState.get(innerDc.context.adapter.UserTokenClientKey);
+
+                const { activity } = innerDc.context;
+                await userTokenClient.signOutUser(activity.from.id, this.connectionName, activity.channelId);
+
                 await innerDc.context.sendActivity('You have been signed out.');
                 return await innerDc.cancelAllDialogs();
             }
