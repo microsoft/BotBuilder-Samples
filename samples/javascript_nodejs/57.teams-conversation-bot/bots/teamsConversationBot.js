@@ -2,12 +2,13 @@
 // Licensed under the MIT License.
 
 const {
-    TurnContext,
-    MessageFactory,
-    TeamsInfo,
-    TeamsActivityHandler,
+    ActionTypes,
     CardFactory,
-    ActionTypes
+    Channels,
+    MessageFactory,
+    TeamsActivityHandler,
+    TeamsInfo,
+    TurnContext
 } = require('botbuilder');
 const TextEncoder = require('util').TextEncoder;
 const ACData = require('adaptivecards-templating');
@@ -94,7 +95,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 title: 'Delete card',
                 value: null,
                 text: 'Delete',
-            },
+            }
         ];
 
         if (isUpdate) {
@@ -178,10 +179,10 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         const template = new ACData.Template(AdaptiveCardTemplate);
         const memberData = {
-            'userName': member.name,
-            'userUPN': member.userPrincipalName,
-            'userAAD': member.aadObjectId
-        }
+            userName: member.name,
+            userUPN: member.userPrincipalName,
+            userAAD: member.aadObjectId
+        };
 
         const adaptiveCard = template.expand({
             $root: memberData
@@ -189,7 +190,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         await context.sendActivity({
             attachments: [CardFactory.adaptiveCard(adaptiveCard)]
-        });    
+        });
     }
 
     async mentionActivityAsync(context) {
@@ -198,7 +199,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
             text: `<at>${new TextEncoder().encode(
                 context.activity.from.name
             )}</at>`,
-            type: 'mention',
+            type: 'mention'
         };
 
         const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
@@ -218,16 +219,28 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 `Hello ${member.givenName} ${member.surname}. I'm a Teams conversation bot.`
             );
 
-            const ref = TurnContext.getConversationReference(context.activity);
-            ref.user = member;
+            const convoParams = {
+                members: [member],
+                tenantId: context.activity.channelData.tenant.id,
+                activity: context.activity
+            };
 
-            await context.adapter.createConversation(ref, async (context) => {
-                const ref = TurnContext.getConversationReference(context.activity);
+            await context.adapter.createConversationAsync(
+                process.env.MicrosoftAppId,
+                context.activity.channelId,
+                context.activity.serviceUrl,
+                null,
+                convoParams,
+                async (context) => {
+                    const ref = TurnContext.getConversationReference(context.activity);
 
-                await context.adapter.continueConversation(ref, async (context) => {
-                    await context.sendActivity(message);
+                    await context.adapter.continueConversationAsync(
+                        process.env.MicrosoftAppId,
+                        ref,
+                        async (context) => {
+                            await context.sendActivity(message);
+                        });
                 });
-            });
         }));
 
         await context.sendActivity(MessageFactory.text('All messages have been sent.'));
