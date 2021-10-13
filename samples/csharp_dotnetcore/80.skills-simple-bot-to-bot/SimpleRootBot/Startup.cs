@@ -66,8 +66,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot
             services.AddSingleton<BotAdapter>(sp => sp.GetService<CloudAdapter>());
 
             // Register the skills client and skills request handler.
-            services.AddSingleton<SkillConversationIdFactory>();
-            services.AddSingleton<SkillConversationIdFactoryBase>(sp => sp.GetService<SkillConversationIdFactory>());
+            services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
             services.AddSingleton(sp => sp.GetService<BotFrameworkAuthentication>().CreateBotFrameworkClient());
             services.AddSingleton<CloudChannelServiceHandler, CloudSkillHandler>();
 

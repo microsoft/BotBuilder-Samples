@@ -24,11 +24,11 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly string _botId;
         private readonly ConversationState _conversationState;
         private readonly BotFrameworkClient _skillClient;
-        private readonly SkillConversationIdFactory _conversationIdFactory;
+        private readonly SkillConversationIdFactoryBase _conversationIdFactory;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
 
-        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, BotFrameworkClient skillClient, SkillConversationIdFactory conversationIdFactory, IConfiguration configuration)
+        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, BotFrameworkClient skillClient, SkillConversationIdFactoryBase conversationIdFactory, IConfiguration configuration)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
