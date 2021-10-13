@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -36,7 +35,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         private readonly SkillsConfiguration _skillsConfig;
 
         // Dependency injection uses this constructor to instantiate MainDialog.
-        public MainDialog(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
+        public MainDialog(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, BotFrameworkClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
             var botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
@@ -198,7 +197,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         }
 
         // Helper method that creates and adds SkillDialog instances for the configured skills.
-        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, string botId)
+        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, BotFrameworkClient skillClient, SkillsConfiguration skillsConfig, string botId)
         {
             foreach (var skillInfo in _skillsConfig.Skills.Values)
             {
