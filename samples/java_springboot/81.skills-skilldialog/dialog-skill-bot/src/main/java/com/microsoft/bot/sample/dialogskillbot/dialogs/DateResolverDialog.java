@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-import com.microsoft.applicationinsights.core.dependencies.apachecommons.lang3.StringUtils;
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.dialogs.DialogTurnResult;
 import com.microsoft.bot.dialogs.WaterfallDialog;
@@ -24,11 +23,20 @@ import com.microsoft.bot.schema.InputHints;
 import com.microsoft.recognizers.datatypes.timex.expression.Constants;
 import com.microsoft.recognizers.datatypes.timex.expression.TimexProperty;
 
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * The class containing the date resolver dialogs.
+ */
 public class DateResolverDialog extends CancelAndHelpDialog {
+    private final String promptMsgText = "When would you like to travel?";
+    private final String repromptMsgText = 
+        "I'm sorry, to make your booking please enter a full travel date including Day, Month and Year.";
 
-    private final String PromptMsgText = "When would you like to travel?";
-    private final String RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date, including Day, Month, and Year.";
-
+    /**
+     * The constructor of the DateResolverDialog class.
+     * @param id The dialog's id.
+     */
     public DateResolverDialog(String id) {
         super(!StringUtils.isAllBlank(id) ? id : "DateResolverDialog");
         addDialog(new DateTimePrompt("DateTimePrompt", new dateTimePromptValidator(), null));
@@ -39,36 +47,11 @@ public class DateResolverDialog extends CancelAndHelpDialog {
         setInitialDialogId("WaterfallDialog");
     }
 
-    class dateTimePromptValidator implements PromptValidator<List<DateTimeResolution>> {
-
-        @Override
-        public CompletableFuture<Boolean> promptValidator(
-                PromptValidatorContext<List<DateTimeResolution>> promptContext) {
-            if (promptContext.getRecognized().getSucceeded()) {
-                // This value will be a TMEX. We are only interested in the Date part, so grab
-                // the first result and drop the Time part.
-                // TMEX instanceof a format that represents DateTime expressions that include
-                // some ambiguity, such as a missing Year.
-                String timex = promptContext.getRecognized().getValue().get(0).getTimex().split("T")[0];
-
-                // If this instanceof a definite Date that includes year, month and day we are
-                // good; otherwise, reprompt.
-                // A better solution might be to let the user know what part instanceof actually
-                // missing.
-                Boolean isDefinite = new TimexProperty(timex).getTypes().contains(Constants.TimexTypes.DEFINITE);
-
-                return CompletableFuture.completedFuture(isDefinite);
-            }
-            return CompletableFuture.completedFuture(false);
-        }
-
-    }
-
     public CompletableFuture<DialogTurnResult> initialStep(WaterfallStepContext stepContext) {
         String timex = (String) stepContext.getOptions();
 
-        Activity promptMessage = MessageFactory.text(PromptMsgText, PromptMsgText, InputHints.EXPECTING_INPUT);
-        Activity repromptMessage = MessageFactory.text(RepromptMsgText, RepromptMsgText, InputHints.EXPECTING_INPUT);
+        Activity promptMessage = MessageFactory.text(promptMsgText, promptMsgText, InputHints.EXPECTING_INPUT);
+        Activity repromptMessage = MessageFactory.text(repromptMsgText, repromptMsgText, InputHints.EXPECTING_INPUT);
 
         if (timex == null) {
             // We were not given any date at all so prompt the user.
@@ -96,5 +79,29 @@ public class DateResolverDialog extends CancelAndHelpDialog {
     private CompletableFuture<DialogTurnResult> finalStep(WaterfallStepContext stepContext) {
         String timex = ((List<DateTimeResolution>) stepContext.getResult()).get(0).getTimex();
         return stepContext.endDialog(timex);
+    }
+
+    class dateTimePromptValidator implements PromptValidator<List<DateTimeResolution>> {
+
+        @Override
+        public CompletableFuture<Boolean> promptValidator(
+                PromptValidatorContext<List<DateTimeResolution>> promptContext) {
+            if (promptContext.getRecognized().getSucceeded()) {
+                // This value will be a TMEX. We are only interested in the Date part, so grab
+                // the first result and drop the Time part.
+                // TMEX instanceof a format that represents DateTime expressions that include
+                // some ambiguity, such as a missing Year.
+                String timex = promptContext.getRecognized().getValue().get(0).getTimex().split("T")[0];
+
+                // If this instanceof a definite Date that includes year, month and day we are
+                // good; otherwise, reprompt.
+                // A better solution might be to let the user know what part instanceof actually
+                // missing.
+                Boolean isDefinite = new TimexProperty(timex).getTypes().contains(Constants.TimexTypes.DEFINITE);
+
+                return CompletableFuture.completedFuture(isDefinite);
+            }
+            return CompletableFuture.completedFuture(false);
+        }
     }
 }
