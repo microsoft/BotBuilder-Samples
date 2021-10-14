@@ -17,7 +17,17 @@ const { ApplicationInsightsTelemetryClient, TelemetryInitializerMiddleware } = r
 const { TelemetryLoggerMiddleware } = require('botbuilder-core');
 
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage, NullTelemetryClient, UserState } = require('botbuilder');
+const {
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    InputHints,
+    MemoryStorage,
+    NullTelemetryClient,
+    UserState
+} = require('botbuilder');
+
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
 // This bot's main dialog.
@@ -28,18 +38,22 @@ const { MainDialog } = require('./dialogs/mainDialog');
 const { BookingDialog } = require('./dialogs/bookingDialog');
 const BOOKING_DIALOG = 'bookingDialog';
 
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -60,7 +74,7 @@ const onTurnErrorHandler = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Add telemetry middleware to the adapter middleware pipeline
@@ -101,12 +115,9 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
-server.post('/api/messages', (req, res) => {
+server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
-    });
+    await adapter.process(req, res, (context) => bot.run(context));
 });
 
 // Enable the Application Insights middleware, which helps correlate all activity
@@ -122,18 +133,12 @@ function getTelemetryClient(instrumentationKey) {
 }
 
 // Listen for Upgrade requests for Streaming.
-server.on('upgrade', (req, socket, head) => {
+server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter({
-        appId: process.env.MicrosoftAppId,
-        appPassword: process.env.MicrosoftAppPassword
-    });
-    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
+
+    // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
-        // After connecting via WebSocket, run this logic for every request sent over
-        // the WebSocket connection.
-        await bot.run(context);
-    });
+    await streamingAdapter.process(req, socket, head, (context) => bot.run(context));
 });
