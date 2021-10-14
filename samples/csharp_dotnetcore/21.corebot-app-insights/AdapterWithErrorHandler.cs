@@ -7,10 +7,9 @@ using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
-using System.Net.Http;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -19,8 +18,8 @@ namespace Microsoft.BotBuilderSamples
         //Create field for telemetry client. Add IBotTelemetryClient parameter to AdapterWithErrorHandler
         private IBotTelemetryClient _adapterBotTelemetryClient;
 
-        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, TelemetryInitializerMiddleware telemetryInitializerMiddleware, IBotTelemetryClient botTelemetryClient, ConversationState conversationState = default)
-            : base(configuration, httpClientFactory, logger)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, TelemetryInitializerMiddleware telemetryInitializerMiddleware, IBotTelemetryClient botTelemetryClient, ConversationState conversationState = default)
+            : base(auth, logger)
         {
             Use(telemetryInitializerMiddleware);
 
