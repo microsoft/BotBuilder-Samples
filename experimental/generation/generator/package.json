@@ -1,23 +1,23 @@
 {
-	"name": "root",
-	"private": true,
-	"scripts": {
-		"postinstall": "lerna bootstrap --hoist",
-		"build": "lerna run build",
-		"clean": "lerna run clean",
-		"test": "lerna run build && lerna run test --stream --concurrency 1"
-	},
-	"devDependencies": {
-		"lerna": "^3.22.1"
-	},
-	"dependencies": {
-		"adaptive-expressions": "next",
-		"botbuilder": "next",
-		"botbuilder-ai": "next",
-		"botbuilder-core": "next",
-		"botbuilder-dialogs-adaptive": "next",
-		"botbuilder-dialogs-adaptive-runtime-core": "next",
-		"botbuilder-dialogs-declarative": "next",
-		"botbuilder-lg": "next"
-	}
+  "name": "root",
+  "private": true,
+  "scripts": {
+    "postinstall": "lerna bootstrap --hoist",
+    "build": "lerna run build",
+    "clean": "lerna run clean",
+    "test": "lerna run build && lerna run test --stream --concurrency 1"
+  },
+  "devDependencies": {
+    "lerna": "^4.0.0"
+  },
+  "dependencies": {
+    "adaptive-expressions": "next",
+    "botbuilder": "next",
+    "botbuilder-ai": "next",
+    "botbuilder-core": "next",
+    "botbuilder-dialogs-adaptive": "next",
+    "botbuilder-dialogs-adaptive-runtime-core": "next",
+    "botbuilder-dialogs-declarative": "next",
+    "botbuilder-lg": "next"
+  }
 }
