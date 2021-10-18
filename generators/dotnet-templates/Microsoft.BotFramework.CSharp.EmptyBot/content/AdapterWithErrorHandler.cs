@@ -3,18 +3,17 @@
 //
 // Generated with EmptyBot .NET Template version __vX.X.X__
 
-using System.Net.Http;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 
 namespace EmptyBot
 {
     public class AdapterWithErrorHandler : CloudAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger)
-            : base(configuration, httpClientFactory, logger)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(auth, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {
