@@ -23,21 +23,48 @@ const {
     InputHints,
     MemoryStorage
 } = require('botbuilder');
-const { allowedCallersClaimsValidator, AuthenticationConfiguration } = require('botframework-connector');
+const {
+    allowedCallersClaimsValidator,
+    AuthenticationConfiguration,
+    AuthenticationConstants
+} = require('botframework-connector');
 
 // This bot's main dialog.
 const { SkillBot } = require('./bots/skillBot');
 const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
-// Define our authentication configuration.
 const allowedCallers = (process.env.AllowedCallers || '').split(',').filter((val) => val) || [];
 
-const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator(allowedCallers));
+const claimsValidators = allowedCallersClaimsValidator(allowedCallers);
+
+const tokenIssuers = (tenantId) => {
+    // If the MicrosoftAppTenantId is specified in the environment config, add the tenant as a valid JWT token issuer for Bot to Skill conversation.
+    // The token issuer for MSI and single tenant scenarios will be the tenant where the bot is registered.
+    if (tenantId) {
+        // For SingleTenant/MSI auth, the JWT tokens will be issued from the bot's home tenant.
+        // Therefore, these issuers need to be added to the list of valid token issuers for authenticating activity requests.
+        return [
+            `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV1 }${ tenantId }/`,
+            `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV2 }${ tenantId }/v2.0/`,
+            `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1 }${ tenantId }/`,
+            `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2 }${ tenantId }/v2.0/`
+        ];
+    }
+
+    return [];
+};
+
+const validTokenIssuers = tokenIssuers(process.env.MicrosoftAppTenantId);
+
+// Define our authentication configuration.
+const authConfig = new AuthenticationConfiguration([], claimsValidators, validTokenIssuers);
 
 const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppType: process.env.MicrosoftAppType,
     MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
 });
 
 const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory, authConfig);
