@@ -367,10 +367,10 @@ jobs:
   - task: AzureCLI@2
     displayName: Zip deploy the bot to Azure
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >
+      inlineScript: |
         az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(Build.ArtifactStagingDirectory)/testbot.zip" --debug
 
   - powershell: |
