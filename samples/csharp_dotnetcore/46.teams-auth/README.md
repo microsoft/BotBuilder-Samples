@@ -14,6 +14,8 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 This sample utilizes an app setting `UseSingleSignOn` to add `TeamsSSOTokenExchangeMiddleware`. Refer to [Teams SSO](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/authentication/auth-aad-sso-bots) for AAD and SSO OAuth configuration information.
 
+> IMPORTANT: Teams SSO only works in 1-1 chats, and not group contexts.
+
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account (not a guest account)

@@ -15,12 +15,12 @@
     "outline": "icon-outline.png"
   },
   "name": {
-    "short": "Team Auth Module",
-    "full": "Simple Team Auth Module"
+    "short": "Teams SSO Auth",
+    "full": "Teams Single Sign On Sample"
   },
   "description": {
-    "short": "Test Team Auth Module Scenario",
-    "full": "Simple Team Auth Module Scenario Test"
+    "short": "Test Teams SSO Auth",
+    "full": "This is a bot for testing Single Sign on for Teams"
   },
   "accentColor": "#FFFFFF",
   "bots": [
@@ -43,6 +43,6 @@
   ],
   "validDomains": [
     "token.botframework.com",
-    "*.ngrok.io"
+    "ngrok.io"
   ]
 }
