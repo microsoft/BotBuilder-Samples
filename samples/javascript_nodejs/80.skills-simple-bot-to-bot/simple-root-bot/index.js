@@ -9,8 +9,20 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, TurnContext, ActivityTypes, ChannelServiceRoutes, ConversationState, InputHints, MemoryStorage, SkillHandler, SkillHttpClient } = require('botbuilder');
-const { AuthenticationConfiguration, SimpleCredentialProvider } = require('botframework-connector');
+const {
+    ActivityTypes,
+    ChannelServiceRoutes,
+    CloudAdapter,
+    CloudSkillHandler,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    InputHints,
+    MemoryStorage,
+    SkillConversationIdFactory,
+    TurnContext
+} = require('botbuilder');
+const { allowedCallersClaimsValidator, AuthenticationConfiguration } = require('botframework-connector');
 
 // Import required bot configuration.
 const ENV_FILE = path.join(__dirname, '.env');
@@ -19,22 +31,30 @@ require('dotenv').config({ path: ENV_FILE });
 // This bot's main dialog.
 const { RootBot } = require('./rootBot');
 const { SkillsConfiguration } = require('./skillsConfiguration');
-const { SkillConversationIdFactory } = require('./skillConversationIdFactory');
-const { allowedSkillsClaimsValidator } = require('./authentication/allowedSkillsClaimsValidator');
+
+// Load skills configuration
+const skillsConfig = new SkillsConfiguration();
+
+const allowedCallers = Object.values(skillsConfig.skills).map(skill => skill.appId);
+
+const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator(allowedCallers));
+
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory, authConfig);
 
 // Create adapter.
-// See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword,
-    authConfig: new AuthenticationConfiguration([], allowedSkillsClaimsValidator)
-});
+// See https://aka.ms/about-bot-adapter to learn more about how bots work.
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to the console log, instead of to app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -82,7 +102,7 @@ async function endSkillConversation(context) {
                 endOfConversation, TurnContext.getConversationReference(context.activity), true);
 
             await conversationState.saveChanges(context, true);
-            await skillClient.postToSkill(botId, activeSkill, skillsConfig.skillHostEndpoint, endOfConversation);
+            await skillClient.postActivity(botId, activeSkill.appId, activeSkill.skillEndpoint, skillsConfig.skillHostEndpoint, endOfConversation.conversation.id, endOfConversation);
         }
     } catch (err) {
         console.error(`\n [onTurnError] Exception caught on attempting to send EndOfConversation : ${ err }`);
@@ -110,24 +130,20 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 
 // Create the conversationIdFactory
-const conversationIdFactory = new SkillConversationIdFactory();
+const conversationIdFactory = new SkillConversationIdFactory(new MemoryStorage());
 
-// Load skills configuration
-const skillsConfig = new SkillsConfiguration();
-
-// Create the credential provider;
-const credentialProvider = new SimpleCredentialProvider(process.env.MicrosoftAppId, process.env.MicrosoftAppPassword);
-
-// Create the skill client
-const skillClient = new SkillHttpClient(credentialProvider, conversationIdFactory);
+// Create the skill client.
+const skillClient = botFrameworkAuthentication.createBotFrameworkClient();
 
 // Create the main dialog.
-const bot = new RootBot(conversationState, skillsConfig, skillClient);
+const bot = new RootBot(conversationState, skillsConfig, skillClient, conversationIdFactory);
 
 // Create HTTP server.
 // maxParamLength defaults to 100, which is too short for the conversationId created in skillConversationIdFactory.
 // See: https://github.com/microsoft/BotBuilder-Samples/issues/2194.
 const server = restify.createServer({ maxParamLength: 1000 });
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -135,16 +151,11 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
-server.post('/api/messages', (req, res) => {
+server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
-    });
+    await adapter.process(req, res, (context) => bot.run(context));
 });
 
-// Create and initialize the skill classes
-const authConfig = new AuthenticationConfiguration([], allowedSkillsClaimsValidator);
-const handler = new SkillHandler(adapter, bot, conversationIdFactory, credentialProvider, authConfig);
+const handler = new CloudSkillHandler(adapter, (context) => bot.run(context), conversationIdFactory, botFrameworkAuthentication);
 const skillEndpoint = new ChannelServiceRoutes(handler);
 skillEndpoint.register(server, '/api/skills');
