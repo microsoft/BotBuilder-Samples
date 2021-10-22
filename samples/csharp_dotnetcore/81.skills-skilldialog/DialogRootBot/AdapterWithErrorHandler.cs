@@ -19,19 +19,19 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 {
     public class AdapterWithErrorHandler : CloudAdapter
     {
+        private readonly BotFrameworkAuthentication _auth;
         private readonly IConfiguration _configuration;
         private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
-        private readonly BotFrameworkClient _skillClient;
         private readonly SkillsConfiguration _skillsConfig;
 
-        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, IConfiguration configuration, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState, BotFrameworkClient skillClient, SkillsConfiguration skillsConfig = null)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, IConfiguration configuration, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState, SkillsConfiguration skillsConfig = null)
             : base(auth, logger)
         {
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
             _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillClient));
             _skillsConfig = skillsConfig;
 
             OnTurnError = HandleTurnError;
@@ -75,7 +75,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
 
         private async Task EndSkillConversationAsync(ITurnContext turnContext)
         {
-            if (_skillClient == null || _skillsConfig == null)
+            if (_skillsConfig == null)
             {
                 return;
             }
@@ -95,7 +95,10 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot
                     endOfConversation.ApplyConversationReference(turnContext.Activity.GetConversationReference(), true);
 
                     await _conversationState.SaveChangesAsync(turnContext, true);
-                    await _skillClient.PostActivityAsync(botId, activeSkill.AppId, activeSkill.SkillEndpoint, _skillsConfig.SkillHostEndpoint, endOfConversation.Conversation.Id, (Activity)endOfConversation, CancellationToken.None);
+
+                    using var client = _auth.CreateBotFrameworkClient();
+
+                    await client.PostActivityAsync(botId, activeSkill.AppId, activeSkill.SkillEndpoint, _skillsConfig.SkillHostEndpoint, endOfConversation.Conversation.Id, (Activity)endOfConversation, CancellationToken.None);
                 }
             }
             catch (Exception ex)

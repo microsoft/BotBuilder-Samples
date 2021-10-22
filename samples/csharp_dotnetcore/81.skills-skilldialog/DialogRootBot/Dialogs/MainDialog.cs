@@ -31,21 +31,18 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
+        private readonly BotFrameworkAuthentication _auth;
         private readonly string _selectedSkillKey = $"{typeof(MainDialog).FullName}.SelectedSkillKey";
         private readonly SkillsConfiguration _skillsConfig;
 
         // Dependency injection uses this constructor to instantiate MainDialog.
-        public MainDialog(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, BotFrameworkClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
+        public MainDialog(BotFrameworkAuthentication auth, ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
             var botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
 
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
-
-            if (skillClient == null)
-            {
-                throw new ArgumentNullException(nameof(skillClient));
-            }
 
             if (conversationState == null)
             {
@@ -53,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Use helper method to add SkillDialog instances for the configured skills.
-            AddSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, botId);
+            AddSkillDialogs(conversationState, conversationIdFactory, skillsConfig, botId);
 
             // Add ChoicePrompt to render available skills.
             AddDialog(new ChoicePrompt("SkillPrompt"));
@@ -197,7 +194,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         }
 
         // Helper method that creates and adds SkillDialog instances for the configured skills.
-        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, BotFrameworkClient skillClient, SkillsConfiguration skillsConfig, string botId)
+        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillsConfiguration skillsConfig, string botId)
         {
             foreach (var skillInfo in _skillsConfig.Skills.Values)
             {
@@ -206,7 +203,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 {
                     BotId = botId,
                     ConversationIdFactory = conversationIdFactory,
-                    SkillClient = skillClient,
+                    SkillClient = _auth.CreateBotFrameworkClient(),
                     SkillHostEndpoint = skillsConfig.SkillHostEndpoint,
                     ConversationState = conversationState,
                     Skill = skillInfo
