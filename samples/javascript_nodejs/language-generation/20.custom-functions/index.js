@@ -88,5 +88,5 @@ server.on('upgrade', async (req, socket, head) => {
     // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    await streamingAdapter.process(req, socket, head, (context) => bot.run(context));
+    await streamingAdapter.process(req, socket, head, (context) => myBot.run(context));
 });
