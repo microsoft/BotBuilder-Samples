@@ -363,6 +363,7 @@ jobs:
     inputs:
       path: $(Build.ArtifactStagingDirectory)
       artifactName: zipfile
+    continueOnError: True
 
   - task: AzureCLI@2
     displayName: Zip deploy the bot to Azure
