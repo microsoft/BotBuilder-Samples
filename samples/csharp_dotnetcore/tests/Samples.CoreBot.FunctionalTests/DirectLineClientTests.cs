@@ -23,6 +23,10 @@ namespace Samples.CoreBot.FunctionalTests
             GetEnvironmentVars();
 
             string input = "";
+
+            // "Prime" the bot. Running StartBotConversationAsync() twice tends to succeed the second time.
+            await StartBotConversationAsync(input);
+
             var botAnswer = await StartBotConversationAsync(input);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(botAnswer) && botAnswer.Contains("travel", StringComparison.OrdinalIgnoreCase),
                 $"Expected: A message containing 'travel'. Actual:<{botAnswer}>.");
