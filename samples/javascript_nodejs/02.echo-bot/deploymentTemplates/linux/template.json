@@ -34,11 +34,60 @@
         "appSecret": {
             "defaultValue": "blank",
             "type": "string"
+        },
+        "appType": {
+            "defaultValue": "MultiTenant",
+            "type": "string",
+            "allowedValues": [
+                "MultiTenant",
+                "SingleTenant",
+                "UserAssignedMSI"
+            ]
+        },
+        "tenantId": {
+            "type": "string",
+            "defaultValue": "[subscription().tenantId]"
+        },
+        "existingUserAssignedMSIName": {
+            "type": "string",
+            "defaultValue": ""
+        },
+        "existingUserAssignedMSIResourceGroupName": {
+            "type": "string",
+            "defaultValue": ""
         }
     },
     "variables": {
         "siteHost": "[concat(parameters('botName'), '.azurewebsites.net')]",
-        "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]"
+        "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]",
+        "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('existingUserAssignedMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('existingUserAssignedMSIName'))]",
+        "appTypeDef": {
+          "MultiTenant": {
+            "tenantId": "",
+            "msiResourceId": "",
+            "identity": { "type": "None" }
+          },
+          "SingleTenant": {
+            "tenantId": "[parameters('tenantId')]",
+            "msiResourceId": "",
+            "identity": { "type": "None" }
+          },
+          "UserAssignedMSI": {
+            "tenantId": "[parameters('tenantId')]",
+            "msiResourceId": "[variables('msiResourceId')]",
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "[variables('msiResourceId')]": {}
+                }
+            }
+          }
+        },
+        "appType": {
+          "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
+          "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
+          "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
+        }
     },
     "resources": [
         {
@@ -88,12 +137,20 @@
                             "value": "10.14.1"
                         },
                         {
+                            "name": "MicrosoftAppType",
+                            "value": "[parameters('appType')]"
+                        },
+                        {
                             "name": "MicrosoftAppId",
                             "value": "[parameters('appId')]"
                         },
                         {
                             "name": "MicrosoftAppPassword",
                             "value": "[parameters('appSecret')]"
+                        },
+                        {
+                            "name": "MicrosoftAppTenantId",
+                            "value": "[variables('appType').tenantId]"
                         }
                     ]
                 },
@@ -212,6 +269,9 @@
                 "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
                 "endpoint": "[variables('botEndpoint')]",
                 "msaAppId": "[parameters('appId')]",
+                "msaAppTenantId": "[variables('appType').tenantId]",
+                "msaAppMSIResourceId": "[variables('appType').msiResourceId]",
+                "msaAppType": "[parameters('appType')]",
                 "luisAppIds": [],
                 "schemaTransformationVersion": "1.3",
                 "isCmekEnabled": false,
