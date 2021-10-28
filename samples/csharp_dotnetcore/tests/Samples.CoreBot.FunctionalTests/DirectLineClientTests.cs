@@ -24,7 +24,7 @@ namespace Samples.CoreBot.FunctionalTests
 
             string input = "";
 
-            // "Prime" the bot. Running StartBotConversationAsync() twice tends to succeed the second time.
+            // "Prime" the bot. Running StartBotConversationAsync() twice succeeds the second time.
             await StartBotConversationAsync(input);
 
             var botAnswer = await StartBotConversationAsync(input);
