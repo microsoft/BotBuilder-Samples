@@ -409,11 +409,6 @@ jobs:
     inputs:
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/Samples.$(SampleBotName).FunctionalTests.csproj
 
-  - powershell: |
-      Start-Sleep -Seconds 700
-    displayName: 'Sleep for 11 min 40 sec'
-    enabled: true
-
   - task: DotNetCoreCLI@2
     displayName: dotnet test
     inputs:
