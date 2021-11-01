@@ -1,16 +1,16 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.Bot.Builder.DynamicsOmnichannelBot;
-using DynamicsOmnichannelBot.Middleware;
+using Microsoft.Omnichannel.Bot.Middleware;
+using Microsoft.Extensions.Hosting;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -28,20 +28,20 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddControllers();
 
             // Create the Bot Framework Adapter.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the Dynamics Omnichannel middleware.
-            services.AddSingleton<DynamicsOmnichannelMiddleware>();
+            services.AddSingleton<OmnichannelMiddleware>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, DynamicsOmnichannelAgentBot>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -55,8 +55,6 @@ namespace Microsoft.BotBuilderSamples
             app.UseDefaultFiles();
             app.UseStaticFiles();
             app.UseWebSockets();
-
-            app.UseMvc();
         }
     }
 }

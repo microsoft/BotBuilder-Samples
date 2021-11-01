@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using DynamicsOmnichannelBot.AdaptiveCards;
@@ -38,16 +36,20 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 var replyActivity = MessageFactory.Text($"{conversation.WelcomeMessage}");
                 await turnContext.SendActivityAsync(replyActivity, cancellationToken);
-            } else if (turnContext.Activity.Type == ActivityTypes.Message)
+            }
+            else if (turnContext.Activity.Type == ActivityTypes.Message)
             {
                 if (turnContext.Activity.Text.Contains("agent") | conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text))
                 {
-                    Dictionary<string, string> endConversationContext = new Dictionary<string, string>();
-                    if (conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text)) { endConversationContext = conversation.EscalationDictionary[turnContext.Activity.Text]; }
+                    var endConversationContext = new Dictionary<string, string>();
+                    if (conversation.EscalationDictionary.ContainsKey(turnContext.Activity.Text))
+                    {
+                        endConversationContext = conversation.EscalationDictionary[turnContext.Activity.Text];
+                    }
 
                     await turnContext.SendActivityAsync("Transferring  to an agent, who can help you with this. Please remain online…");
 
-                    Dictionary<string, object> handOffContext = new Dictionary<string, object>()
+                    var handOffContext = new Dictionary<string, object>()
                     {
                         { "BotHandoffContext", "Specialist request" },
                         { "skill", "service" }
@@ -64,7 +66,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 else if (turnContext.Activity.Text.ToLower().Contains("end"))
                 {
                     await turnContext.SendActivityAsync("Thanks for talking with me. Have a good day. Bye.");
-                    IEndOfConversationActivity endOfConversationActivity = Activity.CreateEndOfConversationActivity();
+                    var endOfConversationActivity = Activity.CreateEndOfConversationActivity();
                     await turnContext.SendActivityAsync(endOfConversationActivity);
                 }
                 else
@@ -93,7 +95,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 }
                 reply.Text = replyText;
             }
-            else {
+            else
+            {
                 switch (text.ToLower())
                 {
                     case "microsoft store":
@@ -120,13 +123,13 @@ namespace Microsoft.BotBuilderSamples.Bots
         private async Task<string> GetAdaptiveCardsReplyText(IMessageActivity reply, string replyText, ITurnContext turnContext, CancellationToken cancellationToken)
         {
             int start = replyText.IndexOf("(");
-            int end = replyText.IndexOf(")")+1;
+            int end = replyText.IndexOf(")") + 1;
 
             var adaptiveCardSubString = replyText.Substring(start, end - start);
 
-            int cardNameStart = adaptiveCardSubString.IndexOf("'")+1;
+            int cardNameStart = adaptiveCardSubString.IndexOf("'") + 1;
             int cardNameEnd = adaptiveCardSubString.LastIndexOf("'");
-            var adaptiveCard = adaptiveCardSubString.Substring(cardNameStart, cardNameEnd-cardNameStart);
+            var adaptiveCard = adaptiveCardSubString.Substring(cardNameStart, cardNameEnd - cardNameStart);
 
             reply.Attachments.Add(AdaptiveCards.CreateAdaptiveCardAttachment(adaptiveCard));
             reply.Text = replyText.Replace(adaptiveCardSubString, "");
@@ -141,14 +144,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         private string GetSuggestedActionsReplyText(IMessageActivity reply, string replyText)
         {
             int start = replyText.IndexOf("(");
-            int end = replyText.IndexOf(")")+1;
+            int end = replyText.IndexOf(")") + 1;
 
-            var suggestedActionSubString = replyText.Substring(start, end-start);
+            var suggestedActionSubString = replyText.Substring(start, end - start);
 
-            int startActions = suggestedActionSubString.IndexOf("'")+1;
+            int startActions = suggestedActionSubString.IndexOf("'") + 1;
             int endActions = suggestedActionSubString.LastIndexOf("'");
 
-            var suggestedActions = suggestedActionSubString.Substring(startActions, endActions- startActions).Split("/");
+            var suggestedActions = suggestedActionSubString.Substring(startActions, endActions - startActions).Split("/");
 
             reply.SuggestedActions = AdaptiveCards.CreateSuggestedAction(suggestedActions);
             return replyText.Replace(suggestedActionSubString, "");
