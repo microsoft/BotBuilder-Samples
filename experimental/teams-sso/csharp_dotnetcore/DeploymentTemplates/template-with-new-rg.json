@@ -174,6 +174,22 @@
                             "dependsOn": [
                                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/sites/', variables('webAppName'))]"
                             ]
+                        },
+                        {
+                            "type": "Microsoft.BotService/botServices/channels",
+                            "apiVersion": "2021-03-01",
+                            "name": "[concat(parameters('botId'), '/MsTeamsChannel')]",
+                            "location": "global",
+                            "dependsOn": [
+                                "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', variables('webAppName'))]"
+                            ],
+                            "properties": {
+                                "properties": {
+                                    "enableCalling": false,
+                                    "isEnabled": true
+                                },
+                                "channelName": "MsTeamsChannel"
+                            }
                         }
                     ],
                     "outputs": {}

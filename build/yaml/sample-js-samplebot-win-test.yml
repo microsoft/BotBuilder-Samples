@@ -235,10 +235,10 @@ jobs:
   - task: AzureCLI@2
     displayName: 'Deploy bot, create directline channel '
     inputs:
-      connectedServiceNameARM: 0ab0d343-57b9-4390-9a6a-13d71ef36de6
+      azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
-      inlineScript: >
+      inlineScript: |
         # Generate web.config for bot deploy
         az bot prepare-deploy --code-dir "$(SampleRootPath)" --lang Javascript
 
