@@ -4,20 +4,18 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.DynamicsOmnichannelBot;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.BotBuilderSamples.Bots;
-using Microsoft.Bot.Builder.DynamicsOmnichannelBot;
-using Microsoft.Omnichannel.Bot.Middleware;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Omnichannel.Bot.Middleware;
 
 namespace Microsoft.BotBuilderSamples
 {
     public class Startup
     {
-        private const string BotOpenIdMetadataKey = "BotOpenIdMetadata";
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -28,7 +26,7 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddHttpClient().AddControllers().AddNewtonsoftJson();
 
             // Create the Bot Framework Adapter.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
@@ -47,14 +45,18 @@ namespace Microsoft.BotBuilderSamples
             {
                 app.UseDeveloperExceptionPage();
             }
-            else
-            {
-                app.UseHsts();
-            }
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
-            app.UseWebSockets();
+            app.UseDefaultFiles()
+                .UseStaticFiles()
+                .UseWebSockets()
+                .UseRouting()
+                .UseAuthorization()
+                .UseEndpoints(endpoints =>
+                {
+                    endpoints.MapControllers();
+                });
+
+            // app.UseHttpsRedirection();
         }
     }
 }
