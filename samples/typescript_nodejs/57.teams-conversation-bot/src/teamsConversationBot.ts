@@ -3,7 +3,6 @@
 
 import {
     ActionTypes,
-    BotFrameworkAdapter,
     CardFactory,
     ChannelAccount,
     CloudAdapter,
@@ -160,8 +159,6 @@ export class TeamsConversationBot extends TeamsActivityHandler {
             console.log( 'a ', teamMember );
             const message = MessageFactory.text( `Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.` );
 
-            // const ref = TurnContext.getConversationReference( context.activity );
-            // ref.user = teamMember;
             let botAdapter: CloudAdapter;
             botAdapter = context.adapter as CloudAdapter;
 
