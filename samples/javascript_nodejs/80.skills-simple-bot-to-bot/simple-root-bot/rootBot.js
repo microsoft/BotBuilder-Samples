@@ -4,15 +4,17 @@
 const { ActivityHandler, ActivityTypes } = require('botbuilder');
 
 class RootBot extends ActivityHandler {
-    constructor(conversationState, skillsConfig, skillClient) {
+    constructor(conversationState, skillsConfig, skillClient, conversationIdFactory) {
         super();
         if (!conversationState) throw new Error('[RootBot]: Missing parameter. conversationState is required');
         if (!skillsConfig) throw new Error('[RootBot]: Missing parameter. skillsConfig is required');
         if (!skillClient) throw new Error('[RootBot]: Missing parameter. skillClient is required');
+        if (!conversationIdFactory) throw new Error('[RootBot]: Missing parameter. conversationIdFactory is required');
 
         this.conversationState = conversationState;
         this.skillsConfig = skillsConfig;
         this.skillClient = skillClient;
+        this.conversationIdFactory = conversationIdFactory;
 
         this.botId = process.env.MicrosoftAppId;
 
@@ -113,8 +115,16 @@ class RootBot extends ActivityHandler {
         // will have access to current accurate state.
         await this.conversationState.saveChanges(context, true);
 
+        // Create a conversationId to interact with the skill and send the activity
+        const skillConversationId = await this.conversationIdFactory.createSkillConversationIdWithOptions({
+            fromBotOAuthScope: context.turnState.get(context.adapter.OAuthScopeKey),
+            fromBotId: this.botId,
+            activity: context.activity,
+            botFrameworkSkill: this.targetSkill
+        });
+
         // route the activity to the skill
-        const response = await this.skillClient.postToSkill(this.botId, targetSkill, this.skillsConfig.skillHostEndpoint, context.activity);
+        const response = await this.skillClient.postActivity(this.botId, targetSkill.appId, targetSkill.skillEndpoint, this.skillsConfig.skillHostEndpoint, skillConversationId, context.activity);
 
         // Check response status
         if (!(response.status >= 200 && response.status <= 299)) {

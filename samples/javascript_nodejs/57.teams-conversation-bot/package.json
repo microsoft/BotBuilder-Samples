@@ -18,7 +18,7 @@
     "dependencies": {
         "adaptive-expressions": "^4.14.1",
         "adaptivecards-templating": "^2.1.0",
-        "botbuilder": "~4.14.0",
+        "botbuilder": "~4.15.0-rc0",
         "dotenv": "^8.2.0",
         "restify": "~8.5.1"
     },

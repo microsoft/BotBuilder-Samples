@@ -3,6 +3,9 @@
 
 package <%= packageName %>;
 
+import java.util.Arrays;
+import java.util.concurrent.CompletableFuture;
+
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.dialogs.DialogTurnResult;
 import com.microsoft.bot.dialogs.WaterfallDialog;
@@ -15,9 +18,6 @@ import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.InputHints;
 import com.microsoft.recognizers.datatypes.timex.expression.Constants;
 import com.microsoft.recognizers.datatypes.timex.expression.TimexProperty;
-
-import java.util.Arrays;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * The class containing the booking dialogs.
@@ -49,11 +49,10 @@ public class BookingDialog extends CancelAndHelpDialog {
         setInitialDialogId("WaterfallDialog");
     }
 
-
     private CompletableFuture<DialogTurnResult> destinationStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        if (bookingDetails.getDestination().isEmpty()) {
+        if (bookingDetails.getDestination() == null || bookingDetails.getDestination().trim().isEmpty()) {
             Activity promptMessage =
                 MessageFactory.text(destinationStepMsgText, destinationStepMsgText,
                     InputHints.EXPECTING_INPUT
@@ -66,13 +65,12 @@ public class BookingDialog extends CancelAndHelpDialog {
         return stepContext.next(bookingDetails.getDestination());
     }
 
-
     private CompletableFuture<DialogTurnResult> originStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        bookingDetails.setDestination(stepContext.getResult().toString());
+        bookingDetails.setDestination((String) stepContext.getResult());
 
-        if (bookingDetails.getOrigin().isEmpty()) {
+        if (bookingDetails.getOrigin() == null || bookingDetails.getOrigin().trim().isEmpty()) {
             Activity promptMessage =
                 MessageFactory
                     .text(originStepMsgText, originStepMsgText, InputHints.EXPECTING_INPUT);
@@ -84,11 +82,10 @@ public class BookingDialog extends CancelAndHelpDialog {
         return stepContext.next(bookingDetails.getOrigin());
     }
 
-
     private CompletableFuture<DialogTurnResult> travelDateStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        bookingDetails.setOrigin(stepContext.getResult().toString());
+        bookingDetails.setOrigin((String) stepContext.getResult());
 
         if (bookingDetails.getTravelDate() == null || isAmbiguous(bookingDetails.getTravelDate())) {
             return stepContext.beginDialog("DateResolverDialog", bookingDetails.getTravelDate());
@@ -97,20 +94,15 @@ public class BookingDialog extends CancelAndHelpDialog {
         return stepContext.next(bookingDetails.getTravelDate());
     }
 
-
     private CompletableFuture<DialogTurnResult> confirmStep(WaterfallStepContext stepContext) {
         BookingDetails bookingDetails = (BookingDetails) stepContext.getOptions();
 
-        bookingDetails.setTravelDate(stepContext.getResult().toString());
+        bookingDetails.setTravelDate((String) stepContext.getResult());
 
-        String messageText =
-            String.format(
+        String messageText = String.format(
                 "Please confirm, I have you traveling to: %s from: %s on: %s. Is this correct?",
-                bookingDetails.getDestination(), bookingDetails.getOrigin(),
-                bookingDetails.getTravelDate()
-            );
-        Activity promptMessage = MessageFactory
-            .text(messageText, messageText, InputHints.EXPECTING_INPUT);
+                bookingDetails.getDestination(), bookingDetails.getOrigin(), bookingDetails.getTravelDate());
+        Activity promptMessage = MessageFactory.text(messageText, messageText, InputHints.EXPECTING_INPUT);
 
         PromptOptions promptOptions = new PromptOptions();
         promptOptions.setPrompt(promptMessage);
