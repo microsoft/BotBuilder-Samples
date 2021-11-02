@@ -15,8 +15,6 @@ class TeamsMessagingExtensionsActionBot extends TeamsActivityHandler {
             return shareMessageCommand(context, action);
         case 'webView':
             return await webViewResponse(action);
-        default:
-            throw new Error('NotImplemented');
         }
     }
 
@@ -89,7 +87,7 @@ function GetJustInTimeCardAttachment() {
             {
                 text: 'Looks like you have not used Action Messaging Extension app in this team/chat. Please click **Continue** to add this app.',
                 type: 'TextBlock',
-                wrap: 'bolder'
+                wrap: true
             }
         ],
         type: 'AdaptiveCard',
@@ -105,7 +103,7 @@ function GetAdaptiveCardAttachment() {
                 text: 'This app is installed in this conversation. You can now use it to do some great stuff!!!',
                 type: 'TextBlock',
                 isSubtle: false,
-                warp: true
+                wrap: true
             }
         ],
         type: 'AdaptiveCard',
@@ -113,7 +111,7 @@ function GetAdaptiveCardAttachment() {
     });
 }
 
-function createCardCommand(action) {
+function createCardCommand(context, action) {
     // The user has chosen to create a card by choosing the 'Create Card' context menu command.
     const data = action.data;
     const heroCard = CardFactory.heroCard(data.title, data.text);
@@ -131,7 +129,7 @@ function createCardCommand(action) {
     };
 }
 
-function shareMessageCommand(action) {
+function shareMessageCommand(context, action) {
     // The user has chosen to share a message by choosing the 'Share Message' context menu command.
     let userName = 'unknown';
     if (action.messagePayload.from &&
