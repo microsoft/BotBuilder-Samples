@@ -49,6 +49,7 @@
     "devDependencies": {
         "@types/dotenv": "6.1.1",
         "@types/mocha": "^7.0.2",
+        "@types/node": "^16.11.6",
         "@types/restify": "8.4.2",
         "mocha": "^7.1.2",
         "nodemon": "~2.0.4",
