@@ -5,7 +5,6 @@ import {
     ActionTypes,
     CardFactory,
     ChannelAccount,
-    CloudAdapter,
     ConversationParameters,
     MessageFactory,
     TeamInfo,
@@ -159,16 +158,13 @@ export class TeamsConversationBot extends TeamsActivityHandler {
             console.log( 'a ', teamMember );
             const message = MessageFactory.text( `Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.` );
 
-            let botAdapter: CloudAdapter;
-            botAdapter = context.adapter as CloudAdapter;
-
             const convoParams = {
                 members: [teamMember],
                 tenantId: context.activity.channelData.tenant.id,
                 activity: context.activity
             } as ConversationParameters;
             
-            await botAdapter.createConversationAsync (
+            await context.adapter.createConversationAsync (
                 process.env.MicrosoftAppId,
                 context.activity.channelId,
                 context.activity.serviceUrl,
