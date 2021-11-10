@@ -336,7 +336,6 @@ jobs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
-    continueOnError: True
 
   #- powershell: |
   #    Start-Sleep -Seconds 15
