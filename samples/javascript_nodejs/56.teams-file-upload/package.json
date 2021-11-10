@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "axios": "^0.21.2",
-    "botbuilder": "~4.14.0",
+    "botbuilder": "~4.15.0-rc0",
     "dotenv": "^8.2.0",
     "restify": "~8.5.1"
   },
