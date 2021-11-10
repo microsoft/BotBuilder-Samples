@@ -336,6 +336,46 @@ jobs:
       command: test
       projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
       arguments: --verbosity Normal
+    continueOnError: True
+
+  - powershell: |
+      Start-Sleep -Seconds 15
+    displayName: 'Sleep for 15 seconds'
+    enabled: true
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
+      arguments: --verbosity Normal
+    continueOnError: True
+
+  - powershell: |
+      Start-Sleep -Seconds 60
+    displayName: 'Sleep for 60 seconds'
+    enabled: true
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
+      arguments: --verbosity Normal
+    continueOnError: True
+
+  - powershell: |
+      Start-Sleep -Seconds 60
+    displayName: 'Sleep for 60 seconds'
+    enabled: true
+
+  - task: DotNetCoreCLI@2
+    displayName: dotnet test
+    inputs:
+      command: test
+      projects: $(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/**Tests.csproj
+      arguments: --verbosity Normal
+    continueOnError: False
 
   - script: |
       dir .. /s
