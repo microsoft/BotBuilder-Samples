@@ -1,0 +1,9 @@
+com\microsoft\bot\sample\core\BookingDetails.class
+com\microsoft\bot\sample\core\BookingDialog.class
+com\microsoft\bot\sample\core\DialogBot.class
+com\microsoft\bot\sample\core\Application.class
+com\microsoft\bot\sample\core\FlightBookingRecognizer.class
+com\microsoft\bot\sample\core\DateResolverDialog.class
+com\microsoft\bot\sample\core\DialogAndWelcomeBot.class
+com\microsoft\bot\sample\core\MainDialog.class
+com\microsoft\bot\sample\core\CancelAndHelpDialog.class
