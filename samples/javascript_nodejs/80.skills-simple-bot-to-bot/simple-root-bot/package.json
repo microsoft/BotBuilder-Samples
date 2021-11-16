@@ -16,8 +16,8 @@
         "url": "https://github.com"
     },
     "dependencies": {
-        "botbuilder": "~4.15.0-rc0",
-        "botframework-connector": "~4.15.0-rc0",
+        "botbuilder": "~4.15.0",
+        "botframework-connector": "~4.15.0",
         "dotenv": "~8.2.0",
         "restify": "~8.5.1"
     },
