@@ -1,7 +1,7 @@
 ﻿> QnA definition.
 > See https://aka.ms/qna-file-format to learn more.
 
-[ChitChat](./ChitChat.qna)
+[ChitChat](../RootDialog/ChitChat.qna)
 
 # ?Why do you need my name?
 - why do you ask for my name?
