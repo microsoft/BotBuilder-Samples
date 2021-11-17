@@ -21,7 +21,7 @@
         "botbuilder-lg": "~4.15.0-rc0",
         "dotenv": "^8.2.0",
         "path": "^0.12.7",
-        "restify": "~8.5.1"
+        "restify": "~8.6.0"
     },
     "devDependencies": {
         "eslint": "^7.0.0",

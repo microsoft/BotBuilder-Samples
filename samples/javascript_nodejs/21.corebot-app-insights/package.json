@@ -23,7 +23,7 @@
     "botbuilder-dialogs": "~4.15.0-rc0",
     "dotenv": "^8.2.0",
     "path": "^0.12.7",
-    "restify": "~8.5.1"
+    "restify": "~8.6.0"
   },
   "devDependencies": {
     "eslint": "^7.0.0",
@@ -35,6 +35,6 @@
     "moment-timezone": "^0.5.28",
     "nodemon": "~2.0.4",
     "path": "^0.12.7",
-    "restify": "^8.4.0"
+    "restify": "^8.6.0"
   }
 }
