@@ -1,8 +1,8 @@
 {
-    "api-version": "2021-07-15-preview",
+    "api-version": "2021-11-01-preview",
     "metadata": {
         "name": "FlightBooking",
-        "description": "Luis Model for CoreBot",
+        "description": "CLU Model for CoreBot",
         "type": "Conversation",
         "multilingual": false,
         "language": "en-us"
@@ -24,28 +24,277 @@
         ],
         "entities": [
             {
-                "name": "datetimeV2"
+                "name": "toCity",
+                "compositionSetting": "ReturnLongestOverlap",
+                "list": null,
+                "prebuiltEntities": null
             },
             {
-                "name": "toCity"
+                "name": "fromCity",
+                "compositionSetting": "ReturnLongestOverlap",
+                "list": null,
+                "prebuiltEntities": null
             },
             {
-                "name": "fromCity"
+                "name": "flightDate",
+                "compositionSetting": "ReturnLongestOverlap",
+                "list": {
+                    "sublists": null
+                },
+                "prebuiltEntities": [
+                    {
+                        "displayName": "DateTime",
+                        "semanticType": "DateTime",
+                        "semanticSubtype": null
+                    }
+                ]
             }
         ],
         "examples": [
+            {
+                "text": "a flight to Washington from Cairo",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 28,
+                        "length": 5
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 12,
+                        "length": 10
+                    }
+                ]
+            },
+            {
+                "text": "a ticket to Shanghai from Tokyo",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "toCity",
+                        "offset": 12,
+                        "length": 8
+                    },
+                    {
+                        "entityName": "fromCity",
+                        "offset": 26,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "To Tokyo from Cairo",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 14,
+                        "length": 5
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 3,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "To London from Paris",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 15,
+                        "length": 5
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 3,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "from Cairo to Barcelona",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 5,
+                        "length": 5
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 14,
+                        "length": 9
+                    }
+                ]
+            },
+            {
+                "text": "On the third week of February",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "flightDate",
+                        "offset": 7,
+                        "length": 22
+                    }
+                ]
+            },
+            {
+                "text": "to New Delhi",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "toCity",
+                        "offset": 3,
+                        "length": 9
+                    }
+                ]
+            },
+            {
+                "text": "the source city is New Delhi",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 19,
+                        "length": 9
+                    }
+                ]
+            },
+            {
+                "text": "the destination city is Cairo",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "toCity",
+                        "offset": 24,
+                        "length": 5
+                    }
+                ]
+            },
+            {
+                "text": "to London",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "toCity",
+                        "offset": 3,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "Book a flight on the first of October",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "flightDate",
+                        "offset": 21,
+                        "length": 16
+                    }
+                ]
+            },
+            {
+                "text": "Book a flight from Barcelona to London",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 19,
+                        "length": 9
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 32,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "I want a flight on the second of December 2022 ",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "flightDate",
+                        "offset": 23,
+                        "length": 23
+                    }
+                ]
+            },
+            {
+                "text": "flight from London",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 12,
+                        "length": 6
+                    }
+                ]
+            },
+            {
+                "text": "ticket to New York",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "toCity",
+                        "offset": 10,
+                        "length": 8
+                    }
+                ]
+            },
+            {
+                "text": "I want to book a flight from Cairo to Shanghai on 22/12/2021",
+                "language": "en-us",
+                "intent": "BookFlight",
+                "entities": [
+                    {
+                        "entityName": "fromCity",
+                        "offset": 29,
+                        "length": 5
+                    },
+                    {
+                        "entityName": "toCity",
+                        "offset": 38,
+                        "length": 8
+                    },
+                    {
+                        "entityName": "flightDate",
+                        "offset": 50,
+                        "length": 10
+                    }
+                ]
+            },
             {
                 "text": "buy a ticket from new york to london",
                 "language": "en-us",
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 18,
                         "length": 8
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 30,
                         "length": 6
                     }
@@ -57,12 +306,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 18,
                         "length": 5
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 27,
                         "length": 5
                     }
@@ -74,12 +323,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 18,
                         "length": 5
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 27,
                         "length": 8
                     }
@@ -91,12 +340,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 19,
                         "length": 5
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 28,
                         "length": 6
                     }
@@ -114,7 +363,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 19,
                         "length": 8
                     }
@@ -126,7 +375,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 19,
                         "length": 7
                     }
@@ -138,7 +387,7 @@
                 "intent": "None",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 16,
                         "length": 8
                     }
@@ -156,19 +405,19 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "datetimeV2",
-                        "offset": 36,
-                        "length": 8
-                    },
-                    {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 17,
                         "length": 6
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 27,
                         "length": 5
+                    },
+                    {
+                        "entityName": "flightDate",
+                        "offset": 36,
+                        "length": 8
                     }
                 ]
             },
@@ -178,14 +427,14 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "datetimeV2",
-                        "offset": 25,
-                        "length": 8
-                    },
-                    {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 15,
                         "length": 6
+                    },
+                    {
+                        "entityName": "flightDate",
+                        "offset": 25,
+                        "length": 8
                     }
                 ]
             },
@@ -195,12 +444,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 22,
                         "length": 6
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 32,
                         "length": 5
                     }
@@ -236,7 +485,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 10,
                         "length": 5
                     }
@@ -248,19 +497,19 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "datetimeV2",
-                        "offset": 31,
-                        "length": 8
-                    },
-                    {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 21,
                         "length": 6
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 10,
                         "length": 5
+                    },
+                    {
+                        "entityName": "flightDate",
+                        "offset": 31,
+                        "length": 8
                     }
                 ]
             },
@@ -270,19 +519,19 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "datetimeV2",
-                        "offset": 28,
-                        "length": 7
-                    },
-                    {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 19,
                         "length": 5
                     },
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 9,
                         "length": 6
+                    },
+                    {
+                        "entityName": "flightDate",
+                        "offset": 28,
+                        "length": 7
                     }
                 ]
             },
@@ -292,7 +541,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 6,
                         "length": 5
                     }
@@ -304,12 +553,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 11,
                         "length": 5
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 20,
                         "length": 6
                     }
@@ -333,12 +582,12 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 12,
                         "length": 8
                     },
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 24,
                         "length": 5
                     }
@@ -350,7 +599,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 10,
                         "length": 8
                     }
@@ -362,7 +611,7 @@
                 "intent": "BookFlight",
                 "entities": [
                     {
-                        "entity": "toCity",
+                        "entityName": "toCity",
                         "offset": 10,
                         "length": 5
                     }
@@ -386,7 +635,7 @@
                 "intent": "GetWeather",
                 "entities": [
                     {
-                        "entity": "fromCity",
+                        "entityName": "fromCity",
                         "offset": 27,
                         "length": 8
                     }
