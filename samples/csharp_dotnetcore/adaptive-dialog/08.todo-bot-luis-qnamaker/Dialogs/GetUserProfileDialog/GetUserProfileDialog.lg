@@ -7,10 +7,10 @@
 # AskFirstName.Invalid()
 - Sorry '${this.value}' does not work. I'm looking for a value between 3-50 characters. ${AskFirstName()}
 
-# AskUserAage
+# AskUserAge
 [Activity
     Text = ${AckPhrase()} ${user.profile.name}, ${GetAge()}
-    SuggestedActions = Why? | No age | Cancel
+    SuggestedActions = Why? | Will not give it | Cancel
 ]
 
 # AskUserAge.Invalid

@@ -1,0 +1,51 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "appId": {
+            "value": ""
+        },
+        "appSecret": {
+            "value": ""
+        },
+        "appType": {
+            "value": "MultiTenant"
+        },
+        "botId": {
+            "value": ""
+        },
+        "botSku": {
+            "value": ""
+        },
+        "newAppServicePlanName": {
+            "value": ""
+        },
+        "newAppServicePlanSku": {
+            "value": {
+                "name": "S1",
+                "tier": "Standard",
+                "size": "S1",
+                "family": "S",
+                "capacity": 1
+            }
+        },
+        "appServicePlanLocation": {
+            "value": ""
+        },
+        "existingAppServicePlan": {
+            "value": ""
+        },
+        "newWebAppName": {
+            "value": ""
+        },
+        "tenantId": {
+            "value": ""
+        },
+        "existingUserAssignedMSIName": {
+            "value": ""
+        },
+        "existingUserAssignedMSIResourceGroupName": {
+            "value": ""
+        }
+    }
+}
