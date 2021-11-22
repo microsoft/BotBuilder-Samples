@@ -77,7 +77,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                         // Get destination and origin from the composite entities arrays.
                         Destination = cluResult.Entities.toCity,
                         Origin = cluResult.Entities.fromCity,
-                        TravelDate = default, //TODO
+                        TravelDate = cluResult.Entities.flightDate, //TODO
                     };
 
                     // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.

@@ -30,10 +30,6 @@ namespace Microsoft.BotBuilderSamples
 
         public class _Entities
         {
-
-            // Built-in entities
-            public DateTimeSpec[] datetime;
-
             //[JsonProperty("entities")]
             public CluEntity[] entities;
 
@@ -41,9 +37,13 @@ namespace Microsoft.BotBuilderSamples
 
             public CluEntity[] toCityList => entities.Where(e => e.category == "toCity").ToArray();
 
+            public CluEntity[] flightDateList => entities.Where(e => e.category == "flightDate").ToArray();
+
             public string fromCity => fromCityList.FirstOrDefault()?.text;
 
             public string toCity => toCityList.FirstOrDefault()?.text;
+
+            public string flightDate => flightDateList.FirstOrDefault()?.text;
         }
 
         public _Entities Entities;

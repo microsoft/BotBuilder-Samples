@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 {
     public class DateResolverDialog : CancelAndHelpDialog
     {
-        private const string PromptMsgText = "When would you like to travel? \n Prebuilt entities are not yet a part of CLU. Date entity detection will be added to the service and this sample soon!";
+        private const string PromptMsgText = "When would you like to travel?";
         private const string RepromptMsgText = "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
 
         public DateResolverDialog(string id = null)
@@ -49,16 +49,18 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             // We have a Date we just need to check it is unambiguous.
-            var timexProperty = new TimexProperty(timex);
-            if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
-            {
-                // This is essentially a "reprompt" of the data we were given up front.
-                return await stepContext.PromptAsync(nameof(DateTimePrompt),
-                    new PromptOptions
-                    {
-                        Prompt = repromptMessage,
-                    }, cancellationToken);
-            }
+            // This is disabled for now since Resolution is not yet included in CLU response.
+
+            //var timexProperty = new TimexProperty(timex);
+            //if (!timexProperty.Types.Contains(Constants.TimexTypes.Definite))
+            //{
+            //    // This is essentially a "reprompt" of the data we were given up front.
+            //    return await stepContext.PromptAsync(nameof(DateTimePrompt),
+            //        new PromptOptions
+            //        {
+            //            Prompt = repromptMessage,
+            //        }, cancellationToken);
+            //}
 
             return await stepContext.NextAsync(new List<DateTimeResolution> { new DateTimeResolution { Timex = timex } }, cancellationToken);
         }
