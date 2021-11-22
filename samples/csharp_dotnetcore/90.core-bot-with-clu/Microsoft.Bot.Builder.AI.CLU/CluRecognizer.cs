@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
-using System.Runtime.CompilerServices;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
-using Microsoft.Bot.Builder.AI.Luis;
-using Microsoft.Bot.Schema;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.Bot.Builder.Dialogs.Adaptive.Recognizers;
-using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.TraceExtensions;
+using Azure;
+using Azure.AI.Language.Conversations;
+using System.Collections.Generic;
+using Microsoft.Bot.Builder.Dialogs;
 
 namespace Microsoft.Bot.Builder.AI.CLU
 {
@@ -33,16 +30,28 @@ namespace Microsoft.Bot.Builder.AI.CLU
         private const string CluTraceLabel = "CLU Trace";
 
         /// <summary>
-        /// The CluClient instance that handles calls to the service.
+        /// The Conversation Analysis Client instance that handles calls to the service.
         /// </summary>
-        private CluClient CluClient;
+        private ConversationAnalysisClient ConversationsClient;
+
+        /// <summary>
+        /// CLU Recognizer Options
+        /// </summary>
+        private CluOptions Options;
+
+        /// <summary>
+        /// Key used when adding Question Answering into to  <see cref="RecognizerResult"/> intents collection.
+        /// </summary>
+        public const string QuestionAnsweringMatchIntent = "QuestionAnsweringMatch";
 
         /// <summary>
         /// The CluRecognizer constructor.
         /// </summary>
         public CluRecognizer(CluOptions options, HttpClientHandler httpClientHandler = default)
         {
-            CluClient = new CluClient(options, httpClientHandler);
+            ConversationsClient = new ConversationAnalysisClient(new Uri(options.Endpoint),
+                new AzureKeyCredential(options.EndpointKey), new ConversationAnalysisClientOptions(options.ApiVersion));
+            Options = options;
         }
 
         /// <summary>
@@ -67,8 +76,9 @@ namespace Microsoft.Bot.Builder.AI.CLU
 
         internal async Task<RecognizerResult> RecognizeInternalAsync(string utterance, ITurnContext turnContext, CancellationToken cancellationToken)
         {
-            var cluResponse = await CluClient.Predict(utterance, cancellationToken);
-            var recognizerResult = BuildRecognizerResultFromCluResponse(cluResponse, utterance);
+            var analyzeConversationOptions = BuildAnalyzeConversationOptionsFromCluOptions(Options, utterance);
+            var cluResponse = await ConversationsClient.AnalyzeConversationAsync(analyzeConversationOptions, cancellationToken);
+            var recognizerResult = BuildRecognizerResultFromCluResponse(cluResponse.Value, utterance);
 
             var traceInfo = JObject.FromObject(
                 new
@@ -81,21 +91,77 @@ namespace Microsoft.Bot.Builder.AI.CLU
 
             return recognizerResult;
         }
-
-        private RecognizerResult BuildRecognizerResultFromCluResponse(JObject cluResponse, string utterance)
+        private AnalyzeConversationOptions BuildAnalyzeConversationOptionsFromCluOptions(CluOptions options, string utterance)
         {
-            var prediction = (JObject)cluResponse["prediction"];
+            // this will need to be changed in the next release of the Conversations SDK
+            return new AnalyzeConversationOptions(options.ProjectName, options.DeploymentName, utterance)
+            {
+                Verbose = options.Verbose,
+                Language = options.Language,
+                IsLoggingEnabled = options.IsLoggingEnabled
+            };
+        }
+        private RecognizerResult BuildRecognizerResultFromCluResponse(AnalyzeConversationResult cluResult, string utterance)
+        {
             var recognizerResult = new RecognizerResult
             {
                 Text = utterance,
-                AlteredText = prediction["alteredQuery"]?.Value<string>(),
-                Intents = CluUtil.GetIntents(prediction),
-                Entities = CluUtil.ExtractEntitiesAndMetadata(prediction)
+                AlteredText = cluResult.Query
             };
 
-            CluUtil.AddProperties(prediction, recognizerResult);
+            // CLU Projects can be Conversation projects (LuisVNext) or Orchestration projects that
+            // can retrieve responses from other types of projects (Question answering, LUIS or Conversations)
+            var projectKind = cluResult.Prediction.ProjectKind;
+
+            if (projectKind == ProjectKind.Conversation)
+            {
+                CluUtil.BuildRecognizerResultFromConversations(cluResult.Prediction, recognizerResult);
+            }
+            else
+            {
+                // workflow projects can return results from LUIS, Conversations or QuestionAnswering Projects
+                var orchestrationPrediction = cluResult.Prediction as OrchestratorPrediction;
+
+                // finding name of the target project, then finding the target project type
+                var respondingProjectName = orchestrationPrediction.TopIntent;
+                var targetIntentResult = orchestrationPrediction.Intents[respondingProjectName];
+
+                // targetIntentResult.TargetKind is currently internal but will be changed in next version.
+                // GetType() is used temporarily.
+
+                // var targetKind = targetIntentResult.TargetKind;
+                var targetKind = targetIntentResult.GetType().Name;
+
+                switch (targetKind)
+                {
+                    case "ConversationTargetIntentResult":
+                        var conversationTargetIntentResult = targetIntentResult as ConversationTargetIntentResult;
+                        CluUtil.BuildRecognizerResultFromConversations(conversationTargetIntentResult.Result.Prediction, recognizerResult);
+                        break;
+
+                    case "LuisTargetIntentResult":
+                        var luisTargetIntentResult = targetIntentResult as LuisTargetIntentResult;
+                        CluUtil.BuildRecognizerResultFromLuis(luisTargetIntentResult, recognizerResult);
+                        break;
+
+                    case "QuestionAnsweringTargetIntentResult":
+                        var questionAnsweringTargetIntentResult = targetIntentResult as QuestionAnsweringTargetIntentResult;
+                        CluUtil.BuildRecognizerResultFromQuestionAnswering(questionAnsweringTargetIntentResult, recognizerResult);
+                        break;
+
+                    default:
+                        //NoneType
+                        break;
+                }
+            }
+
+            //TODO
+
+            //CluUtil.AddProperties(prediction, recognizerResult);
+            //remember to add projectName and projectType
 
             return recognizerResult;
         }
+
     }
 }

@@ -34,6 +34,7 @@
 
 
   <ItemGroup>
+    <PackageReference Include="Azure.AI.Language.Conversations" Version="1.0.0-beta.1" />
     <PackageReference Include="Microsoft.Bot.Builder" Version="4.14.1" />
     <PackageReference Include="Microsoft.Bot.Builder.AI.Luis" Version="4.14.1" />
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.14.1" />
