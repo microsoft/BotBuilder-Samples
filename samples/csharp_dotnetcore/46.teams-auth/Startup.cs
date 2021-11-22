@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -24,8 +25,24 @@ namespace Microsoft.BotBuilderSamples
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
-            // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
+            // Create the storage we'll be using for User and Conversation state, as well as Single Sign On.
+            // (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
+
+            // For SSO, use CosmosDbPartitionedStorage
+
+            /* COSMOSDB STORAGE - Uncomment the code in this section to use CosmosDB storage */
+
+            // var cosmosDbStorageOptions = new CosmosDbPartitionedStorageOptions()
+            // {
+            //     CosmosDbEndpoint = "<endpoint-for-your-cosmosdb-instance>",
+            //     AuthKey = "<your-cosmosdb-auth-key>",
+            //     DatabaseId = "<your-database-id>",
+            //     ContainerId = "<cosmosdb-container-id>"
+            // };
+            // var storage = new CosmosDbPartitionedStorage(cosmosDbStorageOptions);
+
+            /* END COSMOSDB STORAGE */
 
             // Create the User state. (Used in this bot's Dialog implementation.)
             services.AddSingleton<UserState>();
