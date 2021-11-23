@@ -53,7 +53,6 @@ namespace Microsoft.BotBuilderSamples
 
         public void Convert(dynamic result)
         {
-            var x = JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
             var app = JsonConvert.DeserializeObject<FlightBooking>(JsonConvert.SerializeObject(result, new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore }));
 
             Text = app.Text;
