@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.EchoSkillBot.Bots;
@@ -22,15 +22,36 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
         {
             services.AddControllers().AddNewtonsoftJson();
 
-            // Configure credentials
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration
+            services.AddSingleton(sp =>
             {
-                ClaimsValidator = new AllowedCallersClaimsValidator(new List<string>(sp.GetService<IConfiguration>().GetSection("AllowedCallers").Get<string[]>()))
+                var allowedCallers = new List<string>(sp.GetService<IConfiguration>().GetSection("AllowedCallers").Get<string[]>());
+
+                var claimsValidator = new AllowedCallersClaimsValidator(allowedCallers);
+
+                // If TenantId is specified in config, add the tenant as a valid JWT token issuer for Bot to Skill conversation.
+                // The token issuer for MSI and single tenant scenarios will be the tenant where the bot is registered.
+                var validTokenIssuers = new List<string>();
+                var tenantId = sp.GetService<IConfiguration>().GetSection(MicrosoftAppCredentials.MicrosoftAppTenantIdKey)?.Value;
+
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                {
+                    // For SingleTenant/MSI auth, the JWT tokens will be issued from the bot's home tenant.
+                    // Therefore, these issuers need to be added to the list of valid token issuers for authenticating activity requests.
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidTokenIssuerUrlTemplateV1, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidTokenIssuerUrlTemplateV2, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2, tenantId));
+                }
+
+                return new AuthenticationConfiguration
+                {
+                    ClaimsValidator = claimsValidator,
+                    ValidTokenIssuers = validTokenIssuers
+                };
             });
 
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
             // Create the Bot Framework Adapter with error handling enabled.

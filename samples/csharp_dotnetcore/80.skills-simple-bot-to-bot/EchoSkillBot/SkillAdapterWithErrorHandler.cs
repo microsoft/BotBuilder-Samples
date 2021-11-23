@@ -16,8 +16,8 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
     {
         private readonly ILogger _logger;
 
-        public SkillAdapterWithErrorHandler(BotFrameworkAuthentication botFrameworkAuthentication, ILogger<IBotFrameworkHttpAdapter> logger)
-            : base(botFrameworkAuthentication, logger)
+        public SkillAdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(auth, logger)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             OnTurnError = HandleTurnError;
