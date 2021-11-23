@@ -133,19 +133,36 @@ namespace Microsoft.Bot.Builder.AI.CLU
             return entityObject;
         }
 
-        internal static void AddProperties(JObject clu, RecognizerResult result)
+        internal static void AddProperties(AnalyzeConversationResult conversationResult, RecognizerResult result)
         {
-            var topIntent = clu["topIntent"];
-            var projectType = clu["projectType"];
+            var topIntent = conversationResult.Prediction.TopIntent;
+            var projectKind = conversationResult.Prediction.ProjectKind;
+            var detectedLanguage = conversationResult.DetectedLanguage;
 
             if (topIntent != null)
             {
                 result.Properties.Add("topIntent", topIntent);
             }
 
-            if(projectType != null)
+            if(projectKind != null)
             {
-                result.Properties.Add("projectType", projectType);
+                result.Properties.Add("projectKind", projectKind);
+            }
+
+            if (detectedLanguage != null)
+            {
+                result.Properties.Add("detectedLanguage", detectedLanguage);
+            }
+
+            if (projectKind == ProjectKind.Workflow)
+            {
+                var prediction = (conversationResult.Prediction as OrchestratorPrediction);
+                var targetProject = prediction.Intents[prediction.TopIntent];
+
+                // temporarily renamed until next release of CLU SDK
+                // var targetProjectKind = targetProject.TargetKind
+                var targetProjectKind = targetProject.GetType();
+                result.Properties.Add("targetIntentKind", targetProjectKind);
             }
         }
     }

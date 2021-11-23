@@ -155,10 +155,7 @@ namespace Microsoft.Bot.Builder.AI.CLU
                 }
             }
 
-            //TODO
-
-            //CluUtil.AddProperties(prediction, recognizerResult);
-            //remember to add projectName and projectType
+            CluUtil.AddProperties(cluResult, recognizerResult);
 
             return recognizerResult;
         }
