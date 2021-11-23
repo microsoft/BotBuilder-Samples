@@ -69,8 +69,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             switch (cluResult.TopIntent().intent)
             {
                 case FlightBooking.Intent.BookFlight:
-                    await ShowWarningForUnsupportedCities(stepContext.Context, cluResult, cancellationToken);
-
                     // Initialize BookingDetails with any entities we may have found in the response.
                     var bookingDetails = new BookingDetails()
                     {
@@ -99,36 +97,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             }
 
             return await stepContext.NextAsync(null, cancellationToken);
-        }
-
-        // Shows a warning if the requested From or To cities are recognized as entities but they are not in the Airport entity list.
-        // In some cases LUIS will recognize the From and To composite entities as a valid cities but the From and To Airport values
-        // will be empty if those entity values can't be mapped to a canonical item in the Airport.
-        // ----
-        // This function does not apply to the current iteration of CLU, but will be kept for reference until CLU public release.
-        private static async Task ShowWarningForUnsupportedCities(ITurnContext context, FlightBooking cluResult, CancellationToken cancellationToken)
-        {
-            var unsupportedCities = new List<string>();
-
-            var fromEntities = cluResult.Entities.fromCityList;
-
-            //if (!string.IsNullOrEmpty(fromEntities.From) && string.IsNullOrEmpty(fromEntities.Airport))
-            //{
-            //    unsupportedCities.Add(fromEntities.From);
-            //}
-
-            //var toEntities = luisResult.ToEntities;
-            //if (!string.IsNullOrEmpty(toEntities.To) && string.IsNullOrEmpty(toEntities.Airport))
-            //{
-            //    unsupportedCities.Add(toEntities.To);
-            //}
-
-            if (unsupportedCities.Any())
-            {
-                var messageText = $"Sorry but the following airports are not supported: {string.Join(',', unsupportedCities)}";
-                var message = MessageFactory.Text(messageText, messageText, InputHints.IgnoringInput);
-                await context.SendActivityAsync(message, cancellationToken);
-            }
         }
 
         private async Task<DialogTurnResult> FinalStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
