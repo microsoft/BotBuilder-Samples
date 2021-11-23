@@ -44,7 +44,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             if (!_cluRecognizer.IsConfigured)
             {
                 await stepContext.Context.SendActivityAsync(
-                    MessageFactory.Text("NOTE: LUIS is not configured. To enable all capabilities, add 'LuisAppId', 'LuisAPIKey' and 'LuisAPIHostName' to the appsettings.json file.", inputHint: InputHints.IgnoringInput), cancellationToken);
+                    MessageFactory.Text("NOTE: CLU is not configured. To enable all capabilities, add 'CluProjectName', 'CluDeploymentName', 'CluAPIKey' and 'CluAPIHostName' to the appsettings.json file.", inputHint: InputHints.IgnoringInput), cancellationToken);
 
                 return await stepContext.NextAsync(null, cancellationToken);
             }
@@ -60,11 +60,11 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         {
             if (!_cluRecognizer.IsConfigured)
             {
-                // LUIS is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
+                // CLU is not configured, we just run the BookingDialog path with an empty BookingDetailsInstance.
                 return await stepContext.BeginDialogAsync(nameof(BookingDialog), new BookingDetails(), cancellationToken);
             }
 
-            // Call LUIS and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
+            // Call CLU and gather any potential booking details. (Note the TurnContext has the response to the prompt.)
             var cluResult = await _cluRecognizer.RecognizeAsync<FlightBooking>(stepContext.Context, cancellationToken);
             switch (cluResult.TopIntent().intent)
             {
@@ -72,13 +72,12 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                     // Initialize BookingDetails with any entities we may have found in the response.
                     var bookingDetails = new BookingDetails()
                     {
-                        // Get destination and origin from the composite entities arrays.
                         Destination = cluResult.Entities.toCity,
                         Origin = cluResult.Entities.fromCity,
-                        TravelDate = cluResult.Entities.flightDate, //TODO
+                        TravelDate = cluResult.Entities.flightDate,
                     };
 
-                    // Run the BookingDialog giving it whatever details we have from the LUIS call, it will fill out the remainder.
+                    // Run the BookingDialog giving it whatever details we have from the CLU call, it will fill out the remainder.
                     return await stepContext.BeginDialogAsync(nameof(BookingDialog), bookingDetails, cancellationToken);
 
                 case FlightBooking.Intent.GetWeather:
