@@ -139,15 +139,13 @@ namespace Microsoft.Bot.Builder.AI.CLU
             var projectKind = conversationResult.Prediction.ProjectKind;
             var detectedLanguage = conversationResult.DetectedLanguage;
 
+            result.Properties.Add("projectKind", projectKind);
+
             if (topIntent != null)
             {
                 result.Properties.Add("topIntent", topIntent);
             }
 
-            if(projectKind != null)
-            {
-                result.Properties.Add("projectKind", projectKind);
-            }
 
             if (detectedLanguage != null)
             {
