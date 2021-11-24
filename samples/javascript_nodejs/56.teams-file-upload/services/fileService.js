@@ -15,7 +15,7 @@ const geneFileName = async (fileDir) => {
 
 // Download and Save Streams into File
 const writeFile = async (contentUrl, config, filePath) => {
-    const response = await axios({ method: 'GET', url: contentUrl, responseType: 'stream' });
+    const response = await axios({ method: 'GET', url: contentUrl, ...config });
     return await new Promise((resolve, reject) => response.data.pipe(fs.createWriteStream(filePath)).once('finish', resolve).once('error', reject));
 };
 
