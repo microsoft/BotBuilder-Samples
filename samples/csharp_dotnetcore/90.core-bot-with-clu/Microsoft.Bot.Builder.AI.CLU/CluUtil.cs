@@ -44,7 +44,7 @@ namespace Microsoft.Bot.Builder.AI.CLU
         }
 
         /// <summary>
-        /// Returns a RecognizerResult from the question answering response recieved by an orchestration project.
+        /// Returns a RecognizerResult from a question answering response recieved by an orchestration project.
         /// The recognizer result has similar format to the one returned by the QnAMaker Recognizer:
         /// 
         /// Intents: Indicates whether an answer has been found and contains the confidence score.
@@ -84,7 +84,12 @@ namespace Microsoft.Bot.Builder.AI.CLU
         }
 
         /// <summary>
-        /// The Kind value for this recognizer.
+        /// Returns a RecognizerResult from a luis response recieved by an orchestration project.
+        /// The recognizer result has similar format to the one returned by the LUIS Recognizer:
+        /// 
+        /// Intents: Dictionary with (Intent, confidenceScores) pairs.
+        /// Entities: The Luis entities Object, same as the one returned by the LUIS Recognizer.
+        /// Properties: Sentiment result (if available) as well as the raw luis prediction result.
         /// </summary>
         internal static RecognizerResult BuildRecognizerResultFromLuis(LuisTargetIntentResult luisResult, RecognizerResult recognizerResult)
         {
