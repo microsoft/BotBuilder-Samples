@@ -73,7 +73,7 @@ namespace Microsoft.Bot.Builder.AI.CLU
                 answerArray.Add(topAnswer.Answer);
                 ObjectPath.SetPathValue(recognizerResult, "entities.answer", answerArray);
 
-                recognizerResult.Properties["answers"] = JsonConvert.SerializeObject(qnaAnswers);
+                recognizerResult.Properties["answers"] = qnaAnswers;
             }
             else
             {
@@ -139,7 +139,7 @@ namespace Microsoft.Bot.Builder.AI.CLU
             var projectKind = conversationResult.Prediction.ProjectKind;
             var detectedLanguage = conversationResult.DetectedLanguage;
 
-            result.Properties.Add("projectKind", projectKind);
+            result.Properties.Add("projectKind", projectKind.ToString());
 
             if (topIntent != null)
             {
