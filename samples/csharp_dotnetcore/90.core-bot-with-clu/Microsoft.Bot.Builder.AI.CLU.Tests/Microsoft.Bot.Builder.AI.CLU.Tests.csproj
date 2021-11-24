@@ -30,4 +30,9 @@
     <ProjectReference Include="..\Microsoft.Bot.Builder.AI.CLU\Microsoft.Bot.Builder.AI.CLU.csproj" />
   </ItemGroup>
 
+
+  <ItemGroup>
+    <None Update="livetestresource.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+  
 </Project>

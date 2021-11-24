@@ -1,0 +1,16 @@
+{
+  "ConversationsProjectName": "",
+  "ConversationsDeploymentName": "",
+  "ConversationsAPIKey": "",
+  "ConversationsAPIHostName": "",
+  "OrchestrationProjectName": "",
+  "OrchestrationDeploymentName": "",
+  "OrchestrationAPIKey": "",
+  "OrchestrationAPIHostName": "",
+
+  //Example queries that return > 0 intents and entities for the orchestration project
+
+  "OrchestrationLuisQuery": "",
+  "OrchestrationQAQuery": "",
+  "OrchestrationCluQuery": ""
+}
