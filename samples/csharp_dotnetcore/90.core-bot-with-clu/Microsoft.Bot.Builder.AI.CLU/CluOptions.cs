@@ -49,6 +49,18 @@ namespace Microsoft.Bot.Builder.AI.CLU
         [JsonProperty("apiVersion")]
         public ConversationAnalysisClientOptions.ServiceVersion ApiVersion = ConversationAnalysisClientOptions.ServiceVersion.V2021_11_01_Preview;
 
+        /// <summary>
+        /// The name of the target project this request is sending to directly.
+        /// </summary>
+        [JsonProperty("DirectTarget")]
+        public string DirectTarget { get; set; }
+
+        /// <summary>
+        /// A dictionary representing the input for each target project.
+        /// </summary>
+        [JsonProperty("Parameters")]
+        public IDictionary<string, AnalysisParameters> Parameters { get; }
+
         internal string ProjectName => cluApplication.ProjectName;
         internal string DeploymentName => cluApplication.DeploymentName;
         internal string EndpointKey => cluApplication.EndpointKey;

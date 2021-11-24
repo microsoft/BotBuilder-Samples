@@ -47,10 +47,15 @@ namespace Microsoft.Bot.Builder.AI.CLU
         /// <summary>
         /// The CluRecognizer constructor.
         /// </summary>
-        public CluRecognizer(CluOptions options, HttpClientHandler httpClientHandler = default)
+        public CluRecognizer(CluOptions options, ConversationAnalysisClient conversationAnalysisClient = default)
         {
-            ConversationsClient = new ConversationAnalysisClient(new Uri(options.Endpoint),
-                new AzureKeyCredential(options.EndpointKey), new ConversationAnalysisClientOptions(options.ApiVersion));
+            // for mocking purposes
+            ConversationsClient = conversationAnalysisClient != null ? conversationAnalysisClient
+                : new ConversationAnalysisClient(
+                    new Uri(options.Endpoint),
+                    new AzureKeyCredential(options.EndpointKey),
+                    new ConversationAnalysisClientOptions(options.ApiVersion)
+                  );
             Options = options;
         }
 
@@ -98,7 +103,8 @@ namespace Microsoft.Bot.Builder.AI.CLU
             {
                 Verbose = options.Verbose,
                 Language = options.Language,
-                IsLoggingEnabled = options.IsLoggingEnabled
+                IsLoggingEnabled = options.IsLoggingEnabled,
+                DirectTarget = options.DirectTarget
             };
         }
         private RecognizerResult BuildRecognizerResultFromCluResponse(AnalyzeConversationResult cluResult, string utterance)
