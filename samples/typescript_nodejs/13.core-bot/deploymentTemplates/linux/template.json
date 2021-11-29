@@ -32,7 +32,7 @@
             "type": "string"
         },
         "appSecret": {
-            "defaultValue": "blank",
+            "defaultValue": "",
             "type": "string"
         },
         "appType": {

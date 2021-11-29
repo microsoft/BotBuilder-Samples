@@ -90,10 +90,10 @@ namespace Microsoft.BotBuilderSamples
                                 // when we do not get a value for the personName entity. 
                                 AllowInterruptions = "turn.recognized.score >= 0.9 || !@personName",
                             },
-                            new TextInput()
+                            new NumberInput()
                             {
                                 Property = "user.profile.age",
-                                Prompt = new ActivityTemplate("${AskUserAage()}"),
+                                Prompt = new ActivityTemplate("${AskUserAge()}"),
                                 Validations = new List<BoolExpression>()
                                 {
                                     // Age must be within 1-150.
@@ -129,7 +129,7 @@ namespace Microsoft.BotBuilderSamples
                         Intent = "NoValue",
                         
                         // Only do this only on high confidence recognition
-                        Condition = "#NoValue.Score >= 0.9",
+                        Condition = "#NoValue.Score >= 0.8",
                         Actions = new List<Dialog>()
                         {
                             new IfCondition()

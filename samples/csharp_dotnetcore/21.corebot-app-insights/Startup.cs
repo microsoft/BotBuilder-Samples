@@ -8,6 +8,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.ApplicationInsights;
 using Microsoft.Bot.Builder.Integration.ApplicationInsights.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
@@ -22,7 +23,10 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddHttpClient().AddControllers().AddNewtonsoftJson();
 
-            // Create the Bot Framework Adapter with error handling enabled.
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
+            services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
+            // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Add Application Insights services into service collection

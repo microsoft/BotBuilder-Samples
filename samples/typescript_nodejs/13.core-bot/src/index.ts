@@ -14,7 +14,15 @@ import { INodeSocket } from 'botframework-streaming';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
+import {
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    MemoryStorage,
+    UserState
+} from 'botbuilder';
+
 import { LuisApplication } from 'botbuilder-ai';
 
 // The bot and its main dialog.
@@ -28,12 +36,18 @@ const BOOKING_DIALOG = 'bookingDialog';
 // The helper-class recognizer that calls LUIS
 import { FlightBookingRecognizer } from './dialogs/flightBookingRecognizer';
 
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppType: process.env.MicrosoftAppType,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
@@ -57,7 +71,7 @@ const onTurnErrorHandler = async (context, error) => {
     await conversationState.delete(context);
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -86,6 +100,8 @@ const bot = new DialogAndWelcomeBot(conversationState, userState, dialog);
 
 // Create HTTP server
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -93,27 +109,18 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 });
 
 // Listen for incoming activities and route them to your bot main dialog.
-server.post('/api/messages', (req, res) => {
+server.post('/api/messages', async (req, res) => {
     // Route received a request to adapter for processing
-    adapter.processActivity(req, res, async (turnContext) => {
-        // route to bot activity handler.
-        await bot.run(turnContext);
-    });
+    await adapter.process(req, res, (context) => bot.run(context));
 });
 
 // Listen for Upgrade requests for Streaming.
-server.on('upgrade', (req, socket, head) => {
+server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter({
-        appId: process.env.MicrosoftAppId,
-        appPassword: process.env.MicrosoftAppPassword
-    });
-    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
+
+    // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket as unknown as INodeSocket, head, async (context) => {
-        // After connecting via WebSocket, run this logic for every request sent over
-        // the WebSocket connection.
-        await bot.run(context);
-    });
+    await streamingAdapter.process(req, socket as unknown as INodeSocket, head, (context) => bot.run(context));
 });

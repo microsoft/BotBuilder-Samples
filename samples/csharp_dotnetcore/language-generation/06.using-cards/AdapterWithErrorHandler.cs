@@ -3,13 +3,11 @@
 
 using System;
 using System.IO;
-using System.Net.Http;
 using Microsoft.Bot.Builder;
 using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -17,8 +15,8 @@ namespace Microsoft.BotBuilderSamples
     {
         private Templates _templates;
 
-        public AdapterWithErrorHandler(IConfiguration configuration, IHttpClientFactory httpClientFactory, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
-            : base(configuration, httpClientFactory, logger)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(auth, logger)
         {
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };
