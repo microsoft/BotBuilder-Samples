@@ -34,7 +34,9 @@ Once your app has been created, you need to collect some information that will b
 
 1. Note the 'Verification Token' and the 'Signing Secret' from the **Basic Information** tab and keep them for later when we configure our bot settings.
 
-2. Navigate to the **Install App** page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
+2. Navigate to the **Install App** page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  
+  Here you need to add at least one permission scope. Click the 'permission scope' link, scroll down to the _Scopes_ section and click on the 'Add an Oauth Scope' button under _Bot Token Scopes_. Select the `chat:write` scope.  
+  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
 
 ### Add Slack app settings to your bot's configuration file
 
