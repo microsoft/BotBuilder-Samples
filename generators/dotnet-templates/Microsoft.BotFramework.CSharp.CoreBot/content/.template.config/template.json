@@ -48,14 +48,6 @@
           {
             "choice": "netcoreapp3.1",
             "description": "Target netcoreapp3.1"
-          },
-            {
-            "choice": "netcoreapp2.2",
-            "description": "Target netcoreapp2.2"
-          },
-          {
-            "choice": "netcoreapp2.1",
-            "description": "Target netcoreapp2.1"
           }
         ],
         "replaces": "__NETCOREAPP_VERSION__",
@@ -68,25 +60,6 @@
         "description": "If specified, will also create a test project for your bot.",
         "isRequired": false
       },
-      "AspCoreAssemblyVersion": {
-        "type":"generated",
-        "generator": "switch",
-        "dataType": "string",
-        "replaces": "__MICROSOFT_ASPNETCORE_VERSION__",
-        "parameters": {
-          "evaluator": "C++",
-          "cases": [
-            {
-              "condition": "(Framework==\"netcoreapp2.2\")",
-              "value": "'Microsoft.AspNetCore' Version='2.2.0'"
-            },
-            {
-              "condition": "(Framework==\"netcoreapp2.1\")",
-              "value": "'Microsoft.AspNetCore' Version='2.1.6'"
-            }
-          ]
-        }
-      },
       "ReadmeNetCorePrereqVersion": {
         "type":"generated",
         "generator": "switch",
@@ -98,14 +71,6 @@
             {
               "condition": "(Framework==\"netcoreapp3.1\")",
               "value": "3.1"
-            },
-            {
-              "condition": "(Framework==\"netcoreapp2.2\")",
-              "value": "2.2"
-            },
-            {
-              "condition": "(Framework==\"netcoreapp2.1\")",
-              "value": "2.1"
             }
           ]
         }
