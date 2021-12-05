@@ -2,7 +2,7 @@
 
 Bot Framework v4 core bot sample using the CLU Recognizer.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to:
+This bot has been created using [Bot Framework](https://dev.botframework.com); it shows how to:
 
 - Use [CLU][CLU_ServiceDocHomepage] to implement core AI capabilities
 - Implement a multi-turn conversation using Dialogs
@@ -15,7 +15,7 @@ This sample **requires** prerequisites in order to run.
 
 ### Overview
 
-This bot uses [Conversational Language Understanding (CLU)][CLU_ServiceDocHomepage], an AI based cognitive service, to implement language understanding. The service uses natively multilingual models, which means that users would be able to train their models in one language but predict in others. Users of the service have access to the [language studio][languagestudio], which simplifies the process of adding/importing data, labelling it, training a model, and then finally evaluating it. For more information, visit the official [service docs][CLU_ServiceDocHomepage]. 
+This bot uses [Conversational Language Understanding (CLU)][CLU_ServiceDocHomepage], an AI based cognitive service, to implement language understanding. The service uses natively multilingual models, which means that users would be able to train their models in one language but predict in others. Users of the service have access to the [language studio][languagestudio], which simplifies the process of adding/importing data, labelling it, training a model, and then finally evaluating it. For more information, visit the official [service docs][CLU_ServiceDocHomepage].
 
 This new version of [CoreBot - sample 13 -](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/csharp_dotnetcore/13.core-bot) illustrates that the new API covers the existing functionalities of the LUIS Recognizer and that you can easily migrate your existing Bot Framework code using this sample as a guide.
 
@@ -30,7 +30,7 @@ This new version of [CoreBot - sample 13 -](https://github.com/microsoft/BotBuil
 
 ### Create a CLU Application to enable language understanding
 
-The (updated) CLU model for this example can be found under `CognitiveModels/FlightBooking.json` and the CLU language model setup, training, and application configuration steps can be found [here][CLU_ServiceHowTo].
+The CLU model for this example can be found under `CognitiveModels/FlightBooking.json` and the CLU language model setup, training, and application configuration steps can be found [here][CLU_ServiceQuickStart].
 
 Once you created the CLU model, update `appsettings.json` with your `CluProjectName`, `CluDeploymentName`, `CluAPIKey` and `CluAPIHostName`.
 
@@ -38,7 +38,7 @@ Once you created the CLU model, update `appsettings.json` with your `CluProjectN
   "CluProjectName": "Your CLU project name",
   "CluDeploymentName": "Your CLU model deployment name",
   "CluAPIKey": "Your CLU Subscription key here",
-  "CluAPIHostName": "Your CLU Host Name (i.e: sampleTextAnalyticsResource.cognitiveservices.azure.com)"
+  "CluAPIHostName": "Your CLU Host Name (i.e: sampleLanguageResource.cognitiveservices.azure.com)"
 ```
 
 ## To try this sample
@@ -97,7 +97,6 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
-<!--Remember to change when docs are public -->
-[CLU_ServiceDocHomepage]: https://www.CLU.placeholder.com
-[CLU_ServiceHowTo]: https://www.CLU.placeholder.com
+[CLU_ServiceDocHomepage]: https://docs.microsoft.com/azure/cognitive-services/language-service/conversational-language-understanding/overview
+[CLU_ServiceQuickStart]: https://docs.microsoft.com/azure/cognitive-services/language-service/conversational-language-understanding/quickstart
 [languagestudio]: https://language.azure.com/

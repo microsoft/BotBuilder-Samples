@@ -2,13 +2,13 @@
 
 The Conversational Language Understanding (CLU) Recognizer is built to support the CLU service in your bot. You can use the recognizer to connect your bot to a [CLU][CLU] model, which would enhance the bot with the language understanding features provided by the service. CLU is considered the new iteration of LUIS and provides some advantages to its users; namely they are:
 
--   Natively multilingual models that enable you to train in one language and test in others.
--   Simpler model building experience.
--   Robust classification and extraction models.
+- Natively multilingual models that enable you to train in one language and test in others.
+- Simpler model building experience.
+- Robust classification and extraction models.
 
 ## Samples
 
-The best way to learn how to use a new coding interface is by looking at a sample! The following sample: [90.core-bot-with-clu][CoreBotWithCLU_Sample] utilizes the CluVNext Recognizer to connect CoreBot with your CLU model. 
+The best way to learn how to use a new coding interface is by looking at a sample! The following sample: [90.core-bot-with-clu][CoreBotWithCLU_Sample] utilizes the CluVNext Recognizer to connect CoreBot with your CLU model.
 
 ## Prerequisites
 
@@ -25,21 +25,20 @@ To incorporate this CLU Recognizer in your bot, follow the following steps:
 
 ### Create a CLU Application to enable language understanding
 
-Refer to the [following documentation][CLU_ServiceHowTo] on how to create a new CLU application. Note that you will require the following four fields in order to be able to connect your CLU model to your recognizer:
+Refer to the [following documentation][CLU_ServiceQuickStart] on how to create a new CLU application. Note that you will require the following four fields in order to be able to connect your CLU model to your recognizer:
 
-- Project Name 
+- Project Name
 - Deployment Name (Model Name)
 - Endpoint Key
-- Endpoint 
+- Endpoint
 
- CLU will provide you with the sample request from which you will be able to extract the previous three strings. The Endpoint key will be present in the request header with the key `Ocp-Apim-Subscription-Key`. The URI will contain the other two strings in the following format:
- 
+ Additionally, CLU will provide you with the sample request from which you will be able to extract the previous strings. The Endpoint key will be present in the request header with the key `Ocp-Apim-Subscription-Key`. The URI will contain the other strings in the following format:
+
  `[Endpoint]//language/:analyze-conversations?projectName=[Project Name]&deploymentName=[Deployment Name]...`
-
 
 ## Including the Recognizer in your solution
 
-To start using the recognizer, you may either choose to use our sample as a starting point for your project or to include the recognizer in your project directly. 
+To start using the recognizer, you may either choose to use our sample as a starting point for your project or to include the recognizer in your project directly.
 
 ### To start from a prebuilt sample bot
 
@@ -64,9 +63,9 @@ Refer to the following page on how to run the [90.core-bot-with-clu][CoreBotWith
 
 This section will illustrate how to instantiate and call the `CluRecognizer`. To see it how it can be used in the context of a fully functional bot, please refer to the sample [90.core-bot-with-clu][CoreBotWithCLU_Sample].
 
-#### Setting up and Constructing the recognizer
+### Setting up and Constructing the recognizer
 
-To Instantiate the recognizer, you will need to supply your applications credenials in a `CluApplication` instance as follows:
+To Instantiate the recognizer, you will need to supply your applications credentials in a `CluApplication` instance as follows:
 
 ```C#
 var projectName = "<Insert project name here>";
@@ -85,11 +84,10 @@ var myOptions = new CluOptions(myApplication)
     Verbose = true,
     IsLoggingEnabled = true,
     Language = "en",
-    ApiVersion = "2021-07-15-preview"
 };
 ```
 
-All option parameters are optional. If the user chooses to not include them, they will either be omitted from request paramaters or default values will be used depending on the property.
+All option parameters are optional. If the user chooses to not include them, they will either be omitted from request parameters or default values will be used depending on the property.
 
 You are now ready to instantiate and use the recognizer. It can simply be constructed as follows:
 
@@ -97,19 +95,19 @@ You are now ready to instantiate and use the recognizer. It can simply be constr
 var myRecognizer = new CluRecognizer(myOptions);
 ```
 
-#### Calling RecognizeAsync()
+### Calling RecognizeAsync()
 
 When it is time to query the CLU service, the recognizer offers a RecognizeAsync() method to perform this action. It can be called as follows: 
 
 ```C#
 RecognizerResult result = await myRecognizer.RecognizeAsync(turnContext, cancellationToken);
 ```
-The turn context will contain the message recieved by the bot, which is used as a query to the CLU service. Much like any other Recognizer, the `RecognizeAsync` returns an object of type `RecognizerResult`, which has the following properties:
+The turn context will contain the message received by the bot, which is used as a query to the CLU service. Much like any other Recognizer, the `RecognizeAsync` returns an object of type `RecognizerResult`, which has the following properties:
 
 - `Text`: the original user Query
 - `AlteredText`: an altered version of the query (does not apply to CLU)
 - `Intents`: A <string, IntentScore> dictionary which contains a value `IntentScore` for every key intent name that is included in the service response.  
-- `Properties`: A dicionary containing additional tokens of the response. Namely, they are :
+- `Properties`: A dictionary containing additional tokens of the response. Namely, they are :
   - `topIntent`
   - `projectType`
 - `Entities`: A JObject that contains the entities detected by CLU and returned in the JSON Response. It is an object that simply contains the entities token, which corresponds to a list of Entities detected by CLU. An example of what the JSON object might look like is shown below:
@@ -150,6 +148,6 @@ Note that `RecognizeAsync` also has a template overload of type `RecognizeAsync<
 - [Language Understanding using LUIS](https://docs.microsoft.com/en-us/azure/cognitive-services/luis/)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
-[CoreBotWithCLU_Sample]: https://github.com/microsoft/CognitiveServicesLanguageUtilities/tree/AhmedLeithy/BotBuilderInit/BotFramework/BotBuilderDotNet/RecognizerExtensions/Samples/13.core-bot
-[CLU_ServiceDocHomepage]: https://www.LuisVNext.placeholder.com
-[CLU_ServiceHowTo]: https://www.CLU.placeholder.com
+[CoreBotWithCLU_Sample]: https://github.com/microsoft/BotBuilder-Samples/tree/AhmedLeithy/LuisVNext-Sample/samples/csharp_dotnetcore/90.core-bot-with-clu/90.core-bot-with-clu
+[CLU_ServiceQuickStart]: https://docs.microsoft.com/azure/cognitive-services/language-service/conversational-language-understanding/quickstart
+[CLU_ServiceDocHomepage]: https://docs.microsoft.com/azure/cognitive-services/language-service/conversational-language-understanding/overview
