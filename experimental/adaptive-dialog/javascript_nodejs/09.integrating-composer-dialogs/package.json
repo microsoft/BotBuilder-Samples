@@ -23,7 +23,7 @@
         "botbuilder-lg": "4.9.2",
         "adaptive-expressions": "4.9.2",
         "dotenv": "^8.2.0",
-        "restify": "~8.4.0"
+        "restify": "~8.6.0"
     },
     "devDependencies": {
         "eslint": "^6.6.0",
