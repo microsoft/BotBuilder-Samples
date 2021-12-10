@@ -192,11 +192,11 @@ jobs:
       $packageList = Find-package -AllVersions -source $registryUrlSource -Name $packageName -AllowPrereleaseVersions;
       " "
       "Available versions:";
-      $PackageList.Version -match " 5." | Select -First 20;
-      $PackageList.Version -match " 4." | Select -First 20;
+      $PackageList.Version -like "5.*" | Select -First 20;
+      $PackageList.Version -like "4.*" | Select -First 20;
 
       # Get the latest version 4.n value. Ignore version 5.
-      $latestVersion = ($PackageList.Version -match " 4.")[0];
+      $latestVersion = ($PackageList.Version -like "4.*")[0];
       " "
       "Latest v4 version:";
       $packageName;
