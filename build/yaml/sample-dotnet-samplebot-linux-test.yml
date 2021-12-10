@@ -172,7 +172,8 @@ jobs:
       $package = $result.packages | Where-Object {$_.id -eq $packageName};
       " "
       "Available versions:";
-      $package.versions | Select -Last 60;
+      $package.versions -like "4.*" | Select -Last 20;
+      $package.versions -like "5.*" | Select -Last 20;
 
       [string]$latestVersion = ($package.versions -like "4.*")[-1];
       " "
