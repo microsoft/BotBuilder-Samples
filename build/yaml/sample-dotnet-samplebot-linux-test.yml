@@ -144,12 +144,13 @@ jobs:
       Write-Host "Get latest $packageName version number from Azure ConversationalAI BotFramework SDK feed";
    
       $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
+      $Packagelist = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions;
       " "
       "Available versions:";
-      nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions | Select -First 60;
+      $PackageList -like "* 5.*" | Select -First 20;
+      $PackageList -like "* 4.*" | Select -First 20;
 
-      $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
-      [string]$latestVersion = ($PackageList.Split(" ") -like "4.*")[-1];
+      [string]$latestVersion = ($PackageList -like "* 4.*" | Select -First 1).Split(" ")[-1];
       " "
       "Latest v4 version:";
       $packageName;
