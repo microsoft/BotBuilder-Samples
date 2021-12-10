@@ -20,7 +20,7 @@
 
 parameters:
   - name: testLatestPackage
-    displayName: Test latest package version
+    displayName: Test latest v4 package version
     type: boolean
     default: true
   - name: versionToTest
