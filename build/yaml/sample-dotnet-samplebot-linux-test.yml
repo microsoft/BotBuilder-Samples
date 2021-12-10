@@ -149,7 +149,7 @@ jobs:
       nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions | Select -First 60;
 
       $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
-      [string]$latestVersion = ($PackageList -match " 4.").Split(" ")[-1];
+      [string]$latestVersion = ($PackageList.Split(" ") -like "4.*")[-1];
       " "
       "Latest v4 version:";
       $packageName;
