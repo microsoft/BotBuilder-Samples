@@ -4,7 +4,7 @@
 
   <groupId>com.microsoft.bot</groupId>
   <artifactId>bot-java</artifactId>
-  <version>4.14.0</version>
+  <version>4.14.1</version>
   <packaging>pom</packaging>
 
   <name>Microsoft BotBuilder Java SDK Parent</name>
@@ -333,7 +333,7 @@
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
-        <version>2.11.0</version>
+        <version>2.15.0</version>
         <scope>test</scope>
       </dependency>
       <dependency>
@@ -345,7 +345,7 @@
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.13.2</version>
+        <version>2.15.0</version>
         <scope>test</scope>
       </dependency>
 
