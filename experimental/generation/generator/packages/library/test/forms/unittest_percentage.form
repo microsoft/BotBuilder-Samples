@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Percentage": {
-            "$ref": "template:percentage.schema"
+            "$ref": "template:percentage.template"
         }
     },
     "required": [

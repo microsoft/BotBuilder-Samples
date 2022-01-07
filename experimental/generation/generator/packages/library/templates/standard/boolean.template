@@ -1,0 +1,9 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "boolean",
+    "$generator": {
+        "title": "Boolean",
+        "description": "Map utterances like 'yes'/'no'/'true'/'false' to a boolean value.",
+        "$ref": "askIf.json"
+    }
+}

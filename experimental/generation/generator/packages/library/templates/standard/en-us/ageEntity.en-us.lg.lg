@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('age')}
 
-# template
+# generator
 - ${entityTextTemplate('age')}

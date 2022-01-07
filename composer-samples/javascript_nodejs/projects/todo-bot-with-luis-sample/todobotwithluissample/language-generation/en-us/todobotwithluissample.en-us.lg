@@ -1,0 +1,25 @@
+[import](common.lg)
+
+# SendActivity_202664()
+[Activity
+    Text = Hi, how can I help today?
+    SuggestedActions = Add | Show | Delete | Profile
+]
+
+# foo
+- test
+
+# SendActivity_269411()
+- ${@answer}
+
+# TextInput_Prompt_107784()
+- Are you sure you want to cancel?
+
+# SendActivity_140076()
+- Sure, cancelling all dialogs.
+
+# SendActivity_272233()
+- No worries.
+
+# SendActivity_037398()
+- Sorry, not sure what you mean. Can you rephrase? 

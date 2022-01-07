@@ -6,36 +6,79 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using AdaptiveCards;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
+using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Microsoft.BotBuilderSamples.Helpers;
+using Microsoft.BotBuilderSamples.Models;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsMessagingExtensionsActionBot : TeamsActivityHandler
     {
+        public readonly string baseUrl;
+
+        public TeamsMessagingExtensionsActionBot(IConfiguration configuration) : base()
+        {
+            this.baseUrl = configuration["BaseUrl"];
+        }
+
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionSubmitActionAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
             switch (action.CommandId)
             {
-                // These commandIds are defined in the Teams App Manifest.
                 case "createCard":
                     return CreateCardCommand(turnContext, action);
-
                 case "shareMessage":
                     return ShareMessageCommand(turnContext, action);
-                default:
-                    return await Task.FromResult(new MessagingExtensionActionResponse());
+                case "webView":
+                    return WebViewResponse(turnContext, action);
+                case "createAdaptiveCard":
+                    return CreateAdaptiveCardResponse(turnContext, action);
+                case "razorView":
+                    return RazorViewResponse(turnContext, action);
             }
+            return new MessagingExtensionActionResponse();
+        }
+
+        private MessagingExtensionActionResponse RazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            // The user has chosen to create a card by choosing the 'Create Card' context menu command.
+            RazorViewResponse cardData = JsonConvert.DeserializeObject<RazorViewResponse>(action.Data.ToString());
+            var card = new HeroCard
+            {
+                Title = "Requested User: " + turnContext.Activity.From.Name,
+                Text = cardData.DisplayData,
+            };
+
+            var attachments = new List<MessagingExtensionAttachment>();
+            attachments.Add(new MessagingExtensionAttachment
+            {
+                Content = card,
+                ContentType = HeroCard.ContentType,
+                Preview = card.ToAttachment(),
+            });
+
+            return new MessagingExtensionActionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    AttachmentLayout = "list",
+                    Type = "result",
+                    Attachments = attachments,
+                },
+            };
         }
 
         private MessagingExtensionActionResponse CreateCardCommand(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
             // The user has chosen to create a card by choosing the 'Create Card' context menu command.
-            var createCardData = ((JObject)action.Data).ToObject<CreateCardData>();
+            var createCardData = ((JObject)action.Data).ToObject<CardResponse>();
 
             var card = new HeroCard
             {
@@ -109,64 +152,165 @@ namespace Microsoft.BotBuilderSamples.Bots
             };
         }
 
-        private class CreateCardData
+        private MessagingExtensionActionResponse WebViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
         {
-            public string Title { get; set; }
+            // The user has chosen to create a card by choosing the 'Web View' context menu command.
+            CustomFormResponse cardData = JsonConvert.DeserializeObject<CustomFormResponse>(action.Data.ToString());
+            var imgUrl = baseUrl + "/MSFT_logo.jpg";
+            var card = new ThumbnailCard
+            {
+                Title = "ID: " + cardData.EmpId,
+                Subtitle = "Name: " + cardData.EmpName,
+                Text = "E-Mail: " + cardData.EmpEmail,
+                Images = new List<CardImage> { new CardImage { Url = imgUrl } },
+            };
 
-            public string Subtitle { get; set; }
+            var attachments = new List<MessagingExtensionAttachment>();
+            attachments.Add(new MessagingExtensionAttachment
+            {
+                Content = card,
+                ContentType = ThumbnailCard.ContentType,
+                Preview = card.ToAttachment(),
+            });
 
-            public string Text { get; set; }
+            return new MessagingExtensionActionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    AttachmentLayout = "list",
+                    Type = "result",
+                    Attachments = attachments,
+                },
+            };
+        }
+
+        private MessagingExtensionActionResponse CreateAdaptiveCardResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var createCardResponse = ((JObject)action.Data).ToObject<CardResponse>();
+            var attachments = CardHelper.CreateAdaptiveCardAttachment(action, createCardResponse);
+
+            return new MessagingExtensionActionResponse
+            {
+                ComposeExtension = new MessagingExtensionResult
+                {
+                    AttachmentLayout = "list",
+                    Type = "result",
+                    Attachments = attachments,
+                },
+            };
         }
 
         protected override async Task<MessagingExtensionActionResponse> OnTeamsMessagingExtensionFetchTaskAsync(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action, CancellationToken cancellationToken)
         {
-            // we are handling two cases within try/catch block 
-            //if the bot is installed it will create adaptive card attachment and show card with input fields
-            string memberName;
-            try
+            switch (action.CommandId)
             {
-                // Check if your app is installed by fetching member information.
-                var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
-                memberName = member.Name;
-            }
-            catch (ErrorResponseException ex)
-            {
-                if (ex.Body.Error.Code == "BotNotInConversationRoster")
-                {
+                case "webView":
+                    return EmpDetails(turnContext, action);
+                case "HTML":
+                    return TaskModuleHTMLPage(turnContext, action);
+                case "razorView":
+                    return DateDayInfo(turnContext, action);
+                default:
+                    // we are handling two cases within try/catch block 
+                    //if the bot is installed it will create adaptive card attachment and show card with input fields
+                    string memberName;
+                    try
+                    {
+                        // Check if your app is installed by fetching member information.
+                        var member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+                        memberName = member.Name;
+                    }
+                    catch (ErrorResponseException ex)
+                    {
+                        if (ex.Body.Error.Code == "BotNotInConversationRoster")
+                        {
+                            return new MessagingExtensionActionResponse
+                            {
+                                Task = new TaskModuleContinueResponse
+                                {
+                                    Value = new TaskModuleTaskInfo
+                                    {
+                                        Card = GetAdaptiveCardAttachmentFromFile("justintimeinstallation.json"),
+                                        Height = 200,
+                                        Width = 400,
+                                        Title = "Adaptive Card - App Installation",
+                                    },
+                                },
+                            };
+                        }
+                        throw; // It's a different error.
+                    }
+
                     return new MessagingExtensionActionResponse
                     {
                         Task = new TaskModuleContinueResponse
                         {
                             Value = new TaskModuleTaskInfo
                             {
-                                Card = GetAdaptiveCardAttachmentFromFile("justintimeinstallation.json"),
+                                Card = GetAdaptiveCardAttachmentFromFile("adaptiveCard.json"),
                                 Height = 200,
                                 Width = 400,
-                                Title = "Adaptive Card - App Installation",
+                                Title = $"Welcome {memberName}",
                             },
                         },
                     };
-                }
-                throw; // It's a different error.
             }
+        }
 
-            return new MessagingExtensionActionResponse
+        private MessagingExtensionActionResponse DateDayInfo(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var response = new MessagingExtensionActionResponse()
             {
-                Task = new TaskModuleContinueResponse
+                Task = new TaskModuleContinueResponse()
                 {
-                    Value = new TaskModuleTaskInfo
+                    Value = new TaskModuleTaskInfo()
                     {
-                        Card = GetAdaptiveCardAttachmentFromFile("adaptiveCard.json"),
-                        Height = 200,
-                        Width = 400,
-                        Title = $"Welcome {memberName}",
+                        Height = 175,
+                        Width = 300,
+                        Title = "Task Module Razor View",
+                        Url = baseUrl + "/Home/RazorView",
                     },
                 },
             };
+            return response;
         }
 
+        private MessagingExtensionActionResponse TaskModuleHTMLPage(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var response = new MessagingExtensionActionResponse()
+            {
+                Task = new TaskModuleContinueResponse()
+                {
+                    Value = new TaskModuleTaskInfo()
+                    {
+                        Height = 200,
+                        Width = 400,
+                        Title = "Task Module HTML Page",
+                        Url = baseUrl + "/htmlpage.html",
+                    },
+                },
+            };
+            return response;
+        }
 
-        /// Returns adaptive card attachment which allows Just In Time installation of app. 
+        private MessagingExtensionActionResponse EmpDetails(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)
+        {
+            var response = new MessagingExtensionActionResponse()
+            {
+                Task = new TaskModuleContinueResponse()
+                {
+                    Value = new TaskModuleTaskInfo()
+                    {
+                        Height = 300,
+                        Width = 450,
+                        Title = "Task Module WebView",
+                        Url = baseUrl + "/Home/CustomForm",
+                    },
+                },
+            };
+            return response;
+        }
+
         private static Attachment GetAdaptiveCardAttachmentFromFile(string fileName)
         {
             //Read the card json and create attachment.

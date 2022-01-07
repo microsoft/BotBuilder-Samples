@@ -3,6 +3,5 @@
 # entities
 - ${['datetimeV2']}
 
-# templates
-- ${genericPropertyTemplates()}
-
+# generators
+- ${dateFormatTemplates()}

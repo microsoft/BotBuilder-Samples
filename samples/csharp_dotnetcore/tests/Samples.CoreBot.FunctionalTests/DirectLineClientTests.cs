@@ -23,6 +23,10 @@ namespace Samples.CoreBot.FunctionalTests
             GetEnvironmentVars();
 
             string input = "";
+
+            // "Prime" the bot. Running StartBotConversationAsync() twice succeeds the second time.
+            await StartBotConversationAsync(input);
+
             var botAnswer = await StartBotConversationAsync(input);
             Assert.IsTrue(!String.IsNullOrWhiteSpace(botAnswer) && botAnswer.Contains("travel", StringComparison.OrdinalIgnoreCase),
                 $"Expected: A message containing 'travel'. Actual:<{botAnswer}>.");
@@ -112,13 +116,13 @@ namespace Samples.CoreBot.FunctionalTests
                 directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINE");
                 if (string.IsNullOrWhiteSpace(directLineSecret))
                 {
-                    Assert.Inconclusive("Environment variable 'DIRECTLINE' not found.");
+                    Assert.Fail("Environment variable 'DIRECTLINE' not found.");
                 }
 
                 botId = Environment.GetEnvironmentVariable("BOTID");
                 if (string.IsNullOrWhiteSpace(botId))
                 {
-                    Assert.Inconclusive("Environment variable 'BOTID' not found.");
+                    Assert.Fail("Environment variable 'BOTID' not found.");
                 }
             }
         }

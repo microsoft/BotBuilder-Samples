@@ -11,19 +11,13 @@
             "type": "integer"
         },
         "Complete": {
-            "type": "string",
-            "$entities": [
-                "boolean"
-            ]
+            "$ref": "template:boolean.template"
         },
         "NameArray": {
             "type": "array",
             "items": {
-                "type": "string"
-            },
-            "$entities": [
-                "personName"
-            ]
+                "$ref": "template:personName.template"
+            }
         },       
         "EnumFruit": {
             "type": "string",
@@ -72,48 +66,39 @@
             "format": "time"
         },
         "Name": {
-            "type": "string",
-            "$entities": [
-                "personName"
-            ],
+            "$ref": "template:personName.template",
             "pattern" : "^[a-z]{1,3}$"
         },
         "PhoneNumber": {
-            "type": "string",
-            "$entities": [
-                "phonenumber"
-            ]
+            "$ref": "template:phonenumber.template"
         },
         "KeyphraseProperty": {
-            "type": "string",
-            "$entities": [
-                "keyPhrase"
-            ]
+            "$ref": "template:keyPhrase.template"
         },
         "Percentage": {
-            "$ref": "template:percentage.schema"
+            "$ref": "template:percentage.template"
         },
         "Age": {
-            "$ref": "template:age.schema"
+            "$ref": "template:age.template"
         },
         "OrdinalV2": {
-            "$ref": "template:ordinal.schema"
+            "$ref": "template:ordinal.template"
         },
         "GeographyV2": {
-            "$ref": "template:geography.schema"
+            "$ref": "template:geography.template"
         },
         "Money": {
-            "$ref": "template:money.schema"
+            "$ref": "template:money.template"
         },
         "Temperature": {
-            "$ref": "template:temperature.schema"
+            "$ref": "template:temperature.template"
         },
         "Dimension": {
-            "$ref": "template:dimension.schema",
+            "$ref": "template:dimension.template",
             "$units": "feet"
         },
         "DateTime": {
-            "$ref": "template:datetime.schema"
+            "$ref": "template:datetime.template"
         }
     },
     "required": [

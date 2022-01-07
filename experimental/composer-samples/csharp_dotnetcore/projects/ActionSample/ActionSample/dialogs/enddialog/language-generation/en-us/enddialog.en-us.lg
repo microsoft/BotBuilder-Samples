@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# SendActivity_604381
+-Hello ${user.name}, nice to talk to you!
+
+# SendActivity_338063
+-I'm a joke bot. To get started say "joke".

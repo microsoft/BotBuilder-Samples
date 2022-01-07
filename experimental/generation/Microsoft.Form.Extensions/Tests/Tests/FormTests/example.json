@@ -1,0 +1,38 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema",
+    "title": "Example JSON schema",
+    "type": "object",
+    "properties": {
+        "a": {
+            "type": "string"
+        },
+        "b": {
+            "type": "string"
+        },
+        "c": {
+            "type": "string"
+        },
+        "d": {
+            "type": "string"
+        },
+        "e": {
+            "type": "string"
+        },
+        "test": {
+            "type": "string",
+            "$entities": [
+                "testEntity"
+            ]
+        }
+    },
+    "required": [
+        "a",
+        "b",
+        "c"
+    ],
+    "$defaultOperation": {
+        "": {
+            "": "Add()"
+        }
+    }
+}

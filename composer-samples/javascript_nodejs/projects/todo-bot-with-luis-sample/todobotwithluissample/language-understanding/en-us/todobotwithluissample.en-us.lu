@@ -1,0 +1,230 @@
+
+# Add
+- Add todo
+- add a to do item
+- Please remind me to {itemTitle=buy milk}
+- Please remember that I need to {itemTitle=buy milk}
+- I need you to remember that {itemTitle=my wife's birthday is Jan 9th}
+- Add a todo named {itemTitle=send report over this weekend}
+- Add {itemTitle=get a new car} to the todo list
+- Add {itemTitle=write a spec} to the list
+- Add {itemTitle=finish this demo} to my todo list
+- add a todo item {itemTitle=vacuuming by october 3rd}
+- add {itemTitle=call my mother} to my todo list
+- add {itemTitle=due date august to peanut butter jelly bread milk} on todos list
+- add {itemTitle=go running} to my todos
+- add to my todos list {itemTitle=mail the insurance forms out by saturday}
+- can i add {itemTitle=shirts} on the todos list
+- could i add {itemTitle=medicine} to the todos list
+- would you add {itemTitle=heavy cream} to the todos list
+- add {itemTitle} to my todo list
+- add a to do that {itemTitle=purchase a nice sweater}
+- add a to do to {itemTitle=buy shoes}
+- add an task of {itemTitle=chores to do around the house}
+- add {itemTitle=go to whole foods} in my to do list
+- add {itemTitle=reading} to my to do list
+- add this thing in to do list
+- add to my to do list {itemTitle=pick up clothes}
+- add to my to do list {itemTitle=print papers for 10 copies this afternoon}
+- create to do
+- create to do that {itemTitle=read a book tonight}
+- create to do to {itemTitle=go running in the park}
+- put {itemTitle=hikes} on my to do list
+- remind me to {itemTitle = pick up dry cleaning}
+- new to do
+- add another one
+- add
+> Add patterns
+- Please remember [to] {itemTitle}
+- I need you to remember [that] {itemTitle}
+- Add a todo named {itemTitle}
+- Add {itemTitle} to the list
+- [Please] add {itemTitle} to the todo list
+- Add {itemTitle} to my todo
+- add {itemTitle} to my to do list
+- add {itemTitle} to my to dos
+- add a to do that buy {itemTitle}
+- add a to do that purchase {itemTitle}
+- add a to do that shop {itemTitle}
+- add a to do to {itemTitle}
+- add to do that {itemTitle}
+- add to do to {itemTitle}
+- create a to do to {itemTitle}
+- create to do to {itemTitle}
+- remind me to {itemTitle}
+
+> entity definitions
+@ ml itemTitle
+
+@ list listType = 
+	- todo :
+	      - to do
+            - todos
+            - laundry            
+      - grocery :
+            - groceries
+            - fruits
+            - vegetables
+            - household items
+            - house hold items
+      - shopping : 
+            - shopping 
+            - shop
+            - shoppers
+
+> phrase list definitions
+@ phraseList addItem(interchangeable) = 
+	- add
+	- put
+	- plus
+
+
+> 
+
+
+
+
+
+
+
+
+
+
+
+# Delete
+- Remove todo
+- Mark {itemTitle = buy milk} as complete
+- Flag {itemTitle = first one} as done
+- Remove {itemTitle = finish this demo} from the todo list
+- remove another one
+- remove
+- clear my todo named {itemTitle = get a new car}
+- I'm done with the first todo
+- I finished the las todo
+- Remove the first todo
+- Delete todo
+- Clear my todos
+- Delete all my todos
+- Remove all my todo
+- Forget the list
+- Purge the todo list
+- can you delete {itemTitle=todo1}
+- can you delete {itemTitle=xxx} item
+- delete {itemTitle=eggs} from list
+- delete off {itemTitle=pancake mix} on the shopping list
+- delete {itemTitle=shampoo} from shopping list
+- delete {itemTitle=shirts} from list
+- delete task {itemTitle=go fishing}
+- delete task {itemTitle=go to cinema tonight}
+- delete the item {itemTitle=buy socks} from my todo list
+- delete the second task in my shopping list
+- delete the task {itemTitle=house cleanup this weekend}
+- delete the task that {itemTitle=hit the gym every morning}
+- delete the to do {itemTitle=meet my friends tomorrow}
+- delete the to do that {itemTitle=daily practice piano}
+- delete the to do that {itemTitle=meet john when he come here the next friday}
+- delete to do {itemTitle=buy milk}
+- delete to do {itemTitle=go shopping}
+- delete to do that {itemTitle=go hiking tomorrow}
+- erase {itemTitle=bananas} from shopping list
+- erase {itemTitle=peanuts} on the shopping list
+- remove {itemTitle=asprin} from shopping list
+- remove {itemTitle=black shoes} from shopping list
+- remove {itemTitle=class} from todo list
+- remove {itemTitle=salad vegetables} from grocery list
+- remove task {itemTitle=buy dog food}
+- remove task {itemTitle=go shopping}
+- remove task that {itemTitle=go hiking this weekend}
+- remove task that {itemTitle=lawn mowing}
+- remove the item {itemTitle=paris} from my list
+- remove the task that {itemTitle=go to library after work}
+- remove the to do {itemTitle=physical examination}
+- remove the to do that {itemTitle=pick tom up at six p.m.}
+- remove to do {itemTitle=go to the gym}
+- remove to do that {itemTitle=go to the dentist tomorrow morning}
+> Add patterns
+- I did {itemTitle}
+- I completed {itemTitle}
+- Delete {itemTitle}
+- Mark {itemTitle} as complete
+- Remove {itemTitle} from my [todo] list
+- [Please] delete {itemTitle} from the list
+
+> entity definitions
+@ ml itemTitle
+
+> phrase list definitions
+@ phraseList deleteItem(interchangeable) = 
+	- remove
+	- delete
+	- get
+	- erase
+
+
+
+
+
+
+
+
+
+
+# View
+- show my todo
+- can you please show my todos?
+- please show my todo list
+- todo list please
+- I need to see my todo list
+- can you show me the list?
+- please show the list
+- what do i have on my todo?
+- what is on my list?
+- do i have anything left on my todo list?
+- I hope I do not have any todo left
+- do i have any tasks left?
+- hit me up with more items
+- view my todos
+- can you show my todo
+- see todo
+- I would like to see my todos list
+- show all my lists
+- show my lists
+- what do i have on my list?
+
+
+# UserProfile
+- get started
+- my name is {@userName}
+- Profile
+
+@ prebuilt personName hasRoles userName
+
+
+
+
+
+# whatCanYouDo
+- what can you do?
+
+
+# cancel
+- cancel
+- cancel that
+- stop that
+- abort
+
+
+# ConfirmInput_Response_107784
+- yes
+- no
+
+@ list confirmation = 
+    - yes : 
+		    - yeah
+		    - ok
+		    - yup
+    - no :
+        - nope
+        - not now
+        - not really
+        - go back               

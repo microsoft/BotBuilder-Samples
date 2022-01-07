@@ -3,9 +3,10 @@ import { TextDocument } from 'vscode-languageserver-textdocument';
 import * as path from 'path';
 import * as util from '../util';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const parseFile = require('@microsoft/bf-lu/lib/parser/lufile/luParser');
 
-export function foldingRange(params: FoldingRangeParams, documents: TextDocuments<TextDocument>) {
+export function foldingRange(params: FoldingRangeParams, documents: TextDocuments<TextDocument>):FoldingRange[] {
 	const document = documents.get(params.textDocument.uri)!;
 	const item: FoldingRange[] = [];
 	if (!util.isQnaFile(path.basename(document.uri))) {
@@ -28,7 +29,7 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 
 	const qnaResource = parseFile.parse(document.getText());
 	const sections = qnaResource.Sections;
-	for (let section in qnaResource.Sections) {
+	for (const section in qnaResource.Sections) {
 		const start = sections[section].Range.Start.Line - 1;
 		const end = sections[section].Range.End.Line - 1;
 		item.push(FoldingRange.create(start, end));
@@ -40,7 +41,7 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 function getCurrLine(document: TextDocument, lineCount: number, line: number) {
 	if (line == lineCount) return null;
 	const startPosition = { line: line, character: 0 };
-	var endPosition;
+	let endPosition;
 	if (line == lineCount - 1) {
 		endPosition = document.positionAt(document.getText().length - 1);
 	} else {

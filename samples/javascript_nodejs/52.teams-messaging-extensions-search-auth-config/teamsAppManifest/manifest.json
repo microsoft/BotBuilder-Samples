@@ -15,12 +15,12 @@
     "outline": "icon-outline.png"
   },
   "name": {
-    "short": "Config Auth Search",
-    "full": "Config Auth Search"
+    "short": "Messaging Extension Auth",
+    "full": "ME Auth for Search, Action and link unfurling"
   },
   "description": {
-    "short": "Config Auth Search",
-    "full": "Config Auth Search"
+    "short": "ME Authentication for Search, Action and Link unfurling",
+    "full": "ME Authentication sample code for all authentication merged"
   },
   "accentColor": "#FFFFFF",
   "composeExtensions": [
@@ -37,7 +37,8 @@
           "fetchTask": false,
           "context": [
             "commandBox",
-            "compose"
+            "compose",
+            "message"
           ],
           "parameters": [
             {
@@ -45,6 +46,26 @@
               "title": "Search",
               "description": "Your search query",
               "inputType": "text"
+            }
+          ]
+        },
+        {
+          "id": "SHOWPROFILE",
+          "type": "action",
+          "title": "Compose",
+          "description": "Compose and send email",
+          "initialRun": false,
+          "fetchTask": true,
+          "context": [
+            "commandBox",
+            "compose",
+            "message"
+          ],
+          "parameters": [
+            {
+              "name": "param",
+              "title": "param",
+              "description": ""
             }
           ]
         },
@@ -66,6 +87,16 @@
               "description": ""
             }
           ]
+        }
+      ],
+      "messageHandlers": [
+        {
+          "type": "link",
+          "value": {
+            "domains": [
+              "*.botframework.com"
+            ]
+          }
         }
       ]
     }

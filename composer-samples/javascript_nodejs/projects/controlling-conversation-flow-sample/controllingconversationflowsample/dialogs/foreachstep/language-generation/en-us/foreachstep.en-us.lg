@@ -1,0 +1,7 @@
+[import](common.lg)
+
+# SendActivity_638869()
+-Pushed dialog.id into a list
+
+# SendActivity_006441()
+- ${dialog.foreach.index}: ${dialog.foreach.value}

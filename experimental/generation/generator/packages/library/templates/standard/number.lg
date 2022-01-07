@@ -3,6 +3,5 @@
 # entities
 - ${['number']}
 
-# templates
-- ${propertyTemplates()}
-
+# generators
+- ${numericTemplates()}

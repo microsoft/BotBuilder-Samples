@@ -1,0 +1,14 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${propertyFilename()}
+
+# generator
+- ${genericMessages('date or time expression')}${validationTemplate()}
+
+# validationTemplate
+- ${activityTemplate(
+    `${property}_invalidDate`, ['val'],
+    `Invalid date value for '${property}' property`,
+    `\${${property}_Value(val)} is not a date`)}
+

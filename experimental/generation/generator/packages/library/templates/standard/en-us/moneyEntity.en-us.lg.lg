@@ -3,5 +3,5 @@
 # filename
 - ${filenameForEntityTypeLG('money')}
 
-# template
+# generator
 - ${entityTextTemplate('money')}

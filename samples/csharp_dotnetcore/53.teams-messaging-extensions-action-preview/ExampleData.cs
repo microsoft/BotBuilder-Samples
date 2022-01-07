@@ -8,6 +8,7 @@ namespace Microsoft.BotBuilderSamples
         public ExampleData()
         {
             MultiSelect = "true";
+            UserAttributionSelect = "true";
         }
 
         public string SubmitLocation { get; set; }
@@ -21,5 +22,7 @@ namespace Microsoft.BotBuilderSamples
         public string Option2 { get; set; }
 
         public string Option3 { get; set; }
+
+        public string UserAttributionSelect { get; set; }
     }
 }

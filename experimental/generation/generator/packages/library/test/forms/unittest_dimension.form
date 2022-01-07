@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Dimension": {
-            "$ref": "template:dimension.schema"
+            "$ref": "template:dimension.template"
         }
     },
     "required": [

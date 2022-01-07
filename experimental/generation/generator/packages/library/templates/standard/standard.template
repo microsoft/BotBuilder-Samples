@@ -1,0 +1,76 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$global": true,
+    "type": "object",
+    "properties": {
+        "CancelConfirmation": {
+            "type": "boolean",
+            "$entities": [
+                "boolean"
+            ],
+            "$templates": [
+                "genericEntity.lg",
+                "genericEntity.lu",
+                "form-CancelConfirmation-assign-boolean.dialog"
+            ]
+        },
+        "PropertyToChange": {
+            "type": "string",
+            "$entities": [
+                "boolean",
+                "${foreach(properties, property, `${property}Property`)}"
+            ],
+            "$templates": [
+                "genericEntity.lg",
+                "genericEntity.lu",
+                "form-PropertyToChange-prompt.dialog",
+                "form-PropertyToChange-assign.dialog"
+            ]
+        }
+    },
+    "$operations": [
+        "${schemaOperations()}"
+    ],
+    "$defaultOperation": [
+        "${schemaDefaultOperation()}"
+    ],
+    "$requiresValue": [
+        "Assign()",
+        "Remove()"
+    ],
+    "$expectedOnly": [
+        "boolean",
+        "utterance",
+        "keyPhrase",
+        "personName"
+    ],
+    "$templates": [
+        "form-NoneIntent.lu",
+        "form-phrases.lu",
+        "form-global.lu",
+        "locale-definition.lu",
+        "form-DisplayOperation.lg",
+        "form-extensions.lg",
+        "form-prompts.lg",
+        "locale.lu",
+        "locale.lg",
+        "luis.lu.dialog",
+        "multilingual.dialog",
+        "form-BeginDialog.dialog",
+        "form-CancelConfirmation-prompt.dialog",
+        "form-CancelConfirmation-assign-boolean.dialog",
+        "form-Change.dialog",
+        "form-ChooseProperty.dialog",
+        "form-HelpGlobal.dialog",
+        "form-HelpReprompt.dialog",
+        "form-NotUnderstood.dialog",
+        "form-Show.dialog",
+        "form-Skip.dialog",
+        "main.dialog",
+        "luconfig.json",
+        "build",
+        "build.cmd",
+        "run",
+        "run.cmd"
+    ]
+}

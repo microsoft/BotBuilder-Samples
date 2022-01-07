@@ -3,5 +3,5 @@
 # filename
 - ${generationDir()}${locale}/${prefix}.${locale}.lg
 
-# template
-- ${join(foreach(templates.lg, lg, `[${lg.shortName}](${localePath(replace(lg.relative, '\\', '/'))})`), EOL())}
+# generator
+- ${join(foreach(sortObject(templates.lg, 'shortName'), lg, `[${lg.shortName}](${localePath(replace(lg.relative, '\\', '/'))})`), EOL())}

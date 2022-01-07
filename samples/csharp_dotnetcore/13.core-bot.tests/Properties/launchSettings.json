@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "CoreBot.Tests": {
+    ".NET Core": {
       "commandName": "Project"
     }
   }

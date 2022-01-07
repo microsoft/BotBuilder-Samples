@@ -1,0 +1,107 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "122121"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "050101"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "699003"
+          },
+          "prompt": "Who are your?",
+          "property": "user.name",
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": "false",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "Susan"
+            },
+            {
+              "value": "Nick"
+            },
+            {
+              "value": "Tom"
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "list",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false,
+            "noAction": false
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "097130"
+          },
+          "activity": "${SendActivity_097130()}"
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "088447"
+          },
+          "condition": "user.name",
+          "cases": [
+            {
+              "value": "Susan",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "040464"
+                  },
+                  "activity": "${SendActivity_040464()}"
+                }
+              ]
+            },
+            {
+              "value": "Nick",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "230206"
+                  },
+                  "activity": "${SendActivity_230206()}"
+                }
+              ]
+            },
+            {
+              "value": "Tom",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "604251"
+                  },
+                  "activity": "${SendActivity_604251()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "switchcondition.lg"
+}

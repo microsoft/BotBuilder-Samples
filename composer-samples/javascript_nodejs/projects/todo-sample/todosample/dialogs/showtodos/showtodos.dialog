@@ -1,0 +1,48 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "709692",
+    "name": "showtodos"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "783343"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "662084"
+          },
+          "condition": "user.todos == null",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "339580",
+                "name": "Send an Activity"
+              },
+              "activity": "${SendActivity_339580()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "662084",
+                "name": "Send an Activity"
+              },
+              "activity": "${SendActivity_662084()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "showtodos.lg",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema"
+}

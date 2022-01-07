@@ -1,0 +1,50 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('Skip.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Skip()",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition": "count($events.Assignments) > 0",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EditArray",
+                    "changeType": "take",
+                    "itemsProperty": "$events.Assignments"
+                }
+            ],
+            "elseActions": [
+                {
+                    "$kind": "Microsoft.IfCondition",
+                    "condition": "exists($PropertyToChange)",
+                    "actions": [
+                        {
+                            "$kind": "Microsoft.DeleteProperty",
+                            "property": "$PropertyToChange"
+                        }
+                    ],
+                    "elseActions": [
+                        {
+                            "$kind": "Microsoft.SetProperty",
+                            "property": "$requiredProperties",
+                            "value": "=form.skipExpectedProperties()"
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "$kind": "Microsoft.DeleteProperty",
+            "property": "$retries"
+        }
+    ]
+    ${designerName('Skip')}
+}
+```

@@ -1,13 +1,17 @@
 # Copyright (c) Microsoft Corporation. All rights reserved.
 # Licensed under the MIT License.
 
+import os
+import json
+
 from typing import List
 from botbuilder.core import CardFactory, TurnContext, MessageFactory
 from botbuilder.core.teams import TeamsActivityHandler, TeamsInfo
-from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParameters
+from botbuilder.schema import CardAction, HeroCard, Mention, ConversationParameters, Attachment, Activity
 from botbuilder.schema.teams import TeamInfo, TeamsChannelAccount
 from botbuilder.schema._connector_client_enums import ActionTypes
 
+ADAPTIVECARDTEMPLATE = "resources/UserMentionCardTemplate.json"
 
 class TeamsConversationBot(TeamsActivityHandler):
     def __init__(self, app_id: str, app_password: str):
@@ -29,6 +33,10 @@ class TeamsConversationBot(TeamsActivityHandler):
     async def on_message_activity(self, turn_context: TurnContext):
         TurnContext.remove_recipient_mention(turn_context.activity)
         text = turn_context.activity.text.strip().lower()
+
+        if "mention me" in text:
+            await self._mention_adaptive_card_activity(turn_context)
+            return
 
         if "mention" in text:
             await self._mention_activity(turn_context)
@@ -53,6 +61,36 @@ class TeamsConversationBot(TeamsActivityHandler):
         await self._send_card(turn_context, False)
         return
 
+    async def _mention_adaptive_card_activity(self, turn_context: TurnContext):
+        TeamsChannelAccount: member = None
+        try:
+            member = await TeamsInfo.get_member(
+                turn_context, turn_context.activity.from_property.id
+            )
+        except Exception as e:
+            if "MemberNotFoundInConversation" in e.args[0]:
+                await turn_context.send_activity("Member not found.")
+                return
+            else:
+                raise
+
+        card_path = os.path.join(os.getcwd(), ADAPTIVECARDTEMPLATE)
+        with open(card_path, "rb") as in_file:
+            template_json = json.load(in_file)
+        
+        for t in template_json["body"]:
+            t["text"] = t["text"].replace("${userName}", member.name)        
+        for e in template_json["msteams"]["entities"]:
+            e["text"] = e["text"].replace("${userName}", member.name)
+            e["mentioned"]["id"] = e["mentioned"]["id"].replace("${userUPN}", member.user_principal_name)
+            e["mentioned"]["id"] = e["mentioned"]["id"].replace("${userAAD}", member.additional_properties["aadObjectId"])
+            e["mentioned"]["name"] = e["mentioned"]["name"].replace("${userName}", member.name)
+        
+        adaptive_card_attachment = Activity(
+            attachments=[CardFactory.adaptive_card(template_json)]
+        )
+        await turn_context.send_activity(adaptive_card_attachment)
+
     async def _mention_activity(self, turn_context: TurnContext):
         mention = Mention(
             mentioned=turn_context.activity.from_property,
@@ -72,6 +110,7 @@ class TeamsConversationBot(TeamsActivityHandler):
                 text="messageallmembers",
             ),
             CardAction(type=ActionTypes.message_back, title="Who am I?", text="whoami"),
+            CardAction(type=ActionTypes.message_back, title="Find me in Adaptive Card", text="mention me"),
             CardAction(
                 type=ActionTypes.message_back, title="Delete card", text="deletecard"
             ),

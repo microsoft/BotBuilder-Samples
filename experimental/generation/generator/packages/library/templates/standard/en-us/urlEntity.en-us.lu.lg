@@ -3,9 +3,9 @@
 # filename
 - ${builtinEntityFilename('url')}
 
-# template
+# generator
 - ```
 @ prebuilt url
 
-${operations('url', ["http://foo.com/bark", "https://something.gov/woof", "http://random.com/"], false)}
+${operations('url', ["http://foo.com/bark", "https://something.gov/woof", "http://my.random.com/"], false)}
 ```

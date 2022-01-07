@@ -24,8 +24,9 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
      }
      for (let i = 0;i < lineCount;i++) {
         const currLine = getCurrLine(document, lineCount, i);
+        let j = 0;
         if (currLine?.startsWith('#')) {
-			for (var j = i + 1;j < lineCount;j++) {
+			for (j = i + 1;j < lineCount;j++) {
 				const secLine = getCurrLine(document, lineCount, j);
 				if (secLine?.startsWith('>>') || secLine?.startsWith('#')) {
                     item.push(FoldingRange.create(i, j - 1));
@@ -45,7 +46,7 @@ export function foldingRange(params: FoldingRangeParams, documents: TextDocument
 function getCurrLine(document: TextDocument, lineCount: number, line: number) {
 	if (line == lineCount) return null;
 	const startPosition = {line: line, character: 0};
-	var endPosition;
+	let endPosition;
 	if (line == lineCount - 1) {
 		endPosition = document.positionAt(document.getText().length - 1);
 	} else {

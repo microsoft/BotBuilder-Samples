@@ -1,6 +1,6 @@
 [generator.lg](../generator.lg)
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",

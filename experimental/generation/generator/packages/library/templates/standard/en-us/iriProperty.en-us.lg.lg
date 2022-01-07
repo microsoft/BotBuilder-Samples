@@ -3,18 +3,5 @@
 # filename
 - ${propertyFilename()}
 
-# template
-- ```
-${promptTemplates(missingDefault('URL'), changeDefault('URL'))}
-${confirmationTemplates(expectedSetDefault(), 
-                        expectedUpdateDefault(),
-                        unexpectedSetDefault(),
-                        unexpectedUpdateDefault(),
-                        removeDefault(),
-                        clearDefault())}'
-${helpTemplates(repromptDefault('URL'), helpDefault('URL'))}
-${showTemplate(showDefault())}
-${nameTemplate()}
-${valueTemplate()}
-```
-
+# generator
+- ${genericMessages('URL')}

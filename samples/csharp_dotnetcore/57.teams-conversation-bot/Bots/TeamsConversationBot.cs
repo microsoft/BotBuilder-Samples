@@ -3,17 +3,21 @@
 
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Xml;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Teams;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Bot.Schema.Teams;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
+using AdaptiveCards.Templating;
+using Newtonsoft.Json;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -28,12 +32,16 @@ namespace Microsoft.BotBuilderSamples.Bots
             _appPassword = config["MicrosoftAppPassword"];
         }
 
+        private readonly string _adaptiveCardTemplate = Path.Combine(".", "Resources", "UserMentionCardTemplate.json");
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             turnContext.Activity.RemoveRecipientMention();
             var text = turnContext.Activity.Text.Trim().ToLower();
 
-            if(text.Contains("mention"))
+            if (text.Contains("mention me"))
+                await MentionAdaptiveCardActivityAsync(turnContext, cancellationToken);
+            else if (text.Contains("mention"))
                 await MentionActivityAsync(turnContext, cancellationToken);
             else if(text.Contains("who"))
                 await GetSingleMemberAsync(turnContext, cancellationToken);
@@ -73,6 +81,12 @@ namespace Microsoft.BotBuilderSamples.Bots
                                 Type = ActionTypes.MessageBack,
                                 Title = "Who am I?",
                                 Text = "whoami"
+                            },
+                            new CardAction
+                            {
+                                Type = ActionTypes.MessageBack,
+                                Title = "Find me in Adaptive Card",
+                                Text = "mention me"
                             },
                             new CardAction
                             {
@@ -126,8 +140,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             await turnContext.DeleteActivityAsync(turnContext.Activity.ReplyToId, cancellationToken);
         }
 
-        // If you encounter permission-related errors when sending this message, see
-        // https://aka.ms/BotTrustServiceUrl
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
@@ -149,15 +161,16 @@ namespace Microsoft.BotBuilderSamples.Bots
                     TenantId = turnContext.Activity.Conversation.TenantId,
                 };
 
-                await ((BotFrameworkAdapter)turnContext.Adapter).CreateConversationAsync(
+                await ((CloudAdapter)turnContext.Adapter).CreateConversationAsync(
+                    credentials.MicrosoftAppId,
                     teamsChannelId,
                     serviceUrl,
-                    credentials,
+                    credentials.OAuthScope,
                     conversationParameters,
                     async (t1, c1) =>
                     {
                         conversationReference = t1.Activity.GetConversationReference();
-                        await ((BotFrameworkAdapter)turnContext.Adapter).ContinueConversationAsync(
+                        await ((CloudAdapter)turnContext.Adapter).ContinueConversationAsync(
                             _appId,
                             conversationReference,
                             async (t2, c2) =>
@@ -226,6 +239,44 @@ namespace Microsoft.BotBuilderSamples.Bots
             activity.Id = turnContext.Activity.ReplyToId;
 
             await turnContext.UpdateActivityAsync(activity, cancellationToken);
+        }
+
+        private async Task MentionAdaptiveCardActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
+            var member = new TeamsChannelAccount();
+
+            try
+            {
+                member = await TeamsInfo.GetMemberAsync(turnContext, turnContext.Activity.From.Id, cancellationToken);
+            }
+            catch (ErrorResponseException e)
+            {
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                {
+                    await turnContext.SendActivityAsync("Member not found.");
+                    return;
+                }
+                else
+                {
+                    throw e;
+                }
+            }
+
+            var templateJSON = File.ReadAllText(_adaptiveCardTemplate);
+            AdaptiveCardTemplate template = new AdaptiveCardTemplate(templateJSON);
+            var memberData = new
+            {
+                userName = member.Name,
+                userUPN = member.UserPrincipalName,
+                userAAD = member.AadObjectId
+            };
+            string cardJSON = template.Expand(memberData);
+            var adaptiveCardAttachment = new Attachment
+            {
+                ContentType = "application/vnd.microsoft.card.adaptive",
+                Content = JsonConvert.DeserializeObject(cardJSON),
+            };
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(adaptiveCardAttachment), cancellationToken);
         }
 
         private async Task MentionActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

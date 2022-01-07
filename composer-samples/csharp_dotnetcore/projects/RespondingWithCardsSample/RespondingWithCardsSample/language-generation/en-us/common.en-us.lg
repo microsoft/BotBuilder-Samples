@@ -1,0 +1,340 @@
+> All cards can be defined and managed through .lg files.
+> All cards use the chatdown notation - see here - https://github.com/Microsoft/botbuilder-tools/tree/master/packages/Chatdown#message-commands
+> Multi-line text are enclosed in ```
+> Multi-line text can include inline expressions enclosed in ${expression}.
+> ${TemplateName()} is an inline expression that uses the lgTemplate pre-built function to evaluate a template by name.
+
+# HeroCard
+[HeroCard
+    title = BotFramework Hero Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = ${cardActionTemplate('imBack', 'Show more cards', 'Show more cards')}
+]
+
+# HeroCardWithMemory(name)
+[Herocard
+    title=${TitleText(name)}
+    subtitle=${SubText()}
+    text=${DescriptionText()}
+    images=${CardImages()}
+    buttons=${cardActionTemplate('imBack', 'Show more cards', 'Show more cards')}
+]
+
+# TitleText(name)
+- Hello, ${name}
+
+# SubText
+- What is your favorite?
+- Don't they all look great?
+- sorry, some of them are repeats
+
+# DescriptionText
+- This is description for the hero card
+
+# CardImages
+- https://picsum.photos/200/200?image=100
+- https://picsum.photos/300/200?image=200
+- https://picsum.photos/200/200?image=400
+
+# cardActionTemplate(type, title, value)
+[CardAction
+    Type = ${if(type == null, 'imBack', type)}
+    Title = ${title}
+    Value = ${value}
+    Text = ${title}
+]
+
+# ThumbnailCard
+[ThumbnailCard
+    title = BotFramework Thumbnail Card
+    subtitle = Microsoft Bot Framework
+    text = Build and connect intelligent bots to interact with your users naturally wherever they are, from text/sms to Skype, Slack, Office 365 mail and other popular services.
+    image = https://sec.ch9.ms/ch9/7ff5/e07cfef0-aa3b-40bb-9baa-7c9ef8ff7ff5/buildreactionbotframework_960.jpg
+    buttons = Get Started
+]
+
+# SigninCard
+[SigninCard
+    text = BotFramework Sign-in Card
+    buttons = ${cardActionTemplate('signin', 'Sign-in', 'https://login.microsoftonline.com/')}
+]
+
+# AnimationCard
+[AnimationCard
+    title = Microsoft Bot Framework
+    subtitle = Animation Card
+    image = https://docs.microsoft.com/en-us/bot-framework/media/how-it-works/architecture-resize.png
+    media = http://i.giphy.com/Ki55RUbOV5njy.gif
+]
+
+# VideoCard
+[VideoCard
+    title = Big Buck Bunny
+    subtitle = by the Blender Institute
+    text = Big Buck Bunny (code-named Peach) is a short computer-animated comedy film by the Blender Institute
+    image = https://upload.wikimedia.org/wikipedia/commons/thumb/c/c5/Big_buck_bunny_poster_big.jpg/220px-Big_buck_bunny_poster_big.jpg
+    media = http://download.blender.org/peach/bigbuckbunny_movies/BigBuckBunny_320x180.mp4
+    buttons = Learn More
+]
+
+# AudioCard
+[AudioCard
+    title = I am your father
+    subtitle = Star Wars: Episode V - The Empire Strikes Back
+    text = The Empire Strikes Back (also known as Star Wars: Episode V – The Empire Strikes Back)
+    image = https://upload.wikimedia.org/wikipedia/en/3/3c/SW_-_Empire_Strikes_Back.jpg
+    media = https://wavlist.com/wav/father.wav
+    buttons = Read More
+]
+
+> The external file reference here 'Resources\adaptiveCard.json' should be marked as 'copy to output directory'
+> Note: The external file will be read as text and any language generation templates/ expressions in the content will be evaluated.
+> You can see this in Resources\adaptiveCard.json that pulls in a passenger name at random based on the call to 'PassengerName' template defined below.
+> Note: Chatdown already supports the ability to create any card type from its json definition. So you can apply this for not just Adaptive cards but to all card types.
+
+# AdaptiveCard
+[Activity
+    Attachments = ${json(adaptivecardjson())}
+]
+
+
+# PassengerName
+- Vishwac
+- Tom
+- Chris
+- Yochay
+
+# AttachmentLayoutType
+- carousel
+- list
+
+# AllCards
+[Activity
+    Attachments = ${HeroCard()} | ${ThumbnailCard()} | ${SigninCard()} | ${AnimationCard()} | ${VideoCard()} | ${AudioCard()} | ${json(adaptivecardjson())}
+    AttachmentLayout = ${AttachmentLayoutType()}
+]
+
+# help
+- ```
+    I can show you examples on different Cards
+    [Suggestions=HeroCard|ThumbnailCard|SigninCard|AnimationCard|VideoCard|AudioCard|AdaptiveCard|AllCards]
+    01 - HeroCard
+    02 - ThumbnailCard
+    03 - SigninCard
+    04 - AnimationCard
+    05 - VideoCard
+    06 - AudioCard
+    07 - AdaptiveCard
+    08 - AllCards
+  ```
+
+
+# adaptivecardjson
+- ```
+{
+  "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+  "version": "1.0",
+  "type": "AdaptiveCard",
+  "speak": "Your flight is confirmed for you and 3 other passengers from San Francisco to Amsterdam on Friday, October 10 8:30 AM",
+  "body": [
+    {
+      "type": "TextBlock",
+      "text": "Passengers",
+      "weight": "bolder",
+      "isSubtle": false
+    },
+    {
+      "type": "TextBlock",
+      "text": "${PassengerName()}",
+      "separator": true
+    },
+    {
+      "type": "TextBlock",
+      "text": "${PassengerName()}",
+      "spacing": "none"
+    },
+    {
+      "type": "TextBlock",
+      "text": "${PassengerName()}",
+      "spacing": "none"
+    },
+    {
+      "type": "TextBlock",
+      "text": "2 Stops",
+      "weight": "bolder",
+      "spacing": "medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Fri, October 10 8:30 AM",
+      "weight": "bolder",
+      "spacing": "none"
+    },
+    {
+      "type": "ColumnSet",
+      "separator": true,
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "San Francisco",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "size": "extraLarge",
+              "color": "accent",
+              "text": "SFO",
+              "spacing": "none"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": " "
+            },
+            {
+              "type": "Image",
+              "url": "http://adaptivecards.io/content/airplane.png",
+              "size": "small",
+              "spacing": "none"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "right",
+              "text": "Amsterdam",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "right",
+              "size": "extraLarge",
+              "color": "accent",
+              "text": "AMS",
+              "spacing": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "TextBlock",
+      "text": "Non-Stop",
+      "weight": "bolder",
+      "spacing": "medium"
+    },
+    {
+      "type": "TextBlock",
+      "text": "Fri, October 18 9:50 PM",
+      "weight": "bolder",
+      "spacing": "none"
+    },
+    {
+      "type": "ColumnSet",
+      "separator": true,
+      "columns": [
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Amsterdam",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "size": "extraLarge",
+              "color": "accent",
+              "text": "AMS",
+              "spacing": "none"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": "auto",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": " "
+            },
+            {
+              "type": "Image",
+              "url": "http://adaptivecards.io/content/airplane.png",
+              "size": "small",
+              "spacing": "none"
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "right",
+              "text": "San Francisco",
+              "isSubtle": true
+            },
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "right",
+              "size": "extraLarge",
+              "color": "accent",
+              "text": "SFO",
+              "spacing": "none"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "ColumnSet",
+      "spacing": "medium",
+      "columns": [
+        {
+          "type": "Column",
+          "width": "1",
+          "items": [
+            {
+              "type": "TextBlock",
+              "text": "Total",
+              "size": "medium",
+              "isSubtle": true
+            }
+          ]
+        },
+        {
+          "type": "Column",
+          "width": 1,
+          "items": [
+            {
+              "type": "TextBlock",
+              "horizontalAlignment": "right",
+              "text": "$4,032.54",
+              "size": "medium",
+              "weight": "bolder"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```

@@ -1,0 +1,315 @@
+{
+  "luis_schema_version": "3.2.0",
+  "name": "Weather",
+  "versionId": "0.1",
+  "desc": "Weather LUIS application - Bot Builder Samples",
+  "culture": "en-us",
+  "intents": [
+    {
+      "name": "Get Weather Condition"
+    },
+    {
+      "name": "Get Weather Forecast"
+    },
+    {
+      "name": "None"
+    }
+  ],
+  "entities": [
+    {
+      "name": "Location",
+      "roles": []
+    }
+  ],
+  "closedLists": [],
+  "composites": [],
+  "patternAnyEntities": [
+    {
+      "name": "Location_PatternAny",
+      "explicitList": [],
+      "roles": []
+    }
+  ],
+  "regex_entities": [],
+  "prebuiltEntities": [],
+  "regex_features": [],
+  "model_features": [],
+  "patterns": [
+    {
+      "pattern": "weather in {Location_PatternAny}",
+      "intent": "Get Weather Condition"
+    },
+    {
+      "pattern": "how's the weather in {Location_PatternAny}",
+      "intent": "Get Weather Condition"
+    },
+    {
+      "pattern": "current weather in {Location_PatternAny}",
+      "intent": "Get Weather Condition"
+    },
+    {
+      "pattern": "what's the forecast for next week in {Location_PatternAny}",
+      "intent": "Get Weather Forecast"
+    },
+    {
+      "pattern": "show me the forecast for {Location_PatternAny}",
+      "intent": "Get Weather Forecast"
+    },
+    {
+      "pattern": "what's the forecast for {Location_PatternAny}",
+      "intent": "Get Weather Forecast"
+    }
+  ],
+  "utterances": [
+    {
+      "text": "current weather ?",
+      "intent": "Get Weather Condition",
+      "entities": []
+    },
+    {
+      "text": "do florida residents usually need ice scrapers",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 3,
+          "endPos": 9,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "forecast in celcius",
+      "intent": "Get Weather Forecast",
+      "entities": []
+    },
+    {
+      "text": "get florence temperature in september",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 4,
+          "endPos": 11,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "get for me the weather conditions in sonoma county",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 37,
+          "endPos": 49,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "get the daily temperature greenwood indiana",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 26,
+          "endPos": 42,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "get the forcast for me",
+      "intent": "Get Weather Forecast",
+      "entities": []
+    },
+    {
+      "text": "get the weather at saint george utah",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 19,
+          "endPos": 35,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "how much rain does chambersburg get a year",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 19,
+          "endPos": 30,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "i want to know the temperature at death valley",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 34,
+          "endPos": 45,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "provide me by toronto weather please",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 14,
+          "endPos": 20,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "show average rainfall for boise",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 26,
+          "endPos": 30,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "show me the forecast at alabama",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 24,
+          "endPos": 30,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "soliciting today's weather",
+      "intent": "Get Weather Forecast",
+      "entities": []
+    },
+    {
+      "text": "temperature of delhi in celsius please",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 15,
+          "endPos": 19,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "was last year about this time as wet as it is now in the south ?",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 57,
+          "endPos": 61,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what is the rain volume in sonoma county ?",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 27,
+          "endPos": 39,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what is the weather in redmond ?",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 23,
+          "endPos": 29,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what is the weather today at 10 day durham ?",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 36,
+          "endPos": 41,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what to wear in march in california",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 25,
+          "endPos": 34,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what will the weather be tomorrow in new york ?",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 37,
+          "endPos": 44,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what's the weather going to be like in hawaii ?",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 39,
+          "endPos": 44,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "what's the weather like in minneapolis",
+      "intent": "Get Weather Condition",
+      "entities": [
+        {
+          "startPos": 27,
+          "endPos": 37,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "will it be raining in ranchi",
+      "intent": "Get Weather Forecast",
+      "entities": [
+        {
+          "startPos": 22,
+          "endPos": 27,
+          "entity": "Location"
+        }
+      ]
+    },
+    {
+      "text": "will it rain this weekend",
+      "intent": "Get Weather Forecast",
+      "entities": []
+    },
+    {
+      "text": "will it snow today",
+      "intent": "Get Weather Forecast",
+      "entities": []
+    }
+  ]
+}

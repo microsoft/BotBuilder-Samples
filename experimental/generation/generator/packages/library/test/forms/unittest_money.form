@@ -3,7 +3,7 @@
     "type": "object",
     "properties": {
         "Money": {
-            "$ref": "template:money.schema"
+            "$ref": "template:money.template"
         }
     },
     "required": [

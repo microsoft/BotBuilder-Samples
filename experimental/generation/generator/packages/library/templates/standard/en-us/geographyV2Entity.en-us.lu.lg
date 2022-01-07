@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('geographyV2')}
 
-# template
+# generator
 - ```
 @ prebuilt geographyV2
 

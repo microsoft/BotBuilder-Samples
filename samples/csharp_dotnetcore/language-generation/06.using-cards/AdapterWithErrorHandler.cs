@@ -8,14 +8,15 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Builder.LanguageGeneration;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
+
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
         private Templates _templates;
 
-        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
-            : base(credentialProvider)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(auth, logger)
         {
             // combine path for cross platform support
             string[] paths = { ".", "Resources", "AdapterWithErrorHandler.lg" };

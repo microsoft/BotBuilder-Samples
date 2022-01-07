@@ -1,5 +1,0 @@
-{
-  "$kind": "Microsoft.OrchestratorRecognizer",
-  "modelPath": "=settings.orchestrator.modelPath",
-  "snapshotPath": "=settings.orchestrator.snapshots.SchoolNavigator_en_us"
-}

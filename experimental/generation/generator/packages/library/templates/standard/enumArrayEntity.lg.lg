@@ -1,6 +1,0 @@
-[generator.lg](../generator.lg)
-
-# templates
-- ${entityLGTemplates('enumArray')}
-
-

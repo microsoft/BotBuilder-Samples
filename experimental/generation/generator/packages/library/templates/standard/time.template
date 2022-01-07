@@ -1,0 +1,11 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "format": "time",
+    "$generator": {
+        "title": "Time",
+        "description": "Map an entity like '4:30pm' into time format HH:MM:SS[.FS][Z|+offset|-offset] like 16:30:00.",
+        "$comment": "TODO: We need to convert to HH:MM:SS[.FS][Z|+offset|-offset] https://tools.ietf.org/html/rfc3339#appendix-A",
+        "$ref": "common.json"
+    }
+}

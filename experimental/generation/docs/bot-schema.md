@@ -17,7 +17,7 @@ An example skeleton schema:
     "Name"
   ],
   "$requires": [
-      "standard.schema"
+      "standard.template"
   ]  
 }
 ```
@@ -72,13 +72,13 @@ With `type": "array"` you define the `items` object that defines the items in th
 ```
 
 You can also use the `$ref` keyword to reference a property defined in a separate schema file.
-The example below defines a property `Length` that makes use of `dimension` property defined in the [dimension.schema](../generator/packages/library/templates/standard/dimension.schema) file in the default templates.
+The example below defines a property `Length` that makes use of `dimension` property defined in the [dimension.template](../generator/packages/library/templates/standard/dimension.template) file in the default templates.
 In addition, it also automatically includes the appropriate generation templates to utilize and map the LUIS prebuilt dimension entity.
 It makes use of the `template:` protocol which looks in your template files for the named schema (rather than referencing it by file path).
 
 ```json
 "Length": {
-  "$ref": "template:dimension.schema"
+  "$ref": "template:dimension.template"
 }
 ```
 
@@ -97,18 +97,18 @@ The `required` array is used to list all of the `properties` that are required. 
 
 The `$requires` section is used to provide an additional array of JSON schemas that should be included.
 This is different than `$ref` in that you can either use a URL or just a filename which will be looked for in the template directories.
-If you want to include the standard confirmation/cancel/navigation functionality you should include include `standard.schema`, as in the following example.
+If you want to include the standard confirmation/cancel/navigation functionality you should include include `standard.template`, as in the following example.
 
 ```json
 "$requires": [
-  "standard.schema"
+  "standard.template"
 ]
 ```
 
 ## Advanced JSON Schema
 
 Globally there are a few extra keywords you can add to your schema.
-Most of these keywords are automatically filled during generation and will not use them if you make use of [standard.schema](../generator/packages/library/templates/standard#standard-templates).
+Most of these keywords are automatically filled during generation and will not use them if you make use of [standard.template](../generator/packages/library/templates/standard#standard-templates).
 
 Extra keywords include:
 

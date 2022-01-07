@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_teams-conversation-bot",
+  "applicationId": "=settings.luis.teams-conversation-bot_en_us_lu.appId",
+  "version": "=settings.luis.teams-conversation-bot_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey"
+}

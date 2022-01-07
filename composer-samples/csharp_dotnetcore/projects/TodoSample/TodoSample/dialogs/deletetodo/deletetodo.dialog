@@ -1,0 +1,68 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "114909",
+    "name": "deletetodo"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "768658"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "870620"
+          },
+          "property": "dialog.todo",
+          "prompt": "${TextInput_Prompt_870620()}",
+          "maxTurnCount": 3,
+          "value": "=@title",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "492096"
+          },
+          "changeType": "remove",
+          "itemsProperty": "user.todos",
+          "resultProperty": "dialog.removed",
+          "value": "=dialog.todo"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "549615"
+          },
+          "condition": "dialog.removed",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "725469"
+              },
+              "activity": "${SendActivity_725469()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "549600"
+              },
+              "activity": "${SendActivity_549600()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "deletetodo.lg",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema"
+}

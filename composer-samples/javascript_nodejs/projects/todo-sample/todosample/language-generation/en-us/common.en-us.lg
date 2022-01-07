@@ -1,0 +1,39 @@
+# Hello
+-${Welcome(time)} ${name}
+
+# Welcome(time)
+-IF:${time == 'morning'}
+  - Good morning
+-ELSEIF:${time == 'evening'}
+  - Good evening
+-ELSE:
+  - How are you doing,
+
+# Exit
+-Thanks for using todo bot.
+
+# Greeting
+-What's up bro
+
+# ShowTodo
+-IF:${count(user.todos) > 0}
+-```
+${HelperFunction()}
+${join(foreach(user.todos, x, showSingleTodo(x)), '\n')}
+```
+-ELSE:
+-You don't have any todos.
+
+# showSingleTodo(x)
+-* ${x}
+
+# HelperFunction
+- IF: ${count(user.todos) == 1}
+  - Your most recent ${count(user.todos)} task is
+- ELSE:
+  - Your most recent ${count(user.todos)} tasks are
+
+# WelcomeUser
+-I can add a todo, show todos, remove a todo, and clear all todos
+-I can help you yes I can
+-Help, we don't need no stinkin' help!

@@ -10,10 +10,10 @@ class DefaultConfig:
 
     PORT = 39783
     APP_ID = os.environ.get(
-        "MicrosoftAppId", "TODO: Add here the App ID for the skill bot"
+        "MicrosoftAppId", ""
     )
     APP_PASSWORD = os.environ.get(
-        "MicrosoftAppPassword", "TODO: Add here the App Password for the skill bot"
+        "MicrosoftAppPassword", ""
     )
 
     # Callers to only those specified, '*' allows any caller.

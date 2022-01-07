@@ -1,0 +1,23 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "form": {
+    "order": [
+      "condition",
+      "*"
+    ],
+    "hidden": [
+      "actions"
+    ],
+    "label": "Members Removed",
+    "subtitle": "Members Removed ConversationUpdate activity",
+    "description": "Handle the events fired when a members have been removed from a conversation.",
+    "helpLink": "https://aka.ms/bf-composer-docs-conversation-update-activity"
+  },
+  "trigger": {
+    "label": "Members Removed (ConversationUpdate activity)",
+    "order": 5.4,
+    "submenu": "Member Updates",
+    "prompt": "Which conversation update type?",
+    "placeholder": "Select a type"
+  }
+}

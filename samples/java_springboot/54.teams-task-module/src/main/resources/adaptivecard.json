@@ -1,0 +1,25 @@
+{
+    "version": "1.0",
+    "type": "AdaptiveCard",
+    "body": [
+        {
+            "type": "TextBlock",
+            "text": "Enter Text Here",
+            "weight": "bolder",
+            "isSubtle": false
+        },
+        {
+            "type": "Input.Text",
+            "id": "usertext",
+            "spacing": "none",
+            "isMultiLine": "true",
+            "placeholder": "add some text and submit"
+        }
+    ],
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Submit"
+        }
+    ]
+}

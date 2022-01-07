@@ -1,0 +1,71 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "178401"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "614429"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "077820"
+          },
+          "changeType": "push",
+          "itemsProperty": "dialog.ids",
+          "value": "=10000+1000+100+10+1"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "453517"
+          },
+          "changeType": "push",
+          "itemsProperty": "dialog.ids",
+          "value": "=200*200"
+        },
+        {
+          "$kind": "Microsoft.EditArray",
+          "$designer": {
+            "id": "889145"
+          },
+          "changeType": "push",
+          "itemsProperty": "dialog.ids",
+          "value": "=888888/4"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "638869"
+          },
+          "activity": "${SendActivity_638869()}"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "299926"
+          },
+          "itemsProperty": "dialog.ids",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "006441",
+                "name": "Send a response"
+              },
+              "activity": "${SendActivity_006441()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "foreachstep.lg"
+}

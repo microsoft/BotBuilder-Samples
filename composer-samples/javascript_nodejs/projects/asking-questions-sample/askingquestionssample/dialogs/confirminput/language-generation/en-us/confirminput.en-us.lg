@@ -1,0 +1,4 @@
+[import](common.lg)
+
+# SendActivity_458458
+-confirmation: ${user.confirmed}

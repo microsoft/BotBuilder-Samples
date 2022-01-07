@@ -1,0 +1,66 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "$designer": {
+    "name": "IfElseCondition",
+    "id": "053246"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "383595",
+            "name": "Multiple choice"
+          },
+          "prompt": "${TextInput_Prompt_383595()}",
+          "maxTurnCount": 3,
+          "property": "user.timeofday",
+          "alwaysPrompt": false,
+          "allowInterruptions": "false",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "morning"
+            },
+            {
+              "value": "afternoon"
+            },
+            {
+              "value": "evening"
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "auto",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "749181",
+            "name": "Send a response"
+          },
+          "activity": "${SendActivity_749181()}"
+        }
+      ]
+    }
+  ],
+  "generator": "ifelsecondition.lg",
+  "id": "ifelsecondition",
+  "recognizer": "ifelsecondition.lu.qna"
+}

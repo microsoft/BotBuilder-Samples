@@ -5,6 +5,7 @@
  */
 import * as fs from 'fs-extra'
 import * as ppath from 'path'
+import * as os from 'os'
 
 /**
  * Given a transcript and dialog generate a test script.
@@ -47,8 +48,8 @@ export async function generateTest(path: string, dialog: string, output: string,
                 let assertions: any[] = []
                 ++responses
                 script.push({
-                    $kind: 'Microsoft.Test.AssertReplyActivity', 
-                    assertions, 
+                    $kind: 'Microsoft.Test.AssertReplyActivity',
+                    assertions,
                     description: `${responses}: ${description}`
                 })
                 assertions.push(`type == 'message'`)
@@ -65,7 +66,7 @@ export async function generateTest(path: string, dialog: string, output: string,
             description = `Response to input ${userCount}`
         } else if (isSetTestOptions(record)) {
             script.push({
-                $kind: 'Microsoft.Test.CustomEvent', 
+                $kind: 'Microsoft.Test.CustomEvent',
                 name: 'SetTestOptions',
                 value: record.value
             })
@@ -94,7 +95,7 @@ export async function generateTest(path: string, dialog: string, output: string,
         }
     }
 
-    await fs.writeJSON(outputPath, test, {spaces: 2})
+    await fs.writeFile(outputPath, normalizeEOL(JSON.stringify(test, undefined, 2)))
     return outputPath
 }
 
@@ -134,4 +135,14 @@ function objectAssertions(object: any, assertions: any[], path: string) {
     } else {
         assertions.push(`${path} == ${object}`)
     }
+}
+
+// Normalize to OS line endings
+function normalizeEOL(val: string): string {
+    if (os.EOL === '\r\n') {
+        val = val.replace(/\r\n/g, '\n').replace(/\n/g, os.EOL)
+    } else {
+        val = val.replace(/\r\n/g, os.EOL)
+    }
+    return val
 }

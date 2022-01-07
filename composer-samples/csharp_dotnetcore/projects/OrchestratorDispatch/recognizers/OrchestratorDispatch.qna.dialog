@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "QnA_OrchestratorDispatch",
+  "recognizers": {
+    "en-us": "OrchestratorDispatch.en-us.qna",
+    "": "OrchestratorDispatch.en-us.qna"
+  }
+}

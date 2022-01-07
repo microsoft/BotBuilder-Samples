@@ -123,18 +123,18 @@ connection.onInitialized(() => {
 });
 
 // The example settings
-interface LgSettings {
+interface LuSettings {
 	maxNumberOfProblems: number;
 }
 
 // The global settings, used when the `workspace/configuration` request is not supported by the client.
 // Please note that this is not the case when using this server with the client provided in this example
 // but could happen with other clients.
-const defaultSettings: LgSettings = { maxNumberOfProblems: 1000 };
-let globalSettings: LgSettings = defaultSettings;
+const defaultSettings: LuSettings = { maxNumberOfProblems: 1000 };
+let globalSettings: LuSettings = defaultSettings;
 
 // Cache the settings of all open documents
-const documentSettings: Map<string, Thenable<LgSettings>> = new Map();
+const documentSettings: Map<string, Thenable<LuSettings>> = new Map();
 
 
 connection.onDidChangeConfiguration(change => {
@@ -142,7 +142,7 @@ connection.onDidChangeConfiguration(change => {
 		// Reset all cached document settings
 		documentSettings.clear();
 	} else {
-		globalSettings = <LgSettings>(
+		globalSettings = <LuSettings>(
 			(change.settings.languageServerExample || defaultSettings)
 		);
 	}

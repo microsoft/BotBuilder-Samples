@@ -1,0 +1,23 @@
+{
+  "OrchestratorDispatch.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "PartnersInfo": [
+        "PartnersDialog.en-us"
+      ],
+      "None": "",
+      "exit": "",
+      "TheSkill": ""
+    }
+  },
+  "PartnersDialog.en-us": {
+    "rootDialog": false,
+    "triggers": {
+      "General": "",
+      "exit": "",
+      "Healthbot": "",
+      "PVA": "",
+      "None": ""
+    }
+  }
+}

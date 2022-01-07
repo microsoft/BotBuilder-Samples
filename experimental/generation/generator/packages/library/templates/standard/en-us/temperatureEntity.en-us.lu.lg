@@ -3,9 +3,9 @@
 # filename
 - ${builtinEntityFilename('temperature')}
 
-# template
+# generator
 - ```
 @ prebuilt temperature
 
-${operations('temperature', ["32 degrees", "52 celsius", "200 kelvin"], false)}
+${operations('temperature', ["32 degrees", "52.5 celsius", "200 kelvin"], false)}
 ```

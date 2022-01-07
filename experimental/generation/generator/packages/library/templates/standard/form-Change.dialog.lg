@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('Change.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -16,6 +16,6 @@
             "value": "=turn.dialogEvent.value.property"
         }
     ]
-    ${designerName('Change property')}
+    ${designerName('Property to Change Assign')}
 }
 ```

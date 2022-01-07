@@ -1,0 +1,39 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "031360"
+  },
+  "autoEndDialog": true,
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "309212"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.DateTimeInput",
+          "$designer": {
+            "id": "996821"
+          },
+          "property": "user.date",
+          "prompt": "Please enter a date.",
+          "invalidPrompt": "Please enter a date.",
+          "maxTurnCount": 2,
+          "alwaysPrompt": true,
+          "allowInterruptions": "false",
+          "defaultLocale": "en-us"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "828009"
+          },
+          "activity": "${SendActivity_828009()}"
+        }
+      ]
+    }
+  ],
+  "generator": "datetimeinput.lg"
+}

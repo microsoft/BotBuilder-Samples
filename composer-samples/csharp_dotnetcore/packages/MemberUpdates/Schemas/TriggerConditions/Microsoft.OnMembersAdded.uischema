@@ -1,0 +1,21 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/ui/v1.0/ui.schema",
+  "form": {
+      "order": [
+          "condition",
+          "*"
+      ],
+      "hidden": [
+          "actions"
+      ],
+      "label": "Members Added",
+      "subtitle": "Members Added ConversationUpdate activity",
+      "description": "Handle the events fired when a members have been added to a conversation.",
+      "helpLink": "https://aka.ms/bf-composer-docs-conversation-update-activity"
+  },
+  "trigger": {
+		"label": "Members Added (ConversationUpdate activity)",
+		"order": 5.2,
+		"submenu": "Activities"
+	}
+}
