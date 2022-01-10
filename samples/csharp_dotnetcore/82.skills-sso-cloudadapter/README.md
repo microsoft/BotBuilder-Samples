@@ -34,22 +34,23 @@ This is the general authentication flow :
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
-- Create a bot registration in the azure portal for the `SkillBot` and update [SkillBot/appsettings.json](SkillBot/appsettings.json) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration.
+
+- Create a bot registration in the azure portal for the **SkillBot** and update [SkillBot/appsettings.json](SkillBot/appsettings.json) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration.
 - Update the `BotFrameworkSkills` section in [RootBot/appsettings.json](RootBot/appsettings.json) with the app ID for the skill you created in the previous step.
-- Create a bot registration in the azure portal for the `RootBot` and update [RootBot/appsettings.json](RootBot/appsettings.json) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration.
-- Add the `RootBot` `MicrosoftAppId` to the `AllowedCallers` list in [SkillBot/appsettings.json](SkillBot/appsettings.json).
+- Create a bot registration in the azure portal for the **RootBot** and update [RootBot/appsettings.json](RootBot/appsettings.json) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration.
+- Add the **RootBot** `MicrosoftAppId` to the `AllowedCallers` list in [SkillBot/appsettings.json](SkillBot/appsettings.json).
+- Setup the 2 Azure AD applications for SSO as per steps given in [SkillBot Azure AD](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=csharp%2Ceml#create-the-azure-ad-identity-for-skillbot) and [RootBot Azure AD](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=csharp%2Ceml#create-the-azure-ad-identity-for-rootbot). You will end up with 2 Azure AD applications - one for the skill consumer and one for the skill.
+- Create an Azure Active Directory v2 connection in the bot registration for the **SkillBot** and fill in values from the Azure Active Directory v2 application created for SSO, as per the [docs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=srb%2Ccsharp#create-azure-ad-connection-1). Update [SkillBot/appsettings.json](SkillBot/appsettings.json) with the `ConnectionName`  
+- Create an Azure Active Directory v2 connection in the bot registration for the **RootBot** and fill in values from the Azure Active Directory v2 application created for SSO, as per the [docs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=sb%2Ccsharp#create-azure-ad-connection). Update [RootBot/appsettings.json](SkillBot/appsettings.json) with the `ConnectionName`  
+- Open the `SkillsSSOCloudAdapter.sln` solution and configure it to [start debugging with multiple processes](https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#start-debugging-with-multiple-processes)
 
-- Setup the 2 Azure AD applications for SSO as per steps given in [SkillBot Azure AD](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=srb%2Ccsharp#create-the-azure-ad-identity-application-1) and [RootBot Azure AD](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=sb%2Ccsharp#create-the-azure-ad-identity-application). You will end up with 2 Azure AD applications - one for the skill consumer and one for the skill.
-- Create an aadv2 connection in the bot registration for the `SkillBot` and fill in values from the aadv2 application created for SSO, as per the [docs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=srb%2Ccsharp#create-azure-ad-connection-1). Update [SkillBot/appsettings.json](SkillBot/appsettings.json) with the `ConnectionName`  
-- Create an aadv2 connection in the bot registration for the `RootBot` and fill in values from the aadv2 application created for SSO, as per the [docs](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication-sso?view=azure-bot-service-4.0&tabs=sb%2Ccsharp#create-azure-ad-connection). Update [RootBot/appsettings.json](SkillBot/appsettings.json) with the `ConnectionName`  
-
-- Open the `SSOWithSkills.sln` solution and configure it to [start debugging with multiple processes](https://docs.microsoft.com/en-us/visualstudio/debugger/debug-multiple-processes?view=vs-2019#start-debugging-with-multiple-processes)
+**Note:** leave the `MicrosoftAppType` and `MicrosoftAppTenantId` empty to try this example, see the [Implement a skill](https://docs.microsoft.com/en-us/azure/bot-service/skill-implement-skill?view=azure-bot-service-4.0&tabs=cs) article for additional information on what authentication types are supported for skills.
 
 ## Testing the bot using the Bot Framework Emulator
 
 The [Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
 
-- Install the Bot Framework Emulator version 4.8.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.14.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 
 ### Connect to the bot using Bot Framework Emulator
 
