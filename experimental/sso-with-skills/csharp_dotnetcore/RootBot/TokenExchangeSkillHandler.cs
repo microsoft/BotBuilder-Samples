@@ -9,7 +9,6 @@ using System.Security.Principal;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -23,49 +22,39 @@ namespace Microsoft.BotBuilderSamples.RootBot
     /// <summary>
     /// A specialized <see cref="SkillHandler"/> that can handle token exchanges for SSO.
     /// </summary>
-    public class TokenExchangeSkillHandler : SkillHandler
+    public class TokenExchangeSkillHandler : CloudSkillHandler
     {
         private readonly BotAdapter _adapter;
+        private readonly BotFrameworkAuthentication _auth;
         private readonly string _botId;
         private readonly string _connectionName;
-        private readonly ILogger _logger;
         private readonly SkillConversationIdFactoryBase _conversationIdFactory;
-        private readonly SkillHttpClient _skillClient;
+        private readonly ILogger _logger;
         private readonly SkillsConfiguration _skillsConfig;
-        private readonly IExtendedUserTokenProvider _tokenExchangeProvider;
 
         public TokenExchangeSkillHandler(
             BotAdapter adapter,
             IBot bot,
-            IConfiguration configuration,
             SkillConversationIdFactoryBase conversationIdFactory,
-            SkillsConfiguration skillsConfig,
-            SkillHttpClient skillClient,
-            ICredentialProvider credentialProvider,
-            AuthenticationConfiguration authConfig,
-            IChannelProvider channelProvider = null,
+            BotFrameworkAuthentication auth,
+            SkillsConfiguration skillsConfiguration,
+            IConfiguration configuration,
             ILogger<TokenExchangeSkillHandler> logger = null)
-            : base(adapter, bot, conversationIdFactory, credentialProvider, authConfig, channelProvider, logger)
+            : base(adapter, bot, conversationIdFactory, auth, logger)
         {
-            _adapter = adapter;
-            _tokenExchangeProvider = adapter as IExtendedUserTokenProvider;
-            if (_tokenExchangeProvider == null)
-            {
-                throw new ArgumentException($"{nameof(adapter)} does not support token exchange");
-            }
-
-            _skillsConfig = skillsConfig;
-            _skillClient = skillClient;
-            _conversationIdFactory = conversationIdFactory;
+            _adapter = adapter ?? throw new ArgumentNullException(nameof(adapter));
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
+            _conversationIdFactory = conversationIdFactory ?? throw new ArgumentNullException(nameof(conversationIdFactory));
+            _skillsConfig = skillsConfiguration ?? throw new ArgumentNullException(nameof(skillsConfiguration));
 
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
             _connectionName = configuration.GetSection("ConnectionName")?.Value;
             _logger = logger ?? NullLogger<TokenExchangeSkillHandler>.Instance;
         }
 
-        protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default)
         {
-            if (await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (await InterceptOAuthCardsAsync(claimsIdentity, activity, cancellationToken).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -73,9 +62,9 @@ namespace Microsoft.BotBuilderSamples.RootBot
             return await base.OnSendToConversationAsync(claimsIdentity, conversationId, activity, cancellationToken).ConfigureAwait(false);
         }
 
-        protected override async Task<ResourceResponse> OnReplyToActivityAsync(ClaimsIdentity claimsIdentity, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default(CancellationToken))
+        protected override async Task<ResourceResponse> OnReplyToActivityAsync(ClaimsIdentity claimsIdentity, string conversationId, string activityId, Activity activity, CancellationToken cancellationToken = default)
         {
-            if (await InterceptOAuthCards(claimsIdentity, activity).ConfigureAwait(false))
+            if (await InterceptOAuthCardsAsync(claimsIdentity, activity, cancellationToken).ConfigureAwait(false))
             {
                 return new ResourceResponse(Guid.NewGuid().ToString("N", CultureInfo.InvariantCulture));
             }
@@ -95,56 +84,56 @@ namespace Microsoft.BotBuilderSamples.RootBot
             return _skillsConfig.Skills.Values.FirstOrDefault(s => string.Equals(s.AppId, appId, StringComparison.InvariantCultureIgnoreCase));
         }
 
-        private async Task<bool> InterceptOAuthCards(ClaimsIdentity claimsIdentity, Activity activity)
+        private async Task<bool> InterceptOAuthCardsAsync(ClaimsIdentity claimsIdentity, Activity activity, CancellationToken cancellationToken)
         {
             var oauthCardAttachment = activity.Attachments?.FirstOrDefault(a => a?.ContentType == OAuthCard.ContentType);
-            if (oauthCardAttachment != null)
+            if (oauthCardAttachment == null)
             {
-                var targetSkill = GetCallingSkill(claimsIdentity);
-                if (targetSkill != null)
+                return false;
+            }
+
+            var targetSkill = GetCallingSkill(claimsIdentity);
+            if (targetSkill == null)
+            {
+                return false;
+            }
+
+            var oauthCard = ((JObject)oauthCardAttachment.Content).ToObject<OAuthCard>();
+            if (string.IsNullOrWhiteSpace(oauthCard?.TokenExchangeResource?.Uri))
+            {
+                return false;
+            }
+
+            using var tokenClient = await _auth.CreateUserTokenClientAsync(claimsIdentity, cancellationToken).ConfigureAwait(false);
+            using var context = new TurnContext(_adapter, activity);
+            context.TurnState.Add<IIdentity>(BotAdapter.BotIdentityKey, claimsIdentity);
+
+            // Azure AD token exchange
+            try
+            {
+                var result = await tokenClient.ExchangeTokenAsync(
+                    activity.Recipient.Id,
+                    _connectionName,
+                    activity.ChannelId,
+                    new TokenExchangeRequest {Uri = oauthCard.TokenExchangeResource.Uri},
+                    cancellationToken).ConfigureAwait(false);
+                if (!string.IsNullOrEmpty(result?.Token))
                 {
-                    var oauthCard = ((JObject)oauthCardAttachment.Content).ToObject<OAuthCard>();
-
-                    if (!string.IsNullOrWhiteSpace(oauthCard?.TokenExchangeResource?.Uri))
-                    {
-                        using (var context = new TurnContext(_adapter, activity))
-                        {
-                            context.TurnState.Add<IIdentity>("BotIdentity", claimsIdentity);
-
-                            // Azure AD token exchange
-                            try
-                            {
-                                var result = await _tokenExchangeProvider.ExchangeTokenAsync(
-                                    context,
-                                    _connectionName,
-                                    activity.Recipient.Id,
-                                    new TokenExchangeRequest { Uri = oauthCard.TokenExchangeResource.Uri }).ConfigureAwait(false);
-
-                                if (!string.IsNullOrEmpty(result?.Token))
-                                {
-                                    // If token above is null, then SSO has failed and hence we return false.
-                                    // If not, send an invoke to the skill with the token. 
-                                    return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default).ConfigureAwait(false);
-                                }
-                            }
-                            catch (InvalidOperationException ex)
-                            {
-                                // This will show oauth card if token exchange fails.
-                                // A common cause for hitting this section of the code is when then user hasn't provided consent to the skill app. 
-                                _logger.LogWarning($"Unable to get SSO token for OAuthCard, exception was {ex}");
-                                return false;
-                            }
-                            catch (Exception ex)
-                            {
-                                // This will show oauth card if token exchange fails.
-                                _logger.LogInformation($"Unable to get SSO token for OAuthCard, exception was {ex}");
-                                return false;
-                            }
-
-                            return false;
-                        }
-                    }
+                    // If token above is null, then SSO has failed and hence we return false.
+                    // If not, send an invoke to the skill with the token. 
+                    return await SendTokenExchangeInvokeToSkill(activity, oauthCard.TokenExchangeResource.Id, result.Token, oauthCard.ConnectionName, targetSkill, default).ConfigureAwait(false);
                 }
+            }
+            catch (InvalidOperationException ex)
+            {
+                // This will show oauth card if token exchange fails.
+                // A common cause for hitting this section of the code is when then user hasn't provided consent to the skill app. 
+                _logger.LogWarning($"Unable to get SSO token for OAuthCard, exception was {ex}");
+            }
+            catch (Exception ex)
+            {
+                // This will show oauth card if token exchange fails.
+                _logger.LogInformation($"Unable to get SSO token for OAuthCard, exception was {ex}");
             }
 
             return false;
@@ -167,7 +156,8 @@ namespace Microsoft.BotBuilderSamples.RootBot
             activity.ServiceUrl = skillConversationReference.ConversationReference.ServiceUrl;
 
             // route the activity to the skill
-            var response = await _skillClient.PostActivityAsync(_botId, targetSkill, _skillsConfig.SkillHostEndpoint, activity, cancellationToken);
+            using var botFrameworkClient = _auth.CreateBotFrameworkClient();
+            var response = await botFrameworkClient.PostActivityAsync(_botId, targetSkill.AppId, targetSkill.SkillEndpoint, _skillsConfig.SkillHostEndpoint, incomingActivity.Conversation.Id, activity, cancellationToken);
 
             // Check response status: true if success, false if failure
             return response.IsSuccessStatusCode();

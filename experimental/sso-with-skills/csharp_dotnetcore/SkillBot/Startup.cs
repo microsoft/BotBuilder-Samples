@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -8,7 +9,6 @@ using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.BotBuilderSamples.SkillBot.Authentication;
 using Microsoft.BotBuilderSamples.SkillBot.Bots;
 using Microsoft.BotBuilderSamples.SkillBot.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -36,7 +36,8 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
 
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedCallersClaimsValidator(sp.GetService<IConfiguration>()) });
+            var allowedCallers = new List<string>(Configuration.GetSection("AllowedCallers").Get<string[]>());
+            services.AddSingleton(sp => new AuthenticationConfiguration {ClaimsValidator = new AllowedCallersClaimsValidator(allowedCallers)});
 
             // Create the Bot Framework Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, SsoSkillAdapterWithErrorHandler>();

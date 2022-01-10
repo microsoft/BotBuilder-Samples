@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.RootBot.Bots
 {
@@ -18,7 +17,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
         private readonly ConversationState _conversationState;
         private readonly Dialog _mainDialog;
 
-        public RootBot(ConversationState conversationState, Dialog dialog, SkillsConfiguration skillsConfig, IConfiguration configuration)
+        public RootBot(ConversationState conversationState, T dialog)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _mainDialog = dialog ?? throw new ArgumentNullException(nameof(dialog));
@@ -28,7 +27,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Bots
         {
             if (turnContext.Activity.Type != ActivityTypes.ConversationUpdate)
             {
-                // Forward the activity to the dialog.
+                // Run the Dialog with the Activity.
                 await _mainDialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>("DialogState"), cancellationToken);
             }
             else

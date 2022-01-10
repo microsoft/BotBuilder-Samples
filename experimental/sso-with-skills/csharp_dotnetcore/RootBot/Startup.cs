@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
@@ -10,7 +13,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.BotBuilderSamples.RootBot.Authentication;
 using Microsoft.BotBuilderSamples.RootBot.Bots;
 using Microsoft.BotBuilderSamples.RootBot.Dialogs;
 using Microsoft.Extensions.Configuration;
@@ -34,25 +36,51 @@ namespace Microsoft.BotBuilderSamples.RootBot
             services.AddControllers()
                 .AddNewtonsoftJson();
 
-            // Register credential provider.
-            services.AddSingleton<ICredentialProvider, ConfigurationCredentialProvider>();
-
             // Register the skills configuration class.
             services.AddSingleton<SkillsConfiguration>();
 
             // Register AuthConfiguration to enable custom claim validation.
-            services.AddSingleton(sp => new AuthenticationConfiguration { ClaimsValidator = new AllowedSkillsClaimsValidator(sp.GetService<SkillsConfiguration>()) });
+            services.AddSingleton(sp =>
+            {
+                var allowedSkills = sp.GetService<SkillsConfiguration>().Skills.Values.Select(s => s.AppId).ToList();
+
+                var claimsValidator = new AllowedSkillsClaimsValidator(allowedSkills);
+
+                // If TenantId is specified in config, add the tenant as a valid JWT token issuer for Bot to Skill conversation.
+                // The token issuer for MSI and single tenant scenarios will be the tenant where the bot is registered.
+                var validTokenIssuers = new List<string>();
+                var tenantId = sp.GetService<IConfiguration>().GetSection(MicrosoftAppCredentials.MicrosoftAppTenantIdKey)?.Value;
+
+                if (!string.IsNullOrWhiteSpace(tenantId))
+                {
+                    // For SingleTenant/MSI auth, the JWT tokens will be issued from the bot's home tenant.
+                    // Therefore, these issuers need to be added to the list of valid token issuers for authenticating activity requests.
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidTokenIssuerUrlTemplateV1, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidTokenIssuerUrlTemplateV2, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1, tenantId));
+                    validTokenIssuers.Add(string.Format(CultureInfo.InvariantCulture, AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2, tenantId));
+                }
+
+                return new AuthenticationConfiguration
+                {
+                    ClaimsValidator = claimsValidator,
+                    ValidTokenIssuers = validTokenIssuers
+                };
+            });
+
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
+            services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
 
             // Register the Bot Framework Adapter with error handling enabled.
             // Note: some classes expect a BotAdapter and some expect a BotFrameworkHttpAdapter, so
             // register the same adapter instance for both types.
-            services.AddSingleton<BotFrameworkHttpAdapter, AdapterWithErrorHandler>();
-            services.AddSingleton<BotAdapter>(sp => sp.GetService<BotFrameworkHttpAdapter>());
+            services.AddSingleton<CloudAdapter, AdapterWithErrorHandler>();
+            services.AddSingleton<IBotFrameworkHttpAdapter>(sp => sp.GetService<CloudAdapter>());
+            services.AddSingleton<BotAdapter>(sp => sp.GetService<CloudAdapter>());
 
-            // Register the skills conversation ID factory, the client, and the request handler.
+            // Register the skills conversation ID factory, the client and the request handler.
             services.AddSingleton<SkillConversationIdFactoryBase, SkillConversationIdFactory>();
-            services.AddHttpClient<SkillHttpClient>();
-            services.AddSingleton<ChannelServiceHandler, TokenExchangeSkillHandler>();
+            services.AddSingleton<ChannelServiceHandlerBase, TokenExchangeSkillHandler>();
 
             // Register the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)
             services.AddSingleton<IStorage, MemoryStorage>();
@@ -61,7 +89,8 @@ namespace Microsoft.BotBuilderSamples.RootBot
             services.AddSingleton<ConversationState>();
 
             // Register the MainDialog that will be run by the bot.
-            services.AddSingleton<Dialog, MainDialog>();
+            services.AddSingleton<MainDialog>();
+
             // Register the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, RootBot<MainDialog>>();
         }

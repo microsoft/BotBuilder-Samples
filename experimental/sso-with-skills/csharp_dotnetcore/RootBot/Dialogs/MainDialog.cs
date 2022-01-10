@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -20,13 +19,16 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
     {
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
+        private readonly BotFrameworkAuthentication _auth;
         private readonly string _connectionName;
         private readonly BotFrameworkSkill _ssoSkill;
 
-        public MainDialog(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration, SkillConversationIdFactoryBase conversationIdFactory)
+        public MainDialog(BotFrameworkAuthentication auth, ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
-            var botId = configuration.GetSection("MicrosoftAppId")?.Value;
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
+
+            var botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
             if (string.IsNullOrWhiteSpace(botId))
             {
                 throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not set in configuration");
@@ -47,9 +49,14 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
 
             AddDialog(new ChoicePrompt("ActionStepPrompt"));
             AddDialog(new SsoSignInDialog(_connectionName));
-            AddDialog(new SkillDialog(CreateSkillDialogOptions(skillsConfig, botId, conversationIdFactory, conversationState, skillClient),  nameof(SkillDialog)));
+            AddDialog(new SkillDialog(CreateSkillDialogOptions(skillsConfig, botId, conversationIdFactory, conversationState), nameof(SkillDialog)));
 
-            var waterfallSteps = new WaterfallStep[] { PromptActionStepAsync, HandleActionStepAsync, PromptFinalStepAsync, };
+            var waterfallSteps = new WaterfallStep[]
+            {
+                PromptActionStepAsync,
+                HandleActionStepAsync,
+                PromptFinalStepAsync,
+            };
             AddDialog(new WaterfallDialog(nameof(WaterfallDialog), waterfallSteps));
 
             // Create state property to track the active skill.
@@ -60,16 +67,16 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
         }
 
         // Helper to create a SkillDialogOptions instance for the SSO skill.
-        private SkillDialogOptions CreateSkillDialogOptions(SkillsConfiguration skillsConfig, string botId, SkillConversationIdFactoryBase conversationIdFactory, ConversationState conversationState, BotFrameworkClient skillClient)
+        private SkillDialogOptions CreateSkillDialogOptions(SkillsConfiguration skillsConfig, string botId, SkillConversationIdFactoryBase conversationIdFactory, ConversationState conversationState)
         {
             return new SkillDialogOptions
             {
                 BotId = botId,
                 ConversationIdFactory = conversationIdFactory,
+                SkillClient = _auth.CreateBotFrameworkClient(),
+                SkillHostEndpoint = skillsConfig.SkillHostEndpoint,
                 ConversationState = conversationState,
                 Skill = _ssoSkill,
-                SkillClient = skillClient,
-                SkillHostEndpoint = skillsConfig.SkillHostEndpoint
             };
         }
 
@@ -92,15 +99,16 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
         private async Task<List<Choice>> GetPromptChoicesAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var promptChoices = new List<Choice>();
-            var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
+            var userId = stepContext.Context.Activity?.From?.Id;
+            var userTokenClient = stepContext.Context.TurnState.Get<UserTokenClient>();
 
             // Show different options if the user is signed in on the parent or not.
-            var token = await adapter.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
+            var token = await userTokenClient.GetUserTokenAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, null, cancellationToken);
             if (token == null)
             {
                 // User is not signed in.
                 promptChoices.Add(new Choice("Login to the root bot"));
-                
+
                 // Token exchange will fail when the root is not logged on and the skill should 
                 // show a regular OAuthPrompt
                 promptChoices.Add(new Choice("Call Skill (without SSO)"));
@@ -156,7 +164,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
                     // Save active skill in state (this is use in case of errors in the AdapterWithErrorHandler).
                     await _activeSkillProperty.SetAsync(stepContext.Context, _ssoSkill, cancellationToken);
 
-                    return await stepContext.BeginDialogAsync(nameof(SkillDialog), new BeginSkillDialogOptions { Activity = beginSkillActivity }, cancellationToken);
+                    return await stepContext.BeginDialogAsync(nameof(SkillDialog), new BeginSkillDialogOptions {Activity = beginSkillActivity}, cancellationToken);
 
                 default:
                     // This should never be hit since the previous prompt validates the choice
