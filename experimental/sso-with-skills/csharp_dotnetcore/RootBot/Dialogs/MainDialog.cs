@@ -127,6 +127,8 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
         private async Task<DialogTurnResult> HandleActionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var action = ((FoundChoice)stepContext.Result).Value.ToLowerInvariant();
+            var userId = stepContext.Context.Activity?.From?.Id;
+            var userTokenClient = stepContext.Context.TurnState.Get<UserTokenClient>();
 
             switch (action)
             {
@@ -134,14 +136,12 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
                     return await stepContext.BeginDialogAsync(nameof(SsoSignInDialog), null, cancellationToken);
 
                 case "logout from the root bot":
-                    var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
-                    await adapter.SignOutUserAsync(stepContext.Context, _connectionName, cancellationToken: cancellationToken);
+                    await userTokenClient.SignOutUserAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, cancellationToken);
                     await stepContext.Context.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);
                     return await stepContext.NextAsync(cancellationToken: cancellationToken);
 
                 case "show token":
-                    var tokenProvider = (IUserTokenProvider)stepContext.Context.Adapter;
-                    var token = await tokenProvider.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
+                    var token = await userTokenClient.GetUserTokenAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, null, cancellationToken);
                     if (token == null)
                     {
                         await stepContext.Context.SendActivityAsync("User has no cached token.", cancellationToken: cancellationToken);

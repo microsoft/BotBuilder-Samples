@@ -10,7 +10,6 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.SkillBot
@@ -23,13 +22,13 @@ namespace Microsoft.BotBuilderSamples.SkillBot
     /// <see cref="SendActivitiesAsync"/> to save the state of the conversation when a OAuthPrompt is sent to the parent.
     /// This prepares the bot to receive the activity send by the TokenExchangeSkillHandler.
     /// </remarks>
-    public class SsoSkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class SsoSkillAdapterWithErrorHandler : CloudAdapter
     {
         private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
 
-        public SsoSkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState)
-            : base(configuration, credentialProvider, authConfig, logger: logger)
+        public SsoSkillAdapterWithErrorHandler(BotFrameworkAuthentication auth, ConversationState conversationState, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(auth, logger)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
@@ -109,7 +108,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot
             {
                 // Delete the conversationState for the current conversation to prevent the
                 // bot from getting stuck in a error-loop caused by being in a bad state.
-                // ConversationState should be thought of as similar to "cookie-state" for a web page.
+                // ConversationState should be thought of as similar to "cookie-state" for a Web page.
                 await _conversationState.DeleteAsync(turnContext);
             }
             catch (Exception ex)

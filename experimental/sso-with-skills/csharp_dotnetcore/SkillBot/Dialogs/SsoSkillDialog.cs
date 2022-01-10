@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
 {
@@ -17,10 +17,10 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
     {
         private readonly string _connectionName;
 
-        public SsoSkillDialog(IConfiguration configuration)
+        public SsoSkillDialog(string connectionName)
             : base(nameof(SsoSkillDialog))
         {
-            _connectionName = configuration.GetSection("ConnectionName")?.Value;
+            _connectionName = connectionName;
             if (string.IsNullOrWhiteSpace(_connectionName))
             {
                 throw new ArgumentException("\"ConnectionName\" is not set in configuration");
@@ -58,11 +58,13 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
 
         private async Task<List<Choice>> GetPromptChoicesAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            var promptChoices = new List<Choice>();
-            var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
+            // Try to get the token for the current user to determine if it is logged in or not.
+            var userId = stepContext.Context.Activity?.From?.Id;
+            var userTokenClient = stepContext.Context.TurnState.Get<UserTokenClient>();
+            var token = await userTokenClient.GetUserTokenAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, null, cancellationToken);
 
             // Present different choices depending on the user's sign in status.
-            var token = await adapter.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
+            var promptChoices = new List<Choice>();
             if (token == null)
             {
                 promptChoices.Add(new Choice("Login to the skill"));
@@ -81,6 +83,8 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
         private async Task<DialogTurnResult> HandleActionStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
             var action = ((FoundChoice)stepContext.Result).Value.ToLowerInvariant();
+            var userId = stepContext.Context.Activity?.From?.Id;
+            var userTokenClient = stepContext.Context.TurnState.Get<UserTokenClient>();
 
             switch (action)
             {
@@ -90,14 +94,12 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
 
                 case "logout from the skill":
                     // This will just clear the token from the skill.
-                    var adapter = (IUserTokenProvider)stepContext.Context.Adapter;
-                    await adapter.SignOutUserAsync(stepContext.Context, _connectionName, cancellationToken: cancellationToken);
+                    await userTokenClient.SignOutUserAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, cancellationToken);
                     await stepContext.Context.SendActivityAsync("You have been signed out.", cancellationToken: cancellationToken);
                     return await stepContext.NextAsync(cancellationToken: cancellationToken);
 
                 case "show token":
-                    var tokenProvider = (IUserTokenProvider)stepContext.Context.Adapter;
-                    var token = await tokenProvider.GetUserTokenAsync(stepContext.Context, _connectionName, null, cancellationToken);
+                    var token = await userTokenClient.GetUserTokenAsync(userId, _connectionName, stepContext.Context.Activity?.ChannelId, null, cancellationToken);
                     if (token == null)
                     {
                         await stepContext.Context.SendActivityAsync("User has no cached token.", cancellationToken: cancellationToken);
@@ -110,6 +112,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
                     return await stepContext.NextAsync(cancellationToken: cancellationToken);
 
                 case "end":
+                    // Ends the interaction with the skill.
                     return new DialogTurnResult(DialogTurnStatus.Complete);
 
                 default:
