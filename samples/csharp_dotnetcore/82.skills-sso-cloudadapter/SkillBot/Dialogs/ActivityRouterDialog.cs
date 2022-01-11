@@ -20,7 +20,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             : base(nameof(ActivityRouterDialog))
         {
             AddDialog(new SsoSkillDialog(configuration.GetSection("ConnectionName")?.Value));
-            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] {ProcessActivityAsync}));
+            AddDialog(new WaterfallDialog(nameof(WaterfallDialog), new WaterfallStep[] { ProcessActivityAsync }));
 
             // The initial child Dialog to run.
             InitialDialogId = nameof(WaterfallDialog);

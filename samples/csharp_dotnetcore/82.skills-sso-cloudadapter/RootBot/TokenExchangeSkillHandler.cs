@@ -115,7 +115,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
                     activity.Recipient.Id,
                     _connectionName,
                     activity.ChannelId,
-                    new TokenExchangeRequest {Uri = oauthCard.TokenExchangeResource.Uri},
+                    new TokenExchangeRequest { Uri = oauthCard.TokenExchangeResource.Uri },
                     cancellationToken).ConfigureAwait(false);
                 if (!string.IsNullOrEmpty(result?.Token))
                 {

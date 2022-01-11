@@ -164,7 +164,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
                     // Save active skill in state (this is use in case of errors in the AdapterWithErrorHandler).
                     await _activeSkillProperty.SetAsync(stepContext.Context, _ssoSkill, cancellationToken);
 
-                    return await stepContext.BeginDialogAsync(nameof(SkillDialog), new BeginSkillDialogOptions {Activity = beginSkillActivity}, cancellationToken);
+                    return await stepContext.BeginDialogAsync(nameof(SkillDialog), new BeginSkillDialogOptions { Activity = beginSkillActivity }, cancellationToken);
 
                 default:
                     // This should never be hit since the previous prompt validates the choice
