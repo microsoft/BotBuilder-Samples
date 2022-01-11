@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
             await stepContext.Context.TraceActivityAsync($"{GetType().Name}.ProcessActivityAsync()", label: $"Got ActivityType: {stepContext.Context.Activity.Type}", cancellationToken: cancellationToken);
 
             // In this simple skill, we only handle SSO events
-            if (stepContext.Context.Activity.Type == ActivityTypes.Event && stepContext.Context.Activity.Name == "Sso")
+            if (stepContext.Context.Activity.Type == ActivityTypes.Event && stepContext.Context.Activity.Name == "SSO")
             {
                 return await stepContext.BeginDialogAsync(nameof(SsoSkillDialog), cancellationToken: cancellationToken);
             }

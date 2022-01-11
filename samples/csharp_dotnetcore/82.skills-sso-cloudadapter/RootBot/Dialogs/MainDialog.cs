@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples.RootBot.Dialogs
                     var beginSkillActivity = new Activity
                     {
                         Type = ActivityTypes.Event,
-                        Name = "Sso"
+                        Name = "SSO"
                     };
 
                     // Save active skill in state (this is use in case of errors in the AdapterWithErrorHandler).
