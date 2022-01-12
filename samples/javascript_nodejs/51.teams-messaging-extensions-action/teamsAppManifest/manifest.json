@@ -122,6 +122,6 @@
     "identity"
   ],
   "validDomains": [
-    "<<BASE-URL>>"
+    "*.ngrok.io"
   ]
 }
