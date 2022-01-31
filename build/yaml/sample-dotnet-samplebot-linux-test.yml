@@ -21,7 +21,7 @@
 
 parameters:
   - name: testLatestPackage
-    displayName: Test latest package version
+    displayName: Test latest v4 package version
     type: boolean
     default: true
   - name: versionToTest
@@ -144,14 +144,15 @@ jobs:
       Write-Host "Get latest $packageName version number from Azure ConversationalAI BotFramework SDK feed";
    
       $RegistryUrlSource = "https://pkgs.dev.azure.com/ConversationalAI/BotFramework/_packaging/SDK/nuget/v3/index.json" 
+      $Packagelist = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions;
       " "
       "Available versions:";
-      nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease -AllVersions | Select -First 30;
+      $PackageList -like "* 5.*" | Select -First 20;
+      $PackageList -like "* 4.*" | Select -First 20;
 
-      $PackageList = nuget list Microsoft.Bot.Builder.Integration.AspNet.Core -Source "$RegistryUrlSource" -PreRelease;
-      [string]$latestVersion = $PackageList.Split(" ")[-1];
+      [string]$latestVersion = ($PackageList -like "* 4.*" | Select -First 1).Split(" ")[-1];
       " "
-      "Latest version:";
+      "Latest v4 version:";
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
@@ -171,11 +172,12 @@ jobs:
       $package = $result.packages | Where-Object {$_.id -eq $packageName};
       " "
       "Available versions:";
-      $package.versions | Select -Last 30;
+      $package.versions -like "4.*" | Select -Last 20;
+      $package.versions -like "5.*" | Select -Last 20;
 
-      [string]$latestVersion = $package.versions[-1];
+      [string]$latestVersion = ($package.versions -like "4.*")[-1];
       " "
-      "Latest version:";
+      "Latest v4 version:";
       $package.id;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";    
@@ -189,14 +191,16 @@ jobs:
          
       $registryUrlSource = "https://nuget.org/api/v2/";
 
-      $packageList = Find-package -AllVersions -source $registryUrlSource -Name $packageName -AllowPrereleaseVersions | Select -First 30;
+      $packageList = Find-package -AllVersions -source $registryUrlSource -Name $packageName -AllowPrereleaseVersions;
       " "
       "Available versions:";
-      $PackageList.Version
+      $PackageList.Version -like "5.*" | Select -First 20;
+      $PackageList.Version -like "4.*" | Select -First 20;
 
-      $latestVersion = $PackageList.Version[0];
+      # Get the latest version 4.n value. Ignore version 5.
+      $latestVersion = ($PackageList.Version -like "4.*")[0];
       " "
-      "Latest version:";
+      "Latest v4 version:";
       $packageName;
       $latestVersion;
       "##vso[task.setvariable variable=TargetVersion;]$latestVersion";
