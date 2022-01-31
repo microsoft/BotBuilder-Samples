@@ -20,14 +20,21 @@ To use the samples, clone this GitHub repository using Git.
 
 Samples are designed to illustrate functionality you'll need to implement to build great bots!
 
-- [Bot essentials](#bot-essentials)
-- [Advanced bots](#advanced-bots)
-- [Authentication samples](#authentication-samples)
-- [QnA Maker samples](#qna-maker-samples)
-- [Teams samples](#teams-samples)
-- [Skills samples](#skills-samples)
-- [Custom adapter samples](#custom-adapter-samples)
-- [Experimental / preview samples](#experimental--preview-samples)
+- [!Bot Framework Samples](#)
+  - [Click here to find out what's new with Bot Framework](#click-here-to-find-out-whats-new-with-bot-framework)
+  - [Overview](#overview)
+  - [Getting the samples](#getting-the-samples)
+  - [Sample lists](#sample-lists)
+    - [Bot essentials](#bot-essentials)
+    - [Advanced bots](#advanced-bots)
+    - [Authentication samples](#authentication-samples)
+    - [QnA Maker samples](#qna-maker-samples)
+    - [Teams samples](#teams-samples)
+    - [Custom adapter samples](#custom-adapter-samples)
+    - [Skills samples](#skills-samples)
+    - [Experimental / preview samples](#experimental--preview-samples)
+  - [Contributing](#contributing)
+  - [Reporting security issues](#reporting-security-issues)
 
 ### Bot essentials
 
@@ -108,7 +115,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------
 |80|Skills&nbsp;-&nbsp;simple&nbsp;bot&nbsp;to&nbsp;bot | This sample shows how to connect a skill to a skill consumer.       | [.NET&nbsp;Core][cs#80] | [JavaScript][js#80]     |[Python][py#80] |[Java][java#80]
 |81|Skills - skill dialog       | This sample shows how to connect a skill to a skill dialog consumer.| [.NET&nbsp;Core][cs#81] | [JavaScript][js#81]     |[Python][py#81] |[Java][java#81]
-
+|82|Skills - SSO with CloudAdapter       | This sample shows how use SSO with skills and CloudAdapter.| [.NET&nbsp;Core][cs#82] | NA     |NA |NA
 ### Experimental / preview samples
 
 A [collection of **experimental** samples](./experimental) exist, intended to provide samples for features currently in preview or as a way to solicit feedback on a given design, approach, or technology being considered by the Bot Framework Team.
@@ -157,6 +164,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#63]:samples/csharp_dotnetcore/63.twilio-adapter
 [cs#80]:samples/csharp_dotnetcore/80.skills-simple-bot-to-bot
 [cs#81]:samples/csharp_dotnetcore/81.skills-skilldialog
+[cs#82]:samples/csharp_dotnetcore/82.skills-sso-cloudadapter
 
 [wa#13]:samples/csharp_webapi/13.core-bot
 

@@ -103,6 +103,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DialogSkillBot", "81.skills
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NLP-With-Orchestrator", "14.nlp-with-orchestrator\NLP-With-Orchestrator.csproj", "{625CB637-3CA8-4F56-84E4-1D9028611C44}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SSO-CloudAdapter", "Skills-SSO-CloudAdapter", "{1E03BC3C-FC24-4395-A84E-130759E4AD02}"
+	ProjectSection(SolutionItems) = preProject
+		82.skills-sso-cloudadapter\README.md = 82.skills-sso-cloudadapter\README.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RootBot", "82.skills-sso-cloudadapter\RootBot\RootBot.csproj", "{3CDB37CF-C783-4C38-9AEA-92B908737680}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillBot", "82.skills-sso-cloudadapter\SkillBot\SkillBot.csproj", "{5C181C43-39A9-419F-B4EE-C7D4F33226A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -469,6 +478,22 @@ Global
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|Any CPU.ActiveCfg = Release|x64
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|x64.ActiveCfg = Release|x64
 		{625CB637-3CA8-4F56-84E4-1D9028611C44}.Release|x64.Build.0 = Release|x64
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Debug|x64.Build.0 = Debug|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Release|x64.ActiveCfg = Release|Any CPU
+		{3CDB37CF-C783-4C38-9AEA-92B908737680}.Release|x64.Build.0 = Release|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -478,6 +503,8 @@ Global
 		{13406183-D1CB-4C2E-A3A6-95559CFB922F} = {A5567E91-578D-4212-A3CA-2EFEA116E109}
 		{69CE6608-A23B-4D41-B70E-50E91B1FCBCA} = {B1D88331-C060-4250-9CED-5B397D3C9835}
 		{97ED3103-3C3F-4906-B271-8601104CC725} = {B1D88331-C060-4250-9CED-5B397D3C9835}
+		{3CDB37CF-C783-4C38-9AEA-92B908737680} = {1E03BC3C-FC24-4395-A84E-130759E4AD02}
+		{5C181C43-39A9-419F-B4EE-C7D4F33226A4} = {1E03BC3C-FC24-4395-A84E-130759E4AD02}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6AF4AF72-D00E-45C4-B3B2-E30FBE53245A}
