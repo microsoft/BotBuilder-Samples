@@ -39,6 +39,7 @@ the Teams service needs to call into the bot.
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
 1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)  The Task Modules using pages require the deployed bot's path in BaseUrl.
+    - The `BaseUrl` should take the format `https://[your-bot-endpoint]/`. You **must** include the trailing `/`, and you should **not** include `api/messages'.
 
 1) __*This step is specific to Teams.*__
     - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`) Note: the Task Modules containing pages will require the deployed bot's domain in validDomains of the manifest.
