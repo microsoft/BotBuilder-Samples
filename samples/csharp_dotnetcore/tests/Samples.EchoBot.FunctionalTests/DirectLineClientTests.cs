@@ -35,6 +35,7 @@ namespace Samples.EchoBot.FunctionalTests
             int retries = 4;
             if (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
             {
+                Console.WriteLine("Retrying StartBotConversationAsync()");
                 // Wait half a second before retrying.
                 await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
                 botAnswer = await StartBotConversationAsync(input);
@@ -107,6 +108,7 @@ namespace Samples.EchoBot.FunctionalTests
 
                 if (answer.Equals(string.Empty))
                 {
+                    Console.WriteLine("  Retrying GetActivitiesAsync()");
                     // Wait for half a second before polling the bot again.
                     await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
                 }
