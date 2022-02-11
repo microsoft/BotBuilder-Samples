@@ -33,7 +33,7 @@ namespace Samples.EchoBot.FunctionalTests
             var botAnswer = await StartBotConversationAsync();
 
             int retries = 4;
-            if (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
+            while (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
             {
                 Console.WriteLine("Retrying StartBotConversationAsync()");
                 // Wait half a second before retrying.
