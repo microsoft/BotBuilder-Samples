@@ -32,6 +32,14 @@ namespace Samples.EchoBot.FunctionalTests
 
             var botAnswer = await StartBotConversationAsync();
 
+            int retries = 4;
+            if (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
+            {
+                // Wait half a second before retrying.
+                await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
+                botAnswer = await StartBotConversationAsync(input);
+            }
+
             Assert.AreEqual($"Echo: {input}", botAnswer);
         }
 
@@ -99,8 +107,8 @@ namespace Samples.EchoBot.FunctionalTests
 
                 if (answer.Equals(string.Empty))
                 {
-                    // Wait for one second before polling the bot again.
-                    await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+                    // Wait for half a second before polling the bot again.
+                    await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
                 }
             }
 
