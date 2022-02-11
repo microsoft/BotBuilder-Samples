@@ -10,24 +10,34 @@ namespace Microsoft.BotBuilderSamples
     {
         public BotServices(IConfiguration configuration)
         {
+            var qnaServiceType = configuration["QnAServiceType"];
+            var hostName = GetHostname(configuration["QnAEndpointHostName"], qnaServiceType);
             QnAMakerService = new QnAMaker(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = configuration["QnAKnowledgebaseId"],                
-                Host = GetHostname(configuration["QnAEndpointHostName"]),
-                EndpointKey = GetEndpointKey(configuration)
+                Host = hostName,
+                EndpointKey = GetEndpointKey(configuration),
+                QnAServiceType = GetQnAServiceType(qnaServiceType, hostName)
             });
+        }
+
+        private string GetQnAServiceType(string qnaServiceType, string hostName)
+        {
+            return string.Equals(qnaServiceType, "v2", System.StringComparison.OrdinalIgnoreCase) == true && hostName != null && !hostName.ToLower().Contains("v5.0-preview") ? "language" : qnaServiceType;
         }
 
         public QnAMaker QnAMakerService { get; private set; }
 
-        private static string GetHostname(string hostname)
+        private static string GetHostname(string hostname, string qnaServiceType = "")
         {
             if (!hostname.StartsWith("https://"))
             {
                 hostname = string.Concat("https://", hostname);
             }
 
-            if (!hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
+            if (!string.Equals(qnaServiceType, "language", System.StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(qnaServiceType, "v2", System.StringComparison.OrdinalIgnoreCase)
+                && !hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
             {
                 hostname = string.Concat(hostname, "/qnamaker");
             }

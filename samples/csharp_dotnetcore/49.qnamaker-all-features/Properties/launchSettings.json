@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    ".NET Core": {
+    "QnABot": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

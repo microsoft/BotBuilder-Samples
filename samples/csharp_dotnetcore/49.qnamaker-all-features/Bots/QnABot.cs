@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
+using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -17,9 +18,14 @@ namespace Microsoft.BotBuilderSamples.Bots
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
+        protected string defaultWelcome = "Hello and Welcome";
 
-        public QnABot(ConversationState conversationState, UserState userState, T dialog)
+        public QnABot(IConfiguration configuration, ConversationState conversationState, UserState userState, T dialog)
         {
+
+            var welcomeMsg = configuration["DefaultWelcomeMessage"];
+            if (!string.IsNullOrWhiteSpace(welcomeMsg))
+                defaultWelcome = welcomeMsg;
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
@@ -44,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text($"Hello and welcome!"), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(defaultWelcome), cancellationToken);
                 }
             }
         }
