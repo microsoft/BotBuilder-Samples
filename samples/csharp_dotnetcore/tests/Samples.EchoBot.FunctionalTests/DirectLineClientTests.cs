@@ -38,7 +38,7 @@ namespace Samples.EchoBot.FunctionalTests
                 Console.WriteLine("Retrying StartBotConversationAsync()");
                 // Wait half a second before retrying.
                 await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
-                botAnswer = await StartBotConversationAsync(input);
+                botAnswer = await StartBotConversationAsync();
             }
 
             Assert.AreEqual($"Echo: {input}", botAnswer);
