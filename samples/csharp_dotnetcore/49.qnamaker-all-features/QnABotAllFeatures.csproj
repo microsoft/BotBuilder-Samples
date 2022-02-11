@@ -12,6 +12,7 @@
     <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.15.0" />
     <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.15.0" />
   </ItemGroup>
+  
     <ItemGroup>
     <Content Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
