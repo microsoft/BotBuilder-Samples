@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
@@ -10,23 +11,37 @@ namespace Microsoft.BotBuilderSamples
     {
         public BotServices(IConfiguration configuration)
         {
-            var qnaServiceType = configuration["QnAServiceType"];
+            var qnaServiceType = validateQnAServiceType(configuration["QnAServiceType"]);
             var hostName = GetHostname(configuration["QnAEndpointHostName"], qnaServiceType);
-            QnAMakerService = new QnAMaker(new QnAMakerEndpoint
+            if (qnaServiceType == Constants.LanguageQnAServiceType)
             {
-                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],                
-                Host = hostName,
-                EndpointKey = GetEndpointKey(configuration),
-                QnAServiceType = GetQnAServiceType(qnaServiceType, hostName)
-            });
+                QnAMakerService = new CustomQuestionAnswering(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
+                    Host = hostName,
+                    EndpointKey = GetEndpointKey(configuration),
+                    QnAServiceType = qnaServiceType
+                });
+            }
+            else
+            {
+                QnAMakerService = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
+                    Host = hostName,
+                    EndpointKey = GetEndpointKey(configuration),
+                    QnAServiceType = qnaServiceType
+                });
+            }
+
         }
 
-        private string GetQnAServiceType(string qnaServiceType, string hostName)
+        private string validateQnAServiceType(string qnaServiceType)
         {
-            return string.Equals(qnaServiceType, "v2", System.StringComparison.OrdinalIgnoreCase) == true && hostName != null && !hostName.ToLower().Contains("v5.0-preview") ? "language" : qnaServiceType;
+            return string.Equals(qnaServiceType?.ToLower(), Constants.LanguageQnAServiceType, System.StringComparison.OrdinalIgnoreCase) == true ? Constants.LanguageQnAServiceType : "";
         }
 
-        public QnAMaker QnAMakerService { get; private set; }
+        public IQnAMakerClient QnAMakerService { get; private set; }
 
         private static string GetHostname(string hostname, string qnaServiceType = "")
         {
@@ -35,7 +50,7 @@ namespace Microsoft.BotBuilderSamples
                 hostname = string.Concat("https://", hostname);
             }
 
-            if (!string.Equals(qnaServiceType, "language", System.StringComparison.OrdinalIgnoreCase)
+            if (!string.Equals(qnaServiceType, Constants.LanguageQnAServiceType, System.StringComparison.OrdinalIgnoreCase)
                 && !string.Equals(qnaServiceType, "v2", System.StringComparison.OrdinalIgnoreCase)
                 && !hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
             {
@@ -49,7 +64,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var endpointKey = configuration["QnAEndpointKey"];
 
-            if(string.IsNullOrWhiteSpace(endpointKey))
+            if (string.IsNullOrWhiteSpace(endpointKey))
             {
                 // This features sample is copied as is for "azure bot service" default "createbot" template.
                 // Post this sample change merged into "azure bot service" template repo, "Azure Bot Service"
@@ -62,7 +77,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             return endpointKey;
-            
+
         }
     }
 }

@@ -25,14 +25,14 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
         private readonly IBotServices _services;
         private readonly IConfiguration _configuration;
-		private readonly string DefaultAnswer = "";
+        private readonly string DefaultAnswer = "";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
         /// Dialog helper to generate dialogs.
         /// </summary>
         /// <param name="services">Bot Services.</param>
-        public QnAMakerBaseDialog(IBotServices services, IConfiguration configuration): base()
+        public QnAMakerBaseDialog(IBotServices services, IConfiguration configuration) : base()
         {
             this._configuration = configuration;
             this._services = services;
@@ -45,7 +45,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected async override Task<IQnAMakerClient> GetQnAMakerClientAsync(DialogContext dc)
         {
-            return this._services?.QnAMakerService;
+            return _services?.QnAMakerService;
         }
 
         protected override Task<QnAMakerOptions> GetQnAMakerOptionsAsync(DialogContext dc)
@@ -80,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                    LogicalOperation = JoinOperator.OR.ToString()
                 },*/
 
-                EnablePreciseAnswer = this.EnablePreciseAnser,
+                EnablePreciseAnswer = this.IsPreciseAnswerEnabled,
 
                 /*
                 * For all v2 and language service bots, IncludeUnstructuredSources is set to true by default
@@ -123,7 +123,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
             return metadata;
         }
 
-        private bool EnablePreciseAnser
+        private bool IsPreciseAnswerEnabled
         {
             get
             {
@@ -149,7 +149,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         private bool DisplayPreciseAnswerOnly
         {
             get
-            {               
+            {
                 var rawDisplayPreciseAnswerOnly = _configuration["DisplayPreciseAnswerOnly"];
                 if (!string.IsNullOrWhiteSpace(rawDisplayPreciseAnswerOnly))
                 {
@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
                 else
                 {
                     return true;
-                }                
+                }
             }
         }
 
