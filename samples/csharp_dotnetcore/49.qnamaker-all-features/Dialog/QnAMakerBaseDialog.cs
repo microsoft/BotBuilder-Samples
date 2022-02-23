@@ -150,14 +150,21 @@ namespace Microsoft.BotBuilderSamples.Dialog
         {
             get
             {
-                var rawDisplayPreciseAnswerOnly = _configuration["DisplayPreciseAnswerOnly"];
-                if (!string.IsNullOrWhiteSpace(rawDisplayPreciseAnswerOnly))
+                if (IsNotLegacyService)
                 {
-                    return bool.Parse(rawDisplayPreciseAnswerOnly);
+                    var rawDisplayPreciseAnswerOnly = _configuration["DisplayPreciseAnswerOnly"];
+                    if (!string.IsNullOrWhiteSpace(rawDisplayPreciseAnswerOnly))
+                    {
+                        return bool.Parse(rawDisplayPreciseAnswerOnly);
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    return true;
+                    return false;
                 }
             }
         }
