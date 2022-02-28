@@ -28,6 +28,16 @@ namespace Samples.CoreBot.FunctionalTests
             await StartBotConversationAsync(input);
 
             var botAnswer = await StartBotConversationAsync(input);
+
+            int retries = 4;
+            while (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
+            {
+                Console.WriteLine("Retrying StartBotConversationAsync()");
+                // Wait half a second before retrying.
+                await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
+                botAnswer = await StartBotConversationAsync(input);
+            }
+
             Assert.IsTrue(!String.IsNullOrWhiteSpace(botAnswer) && botAnswer.Contains("travel", StringComparison.OrdinalIgnoreCase),
                 $"Expected: A message containing 'travel'. Actual:<{botAnswer}>.");
         }
@@ -98,8 +108,9 @@ namespace Samples.CoreBot.FunctionalTests
 
                 if (answer.Equals(string.Empty))
                 {
-                    // Wait for one second before polling the bot again.
-                    await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+                    Console.WriteLine("  Retrying GetActivitiesAsync()");
+                    // Wait for half a second before polling the bot again.
+                    await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
                 }
             }
 
