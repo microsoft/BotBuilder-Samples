@@ -115,7 +115,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------
 |80|Skills&nbsp;-&nbsp;simple&nbsp;bot&nbsp;to&nbsp;bot | This sample shows how to connect a skill to a skill consumer.       | [.NET&nbsp;Core][cs#80] | [JavaScript][js#80]     |[Python][py#80] |[Java][java#80]
 |81|Skills - skill dialog       | This sample shows how to connect a skill to a skill dialog consumer.| [.NET&nbsp;Core][cs#81] | [JavaScript][js#81]     |[Python][py#81] |[Java][java#81]
-|82|Skills - SSO with CloudAdapter       | This sample shows how use SSO with skills and CloudAdapter.| [.NET&nbsp;Core][cs#82] | NA     |NA |NA
+|82|Skills - SSO with CloudAdapter       | This sample shows how use SSO with skills and CloudAdapter.| [.NET&nbsp;Core][cs#82] | [JavaScript][js#82]     |NA |NA
 ### Experimental / preview samples
 
 A [collection of **experimental** samples](./experimental) exist, intended to provide samples for features currently in preview or as a way to solicit feedback on a given design, approach, or technology being considered by the Bot Framework Team.
@@ -220,6 +220,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#58]:samples/javascript_nodejs/58.teams-start-new-thread-in-channel
 [js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
 [js#81]:samples/javascript_nodejs/81.skills-skilldialog
+[js#82]:samples/javascript_nodejs/82.skills-sso-cloudadapter
 
 [py#1]:samples/python/01.console-echo
 [py#2]:samples/python/02.echo-bot
