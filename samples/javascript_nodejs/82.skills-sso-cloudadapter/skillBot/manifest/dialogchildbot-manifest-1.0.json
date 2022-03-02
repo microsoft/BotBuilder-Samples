@@ -1,0 +1,32 @@
+{
+  "$schema": "https://schemas.botframework.com/schemas/skills/skill-manifest-2.0.0.json",
+  "$id": "skillBot",
+  "name": "Skill bot to demonstrate SSO",
+  "version": "1.0",
+  "description": "This is a sample skill that uses SSO if the caller bot supports it.",
+  "publisherName": "Microsoft",
+  "privacyUrl": "https://ssoskillbot.contoso.com/privacy.html",
+  "copyright": "Copyright (c) Microsoft Corporation. All rights reserved.",
+  "license": "",
+  "iconUrl": "https://ssoskillbot.contoso.com/icon.png",
+  "tags": [
+    "sample",
+    "sso"
+  ],
+  "endpoints": [
+    {
+      "name": "default",
+      "protocol": "BotFrameworkV3",
+      "description": "Default endpoint for the skill.",
+      "endpointUrl": "https://ssoskillbot.contoso.com/api/messages",
+      "msAppId": "00000000-0000-0000-0000-000000000000"
+    }
+  ],
+  "activities": {
+    "StartSSODialog": {
+      "description": "Starts an SSO dialog.",
+      "type": "event",
+      "name": "SSO"
+    }
+  }
+}
