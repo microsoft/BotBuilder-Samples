@@ -24,6 +24,13 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+
+- Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
+
+- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
+
+After Authentication has been configured via Azure Bot Service, you can test the bot.
+
 - Update `appsettings.json` with required configuration settings 
     | Property                  | Value Description     | 
     |----------------------|-----------|
@@ -32,13 +39,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
     | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
     | MicrosoftAppTenantId | The bot's application tenant ID.      | 
     | ConnectionName       | Set the configured bot's OAuth connection name.      |
-
-- Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
-
-- [Add Authentication to your bot via Azure Bot Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication?view=azure-bot-service-4.0&tabs=csharp)
-
-After Authentication has been configured via Azure Bot Service, you can test the bot.
-
+    
 - Run the bot from a terminal or from Visual Studio:
 
   A) From a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
