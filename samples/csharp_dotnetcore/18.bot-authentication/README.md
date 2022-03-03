@@ -24,6 +24,14 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
     ```bash
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
+- Update `appsettings.json` with required configuration settings 
+    | Property                  | Value Description     | 
+    |----------------------|-----------|
+    | MicrosoftAppType       | UserAssignedMSI  |
+    | MicrosoftAppId       | Set the value of your Azure bot's app ID.  |
+    | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
+    | MicrosoftAppTenantId | The bot's application tenant ID.      | 
+    | ConnectionName       | Set the configured bot's OAuth connection name.      |
 
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
 
