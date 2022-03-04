@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.AI.QnA;
 using Microsoft.Bot.Builder.AI.QnA.Models;
 using Microsoft.Extensions.Configuration;
@@ -11,9 +12,12 @@ namespace Microsoft.BotBuilderSamples
     {
         public BotServices(IConfiguration configuration)
         {
-            var qnaServiceType = validateQnAServiceType(configuration["QnAServiceType"]);
+
+            var qnaServiceTypeFromConfig = validateQnAServiceType(configuration["QnAServiceType"]);
+            var qnaServiceType = Enum.TryParse(qnaServiceTypeFromConfig, true, out ServiceType LanguageService) ? LanguageService : ServiceType.QnAMaker;
+
             var hostName = GetHostname(configuration["QnAEndpointHostName"], qnaServiceType);
-            if (qnaServiceType == Constants.LanguageQnAServiceType)
+            if (qnaServiceType == ServiceType.Language)
             {
                 QnAMakerService = new CustomQuestionAnswering(new QnAMakerEndpoint
                 {
@@ -43,15 +47,14 @@ namespace Microsoft.BotBuilderSamples
 
         public IQnAMakerClient QnAMakerService { get; private set; }
 
-        private static string GetHostname(string hostname, string qnaServiceType = "")
+        private static string GetHostname(string hostname, ServiceType qnaServiceType = ServiceType.QnAMaker)
         {
             if (!hostname.StartsWith("https://"))
             {
                 hostname = string.Concat("https://", hostname);
             }
 
-            if (!string.Equals(qnaServiceType, Constants.LanguageQnAServiceType, System.StringComparison.OrdinalIgnoreCase)
-                && !string.Equals(qnaServiceType, "v2", System.StringComparison.OrdinalIgnoreCase)
+            if (qnaServiceType == ServiceType.QnAMaker
                 && !hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
             {
                 hostname = string.Concat(hostname, "/qnamaker");
