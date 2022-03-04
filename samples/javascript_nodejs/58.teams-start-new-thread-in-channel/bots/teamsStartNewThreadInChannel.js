@@ -2,10 +2,10 @@
 // Licensed under the MIT License.
 
 const {
-    TurnContext,
     MessageFactory,
     TeamsActivityHandler,
-    teamsGetChannelId
+    teamsGetChannelId,
+    TeamsInfo
 } = require('botbuilder');
 
 class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
@@ -14,36 +14,15 @@ class TeamsStartNewThreadInChannel extends TeamsActivityHandler {
 
         this.onMessage(async (context, next) => {
             const teamsChannelId = teamsGetChannelId(context.activity);
-            const message = MessageFactory.text('This will be the first message in a new thread');
-            const newConversation = await this.teamsCreateConversation(context, teamsChannelId, message);
+            const activity = MessageFactory.text('This will be the first message in a new thread');
+            const [reference] = await TeamsInfo.sendMessageToTeamsChannel(context, activity, teamsChannelId, process.env.MicrosoftAppId);
 
-            await context.adapter.continueConversationAsync(process.env.MicrosoftAppId, newConversation[0], async turnContext => {
+            await context.adapter.continueConversationAsync(process.env.MicrosoftAppId, reference, async turnContext => {
                 await turnContext.sendActivity(MessageFactory.text('This will be the first response to the new thread'));
             });
 
             await next();
         });
-    }
-
-    async teamsCreateConversation(context, teamsChannelId, message) {
-        const conversationParameters = {
-            isGroup: true,
-            channelData: {
-                channel: {
-                    id: teamsChannelId
-                }
-            },
-
-            activity: message
-        };
-
-        const connectorFactory = context.turnState.get(context.adapter.ConnectorFactoryKey);
-        const connectorClient = await connectorFactory.create(context.activity.serviceUrl);
-
-        const conversationResourceResponse = await connectorClient.conversations.createConversation(conversationParameters);
-        const conversationReference = TurnContext.getConversationReference(context.activity);
-        conversationReference.conversation.id = conversationResourceResponse.id;
-        return [conversationReference, conversationResourceResponse.activityId];
     }
 }
 
