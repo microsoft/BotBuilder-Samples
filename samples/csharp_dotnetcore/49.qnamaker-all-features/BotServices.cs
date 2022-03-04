@@ -13,7 +13,7 @@ namespace Microsoft.BotBuilderSamples
         public BotServices(IConfiguration configuration)
         {
 
-            var qnaServiceTypeFromConfig = validateQnAServiceType(configuration["QnAServiceType"]);
+            var qnaServiceTypeFromConfig = configuration["QnAServiceType"];
             var qnaServiceType = Enum.TryParse(qnaServiceTypeFromConfig, true, out ServiceType LanguageService) ? LanguageService : ServiceType.QnAMaker;
 
             var hostName = GetHostname(configuration["QnAEndpointHostName"], qnaServiceType);
@@ -40,11 +40,6 @@ namespace Microsoft.BotBuilderSamples
 
         }
 
-        private string validateQnAServiceType(string qnaServiceType)
-        {
-            return string.Equals(qnaServiceType?.ToLower(), Constants.LanguageQnAServiceType, System.StringComparison.OrdinalIgnoreCase) == true ? Constants.LanguageQnAServiceType : "";
-        }
-
         public IQnAMakerClient QnAMakerService { get; private set; }
 
         private static string GetHostname(string hostname, ServiceType qnaServiceType = ServiceType.QnAMaker)
@@ -54,8 +49,7 @@ namespace Microsoft.BotBuilderSamples
                 hostname = string.Concat("https://", hostname);
             }
 
-            if (qnaServiceType == ServiceType.QnAMaker
-                && !hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
+            if (qnaServiceType == ServiceType.QnAMaker && !hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
             {
                 hostname = string.Concat(hostname, "/qnamaker");
             }
