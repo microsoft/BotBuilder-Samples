@@ -34,10 +34,8 @@ After Authentication has been configured via Azure Bot Service, you can test the
 - Update `appsettings.json` with required configuration settings 
     | Property                  | Value Description     | 
     |----------------------|-----------|
-    | MicrosoftAppType       | UserAssignedMSI  |
     | MicrosoftAppId       | Set the value of your Azure bot's app ID.  |
     | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
-    | MicrosoftAppTenantId | The bot's application tenant ID.      | 
     | ConnectionName       | Set the configured bot's OAuth connection name.      |
     
 - Run the bot from a terminal or from Visual Studio:
