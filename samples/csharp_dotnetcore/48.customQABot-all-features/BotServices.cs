@@ -1,7 +1,9 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
@@ -10,26 +12,24 @@ namespace Microsoft.BotBuilderSamples
     {
         public BotServices(IConfiguration configuration)
         {
-            QnAMakerService = new QnAMaker(new QnAMakerEndpoint
+            var hostName = GetHostname(configuration["QnAEndpointHostName"]);
+
+            QnAMakerService = new CustomQuestionAnswering(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],                
-                Host = GetHostname(configuration["QnAEndpointHostName"]),
-                EndpointKey = GetEndpointKey(configuration)
+                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
+                Host = hostName,
+                EndpointKey = GetEndpointKey(configuration),
+                QnAServiceType = ServiceType.Language
             });
         }
 
-        public QnAMaker QnAMakerService { get; private set; }
+        public IQnAMakerClient QnAMakerService { get; private set; }
 
         private static string GetHostname(string hostname)
         {
             if (!hostname.StartsWith("https://"))
             {
                 hostname = string.Concat("https://", hostname);
-            }
-
-            if (!hostname.Contains("/v5.0") && !hostname.EndsWith("/qnamaker"))
-            {
-                hostname = string.Concat(hostname, "/qnamaker");
             }
 
             return hostname;
@@ -39,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
         {
             var endpointKey = configuration["QnAEndpointKey"];
 
-            if(string.IsNullOrWhiteSpace(endpointKey))
+            if (string.IsNullOrWhiteSpace(endpointKey))
             {
                 // This features sample is copied as is for "azure bot service" default "createbot" template.
                 // Post this sample change merged into "azure bot service" template repo, "Azure Bot Service"
@@ -52,7 +52,7 @@ namespace Microsoft.BotBuilderSamples
             }
 
             return endpointKey;
-            
+
         }
     }
 }
