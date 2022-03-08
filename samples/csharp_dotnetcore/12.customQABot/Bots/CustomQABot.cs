@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using System.Collections;
 using System.Net.Http;
 using System.Threading;
@@ -30,12 +31,28 @@ namespace Microsoft.BotBuilderSamples
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var httpClient = _httpClientFactory.CreateClient();
+            var endpointKey = _configuration["QnAEndpointKey"];
+            var hostname = _configuration["QnAEndpointHostName"];
+            var knowledgeBaseId = _configuration["QnAKnowledgebaseId"];
+
+            if (string.IsNullOrEmpty(hostname))
+            {
+                throw new ArgumentException(nameof(hostname));
+            }
+            if (string.IsNullOrEmpty(endpointKey))
+            {
+                throw new ArgumentException(nameof(endpointKey));
+            }
+            if (string.IsNullOrEmpty(knowledgeBaseId))
+            {
+                throw new ArgumentException(nameof(knowledgeBaseId));
+            }
 
             var customQuestionAnswering = new CustomQuestionAnswering(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = _configuration["QnAKnowledgebaseId"],
-                EndpointKey = _configuration["QnAEndpointKey"],
-                Host = _configuration["QnAEndpointHostName"],
+                KnowledgeBaseId = knowledgeBaseId,
+                EndpointKey = endpointKey,
+                Host = hostname,
                 QnAServiceType = ServiceType.Language
             },
             null,
