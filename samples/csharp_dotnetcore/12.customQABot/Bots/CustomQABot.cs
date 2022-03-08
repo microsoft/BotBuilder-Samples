@@ -1,7 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Collections.Generic;
+using System.Collections;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -54,21 +54,23 @@ namespace Microsoft.BotBuilderSamples
 
                 var longAnswer = new Activity() { Text = response[0].Answer, Type = "message" };
                 var shortAnswer = new Activity() { Text = response[0].AnswerSpan?.Text, Type = "message" };
-                var activities = new List<Activity>();
+                var activities = new Activity[] { shortAnswer, longAnswer };
 
-                if (enablePreciseAnswer)
+                if (response[0].AnswerSpan?.Text.Length > 0)
                 {
-                    activities.Add(shortAnswer);
-                    if (!displayPreciseAnswerOnly)
+                    if (displayPreciseAnswerOnly)
                     {
-                        activities.Add(longAnswer);
+                        await turnContext.SendActivityAsync(activities[0], cancellationToken).ConfigureAwait(false);
+                    }
+                    else
+                    {
+                        await turnContext.SendActivitiesAsync(activities, cancellationToken).ConfigureAwait(false);
                     }
                 }
                 else
                 {
-                    activities.Add(longAnswer);
+                    await turnContext.SendActivityAsync(activities[1], cancellationToken).ConfigureAwait(false);
                 }
-                await turnContext.SendActivitiesAsync(activities.ToArray(), cancellationToken).ConfigureAwait(false);
             }
             else
             {
