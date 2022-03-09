@@ -83,7 +83,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 try
                 {
-                    await blob.UploadTextAsync(content, Encoding.UTF8, new AccessCondition {IfMatchETag = etag}, new BlobRequestOptions(), new OperationContext());
+                    await blob.UploadTextAsync(content, Encoding.UTF8, new AccessCondition { IfMatchETag = etag }, new BlobRequestOptions(), new OperationContext());
                 }
                 catch (StorageException e)
                     when (e.RequestInformation.HttpStatusCode == (int)HttpStatusCode.PreconditionFailed)

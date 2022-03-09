@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using Microsoft.Recognizers.Text.DateTime;
-using Microsoft.Recognizers.Text;
-using System.Collections.Generic;
 using System;
+using System.Collections.Generic;
+using Microsoft.Recognizers.Text;
+using Microsoft.Recognizers.Text.DateTime; 
 
 namespace Microsoft.BotBuilderSamples
 {
