@@ -123,9 +123,3 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 }
-
-
-
-
-
-

@@ -23,7 +23,6 @@ namespace Microsoft.BotBuilderSamples.Translation
 
         private readonly string _key;
 
-
         public MicrosoftTranslator(IConfiguration configuration)
         {
             var key = configuration["TranslatorKey"];

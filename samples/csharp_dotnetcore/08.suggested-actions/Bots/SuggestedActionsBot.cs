@@ -15,16 +15,15 @@ namespace Microsoft.BotBuilderSamples
     public class SuggestedActionsBot : ActivityHandler
     {
         public const string WelcomeText = "This bot will introduce you to suggestedActions. Please answer the question:";
-
       
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             // Send a welcome message to the user and tell them what actions they may perform to use this bot
             await SendWelcomeMessageAsync(turnContext, cancellationToken);
         }
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-
             // Extract the text from the message activity the user sent.
             var text = turnContext.Activity.Text.ToLowerInvariant();
 
@@ -36,6 +35,7 @@ namespace Microsoft.BotBuilderSamples
 
             await SendSuggestedActionsAsync(turnContext, cancellationToken);
         }
+
         private static async Task SendWelcomeMessageAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             foreach (var member in turnContext.Activity.MembersAdded)
@@ -78,9 +78,9 @@ namespace Microsoft.BotBuilderSamples
         }
 
         // Creates and sends an activity with suggested actions to the user. When the user
-        /// clicks one of the buttons the text value from the "CardAction" will be
-        /// displayed in the channel just as if the user entered the text. There are multiple
-        /// "ActionTypes" that may be used for different situations.
+        // clicks one of the buttons the text value from the "CardAction" will be
+        // displayed in the channel just as if the user entered the text. There are multiple
+        // "ActionTypes" that may be used for different situations.
         private static async Task SendSuggestedActionsAsync(ITurnContext turnContext, CancellationToken cancellationToken)
         {
             var reply = MessageFactory.Text("What is your favorite color?");
@@ -91,7 +91,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     new CardAction() { Title = "Red", Type = ActionTypes.ImBack, Value = "Red", Image = "https://via.placeholder.com/20/FF0000?text=R", ImageAltText = "R" },
                     new CardAction() { Title = "Yellow", Type = ActionTypes.ImBack, Value = "Yellow", Image = "https://via.placeholder.com/20/FFFF00?text=Y", ImageAltText = "Y" },
-                    new CardAction() { Title = "Blue", Type = ActionTypes.ImBack, Value = "Blue", Image = "https://via.placeholder.com/20/0000FF?text=B", ImageAltText = "B"   },
+                    new CardAction() { Title = "Blue", Type = ActionTypes.ImBack, Value = "Blue", Image = "https://via.placeholder.com/20/0000FF?text=B", ImageAltText = "B" },
                 },
             };
             await turnContext.SendActivityAsync(reply, cancellationToken);
