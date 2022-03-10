@@ -58,6 +58,7 @@ namespace Microsoft.BotBuilderSamples
                     return await innerDc.CancelAllDialogsAsync();
                 }
             }
+
             return null;
         }
     }

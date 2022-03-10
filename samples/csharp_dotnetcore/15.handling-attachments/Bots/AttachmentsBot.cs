@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples
         {
             await SendWelcomeMessageAsync(turnContext, cancellationToken);
         }
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var reply = await ProcessInput(turnContext, cancellationToken);
@@ -127,7 +128,6 @@ namespace Microsoft.BotBuilderSamples
             return reply;
         }
 
-
         // Handle attachments uploaded by users. The bot receives an <see cref="Attachment"/> in an <see cref="Activity"/>.
         // The activity has a "IList{T}" of attachments.    
         // Not all channels allow users to upload files. Some channels have restrictions
@@ -157,7 +157,6 @@ namespace Microsoft.BotBuilderSamples
 
             return MessageFactory.Text(replyText);
         }
-
 
         // Creates an inline attachment sent from the bot to the user using a base64 string.
         // Using a base64 string to send an attachment will not work on all channels.

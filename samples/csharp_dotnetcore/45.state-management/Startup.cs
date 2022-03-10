@@ -36,7 +36,6 @@ namespace Microsoft.BotBuilderSamples
 
             /* END AZURE BLOB STORAGE */
 
-
             /* COSMOSDB STORAGE - Uncomment the code in this section to use CosmosDB storage */
 
             // var cosmosDbStorageOptions = new CosmosDbPartitionedStorageOptions()

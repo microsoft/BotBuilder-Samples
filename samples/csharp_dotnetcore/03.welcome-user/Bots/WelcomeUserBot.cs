@@ -37,7 +37,6 @@ namespace Microsoft.BotBuilderSamples
         private const string LocaleMessage = "You can use the activity's 'GetLocale()' method to welcome the user " +
                                              "using the locale received from the channel. " + 
                                              "If you are using the Emulator, you can set this value in Settings.";
-                                           
 
         private const string PatternMessage = "It is a good pattern to use this event to send general greeting" +
                                               "to user, explaining what your bot can do. In this example, the bot " +

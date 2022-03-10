@@ -42,6 +42,7 @@ namespace Microsoft.BotBuilderSamples
         {
             await SendWelcomeMessageAsync(turnContext, cancellationToken);
         }
+
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             Random r = new Random();
@@ -77,9 +78,3 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 }
-
-
-
-
-
-
