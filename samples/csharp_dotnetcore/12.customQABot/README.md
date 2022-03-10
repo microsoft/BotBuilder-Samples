@@ -1,4 +1,4 @@
-﻿# QnA Maker
+﻿# Custom Question Answering
 
 Bot Framework v4 Custom Question Answering bot sample
 
