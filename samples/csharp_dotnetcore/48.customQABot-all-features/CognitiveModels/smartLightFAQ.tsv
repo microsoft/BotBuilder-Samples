@@ -1,0 +1,23 @@
+﻿Question	Answer	Source	Metadata	SuggestedQuestions	IsContextOnly	Prompts	QnaId
+My Contoso smart light won't turn on.	1.  The simplest way to troubleshoot your smart light is to turn it off and on.\n2.  Check the connection to the wall outlet to make sure it's plugged in properly.	dina-kb-9.tsv		[]	false	[{"displayOrder":0,"qnaId":91,"displayText":"Stopped"}]	90
+Light won't turn on.	1.  The simplest way to troubleshoot your smart light is to turn it off and on.\n2.  Check the connection to the wall outlet to make sure it's plugged in properly.	dina-kb-9.tsv		[]	false	[{"displayOrder":0,"qnaId":91,"displayText":"Stopped"}]	90
+Doesn't work	1.  The simplest way to troubleshoot your smart light is to turn it off and on.\n2.  Check the connection to the wall outlet to make sure it's plugged in properly.	dina-kb-9.tsv		[]	false	[{"displayOrder":0,"qnaId":91,"displayText":"Stopped"}]	90
+My smart light app stopped responding.	1.  Restart the app. \n2.  If the problem persists, contact support.	dina-kb-9.tsv		[]	false	[{"displayOrder":0,"qnaId":95,"displayText":"support"}]	91
+I upgraded the app and it doesn't work anymore.	When you upgrade, you need to:\n\n1.  Disable Bluetooth, then re-enable it\n2.  After reenable, repair your light with the app.	dina-kb-9.tsv		[]	false	[]	92
+Light doesn't work after upgrade.	When you upgrade, you need to:\n\n1.  Disable Bluetooth, then re-enable it\n2.  After reenable, repair your light with the app.	dina-kb-9.tsv		[]	false	[]	92
+light	When you upgrade, you need to:\n\n1.  Disable Bluetooth, then re-enable it\n2.  After reenable, repair your light with the app.	dina-kb-9.tsv		[]	false	[]	92
+How long does the light's battery last for?	The battery will last approximately 10 - 12 weeks with regular use.	dina-kb-9.tsv		[]	false	[]	93
+What type of light bulb do I need?	A 26-Watt compact fluorescent light bulb that features both energy savings and long-life performance.	dina-kb-9.tsv		[]	false	[]	94
+Contact customer support	Email us at service@contoso.com or call us at (202) 555-0164	dina-kb-9.tsv		[]	false	[]	95
+I need help	Email us at service@contoso.com or call us at (202) 555-0164	dina-kb-9.tsv		[]	false	[]	95
+Help!	Email us at service@contoso.com or call us at (202) 555-0164	dina-kb-9.tsv		[]	false	[]	95
+How do I contact support?	Email us at service@contoso.com or call us at (202) 555-0164	dina-kb-9.tsv		[]	false	[]	95
+Who should I contact for customer service?	Email us at service@contoso.com or call us at (202) 555-0164	dina-kb-9.tsv		[]	false	[]	95
+Troubleshooting	Enter a question to search the knowledge base.	dina-kb-9.tsv	category:troubleshooting	[]	false	[]	96
+Hi	Welcome to the **Smart lightbulb** bot. 😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	97
+Hello	Welcome to the **Smart lightbulb** bot. 😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	97
+Start	Welcome to the **Smart lightbulb** bot. 😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	97
+Begin	Welcome to the **Smart lightbulb** bot. 😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	97
+Bye	😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	98
+End	😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	98
+Good bye	😎	dina-kb-9.tsv	category:chitchat	[]	false	[]	98
