@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         private const int Top = 3;
         private const string RankerType = "Default";
         private const bool IsTest = true;
-        private const bool IncludeUnstructuredSources = false;
+        private const bool IncludeUnstructuredSources = true;
 
         private QnAMakerDialog CreateQnAMakerDialog(IConfiguration configuration)
         {
@@ -84,10 +84,8 @@ namespace Microsoft.BotBuilderSamples.Dialog
             InitialDialogId = InitialDialog;
         }
 
-        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
-        {
-            return await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
-        }
+        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) => await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
+
         private static string GetHostname(string hostname)
         {
             if (!hostname.StartsWith("https://"))
@@ -97,6 +95,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
             return hostname;
         }
+
         private bool IsPreciseAnswerEnabled(string enablePreciseAnswer)
         {
             var rawEnablePreciseAnswer = enablePreciseAnswer;

@@ -218,7 +218,8 @@
                                             "https://botservice.hosting.portal.azure.net",
                                             "https://hosting.onecloud.azure-test.net/"
                                         ]
-                                    }
+                                    },
+                                    "webSocketsEnabled": true
                                 }
                             }
                         },
