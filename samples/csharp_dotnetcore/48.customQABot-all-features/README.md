@@ -1,51 +1,71 @@
-# QnA Maker
+# Custom Question Answering
 
-Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with ASP.Net Core-2. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
+Bot Framework v4 Custom Question Answering bot sample. This sample shows how to integrate Multiturn and Active learning in a Custom Question Answering bot with ASP.Net Core-2. Click [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning).
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [Custom question answering feature in Language Service](https://language.cognitive.azure.com) service.
 
-The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
+The [Custom question answering feature in Language Service](https://language.cognitive.azure.com) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom Question Answering service to answer questions based on a structured, semi-structured or an unstructured source as input.
 
 ## Concepts introduced in this sample
-The [QnA Maker Service][7] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+The [Custom question answering feature in Language Service](https://language.cognitive.azure.com) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate 
-- how to use the Active Learning to generate suggestions for knowledge base.
-- how to use the Multiturn experience for the knowledge base .
+- How to use the Active Learning to generate suggestions for knowledge base.
+- How to use the Multiturn experience for the knowledge base.
+- How to use precise answering for the knowledge base.
+- How to query unstructured sources in the knowledge base.
 
 # Prerequisites
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation) to create multiturn experience.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import and publish your newly created QnA Maker service.
-- Update [appsettings.json](appsettings.json) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. You may also change the default answer by updating `DefaultAnswer` (optional) field. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
-- (Optional) Follow instructions [here](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker) to set up the
-QnA Maker CLI to deploy the model.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk) to create a Custom Question Answering knowledge base.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) to experience Active Learning.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) to learn more about multi-turn prompts.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering) to learn more about precise answering.
+- Update [appsettings.json](appsettings.json) with your kbid (Your project name), endpointKey and endpointHost. You may also change the default answer or default Welcome message by updating `DefaultAnswer` (optional) or `DefaultWelcomeMessage` field .
 
+### Obtain values to connect your bot to the knowledge base
 
-### Create a QnAMaker Application to enable QnA Knowledge Bases
+- In the [Azure Portal](https://ms.portal.azure.com/), go to your resource.
+- Go to Keys and Endpoint under Resource Management.
+- Record one of your keys and your Endpoint.
 
-QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
+### Update the settings file
+
+- Fill in QnAKnowledgebaseId, which is the name of your project in [Language Studio](https://language.cognitive.azure.com/questionAnswering/projects).
+- QnAEndpointKey would be one of the keys and QnAEndpointHostName is your Endpoint from [Azure Portal](https://ms.portal.azure.com/).
 
 # Configure Cognitive Service Model
-- Create a Knowledge Base in QnAMaker Portal.
-- Import "smartLightFAQ.tsv" file, in QnAMaker Portal.
+- Create a Knowledge Base in Language Studio.
+- Import "Sample_qnas_for_CQA.tsv" file, in Language Studio.
 - Save and Train the model.
 - Create Bot from Publish page.
 - Test bot with Web Chat.
-- Capture values of settings like"QnAAuthKey" from 
-- "Configuration" page of created bot, in Azure Portal.
-- Updated appsettings.json with values as needed.
-- Use value of "QnAAuthKey" for setting "QnAEndpointKey".
-- Capture KnowledgeBase Id, HostName and EndpointKey current published app 
 
 # Try Active Learning
-- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Sample query: "light"
+- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample queries:
+  1) Surface
+  2) Features
 - You can observe that, Multiple answers are returned with high score.
 
 # Try Multi-turn prompt
-- Once your QnA Maker service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Sample query: "won't turn on"
-- You can notice a prompt, included as part of  answer to query.
+- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample queries:
+  1) Accessibility
+  2) Options
+- You can notice a prompt, included as part of answer to query.
+
+# Try Precise Answering
+- The precise answering feature introduced, allows you to get the precise short answer from the best candidate answer passage present in the knowledge base.
+- Sample queries:
+  1) Accessibility
+  2) Register
+- You can notice a short answer returned along with a long answer. Note that enablePreciseAnswer should be set to true in the sample. By default, it is set to true.
+
+# Query unstructured content
+- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
+- Sample queries:
+  1) Frontline workers
+  2) Hybrid work solutions
+- You can observe that, answers are returned with high score.
 
 ## To try this sample
 
@@ -55,7 +75,7 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/49.qnamaker-all-features`
+- In a terminal, navigate to `samples/csharp_dotnetcore/48.customQABot-all-features`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -69,8 +89,8 @@ QnA knowledge base setup and application configuration steps can be found [here]
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/49.qnamaker-all-features` folder
-  - Select `QnABot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/48.customQABot-all-features` folder
+  - Select `CustomQABotAllFeatures.csproj` file
   - Press `F5` to run the project
 
 ##### Microsoft Teams channel group chat fix
@@ -118,21 +138,13 @@ The deployment process assumes you have an account on Microsoft Azure and are ab
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
 # Further reading
-* [Active learning Documentation][al#1]
+* [Active learning Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning)
 * [Bot Framework Documentation][80]
 * [Bot Basics][90]
 * [Azure Bot Service Introduction][100]
 * [Azure Bot Service Documentation][110]
 * [msbot CLI][130]
 * [Azure Portal][140]
-
-[1]: https://dev.botframework.com
-[2]: https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes
-[3]: https://dotnet.microsoft.com/download/dotnet-core/3.1
-[4]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
-[5]: https://github.com/microsoft/botframework-emulator
-[6]: https://aka.ms/botframeworkemulator
-[7]: https://www.qnamaker.ai
 
 [50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
 [60]: https://portal.azure.com
@@ -141,10 +153,5 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
-[120]: https://docs.microsoft.com/en-us/cli/azure/?view=azure-cli-latest
 [130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
-[150]: https://www.luis.ai
-
-[71]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/improve-knowledge-base
-[72]: https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation
