@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public TeamsTaskModuleBot(IConfiguration config)
         {
-            _baseUrl = config["BaseUrl"];
+            _baseUrl = config["BaseUrl"].EndsWith("/") ? config["BaseUrl"] : config["BaseUrl"] + "/";
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
