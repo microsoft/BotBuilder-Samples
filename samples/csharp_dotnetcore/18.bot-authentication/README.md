@@ -31,6 +31,13 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 After Authentication has been configured via Azure Bot Service, you can test the bot.
 
+- Update `appsettings.json` with required configuration settings 
+    | Property                  | Value Description     | 
+    |----------------------|-----------|
+    | MicrosoftAppId       | Set the value of your Azure bot's app ID.  |
+    | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
+    | ConnectionName       | Set the configured bot's OAuth connection name.      |
+    
 - Run the bot from a terminal or from Visual Studio:
 
   A) From a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
