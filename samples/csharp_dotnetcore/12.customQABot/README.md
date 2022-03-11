@@ -89,7 +89,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 - [Azure Bot Service Documentation](https://docs.microsoft.com/azure/bot-service/?view=azure-bot-service-4.0)
 - [.NET Core CLI tools](https://docs.microsoft.com/en-us/dotnet/core/tools/?tabs=netcore2x)
 - [Azure CLI](https://docs.microsoft.com/cli/azure/?view=azure-cli-latest)
-- [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 

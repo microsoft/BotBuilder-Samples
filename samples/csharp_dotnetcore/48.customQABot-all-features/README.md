@@ -1,6 +1,6 @@
 # Custom Question Answering
 
-Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), [support for unstructured sources] along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
+Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), support for unstructured sources along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [Custom question answering feature in Language Service](https://language.cognitive.azure.com) service.
 
