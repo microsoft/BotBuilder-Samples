@@ -1,6 +1,6 @@
 # Custom Question Answering
 
-Bot Framework v4 Custom question answering bot sample. This sample shows how to integrate Multiturn and Active learning in a Custom Question Answering bot with ASP.Net Core-2. Click [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning).
+Bot Framework v4 Custom question answering bot sample. his sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), [support for unstructured sources] along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [Custom question answering feature in Language Service](https://language.cognitive.azure.com) service.
 
@@ -23,17 +23,18 @@ In this sample, we demonstrate
 - In the [Azure Portal](https://ms.portal.azure.com/), go to your resource.
 - Go to Keys and Endpoint under Resource Management.
 - `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal](https://ms.portal.azure.com/).
-- `QnAKnowledgebaseId` would be the name of your project in [Language Studio](https://language.cognitive.azure.com/questionAnswering/projects).
+- `QnAKnowledgebaseId` would be the name of your project.
 
-# Configure knowledgebase of the project
+# Configure knowledge base of the project
 - Visit [Language Studio](https://language.cognitive.azure.com/) and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
 - Import [Sample_qnas_for_CQA.tsv](CognitiveModels/Sample_qnas_for_CQA.tsv) file.
-- You can test your bot by clicking on `test` option.
+- You can test your bot by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
-## To try this sample
+# To try this sample
 
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 - Clone the repository
 
     ```bash
@@ -57,38 +58,45 @@ In this sample, we demonstrate
   - Navigate to `samples/csharp_dotnetcore/48.customQABot-all-features` folder
   - Select `CustomQABotAllFeatures.csproj` file
   - Press `F5` to run the project
+- Connect to the bot using Bot Framework Emulator
+  1) Launch Bot Framework Emulator
+  2) File -> Open Bot
+  3) Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Try Active Learning
-- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Sample queries:
+- Try the following queries:
   1) Surface
   2) Features
-- You can observe that, Multiple answers are returned with high score.
+- In Language Studio, click on inspect to see closeness in scores of returned answers.
+- In [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases), a card is generated with suggestions shown.
+  - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio](https://language.cognitive.azure.com/).
+  - `DefaultCardTitle`, `DefaultCardNoMatchText` and `DefaultCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialog/RootDialog.cs).
 
 # Try Multi-turn prompt
-- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Sample queries:
+- Try the following queries:
   1) Accessibility
   2) Options
-- You can notice a prompt, included as part of answer to query.
+- You will notice that multi-turn prompts associated with the question are also returned with response.
 
 # Try Precise Answering
-- Make sure `EnablePreciseAnswer` is set to true in [appsettings.json](appsettings.json).
-- Sample queries:
+- Try the following queries:
   1) Accessibility
   2) Register
 - You can notice a short answer returned along with a long answer.
+- If testing in [Language Studio](https://language.cognitive.azure.com/), you might have to check `Include short answer response` at the top.
+- You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
 - You can set `DisplayPreciseAnswerOnly` in [appsettings.json](appsettings.json) to true to display just precise answers in the response.
 
 # Query unstructured content
-- Once your Custom question answering feature in Language Service is up and you have published the sample KB, try the following queries to trigger the Train API on the bot.
-- Make sure `IncludeUnstructuredSources` is set to true in [RootDialog.cs](Dialog/RootDialog.cs).
+- Go to your project in [Language Studio](https://language.cognitive.azure.com/) -> In `Manage sources` click on `+ Add source`
+- Click on `URLs` and add [this](https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/) link by classifying it as **unstructured** under `Classify file structure`.
 - Sample queries:
   1) Frontline workers
   2) Hybrid work solutions
 - You can observe that, answers are returned with high score.
+- You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialog/RootDialog.cs) to prevent querying unstructured sources.
 
-##### Microsoft Teams channel group chat fix
+# Microsoft Teams channel group chat fix
 - Goto `Bot/QnABot.cs`
 - Add References
     ~~~
@@ -112,18 +120,6 @@ In this sample, we demonstrate
             await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
     ~~~
-
-## Testing the bot using Bot Framework Emulator
-
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
-
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.

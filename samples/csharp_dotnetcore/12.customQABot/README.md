@@ -23,7 +23,7 @@ This samples **requires** prerequisites in order to run.
 
 ### Create a Custom Question Answering Project from your own content
 
-Step by step guide to create your first Custom questino answering project can be found [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk).
+Step by step guide to create your first Custom question answering project can be found [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk).
 
 ### Obtain values to connect your bot to the knowledge base
 - Follow these steps to update [appsettings.json](appsettings.json).
@@ -32,17 +32,19 @@ Step by step guide to create your first Custom questino answering project can be
 - `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal](https://ms.portal.azure.com/).
 - `QnAKnowledgebaseId` would be the name of your project in [Language Studio](https://language.cognitive.azure.com/questionAnswering/projects).
 
-## To try this sample
+# To try this sample
 
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
 - Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- Run the bot from a terminal or from Visual Studio:
+- In a terminal, navigate to `samples/csharp_dotnetcore/48.customQABot-all-features`
+- Run the bot from a terminal or from Visual Studio, choose option A or B.
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/12.customQABot`
+  A) From a terminal
 
   ```bash
   # run the bot
@@ -53,40 +55,29 @@ Step by step guide to create your first Custom questino answering project can be
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/12.customQABot` folder
-  - Select `CustomQABot.csproj` file
+  - Navigate to `samples/csharp_dotnetcore/48.customQABot-all-features` folder
+  - Select `CustomQABotAllFeatures.csproj` file
   - Press `F5` to run the project
+- Connect to the bot using Bot Framework Emulator
+  1) Launch Bot Framework Emulator
+  2) File -> Open Bot
+  3) Enter a Bot URL of `http://localhost:3978/api/messages`
 
 # Try Precise Answering
-- Make sure `EnablePreciseAnswer` is set to true in [appsettings.json](appsettings.json).
-- Sample queries:
+- Try the following queries:
   1) Accessibility
   2) Register
 - You can notice a short answer returned along with a long answer.
+- If testing in [Language Studio](https://language.cognitive.azure.com/), you might have to check `Include short answer response` at the top.
+- You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
+- You can set `DisplayPreciseAnswerOnly` in [appsettings.json](appsettings.json) to true to display just precise answers in the response.
 
-## Testing the bot using Bot Framework Emulator
+# Deploy the bot to Azure
+See [Deploy your C# bot to Azure][50] for instructions.
 
-[Bot Framework Emulator](https://github.com/microsoft/botframework-emulator) is a desktop application that allows bot developers to test and debug their bots on localhost or running remotely through a tunnel.
+The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][60].
 
-- Install the latest Bot Framework Emulator from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
-
-### Connect to the bot using Bot Framework Emulator
-
-- Launch Bot Framework Emulator
-- File -> Open Bot
-- Enter a Bot URL of `http://localhost:3978/api/messages`
-
-## Interacting with the bot
-
-Question answering provides cloud-based Natural Language Processing (NLP) that allows you to create a natural conversational layer over your data. It is used to find the most appropriate answer for any input from your custom knowledge base (KB) of information.
-
-One of the basic requirements in writing your own bot is to seed it with questions and answers. In many cases, the questions and answers already exist in content like FAQ URLs/documents, product manuals, etc.  Using Custom questino answering, users can customize different aspects like edit question and answer pairs extracted from the content source, define synonyms and metadata, accept question suggestions etc. Custom questino answering uses machine learning to extract relevant question-answer pairs from your content. It uses state-of-the-art transformer models and Turing natural language model, with powerful matching and ranking algorithms to provide the best possible match between the user query and the questions.
-
- Using this capability users can customize different aspects like edit question and answer pairs extracted from the content source, define synonyms and metadata, accept question suggestions etc.
-
-## Deploy the bot to Azure
-
-To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.
+If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
 ## Further reading
 
@@ -101,3 +92,7 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 - [QnA Maker CLI](https://github.com/Microsoft/botbuilder-tools/tree/master/packages/QnAMaker)
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+
+[50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
+[60]: https://portal.azure.com
+[70]: https://azure.microsoft.com/get-started/

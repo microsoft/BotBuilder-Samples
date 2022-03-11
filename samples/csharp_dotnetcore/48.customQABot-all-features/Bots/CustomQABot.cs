@@ -10,17 +10,19 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class QnABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
+    public class CustomQABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
     {
         protected readonly BotState ConversationState;
         protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
         protected readonly BotState UserState;
+        protected readonly ILogger Logger;
         protected string defaultWelcome = "Hello and Welcome";
 
-        public QnABot(IConfiguration configuration, ConversationState conversationState, UserState userState, T dialog)
+        public CustomQABot(IConfiguration configuration, ConversationState conversationState, UserState userState, T dialog, ILogger<CustomQABot<T>> logger)
         {
 
             var welcomeMsg = configuration["DefaultWelcomeMessage"];
@@ -29,6 +31,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             ConversationState = conversationState;
             UserState = userState;
             Dialog = dialog;
+            Logger = logger;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
