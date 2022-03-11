@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         private const float ScoreThreshold = 0.3f;
         private const int Top = 3;
         private const string RankerType = "Default";
-        private const bool IsTest = true;
+        private const bool IsTest = false;
         private const bool IncludeUnstructuredSources = true;
 
         private QnAMakerDialog CreateQnAMakerDialog(IConfiguration configuration)
