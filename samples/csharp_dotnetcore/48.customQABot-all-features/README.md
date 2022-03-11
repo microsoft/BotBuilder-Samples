@@ -1,6 +1,6 @@
 # Custom Question Answering
 
-Bot Framework v4 Custom question answering bot sample. his sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), [support for unstructured sources] along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
+Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), [support for unstructured sources] along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [Custom question answering feature in Language Service](https://language.cognitive.azure.com) service.
 
@@ -97,14 +97,14 @@ In this sample, we demonstrate
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialog/RootDialog.cs) to prevent querying unstructured sources.
 
 # Microsoft Teams channel group chat fix
-- Goto `Bot/QnABot.cs`
+- Goto `Bot/CustomQABot.cs`
 - Add References
-    ~~~
+    ```csharp
     using Microsoft.Bot.Connector;
     using System.Text.RegularExpressions;
-    ~~~
+    ```
 - Modify `OnTurnAsync` function as:
-    ~~~
+    ```csharp
     public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
         {
             // Teams group chat
@@ -119,7 +119,7 @@ In this sample, we demonstrate
             await ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
             await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
-    ~~~
+    ```
 
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
