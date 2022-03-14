@@ -31,12 +31,6 @@ namespace Microsoft.BotBuilderSamples
             _logger = logger;
             _httpClientFactory = httpClientFactory;
 
-            var welcomeMsg = configuration["DefaultWelcomeMessage"];
-            if (!string.IsNullOrWhiteSpace(welcomeMsg))
-            {
-                _defaultWelcome = welcomeMsg;
-            }
-
             _hostname = configuration["QnAEndpointHostName"];
             if (string.IsNullOrEmpty(_hostname))
             {
@@ -55,6 +49,12 @@ namespace Microsoft.BotBuilderSamples
                 throw new ArgumentException(nameof(_knowledgeBaseId));
             }
 
+            var welcomeMsg = configuration["DefaultWelcomeMessage"];
+            if (!string.IsNullOrWhiteSpace(welcomeMsg))
+            {
+                _defaultWelcome = welcomeMsg;
+            }
+
             _enablePreciseAnswer = !bool.TryParse(configuration["EnablePreciseAnswer"], out var enablePreciseAnswer) || enablePreciseAnswer;
             _displayPreciseAnswerOnly = !bool.TryParse(configuration["DisplayPreciseAnswerOnly"], out var displayPreciseAnswerOnly) || displayPreciseAnswerOnly;
         }
@@ -64,51 +64,60 @@ namespace Microsoft.BotBuilderSamples
 
             using var httpClient = _httpClientFactory.CreateClient();
 
-            // Custom Question Answering Client initialized with QnAMakerEndpoint.
-            var customQuestionAnswering = GetCustomQuestionAnsweringClient(httpClient);
+            var customQuestionAnswering = CreateCustomQuestionAnsweringClient(httpClient);
 
-            var options = new QnAMakerOptions { Top = 1, EnablePreciseAnswer = _enablePreciseAnswer };
-
-            // The actual call to the Custom Question Answering service.
+            // Call Custom Question Answering service to get a response.
             _logger.LogInformation("Calling Custom Question Answering");
+            var options = new QnAMakerOptions { Top = 1, EnablePreciseAnswer = _enablePreciseAnswer };
             var response = await customQuestionAnswering.GetAnswersAsync(turnContext, options);
 
-            if (response != null && response.Length > 0)
+            if (response?.Length > 0)
             {
                 var activities = new List<Activity>();
-                var longAnswer = new Activity() { Text = response[0].Answer, Type = ActivityTypes.Message };
-                if (response[0].AnswerSpan?.Text.Length > 0)
+
+                // Create answer activity.
+                var answerText = response[0].Answer;
+                var answer = MessageFactory.Text(answerText, answerText);
+
+                // Answer span text has precise answer.
+                var preciseAnswerText = response[0].AnswerSpan?.Text;
+                if (string.IsNullOrEmpty(preciseAnswerText))
                 {
-                    var shortAnswer = new Activity() { Text = response[0].AnswerSpan?.Text, Type = ActivityTypes.Message };
-                    activities.Add(shortAnswer);
-                    if (!_displayPreciseAnswerOnly)
-                    {
-                        activities.Add(longAnswer);
-                    }
+                    activities.Add(answer);
                 }
                 else
                 {
-                    activities.Add(longAnswer);
-                }
+                    // Create precise answer activity.
+                    var preciseAnswer = MessageFactory.Text(preciseAnswerText, preciseAnswerText);
+                    activities.Add(preciseAnswer);
 
+                    if (!_displayPreciseAnswerOnly)
+                    {
+                        // Add answer to the reply when it is configured.
+                        activities.Add(answer);
+                    }
+                }
                 await turnContext.SendActivitiesAsync(activities.ToArray(), cancellationToken).ConfigureAwait(false);
             }
             else
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text("No answers were found."), cancellationToken);
+                await turnContext.SendActivityAsync(MessageFactory.Text("No answers were found.", "No answers were found."), cancellationToken);
             }
         }
 
-        private CustomQuestionAnswering GetCustomQuestionAnsweringClient(HttpClient httpClient) => new(
-            new QnAMakerEndpoint
+        private CustomQuestionAnswering CreateCustomQuestionAnsweringClient(HttpClient httpClient)
+        {
+            // Create a new Custom Question Answering instance initialized with QnAMakerEndpoint.
+            return new CustomQuestionAnswering(new QnAMakerEndpoint
             {
                 KnowledgeBaseId = _knowledgeBaseId,
                 EndpointKey = _endpointKey,
                 Host = _hostname,
                 QnAServiceType = ServiceType.Language
             },
-            null,
-            httpClient);
+           null,
+           httpClient);
+        }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {

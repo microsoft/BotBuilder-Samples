@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-//
-// Generated with Bot Builder V4 SDK Template for Visual Studio EchoBot v4.5.0
 
 using System.Collections.Generic;
 using System.Threading;
@@ -14,24 +12,25 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
-    public class CustomQABot<T> : ActivityHandler where T : Microsoft.Bot.Builder.Dialogs.Dialog
+    public class CustomQABot<T> : ActivityHandler where T : Dialog
     {
-        protected readonly BotState ConversationState;
-        protected readonly Microsoft.Bot.Builder.Dialogs.Dialog Dialog;
-        protected readonly BotState UserState;
-        protected readonly ILogger Logger;
-        protected string defaultWelcome = "Hello and Welcome";
+        private readonly BotState _conversationState;
+        private readonly Dialog _dialog;
+        private readonly BotState _userState;
+        private readonly ILogger _logger;
+        private readonly string _defaultWelcome = "Hello and Welcome";
 
         public CustomQABot(IConfiguration configuration, ConversationState conversationState, UserState userState, T dialog, ILogger<CustomQABot<T>> logger)
         {
-
             var welcomeMsg = configuration["DefaultWelcomeMessage"];
             if (!string.IsNullOrWhiteSpace(welcomeMsg))
-                defaultWelcome = welcomeMsg;
-            ConversationState = conversationState;
-            UserState = userState;
-            Dialog = dialog;
-            Logger = logger;
+            {
+                _defaultWelcome = welcomeMsg;
+            }
+            _conversationState = conversationState;
+            _userState = userState;
+            _dialog = dialog;
+            _logger = logger;
         }
 
         public override async Task OnTurnAsync(ITurnContext turnContext, CancellationToken cancellationToken = default)
@@ -39,13 +38,15 @@ namespace Microsoft.BotBuilderSamples.Bots
             await base.OnTurnAsync(turnContext, cancellationToken);
 
             // Save any state changes that might have occurred during the turn.
-            await ConversationState.SaveChangesAsync(turnContext, false, cancellationToken);
-            await UserState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _conversationState.SaveChangesAsync(turnContext, false, cancellationToken);
+            await _userState.SaveChangesAsync(turnContext, false, cancellationToken);
         }
 
-        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken) =>
+        protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
+        {
             // Run the Dialog with the new message Activity.
-            await Dialog.RunAsync(turnContext, ConversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+            await _dialog.RunAsync(turnContext, _conversationState.CreateProperty<DialogState>(nameof(DialogState)), cancellationToken);
+        }
 
         protected override async Task OnMembersAddedAsync(IList<ChannelAccount> membersAdded, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
@@ -53,7 +54,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 if (member.Id != turnContext.Activity.Recipient.Id)
                 {
-                    await turnContext.SendActivityAsync(MessageFactory.Text(defaultWelcome), cancellationToken);
+                    await turnContext.SendActivityAsync(MessageFactory.Text(_defaultWelcome), cancellationToken);
                 }
             }
         }
