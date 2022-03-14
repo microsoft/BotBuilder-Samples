@@ -1,13 +1,13 @@
 # Custom Question Answering
 
-Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering), support for unstructured sources along with [Multi-turn conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations) and [Active Learning](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning) in a bot.
+Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering][PA], support for unstructured sources along with [Multi-turn conversations][MT] and [Active Learning][AL] in a bot.
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [Custom question answering feature in Language Service](https://language.cognitive.azure.com) service.
+This bot has been created using [Bot Framework][BF], it shows how to create a bot that uses the [Custom question answering feature in Language Service][LS].
 
-The [Custom question answering feature in Language Service](https://language.cognitive.azure.com) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering service to answer questions based on a structured, semi-structured or an unstructured source as input.
+The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering service to answer questions based on a structured, semi-structured or an unstructured source as input.
 
 ## Concepts introduced in this sample
-The [Custom question answering feature in Language Service](https://language.cognitive.azure.com) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
+The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate 
 - How to use the Active Learning to generate suggestions for knowledge base.
 - How to use follow up prompts to create multiple turns of a conversation.
@@ -16,17 +16,17 @@ In this sample, we demonstrate
 
 # Prerequisites
 - Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
-- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk) to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
+- Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
 
 ### Obtain values to connect your bot to the knowledge base
 - Follow these steps to update [appsettings.json](appsettings.json).
-- In the [Azure Portal](https://ms.portal.azure.com/), go to your resource.
+- In the [Azure Portal][Azure], go to your resource.
 - Go to Keys and Endpoint under Resource Management.
-- `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal](https://ms.portal.azure.com/).
+- `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal][Azure].
 - `QnAKnowledgebaseId` would be the name of your project.
 
 # Configure knowledge base of the project
-- Visit [Language Studio](https://language.cognitive.azure.com/) and open created project.
+- Visit [Language Studio][LS] and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
 - Import [Sample_qnas_for_CQA.tsv](CognitiveModels/Sample_qnas_for_CQA.tsv) file.
 - You can test your bot by clicking on `Test` option.
@@ -34,7 +34,7 @@ In this sample, we demonstrate
 
 # To try this sample
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here](https://github.com/Microsoft/BotFramework-Emulator/releases)
+- Install the Bot Framework Emulator version 4.3.0 or greater from [here][BFE]
 - Clone the repository
 
     ```bash
@@ -68,9 +68,9 @@ In this sample, we demonstrate
   1) Surface
   2) Features
 - In Language Studio, click on inspect to see closeness in scores of returned answers.
-- In [Bot Framework Emulator](https://github.com/Microsoft/BotFramework-Emulator/releases), a card is generated with suggestions shown.
-  - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio](https://language.cognitive.azure.com/).
-  - `DefaultCardTitle`, `DefaultCardNoMatchText` and `DefaultCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialog/RootDialog.cs).
+- In [Bot Framework Emulator][BFE], a card is generated with suggestions shown.
+  - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
+  - `DefaultCardTitle`, `DefaultCardNoMatchText` and `DefaultCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
 
 # Try Multi-turn prompt
 - Try the following queries:
@@ -83,18 +83,18 @@ In this sample, we demonstrate
   1) Accessibility
   2) Register
 - You can notice a short answer returned along with a long answer.
-- If testing in [Language Studio](https://language.cognitive.azure.com/), you might have to check `Include short answer response` at the top.
+- If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
 - You can set `DisplayPreciseAnswerOnly` in [appsettings.json](appsettings.json) to true to display just precise answers in the response.
 
 # Query unstructured content
-- Go to your project in [Language Studio](https://language.cognitive.azure.com/) -> In `Manage sources` click on `+ Add source`
+- Go to your project in [Language Studio][LS] -> In `Manage sources` click on `+ Add source`
 - Click on `URLs` and add [this](https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/) link by classifying it as **unstructured** under `Classify file structure`.
 - Sample queries:
   1) Frontline workers
   2) Hybrid work solutions
 - You can observe that, answers are returned with high score.
-- You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialog/RootDialog.cs) to prevent querying unstructured sources.
+- You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
 # Microsoft Teams channel group chat fix
 - Goto `Bot/CustomQABot.cs`
@@ -124,7 +124,7 @@ In this sample, we demonstrate
 # Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
 
-The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][60].
+The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
@@ -134,13 +134,12 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 * [Azure Bot Service Introduction][100]
 * [Azure Bot Service Documentation][110]
 * [msbot CLI][130]
-* [Azure Portal][140]
-* [Active learning Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning)
-* [Multi-turn Conversations](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations)
-* [Precise Answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering)
+* [Azure Portal][Azure]
+* [Active learning Documentation][AL]
+* [Multi-turn Conversations][MT]
+* [Precise Answering][PA]
 
 [50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
-[60]: https://portal.azure.com
 [70]: https://azure.microsoft.com/get-started/
 [80]: https://docs.botframework.com
 [90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
@@ -148,3 +147,12 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
 [130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
+
+[LS]: https://language.cognitive.azure.com/
+[MT]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations
+[AL]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning
+[PA]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
+[BF]: https://dev.botframework.com/
+[Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk
+[Azure]: https://ms.portal.azure.com
+[BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
