@@ -23,7 +23,7 @@ namespace Microsoft.BotBuilderSamples.Dialogs
         private const string DefaultCardNoMatchText = "None of the above."; // Accepts string to display Active Learning Card no match text.
         private const string DefaultCardNoMatchResponse = "Thanks for the feedback."; // Accepts string to display Active Learning Card no match response.
 
-        private const float ScoreThreshold = 0.3f; // Score threshold accepts values in the range of 0to 1
+        private const float ScoreThreshold = 0.3f; // Score threshold accepts values in the range of 0 to 1
         private const int Top = 3; // Accepts integer representing number of answers to return from knowledge base.
         private const string RankerType = "Default"; // Accepts "Default" or "QuestionOnly" ranker type.
         private const bool IsTest = false; // Accepts true/false to call test or production environment
