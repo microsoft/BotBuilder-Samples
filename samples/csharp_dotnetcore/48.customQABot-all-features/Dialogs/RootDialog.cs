@@ -4,7 +4,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using AdaptiveExpressions.Properties;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.AI.QnA.Dialogs;
 using Microsoft.Bot.Builder.AI.QnA.Models;
@@ -18,31 +17,31 @@ namespace Microsoft.BotBuilderSamples.Dialogs
     /// </summary>
     public class RootDialog : ComponentDialog
     {
-        private const string InitialDialog = "initial-dialog";
-        private const string DefaultCardTitle = "Did you mean:"; // Accepts string to display Active Learning Card Title.
-        private const string DefaultCardNoMatchText = "None of the above."; // Accepts string to display Active Learning Card no match text.
-        private const string DefaultCardNoMatchResponse = "Thanks for the feedback."; // Accepts string to display Active Learning Card no match response.
+        private const string DialogId = "initial-dialog";
+        private const string ActiveLearningCardTitle = "Did you mean:";
+        private const string ActiveLearningCardNoMatchText = "None of the above.";
+        private const string ActiveLearningCardNoMatchResponse = "Thanks for the feedback.";
 
-        private const float ScoreThreshold = 0.3f; // Score threshold accepts values in the range of 0 to 1
-        private const int Top = 3; // Accepts integer representing number of answers to return from knowledge base.
-        private const string RankerType = "Default"; // Accepts "Default" or "QuestionOnly" ranker type.
-        private const bool IsTest = false; // Accepts true/false to call test or production environment
-        private const bool IncludeUnstructuredSources = true; // Accepts true/false to query unstructured sources.
+        private const float ScoreThreshold = 0.3f;
+        private const int TopAnswers = 3;
+        private const string RankerType = "Default";
+        private const bool IsTest = false;
+        private const bool IncludeUnstructuredSources = true;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RootDialog"/> class.
         /// </summary>
-        /// <param name="services">Bot Services.</param>
+        /// <param name="configuration">An <see cref="IConfiguration"/> instance.</param>
         public RootDialog(IConfiguration configuration)
             : base("root")
         {
             AddDialog(CreateQnAMakerDialog(configuration));
 
-            AddDialog(new WaterfallDialog(InitialDialog)
+            AddDialog(new WaterfallDialog(DialogId)
                .AddStep(InitialStepAsync));
 
             // The initial child Dialog to run.
-            InitialDialogId = InitialDialog;
+            InitialDialogId = DialogId;
         }
 
         private QnAMakerDialog CreateQnAMakerDialog(IConfiguration configuration)
@@ -66,16 +65,17 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 throw new ArgumentException(nameof(knowledgeBaseId));
             }
 
-            var enablePreciseAnswer = IsPreciseAnswerEnabled(configuration["EnablePreciseAnswer"]);
-            var displayPreciseAnswerOnly = DisplayPreciseAnswerOnly(configuration["DisplayPreciseAnswerOnly"]);
+            var enablePreciseAnswer = !bool.TryParse(configuration["EnablePreciseAnswer"], out var _enablePreciseAnswer) || _enablePreciseAnswer;
+            var displayPreciseAnswerOnly = !bool.TryParse(configuration["DisplayPreciseAnswerOnly"], out var _displayPreciseAnswerOnly) || _displayPreciseAnswerOnly;
 
             // Create a new instance of QnAMakerDialog with dialogOptions initialized.
-            var qnamakerDialog = new QnAMakerDialog(nameof(QnAMakerDialog), knowledgeBaseId, endpointKey, hostname, noAnswer: MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty), cardNoMatchResponse: MessageFactory.Text(DefaultCardNoMatchResponse))
+            var noAnswer = MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty);
+            var qnamakerDialog = new QnAMakerDialog(nameof(QnAMakerDialog), knowledgeBaseId, endpointKey, hostname, noAnswer: noAnswer, cardNoMatchResponse: MessageFactory.Text(ActiveLearningCardNoMatchResponse))
             {
                 Threshold = ScoreThreshold,
-                ActiveLearningCardTitle = DefaultCardTitle,
-                CardNoMatchText = DefaultCardNoMatchText,
-                Top = Top,
+                ActiveLearningCardTitle = ActiveLearningCardTitle,
+                CardNoMatchText = ActiveLearningCardNoMatchText,
+                Top = TopAnswers,
                 Filters = { },
                 QnAServiceType = ServiceType.Language,
                 EnablePreciseAnswer = enablePreciseAnswer,
@@ -96,26 +96,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 hostname = string.Concat("https://", hostname);
             }
             return hostname;
-        }
-
-        private bool IsPreciseAnswerEnabled(string enablePreciseAnswer)
-        {
-            var rawEnablePreciseAnswer = enablePreciseAnswer;
-            if (!string.IsNullOrWhiteSpace(rawEnablePreciseAnswer))
-            {
-                return bool.Parse(rawEnablePreciseAnswer);
-            }
-            return true;
-        }
-
-        private BoolExpression DisplayPreciseAnswerOnly(string displayPreciseAnswerOnly)
-        {
-            var rawDisplayPreciseAnswerOnly = displayPreciseAnswerOnly;
-            if (!string.IsNullOrWhiteSpace(rawDisplayPreciseAnswerOnly))
-            {
-                return bool.Parse(rawDisplayPreciseAnswerOnly);
-            }
-            return false;
         }
     }
 }

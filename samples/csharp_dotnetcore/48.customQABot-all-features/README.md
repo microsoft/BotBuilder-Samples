@@ -18,8 +18,7 @@ In this sample, we demonstrate
 - Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
 
-### Obtain values to connect your bot to the knowledge base
-- Follow these steps to update [appsettings.json](appsettings.json).
+### Update [appsettings.json](appsettings.json) to connect your bot to the knowledge base
 - In the [Azure Portal][Azure], go to your resource.
 - Go to Keys and Endpoint under Resource Management.
 - `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal][Azure].
@@ -34,7 +33,7 @@ In this sample, we demonstrate
 
 # To try this sample
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][BFE]
+- Install the Bot Framework Emulator version 4.14.1 or greater from [here][BFE]
 - Clone the repository
 
     ```bash
@@ -97,6 +96,8 @@ In this sample, we demonstrate
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
 # Microsoft Teams channel group chat fix
+When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot question to bot` to get answers from the service.
+However, bot tries to send `<at>HelpBot</at> question to bot` as query to Custom question answering service which may not give expected results for question to bot. The following code removes <at>HelpBot</at> mentions of the bot from the message and sends the remaining text as query to the service.
 - Goto `Bot/CustomQABot.cs`
 - Add References
     ```csharp
@@ -133,7 +134,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 * [Bot Basics][90]
 * [Azure Bot Service Introduction][100]
 * [Azure Bot Service Documentation][110]
-* [msbot CLI][130]
 * [Azure Portal][Azure]
 * [Active learning Documentation][AL]
 * [Multi-turn Conversations][MT]
@@ -145,7 +145,6 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
-[130]: https://github.com/Microsoft/botbuilder-tools/tree/master/packages/MSBot
 [140]: https://portal.azure.com
 
 [LS]: https://language.cognitive.azure.com/
@@ -154,5 +153,5 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [PA]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
 [BF]: https://dev.botframework.com/
 [Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk
-[Azure]: https://ms.portal.azure.com
+[Azure]: https://portal.azure.com/
 [BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
