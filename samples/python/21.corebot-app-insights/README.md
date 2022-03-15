@@ -29,6 +29,17 @@ If you wish to create a LUIS application via the CLI, these steps can be found i
 
 Application Insights resource creation steps can be found [here](https://docs.microsoft.com/azure/azure-monitor/app/create-new-resource).
 
+You must include the instrumentation key in the `config.py` file, as well is in the designated field in your Azure Bot resource.
+
+### Add Activity and Personal Information logging for Application Insights
+To log activity and personal information, extra code is needed in `app.py` after the creation of the telemetry client. This code is *already present* in the sample, but must be unconmmented in order to function. It is important to note that due to privacy concerns, in a real-world application you **must** obtain user consent prior to logging this information.
+
+The required code is as follows:
+```python
+TELEMETRY_LOGGER_MIDDLEWARE = TelemetryLoggerMiddleware(telemetry_client=TELEMETRY_CLIENT, log_personal_information=True)
+ADAPTER.use(TELEMETRY_LOGGER_MIDDLEWARE)
+```
+
 ## To try this sample
 
 - Clone the repository

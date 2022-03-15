@@ -95,6 +95,9 @@ If you used the `appsettings.json` file to store your `TranslatorKey` then you'l
 - Click `+ Add new setting`
 - Add the key `TranslatorKey` with a value of the Translator Text API `Authentication key` created from the steps above
 
+### Add `TranslatorRegion` to Application Settings
+- The Translator resource requires you to specify which Azure region your Translator region is in. If you have placed your Translator resource in an Azure region other than `global`, you must specify this region for your bot to be able to query the Translator resource. If `TranslatorRegion` is left blank, the default region of `global` will be used.
+
 ## Further reading
 
 - [Bot Framework Documentation](https://docs.botframework.com)
