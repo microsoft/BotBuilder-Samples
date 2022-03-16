@@ -95,6 +95,13 @@ In this sample, we demonstrate
 - You can observe that, answers are returned with high score.
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
+# Try Filters
+- Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
+- Add a key value pair and click on `Save changes`.
+- Click on `Test` and add metadata that you just added by clicking on **Show advanced options**.
+- This will query only those qnas with the given metadata.
+- You can also pass filters in [rootDialog.cs](dialogs/rootDialog.cs)(Line No. 79) and apply source filters and logical operations. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+
 # Microsoft Teams channel group chat fix
 When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot question to bot` to get answers from the service.
 However, bot tries to send `<at>HelpBot</at> question to bot` as query to Custom question answering service which may not give expected results for question to bot. The following code removes <at>HelpBot</at> mentions of the bot from the message and sends the remaining text as query to the service.
