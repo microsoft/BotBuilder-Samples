@@ -1,21 +1,21 @@
 ﻿# Custom Question Answering
 
-Bot Framework v4 Custom questino answering bot sample.
+Bot Framework v4 Custom question answering bot sample.
 
-This bot has been created using [Bot Framework][BF], it shows how to create a bot that uses the [Custom question answering feature in Language Service][LS] service.
+This bot has been created using [Bot Framework][BF], it shows how to create a bot that uses the [Custom question answering feature in Language Service][LS].
 
-The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering feature in Language Service to answer questions based on a FAQ text file used as input.
+The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering feature in Language Service to answer questions based on a FAQ text file used as input.
 
 # Prerequisites
 - Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
 
-### Obtain values to connect your bot to the knowledge base
-- Follow these steps to update [appsettings.json](appsettings.json).
+### Connect your bot to the project.
+Follow these steps to update [appsettings.json](appsettings.json).
 - In the [Azure Portal][Azure], go to your resource.
-- Go to Keys and Endpoint under Resource Management.
-- `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal](https://ms.portal.azure.com/).
-- `QnAKnowledgebaseId` would be the name of your project in [Language Studio][LS].
+- Go to `Keys and Endpoint` under Resource Management.
+- Copy one of the keys as value of `QnAEndpointKey` and Endpoint as value of `QnAEndpointHostName` in [appsettings.json](appsettings.json).
+- `QnAKnowledgebaseId` is the name of the project created in [Language Studio][LS].
 
 # To try this sample
 

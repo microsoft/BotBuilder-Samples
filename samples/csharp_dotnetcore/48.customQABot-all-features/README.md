@@ -4,7 +4,7 @@ Bot Framework v4 Custom question answering bot sample. This sample demonstrates 
 
 This bot has been created using [Bot Framework][BF], it shows how to create a bot that uses the [Custom question answering feature in Language Service][LS].
 
-The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering service to answer questions based on a structured, semi-structured or an unstructured source as input.
+The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering service to answer questions based on a structured, semi-structured or an unstructured source as input.
 
 ## Concepts introduced in this sample
 The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
@@ -18,11 +18,12 @@ In this sample, we demonstrate
 - Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
 
-### Update [appsettings.json](appsettings.json) to connect your bot to the knowledge base
+### Connect your bot to the project.
+Follow these steps to update [appsettings.json](appsettings.json).
 - In the [Azure Portal][Azure], go to your resource.
-- Go to Keys and Endpoint under Resource Management.
-- `QnAEndpointKey` would be one of the keys and `QnAEndpointHostName` would be the Endpoint from [Azure Portal][Azure].
-- `QnAKnowledgebaseId` would be the name of your project.
+- Go to `Keys and Endpoint` under Resource Management.
+- Copy one of the keys as value of `QnAEndpointKey` and Endpoint as value of `QnAEndpointHostName` in [appsettings.json](appsettings.json).
+- `QnAKnowledgebaseId` is the name of the project created in [Language Studio][LS].
 
 # Configure knowledge base of the project
 - Visit [Language Studio][LS] and open created project.
@@ -69,7 +70,7 @@ In this sample, we demonstrate
 - In Language Studio, click on inspect to see closeness in scores of returned answers.
 - In [Bot Framework Emulator][BFE], a card is generated with suggestions shown.
   - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
-  - `DefaultCardTitle`, `DefaultCardNoMatchText` and `DefaultCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
+  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
 
 # Try Multi-turn prompt
 - Try the following queries:
@@ -118,8 +119,8 @@ In this sample, we demonstrate
     ```    
 
 # Microsoft Teams channel group chat fix
-When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot question to bot` to get answers from the service.
-However, bot tries to send `<at>HelpBot</at> question to bot` as query to Custom question answering service which may not give expected results for question to bot. The following code removes <at>HelpBot</at> mentions of the bot from the message and sends the remaining text as query to the service.
+When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot` `How to build a bot?` to get answers from the service.
+However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to Custom question answering service which may not give expected results for question to bot. The following code removes `<at>HelpBot</at>` mentions of the bot from the message and sends the remaining text as query to the service.
 - Goto `Bot/CustomQABot.cs`
 - Add References
     ```csharp
