@@ -97,10 +97,25 @@ In this sample, we demonstrate
 
 # Try Filters
 - Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
-- Add a key value pair and click on `Save changes`.
-- Click on `Test` and add metadata that you just added by clicking on **Show advanced options**.
-- This will query only those qnas with the given metadata.
-- You can also pass filters in [rootDialog.cs](dialogs/rootDialog.cs)(Line No. 79) and apply source filters and logical operations. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+- Select a QnA to edit and add a key value pair, say `Language` : `CSharp`, and click on `Save changes`.
+- Click on `Test` and select metadata that you just added(`Language : CSharp`) by clicking on **Show advanced options**.
+- This will return answers with specified metadata only.
+- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in RootDialog.cs to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+    ```csharp
+    var filters = new Filters
+    {
+        MetadataFilter = new MetadataFilter()
+        {
+            LogicalOperation = Bot.Builder.AI.QnA.JoinOperator.AND.ToString()
+        },
+        LogicalOperation = Bot.Builder.AI.QnA.JoinOperator.AND.ToString()
+    };
+    filters.MetadataFilter.Metadata.Add(new KeyValuePair<string, string>("Language", "CSharp"));
+    filters.SourceFilter.Add("SampleForCQA.tsv");
+    filters.SourceFilter.Add("SampleActiveLearningImport.tsv");
+    
+    // Initialize Filters with filters in line No. 79
+    ```    
 
 # Microsoft Teams channel group chat fix
 When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot question to bot` to get answers from the service.
