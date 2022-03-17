@@ -101,13 +101,12 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#58]|[JavaScript][js#58]          |[Python][py#58] |[Java][java#58]
 
 ### Custom adapter samples
+Important Note: The Bot Framework Adapters and corresponding samples will be deprecated in the next version of the Bot Framework SDK and have been moved to the [BotBuilderCommunity](https://github.com/BotBuilderCommunity/botbuilder-community-dotnet) repository. Please refer to their new location for all future work.
 
 |    | Sample Name           | Description                                                   | .NET                    | JavaScript  | Python            | Java |
 |:--:|:----------------------|:--------------------------------------------------------------|:------------------------|:------------|:------------------|:------------------|
-|60|Slack       | Demonstrates the use of the custom adapter for Slack.         | [.NET&nbsp;Core][cs#60] |             | [Python][py#60]   |
-|61|Facebook    | Demonstrates the use of the custom adapter for Facebook.      | [.NET&nbsp;Core][cs#61] |             |                   |
-|62|Webex       | Demonstrates the use of the custom adapter for Webex Teams.   | [.NET&nbsp;Core][cs#62] |             |                   |
-|63|Twilio      | Demonstrates the use of the custom adapter for Twilio.        | [.NET&nbsp;Core][cs#63] |             |                   |
+|60|Slack       | Demonstrates the use of the custom adapter for Slack.         |  |             | [Python][py#60]   |
+
 
 ### Skills samples
 
