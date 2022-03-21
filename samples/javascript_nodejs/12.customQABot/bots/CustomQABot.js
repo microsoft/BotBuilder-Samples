@@ -10,9 +10,9 @@ class CustomQABot extends ActivityHandler {
 
         try {
             this.qnaMaker = new CustomQuestionAnswering({
-                knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAEndpointKey,
-                host: process.env.QnAEndpointHostName
+                knowledgeBaseId: process.env.ProjectName,
+                endpointKey: process.env.LanguageEndpointKey,
+                host: process.env.LanguageEndpointHostName
             });
         } catch (err) {
             console.warn(`QnAMaker Exception: ${ err } Check your QnAMaker configuration in .env`);
@@ -34,9 +34,9 @@ class CustomQABot extends ActivityHandler {
 
         // When a user sends a message, perform a call to the QnA Maker service to retrieve matching Question and Answer pairs.
         this.onMessage(async (context, next) => {
-            if (!process.env.QnAKnowledgebaseId || !process.env.QnAEndpointKey || !process.env.QnAEndpointHostName) {
+            if (!process.env.ProjectName || !process.env.LanguageEndpointKey || !process.env.LanguageEndpointHostName) {
                 const unconfiguredQnaMessage = 'NOTE: \r\n' +
-                    'QnA Maker is not configured. To enable all capabilities, add `QnAKnowledgebaseId`, `QnAEndpointKey` and `QnAEndpointHostName` to the .env file. \r\n' +
+                    'QnA Maker is not configured. To enable all capabilities, add `ProjectName`, `LanguageEndpointKey` and `LanguageEndpointHostName` to the .env file. \r\n' +
                     'You may visit www.qnamaker.ai to create a QnA Maker knowledge base.';
 
                 await context.sendActivity(unconfiguredQnaMessage);

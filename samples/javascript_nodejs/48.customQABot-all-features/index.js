@@ -6,7 +6,7 @@
 // Import required packages
 const path = require('path');
 
-// Note: Ensure you have a .env file and include QnAKnowledgebaseId, QnAEndpointKey and QnAEndpointHostName.
+// Note: Ensure you have a .env file and include ProjectName, LanguageEndpointKey and LanguageEndpointHostName.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
@@ -15,7 +15,6 @@ const restify = require('restify');
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
-const { QnAMaker } = require('./node_modules/botbuilder-ai/lib/qnaMaker');
 
 const { CustomQABot } = require('./bots/CustomQABot');
 const { RootDialog } = require('./dialogs/rootDialog');
@@ -59,17 +58,17 @@ const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
-var endpointHostName = process.env.QnAEndpointHostName;
+var endpointHostName = process.env.LanguageEndpointHostName;
 if (!endpointHostName.startsWith('https://')) {
     endpointHostName = 'https://' + endpointHostName;
 }
 
 // To support backward compatibility for Key Names, fallback to process.env.QnAAuthKey.
-const endpointKey = process.env.QnAEndpointKey || process.env.QnAAuthKey;
+const endpointKey = process.env.LanguageEndpointKey || process.env.QnAAuthKey;
 
 // Create the main dialog.
 const dialog = new RootDialog(
-    process.env.QnAKnowledgebaseId,
+    process.env.ProjectName,
     endpointKey,
     endpointHostName,
     process.env.DefaultAnswer,
