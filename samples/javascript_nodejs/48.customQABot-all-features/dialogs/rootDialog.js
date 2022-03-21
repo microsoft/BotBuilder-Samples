@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-const { QnAMakerDialog, JoinOperator } = require('botbuilder-ai');
+const { QnAMakerDialog, JoinOperator, RankerTypes } = require('botbuilder-ai');
 const {
     ComponentDialog,
     DialogSet,
@@ -13,6 +13,15 @@ const { MessageFactory } = require('botbuilder');
 const INITIAL_DIALOG = 'initial-dialog';
 const ROOT_DIALOG = 'root-dialog';
 const QNAMAKER_BASE_DIALOG = 'qnamaker-base-dialog';
+const ACTIVE_LEARNING_CARD_TITLE = "Did you mean:";
+const ACTIVE_LEARNING_CARD_NO_MATCH_TEXT = "None of the above.";
+const ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE = "Thanks for your feedback.";
+const SCORE_THRESHOLD = 0.3;
+const TOP_ANSWERS = 5;
+const RANKER_TYPE = RankerTypes.default;
+const ISTEST = false;
+const INCLUDE_UNSTRUCTURED_SOURCES = true;
+
 
 /**
  * Creates QnAMakerDialog instance with provided configuraton values.
@@ -23,7 +32,18 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
         noAnswerActivity = MessageFactory.text(defaultAnswer);
     }
 
-    let qnaMakerDialog = new QnAMakerDialog(knowledgeBaseId, endpointKey, endpointHostName, noAnswerActivity);
+    let qnaMakerDialog = new QnAMakerDialog(
+        knowledgeBaseId,
+        endpointKey,
+        endpointHostName,
+        noAnswerActivity,
+        SCORE_THRESHOLD,
+        ACTIVE_LEARNING_CARD_TITLE, 
+        ACTIVE_LEARNING_CARD_NO_MATCH_TEXT,
+        TOP_ANSWERS,
+        ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE,
+        RANKER_TYPE
+        )
 
     // sample metadata for legacy and v2 QnA Maker API
     // For example, metadata pairs 'category':'api, 'language':'js' can be specified as below  
@@ -57,11 +77,18 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
     var displayPreciseAnswerOnly = false;
     if (displayPreciseAnswerOnlyRaw) {
         displayPreciseAnswerOnly = (displayPreciseAnswerOnlyRaw === 'true');
-        qnaMakerDialog.displayPreciseAnswerOnly = displayPreciseAnswerOnly;
     }
 
-    qnaMakerDialog.qnaServiceType = "language";
+    qnaMakerDialog.qnaServiceType = 'language';
     qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
+    // qnaMakerDialog.activeLearningCardTitle = ACTIVE_LEARNING_CARD_TITLE;
+    // qnaMakerDialog.cardNoMatchResponse = ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE;
+    // qnaMakerDialog.cardNoMatchText = ACTIVE_LEARNING_CARD_NO_MATCH_TEXT;
+    // qnaMakerDialog.threshold = SCORE_THRESHOLD;
+    // qnaMakerDialog.top = TOP_ANSWERS;
+    // qnaMakerDialog.rankerType = RANKER_TYPE;
+    qnaMakerDialog.isTest = ISTEST;
+    qnaMakerDialog.includeUnstructuredSources = INCLUDE_UNSTRUCTURED_SOURCES;
 
     return qnaMakerDialog;
 }
