@@ -47,20 +47,20 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private QnAMakerDialog CreateQnAMakerDialog(IConfiguration configuration)
         {
-            var hostname = configuration["QnAEndpointHostName"];
+            var hostname = configuration["LanguageEndpointHostName"];
             if (string.IsNullOrEmpty(hostname))
             {
                 throw new ArgumentException(nameof(hostname));
             }
             hostname = GetHostname(hostname);
 
-            var endpointKey = configuration["QnAEndpointKey"];
+            var endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(endpointKey))
             {
                 throw new ArgumentException(nameof(endpointKey));
             }
 
-            var knowledgeBaseId = configuration["QnAKnowledgeBaseId"];
+            var knowledgeBaseId = configuration["ProjectName"];
             if (string.IsNullOrEmpty(knowledgeBaseId))
             {
                 throw new ArgumentException(nameof(knowledgeBaseId));

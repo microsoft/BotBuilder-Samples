@@ -31,19 +31,19 @@ namespace Microsoft.BotBuilderSamples
             _logger = logger;
             _httpClientFactory = httpClientFactory;
 
-            _hostname = configuration["QnAEndpointHostName"];
+            _hostname = configuration["LanguageEndpointHostName"];
             if (string.IsNullOrEmpty(_hostname))
             {
                 throw new ArgumentException(nameof(_hostname));
             }
 
-            _endpointKey = configuration["QnAEndpointKey"];
+            _endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(_endpointKey))
             {
                 throw new ArgumentException(nameof(_endpointKey));
             }
 
-            _knowledgeBaseId = configuration["QnAKnowledgebaseId"];
+            _knowledgeBaseId = configuration["ProjectName"];
             if (string.IsNullOrEmpty(_knowledgeBaseId))
             {
                 throw new ArgumentException(nameof(_knowledgeBaseId));

@@ -16,14 +16,14 @@ In this sample, we demonstrate
 
 # Prerequisites
 - Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
-- Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `QnAKnowledgebaseId` in [appsettings.json](appsettings.json).
+- Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
 
 ### Connect your bot to the project.
 Follow these steps to update [appsettings.json](appsettings.json).
 - In the [Azure Portal][Azure], go to your resource.
 - Go to `Keys and Endpoint` under Resource Management.
-- Copy one of the keys as value of `QnAEndpointKey` and Endpoint as value of `QnAEndpointHostName` in [appsettings.json](appsettings.json).
-- `QnAKnowledgebaseId` is the name of the project created in [Language Studio][LS].
+- Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+- `ProjectName` is the name of the project created in [Language Studio][LS].
 
 # Configure knowledge base of the project
 - Visit [Language Studio][LS] and open created project.
