@@ -41,7 +41,7 @@ class CustomQABot extends ActivityHandler {
 
                 await context.sendActivity(unconfiguredQnaMessage);
             } else {
-                console.log('Calling QnA Maker');
+                console.log('Calling CQA');
 
                 const enablePreciseAnswer = process.env.EnablePreciseAnswer === 'true';
                 const displayPreciseAnswerOnly = process.env.DisplayPreciseAnswerOnly === 'true';

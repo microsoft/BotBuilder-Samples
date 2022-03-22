@@ -9,6 +9,7 @@ const {
     WaterfallDialog,
 } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
+const { ServiceType } = require('botbuilder-ai/lib/qnamaker-interfaces/serviceType');
 
 const INITIAL_DIALOG = 'initial-dialog';
 const ROOT_DIALOG = 'root-dialog';
@@ -79,7 +80,7 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
         displayPreciseAnswerOnly = (displayPreciseAnswerOnlyRaw === 'true');
     }
 
-    qnaMakerDialog.qnaServiceType = 'language';
+    qnaMakerDialog.qnaServiceType = ServiceType.language;
     qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
     // qnaMakerDialog.activeLearningCardTitle = ACTIVE_LEARNING_CARD_TITLE;
     // qnaMakerDialog.cardNoMatchResponse = ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE;
