@@ -11,10 +11,10 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : CloudAdapter
+    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
     {
-        public AdapterWithErrorHandler(BotFrameworkAuthentication botFrameworkAuthentication, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
-            : base(botFrameworkAuthentication, logger: logger)
+        public AdapterWithErrorHandler(ICredentialProvider credentialProvider, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState = null)
+            : base(credentialProvider: credentialProvider, logger: logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {
