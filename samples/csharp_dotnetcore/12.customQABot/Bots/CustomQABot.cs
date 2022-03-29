@@ -13,7 +13,7 @@ using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples
+namespace Microsoft.BotBuilderSamples.Bots
 {
     public class CustomQABot : ActivityHandler
     {
@@ -23,8 +23,8 @@ namespace Microsoft.BotBuilderSamples
         private readonly string _hostname;
         private readonly string _knowledgeBaseId;
         private readonly string _defaultWelcome = "Hello and Welcome";
-        private readonly bool _enablePreciseAnswer = true;
-        private readonly bool _displayPreciseAnswerOnly = false;
+        private readonly bool _enablePreciseAnswer;
+        private readonly bool _displayPreciseAnswerOnly;
 
         public CustomQABot(IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<CustomQABot> logger)
         {
@@ -61,7 +61,6 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-
             using var httpClient = _httpClientFactory.CreateClient();
 
             var customQuestionAnswering = CreateCustomQuestionAnsweringClient(httpClient);
@@ -73,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
 
             if (response?.Length > 0)
             {
-                var activities = new List<Activity>();
+                var activities = new List<IActivity>();
 
                 // Create answer activity.
                 var answerText = response[0].Answer;
@@ -97,6 +96,7 @@ namespace Microsoft.BotBuilderSamples
                         activities.Add(answer);
                     }
                 }
+
                 await turnContext.SendActivitiesAsync(activities.ToArray(), cancellationToken).ConfigureAwait(false);
             }
             else

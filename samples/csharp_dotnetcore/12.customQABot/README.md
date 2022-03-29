@@ -19,14 +19,14 @@ Follow these steps to update [appsettings.json](appsettings.json).
 
 # To try this sample
 
-- Install the Bot Framework Emulator version 4.3.0 or greater from [here][BFE]
+- Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
 - Clone the repository
 
     ```bash
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/csharp_dotnetcore/48.customQABot-all-features`
+- In a terminal, navigate to `samples/csharp_dotnetcore/12.customQABot`
 - Run the bot from a terminal or from Visual Studio, choose option A or B.
 
   A) From a terminal
@@ -40,7 +40,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/48.customQABot-all-features` folder
+  - Navigate to `samples/csharp_dotnetcore/12.customQABot` folder
   - Select `CustomQABotAllFeatures.csproj` file
   - Press `F5` to run the project
 - Connect to the bot using Bot Framework Emulator
@@ -84,5 +84,5 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 [PA]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
 [BF]: https://dev.botframework.com/
 [Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk
-[Azure]: https://ms.portal.azure.com
+[Azure]: https://portal.azure.com
 [BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
