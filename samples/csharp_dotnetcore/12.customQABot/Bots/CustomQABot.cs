@@ -30,24 +30,24 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             _logger = logger;
             _httpClientFactory = httpClientFactory;
-            const string ErrorMessage = "Configuration parameter is missing or empty.";
+            const string missingConfigError = "{0} is missing or empty in configuration.";
 
             _hostname = configuration["LanguageEndpointHostName"];
             if (string.IsNullOrEmpty(_hostname))
             {
-                throw new ArgumentException(ErrorMessage, "LanguageEndpointHostName");
+                throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointHostName"));
             }
 
             _endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(_endpointKey))
             {
-                throw new ArgumentException(ErrorMessage, "LanguageEndpointKey");
+                throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointKey"));
             }
 
             _knowledgeBaseId = configuration["ProjectName"];
             if (string.IsNullOrEmpty(_knowledgeBaseId))
             {
-                throw new ArgumentException(ErrorMessage, "ProjectName");
+                throw new ArgumentException(string.Format(missingConfigError, "ProjectName"));
             }
 
             var welcomeMsg = configuration["DefaultWelcomeMessage"];

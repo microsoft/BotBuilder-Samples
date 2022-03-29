@@ -47,25 +47,25 @@ namespace Microsoft.BotBuilderSamples.Dialogs
 
         private QnAMakerDialog CreateQnAMakerDialog(IConfiguration configuration)
         {
-            const string ErrorMessage = "Configuration parameter is missing or empty.";
+            const string missingConfigError = "{0} is missing or empty in configuration.";
 
             var hostname = configuration["LanguageEndpointHostName"];
             if (string.IsNullOrEmpty(hostname))
             {
-                throw new ArgumentException(ErrorMessage, "LanguageEndpointHostName");
+                throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointHostName"));
             }
             hostname = GetHostname(hostname);
 
             var endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(endpointKey))
             {
-                throw new ArgumentException(ErrorMessage, "LanguageEndpointKey");
+                throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointKey"));
             }
 
             var knowledgeBaseId = configuration["ProjectName"];
             if (string.IsNullOrEmpty(knowledgeBaseId))
             {
-                throw new ArgumentException(ErrorMessage, "ProjectName");
+                throw new ArgumentException(string.Format(missingConfigError, "ProjectName"));
             }
 
             var enablePreciseAnswer = !bool.TryParse(configuration["EnablePreciseAnswer"], out var _enablePreciseAnswer) || _enablePreciseAnswer;
