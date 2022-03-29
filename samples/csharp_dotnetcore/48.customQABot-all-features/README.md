@@ -25,7 +25,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 # Configure knowledge base of the project
 - Visit [Language Studio][LS] and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [Sample_qnas_for_CQA.tsv](CognitiveModels/Sample_qnas_for_CQA.tsv) file.
+- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
 - You can test your bot by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 

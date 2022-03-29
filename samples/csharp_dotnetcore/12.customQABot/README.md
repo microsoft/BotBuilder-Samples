@@ -17,6 +17,13 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
+# Configure knowledge base of the project
+- Visit [Language Studio][LS] and open created project.
+- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
+- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- You can test your bot by clicking on `Test` option.
+- Go to `Deploy knowledge base` and click on `Deploy`.
+
 # To try this sample
 
 - Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
