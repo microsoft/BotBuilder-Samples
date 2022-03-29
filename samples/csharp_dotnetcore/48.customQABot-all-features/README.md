@@ -31,7 +31,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 
 # To try this sample
 
-- Install the Bot Framework Emulator version 4.14.1 or greater from [here][BFE]
+- Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
 - Clone the repository
 
     ```bash
@@ -78,7 +78,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 # Try Precise Answering
 - Try the following queries:
   1) Accessibility
-  2) Register
+  2) Features
 - You can notice a short answer returned along with a long answer.
 - If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
@@ -150,18 +150,15 @@ The deployment process assumes you have an account on Microsoft Azure and are ab
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
 # Further reading
-* [Bot Framework Documentation][80]
-* [Bot Basics][90]
-* [Azure Bot Service Introduction][100]
-* [Azure Bot Service Documentation][110]
-* [Azure Portal][Azure]
-* [Active learning Documentation][AL]
-* [Multi-turn Conversations][MT]
-* [Precise Answering][PA]
+- [How bots work][90]
+- [Question Answering Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Active learning Documentation][AL]
+- [Multi-turn Conversations][MT]
+- [Precise Answering][PA]
 
 [50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
 [70]: https://azure.microsoft.com/get-started/
-[80]: https://docs.botframework.com
 [90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
 [100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0

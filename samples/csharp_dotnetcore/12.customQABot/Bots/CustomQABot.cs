@@ -34,19 +34,19 @@ namespace Microsoft.BotBuilderSamples.Bots
             _hostname = configuration["LanguageEndpointHostName"];
             if (string.IsNullOrEmpty(_hostname))
             {
-                throw new ArgumentException(nameof(_hostname));
+                throw new ArgumentNullException(nameof(_hostname));
             }
 
             _endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(_endpointKey))
             {
-                throw new ArgumentException(nameof(_endpointKey));
+                throw new ArgumentNullException(nameof(_endpointKey));
             }
 
             _knowledgeBaseId = configuration["ProjectName"];
             if (string.IsNullOrEmpty(_knowledgeBaseId))
             {
-                throw new ArgumentException(nameof(_knowledgeBaseId));
+                throw new ArgumentNullException(nameof(_knowledgeBaseId));
             }
 
             var welcomeMsg = configuration["DefaultWelcomeMessage"];
@@ -70,7 +70,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var options = new QnAMakerOptions { Top = 1, EnablePreciseAnswer = _enablePreciseAnswer };
             var response = await customQuestionAnswering.GetAnswersAsync(turnContext, options);
 
-            if (response?.Length > 0)
+            if (response.Length > 0)
             {
                 var activities = new List<IActivity>();
 
