@@ -6,9 +6,16 @@ This bot has been created using [Bot Framework][BF], it shows how to create a bo
 
 The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents or editorial content in minutes. In this sample, we demonstrate how to use the Custom question answering feature in Language Service to answer questions based on a FAQ text file used as input.
 
-# Prerequisites
-- Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+## Prerequisites
+- This project requires a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+
+### Configure knowledge base of the project
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
+- Visit [Language Studio][LS] and open created project.
+- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
+- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- You can test your knowledge base by clicking on `Test` option.
+- Go to `Deploy knowledge base` and click on `Deploy`.
 
 ### Connect your bot to the project.
 Follow these steps to update [appsettings.json](appsettings.json).
@@ -17,14 +24,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
-# Configure knowledge base of the project
-- Visit [Language Studio][LS] and open created project.
-- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
-- You can test your bot by clicking on `Test` option.
-- Go to `Deploy knowledge base` and click on `Deploy`.
-
-# To try this sample
+## To try this sample
 
 - Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
 - Clone the repository
@@ -55,16 +55,17 @@ Follow these steps to update [appsettings.json](appsettings.json).
   2) File -> Open Bot
   3) Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Try Precise Answering
-- Try the following queries:
+## Try precise answering
+- Try the following utterances:
   1) Accessibility
   2) Register
-- You can notice a short answer returned along with a long answer.
+- You will notice a short answer returned along with a long answer.
 - If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
-- You can set `DisplayPreciseAnswerOnly` in [appsettings.json](appsettings.json) to true to display just precise answers in the response.
+- You can set `DisplayPreciseAnswerOnly` to true in [appsettings.json](appsettings.json) to display just precise answers in the response.
+- Learn more about [precise answering][PA].
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].

@@ -54,7 +54,6 @@ namespace Microsoft.BotBuilderSamples.Dialogs
             {
                 throw new ArgumentException(string.Format(missingConfigError, "LanguageEndpointHostName"));
             }
-            hostname = GetHostname(hostname);
 
             var endpointKey = configuration["LanguageEndpointKey"];
             if (string.IsNullOrEmpty(endpointKey))
@@ -68,8 +67,8 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 throw new ArgumentException(string.Format(missingConfigError, "ProjectName"));
             }
 
-            var enablePreciseAnswer = !bool.TryParse(configuration["EnablePreciseAnswer"], out var _enablePreciseAnswer) || _enablePreciseAnswer;
-            var displayPreciseAnswerOnly = !bool.TryParse(configuration["DisplayPreciseAnswerOnly"], out var _displayPreciseAnswerOnly) || _displayPreciseAnswerOnly;
+            var enablePreciseAnswer = bool.Parse(configuration["EnablePreciseAnswer"]);
+            var displayPreciseAnswerOnly = bool.Parse(configuration["DisplayPreciseAnswerOnly"]);
 
             // Create a new instance of QnAMakerDialog with dialogOptions initialized.
             var noAnswer = MessageFactory.Text(configuration["DefaultAnswer"] ?? string.Empty);
@@ -87,18 +86,13 @@ namespace Microsoft.BotBuilderSamples.Dialogs
                 RankerType = RankerType,
                 IsTest = IsTest
             };
+
             return qnamakerDialog;
         }
 
-        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken) => await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
-
-        private static string GetHostname(string hostname)
+        private async Task<DialogTurnResult> InitialStepAsync(WaterfallStepContext stepContext, CancellationToken cancellationToken)
         {
-            if (!hostname.StartsWith("https://"))
-            {
-                hostname = string.Concat("https://", hostname);
-            }
-            return hostname;
+            return await stepContext.BeginDialogAsync(nameof(QnAMakerDialog), null, cancellationToken);
         }
     }
 }

@@ -11,9 +11,16 @@ The [Custom question answering feature in Language Service][LS] enables you to b
 - How to configure display of precise answers.
 - How to enable/disable querying unstructured sources with the bot.
 
-# Prerequisites
-- Create a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+## Prerequisites
+- This project requires a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+
+### Configure knowledge base of the project
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
+- Visit [Language Studio][LS] and open created project.
+- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
+- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- You can test your knowledge base by clicking on `Test` option.
+- Go to `Deploy knowledge base` and click on `Deploy`.
 
 ### Connect your bot to the project.
 Follow these steps to update [appsettings.json](appsettings.json).
@@ -22,14 +29,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
-# Configure knowledge base of the project
-- Visit [Language Studio][LS] and open created project.
-- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
-- You can test your bot by clicking on `Test` option.
-- Go to `Deploy knowledge base` and click on `Deploy`.
-
-# To try this sample
+## To try this sample
 
 - Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
 - Clone the repository
@@ -60,40 +60,41 @@ Follow these steps to update [appsettings.json](appsettings.json).
   2) File -> Open Bot
   3) Enter a Bot URL of `http://localhost:3978/api/messages`
 
-# Try Active Learning
-- Try the following queries:
-  1) Surface
-  2) Features
-- In Language Studio, click on inspect to see closeness in scores of returned answers.
-- In [Bot Framework Emulator][BFE], a card is generated with suggestions shown.
+## Try Active Learning
+- Try the following utterances:
+  1) Surface Book
+  2) Power
+- In Language Studio, click on inspect to see the closeness in the scores of the returned answers.
+- In [Bot Framework Emulator][BFE], a card is generated with the suggestions.
   - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
   - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
 
-# Try Multi-turn prompt
-- Try the following queries:
+## Try Multi-turn prompt
+- Try the following utterances:
   1) Accessibility
   2) Options
-- You will notice that multi-turn prompts associated with the question are also returned with response.
+- You will notice that multi-turn prompts associated with the question are also returned in the responses.
 
-# Try Precise Answering
-- Try the following queries:
+## Try Precise Answering
+- Try the following utterances:
   1) Accessibility
-  2) Features
-- You can notice a short answer returned along with a long answer.
+  2) Register
+- You will notice a short answer returned along with a long answer.
 - If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
-- You can set `DisplayPreciseAnswerOnly` in [appsettings.json](appsettings.json) to true to display just precise answers in the response.
+- You can set `DisplayPreciseAnswerOnly` to true in [appsettings.json](appsettings.json) to display just precise answers in the response.
+- Learn more about [precise answering][PA].
 
-# Query unstructured content
+## Query unstructured content
 - Go to your project in [Language Studio][LS] -> In `Manage sources` click on `+ Add source`
-- Click on `URLs` and add [this](https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/) link by classifying it as **unstructured** under `Classify file structure`.
-- Sample queries:
+- Click on `URLs` and add `https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/` and select **unstructured** in the `Classify file structure` dropdown.
+- Try the following utterances:
   1) Frontline workers
   2) Hybrid work solutions
 - You can observe that, answers are returned with high score.
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
-# Try Filters
+## Try Filters
 - Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
 - Select a QnA to edit and add a key value pair, say `Language` : `CSharp`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : CSharp`) by clicking on **Show advanced options**.
@@ -115,7 +116,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
     // Initialize Filters with filters in line No. 79
     ```    
 
-# Microsoft Teams channel group chat fix
+## Microsoft Teams channel group chat fix
 When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot` `How to build a bot?` to get answers from the service.
 However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to Custom question answering service which may not give expected results for question to bot. The following code removes `<at>HelpBot</at>` mentions of the bot from the message and sends the remaining text as query to the service.
 - Goto `Bot/CustomQABot.cs`
@@ -142,14 +143,14 @@ However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to 
         }
     ```
 
-# Deploy the bot to Azure
+## Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].
 
 If you are new to Microsoft Azure, please refer to [Getting started with Azure][70] for guidance on how to get started on Azure.
 
-# Further reading
+## Further reading
 - [How bots work][90]
 - [Question Answering Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)

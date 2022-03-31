@@ -56,8 +56,8 @@ namespace Microsoft.BotBuilderSamples.Bots
                 _defaultWelcome = welcomeMsg;
             }
 
-            _enablePreciseAnswer = !bool.TryParse(configuration["EnablePreciseAnswer"], out var enablePreciseAnswer) || enablePreciseAnswer;
-            _displayPreciseAnswerOnly = !bool.TryParse(configuration["DisplayPreciseAnswerOnly"], out var displayPreciseAnswerOnly) || displayPreciseAnswerOnly;
+            _enablePreciseAnswer = bool.Parse(configuration["EnablePreciseAnswer"]);
+            _displayPreciseAnswerOnly = bool.Parse(configuration["DisplayPreciseAnswerOnly"]);
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)

@@ -27,6 +27,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 _defaultWelcome = welcomeMsg;
             }
+
             _conversationState = conversationState;
             _userState = userState;
             _dialog = dialog;
