@@ -89,7 +89,6 @@ server.listen(process.env.port || process.env.PORT || 3978, function() {
 // Listen for incoming requests.
 server.post('/api/messages', (req, res) => {
     adapter.processActivity(req, res, async (turnContext) => {
-        debugger;
         // Route the message to the bot's main handler.
         await bot.run(turnContext);
     });

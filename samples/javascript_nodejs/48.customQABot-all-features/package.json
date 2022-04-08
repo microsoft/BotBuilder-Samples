@@ -1,14 +1,14 @@
 {
   "name": "customqa-bot",
   "version": "1.0.0",
-  "description": "Bot Builder v4 using QnA Maker service with active learning and multi-turn experience.",
+  "description": "Bot Builder v4 using Custom Question Answering with active learning and multi-turn experience.",
   "author": "Microsoft",
   "license": "MIT",
   "main": "index.js",
   "scripts": {
     "start": "node ./index.js",
     "watch": "nodemon ./index.js",
-    "lint": "./node_modules/.bin/eslint .",
+    "lint": "eslint .",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {

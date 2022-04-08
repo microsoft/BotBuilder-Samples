@@ -41,7 +41,7 @@ class CustomQABot extends ActivityHandler {
             for (let cnt = 0; cnt < membersAdded.length; cnt++) {
                 if (membersAdded[cnt].id !== context.activity.recipient.id) {
                     const defaultWelcome = process.env.DefaultWelcomeMessage;
-                    if (defaultWelcome != "") await context.sendActivity(defaultWelcome);
+                    if (defaultWelcome !== '') await context.sendActivity(defaultWelcome);
                     else await context.sendActivity('Welcome to the QnA Maker sample! Ask me a question and I will try to answer it.');
                 }
             }

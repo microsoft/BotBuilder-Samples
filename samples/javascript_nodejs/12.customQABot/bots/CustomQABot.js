@@ -36,8 +36,8 @@ class CustomQABot extends ActivityHandler {
         this.onMessage(async (context, next) => {
             if (!process.env.ProjectName || !process.env.LanguageEndpointKey || !process.env.LanguageEndpointHostName) {
                 const unconfiguredQnaMessage = 'NOTE: \r\n' +
-                    'QnA Maker is not configured. To enable all capabilities, add `ProjectName`, `LanguageEndpointKey` and `LanguageEndpointHostName` to the .env file. \r\n' +
-                    'You may visit www.qnamaker.ai to create a QnA Maker knowledge base.';
+                    'Custom Question Answering is not configured. To enable all capabilities, add `ProjectName`, `LanguageEndpointKey` and `LanguageEndpointHostName` to the .env file. \r\n' +
+                    'You may visit https://language.cognitive.azure.com/ to create a Custom Question Answering Project.';
 
                 await context.sendActivity(unconfiguredQnaMessage);
             } else {
@@ -47,8 +47,8 @@ class CustomQABot extends ActivityHandler {
                 const displayPreciseAnswerOnly = process.env.DisplayPreciseAnswerOnly === 'true';
                 const response = await this.qnaMaker.getAnswers(context, { enablePreciseAnswer: enablePreciseAnswer });
 
-                // If an answer was received from QnA Maker, send the answer back to the user.
-                if (response?.length > 0) {
+                // If an answer was received from CQA, send the answer back to the user.
+                if (response.length > 0) {
                     var activities = [];
 
                     var answerText = response[0].answer;
@@ -61,12 +61,12 @@ class CustomQABot extends ActivityHandler {
                         activities.push({ type: ActivityTypes.Message, text: preciseAnswerText });
 
                         if (!displayPreciseAnswerOnly) {
-                        // Add answer to the reply when it is configured.
+                            // Add answer to the reply when it is configured.
                             activities.push({ type: ActivityTypes.Message, text: answerText });
                         }
                     }
                     await context.sendActivities(activities);
-                // If no answers were returned from QnA Maker, reply with help.
+                    // If no answers were returned from QnA Maker, reply with help.
                 } else {
                     await context.sendActivity('No answers were found.');
                 }

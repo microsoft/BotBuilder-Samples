@@ -1,7 +1,7 @@
 {
   "name": "qnamaker",
   "version": "1.0.0",
-  "description": "Bot Builder v4 using QnA Maker service",
+  "description": "Bot Builder v4 using Custom Question Answering in Language",
   "author": "Microsoft",
   "license": "MIT",
   "main": "index.js",
