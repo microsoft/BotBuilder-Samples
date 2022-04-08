@@ -1,0 +1,22 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Installs tools and frameworks needed to run the pipeline
+#
+
+steps:
+- task: NodeTool@0
+  displayName: 'Use Node 13.x'
+  inputs:
+    versionSpec: 13.x
+
+- task: Npm@1
+  displayName: 'Use BF CLI'
+  inputs:
+    command: 'custom'
+    customCommand: 'install -g @microsoft/botframework-cli'
+
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk 3.1.x'
+  inputs:
+    version: 3.1.x

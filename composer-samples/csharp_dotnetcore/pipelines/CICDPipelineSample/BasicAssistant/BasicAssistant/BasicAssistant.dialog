@@ -1,0 +1,363 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "BasicAssistant",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.IfCondition",
+                  "$designer": {
+                    "id": "Y1t1k4"
+                  },
+                  "condition": "exists(user.greeted)",
+                  "actions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "yXbfKT"
+                      },
+                      "activity": "${SendActivity_GreetingReturningUser()}"
+                    }
+                  ],
+                  "elseActions": [
+                    {
+                      "$kind": "Microsoft.SendActivity",
+                      "$designer": {
+                        "id": "XZRD8m"
+                      },
+                      "activity": "${SendActivity_GreetingNewUser()}"
+                    },
+                    {
+                      "$kind": "Microsoft.SetProperty",
+                      "$designer": {
+                        "id": "eV86Nf"
+                      },
+                      "property": "user.greeted",
+                      "value": "true"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "YQ6GAt",
+        "name": "Bot tour"
+      },
+      "intent": "BotTour",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "6JAmBh"
+          },
+          "activityProcessed": true,
+          "dialog": "BotTourDialog",
+          "resultProperty": "turn.result"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "0tDgZH"
+          },
+          "condition": "=not(turn.result)",
+          "elseActions": [],
+          "actions": [
+            {
+              "$kind": "Microsoft.RepeatDialog",
+              "$designer": {
+                "id": "JpprmM"
+              },
+              "activityProcessed": false
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "e1i6lY",
+        "name": "Cancel"
+      },
+      "intent": "Cancel",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "FDsuIq"
+          },
+          "activityProcessed": true,
+          "dialog": "CancelDialog"
+        }
+      ],
+      "condition": "=turn.recognized.score > 0.9"
+    },
+    {
+      "$kind": "Microsoft.OnChooseIntent",
+      "$designer": {
+        "id": "YuA75w"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "VutAjG"
+          },
+          "assignments": [
+            {
+              "property": "turn.minThreshold",
+              "value": 0.5
+            },
+            {
+              "property": "turn.maxChoices",
+              "value": 3
+            },
+            {
+              "property": "conversation.lastAmbiguousUtterance",
+              "value": "=turn.activity.text"
+            },
+            {
+              "property": "dialog.candidates",
+              "value": "=take(sortByDescending(where(flatten(select(turn.recognized.candidates, x, if (x.intent==\"ChooseIntent\", x.result.candidates, x))), c, not(startsWith(c.intent, \"DeferToRecognizer_QnA\")) && c.score > turn.minThreshold), 'score'), turn.maxChoices)"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SwitchCondition",
+          "$designer": {
+            "id": "uCZ5AG"
+          },
+          "condition": "=count(dialog.candidates)",
+          "cases": [
+            {
+              "value": "0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EmitEvent",
+                  "$designer": {
+                    "id": "s7XJNJ"
+                  },
+                  "eventName": "unknownIntent"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "xORMrt"
+                  }
+                }
+              ]
+            },
+            {
+              "value": "1",
+              "actions": [
+                {
+                  "$kind": "Microsoft.EmitEvent",
+                  "$designer": {
+                    "id": "1dcLLx"
+                  },
+                  "eventName": "recognizedIntent",
+                  "eventValue": "=first(dialog.candidates).result"
+                },
+                {
+                  "$kind": "Microsoft.EndDialog",
+                  "$designer": {
+                    "id": "h5Aagx"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "id": "I11eFC"
+          },
+          "maxTurnCount": 3,
+          "alwaysPrompt": true,
+          "allowInterruptions": false,
+          "prompt": "${SendActivity_ChooseIntentPrompt()}",
+          "property": "turn.intentChoice",
+          "value": "=@userChosenIntent",
+          "top": 3,
+          "cardNoMatchResponse": "Thanks for the feedback.",
+          "cardNoMatchText": "None of the above.",
+          "activeLearningCardTitle": "Did you mean:",
+          "threshold": 0.3,
+          "noAnswer": "Sorry, I did not find an answer.",
+          "hostname": "=settings.qna.hostname",
+          "endpointKey": "=settings.qna.endpointkey",
+          "knowledgeBaseId": "=settings.qna.knowledgebaseid"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "tjutdL"
+          },
+          "condition": "turn.intentChoice != 'none'",
+          "actions": [
+            {
+              "$kind": "Microsoft.EmitEvent",
+              "$designer": {
+                "id": "IazF4M"
+              },
+              "eventName": "recognizedIntent",
+              "eventValue": "=dialog.candidates[int(turn.intentChoice)].result"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "48DXRF"
+              },
+              "activity": "${SendActivity_ChooseNoIntent()}"
+            }
+          ],
+          "top": 3,
+          "cardNoMatchResponse": "Thanks for the feedback.",
+          "cardNoMatchText": "None of the above.",
+          "activeLearningCardTitle": "Did you mean:",
+          "threshold": 0.3,
+          "noAnswer": "Sorry, I did not find an answer.",
+          "hostname": "=settings.qna.hostname",
+          "endpointKey": "=settings.qna.endpointkey",
+          "knowledgeBaseId": "=settings.qna.knowledgebaseid"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnError",
+      "$designer": {
+        "id": "aLQGr7"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "Aucn7t"
+          },
+          "eventName": "ErrorOccurred",
+          "properties": {
+            "Type": "=turn.dialogEvent.value.className",
+            "Exception": "=turn.dialogEvent.value"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "2outgQ"
+          },
+          "activity": "${SendActivity_ErrorOccured()}"
+        },
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "NVFqr5"
+          },
+          "name": "=turn.dialogEvent.value.className",
+          "valueType": "Exception",
+          "value": "=turn.dialogEvent.value",
+          "label": "ErrorOccurred"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "pRdAAf",
+        "name": "Feedback"
+      },
+      "intent": "Feedback",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "2pSztz"
+          },
+          "activityProcessed": true,
+          "dialog": "FeedbackDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "9wETGs",
+        "name": "Help"
+      },
+      "intent": "Help",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "B0NP8m"
+          },
+          "activityProcessed": true,
+          "dialog": "HelpDialog"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "v9Stie",
+        "name": "Unknown intent"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "VogQ3v"
+          },
+          "condition": "exists(turn.activity.text)",
+          "actions": [
+            {
+              "$kind": "Microsoft.BeginDialog",
+              "$designer": {
+                "id": "P9A5BW"
+              },
+              "activityProcessed": false,
+              "dialog": "ChitchatDialog"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "BasicAssistant.lg",
+  "id": "BasicAssistant",
+  "recognizer": "BasicAssistant.lu.qna"
+}

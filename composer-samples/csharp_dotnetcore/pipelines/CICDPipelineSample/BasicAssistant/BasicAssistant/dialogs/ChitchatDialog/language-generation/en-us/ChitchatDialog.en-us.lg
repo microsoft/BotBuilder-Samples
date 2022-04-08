@@ -1,0 +1,21 @@
+[import](common.lg)
+
+# TextInput_Prompt_QnaMultiTurnResponse()
+[Activity
+    Text = ${expandText(@answer)}
+    SuggestedActions = ${foreach(turn.recognized.answers[0].context.prompts, x, x.displayText)}
+]
+
+# SendActivity_QnaResponse()
+- ${expandText(@answer)}
+
+# SendActivity_DidNotUnderstand()
+[Activity
+    Text = ${SendActivity_DidNotUnderstand_text()}
+]
+
+# SendActivity_DidNotUnderstand_text()
+- I'm not sure I understand. Can you please try again?
+- Hmm, I don't understand. Can you try to ask me in a different way.
+- I didn't get that. Would you mind rephrasing and try it again.
+- Unfortunately I misunderstood, please try again.
