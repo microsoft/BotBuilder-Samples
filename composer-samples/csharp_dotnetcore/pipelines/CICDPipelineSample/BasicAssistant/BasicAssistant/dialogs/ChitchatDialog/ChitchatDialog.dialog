@@ -1,0 +1,116 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iY2JNb",
+    "name": "ChitchatDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnQnAMatch",
+      "$designer": {
+        "id": "dY3QID"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1mbleA"
+          },
+          "condition": "count(turn.recognized.answers[0].context.prompts) > 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "lZmWLf"
+              },
+              "property": "dialog.qnaContext",
+              "value": "=turn.recognized.answers[0].context.prompts"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "3kKt2n"
+              },
+              "maxTurnCount": 3,
+              "alwaysPrompt": true,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_QnaMultiTurnResponse()}",
+              "property": "turn.qnaMultiTurnResponse"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "6vtzyA"
+              },
+              "property": "turn.qnaMatchFromContext",
+              "value": "=where(dialog.qnaContext, item, item.displayText == turn.qnaMultiTurnResponse)"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "DaLmve"
+              },
+              "property": "dialog.qnaContext"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "qYZxID"
+              },
+              "condition": "turn.qnaMatchFromContext && count(turn.qnaMatchFromContext) > 0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ko5kOa"
+                  },
+                  "property": "turn.qnaIdFromPrompt",
+                  "value": "=turn.qnaMatchFromContext[0].qnaId"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EmitEvent",
+              "$designer": {
+                "id": "xkyGsI"
+              },
+              "eventName": "activityReceived",
+              "eventValue": "=turn.activity"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zIdYcy"
+              },
+              "activity": "${SendActivity_QnaResponse()}"
+            }
+          ]
+        }
+      ],
+      "condition": "=turn.recognized.score > 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "uZeXEF"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "gc2wn4"
+          },
+          "activity": "${SendActivity_DidNotUnderstand()}"
+        }
+      ]
+    }
+  ],
+  "generator": "ChitchatDialog.lg",
+  "recognizer": "ChitchatDialog.lu.qna",
+  "id": "ChitchatDialog"
+}
