@@ -43,8 +43,8 @@
             "type": "string"
         },
         "appType": {
-            "type": "string",
             "defaultValue": "MultiTenant",
+            "type": "string",
             "allowedValues": [
                 "MultiTenant",
                 "SingleTenant",

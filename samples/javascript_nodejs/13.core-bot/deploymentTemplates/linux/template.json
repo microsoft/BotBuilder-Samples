@@ -69,31 +69,31 @@
         "botEndpoint": "[concat('https://', variables('siteHost'), '/api/messages')]",
         "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('existingUserAssignedMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('existingUserAssignedMSIName'))]",
         "appTypeDef": {
-          "MultiTenant": {
-            "tenantId": "",
-            "msiResourceId": "",
-            "identity": { "type": "None" }
-          },
-          "SingleTenant": {
-            "tenantId": "[parameters('tenantId')]",
-            "msiResourceId": "",
-            "identity": { "type": "None" }
-          },
-          "UserAssignedMSI": {
-            "tenantId": "[parameters('tenantId')]",
-            "msiResourceId": "[variables('msiResourceId')]",
-            "identity": {
-                "type": "UserAssigned",
-                "userAssignedIdentities": {
-                    "[variables('msiResourceId')]": {}
+            "MultiTenant": {
+                "tenantId": "",
+                "msiResourceId": "",
+                "identity": { "type": "None" }
+            },
+            "SingleTenant": {
+                "tenantId": "[parameters('tenantId')]",
+                "msiResourceId": "",
+                "identity": { "type": "None" }
+            },
+            "UserAssignedMSI": {
+                "tenantId": "[parameters('tenantId')]",
+                "msiResourceId": "[variables('msiResourceId')]",
+                "identity": {
+                    "type": "UserAssigned",
+                    "userAssignedIdentities": {
+                        "[variables('msiResourceId')]": {}
+                    }
                 }
             }
-          }
         },
         "appType": {
-          "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
-          "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
-          "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
+            "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
+            "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
+            "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
         }
     },
     "resources": [
@@ -116,12 +116,12 @@
             "type": "Microsoft.Web/sites",
             "apiVersion": "2016-08-01",
             "name": "[parameters('botName')]",
+            "identity": "[variables('appType').identity]",
             "location": "[parameters('location')]",
             "dependsOn": [
                 "[resourceId('Microsoft.Web/serverfarms', parameters('botName'))]"
             ],
             "kind": "app,linux",
-            "identity": "[variables('appType').identity]",
             "properties": {
                 "enabled": true,
                 "hostNameSslStates": [
