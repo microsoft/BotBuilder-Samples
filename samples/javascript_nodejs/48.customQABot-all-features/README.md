@@ -18,7 +18,7 @@ The [Custom question answering feature in Language Service][LS] enables you to b
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env file](.env).
 - Visit [Language Studio][LS] and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- Import [SampleForCQA.tsv](cognitiveModels/SampleForCQA.tsv) file.
 - You can test your knowledge base by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
@@ -63,7 +63,7 @@ Follow these steps to update [.env file](.env).
 - In Language Studio, click on inspect to see the closeness in the scores of the returned answers.
 - In [Bot Framework Emulator][BFE], a card is generated with the suggestions.
   - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
-  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [rootdialog.js](dialogs/rootdialog.js).
+  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [rootDialog.js](dialogs/rootDialog.js).
 
 ## Try Multi-turn prompt
 - Try the following utterances:
@@ -95,9 +95,9 @@ Follow these steps to update [.env file](.env).
 - Select a QnA to edit and add a key value pair, say `Language` : `Javascript`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : Javascript`) by clicking on **Show advanced options**.
 - This will return answers with specified metadata only.
-- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in rootdialog.js to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in rootDialog.js to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
     ```js
-    //Add below lines in line no. 54 in rootdialog.js
+    //Add below lines in line no. 54 in rootDialog.js
     var filters = {
         metadataFilter: {
             metadata: [
@@ -142,7 +142,7 @@ However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to 
     ```
 
 ## Deploy the bot to Azure
-See [Deploy your C# bot to Azure][50] for instructions.
+See [Deploy your bot to Azure][50] for instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].
 
