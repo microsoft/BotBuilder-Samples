@@ -95,7 +95,7 @@ Follow these steps to update [.env file](.env).
 - Select a QnA to edit and add a key value pair, say `Language` : `Javascript`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : Javascript`) by clicking on **Show advanced options**.
 - This will return answers with specified metadata only.
-- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in rootDialog.js to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 54 in rootDialog.js to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
     ```js
     //Add below lines in line no. 54 in rootDialog.js
     var filters = {
