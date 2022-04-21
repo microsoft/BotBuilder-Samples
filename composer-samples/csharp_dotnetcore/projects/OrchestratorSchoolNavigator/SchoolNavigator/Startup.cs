@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Bot.Builder.Integration.Runtime.Extensions;
+using Microsoft.AspNetCore.StaticFiles;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 
 namespace SchoolNavigator
 {
@@ -10,7 +12,7 @@ namespace SchoolNavigator
     {
         public Startup(IConfiguration configuration)
         {
-            this.Configuration = configuration;
+            Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
@@ -19,22 +21,36 @@ namespace SchoolNavigator
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers().AddNewtonsoftJson();
-            services.AddBotRuntime(this.Configuration);
+            services.AddBotRuntime(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-#pragma warning disable CA1801 // Review unused parameters
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
-#pragma warning restore CA1801 // Review unused parameters
         {
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+
             app.UseDefaultFiles();
-            app.UseStaticFiles();
+
+            // Set up custom content types - associating file extension to MIME type.
+            var provider = new FileExtensionContentTypeProvider();
+            provider.Mappings[".lu"] = "application/vnd.microsoft.lu";
+            provider.Mappings[".qna"] = "application/vnd.microsoft.qna";
+
+            // Expose static files in manifests folder for skill scenarios.
+            app.UseStaticFiles(new StaticFileOptions
+            {
+                ContentTypeProvider = provider
+            });
             app.UseWebSockets();
-            app.UseRouting()
-               .UseEndpoints(endpoints =>
-               {
-                   endpoints.MapControllers();
-               });
+            app.UseRouting();
+            app.UseAuthorization();
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }
