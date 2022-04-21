@@ -1,0 +1,221 @@
+[import](common.lg)
+
+# SendActivity_BotTourOverview()
+[Activity
+    Attachments = ${SendActivity_BotTourOverview_attachment_adaptiveCard()}
+]
+
+# SendActivity_BotTourOverview_attachment_adaptiveCard()
+> OverviewCard
+- ```${json(CardTemplate(BotTourHeader(), ExpandableListCardBody(createArray(BotTourOption(BotTourContentTextOne()),BotTourOption(BotTourContentTextTwo()),BotTourOption(BotTourContentTextThree())), 5), ''))}```
+
+# SendActivity_BotTourDetails()
+[Activity
+    Attachments = ${SendActivity_BotTourDetails_attachment_adaptiveCard()}
+]
+
+# SendActivity_BotTourDetails_attachment_adaptiveCard()
+> DetailsCard
+- ```${json(CardTemplate(BotTourDetailsCardHeader(),BotTourDetailsCardBody(), BotTourDetailsCardActions()))}```
+
+# BotTourTitle()
+- You can ask me...
+
+# SkillTitle()
+- Your skill
+
+# BotTourContentTextOne()
+- A first time user experience is helpful in onboarding users.
+
+# BotTourContentTextTwo()
+- You can provide a short description for core capabilities.
+
+# BotTourContentTextThree()
+- You can also provide samples to trigger connected skills.
+
+# BotTourDetailsCardText()
+- You can provide a more detailed description of your skill, as well as sample utterances users can say to get started.
+
+# BotTourHeader
+- ```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "spacing":"none",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${BotTourIconUrl()}",
+                            "horizontalAlignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width":"90",
+                    "spacing":"small",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${BotTourTitle()}",
+                            "size": "large",
+                            "weight": "Bolder"
+                        }
+                    ]
+                }
+            ]
+        }        
+    ]
+}
+```
+
+# BotTourOption(subtitle)
+-```
+{
+   "type":"Container",
+   "spacing": "medium",
+   "items":[
+      {
+         "type":"ColumnSet",
+         "columns":[
+            {
+               "type":"Column",
+                "verticalContentAlignment": "top",
+               "items":[
+                  {
+                     "type":"Image",
+                     "url":"${PlaceholderIconUrl()}",
+                     "horizontalAlignment":"center"
+                  }
+               ],
+               "width":10
+            },
+            {
+                "type":"Column",
+                "width":90,
+                "spacing":"small",
+                "verticalContentAlignment": "top",
+                "items":[
+                    {
+                        "type":"TextBlock",
+                        "text":"${SkillTitle()}",
+                        "size":"medium"
+                    },
+                    {
+                        "type":"TextBlock",
+                        "text":"${subtitle}",
+                        "wrap":true,
+                        "size":"default",
+                        "spacing": "Small",
+                        "maxLines":2
+                    }
+               ]
+            }
+         ]
+      }
+   ],
+   "selectAction":{
+      "type":"Action.Submit",
+      "title":"DetailsCard",
+      "data":{
+         "intent":"DetailsCard"
+      }
+   },
+   "separator": true
+}
+```
+
+# BotTourDetailsCardHeader()
+- ```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "spacing":"none",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${PlaceholderIconUrl()}",
+                            "horizontalAlignment": "center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width":"90",
+                    "spacing":"small",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${SkillTitle()}",
+                            "size": "large",
+                            "weight": "Bolder"
+                        }
+                    ]
+                }
+            ]
+        }        
+    ]
+}
+```
+
+# BotTourDetailsCardBody()
+-```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "TextBlock",
+            "text": "${BotTourDetailsCardText()}",
+            "wrap": true
+        }        
+    ]
+}
+```
+
+# BotTourDetailsCardActions()
+- ```
+{
+    "type": "ActionSet",
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "\"What's next on my calendar?\"",
+            "data": {
+                "intent": "SampleAction"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "\"Whats the forecast tomorrow?\"",
+            "data": {
+                "intent": "SampleAction"
+            }
+        },
+        {
+            "type": "Action.Submit",
+            "title": "\"Set a timer\"",
+            "data": {
+                "intent": "SampleAction"
+            }
+        }
+    ]
+}
+```
+
+

@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "QnA_ChitchatDialog",
+  "recognizers": {
+    "en-us": "ChitchatDialog.en-us.qna",
+    "": "ChitchatDialog.en-us.qna"
+  }
+}

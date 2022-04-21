@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
-    <UserSecretsId>RunBot</UserSecretsId>
     <Configurations>Debug;Release</Configurations>
     <!-- The Jurrasic package isn't signed, so supress the warning. -->
     <NoWarn>$(NoWarn),CS8002</NoWarn>

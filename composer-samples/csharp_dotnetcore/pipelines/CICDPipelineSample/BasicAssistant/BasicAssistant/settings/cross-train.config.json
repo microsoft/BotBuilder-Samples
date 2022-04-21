@@ -1,0 +1,22 @@
+{
+  "BasicAssistant.en-us": {
+    "rootDialog": true,
+    "triggers": {
+      "BotTour": [
+        "BotTourDialog.en-us"
+      ],
+      "Cancel": [
+        "CancelDialog.en-us"
+      ],
+      "Feedback": [
+        "FeedbackDialog.en-us"
+      ],
+      "Help": [
+        "HelpDialog.en-us"
+      ],
+      "": [
+        "ChitchatDialog.en-us"
+      ]
+    }
+  }
+}

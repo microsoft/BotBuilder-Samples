@@ -6,6 +6,13 @@
             "type": "string",
             "minLength": 2
         },
+        "botSku": {
+          "defaultValue": "F0",
+          "type": "string",
+          "metadata": {
+            "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
+          }
+        },
         "sku": {
             "defaultValue": {
                 "name": "S1",
@@ -36,8 +43,8 @@
             "type": "string"
         },
         "appType": {
-            "type": "string",
             "defaultValue": "MultiTenant",
+            "type": "string",
             "allowedValues": [
                 "MultiTenant",
                 "SingleTenant",
@@ -262,7 +269,7 @@
             "location": "global",
             "kind": "azurebot",
             "sku": {
-                "name": "[parameters('botName')]"
+                "name": "[parameters('botSku')]"
             },
             "properties": {
                 "name": "[parameters('botName')]",

@@ -8,6 +8,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 using Microsoft.Bot.Builder;
+using Microsoft.Bot.Builder.BotFramework;
 using Microsoft.Bot.Builder.Integration.AspNet.WebApi;
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.BotBuilderSamples.Dialogs;
@@ -36,10 +37,10 @@ namespace Microsoft.BotBuilderSamples
             var storage = new MemoryStorage();
             _conversationState = new ConversationState(storage);
             _userState = new UserState(storage);
-            
+
             // create the BotAdapter we will be using
-            var botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication();
-            _adapter = new AdapterWithErrorHandler(botFrameworkAuthentication, _loggerFactory.CreateLogger<IBotFrameworkHttpAdapter>(), _conversationState);
+            var credentialProvider = new ConfigurationCredentialProvider();
+            _adapter = new AdapterWithErrorHandler(credentialProvider, _loggerFactory.CreateLogger<BotFrameworkHttpAdapter>(), _conversationState);
 
             // read the old style Web.Config settings and construct a new style dot net core IConfiguration object
             var appsettings = ConfigurationManager.AppSettings.AllKeys.SelectMany(

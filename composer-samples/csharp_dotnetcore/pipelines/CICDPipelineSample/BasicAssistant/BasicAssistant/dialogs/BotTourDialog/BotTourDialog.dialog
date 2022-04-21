@@ -1,0 +1,70 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "xyjdJi",
+    "name": "BotTourDialog",
+    "description": "Onboards users with a sample first time user experience"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "Presents an overview card to the user",
+        "id": "1sVGwc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "YRvoei"
+          },
+          "activity": "${SendActivity_BotTourOverview()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "pzuSn9",
+        "name": "DetailsCard"
+      },
+      "intent": "DetailsCard",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Z5JucQ"
+          },
+          "activity": "${SendActivity_BotTourDetails()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "xlyFV6"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "77kmIw"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "dAfOtV"
+          },
+          "value": false
+        }
+      ]
+    }
+  ],
+  "generator": "BotTourDialog.lg",
+  "recognizer": "BotTourDialog.lu.qna",
+  "id": "BotTourDialog"
+}

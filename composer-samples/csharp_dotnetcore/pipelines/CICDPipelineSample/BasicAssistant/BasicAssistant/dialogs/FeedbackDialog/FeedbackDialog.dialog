@@ -1,0 +1,118 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "k1pCvc",
+    "name": "FeedbackDialog",
+    "description": "Captures user feedback with like/dislike input"
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "Presents a like/dislike card to the user",
+        "id": "bs11zc"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "Lxj86N"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "GstWEQ"
+          },
+          "activity": "${SendActivity_FeedbackExperiencePrompt()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Nh34Pm",
+        "name": "Like"
+      },
+      "intent": "Like",
+      "actions": [
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "XXWLme"
+          }
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "jPnyCk",
+            "name": "Telemetry - UserLiked: true"
+          },
+          "eventName": "FeedbackSubmitted",
+          "properties": {
+            "UserLiked": "true"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "639pkl"
+          },
+          "activity": "${SendActivity_FeedbackThanks()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "bjShRr"
+          }
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "1LWtRj",
+        "name": "Dislike"
+      },
+      "intent": "Dislike",
+      "actions": [
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "ke4aTg"
+          }
+        },
+        {
+          "$kind": "Microsoft.TelemetryTrackEventAction",
+          "$designer": {
+            "id": "ENnqza",
+            "name": "Telemetry - UserLiked: false"
+          },
+          "eventName": "FeedbackSubmitted",
+          "properties": {
+            "UserLiked": "false"
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "YBCkGQ"
+          },
+          "activity": "${SendActivity_FeedbackThanks()}"
+        },
+        {
+          "$kind": "Microsoft.EndDialog",
+          "$designer": {
+            "id": "162i4K"
+          }
+        }
+      ]
+    }
+  ],
+  "generator": "FeedbackDialog.lg",
+  "recognizer": "FeedbackDialog.lu.qna",
+  "id": "FeedbackDialog"
+}
