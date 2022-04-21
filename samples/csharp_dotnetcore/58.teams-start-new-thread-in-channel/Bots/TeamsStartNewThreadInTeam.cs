@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Teams;
-using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 
@@ -14,54 +13,27 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class TeamsStartNewThreadInTeam : ActivityHandler
     {
-        private string _appId;
-        private string _appPassword;
+        private readonly string _appId;
 
         public TeamsStartNewThreadInTeam(IConfiguration configuration)
         {
             _appId = configuration["MicrosoftAppId"];
-            _appPassword = configuration["MicrosoftAppPassword"];
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
-            var message = MessageFactory.Text("This will start a new thread in a channel");
+            var activity = MessageFactory.Text("This will start a new thread in a channel");
 
-            var serviceUrl = turnContext.Activity.ServiceUrl;
-            var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
-
-            var conversationParameters = new ConversationParameters
-            {
-                IsGroup = true,
-                ChannelData = new { channel = new { id = teamsChannelId } },
-                Activity = (Activity)message,
-            };
-
-            ConversationReference conversationReference = null;
-
-            await ((CloudAdapter)turnContext.Adapter).CreateConversationAsync(
-                credentials.MicrosoftAppId,
-                teamsChannelId,
-                serviceUrl,
-                credentials.OAuthScope,
-                conversationParameters,
-                (t, ct) =>
-                {
-                    conversationReference = t.Activity.GetConversationReference();
-                    return Task.CompletedTask;
-                },
-                cancellationToken);
-
-
+            var details = await TeamsInfo.SendMessageToTeamsChannelAsync(turnContext, activity, teamsChannelId, _appId, cancellationToken);
             await ((CloudAdapter)turnContext.Adapter).ContinueConversationAsync(
-                _appId,
-                conversationReference,
-                async (t, ct) =>
+                botAppId: _appId,
+                reference: details.Item1,
+                callback: async (t, ct) =>
                 {
                     await t.SendActivityAsync(MessageFactory.Text("This will be the first response to the new thread"), ct);
                 },
-                cancellationToken);
+                cancellationToken: cancellationToken);
         }
     }
 }
