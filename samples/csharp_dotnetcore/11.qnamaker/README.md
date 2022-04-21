@@ -1,8 +1,11 @@
 ﻿# QnA Maker
 
-Bot Framework v4 QnA Maker bot sample
+**Note:** The QnA Maker service is being retired on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language. 
+For question answering capabilities within the Language Service, see question answering. Starting 1st October, 2022 you won’t be able to create new QnA Maker resources. 
+For information on migrating existing QnA Maker knowledge bases to question answering, consult the migration guide.
+For an updated version of this sample using the new service see the [CustomQABotAllFeatures sample](../48.customQABot-all-features)
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
+Bot Framework v4 QnA Maker bot sample: This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
 
 The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes. In this sample, we demonstrate how to use the QnA Maker service to answer questions based on a FAQ text file used as input.
 
