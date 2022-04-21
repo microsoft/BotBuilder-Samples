@@ -48,7 +48,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
   - Launch Visual Studio
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/12.customQABot` folder
-  - Select `CustomQABotAllFeatures.csproj` file
+  - Select `CustomQABot.csproj` file
   - Press `F5` to run the project
 - Connect to the bot using Bot Framework Emulator
   1) Launch Bot Framework Emulator

@@ -13,7 +13,7 @@ The [Custom question answering feature in Language Service][LS] enables you to b
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env file](.env).
 - Visit [Language Studio][LS] and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- Import [SampleForCQA.tsv](cognitiveModels/SampleForCQA.tsv) file.
 - You can test your knowledge base by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
@@ -32,9 +32,9 @@ Follow these steps to update [.env file](.env).
     git clone https://github.com/Microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/48.customQABot-all-features`
+- In a terminal, navigate to `samples/javascript_nodejs/12.customQABot`
     ```bash
-    cd samples/javascript_nodejs/48.customQABot-all-features
+    cd samples/javascript_nodejs/12.customQABot
     ```
 
 - Install modules
@@ -62,7 +62,7 @@ Follow these steps to update [.env file](.env).
 - Learn more about [precise answering][PA].
 
 ## Deploy the bot to Azure
-See [Deploy your C# bot to Azure][50] for instructions.
+See [Deploy your bot to Azure][50] for instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].
 

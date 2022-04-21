@@ -18,7 +18,7 @@ The [Custom question answering feature in Language Service][LS] enables you to b
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env file](.env).
 - Visit [Language Studio][LS] and open created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
+- Import [SampleForCQA.tsv](cognitiveModels/SampleForCQA.tsv) file.
 - You can test your knowledge base by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
@@ -63,7 +63,7 @@ Follow these steps to update [.env file](.env).
 - In Language Studio, click on inspect to see the closeness in the scores of the returned answers.
 - In [Bot Framework Emulator][BFE], a card is generated with the suggestions.
   - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
-  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [rootdialog.js](dialogs/rootdialog.js).
+  - `ACTIVE_LEARNING_CARD_TITLE`, `ACTIVE_LEARNING_CARD_NO_MATCH_TEXT` and `ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE` in the card could be changed from [rootDialog.js](dialogs/rootDialog.js).
 
 ## Try Multi-turn prompt
 - Try the following utterances:
@@ -88,16 +88,16 @@ Follow these steps to update [.env file](.env).
   1) Frontline workers
   2) Hybrid work solutions
 - You can observe that, answers are returned with high score.
-- You can set `IncludeUnstructuredSources` to false in [rootDialog.js](dialogs/rootDialog.js) to prevent querying unstructured sources.
+- You can set `INCLUDE_UNSTRUCTURED_SOURCES` to false in [rootDialog.js](dialogs/rootDialog.js) to prevent querying unstructured sources.
 
 ## Try Filters
 - Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
 - Select a QnA to edit and add a key value pair, say `Language` : `Javascript`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : Javascript`) by clicking on **Show advanced options**.
 - This will return answers with specified metadata only.
-- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in rootdialog.js to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 54 in [rootDialog.js](dialogs/rootDialog.js) to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
     ```js
-    //Add below lines in line no. 54 in rootdialog.js
+    //Add below lines in line no. 54 in rootDialog.js
     var filters = {
         metadataFilter: {
             metadata: [
@@ -115,7 +115,7 @@ Follow these steps to update [.env file](.env).
 ## Microsoft Teams channel group chat fix
 When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot` `How to build a bot?` to get answers from the service.
 However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to Custom question answering service which may not give expected results for question to bot. The following code removes `<at>HelpBot</at>` mentions of the bot from the message and sends the remaining text as query to the service.
-- Goto `dialog/rootDialog.js`
+- Goto `dialogs/rootDialog.js`
 - Add reference
     ```js
     const {
@@ -142,7 +142,7 @@ However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to 
     ```
 
 ## Deploy the bot to Azure
-See [Deploy your C# bot to Azure][50] for instructions.
+See [Deploy your bot to Azure][50] for instructions.
 
 The deployment process assumes you have an account on Microsoft Azure and are able to log into the [Microsoft Azure Portal][Azure].
 

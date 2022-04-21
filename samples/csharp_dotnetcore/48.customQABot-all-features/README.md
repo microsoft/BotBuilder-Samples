@@ -99,7 +99,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Select a QnA to edit and add a key value pair, say `Language` : `CSharp`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : CSharp`) by clicking on **Show advanced options**.
 - This will return answers with specified metadata only.
-- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 79 in RootDialog.cs to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
+- You can filter answers using bot as well by passing metadata and/or source filters. Edit line no. 81 in [RootDialog.cs](Dialogs/RootDialog.cs) to something like below. [Learn more](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
     ```csharp
     var filters = new Filters
     {
@@ -113,13 +113,13 @@ Follow these steps to update [appsettings.json](appsettings.json).
     filters.SourceFilter.Add("SampleForCQA.tsv");
     filters.SourceFilter.Add("SampleActiveLearningImport.tsv");
     
-    // Initialize Filters with filters in line No. 79
+    // Initialize Filters with filters in line No. 81
     ```    
 
 ## Microsoft Teams channel group chat fix
 When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot` `How to build a bot?` to get answers from the service.
 However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to Custom question answering service which may not give expected results for question to bot. The following code removes `<at>HelpBot</at>` mentions of the bot from the message and sends the remaining text as query to the service.
-- Goto `Bot/CustomQABot.cs`
+- Goto `Bots/CustomQABot.cs`
 - Add References
     ```csharp
     using Microsoft.Bot.Connector;
