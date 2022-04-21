@@ -37,7 +37,7 @@ namespace Microsoft.BotBuilderSamples
             var storage = new MemoryStorage();
             _conversationState = new ConversationState(storage);
             _userState = new UserState(storage);
-            
+
             // create the BotAdapter we will be using
             var credentialProvider = new ConfigurationCredentialProvider();
             _adapter = new AdapterWithErrorHandler(credentialProvider, _loggerFactory.CreateLogger<BotFrameworkHttpAdapter>(), _conversationState);

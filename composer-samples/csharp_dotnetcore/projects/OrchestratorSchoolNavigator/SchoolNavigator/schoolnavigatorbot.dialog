@@ -1,0 +1,129 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "SchoolNavigatorBot",
+      "description": "",
+      "id": "hAeTIp"
+    }
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnConversationUpdateActivity",
+      "$designer": {
+        "id": "376720"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "518944",
+            "name": "Loop: for each item"
+          },
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "641773",
+                "name": "Branch: if/else"
+              },
+              "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "859266",
+                    "name": "Send a response"
+                  },
+                  "activity": "${SendActivity_Welcome()}"
+                },
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "3W3n93"
+                  },
+                  "activity": "${SendActivity_3W3n93()}"
+                }
+              ]
+            }
+          ],
+          "value": "dialog.foreach.value",
+          "index": "dialog.foreach.index"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "UzG56w"
+          },
+          "activityProcessed": true,
+          "dialog": "Help"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "dWMq3S"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "3nPsC9"
+          },
+          "activity": "${SendActivity_3nPsC9()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "EjmeoU",
+        "name": "help"
+      },
+      "intent": "help",
+      "actions": [
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "zn4NuZ"
+          },
+          "activityProcessed": true,
+          "dialog": "Help"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "V3BjNZ",
+        "name": "schoolnavigator"
+      },
+      "intent": "schoolnavigator",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "Q5Rx5d"
+          },
+          "activity": "${SendActivity_Q5Rx5d()}"
+        },
+        {
+          "$kind": "Microsoft.BeginDialog",
+          "$designer": {
+            "id": "LxpS2k"
+          },
+          "activityProcessed": true,
+          "dialog": "SchoolNavigator"
+        }
+      ]
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "schoolnavigatorbot.lg",
+  "id": "SchoolNavigatorBot",
+  "recognizer": "schoolnavigatorbot.lu.qna"
+}

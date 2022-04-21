@@ -1,0 +1,79 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "GYEcZe",
+    "name": "CancelDialog",
+    "description": "Prompts the user to cancel the bot activity."
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "jTsOkO"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ConfirmInput",
+          "$designer": {
+            "id": "DTdbkd"
+          },
+          "defaultLocale": "en-us",
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${ConfirmInput_Prompt_AreYouSure()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "choiceOptions": {
+            "includeNumbers": true,
+            "inlineOrMore": ", or ",
+            "inlineOr": " or ",
+            "inlineSeparator": ", "
+          },
+          "property": "dialog.cancelConfirmed"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "cPaSR9"
+          },
+          "condition": "=dialog.cancelConfirmed",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zbC0VV"
+              },
+              "activity": "${SendActivity_CancelConfirmation()}"
+            },
+            {
+              "$kind": "Microsoft.CancelAllDialogs",
+              "$designer": {
+                "id": "VOhJtq"
+              },
+              "activityProcessed": true
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "5kB8oO"
+              },
+              "activity": "${SendActivity_ContinueConfirmation()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CancelDialog.lg",
+  "recognizer": "CancelDialog.lu.qna",
+  "id": "CancelDialog",
+  "$Imported": "7ace8b3c7d6add6c499b34efbbc7c563"
+}

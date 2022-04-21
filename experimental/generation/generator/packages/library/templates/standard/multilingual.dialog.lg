@@ -1,0 +1,13 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${recognizerDir()}${prefix}.lu.dialog
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.MultiLanguageRecognizer",
+    "recognizers": ${concat('{', join(foreach(locales, locale, `"${locale}": "${prefix}.${locale}.lu"`), ','), `, "": "${prefix}.${locale}.lu"`, '}')}
+}```
+

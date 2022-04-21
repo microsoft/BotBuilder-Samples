@@ -10,6 +10,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 using Microsoft.BotBuilderSamples.Bots;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Bot.Connector.Authentication;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -25,9 +26,16 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddControllers();
+            services.AddHttpClient();
+            services.AddMvc();
             services.AddControllers().AddNewtonsoftJson();
-            
-            // Create the Bot Framework Adapter with error handling enabled.
+            services.AddRazorPages();
+
+            // Create the Bot Framework Authentication to be used with the Bot Adapter.
+            services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
+
+            // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
@@ -42,16 +50,19 @@ namespace Microsoft.BotBuilderSamples
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseDefaultFiles()
-                .UseStaticFiles()
-                .UseRouting()
-                .UseAuthorization()
-                .UseEndpoints(endpoints =>
-                {
-                    endpoints.MapControllers();
-                });
+            app.UseDefaultFiles();
+            app.UseStaticFiles();
 
-            // app.UseHttpsRedirection();
+            // Runs matching. An endpoint is selected and set on the HttpContext if a match is found.
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapRazorPages();
+                // Mapping of endpoints goes here:
+                endpoints.MapControllers();
+            });
+
         }
     }
 }

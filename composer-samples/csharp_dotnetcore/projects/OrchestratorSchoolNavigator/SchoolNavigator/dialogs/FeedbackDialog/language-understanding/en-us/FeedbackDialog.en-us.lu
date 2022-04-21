@@ -1,0 +1,10 @@
+
+# ConfirmInput_Response_EpbhVs
+> add some expected user responses:
+> - Please remind me to {itemTitle=buy milk}
+> - remind me to {itemTitle}
+> - add {itemTitle} to my todo list
+>
+> entity definitions:
+> @ ml itemTitle
+ -Answer: ${turn.confirmed}

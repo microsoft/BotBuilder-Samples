@@ -8,15 +8,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.BotBuilderSamples.Translation;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware, ConversationState conversationState = null)
-            : base(configuration, logger)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, TranslationMiddleware translationMiddleware, ConversationState conversationState = default)
+            : base(auth, logger)
         {
             if (translationMiddleware == null)
             {

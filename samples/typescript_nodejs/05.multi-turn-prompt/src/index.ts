@@ -7,7 +7,14 @@ import * as restify from 'restify';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } from 'botbuilder';
+import {
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    MemoryStorage,
+    UserState
+} from 'botbuilder';
 
 // This bot's main dialog.
 import { DialogBot } from './bots/dialogBot';
@@ -17,12 +24,18 @@ import { UserProfileDialog } from './dialogs/userProfileDialog';
 const ENV_FILE = path.join(__dirname, '.env');
 config({ path: ENV_FILE });
 
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppType: process.env.MicrosoftAppType,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+});
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+
 // Create the adapter. See https://aka.ms/about-bot-adapter to learn more about using information from
 // the .bot file when configuring your adapter.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
@@ -61,6 +74,8 @@ const bot = new DialogBot(conversationState, userState, dialog);
 
 // Create HTTP server.
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${server.name} listening to ${server.url}.`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -68,9 +83,7 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
 });
 
 // Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (context) => {
-        // Route the message to the bot's main handler.
-        await bot.run(context);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => bot.run(context));
 });

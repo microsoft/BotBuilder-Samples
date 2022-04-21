@@ -8,18 +8,17 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples.DialogSkillBot
 {
-    public class SkillAdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class SkillAdapterWithErrorHandler : CloudAdapter
     {
         private readonly ConversationState _conversationState;
         private readonly ILogger _logger;
 
-        public SkillAdapterWithErrorHandler(IConfiguration configuration, ICredentialProvider credentialProvider, AuthenticationConfiguration authConfig, ILogger<BotFrameworkHttpAdapter> logger, ConversationState conversationState)
-            : base(configuration, credentialProvider, authConfig, logger: logger)
+        public SkillAdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = default)
+            : base(auth, logger)
         {
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));

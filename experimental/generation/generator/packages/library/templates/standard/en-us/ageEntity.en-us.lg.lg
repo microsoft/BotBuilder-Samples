@@ -1,0 +1,7 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${filenameForEntityTypeLG('age')}
+
+# generator
+- ${entityTextTemplate('age')}

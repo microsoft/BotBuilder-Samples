@@ -1,11 +1,11 @@
 ﻿{
-  "./rootDialog/rootDialog.lu": {
+  "rootDialog": {
     "rootDialog": true,
     "triggers": {
-      "AddItem": "./addToDoDialog/addToDoDialog.lu",
-      "DeleteItem": "./deleteToDoDialog/deleteToDoDialog.lu",
-      "ViewItem": "./viewToDoDialog/viewToDoDialog.lu",
-      "GetUserProfile": "./getUserProfileDialog/getUserProfileDialog.lu"
+      "AddItem": "addToDoDialog",
+      "DeleteItem": "deleteToDoDialog",
+      "ViewItem": "viewToDoDialog",
+      "GetUserProfile": "getUserProfileDialog"
     }
   }
 }

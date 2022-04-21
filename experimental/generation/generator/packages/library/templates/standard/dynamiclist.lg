@@ -1,0 +1,20 @@
+[generator.lg](../generator.lg)
+
+# entities
+- ${['${property}Value']}
+
+# generators
+- ${[
+        "verifyUnique",
+        "dynamiclistEntity.lg",
+        "dynamiclistEntity.lu",
+        "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-assign.dialog",
+        "genericEntity-remove.dialog",
+        "generic-clear.dialog",
+        "generic-help.dialog",
+        "generic-show.dialog"
+    ]}

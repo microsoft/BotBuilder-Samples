@@ -1,0 +1,54 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "object",
+    "properties": {
+        "HomeStreet": { 
+            "type": "string",
+            "$entities": ["utterance"]
+        },
+        "HomeCity": { 
+            "type": "string",
+            "$entities": ["utterance"]
+        },
+        "HomeState": { 
+            "type": "string",
+            "$entities": [ "USSTATE" ]
+        },
+        "HomeZip": { 
+            "type": "string",
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "$entities": ["utterance"]
+        },
+        "HomeLatitude": { "type": "number" },
+        "HomeLongitude": { "type": "number" },
+        "HomePhone": { 
+            "type": "string", 
+            "$entities": [ "utterance" ]
+        },
+
+        "WorkStreet": { 
+            "type": "string",
+            "$entities": ["utterance"]
+        },
+        "WorkCity": { 
+            "type": "string",
+            "$entities": ["utterance"]
+        },
+        "WorkState": { 
+            "type": "string",
+            "$entities": [ "USSTATE" ]
+        },
+        "WorkZip": { 
+            "type": "string",
+            "pattern": "^[0-9]{5}(?:-[0-9]{4})?$",
+            "$entities": ["utterance"]
+        },
+        "WorkLatitude": { "type": "number" },
+        "WorkLongitude": { "type": "number" },
+        "WorkPhone": { 
+            "type": "string", 
+            "$entities": [ "utterance" ]
+        }
+    },
+    "required":["HomeStreet", "HomeCity", "HomeState", "HomeZip", "HomePhone", "WorkStreet", "WorkCity", "WorkState", "WorkZip", "WorkPhone"]
+}

@@ -1,0 +1,23 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "type": "string",
+    "$generator": {
+        "title": "String",
+        "description": "Map a LUIS learned entity into a string.",
+        "allOf": [
+            {
+                "$ref": "common.json"
+            },
+            {
+                "$ref": "examples.json"
+            },
+            {
+                "pattern": {
+                    "type": "string",
+                    "title": "Regular expression pattern",
+                    "description": "Regular expression pattern that must match string."
+                }
+            }
+        ]
+    }
+}

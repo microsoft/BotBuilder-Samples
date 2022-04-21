@@ -4,7 +4,7 @@
  */
 
 import {
-	Diagnostic,	DiagnosticSeverity,	Files,	Connection
+	Diagnostic,	DiagnosticSeverity,	Connection
 } from 'vscode-languageserver';
 
 import { TemplatesStatus, TemplatesEntity } from '../templatesStatus';
@@ -12,8 +12,8 @@ import * as util from '../util';
 import * as path from 'path';
 
 import { TextDocument } from 'vscode-languageserver-textdocument';
-import { Templates } from 'botbuilder-lg';
-
+import { LGResource, Templates } from 'botbuilder-lg';
+import { URI } from 'vscode-uri'
 
 export async function updateDiagnostics(document: TextDocument, connection: Connection): Promise<void> {
 	
@@ -23,16 +23,18 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
     const confDiagLevel = await connection.workspace.getConfiguration({
 		scopeUri: document.uri, 
 		section : 'LG.Expression.ignoreUnknownFunction'
-	}); //.then(((value: string) => value));
+    }).then(((value: string) => value));
     const confCustomFuncListSetting : string = await connection.workspace.getConfiguration({
 		scopeUri: document.uri, 
 		section: 'LG.Expression.customFunctionList'
-	}).then(((value: string) => value == null ? '' : value));    
-	
-	const engine: Templates = Templates.parseText(document.getText(), Files.uriToFilePath(document.uri));
+	}).then(((value: string) => value == null ? '' : value));
+    
+    const filePath = URI.parse(document.uri).fsPath;
+    const resource = new LGResource(filePath, filePath, document.getText());
+	const engine: Templates = Templates.parseResource(resource);
     const diagnostics = engine.diagnostics;
 
-    TemplatesStatus.templatesMap.set(Files.uriToFilePath(document.uri)!, new TemplatesEntity(document.uri, engine));
+    TemplatesStatus.templatesMap.set(URI.parse(document.uri).fsPath!, new TemplatesEntity(document.uri, engine));
 
 	const lspDiagnostics: Diagnostic[] = [];
     let customFunctionList: string[] = [];
@@ -41,11 +43,10 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
     }
     diagnostics.forEach(u => {
         const isUnkownFuncDiag: boolean = u.message.includes("it's not a built-in function or a custom function");
-        
 		let severity : DiagnosticSeverity;
 		switch(u.severity) {
 			case 0: 
-				severity = DiagnosticSeverity.Error;					
+				severity = DiagnosticSeverity.Error;
 				break;
 			case 1:
 				severity = DiagnosticSeverity.Warning;
@@ -76,7 +77,7 @@ export async function updateDiagnostics(document: TextDocument, connection: Conn
                 
                     case "warn":
                             if (isUnkownFuncDiag) {
-                                u.severity = DiagnosticSeverity.Warning;
+                                severity = DiagnosticSeverity.Warning;
                             }
                         break;
                     default:

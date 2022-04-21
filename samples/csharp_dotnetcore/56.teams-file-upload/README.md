@@ -3,7 +3,7 @@
 Bot Framework v4 file upload bot sample for Teams.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to
-upload files to Teams from a bot and how to receive a file sent to a bot as an attachment.
+upload files to Teams from a bot and how to receive a file sent to a bot as an attachment. It also shows how to fetch inline images sent in message.
 
 ## Prerequisites
 
@@ -52,9 +52,11 @@ the Teams service needs to call into the bot.
 
 > Note this `manifest.json` specified that the bot will be installed in "personal" scope which is why you immediately entered a one on one chat conversation with the bot. Please refer to Teams documentation for more details.
 
-Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
+1. Sending a message to the bot will cause it to respond with a card that will prompt you to upload a file. The file that's being uploaded is the `teams-logo.png` in the `Files` directory in this sample. The `Accept` and `Decline` events illustrated in this sample are specific to Teams. You can message the bot again to receive another prompt.
 
-You can also send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
+1. You can send a file to the bot as an attachment in the message compose section in Teams. This will be delivered to the bot as a Message Activity and the code in this sample fetches and saves the file.
+
+1. You can also send an inline image in the message compose section. This will be present in the attachments of the Activity and requires the Bot's access token to fetch the image.
 
 ## Deploy the bot to Azure
 
@@ -63,5 +65,4 @@ To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](htt
 ## Further reading
 
 - [How Microsoft Teams bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics-teams?view=azure-bot-service-4.0&tabs=javascript)
-
 

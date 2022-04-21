@@ -36,22 +36,25 @@ the Teams service needs to call into the bot.
     ```
 
 1) Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
-    - Use the current `https` URL you were given by running ngrok. Append with the path `/api/messages` used by this sample
-    - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
-    - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
+    - For bot handle, make up a name.
+    - Select "Use existing app registration" (Create the app registration in Azure Active Directory beforehand.)
+    - __*If you don't have an Azure account*__ create an [Azure free account here](https://azure.microsoft.com/en-us/free/)
+1) In the new Azure Bot resource in the Portal, 
+    - [Enable the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
+    - In Settings/Configuration/Messaging endpoint, enter the current `https` URL you were given by running ngrok. Append with the path `/api/messages`
 
 1) Update the `appsettings.json` configuration for the bot to use the Microsoft App Id and App Password from the Bot Framework registration. (Note the App Password is referred to as the "client secret" in the azure portal and you can always create a new client secret anytime.)
 
 1) __*This step is specific to Teams.*__
     - **Edit** the `manifest.json` contained in the  `teamsAppManifest` folder to replace your Microsoft App Id (that was created when you registered your bot earlier) *everywhere* you see the place holder string `<<YOUR-MICROSOFT-APP-ID>>` (depending on the scenario the Microsoft App Id may occur multiple times in the `manifest.json`)
     - **Zip** up the contents of the `teamsAppManifest` folder to create a `manifest.zip`
-    - **Upload** the `manifest.zip` to Teams (in the Apps view click "Upload a custom app")
+    - **Upload** the `manifest.zip` to Teams (In Teams Apps/Manage your apps click "Upload a custom app". Browse to and Open the .zip file. At the next dialog, click the Add button.)
 
 1) Run your bot, either from Visual Studio with `F5` or using `dotnet run` in the appropriate folder.
 
 ## Interacting with the bot
 
-You can interact with this bot by sending it a message, or selecting a command from the command list. The bot will respond to the following strings.
+You can interact with this bot in Teams by sending it a message, or selecting a command from the command list. The bot will respond to the following strings.
 
 1. **Show Welcome**
   - **Result:** The bot will send the welcome card for you to interact with
@@ -64,10 +67,6 @@ You can interact with this bot by sending it a message, or selecting a command f
   - **Valid Scopes:** personal, group chat, team chat
 
 You can select an option from the command list by typing ```@TeamsConversationBot``` into the compose message area and ```What can I do?``` text above the compose area.
-
-### Avoiding Permission-Related Errors
-
-You may encounter permission-related errors when sending a proactive message. This can often be mitigated by using `MicrosoftAppCredentials.TrustServiceUrl()`. See [the documentation](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-proactive-message?view=azure-bot-service-4.0&tabs=csharp#avoiding-401-unauthorized-errors) for more information.
 
 ## Deploy the bot to Azure
 

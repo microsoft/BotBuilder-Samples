@@ -177,7 +177,7 @@ namespace Microsoft.BotBuilderSamples
                 {
                     new MediaUrl()
                     {
-                        Url = "http://www.wavlist.com/movies/004/father.wav",
+                        Url = "https://wavlist.com/wav/father.wav",
                     },
                 },
                 Buttons = new List<CardAction>

@@ -1,0 +1,175 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "622543",
+    "name": "GetProfile"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "OnBeginDialog",
+        "id": "151697"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TextInput",
+          "$designer": {
+            "name": "Prompt for text",
+            "id": "362298"
+          },
+          "prompt": "What is your name? \\n \\[Suggestions=Why? | No name | Cancel | Reset profile\\]",
+          "invalidPrompt": "${TextInput_InvalidPrompt_362298()}",
+          "maxTurnCount": 3,
+          "validations": [
+            "length(this.value) <= 150",
+            "length(this.value) > 2"
+          ],
+          "property": "user.profile.name",
+          "defaultValue": "'Human'",
+          "value": "=@userName",
+          "alwaysPrompt": false,
+          "allowInterruptions": "true",
+          "outputFormat": "=trim(this.value)"
+        },
+        {
+          "$kind": "Microsoft.NumberInput",
+          "$designer": {
+            "name": "Prompt for a number",
+            "id": "005947"
+          },
+          "prompt": "Hello ${user.profile.name}, how old are you? \\n \\[Suggestions=Why? | Reset profile | Cancel | No age\\]",
+          "unrecognizedPrompt": "Hello ${user.profile.name}, how old are you? \\n \\[Suggestions=Why? | Reset profile | Cancel | No age\\]",
+          "invalidPrompt": "${TextInput_InvalidPrompt_005947()}",
+          "maxTurnCount": 3,
+          "validations": [
+            "int(this.value) >= 1",
+            "int(this.value) <= 150"
+          ],
+          "property": "user.profile.age",
+          "defaultValue": "30",
+          "value": "=@userAge",
+          "alwaysPrompt": false,
+          "allowInterruptions": "true",
+          "defaultLocale": "en-us"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "name": "Send an Activity",
+            "id": "296924"
+          },
+          "activity": "${SendActivity_296924()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "name": "Why",
+        "id": "661298"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "name": "Branch: If/Else",
+            "id": "567494"
+          },
+          "condition": "exists(user.profile.name)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "name": "Send an Activity",
+                "id": "907674"
+              },
+              "activity": "${SendActivity_907674()}"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "name": "Send an Activity",
+                "id": "558329"
+              },
+              "activity": "${SendActivity_558329()}"
+            }
+          ]
+        }
+      ],
+      "intent": "Why"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "name": "NoValue",
+        "id": "449648"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "name": "Branch: If/Else",
+            "id": "015423"
+          },
+          "condition": "exists(user.profile.name)",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "name": "Send an Activity",
+                "id": "074631"
+              },
+              "activity": "${SendActivity_074631()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "name": "Set a Property",
+                "id": "960926"
+              },
+              "property": "user.profile.age",
+              "value": "30"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "name": "Send an Activity",
+                "id": "758791"
+              },
+              "activity": "${SendActivity_758791()}"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "name": "Set a Property",
+                "id": "142109"
+              },
+              "property": "user.profile.name",
+              "value": "Human"
+            }
+          ]
+        }
+      ],
+      "intent": "NoValue"
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "372804",
+        "name": "GetProfileInputs"
+      },
+      "intent": "GetProfileInputs"
+    }
+  ],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "getprofile.lg",
+  "id": "getprofile",
+  "recognizer": "getprofile.lu.qna"
+}

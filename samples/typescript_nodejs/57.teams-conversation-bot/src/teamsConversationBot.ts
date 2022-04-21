@@ -3,9 +3,9 @@
 
 import {
     ActionTypes,
-    BotFrameworkAdapter,
     CardFactory,
     ChannelAccount,
+    ConversationParameters,
     MessageFactory,
     TeamInfo,
     TeamsActivityHandler,
@@ -151,8 +151,6 @@ export class TeamsConversationBot extends TeamsActivityHandler {
         await context.deleteActivity( context.activity.replyToId );
     }
 
-    // If you encounter permission-related errors when sending this message, see
-    // https://aka.ms/BotTrustServiceUrl
     public async messageAllMembersAsync( context: TurnContext ): Promise<void> {
         const members = await this.getPagedMembers( context );
 
@@ -160,18 +158,29 @@ export class TeamsConversationBot extends TeamsActivityHandler {
             console.log( 'a ', teamMember );
             const message = MessageFactory.text( `Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.` );
 
-            const ref = TurnContext.getConversationReference( context.activity );
-            ref.user = teamMember;
-            let botAdapter: BotFrameworkAdapter;
-            botAdapter = context.adapter as BotFrameworkAdapter;
-            await botAdapter.createConversation ( ref,
-                async ( t1 ) => {
-                    const ref2 = TurnContext.getConversationReference( t1.activity );
-                    await t1.adapter.continueConversation( ref2, async ( t2 ) => {
-                        await t2.sendActivity( message );
-                    } );
-                } );
-        } );
+            const convoParams = {
+                members: [teamMember],
+                tenantId: context.activity.channelData.tenant.id,
+                activity: context.activity
+            } as ConversationParameters;
+            
+            await context.adapter.createConversationAsync (
+                process.env.MicrosoftAppId,
+                context.activity.channelId,
+                context.activity.serviceUrl,
+                null,
+                convoParams,
+                async (context) => {
+                    const ref = TurnContext.getConversationReference(context.activity);
+
+                    await context.adapter.continueConversationAsync(
+                        process.env.MicrosoftAppId,
+                        ref,
+                        async (context) => {
+                            await context.sendActivity(message);
+                        });
+                });
+        });
 
         await context.sendActivity( MessageFactory.text( 'All messages have been sent.' ) );
     }

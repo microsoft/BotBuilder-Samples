@@ -4,5 +4,5 @@
 --recursive
 --reporter spec
 --timeout 0
---slow 10000
+--slow 100000
 test/**/*.test.{ts,js}

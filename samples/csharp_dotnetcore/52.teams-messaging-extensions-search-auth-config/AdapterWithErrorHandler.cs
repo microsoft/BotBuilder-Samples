@@ -7,16 +7,15 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Connector;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Schema;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
-
+using Microsoft.Bot.Connector.Authentication;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithErrorHandler : BotFrameworkHttpAdapter
+    public class AdapterWithErrorHandler : CloudAdapter
     {
-        public AdapterWithErrorHandler(IConfiguration configuration, ILogger<BotFrameworkHttpAdapter> logger)
-            : base(configuration, logger)
+        public AdapterWithErrorHandler(BotFrameworkAuthentication auth, ILogger<IBotFrameworkHttpAdapter> logger, ConversationState conversationState = default)
+            : base(auth, logger)
         {
             OnTurnError = async (turnContext, exception) =>
             {

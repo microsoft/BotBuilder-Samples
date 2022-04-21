@@ -1,0 +1,171 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "vhR1Y5",
+    "name": "FeedbackDialog",
+    "description": ""
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "AYgNFB"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "FdOHDb"
+          },
+          "name": "feedbacktrace",
+          "label": "feedbacktrace"
+        },
+        {
+          "$kind": "Microsoft.SetProperties",
+          "$designer": {
+            "id": "5Q6CzO"
+          },
+          "assignments": [
+            {
+              "property": "dialog.phrase",
+              "value": "=coalesce(turn.recognized.text, \"n/a\")"
+            },
+            {
+              "property": "dialog.selectedDepartment",
+              "value": "=coalesce(turn.recognized.intent, \"n/a\")"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "WuX8l5"
+          },
+          "value": "=['Sports', 'Academics', 'Admissions', 'Registrar\\'s Office', 'Library', 'Campus Life', 'Personal Access', 'Faculty Services', 'Student Services', 'Financial Services', 'Other']",
+          "property": "conversation.categories"
+        },
+        {
+          "$kind": "Microsoft.ConfirmInput",
+          "$designer": {
+            "id": "EpbhVs"
+          },
+          "defaultLocale": "en-us",
+          "disabled": false,
+          "maxTurnCount": 3,
+          "alwaysPrompt": false,
+          "allowInterruptions": false,
+          "prompt": "${ConfirmInput_Prompt_EpbhVs()}",
+          "unrecognizedPrompt": "",
+          "invalidPrompt": "",
+          "defaultValueResponse": "",
+          "choiceOptions": {
+            "includeNumbers": true,
+            "inlineOrMore": ", or ",
+            "inlineOr": " or ",
+            "inlineSeparator": ", "
+          },
+          "confirmChoices": "=['Yes', 'No']",
+          "property": "turn.confirmed"
+        },
+        {
+          "$kind": "Microsoft.TraceActivity",
+          "$designer": {
+            "id": "XN105E"
+          },
+          "name": "properties",
+          "label": "properties.trace"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "Z4UI2h"
+          },
+          "property": "dialog.userAgree",
+          "value": "=turn.confirmed"
+        },
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "shMmhx"
+          },
+          "condition": "turn.confirmed == true",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "rw9cUt"
+              },
+              "property": "dialog.deptsuggestion",
+              "value": "=dialog.selectedDepartment"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.ChoiceInput",
+              "$designer": {
+                "id": "6yrttD"
+              },
+              "defaultLocale": "en-us",
+              "disabled": false,
+              "maxTurnCount": 3,
+              "alwaysPrompt": false,
+              "allowInterruptions": false,
+              "prompt": "${ChoiceInput_Prompt_6yrttD()}",
+              "unrecognizedPrompt": "",
+              "invalidPrompt": "",
+              "defaultValueResponse": "",
+              "choiceOptions": {
+                "includeNumbers": true,
+                "inlineOrMore": ", or ",
+                "inlineOr": " or ",
+                "inlineSeparator": ", "
+              },
+              "property": "dialog.deptsuggestion",
+              "choices": "=conversation.categories",
+              "style": "heroCard"
+            },
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "pRM1kL"
+              },
+              "activity": "${SendActivity_pRM1kL()}"
+            },
+            {
+              "$kind": "Microsoft.TraceActivity",
+              "$designer": {
+                "id": "Ol3vyU"
+              },
+              "name": "DeptChoice",
+              "label": "DeptChoiceTrace"
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "pHzkgU"
+          },
+          "activity": "${SendActivity_pHzkgU()}"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "jjRJ2F"
+          },
+          "activity": "${SendActivity_jjRJ2F()}"
+        }
+      ]
+    }
+  ],
+  "generator": "FeedbackDialog.lg",
+  "recognizer": {
+    "$kind": "Microsoft.RegexRecognizer",
+    "intents": []
+  },
+  "id": "FeedbackDialog"
+}

@@ -3,5 +3,5 @@
 # entities
 - ${['boolean']}
 
-# templates
-- ${propertyTemplates()}
+# generators
+- ${genericTemplates()}

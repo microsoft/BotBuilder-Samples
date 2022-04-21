@@ -77,7 +77,7 @@ namespace RunBotServer
             var choices = new ChoiceSet();
             var dialogName = _configuration["dialog"];
 
-            foreach (var resource in _resourceExplorer.GetResources(".dialog").Where(r => dialogName != null ? r.Id == dialogName : true))
+            foreach (var resource in _resourceExplorer.GetResources(".dialog").Where(r => dialogName != null ? r.Id == dialogName : r.Id.Count(c => c == '.') == 1))
             {
                 try
                 {
@@ -117,7 +117,7 @@ namespace RunBotServer
                     Actions = new List<Dialog>()
                 {
                     choiceInput,
-                    new SendActivity("# Running ${conversation.dialogChoice}.main.dialog"),
+                    new SendActivity("# Running ${conversation.dialogChoice}.dialog"),
                     handleChoice,
                     new RepeatDialog()
                 }

@@ -58,6 +58,10 @@ or
 
 2) Selecting the **Share Message** command from the Message command list.
 
+or
+
+3) Selecting the **Fetch Roster** command from the Compose Box command list. You will presented with prompt for Just In Time installation if app is not already added to current team/chat.
+
 ## Deploy the bot to Azure
 
 To learn more about deploying a bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment) for a complete list of deployment instructions.

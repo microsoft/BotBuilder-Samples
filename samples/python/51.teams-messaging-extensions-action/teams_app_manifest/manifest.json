@@ -74,5 +74,8 @@
   ],
   "permissions": [
     "identity"
+  ],
+  "validDomains": [
+    "*.ngrok.io"
   ]
 }

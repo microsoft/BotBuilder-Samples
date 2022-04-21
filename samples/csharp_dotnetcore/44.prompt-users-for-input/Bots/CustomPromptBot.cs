@@ -29,7 +29,6 @@ namespace Microsoft.BotBuilderSamples
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-           
             var conversationStateAccessors = _conversationState.CreateProperty<ConversationFlow>(nameof(ConversationFlow));
             var flow = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationFlow(), cancellationToken);
 
@@ -68,6 +67,7 @@ namespace Microsoft.BotBuilderSamples
                         await turnContext.SendActivityAsync(message ?? "I'm sorry, I didn't understand that.", null, null, cancellationToken);
                         break;
                     }
+
                 case ConversationFlow.Question.Age:
                     if (ValidateAge(input, out var age, out message))
                     {

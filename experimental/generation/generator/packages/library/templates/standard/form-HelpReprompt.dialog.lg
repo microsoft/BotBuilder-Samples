@@ -1,0 +1,23 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('HelpReprompt.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnEndOfActions",
+    "condition": "exists($retries)",
+    "runOnce": true,
+    "priority": 0,
+    "actions": [
+        {
+            "$kind": "Microsoft.SendActivity",
+            "activity": "\${helpReprompt()}"
+        }
+    ]
+    
+    ${designerName('Reprompt Help')}
+}
+```

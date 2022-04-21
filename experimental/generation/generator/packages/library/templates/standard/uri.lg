@@ -1,8 +1,7 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${roleEntities('url')}
+- ${['url', 'utterance']}
 
-# templates
-- ${propertyTemplates()}
-
+# generators
+- ${stringTemplates()}

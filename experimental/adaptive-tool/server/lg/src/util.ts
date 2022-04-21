@@ -10,6 +10,7 @@ import { Templates, } from "botbuilder-lg";
 import { TemplatesStatus, TemplatesEntity } from "./templatesStatus";
 import { ReturnType } from "adaptive-expressions";
 import { buildInfunctionsMap, FunctionEntity } from './buildinFunctions';
+import { URI } from 'vscode-uri';
 
 import * as fs from 'fs';
 import * as path from 'path';
@@ -114,15 +115,15 @@ export function getWordRangeAtPosition(document: TextDocument, position: Positio
     return undefined;
 }
 
-export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]) {
+export function triggerLGFileFinder(workspaceFolders: WorkspaceFolder[]): void {
     TemplatesStatus.lgFilesOfWorkspace = [];
-    workspaceFolders.forEach(workspaceFolder => fs.readdir(Files.uriToFilePath(workspaceFolder.uri)!, (err, files) => {
+    workspaceFolders?.forEach(workspaceFolder => fs.readdir(URI.parse(workspaceFolder.uri).fsPath, (err, files) => {
         if(err) {
             console.log(err);
         } else {
             TemplatesStatus.lgFilesOfWorkspace = [];
             files.filter(file => isLgFile(file)).forEach(file => {
-                TemplatesStatus.lgFilesOfWorkspace.push(path.join(Files.uriToFilePath(workspaceFolder.uri)!, file));
+                TemplatesStatus.lgFilesOfWorkspace.push(path.join(URI.parse(workspaceFolder.uri).fsPath, file));
             });
         }
     }));

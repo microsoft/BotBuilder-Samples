@@ -11,8 +11,8 @@
     "termsOfUseUrl": "https://example.azurewebsites.net/termsofuse"
   },
   "icons": {
-    "color": "color.png",
-    "outline": "outline.png"
+    "color": "icon-color.png",
+    "outline": "icon-outline.png"
   },
   "name": {
     "short": "Task Module",

@@ -1,0 +1,62 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "952602"
+  },
+  "autoEndDialog": true,
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "id": "865027"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.ChoiceInput",
+          "$designer": {
+            "id": "673028",
+            "name": "Prompt with multi-choice"
+          },
+          "property": "user.style",
+          "prompt": "Please select a value from below:",
+          "maxTurnCount": 3,
+          "alwaysPrompt": true,
+          "allowInterruptions": "false",
+          "outputFormat": "value",
+          "choices": [
+            {
+              "value": "Test1"
+            },
+            {
+              "value": "Test2"
+            },
+            {
+              "value": "Test3"
+            }
+          ],
+          "defaultLocale": "en-us",
+          "style": "list",
+          "choiceOptions": {
+            "inlineSeparator": ", ",
+            "inlineOr": " or ",
+            "inlineOrMore": ", or ",
+            "includeNumbers": true
+          },
+          "recognizerOptions": {
+            "noValue": false,
+            "noAction": false
+          }
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "004212"
+          },
+          "activity": "${SendActivity_004212()}"
+        }
+      ]
+    }
+  ],
+  "generator": "choiceinput.lg"
+}

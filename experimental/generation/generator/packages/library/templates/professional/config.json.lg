@@ -3,7 +3,7 @@
 # filename
 - config.json
 
-# template
+# generator
 -```
 {
 ${join(foreach(locales, locale, localeTemplate(locale)), ','+EOL())}
@@ -11,7 +11,7 @@ ${join(foreach(locales, locale, localeTemplate(locale)), ','+EOL())}
 ```
 
 # localeTemplate(locale)
--```    "./${locale}/${prefix}.${locale}.lu": {
+-```    "./${knowledgeDir()}${locale}/${prefix}.${locale}.lu": {
             "rootDialog": true,
 		    "triggers": {"":""}
         }```

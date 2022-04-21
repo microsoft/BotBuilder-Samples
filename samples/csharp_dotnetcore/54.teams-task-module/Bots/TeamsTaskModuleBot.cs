@@ -24,7 +24,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         public TeamsTaskModuleBot(IConfiguration config)
         {
-            _baseUrl = config["BaseUrl"];
+            _baseUrl = config["BaseUrl"].EndsWith("/") ? config["BaseUrl"] : config["BaseUrl"] + "/";
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
@@ -42,11 +42,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             switch (value)
             {
                 case TaskModuleIds.YouTube:
-                    taskInfo.Url = taskInfo.FallbackUrl = _baseUrl + "/" + TaskModuleIds.YouTube;
+                    taskInfo.Url = taskInfo.FallbackUrl = _baseUrl + TaskModuleIds.YouTube;
                     SetTaskInfo(taskInfo, TaskModuleUIConstants.YouTube);
                     break;
                 case TaskModuleIds.CustomForm:
-                    taskInfo.Url = taskInfo.FallbackUrl = _baseUrl + "/" + TaskModuleIds.CustomForm;
+                    taskInfo.Url = taskInfo.FallbackUrl = _baseUrl + TaskModuleIds.CustomForm;
                     SetTaskInfo(taskInfo, TaskModuleUIConstants.CustomForm);
                     break;
                 case TaskModuleIds.AdaptiveCard:

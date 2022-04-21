@@ -17,20 +17,24 @@ Generate Bot Framework Adaptive Dialogs from JSON schema.
 # Commands
 
 <!-- commands -->
-* [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
-* [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
-* [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
+- [Relevant docs](#relevant-docs)
+- [Commands](#commands)
+  - [`bf dialog:generate SCHEMA`](#bf-dialoggenerate-schema)
+  - [`bf dialog:generate:swagger PATH`](#bf-dialoggenerateswagger-path)
+  - [`bf dialog:generate:test TRANSCRIPT DIALOG`](#bf-dialoggeneratetest-transcript-dialog)
 
 ## `bf dialog:generate SCHEMA`
 
 [PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.
 
 ```
+[PREVIEW] Generate localized .lu, .lg, .qna and .dialog assets to define a bot based on a schema using templates.
+
 USAGE
   $ bf dialog:generate SCHEMA
 
 ARGUMENTS
-  SCHEMA  JSON Schema .schema file used to drive generation.
+  SCHEMA  JSON Schema file used to drive generation.
 
 OPTIONS
   -f, --force                Force overwriting generated files.
@@ -41,8 +45,8 @@ OPTIONS
   -s, --schema=schema        Path to your app.schema file.
 
   -t, --templates=templates  Directory with templates to use for generating assets.  With multiple directories, the
-                             first definition found wins.  To include the standard templates, just use "standard" as a
-                             template directory name.
+                             first definition found wins.  To include the standard templates, just use
+                             "template:standard" as a template directory name.
 
   --debug                    Show extra debugging information including templates.
 
@@ -52,16 +56,18 @@ OPTIONS
 
 EXAMPLE
 
-         $ bf dialog:generate sandwich.schema --output c:/tmp
+         $ bf dialog:generate sandwich.form --output c:/tmp
 ```
 
-_See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate.ts)_
+_See code: [src/commands/dialog/generate.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate.ts)_
 
 ## `bf dialog:generate:swagger PATH`
 
 [PREVIEW] Generate JSON schema given swagger file.
 
 ```
+[PREVIEW] Generate JSON schema given swagger file.
+
 USAGE
   $ bf dialog:generate:swagger PATH
 
@@ -78,16 +84,18 @@ OPTIONS
 EXAMPLE
 
          $ bf dialog:generate:swagger ./petSwagger.json -o . -r /store/order -m post -p dialog.response -n 
-  petSearch.schema
+  petSearch.form
 ```
 
-_See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/swagger.ts)_
+_See code: [src/commands/dialog/generate/swagger.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate/swagger.ts)_
 
 ## `bf dialog:generate:test TRANSCRIPT DIALOG`
 
 [PREVIEW] Generate a .dialog test file from a .transcript file.
 
 ```
+[PREVIEW] Generate a .dialog test file from a .transcript file.
+
 USAGE
   $ bf dialog:generate:test TRANSCRIPT DIALOG
 
@@ -96,6 +104,7 @@ ARGUMENTS
   DIALOG      Dialog to test.
 
 OPTIONS
+  -m, --mock           If specified, mock HttpRequest calls.
   -o, --output=output  [default: .] Output path for <transcriptName>.dialog test file.
   -s, --schema=schema  Path to app.schema file.
 
@@ -104,5 +113,6 @@ EXAMPLE
          $ bf dialog:test bot.transcript myBot.dialog
 ```
 
-_See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/v1.0.0/src/commands/dialog/generate/test.ts)_
+_See code: [src/commands/dialog/generate/test.ts](https://github.com/Microsoft/BotBuilder-Samples/blob/main/experimental/generation/generator/packages/cli/src/commands/dialog/generate/test.ts)_
+<!-- commandsstop -->
 <!-- commandsstop -->

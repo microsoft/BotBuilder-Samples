@@ -1,8 +1,20 @@
 [generator.lg](../generator.lg)
 
 # entities
-- ${[`${property}Entity`]}
+- ${['${property}Value']}
 
-# templates
-- ${propertyTemplates()}
-
+# generators
+- ${[
+        "verifyUnique",
+        "enumEntity.lg",
+        "enumEntity.lu",
+        "genericProperty.lg",
+        "generic-missing.dialog",
+        "generic-change.dialog",
+        "genericEntity-choose.dialog",
+        "genericEntity-assign.dialog",
+        "genericEntity-remove.dialog",
+        "generic-clear.dialog",
+        "generic-show.dialog",
+        "generic-help.dialog"
+    ]}

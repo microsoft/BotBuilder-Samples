@@ -61,6 +61,7 @@ Once you created the LUIS model, update `appsettings.json` with your `LuisAppId`
   - File -> Open -> Project/Solution
   - Navigate to `samples/csharp_dotnetcore/13.core-bot` folder
   - Select `CoreBot.csproj` file
+  - In Solution Explorer, right-click CoreBot and pick Set as Startup Project
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator

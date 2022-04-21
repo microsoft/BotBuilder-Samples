@@ -1,0 +1,23 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('CancelConfirmation-prompt.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Cancel()",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${cancelPrompt()}",
+            "expectedProperties": [
+                "CancelConfirmation"
+            ]           
+        }
+    ]
+    ${designerName('Cancel Confirmation Prompt')}
+}
+```

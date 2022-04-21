@@ -143,7 +143,6 @@ namespace Microsoft.BotBuilderSamples.Bots
             var activityPreview = action.BotActivityPreview[0];
             var attachmentContent = activityPreview.Attachments[0].Content;
             var previewedCard = JsonConvert.DeserializeObject<AdaptiveCard>(attachmentContent.ToString(), new JsonSerializerSettings { NullValueHandling = NullValueHandling.Ignore });
-
             var exampleData = AdaptiveCardHelper.CreateExampleData(previewedCard);
 
             // This is a send so we are done and we will create the adaptive card editor.
@@ -151,9 +150,27 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             var message = MessageFactory.Attachment(new Attachment { ContentType = AdaptiveCard.ContentType, Content = adaptiveCard });
 
+            //User Attribution for Bot messages
+            if (exampleData.UserAttributionSelect=="true")
+            {
+                message.ChannelData = new
+                {
+                    OnBehalfOf = new[]
+                   {
+                    new
+                       {
+                         ItemId = 0,
+                         MentionType = "person",
+                         Mri = turnContext.Activity.From.Id,
+                         DisplayName = turnContext.Activity.From.Name
+                    }
+                }
+                };
+            }
+
             // THIS WILL WORK IF THE BOT IS INSTALLED. (SendActivityAsync will throw if the bot is not installed.)
             await turnContext.SendActivityAsync(message, cancellationToken);
-            
+
             return null;
         }
 

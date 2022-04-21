@@ -1,4 +1,4 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 // index.js is used to setup and configure your bot
@@ -6,38 +6,44 @@
 // Import required packages
 const path = require('path');
 
-// Note: Ensure you have a .env file and include QnAMakerKnowledgeBaseId, QnAMakerEndpointKey and QnAMakerHost.
+// Note: Ensure you have a .env file and include QnAKnowledgebaseId, QnAEndpointKey and QnAEndpointHostName.
 const ENV_FILE = path.join(__dirname, '.env');
 require('dotenv').config({ path: ENV_FILE });
 
 const restify = require('restify');
 
-// Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { BotFrameworkAdapter, ConversationState, MemoryStorage, UserState } = require('botbuilder');
+// Import required bot services.
+// See https://aka.ms/bot-services to learn more about the different parts of a bot.
+const {
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    createBotFrameworkAuthenticationFromConfiguration,
+    MemoryStorage,
+    UserState
+} = require('botbuilder');
 
 const { QnABot } = require('./bots/QnABot');
 const { RootDialog } = require('./dialogs/rootDialog');
 
-// Create HTTP server.
-const server = restify.createServer();
-server.listen(process.env.port || process.env.PORT || 3978, function() {
-    console.log(`\n${ server.name } listening to ${ server.url }.`);
-    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
-    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppType: process.env.MicrosoftAppType,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
 });
+
+const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 adapter.onTurnError = async (context, error) => {
     // This check writes out errors to console log .vs. app insights.
     // NOTE: In production environment, you should consider logging this to Azure
-    //       application insights. See https://aka.ms/bottelemetry for telemetry 
+    //       application insights. See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -56,9 +62,11 @@ adapter.onTurnError = async (context, error) => {
 
 // Define the state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
 // A bot requires a state storage system to persist the dialog and user state between messages.
-const memoryStorage = new MemoryStorage();
 
-// Create conversation and user state with in-memory storage provider.
+// For local development, in-memory storage is used.
+// CAUTION: The Memory Storage used here is for local bot debugging only. When the bot
+// is restarted, anything stored in memory will be gone.
+const memoryStorage = new MemoryStorage();
 const conversationState = new ConversationState(memoryStorage);
 const userState = new UserState(memoryStorage);
 
@@ -71,24 +79,27 @@ if (!endpointHostName.includes('/v5.0') && !endpointHostName.endsWith('/qnamaker
     endpointHostName = endpointHostName + '/qnamaker';
 }
 
-var endpointKey = process.env.QnAEndpointKey;
-
-if (!endpointKey || 0 === endpointKey.length)
-{
-   // To support backward compatibility for Key Names
-    endpointKey = process.env.QnAAuthKey;
-}
+// To support backward compatibility for Key Names, fallback to process.env.QnAAuthKey.
+const endpointKey = process.env.QnAEndpointKey || process.env.QnAAuthKey;
 
 // Create the main dialog.
-const dialog = new RootDialog(process.env.QnAKnowledgebaseId, endpointKey, endpointHostName);
+const dialog = new RootDialog(process.env.QnAKnowledgebaseId, endpointKey, endpointHostName, process.env.DefaultAnswer);
 
 // Create the bot's main handler.
 const bot = new QnABot(conversationState, userState, dialog);
 
+// Create HTTP server.
+const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
+server.listen(process.env.port || process.env.PORT || 3978, function() {
+    console.log(`\n${ server.name } listening to ${ server.url }.`);
+    console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
+    console.log('\nTo talk to your bot, open the emulator select "Open Bot"');
+});
+
 // Listen for incoming requests.
-server.post('/api/messages', (req, res) => {
-    adapter.processActivity(req, res, async (turnContext) => {
-        // Route the message to the bot's main handler.
-        await bot.run(turnContext);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => bot.run(context));
 });

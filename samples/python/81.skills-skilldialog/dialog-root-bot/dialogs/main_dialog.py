@@ -59,8 +59,6 @@ class MainDialog(ComponentDialog):
         )
 
         bot_id = configuration.APP_ID
-        if not bot_id:
-            raise TypeError("App Id is not in configuration")
 
         self._skills_config = skills_config
         if not self._skills_config:

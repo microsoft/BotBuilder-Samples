@@ -1,0 +1,21 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('NotUnderstood.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnDialogEvent",
+    "event": "recognizedIntent",
+    "condition": "=turn.recognizedIntent == 'None' || (turn.recognizedIntent == '${triggerIntent}' && count(turn.recognizedEntities) == 0)",
+    "actions": [
+        {
+         "$kind": "Microsoft.SendActivity",
+         "activity": "\${notUnderstood()}"
+        }
+    ]
+    ${designerName('Not Understood')}
+}
+```

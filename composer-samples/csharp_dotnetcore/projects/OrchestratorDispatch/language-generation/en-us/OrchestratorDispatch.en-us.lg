@@ -1,0 +1,51 @@
+[import](common.lg)
+
+# SendActivity_Welcome
+- ${WelcomeUser()}
+
+# SendActivity_7MNTfM()
+- Ask a question about (_Orchestrator recognizer_)\r- Composer, components, or custom actions --> Dispatch to QnA\r- Ask about Bot Framework partners --> Dispatch to LUIS\r- Ask about skills --> Dispatch to a skill
+
+# TextInput_Prompt_sL5okG()
+[Activity
+    Text = How can I help you?
+]
+
+# SendActivity_Zy3DnL()
+[Activity
+    Text = Thank you. Goodbye.
+]
+
+# TextInput_Prompt_HGB0yC()
+[Activity
+    Text = ${expandText(@answer)}
+    SuggestedActions = ${foreach(turn.recognized.answers[0].context.prompts, x, x.displayText)}
+]
+
+# SendActivity_ESxCuC()
+- ${expandText(@answer)}
+
+# SendActivity_xjrS5L()
+[Activity
+    Text = Unknown intent. Please rephrase. (_parent trigger_)
+]
+
+# SendActivity_bzZc9B()
+[Activity
+    Text = Good chatting. Goodbye. (_parent trigger_)
+]
+
+# SendActivity_VJYzMf()
+[Activity
+    Text = **QnA Intent**
+]
+
+# SendActivity_EZm3u2()
+[Activity
+    Text = Calling The Skill...
+]
+
+# SendActivity_v8rqlc()
+[Activity
+    Text = Please rephrase. (_parent None trigger_)
+]

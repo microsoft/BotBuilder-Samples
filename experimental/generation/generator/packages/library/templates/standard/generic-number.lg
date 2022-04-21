@@ -1,4 +1,0 @@
-[generator.lg](../generator.lg)
-
-# templates
-- ${[`genericEntity.lu`, `genericEntity.lg`, `genericEntity-add.dialog`, `genericEntity-remove.dialog`]}

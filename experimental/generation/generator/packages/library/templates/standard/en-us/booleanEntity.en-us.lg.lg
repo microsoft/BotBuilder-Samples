@@ -1,0 +1,18 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${generationDir()}${locale}/form/${prefix}-booleanEntity.${locale}.lg
+
+# generator
+- ```
+# booleanEntity_Value(value)
+> Display value for a boolean entity
+- SWITCH: \${value}
+- CASE: \${'true'}
+    - true  
+- CASE: \${'false'}
+    - false
+- DEFAULT:
+    - no value
+```    
+

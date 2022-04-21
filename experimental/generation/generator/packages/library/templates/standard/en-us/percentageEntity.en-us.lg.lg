@@ -1,0 +1,8 @@
+[standard.en-us.lg](standard.en-us.lg)
+
+# filename
+- ${filenameForEntityTypeLG('percentage')}
+
+# generator
+- ${entityTypeTemplate('percentage')}
+

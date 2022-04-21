@@ -1,0 +1,11 @@
+{
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/main/Composer/packages/server/schemas/botproject.schema",
+  "name": "OrchestratorDispatch",
+  "skills": {
+    "theSkill": {
+      "manifest": "https://theskill.azurewebsites.net/manifests/TheSkill-2-1-manifest.json",
+      "remote": true,
+      "endpointName": "Prod"
+    }
+  }
+}

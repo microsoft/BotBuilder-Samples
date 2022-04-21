@@ -1,0 +1,6 @@
+{
+  "$kind": "Microsoft.CrossTrainedRecognizerSet",
+  "recognizers": [
+    "todobotwithluissample.lu"
+  ]
+}

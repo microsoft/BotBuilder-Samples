@@ -1,0 +1,64 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "uFLBLw",
+    "name": "gotoaction"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "id": "imJZBK"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "EK6lQC"
+          },
+          "property": "$counter",
+          "value": "=1"
+        },
+        {
+          "id": "target",
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "6O_Cva"
+          },
+          "condition": "$counter > 2",
+          "actions": [
+            {
+              "$kind": "Microsoft.EndDialog",
+              "$designer": {
+                "id": "GHVfhH"
+              }
+            }
+          ]
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "1QICaW"
+          },
+          "activity": "${SendActivity_1QICaW()}"
+        },
+        {
+          "$kind": "Microsoft.SetProperty",
+          "$designer": {
+            "id": "j-1xqb"
+          },
+          "property": "$counter",
+          "value": "=$counter+1"
+        },
+        {
+          "$kind": "Microsoft.GotoAction",
+          "actionId": "target"
+        }
+      ]
+    }
+  ],
+  "generator": "gotoaction.lg"
+}

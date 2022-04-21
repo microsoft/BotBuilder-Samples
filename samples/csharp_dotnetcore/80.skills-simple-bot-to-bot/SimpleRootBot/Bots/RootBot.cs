@@ -7,7 +7,6 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -22,32 +21,28 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
         private readonly string _botId;
         private readonly ConversationState _conversationState;
-        private readonly SkillHttpClient _skillClient;
+        private readonly BotFrameworkAuthentication _auth;
+        private readonly SkillConversationIdFactoryBase _conversationIdFactory;
         private readonly SkillsConfiguration _skillsConfig;
         private readonly BotFrameworkSkill _targetSkill;
 
-        public RootBot(ConversationState conversationState, SkillsConfiguration skillsConfig, SkillHttpClient skillClient, IConfiguration configuration)
+        public RootBot(BotFrameworkAuthentication auth, ConversationState conversationState, SkillsConfiguration skillsConfig, SkillConversationIdFactoryBase conversationIdFactory, IConfiguration configuration)
         {
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
             _conversationState = conversationState ?? throw new ArgumentNullException(nameof(conversationState));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
-            _skillClient = skillClient ?? throw new ArgumentNullException(nameof(skillsConfig));
+            _conversationIdFactory = conversationIdFactory ?? throw new ArgumentNullException(nameof(conversationIdFactory));
+
             if (configuration == null)
             {
                 throw new ArgumentNullException(nameof(configuration));
             }
 
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
-            if (string.IsNullOrWhiteSpace(_botId))
-            {
-                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not set in configuration");
-            }
 
             // We use a single skill in this example.
             var targetSkillId = "EchoSkillBot";
-            if (!_skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill))
-            {
-                throw new ArgumentException($"Skill with ID \"{targetSkillId}\" not found in configuration");
-            }
+            _skillsConfig.Skills.TryGetValue(targetSkillId, out _targetSkill);
 
             // Create state property to track the active skill
             _activeSkillProperty = conversationState.CreateProperty<BotFrameworkSkill>(ActiveSkillPropertyName);
@@ -60,6 +55,7 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             {
                 // Try to get the active skill
                 var activeSkill = await _activeSkillProperty.GetAsync(turnContext, () => null, cancellationToken);
+
                 if (activeSkill != null)
                 {
                     // Send the activity to the skill
@@ -138,8 +134,20 @@ namespace Microsoft.BotBuilderSamples.SimpleRootBot.Bots
             // will have access to current accurate state.
             await _conversationState.SaveChangesAsync(turnContext, force: true, cancellationToken: cancellationToken);
 
+            // Create a conversationId to interact with the skill and send the activity
+            var options = new SkillConversationIdFactoryOptions
+            {
+                FromBotOAuthScope = turnContext.TurnState.Get<string>(BotAdapter.OAuthScopeKey),
+                FromBotId = _botId,
+                Activity = turnContext.Activity,
+                BotFrameworkSkill = targetSkill
+            };
+            var skillConversationId = await _conversationIdFactory.CreateSkillConversationIdAsync(options, cancellationToken);
+
+            using var client = _auth.CreateBotFrameworkClient();
+
             // route the activity to the skill
-            var response = await _skillClient.PostActivityAsync(_botId, targetSkill, _skillsConfig.SkillHostEndpoint, turnContext.Activity, cancellationToken);
+            var response = await client.PostActivityAsync(_botId, targetSkill.AppId, targetSkill.SkillEndpoint, _skillsConfig.SkillHostEndpoint, skillConversationId, turnContext.Activity, cancellationToken);
 
             // Check response status
             if (!(response.Status >= 200 && response.Status <= 299))

@@ -1,0 +1,8 @@
+{
+  "$kind": "Microsoft.MultiLanguageRecognizer",
+  "id": "LUIS_SchoolNavigator",
+  "recognizers": {
+    "en-us": "SchoolNavigator.en-us.lu",
+    "": "SchoolNavigator.en-us.lu"
+  }
+}

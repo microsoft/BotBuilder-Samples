@@ -4,7 +4,7 @@ Bot Framework v4 echo bot using Slack Adapter sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple echo bot that connects with Slack to respond messages.
 
-### Create a Slack Application for your bot
+## Create a Slack Application for your bot
 
 1. Log into [Slack](https://slack.com/signin) and then go to [create a Slack application](https://api.slack.com/apps) channel.
 
@@ -14,7 +14,21 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 4. Click **Create App**. Slack will create your app and generate a Client ID and Client Secret.
 
-#### Gather required configuration settings for your bot
+### Update your Slack app
+
+Navigate back to the [Slack api dashboard]([https://api.slack.com/apps]) and select your app.  You now need to configure the URL in 2 locations for your app and subscribe to the appropriate events.
+
+1. In the **Oauth & Permissions** tab:
+  - The 'Redirect URL' should be your bots url, plus the 'api/slack' endpoint you specified in your newly created controller. e.g. https://xxxxx.ngrok.io/api/slack
+  - Verify **Bot Token Scopes** for `chat:write`, `im:history`, and `im:read`
+
+2. In the **Event Subscriptions** tab, fill in the 'Request URL' with the same URL you used in step 1.
+
+3. Enable events using the toggle at the top of the page.
+
+4. Expand the **'Subscribe to bot events'** section and use the 'Add Bot User Event' button to subscribe to `im_created` and `message.im`.
+
+### Gather required configuration settings for your bot
 
 Once your app has been created, you need to collect some information that will be needed by your bot to connect to Slack.
 
@@ -22,7 +36,7 @@ Once your app has been created, you need to collect some information that will b
 
 2. Navigate to the **Install App** page under the 'Settings' menu and follow the instructions to install your app into a Slack team.  Once installed, copy the 'Bot User OAuth Access Token' and, again, keep this for later when we configure out bot settings.
 
-### Add Slack app settings to your bot's configuration file
+## Add Slack app settings to your bot's configuration file
 
 Add the 3 settings shown below to your `config.py` file in your bot project, populating each one with the values gathered earlier when creating your Slack app.
 
@@ -50,20 +64,6 @@ Use the following command in a terminal window.
 ```
 ngrok.exe http 3978 -host-header="localhost:3978"
 ```
-
-### Update your Slack app
-
-Navigate back to the [Slack api dashboard]([https://api.slack.com/apps]) and select your app.  You now need to configure 2 URLs for your app and subscribe to the appropriate events.
-
-1. In the **Event Subscriptions** tab, fill in the 'Request URL' with the same URL you used in step 1.
-
-1. Enable events using the toggle at the top of the page.
-
-1. Expand the **'Subscribe to bot events'** section and use the 'Add Bot User Event' button to subscribe to `im_created` and `message.im`.
-
-1. In the **Oauth & Permissions** tab:
-  - The 'Redirect URL' should be your bots url, plus the 'api/slack' endpoint you specified in your newly created controller. e.g. https://xxxxx.ngrok.io/api/slack
-  - Verify **Bot Token Scopes** for `chat:write`, `im:history`, and `im:read`
 
 ## Test your bot in Slack
 

@@ -4,16 +4,41 @@ Bot Framework v4 using cards bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses rich cards to enhance your bot design.
 
+
+## Prerequisites
+
+- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+
+  ```bash
+  # determine dotnet version
+  dotnet --version
+  ```
+
 ## To try this sample
 
 - Clone the repository
-```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
-```
-- In a terminal, navigate to `botbuilder-samples\samples\python\02.echo-bot` folder
-- Activate your desired virtual environment
-- In the terminal, type `pip install -r requirements.txt`
-- Run your bot with `python app.py`
+
+    ```bash
+    git clone https://github.com/Microsoft/botbuilder-samples.git
+    ```
+
+- Run the bot from a terminal or from Visual Studio:
+
+  A) From a terminal, navigate to `samples/csharp_dotnetcore/06.using-cards`
+
+  ```bash
+  # run the bot
+  dotnet run
+  ```
+
+  B) Or from Visual Studio
+
+  - Launch Visual Studio
+  - File -> Open -> Project/Solution
+  - Navigate to `samples/csharp_dotnetcore/06.using-cards` folder
+  - Select `CardsBot.csproj` file
+  - Press `F5` to run the project
+
 
 ## Testing the bot using Bot Framework Emulator
 

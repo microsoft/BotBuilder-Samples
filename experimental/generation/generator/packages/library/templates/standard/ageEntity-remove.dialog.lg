@@ -1,8 +1,0 @@
-[generator.lg](../generator.lg)
-
-# filename
-- ${removeFilename('age')}
-
-# template
-- ${removeDialog('age')}
-

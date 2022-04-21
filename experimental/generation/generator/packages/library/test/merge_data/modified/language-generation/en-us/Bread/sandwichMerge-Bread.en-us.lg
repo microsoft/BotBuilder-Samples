@@ -1,0 +1,100 @@
+
+[sandwichMerge-form.en-us.lg](../form/sandwichMerge-form.en-us.lg)
+[BreadValue](../BreadValue/sandwichMerge-BreadValue.en-us.lg)
+
+>> Prompts
+
+# Bread_MissingPrompt()
+> Prompt activity when 'Bread' property is missing
+[Activity
+    Text = ${Bread_MissingPrompt_text()}
+]
+
+# Bread_MissingPrompt_text()
+> Prompt when 'Bread' property is missing
+- Bread?
+
+# Bread_ChangePrompt()
+> Prompt activity when 'Bread' property has a value, but is being changed
+[Activity
+    Text = ${Bread_ChangePrompt_text()}
+]
+
+# Bread_ChangePrompt_text()
+> Prompt when 'Bread' property has a value, but is being changed
+- Change "${Bread_Value($Bread)}" in bread to?
+
+>> Confirmation
+
+# Bread_ExpectedSetConfirmation(newVal)
+> Confirmation when adding expected value to empty 'Bread' property
+-  
+
+# Bread_ExpectedUpdateConfirmation(newVal)
+> Confirmation when replacing expected value in 'Bread' property
+- Changed bread from ${Bread_Value($Bread)} to ${Bread_Value(newVal)}
+
+# Bread_UnexpectedSetConfirmation(newVal)
+> Confirmation when adding unexpected value to empty 'Bread' property
+- Set bread to ${Bread_Value(newVal)}
+
+# Bread_UnexpectedUpdateConfirmation(newVal)
+> Confirmation when replacing unexpected value in 'Bread' property
+- Changed bread from ${Bread_Value($Bread)} to ${Bread_Value(newVal)}
+
+# Bread_RemoveConfirmation(val)
+> Confirmation activity when value is removed from 'Bread' property
+[Activity
+    Text = ${Bread_RemoveConfirmation_text(val)}
+]
+
+# Bread_RemoveConfirmation_text(val)
+> Confirmation when value is removed from 'Bread' property
+- Removed ${Bread_Value(val)} from bread
+
+# Bread_ClearConfirmation()
+> Confirmation activity when 'Bread' property is cleared
+[Activity
+    Text = ${Bread_ClearConfirmation_text()}
+]
+
+# Bread_ClearConfirmation_text()
+> Confirmation  when 'Bread' property is cleared
+- Cleared bread
+
+>> Help
+
+# Bread_RepromptHelp()
+> Help for 'Bread' property reprompt
+- Possible values for bread include: ${possibleValuesList(`Bread`)}
+
+# Bread_Help()
+> Help activity for 'Bread' property
+[Activity
+    Text = ${Bread_Help_text()}
+]
+
+# Bread_Help_text()
+> Help for 'Bread' property
+- Possible values for bread include: ${possibleValuesList(`Bread`)}
+
+>> Show
+# Bread_Show()
+> Show value activity
+[Activity
+    Text = ${Bread_Show_text()}
+]
+
+# Bread_Show_text()
+> Show value of 'Bread' property
+- bread: ${Bread_Value($Bread)}
+
+# Bread_Name()
+> Name of the 'Bread' property
+- bread
+- doughy stuff
+
+# Bread_Value(val)
+- '${BreadEnum_Value(val)}'
+
+> Generator: fe52ddf89ccc040ccd60960f5ab37e95

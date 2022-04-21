@@ -1,7 +1,0 @@
-[library.en-us.lg]
-
-# qna_answer
-- ${@answer}
-
-# choose_intent
-- which recognizer do you prefer?

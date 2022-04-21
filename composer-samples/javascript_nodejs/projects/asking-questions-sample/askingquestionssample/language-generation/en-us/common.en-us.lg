@@ -1,0 +1,19 @@
+# WelcomeUser
+-```Welcome to Input Sample Bot.
+I can show you examples on how to use actions, You can enter number 01-07
+01 - TextInput
+02 - NumberInput
+03 - ConfirmInput
+04 - ChoiceInput
+05 - AttachmentInput
+06 - DateTimeInput
+07 - OAuthInput```
+
+# ShowImage(contentUrl, contentType)
+[HeroCard
+    title = Here is the attachment
+    image = ${contentUrl}
+]
+
+# Welcome
+-Welcome to input samples.

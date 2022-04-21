@@ -1,0 +1,149 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Builds, deploys and configures the bot's dotnet web app
+# 
+
+parameters:
+- name: azureServiceConnection
+  displayName: Azure Service Connection
+  type: string
+
+- name: webAppName
+  displayName: Azure web app name
+  type: string
+
+- name: resourceGroupName
+  displayName: Resource group
+  type: string
+
+- name: botProjectFile
+  displayName: Bot project to build and deploy
+  type: string
+
+- name: botName
+  displayName: Bot name
+  type: string
+
+- name: microsoftAppId
+  displayName: Bot's Microsoft app ID
+  type: string
+
+- name: microsoftAppPassword
+  displayName: Bot's Microsoft app Password
+  type: string
+
+- name: luisEndpoint
+  displayName: LUIS endpoint
+  type: string
+
+- name: luisEndpointKey
+  displayName: LUIS endpoint key
+  type: string
+
+- name: qnaSubscriptionKey
+  displayName: QnA Maker subscription key
+  type: string
+
+- name: qnaEndpointKey
+  displayName: QnA Maker endpoint key
+  type: string
+
+- name: qnaHostName
+  displayName: QnA Maker host name
+  type: string
+
+- name: qnaKnowledgebaseId
+  displayName: QnA Maker knowledgebase ID
+  type: string
+
+- name: qnaRegion
+  displayName: QnA Maker region
+  type: string
+
+steps:
+# Build bot
+# Note: this step also packages the generated folder created by the buildAndDeployModels yaml script.
+# https://stackoverflow.com/questions/63788646/naming-resulting-zip-archive-in-azure-pipelines-build
+- task: DotNetCoreCLI@2
+  displayName: "Build the bot publishing package"
+  inputs:
+    command: "publish"
+    projects: "${{ parameters.botProjectFile }}"
+    publishWebProjects: false #setting it to false to make sure only this csproj gets compiled and published.
+    arguments: "--output $(System.DefaultWorkingDirectory)/output/zipDeploy"
+    zipAfterPublish: True
+
+# Publish output artifacts to Azure DevOps
+- task: PublishBuildArtifacts@1
+  displayName: "Publish build artifacts"
+  inputs:
+    pathtoPublish: "$(System.DefaultWorkingDirectory)/output/zipDeploy" 
+    artifactName: "BuildArtifacts-$(Build.BuildId)"
+
+# Deploy the web app to azure
+- task: AzureWebApp@1
+  displayName: "Deploy Azure Web App: ${{ parameters.webAppName }}"
+  inputs:
+    azureSubscription: ${{ parameters.azureServiceConnection }}
+    appName: "${{ parameters.webAppName }}"
+    resourceGroupName: "${{ parameters.resourceGroupName }}"
+    package: "$(System.DefaultWorkingDirectory)/output/zipDeploy/*.zip"
+    deploymentMethod: zipDeploy
+
+# Configure web appSettings
+- task: AzureAppServiceSettings@1
+  displayName: "Configure App Service Settings"
+  inputs:
+    azureSubscription: "${{ parameters.azureServiceConnection }}"
+    appName: "${{ parameters.webAppName }}"
+    # To deploy the settings on a slot, provide slot name as below (e.g: slotName: staging). 
+    # By default, the settings would be applied to the actual Web App (Production slot) 
+    appSettings: |
+      [
+        {
+          "name": "MicrosoftAppId",
+          "value": "${{ parameters.microsoftAppId }}",
+          "slotSetting": false
+        },
+        {
+          "name": "MicrosoftAppPassword",
+          "value": "${{ parameters.microsoftAppPassword }}",
+          "slotSetting": false
+        },
+        {
+          "name": "luis__endpoint",
+          "value": "${{ parameters.luisEndpoint }}",
+          "slotSetting": false
+        },
+        {
+          "name": "luis__endpointKey",
+          "value": "${{ parameters.luisEndpointKey }}",
+          "slotSetting": false
+        },
+        {
+          "name": "qna__hostname",
+          "value": "${{ parameters.qnaHostName }}",
+          "slotSetting": false
+        },
+        {
+          "name": "qna__knowledgebaseid",
+          "value": "${{ parameters.qnaKnowledgebaseId }}",
+          "slotSetting": false
+        },
+        {
+          "name": "qna__qnaRegion",
+          "value": "${{ parameters.qnaRegion }}",
+          "slotSetting": false
+        },
+        {
+          "name": "qna__endpointKey",
+          "value": "${{ parameters.qnaEndpointKey }}",
+          "slotSetting": false
+        },
+        {
+          "name": "qna__subscriptionKey",
+          "value": "${{ parameters.qnaSubscriptionKey }}",
+          "slotSetting": false
+        }
+      ]

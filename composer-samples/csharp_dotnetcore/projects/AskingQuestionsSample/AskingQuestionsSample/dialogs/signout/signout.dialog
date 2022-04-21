@@ -1,0 +1,37 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "5IdzgE",
+    "name": "signout",
+    "description": "sign out the oauth input user\n"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "LISbN9"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SignOutUser",
+          "$designer": {
+            "id": "qT1feG"
+          },
+          "connectionName": "Outlook"
+        },
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "0hYRyO"
+          },
+          "activity": "${SendActivity_0hYRyO()}"
+        }
+      ]
+    }
+  ],
+  "generator": "signout.lg"
+}

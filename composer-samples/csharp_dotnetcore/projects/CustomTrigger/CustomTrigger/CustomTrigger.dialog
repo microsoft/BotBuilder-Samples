@@ -1,0 +1,99 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "name": "CustomTrigger",
+    "description": "",
+    "id": "A79tBe"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "OnMembersAdded",
+      "$designer": {
+        "id": "7sCb3W"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "HY6FPs"
+          },
+          "activity": "${SendActivity_HY6FPs()}"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "z7od77"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "turn.Activity.membersAdded",
+          "actions": [
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "5I3q13"
+              },
+              "condition": "string(dialog.foreach.value.id) == string(turn.Activity.Recipient.id)",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "rqayH1"
+                  },
+                  "activity": "${SendActivity_rqayH1()}"
+                }
+              ],
+              "elseActions": [
+                {
+                  "$kind": "Microsoft.SendActivity",
+                  "$designer": {
+                    "id": "oFC4Vt"
+                  },
+                  "activity": "${SendActivity_oFC4Vt()}"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "$kind": "OnMembersRemoved",
+      "$designer": {
+        "id": "IAwKiB"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "a0Urh9"
+          },
+          "activity": "${SendActivity_a0Urh9()}"
+        },
+        {
+          "$kind": "Microsoft.Foreach",
+          "$designer": {
+            "id": "nFCgDb"
+          },
+          "index": "dialog.foreach.index",
+          "value": "dialog.foreach.value",
+          "itemsProperty": "turn.Activity.membersRemoved",
+          "actions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "ERCwD0"
+              },
+              "activity": "${SendActivity_ERCwD0()}"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "generator": "CustomTrigger.lg",
+  "id": "CustomTrigger",
+  "recognizer": "CustomTrigger.lu.qna"
+}

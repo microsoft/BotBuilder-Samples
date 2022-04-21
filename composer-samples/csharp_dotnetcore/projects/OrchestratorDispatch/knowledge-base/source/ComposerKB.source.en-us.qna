@@ -1,0 +1,23 @@
+# ? What are custom actions?
+- how to create custom action in composer
+- how to extend composer
+```
+You can extend  the set of available actions within Composer canvas while building bots.
+See more here: https://docs.microsoft.com/en-us/composer/how-to-add-custom-action?tabs=csharp
+```
+# ? What is Composer?
+- tell me about composer
+- bot framework composer
+- composer documentation
+```
+Composer is a GUI bot building tool for Microsoft Bot Framework. See more here: https://docs.microsoft.com/en-us/composer/introduction
+```
+# ? What are packages?
+- tell me about packages
+- what are components?
+- components info
+- packages documentation
+- how to create packages
+```
+Reusable components for building Bot Framework Bots in Composer. See more here: https://github.com/microsoft/botframework-components/tree/main/docs
+```

@@ -1,0 +1,33 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "3yk4OT",
+    "name": "HelpDialog",
+    "description": "Displays help information about the bot"
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnBeginDialog",
+      "$designer": {
+        "name": "BeginDialog",
+        "description": "",
+        "id": "qXCGer"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "5JQ9rf"
+          },
+          "activity": "${SendActivity_HelpOverview()}"
+        }
+      ]
+    }
+  ],
+  "generator": "HelpDialog.lg",
+  "recognizer": "HelpDialog.lu.qna",
+  "id": "HelpDialog",
+  "$Imported": "a1be0cb91341b11b8cd09b0301040284"
+}

@@ -1,0 +1,45 @@
+> See https://aka.ms/lu-file-format to learn about supported LU concepts.
+
+# Why
+- Why do you ask?
+- Why do you need my name?
+- Why?
+- Why do you need my age?
+
+# NoValue
+- No name
+- No age
+- I will not give you my name
+- I will not give you my age
+- I'm not comfortable giving you my name
+- Not confortable with sharing that
+- No way
+- Sorry, not giving you that information
+
+> This intent will capture utterances user can say when responding to inputs
+# GetProfileInputs
+- my name is {personName:userName}
+- {personName:userName}
+- {age:userAge}
+- I'm {age:userAge} years old
+ 
+@ prebuilt  personName userName
+@ prebuilt  age userAge
+
+
+> Add interruption intent with examples of utterances that this dialog should not handle.
+# Interruption
+> reset profile intent from root dialog
+- reset profile
+- please reset profile
+- forget me
+> cancel intent uttrances from root dialog
+- Cancel
+- Please cancel that
+- Abort
+- Stop that
+> show profile utterances from root dialog
+- What do you know about me?
+- Show profile
+- Show my profile
+- What information do you have about me?

@@ -39,7 +39,7 @@ namespace Microsoft.BotBuilderSamples
         {
             // Get the state properties from the turn context.
 
-            var conversationStateAccessors =  _conversationState.CreateProperty<ConversationData>(nameof(ConversationData));
+            var conversationStateAccessors = _conversationState.CreateProperty<ConversationData>(nameof(ConversationData));
             var conversationData = await conversationStateAccessors.GetAsync(turnContext, () => new ConversationData());
 
             var userStateAccessors = _userState.CreateProperty<UserProfile>(nameof(UserProfile));
@@ -72,7 +72,7 @@ namespace Microsoft.BotBuilderSamples
             {
                 // Add message details to the conversation data.
                 // Convert saved Timestamp to local DateTimeOffset, then to string for display.
-                var messageTimeOffset = (DateTimeOffset) turnContext.Activity.Timestamp;
+                var messageTimeOffset = (DateTimeOffset)turnContext.Activity.Timestamp;
                 var localMessageTime = messageTimeOffset.ToLocalTime();
                 conversationData.Timestamp = localMessageTime.ToString();
                 conversationData.ChannelId = turnContext.Activity.ChannelId.ToString();
@@ -85,4 +85,3 @@ namespace Microsoft.BotBuilderSamples
         }
     }
 }
-

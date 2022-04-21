@@ -1,0 +1,17 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "$designer": {
+      "name": "QnASample",
+      "description": "",
+      "id": "AjWQ1T"
+    }
+  },
+  "autoEndDialog": false,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [],
+  "$schema": "https://raw.githubusercontent.com/microsoft/BotFramework-Composer/stable/Composer/packages/server/schemas/sdk.schema",
+  "generator": "qnasample.lg",
+  "recognizer": "qnasample.lu.qna",
+  "id": "qnasample"
+}

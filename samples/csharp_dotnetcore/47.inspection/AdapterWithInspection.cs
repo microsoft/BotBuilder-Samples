@@ -10,12 +10,12 @@ using Microsoft.Extensions.Logging;
 
 namespace Microsoft.BotBuilderSamples
 {
-    public class AdapterWithInspection : BotFrameworkHttpAdapter
+    public class AdapterWithInspection : CloudAdapter
     {
-        public AdapterWithInspection(IConfiguration configuration, InspectionState inspectionState, UserState userState, ConversationState conversationState, ILogger<BotFrameworkHttpAdapter> logger)
-            : base(configuration, logger)
+        public AdapterWithInspection(BotFrameworkAuthentication auth, IConfiguration configuration, InspectionState inspectionState, UserState userState, ConversationState conversationState, ILogger<IBotFrameworkHttpAdapter> logger)
+            : base(auth, logger)
         {
-            // Inspection needs credentiaols because it will be sending the Activities and User and Conversation State to the emulator
+            // Inspection needs credentials because it will be sending the Activities and User and Conversation State to the emulator
             var credentials = new MicrosoftAppCredentials(configuration["MicrosoftAppId"], configuration["MicrosoftAppPassword"]);
 
             Use(new InspectionMiddleware(inspectionState, userState, conversationState, credentials));

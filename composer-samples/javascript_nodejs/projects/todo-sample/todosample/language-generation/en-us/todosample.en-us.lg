@@ -1,0 +1,10 @@
+[import](common.lg)
+
+# SendActivity_696707
+-${WelcomeUser()}
+
+# SendActivity_157674()
+- Hi! I'm a ToDo bot. Say "add a todo named first" to get started.
+
+# foo
+- You are so smart!

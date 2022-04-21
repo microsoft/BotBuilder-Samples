@@ -1,17 +1,26 @@
-# filename
-- generated/${prefix}.${locale}.lu.dialog
+[generator.lg](../generator.lg)
 
-# template
+# filename
+- ${recognizerDir()}${prefix}.${locale}.lu.dialog
+
+# generator
 -```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.LuisRecognizer",
-    "applicationId": "=settings.luis.${prefix}_${replace(locale, '-', '_')}_lu",
+    "applicationId": "=settings.luis.${appName()}.appId",
+    "version": "=settings.luis.${appName()}.version",
     "endpoint": "=settings.luis.endpoint",
     "endpointKey": "=settings.luis.endpointKey",
     "predictionOptions": {
         "includeInstanceData": true
-    }
+    },
+    "dynamicLists": "=${addList()}"
 }
 ```
 
+# appName
+- ${prefix}_${replace(locale, '-', '_')}_lu
+
+# addList
+- [${join(foreach(where(schema.properties, property, property.value.$template == "dynamiclist"), result, `dialog.${result.key}Value`), `,`)}]

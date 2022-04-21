@@ -1,0 +1,19 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('ChooseProperty.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnChooseProperty",
+    "actions": [
+        {
+            "$kind": "Microsoft.Ask",
+            "activity": "\${chooseProperties()}"
+        }
+    ]
+    ${designerName('Choose Assignment Prompt')}
+}
+```
