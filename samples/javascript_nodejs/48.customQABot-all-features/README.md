@@ -63,7 +63,7 @@ Follow these steps to update [.env file](.env).
 - In Language Studio, click on inspect to see the closeness in the scores of the returned answers.
 - In [Bot Framework Emulator][BFE], a card is generated with the suggestions.
   - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
-  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [rootDialog.js](dialogs/rootDialog.js).
+  - `ACTIVE_LEARNING_CARD_TITLE`, `ACTIVE_LEARNING_CARD_NO_MATCH_TEXT` and `ACTIVE_LEARNING_CARD_NO_MATCH_RESPONSE` in the card could be changed from [rootDialog.js](dialogs/rootDialog.js).
 
 ## Try Multi-turn prompt
 - Try the following utterances:
@@ -88,7 +88,7 @@ Follow these steps to update [.env file](.env).
   1) Frontline workers
   2) Hybrid work solutions
 - You can observe that, answers are returned with high score.
-- You can set `IncludeUnstructuredSources` to false in [rootDialog.js](dialogs/rootDialog.js) to prevent querying unstructured sources.
+- You can set `INCLUDE_UNSTRUCTURED_SOURCES` to false in [rootDialog.js](dialogs/rootDialog.js) to prevent querying unstructured sources.
 
 ## Try Filters
 - Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
