@@ -10,11 +10,11 @@ namespace Microsoft.BotBuilderSamples
     public interface IBotServices
     {
         LuisRecognizer LuisHomeAutomationRecognizer { get; }
-        
+
         LuisRecognizer LuisWeatherRecognizer { get; }
 
         OrchestratorRecognizer Dispatch { get; }
-        
-        QnAMaker SampleQnA { get; }
+
+        IQnAMakerClient SampleQnA { get; }
     }
 }

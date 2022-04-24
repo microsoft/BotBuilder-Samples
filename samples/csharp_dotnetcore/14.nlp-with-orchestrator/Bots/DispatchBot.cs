@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
             // Top intent tell us which cognitive service to use.
             var allScores = await _botServices.Dispatch.RecognizeAsync(dc, (Activity)turnContext.Activity, cancellationToken);
             var topIntent = allScores.Intents.First().Key;
-            
+
             // Next, we call the dispatcher with the top intent.
             await DispatchToTopIntentAsync(turnContext, topIntent, cancellationToken);
         }
@@ -61,6 +61,9 @@ namespace Microsoft.BotBuilderSamples
                 case "QnAMaker":
                     await ProcessSampleQnAAsync(turnContext, cancellationToken);
                     break;
+                case "CustomQA":
+                    await ProcessSampleQnAAsync(turnContext, cancellationToken);
+                    break;
                 default:
                     _logger.LogInformation($"Dispatch unrecognized intent: {intent}.");
                     await turnContext.SendActivityAsync(MessageFactory.Text($"Dispatch unrecognized intent: {intent}."), cancellationToken);
@@ -76,8 +79,8 @@ namespace Microsoft.BotBuilderSamples
             var recognizerResult = await _botServices.LuisHomeAutomationRecognizer.RecognizeAsync(turnContext, cancellationToken);
             var result = recognizerResult.Properties["luisResult"] as LuisResult;
 
-            var topIntent = result.TopScoringIntent.Intent; 
-            
+            var topIntent = result.TopScoringIntent.Intent;
+
             await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation top intent {topIntent}."), cancellationToken);
             await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation intents detected:\n\n{string.Join("\n\n", result.Intents.Select(i => i.Intent))}"), cancellationToken);
             if (result.Entities.Count > 0)
@@ -107,7 +110,7 @@ namespace Microsoft.BotBuilderSamples
         {
             _logger.LogInformation("ProcessSampleQnAAsync");
 
-            var results = await _botServices.SampleQnA.GetAnswersAsync(turnContext);
+            var results = await _botServices.SampleQnA.GetAnswersAsync(turnContext, null, null);
             if (results.Any())
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text(results.First().Answer), cancellationToken);

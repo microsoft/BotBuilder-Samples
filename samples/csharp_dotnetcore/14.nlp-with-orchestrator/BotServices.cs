@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.Orchestrator;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
@@ -20,18 +22,38 @@ namespace Microsoft.BotBuilderSamples
 
             Dispatch = dispatcher;
 
-            SampleQnA = new QnAMaker(new QnAMakerEndpoint
+            var qnaServiceType = configuration["QnAServiceType"].ToLower();
+            var qnaKnowledgebaseId = configuration["QnAKnowledgebaseId"];
+            var qnaEndpointKey = configuration["QnAEndpointKey"];
+            var qnaEndpointHostName = configuration["QnAEndpointHostName"];
+
+            if (qnaServiceType == "language")
             {
-                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = configuration["QnAEndpointKey"],
-                Host = configuration["QnAEndpointHostName"]
-            });
+                SampleQnA = new CustomQuestionAnswering(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = qnaKnowledgebaseId,
+                    EndpointKey = qnaEndpointKey,
+                    Host = qnaEndpointHostName,
+                    QnAServiceType = ServiceType.Language
+                });
+
+            }
+            else
+            {
+                SampleQnA = new QnAMaker(new QnAMakerEndpoint
+                {
+                    KnowledgeBaseId = qnaKnowledgebaseId,
+                    EndpointKey = qnaEndpointKey,
+                    Host = qnaEndpointHostName,
+                    QnAServiceType = ServiceType.QnAMaker
+                });
+            }
         }
 
         public OrchestratorRecognizer Dispatch { get; private set; }
-        
-        public QnAMaker SampleQnA { get; private set; }
-        
+
+        public IQnAMakerClient SampleQnA { get; private set; }
+
         public LuisRecognizer LuisHomeAutomationRecognizer { get; private set; }
 
         public LuisRecognizer LuisWeatherRecognizer { get; private set; }
