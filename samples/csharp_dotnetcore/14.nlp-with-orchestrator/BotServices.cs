@@ -22,32 +22,13 @@ namespace Microsoft.BotBuilderSamples
 
             Dispatch = dispatcher;
 
-            var qnaServiceType = configuration["QnAServiceType"].ToLower();
-            var qnaKnowledgebaseId = configuration["QnAKnowledgebaseId"];
-            var qnaEndpointKey = configuration["QnAEndpointKey"];
-            var qnaEndpointHostName = configuration["QnAEndpointHostName"];
-
-            if (qnaServiceType == "language")
+            SampleQnA = new CustomQuestionAnswering(new QnAMakerEndpoint
             {
-                SampleQnA = new CustomQuestionAnswering(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = qnaKnowledgebaseId,
-                    EndpointKey = qnaEndpointKey,
-                    Host = qnaEndpointHostName,
-                    QnAServiceType = ServiceType.Language
-                });
-
-            }
-            else
-            {
-                SampleQnA = new QnAMaker(new QnAMakerEndpoint
-                {
-                    KnowledgeBaseId = qnaKnowledgebaseId,
-                    EndpointKey = qnaEndpointKey,
-                    Host = qnaEndpointHostName,
-                    QnAServiceType = ServiceType.QnAMaker
-                });
-            }
+                KnowledgeBaseId = configuration["ProjectName"],
+                EndpointKey = configuration["LanguageEndpointKey"],
+                Host = configuration["LanguageEndpointHostName"],
+                QnAServiceType = ServiceType.Language
+            });
         }
 
         public OrchestratorRecognizer Dispatch { get; private set; }

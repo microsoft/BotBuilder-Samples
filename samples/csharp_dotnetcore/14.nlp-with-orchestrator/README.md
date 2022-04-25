@@ -2,11 +2,11 @@
 
 Bot Framework v4 NLP with Orchestrator bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [Custom Question Answering in Language Service][LS] models for natural language processing (NLP).
 
 Use the Orchestrator dispatch model in cases when:
 
-- Your bot consists of multiple language modules (LUIS + QnA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
+- Your bot consists of multiple language modules (LUIS + CustomQA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
 - Create a text classification model from text files.
 
 ## Overview
@@ -57,14 +57,19 @@ This sample **requires** prerequisites in order to run.
     ```
     - Update application settings in `./appsettings.json`
     
-- Configure the QnA Maker KB required for this sample.
-    - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
-    ```bash
-    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
-    ```
-    - Update kb information in `./appsettings.json`
+- Configure your CustomQA project
+  - Export qnas from your project
+    - Visit [Language Studio][LS] and open created project.
+    - Go to `Edit knowledge base` -> Click on `...` -> Click on `Export questions and answers` -> Click on `Export as TSV`.
+    - Rename .tsv file to **CustomQA.tsv**. Replace the file in [CognitiveModels](CognitiveModels/CustomQA.tsv) folder.
+  - Follow these steps to update [appsettings.json](appsettings.json) for CustomQA.
+    - In the [Azure Portal][Azure], go to your resource.
+    - Go to `Keys and Endpoint` under Resource Management.
+    - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+    - `ProjectName` is the name of the project created in [Language Studio][LS].
+
     
-- Configure Orchestrator to route utterances to LUIS/QnA language services set up above
+- Configure Orchestrator to route utterances to LUIS/CustomQA language services set up above
     - Download Orchestrator base model
     ```bash
     > mkdir model
@@ -75,7 +80,7 @@ This sample **requires** prerequisites in order to run.
     > mkdir generated
     > bf orchestrator:create --hierarchical --in ./CognitiveModels --out ./generated --model ./model
     ```
-    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *QnAMaker* and *Weather* intents/labels.
+    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna/.tsv file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *QnAMaker* and *Weather* intents/labels.
 
     - Verify appsettings.json has the following:
 
@@ -120,3 +125,5 @@ This sample **requires** prerequisites in order to run.
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
+[Azure]: https://portal.azure.com/
+[LS]: https://language.cognitive.azure.com/

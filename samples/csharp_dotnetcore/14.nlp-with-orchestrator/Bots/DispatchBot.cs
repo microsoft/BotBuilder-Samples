@@ -58,9 +58,6 @@ namespace Microsoft.BotBuilderSamples
                 case "Weather":
                     await ProcessWeatherAsync(turnContext, cancellationToken);
                     break;
-                case "QnAMaker":
-                    await ProcessSampleQnAAsync(turnContext, cancellationToken);
-                    break;
                 case "CustomQA":
                     await ProcessSampleQnAAsync(turnContext, cancellationToken);
                     break;
