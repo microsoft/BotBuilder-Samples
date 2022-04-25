@@ -57,18 +57,21 @@ This sample **requires** prerequisites in order to run.
     ```
     - Update application settings in `./appsettings.json`
     
-- Configure your CustomQA project
-  - Export qnas from your project
-    - Visit [Language Studio][LS] and open created project.
-    - Go to `Edit knowledge base` -> Click on `...` -> Click on `Export questions and answers` -> Click on `Export as TSV`.
-    - Rename .tsv file to **CustomQA.tsv**. Replace the file in [CognitiveModels](CognitiveModels/CustomQA.tsv) folder.
-  - Follow these steps to update [appsettings.json](appsettings.json) for CustomQA.
-    - In the [Azure Portal][Azure], go to your resource.
-    - Go to `Keys and Endpoint` under Resource Management.
-    - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
-    - `ProjectName` is the name of the project created in [Language Studio][LS].
+### Configure knowledge base of the project
+- Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
+- Visit [Language Studio][LS] and open created project.
+- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
+- Import [SampleForCQA.tsv](CognitiveModels/CustomQA.tsv) file.
+- You can test your knowledge base by clicking on `Test` option.
+- Go to `Deploy knowledge base` and click on `Deploy`.
 
-    
+### Connect your bot to the project.
+Follow these steps to update [appsettings.json](appsettings.json).
+- In the [Azure Portal][Azure], go to your resource.
+- Go to `Keys and Endpoint` under Resource Management.
+- Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+- `ProjectName` is the name of the project created in [Language Studio][LS].
+   
 - Configure Orchestrator to route utterances to LUIS/CustomQA language services set up above
     - Download Orchestrator base model
     ```bash
@@ -80,7 +83,7 @@ This sample **requires** prerequisites in order to run.
     > mkdir generated
     > bf orchestrator:create --hierarchical --in ./CognitiveModels --out ./generated --model ./model
     ```
-    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna/.tsv file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *QnAMaker* and *Weather* intents/labels.
+    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna/.tsv file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *CustomQA* and *Weather* intents/labels.
 
     - Verify appsettings.json has the following:
 
@@ -127,3 +130,4 @@ This sample **requires** prerequisites in order to run.
 
 [Azure]: https://portal.azure.com/
 [LS]: https://language.cognitive.azure.com/
+[Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk

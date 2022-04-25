@@ -3,7 +3,7 @@
 
 const { ActivityHandler } = require('botbuilder');
 const { DialogContext, DialogSet } = require('botbuilder-dialogs');
-const { LuisRecognizer, QnAMaker, ServiceType, CustomQuestionAnswering } = require('botbuilder-ai');
+const { LuisRecognizer, ServiceType, CustomQuestionAnswering } = require('botbuilder-ai');
 const { OrchestratorRecognizer } = require('botbuilder-ai-orchestrator');
 
 class DispatchBot extends ActivityHandler {
@@ -33,26 +33,15 @@ class DispatchBot extends ActivityHandler {
             includeInstanceData: true
         }, true);
 
-        let qnaMaker
-        if (process.env.qnaServiceType.toLowerCase() === 'language') {
-            qnaMaker = new CustomQuestionAnswering({
-                knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAEndpointKey,
-                host: process.env.QnAEndpointHostName,
-                qnaServiceType: ServiceType.language
-            });
-        }
-        else {
-            qnaMaker = new QnAMaker({
-                knowledgeBaseId: process.env.QnAKnowledgebaseId,
-                endpointKey: process.env.QnAEndpointKey,
-                host: process.env.QnAEndpointHostName,
-                qnaServiceType: ServiceType.qnaMaker
-            });
-        }
+        const customQA = new CustomQuestionAnswering({
+            knowledgeBaseId: process.env.ProjectName,
+            endpointKey: process.env.LanguageEndpointKey,
+            host: process.env.LanguageEndpointHostName,
+            qnaServiceType: ServiceType.language
+        });
 
         this.dispatchRecognizer = dispatchRecognizer;
-        this.qnaMaker = qnaMaker;
+        this.customQA = customQA;
         this.weatherLuisRecognizer = weatherLuisRecognizer;
         this.homeAutomationLuisRecognizer = homeAutomationLuisRecognizer;
 
@@ -96,9 +85,6 @@ class DispatchBot extends ActivityHandler {
             case 'Weather':
                 await this.processWeather(context);
                 break;
-            case 'QnAMaker':
-                await this.processSampleQnA(context);
-                break;
             case 'CustomQA':
                 await this.processSampleQnA(context);
                 break;
@@ -134,7 +120,7 @@ class DispatchBot extends ActivityHandler {
     async processSampleQnA(context) {
         console.log('processSampleQnA');
 
-        const results = await this.qnaMaker.getAnswers(context);
+        const results = await this.customQA.getAnswers(context);
 
         if (results.length > 0) {
             await context.sendActivity(`${results[0].answer}`);
