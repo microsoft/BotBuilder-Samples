@@ -106,7 +106,7 @@ This sample **requires** prerequisites in order to run.
     - File -> Open -> Project/Solution
     - Navigate to `Orchestrator` folder
     - Select `OrchestratorSamples.sln` file
-    - Right click on `01.dispatch-bot` project in the solution and 'Set as Startup Project'
+    - Right click on `14.nlp-with-orchestrator` project in the solution and 'Set as Startup Project'
     - Press `F5` to run the project
 
 ## Connect to the bot using Bot Framework Emulator
