@@ -56,21 +56,21 @@ This sample **requires** prerequisites in order to run.
     > bf luis:build --in CognitiveModels --authoringKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
     ```
     - Update application settings in `./appsettings.json`
-    
-### Configure knowledge base of the project
-- Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
-- Visit [Language Studio][LS] and open created project.
-- Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-- Import [SampleForCQA.tsv](CognitiveModels/CustomQA.tsv) file.
-- You can test your knowledge base by clicking on `Test` option.
-- Go to `Deploy knowledge base` and click on `Deploy`.
 
-### Connect your bot to the project.
-Follow these steps to update [appsettings.json](appsettings.json).
-- In the [Azure Portal][Azure], go to your resource.
-- Go to `Keys and Endpoint` under Resource Management.
-- Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
-- `ProjectName` is the name of the project created in [Language Studio][LS].
+- Configure your CustomQA Project
+  - Configure knowledge base of the project
+    - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
+    - Visit [Language Studio][LS] and open created project.
+    - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
+    - Import [CustomQA.tsv](CognitiveModels/CustomQA.tsv) file.
+    - You can test your knowledge base by clicking on `Test` option.
+    - Go to `Deploy knowledge base` and click on `Deploy`.
+
+  - Follow these steps to update [appsettings.json](appsettings.json).
+    - In the [Azure Portal][Azure], go to your resource.
+    - Go to `Keys and Endpoint` under Resource Management.
+    - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
+    - `ProjectName` is the name of the project created in [Language Studio][LS].
    
 - Configure Orchestrator to route utterances to LUIS/CustomQA language services set up above
     - Download Orchestrator base model

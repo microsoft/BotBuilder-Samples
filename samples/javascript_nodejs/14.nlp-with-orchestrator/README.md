@@ -88,7 +88,7 @@ This sample **requires** prerequisites in order to run.
     > mkdir generated
     > bf orchestrator:create --hierarchical --in ./cognitiveModels --out ./generated --model ./model
     ```
-    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *CustomQA* and *Weather* intents/labels.
+    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna/.tsv file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *CustomQA* and *Weather* intents/labels.
 
     - Verify .env has the following:
 
