@@ -1,5 +1,10 @@
 # NLP with Orchestrator
 
+**Important**: The QnA Maker service will retire on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language.
+	For question-and-answer capabilities within the Cognitive Services, see _question answering_. Starting 1st October, 2022 you won’t be able to create new QnA Maker resources. 
+	For information on migrating existing QnA Maker knowledge bases to question answering, consult the migration guide.
+	To use QnA Maker with orchestrator, refer to old sample [here]().
+
 Bot Framework v4 NLP with Orchestrator (PREVIEW) bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [Custom Question Answering in Language Service][LS] models for natural language processing (NLP).
