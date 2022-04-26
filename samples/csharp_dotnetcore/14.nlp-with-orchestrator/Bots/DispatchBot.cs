@@ -107,7 +107,7 @@ namespace Microsoft.BotBuilderSamples
         {
             _logger.LogInformation("ProcessSampleQnAAsync");
 
-            var results = await _botServices.SampleQnA.GetAnswersAsync(turnContext, null, null);
+            var results = await _botServices.SampleQnA.GetAnswersAsync(turnContext);
             if (results.Any())
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text(results.First().Answer), cancellationToken);

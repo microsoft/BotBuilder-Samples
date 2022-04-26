@@ -33,7 +33,7 @@ namespace Microsoft.BotBuilderSamples
 
         public OrchestratorRecognizer Dispatch { get; private set; }
 
-        public IQnAMakerClient SampleQnA { get; private set; }
+        public CustomQuestionAnswering SampleQnA { get; private set; }
 
         public LuisRecognizer LuisHomeAutomationRecognizer { get; private set; }
 

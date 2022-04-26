@@ -15,6 +15,6 @@ namespace Microsoft.BotBuilderSamples
 
         OrchestratorRecognizer Dispatch { get; }
 
-        IQnAMakerClient SampleQnA { get; }
+        CustomQuestionAnswering SampleQnA { get; }
     }
 }
