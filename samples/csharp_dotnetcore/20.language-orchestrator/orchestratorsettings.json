@@ -1,0 +1,9 @@
+{
+  "modelPath": "D:\\CQA\\Cloned-repos\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\14.nlp-with-orchestrator\\model",
+  "snapshotPath": "D:\\CQA\\Cloned-repos\\BotBuilder-Samples\\samples\\csharp_dotnetcore\\14.nlp-with-orchestrator\\generated\\orchestrator.blu",
+  "dataSources": {
+    "hierarchical": false,
+    "inputs": [],
+    "path": ""
+  }
+}

@@ -116,6 +116,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABot", "12.customQAB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABotAllFeatures", "48.customQABot-all-features\CustomQABotAllFeatures.csproj", "{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Language-Orchestrator", "20.language-orchestrator\Language-Orchestrator.csproj", "{7F186582-F917-4D7A-9117-CF3A4861E26A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -514,6 +516,12 @@ Global
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.Build.0 = Release|Any CPU
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Debug|x64.ActiveCfg = Debug|x64
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Debug|x64.Build.0 = Debug|x64
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Release|Any CPU.ActiveCfg = Release|x64
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Release|x64.ActiveCfg = Release|x64
+		{7F186582-F917-4D7A-9117-CF3A4861E26A}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

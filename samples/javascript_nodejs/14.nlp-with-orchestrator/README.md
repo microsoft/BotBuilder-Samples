@@ -1,20 +1,12 @@
 # NLP with Orchestrator
 
-**Important**:
-QnA Maker service is being retired on 31st March, 2025. 
-A newer version of this capability is now available as a part of [Azure Cognitive Service for Language](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/).
-To use this service, you need to provision a [Language resource](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics). 
-For question answering capability within the Language service, see [question answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview) and its [pricing page](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/language-service/). Beginning 1st October, 2022, you won’t be able to create any new QnA Maker resources.
-For information on migrating your existing QnA Maker knowledge bases to question answering, consult the [migration guide](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/how-to/migrate-qnamaker).
-To use QnA Maker with orchestrator, refer to old sample [here]().
-
 Bot Framework v4 NLP with Orchestrator (PREVIEW) bot sample
 
-This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [Custom Question Answering in Language Service][LS] models for natural language processing (NLP).
+This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [QnAMaker.ai](https://www.qnamaker.ai) models for natural language processing (NLP).
 
 Use the Orchestrator dispatch model in cases when:
 
-- Your bot consists of multiple language modules (LUIS + CustomQA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
+- Your bot consists of multiple language modules (LUIS + QnA) and you need assistance in routing user's utterances to these modules in order to integrate the different modules into your bot.
 - Create a text classification model from text files.
 
 ## Overview
@@ -70,20 +62,12 @@ This sample **requires** prerequisites in order to run.
     ```
     - Update application settings in `./.env`
     
-- Configure your CustomQA Project
-  - Configure knowledge base of the project
-    - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [.env](.env) file.
-    - Visit [Language Studio][LS] and open created project.
-    - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
-    - Import [CustomQA.tsv](cognitiveModels/CustomQA.tsv) file.
-    - You can test your knowledge base by clicking on `Test` option.
-    - Go to `Deploy knowledge base` and click on `Deploy`.
-
-  - Follow these steps to update [.env](.env) file.
-    - In the [Azure Portal][Azure], go to your resource.
-    - Go to `Keys and Endpoint` under Resource Management.
-    - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [.env](.env) file.
-    - `ProjectName` is the name of the project created in [Language Studio][LS].
+- Configure the QnA Maker KB required for this sample.
+    - Get your [QnA Maker Subscription key](https://docs.microsoft.com/en-us/azure/cognitive-services/QnAMaker/how-to/set-up-qnamaker-service-azure#create-a-new-qna-maker-service)
+    ```bash
+    > bf qnamaker:build --in CognitiveModels --subscriptionKey <YOUR-KEY> --botName <YOUR-BOT-NAME>
+    ```
+    - Update kb information in `./.env`
     
 - Configure Orchestrator to route utterances to LUIS/QnA language services set up above
     - Download Orchestrator base model
@@ -94,9 +78,9 @@ This sample **requires** prerequisites in order to run.
     - Create the Orchestrator snapshot
     ```bash
     > mkdir generated
-    > bf orchestrator:create --hierarchical --in ./cognitiveModels --out ./generated --model ./model
+    > bf orchestrator:create --hierarchical --in ./CognitiveModels --out ./generated --model ./model
     ```
-    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna/.tsv file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *CustomQA* and *Weather* intents/labels.
+    The *hierarchical* flag creates top level intents in the snapshot file derived from the .lu/.qna file names in the input folder.   As a result,  the example utterances are mapped to *HomeAutomation*, *QnAMaker* and *Weather* intents/labels.
 
     - Verify .env has the following:
 
@@ -135,5 +119,3 @@ This sample **requires** prerequisites in order to run.
 - [Azure Portal](https://portal.azure.com)
 - [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
 
-[Azure]: https://portal.azure.com/
-[LS]: https://language.cognitive.azure.com/

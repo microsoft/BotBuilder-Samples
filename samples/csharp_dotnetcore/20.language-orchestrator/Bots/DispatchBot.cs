@@ -30,7 +30,7 @@ namespace Microsoft.BotBuilderSamples
             // Top intent tell us which cognitive service to use.
             var allScores = await _botServices.Dispatch.RecognizeAsync(dc, (Activity)turnContext.Activity, cancellationToken);
             var topIntent = allScores.Intents.First().Key;
-            
+
             // Next, we call the dispatcher with the top intent.
             await DispatchToTopIntentAsync(turnContext, topIntent, cancellationToken);
         }
@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples
                 case "Weather":
                     await ProcessWeatherAsync(turnContext, cancellationToken);
                     break;
-                case "QnAMaker":
+                case "CustomQA":
                     await ProcessSampleQnAAsync(turnContext, cancellationToken);
                     break;
                 default:
@@ -76,8 +76,8 @@ namespace Microsoft.BotBuilderSamples
             var recognizerResult = await _botServices.LuisHomeAutomationRecognizer.RecognizeAsync(turnContext, cancellationToken);
             var result = recognizerResult.Properties["luisResult"] as LuisResult;
 
-            var topIntent = result.TopScoringIntent.Intent; 
-            
+            var topIntent = result.TopScoringIntent.Intent;
+
             await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation top intent {topIntent}."), cancellationToken);
             await turnContext.SendActivityAsync(MessageFactory.Text($"HomeAutomation intents detected:\n\n{string.Join("\n\n", result.Intents.Select(i => i.Intent))}"), cancellationToken);
             if (result.Entities.Count > 0)

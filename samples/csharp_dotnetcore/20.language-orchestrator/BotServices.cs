@@ -1,9 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System;
 using Microsoft.Bot.Builder.AI.Luis;
 using Microsoft.Bot.Builder.AI.Orchestrator;
 using Microsoft.Bot.Builder.AI.QnA;
+using Microsoft.Bot.Builder.AI.QnA.Models;
 using Microsoft.Extensions.Configuration;
 
 namespace Microsoft.BotBuilderSamples
@@ -20,18 +22,19 @@ namespace Microsoft.BotBuilderSamples
 
             Dispatch = dispatcher;
 
-            SampleQnA = new QnAMaker(new QnAMakerEndpoint
+            SampleQnA = new CustomQuestionAnswering(new QnAMakerEndpoint
             {
-                KnowledgeBaseId = configuration["QnAKnowledgebaseId"],
-                EndpointKey = configuration["QnAEndpointKey"],
-                Host = configuration["QnAEndpointHostName"]
+                KnowledgeBaseId = configuration["ProjectName"],
+                EndpointKey = configuration["LanguageEndpointKey"],
+                Host = configuration["LanguageEndpointHostName"],
+                QnAServiceType = ServiceType.Language
             });
         }
 
         public OrchestratorRecognizer Dispatch { get; private set; }
-        
-        public QnAMaker SampleQnA { get; private set; }
-        
+
+        public CustomQuestionAnswering SampleQnA { get; private set; }
+
         public LuisRecognizer LuisHomeAutomationRecognizer { get; private set; }
 
         public LuisRecognizer LuisWeatherRecognizer { get; private set; }

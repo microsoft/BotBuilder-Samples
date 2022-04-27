@@ -3,7 +3,7 @@
 
 const { ActivityHandler } = require('botbuilder');
 const { DialogContext, DialogSet } = require('botbuilder-dialogs');
-const { LuisRecognizer, QnAMaker } = require('botbuilder-ai');
+const { LuisRecognizer, ServiceType, CustomQuestionAnswering } = require('botbuilder-ai');
 const { OrchestratorRecognizer } = require('botbuilder-ai-orchestrator');
 
 class DispatchBot extends ActivityHandler {
@@ -11,7 +11,7 @@ class DispatchBot extends ActivityHandler {
         super();
 
         const dispatchRecognizer = new OrchestratorRecognizer().configure({
-            modelFolder: process.env.ModelFolder, 
+            modelFolder: process.env.ModelFolder,
             snapshotFile: process.env.SnapshotFile
         });
 
@@ -33,14 +33,15 @@ class DispatchBot extends ActivityHandler {
             includeInstanceData: true
         }, true);
 
-        const qnaMaker = new QnAMaker({
-            knowledgeBaseId: process.env.QnAKnowledgebaseId,
-            endpointKey: process.env.QnAEndpointKey,
-            host: process.env.QnAEndpointHostName
+        const customQA = new CustomQuestionAnswering({
+            knowledgeBaseId: process.env.ProjectName,
+            endpointKey: process.env.LanguageEndpointKey,
+            host: process.env.LanguageEndpointHostName,
+            qnaServiceType: ServiceType.language
         });
 
         this.dispatchRecognizer = dispatchRecognizer;
-        this.qnaMaker = qnaMaker;
+        this.customQA = customQA;
         this.weatherLuisRecognizer = weatherLuisRecognizer;
         this.homeAutomationLuisRecognizer = homeAutomationLuisRecognizer;
 
@@ -67,7 +68,7 @@ class DispatchBot extends ActivityHandler {
 
             for (const member of membersAdded) {
                 if (member.id !== context.activity.recipient.id) {
-                    await context.sendActivity(`Welcome to Dispatch bot ${ member.name }. ${ welcomeText }`);
+                    await context.sendActivity(`Welcome to Dispatch bot ${member.name}. ${welcomeText}`);
                 }
             }
 
@@ -78,19 +79,19 @@ class DispatchBot extends ActivityHandler {
 
     async dispatchToTopIntentAsync(context, intent, recognizerResult) {
         switch (intent) {
-        case 'HomeAutomation':
-            await this.processHomeAutomation(context);
-            break;
-        case 'Weather':
-            await this.processWeather(context);
-            break;
-        case 'QnAMaker':
-            await this.processSampleQnA(context);
-            break;
-        default:
-            console.log(`Dispatch unrecognized intent: ${ intent }.`);
-            await context.sendActivity(`Dispatch unrecognized intent: ${ intent }.`);
-            break;
+            case 'HomeAutomation':
+                await this.processHomeAutomation(context);
+                break;
+            case 'Weather':
+                await this.processWeather(context);
+                break;
+            case 'CustomQA':
+                await this.processSampleQnA(context);
+                break;
+            default:
+                console.log(`Dispatch unrecognized intent: ${intent}.`);
+                await context.sendActivity(`Dispatch unrecognized intent: ${intent}.`);
+                break;
         }
     }
 
@@ -102,7 +103,7 @@ class DispatchBot extends ActivityHandler {
         // Top intent tell us which cognitive service to use.
         const topIntent = LuisRecognizer.topIntent(luisResult);
 
-        await context.sendActivity(`HomeAutomation top intent ${ topIntent }.`);
+        await context.sendActivity(`HomeAutomation top intent ${topIntent}.`);
     }
 
     async processWeather(context) {
@@ -113,16 +114,16 @@ class DispatchBot extends ActivityHandler {
         // Top intent tell us which cognitive service to use.
         const topIntent = LuisRecognizer.topIntent(luisResult);
 
-        await context.sendActivity(`ProcessWeather top intent ${ topIntent }.`);
+        await context.sendActivity(`ProcessWeather top intent ${topIntent}.`);
     }
 
     async processSampleQnA(context) {
         console.log('processSampleQnA');
 
-        const results = await this.qnaMaker.getAnswers(context);
+        const results = await this.customQA.getAnswers(context);
 
         if (results.length > 0) {
-            await context.sendActivity(`${ results[0].answer }`);
+            await context.sendActivity(`${results[0].answer}`);
         } else {
             await context.sendActivity('Sorry, could not find an answer in the Q and A system.');
         }
