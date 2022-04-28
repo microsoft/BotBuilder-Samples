@@ -91,7 +91,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Try the following utterances:
   1) Frontline workers
   2) Hybrid work solutions
-- You can observe that, answers are returned with high score.
+- Make sure answers are returned with a high score.
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
 ## Try Filters
