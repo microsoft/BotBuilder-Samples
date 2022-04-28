@@ -62,16 +62,16 @@ Follow these steps to update [appsettings.json](appsettings.json).
 
 ## Try Active Learning
 - Try the following utterances:
-  1) Surface Book
-  2) Power
-- In Language Studio, click on inspect to see the closeness in the scores of the returned answers.
+  1. Surface Book
+  2. Power
+- In Language Studio, select `inspect` to view the scores of the returned answers and compare how close they are.
 - In [Bot Framework Emulator][BFE], a card is generated with the suggestions.
-  - Clicking an option would send a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback) which would show as suggestion under `Review suggestions` in [Language Studio][LS].
-  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card could be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
+  - Clicking an option sends a [feedback record](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering-projects/add-feedback), which shows as suggestion under `Review suggestions` in [Language Studio][LS].
+  - `ActiveLearningCardTitle`, `ActiveLearningCardNoMatchText` and `ActiveLearningCardNoMatchResponse` in the card can be changed from [RootDialog.cs](Dialogs/RootDialog.cs).
 
 ## Try Multi-turn prompt
 - Try the following utterances:
-  1) Accessibility
+  1. Accessibility
   2. Options
 - You'll notice that multi-turn prompts associated with the question are also returned in the responses.
 
