@@ -95,7 +95,8 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
 
 ## Try Filters
-- Go to your project in [Language Studio][LS] -> In `Edit knowledge bases` -> Under **Metadata** column click on `+ Add`
+If you want to return answers with only specified metadata, use the following steps:
+- Go to your project in [Language Studio][LS]. In `Edit knowledge bases`, under the **Metadata** column, select `+ Add`
 - Select a QnA to edit and add a key value pair, say `Language` : `CSharp`, and click on `Save changes`.
 - Click on `Test` and select metadata that you just added(`Language : CSharp`) by clicking on **Show advanced options**.
 - This will return answers with specified metadata only.
