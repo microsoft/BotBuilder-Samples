@@ -90,7 +90,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Click on `URLs` and add `https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/` and select **unstructured** in the `Classify file structure` dropdown.
 - Try the following utterances:
   1) Frontline workers
-  2) Hybrid work solutions
+  2. Hybrid work solutions
 - Make sure answers are returned with a high score.
 - To prevent querying unstructured sources, set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs).
 
