@@ -7,7 +7,7 @@ This bot was created using [Bot Framework][BF].
 ## Concepts introduced in this sample
 [Question answering][LS] enables you to build, train, and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents, or editorial content in minutes. In this sample, we demonstrate:
 - How to use active learning to generate suggestions for your knowledge base.
-- How to use follow up prompts to create multiple turns of a conversation.
+- How to use follow-up prompts to create multiple turns of a conversation.
 - How to configure display of precise answers.
 - How to enable/disable querying unstructured sources with the bot.
 
