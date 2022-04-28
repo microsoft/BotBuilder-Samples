@@ -20,7 +20,7 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 ### Connect your bot to the project
 Follow these steps to update [appsettings.json](appsettings.json):
 - In the [Azure Portal][Azure], go to your resource.
-- Go to `Keys and Endpoint` under Resource Management.
+- Under Resource Management, go to `Keys and Endpoint`.
 - Copy one of the keys as value of `LanguageEndpointKey` and Endpoint as value of `LanguageEndpointHostName` in [appsettings.json](appsettings.json).
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
