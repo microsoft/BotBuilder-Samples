@@ -1,8 +1,8 @@
 # Custom Question Answering
 
-Bot Framework v4 Custom question answering bot sample. This sample demonstrates usage of advanced features of Custom question answering like [Precise answering][PA], support for unstructured sources along with [Multi-turn conversations][MT] and [Active Learning][AL] in a bot.
+This is the Bot Framework v4 Custom question answering bot sample, which shows how to use advanced features of [Cognitive Services question answering][LS], such as [Precise answering][PA], support for unstructured sources, [Multi-turn conversations][MT], and [Active Learning][AL] in a bot.
 
-This bot has been created using [Bot Framework][BF], it shows how to create a bot that uses the [Custom question answering feature in Language Service][LS].
+This bot was created using [Bot Framework][BF].
 
 ## Concepts introduced in this sample
 The [Custom question answering feature in Language Service][LS] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents or editorial content in minutes. In this sample, we demonstrate:
