@@ -17,7 +17,7 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 - You can test your knowledge base by clicking on `Test` option.
 - Go to `Deploy knowledge base` and click on `Deploy`.
 
-### Connect your bot to the project.
+### Connect your bot to the project
 Follow these steps to update [appsettings.json](appsettings.json).
 - In the [Azure Portal][Azure], go to your resource.
 - Go to `Keys and Endpoint` under Resource Management.
