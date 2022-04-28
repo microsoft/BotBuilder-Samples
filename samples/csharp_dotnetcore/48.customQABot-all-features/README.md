@@ -92,7 +92,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
   1) Frontline workers
   2) Hybrid work solutions
 - Make sure answers are returned with a high score.
-- You can set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs) to prevent querying unstructured sources.
+- To prevent querying unstructured sources, set `IncludeUnstructuredSources` to false in [RootDialog.cs](Dialogs/RootDialog.cs).
 
 ## Try Filters
 If you want to return answers with only specified metadata, use the following steps:
