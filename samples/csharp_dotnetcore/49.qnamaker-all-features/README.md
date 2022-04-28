@@ -1,9 +1,9 @@
 # QnA Maker
 
-**Important note:** The QnA Maker service is being retired on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language. 
-For question answering capabilities within the Language Service, see question answering. Starting 1st October, 2022 you won’t be able to create new QnA Maker resources. 
+**Important**: The QnA Maker service will retire on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language.
+For question-and-answer capabilities within the Cognitive Services, see _question answering_. Starting 1st October, 2022 you won't be able to create new QnA Maker resources. 
 For information on migrating existing QnA Maker knowledge bases to question answering, consult the migration guide.
-For an updated version of this sample using the new service see the [CustomQABotAllFeatures sample](../48.customQABot-all-features)
+For an updated version of this sample that uses question answering, see the [CustomQABotAllFeatures sample](../48.customQABot-all-features).
 
 Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with ASP.Net Core-2. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
 
