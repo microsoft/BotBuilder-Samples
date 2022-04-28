@@ -74,16 +74,16 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 
 ## Further reading
 
-- [How bots work](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0)
-- [Question Answering Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [How bots work](https://docs.microsoft.com/azure/bot-service/bot-builder-basics)
+- [Question Answering Documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/overview)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
 
-[50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
+[50]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-deploy-azure
 [70]: https://azure.microsoft.com/get-started/
 
 [LS]: https://language.cognitive.azure.com/
-[PA]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
+[PA]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
 [BF]: https://dev.botframework.com/
-[Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk
+[Quickstart]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/quickstart/sdk
 [Azure]: https://portal.azure.com
 [BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
