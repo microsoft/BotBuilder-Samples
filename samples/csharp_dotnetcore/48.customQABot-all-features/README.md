@@ -152,24 +152,24 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 
 ## Further reading
 - [How bots work][90]
-- [Question Answering Documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview)
-- [Channels and Bot Connector Service](https://docs.microsoft.com/en-us/azure/bot-service/bot-concepts?view=azure-bot-service-4.0)
+- [Question Answering Documentation](https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/overview)
+- [Channels and Bot Connector Service](https://docs.microsoft.com/azure/bot-service/bot-concepts)
 - [Active learning Documentation][AL]
 - [Multi-turn Conversations][MT]
 - [Precise Answering][PA]
 
-[50]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-howto-deploy-azure?view=azure-bot-service-4.0
+[50]: https://docs.microsoft.com/azure/bot-service/bot-builder-howto-deploy-azure
 [70]: https://azure.microsoft.com/get-started/
-[90]: https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-basics?view=azure-bot-service-4.0
-[100]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
-[110]: https://docs.microsoft.com/en-us/azure/bot-service/?view=azure-bot-service-4.0
+[90]: https://docs.microsoft.com/azure/bot-service/bot-builder-basics
+[100]: https://docs.microsoft.com/azure/bot-service/bot-service-overview-introduction
+[110]: https://docs.microsoft.com/azure/bot-service/
 [140]: https://portal.azure.com
 
 [LS]: https://language.cognitive.azure.com/
-[MT]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations
-[AL]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/tutorials/active-learning
-[PA]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
+[MT]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/tutorials/guided-conversations
+[AL]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/tutorials/active-learning
+[PA]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/concepts/precise-answering
 [BF]: https://dev.botframework.com/
-[Quickstart]: https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/quickstart/sdk
+[Quickstart]: https://docs.microsoft.com/azure/cognitive-services/language-service/question-answering/quickstart/sdk
 [Azure]: https://portal.azure.com/
 [BFE]: https://github.com/Microsoft/BotFramework-Emulator/releases
