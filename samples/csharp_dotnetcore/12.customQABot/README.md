@@ -7,7 +7,7 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 [Question answering][LS] lets you to build, train and publish a simple question and answer bot based on FAQ URLs, structured and unstructured documents, or editorial content in minutes. In this sample, we demonstrate how to use question answering to answer questions based on an FAQ text file used as input.
 
 ## Prerequisites
-- This project requires a [Language resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
+- This project requires a [Language service resource](https://aka.ms/create-language-resource) with Custom question answering enabled.
 
 ### Configure knowledge base of the project
 - Follow instructions [here][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
