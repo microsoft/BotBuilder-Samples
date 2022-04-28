@@ -117,7 +117,7 @@ You can also filter answers using a bot by passing it metadata and/or source fil
     ```    
 
 ## Microsoft Teams channel group chat fix
-When a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, you will have to refer it as `@HelpBot` `How to build a bot?` to get answers from the service.
+To get answers from the service when a bot (named as `HelpBot`) is added to a Teams channel or Teams group chat, refer to it as `@HelpBot` `How to build a bot?`.
 However, bot tries to send `<at>HelpBot</at>` `How to build a bot?` as query to Custom question answering service which may not give expected results for question to bot. The following code removes `<at>HelpBot</at>` mentions of the bot from the message and sends the remaining text as query to the service.
 - Goto `Bots/CustomQABot.cs`
 - Add the following references:
