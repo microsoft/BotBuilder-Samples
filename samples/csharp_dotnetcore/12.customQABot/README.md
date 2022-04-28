@@ -26,7 +26,7 @@ Follow these steps to update [appsettings.json](appsettings.json):
      - Endpoint: `LanguageEndpointHostName`
 - `ProjectName` is the name of the project created in [Language Studio][LS].
 
-## To try this sample
+## Try this sample
 
 - Install the Bot Framework Emulator version 4.14.0 or greater from [here][BFE]
 - Clone the repository
