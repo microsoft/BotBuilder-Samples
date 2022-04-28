@@ -98,7 +98,7 @@ Follow these steps to update [appsettings.json](appsettings.json).
 If you want to return answers with only specified metadata, use the following steps:
 - Go to your project in [Language Studio][LS]. In `Edit knowledge bases`, under the **Metadata** column, select `+ Add`
 - Select a QnA to edit and add a key value pair. Add the key value pair `Language` : `CSharp`, then select `Save changes`.
-- Click on `Test` and select metadata that you just added(`Language : CSharp`) by clicking on **Show advanced options**.
+- Select `Test`, then **Show advanced options**, then select the metadata you just added (`Language : CSharp`).
 You can also filter answers using a bot by passing it metadata and/or source filters. To do this, edit line 81 in [RootDialog.cs](Dialogs/RootDialog.cs) to something like the code snippet below. For more information, see [Query filters](https://docs.microsoft.com/en-us/rest/api/cognitiveservices/questionanswering/question-answering/get-answers#queryfilters).
     ```csharp
     var filters = new Filters
