@@ -55,7 +55,7 @@ Follow these steps to update [appsettings.json](appsettings.json):
 - Connect to the bot using Bot Framework Emulator
   1. Launch Bot Framework Emulator
   2. File -> Open Bot
-  3) Enter a Bot URL of `http://localhost:3978/api/messages`
+  3. Enter a Bot URL of `http://localhost:3978/api/messages`
 
 ## Try precise answering
 - Try the following utterances:
