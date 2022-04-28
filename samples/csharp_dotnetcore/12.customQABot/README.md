@@ -61,11 +61,11 @@ Follow these steps to update [appsettings.json](appsettings.json):
 - Try the following utterances:
   1. Accessibility
   2. Register
-- You will notice a short answer returned along with a long answer.
-- If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
+- You should see a short answer returned, along with a long answer.
+- If you're testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
-- You can set `DisplayPreciseAnswerOnly` to true in [appsettings.json](appsettings.json) to display just precise answers in the response.
-- Learn more about [precise answering][PA].
+- To only see precise answers in the response, set `DisplayPreciseAnswerOnly` to true in [appsettings.json](appsettings.json).
+- To learn more, see [precise answering][PA].
 
 ## Deploy the bot to Azure
 See [Deploy your C# bot to Azure][50] for instructions.

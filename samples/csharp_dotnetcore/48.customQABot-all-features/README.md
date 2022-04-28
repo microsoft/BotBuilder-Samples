@@ -72,8 +72,8 @@ Follow these steps to update [appsettings.json](appsettings.json).
 ## Try Multi-turn prompt
 - Try the following utterances:
   1) Accessibility
-  2) Options
-- You will notice that multi-turn prompts associated with the question are also returned in the responses.
+  2. Options
+- You'll notice that multi-turn prompts associated with the question are also returned in the responses.
 
 ## Try Precise Answering
 - Try the following utterances:
@@ -86,8 +86,9 @@ Follow these steps to update [appsettings.json](appsettings.json).
 - Learn more about [precise answering][PA].
 
 ## Query unstructured content
-- Go to your project in [Language Studio][LS] -> In `Manage sources` click on `+ Add source`
-- Click on `URLs` and add `https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/` and select **unstructured** in the `Classify file structure` dropdown.
+- Go to your project in [Language Studio][LS]. In `Manage sources`, select `+ Add source`.
+- Select `URLs` and add `https://www.microsoft.com/en-us/microsoft-365/blog/2022/01/27/from-empowering-frontline-workers-to-accessibility-improvements-heres-whats-new-in-microsoft-365/`. 
+- Select **unstructured** in the `Classify file structure` dropdown.
 - Try the following utterances:
   1. Frontline workers
   2. Hybrid work solutions
