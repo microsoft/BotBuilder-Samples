@@ -36,7 +36,7 @@ Follow these steps to update [appsettings.json](appsettings.json):
     ```
 
 - In a terminal, navigate to `samples/csharp_dotnetcore/12.customQABot`
-- Run the bot from a terminal or from Visual Studio, choose option A or B.
+- Run the bot, either from a terminal or from Visual Studio, using the appropriate steps below:
 
   A) From a terminal
 
