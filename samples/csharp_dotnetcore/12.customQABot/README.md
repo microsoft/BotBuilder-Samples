@@ -11,7 +11,7 @@ This bot has been created using the [Bot Framework SDK][BF], it shows how to cre
 
 ### Configure knowledge base of the project
 - See the [quickstart][Quickstart] to create a Custom question answering project. You will need this project's name to be used as `ProjectName` in [appsettings.json](appsettings.json).
-- Visit [Language Studio][LS] and open created project.
+- Go to [Language Studio][LS] and open the created project.
 - Go to `Edit knowledge base` -> Click on `...` -> Click on `Import questions and answers` -> Click on `Import as TSV`.
 - Import [SampleForCQA.tsv](CognitiveModels/SampleForCQA.tsv) file.
 - You can test your knowledge base by clicking on `Test` option.
