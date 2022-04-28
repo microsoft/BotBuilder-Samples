@@ -60,7 +60,7 @@ Follow these steps to update [appsettings.json](appsettings.json):
 ## Try precise answering
 - Try the following utterances:
   1. Accessibility
-  2) Register
+  2. Register
 - You will notice a short answer returned along with a long answer.
 - If testing in [Language Studio][LS], you might have to check `Include short answer response` at the top.
 - You can disable precise answering by setting `EnablePreciseAnswer` to false in [appsettings.json](appsettings.json).
