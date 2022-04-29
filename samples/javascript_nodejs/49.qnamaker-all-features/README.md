@@ -1,5 +1,10 @@
 # QnA Maker
 
+**Important**: The QnA Maker service will retire on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language.
+For question-and-answer capabilities within the Cognitive Services, see _question answering_. Starting 1st October, 2022 you won't be able to create new QnA Maker resources. 
+For information on migrating existing QnA Maker knowledge bases to question answering, consult the migration guide.
+For an updated version of this sample that uses question answering, see the [CustomQABotAllFeatures sample](../48.customQABot-all-features).
+
 Bot Framework v4 QnA Maker bot sample. This sample shows how to integrate Multiturn and Active learning in a QnA Maker bot with Node.js. Click [here][72] to know more about using follow-up prompts to create multiturn conversation. To know more about how to enable and use active learning, click [here][71].
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
@@ -9,11 +14,11 @@ The [QnA Maker Service](https://www.qnamaker.ai) enables you to build, train and
 ## Concepts introduced in this sample
 The [QnA Maker Service][19] enables you to build, train and publish a simple question and answer bot based on FAQ URLs, structured documents or editorial content in minutes.
 In this sample, we demonstrate 
--.how to use the Active Learning to generate suggestions for knowledge base.
--.how to use the Multiturn experience for the knowledge base .
+- how to use the Active Learning to generate suggestions for knowledge base.
+- how to use the Multiturn experience for the knowledge base .
 
 # Prerequisites
-`- Follow instructions` [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
+- Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/set-up-qnamaker-service-azure) to create a QnA Maker service.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/how-to/multiturn-conversation) to create multiturn experience.
 - Follow instructions [here](https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/quickstarts/create-publish-knowledge-base) to import and publish your newly created QnA Maker service.
 - Update [.env](.env) with your kbid (KnowledgeBase Id), endpointKey and endpointHost. You may also change the default answer by updating `DefaultAnswer` (optional) field. QnA knowledge base setup and application configuration steps can be found [here](https://aka.ms/qna-instructions).
