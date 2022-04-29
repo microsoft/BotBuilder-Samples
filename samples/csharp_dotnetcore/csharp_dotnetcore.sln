@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.1.32228.430
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.32407.337
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Console-EchoBot", "01.console-echo\Console-EchoBot.csproj", "{ECFF9720-28CF-4F7D-896B-DA489D1032EA}"
 EndProject
@@ -107,6 +107,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABot", "12.customQABot\CustomQABot.csproj", "{83B20391-B84E-482B-A3C8-8F38E6589B61}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABotAllFeatures", "48.customQABot-all-features\CustomQABotAllFeatures.csproj", "{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Language-Orchestrator", "20.language-orchestrator\Language-Orchestrator.csproj", "{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -474,6 +476,12 @@ Global
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.Build.0 = Release|Any CPU
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Debug|x64.ActiveCfg = Debug|x64
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Debug|x64.Build.0 = Debug|x64
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Release|Any CPU.ActiveCfg = Release|x64
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Release|x64.ActiveCfg = Release|x64
+		{176B3EE5-F448-4225-BCF4-37B2CCB35EB3}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
