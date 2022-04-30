@@ -1,13 +1,5 @@
 # Language Orchestrator
 
-**Important**:
-QnA Maker service is being retired on 31st March, 2025. 
-A newer version of this capability is now available as a part of [Azure Cognitive Service for Language](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/).
-To use this service, you need to provision a [Language resource](https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesTextAnalytics). 
-For question answering capability within the Language service, see [question answering](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/overview) and its [pricing page](https://azure.microsoft.com/en-us/pricing/details/cognitive-services/language-service/). Beginning 1st October, 2022, you won’t be able to create any new QnA Maker resources.
-For information on migrating your existing QnA Maker knowledge bases to question answering, consult the [migration guide](https://docs.microsoft.com/en-us/azure/cognitive-services/language-service/question-answering/how-to/migrate-qnamaker).
-To use QnA Maker with orchestrator, refer to old sample [here]().
-
 Bot Framework v4 Language Orchestrator bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that relies on multiple [LUIS.ai](https://www.luis.ai) and [Custom Question Answering in Language Service][LS] models for natural language processing (NLP).
