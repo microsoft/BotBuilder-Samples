@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
         public const string DefaultCardNoMatchResponse = "Thanks for the feedback.";
 
         private readonly IBotServices _services;
-        private readonly string DefaultAnswer = "No QnAMaker answers found.";
+        private readonly string DefaultAnswer = "";
 
         /// <summary>
         /// Initializes a new instance of the <see cref="QnAMakerBaseDialog"/> class.
@@ -57,7 +57,7 @@ namespace Microsoft.BotBuilderSamples.Dialog
 
         protected async override Task<QnADialogResponseOptions> GetQnAResponseOptionsAsync(DialogContext dc)
         {
-            var defaultAnswerActivity = MessageFactory.Text(this.DefaultAnswer);
+            var defaultAnswerActivity = MessageFactory.Text(DefaultAnswer);
 
             var cardNoMatchResponse = (Activity)MessageFactory.Text(DefaultCardNoMatchResponse);
 
