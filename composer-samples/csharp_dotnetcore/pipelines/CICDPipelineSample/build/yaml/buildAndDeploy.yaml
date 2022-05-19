@@ -136,3 +136,10 @@ steps:
     qnaHostName: "${{ parameters.qnaHostName }}"
     qnaKnowledgebaseId: "${{ parameters.qnaKnowledgebaseId }}"
     qnaRegion: "${{ parameters.qnaRegion }}"
+
+- script: |
+   cd ..
+   tree -a -f -s -i -D
+  displayName: 'Dir workspace'
+  continueOnError: true
+  condition: succeededOrFailed()
