@@ -119,6 +119,7 @@ steps:
 - template: templates/buildAndDeployModels.yaml
   parameters:
     sourceDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.botProjectDirectory }}"
+    yamlDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.buildYamlDirectory }}"
     botName: "${{ parameters.botName }}"
     luisAuthoringKey: "${{ parameters.luisAuthoringKey }}"
     luisAuthoringRegion: "${{ parameters.luisAuthoringRegion }}"
