@@ -64,7 +64,7 @@ steps:
   displayName: "Publish LUIS"
   inputs:
     targetType: "filePath"
-    filePath: "$(System.DefaultWorkingDirectory)/composer-samples/csharp_dotnetcore/pipelines/CICDPipelineSample/build/yaml/templates/Build-LUIS.ps1"
+    filePath: "$(System.DefaultWorkingDirectory)/${{ parameters.buildYamlDirectory }}/templates/Build-LUIS.ps1"
     arguments: -outputDirectory ./generated -sourceDirectory ./ -crossTrainedLUDirectory ./generated/interruption -authoringKey ${{ parameters.luisAuthoringKey }} -authoringRegion ${{ parameters.luisAuthoringRegion }} -botName ${{ parameters.botName }} 
     # Note: the working directory needs to be set to the bot's source directory
     # to allow for the creation of relative paths in the generated config files.
@@ -89,7 +89,7 @@ steps:
   displayName: "Publish orchestrator"
   inputs:
     targetType: "filePath"
-    filePath: "$(System.DefaultWorkingDirectory)/composer-samples/csharp_dotnetcore/pipelines/CICDPipelineSample/build/yaml/templates/Build-Orchestrator.ps1"
+    filePath: "$(System.DefaultWorkingDirectory)/${{ parameters.buildYamlDirectory }}/templates/Build-Orchestrator.ps1"
     arguments: -outputDirectory ./generated -sourceDirectory ./ -crossTrainedLUDirectory ./generated/interruption -appSettingsFile ./settings/appsettings.json
     # Note: the working directory needs to be set to the bot's source directory
     # to allow for the creation of relative paths in the generated config files.

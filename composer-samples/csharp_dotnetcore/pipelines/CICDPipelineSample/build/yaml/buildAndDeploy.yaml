@@ -47,7 +47,7 @@ parameters:
   default: $(WEBAPPNAME)
 
 - name: botProjectDirectory
-  displayName: Relative path to the bot"s csproj file
+  displayName: Relative path to the bot's csproj file
   type: string
   default: $(BOTPROJECTDIRECTORY) 
   
@@ -56,6 +56,11 @@ parameters:
   type: string
   default: $(BOTPROJECTNAME) 
 
+- name: buildYamlDirectory
+  displayName: Relative path to the pipeline's .yaml folder
+  type: string
+  default: $(BUILDYAMLDIRECTORY) 
+  
 # LUIS Parameters
 # LUIS Authoring (used to build, train and publish LUIS models)
 - name: luisAuthoringKey
@@ -137,9 +142,9 @@ steps:
     qnaKnowledgebaseId: "${{ parameters.qnaKnowledgebaseId }}"
     qnaRegion: "${{ parameters.qnaRegion }}"
 
-- script: |
-   cd ..
-   tree -a -f -s -i -D
+- powershell: |
+    cd ..
+    ls -R
   displayName: 'Dir workspace'
   continueOnError: true
   condition: succeededOrFailed()
