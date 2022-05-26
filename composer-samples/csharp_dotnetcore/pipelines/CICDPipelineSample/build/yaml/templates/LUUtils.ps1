@@ -39,18 +39,18 @@ function Get-LUModels
         $dialog = Get-Content -Path "$sourceDirectory/$luDialog" | ConvertFrom-Json
         Write-Host "dialog: $dialog";
         $recognizerKind = ($dialog | Select -ExpandProperty "`$kind")
-        Write-Host "recognizerKind: $recognizerKind" -ForegroundColor Cyan;
-        Write-Host "recognizerType: $recognizerType" -ForegroundColor Cyan;
+        Write-Host "recognizerKind: $recognizerKind";
+        Write-Host "recognizerType: $recognizerType";
 
         # Add it to the list if it is the expected type
         if ( $recognizerKind -eq $recognizerType)
         {
             $luModels += "$luModel"
-            Write-Host "Added to luModels." -ForegroundColor Green;
+            Write-Host "Added to luModels.";
         }
         else
         {
-            Write-Host "Recognizer types do not match." -ForegroundColor Red;
+            Write-Host "Recognizer types do not match.";
         }
     }
 
