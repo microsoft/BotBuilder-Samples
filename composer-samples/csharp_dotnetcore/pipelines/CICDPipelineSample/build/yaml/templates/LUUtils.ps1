@@ -46,7 +46,11 @@ function Get-LUModels
         if ( $recognizerKind -eq $recognizerType)
         {
             $luModels += "$luModel"
-            Write-Host "Added to luModels.";
+            Write-Host "Added to luModels." -ForegroundColor Green;
+        }
+        else
+        {
+            Write-Host "Recognizer types do not match" -ForegroundColor Red;
         }
     }
 
