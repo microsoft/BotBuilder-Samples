@@ -15,30 +15,36 @@ function Get-LUModels
         [string] $sourceDirectory
     )
 
-    #Set-PSDebug -Trace 2;
-
     # Get a list of the cross trained lu models to process
     $crossTrainedLUModels = Get-ChildItem -Path $crossTrainedLUDirectory -Filter "*.lu" -file -name
 
+    Write-Host "crossTrainedLUModels: $crossTrainedLUModels";
+
     # Get a list of all the dialog recognizers (exclude bin and obj just in case)
     $luRecognizerDialogs = Get-ChildItem -Path $sourceDirectory -Filter "*??-??.lu.dialog" -file -name -Recurse | Where-Object { $_ -notmatch '^bin*|^obj*' }
+
+    Write-Host "luRecognizerDialogs: $luRecognizerDialogs";
 
     # Create a list of the models that match the given recognizer
     $luModels = @()
     foreach($luModel in $crossTrainedLUModels) {
         # Load the dialog JSON and find the recognizer kind
+        Write-Host "luModel: $luModel";
         $luDialog = $luRecognizerDialogs | Where-Object { $_ -match "/$luModel.dialog" }
+        Write-Host "luDialog: $luDialog";
         $dialog = Get-Content -Path "$sourceDirectory/$luDialog" | ConvertFrom-Json
+        Write-Host "dialog: $dialog";
         $recognizerKind = ($dialog | Select -ExpandProperty "`$kind")
+        Write-Host "recognizerKind: $recognizerKind";
+        Write-Host "recognizerType: $recognizerType";
 
         # Add it to the list if it is the expected type
         if ( $recognizerKind -eq $recognizerType)
         {
             $luModels += "$luModel"
+            Write-Host "Added to luModels.";
         }
     }
-
-    #Set-PSDebug -Trace 0;
 
     # return the models found
     return $luModels
