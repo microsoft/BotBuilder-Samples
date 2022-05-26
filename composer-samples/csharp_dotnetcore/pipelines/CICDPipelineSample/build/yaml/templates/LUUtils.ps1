@@ -53,7 +53,7 @@ function Get-LUModels
         }
         else
         {
-            Write-Host "    Not added: Recognizer types do not match.";
+            Write-Host "    Not added. Recognizer types do not match.";
         }
     }
 
