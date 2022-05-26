@@ -50,7 +50,7 @@ function Get-LUModels
         }
         else
         {
-            Write-Host "Recognizer types do not match" -ForegroundColor Red;
+            Write-Host "Recognizer types do not match." -ForegroundColor Red;
         }
     }
 
