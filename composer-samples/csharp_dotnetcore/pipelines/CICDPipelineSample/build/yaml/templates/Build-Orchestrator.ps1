@@ -36,8 +36,7 @@ if ($models.Count -eq 0)
     Write-Host "No orchestrator models found."
     Write-Host "-crossTrainedLUDirectory $crossTrainedLUDirectory"
     Write-Host "-sourceDirectory $sourceDirectory"
-    Write-Host "Current directory:"
-    (Get-Location).Path
+    Write-Host "Current directory: $(Get-Location)"
     exit 0        
 }
 Write-Host "Orchestrator models"
