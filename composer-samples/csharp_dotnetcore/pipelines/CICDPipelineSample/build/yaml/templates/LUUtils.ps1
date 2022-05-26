@@ -20,7 +20,7 @@ function Get-LUModels
     Write-Host "param crossTrainedLUDirectory: $crossTrainedLUDirectory";
     Write-Host "param sourceDirectory: $sourceDirectory";
     Write-Host " "
-    
+
     # Get a list of the cross trained lu models to process
     $crossTrainedLUModels = Get-ChildItem -Path $crossTrainedLUDirectory -Filter "*.lu" -file -name
 
@@ -53,7 +53,7 @@ function Get-LUModels
         }
         else
         {
-            Write-Host "    Recognizer types do not match.";
+            Write-Host "    Not added: Recognizer types do not match.";
         }
     }
 
