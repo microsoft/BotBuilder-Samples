@@ -15,6 +15,8 @@ function Get-LUModels
         [string] $sourceDirectory
     )
 
+    Set-PSDebug -Trace 2;
+
     # Get a list of the cross trained lu models to process
     $crossTrainedLUModels = Get-ChildItem -Path $crossTrainedLUDirectory -Filter "*.lu" -file -name
 
@@ -35,6 +37,8 @@ function Get-LUModels
             $luModels += "$luModel"
         }
     }
+
+    Set-PSDebug -Trace 0;
 
     # return the models found
     return $luModels
