@@ -14,11 +14,13 @@ function Get-LUModels
         [string] $crossTrainedLUDirectory,
         [string] $sourceDirectory
     )
-
+    
+    Write-Host "Executing function Get-LUModels"
     Write-Host "param recognizerType: $recognizerType";
     Write-Host "param crossTrainedLUDirectory: $crossTrainedLUDirectory";
     Write-Host "param sourceDirectory: $sourceDirectory";
-
+    Write-Host " "
+    
     # Get a list of the cross trained lu models to process
     $crossTrainedLUModels = Get-ChildItem -Path $crossTrainedLUDirectory -Filter "*.lu" -file -name
 
