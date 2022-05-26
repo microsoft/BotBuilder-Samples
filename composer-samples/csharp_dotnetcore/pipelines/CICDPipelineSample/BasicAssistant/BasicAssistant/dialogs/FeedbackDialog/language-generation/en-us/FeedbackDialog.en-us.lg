@@ -13,7 +13,7 @@
 
 # SendActivity_FeedbackExperiencePrompt_attachment_adaptiveCard()
 > LikeDislikeCard
-- ```${json(CardTemplate(FeedbackHeader(),FeedbackBody(),FeedbackActions()))}```
+- ${json(CardTemplate(FeedbackHeader(),FeedbackBody(),FeedbackActions()))}
 
 # SendActivity_FeedbackThanks()
 [Activity
@@ -171,6 +171,7 @@
             ]
         }
 ```
+
 # FeedbackActions
 - ```
 {
