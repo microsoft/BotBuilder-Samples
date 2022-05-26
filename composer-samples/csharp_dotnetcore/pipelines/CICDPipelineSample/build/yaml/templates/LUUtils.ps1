@@ -15,6 +15,10 @@ function Get-LUModels
         [string] $sourceDirectory
     )
 
+    Write-Host "param recognizerType: $recognizerType";
+    Write-Host "param crossTrainedLUDirectory: $crossTrainedLUDirectory";
+    Write-Host "param sourceDirectory: $sourceDirectory";
+
     # Get a list of the cross trained lu models to process
     $crossTrainedLUModels = Get-ChildItem -Path $crossTrainedLUDirectory -Filter "*.lu" -file -name
 
@@ -35,8 +39,8 @@ function Get-LUModels
         $dialog = Get-Content -Path "$sourceDirectory/$luDialog" | ConvertFrom-Json
         Write-Host "dialog: $dialog";
         $recognizerKind = ($dialog | Select -ExpandProperty "`$kind")
-        Write-Host "recognizerKind: $recognizerKind";
-        Write-Host "recognizerType: $recognizerType";
+        Write-Host "recognizerKind: $recognizerKind" -ForegroundColor Cyan;
+        Write-Host "recognizerType: $recognizerType" -ForegroundColor Cyan;
 
         # Add it to the list if it is the expected type
         if ( $recognizerKind -eq $recognizerType)
