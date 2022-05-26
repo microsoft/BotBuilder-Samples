@@ -37,7 +37,7 @@ if ($models.Count -eq 0)
     Write-Host "-crossTrainedLUDirectory $crossTrainedLUDirectory"
     Write-Host "-sourceDirectory $sourceDirectory"
     Write-Host "Current directory:"
-    Get-Location
+    Get-Location | Format-Table -AutoSize
     exit 0        
 }
 Write-Host "Orchestrator models"
