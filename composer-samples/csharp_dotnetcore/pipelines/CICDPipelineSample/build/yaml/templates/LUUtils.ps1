@@ -33,6 +33,7 @@ function Get-LUModels
     $luModels = @()
     foreach($luModel in $crossTrainedLUModels) {
         # Load the dialog JSON and find the recognizer kind
+        Write-Host " ";
         Write-Host "luModel: $luModel";
         $luDialog = $luRecognizerDialogs | Where-Object { $_ -match "/$luModel.dialog" }
         Write-Host "luDialog: $luDialog";
