@@ -3,7 +3,8 @@
   "$designer": {
     "id": "k1pCvc",
     "name": "FeedbackDialog",
-    "description": "Captures user feedback with like/dislike input"
+    "description": "",
+    "comment": "Dialog to collect user feedback with like/dislike input."
   },
   "autoEndDialog": false,
   "defaultResultProperty": "dialog.result",
@@ -17,15 +18,10 @@
       },
       "actions": [
         {
-          "$kind": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "Lxj86N"
-          }
-        },
-        {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "GstWEQ"
+            "id": "GstWEQ",
+            "comment": "Card to collect user feedback."
           },
           "activity": "${SendActivity_FeedbackExperiencePrompt()}"
         }
@@ -35,21 +31,17 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "Nh34Pm",
-        "name": "Like"
+        "name": "Like",
+        "comment": "Handles the Like button click."
       },
       "intent": "Like",
       "actions": [
         {
-          "$kind": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "XXWLme"
-          }
-        },
-        {
           "$kind": "Microsoft.TelemetryTrackEventAction",
           "$designer": {
             "id": "jPnyCk",
-            "name": "Telemetry - UserLiked: true"
+            "name": "Telemetry - UserLiked: true",
+            "comment": "Logs user feedback in the Telelmetry Client (typically Application Insights for production instances)."
           },
           "eventName": "FeedbackSubmitted",
           "properties": {
@@ -59,7 +51,8 @@
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "639pkl"
+            "id": "639pkl",
+            "comment": "Shows received feedback message to user."
           },
           "activity": "${SendActivity_FeedbackThanks()}"
         },
@@ -75,21 +68,17 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "1LWtRj",
-        "name": "Dislike"
+        "name": "Dislike",
+        "comment": "Handles the Dislike button click."
       },
       "intent": "Dislike",
       "actions": [
         {
-          "$kind": "Microsoft.TraceActivity",
-          "$designer": {
-            "id": "ke4aTg"
-          }
-        },
-        {
           "$kind": "Microsoft.TelemetryTrackEventAction",
           "$designer": {
             "id": "ENnqza",
-            "name": "Telemetry - UserLiked: false"
+            "name": "Telemetry - UserLiked: false",
+            "comment": "Logs user feedback in the Telelmetry Client (typically Application Insights for production instances)."
           },
           "eventName": "FeedbackSubmitted",
           "properties": {
@@ -99,7 +88,8 @@
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "YBCkGQ"
+            "id": "YBCkGQ",
+            "comment": "Shows received feedback message to user."
           },
           "activity": "${SendActivity_FeedbackThanks()}"
         },

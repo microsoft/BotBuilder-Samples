@@ -47,7 +47,7 @@ parameters:
   default: $(WEBAPPNAME)
 
 - name: botProjectDirectory
-  displayName: Relative path to the bot"s csproj file
+  displayName: Relative path to the bot's csproj file (e.g. BasicAssistant/BasicAssistant)
   type: string
   default: $(BOTPROJECTDIRECTORY) 
   
@@ -56,6 +56,11 @@ parameters:
   type: string
   default: $(BOTPROJECTNAME) 
 
+- name: buildYamlDirectory
+  displayName: Relative path to the pipeline's .yaml folder (e.g. build/yaml)
+  type: string
+  default: $(BUILDYAMLDIRECTORY) 
+  
 # LUIS Parameters
 # LUIS Authoring (used to build, train and publish LUIS models)
 - name: luisAuthoringKey
@@ -114,6 +119,7 @@ steps:
 - template: templates/buildAndDeployModels.yaml
   parameters:
     sourceDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.botProjectDirectory }}"
+    yamlDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.buildYamlDirectory }}"
     botName: "${{ parameters.botName }}"
     luisAuthoringKey: "${{ parameters.luisAuthoringKey }}"
     luisAuthoringRegion: "${{ parameters.luisAuthoringRegion }}"
@@ -136,3 +142,14 @@ steps:
     qnaHostName: "${{ parameters.qnaHostName }}"
     qnaKnowledgebaseId: "${{ parameters.qnaKnowledgebaseId }}"
     qnaRegion: "${{ parameters.qnaRegion }}"
+
+# Helper to output the working folder directory contents for diagnostics
+- task: PowerShell@2
+  displayName: 'Dir workspace'
+  continueOnError: true
+  condition: succeededOrFailed()
+  inputs:
+    targetType: "inline"
+    script: |
+      cd ..
+      ls -R
