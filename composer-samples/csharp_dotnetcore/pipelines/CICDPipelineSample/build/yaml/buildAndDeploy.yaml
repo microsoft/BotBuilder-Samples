@@ -143,9 +143,13 @@ steps:
     qnaKnowledgebaseId: "${{ parameters.qnaKnowledgebaseId }}"
     qnaRegion: "${{ parameters.qnaRegion }}"
 
-- powershell: |
-    cd ..
-    ls -R
+# Helper to output the working folder directory contents for diagnostics
+- task: PowerShell@2
   displayName: 'Dir workspace'
   continueOnError: true
   condition: succeededOrFailed()
+  inputs:
+    targetType: "inline"
+    script: |
+      cd ..
+      ls -R
