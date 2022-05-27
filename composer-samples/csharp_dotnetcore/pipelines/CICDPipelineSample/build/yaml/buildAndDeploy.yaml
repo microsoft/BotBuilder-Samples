@@ -47,7 +47,7 @@ parameters:
   default: $(WEBAPPNAME)
 
 - name: botProjectDirectory
-  displayName: Relative path to the bot's csproj file
+  displayName: Relative path to the bot's csproj file (e.g. BasicAssistant/BasicAssistant)
   type: string
   default: $(BOTPROJECTDIRECTORY) 
   
@@ -57,7 +57,7 @@ parameters:
   default: $(BOTPROJECTNAME) 
 
 - name: buildYamlDirectory
-  displayName: Relative path to the pipeline's .yaml folder
+  displayName: Relative path to the pipeline's .yaml folder (e.g. build/yaml)
   type: string
   default: $(BUILDYAMLDIRECTORY) 
   
