@@ -74,6 +74,11 @@ parameters:
   default: $(LUISAUTHORINGREGION)
   
 # LUIS Runtime (used to access LUIS while the bot is running)
+- name: luisApplicationId
+  displayName: LUIS application Id
+  type: string
+  default: $(LUISAPPLICATIONID)
+
 - name: luisEndpoint
   displayName: LUIS endpoint
   type: string
@@ -135,6 +140,7 @@ steps:
     botName: "${{ parameters.botName }}"
     microsoftAppId: "${{ parameters.microsoftAppId }}"
     microsoftAppPassword: "${{ parameters.microsoftAppPassword }}"
+    luisApplicationId: "${{ parameters.luisApplicationId }}"
     luisEndpoint: "${{ parameters.luisEndpoint }}"
     luisEndpointKey: "${{ parameters.luisEndpointKey }}"
     qnaSubscriptionKey: "${{ parameters.qnaSubscriptionKey }}"

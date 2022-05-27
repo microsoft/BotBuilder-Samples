@@ -33,6 +33,10 @@ parameters:
   displayName: Bot's Microsoft app Password
   type: string
 
+- name: luisApplicationId
+  displayName: LUIS application id
+  type: string
+
 - name: luisEndpoint
   displayName: LUIS endpoint
   type: string
@@ -109,6 +113,11 @@ steps:
         {
           "name": "MicrosoftAppPassword",
           "value": "${{ parameters.microsoftAppPassword }}",
+          "slotSetting": false
+        },
+        {
+          "name": "luis__applicationid",
+          "value": "${{ parameters.luisApplicationId }}",
           "slotSetting": false
         },
         {
