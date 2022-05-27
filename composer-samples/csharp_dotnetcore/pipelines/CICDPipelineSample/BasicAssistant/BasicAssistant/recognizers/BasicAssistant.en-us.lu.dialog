@@ -1,8 +1,7 @@
 {
-  "$kind": "Microsoft.LuisRecognizer",
-  "id": "LUIS_BasicAssistant",
-  "applicationId": "=settings.luis.BasicAssistant_en_us_lu.appId",
-  "version": "=settings.luis.BasicAssistant_en_us_lu.version",
-  "endpoint": "=settings.luis.endpoint",
-  "endpointKey": "=settings.luis.endpointKey"
+  "$kind": "Microsoft.OrchestratorRecognizer",
+  "modelFolder": "=settings.orchestrator.models.en",
+  "snapshotFile": "=settings.orchestrator.snapshots.BasicAssistant_en_us",
+  "detectAmbiguousIntents": true,
+  "disambiguationScoreThreshold": 0.05
 }
