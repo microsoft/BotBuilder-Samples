@@ -159,25 +159,25 @@ export class TeamsConversationBot extends TeamsActivityHandler {
             const message = MessageFactory.text( `Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.` );
 
             const convoParams = {
+                activity: context.activity,
                 members: [teamMember],
-                tenantId: context.activity.channelData.tenant.id,
-                activity: context.activity
+                tenantId: context.activity.channelData.tenant.id
             } as ConversationParameters;
-            
+
             await context.adapter.createConversationAsync (
                 process.env.MicrosoftAppId,
                 context.activity.channelId,
                 context.activity.serviceUrl,
                 null,
                 convoParams,
-                async (context) => {
-                    const ref = TurnContext.getConversationReference(context.activity);
+                async (turnContext) => {
+                    const ref = TurnContext.getConversationReference(turnContext.activity);
 
-                    await context.adapter.continueConversationAsync(
+                    await turnContext.adapter.continueConversationAsync(
                         process.env.MicrosoftAppId,
                         ref,
-                        async (context) => {
-                            await context.sendActivity(message);
+                        async (ctx) => {
+                            await ctx.sendActivity(message);
                         });
                 });
         });

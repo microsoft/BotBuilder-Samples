@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
 
                 // Send a trace activity, which will be displayed in the Bot Framework Emulator
                 await turnContext.TraceActivityAsync("OnTurnError Trace", exception.Message, "https://www.botframework.com/schemas/error", "TurnError");
-            };
+            }
         }
     }
 }

@@ -29,11 +29,11 @@ async function createCardCommand( context: TurnContext, action: any ): Promise<a
 
   return {
     composeExtension: {
-      type: 'result',
       attachmentLayout: 'list',
       attachments: [
         attachment
-      ]
+      ],
+      type: 'result'
     }
   };
 }
@@ -68,11 +68,11 @@ async function shareMessageCommand( context: TurnContext, action: any ): Promise
 
   return {
     composeExtension: {
-      type: 'result',
       attachmentLayout: 'list',
       attachments: [
         attachment
-      ]
+      ],
+      type: 'result'
     }
   };
 }
