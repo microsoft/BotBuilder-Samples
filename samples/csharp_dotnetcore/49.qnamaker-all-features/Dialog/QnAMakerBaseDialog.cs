@@ -1,5 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
 using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
