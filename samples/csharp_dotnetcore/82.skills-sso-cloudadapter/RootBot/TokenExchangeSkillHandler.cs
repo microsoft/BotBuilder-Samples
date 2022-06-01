@@ -32,6 +32,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
         private readonly SkillConversationIdFactoryBase _conversationIdFactory;
         private readonly ILogger _logger;
         private readonly SkillsConfiguration _skillsConfig;
+        private readonly ConfigurationBotFrameworkAuthentication _configurationBotFrameworkAuthentication;
 
         public TokenExchangeSkillHandler(
             BotAdapter adapter,
@@ -40,6 +41,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
             BotFrameworkAuthentication auth,
             SkillsConfiguration skillsConfiguration,
             IConfiguration configuration,
+            ConfigurationBotFrameworkAuthentication configurationBotFrameworkAuthentication,
             ILogger<TokenExchangeSkillHandler> logger = null)
             : base(adapter, bot, conversationIdFactory, auth, logger)
         {
@@ -75,8 +77,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
-            var appId = JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims);
-
+            var appId = _configurationBotFrameworkAuthentication.GetOriginatingAudience();
 
             if (string.IsNullOrWhiteSpace(appId))
             {
