@@ -25,7 +25,7 @@ namespace Microsoft.BotBuilderSamples
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, BotComponent botcomponent)
         {
             services.AddHttpClient().AddControllers().AddNewtonsoftJson();
 
@@ -53,7 +53,9 @@ namespace Microsoft.BotBuilderSamples
             // Create the bot as a transient. In this case the ASP Controller is expecting an IBot.
             services.AddTransient<IBot, QnABot<RootDialog>>();
 
-            ComponentRegistration.Add(new DialogsComponentRegistration());
+            //ComponentRegistration.Add(new DialogsComponentRegistration());
+
+            botcomponent.ConfigureServices(services, Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -16,6 +16,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
+using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace Microsoft.BotBuilderSamples.RootBot
 {
@@ -75,6 +76,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
             var appId = JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims);
+
 
             if (string.IsNullOrWhiteSpace(appId))
             {
