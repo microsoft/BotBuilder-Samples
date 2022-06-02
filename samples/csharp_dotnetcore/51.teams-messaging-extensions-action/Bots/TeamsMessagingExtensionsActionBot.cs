@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
 
 using System;
 using System.Collections.Generic;
@@ -44,7 +43,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 case "razorView":
                     return RazorViewResponse(turnContext, action);
             }
-            return new MessagingExtensionActionResponse();
+            return await Task.FromResult(new MessagingExtensionActionResponse());
         }
 
         private MessagingExtensionActionResponse RazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)

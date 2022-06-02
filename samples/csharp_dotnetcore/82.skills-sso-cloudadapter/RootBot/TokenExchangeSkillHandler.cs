@@ -53,6 +53,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
             _connectionName = configuration.GetSection("ConnectionName")?.Value;
             _logger = logger ?? NullLogger<TokenExchangeSkillHandler>.Instance;
+            _configurationBotFrameworkAuthentication = configurationBotFrameworkAuthentication ?? throw new ArgumentNullException(nameof(configurationBotFrameworkAuthentication));
         }
 
         protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default)
@@ -77,7 +78,8 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
-            var appId = _configurationBotFrameworkAuthentication.GetOriginatingAudience();
+            var botAppIdClaim = claimsIdentity.Claims?.SingleOrDefault(claim => claim.Type == AuthenticationConstants.AudienceClaim);
+            var appId = botAppIdClaim.Value;
 
             if (string.IsNullOrWhiteSpace(appId))
             {
