@@ -16,7 +16,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
-using Microsoft.Bot.Builder.Integration.AspNet.Core;
 
 namespace Microsoft.BotBuilderSamples.RootBot
 {
@@ -32,7 +31,6 @@ namespace Microsoft.BotBuilderSamples.RootBot
         private readonly SkillConversationIdFactoryBase _conversationIdFactory;
         private readonly ILogger _logger;
         private readonly SkillsConfiguration _skillsConfig;
-        private readonly ConfigurationBotFrameworkAuthentication _configurationBotFrameworkAuthentication;
 
         public TokenExchangeSkillHandler(
             BotAdapter adapter,
@@ -41,7 +39,6 @@ namespace Microsoft.BotBuilderSamples.RootBot
             BotFrameworkAuthentication auth,
             SkillsConfiguration skillsConfiguration,
             IConfiguration configuration,
-            ConfigurationBotFrameworkAuthentication configurationBotFrameworkAuthentication,
             ILogger<TokenExchangeSkillHandler> logger = null)
             : base(adapter, bot, conversationIdFactory, auth, logger)
         {
@@ -53,7 +50,6 @@ namespace Microsoft.BotBuilderSamples.RootBot
             _botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
             _connectionName = configuration.GetSection("ConnectionName")?.Value;
             _logger = logger ?? NullLogger<TokenExchangeSkillHandler>.Instance;
-            _configurationBotFrameworkAuthentication = configurationBotFrameworkAuthentication ?? throw new ArgumentNullException(nameof(configurationBotFrameworkAuthentication));
         }
 
         protected override async Task<ResourceResponse> OnSendToConversationAsync(ClaimsIdentity claimsIdentity, string conversationId, Activity activity, CancellationToken cancellationToken = default)
@@ -78,9 +74,8 @@ namespace Microsoft.BotBuilderSamples.RootBot
 
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
-            var botAppIdClaim = claimsIdentity.Claims?.SingleOrDefault(claim => claim.Type == AuthenticationConstants.AudienceClaim);
-            var appId = botAppIdClaim.Value;
-
+            var botAppIdClaim = claimsIdentity.Claims?.FirstOrDefault(claim => claim.Type == AuthenticationConstants.AppIdClaim);
+            var appId = botAppIdClaim?.Value;
             if (string.IsNullOrWhiteSpace(appId))
             {
                 return null;
