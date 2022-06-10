@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using AdaptiveCards.Templating;
 using Newtonsoft.Json;
+using AdaptiveCards;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -61,6 +62,11 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
             }
+        }
+
+        protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(GetAdaptiveCardForChannelWelcomeMessage(turnContext.Activity.Conversation.Name)), cancellationToken);
         }
 
         private async Task CardActivityAsync(ITurnContext<IMessageActivity> turnContext, bool update, CancellationToken cancellationToken)
@@ -353,6 +359,31 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var replyActivity = MessageFactory.Text(newReaction);
                 await turnContext.SendActivityAsync(replyActivity, cancellationToken);
             }
+        }
+
+        /// <summary>
+        /// Sample Adaptive card sent when bot is installed in channel.
+        /// </summary>
+        private Attachment GetAdaptiveCardForChannelWelcomeMessage(string teamName)
+        {
+            AdaptiveCard card = new AdaptiveCard(new AdaptiveSchemaVersion("1.2"))
+            {
+                Body = new List<AdaptiveElement>
+                {
+                    new AdaptiveTextBlock
+                    {
+                        Text = $"Welcome to the channel {teamName}.",
+                        Weight = AdaptiveTextWeight.Bolder,
+                        Spacing = AdaptiveSpacing.Medium,
+                    }
+                },
+            };
+
+            return new Attachment()
+            {
+                ContentType = AdaptiveCard.ContentType,
+                Content = card,
+            };
         }
     }
 }

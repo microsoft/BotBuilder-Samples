@@ -69,6 +69,25 @@ class TeamsConversationBot extends TeamsActivityHandler {
             }));
         });
     }
+	
+	async onInstallationUpdateActivity(context) {
+        const welcomeCard = CardFactory.adaptiveCard(this.adaptiveCardForChannel(context.activity.conversation.name));
+        await context.sendActivity({ attachments: [welcomeCard] });
+    }
+
+    adaptiveCardForChannel = (teamName) => ({
+        $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+        body: [
+            {
+                type: "TextBlock",
+                size: "Medium",
+                weight: "Bolder",
+                text: `Welcome to the channel ${teamName}.`
+            },
+        ],
+        type: "AdaptiveCard",
+        version: "1.2"
+    });
 
     async cardActivityAsync(context, isUpdate) {
         const cardActions = [
