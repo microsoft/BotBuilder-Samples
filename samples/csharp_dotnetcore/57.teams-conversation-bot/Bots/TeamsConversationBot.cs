@@ -58,7 +58,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(GetAdaptiveCardForChannelWelcomeMessage(turnContext.Activity.Conversation.Name)), cancellationToken);
+            await turnContext.SendActivityAsync(MessageFactory.Attachment(GetAdaptiveCardForChannelWelcomeMessage()), cancellationToken);
         }
 
         private async Task CardActivityAsync(ITurnContext<IMessageActivity> turnContext, bool update, CancellationToken cancellationToken)
@@ -356,7 +356,7 @@ namespace Microsoft.BotBuilderSamples.Bots
         /// <summary>
         /// Sample Adaptive card sent when bot is installed.
         /// </summary>
-        private Attachment GetAdaptiveCardForChannelWelcomeMessage(string teamName)
+        private Attachment GetAdaptiveCardForChannelWelcomeMessage()
         {
             AdaptiveCard card = new AdaptiveCard(new AdaptiveSchemaVersion("1.2"))
             {
@@ -364,7 +364,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 {
                     new AdaptiveTextBlock
                     {
-                        Text = $"Welcome to the channel {teamName}.",
+                        Text = "Welcome to the Microsoft Teams conversation demo bot",
                         Weight = AdaptiveTextWeight.Bolder,
                         Spacing = AdaptiveSpacing.Medium,
                     }
