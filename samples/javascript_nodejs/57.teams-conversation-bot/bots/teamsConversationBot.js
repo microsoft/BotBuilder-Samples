@@ -41,18 +41,6 @@ class TeamsConversationBot extends TeamsActivityHandler {
             await next();
         });
 
-        this.onMembersAddedActivity(async (context, next) => {
-            await Promise.all((context.activity.membersAdded || []).map(async (member) => {
-                if (member.id !== context.activity.recipient.id) {
-                    await context.sendActivity(
-                        `Welcome to the team ${member.givenName} ${member.surname}`
-                    );
-                }
-            }));
-
-            await next();
-        });
-
         this.onReactionsAdded(async (context) => {
             await Promise.all((context.activity.reactionsAdded || []).map(async (reaction) => {
                 const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
@@ -69,6 +57,25 @@ class TeamsConversationBot extends TeamsActivityHandler {
             }));
         });
     }
+
+    async onInstallationUpdateActivity(context) {
+        const welcomeCard = CardFactory.adaptiveCard(this.adaptiveCardForChannel());
+        await context.sendActivity({ attachments: [welcomeCard] });
+    }
+
+    adaptiveCardForChannel = () => ({
+        $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
+        body: [
+            {
+                type: "TextBlock",
+                size: "Medium",
+                weight: "Bolder",
+                text: `Welcome to Microsoft Teams conversation demo bot.`
+            },
+        ],
+        type: "AdaptiveCard",
+        version: "1.2"
+    });
 
     async cardActivityAsync(context, isUpdate) {
         const cardActions = [
