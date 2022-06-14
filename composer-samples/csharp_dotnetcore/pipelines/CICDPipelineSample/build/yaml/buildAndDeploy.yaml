@@ -108,7 +108,7 @@ parameters:
 - name: qnaRegion
   displayName: QnA Maker region
   type: string
-  default: "westus"
+  default: $(QNAREGION)
 
 steps:
 
