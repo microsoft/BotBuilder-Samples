@@ -59,23 +59,13 @@ class TeamsConversationBot extends TeamsActivityHandler {
     }
 
     async onInstallationUpdateActivity(context) {
-        const welcomeCard = CardFactory.adaptiveCard(this.adaptiveCardForChannel());
-        await context.sendActivity({ attachments: [welcomeCard] });
+        if(context.activity.conversation.conversationType == "personal") {
+            context.sendActivity(MessageFactory.text('Welcome to Microsoft Teams conversationUpdate events demo bot.'));
+        }
+        else {
+            context.sendActivity(MessageFactory.text(`Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in ${context.activity.conversation.name}`));
+        }
     }
-
-    adaptiveCardForChannel = () => ({
-        $schema: "http://adaptivecards.io/schemas/adaptive-card.json",
-        body: [
-            {
-                type: "TextBlock",
-                size: "Medium",
-                weight: "Bolder",
-                text: `Welcome to Microsoft Teams conversation demo bot.`
-            },
-        ],
-        type: "AdaptiveCard",
-        version: "1.2"
-    });
 
     async cardActivityAsync(context, isUpdate) {
         const cardActions = [
