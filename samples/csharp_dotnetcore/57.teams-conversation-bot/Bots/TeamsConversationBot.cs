@@ -58,13 +58,13 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            if(turnContext.Activity.Conversation.ConversationType == "personal")
+            if(turnContext.Activity.Conversation.ConversationType == "channel")
             {
-                await turnContext.SendActivityAsync("Welcome to Microsoft Teams conversationUpdate events demo bot.");
+                await turnContext.SendActivityAsync($"Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in {turnContext.Activity.Conversation.Name}");
             }
             else
             {
-                await turnContext.SendActivityAsync($"Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in {turnContext.Activity.Conversation.Name}");
+                await turnContext.SendActivityAsync("Welcome to Microsoft Teams conversationUpdate events demo bot.");
             }
         }
 
