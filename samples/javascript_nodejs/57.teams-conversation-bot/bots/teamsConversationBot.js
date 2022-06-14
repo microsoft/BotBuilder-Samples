@@ -59,11 +59,11 @@ class TeamsConversationBot extends TeamsActivityHandler {
     }
 
     async onInstallationUpdateActivity(context) {
-        if(context.activity.conversation.conversationType == "personal") {
-            context.sendActivity(MessageFactory.text('Welcome to Microsoft Teams conversationUpdate events demo bot.'));
+        if(context.activity.conversation.conversationType == "channel") {
+            context.sendActivity(MessageFactory.text(`Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in ${context.activity.conversation.name}`));
         }
         else {
-            context.sendActivity(MessageFactory.text(`Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in ${context.activity.conversation.name}`));
+            context.sendActivity(MessageFactory.text('Welcome to Microsoft Teams conversationUpdate events demo bot.'));
         }
     }
 
