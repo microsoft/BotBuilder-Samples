@@ -58,7 +58,14 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
-            await turnContext.SendActivityAsync(MessageFactory.Attachment(GetAdaptiveCardForChannelWelcomeMessage()), cancellationToken);
+            if(turnContext.Activity.Conversation.ConversationType == "personal")
+            {
+                await turnContext.SendActivityAsync("Welcome to Microsoft Teams conversationUpdate events demo bot.");
+            }
+            else
+            {
+                await turnContext.SendActivityAsync($"Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in {turnContext.Activity.Conversation.Name}");
+            }
         }
 
         private async Task CardActivityAsync(ITurnContext<IMessageActivity> turnContext, bool update, CancellationToken cancellationToken)
@@ -351,31 +358,6 @@ namespace Microsoft.BotBuilderSamples.Bots
                 var replyActivity = MessageFactory.Text(newReaction);
                 await turnContext.SendActivityAsync(replyActivity, cancellationToken);
             }
-        }
-
-        /// <summary>
-        /// Sample Adaptive card sent when bot is installed.
-        /// </summary>
-        private Attachment GetAdaptiveCardForChannelWelcomeMessage()
-        {
-            AdaptiveCard card = new AdaptiveCard(new AdaptiveSchemaVersion("1.2"))
-            {
-                Body = new List<AdaptiveElement>
-                {
-                    new AdaptiveTextBlock
-                    {
-                        Text = "Welcome to the Microsoft Teams conversation demo bot",
-                        Weight = AdaptiveTextWeight.Bolder,
-                        Spacing = AdaptiveSpacing.Medium,
-                    }
-                },
-            };
-
-            return new Attachment()
-            {
-                ContentType = AdaptiveCard.ContentType,
-                Content = card,
-            };
         }
     }
 }
