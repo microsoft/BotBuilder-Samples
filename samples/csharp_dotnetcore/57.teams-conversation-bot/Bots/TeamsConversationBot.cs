@@ -56,6 +56,17 @@ namespace Microsoft.BotBuilderSamples.Bots
                 await CardActivityAsync(turnContext, false, cancellationToken);
         }
 
+        protected override async Task OnTeamsMembersAddedAsync(IList<TeamsChannelAccount> membersAdded, TeamInfo teamInfo, ITurnContext<IConversationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            foreach (var teamMember in membersAdded)
+            {
+                if(teamMember.Id != turnContext.Activity.Recipient.Id && turnContext.Activity.Conversation.ConversationType != "personal")
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
+                }
+            }
+        }
+
         protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
         {
             if(turnContext.Activity.Conversation.ConversationType == "channel")
