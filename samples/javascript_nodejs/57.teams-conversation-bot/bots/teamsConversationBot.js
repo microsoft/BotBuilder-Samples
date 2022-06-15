@@ -41,6 +41,18 @@ class TeamsConversationBot extends TeamsActivityHandler {
             await next();
         });
 
+        this.onMembersAddedActivity(async (context, next) => {
+            await Promise.all((context.activity.membersAdded || []).map(async (member) => {
+                if (member.id !== context.activity.recipient.id && context.activity.conversation.conversationType != "personal") {
+                    await context.sendActivity(
+                        `Welcome to the team ${member.givenName} ${member.surname}`
+                    );
+                }
+            }));
+
+            await next();
+        });
+
         this.onReactionsAdded(async (context) => {
             await Promise.all((context.activity.reactionsAdded || []).map(async (reaction) => {
                 const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
