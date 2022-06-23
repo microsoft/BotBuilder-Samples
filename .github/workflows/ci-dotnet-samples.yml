@@ -44,9 +44,8 @@ jobs:
 
           $paths = @("${{ env.GIT_DIFF_FILTERED }}" -replace "'", "" -split " ")
           $rootFolder = "${{ env.ROOT_FOLDER }}"
-          $pkg = "appsettings.json"
 
-          $result = $paths | ForEach-Object { UpSearchFolder -path $_ -file $pkg } | Get-Unique | ForEach-Object {
+          $result = $paths | ForEach-Object { UpSearchFolder -path $_ -file "*.csproj" } | Get-Unique | ForEach-Object {
             $folder = $_
             return @{ 
               name = $folder.Substring($folder.IndexOf($rootFolder) + $rootFolder.Length);
