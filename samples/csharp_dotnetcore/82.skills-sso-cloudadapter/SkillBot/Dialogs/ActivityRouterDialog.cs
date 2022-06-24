@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
+namespace Microsoft.BotBuilderSamples.SSOSkillBot.Dialogs
 {
     /// <summary>
     /// A root dialog that can route activities sent to the skill to different sub-dialogs.
