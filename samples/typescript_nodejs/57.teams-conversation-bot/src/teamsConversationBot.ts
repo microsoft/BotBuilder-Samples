@@ -171,14 +171,7 @@ export class TeamsConversationBot extends TeamsActivityHandler {
                 null,
                 convoParams,
                 async (context) => {
-                    const ref = TurnContext.getConversationReference(context.activity);
-
-                    await context.adapter.continueConversationAsync(
-                        process.env.MicrosoftAppId,
-                        ref,
-                        async (context) => {
-                            await context.sendActivity(message);
-                        });
+                    await context.sendActivity(message);
                 });
         });
 
