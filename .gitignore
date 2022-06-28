@@ -299,3 +299,4 @@ rush.json
 /experimental/common/scripts
 /experimental/generation/generator/.rush
 orchestrator.json
+/samples/csharp_dotnetcore/.cr/personal/FavoritesList/List.xml
