@@ -25,6 +25,9 @@ namespace Microsoft.BotBuilderSamples
 
         private void AddConversationReference(Activity activity)
         {
+            // In order to send a proactive message using Bot Framework,
+            // the bot must first capture a conversation reference from an incoming message using TurnContext.getConversationReference().
+            // This reference can be stored for later use.
             var conversationReference = activity.GetConversationReference();
             _conversationReferences.AddOrUpdate(conversationReference.User.Id, conversationReference, (key, newValue) => conversationReference);
         }

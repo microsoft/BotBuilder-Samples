@@ -33,6 +33,8 @@ namespace ProactiveBot.Controllers
         {
             foreach (var conversationReference in _conversationReferences.Values)
             {
+                // To send proactive messages, acquire a conversation reference,
+                // then use adapter.continueConversation() to create a TurnContext object that will allow the bot to deliver the new outgoing message.
                 await ((BotAdapter)_adapter).ContinueConversationAsync(_appId, conversationReference, BotCallback, default(CancellationToken));
             }
             
