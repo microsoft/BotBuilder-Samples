@@ -16,7 +16,10 @@ namespace Microsoft.BotBuilderSamples
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpClient().AddControllers().AddNewtonsoftJson();
+            services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.MaxDepth = 128;
+            });
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
