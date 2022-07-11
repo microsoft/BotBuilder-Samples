@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
         {
             services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
             // Register the skills configuration class.

@@ -31,7 +31,7 @@ namespace Microsoft.BotBuilderSamples
             services.AddMvc();
             services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
             services.AddRazorPages();
 

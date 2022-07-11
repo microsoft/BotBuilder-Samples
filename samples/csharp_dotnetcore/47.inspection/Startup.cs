@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
             services.AddSingleton<IStorage, MemoryStorage>();

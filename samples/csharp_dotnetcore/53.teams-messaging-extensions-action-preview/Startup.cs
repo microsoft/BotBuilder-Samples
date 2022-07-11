@@ -27,7 +27,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
             // Create the storage we'll be using for User and Conversation state. (Memory is great for testing purposes.)

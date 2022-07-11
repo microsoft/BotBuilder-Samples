@@ -22,7 +22,7 @@ namespace Microsoft.BotBuilderSamples.EchoSkillBot
         {
             services.AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
             // Register AuthConfiguration to enable custom claim validation.

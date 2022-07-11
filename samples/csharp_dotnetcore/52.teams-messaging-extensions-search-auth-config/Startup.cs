@@ -28,7 +28,7 @@ namespace Microsoft.BotBuilderSamples
         {
             services.AddHttpClient().AddControllers().AddNewtonsoftJson(options =>
             {
-                options.SerializerSettings.MaxDepth = 128;
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
             });
 
             // Create storage and UserState for User configuration settings.
