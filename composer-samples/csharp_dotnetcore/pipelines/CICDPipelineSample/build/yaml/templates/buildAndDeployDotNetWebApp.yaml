@@ -89,7 +89,7 @@ steps:
     appName: "${{ parameters.webAppName }}"
     resourceGroupName: "${{ parameters.resourceGroupName }}"
     package: "$(System.DefaultWorkingDirectory)/output/zipDeploy/*.zip"
-    deploymentMethod: zipDeploy
+    deploymentMethod: runFromPackage
 
 # Configure web appSettings
 - task: AzureAppServiceSettings@1

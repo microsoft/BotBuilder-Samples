@@ -19,13 +19,12 @@ const { TelemetryLoggerMiddleware } = require('botbuilder-core');
 // Import required bot services. See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
     ConversationState,
-    createBotFrameworkAuthenticationFromConfiguration,
     InputHints,
     MemoryStorage,
     NullTelemetryClient,
-    UserState
+    UserState,
+    ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
@@ -38,14 +37,7 @@ const { MainDialog } = require('./dialogs/mainDialog');
 const { BookingDialog } = require('./dialogs/bookingDialog');
 const BOOKING_DIALOG = 'bookingDialog';
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-    MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
