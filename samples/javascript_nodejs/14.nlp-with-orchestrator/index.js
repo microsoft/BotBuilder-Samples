@@ -15,20 +15,12 @@ require('dotenv').config({ path: ENV_FILE });
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration
+    ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 
 const { DispatchBot } = require('./bots/dispatchBot');
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-    MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more.
