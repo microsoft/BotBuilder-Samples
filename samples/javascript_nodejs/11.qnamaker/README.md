@@ -38,10 +38,10 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/11a.qnamaker`
+- In a terminal, navigate to `samples/javascript_nodejs/11.qnamaker`
 
     ```bash
-    cd samples/javascript_nodejs/11a.qnamaker
+    cd samples/javascript_nodejs/11.qnamaker
     ```
 
 - Install modules
