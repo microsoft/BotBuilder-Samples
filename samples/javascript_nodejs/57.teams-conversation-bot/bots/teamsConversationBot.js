@@ -43,7 +43,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         this.onMembersAddedActivity(async (context, next) => {
             await Promise.all((context.activity.membersAdded || []).map(async (member) => {
-                if (member.id !== context.activity.recipient.id) {
+                if (member.id !== context.activity.recipient.id && context.activity.conversation.conversationType != "personal") {
                     await context.sendActivity(
                         `Welcome to the team ${member.givenName} ${member.surname}`
                     );
@@ -68,6 +68,15 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 // Save information about the sent message and its ID (resourceResponse.id).
             }));
         });
+    }
+
+    async onInstallationUpdateActivity(context) {
+        if(context.activity.conversation.conversationType == "channel") {
+            context.sendActivity(MessageFactory.text(`Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in ${context.activity.conversation.name}`));
+        }
+        else {
+            context.sendActivity(MessageFactory.text('Welcome to Microsoft Teams conversationUpdate events demo bot.'));
+        }
     }
 
     async cardActivityAsync(context, isUpdate) {
