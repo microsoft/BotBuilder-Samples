@@ -29,7 +29,10 @@ namespace Microsoft.BotBuilderSamples
             services.AddControllers();
             services.AddHttpClient();
             services.AddMvc();
-            services.AddControllers().AddNewtonsoftJson();
+            services.AddControllers().AddNewtonsoftJson(options =>
+            {
+                options.SerializerSettings.MaxDepth = HttpHelper.BotMessageSerializerSettings.MaxDepth;
+            });
             services.AddRazorPages();
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
