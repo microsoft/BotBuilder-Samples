@@ -15,11 +15,11 @@ const {
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
     ConversationState,
-    createBotFrameworkAuthenticationFromConfiguration,
     InputHints,
     MemoryStorage,
     SkillConversationIdFactory,
-    TurnContext
+    TurnContext,
+    ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 const {
     allowedCallersClaimsValidator,
@@ -71,7 +71,7 @@ const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
     MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
 });
 
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory, authConfig);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, credentialsFactory, authConfig);
 
 // Create adapter, passing in authConfig so that we can use skills.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
