@@ -19,7 +19,7 @@ This sample utilizes an app setting `UseSingleSignOn` to add `TeamsSSOTokenExcha
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account (not a guest account)
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
 
   ```bash
   # determine dotnet version

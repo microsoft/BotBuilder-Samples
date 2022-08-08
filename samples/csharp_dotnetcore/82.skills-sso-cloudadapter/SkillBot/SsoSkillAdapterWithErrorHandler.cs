@@ -12,7 +12,7 @@ using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples.SkillBot
+namespace Microsoft.BotBuilderSamples.SSOSkillBot
 {
     /// <summary>
     /// A specialized <see cref="BotFrameworkAdapter"/> for Skills that also supports SSO.

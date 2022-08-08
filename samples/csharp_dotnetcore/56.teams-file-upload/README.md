@@ -8,7 +8,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 ## Prerequisites
 
 - Microsoft Teams is installed and you have an account
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
 - [ngrok](https://ngrok.com/) or equivalent tunnelling solution
 
 ## To try this sample

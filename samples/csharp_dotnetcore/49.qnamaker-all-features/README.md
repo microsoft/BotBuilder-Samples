@@ -133,7 +133,7 @@ If you are new to Microsoft Azure, please refer to [Getting started with Azure][
 
 [1]: https://dev.botframework.com
 [2]: https://docs.microsoft.com/en-us/visualstudio/releasenotes/vs2017-relnotes
-[3]: https://dotnet.microsoft.com/download/dotnet-core/3.1
+[3]: https://dotnet.microsoft.com/en-us/download
 [4]: https://docs.microsoft.com/en-us/azure/bot-service/bot-service-overview-introduction?view=azure-bot-service-4.0
 [5]: https://github.com/microsoft/botframework-emulator
 [6]: https://aka.ms/botframeworkemulator
