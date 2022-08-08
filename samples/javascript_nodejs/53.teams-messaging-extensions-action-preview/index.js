@@ -16,8 +16,6 @@ const restify = require('restify');
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration,
     ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 const { TeamsMessagingExtensionsActionPreviewBot } = require('./bots/teamsMessagingExtensionsActionPreviewBot');

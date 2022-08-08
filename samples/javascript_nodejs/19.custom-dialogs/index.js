@@ -12,7 +12,6 @@ require('dotenv').config({ path: ENV_FILE });
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 const {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
     ConversationState,
     MemoryStorage,
     UserState,

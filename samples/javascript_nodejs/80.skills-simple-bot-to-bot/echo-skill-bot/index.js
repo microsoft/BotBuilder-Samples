@@ -11,7 +11,6 @@ const {
     ActivityTypes,
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration,
     InputHints,
     ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');

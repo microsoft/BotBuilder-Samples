@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 const restify = require('restify');
 const path = require('path');
-require("isomorphic-fetch")
+require('isomorphic-fetch');
 
 // Note: Ensure you have a .env file and include MicrosoftAppId and MicrosoftAppPassword.
 // This MicrosoftApp should have OAuth enabled.
