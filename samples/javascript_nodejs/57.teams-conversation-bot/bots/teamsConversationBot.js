@@ -42,7 +42,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         this.onMembersAddedActivity(async (context, next) => {
             await Promise.all((context.activity.membersAdded || []).map(async (member) => {
-                if (member.id !== context.activity.recipient.id && context.activity.conversation.conversationType != 'personal') {
+                if (member.id !== context.activity.recipient.id && context.activity.conversation.conversationType !== 'personal') {
                     await context.sendActivity(
                         `Welcome to the team ${ member.givenName } ${ member.surname }`
                     );
