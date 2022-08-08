@@ -1,2 +1,2 @@
-# prevent appsettings.json get checked in
-**/appsettings.json
+# files generated during the lubuild process
+generated/

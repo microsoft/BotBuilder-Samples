@@ -11,14 +11,16 @@
     {
       "$kind": "Microsoft.OnConversationUpdateActivity",
       "$designer": {
-        "id": "376720"
+        "id": "376720",
+        "comment": "This trigger runs when a conversation update activity is sent to the bot. This indicates a user or bot being added or removed from a conversation."
       },
       "actions": [
         {
           "$kind": "Microsoft.Foreach",
           "$designer": {
             "id": "518944",
-            "name": "Loop: for each item"
+            "name": "Loop: for each item",
+            "comment": "For each member added to the conversation."
           },
           "itemsProperty": "turn.Activity.membersAdded",
           "actions": [
@@ -26,21 +28,24 @@
               "$kind": "Microsoft.IfCondition",
               "$designer": {
                 "id": "641773",
-                "name": "Branch: if/else"
+                "name": "Branch: if/else",
+                "comment": "Checks that that member added ID does not match the bot ID. This prevents the greeting message from being sent when the bot is added to a conversation."
               },
               "condition": "string(dialog.foreach.value.id) != string(turn.Activity.Recipient.id)",
               "actions": [
                 {
                   "$kind": "Microsoft.IfCondition",
                   "$designer": {
-                    "id": "Y1t1k4"
+                    "id": "Y1t1k4",
+                    "comment": "If the user has been greeted before."
                   },
                   "condition": "exists(user.greeted)",
                   "actions": [
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "yXbfKT"
+                        "id": "yXbfKT",
+                        "comment": "Shows returning user greeting to user."
                       },
                       "activity": "${SendActivity_GreetingReturningUser()}"
                     }
@@ -49,14 +54,16 @@
                     {
                       "$kind": "Microsoft.SendActivity",
                       "$designer": {
-                        "id": "XZRD8m"
+                        "id": "XZRD8m",
+                        "comment": "Shows new user greeting to user."
                       },
                       "activity": "${SendActivity_GreetingNewUser()}"
                     },
                     {
                       "$kind": "Microsoft.SetProperty",
                       "$designer": {
-                        "id": "eV86Nf"
+                        "id": "eV86Nf",
+                        "comment": "Sets user.greeted to true. This value will persist in user state across conversations with the user."
                       },
                       "property": "user.greeted",
                       "value": "true"
@@ -73,14 +80,16 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "YQ6GAt",
-        "name": "Bot tour"
+        "name": "Bot tour",
+        "comment": "Triggered when the BotTour intent is recognized in the user's utterance.\n"
       },
       "intent": "BotTour",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "6JAmBh"
+            "id": "6JAmBh",
+            "comment": "Launches the BotTourDialog for guiding the user through the utterances the bot can handle."
           },
           "activityProcessed": true,
           "dialog": "BotTourDialog",
@@ -89,7 +98,8 @@
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
-            "id": "0tDgZH"
+            "id": "0tDgZH",
+            "comment": "If the BotTourDialog returns false."
           },
           "condition": "=not(turn.result)",
           "elseActions": [],
@@ -97,7 +107,8 @@
             {
               "$kind": "Microsoft.RepeatDialog",
               "$designer": {
-                "id": "JpprmM"
+                "id": "JpprmM",
+                "comment": "Repeats this dialog and reprocesses the unhandled activity."
               },
               "activityProcessed": false
             }
@@ -109,14 +120,16 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "e1i6lY",
-        "name": "Cancel"
+        "name": "Cancel",
+        "comment": "Triggered when the Cancel intent is recognized in the user's utterance."
       },
       "intent": "Cancel",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "FDsuIq"
+            "id": "FDsuIq",
+            "comment": "Launches the CancelDialog."
           },
           "activityProcessed": true,
           "dialog": "CancelDialog"
@@ -127,7 +140,8 @@
     {
       "$kind": "Microsoft.OnChooseIntent",
       "$designer": {
-        "id": "YuA75w"
+        "id": "YuA75w",
+        "comment": "Triggered when the user's utterance scores similarly on two different intents."
       },
       "actions": [
         {
@@ -157,9 +171,10 @@
         {
           "$kind": "Microsoft.SwitchCondition",
           "$designer": {
-            "id": "uCZ5AG"
+            "id": "uCZ5AG",
+            "comment": "Switches based on number of candidates."
           },
-          "condition": "=count(dialog.candidates)",
+          "condition": "=string(count(dialog.candidates))",
           "cases": [
             {
               "value": "0",
@@ -167,9 +182,11 @@
                 {
                   "$kind": "Microsoft.EmitEvent",
                   "$designer": {
-                    "id": "s7XJNJ"
+                    "id": "s7XJNJ",
+                    "comment": "If there are 0 candidates, emits an unknownIntent event and cancels the dialog."
                   },
-                  "eventName": "unknownIntent"
+                  "eventName": "unknownIntent",
+                  "handledProperty": "turn.eventHandled"
                 },
                 {
                   "$kind": "Microsoft.EndDialog",
@@ -185,10 +202,12 @@
                 {
                   "$kind": "Microsoft.EmitEvent",
                   "$designer": {
-                    "id": "1dcLLx"
+                    "id": "1dcLLx",
+                    "comment": "If there is 1 candidate, emits a recognizedIntent event for that intent and cancels the dialog."
                   },
                   "eventName": "recognizedIntent",
-                  "eventValue": "=first(dialog.candidates).result"
+                  "eventValue": "=first(dialog.candidates).result",
+                  "handledProperty": "turn.eventHandled"
                 },
                 {
                   "$kind": "Microsoft.EndDialog",
@@ -203,7 +222,8 @@
         {
           "$kind": "Microsoft.TextInput",
           "$designer": {
-            "id": "I11eFC"
+            "id": "I11eFC",
+            "comment": "Shows card with candidate intent values for user to select from."
           },
           "maxTurnCount": 3,
           "alwaysPrompt": true,
@@ -224,17 +244,20 @@
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
-            "id": "tjutdL"
+            "id": "tjutdL",
+            "comment": "If user's choice is not equal to 'none'."
           },
-          "condition": "turn.intentChoice != 'none'",
+          "condition": "=turn.intentChoice != 'none'",
           "actions": [
             {
               "$kind": "Microsoft.EmitEvent",
               "$designer": {
-                "id": "IazF4M"
+                "id": "IazF4M",
+                "comment": "Emits a recognizedIntent event for the selected intent."
               },
               "eventName": "recognizedIntent",
-              "eventValue": "=dialog.candidates[int(turn.intentChoice)].result"
+              "eventValue": "=dialog.candidates[int(turn.intentChoice)].result",
+              "handledProperty": "turn.eventHandled"
             }
           ],
           "elseActions": [
@@ -261,13 +284,15 @@
     {
       "$kind": "Microsoft.OnError",
       "$designer": {
-        "id": "aLQGr7"
+        "id": "aLQGr7",
+        "comment": "Triggered when an error event is thrown by the dialog stack."
       },
       "actions": [
         {
           "$kind": "Microsoft.TelemetryTrackEventAction",
           "$designer": {
-            "id": "Aucn7t"
+            "id": "Aucn7t",
+            "comment": "Logs the error received in the Telelmetry Client (typically Application Insights for production instances)."
           },
           "eventName": "ErrorOccurred",
           "properties": {
@@ -278,14 +303,16 @@
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "2outgQ"
+            "id": "2outgQ",
+            "comment": "Message to show the user when an error occurs."
           },
           "activity": "${SendActivity_ErrorOccured()}"
         },
         {
           "$kind": "Microsoft.TraceActivity",
           "$designer": {
-            "id": "NVFqr5"
+            "id": "NVFqr5",
+            "comment": "Emits a trace activity with the error value that is visible in local testing channels such as the Bot Framework Composer Web Chat window and the Bot Framework Emulator."
           },
           "name": "=turn.dialogEvent.value.className",
           "valueType": "Exception",
@@ -298,14 +325,16 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "pRdAAf",
-        "name": "Feedback"
+        "name": "Feedback",
+        "comment": "Triggered when the Feedback intent is recognized in the user's utterance.\n"
       },
       "intent": "Feedback",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "2pSztz"
+            "id": "2pSztz",
+            "comment": "Launches the FeedbackDialog."
           },
           "activityProcessed": true,
           "dialog": "FeedbackDialog"
@@ -316,14 +345,16 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "9wETGs",
-        "name": "Help"
+        "name": "Help",
+        "comment": "Triggered when the Help intent is recognized in the user's utterance.\n"
       },
       "intent": "Help",
       "actions": [
         {
           "$kind": "Microsoft.BeginDialog",
           "$designer": {
-            "id": "B0NP8m"
+            "id": "B0NP8m",
+            "comment": "Launches the HelpDialog."
           },
           "activityProcessed": true,
           "dialog": "HelpDialog"
@@ -334,20 +365,23 @@
       "$kind": "Microsoft.OnUnknownIntent",
       "$designer": {
         "id": "v9Stie",
-        "name": "Unknown intent"
+        "name": "Unknown intent",
+        "comment": "This trigger fires when an incoming activity is not handled by any other trigger."
       },
       "actions": [
         {
           "$kind": "Microsoft.IfCondition",
           "$designer": {
-            "id": "VogQ3v"
+            "id": "VogQ3v",
+            "comment": "If the activity has a text value."
           },
           "condition": "exists(turn.activity.text)",
           "actions": [
             {
               "$kind": "Microsoft.BeginDialog",
               "$designer": {
-                "id": "P9A5BW"
+                "id": "P9A5BW",
+                "comment": "Launches the ChitchatDialog to look up the user's utterance in the ChitChat QnA knowledge base."
               },
               "activityProcessed": false,
               "dialog": "ChitchatDialog"
