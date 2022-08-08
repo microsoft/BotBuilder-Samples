@@ -43,7 +43,7 @@ namespace Microsoft.BotBuilderSamples.Bots
                 case "razorView":
                     return RazorViewResponse(turnContext, action);
             }
-            return new MessagingExtensionActionResponse();
+            return await Task.FromResult(new MessagingExtensionActionResponse());
         }
 
         private MessagingExtensionActionResponse RazorViewResponse(ITurnContext<IInvokeActivity> turnContext, MessagingExtensionAction action)

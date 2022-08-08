@@ -74,8 +74,8 @@ namespace Microsoft.BotBuilderSamples.SSORootBot
 
         private BotFrameworkSkill GetCallingSkill(ClaimsIdentity claimsIdentity)
         {
-            var appId = JwtTokenValidation.GetAppIdFromClaims(claimsIdentity.Claims);
-
+            var botAppIdClaim = claimsIdentity.Claims?.FirstOrDefault(claim => claim.Type == AuthenticationConstants.AppIdClaim);
+            var appId = botAppIdClaim?.Value;
             if (string.IsNullOrWhiteSpace(appId))
             {
                 return null;
