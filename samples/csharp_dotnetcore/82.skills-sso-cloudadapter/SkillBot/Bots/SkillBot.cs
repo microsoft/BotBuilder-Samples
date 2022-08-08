@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 
-namespace Microsoft.BotBuilderSamples.SkillBot.Bots
+namespace Microsoft.BotBuilderSamples.SSOSkillBot.Bots
 {
     public class SkillBot<T> : ActivityHandler
         where T : Dialog

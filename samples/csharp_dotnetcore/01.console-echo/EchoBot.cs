@@ -22,7 +22,7 @@ namespace Console_EchoBot
             if (turnContext.Activity.Type == ActivityTypes.Message && !string.IsNullOrEmpty(turnContext.Activity.Text))
             {
                 // Check to see if the user sent a simple "quit" message.
-                if (turnContext.Activity.Text.Equals("quit", StringComparison.InvariantCultureIgnoreCase))
+                if (turnContext.Activity.Text.Equals("quit", StringComparison.OrdinalIgnoreCase))
                 {
                     // Send a reply.
                     await turnContext.SendActivityAsync($"Bye!", cancellationToken: cancellationToken);

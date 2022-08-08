@@ -13,9 +13,9 @@ namespace CoreBot.Tests.Dialogs.TestData
         public string Name { get; set; }
 
         public BookingDetails InitialBookingDetails { get; set; }
-
+#pragma warning disable CA1819 // Properties should not return arrays
         public string[,] UtterancesAndReplies { get; set; }
-
+#pragma warning restore CA1819 // Properties should not return arrays
         public BookingDetails ExpectedBookingDetails { get; set; }
     }
 }

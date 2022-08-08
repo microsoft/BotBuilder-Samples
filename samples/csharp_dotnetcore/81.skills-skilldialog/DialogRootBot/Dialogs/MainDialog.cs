@@ -80,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // This is an example on how to cancel a SkillDialog that is currently in progress from the parent bot.
             var activeSkill = await _activeSkillProperty.GetAsync(innerDc.Context, () => null, cancellationToken);
             var activity = innerDc.Context.Activity;
-            if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
+            if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.OrdinalIgnoreCase))
             {
                 // Cancel all dialogs when the user says abort.
                 // The SkillDialog automatically sends an EndOfConversation message to the skill to let the
@@ -241,7 +241,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
             Activity activity = null;
             // Just forward the message activity to the skill with whatever the user said. 
-            if (selectedOption.Equals(SkillActionMessage, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionMessage, StringComparison.OrdinalIgnoreCase))
             {
                 // Note message activities also support input parameters but we are not using them in this example.
                 // Return a deep clone of the activity so we don't risk altering the original one 
@@ -249,14 +249,14 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Send an event activity to the skill with "BookFlight" in the name.
-            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionBookFlight;
             }
 
             // Send an event activity to the skill with "BookFlight" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionBookFlight;
@@ -264,7 +264,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Send an event activity to the skill with "GetWeather" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionGetWeather;

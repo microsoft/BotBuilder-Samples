@@ -1,0 +1,102 @@
+name: ci-javascript-samples
+
+env:
+  ROOT_FOLDER: BotBuilder-Samples/samples/
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "samples/**/*.js"
+      - "samples/**/*.ts"
+
+jobs:
+  generate:
+    name: detect and generate bot matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.set-matrix.outputs.matrix }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: git diff
+        uses: technote-space/get-diff-action@v4
+        with:
+          PATTERNS: samples/**/*.+(ts|js)
+          ABSOLUTE: true
+
+      - name: generate matrix
+        id: set-matrix
+        shell: pwsh
+        if: env.GIT_DIFF
+        run: |
+          function UpSearchFolder {
+            param ([String] $path, [String] $file)
+
+            while ($path -and !(Test-Path (Join-Path $path $file))) {
+              $path = Split-Path $path -Parent
+            }
+
+            return $path
+          }
+
+          $paths = @("${{ env.GIT_DIFF_FILTERED }}" -replace "'", "" -split " ")
+          $rootFolder = "${{ env.ROOT_FOLDER }}"
+          $pkg = "package.json"
+
+          $result = $paths | ForEach-Object { UpSearchFolder -path $_ -file $pkg } | Get-Unique | ForEach-Object {
+            $folder = $_
+            $json = Get-Content -Raw -Path (Join-Path $folder $pkg) | ConvertFrom-Json
+            $files = @($paths | Where-Object { $_.StartsWith($folder) })
+            return @{ 
+              name = $folder.Substring($folder.IndexOf($rootFolder) + $rootFolder.Length);
+              scripts = @($json.scripts | Get-Member -MemberType NoteProperty | Select-Object -ExpandProperty Name);
+              folder = $folder;
+              files = $files
+            } 
+          }
+
+          "Generated matrix:"
+          ConvertTo-Json @($result)
+
+          $matrix = ConvertTo-Json -Compress @($result)
+
+          echo "::set-output name=matrix::$($matrix)"
+
+  build:
+    needs: generate
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: 
+        include: ${{fromJSON(needs.generate.outputs.matrix)}}
+      fail-fast: false
+
+    name: bot - ${{ matrix.name }}
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: use node 16.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16.x
+
+      - name: yarn install
+        run: yarn install
+        working-directory: ${{ matrix.folder }}
+
+      - name: yarn build
+        if: ${{ contains(matrix.scripts, 'build') }}
+        run: yarn build
+        working-directory: ${{ matrix.folder }}
+
+      - name: yarn lint
+        run: |
+          if ${{ endsWith(matrix.files[0], '.js') }}; then
+            yarn eslint ${{ join(matrix.files, ' ') }}
+          else
+            yarn tslint ${{ join(matrix.files, ' ') }}
+          fi
+        working-directory: ${{ matrix.folder }}

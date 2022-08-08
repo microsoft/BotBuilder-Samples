@@ -9,7 +9,7 @@ upload files to Teams from a bot and how to receive a file sent to a bot as an a
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
 
   ```bash
   # determine dotnet version
