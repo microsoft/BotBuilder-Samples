@@ -18,6 +18,7 @@ using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json.Linq;
 using AdaptiveCards.Templating;
 using Newtonsoft.Json;
+using AdaptiveCards;
 
 namespace Microsoft.BotBuilderSamples.Bots
 {
@@ -59,7 +60,22 @@ namespace Microsoft.BotBuilderSamples.Bots
         {
             foreach (var teamMember in membersAdded)
             {
-                await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
+                if(teamMember.Id != turnContext.Activity.Recipient.Id && turnContext.Activity.Conversation.ConversationType != "personal")
+                {
+                    await turnContext.SendActivityAsync(MessageFactory.Text($"Welcome to the team {teamMember.GivenName} {teamMember.Surname}."), cancellationToken);
+                }
+            }
+        }
+
+        protected override async Task OnInstallationUpdateActivityAsync(ITurnContext<IInstallationUpdateActivity> turnContext, CancellationToken cancellationToken)
+        {
+            if(turnContext.Activity.Conversation.ConversationType == "channel")
+            {
+                await turnContext.SendActivityAsync($"Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in {turnContext.Activity.Conversation.Name}");
+            }
+            else
+            {
+                await turnContext.SendActivityAsync("Welcome to Microsoft Teams conversationUpdate events demo bot.");
             }
         }
 
@@ -119,7 +135,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             catch (ErrorResponseException e)
             {
-                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation", StringComparison.OrdinalIgnoreCase))
                 {
                     await turnContext.SendActivityAsync("Member not found.");
                     return;
@@ -251,7 +267,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
             catch (ErrorResponseException e)
             {
-                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation"))
+                if (e.Body.Error.Code.Equals("MemberNotFoundInConversation", StringComparison.OrdinalIgnoreCase))
                 {
                     await turnContext.SendActivityAsync("Member not found.");
                     return;

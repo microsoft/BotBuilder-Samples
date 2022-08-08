@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Builder.Skills;
 
-namespace Microsoft.BotBuilderSamples.RootBot.Controllers
+namespace Microsoft.BotBuilderSamples.SSORootBot.Controllers
 {
     /// <summary>
     /// A controller that handles skill replies to the bot.
