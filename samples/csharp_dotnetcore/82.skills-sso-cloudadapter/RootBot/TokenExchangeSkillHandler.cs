@@ -17,7 +17,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Newtonsoft.Json.Linq;
 
-namespace Microsoft.BotBuilderSamples.RootBot
+namespace Microsoft.BotBuilderSamples.SSORootBot
 {
     /// <summary>
     /// A specialized <see cref="SkillHandler"/> that can handle token exchanges for SSO.
@@ -81,7 +81,7 @@ namespace Microsoft.BotBuilderSamples.RootBot
                 return null;
             }
 
-            return _skillsConfig.Skills.Values.FirstOrDefault(s => string.Equals(s.AppId, appId, StringComparison.InvariantCultureIgnoreCase));
+            return _skillsConfig.Skills.Values.FirstOrDefault(s => string.Equals(s.AppId, appId, StringComparison.OrdinalIgnoreCase));
         }
 
         private async Task<bool> InterceptOAuthCardsAsync(ClaimsIdentity claimsIdentity, Activity activity, CancellationToken cancellationToken)

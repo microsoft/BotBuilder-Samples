@@ -8,13 +8,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
-using Microsoft.BotBuilderSamples.SkillBot.Bots;
-using Microsoft.BotBuilderSamples.SkillBot.Dialogs;
+using Microsoft.BotBuilderSamples.SSOSkillBot.Bots;
+using Microsoft.BotBuilderSamples.SSOSkillBot.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.BotBuilderSamples.SkillBot
+namespace Microsoft.BotBuilderSamples.SSOSkillBot
 {
     public class Startup
     {

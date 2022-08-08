@@ -9,7 +9,7 @@ using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples.RootBot.Bots
+namespace Microsoft.BotBuilderSamples.SSORootBot.Bots
 {
     public class RootBot<T> : ActivityHandler
         where T : Dialog

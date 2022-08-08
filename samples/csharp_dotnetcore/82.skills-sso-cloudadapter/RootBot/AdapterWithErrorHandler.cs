@@ -10,11 +10,11 @@ using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Builder.TraceExtensions;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
-using Microsoft.BotBuilderSamples.RootBot.Dialogs;
+using Microsoft.BotBuilderSamples.SSORootBot.Dialogs;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 
-namespace Microsoft.BotBuilderSamples.RootBot
+namespace Microsoft.BotBuilderSamples.SSORootBot
 {
     public class AdapterWithErrorHandler : CloudAdapter
     {

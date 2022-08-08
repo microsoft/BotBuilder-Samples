@@ -11,7 +11,9 @@ namespace Microsoft.BotBuilderSamples
     /// The constraints themselves are TIMEX expressions. This is designed to appear a little like a database join,
     /// of course its a little less generic than that because dates can be complicated things.
     /// </summary>
+#pragma warning disable CA1724 // Type names should not match namespaces (by design and we can't change this without breaking binary compat).
     public static class Constraints
+#pragma warning restore CA1724
     {
         public static void Examples()
         {

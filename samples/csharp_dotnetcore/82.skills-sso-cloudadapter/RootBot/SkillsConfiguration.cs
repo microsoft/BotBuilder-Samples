@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Extensions.Configuration;
 
-namespace Microsoft.BotBuilderSamples.RootBot
+namespace Microsoft.BotBuilderSamples.SSORootBot
 {
     /// <summary>
     /// A helper class that loads Skills information from configuration.
