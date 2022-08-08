@@ -12,11 +12,8 @@ import { INodeSocket } from 'botframework-streaming';
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
   CloudAdapter,
-  ConfigurationServiceClientCredentialFactory,
-  createBotFrameworkAuthenticationFromConfiguration,
-  TurnContext,
-  WebRequest,
-  WebResponse
+  ConfigurationBotFrameworkAuthentication,
+  ConfigurationBotFrameworkAuthenticationOptions
 } from 'botbuilder';
 
 // This bot's main dialog.
@@ -26,14 +23,7 @@ import { TeamsMessagingExtensionsActionBot } from './teamsMessagingExtensionsAct
 const ENV_FILE = path.join( __dirname, '..', '.env' );
 config( { path: ENV_FILE } );
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-  MicrosoftAppId: process.env.MicrosoftAppId,
-  MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-  MicrosoftAppTenantId: process.env.MicrosoftAppTenantId,
-  MicrosoftAppType: process.env.MicrosoftAppType
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env as ConfigurationBotFrameworkAuthenticationOptions);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
