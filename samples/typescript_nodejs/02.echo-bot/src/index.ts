@@ -13,7 +13,7 @@ import { INodeSocket } from 'botframework-streaming';
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-import { 
+import {
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
     createBotFrameworkAuthenticationFromConfiguration

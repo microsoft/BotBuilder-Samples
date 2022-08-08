@@ -36,10 +36,10 @@ server.use(restify.plugins.bodyParser({
 const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
     MicrosoftAppId: process.env.MicrosoftAppId,
     MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId,
+    MicrosoftAppType: process.env.MicrosoftAppType
 });
- 
+
 const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
 
 // Create adapter.
@@ -93,7 +93,7 @@ server.on('upgrade', async (req, socket, head) => {
 // Listen for incoming notifications and send proactive messages to users.
 server.get('/api/notify', async (req, res) => {
     for (const conversationReference of Object.values(conversationReferences)) {
-        await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async context => {
+        await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (context) => {
             await context.sendActivity('proactive hello');
         });
     }
@@ -105,10 +105,9 @@ server.get('/api/notify', async (req, res) => {
 
 // Listen for incoming custom notifications and send proactive messages to users.
 server.post('/api/notify', async (req, res) => {
-    for (var prop in req.body) {
-        var msg = req.body[prop];
+    for (const msg of req.body) {
         for (const conversationReference of Object.values(conversationReferences)) {
-            await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async turnContext => {
+            await adapter.continueConversationAsync(process.env.MicrosoftAppId, conversationReference, async (turnContext) => {
                 await turnContext.sendActivity(msg);
             });
         }

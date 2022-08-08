@@ -6,7 +6,7 @@ const {
     ComponentDialog,
     DialogSet,
     DialogTurnStatus,
-    WaterfallDialog,
+    WaterfallDialog
 } = require('botbuilder-dialogs');
 const { MessageFactory } = require('botbuilder');
 
@@ -27,7 +27,7 @@ const createQnAMakerDialog = (knowledgeBaseId, endpointKey, endpointHostName, de
     qnaMakerDialog.id = QNAMAKER_BASE_DIALOG;
 
     return qnaMakerDialog;
-}
+};
 
 class RootDialog extends ComponentDialog {
     /**
