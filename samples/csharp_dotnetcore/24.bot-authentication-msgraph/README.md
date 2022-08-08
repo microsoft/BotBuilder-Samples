@@ -13,17 +13,19 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
 
   ```bash
   # determine dotnet version
   dotnet --version
   ```
 
-- Update `appsettings.json` with required configuration settings
-  - MicrosoftAppId
-  - MicrosoftAppPassword
-  - ConnectionName
+- Update `appsettings.json` with required configuration settings 
+    | Property                  | Value Description     | 
+    |----------------------|-----------|
+    | MicrosoftAppId       | Set the value of your Azure bot's app ID.  |
+    | MicrosoftAppPassword | Set the Azure Active Directory app client secret value.      | 
+    | ConnectionName       | Set the configured bot's OAuth connection name.      |
 
 ## To try this sample
 

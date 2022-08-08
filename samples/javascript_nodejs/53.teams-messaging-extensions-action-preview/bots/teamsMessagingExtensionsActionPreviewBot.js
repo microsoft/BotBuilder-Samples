@@ -55,11 +55,11 @@ class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandler {
         const adaptiveCard = AdaptiveCardHelper.createAdaptiveCardAttachment(submitData);
         var responseActivity = { type: 'message', attachments: [adaptiveCard] };
         if (submitData.UserAttributionSelect === 'true') {
-             responseActivity = {
-                 type: 'message',
-                 attachments: [adaptiveCard],
-                 channelData: {
-                     onBehalfOf: [
+            responseActivity = {
+                type: 'message',
+                attachments: [adaptiveCard],
+                channelData: {
+                    onBehalfOf: [
                         {
                             itemId: 0,
                             mentionType: 'person',
@@ -67,8 +67,9 @@ class TeamsMessagingExtensionsActionPreviewBot extends TeamsActivityHandler {
                             displayName: context.activity.from.name
                         }
                     ]
-            }}; 
-        }  
+                }
+            };
+        }
         await context.sendActivity(responseActivity);
     }
 

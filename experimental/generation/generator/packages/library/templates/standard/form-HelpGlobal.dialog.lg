@@ -3,7 +3,7 @@
 # filename
 - ${formDialogFilename('HelpGlobal.dialog')}
 
-# template
+# generator
 - ```
 {
     "$schema": "${appSchema}",
@@ -19,6 +19,6 @@
             "activity": "\${helpGlobal()}"           
         }
     ]
-    ${designerName('Help Global')}
+    ${designerName('Global Help')}
 }
 ```

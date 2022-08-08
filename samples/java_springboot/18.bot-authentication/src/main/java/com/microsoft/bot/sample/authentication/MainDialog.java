@@ -55,10 +55,12 @@ class MainDialog extends LogoutDialog {
         // token directly from the prompt itself. There instanceof an example of this in the next method.
         TokenResponse tokenResponse = (TokenResponse) stepContext.getResult();
         if (tokenResponse != null) {
-            stepContext.getContext().sendActivity(MessageFactory.text("You are now logged in."));
-            PromptOptions options = new PromptOptions();
-            options.setPrompt(MessageFactory.text("Would you like to view your token?"));
-            return stepContext.prompt("ConfirmPrompt", options);
+            return stepContext.getContext().sendActivity(MessageFactory.text("You are now logged in."))
+            .thenCompose(result->{
+                PromptOptions options = new PromptOptions();
+                options.setPrompt(MessageFactory.text("Would you like to view your token?"));
+                return stepContext.prompt("ConfirmPrompt", options);
+            });
         }
 
         stepContext.getContext()

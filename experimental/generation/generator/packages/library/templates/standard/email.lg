@@ -3,5 +3,5 @@
 # entities
 - ${['email']}
 
-# templates
+# generators
 - ${stringTemplates()}

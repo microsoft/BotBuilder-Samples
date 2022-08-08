@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('personName')}
 
-# template
+# generator
 - ```
 @ prebuilt personName
 

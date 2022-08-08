@@ -1,0 +1,134 @@
+[import](common.lg)
+
+# SendActivity_GreetingNewUser()
+[Activity
+    Attachments = ${SendActivity_GreetingNewUser_attachment_heroCard()}
+]
+
+# SendActivity_GreetingNewUser_attachment_heroCard()
+[HeroCard
+  text = ${GreetingNewUser_text()}
+  buttons = ${GreetingBotTourIntent_action()}
+]
+
+# SendActivity_GreetingReturningUser()
+[Activity
+    Attachments = ${SendActivity_GreetingReturningUser_attachment_heroCard()}
+]
+
+# SendActivity_GreetingReturningUser_attachment_heroCard()
+[HeroCard
+  text = ${GreetingReturningUser_text()}
+  buttons = ${GreetingBotTourIntent_action()}
+]
+
+# GreetingNewUser_text()
+- 🖐️ Hey, there! How can I help you today?
+- 🖐️ Hi! How can I help?
+- 🖐️ Hello! What do you want to do today?
+
+# GreetingReturningUser_text()
+- 🖐️ Welcome back! How can I help you today?
+- 🖐️ Hello again! What can I help with?
+- 🖐️ Good to see you again. What do you want to do today?
+- 🖐️ Hey, there! Let's get started.
+- 🖐️ Hello again! How can I help?
+
+# GreetingBotTourIntent_action()
+[CardAction
+    title = You can ask me
+    type = ${if(turn.activity.channelId == 'msteams', "messageBack", "postBack")}
+    value = ${{ intent: "BotTour" }}
+]
+
+# SendActivity_ErrorOccured()
+[Activity
+    Text = ${SendActivity_ErrorOccured_text()}
+]
+
+# SendActivity_ErrorOccured_text()
+- Oops, looks like I'm stuck. Can you try to ask me in a different way?
+- Looks like I'm all mixed up. Let's try asking again, but maybe rephrase your request?
+- Sorry, it looks like something went wrong. Can you please try again?
+
+# SendActivity_ChooseIntentPrompt()
+[Activity
+    Attachments = ${json(SendActivity_ChooseIntentPrompt_attachment_card(dialog.candidates))}
+]
+
+# SendActivity_ChooseIntentPrompt_attachment_card(candidates)
+-```
+{
+      "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+      "version": "1.0",
+      "type": "AdaptiveCard",
+      "speak": "",
+      "body": [
+          {
+              "type": "TextBlock",
+              "text": "${SendActivity_ChooseIntentPrompt_attachment_whichOneDidYouMean()}",
+              "weight": "Bolder"
+          },
+          {
+              "type": "TextBlock",
+              "text": "${SendActivity_ChooseIntentPrompt_attachment_pickOne()}",
+              "separator": "true"
+          },
+          {
+              "type": "Input.ChoiceSet",
+              "placeholder": "Placeholder text",
+              "id": "userChosenIntent",
+              "choices": [
+                           ${SendActivity_ChooseIntentPrompt_attachment_generateChoices()},
+                           {
+                               "title": "None of the above",
+                               "value": "none"
+                           }
+             ],
+             "style": "expanded",
+             "value": "luis"
+         },
+         {
+             "type": "ActionSet",
+             "actions": [
+                {
+                     "type": "Action.Submit",
+                     "title": "Submit",
+                     "data": {
+                   "intent": "chooseIntentCardResponse"
+                }
+         }
+       ]
+     }
+    ]
+}
+```
+
+# SendActivity_ChooseIntentPrompt_attachment_whichOneDidYouMean()
+- I'm not sure which one you mean.
+- Hmmm, I find that to be ambiguous.
+
+# SendActivity_ChooseIntentPrompt_attachment_pickOne()
+- Can you pick one ?
+- Can you help clarify by choosing one ?
+
+# SendActivity_ChooseIntentPrompt_attachment_getAnswerReadBack()
+- See an answer from the Knowledge Base
+
+# SendActivity_ChooseIntentPrompt_attachment_getIntentReadBack(intent)
+- SWITCH : ${intent}
+- CASE: ${'QnAMatch'}
+    - ${SendActivity_ChooseIntentPrompt_attachment_getAnswerReadBack()}
+- CASE : ${'GetUserProfile'}
+  - Start filling in your profile(GetUserProfile intent)
+- DEFAULT :
+  - ${intent}
+
+# SendActivity_ChooseIntentPrompt_attachment_generateChoices(candidates)
+- ${join(foreach(indicesAndValues(candidates), c, SendActivity_ChooseIntentPrompt_attachment_choice(c.value.intent, c.index)), ',')}
+
+# SendActivity_ChooseIntentPrompt_attachment_choice(title, value)
+- { "title": "${SendActivity_ChooseIntentPrompt_attachment_getIntentReadBack(title)}", "value": "${value}" }
+
+# SendActivity_ChooseNoIntent()
+- Sure, no worries.

@@ -1,0 +1,27 @@
+[generator.lg](../generator.lg)
+
+# filename
+- ${formDialogFilename('CancelConfirmation-assign-boolean.dialog')}
+
+# generator
+- ```
+{
+    "$schema": "${appSchema}",
+    "$kind": "Microsoft.OnAssignEntity",
+    "operation": "Assign()",
+    "property": "CancelConfirmation",
+    "value": "boolean",
+    "actions": [
+        {
+            "$kind": "Microsoft.IfCondition",
+            "condition":"@boolean == 'true'",
+            "actions": [
+                {
+                    "$kind": "Microsoft.EndDialog"
+                }
+            ]
+        }
+    ]
+    ${designerName('Cancel Confirmation Assign')}
+}
+```

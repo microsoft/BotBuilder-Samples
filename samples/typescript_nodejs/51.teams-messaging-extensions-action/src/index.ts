@@ -6,13 +6,14 @@ import { config } from 'dotenv';
 import * as path from 'path';
 import * as restify from 'restify';
 
+import { INodeSocket } from 'botframework-streaming';
+
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
-  BotFrameworkAdapter,
-  TurnContext,
-  WebRequest,
-  WebResponse
+  CloudAdapter,
+  ConfigurationBotFrameworkAuthentication,
+  ConfigurationBotFrameworkAuthenticationOptions
 } from 'botbuilder';
 
 // This bot's main dialog.
@@ -22,12 +23,11 @@ import { TeamsMessagingExtensionsActionBot } from './teamsMessagingExtensionsAct
 const ENV_FILE = path.join( __dirname, '..', '.env' );
 config( { path: ENV_FILE } );
 
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env as ConfigurationBotFrameworkAuthenticationOptions);
+
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter( {
-  appId: process.env.MicrosoftAppId,
-  appPassword: process.env.MicrosoftAppPassword
-} );
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 const onTurnErrorHandler = async ( context, error ) => {
@@ -49,7 +49,7 @@ const onTurnErrorHandler = async ( context, error ) => {
   await context.sendActivity( 'To continue to run this bot, please fix the bot source code.' );
 };
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Create the bot that will handle incoming messages.
@@ -57,6 +57,8 @@ const bot = new TeamsMessagingExtensionsActionBot();
 
 // Create HTTP server.
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen( process.env.port || process.env.PORT || 3978, () => {
   console.log( `\n${ server.name } listening to ${ server.url }` );
   console.log( '\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator' );
@@ -64,25 +66,18 @@ server.listen( process.env.port || process.env.PORT || 3978, () => {
 } );
 
 // Listen for incoming requests.
-server.post( '/api/messages', ( req, res ) => {
-  adapter.processActivity( req, res, async ( context ) => {
-    await bot.run( context );
-  } );
-} );
+server.post('/api/messages', async (req, res) => {
+  // Route received a request to adapter for processing
+  await adapter.process(req, res, (context) => bot.run(context));
+});
 
 // Listen for Upgrade requests for Streaming.
-server.on( 'upgrade', ( req , socket, head ) => {
+server.on('upgrade', async (req, socket, head) => {
   // Create an adapter scoped to this WebSocket connection to allow storing session data.
-  const streamingAdapter = new BotFrameworkAdapter( {
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword
-  } );
-  // Set onTurnError for the BotFrameworkAdapter created for each connection.
+  const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
+
+  // Set onTurnError for the CloudAdapter created for each connection.
   streamingAdapter.onTurnError = onTurnErrorHandler;
 
-  streamingAdapter.useWebSocket( req, socket, head, async ( context ) => {
-    // After connecting via WebSocket, run this logic for every request sent over
-    // the WebSocket connection.
-    await bot.run( context );
-  } );
-} );
+  await streamingAdapter.process(req, socket as unknown as INodeSocket, head, (context) => bot.run(context));
+});

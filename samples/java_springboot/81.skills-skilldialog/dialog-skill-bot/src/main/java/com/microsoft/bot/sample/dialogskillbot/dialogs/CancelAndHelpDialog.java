@@ -14,15 +14,32 @@ import com.microsoft.bot.schema.Activity;
 import com.microsoft.bot.schema.ActivityTypes;
 import com.microsoft.bot.schema.InputHints;
 
+/**
+ * The class in charge of the dialog interruptions.
+ */
 public class CancelAndHelpDialog extends ComponentDialog {
 
     private final String HelpMsgText = "Show help here";
     private final String CancelMsgText = "Canceling...";
 
+    /**
+     * The constructor of the CancelAndHelpDialog class.
+     *
+     * @param id The dialog's Id.
+     */
     public CancelAndHelpDialog(String id) {
         super(id);
     }
 
+    /**
+     * Called when the dialog is _continued_, where it is the active dialog and the user replies
+     * with a new activity.
+     *
+     * @param innerDc innerDc The inner {@link DialogContext} for the current turn of conversation.
+     * @return A {@link CompletableFuture} representing the asynchronous operation. If the task is
+     * successful, the result indicates whether the dialog is still active after the turn has been
+     * processed by the dialog. The result may also contain a return value.
+     */
     @Override
     protected CompletableFuture<DialogTurnResult> onContinueDialog(DialogContext innerDc) {
         return interrupt(innerDc).thenCompose(result -> {

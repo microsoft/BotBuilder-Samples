@@ -9,7 +9,7 @@
                 "$ref": "minmax.json"
             },
             {
-                "$ref": "array.json"
+                "$ref": "common.json"
             }
         ]
     }

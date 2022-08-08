@@ -132,11 +132,11 @@
             }
         },
         {
-            "apiVersion": "2017-12-01",
+            "apiVersion": "2021-03-01",
             "type": "Microsoft.BotService/botServices",
             "name": "[parameters('botId')]",
             "location": "global",
-            "kind": "bot",
+            "kind": "azurebot",
             "sku": {
                 "name": "[parameters('botSku')]"
             },
@@ -144,11 +144,12 @@
                 "name": "[parameters('botId')]",
                 "displayName": "[parameters('botId')]",
                 "endpoint": "[variables('botEndpoint')]",
+                "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
                 "msaAppId": "[parameters('appId')]",
-                "developerAppInsightsApplicationId": null,
-                "developerAppInsightKey": null,
-                "publishingCredentials": null,
-                "storageResourceId": null
+                "luisAppIds": [],
+                "schemaTransformationVersion": "1.3",
+                "isCmekEnabled": false,
+                "isIsolated": false
             },
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"

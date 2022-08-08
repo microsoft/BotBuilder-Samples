@@ -60,7 +60,7 @@ export default class GenerateDialog extends Command {
                 feedback})
             return true
         } catch (e) {
-            this.thrownError(e)
+          this.thrownError(e as Error)
         }
     }
 

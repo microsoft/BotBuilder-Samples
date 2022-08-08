@@ -8,7 +8,7 @@ This sample shows a simple echo bot and demonstrates the bot working as a consol
 
 ## Prerequisites
 
-- [.NET Core SDK](https://dotnet.microsoft.com/download) version 3.1
+- [.NET SDK](https://dotnet.microsoft.com/download) version 6.0
 
   ```bash
   # determine dotnet version

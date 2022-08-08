@@ -9,7 +9,7 @@ export class EchoBot extends ActivityHandler {
         super();
         // Dependency injected dictionary for storing ConversationReference objects used in NotifyController to proactively message users
         this.conversationReferences1 = conversationReferences;
-        
+
         this.onConversationUpdate(async (context, next) => {
             addConversationReference(context.activity);
 

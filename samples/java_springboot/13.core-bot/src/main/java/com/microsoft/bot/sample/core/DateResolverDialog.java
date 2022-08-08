@@ -3,6 +3,11 @@
 
 package com.microsoft.bot.sample.core;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
 import com.microsoft.bot.builder.MessageFactory;
 import com.microsoft.bot.dialogs.DialogTurnResult;
 import com.microsoft.bot.dialogs.WaterfallDialog;
@@ -18,10 +23,6 @@ import com.microsoft.recognizers.datatypes.timex.expression.Constants;
 import com.microsoft.recognizers.datatypes.timex.expression.TimexProperty;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.concurrent.CompletableFuture;
 
 /**
  * The class containing the date resolver dialogs.
@@ -29,8 +30,7 @@ import java.util.concurrent.CompletableFuture;
 public class DateResolverDialog extends CancelAndHelpDialog {
     private final String promptMsgText = "When would you like to travel?";
     private final String repromptMsgText =
-        "I'm sorry, to make your booking please enter a full travel date including Day Month and Year.";
-
+        "I'm sorry, to make your booking please enter a full travel date including Day, Month and Year.";
 
     /**
      * The constructor of the DateResolverDialog class.

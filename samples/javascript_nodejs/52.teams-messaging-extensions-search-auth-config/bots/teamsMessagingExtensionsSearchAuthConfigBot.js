@@ -4,7 +4,7 @@
 const {
     TeamsActivityHandler,
     CardFactory,
-    ActionTypes,
+    ActionTypes
 } = require('botbuilder');
 const axios = require('axios');
 const querystring = require('querystring');
@@ -38,14 +38,19 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         // Save state changes
         await this.userState.saveChanges(context);
     }
+
     async handleTeamsAppBasedLinkQuery(context, query) {
+        const userTokenClient = context.turnState.get(context.adapter.UserTokenClientKey);
+
         const magicCode =
             query.state && Number.isInteger(Number(query.state))
                 ? query.state
                 : '';
-        const tokenResponse = await context.adapter.getUserToken(
-            context,
+
+        const tokenResponse = await userTokenClient.getUserToken(
+            context.activity.from.id,
             this.connectionName,
+            context.activity.channelId,
             magicCode
         );
 
@@ -53,9 +58,9 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             // There is no token, so the user has not signed in yet.
 
             // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-            const signInLink = await context.adapter.getSignInLink(
-                context,
-                this.connectionName
+            const { signInLink } = await userTokenClient.getSignInResource(
+                this.connectionName,
+                context.activity
             );
 
             return {
@@ -67,10 +72,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                 type: 'openUrl',
                                 value: signInLink,
                                 title: 'Bot Service OAuth'
-                            },
-                        ],
-                    },
-                },
+                            }
+                        ]
+                    }
+                }
             };
         }
         const graphClient = new SimpleGraphClient(tokenResponse.token);
@@ -94,6 +99,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
         };
         return response;
     }
+
     async handleTeamsMessagingExtensionConfigurationQuerySettingUrl(
         context,
         query
@@ -114,11 +120,11 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     actions: [
                         {
                             type: ActionTypes.OpenUrl,
-                            value: `${process.env.SiteUrl}/public/searchSettings.html?settings=${escapedSettings}`
-                        },
-                    ],
-                },
-            },
+                            value: `${ process.env.SiteUrl }/public/searchSettings.html?settings=${ escapedSettings }`
+                        }
+                    ]
+                }
+            }
         };
     }
 
@@ -130,6 +136,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
     }
 
     async handleTeamsMessagingExtensionQuery(context, query) {
+        const userTokenClient = context.turnState.get(context.adapter.UserTokenClientKey);
         const searchQuery = query.parameters[0].value;
         const attachments = [];
         const userSettings = await this.userConfigurationProperty.get(
@@ -143,19 +150,19 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 query.state && Number.isInteger(Number(query.state))
                     ? query.state
                     : '';
-            const tokenResponse = await context.adapter.getUserToken(
-                context,
+            const tokenResponse = await userTokenClient.getUserToken(
+                context.activity.from.id,
                 this.connectionName,
+                context.activity.channelId,
                 magicCode
             );
-
             if (!tokenResponse || !tokenResponse.token) {
                 // There is no token, so the user has not signed in yet.
 
                 // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
-                const signInLink = await context.adapter.getSignInLink(
-                    context,
-                    this.connectionName
+                const { signInLink } = await userTokenClient.getSignInResource(
+                    this.connectionName,
+                    context.activity
                 );
 
                 return {
@@ -167,10 +174,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                     type: 'openUrl',
                                     value: signInLink,
                                     title: 'Bot Service OAuth'
-                                },
-                            ],
-                        },
-                    },
+                                }
+                            ]
+                        }
+                    }
                 };
             }
 
@@ -190,12 +197,12 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 );
                 const preview = CardFactory.thumbnailCard(
                     msg.from.emailAddress.address,
-                    `${msg.subject} <br />  ${msg.bodyPreview.substring(
+                    `${ msg.subject } <br />  ${ msg.bodyPreview.substring(
                         0,
                         100
-                    )}`,
+                    ) }`,
                     [
-                        'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg',
+                        'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg'
                     ]
                 );
                 attachments.push({
@@ -206,10 +213,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             });
         } else {
             const response = await axios.get(
-                `http://registry.npmjs.com/-/v1/search?${querystring.stringify({
+                `http://registry.npmjs.com/-/v1/search?${ querystring.stringify({
                     text: searchQuery,
                     size: 8
-                })}`
+                }) }`
             );
 
             response.data.objects.forEach((obj) => {
@@ -228,7 +235,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 type: 'result',
                 attachmentLayout: 'list',
                 attachments: attachments
-            },
+            }
         };
     }
 
@@ -238,19 +245,23 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 type: 'result',
                 attachmentLayout: 'list',
                 attachments: [CardFactory.thumbnailCard(obj.description)]
-            },
+            }
         };
     }
 
     async handleTeamsMessagingExtensionFetchTask(context, action) {
+        const userTokenClient = context.turnState.get(context.adapter.UserTokenClientKey);
+
         if (action.commandId === 'SHOWPROFILE') {
             const magicCode =
                 action.state && Number.isInteger(Number(action.state))
                     ? action.state
                     : '';
-            const tokenResponse = await context.adapter.getUserToken(
-                context,
+
+            const tokenResponse = await userTokenClient.getUserToken(
+                context.activity.from.id,
                 this.connectionName,
+                context.activity.channelId,
                 magicCode
             );
 
@@ -258,9 +269,9 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 // There is no token, so the user has not signed in yet.
                 // Retrieve the OAuth Sign in Link to use in the MessagingExtensionResult Suggested Actions
 
-                const signInLink = await context.adapter.getSignInLink(
-                    context,
-                    this.connectionName
+                const { signInLink } = await userTokenClient.getSignInResource(
+                    this.connectionName,
+                    context.activity
                 );
 
                 return {
@@ -272,10 +283,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                     type: 'openUrl',
                                     value: signInLink,
                                     title: 'Bot Service OAuth'
-                                },
-                            ],
-                        },
-                    },
+                                }
+                            ]
+                        }
+                    }
                 };
             }
             const graphClient = new SimpleGraphClient(tokenResponse.token);
@@ -286,13 +297,13 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 body: [
                     {
                         type: 'TextBlock',
-                        text: 'Hello: ' + profile.displayName,
+                        text: 'Hello: ' + profile.displayName
                     },
                     {
                         type: 'Image',
-                        url: 'http://adaptivecards.io/content/cats/1.png',
-                    },
-                ],
+                        url: 'http://adaptivecards.io/content/cats/1.png'
+                    }
+                ]
             });
             return {
                 task: {
@@ -302,13 +313,12 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         heigth: 250,
                         width: 400,
                         title: 'Show Profile Card'
-                    },
-                },
+                    }
+                }
             };
         }
         if (action.commandId === 'SignOutCommand') {
-            const adapter = context.adapter;
-            await adapter.signOutUser(context, this.connectionName);
+            await userTokenClient.signOutUser(context.activity.from.id, this.connectionName, context.activity.channelId);
 
             const card = CardFactory.adaptiveCard({
                 version: '1.0.0',
@@ -317,7 +327,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     {
                         type: 'TextBlock',
                         text: 'You have been signed out.'
-                    },
+                    }
                 ],
                 actions: [
                     {
@@ -325,9 +335,9 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         title: 'Close',
                         data: {
                             key: 'close'
-                        },
-                    },
-                ],
+                        }
+                    }
+                ]
             });
 
             return {
@@ -338,8 +348,8 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         heigth: 200,
                         width: 400,
                         title: 'Adaptive Card: Inputs'
-                    },
-                },
+                    }
+                }
             };
         }
         return null;

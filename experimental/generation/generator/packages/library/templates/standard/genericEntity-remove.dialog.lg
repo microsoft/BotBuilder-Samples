@@ -3,6 +3,6 @@
 # filename
 - ${removeFilename(entity)}
 
-# template
+# generator
 - ${removeDialog(entity)}
 

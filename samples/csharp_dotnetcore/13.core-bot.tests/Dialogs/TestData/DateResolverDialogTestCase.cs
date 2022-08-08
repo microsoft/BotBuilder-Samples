@@ -11,9 +11,9 @@ namespace CoreBot.Tests.Dialogs.TestData
         public string Name { get; set; }
 
         public string InitialData { get; set; }
-
+#pragma warning disable CA1819 // Properties should not return arrays
         public string[,] UtterancesAndReplies { get; set; }
-
+#pragma warning restore CA1819 // Properties should not return arrays
         public string ExpectedResult { get; set; }
     }
 }

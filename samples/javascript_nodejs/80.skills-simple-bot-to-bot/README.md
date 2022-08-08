@@ -35,9 +35,9 @@ The solution includes a parent bot (`simple-root-bot`) and a skill bot (`echo-sk
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- Create a bot registration in the azure portal for the `echo-skill-bot` and update [echo-skill-bot/.env](echo-skill-bot/.env) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Create a bot registration in the azure portal for the `simple-root-bot` and update [simple-root-bot/.env](simple-root-bot/.env) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
-- Update the `SkillAppId` variable in [simple-root-bot/.env](simple-root-bot/.env) with the `AppId` for the skill you created in the previous step
+- (Optionally) Create a bot registration in the azure portal for the `echo-skill-bot` and update [echo-skill-bot/.env](echo-skill-bot/.env) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Create a bot registration in the azure portal for the `simple-root-bot` and update [simple-root-bot/.env](simple-root-bot/.env) with the `MicrosoftAppId` and `MicrosoftAppPassword` of the new bot registration
+- (Optionally) Update the `SkillAppId` variable in [simple-root-bot/.env](simple-root-bot/.env) with the `AppId` for the skill you created in the previous step
 - (Optionally) Add the `simple-root-bot` `MicrosoftAppId` to the `AllowedCallers` comma separated list in [echo-skill-bot/.env](echo-skill-bot/.env)
 - In a terminal, navigate to `samples\javascript_nodejs\80.skills-simple-bot-to-bot\echo-skill-bot`
 

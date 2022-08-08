@@ -3,5 +3,5 @@
 # entities
 - ${['percentage']}
 
-# templates
+# generators
 - ${numericTemplates()}

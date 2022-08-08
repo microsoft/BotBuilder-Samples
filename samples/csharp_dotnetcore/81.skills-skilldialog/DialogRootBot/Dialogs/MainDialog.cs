@@ -9,7 +9,6 @@ using System.Threading.Tasks;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Builder.Dialogs;
 using Microsoft.Bot.Builder.Dialogs.Choices;
-using Microsoft.Bot.Builder.Integration.AspNet.Core.Skills;
 using Microsoft.Bot.Builder.Skills;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
@@ -32,25 +31,18 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
         public static readonly string ActiveSkillPropertyName = $"{typeof(MainDialog).FullName}.ActiveSkillProperty";
         private readonly IStatePropertyAccessor<BotFrameworkSkill> _activeSkillProperty;
+        private readonly BotFrameworkAuthentication _auth;
         private readonly string _selectedSkillKey = $"{typeof(MainDialog).FullName}.SelectedSkillKey";
         private readonly SkillsConfiguration _skillsConfig;
 
         // Dependency injection uses this constructor to instantiate MainDialog.
-        public MainDialog(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, IConfiguration configuration)
+        public MainDialog(BotFrameworkAuthentication auth, ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillsConfiguration skillsConfig, IConfiguration configuration)
             : base(nameof(MainDialog))
         {
             var botId = configuration.GetSection(MicrosoftAppCredentials.MicrosoftAppIdKey)?.Value;
-            if (string.IsNullOrWhiteSpace(botId))
-            {
-                throw new ArgumentException($"{MicrosoftAppCredentials.MicrosoftAppIdKey} is not in configuration");
-            }
 
+            _auth = auth ?? throw new ArgumentNullException(nameof(auth));
             _skillsConfig = skillsConfig ?? throw new ArgumentNullException(nameof(skillsConfig));
-
-            if (skillClient == null)
-            {
-                throw new ArgumentNullException(nameof(skillClient));
-            }
 
             if (conversationState == null)
             {
@@ -58,7 +50,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Use helper method to add SkillDialog instances for the configured skills.
-            AddSkillDialogs(conversationState, conversationIdFactory, skillClient, skillsConfig, botId);
+            AddSkillDialogs(conversationState, conversationIdFactory, skillsConfig, botId);
 
             // Add ChoicePrompt to render available skills.
             AddDialog(new ChoicePrompt("SkillPrompt"));
@@ -88,7 +80,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             // This is an example on how to cancel a SkillDialog that is currently in progress from the parent bot.
             var activeSkill = await _activeSkillProperty.GetAsync(innerDc.Context, () => null, cancellationToken);
             var activity = innerDc.Context.Activity;
-            if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.CurrentCultureIgnoreCase))
+            if (activeSkill != null && activity.Type == ActivityTypes.Message && activity.Text.Equals("abort", StringComparison.OrdinalIgnoreCase))
             {
                 // Cancel all dialogs when the user says abort.
                 // The SkillDialog automatically sends an EndOfConversation message to the skill to let the
@@ -202,7 +194,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
         }
 
         // Helper method that creates and adds SkillDialog instances for the configured skills.
-        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillHttpClient skillClient, SkillsConfiguration skillsConfig, string botId)
+        private void AddSkillDialogs(ConversationState conversationState, SkillConversationIdFactoryBase conversationIdFactory, SkillsConfiguration skillsConfig, string botId)
         {
             foreach (var skillInfo in _skillsConfig.Skills.Values)
             {
@@ -211,7 +203,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
                 {
                     BotId = botId,
                     ConversationIdFactory = conversationIdFactory,
-                    SkillClient = skillClient,
+                    SkillClient = _auth.CreateBotFrameworkClient(),
                     SkillHostEndpoint = skillsConfig.SkillHostEndpoint,
                     ConversationState = conversationState,
                     Skill = skillInfo
@@ -249,7 +241,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
 
             Activity activity = null;
             // Just forward the message activity to the skill with whatever the user said. 
-            if (selectedOption.Equals(SkillActionMessage, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionMessage, StringComparison.OrdinalIgnoreCase))
             {
                 // Note message activities also support input parameters but we are not using them in this example.
                 // Return a deep clone of the activity so we don't risk altering the original one 
@@ -257,14 +249,14 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Send an event activity to the skill with "BookFlight" in the name.
-            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionBookFlight, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionBookFlight;
             }
 
             // Send an event activity to the skill with "BookFlight" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionBookFlightWithInputParameters, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionBookFlight;
@@ -272,7 +264,7 @@ namespace Microsoft.BotBuilderSamples.DialogRootBot.Dialogs
             }
 
             // Send an event activity to the skill with "GetWeather" in the name and some testing values.
-            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.CurrentCultureIgnoreCase))
+            if (selectedOption.Equals(SkillActionGetWeather, StringComparison.OrdinalIgnoreCase))
             {
                 activity = (Activity)Activity.CreateEventActivity();
                 activity.Name = SkillActionGetWeather;

@@ -3,5 +3,5 @@
 # filename
 - ${chooseEntityFilename()}
 
-# template
+# generator
 - ${chooseEntityDialog(entity)}

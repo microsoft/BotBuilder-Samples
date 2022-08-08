@@ -11,7 +11,7 @@ class DispatchBot extends ActivityHandler {
         super();
 
         const dispatchRecognizer = new OrchestratorRecognizer().configure({
-            modelFolder: process.env.ModelFolder, 
+            modelFolder: process.env.ModelFolder,
             snapshotFile: process.env.SnapshotFile
         });
 

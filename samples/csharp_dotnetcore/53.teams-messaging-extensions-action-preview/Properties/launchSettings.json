@@ -15,7 +15,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       }
     },
-    "TeamsMessagingExtensionsActionPreview": {
+    ".NET Core": {
       "commandName": "Project",
       "launchBrowser": true,
       "environmentVariables": {

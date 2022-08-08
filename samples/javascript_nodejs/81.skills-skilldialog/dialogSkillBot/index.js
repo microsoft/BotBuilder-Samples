@@ -14,33 +14,67 @@ const restify = require('restify');
 
 // Import required bot services.
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
-const { ActivityTypes, BotFrameworkAdapter, ConversationState, InputHints, MemoryStorage } = require('botbuilder');
-const { AuthenticationConfiguration } = require('botframework-connector');
+const {
+    ActivityTypes,
+    CloudAdapter,
+    ConfigurationServiceClientCredentialFactory,
+    ConversationState,
+    InputHints,
+    MemoryStorage,
+    ConfigurationBotFrameworkAuthentication
+} = require('botbuilder');
+const {
+    allowedCallersClaimsValidator,
+    AuthenticationConfiguration,
+    AuthenticationConstants
+} = require('botframework-connector');
 
 // This bot's main dialog.
 const { SkillBot } = require('./bots/skillBot');
 const { ActivityRouterDialog } = require('./dialogs/activityRouterDialog');
 const { FlightBookingRecognizer } = require('./dialogs/flightBookingRecognizer');
 
-// Import Skills modules.
-const { allowedCallersClaimsValidator } = require('./authentication/allowedCallersClaimsValidator');
+const allowedCallers = (process.env.AllowedCallers || '').split(',').filter((val) => val) || [];
+
+const claimsValidators = allowedCallersClaimsValidator(allowedCallers);
+
+// If the MicrosoftAppTenantId is specified in the environment config, add the tenant as a valid JWT token issuer for Bot to Skill conversation.
+// The token issuer for MSI and single tenant scenarios will be the tenant where the bot is registered.
+let validTokenIssuers = [];
+const { MicrosoftAppTenantId } = process.env;
+
+if (MicrosoftAppTenantId) {
+    // For SingleTenant/MSI auth, the JWT tokens will be issued from the bot's home tenant.
+    // Therefore, these issuers need to be added to the list of valid token issuers for authenticating activity requests.
+    validTokenIssuers = [
+        `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV1 }${ MicrosoftAppTenantId }/`,
+        `${ AuthenticationConstants.ValidTokenIssuerUrlTemplateV2 }${ MicrosoftAppTenantId }/v2.0/`,
+        `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV1 }${ MicrosoftAppTenantId }/`,
+        `${ AuthenticationConstants.ValidGovernmentTokenIssuerUrlTemplateV2 }${ MicrosoftAppTenantId }/v2.0/`
+    ];
+}
 
 // Define our authentication configuration.
-const authConfig = new AuthenticationConfiguration([], allowedCallersClaimsValidator);
+const authConfig = new AuthenticationConfiguration([], claimsValidators, validTokenIssuers);
+
+const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
+    MicrosoftAppId: process.env.MicrosoftAppId,
+    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
+    MicrosoftAppType: process.env.MicrosoftAppType,
+    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
+});
+
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, credentialsFactory, authConfig);
 
 // Create adapter, passing in authConfig so that we can use skills.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
-const adapter = new BotFrameworkAdapter({
-    appId: process.env.MicrosoftAppId,
-    appPassword: process.env.MicrosoftAppPassword,
-    authConfig: authConfig
-});
+const adapter = new CloudAdapter(botFrameworkAuthentication);
 
 // Catch-all for errors.
 const onTurnErrorHandler = async (context, error) => {
     // This check writes out errors to the console log, instead of to app insights.
     // NOTE: In a production environment, you should consider logging this to Azure
-    //       application insights.  See https://aka.ms/bottelemetry for telemetry 
+    //       application insights.  See https://aka.ms/bottelemetry for telemetry
     //       configuration instructions.
     console.error(`\n [onTurnError] unhandled error: ${ error }`);
 
@@ -93,7 +127,7 @@ async function clearConversationState(context) {
     }
 }
 
-// Set the onTurnError for the singleton BotFrameworkAdapter.
+// Set the onTurnError for the singleton CloudAdapter.
 adapter.onTurnError = onTurnErrorHandler;
 
 // Define a state store for your bot. See https://aka.ms/about-bot-state to learn more about using MemoryStorage.
@@ -117,6 +151,8 @@ const bot = new SkillBot(conversationState, activityRouterDialog);
 
 // Create HTTP server.
 const server = restify.createServer();
+server.use(restify.plugins.bodyParser());
+
 server.listen(process.env.port || process.env.PORT || 39783, function() {
     console.log(`\n${ server.name } listening to ${ server.url }`);
     console.log('\nGet Bot Framework Emulator: https://aka.ms/botframework-emulator');
@@ -127,27 +163,18 @@ server.listen(process.env.port || process.env.PORT || 39783, function() {
 server.get('/manifest/*', restify.plugins.serveStatic({ directory: './manifest', appendRequestPath: false }));
 
 // Listen for incoming activities and route them to your bot main dialog.
-server.post('/api/messages', (req, res) => {
-    // Route received requests to the adapter for processing
-    adapter.processActivity(req, res, async (turnContext) => {
-        // Route requests to bot activity handler.
-        await bot.run(turnContext);
-    });
+server.post('/api/messages', async (req, res) => {
+    // Route received a request to adapter for processing
+    await adapter.process(req, res, (context) => bot.run(context));
 });
 
 // Listen for Upgrade requests for Streaming.
-server.on('upgrade', (req, socket, head) => {
+server.on('upgrade', async (req, socket, head) => {
     // Create an adapter scoped to this WebSocket connection to allow storing session data.
-    const streamingAdapter = new BotFrameworkAdapter({
-        appId: process.env.MicrosoftAppId,
-        appPassword: process.env.MicrosoftAppPassword
-    });
-    // Set onTurnError for the BotFrameworkAdapter created for each connection.
+    const streamingAdapter = new CloudAdapter(botFrameworkAuthentication);
+
+    // Set onTurnError for the CloudAdapter created for each connection.
     streamingAdapter.onTurnError = onTurnErrorHandler;
 
-    streamingAdapter.useWebSocket(req, socket, head, async (context) => {
-        // After connecting via WebSocket, run this logic for every request sent over
-        // the WebSocket connection.
-        await bot.run(context);
-    });
+    await streamingAdapter.process(req, socket, head, (context) => bot.run(context));
 });

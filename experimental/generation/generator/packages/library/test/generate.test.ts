@@ -25,7 +25,7 @@ import {ComponentDeclarativeTypes, ResourceExplorer} from 'botbuilder-dialogs-de
 import {ServiceCollection, noOpConfiguration} from 'botbuilder-dialogs-adaptive-runtime-core'
 
 // Output temp directory
-let tempDir = ppath.join(os.tmpdir(), 'generate.out')
+const tempDir = ppath.join(os.tmpdir(), 'generate.out')
 
 function feedback(type: gen.FeedbackType, msg: string) {
     if (type !== gen.FeedbackType.debug) {
@@ -41,9 +41,9 @@ function removeHash(val: string): string {
 }
 
 // NOTE: If you update dialog:merge functionality you need to execute the makeOracles.cmd to update them
-async function compareToOracle(name: string, oraclePath?: string): Promise<void> {
-    let generatedPath = ppath.join(tempDir, name)
-    const  generateds = removeHash(await fs.readFile(generatedPath, 'utf8'))
+export async function compareToOracle(path: string, oraclePath?: string): Promise<void> {
+    const name = ppath.basename(path)
+    const generateds = removeHash(await fs.readFile(path, 'utf8'))
     oraclePath = oraclePath ? ppath.join(tempDir, oraclePath) : ppath.join('test/oracles', name)
     const oracle = await fs.readFile(oraclePath, 'utf8')
     const oracles = removeHash(gen.normalizeEOL(oracle))
@@ -71,13 +71,13 @@ async function compareToOracle(name: string, oraclePath?: string): Promise<void>
         console.log(`Oracle   : ${oracles.substring(start, end)}`)
         console.log(`Generated: ${generateds.substring(start, end)}`)
         assert(false,
-            `${ppath.resolve(generatedPath)} does not match oracle ${ppath.resolve(oraclePath)}`)
+            `${ppath.resolve(path)} does not match oracle ${ppath.resolve(oraclePath)}`)
     }
 }
 
 async function checkDirectory(path: string, files: number, directories: number): Promise<void> {
-    let dirList: string[] = []
-    let fileList: string[] = []
+    const dirList: string[] = []
+    const fileList: string[] = []
     for (const child of await fs.readdir(path)) {
         if ((await fs.stat(ppath.join(path, child))).isDirectory()) {
             dirList.push(child)
@@ -106,13 +106,13 @@ async function includes(path: string, content: string): Promise<void> {
 }
 
 describe('dialog:generate library', async () => {
-    let output = tempDir
-    let schemaPath = 'test/forms/sandwich.form'
-    let unitTestSchemaPath = 'test/forms/unittest_'
-    let badSchema = 'test/forms/bad-schema.form'
-    let notObject = 'test/forms/not-object.form'
-    let override = 'test/templates/override'
-    let unittestSchemaNames = [
+    const output = tempDir
+    const schemaPath = 'test/forms/sandwich.form'
+    const unitTestSchemaPath = 'test/forms/unittest_'
+    const badSchema = 'test/forms/bad-schema.form'
+    const notObject = 'test/forms/not-object.form'
+    const override = 'test/templates/override'
+    const unittestSchemaNames = [
         'age_with_units',
         'age',
         'array_enum',
@@ -124,6 +124,7 @@ describe('dialog:generate library', async () => {
         'dimension_with_units',
         'dimension',
         'dynamiclist',
+        'dynamiclist_empty',
         'email',
         'enum',
         'geography',
@@ -160,9 +161,9 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nTranscript test')
             assert.ok(await generateTest('test/transcripts/sandwich.transcript', 'sandwich', output, false), 'Could not generate test script')
-            await compareToOracle('sandwich.test.dialog')
+            await compareToOracle(ppath.join(tempDir, 'sandwich.test.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -170,15 +171,15 @@ describe('dialog:generate library', async () => {
         try {
             console.log('\n\nTranscript test')
             assert.ok(await generateTest('test/transcripts/addItemWithButton.transcript', 'msmeeting-actions', output, false), 'Could not generate test script')
-            await compareToOracle('addItemWithButton.test.dialog')
+            await compareToOracle(ppath.join(tempDir, 'addItemWithButton.test.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
     it('Hash text', async () => {
         let lu = `> LU File${os.EOL}# Intent${os.EOL}- This is an .lu file`
-        let lufile = ppath.join(os.tmpdir(), 'test.lu')
+        const lufile = ppath.join(os.tmpdir(), 'test.lu')
 
         await gen.writeFile(lufile, lu, feedback)
         assert(await gen.isUnchanged(lufile))
@@ -199,7 +200,7 @@ describe('dialog:generate library', async () => {
 
     it('Hash JSON', async () => {
         let dialog = {$comment: 'this is a .dialog file'}
-        let dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
+        const dialogFile = ppath.join(os.tmpdir(), 'test.dialog')
 
         await gen.writeFile(dialogFile, JSON.stringify(dialog), feedback)
         assert(await gen.isUnchanged(dialogFile))
@@ -223,12 +224,12 @@ describe('dialog:generate library', async () => {
                     templateDirs: [override, 'template:standard'],
                     feedback
                 })
-            let lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
+            const lg = await fs.readFile(ppath.join(output, 'language-generation/en-us/Bread', 'sandwich-Bread.en-us.lg'))
             assert.ok(lg.toString().includes('What kind of bread?'), 'Did not override locale generated file')
-            let dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
+            const dialog = await fs.readFile(ppath.join(output, 'dialogs/Bread/sandwich-Bread-missing.dialog'))
             assert.ok(!dialog.toString().includes('priority'), 'Did not override top-level file')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -243,7 +244,7 @@ describe('dialog:generate library', async () => {
             assert.ok(!await fs.pathExists(ppath.join(output, 'dialogs/Bread')), 'Generated non-singleton directories')
             assert.ok(await fs.pathExists(ppath.join(output, 'sandwich.dialog')), 'Did not generate root dialog')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -254,16 +255,16 @@ describe('dialog:generate library', async () => {
                 outDir: output,
                 feedback
             })
-            await checkDirectory(output, 9, 4)
+            await checkDirectory(output, 8, 4)
             await checkDirectory(ppath.join(output, 'dialogs'), 0, 10)
             await checkDirectory(ppath.join(output, 'recognizers'), 2, 0)
             await checkDirectory(ppath.join(output, 'language-generation'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-understanding'), 0, 1)
             await checkDirectory(ppath.join(output, 'language-generation', 'en-us'), 1, 15)
-            await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 1, 10)
-            await checkPattern(ppath.join(output, '**'), 138)
+            await checkDirectory(ppath.join(output, 'language-understanding', 'en-us'), 2, 10)
+            await checkPattern(ppath.join(output, '**'), 134)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -286,9 +287,9 @@ describe('dialog:generate library', async () => {
                     const templates = Templates.parseFile(`${testOutput}/language-generation/en-us/unittest_${prefix}.en-us.lg`)
                     const allDiagnostics = templates.allDiagnostics
                     if (allDiagnostics) {
-                        let errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
+                        const errors = allDiagnostics.filter((u): boolean => u.severity === DiagnosticSeverity.Error)
                         if (errors && errors.length > 0) {
-                            let errorList: string[] = []
+                            const errorList: string[] = []
                             for (let j = 0; j < allDiagnostics.length; j++) {
                                 const error = allDiagnostics[j]
                                 errorList.push(`${error.message}: ${error.source} ${error.range}`)
@@ -296,8 +297,23 @@ describe('dialog:generate library', async () => {
                             assert.fail(errorList.join('\n'))
                         }
                     }
+
+                    // Ensure all top-level LG uses activities
+                    for (const path of await glob(`${testOutput.replace(/\\/g, '/')}/language-generation/en-us/*/*.lg`)) {
+                        if (!path.includes('/form/')) {
+                            const templates = Templates.parseFile(path)
+                            const badTemplates = templates.allTemplates.filter(t =>
+                                ppath.basename(t.sourceRange.source) === ppath.basename(path) &&
+                                !t.name.endsWith('_text') &&
+                                !t.name.endsWith('_Name') &&
+                                !t.name.endsWith('_Value') &&
+                                t.body.indexOf('[Activity') < 0)
+                                .map(t => t.name)
+                            assert.strictEqual(badTemplates.length, 0, `Missing activity ${badTemplates}`)
+                        }
+                    }
                 } catch (e) {
-                    assert.fail(e.message)
+                    assert.fail((e as Error).message)
                 }
 
                 try {
@@ -307,7 +323,7 @@ describe('dialog:generate library', async () => {
                     result = await LuisBuilder.build(luFiles, true, 'en-us', undefined)
                     result.validate()
                 } catch (e) {
-                    assert.fail(`${e.source}: ${e.message}`)
+                  assert.fail(`${description}: ${(e as Error).message}`)
                 }
 
                 try {
@@ -327,7 +343,7 @@ describe('dialog:generate library', async () => {
                     resourceExplorer.addFolder(`${testOutput}`, true, false)
                     resourceExplorer.loadType(`unittest_${prefix}.dialog`)
                 } catch (e) {
-                    assert.fail(e.message)
+                    assert.fail((e as Error).message)
                 }
             } else {
                 assert.fail('Did not generate')
@@ -340,7 +356,7 @@ describe('dialog:generate library', async () => {
             await ft.Schema.readSchema(notObject)
             assert.fail('Did not detect bad schema')
         } catch (e) {
-            assert(e.message.includes('must be of type object'), 'Missing type object')
+            assert((e as Error).message.includes('must be of type object'), 'Missing type object')
         }
     })
 
@@ -349,7 +365,7 @@ describe('dialog:generate library', async () => {
             await ft.Schema.readSchema(badSchema)
             assert.fail('Did not detect bad schema')
         } catch (e) {
-            assert(e.message.includes('is not a valid JSON Schema'), 'Missing valid JSON schema')
+            assert((e as Error).message.includes('is not a valid JSON Schema'), 'Missing valid JSON schema')
         }
     })
 
@@ -374,20 +390,20 @@ describe('dialog:generate library', async () => {
             assert.strictEqual(global, globalExpected, `Expected ${globalExpected} global schemas and found ${global}`)
             assert.strictEqual(property, propertyExpected, `Expected ${propertyExpected} property schemas and found ${property}`)
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
     it('Expand simple property definition', async () => {
         try {
-            let schema = {
+            const schema = {
                 type: 'number'
             }
-            let expansion = await gen.expandPropertyDefinition('simple', schema)
+            const expansion = await gen.expandPropertyDefinition('simple', schema)
             assert(expansion.$entities, 'Did not generate $entities')
             assert.strictEqual(expansion.$entities.length, 1, 'Wrong number of entities')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -404,7 +420,7 @@ describe('dialog:generate library', async () => {
             })), 'Should have failed generation')
             assert.strictEqual(errors, 4, 'Wrong number of errors')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -430,7 +446,7 @@ describe('dialog:generate library', async () => {
             await includes(`${testOutput}/language-understanding/en-us/examples/enum-examples-examplesValue.en-us.lu`, 'why not')
             await includes(`${testOutput}/language-understanding/en-us/examplesArray/enum-examplesArray-examplesArrayValue.en-us.lu`, 'repent again')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -458,7 +474,7 @@ describe('dialog:generate library', async () => {
             assert.strictEqual(errors, 2, 'Wrong number of errors')
             assert.strictEqual(warnings, 0, 'Wrong number of warnings')
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -480,9 +496,9 @@ describe('dialog:generate library', async () => {
             })), 'Should not have failed generation')
             assert.strictEqual(errors, 0, 'Wrong number of errors')
             assert.strictEqual(warnings, 3, 'Wrong number of warnings')
-            await compareToOracle('unittest_transforms.dialog')
+            await compareToOracle(ppath.join(tempDir, 'unittest_transforms.dialog'))
         } catch (e) {
-            assert.fail(e.message)
+            assert.fail((e as Error).message)
         }
     })
 
@@ -518,19 +534,20 @@ describe('dialog:generate library', async () => {
             for (const template of source.allTemplates) {
                 // Analyze each original source template only once
                 if (!analyzed.has(template.sourceRange.source)) {
-                    const references = source.analyzeTemplate(template.name).TemplateReferences
-                    const templateSource = template.sourceRange.source
-                    for (const reference of references) {
-                        const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
-                        let referenceSource = referenceSources.get(templateSource)
-                        if (!referenceSource) {
-                            referenceSource = []
-                            referenceSources.set(templateSource, referenceSource)
+                    try {
+                        const references = source.analyzeTemplate(template.name).TemplateReferences
+                        const templateSource = template.sourceRange.source
+                        for (const reference of references) {
+                            const referenceSources = usage.get(nameToFullname.get(reference) as string) as Map<string, string[]>
+                            let referenceSource = referenceSources.get(templateSource)
+                            if (!referenceSource) {
+                                referenceSource = []
+                                referenceSources.set(templateSource, referenceSource)
+                            }
+                            referenceSource.push(template.name)
                         }
-                        referenceSource.push(template.name)
-                    }
-                    if (template.name === 'transforms') {
-                      
+                    } catch (e) {
+                        // If you have a recursive template like sortNumber you will get an exception
                     }
                 }
             }
@@ -562,7 +579,7 @@ describe('dialog:generate library', async () => {
      * Return the simple template name from a full template name.
      * @param fullname Full template name including source.
      */
-    function templateName(fullname: string): string {
+    function generatorName(fullname: string): string {
         const colon = fullname.lastIndexOf(':')
         return fullname.substring(colon + 1)
     }
@@ -572,7 +589,7 @@ describe('dialog:generate library', async () => {
      * @param fullname Full template name including source.
      * @returns filename:template
      */
-    function shortTemplateName(fullname: string): string {
+    function shortGeneratorName(fullname: string): string {
         const colon = fullname.lastIndexOf(':')
         return ppath.basename(fullname.substring(0, colon)) + fullname.substring(colon)
     }
@@ -595,7 +612,7 @@ describe('dialog:generate library', async () => {
 
         // Analyze LG templates for usage
         const templates: Templates[] = []
-        for (let template of gen.TemplateCache.values()) {
+        for (const template of gen.TemplateCache.values()) {
             if (template instanceof Templates) {
                 templates.push(template)
             }
@@ -604,7 +621,7 @@ describe('dialog:generate library', async () => {
 
         // Dump out all template usage
         for (const [template, templateUsage] of usage) {
-            feedback(gen.FeedbackType.debug, `${shortTemplateName(template)} references:`)
+            feedback(gen.FeedbackType.debug, `${shortGeneratorName(template)} references:`)
             for (const [source, sourceUsage] of templateUsage) {
                 feedback(gen.FeedbackType.debug, `    ${ppath.basename(source)}: ${sourceUsage.join(', ')}`)
             }
@@ -612,12 +629,12 @@ describe('dialog:generate library', async () => {
 
         // Identify unused templates
         // Exclusions are top-level templates called by the generator in standard.schema or called through template
-        const exclude = ['filename', 'template', 'entities', 'templates', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty']
+        const exclude = ['filename', 'generator', 'entities', 'generators', 'transforms', 'knowledgeDir', 'schemaOperations', 'schemaDefaultOperation', 'isSetProperty', 'sortPosition', 'triggerNames']
         let unusedTemplates = 0
         for (const [template, templateUsage] of usage) {
-            const name = templateName(template)
+            const name = generatorName(template)
             if (!exclude.includes(name) && templateUsage.size === 0) {
-                feedback(gen.FeedbackType.error, `${shortTemplateName(template)} is unused`)
+                feedback(gen.FeedbackType.error, `${shortGeneratorName(template)} is unused`)
                 ++unusedTemplates
             }
         }

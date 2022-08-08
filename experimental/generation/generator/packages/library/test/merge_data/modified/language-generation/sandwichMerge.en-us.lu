@@ -1,0 +1,27 @@
+> !# @app.culture = en-us
+> !# @app.settings.NormalizeWordForm = true
+> !# @app.settings.UseAllTrainingData = true
+[definition](./sandwichMerge-definition.en-us.lu)
+
+> LABELING EXAMPLE UTTERANCES
+>
+> In form dialogs, one entity is used to capture an operation, the properties its acts on, and the valid values for that property.
+> An entity is a nested choice of OPERATOR{PROPERTY(VALUE)}.
+>
+> OPERATOR indicates one of: Assign(), Remove(), Clear(), Show(), Help(), Change(), Skip(), Cancel()
+> PROPERTY (and VALUE) can be: Quantity(number), Length(dimension), Name(personName, utterance), Bread(BreadValue), Meat(MeatValue), Cheese(CheeseValue), Toppings(ToppingsValue), Sauces(SaucesValue), Price(money)
+>
+> The span of each label should include the words that mean the corresponding operation/property/value.
+>
+> Label patterns below show valid patterns and use 'words*' to indicate zero or more words.
+>  Single: {@OPERATOR=words*}, {@PROPERTY=words*}, {@VALUE=words*}
+>  Nested: {@OPERATOR=words*{@PROPERTY=words*}words*} {@OPERATOR=words*{@VALUE=words*}words*}, {@PROPERTY=words*{@VALUE=words*}words*}
+>  Triples: {@OPERATOR=words*{@PROPERTY=words*{@VALUE=words*}words*}words*}
+>
+> You can also nest multiple PROPERTY or VALUE labels inside of an OPERATOR.
+
+# sandwichMerge
+- ADD YOUR LABELS HERE
+- {@Assign()={@MeatProperty=meat are {@MeatValue=pulled}}}
+
+> Generator: 1d05812adf8a475a803efd0ef0623948

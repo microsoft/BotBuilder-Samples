@@ -1,0 +1,127 @@
+{
+  "$kind": "Microsoft.AdaptiveDialog",
+  "$designer": {
+    "id": "iY2JNb",
+    "name": "ChitchatDialog",
+    "description": "",
+    "comment": "Routes all incoming activities to the ChitChat QnA knowledge base. To see the QnA pairs included in this knowledge base, refer to the Knowledge Base tab in the navigation pane."
+  },
+  "autoEndDialog": true,
+  "defaultResultProperty": "dialog.result",
+  "triggers": [
+    {
+      "$kind": "Microsoft.OnQnAMatch",
+      "$designer": {
+        "id": "dY3QID"
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.IfCondition",
+          "$designer": {
+            "id": "1mbleA",
+            "comment": "If the QnA answer contains a prompt."
+          },
+          "condition": "=count(turn.recognized.answers[0].context.prompts) > 0",
+          "actions": [
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "lZmWLf",
+                "comment": "Sets dialog.qnaContext to prompts value."
+              },
+              "property": "dialog.qnaContext",
+              "value": "=turn.recognized.answers[0].context.prompts"
+            },
+            {
+              "$kind": "Microsoft.TextInput",
+              "$designer": {
+                "id": "3kKt2n",
+                "comment": "Prompts user to select one of the prompt values."
+              },
+              "maxTurnCount": 3,
+              "alwaysPrompt": true,
+              "allowInterruptions": false,
+              "prompt": "${TextInput_Prompt_QnaMultiTurnResponse()}",
+              "property": "turn.qnaMultiTurnResponse"
+            },
+            {
+              "$kind": "Microsoft.SetProperty",
+              "$designer": {
+                "id": "6vtzyA",
+                "comment": "Looks up user selection."
+              },
+              "property": "turn.qnaMatchFromContext",
+              "value": "=where(dialog.qnaContext, item, item.displayText == turn.qnaMultiTurnResponse)"
+            },
+            {
+              "$kind": "Microsoft.DeleteProperty",
+              "$designer": {
+                "id": "DaLmve",
+                "comment": "Clears dialog.qnaContext."
+              },
+              "property": "dialog.qnaContext"
+            },
+            {
+              "$kind": "Microsoft.IfCondition",
+              "$designer": {
+                "id": "qYZxID"
+              },
+              "condition": "=turn.qnaMatchFromContext && count(turn.qnaMatchFromContext) > 0",
+              "actions": [
+                {
+                  "$kind": "Microsoft.SetProperty",
+                  "$designer": {
+                    "id": "Ko5kOa"
+                  },
+                  "property": "turn.qnaIdFromPrompt",
+                  "value": "=turn.qnaMatchFromContext[0].qnaId"
+                }
+              ]
+            },
+            {
+              "$kind": "Microsoft.EmitEvent",
+              "$designer": {
+                "id": "xkyGsI",
+                "comment": "Sends the user's response as a new activity so that QnA recognition will be run again."
+              },
+              "eventName": "activityReceived",
+              "eventValue": "=turn.activity",
+              "handledProperty": "turn.eventHandled"
+            }
+          ],
+          "elseActions": [
+            {
+              "$kind": "Microsoft.SendActivity",
+              "$designer": {
+                "id": "zIdYcy",
+                "comment": "If the QnA answer does not contain prompts, the answer is displayed to the user."
+              },
+              "activity": "${SendActivity_QnaResponse()}"
+            }
+          ]
+        }
+      ],
+      "condition": "=turn.recognized.score > 0.5"
+    },
+    {
+      "$kind": "Microsoft.OnUnknownIntent",
+      "$designer": {
+        "id": "uZeXEF",
+        "comment": "Triggers if the Chitchat QnA knowledge base cannot find a match for the user's query."
+      },
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "gc2wn4",
+            "comment": "Shows unknown intent message."
+          },
+          "activity": "${SendActivity_DidNotUnderstand()}"
+        }
+      ]
+    }
+  ],
+  "generator": "ChitchatDialog.lg",
+  "recognizer": "ChitchatDialog.lu.qna",
+  "id": "ChitchatDialog"
+}

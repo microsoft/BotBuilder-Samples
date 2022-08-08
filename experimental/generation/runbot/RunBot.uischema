@@ -709,6 +709,15 @@
         "*"
       ],
       "subtitle": "Activity received"
+    },
+    "trigger": {
+      "label": "Activities (Activity received)",
+      "order": 5.1,
+      "submenu": {
+        "label": "Activities",
+        "placeholder": "Select an activity type",
+        "prompt": "Which activity type?"
+      }
     }
   },
   "Microsoft.OnAssignEntity": {
@@ -735,6 +744,15 @@
         "*"
       ],
       "subtitle": "Begin dialog event"
+    },
+    "trigger": {
+      "label": "Dialog started (Begin dialog event)",
+      "order": 4.1,
+      "submenu": {
+        "label": "Dialog events",
+        "placeholder": "Select an event type",
+        "prompt": "Which event?"
+      }
     }
   },
   "Microsoft.OnCancelDialog": {
@@ -748,6 +766,11 @@
         "*"
       ],
       "subtitle": "Cancel dialog event"
+    },
+    "trigger": {
+      "label": "Dialog cancelled (Cancel dialog event)",
+      "order": 4.2,
+      "submenu": "Dialog events"
     }
   },
   "Microsoft.OnChooseEntity": {
@@ -770,6 +793,46 @@
         "condition",
         "*"
       ]
+    },
+    "trigger": {
+      "label": "Duplicated intents recognized",
+      "order": 6
+    }
+  },
+  "Microsoft.OnCommandActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Command received",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Command activity received"
+    },
+    "trigger": {
+      "label": "Command received (Command activity received)",
+      "order": 5.81,
+      "submenu": "Activities"
+    }
+  },
+  "Microsoft.OnCommandResultActivity": {
+    "form": {
+      "hidden": [
+        "actions"
+      ],
+      "label": "Command Result received",
+      "order": [
+        "condition",
+        "*"
+      ],
+      "subtitle": "Command Result activity received"
+    },
+    "trigger": {
+      "label": "Command Result received (Command Result activity received)",
+      "order": 5.81,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnCondition": {
@@ -798,6 +861,11 @@
         "*"
       ],
       "subtitle": "ConversationUpdate activity"
+    },
+    "trigger": {
+      "label": "Greeting (ConversationUpdate activity)",
+      "order": 5.2,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnDialogEvent": {
@@ -811,6 +879,10 @@
         "*"
       ],
       "subtitle": "Dialog event"
+    },
+    "trigger": {
+      "label": "Custom events",
+      "order": 7
     }
   },
   "Microsoft.OnEndOfActions": {
@@ -837,6 +909,11 @@
         "*"
       ],
       "subtitle": "EndOfConversation activity"
+    },
+    "trigger": {
+      "label": "Conversation ended (EndOfConversation activity)",
+      "order": 5.3,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnError": {
@@ -850,6 +927,11 @@
         "*"
       ],
       "subtitle": "Error event"
+    },
+    "trigger": {
+      "label": "Error occurred (Error event)",
+      "order": 4.3,
+      "submenu": "Dialog events"
     }
   },
   "Microsoft.OnEventActivity": {
@@ -863,6 +945,11 @@
         "*"
       ],
       "subtitle": "Event activity"
+    },
+    "trigger": {
+      "label": "Event received (Event activity)",
+      "order": 5.4,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnHandoffActivity": {
@@ -876,6 +963,11 @@
         "*"
       ],
       "subtitle": "Handoff activity"
+    },
+    "trigger": {
+      "label": "Handover to human (Handoff activity)",
+      "order": 5.5,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnInstallationUpdateActivity": {
@@ -904,6 +996,10 @@
         "*"
       ],
       "subtitle": "Intent recognized"
+    },
+    "trigger": {
+      "label": "Intent recognized",
+      "order": 1
     }
   },
   "Microsoft.OnInvokeActivity": {
@@ -917,6 +1013,11 @@
         "*"
       ],
       "subtitle": "Invoke activity"
+    },
+    "trigger": {
+      "label": "Conversation invoked (Invoke activity)",
+      "order": 5.6,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnMessageActivity": {
@@ -929,7 +1030,12 @@
         "condition",
         "*"
       ],
-      "subtitle": "Message received activity"
+      "subtitle": "Message activity received"
+    },
+    "trigger": {
+      "label": "Message received (Message activity received)",
+      "order": 5.81,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnMessageDeleteActivity": {
@@ -943,6 +1049,11 @@
         "*"
       ],
       "subtitle": "Message deleted activity"
+    },
+    "trigger": {
+      "label": "Message deleted (Message deleted activity)",
+      "order": 5.82,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnMessageReactionActivity": {
@@ -956,6 +1067,11 @@
         "*"
       ],
       "subtitle": "Message reaction activity"
+    },
+    "trigger": {
+      "label": "Message reaction (Message reaction activity)",
+      "order": 5.83,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnMessageUpdateActivity": {
@@ -969,6 +1085,17 @@
         "*"
       ],
       "subtitle": "Message updated activity"
+    },
+    "trigger": {
+      "label": "Message updated (Message updated activity)",
+      "order": 5.84,
+      "submenu": "Activities"
+    }
+  },
+  "Microsoft.OnQnAMatch": {
+    "trigger": {
+      "label": "QnA Intent recognized",
+      "order": 2
     }
   },
   "Microsoft.OnRepromptDialog": {
@@ -982,6 +1109,11 @@
         "*"
       ],
       "subtitle": "Reprompt dialog event"
+    },
+    "trigger": {
+      "label": "Re-prompt for input (Reprompt dialog event)",
+      "order": 4.4,
+      "submenu": "Dialog events"
     }
   },
   "Microsoft.OnTypingActivity": {
@@ -995,6 +1127,11 @@
         "*"
       ],
       "subtitle": "Typing activity"
+    },
+    "trigger": {
+      "label": "User is typing (Typing activity)",
+      "order": 5.7,
+      "submenu": "Activities"
     }
   },
   "Microsoft.OnUnknownIntent": {
@@ -1008,6 +1145,10 @@
         "*"
       ],
       "subtitle": "Unknown intent recognized"
+    },
+    "trigger": {
+      "label": "Unknown intent",
+      "order": 3
     }
   },
   "Microsoft.QnAMakerDialog": {
@@ -1080,10 +1221,19 @@
     }
   },
   "Microsoft.SendHandoffActivity": {
+    "flow": {
+      "widget": "ActionHeader"
+    },
     "form": {
       "helpLink": "https://aka.ms/bfc-send-handoff-activity",
       "label": "Send a handoff request",
       "subtitle": "Send Handoff Activity"
+    },
+    "menu": {
+      "label": "Send Handoff Event",
+      "submenu": [
+        "Access external resources"
+      ]
     }
   },
   "Microsoft.SetProperties": {

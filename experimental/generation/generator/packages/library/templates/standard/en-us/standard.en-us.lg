@@ -25,7 +25,7 @@
 ```
 
 # entityTypeTemplate(type)
--```${formImport('form.en-us.lg')}
+-```${formImport('form-extensions.en-us.lg')}
 > Display value for '${type}' entity
 # ${type}Value_Value(entity)
 - \${value(entity.value)}
@@ -93,7 +93,7 @@
 
 # unexpectedSetDefault()
 - IF: ${isArrayProperty(property)}
-    - Added ${propertyValue('newVal')} to ${propertyName()}
+    - Assigned ${propertyValue('newVal')} to ${propertyName()}
 - ELSE:
     - Set ${propertyName()} to ${propertyValue('newVal')}
 
@@ -104,7 +104,7 @@
     - Changed ${propertyName()} from ${propertyCurrentValue()} to ${propertyValue('newVal')}
 
 # removeDefault()
-- Removed ${propertyValue('val')} from ${propertyName()}
+- Removed ${propertyValue('newVal')} from ${propertyName()}
 
 # clearDefault()
 - Cleared ${propertyName()}
@@ -140,22 +140,23 @@ ${valueTemplate()}
 
 # stringValidationTemplates()
 - IF: ${propertySchema.pattern}
-    -```# ${property}_NoPatternMatch(val)
-- ${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}
-```
+    -${activityTemplate(
+        `${property}_NoPatternMatch`, ['val'],
+        `Does not match pattern for '${property}'`,
+        `${propertyValue('val')} does not match ${propertyName()} property pattern \${dialogClass.schema.properties.${property}.pattern}`)}
 - ELSE:
     -
 
 # importFormsIfArray()
 - IF: ${isArrayProperty(property)}
-    - ${formImport('form.en-us.lg')}
+    - ${formImport('form-extensions.en-us.lg')}
 - ELSE:
     -
 
 >> Units
 
 # unitsMessages(template)
-- ```${formImport('form.en-us.lg')}
+- ```${formImport('form-extensions.en-us.lg')}
 ${promptTemplates(missingDefault(template), changeDefault(template))}
 ${confirmationTemplates(expectedSetDefault(), 
                         expectedUpdateDefault(),
@@ -226,24 +227,28 @@ ${valueTemplate()}
     - ${propertyName()} is ${definite(template)} ${numberRanges()}
 
 # validationTemplates()
-- ```${tooSmall()}
+- ```
+${tooSmall()}
+
 ${tooBig()}```
 
 # tooSmall()
 - IF: ${propertySchema.minimum}
-    -```
-# ${property}_TooSmall(val)
-> ${property} property is less than minimum allowed value
-- ${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}```
+    - ${activityTemplate(
+            `${property}_TooSmall`, ['val'],
+            `${property} property is less than minimum allowed value`,
+            `${propertyValue('val')} must be at least \${dialogClass.schema.properties.${property}.minimum}${unitsMessage()} for ${propertyName()}`
+        )}
 - ELSE:
     - 
 
 # tooBig()
 - IF: ${propertySchema.maximum}
-    -```
-# ${property}_TooBig(val)
-> ${property} property is greater than maximum allowed value
-- ${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}```
+    - ${activityTemplate(
+            `${property}_TooBig`, ['val'],
+            `${property} property is greater than maximum allowed value`,
+            `${propertyValue('val')} must be no more than \${dialogClass.schema.properties.${property}.maximum}${unitsMessage()} for ${propertyName()}`
+        )}
 - ELSE:
     - 
 
@@ -256,19 +261,13 @@ ${tooBig()}```
 >> Date format templates
 
 # dateFormatMessages(description)
-- ${formImport('form.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
+- ${formImport('form-extensions.en-us.lg')}${genericMessages(description)}${dateFormatValidationMessage()}
 
 # dateFormatValidationMessage()
-- ```
-# ${property}_invalid${templateName(propertySchema.format)}(val)
-> Show invalid property format activity
-[Activity
-    Text = \${${property}_invalid${templateName(propertySchema.format)}_text(val)}
-]
-
-# ${property}_invalid${templateName(propertySchema.format)}_text(val)
-> Invalid ${propertySchema.format} for '${property}' property
-- \${value(val)} is not a ${propertySchema.format}```
+- ${activityTemplate(
+    `${property}_invalid${generatorName(propertySchema.format)}`, ['val'],
+    `Invalid ${propertySchema.format} for '${property}' property`,
+    `\${value(val)} is not a ${propertySchema.format}`)}
 
 >> Generic templates
 

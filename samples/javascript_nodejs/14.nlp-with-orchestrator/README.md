@@ -18,7 +18,7 @@ This bot uses Orchestrator to route user utterances to multiple LUIS models and 
 | OS      | Version    | Architectures   |
 | ------- | ---------- | --------------- |
 | Windows | 10 (1607+) | ia32 (x86), x64 |
-| MacOS | 10.14+ | x64 |
+| MacOS | 10.15+ | x64 |
 | Linux | Ubuntu 18.04, 20.04 | x64|
 
 

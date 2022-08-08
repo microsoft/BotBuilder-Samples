@@ -5,6 +5,6 @@
     "$generator": {
         "title": "IRI",
         "description": "Map entities like 'http://contoso.com' into an IRI.",
-        "$ref": "array.json"
+        "$ref": "common.json"
     }
 }

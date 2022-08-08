@@ -3,6 +3,6 @@
 # filename
 - ${filenameForEntityTypeLG('keyPhrase')}
 
-# template
+# generator
 - ${entityTextTemplate('keyPhrase')}
 

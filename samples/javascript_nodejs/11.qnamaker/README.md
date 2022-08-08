@@ -1,5 +1,10 @@
 # QnA Maker
 
+**Important**: The QnA Maker service will retire on the 31st of March, 2025. A newer version of the question and answering capability is now available as part of Azure Cognitive Service for Language.
+For question-and-answer capabilities within the Cognitive Services, see _question answering_. Starting 1st October, 2022 you won’t be able to create new QnA Maker resources. 
+For information on migrating existing QnA Maker knowledge bases to question answering, consult the migration guide.
+For an updated version of this sample that uses question answering, see the [CustomQABot sample](../12.customQABot).
+
 Bot Framework v4 QnA Maker bot sample
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a bot that uses the [QnA Maker Cognitive AI](https://www.qnamaker.ai) service.
@@ -33,10 +38,10 @@ QnA knowledge base setup and application configuration steps can be found [here]
     git clone https://github.com/microsoft/botbuilder-samples.git
     ```
 
-- In a terminal, navigate to `samples/javascript_nodejs/11a.qnamaker`
+- In a terminal, navigate to `samples/javascript_nodejs/11.qnamaker`
 
     ```bash
-    cd samples/javascript_nodejs/11a.qnamaker
+    cd samples/javascript_nodejs/11.qnamaker
     ```
 
 - Install modules

@@ -3,6 +3,6 @@
 # filename
 - ${filenameForEntityTypeLG('number')}
 
-# template
+# generator
 - ${entityTypeTemplate('number')}
 

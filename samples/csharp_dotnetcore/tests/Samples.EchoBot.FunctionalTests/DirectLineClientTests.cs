@@ -27,7 +27,19 @@ namespace Samples.EchoBot.FunctionalTests
             echoGuid = Guid.NewGuid().ToString();
             input += echoGuid;
 
+            // "Prime" the bot. Running StartBotConversationAsync() twice succeeds the second time.
+            await StartBotConversationAsync();
+
             var botAnswer = await StartBotConversationAsync();
+
+            int retries = 4;
+            while (String.IsNullOrWhiteSpace(botAnswer) && retries-- > 0)
+            {
+                Console.WriteLine("Retrying StartBotConversationAsync()");
+                // Wait half a second before retrying.
+                await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
+                botAnswer = await StartBotConversationAsync();
+            }
 
             Assert.AreEqual($"Echo: {input}", botAnswer);
         }
@@ -96,8 +108,9 @@ namespace Samples.EchoBot.FunctionalTests
 
                 if (answer.Equals(string.Empty))
                 {
-                    // Wait for one second before polling the bot again.
-                    await Task.Delay(TimeSpan.FromSeconds(1)).ConfigureAwait(false);
+                    Console.WriteLine("  Retrying GetActivitiesAsync()");
+                    // Wait for half a second before polling the bot again.
+                    await Task.Delay(TimeSpan.FromMilliseconds(500)).ConfigureAwait(false);
                 }
             }
 
@@ -114,13 +127,13 @@ namespace Samples.EchoBot.FunctionalTests
                 directLineSecret = Environment.GetEnvironmentVariable("DIRECTLINE");
                 if (string.IsNullOrWhiteSpace(directLineSecret))
                 {
-                    Assert.Inconclusive("Environment variable 'DIRECTLINE' not found.");
+                    Assert.Fail("Environment variable 'DIRECTLINE' not found.");
                 }
 
                 botId = Environment.GetEnvironmentVariable("BOTID");
                 if (string.IsNullOrWhiteSpace(botId))
                 {
-                    Assert.Inconclusive("Environment variable 'BOTID' not found.");
+                    Assert.Fail("Environment variable 'BOTID' not found.");
                 }
             }
         }

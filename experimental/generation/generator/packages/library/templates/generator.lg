@@ -43,8 +43,8 @@
 # builtinEntityFilename(entity)
 - ${understandingDir()}${locale}/${property}/${prefix}-${property}-${entity}.${locale}.lu
 
-# addFilename(entity)
-- ${dialogDir()}${property}/${prefix}-${property}-add-${entity}.dialog
+# assignFilename(entity)
+- ${dialogDir()}${property}/${prefix}-${property}-assign-${entity}.dialog
 
 # removeFilename(entity)
 - ${dialogDir()}${property}/${prefix}-${property}-remove-${entity}.dialog
@@ -88,12 +88,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
-        "genericEntity-add.dialog",
-        "genericEntity-remove.dialog",
         "generic-missing.dialog",
+        "generic-change.dialog",
+        "genericEntity-assign.dialog",
+        "genericEntity-remove.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 
@@ -111,12 +111,12 @@
         "genericEntity.lu",
         "genericEntity.lg",
         "genericProperty.lg",
-        "dateFormat-add.dialog",
-        "genericEntity-remove.dialog",
         "generic-missing.dialog",
+        "generic-change.dialog",
+        "dateFormat-assign.dialog",
+        "genericEntity-remove.dialog",
         "generic-clear.dialog",
         "generic-show.dialog",
-        "generic-change.dialog",
         "generic-help.dialog"
     ]}
 
@@ -137,7 +137,7 @@
 >> Dialog templates
 
 # addAssign(entity)
-> Add assignment dialog.
+> Assign dialog.
 > This is built out of two kinds of templates which can optionally generate output: actions and transforms.
 > Actions return a string for inside a list of actions or an empty string and start with action*.
 > Transforms transform an entity before assigning it and start with transform*.
@@ -145,17 +145,17 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
+    "operation": "Assign()",
     "property": "${property}",
     "value": "${entity}",
     "actions": [${actionAssign(entity)}]
-    ${designerOpEntity('Add', entity)}      
+    ${designerOpEntity('Assign', entity)}      
 }
 ```
 
 # actionAssign(entity)
 > Assign entity to current property
-- ${join(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''), ', ')}
+- ${list(where([actionSetOrPush(`@${entity}`), actionDeletePropertyToChange()], actions, actions != ''))}
 
 # actionConfirm(value)
 > Confirm we are setting entity to property
@@ -202,13 +202,13 @@
 }```
 
 # addDateFormatDialog()
-> Add a dialog for transforming a timex into a specific format
+> Assign a dialog for transforming a timex into a specific format
 > TODO: We likely need to beef this up for all the corner cases like multiple timex, missing year, etc.
 - ```
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnAssignEntity",
-    "operation": "Add()",
+    "operation": "Assign()",
     "property": "${property}",
     "value": "datetimeV2",
     "actions": [
@@ -218,15 +218,15 @@
             "actions": [
                 {
                     "$kind": "Microsoft.SendActivity",
-                    "activity": "\${${property}_invalid${templateName(propertySchema.format)}(@datetime)}"
+                    "activity": "\${${property}_invalid${generatorName(propertySchema.format)}(@datetime)}"
                 }
             ],
             "elseActions": [
-                ${actionSetOrPush(@datetime.timex[0])}
+                ${actionSetOrPush('@datetime.timex[0]')}
             ]
         }
     ]
-    ${designerOpEntity('Add', 'datetimeV2')}
+    ${designerOpEntity('Assign', 'datetimeV2')}
 }
 ```
 
@@ -318,7 +318,7 @@
             "property": "$${property}"
         }
     ]               
-    ${designerOp('Clear')}     
+    ${designerOp('Clear Property')}     
 }
 ```
 
@@ -335,7 +335,7 @@
             "activity": "\${${property}_Show()}"
         }
     ]               
-    ${designerOp('Show')}     
+    ${designerOp('Show Value')}     
 }
 ```
 
@@ -344,7 +344,7 @@
 {
     "$schema": "${appSchema}",
     "$kind": "Microsoft.OnEndOfActions",
-    "condition":"!\$${property}",
+    "condition":"!\$${property}${askIf()}",
     "priority": "=form.missingPriority(['${property}'])",
     "actions": [
         {
@@ -358,6 +358,9 @@
     ${designerMissing(property)}
 }
 ```
+
+# askIf
+- ${if(propertySchema.$askIf, ` && ${propertySchema.$askIf}`, '')}
 
 # helpPropertyDialog()
 - ```
@@ -415,7 +418,6 @@
 > entity: current entity
 > isArray: true if property supports multiple values
 > comment: empty value to filter out meta-comments
-> TODO: Would be nice to be able to have multi-line object here for clarity
 # operations(entity, values, label)
 -```
 > Define phrase list for '${property} property.
@@ -429,19 +431,14 @@ ${if(propertySchema.title,
     - @ ${entity} ${entity}
 
 > Define operations on '${property}' property.
-${defineOperation('Add', entity)}
+${defineOperation('Assign', entity)}
 ${defineOperation('Remove', entity)}
 ${defineOperation('Clear', entity)}
 ${defineOperation('Change', entity)}
 ${defineOperation('Show', entity)}
 ${defineOperation('Help', entity)}
-> TODO: dummyProperty are to work around an issue in 4.11 of the SDK they can be removed on the next release
-@ ml Skip() usesFeature SkipPhrases
-    - @ ml dummyProperty
-@ ml Cancel() usesFeature CancelPhrases
-    - @ ml dummyProperty
 
-> Add examples for operations on the '${property}' property to the intent '${triggerIntent}'.
+> Assign examples for operations on the '${property}' property to the intent '${triggerIntent}'.
 # ${triggerIntent}
 ${substitutions(
     `form-operations.${locale}.data`,
@@ -451,7 +448,16 @@ ${substitutions(
 
 # substitutionScope(utterances, values, label)
 > Scope variables for substitutions
-- ${{ utterances: utterances, simple: entityList(entity, values, label), value: valueList(entity, values), unique: uniqueList(entity, values), uniqueOrValue: uniqueOrValueList(entity, values), name: propertyList(property), property: propertyEntity(), entity: entity, isArray: isArrayProperty(property), comment: []}}
+- ${{ utterances: utterances, 
+      simple: entityList(entity, values, label), 
+      value: valueList(entity, values), 
+      unique: uniqueList(entity, values), 
+      uniqueOrValue: uniqueOrValueList(entity, values), 
+      name: propertyList(property), 
+      property: propertyEntity(), 
+      entity: entity, 
+      isArray: isArrayProperty(property), 
+      comment: []}}
 
 # defineOperation(operation, entity)
 -```@ ml ${operation}() usesFeature ${operation}Phrases
@@ -467,7 +473,10 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 - ELSEIF: ${values}
     - ${values}
 -ELSE:
-    - ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
+    - ${placeHolderEntities(entity)}
+
+# placeHolderEntities(entity)
+-  ${[`**${entity}1**`, `**${entity}2**`, `**${entity}3**`]}
 
 # flattenObject(val)
 > Flatten an object including keys and values into an array
@@ -499,7 +508,7 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 # entityValue(entity, value, label)
 > Generate a raw entity value with optional label
 - IF: ${label}
-- {@${entity}=${value}}
+- {${entity}=${value}}
 - ELSE:
 - ${value}
 
@@ -513,14 +522,14 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 > List of labeled multi-property values
 # valueList(entity, values)
 - IF: ${!oneProperty(entity)}
-- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ${foreach(values, value, `{${entity}=${value}}`)}
 - ELSE:
 - ${[]}
 
 > List of labeled single-property labeled values
 # uniqueList(entity, values)
 - IF: ${oneProperty(entity)}
-- ${foreach(values, value, `{@${entity}=${value}}`)}
+- ${foreach(values, value, `{${entity}=${value}}`)}
 - ELSE:
 - ${[]}
 
@@ -578,112 +587,112 @@ ${if(length(entities[entity]) > 1, `    - @ ${entity} ${entity}`, '')}```
 
 > Operations defined in .lu
 # schemaOperations()
-- ${['Add()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
+- ${['Assign()', 'Remove()', 'Clear()', 'Show()', 'Help()', 'Change()', 'Skip()', 'Cancel()']}
 
 > Define default operation for properties
 # schemaDefaultOperation()
-- ${{"": {"": "Add()"}}}
+- ${{"": {"": "Assign()"}}}
 
 > Designer information
 # designerName(name)
 -, "$designer": {"name": "${name}"}
 
 # designerOp(op)
-- ${designerName(`${property} - ${op}()`)}
+- ${designerName(`${op}`)}
 
 # designerOpEntity(op, entity)
 - ${designerOpEntityProperty(op, entity, property)}
 
 # designerOpEntityProperty(op, entity, property)
-- ${designerName(`${property} - ${op}(@${entity})`)}
+- ${designerName(`${op} @${entity}`)}
 
 # designerChooseEntity()
-- ${designerName(`${entity} - Choose()`)}
-
-# designerChooseProperty()
-- ${designerName(`ChooseProperty()`)}
+- ${designerName(`${entity} - Disambiguation Prompt`)}
 
 # designerMissing(property)
-- ${designerName(`${property} - Missing()`)}
+- ${designerName(`Missing Prompt`)}
 
 # designerHelp(property)
-- ${designerName(`${property} - Help()`)}
+- ${designerName(`Help`)}
 
 # designerChange(property)
-- ${designerName(`${property} - Change()`)}
+- ${designerName(`Replacement Prompt`)}
 
 # designerIntent(intent)
 - ${designerName(`On${intent}`)}
 
 > Per-property LG templates
 
+# activityTemplate(name, args, comment, text)
+- ```# ${name}(${list(args)})
+> Activity ${comment}
+[Activity
+    Text = \${${name}_text(${list(args)})}
+]
+
+# ${name}_text(${list(args)})
+> ${comment}
+- ${text}```
+
 # promptTemplates(missing, change)
 - ```
 >> Prompts
 
-# ${property}_MissingPrompt()
-> Prompt activity when '${property}' property is missing
-[Activity
-    Text = \${${property}_MissingPrompt_text()}
-]
+${activityTemplate(
+    `${property}_MissingPrompt`, [],
+    `Prompt when '${property}' is missing`,
+    missing
+)}
 
-# ${property}_MissingPrompt_text()
-> Prompt when '${property}' property is missing
-- ${missing}
-
-# ${property}_ChangePrompt()
-> Prompt activity when '${property}' property has a value, but is being changed
-[Activity
-    Text = \${${property}_ChangePrompt_text()}
-]
-
-# ${property}_ChangePrompt_text()
-> Prompt when '${property}' property has a value, but is being changed
-- ${change}```
+${activityTemplate(
+    `${property}_ChangePrompt`, [],
+    `Prompt when '${property}' property has a value, but is being changed`,
+    change
+)}
+```
 
 # confirmationTemplates(expectedSet, expectedReplace, unexpectedSet, unexpectedReplace, remove, clear)
 - ```
 >> Confirmation
 
-# ${property}_ExpectedSetConfirmation(newVal)
-> Confirmation when adding expected value to empty '${property}' property
-- ${expectedSet}
+${activityTemplate(
+    `${property}_ExpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    expectedSet
+)}
 
 ${expectedUpdateTemplate(expectedReplace)}
-# ${property}_UnexpectedSetConfirmation(newVal)
-> Confirmation when adding unexpected value to empty '${property}' property
-- ${unexpectedSet}
 
-# ${property}_UnexpectedUpdateConfirmation(newVal)
-> Confirmation when replacing unexpected value in '${property}' property
-- ${unexpectedReplace}
+${activityTemplate(
+    `${property}_UnexpectedSetConfirmation`, ['newVal'],
+    `Confirmation when adding unexpected value to empty '${property}' property`,
+    unexpectedSet
+)}
 
-# ${property}_RemoveConfirmation(val)
-> Confirmation activity when value is removed from '${property}' property
-[Activity
-    Text = \${${property}_RemoveConfirmation_text(val)}
-]
+${activityTemplate(
+    `${property}_UnexpectedUpdateConfirmation`, ['newVal'],
+    `Confirmation when replacing unexpected value in '${property}' property`,
+    unexpectedReplace
+)}
 
-# ${property}_RemoveConfirmation_text(val)
-> Confirmation when value is removed from '${property}' property
-- ${remove}
+${activityTemplate(
+    `${property}_RemoveConfirmation`, ['newVal'],
+    `Confirmation activity when value is removed from '${property}' property`,
+    remove
+)}
 
-# ${property}_ClearConfirmation()
-> Confirmation activity when '${property}' property is cleared
-[Activity
-    Text = \${${property}_ClearConfirmation_text()}
-]
-
-# ${property}_ClearConfirmation_text()
-> Confirmation  when '${property}' property is cleared
-- ${clear}```
+${activityTemplate(
+    `${property}_ClearConfirmation`, [],
+    `Confirmation when '${property}' property is cleared`,
+    clear
+)}```
 
 # expectedUpdateTemplate(expectedReplace)
 - IF: ${!isArrayProperty(property)}
-    - ```# ${property}_ExpectedUpdateConfirmation(newVal)
-> Confirmation when replacing expected value in '${property}' property
-- ${expectedReplace}
-```
+    - ${activityTemplate(
+        `${property}_ExpectedUpdateConfirmation`, ['newVal'], 
+        `Confirmation when replacing expected value in '${property}' property`, 
+        expectedReplace)}
 - ELSE:
     -
 
@@ -691,39 +700,34 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ```
 >> Help
 
-# ${property}_RepromptHelp()
-> Help for '${property}' property reprompt
-- ${reprompt}
+${activityTemplate(
+    `${property}_RepromptHelp`, [],
+    `Help for '${property}' property reprompt`,
+    reprompt
+)}
 
-# ${property}_Help()
-> Help activity for '${property}' property
-[Activity
-    Text = \${${property}_Help_text()}
-]
-
-# ${property}_Help_text()
-> Help for '${property}' property
-- ${help}```
+${activityTemplate(
+    `${property}_Help`, [],
+    `Help for '${property}' property`,
+    help
+)}```
 
 # showTemplate(show)
 - ```
 >> Show
-# ${property}_Show()
-> Show value activity
-[Activity
-    Text = \${${property}_Show_text()}
-]
-
-# ${property}_Show_text()
-> Show value of '${property}' property
-- ${show}```
+${activityTemplate(
+    `${property}_Show`, [],
+     `Show value of '${property}' property`,
+     show
+)}```
 
 # incorrectUnitsTemplate()
 - IF: ${units()}
-- ```
-# ${property}_IncorrectUnits(actual)
-> Incorrect units for '${property}' property
-- \${actual} must be in '${units()}s'```
+- ${activityTemplate(
+    `${property}_IncorrectUnits`, ['actual'],
+    `Incorrect units for '${property}' property`,
+    `\${actual} must be in '${units()}s'`
+)}
 - ELSE:
     -
 
@@ -735,17 +739,47 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ELSE:
     - ${propertySchema.items.enum}
 
+# list(array)
+- ${join(array, ', ')}
+
 # sortObject(object, key)
 > Sort object values by key
 - ${sortBy(select(indicesAndValues(object), entry, entry.value), key)}
 
-# templateName(name)
+# generatorName(name)
 > Ensure name is valid for templates
 > NOTE: Property names must not include space or - or they will not work easily as memory expressions
 - ${replace(replace(name, '-', '_'), ' ', '_')}
 
 # enumName(entity)
 - ${substring(entity, 0, indexOf(entity, 'Value'))}Enum_Value
+
+>> Grouping 
+
+# sortNumber(number, divisor)
+> Return a string with leading zeros out to divisor
+- ${if(divisor == 1,
+    string(number),
+    concat(string(div(number, divisor)), sortNumber(mod(number, divisor), div(divisor, 10))))}
+
+# listPosition(value, list)
+> Return first position where value contains element of list
+- ${listPositionIdx(value, list, 0)}
+
+# listPositionIdx(value, list, idx)
+- ${if(idx < count(list),
+      if(contains(value, list[idx]), idx, listPositionIdx(value, list, idx + 1)),
+      count(list))}
+
+# groupedSortRecord(value, grouper, sorter)
+- ${{key: concat(sortNumber(template(grouper, value), 100), '/', sortNumber(template(sorter, value), 100)), value: value}}
+
+# groupedSort(list, grouper, sorter)
+> Grouper returns a number for the group and sorter returns a number for sort within group
+- ${select(sortBy(foreach(list, value, groupedSortRecord(value, grouper, sorter)), 'key'), record, record.value)}
+
+# propertyGroupPosition(trigger)
+- ${if(startsWith(trigger, 'form'), count(properties), listPosition(trigger, properties))}
 
 >> Transformer support
 
@@ -756,14 +790,14 @@ ${expectedUpdateTemplate(expectedReplace)}
 - ${transformPropertyEntries({}, indicesAndValues(object), property, transform)}
 
 # transformPropertyEntries(object, entries, property, transform)
-> Add entries into object transforming property
+> Assign entries into object transforming property
 > NOTE: There is a bug in adaptive expressions that prevents the simpler termination of 0 https://github.com/microsoft/botbuilder-js/issues/3616
 - ${if(count(entries) == 1, 
   transformPropertyEntry(object, first(entries), property, transform), 
   transformPropertyEntries(transformPropertyEntry(object, first(entries), property, transform), subArray(entries, 1, count(entries)), property, transform))}
 
 # transformPropertyEntry(object, entry, property, transform)
-> Add an {index, value} entry to object transforming if property
+> Assign an {index, value} entry to object transforming if property
 - ${addProperty(object, entry.index, if(entry.index == property, template(transform, entry.value), entry.value))}
 
 >>> transform
@@ -790,7 +824,7 @@ ${expectedUpdateTemplate(expectedReplace)}
   }
 
 # transformEntry(object, entry, filter, transform)
-> Add an {index, value} entry to object
+> Assign an {index, value} entry to object
 - ${addProperty(object, entry.index, transform(entry.value, filter, transform))}
 
 >>> Robust comparison and finding
@@ -828,7 +862,7 @@ ${expectedUpdateTemplate(expectedReplace)}
 
 # isOnAssign(body)
 > Action to assign current property and entity
-- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Add()' && body.property == property && body.value == entity}
+- ${body.$kind == 'Microsoft.OnAssignEntity' && body.operation == 'Assign()' && body.property == property && body.value == entity}
 
 # isSetProperty(body)
 > Action to set/push the current property

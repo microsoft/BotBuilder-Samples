@@ -1,0 +1,7 @@
+{
+  "$kind": "Microsoft.QnAMakerRecognizer",
+  "id": "QnA_ChitchatDialog",
+  "knowledgeBaseId": "=settings.qna.ChitchatDialog_en_us_qna",
+  "hostname": "=settings.qna.hostname",
+  "endpointKey": "=settings.qna.endpointKey"
+}

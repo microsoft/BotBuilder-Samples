@@ -1,0 +1,281 @@
+[Icons](icons.en-us.lg)
+
+# CardTemplate(header, body, actions)
+-```
+{
+    "type": "AdaptiveCard",
+    "$schema": "http://adaptivecards.io/schemas/adaptive-card.json",
+    "version": "1.2",
+    "body": [
+        ${header},
+        ${body},
+        ${actions}
+    ]
+}
+```
+
+# CardHeader(icon, title)
+- ```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "spacing":"none",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${icon}",
+                            "horizontalAlignment": "Center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "spacing":"small",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${title}",
+                            "size": "Large",
+                            "weight": "Bolder"
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+# PaginatedListCardBody(totalItemCount, pageSize, pageItems, pageIndex, pageCount)
+- IF: ${ totalItemCount <= pageSize }
+    - ```
+    {
+        "type": "Container",
+        "separator": true,
+        "spacing": "medium",
+        "items": [
+            ${join(pageItems, ',')}
+        ]
+    }
+    ```
+- ELSE:
+    - ```
+    {
+        "type": "Container",
+        "separator": true,
+        "spacing": "medium",
+        "items": [
+            ${join(pageItems, ',')}
+        ]
+    },
+    ${PaginationContainer(pageIndex, pageCount)}
+    ```
+
+# ExpandableListCardBody(itemElements, pageSize)
+- IF: ${ count(itemElements) <= pageSize }
+    - ```
+    {
+        "type": "Container",
+        "separator": true,
+        "spacing": "medium",
+        "items": [
+            ${join(itemElements, ',')}
+        ]
+    }
+    ```
+- ELSE:
+    - ```
+    {
+        "type": "Container",
+        "separator": true,
+        "spacing": "medium",
+        "items": [
+            ${join(take(itemElements, pageSize), ',')}
+        ]
+    },
+    ${ExpandedListContainer(itemElements, pageSize)}
+    ```
+
+# ExpandedListContainer(itemElements, pageSize)
+- ```
+{
+    "type": "Container",
+    "id": "additionalItemsContainer",
+    "separator": true,
+    "spacing": "medium",
+    "isVisible": false,
+    "items": [
+        ${join(skip(itemElements, pageSize), ',')}
+    ]
+},
+${ToggleButtonContainer('additionalItemsContainer')}
+```
+
+# ToggleButtonContainer(target)
+- ```
+{
+    "type": "Container",
+    "separator": true,
+    "spacing": "medium",
+    "id": "toggleButtonContainer",
+    "items": [
+        {
+            "id": "chevronDown",
+            "type": "Image",
+            "url": "${ChevronDownIconUrl()}",
+            "selectAction": {
+                "type": "Action.ToggleVisibility",
+                "targetElements": [
+                    "${target}",
+                    "chevronDown",
+                    "chevronUp"
+                ],
+                "title": "collapse"
+            },
+            "altText": "collapsed",
+            "width": "20px",
+            "horizontalAlignment": "center",
+            "separator": true
+        },
+        {
+            "id": "chevronUp",
+            "type": "Image",
+            "url": "${ChevronUpIconUrl()}",
+            "selectAction": {
+                "type": "Action.ToggleVisibility",
+                "targetElements": [
+                    "${target}",
+                    "chevronDown",
+                    "chevronUp"
+                ],
+                "title": "collapse"
+            },
+            "altText": "collapsed",
+            "width": "20px",
+            "isVisible": false,
+            "horizontalAlignment": "center"
+        }
+    ]
+}
+```
+
+# PaginationContainer(pageIndex, pageCount)
+- ```
+{
+    "type": "Container",
+    "separator": true,
+    "spacing": "medium",
+    "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        ${PaginationLeftButton(pageIndex, pageCount)}
+                    ],
+                    "verticalContentAlignment": "Center"
+                },
+                {
+                    "type": "Column",
+                    "width" : "auto",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${pageIndex} | ${pageCount}"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width": "stretch",
+                    "items": [
+                        ${PaginationRightButton(pageIndex, pageCount)}
+                    ],
+                    "verticalContentAlignment": "Center"
+                }
+            ]
+        }
+    ]
+}
+```
+
+# PaginationLeftButton(pageIndex, pageCount)
+- IF: ${pageIndex == 1}
+    - ```
+    {
+        "type": "Image",
+        "url": "${LeftArrowInactiveIconUrl()}",
+        "horizontalAlignment": "Right"
+    }
+    ```
+- ELSE: 
+    - ```
+    {
+        "type": "Image",
+        "url": "${LeftArrowActiveIconUrl()}",
+        "horizontalAlignment": "Right",
+        "selectAction": {
+            "type": "Action.Submit",
+            "title": "previousPage",
+            "data": {
+                "intent": "Previous"
+            }        
+        }
+    }
+    ```
+
+# PaginationRightButton(pageIndex, pageCount)
+- IF: ${pageIndex == pageCount}
+    - ```
+    {
+        "type": "Image",
+        "url": "${RightArrowInactiveIconUrl()}",
+        "horizontalAlignment": "Left"
+    }
+    ```
+- ELSE: 
+    - ```
+    {
+        "type": "Image",
+        "url": "${RightArrowActiveIconUrl()}",
+        "horizontalAlignment": "Left",
+        "selectAction": {
+            "type": "Action.Submit",
+            "title": "show more",
+            "data": {
+                "intent": "Next"
+            }
+        }
+    }
+    ```
+    
+# BuildCardActionData(text)
+- IF: ${turn.activity.channelId == 'msteams'}
+    - ```
+    {
+        "msteams": {
+            "type": "messageBack",
+            "text": "${text}"
+        }
+    }
+    ```
+- ELSE: 
+    - "${text}"
+
+
+# CardActionTemplate(type, title, value)
+[CardAction
+    type = ${type}
+	title = ${title}
+    value = ${value}
+]

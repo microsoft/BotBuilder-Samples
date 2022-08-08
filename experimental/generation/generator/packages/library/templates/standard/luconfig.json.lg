@@ -3,7 +3,7 @@
 # filename
 - luconfig.json
 
-# template
+# generator
 -```
 {
     "botName": "${prefix}",

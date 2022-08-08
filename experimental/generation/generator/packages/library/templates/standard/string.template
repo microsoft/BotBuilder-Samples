@@ -6,7 +6,7 @@
         "description": "Map a LUIS learned entity into a string.",
         "allOf": [
             {
-                "$ref": "array.json"
+                "$ref": "common.json"
             },
             {
                 "$ref": "examples.json"

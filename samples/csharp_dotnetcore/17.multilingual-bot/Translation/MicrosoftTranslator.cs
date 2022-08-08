@@ -22,12 +22,15 @@ namespace Microsoft.BotBuilderSamples.Translation
         private static HttpClient _client = new HttpClient();
 
         private readonly string _key;
-
+        private readonly string _region;
 
         public MicrosoftTranslator(IConfiguration configuration)
         {
             var key = configuration["TranslatorKey"];
             _key = key ?? throw new ArgumentNullException(nameof(key));
+
+            var region = configuration["TranslatorRegion"];
+            _region = region ?? "global";
         }
 
         public async Task<string> TranslateAsync(string text, string targetLocale, CancellationToken cancellationToken = default(CancellationToken))
@@ -44,6 +47,7 @@ namespace Microsoft.BotBuilderSamples.Translation
                 request.RequestUri = new Uri(uri);
                 request.Content = new StringContent(requestBody, Encoding.UTF8, "application/json");
                 request.Headers.Add("Ocp-Apim-Subscription-Key", _key);
+                request.Headers.Add("Ocp-Apim-Subscription-Region", _region);
 
                 var response = await _client.SendAsync(request, cancellationToken);
 

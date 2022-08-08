@@ -77,7 +77,7 @@ export function stringify(val: any, replacer?: any): string {
     return val
 }
 
-function computeJSONHash(json: any): string {
+export function computeJSONHash(json: any): string {
     return computeHash(stringify(json))
 }
 
@@ -155,12 +155,12 @@ export async function writeFile(path: string, val: string, feedback: Feedback, s
         }
         await fs.writeFile(path, val)
     } catch (e) {
-        const match = /position ([0-9]+)/.exec(e.message)
+        const match = /position ([0-9]+)/.exec((e as Error).message)
         if (match) {
             const offset = Number(match[1])
             val = `${val.substring(0, offset)}^^^${val.substring(offset)}`
         }
-        feedback(FeedbackType.error, `${e.message}${os.EOL}${val}`)
+      feedback(FeedbackType.error, `${(e as Error).message}${os.EOL}${val}`)
     }
 }
 
@@ -279,6 +279,19 @@ function pathName(path: string | undefined, extension: string): string {
 function setPath(obj: any, path: string, value: any) {
     const key = path.substring(path.lastIndexOf('/') + 1)
     obj[key] = value
+}
+
+// Find all .data files and ensure they are in the cache
+export const DataCache: Map<string, string> = new Map<string, string>()
+async function cacheData(templateDirs: string[]): Promise<void> {
+    for (const dir of templateDirs) {
+        for (const path of await glob(ppath.join(dir, '**/*.data').replace(/\\/g, '/'))) {
+            if (!DataCache.has(ppath.basename(path))) {
+                const template = await fs.readFile(path, 'utf8')
+                DataCache.set(ppath.basename(path), template)
+            }
+        }
+    }
 }
 
 type Plain = {source: string, template: string}
@@ -426,7 +439,7 @@ async function processTemplate(
                 const lgTemplate: lg.Templates | undefined = foundTemplate instanceof lg.Templates ? foundTemplate as lg.Templates : undefined
                 const plainTemplate: Plain | undefined = !lgTemplate ? foundTemplate as Plain : undefined
                 // Ignore templates that are defined, but are empty
-                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'template')) {
+                if (plainTemplate?.source || lgTemplate?.allTemplates.some(f => f.name === 'generator')) {
                     // Constant file or .lg template so output
                     feedback(FeedbackType.debug, `Using template ${plainTemplate ? plainTemplate.source : lgTemplate?.id}`)
 
@@ -435,7 +448,7 @@ async function processTemplate(
                         try {
                             filename = lgTemplate.evaluate('filename', scope) as string
                         } catch (e) {
-                            throw new Error(`${templateName}: ${e.message}`)
+                            throw new Error(`${templateName}: ${(e as Error).message}`)
                         }
                     } else {
                         // Infer name
@@ -453,7 +466,7 @@ async function processTemplate(
                             let result = plainTemplate ? addPrefixToImports(plainTemplate.template, scope) : undefined
                             if (lgTemplate) {
                                 process.chdir(ppath.dirname(lgTemplate.allTemplates[0].sourceRange.source))
-                                result = lgTemplate.evaluate('template', scope) as string
+                                result = lgTemplate.evaluate('generator', scope) as string
                                 process.chdir(oldDir)
                                 if (Array.isArray(result)) {
                                     result = result.join(os.EOL)
@@ -516,10 +529,10 @@ async function processTemplate(
                         }
                     }
 
-                    // Expand # templates
-                    if (lgTemplate.allTemplates.some(f => f.name === 'templates')) {
+                    // Expand # generators
+                    if (lgTemplate.allTemplates.some(f => f.name === 'generators')) {
                         feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id}`)
-                        let generated = lgTemplate.evaluate('templates', scope)
+                        let generated = lgTemplate.evaluate('generators', scope)
                         if (!Array.isArray(generated)) {
                             generated = [generated]
                         }
@@ -537,7 +550,7 @@ async function processTemplate(
             }
         }
     } catch (e) {
-        feedback(FeedbackType.error, e.message)
+        feedback(FeedbackType.error, (e as Error).message)
     } finally {
         process.chdir(oldDir)
     }
@@ -765,14 +778,14 @@ async function ensureEntitiesAndTemplates(
                         }
                         if (!property.schema.$templates) {
                             feedback(FeedbackType.debug, `Expanding template ${lgTemplate.id} for ${property.path} $templates`)
-                            property.schema.$templates = lgTemplate.evaluate('templates', scope) as string[]
+                            property.schema.$templates = lgTemplate.evaluate('generators', scope) as string[]
                             if (!property.schema.$templates) {
                                 feedback(FeedbackType.error, `${property.path} has no $templates`)
                             }
                         }
                     }
                 } catch (e) {
-                    feedback(FeedbackType.error, e.message)
+                    feedback(FeedbackType.error, (e as Error).message)
                 }
             }
         }
@@ -843,7 +856,7 @@ function expandSchema(schema: any, scope: any, path: string, inProperties: boole
             }
         } catch (e) {
             if (missingIsError) {
-                feedback(FeedbackType.error, e.message)
+                feedback(FeedbackType.error, (e as Error).message)
             }
         }
     }
@@ -1075,6 +1088,9 @@ export async function generate(
             ...schemaDirs.filter(d => !(templateDirs as string[]).includes(d))
         ]
 
+        // Cache .data files for substitutions
+        await cacheData(templateDirs)
+
         // Expand root $template and computed schema
         await ensureEntitiesAndTemplates(schema, templateDirs, {}, feedback)
         schema.schema = expandSchema(schema.schema, {}, '', false, false, feedback)
@@ -1126,8 +1142,25 @@ export async function generate(
         const expanded = expandSchema(schema.schema, scope, '', false, true, feedback)
 
         if (!error) {
+
+            // Identify all references to schema properties either because part of runtime or used in templates
+            const references = new Set<string>()
+            for (const reference of ['$schema', '$ref', '$entities', '$expectedOnly', '$operations', '$defaultOperation', '$requiresValue', '$parameters', '$public']) {
+                references.add(reference)
+            }
+            const baseDir = ppath.posix.join(outPath.replace(/\\/g, '/'), '**/*.')
+            for (const file of await glob([baseDir + 'dialog', baseDir + 'lg'])) {
+                const contents = await fs.readFile(file, 'utf8')
+                const matcher = /dialogClass.schema[a-zA-Z.]*.(\$[a-zA-Z]+)/g
+                let match = matcher.exec(contents)
+                while (match != null) {
+                    references.add(match[1])
+                    match = matcher.exec(contents)
+                }
+            }
+
             // Write final schema
-            const body = stringify(expanded, (key: any, val: any) => (key === '$templates' || key === '$requires' || key === '$templateDirs' || key === '$examples' || key === '$template' || key === '$generator') ? undefined : val)
+            const body = stringify(expanded, (key: any, val: any) => (!key.startsWith('$') || references.has(key) ? val : undefined))
             await generateFile(ppath.join(outPath, `${prefix}.json`), body, force, feedback)
 
             // Merge together all dialog files
@@ -1155,7 +1188,7 @@ export async function generate(
             await fs.copyFile(schemaPath, outSchemaPath)
         }
     } catch (e) {
-        feedback(FeedbackType.error, e.message)
+        feedback(FeedbackType.error, (e as Error).message)
     }
 
     const end = process.hrtime.bigint()

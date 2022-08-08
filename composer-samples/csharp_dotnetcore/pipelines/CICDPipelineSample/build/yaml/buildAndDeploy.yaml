@@ -1,0 +1,155 @@
+# Copyright (c) Microsoft Corporation. All rights reserved.
+# Licensed under the MIT License.
+#
+# Starter pipeline
+# Minimal pipeline to deploy a basic assistant bot that you can customize to build and deploy your code.
+# Add steps that build, run tests, deploy, and more:
+# https://aka.ms/yaml
+#
+
+trigger:
+- none
+
+pool:
+  vmImage: ubuntu-latest
+
+# Parameters with defaults formatted as $(name) get their values 
+# from variables of that name defined in the Azure DevOps pipeline UI. 
+parameters:
+- name: azureServiceConnection
+  displayName: Azure service connection
+  type: string
+  default: $(AZURESERVICECONNECTION)
+
+- name: botName
+  displayName: Bot name
+  type: string
+  default: $(BOTNAME)
+
+- name: microsoftAppId
+  displayName: Bot"s Microsoft app ID
+  type: string
+  default: $(MICROSOFTAPPID)
+
+- name: microsoftAppPassword
+  displayName: Bot"s Microsoft app password
+  type: string
+  default: $(MICROSOFTAPPPASSWORD)
+
+- name: resourceGroupName
+  displayName: Azure resource group
+  type: string
+  default: $(RESOURCEGROUPNAME)
+
+- name: webAppName
+  displayName: Azure web app name
+  type: string
+  default: $(WEBAPPNAME)
+
+- name: botProjectDirectory
+  displayName: Relative path to the bot's csproj file (e.g. BasicAssistant/BasicAssistant)
+  type: string
+  default: $(BOTPROJECTDIRECTORY) 
+  
+- name: botProjectName
+  displayName: Bot"s project name (csproj)
+  type: string
+  default: $(BOTPROJECTNAME) 
+
+- name: buildYamlDirectory
+  displayName: Relative path to the pipeline's .yaml folder (e.g. build/yaml)
+  type: string
+  default: $(BUILDYAMLDIRECTORY) 
+  
+# LUIS Parameters
+# LUIS Authoring (used to build, train and publish LUIS models)
+- name: luisAuthoringKey
+  displayName: LUIS authoring key
+  type: string
+  default: $(LUISAUTHORINGKEY)
+
+- name: luisAuthoringRegion
+  displayName: LUIS authoring region
+  type: string
+  default: $(LUISAUTHORINGREGION)
+  
+# LUIS Runtime (used to access LUIS while the bot is running)
+- name: luisEndpoint
+  displayName: LUIS endpoint
+  type: string
+  default: $(LUISENDPOINT)
+
+- name: luisEndpointKey
+  displayName: LUIS endpoint key
+  type: string
+  default: $(LUISENDPOINTKEY)
+
+# QnAMaker parameters
+- name: qnaSubscriptionKey
+  displayName: QnA Maker subscription key
+  type: string
+  default: $(QNASUBSCRIPTIONKEY)
+
+- name: qnaEndpointKey
+  displayName: QnA Maker endpoint key
+  type: string
+  default: $(QNAENDPOINTKEY)
+
+- name: qnaHostName
+  displayName: QnA Maker host name
+  type: string
+  default: $(QNAHOSTNAME)
+
+- name: qnaKnowledgebaseId
+  displayName: QnA Maker knowledgebase ID
+  type: string
+  default: $(QNAKNOWLEDGEBASEID)
+
+- name: qnaRegion
+  displayName: QnA Maker region
+  type: string
+  default: $(QNAREGION)
+
+steps:
+
+# Install prerequisites
+- template: templates/installPrerequisites.yaml
+
+# Build and deploy LUIS and QnAMaker models
+- template: templates/buildAndDeployModels.yaml
+  parameters:
+    sourceDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.botProjectDirectory }}"
+    yamlDirectory: "$(System.DefaultWorkingDirectory)/${{ parameters.buildYamlDirectory }}"
+    botName: "${{ parameters.botName }}"
+    luisAuthoringKey: "${{ parameters.luisAuthoringKey }}"
+    luisAuthoringRegion: "${{ parameters.luisAuthoringRegion }}"
+    qnaSubscriptionKey: "${{ parameters.qnaSubscriptionKey }}"
+
+# Deploy and configure web app
+- template: templates/buildAndDeployDotNetWebApp.yaml
+  parameters:
+    azureServiceConnection: "${{ parameters.azureServiceConnection }}"
+    webAppName: "${{ parameters.webAppName }}"
+    resourceGroupName: "${{ parameters.resourceGroupName }}"
+    botProjectFile: "$(System.DefaultWorkingDirectory)/${{ parameters.botProjectDirectory }}/${{ parameters.botProjectName }}"
+    botName: "${{ parameters.botName }}"
+    microsoftAppId: "${{ parameters.microsoftAppId }}"
+    microsoftAppPassword: "${{ parameters.microsoftAppPassword }}"
+    luisEndpoint: "${{ parameters.luisEndpoint }}"
+    luisEndpointKey: "${{ parameters.luisEndpointKey }}"
+    qnaSubscriptionKey: "${{ parameters.qnaSubscriptionKey }}"
+    qnaEndpointKey: "${{ parameters.qnaEndpointKey }}"
+    qnaHostName: "${{ parameters.qnaHostName }}"
+    qnaKnowledgebaseId: "${{ parameters.qnaKnowledgebaseId }}"
+    qnaRegion: "${{ parameters.qnaRegion }}"
+
+# Helper to output the working folder directory contents for diagnostics
+- task: PowerShell@2
+  displayName: 'Dir workspace'
+  continueOnError: true
+  condition: succeededOrFailed()
+  inputs:
+    targetType: "inline"
+    script: |
+      cd ..
+      ls -R

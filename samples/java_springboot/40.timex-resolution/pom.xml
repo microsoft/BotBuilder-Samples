@@ -44,7 +44,7 @@
     <start-class>com.microsoft.bot.sample.timex.resolution.Application</start-class>
   </properties>
 
-  <repositories>    
+  <repositories>
     <repository>
       <id>oss-sonatype</id>
       <name>oss-sonatype</name>
@@ -59,7 +59,7 @@
     <dependency>
       <groupId>com.microsoft.bot</groupId>
       <artifactId>bot-dialogs</artifactId>
-      <version>4.13.0</version>
+      <version>4.14.0</version>
     </dependency>
   </dependencies>
 

@@ -1,6 +1,6 @@
-﻿using System;
+using System;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Bot.Builder.Integration.Runtime.Extensions;
+using Microsoft.Bot.Builder.Dialogs.Adaptive.Runtime.Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
@@ -17,10 +17,11 @@ namespace SchoolNavigator
             Host.CreateDefaultBuilder(args)
                 .ConfigureAppConfiguration((hostingContext, builder) =>
                 {
-                    string applicationRoot = AppDomain.CurrentDomain.BaseDirectory;
-                    string settingsDirectory = "settings";
+                    var applicationRoot = AppDomain.CurrentDomain.BaseDirectory;
+                    var environmentName = hostingContext.HostingEnvironment.EnvironmentName;
+                    var settingsDirectory = "settings";
 
-                    builder.AddBotRuntimeConfiguration(applicationRoot, settingsDirectory);
+                    builder.AddBotRuntimeConfiguration(applicationRoot, settingsDirectory, environmentName);
 
                     builder.AddCommandLine(args);
                 })

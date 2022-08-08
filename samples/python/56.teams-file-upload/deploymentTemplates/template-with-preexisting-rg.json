@@ -216,11 +216,11 @@
             }
         },
         {
-            "apiVersion": "2017-12-01",
+            "apiVersion": "2021-03-01",
             "type": "Microsoft.BotService/botServices",
             "name": "[parameters('botId')]",
             "location": "global",
-            "kind": "bot",
+            "kind": "azurebot",
             "sku": {
                 "name": "[parameters('botSku')]"
             },
@@ -234,22 +234,25 @@
                 "publishingCredentials": null,
                 "storageResourceId": null
             },
-            "resources": [
-              {
-                "name": "MsTeamsChannel",
-                "type": "channels",
-                "location": "global",
-                "apiVersion": "2018-07-12",
-                "kind": "bot",
-                "properties": {
-                  "channelName": "MsTeamsChannel"
-                },
-                "dependsOn": [ "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]" ]
-              }
-            ],
             "dependsOn": [
                 "[resourceId('Microsoft.Web/sites/', variables('webAppName'))]"
             ]
+        },
+        {
+            "type": "Microsoft.BotService/botServices/channels",
+            "apiVersion": "2021-03-01",
+            "name": "[concat(parameters('botId'), '/MsTeamsChannel')]",
+            "location": "global",
+            "dependsOn": [
+                "[resourceId('Microsoft.BotService/botServices', parameters('botId'))]"
+            ],
+            "properties": {
+                "properties": {
+                    "enableCalling": false,
+                    "isEnabled": true
+                },
+                "channelName": "MsTeamsChannel"
+            }
         }
     ]
 }

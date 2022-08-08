@@ -17,9 +17,9 @@ namespace Microsoft.BotBuilderSamples.Bots
     public class FacebookBot : ActivityHandler
     {
         // These are the options provided to the user when they message the bot
-        const string FacebookPageIdOption = "Facebook Id";
-        const string QuickRepliesOption = "Quick Replies";
-        const string PostBackOption = "PostBack";
+        private const string FacebookPageIdOption = "Facebook Id";
+        private const string QuickRepliesOption = "Quick Replies";
+        private const string PostBackOption = "PostBack";
 
         protected readonly ILogger Logger;
 
@@ -34,7 +34,9 @@ namespace Microsoft.BotBuilderSamples.Bots
 
             // Show choices if the Facebook Payload from ChannelData is not handled
             if (!await ProcessFacebookPayload(turnContext, turnContext.Activity.ChannelData, cancellationToken))
+            {
                 await ShowChoices(turnContext, cancellationToken);
+            }
         }
 
         protected override async Task OnEventActivityAsync(ITurnContext<IEventActivity> turnContext, CancellationToken cancellationToken)

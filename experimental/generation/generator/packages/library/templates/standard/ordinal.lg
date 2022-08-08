@@ -3,5 +3,5 @@
 # entities
 - ${['ordinalV2']}
 
-# templates
+# generators
 - ${genericTemplates()}

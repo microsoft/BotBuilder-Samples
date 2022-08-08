@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
     <AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
-    <UserSecretsId>e84a8f52-dc59-4036-8869-4cba6d42730f</UserSecretsId>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="**/*.blu;**/*.dialog;**/*.lg;**/*.lu;**/*.onnx;**/*.qna;**/*.txt" Exclude="$(BaseOutputPath)/**;$(BaseIntermediateOutputPath)/**;wwwroot/**">

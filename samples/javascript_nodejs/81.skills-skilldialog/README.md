@@ -45,9 +45,9 @@ The solution uses dialogs, within both a parent bot (`DialogRootBot`) and a skil
   git clone https://github.com/microsoft/botbuilder-samples.git
   ```
 
-- Create a bot registration in the azure portal for the `dialogSkillBot` and update [dialogSkillBot/.env](dialogSkillBot/.env) with the AppId and password.
-- Create a bot registration in the azure portal for the `dialogRootBot` and update [dialogRootBot/.env](dialogRootBot/.env) with the AppId and password.
-- Update the BotFrameworkSkills section in [dialogRootBot/.env](dialogRootBot/.env) with the AppId for the skill you created in the previous step.
+- (Optionally) Create a bot registration in the azure portal for the `dialogSkillBot` and update [dialogSkillBot/.env](dialogSkillBot/.env) with the AppId and password.
+- (Optionally) Create a bot registration in the azure portal for the `dialogRootBot` and update [dialogRootBot/.env](dialogRootBot/.env) with the AppId and password.
+- (Optionally) Update the BotFrameworkSkills section in [dialogRootBot/.env](dialogRootBot/.env) with the AppId for the skill you created in the previous step.
 - (Optional) Configure the LuisAppId, LuisAPIKey and LuisAPIHostName section in the [dialogSkillBot/.env](dialogSkillBot/.env) if you want to run message activities through LUIS.
 
 For each bot directory, `dialogSkillBot` and `dialogRootBot` as `<botDirectory>`:

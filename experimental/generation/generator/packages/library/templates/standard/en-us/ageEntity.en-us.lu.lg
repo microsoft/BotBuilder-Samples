@@ -3,7 +3,7 @@
 # filename
 - ${builtinEntityFilename('age')}
 
-# template
+# generator
 - ```
 @ prebuilt age
 ${operations('age', ["5 days old", "10 weeks old", "12 months old", "13 years old"], false)}

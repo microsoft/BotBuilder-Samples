@@ -3,5 +3,5 @@
 # entities
 - ${unitsEntities('age')}
 
-# templates
+# generators
 - ${unitTemplates()}

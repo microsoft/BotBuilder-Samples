@@ -19,7 +19,7 @@ class SimpleGraphClient {
         this.graphClient = Client.init({
             authProvider: (done) => {
                 done(null, this._token); // First parameter takes an error if you can't get an access token.
-            },
+            }
         });
     }
 
@@ -34,6 +34,7 @@ class SimpleGraphClient {
             .search(searchQuery)
             .get();
     }
+
     async GetMyProfile() {
         return await this.graphClient.api('/me').get();
     }

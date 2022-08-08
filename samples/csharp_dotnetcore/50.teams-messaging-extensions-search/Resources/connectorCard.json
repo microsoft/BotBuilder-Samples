@@ -1,0 +1,38 @@
+{
+  "@context": "https://schema.org/extensions",
+  "@type": "MessageCard",
+  "sections": [
+    {
+      "activityTitle": "Steve Tweeted",
+      "activitySubtitle": "With #MicrosoftTeams",
+      "activityImage": "<<YOUR-BASE-URL>>/MSC12_Oscar_002.jpg"
+    },
+    {
+      "facts": [
+        {
+          "name": "Posted By:",
+          "value": "Steve"
+        },
+        {
+          "name": "Posted At:",
+          "value": "12:00 PM"
+        },
+        {
+          "name": "Tweet:",
+          "value": "Hello Everyone!! Good Afternoon :-)"
+        }
+      ],
+      "text": "A tweet with #MicrosoftTeams has been posted:"
+    }
+  ],
+  "potentialAction": [
+    {
+      "@context": "http://schema.org",
+      "@type": "ViewAction",
+      "name": "View all Tweets",
+      "target": [
+        "https://twitter.com/search?q=%23MicrosoftTeams"
+      ]
+    }
+  ]
+}

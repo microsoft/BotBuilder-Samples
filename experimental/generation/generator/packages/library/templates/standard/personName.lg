@@ -3,5 +3,5 @@
 # entities
 - ${['personName', 'utterance']}
 
-# templates
+# generators
 - ${stringTemplates()}

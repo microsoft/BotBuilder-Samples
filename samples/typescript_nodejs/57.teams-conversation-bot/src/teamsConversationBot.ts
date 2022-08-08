@@ -3,9 +3,9 @@
 
 import {
     ActionTypes,
-    BotFrameworkAdapter,
     CardFactory,
     ChannelAccount,
+    ConversationParameters,
     MessageFactory,
     TeamInfo,
     TeamsActivityHandler,
@@ -158,18 +158,29 @@ export class TeamsConversationBot extends TeamsActivityHandler {
             console.log( 'a ', teamMember );
             const message = MessageFactory.text( `Hello ${ teamMember.givenName } ${ teamMember.surname }. I'm a Teams conversation bot.` );
 
-            const ref = TurnContext.getConversationReference( context.activity );
-            ref.user = teamMember;
-            let botAdapter: BotFrameworkAdapter;
-            botAdapter = context.adapter as BotFrameworkAdapter;
-            await botAdapter.createConversation ( ref,
-                async ( t1 ) => {
-                    const ref2 = TurnContext.getConversationReference( t1.activity );
-                    await t1.adapter.continueConversation( ref2, async ( t2 ) => {
-                        await t2.sendActivity( message );
-                    } );
-                } );
-        } );
+            const convoParams = {
+                activity: context.activity,
+                members: [teamMember],
+                tenantId: context.activity.channelData.tenant.id
+            } as ConversationParameters;
+
+            await context.adapter.createConversationAsync (
+                process.env.MicrosoftAppId,
+                context.activity.channelId,
+                context.activity.serviceUrl,
+                null,
+                convoParams,
+                async (turnContext) => {
+                    const ref = TurnContext.getConversationReference(turnContext.activity);
+
+                    await turnContext.adapter.continueConversationAsync(
+                        process.env.MicrosoftAppId,
+                        ref,
+                        async (ctx) => {
+                            await ctx.sendActivity(message);
+                        });
+                });
+        });
 
         await context.sendActivity( MessageFactory.text( 'All messages have been sent.' ) );
     }

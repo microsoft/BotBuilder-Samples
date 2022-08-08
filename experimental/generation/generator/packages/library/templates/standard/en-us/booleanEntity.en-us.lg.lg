@@ -3,7 +3,7 @@
 # filename
 - ${generationDir()}${locale}/form/${prefix}-booleanEntity.${locale}.lg
 
-# template
+# generator
 - ```
 # booleanEntity_Value(value)
 > Display value for a boolean entity

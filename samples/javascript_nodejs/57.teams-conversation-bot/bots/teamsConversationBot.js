@@ -2,14 +2,16 @@
 // Licensed under the MIT License.
 
 const {
-    TurnContext,
-    MessageFactory,
-    TeamsInfo,
-    TeamsActivityHandler,
-    CardFactory,
     ActionTypes,
+    CardFactory,
+    MessageFactory,
+    TeamsActivityHandler,
+    TeamsInfo,
+    TurnContext
 } = require('botbuilder');
 const TextEncoder = require('util').TextEncoder;
+const ACData = require('adaptivecards-templating');
+const AdaptiveCardTemplate = require('../resources/UserMentionCardTemplate.json');
 
 class TeamsConversationBot extends TeamsActivityHandler {
     constructor() {
@@ -19,7 +21,9 @@ class TeamsConversationBot extends TeamsActivityHandler {
             TurnContext.removeRecipientMention(context.activity);
 
             const text = context.activity.text.trim().toLocaleLowerCase();
-            if (text.includes('mention')) {
+            if (text.includes('mention me')) {
+                await this.mentionAdaptiveCardActivityAsync(context);
+            } else if (text.includes('mention')) {
                 await this.mentionActivityAsync(context);
             } else if (text.includes('update')) {
                 await this.cardActivityAsync(context, true);
@@ -38,9 +42,9 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         this.onMembersAddedActivity(async (context, next) => {
             await Promise.all((context.activity.membersAdded || []).map(async (member) => {
-                if (member.id !== context.activity.recipient.id) {
+                if (member.id !== context.activity.recipient.id && context.activity.conversation.conversationType != "personal") {
                     await context.sendActivity(
-                        `Welcome to the team ${member.givenName} ${member.surname}`
+                        `Welcome to the team ${ member.givenName } ${ member.surname }`
                     );
                 }
             }));
@@ -50,19 +54,28 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         this.onReactionsAdded(async (context) => {
             await Promise.all((context.activity.reactionsAdded || []).map(async (reaction) => {
-                const newReaction = `You reacted with '${reaction.type}' to the following message: '${context.activity.replyToId}'`;
-                const resourceResponse = await context.sendActivity(newReaction);
+                const newReaction = `You reacted with '${ reaction.type }' to the following message: '${ context.activity.replyToId }'`;
+                await context.sendActivity(newReaction);
                 // Save information about the sent message and its ID (resourceResponse.id).
             }));
         });
 
         this.onReactionsRemoved(async (context) => {
             await Promise.all((context.activity.reactionsRemoved || []).map(async (reaction) => {
-                const newReaction = `You removed the reaction '${reaction.type}' from the message: '${context.activity.replyToId}'`;
-                const resourceResponse = await context.sendActivity(newReaction);
+                const newReaction = `You removed the reaction '${ reaction.type }' from the message: '${ context.activity.replyToId }'`;
+                await context.sendActivity(newReaction);
                 // Save information about the sent message and its ID (resourceResponse.id).
             }));
         });
+    }
+
+    async onInstallationUpdateActivity(context) {
+        if(context.activity.conversation.conversationType == "channel") {
+            context.sendActivity(MessageFactory.text(`Welcome to Microsoft Teams conversationUpdate events demo bot. This bot is configured in ${context.activity.conversation.name}`));
+        }
+        else {
+            context.sendActivity(MessageFactory.text('Welcome to Microsoft Teams conversationUpdate events demo bot.'));
+        }
     }
 
     async cardActivityAsync(context, isUpdate) {
@@ -71,20 +84,26 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 type: ActionTypes.MessageBack,
                 title: 'Message all members',
                 value: null,
-                text: 'MessageAllMembers',
+                text: 'MessageAllMembers'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Who am I?',
                 value: null,
-                text: 'whoami',
+                text: 'whoami'
+            },
+            {
+                type: ActionTypes.MessageBack,
+                title: 'Find me in Adaptive Card',
+                value: null,
+                text: 'mention me'
             },
             {
                 type: ActionTypes.MessageBack,
                 title: 'Delete card',
                 value: null,
-                text: 'Delete',
-            },
+                text: 'Delete'
+            }
         ];
 
         if (isUpdate) {
@@ -101,11 +120,11 @@ class TeamsConversationBot extends TeamsActivityHandler {
             type: ActionTypes.MessageBack,
             title: 'Update Card',
             value: data,
-            text: 'UpdateCardAction',
+            text: 'UpdateCardAction'
         });
         const card = CardFactory.heroCard(
             'Updated card',
-            `Update count: ${data.count}`,
+            `Update count: ${ data.count }`,
             null,
             cardActions
         );
@@ -117,13 +136,13 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
     async sendWelcomeCard(context, cardActions) {
         const initialValue = {
-            count: 0,
+            count: 0
         };
         cardActions.push({
             type: ActionTypes.MessageBack,
             title: 'Update Card',
             value: initialValue,
-            text: 'UpdateCardAction',
+            text: 'UpdateCardAction'
         });
         const card = CardFactory.heroCard(
             'Welcome card',
@@ -140,7 +159,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
                 context,
                 context.activity.from.id
             );
-            const message = MessageFactory.text(`You are: ${member.name}`);
+            const message = MessageFactory.text(`You are: ${ member.name }`);
             await context.sendActivity(message);
         } catch (e) {
             if (e.code === 'MemberNotFoundInConversation') {
@@ -151,16 +170,47 @@ class TeamsConversationBot extends TeamsActivityHandler {
         }
     }
 
+    async mentionAdaptiveCardActivityAsync(context) {
+        var member;
+        try {
+            member = await TeamsInfo.getMember(
+                context,
+                context.activity.from.id
+            );
+        } catch (e) {
+            if (e.code === 'MemberNotFoundInConversation') {
+                return context.sendActivity(MessageFactory.text('Member not found.'));
+            } else {
+                throw e;
+            }
+        }
+
+        const template = new ACData.Template(AdaptiveCardTemplate);
+        const memberData = {
+            userName: member.name,
+            userUPN: member.userPrincipalName,
+            userAAD: member.aadObjectId
+        };
+
+        const adaptiveCard = template.expand({
+            $root: memberData
+        });
+
+        await context.sendActivity({
+            attachments: [CardFactory.adaptiveCard(adaptiveCard)]
+        });
+    }
+
     async mentionActivityAsync(context) {
         const mention = {
             mentioned: context.activity.from,
-            text: `<at>${new TextEncoder().encode(
+            text: `<at>${ new TextEncoder().encode(
                 context.activity.from.name
-            )}</at>`,
-            type: 'mention',
+            ) }</at>`,
+            type: 'mention'
         };
 
-        const replyActivity = MessageFactory.text(`Hi ${mention.text}`);
+        const replyActivity = MessageFactory.text(`Hi ${ mention.text }`);
         replyActivity.entities = [mention];
         await context.sendActivity(replyActivity);
     }
@@ -174,19 +224,31 @@ class TeamsConversationBot extends TeamsActivityHandler {
 
         await Promise.all(members.map(async (member) => {
             const message = MessageFactory.text(
-                `Hello ${member.givenName} ${member.surname}. I'm a Teams conversation bot.`
+                `Hello ${ member.givenName } ${ member.surname }. I'm a Teams conversation bot.`
             );
 
-            const ref = TurnContext.getConversationReference(context.activity);
-            ref.user = member;
+            const convoParams = {
+                members: [member],
+                tenantId: context.activity.channelData.tenant.id,
+                activity: context.activity
+            };
 
-            await context.adapter.createConversation(ref, async (context) => {
-                const ref = TurnContext.getConversationReference(context.activity);
+            await context.adapter.createConversationAsync(
+                process.env.MicrosoftAppId,
+                context.activity.channelId,
+                context.activity.serviceUrl,
+                null,
+                convoParams,
+                async (context) => {
+                    const ref = TurnContext.getConversationReference(context.activity);
 
-                await context.adapter.continueConversation(ref, async (context) => {
-                    await context.sendActivity(message);
+                    await context.adapter.continueConversationAsync(
+                        process.env.MicrosoftAppId,
+                        ref,
+                        async (context) => {
+                            await context.sendActivity(message);
+                        });
                 });
-            });
         }));
 
         await context.sendActivity(MessageFactory.text('All messages have been sent.'));
@@ -214,7 +276,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsChannelCreated(context) {
         const card = CardFactory.heroCard(
             'Channel Created',
-            `${context.activity.channelData.channel.name} is new the Channel created`
+            `${ context.activity.channelData.channel.name } is new the Channel created`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
@@ -223,7 +285,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsChannelRenamed(context) {
         const card = CardFactory.heroCard(
             'Channel Renamed',
-            `${context.activity.channelData.channel.name} is the new Channel name`
+            `${ context.activity.channelData.channel.name } is the new Channel name`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
@@ -232,7 +294,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsChannelDeleted(context) {
         const card = CardFactory.heroCard(
             'Channel Deleted',
-            `${context.activity.channelData.channel.name} is deleted`
+            `${ context.activity.channelData.channel.name } is deleted`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
@@ -241,7 +303,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsChannelRestored(context) {
         const card = CardFactory.heroCard(
             'Channel Restored',
-            `${context.activity.channelData.channel.name} is the Channel restored`
+            `${ context.activity.channelData.channel.name } is the Channel restored`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);
@@ -250,7 +312,7 @@ class TeamsConversationBot extends TeamsActivityHandler {
     async onTeamsTeamRenamed(context) {
         const card = CardFactory.heroCard(
             'Team Renamed',
-            `${context.activity.channelData.team.name} is the new Team name`
+            `${ context.activity.channelData.team.name } is the new Team name`
         );
         const message = MessageFactory.attachment(card);
         await context.sendActivity(message);

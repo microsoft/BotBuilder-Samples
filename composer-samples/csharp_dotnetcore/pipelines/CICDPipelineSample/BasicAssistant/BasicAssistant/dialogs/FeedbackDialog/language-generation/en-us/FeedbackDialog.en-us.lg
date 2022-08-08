@@ -1,0 +1,191 @@
+[import](common.lg)
+
+# SendActivity_FeedbackExperiencePrompt()
+[Activity
+    Text = ${SendActivity_FeedbackExperiencePrompt_text()}
+    Attachments = ${SendActivity_FeedbackExperiencePrompt_attachment_adaptiveCard()}
+]
+
+# SendActivity_FeedbackExperiencePrompt_text()
+- Did the experience meet your expectations?
+- Did the bot meet your expectations?
+- Did you like this interaction with the bot?
+
+# SendActivity_FeedbackExperiencePrompt_attachment_adaptiveCard()
+> LikeDislikeCard
+- ${json(CardTemplate(FeedbackHeader(),FeedbackBody(),FeedbackActions()))}
+
+# SendActivity_FeedbackThanks()
+[Activity
+    Text = ${SendActivity_FeedbackThanks_text()}
+]
+
+# SendActivity_FeedbackThanks_text()
+- Thank you for this feedback.
+- Thanks for your feedback.
+- Thank you, I've captured your feedback.
+
+# FeedbackTitle()
+- Feedback
+
+# FeedbackHeader()
+- ```
+{
+    "type": "Container",
+    "items": [
+        {
+            "type": "ColumnSet",
+            "columns": [
+                {
+                    "type": "Column",
+                    "width": 10,
+                    "spacing":"none",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "Image",
+                            "url": "${FeedbackIconUrl()}",
+                            "horizontalAlignment": "Center"
+                        }
+                    ]
+                },
+                {
+                    "type": "Column",
+                    "width":"90",
+                    "spacing":"small",
+                    "verticalContentAlignment": "center",
+                    "items": [
+                        {
+                            "type": "TextBlock",
+                            "text": "${FeedbackTitle()}",
+                            "size": "Large",
+                            "weight": "Bolder"
+                        }
+                    ]
+                }
+            ]
+        }        
+    ]
+}
+```
+
+# FeedbackBody()
+- ```
+{
+            "type": "Container",
+            "items": [
+                {
+                    "type": "ColumnSet",
+                    "columns": [
+                        {
+                            "type": "Column",
+                            "width": 50,
+                            "items": [
+                                {
+                                    "type": "ColumnSet",
+                                    "columns": [
+                                        {
+                                            "type": "Column",
+                                            "items": [
+                                                {
+                                                    "type": "TextBlock",
+                                                    "text": "Like",
+                                                    "wrap": true,
+                                                    "horizontalAlignment": "Right"
+                                                }
+                                            ],
+                                            "horizontalAlignment": "Center",
+                                            "verticalContentAlignment": "Center",
+                                            "width": 50
+                                        },
+                                        {
+                                            "type": "Column",
+                                            "items": [
+                                                {
+                                                    "type": "Image",
+                                                    "url": "${LikeIconUrl()}",
+                                                    "size": "Small",
+                                                    "horizontalAlignment": "left"
+                                                }
+                                            ],
+                                            "verticalContentAlignment": "Center",
+                                            "width": 50
+                                        }
+                                    ]
+                                }
+                            ],
+                            "selectAction": {
+                                "type": "Action.Submit",
+                                "title": "Like",
+                                "data": {
+                                    "intent": "Like"
+                                }
+                            }
+                        },
+                        {
+                            "type": "Column",
+                            "width": 50,
+                            "items": [
+                                {
+                                    "type": "ColumnSet",
+                                    "columns": [
+                                        {
+                                            "type": "Column",
+                                            "horizontalAlignment": "Center",
+                                            "verticalContentAlignment": "Center",
+                                            "items": [
+                                                {
+                                                    "type": "Image",
+                                                    "url": "${DislikeIconUrl()}",
+                                                    "size": "Small",
+                                                    "horizontalAlignment": "right"
+                                                }
+                                            ],
+                                            "width": 50
+                                        },
+                                        {
+                                            "type": "Column",
+                                            "verticalContentAlignment": "Center",
+                                            "items": [
+                                                {
+                                                    "type": "TextBlock",
+                                                    "text": "Dislike",
+                                                    "wrap": true
+                                                }
+                                            ],
+                                            "width": 50
+                                        }
+                                    ]
+                                }
+                            ],
+                            "selectAction": {
+                                "type": "Action.Submit",
+                                "title": "Dislike",
+                                "data": {
+                                    "intent": "Dislike"
+                                }
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+```
+
+# FeedbackActions
+- ```
+{
+    "type": "ActionSet",
+    "actions": [
+        {
+            "type": "Action.Submit",
+            "title": "Help",
+            "data": {
+                "intent": "Help"
+            }
+        }
+    ]
+}
+```
+
+

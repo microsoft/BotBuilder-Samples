@@ -1,0 +1,9 @@
+{
+  "$kind": "Microsoft.LuisRecognizer",
+  "id": "LUIS_CancelDialog",
+  "applicationId": "=settings.luis.CancelDialog_en_us_lu.appId",
+  "version": "=settings.luis.CancelDialog_en_us_lu.version",
+  "endpoint": "=settings.luis.endpoint",
+  "endpointKey": "=settings.luis.endpointKey",
+  "$Imported": "0cce54f8e1e0d6f3f0c0de061388a934"
+}

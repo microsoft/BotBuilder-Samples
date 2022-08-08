@@ -40,7 +40,7 @@ export default class Swagger extends Command {
       this.progress(`Schema: ${schemaPath}`)
       return true
     } catch (e) {
-      this.thrownError(e)
+      this.thrownError(e as Error)
     }
   }
 

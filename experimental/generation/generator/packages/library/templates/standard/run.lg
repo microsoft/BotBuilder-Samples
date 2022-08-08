@@ -1,7 +1,7 @@
 # filename
 - run
 
-# template
+# generator
 -```#!/bin/sh
 result=1
 thisdir="$( cd "$( dirname "$0" )" && pwd )"

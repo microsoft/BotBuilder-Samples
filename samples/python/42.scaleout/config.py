@@ -13,6 +13,6 @@ class DefaultConfig:
     PORT = 3978
     APP_ID = os.environ.get("MicrosoftAppId", "")
     APP_PASSWORD = os.environ.get("MicrosoftAppPassword", "")
-    BLOB_ACCOUNT_NAME = "tboehrestorage"
-    BLOB_KEY = "A7tc3c9T/n67iDYO7Lx19sTjnA+DD3bR/HQ4yPhJuyVXO1yJ8mYzDOXsBhJrjldh7zKMjE9Wc6PrM1It4nlGPw=="
+    BLOB_ACCOUNT_NAME = ""
+    BLOB_KEY = ""
     BLOB_CONTAINER = "dialogs"
