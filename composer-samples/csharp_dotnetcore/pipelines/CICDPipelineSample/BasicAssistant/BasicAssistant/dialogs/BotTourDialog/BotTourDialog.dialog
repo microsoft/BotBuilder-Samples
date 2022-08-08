@@ -3,7 +3,8 @@
   "$designer": {
     "id": "xyjdJi",
     "name": "BotTourDialog",
-    "description": "Onboards users with a sample first time user experience"
+    "description": "",
+    "comment": "Onboards users with a sample first time user experience."
   },
   "autoEndDialog": false,
   "defaultResultProperty": "dialog.result",
@@ -19,7 +20,8 @@
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "YRvoei"
+            "id": "YRvoei",
+            "comment": "Displays a card with buttons for triggering the other intent handlers in the dialog. Recommended to fill in this card, actions, and intent triggers with your own information to help your users navigate your bot."
           },
           "activity": "${SendActivity_BotTourOverview()}"
         }
@@ -29,35 +31,90 @@
       "$kind": "Microsoft.OnIntent",
       "$designer": {
         "id": "pzuSn9",
-        "name": "DetailsCard"
+        "name": "DetailsCard",
+        "comment": "Handles skill item click in BotTour card."
       },
       "intent": "DetailsCard",
       "actions": [
         {
           "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "Z5JucQ"
+            "id": "ZMzFeP",
+            "comment": "Shows a sample skill details card."
           },
           "activity": "${SendActivity_BotTourDetails()}"
-        },
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "vdn2Dw",
+        "name": "ActionA",
+        "comment": "Handles ActionA button click."
+      },
+      "intent": "ActionA",
+      "actions": [
         {
-          "$kind": "Microsoft.EndDialog",
+          "$kind": "Microsoft.SendActivity",
           "$designer": {
-            "id": "xlyFV6"
-          }
+            "id": "oeL3EC",
+            "comment": "Shows a sample button click response."
+          },
+          "activity": "${SendActivity_SuggestedActionAContent()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "ruLbcx",
+        "name": "ActionB",
+        "comment": "Handles ActionB button click."
+      },
+      "intent": "ActionB",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "PSsrvD",
+            "comment": "Shows a sample button click response."
+          },
+          "activity": "${SendActivity_SuggestedActionBContent()}"
+        }
+      ]
+    },
+    {
+      "$kind": "Microsoft.OnIntent",
+      "$designer": {
+        "id": "Fris5p",
+        "name": "ActionC",
+        "comment": "Handles ActionC button click."
+      },
+      "intent": "ActionC",
+      "actions": [
+        {
+          "$kind": "Microsoft.SendActivity",
+          "$designer": {
+            "id": "N0UxWx",
+            "comment": "Shows a sample button click response."
+          },
+          "activity": "${SendActivity_SuggestedActionCContent()}"
         }
       ]
     },
     {
       "$kind": "Microsoft.OnUnknownIntent",
       "$designer": {
-        "id": "77kmIw"
+        "id": "77kmIw",
+        "comment": "If the user says something the BotTourDialog cannot handle, this trigger will end the dialog and allow the parent to reprocess the unhandled query."
       },
       "actions": [
         {
           "$kind": "Microsoft.EndDialog",
           "$designer": {
-            "id": "dAfOtV"
+            "id": "dAfOtV",
+            "comment": "The calling dialog should catch this dialog result and handle the unknown activity."
           },
           "value": false
         }
