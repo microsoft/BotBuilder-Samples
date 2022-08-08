@@ -19,11 +19,10 @@ const { TranslatorMiddleware } = require('./translation/translatorMiddleware');
 const {
     ActivityTypes,
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration,
     MemoryStorage,
     TurnContext,
-    UserState
+    UserState,
+    ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 
 // This bot's main dialog.
@@ -32,14 +31,7 @@ const { MultilingualBot } = require('./bots/multilingualBot');
 // Used to create the BotStatePropertyAccessor for storing the user's language preference.
 const LANGUAGE_PREFERENCE = 'language_preference';
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-    MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env);
 
 // See https://aka.ms/about-bot-adapter to learn more about adapters.
 const adapter = new CloudAdapter(botFrameworkAuthentication);
