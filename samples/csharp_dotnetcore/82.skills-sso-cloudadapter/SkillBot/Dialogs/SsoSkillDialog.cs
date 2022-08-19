@@ -11,7 +11,7 @@ using Microsoft.Bot.Builder.Dialogs.Choices;
 using Microsoft.Bot.Connector.Authentication;
 using Microsoft.Bot.Schema;
 
-namespace Microsoft.BotBuilderSamples.SkillBot.Dialogs
+namespace Microsoft.BotBuilderSamples.SSOSkillBot.Dialogs
 {
     public class SsoSkillDialog : ComponentDialog
     {

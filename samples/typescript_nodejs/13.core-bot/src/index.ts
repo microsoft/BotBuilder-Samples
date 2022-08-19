@@ -16,9 +16,9 @@ import { INodeSocket } from 'botframework-streaming';
 // See https://aka.ms/bot-services to learn more about the different parts of a bot.
 import {
     CloudAdapter,
-    ConfigurationServiceClientCredentialFactory,
+    ConfigurationBotFrameworkAuthentication,
+    ConfigurationBotFrameworkAuthenticationOptions,
     ConversationState,
-    createBotFrameworkAuthenticationFromConfiguration,
     MemoryStorage,
     UserState
 } from 'botbuilder';
@@ -36,14 +36,7 @@ const BOOKING_DIALOG = 'bookingDialog';
 // The helper-class recognizer that calls LUIS
 import { FlightBookingRecognizer } from './dialogs/flightBookingRecognizer';
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-    MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env as ConfigurationBotFrameworkAuthenticationOptions);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about adapters.

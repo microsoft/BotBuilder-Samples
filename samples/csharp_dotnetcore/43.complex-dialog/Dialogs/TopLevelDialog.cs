@@ -11,9 +11,6 @@ namespace Microsoft.BotBuilderSamples
 {
     public class TopLevelDialog : ComponentDialog
     {
-        // Define a "done" response for the company selection prompt.
-        private const string DoneOption = "done";
-
         // Define value names for values tracked inside the dialogs.
         private const string UserInfo = "value-userInfo";
 

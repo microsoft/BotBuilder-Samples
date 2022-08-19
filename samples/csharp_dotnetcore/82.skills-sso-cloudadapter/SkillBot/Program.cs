@@ -4,7 +4,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 
-namespace Microsoft.BotBuilderSamples.SkillBot
+namespace Microsoft.BotBuilderSamples.SSOSkillBot
 {
     public class Program
     {

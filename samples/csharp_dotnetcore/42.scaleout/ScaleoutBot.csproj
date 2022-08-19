@@ -1,16 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.1" />
+    <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
     <PackageReference Include="Microsoft.Azure.Storage.Blob" Version="9.4.2" />
-    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.16.0" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.16.0" />
+    <PackageReference Include="Microsoft.Bot.Builder.Dialogs" Version="4.17.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.17.1" />
   </ItemGroup>
+
+  <PropertyGroup>
+    <!-- The KeyVault package, picked up as a transitive dependency of the Azure Storage libraries
+        doesn't yet support NetStandard20. I confirmed with the Azure Storage team that this warning
+        is fine, and can be supressed.
+
+        It does appear the Azure SDK team is "in-process" of supporting NetStandard20 as seen in this
+        Commit: https://github.com/Azure/azure-sdk-for-net/commit/b0d42d14bfe92a24996826b2487ba592e644f581
+
+        We cannot apply the no-warn supression directly to the package links below as
+        they're not picked up across transitive dependencies. See this GitHub Issue for details:
+        https://github.com/NuGet/Home/issues/5740
+        -->
+    <NoWarn>$(NoWarn);NU1701</NoWarn>
+  </PropertyGroup>
 
   <ItemGroup>
     <Content Update="appsettings.json">

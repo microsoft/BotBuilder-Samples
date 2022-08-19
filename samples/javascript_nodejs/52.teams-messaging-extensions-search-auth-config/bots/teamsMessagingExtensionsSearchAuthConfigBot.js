@@ -4,7 +4,7 @@
 const {
     TeamsActivityHandler,
     CardFactory,
-    ActionTypes,
+    ActionTypes
 } = require('botbuilder');
 const axios = require('axios');
 const querystring = require('querystring');
@@ -72,10 +72,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                 type: 'openUrl',
                                 value: signInLink,
                                 title: 'Bot Service OAuth'
-                            },
-                        ],
-                    },
-                },
+                            }
+                        ]
+                    }
+                }
             };
         }
         const graphClient = new SimpleGraphClient(tokenResponse.token);
@@ -120,11 +120,11 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     actions: [
                         {
                             type: ActionTypes.OpenUrl,
-                            value: `${process.env.SiteUrl}/public/searchSettings.html?settings=${escapedSettings}`
-                        },
-                    ],
-                },
-            },
+                            value: `${ process.env.SiteUrl }/public/searchSettings.html?settings=${ escapedSettings }`
+                        }
+                    ]
+                }
+            }
         };
     }
 
@@ -174,10 +174,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                     type: 'openUrl',
                                     value: signInLink,
                                     title: 'Bot Service OAuth'
-                                },
-                            ],
-                        },
-                    },
+                                }
+                            ]
+                        }
+                    }
                 };
             }
 
@@ -197,12 +197,12 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 );
                 const preview = CardFactory.thumbnailCard(
                     msg.from.emailAddress.address,
-                    `${msg.subject} <br />  ${msg.bodyPreview.substring(
+                    `${ msg.subject } <br />  ${ msg.bodyPreview.substring(
                         0,
                         100
-                    )}`,
+                    ) }`,
                     [
-                        'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg',
+                        'https://raw.githubusercontent.com/microsoft/botbuilder-samples/master/docs/media/OutlookLogo.jpg'
                     ]
                 );
                 attachments.push({
@@ -213,10 +213,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
             });
         } else {
             const response = await axios.get(
-                `http://registry.npmjs.com/-/v1/search?${querystring.stringify({
+                `http://registry.npmjs.com/-/v1/search?${ querystring.stringify({
                     text: searchQuery,
                     size: 8
-                })}`
+                }) }`
             );
 
             response.data.objects.forEach((obj) => {
@@ -235,7 +235,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 type: 'result',
                 attachmentLayout: 'list',
                 attachments: attachments
-            },
+            }
         };
     }
 
@@ -245,7 +245,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 type: 'result',
                 attachmentLayout: 'list',
                 attachments: [CardFactory.thumbnailCard(obj.description)]
-            },
+            }
         };
     }
 
@@ -283,10 +283,10 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                                     type: 'openUrl',
                                     value: signInLink,
                                     title: 'Bot Service OAuth'
-                                },
-                            ],
-                        },
-                    },
+                                }
+                            ]
+                        }
+                    }
                 };
             }
             const graphClient = new SimpleGraphClient(tokenResponse.token);
@@ -297,13 +297,13 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                 body: [
                     {
                         type: 'TextBlock',
-                        text: 'Hello: ' + profile.displayName,
+                        text: 'Hello: ' + profile.displayName
                     },
                     {
                         type: 'Image',
-                        url: 'http://adaptivecards.io/content/cats/1.png',
-                    },
-                ],
+                        url: 'http://adaptivecards.io/content/cats/1.png'
+                    }
+                ]
             });
             return {
                 task: {
@@ -313,8 +313,8 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         heigth: 250,
                         width: 400,
                         title: 'Show Profile Card'
-                    },
-                },
+                    }
+                }
             };
         }
         if (action.commandId === 'SignOutCommand') {
@@ -327,7 +327,7 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                     {
                         type: 'TextBlock',
                         text: 'You have been signed out.'
-                    },
+                    }
                 ],
                 actions: [
                     {
@@ -335,9 +335,9 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         title: 'Close',
                         data: {
                             key: 'close'
-                        },
-                    },
-                ],
+                        }
+                    }
+                ]
             });
 
             return {
@@ -348,8 +348,8 @@ class TeamsMessagingExtensionsSearchAuthConfigBot extends TeamsActivityHandler {
                         heigth: 200,
                         width: 400,
                         title: 'Adaptive Card: Inputs'
-                    },
-                },
+                    }
+                }
             };
         }
         return null;

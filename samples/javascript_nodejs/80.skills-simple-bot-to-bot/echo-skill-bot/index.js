@@ -11,8 +11,8 @@ const {
     ActivityTypes,
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration,
-    InputHints
+    InputHints,
+    ConfigurationBotFrameworkAuthentication
 } = require('botbuilder');
 const {
     allowedCallersClaimsValidator,
@@ -70,7 +70,7 @@ const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
     MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
 });
 
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory, authConfig);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env, credentialsFactory, authConfig);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.

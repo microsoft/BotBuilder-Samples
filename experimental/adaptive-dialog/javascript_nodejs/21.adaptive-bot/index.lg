@@ -1,8 +1,0 @@
-> Language generation definition.
-> See https://aka.ms/language-generation to learn more.
-
-# PickADialog
-- Choose a declarative sample to run..\n\nYou can say 'cancel' anytime.
-
-# RunningSampleReadBack
-- # Running ${turn.userChoice}.main.dialog

@@ -8,7 +8,8 @@ import * as restify from 'restify';
 import {
     CloudAdapter,
     ConfigurationServiceClientCredentialFactory,
-    createBotFrameworkAuthenticationFromConfiguration
+    ConfigurationBotFrameworkAuthentication,
+    ConfigurationBotFrameworkAuthenticationOptions
 } from 'botbuilder';
 
 // This bot's main dialog.
@@ -21,14 +22,7 @@ server.listen(process.env.port || process.env.PORT || 3978, () => {
     console.log(`\n${ server.name } listening to ${ server.url }`);
 });
 
-const credentialsFactory = new ConfigurationServiceClientCredentialFactory({
-    MicrosoftAppId: process.env.MicrosoftAppId,
-    MicrosoftAppPassword: process.env.MicrosoftAppPassword,
-    MicrosoftAppType: process.env.MicrosoftAppType,
-    MicrosoftAppTenantId: process.env.MicrosoftAppTenantId
-});
-
-const botFrameworkAuthentication = createBotFrameworkAuthenticationFromConfiguration(null, credentialsFactory);
+const botFrameworkAuthentication = new ConfigurationBotFrameworkAuthentication(process.env as ConfigurationBotFrameworkAuthenticationOptions);
 
 // Create adapter.
 // See https://aka.ms/about-bot-adapter to learn more about how bots work.
