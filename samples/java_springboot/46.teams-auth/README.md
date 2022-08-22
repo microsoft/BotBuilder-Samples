@@ -27,7 +27,7 @@ the Teams service needs to call into the bot.
 - Run ngrok - point to port 3978
 
     ```bash
-    ngrok http -host-header=rewrite 3978
+    ngrok http --host-header=rewrite 3978
     ```
 - Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
     - Configure the messaging endpoint to the `https` URL you were given by ngrok and append a trailing `/api/messages`
