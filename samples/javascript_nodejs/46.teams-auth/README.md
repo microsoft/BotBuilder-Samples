@@ -43,7 +43,7 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 - Run ngrok - point to port 3978
 
     ```bash
-    ngrok http -host-header=rewrite 3978
+    ngrok http --host-header=rewrite 3978
     ```
 
 - Create [Bot Framework registration resource](https://docs.microsoft.com/en-us/azure/bot-service/bot-service-quickstart-registration) in Azure
