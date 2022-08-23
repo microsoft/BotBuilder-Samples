@@ -72,7 +72,7 @@
   "variables": {
     "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]",
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
-    "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
