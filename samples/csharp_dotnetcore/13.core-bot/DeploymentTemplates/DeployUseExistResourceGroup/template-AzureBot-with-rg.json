@@ -9,8 +9,8 @@
       }
     },
     "azureBotSku": {
-      "defaultValue": "S1",
       "type": "string",
+      "defaultValue": "S1",
       "metadata": {
         "description": "The pricing tier of the Bot Service Registration. Allowed values are: F0, S1(default)."
       }
@@ -24,6 +24,7 @@
     },
     "botEndpoint": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "Use to handle client messages, Such as https://<botappServiceName>.azurewebsites.net/api/messages."
       }
@@ -69,6 +70,7 @@
     }
   },
   "variables": {
+    "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]",
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
     "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName'))]",
     "appTypeDef": {
@@ -103,7 +105,7 @@
       "properties": {
         "displayName": "[parameters('azureBotId')]",
         "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
-        "endpoint": "[parameters('botEndpoint')]",
+        "endpoint": "[variables('botEndpoint')]",
         "msaAppId": "[parameters('appId')]",
         "msaAppTenantId": "[variables('appType').tenantId]",
         "msaAppMSIResourceId": "[variables('appType').msiResourceId]",

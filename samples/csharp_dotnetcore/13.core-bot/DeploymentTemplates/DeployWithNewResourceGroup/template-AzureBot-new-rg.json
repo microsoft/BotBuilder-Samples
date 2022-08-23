@@ -80,6 +80,7 @@
     }
   },
   "variables": {
+    "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]",
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
     "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName'))]",
     "appTypeDef": {
@@ -138,7 +139,7 @@
                 "name": "[parameters('azureBotId')]",
                 "displayName": "[parameters('azureBotId')]",
                 "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
-                "endpoint": "[parameters('botEndpoint')]",
+                "endpoint": "[variables('botEndpoint')]",
                 "msaAppId": "[parameters('appId')]",
                 "msaAppTenantId": "[variables('appType').tenantId]",
                 "msaAppMSIResourceId": "[variables('appType').msiResourceId]",

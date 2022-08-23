@@ -96,8 +96,7 @@
   },
   "variables": {
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
-    "defaultAppServicePlanName": "[if(empty(parameters('existingAppServicePlanName')), 'createNewAppServicePlan', parameters('existingAppServicePlanName'))]",
-    "useExistingServicePlan": "[not(equals(variables('defaultAppServicePlanName'), 'createNewAppServicePlan'))]",
+    "useExistingServicePlan": "[not(empty(parameters('existingAppServicePlanName')))]",
     "servicePlanName": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanName'), parameters('newAppServicePlanName'))]",
     "servicePlanLocation": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanLocation'), parameters('newAppServicePlanLocation'))]",
     "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
