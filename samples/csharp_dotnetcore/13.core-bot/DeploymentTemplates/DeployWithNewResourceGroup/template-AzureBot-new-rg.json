@@ -75,6 +75,7 @@
     },
     "UMSIResourceGroupName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication."
       }
