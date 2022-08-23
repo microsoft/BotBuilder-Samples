@@ -18,6 +18,9 @@
 # Variable Group 'SamplesE2ETestsVariableGroup' is defined in Azure
 # Variable Group 'MyGetPersonalAccessTokenVariableGroup' is defined in Azure
 
+# Define the build number format.
+name: $(Build.BuildId)
+
 parameters:
   - name: testLatestPackage
     displayName: Test latest package version
