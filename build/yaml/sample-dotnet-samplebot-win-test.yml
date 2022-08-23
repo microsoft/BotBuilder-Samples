@@ -65,7 +65,7 @@ jobs:
 - job: Job_1
   displayName: Agent job 1
   pool:
-    vmImage: windows-2019
+    vmImage: windows-2022
   steps:
   - checkout: self
     persistCredentials: True
