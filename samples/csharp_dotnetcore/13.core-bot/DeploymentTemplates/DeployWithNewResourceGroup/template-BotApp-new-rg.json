@@ -78,6 +78,7 @@
     },
     "UMSIName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication."
       }
