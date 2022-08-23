@@ -18,18 +18,21 @@
     },
     "existingAppServicePlanLocation": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The location of the App Service Plan."
       }
     },
     "newAppServicePlanName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The name of the new App Service Plan."
       }
     },
     "newAppServicePlanLocation": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The location of the App Service Plan."
       }
