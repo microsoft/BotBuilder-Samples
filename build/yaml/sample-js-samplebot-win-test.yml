@@ -233,7 +233,7 @@ jobs:
         Set-PSDebug -Trace 1;
 
         # set up resource group, app service plan, web app
-        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-BotApp-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" appServicePlanSku=F0 appServiceName="$(AzureBotName)" appServicePlanName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" appServicePlanLocation="westus";
+        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-BotApp-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" appServicePlanName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" appServicePlanLocation="westus";
      
         # set up bot channels registration, app service
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-AzureBot-new-rg.json" --location "westus" --parameters appId=$(AppId) azureBotId="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus";
