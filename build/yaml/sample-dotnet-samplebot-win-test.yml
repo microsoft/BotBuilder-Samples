@@ -274,9 +274,12 @@ jobs:
      
         az group create --location westus --name $(BotGroup);
      
-        # set up bot channels registration, app service, app service plan
-        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-preexisting-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botId="$(AzureBotName)" newWebAppName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
+        # set up app service plan, web app
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-BotApp-with-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" newAppServicePlanLocation="westus" --name "$(AzureBotName)";
      
+        # set up bot channels registration, app service
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-AzureBot-with-rg.json" --parameters appId="$(AppId)" azureBotId="$(AzureBotName)";
+
         Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
 
