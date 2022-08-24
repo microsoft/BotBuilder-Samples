@@ -19,6 +19,9 @@
 # Variable Group 'SamplesE2ETestsVariableGroup' is defined in Azure
 # Variable Group 'MyGetPersonalAccessTokenVariableGroup' is defined in Azure
 
+# Define the build number format.
+name: $(Build.BuildId)
+
 parameters:
   - name: testLatestPackage
     displayName: Test latest v4 package version
@@ -67,7 +70,7 @@ jobs:
 - job: Job_1
   displayName: Agent job 1
   pool:
-    vmImage: windows-2019
+    vmImage: windows-2022
   steps:
   - checkout: self
     persistCredentials: True
@@ -276,7 +279,7 @@ jobs:
      
        az group create --location westus --name $(BotGroup)
      
-       # set up bot channels registration, app service, app service plan
+       # set up bot channels registration, app service plan
        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\LinuxDotNet\template.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" botName="$(AzureBotName)" --name "$(AzureBotName)";
      
        #az bot prepare-deploy --lang Csharp --code-dir "$(SampleRootPath)" --proj-file-path "$(SampleBotName).csproj";
