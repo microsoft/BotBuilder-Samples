@@ -211,10 +211,10 @@ jobs:
      
         az group create --location westus --name $(BotGroup);
      
-        # set up app service plan, web app
+        # set up app service plan, app service (web app)
         az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-BotApp-with-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" newAppServicePlanLocation="westus" --name "$(AzureBotName)";
      
-        # set up bot channels registration, app service
+        # set up bot channels registration
         az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-AzureBot-with-rg.json" --parameters appId="$(AppId)" azureBotId="$(AzureBotName)";
 
         Set-PSDebug -Trace 0;
@@ -232,10 +232,10 @@ jobs:
         Write-Host "****************************************************************";
         Set-PSDebug -Trace 1;
 
-        # set up resource group, app service plan, web app
+        # set up resource group, app service plan, app service (web app)
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-BotApp-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" appServicePlanName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" appServicePlanLocation="westus";
      
-        # set up bot channels registration, app service
+        # set up bot channels registration
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-AzureBot-new-rg.json" --location "westus" --parameters appId=$(AppId) azureBotId="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus";
 
         Set-PSDebug -Trace 0;
