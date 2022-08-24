@@ -35,7 +35,7 @@
             }
         },
         "appId": {
-            "type": "string"
+            "type": "string",
             "metadata": {
                 "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
             }
