@@ -78,12 +78,14 @@
     },
     "UMSIName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication."
       }
     },
     "UMSIResourceGroupName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication."
       }
@@ -95,7 +97,7 @@
     "resourcesLocation": "[if(empty(parameters('appServicePlanLocation')), parameters('groupLocation'), parameters('appServicePlanLocation'))]",
     "appServiceName": "[parameters('appServiceName')]",
     "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]",
-    "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",

@@ -68,20 +68,23 @@
     },
     "UMSIName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication."
       }
     },
     "UMSIResourceGroupName": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication."
       }
     }
   },
   "variables": {
+    "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]",
     "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
-    "msiResourceId": "[concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
@@ -138,7 +141,7 @@
                 "name": "[parameters('azureBotId')]",
                 "displayName": "[parameters('azureBotId')]",
                 "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
-                "endpoint": "[parameters('botEndpoint')]",
+                "endpoint": "[variables('botEndpoint')]",
                 "msaAppId": "[parameters('appId')]",
                 "msaAppTenantId": "[variables('appType').tenantId]",
                 "msaAppMSIResourceId": "[variables('appType').msiResourceId]",
