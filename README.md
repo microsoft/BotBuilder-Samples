@@ -100,13 +100,6 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core][cs#57]|[JavaScript][js#57]          |[Python][py#57] |[Java][java#57]
 |58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#58]|[JavaScript][js#58]          |[Python][py#58] |[Java][java#58]
 
-### Custom adapter samples
-Important Note: The Bot Framework Adapters and corresponding samples will be deprecated in the next version of the Bot Framework SDK and have been moved to the [BotBuilderCommunity](https://github.com/BotBuilderCommunity/botbuilder-community-dotnet) repository. Please refer to their new location for all future work.
-
-|    | Sample Name           | Description                                                   | .NET                    | JavaScript  | Python            | Java |
-|:--:|:----------------------|:--------------------------------------------------------------|:------------------------|:------------|:------------------|:------------------|
-|60|Slack       | Demonstrates the use of the custom adapter for Slack.         |  |             | [Python][py#60]   |
-
 
 ### Skills samples
 
