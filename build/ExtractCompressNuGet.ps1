@@ -10,6 +10,15 @@ param
 )
 pushd $path
 
+# Ensure Powershell.Archive minimum version 1.2.3.0 is installed. That fixes a path separator issue on macOS/Linux. 
+# An "ObjectNotFound" error can result from a temporary Powershell module repository outage. 
+$ver = (Get-Command -Module Microsoft.PowerShell.Archive | Select-Object -Property version -First 1).Version.ToString()
+Write-Host "Currently installed: Microsoft.Powershell.Archive $ver"
+if ($ver -lt '1.2.3.0') { 
+    Write-Host "Installing Microsoft.Powershell.Archive 1.2.5 (fix for Linux path separator bug)"
+    Install-Module -Name Microsoft.PowerShell.Archive -MinimumVersion '1.2.5' -AllowClobber -Force -AcceptLicense 
+}
+
 [int]$itemsProcessed = 0
 if ($extract) {
     # Extract .nupkg packages in the path.
