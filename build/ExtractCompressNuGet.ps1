@@ -10,17 +10,13 @@ param
 )
 pushd $path
 
-# Download temporary version of Archive module that fixes issue on macOS/Linux with path separator
-#Invoke-WebRequest -Uri "https://raw.githubusercontent.com/PowerShell/Microsoft.PowerShell.Archive/master/Microsoft.PowerShell.Archive/Microsoft.PowerShell.Archive.psm1" -OutFile .\archive.psm1
-#Import-Module .\archive.psm1
-
 # Ensure Powershell.Archive minimum version 1.2.3.0 is installed. That fixes a path separator issue on macOS/Linux. 
+# An "ObjectNotFound" error can result from a temporary Powershell module repository outage. 
 $ver = (Get-Command -Module Microsoft.PowerShell.Archive | Select-Object -Property version -First 1).Version.ToString()
+Write-Host "Currently installed: Microsoft.Powershell.Archive $ver"
 if ($ver -lt '1.2.3.0') { 
-    Write-Host "Installing Microsoft.Powershell.Archive 1.2.3.0 (fix for Linux path separator bug)"
-    Install-Module -Name Microsoft.PowerShell.Archive -MinimumVersion '1.2.3.0' -AllowClobber -Force -AcceptLicense 
-} else { 
-    Write-Host "Already installed: Microsoft.Powershell.Archive $ver"
+    Write-Host "Installing Microsoft.Powershell.Archive 1.2.5 (fix for Linux path separator bug)"
+    Install-Module -Name Microsoft.PowerShell.Archive -MinimumVersion '1.2.5' -AllowClobber -Force -AcceptLicense 
 }
 
 [int]$itemsProcessed = 0
