@@ -345,30 +345,28 @@ jobs:
         Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
 
+  - script: |
+      echo on
+      git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderPy@Pipeline.com
+      git init
+
+      git add .
+      git commit -m "Add bot source code"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
+
+      git push azure master
+    workingDirectory: '$(SampleRootPath)'
+    displayName: 'Git push the bot to Azure'
+
   - task: AzureCLI@2
-    displayName: Create directline channel
+    displayName: Create DirectLine channel
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
        az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
-
-  - script: |
-     echo git config
-     git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
-     git config --global user.email BotBuilderPy@Pipeline.com
-     git init
-   
-     echo git add .
-     git add .
-     git commit -m "Add bot source code"
-     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
-   
-     echo git push azure master
-     git push azure master
-    workingDirectory: '$(SampleRootPath)'
-    displayName: 'git push the bot to Azure'
 
   - powershell: |
       # Key = Direct Line channel "Secret keys" in Azure portal
