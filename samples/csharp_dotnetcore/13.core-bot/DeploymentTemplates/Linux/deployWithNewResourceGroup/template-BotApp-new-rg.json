@@ -45,6 +45,13 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
+    "tenantId": {
+      "type": "string",
+      "defaultValue": "[subscription().tenantId]",
+      "metadata": {
+        "description": "The Azure AD Tenant ID to use as part of the Bot's Authentication. Only used for SingleTenant and UserAssignedMSI app types. Defaults to \"Subscription Tenant ID\"."
+      }
+    },
     "appType": {
       "type": "string",
       "defaultValue": "MultiTenant",
@@ -68,26 +75,38 @@
       "metadata": {
         "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types."
       }
+    },
+    "UMSIName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication."
+      }
     }
   },
   "variables": {
     "appServicePlanName": "[parameters('appServicePlanName')]",
     "resourcesLocation": "[if(empty(parameters('appServicePlanLocation')), parameters('groupLocation'), parameters('appServicePlanLocation'))]",
     "appServiceName": "[parameters('appServiceName')]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
-        "msiResourceId": "",
         "identity": { "type": "None" }
       },
       "SingleTenant": {
         "tenantId": "[parameters('tenantId')]",
-        "msiResourceId": "",
         "identity": { "type": "None" }
       },
       "UserAssignedMSI": {
         "tenantId": "[parameters('tenantId')]",
-        "msiResourceId": "[variables('msiResourceId')]",
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
@@ -98,7 +117,6 @@
     },
     "appType": {
       "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
-      "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
       "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
     },
     "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]"
