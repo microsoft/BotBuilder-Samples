@@ -100,7 +100,7 @@
       "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
       "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
       "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
-    }
+    },
     "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]"
   },
   "resources": [
