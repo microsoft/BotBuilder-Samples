@@ -95,6 +95,7 @@
     "appServicePlanName": "[parameters('appServicePlanName')]",
     "resourcesLocation": "[if(empty(parameters('appServicePlanLocation')), parameters('groupLocation'), parameters('appServicePlanLocation'))]",
     "appServiceName": "[parameters('appServiceName')]",
+    "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]",
     "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
@@ -118,8 +119,7 @@
     "appType": {
       "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
       "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
-    },
-    "resourceGroupId": "[concat(subscription().id, '/resourceGroups/', parameters('groupName'))]"
+    }
   },
   "resources": [
     {
@@ -165,13 +165,13 @@
               "comments": "Create a Web App using the new App Service Plan",
               "type": "Microsoft.Web/sites",
               "apiVersion": "2015-08-01",
-              "name": "[variables('appServiceName')]",
-              "identity": "[variables('appType').identity]",
               "location": "[variables('resourcesLocation')]",
               "kind": "app,linux",
               "dependsOn": [
                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
               ],
+              "name": "[variables('appServiceName')]",
+              "identity": "[variables('appType').identity]",
               "properties": {
                 "name": "[variables('appServiceName')]",
                 "hostNameSslStates": [
