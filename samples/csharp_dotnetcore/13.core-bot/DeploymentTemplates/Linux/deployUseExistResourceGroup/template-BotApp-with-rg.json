@@ -50,6 +50,18 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
+    "appType": {
+      "type": "string",
+      "defaultValue": "MultiTenant",
+      "allowedValues": [
+        "MultiTenant",
+        "SingleTenant",
+        "UserAssignedMSI"
+      ],
+      "metadata": {
+        "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
+      }
+    },
     "appId": {
       "type": "string",
       "metadata": {
@@ -63,16 +75,18 @@
         "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types. Defaults to \"\"."
       }
     },
-    "appType": {
+    "UMSIName": {
       "type": "string",
-      "defaultValue": "MultiTenant",
-      "allowedValues": [
-        "MultiTenant",
-        "SingleTenant",
-        "UserAssignedMSI"
-      ],
+      "defaultValue": "",
       "metadata": {
-        "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
+        "description": "The User-Assigned Managed Identity Resource used for the Bot's Authentication. Defaults to \"\"."
+      }
+    },
+    "UMSIResourceGroupName": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "The User-Assigned Managed Identity Resource Group used for the Bot's Authentication. Defaults to \"\"."
       }
     },
     "tenantId": {
@@ -84,23 +98,22 @@
     }
   },
   "variables": {
+    "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
     "useExistingServicePlan": "[not(empty(parameters('existingAppServicePlanName')))]",
     "servicePlanName": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanName'), parameters('newAppServicePlanName'))]",
     "servicePlanLocation": "[if(variables('useExistingServicePlan'), parameters('existingAppServicePlanLocation'), parameters('newAppServicePlanLocation'))]",
+    "msiResourceId": "[if(empty(parameters('UMSIName')), '', concat(subscription().id, '/resourceGroups/', parameters('UMSIResourceGroupName'), '/providers/', 'Microsoft.ManagedIdentity/userAssignedIdentities/', parameters('UMSIName')))]",
     "appTypeDef": {
       "MultiTenant": {
         "tenantId": "",
-        "msiResourceId": "",
         "identity": { "type": "None" }
       },
       "SingleTenant": {
-        "tenantId": "[parameters('tenantId')]",
-        "msiResourceId": "",
+        "tenantId": "[variables('tenantId')]",
         "identity": { "type": "None" }
       },
       "UserAssignedMSI": {
-        "tenantId": "[parameters('tenantId')]",
-        "msiResourceId": "[variables('msiResourceId')]",
+        "tenantId": "[variables('tenantId')]",
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
@@ -111,7 +124,6 @@
     },
     "appType": {
       "tenantId": "[variables('appTypeDef')[parameters('appType')].tenantId]",
-      "msiResourceId": "[variables('appTypeDef')[parameters('appType')].msiResourceId]",
       "identity": "[variables('appTypeDef')[parameters('appType')].identity]"
     }
   },
@@ -126,24 +138,20 @@
       "sku": "[parameters('newAppServicePlanSku')]",
       "kind": "linux",
       "properties": {
-        "name": "[variables('servicePlanName')]",
-        "perSiteScaling": false,
-        "reserved": true,
-        "targetWorkerCount": 0,
-        "targetWorkerSizeId": 0
+        "name": "[variables('servicePlanName')]"
       }
     },
     {
       "comments": "Create a Web App using an App Service Plan",
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
-      "name": "[parameters('appServiceName')]",
-      "identity": "[variables('appType').identity]",
       "location": "[variables('servicePlanLocation')]",
       "kind": "app,linux",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
       ],
+      "name": "[parameters('appServiceName')]",
+      "identity": "[variables('appType').identity]",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [
