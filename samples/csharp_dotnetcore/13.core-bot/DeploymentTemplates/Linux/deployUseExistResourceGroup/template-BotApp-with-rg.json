@@ -149,13 +149,13 @@
       "comments": "Create a Web App using an App Service Plan",
       "type": "Microsoft.Web/sites",
       "apiVersion": "2016-08-01",
+      "name": "[parameters('appServiceName')]",
+      "identity": "[variables('appType').identity]",
       "location": "[variables('servicePlanLocation')]",
       "kind": "app,linux",
       "dependsOn": [
         "[resourceId('Microsoft.Web/serverfarms', variables('servicePlanName'))]"
       ],
-      "name": "[parameters('appServiceName')]",
-      "identity": "[variables('appType').identity]",
       "properties": {
         "enabled": true,
         "hostNameSslStates": [

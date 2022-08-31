@@ -45,18 +45,6 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
-    "appId": {
-      "type": "string",
-      "metadata": {
-        "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
-      }
-    },
-    "appSecret": {
-      "type": "string",
-      "metadata": {
-        "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types."
-      }
-    },
     "appType": {
       "type": "string",
       "defaultValue": "MultiTenant",
@@ -67,6 +55,18 @@
       ],
       "metadata": {
         "description": "Type of Bot Authentication. set as MicrosoftAppType in the Web App's Application Settings. Allowed values are: MultiTenant, SingleTenant, UserAssignedMSI. Defaults to \"MultiTenant\"."
+      }
+    },
+    "appId": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
+      }
+    },
+    "appSecret": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types."
       }
     }
   },
@@ -148,7 +148,7 @@
               "type": "Microsoft.Web/sites",
               "apiVersion": "2015-08-01",
               "name": "[variables('appServiceName')]",
-      "identity": "[variables('appType').identity]",
+              "identity": "[variables('appType').identity]",
               "location": "[variables('resourcesLocation')]",
               "kind": "app,linux",
               "dependsOn": [
@@ -169,23 +169,23 @@
                   }
                 ],
                 "serverFarmId": "[variables('appServicePlanName')]",
-        "reserved": true,
-        "scmSiteAlsoStopped": false,
-        "clientAffinityEnabled": true,
-        "clientCertEnabled": false,
-        "hostNamesDisabled": false,
-        "containerSize": 0,
-        "dailyMemoryTimeQuota": 0,
-        "httpsOnly": false,
+                "reserved": true,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": true,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
                 "siteConfig": {
                   "appSettings": [
                     {
-              "name": "WEBSITE_NODE_DEFAULT_VERSION",
-              "value": "10.14.1"
-            },
-            {
-              "name": "MicrosoftAppType",
-              "value": "[parameters('appType')]"
+                      "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                      "value": "10.14.1"
+                    },
+                    {
+                      "name": "MicrosoftAppType",
+                      "value": "[parameters('appType')]"
                     },
                     {
                       "name": "MicrosoftAppId",
@@ -194,18 +194,12 @@
                     {
                       "name": "MicrosoftAppPassword",
                       "value": "[parameters('appSecret')]"
-            },
-            {
-              "name": "MicrosoftAppTenantId",
-              "value": "[variables('appType').tenantId]"
+                    },
+                    {
+                      "name": "MicrosoftAppTenantId",
+                      "value": "[variables('appType').tenantId]"
                     }
-                  ],
-                  "cors": {
-                    "allowedOrigins": [
-                      "https://botservice.hosting.portal.azure.net",
-                      "https://hosting.onecloud.azure-test.net/"
-                    ]
-                  },
+                  ]
                 }
               }
             },
@@ -234,17 +228,17 @@
                 "phpVersion": "",
                 "pythonVersion": "",
                 "nodeVersion": "",
-        "linuxFxVersion": "DOTNETCORE|2.2",
+                "linuxFxVersion": "DOTNETCORE|2.2",
                 "requestTracingEnabled": false,
                 "remoteDebuggingEnabled": false,
-        "httpLoggingEnabled": false,
+                "httpLoggingEnabled": false,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
                 "publishingUsername": "[concat('$', parameters('appServiceName'))]",
-        "scmType": "LocalGit",
+                "scmType": "LocalGit",
                 "use32BitWorkerProcess": true,
                 "webSocketsEnabled": false,
-        "alwaysOn": true,
+                "alwaysOn": true,
                 "appCommandLine": "",
                 "managedPipelineMode": "Integrated",
                 "virtualApplications": [
