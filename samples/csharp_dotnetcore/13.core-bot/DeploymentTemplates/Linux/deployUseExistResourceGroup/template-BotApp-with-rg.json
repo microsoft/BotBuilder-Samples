@@ -197,13 +197,7 @@
               "name": "MicrosoftAppTenantId",
               "value": "[variables('appType').tenantId]"
             }
-          ],
-          "cors": {
-            "allowedOrigins": [
-              "https://botservice.hosting.portal.azure.net",
-              "https://hosting.onecloud.azure-test.net/"
-            ]
-          }
+          ]
         }
       }
     },
