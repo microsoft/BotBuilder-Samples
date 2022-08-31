@@ -138,7 +138,11 @@
       "sku": "[parameters('newAppServicePlanSku')]",
       "kind": "linux",
       "properties": {
-        "name": "[variables('servicePlanName')]"
+        "name": "[variables('servicePlanName')]",
+        "perSiteScaling": false,
+        "reserved": true,
+        "targetWorkerCount": 0,
+        "targetWorkerSizeId": 0
       }
     },
     {
