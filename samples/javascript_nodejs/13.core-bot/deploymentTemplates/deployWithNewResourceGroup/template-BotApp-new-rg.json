@@ -92,6 +92,7 @@
     }
   },
   "variables": {
+    "tenantId": "[if(empty(parameters('tenantId')), subscription().tenantId, parameters('tenantId'))]",
     "appServicePlanName": "[parameters('appServicePlanName')]",
     "resourcesLocation": "[if(empty(parameters('appServicePlanLocation')), parameters('groupLocation'), parameters('appServicePlanLocation'))]",
     "appServiceName": "[parameters('appServiceName')]",
@@ -103,11 +104,11 @@
         "identity": { "type": "None" }
       },
       "SingleTenant": {
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[variables('tenantId')]",
         "identity": { "type": "None" }
       },
       "UserAssignedMSI": {
-        "tenantId": "[parameters('tenantId')]",
+        "tenantId": "[variables('tenantId')]",
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
