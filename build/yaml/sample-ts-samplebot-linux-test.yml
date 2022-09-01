@@ -172,28 +172,28 @@ jobs:
       workingDir: $(SampleRootPath)
       verbose: false
 
-  # - task: AzureCLI@2
-  #   displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
-  #   inputs:
-  #     azureSubscription: 'FUSE Temporary'
-  #     scriptType: ps
-  #     scriptLocation: inlineScript
-  #     inlineScript: |
-  #       Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
-  #       Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
-  #       Write-Host "************************************************************************";
-  #       Set-PSDebug -Trace 1;
+  - task: AzureCLI@2
+    displayName: 'Preexisting RG: create Azure resources. Runs in even builds.'
+    inputs:
+      azureSubscription: 'FUSE Temporary'
+      scriptType: ps
+      scriptLocation: inlineScript
+      inlineScript: |
+        Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
+        Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
+        Write-Host "************************************************************************";
+        Set-PSDebug -Trace 1;
 
-  #       az group create --location westus --name $(BotGroup);
+        az group create --location westus --name $(BotGroup);
 
-  #       # set up app service plan, app service (web app)
-  #       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\linux\DeployUseExistResourceGroup\template-BotApp-with-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" newAppServicePlanLocation="westus" --name "$(AzureBotName)";
+        # set up app service plan, app service (web app)
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\linux\DeployUseExistResourceGroup\template-BotApp-with-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" newAppServicePlanLocation="westus" --name "$(AzureBotName)";
 
-  #       # set up bot channels registration
-  #       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\linux\DeployUseExistResourceGroup\template-AzureBot-with-rg.json" --parameters appId="$(AppId)" azureBotId="$(AzureBotName)";
+        # set up bot channels registration
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\linux\DeployUseExistResourceGroup\template-AzureBot-with-rg.json" --parameters appId="$(AppId)" azureBotId="$(AzureBotName)";
 
-  #       Set-PSDebug -Trace 0;
-  #   condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
+        Set-PSDebug -Trace 0;
+    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
 
   - task: AzureCLI@2
     displayName: 'New RG: create Azure resources. Runs in odd builds.'
@@ -214,7 +214,7 @@ jobs:
         az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\linux\DeployWithNewResourceGroup\template-AzureBot-new-rg.json" --location "westus" --parameters appId=$(AppId) azureBotId="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus";
 
         Set-PSDebug -Trace 0;
-  #   condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
+    condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
 
   - powershell: |
       Set-PSDebug -Trace 1;
