@@ -45,6 +45,10 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
+    "linuxFxVersion": {
+      "type": "string",
+      "defaultValue": "NODE|10.14"
+    },
     "appId": {
       "type": "string",
       "metadata": {
@@ -56,6 +60,15 @@
       "metadata": {
         "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types."
       }
+    },
+    "appType": {
+      "defaultValue": "MultiTenant",
+      "type": "string",
+      "allowedValues": [
+        "MultiTenant",
+        "SingleTenant",
+        "UserAssignedMSI"
+      ]
     }
   },
   "variables": {
@@ -108,14 +121,14 @@
               "comments": "Create a Web App using the new App Service Plan",
               "type": "Microsoft.Web/sites",
               "apiVersion": "2015-08-01",
+              "name": "[parameters('appServiceName')]",
               "location": "[variables('resourcesLocation')]",
               "kind": "app,linux",
               "dependsOn": [
                 "[concat(variables('resourceGroupId'), '/providers/Microsoft.Web/serverfarms/', variables('appServicePlanName'))]"
               ],
-              "name": "[variables('appServiceName')]",
               "properties": {
-                "name": "[variables('appServiceName')]",
+                "enabled": true,
                 "hostNameSslStates": [
                   {
                     "name": "[concat(parameters('appServiceName'), '.azurewebsites.net')]",
@@ -129,11 +142,24 @@
                   }
                 ],
                 "serverFarmId": "[variables('appServicePlanName')]",
+                "reserved": true,
+                "scmSiteAlsoStopped": false,
+                "clientAffinityEnabled": false,
+                "clientCertEnabled": false,
+                "hostNamesDisabled": false,
+                "containerSize": 0,
+                "dailyMemoryTimeQuota": 0,
+                "httpsOnly": false,
                 "siteConfig": {
+                  "linuxFxVersion": "[parameters('linuxFxVersion')]",
                   "appSettings": [
                     {
-                      "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-                      "value": "true"
+                      "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                      "value": "10.14.1"
+                    },
+                    {
+                      "name": "MicrosoftAppType",
+                      "value": "[parameters('appType')]"
                     },
                     {
                       "name": "MicrosoftAppId",
@@ -144,13 +170,6 @@
                       "value": "[parameters('appSecret')]"
                     }
                   ],
-                  "cors": {
-                    "allowedOrigins": [
-                      "https://botservice.hosting.portal.azure.net",
-                      "https://hosting.onecloud.azure-test.net/"
-                    ]
-                  },
-                  "webSocketsEnabled": true
                 }
               }
             },
@@ -179,25 +198,24 @@
                 "phpVersion": "",
                 "pythonVersion": "",
                 "nodeVersion": "",
-                "linuxFxVersion": "PYTHON|3.7",
+                "linuxFxVersion": "[parameters('linuxFxVersion')]",
                 "requestTracingEnabled": false,
                 "remoteDebuggingEnabled": false,
-                "remoteDebuggingVersion": "VS2017",
                 "httpLoggingEnabled": true,
                 "logsDirectorySizeLimit": 35,
                 "detailedErrorLoggingEnabled": false,
                 "publishingUsername": "[concat('$', parameters('appServiceName'))]",
-                "scmType": "None",
+                "scmType": "LocalGit",
                 "use32BitWorkerProcess": true,
                 "webSocketsEnabled": false,
-                "alwaysOn": false,
-                "appCommandLine": "gunicorn --bind 0.0.0.0 --worker-class aiohttp.worker.GunicornWebWorker --timeout 600 app:APP",
+                "alwaysOn": true,
+                "appCommandLine": "",
                 "managedPipelineMode": "Integrated",
                 "virtualApplications": [
                   {
                     "virtualPath": "/",
                     "physicalPath": "site\\wwwroot",
-                    "preloadEnabled": false,
+                    "preloadEnabled": true,
                     "virtualDirectories": null
                   }
                 ],
@@ -217,8 +235,7 @@
                 "reservedInstanceCount": 0
               }
             }
-          ],
-          "outputs": {}
+          ]
         }
       }
     }
