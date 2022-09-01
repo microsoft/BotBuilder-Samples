@@ -154,6 +154,7 @@
                 <version>1.12.0</version>
                 <configuration>
                     <schemaVersion>V2</schemaVersion>
+                    <subscriptionId>${subscription}</subscriptionId>
                     <resourceGroup>${groupname}</resourceGroup>
                     <appName>${botname}</appName>
                     <appSettings>
