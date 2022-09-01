@@ -65,16 +65,16 @@
       "defaultValue": "",
       "metadata": {
         "description": "Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings. Required for MultiTenant and SingleTenant app types. Defaults to \"\"."
-      },
-      "appType": {
-        "defaultValue": "MultiTenant",
-        "type": "string",
-        "allowedValues": [
-          "MultiTenant",
-          "SingleTenant",
-          "UserAssignedMSI"
-        ]
       }
+    },
+    "appType": {
+      "defaultValue": "MultiTenant",
+      "type": "string",
+      "allowedValues": [
+        "MultiTenant",
+        "SingleTenant",
+        "UserAssignedMSI"
+      ]
     }
   },
   "variables": {
