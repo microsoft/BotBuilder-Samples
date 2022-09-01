@@ -50,6 +50,10 @@
         "description": "The SKU of the App Service Plan. Defaults to Standard values."
       }
     },
+    "linuxFxVersion": {
+      "type": "string",
+      "defaultValue": "NODE|10.14"
+    },
     "appId": {
       "type": "string",
       "metadata": {
@@ -121,10 +125,15 @@
         "dailyMemoryTimeQuota": 0,
         "httpsOnly": false,
         "siteConfig": {
+          "linuxFxVersion": "[parameters('linuxFxVersion')]",
           "appSettings": [
             {
-              "name": "SCM_DO_BUILD_DURING_DEPLOYMENT",
-              "value": "true"
+              "name": "WEBSITE_NODE_DEFAULT_VERSION",
+              "value": "10.14.1"
+            },
+            {
+              "name": "MicrosoftAppType",
+              "value": "[parameters('appType')]"
             },
             {
               "name": "MicrosoftAppId",
@@ -134,13 +143,7 @@
               "name": "MicrosoftAppPassword",
               "value": "[parameters('appSecret')]"
             }
-          ],
-          "cors": {
-            "allowedOrigins": [
-              "https://botservice.hosting.portal.azure.net",
-              "https://hosting.onecloud.azure-test.net/"
-            ]
-          }
+          ]
         }
       }
     },
