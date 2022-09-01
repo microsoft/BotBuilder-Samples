@@ -169,7 +169,7 @@
                       "name": "MicrosoftAppPassword",
                       "value": "[parameters('appSecret')]"
                     }
-                  ],
+                  ]
                 }
               }
             },
