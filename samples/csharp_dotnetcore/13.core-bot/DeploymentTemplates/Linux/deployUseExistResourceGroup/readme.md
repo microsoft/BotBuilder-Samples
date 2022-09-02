@@ -15,7 +15,7 @@ BotApp must be deployed prior to AzureBot.
   - **newAppServicePlanLocation**:      The location of the App Service Plan.
   - **newAppServicePlanSku**:           The SKU of the App Service Plan. Defaults to Standard values.
 - **appId**: (required)                 Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings.
-- **appSecret**: (required)             Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings.
+- **appSecret**: (required for MultiTenant and SingleTenant)  Active Directory App Password, set as MicrosoftAppPassword in the Web App's Application Settings.
 
 ## Parameters for template-AzureBot-with-rg.json:
 
