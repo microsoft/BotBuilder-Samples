@@ -4,7 +4,6 @@
   "parameters": {
     "appServiceName": {
       "type": "string",
-      "defaultValue": "",
       "metadata": {
         "description": "The globally unique name of the Web App."
       }

@@ -28,6 +28,7 @@
     },
     "appServicePlanLocation": {
       "type": "string",
+      "defaultValue": "",
       "metadata": {
         "description": "The location of the App Service Plan."
       }
