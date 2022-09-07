@@ -6,8 +6,8 @@
   },
   "dependencies": {
     "cross-env": "latest",
-    "botbuilder-ai-luis": "~4.13.1-preview",
-    "botbuilder-ai-qna": "~4.13.1-preview",
-    "botbuilder-dialogs-adaptive-runtime-integration-express": "~4.13.1-preview"
+    "botbuilder-ai-luis": "4.17.0-preview",
+    "botbuilder-ai-qna": "4.17.0-preview",
+    "botbuilder-dialogs-adaptive-runtime-integration-express": "4.17.0-preview"
   }
 }
