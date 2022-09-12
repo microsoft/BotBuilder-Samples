@@ -308,17 +308,20 @@ jobs:
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
-       Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
-       Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
-       Write-Host "************************************************************************";
-       #Set-PSDebug -Trace 1;
-     
-       az group create --location westus --name $(BotGroup);
-     
-       # set up bot channels registration, app service, app service plan
-       az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\deploymentTemplates\template-with-preexisting-rg.json" --parameters botId="$(AzureBotName)" appId="$(AppId)" appSecret="$(AppSecret)" newAppServicePlanName="$(AzureBotName)" appServicePlanLocation="westus" --name "$(AzureBotName)";
+        Write-Host "`n***** Creating Azure resources using the preexisting-rg template *****";
+        Write-Host "This task runs for even-numbered builds. Build ID = $(Build.BuildId)";
+        Write-Host "************************************************************************";
+        Set-PSDebug -Trace 1;
 
-       #Set-PSDebug -Trace 0;
+        az group create --location westus --name $(BotGroup);
+
+        # set up app service plan, app service (web app)
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-BotApp-with-rg.json" --parameters appId="$(AppId)" appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" newAppServicePlanName="$(AzureBotName)" newAppServicePlanLocation="westus" --name "$(AzureBotName)";
+
+        # set up bot channels registration
+        az deployment group create --resource-group "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployUseExistResourceGroup\template-AzureBot-with-rg.json" --parameters appId="$(AppId)" azureBotId="$(AzureBotName)";
+
+        Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 0), endsWith(variables['Build.BuildId'], 2), endsWith(variables['Build.BuildId'], 4), endsWith(variables['Build.BuildId'], 6), endsWith(variables['Build.BuildId'], 8)))
 
   - task: AzureCLI@2
@@ -331,41 +334,39 @@ jobs:
         Write-Host "`n***** Creating Azure resources using the new-rg template *****";
         Write-Host "This task runs for odd-numbered builds. Build ID = $(Build.BuildId)";
         Write-Host "****************************************************************";
+        Set-PSDebug -Trace 1;
 
-        #Set-PSDebug -Trace 1;
+        # set up resource group, app service plan, app service (web app)
+        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-BotApp-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" appServiceName="$(AzureBotName)" appServicePlanName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" appServicePlanLocation="westus";
+     
+        # set up bot channels registration
+        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\DeployWithNewResourceGroup\template-AzureBot-new-rg.json" --location "westus" --parameters appId=$(AppId) azureBotId="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus";
 
-        # set up resource group, bot channels registration, app service, app service plan
-        az deployment sub create --name "$(BotGroup)" --template-file "$(SampleRootPath)\DeploymentTemplates\template-with-new-rg.json" --location "westus" --parameters appId=$(AppId) appSecret="$(AppSecret)" botId="$(AzureBotName)" botSku=S1 newAppServicePlanName="$(AzureBotName)" newWebAppName="$(AzureBotName)" groupName="$(BotGroup)" groupLocation="westus" newAppServicePlanLocation="westus";
-
-        #Set-PSDebug -Trace 0;
+        Set-PSDebug -Trace 0;
     condition: and(succeeded(), or( endsWith(variables['Build.BuildId'], 1), endsWith(variables['Build.BuildId'], 3), endsWith(variables['Build.BuildId'], 5), endsWith(variables['Build.BuildId'], 7), endsWith(variables['Build.BuildId'], 9)))
 
+  - script: |
+      echo on
+      git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
+      git config --global user.email BotBuilderPy@Pipeline.com
+      git init
+
+      git add .
+      git commit -m "Add bot source code"
+      git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
+
+      git push azure master
+    workingDirectory: '$(SampleRootPath)'
+    displayName: 'Git push the bot to Azure'
+
   - task: AzureCLI@2
-    displayName: Create directline channel
+    displayName: Create DirectLine channel
     inputs:
       azureSubscription: 'FUSE Temporary'
       scriptType: ps
       scriptLocation: inlineScript
       inlineScript: |
        az bot directline create --name "$(AzureBotName)" --resource-group "$(BotGroup)" > "$(System.DefaultWorkingDirectory)\DirectLineCreate.json" --debug
-
-       #az webapp deployment source config-zip --resource-group "$(BotGroup)" --name "$(AzureBotName)" --src "$(SampleRootPath)\testbot.zip" --debug
-
-  - script: |
-     echo git config
-     git config --global user.name "SamplePy$(SampleBotName)LinuxTestPipeline"
-     git config --global user.email BotBuilderPy@Pipeline.com
-     git init
-   
-     echo git add .
-     git add .
-     git commit -m "Add bot source code"
-     git remote add azure https://$(AzureDeploymentUser):$(AzureDeploymentPassword)@$(AzureBotName).scm.azurewebsites.net:443/$(AzureBotName).git
-   
-     echo git push azure master
-     git push azure master
-    workingDirectory: '$(SampleRootPath)'
-    displayName: 'git push the bot to Azure'
 
   - powershell: |
       # Key = Direct Line channel "Secret keys" in Azure portal
