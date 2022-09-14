@@ -266,9 +266,7 @@ jobs:
     displayName: Set DIRECTLINE key, BOTID for running tests
 
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 5.5.1
-    inputs:
-      versionSpec: 5.5.1
+    displayName: "Use NuGet latest"
 
   - powershell: |
       $file = "$(System.DefaultWorkingDirectory)/samples/csharp_dotnetcore/tests/Samples.$(SampleBotName).FunctionalTests/nuget.config";

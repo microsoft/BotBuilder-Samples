@@ -244,9 +244,7 @@ jobs:
     displayName: Set Bot.Builder version reference in $(SampleBotName).csproj
 
   - task: NuGetToolInstaller@1
-    displayName: Use NuGet 5.5.1
-    inputs:
-      versionSpec: 5.5.1
+    displayName: "Use NuGet latest"
 
   - task: NuGetCommand@2
     displayName: NuGet restore $(SampleBotName).csproj
