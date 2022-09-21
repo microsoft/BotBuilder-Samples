@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "appServiceName": {
-      "value": ""
+      "value": "trboehreTaskModule"
     },
     "existingAppServicePlanName": {
       "value": ""
@@ -12,10 +12,10 @@
       "value": ""
     },
     "newAppServicePlanName": {
-      "value": ""
+      "value": "trboehreTaskModulePlan"
     },
     "newAppServicePlanLocation": {
-      "value": ""
+      "value": "West US"
     },
     "newAppServicePlanSku": {
       "value": {
@@ -27,22 +27,22 @@
       }
     },
     "appType": {
-      "value": "MultiTenant"
+      "value": "UserAssignedMSI"
     },
     "appId": {
-      "value": ""
+      "value": "88658871-67f7-4e5f-be6c-62fac5e15503"
     },
     "appSecret": {
       "value": ""
     },
     "UMSIName": {
-      "value": ""
+      "value": "trboehreTaskModule"
     },
     "UMSIResourceGroupName": {
-      "value": ""
+      "value": "trboehre-js"
     },
     "tenantId": {
-      "value": ""
+      "value": "72f988bf-86f1-41af-91ab-2d7cd011db47"
     }
   }
 }
