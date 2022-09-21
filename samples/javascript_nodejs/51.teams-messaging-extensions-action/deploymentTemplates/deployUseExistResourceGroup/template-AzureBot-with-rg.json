@@ -116,22 +116,6 @@
         "isIsolated": false
       },
       "dependsOn": []
-    },
-    {
-        "type": "Microsoft.BotService/botServices/channels",
-        "apiVersion": "2021-03-01",
-        "name": "[concat(parameters('botazureBotIdId'), '/MsTeamsChannel')]",
-        "location": "global",
-        "dependsOn": [
-            "[concat(variables('resourceGroupId'), '/providers/Microsoft.BotService/botServices/', variables('azureBotId'))]"
-        ],
-        "properties": {
-            "properties": {
-                "enableCalling": false,
-                "isEnabled": true
-            },
-            "channelName": "MsTeamsChannel"
-        }
     }
   ]
 }
