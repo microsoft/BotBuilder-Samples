@@ -29,7 +29,9 @@
               "text": "Please log in to your email account",
               "tokenProperty": "user.token",
               "allowInterruptions": true,
-              "maxTurnCount": 3
+              "maxTurnCount": 3,
+              "property": "user.token",
+              "timeout": 900000
             }
           ]
         },
@@ -41,7 +43,7 @@
           "method": "GET",
           "url": "https://graph.microsoft.com/beta/me/mailFolders/inbox/messages",
           "headers": {
-            "Authorization": "Bearer ${user.token.token}"
+            "Authorization": "Bearer ${user.token}"
           },
           "resultProperty": "user.getGraphEmails"
         },
@@ -55,5 +57,6 @@
       ]
     }
   ],
-  "generator": "oauthinput.lg"
+  "generator": "oauthinput.lg",
+  "id": "oauthinput"
 }
