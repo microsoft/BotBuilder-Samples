@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -31,7 +31,7 @@
     <developers>
         <developer>
             <name>Bot Framework Development</name>
-            <email></email>
+            <email/>
             <organization>Microsoft</organization>
             <organizationUrl>https://dev.botframework.com/</organizationUrl>
         </developer>
@@ -98,7 +98,7 @@
       <dependency>
         <groupId>com.microsoft.bot</groupId>
         <artifactId>bot-integration-spring</artifactId>
-        <version>4.14.1</version>
+        <version>4.14.2</version>
         <scope>compile</scope>
       </dependency>
       <dependency>
