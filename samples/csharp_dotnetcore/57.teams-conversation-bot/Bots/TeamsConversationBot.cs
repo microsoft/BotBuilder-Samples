@@ -158,7 +158,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
         private async Task MessageAllMembersAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
-            var teamsChannelId = turnContext.Activity.TeamsGetChannelId();
+            var channelId = turnContext.Activity.ChannelId;
             var serviceUrl = turnContext.Activity.ServiceUrl;
             var credentials = new MicrosoftAppCredentials(_appId, _appPassword);
             ConversationReference conversationReference = null;
@@ -179,7 +179,7 @@ namespace Microsoft.BotBuilderSamples.Bots
 
                 await ((CloudAdapter)turnContext.Adapter).CreateConversationAsync(
                     credentials.MicrosoftAppId,
-                    teamsChannelId,
+                    channelId,
                     serviceUrl,
                     credentials.OAuthScope,
                     conversationParameters,
