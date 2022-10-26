@@ -8,9 +8,9 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.Azure.KeyVault.Core" Version="3.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="6.0.7" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.17.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Azure.Blobs" Version="4.17.1" />
-    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.17.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure" Version="4.18.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Azure.Blobs" Version="4.18.1" />
+    <PackageReference Include="Microsoft.Bot.Builder.Integration.AspNet.Core" Version="4.18.1" />
   </ItemGroup>
 
   <PropertyGroup>
