@@ -446,7 +446,6 @@
     <module>07.using-adaptive-cards</module>
     <module>08.suggested-actions</module>
     <module>13.core-bot</module>
-    <module>14.nlp-with-dispatch</module>
     <module>15.handling-attachments</module>
     <module>16.proactive-messages</module>
     <module>17.multilingual-bot</module>

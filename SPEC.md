@@ -11,7 +11,7 @@ This specification outlines the requirements for botbuilder samples.
     - Deep link to V4 Emulator, include how to connect the Emulator to a locally running bot.
     - .chat files as appropriate that provide scenario overview and demonstrates how to construct mock conversations for the specific scenario
     - .lu files as appropriate
-    - Include source JSON model files for LUIS, QnA, Dispatch where applicable
+    - Include source JSON model files for LUIS, Custom Question Answering, Dispatch where applicable
     - Include LUISGen strong typed LUIS class for LUIS samples
     - Any required build scripts for sample to work locally
     - Well defined naming convention for setting, service endpoint, and secrets in setting files (appsettings.json, .env, etc.)
@@ -34,7 +34,6 @@ This specification outlines the requirements for botbuilder samples.
     | - Dialogs                                 // Multi-turn dialog classes
     | - CognitiveModels
         | - <bot_name>.luis                     // LUIS model file for this sample
-        | - <bot_name>.qna                      // QnA Maker JSON model file
         | - <bot_name>.dispatch                 // Dispatch JSON model file
     | - DeploymentTemplates
         | - template-with-new-rg.json           // ARM Template that creates a new Azure Resource Group
@@ -52,7 +51,6 @@ This specification outlines the requirements for botbuilder samples.
     | - dialogs                                 // Multi-turn dialog classes
     | - cognitiveModels
         | - <bot-name>.luis                     // LUIS model file for this sample
-        | - <bot-name>.qna                      // QnA Maker JSON model file
         | - <bot-name>.dispatch                 // Dispatch JSON model file
     | - deploymentTemplates
         | - template-with-new-rg.json           // ARM Template that creates a new Azure Resource Group
