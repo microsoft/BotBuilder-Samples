@@ -411,11 +411,6 @@
         <artifactId>bot-applicationinsights</artifactId>
         <version>${project.version}</version>
       </dependency>
-      <dependency>
-        <groupId>com.microsoft.bot</groupId>
-        <artifactId>bot-ai-qna</artifactId>
-        <version>${project.version}</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 
@@ -450,7 +445,6 @@
     <module>06.using-cards</module>
     <module>07.using-adaptive-cards</module>
     <module>08.suggested-actions</module>
-    <module>11.qnamaker</module>
     <module>13.core-bot</module>
     <module>14.nlp-with-dispatch</module>
     <module>15.handling-attachments</module>
@@ -469,7 +463,6 @@
     <module>45.state-management</module>
     <module>46.teams-auth</module>
     <module>47.inspection</module>
-    <module>49.qnamaker-all-features</module>
     <module>50.teams-messaging-extensions-search</module>
     <module>51.teams-messaging-extensions-action</module>
     <module>52.teams-messaging-extensions-search-auth-config</module>
