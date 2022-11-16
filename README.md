@@ -28,7 +28,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
     - [Bot essentials](#bot-essentials)
     - [Advanced bots](#advanced-bots)
     - [Authentication samples](#authentication-samples)
-    - [QnA Maker samples](#qna-maker-samples)
+    - [Custom question answering samples](#qna-maker-samples)
     - [Teams samples](#teams-samples)
     - [Custom adapter samples](#custom-adapter-samples)
     - [Skills samples](#skills-samples)
@@ -81,8 +81,8 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java |
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------|
-|12|Custom QnA&nbsp;Maker&nbsp;(simple)             | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[.NET&nbsp;Core][cs#12]|[JavaScript][js#12]      | | 
-|48|Custom QnA&nbsp;Maker&nbsp;(advanced) | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[.NET&nbsp;Core][cs#48]|[JavaScript][js#48]     | | 
+|12|Custom question answering&nbsp;(simple)             | Demonstrates how to use Custom question answering to have simple single-turn conversations     |[.NET&nbsp;Core][cs#12]|[JavaScript][js#12]      | | 
+|48|Custom question answering&nbsp;(advanced) | Demonstrates how to integrate Multiturn and Active learning in a Custom question answering bot |[.NET&nbsp;Core][cs#48]|[JavaScript][js#48]     | | 
 
 ### Teams samples
 
