@@ -81,8 +81,8 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java |
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------|
-|11|QnA Maker (simple)             | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[.NET&nbsp;Core][cs#11]|[JavaScript][js#11]      |[Python][py#11]|[Java][java#11]
-|49|QnA&nbsp;Maker&nbsp;(advanced) | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[.NET&nbsp;Core][cs#49]|[JavaScript][js#49]     | |[Java][java#49]
+|12|Custom QnA&nbsp;Maker&nbsp;(simple)             | Demonstrates how to use QnA Maker to have simple single-turn conversations     |[.NET&nbsp;Core][cs#12]|[JavaScript][js#12]      | | 
+|48|Custom QnA&nbsp;Maker&nbsp;(advanced) | Demonstrates how to integrate Multiturn and Active learning in a QnA Maker bot.  This also demonstrates the QnAMakerDialog class. |[.NET&nbsp;Core][cs#48]|[JavaScript][js#48]     | | 
 
 ### Teams samples
 
@@ -119,8 +119,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#6]:samples/csharp_dotnetcore/06.using-cards
 [cs#7]:samples/csharp_dotnetcore/07.using-adaptive-cards
 [cs#8]:samples/csharp_dotnetcore/08.suggested-actions
-[cs#11]:samples/csharp_dotnetcore/11.qnamaker
-[cs#12]:samples/csharp_dotnetcore/11a.qnamaker
+[cs#12]:samples/csharp_dotnetcore/12.customQABot
 [cs#13]:samples/csharp_dotnetcore/13.core-bot
 [cs#13.b]:samples/csharp_dotnetcore/13.core-bot.tests
 [cs#14]:samples/csharp_dotnetcore/14.nlp-with-orchestrator
@@ -140,7 +139,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#45]:samples/csharp_dotnetcore/45.state-management
 [cs#46]:samples/csharp_dotnetcore/46.teams-auth
 [cs#47]:samples/csharp_dotnetcore/47.inspection
-[cs#49]:samples/csharp_dotnetcore/49.qnamaker-all-features
+[cs#48]:samples/csharp_dotnetcore/48.customQABot-all-features
 [cs#50]:samples/csharp_dotnetcore/50.teams-messaging-extensions-search
 [cs#51]:samples/csharp_dotnetcore/51.teams-messaging-extensions-action
 [cs#52]:samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config
@@ -181,8 +180,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#6]:samples/javascript_nodejs/06.using-cards
 [js#7]:samples/javascript_nodejs/07.using-adaptive-cards
 [js#8]:samples/javascript_nodejs/08.suggested-actions
-[js#11]:samples/javascript_nodejs/11.qnamaker
-[js#12]:samples/javascript_nodejs/11a.qnamaker
+[js#12]:samples/javascript_nodejs/12.customQABot
 [js#13]:samples/javascript_nodejs/13.core-bot
 [js#14]:samples/javascript_nodejs/14.nlp-with-orchestrator
 [js#15]:samples/javascript_nodejs/15.handling-attachments
@@ -200,7 +198,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#45]:samples/javascript_nodejs/45.state-management
 [js#46]:samples/javascript_nodejs/46.teams-auth
 [js#47]:samples/javascript_nodejs/47.inspection
-[js#49]:samples/javascript_nodejs/49.qnamaker-all-features
+[js#48]:samples/javascript_nodejs/48.customQABot-all-features
 [js#50]:samples/javascript_nodejs/50.teams-messaging-extensions-search
 [js#51]:samples/javascript_nodejs/51.teams-messaging-extensions-action
 [js#52]:samples/javascript_nodejs/52.teams-messaging-extensions-search-auth-config
@@ -221,7 +219,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [py#6]:samples/python/06.using-cards
 [py#7]:samples/python/07.using-adaptive-cards
 [py#8]:samples/python/08.suggested-actions
-[py#11]:samples/python/11.qnamaker
 [py#13]:samples/python/13.core-bot
 [py#14]:samples/python/14.nlp-with-dispatch
 [py#15]:samples/python/15.handling-attachments
@@ -258,7 +255,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#6]:samples/java_springboot/06.using-cards
 [java#7]:samples/java_springboot/07.using-adaptive-cards
 [java#8]:samples/java_springboot/08.suggested-actions
-[java#11]:samples/java_springboot/11.qnamaker
 [java#13]:samples/java_springboot/13.core-bot
 [java#14]:samples/java_springboot/14.nlp-with-dispatch
 [java#15]:samples/java_springboot/15.handling-attachments
@@ -277,7 +273,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#45]:samples/java_springboot/45.state-management
 [java#46]:samples/java_springboot/46.teams-auth
 [java#47]:samples/java_springboot/47.inspection
-[java#49]:samples/java_springboot/49.qnamaker-all-features
 [java#50]:samples/java_springboot/50.teams-messaging-extensions-search
 [java#51]:samples/java_springboot/51.teams-messaging-extensions-action
 [java#52]:samples/java_springboot/52.teams-messaging-extensions-search-auth-config

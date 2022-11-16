@@ -15,8 +15,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AdaptiveCardsBot", "07.usin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuggestedActionsBot", "08.suggested-actions\SuggestedActionsBot.csproj", "{9C70CB81-4403-41B8-ABB8-72497061DDB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABot", "11.qnamaker\QnABot.csproj", "{E8A19507-8EB5-4B37-B592-AB8316283A6F}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot", "13.core-bot\CoreBot.csproj", "{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "HandlingAttachmentsBot", "15.handling-attachments\HandlingAttachmentsBot.csproj", "{7E6046AF-DBF2-40E2-8ABA-A0537F76695A}"
@@ -68,8 +66,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsConversationBot", "57.teams-conversation-bot\TeamsConversationBot.csproj", "{3F435255-0B27-439A-9C62-259959E19042}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileUpload", "56.teams-file-upload\TeamsFileUpload.csproj", "{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QnABotAllFeatures", "49.qnamaker-all-features\QnABotAllFeatures.csproj", "{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
 EndProject
@@ -164,14 +160,6 @@ Global
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|x64.ActiveCfg = Release|Any CPU
 		{9C70CB81-4403-41B8-ABB8-72497061DDB0}.Release|x64.Build.0 = Release|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Debug|x64.Build.0 = Debug|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|x64.ActiveCfg = Release|Any CPU
-		{E8A19507-8EB5-4B37-B592-AB8316283A6F}.Release|x64.Build.0 = Release|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8FAE502C-68A1-47E8-9761-BCEA491BA4AA}.Debug|x64.ActiveCfg = Debug|Any CPU
@@ -380,14 +368,6 @@ Global
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Release|x64.ActiveCfg = Release|Any CPU
 		{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}.Release|x64.Build.0 = Release|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|x64.ActiveCfg = Debug|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Debug|x64.Build.0 = Debug|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|Any CPU.Build.0 = Release|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|x64.ActiveCfg = Release|Any CPU
-		{05DAAFFB-B946-434A-AB44-4AC8C0BB4096}.Release|x64.Build.0 = Release|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4F6B070A-029F-4A93-A229-43C8198DE85E}.Debug|x64.ActiveCfg = Debug|Any CPU
