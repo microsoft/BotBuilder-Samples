@@ -28,7 +28,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
     - [Bot essentials](#bot-essentials)
     - [Advanced bots](#advanced-bots)
     - [Authentication samples](#authentication-samples)
-    - [Custom question answering samples](#qna-maker-samples)
+    - [Custom question answering samples](#Custom-question-answering-samples)
     - [Teams samples](#teams-samples)
     - [Custom adapter samples](#custom-adapter-samples)
     - [Skills samples](#skills-samples)
@@ -47,7 +47,6 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |7|Adaptive cards | Demonstrates how the multi-turn dialog can use a card to get user input for name and age. |[.NET&nbsp;Core][cs#7] |[JavaScript][js#7] |[Python][py#7]|[Java][java#7]
 |8|Suggested actions    | Demonstrates how to enable your bot to present buttons that the user can tap to provide input.                                      |[.NET&nbsp;Core][cs#8] |[JavaScript][js#8] |[Python][py#8]|[Java][java#8]
 |13|Core bot            | Core bot shows how to use cards, dialog, and Language Understanding (LUIS).                         |[.NET&nbsp;Core][cs#13], [.NET&nbsp;Web][wa#13]|[JavaScript][js#13], [TypeScript][ts#13]|[Python][py#13]|[Java][java#13]
-|14|NLP with dispatch   | Demonstrates how to dispatch across LUIS and QnA Maker.                            |[.NET&nbsp;Core][cs#14]|[JavaScript][js#14]|[Python][py#14]|[Java][java#14]
 |15|Handling&nbsp;attachments| Demonstrates how to listen for/handle user provided attachments.                |[.NET&nbsp;Core][cs#15]|[JavaScript][js#15]|[Python][py#15]|[Java][java#15]
 |40|TIMEX resolution    | Demonstrates various ways to parse and manipulate the TIMEX expressions you get from LUIS and the [DateTimeRecognizer](https://github.com/Microsoft/recognizers-text) used by the DateTimePrompt. |[.NET&nbsp;Core][cs#40] |[JavaScript][js#40]|[Python][py#40]|[Java][java#40]
 |43|Complex dialogs      | Demonstrates different ways for composing dialogs. |[.NET&nbsp;Core][cs#43]|[JavaScript][js#43] |[Python][py#43]|[Java][java#43]
@@ -77,7 +76,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |24|MSGraph&nbsp;authentication    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[.NET&nbsp;Core][cs#24] |[JavaScript][js#24] |[Python][py#24]|[Java][java#24]
 |46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46]|[Java][java#46]
 
-### QnA Maker samples
+### Custom question answering samples
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java |
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------|
@@ -122,7 +121,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#12]:samples/csharp_dotnetcore/12.customQABot
 [cs#13]:samples/csharp_dotnetcore/13.core-bot
 [cs#13.b]:samples/csharp_dotnetcore/13.core-bot.tests
-[cs#14]:samples/csharp_dotnetcore/14.nlp-with-orchestrator
 [cs#15]:samples/csharp_dotnetcore/15.handling-attachments
 [cs#16]:samples/csharp_dotnetcore/16.proactive-messages
 [cs#17]:samples/csharp_dotnetcore/17.multilingual-bot
@@ -182,7 +180,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#8]:samples/javascript_nodejs/08.suggested-actions
 [js#12]:samples/javascript_nodejs/12.customQABot
 [js#13]:samples/javascript_nodejs/13.core-bot
-[js#14]:samples/javascript_nodejs/14.nlp-with-orchestrator
 [js#15]:samples/javascript_nodejs/15.handling-attachments
 [js#16]:samples/javascript_nodejs/16.proactive-messages
 [js#17]:samples/javascript_nodejs/17.multilingual-bot
@@ -220,7 +217,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [py#7]:samples/python/07.using-adaptive-cards
 [py#8]:samples/python/08.suggested-actions
 [py#13]:samples/python/13.core-bot
-[py#14]:samples/python/14.nlp-with-dispatch
 [py#15]:samples/python/15.handling-attachments
 [py#16]:samples/python/16.proactive-messages
 [py#17]:samples/python/17.multilingual-bot
@@ -256,7 +252,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#7]:samples/java_springboot/07.using-adaptive-cards
 [java#8]:samples/java_springboot/08.suggested-actions
 [java#13]:samples/java_springboot/13.core-bot
-[java#14]:samples/java_springboot/14.nlp-with-dispatch
 [java#15]:samples/java_springboot/15.handling-attachments
 [java#16]:samples/java_springboot/16.proactive-messages
 [java#17]:samples/java_springboot/17.multilingual-bot
