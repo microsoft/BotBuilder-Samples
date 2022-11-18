@@ -47,27 +47,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot.Tests", "13.core-bo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CoreBot-App-Insights", "21.corebot-app-insights\CoreBot-App-Insights.csproj", "{84584BDB-F423-45EB-96DD-C539A248E33F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsAuth", "46.teams-auth\TeamsAuth.csproj", "{46B069C2-5693-4345-9B36-4307C6CCA102}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Inspection", "47.inspection\Inspection.csproj", "{CC1FD48D-8F0E-4B89-A7C6-E17429CF80FE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsSearch", "50.teams-messaging-extensions-search\TeamsMessagingExtensionsSearch.csproj", "{C731CEBF-22A1-4F69-8969-604E515A2781}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsAction", "51.teams-messaging-extensions-action\TeamsMessagingExtensionsAction.csproj", "{0EEAC393-3033-4C13-B1C9-9D56EF96E6C9}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsSearchAuthConfig", "52.teams-messaging-extensions-search-auth-config\TeamsMessagingExtensionsSearchAuthConfig.csproj", "{23896F9B-67DE-4248-A513-2B0B5D644D08}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsMessagingExtensionsActionPreview", "53.teams-messaging-extensions-action-preview\TeamsMessagingExtensionsActionPreview.csproj", "{5341E7CF-7155-49CD-AA4B-9CC28344CCC1}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsTaskModule", "54.teams-task-module\TeamsTaskModule.csproj", "{F77EF462-7BD4-4128-9140-395047DE98C0}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsLinkUnfurling", "55.teams-link-unfurling\TeamsLinkUnfurling.csproj", "{F07C474E-B23D-4CB9-90E4-59E33BD82461}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsConversationBot", "57.teams-conversation-bot\TeamsConversationBot.csproj", "{3F435255-0B27-439A-9C62-259959E19042}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsFileUpload", "56.teams-file-upload\TeamsFileUpload.csproj", "{7DDAB89B-025E-4E3F-BCC9-36F5B8C64C44}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MessageReaction", "25.message-reaction\MessageReaction.csproj", "{4F6B070A-029F-4A93-A229-43C8198DE85E}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SimpleBotToBot", "Skills-SimpleBotToBot", "{A5567E91-578D-4212-A3CA-2EFEA116E109}"
 	ProjectSection(SolutionItems) = preProject
@@ -77,8 +57,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EchoSkillBot", "80.skills-simple-bot-to-bot\EchoSkillBot\EchoSkillBot.csproj", "{2FBBEF64-E34C-486A-B98E-65B5B722C24E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SimpleRootBot", "80.skills-simple-bot-to-bot\SimpleRootBot\SimpleRootBot.csproj", "{13406183-D1CB-4C2E-A3A6-95559CFB922F}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TeamsStartNewThreadInTeam", "58.teams-start-new-thread-in-channel\TeamsStartNewThreadInTeam.csproj", "{6F228764-4E4A-46A8-807A-8FC9E36DDA35}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Skills-SkillDialog", "Skills-SkillDialog", "{B1D88331-C060-4250-9CED-5B397D3C9835}"
 	ProjectSection(SolutionItems) = preProject
