@@ -29,7 +29,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
     - [Advanced bots](#advanced-bots)
     - [Authentication samples](#authentication-samples)
     - [Custom question answering samples](#Custom-question-answering-samples)
-    - [Teams samples](https://github.com/OfficeDev/Microsoft-Teams-Samples)
+    - [Teams samples site](https://github.com/OfficeDev/Microsoft-Teams-Samples)
     - [Custom adapter samples](#custom-adapter-samples)
     - [Skills samples](#skills-samples)
     - [Experimental / preview samples](#experimental--preview-samples)
