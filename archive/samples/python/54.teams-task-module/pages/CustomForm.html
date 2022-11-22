@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Microsoft Teams Task Module Tester - Custom Form</title>
+    <link rel="stylesheet" href="/css/msteams-16.css" />
+    <link rel="stylesheet" href="/css/Custom.css" />
+    <link rel="stylesheet" href="/css/Site.css" />
+
+    <script src="https://statics.teams.cdn.office.net/sdk/v1.5.2/js/MicrosoftTeams.min.js" asp-append-version="true"></script>
+</head>
+<body class="theme-light">
+    <div class="surface">
+        <div class="panel">
+
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            padding-left: 4px;
+            padding-right: 4px;
+        }
+    </style>
+    <title>Microsoft Teams Task Module Tester - Custom Form</title>
+</head>
+<body>
+    <script>
+        microsoftTeams.initialize();
+        function validateForm() {
+            var customerInfo = {
+                name: document.forms["customerForm"]["name"].value,
+                email: document.forms["customerForm"]["email"].value,
+                favoriteBook: document.forms["customerForm"]["favoriteBook"].value
+            }
+            microsoftTeams.tasks.submitTask(customerInfo, "<<YOUR-MICROSOFT-APP-ID>>");
+            return true;
+        }
+    </script>
+    <div class="surface theme-light">
+        <div class="panel">
+            <div class="font-semibold font-title">Enter new customer information:</div>
+            <form method="GET" id="customerForm" action="Noop.html" onSubmit="return validateForm()">
+                <div>
+                    <div class="form-group form-field-input" style="margin-bottom: 10px; margin-top: 10px;"></div><label for="name">Name: </label><input class="form-control input-field" id="name" type="text" placeholder="first and last" name="name" tabindex="1" autofocus>
+                    <div class="form-group form-field-input" style="margin-bottom: 10px;"></div><label for="email">Email: </label><input class="form-control input-field" id="email" type="email" placeholder="name@email.com" name="email" tabindex="2">
+                    <div class="form-group form-field-input" style="margin-bottom: 10px;"></div><label for="favoriteBook">Favorite book: </label><input class="form-control input-field" id="favoriteBook" type="text" placeholder="title of book" name="favoriteBook" tabindex="3">
+                    <div class="form-group form-field-input" style="margin-bottom: 10px;"></div><label for="pw">Password: </label><input class="form-control input-field" id="pw" type="password" name="password" tabindex="4">
+                    <div class="form-group form-field-input" style="margin-bottom: 10px;"></div><label for="pw2">Confirm password: </label><input class="form-control input-field" id="pw2" type="password" name="confirmPassword" style="margin-bottom: 10px;" tabindex="4">
+                    <button class="btn button-primary" type="submit" tabindex="5">Sign up</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
+        </div>
+    </div>
+</body>
+</html>
