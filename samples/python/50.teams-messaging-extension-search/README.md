@@ -19,7 +19,7 @@ the Teams service needs to call into the bot.
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
 1) Run ngrok - point to port 3978
@@ -33,7 +33,7 @@ the Teams service needs to call into the bot.
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) Bring up a terminal, navigate to `botbuilder-samples\samples\python\50.teams-messaging-extension-search` folder
+1) Bring up a terminal, navigate to `Microsoft-Teams-Samples\samples\msgext-search\python` folder
 
 1) Activate your desired virtual environment
 

@@ -25,13 +25,13 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
-- In a console, navigate to `samples/javascript_nodejs/46.teams-auth`
+- In a console, navigate to `samples/bot-conversation-sso-quickstart/js`
 
     ```bash
-    cd samples/javascript_nodejs/46.teams-auth
+    cd samples/bot-conversation-sso-quickstart/js
     ```
 
 - Install modules

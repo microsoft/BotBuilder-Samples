@@ -6,7 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
-NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
+NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. [Refer to sample](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp).
 
 ## Prerequisites
 
@@ -22,7 +22,7 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 - Clone the repository
 
     ```bash
-    git clone https://github.com/microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)
@@ -40,7 +40,7 @@ After Authentication has been configured via Azure Bot Service, you can test the
     
 - Run the bot from a terminal or from Visual Studio:
 
-  A) From a terminal, navigate to `samples/csharp_dotnetcore/18.bot-authentication`
+  A) From a terminal, navigate to `samples/bot-teams-authentication/csharp`
 
   ```bash
   # run the bot
@@ -51,8 +51,8 @@ After Authentication has been configured via Azure Bot Service, you can test the
 
   - Launch Visual Studio
   - File -> Open -> Project/Solution
-  - Navigate to `samples/csharp_dotnetcore/18.bot-authentication` folder
-  - Select `AuthenticationBot.csproj` file
+  - Navigate to `samples/bot-teams-authentication/csharp` folder
+  - Select `TeamsAuth.csproj` file
   - Press `F5` to run the project
 
 ## Testing the bot using Bot Framework Emulator

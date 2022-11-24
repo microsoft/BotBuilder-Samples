@@ -9,15 +9,15 @@ application setup for use in Azure Bot Service. The [scopes](https://developer.m
 - `profile`
 - `User.Read`
 
-NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
+NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. [Refer to sample](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python).
 
 ## To try this sample
 
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
 ```
-- In a terminal, navigate to `botbuilder-samples\samples\python\24.bot-authentication-msgraph` folder
+- In a terminal, navigate to `Microsoft-Teams-Samples\samples\bot-teams-authentication\python` folder
 - Update `config.py` with required configuration settings
   - MicrosoftAppId
   - MicrosoftAppPassword

@@ -1,6 +1,6 @@
 # Teams Search Auth Config Bot
 
-Bot Framework v4 sample for Teams expands the [50.teams-messaging-extensions-search](https://github.com/microsoft/BotBuilder-Samples/tree/master/samples/javascript_nodejs/50.teams-messaging-extensions-search) sample to include a configuration page and Bot Service authentication.
+Bot Framework v4 sample for Teams expands the [msgext-search](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/nodejs) sample to include a configuration page and Bot Service authentication.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension.
 
@@ -18,10 +18,10 @@ the Teams service needs to call into the bot.
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
-1) In a terminal, navigate to `samples/javascript_nodejs/52.teams-messaging-extensions-search-auth-config`
+1) In a terminal, navigate to `samples/msgext-search-sso-config/nodejs`
 
 1) Install modules
 

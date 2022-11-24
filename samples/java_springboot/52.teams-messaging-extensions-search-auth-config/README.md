@@ -1,6 +1,6 @@
 ﻿# Teams Search Auth Config Bot
 
-Bot Framework v4 sample for Teams expands the [50.teams-messaging-extensions-search](https://github.com/microsoft/BotBuilder-Samples/tree/main/samples/java_springboot/50.teams-messaging-extensions-search) sample to include a configuration page and Bot Service authentication.
+Bot Framework v4 sample for Teams expands the [messaging-extensions-search](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/java) sample to include a configuration page and Bot Service authentication.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to use a Messaging Extension configuration page, as well as how to sign in from a search Messaging Extension. In this sample we are assuming the OAuth 2 provider is Azure Active Directory v2 (AADv2) and are utilizing the Microsoft Graph API to retrieve data about the user. Check [here](https://docs.microsoft.com/en-us/azure/bot-service/bot-builder-authentication) for information about getting an AADv2 application setup for use in Azure Bot Service. The scopes used in this sample are the following:
 

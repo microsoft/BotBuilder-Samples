@@ -18,13 +18,13 @@ the Teams service needs to call into the bot.
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
 1) If you are using Visual Studio
    - Launch Visual Studio
    - File -> Open -> Project/Solution
-   - Navigate to `samples/csharp_dotnetcore/54.teams-task-module` folder
+   - Navigate to `samples/bot-task-module/csharp` folder
    - Select `TeamsTaskModule.csproj` file
 
 1) Run ngrok - point to port 3978

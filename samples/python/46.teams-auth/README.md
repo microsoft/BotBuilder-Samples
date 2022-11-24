@@ -22,10 +22,10 @@ The sample uses the bot authentication capabilities in [Azure Bot Service](https
 
 1) Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
 ```
 
-1) In a terminal, navigate to `botbuilder-samples\samples\python\46.teams-auth` folder
+1) In a terminal, navigate to `Microsoft-Teams-Samples\samples\bot-teams-authentication\python` folder
 
 1) Activate your desired virtual environment
 

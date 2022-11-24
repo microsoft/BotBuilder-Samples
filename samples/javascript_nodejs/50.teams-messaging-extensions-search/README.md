@@ -20,10 +20,10 @@ the Teams service needs to call into the bot.
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
-1) In a terminal, navigate to `samples/javascript_nodejs/50.teams-messaging-extensions-search`
+1) In a terminal, navigate to `samples/msgext-search/java`
 
 1) Install modules
 

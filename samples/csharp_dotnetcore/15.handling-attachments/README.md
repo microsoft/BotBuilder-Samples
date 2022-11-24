@@ -5,7 +5,7 @@ Bot Framework v4 handling attachments bot sample
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to send outgoing attachments and how to save attachments to disk.
 
 > **NOTE: A specific example for Microsoft Teams, demonstrating how to
-upload files to Teams from a bot and how to receive a file sent to a bot as an attachment, can be found [here](../56.teams-file-upload)**
+upload files to Teams from a bot and how to receive a file sent to a bot as an attachment, can be found [here](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/csharp)**
 
 ## Prerequisites
 

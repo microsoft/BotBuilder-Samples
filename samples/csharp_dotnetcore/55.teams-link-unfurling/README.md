@@ -18,13 +18,13 @@ the Teams service needs to call into the bot.
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
 1) If you are using Visual Studio
    - Launch Visual Studio
    - File -> Open -> Project/Solution
-   - Navigate to `samples/csharp_dotnetcore/55.teams-link-unfurling` folder
+   - Navigate to `samples/msgext-link-unfurling/csharp` folder
    - Select `TeamsLinkUnfurling.csproj` file
 
 1) Run ngrok - point to port 3978

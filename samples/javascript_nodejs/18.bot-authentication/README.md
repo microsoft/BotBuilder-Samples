@@ -6,7 +6,7 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
-NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
+NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. [Refer to sample](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js).
 
 ## Prerequisites
 
@@ -22,13 +22,13 @@ NOTE: Microsoft Teams currently differs slightly in the way auth is integrated w
 - Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
-- In a console, navigate to `samples/javascript_nodejs/18.bot-authentication`
+- In a console, navigate to `samples/bot-conversation-sso-quickstart/js`
 
     ```bash
-    cd samples/javascript_nodejs/18.bot-authentication
+    cd samples/bot-conversation-sso-quickstart/js
     ```
 
 - Install modules

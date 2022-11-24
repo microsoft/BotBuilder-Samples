@@ -6,15 +6,15 @@ This bot has been created using [Bot Framework](https://dev.botframework.com), i
 
 The sample uses the bot authentication capabilities in [Azure Bot Service](https://docs.botframework.com), providing features to make it easier to develop a bot that authenticates users to various identity providers such as Azure AD (Azure Active Directory), GitHub, Uber, etc.
 
-NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
+NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. [Refer to sample](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python).
 
 ## To try this sample
 
 - Clone the repository
 ```bash
-git clone https://github.com/Microsoft/botbuilder-samples.git
+git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
 ```
-- Bring up a terminal, navigate to `botbuilder-samples\samples\python\18.bot-authentication` folder
+- Bring up a terminal, navigate to `samples/bot-teams-authentication/python` folder
 - Activate your desired virtual environment
 - In the terminal, type `pip install -r requirements.txt`
 - Deploy your bot to Azure, see [Deploy your bot to Azure](https://aka.ms/azuredeployment)

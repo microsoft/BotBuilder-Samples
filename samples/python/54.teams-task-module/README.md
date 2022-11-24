@@ -30,7 +30,7 @@ the Teams service needs to call into the bot.
     - Ensure that you've [enabled the Teams Channel](https://docs.microsoft.com/en-us/azure/bot-service/channel-connect-teams?view=azure-bot-service-4.0)
     - __*If you don't have an Azure account*__ you can use this [Bot Framework registration](https://docs.microsoft.com/en-us/microsoftteams/platform/bots/how-to/create-a-bot-for-teams#register-your-web-service-with-the-bot-framework)
 
-1) Bring up a terminal, navigate to `botbuilder-samples\samples\python\54.teams-task-module` folder
+1) Bring up a terminal, navigate to `Microsoft-Teams-Samples\samples\bot-task-module\python` folder
 
 1) Activate your desired virtual environment
 

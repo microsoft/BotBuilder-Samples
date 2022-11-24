@@ -35,13 +35,13 @@ This sample utilizes an app setting `UseSingleSignOn` to add `TeamsSSOTokenExcha
 1) Clone the repository
 
     ```bash
-    git clone https://github.com/Microsoft/botbuilder-samples.git
+    git clone https://github.com/OfficeDev/Microsoft-Teams-Samples.git
     ```
 
 1) If you are using Visual Studio
 - Launch Visual Studio
 - File -> Open -> Project/Solution
-- Navigate to `samples/csharp_dotnetcore/46.teams-auth` folder
+- Navigate to `samples/bot-teams-authentication/csharp` folder
 - Select `TeamsAuth.csproj` file
 
 1) Run ngrok - point to port 3978
