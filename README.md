@@ -74,7 +74,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------|
 |18|OAuth authentication  | Bot that demonstrates how to integrate OAuth providers.                  |[.NET&nbsp;Core][cs#18]|[JavaScript][js#18]|[Python][py#18]|[Java][java#18]
 |24|MSGraph&nbsp;authentication    | Demonstrates bot authentication capabilities of Azure Bot Service. Demonstrates utilizing the Microsoft Graph API to retrieve data about the user.|[.NET&nbsp;Core][cs#24] |[JavaScript][js#24] |[Python][py#24]|[Java][java#24]
-|46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46]|[Java][java#46]
+|46|Teams authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python)|[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
 
 ### Custom question answering samples
 
@@ -87,17 +87,17 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java |
 |:--:|:----------------------|:---------------------------------------------------------------------------------|:--------|:-------------|:--------|:--------|
-|25| Message Reactions | Demonstrates how to create a simple bot that responds to Message Reactions | [.NET&nbsp;Core][cs#25]  |  [JavaScript][js#25] ||[Java][java#25]
-|46|Authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core][cs#46] | [JavaScript][js#46]   |[Python][py#46] |[Java][java#46]
-|50|Messaging&nbsp;extensions&nbsp;- search     |  A Messaging Extension that accepts search requests and returns results.|[.NET&nbsp;Core][cs#50]|[JavaScript][js#50]          |[Python][py#50] |[Java][java#50]
-|51|Messaging&nbsp;extensions&nbsp;- action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[.NET&nbsp;Core][cs#51]|[JavaScript][js#51]          |[Python][py#51] |[Java][java#51]
-|52|Messaging&nbsp;extensions&nbsp;- auth and config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[.NET&nbsp;Core][cs#52]|[JavaScript][js#52]          | |[Java][java#52]
-|53|Messaging&nbsp;extensions&nbsp;- action preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[.NET&nbsp;Core][cs#53]|[JavaScript][js#53]          |[Python][py#53] |[Java][java#53]
-|54|Task module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[.NET&nbsp;Core][cs#54]|[JavaScript][js#54]          |[Python][py#54] |[Java][java#54]
-|55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core][cs#55]|[JavaScript][js#55]          |[Python][py#55] |[Java][java#55]
-|56|File upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[.NET&nbsp;Core][cs#56]|[JavaScript][js#56]          |[Python][py#56] |[Java][java#56]
-|57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core][cs#57]|[JavaScript][js#57]          |[Python][py#57] |[Java][java#57]
-|58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core][cs#58]|[JavaScript][js#58]          |[Python][py#58] |[Java][java#58]
+|25| Message Reactions | Demonstrates how to create a simple bot that responds to Message Reactions | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-message-reaction/csharp)  |  [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-message-reaction/nodejs) ||[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-message-reaction/java)
+|46|Authentication    | Demonstrates how to use authentication for a bot running in Microsoft Teams. | [.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/csharp) | [JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation-sso-quickstart/js)   |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-teams-authentication/java)
+|50|Messaging&nbsp;extensions&nbsp;- search     |  A Messaging Extension that accepts search requests and returns results.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search/java)
+|51|Messaging&nbsp;extensions&nbsp;- action     |  A Messaging Extension that accepts parameters and returns a card.  Also, how to receive a forwarded message as a parameter in a Messaging Extension.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action/java)
+|52|Messaging&nbsp;extensions&nbsp;- auth and config     | A Messaging Extension that has a configuration page, accepts search requests and returns results after the user has signed in.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search-auth-config/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-search-sso-config/nodejs)          | |
+|53|Messaging&nbsp;extensions&nbsp;- action preview     | Demonstrates how to create a Preview and Edit flow for a Messaging Extension.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-action-preview/java)
+|54|Task module     | Demonstrates how to retrieve a Task Module, and values from cards in the Task Module, for a Messaging Extension.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-task-module/java)
+|55|Link unfurling     | A Messaging Extension that performs link unfurling.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/csharp))|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/msgext-link-unfurling/java)
+|56|File upload     | Demonstrates how to obtain file consent, and upload files to Teams from a bot. Also, how to receive a file sent to a bot.|[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-file-upload/java)
+|57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/java)
+|58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/java)
 
 
 ### Skills samples
@@ -129,24 +129,13 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#21]:samples/csharp_dotnetcore/21.corebot-app-insights
 [cs#23]:samples/csharp_dotnetcore/23.facebook-events
 [cs#24]:samples/csharp_dotnetcore/24.bot-authentication-msgraph
-[cs#25]:samples/csharp_dotnetcore/25.message-reaction
 [cs#40]:samples/csharp_dotnetcore/40.timex-resolution
 [cs#42]:samples/csharp_dotnetcore/42.scaleout
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
 [cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
-[cs#46]:samples/csharp_dotnetcore/46.teams-auth
 [cs#47]:samples/csharp_dotnetcore/47.inspection
 [cs#48]:samples/csharp_dotnetcore/48.customQABot-all-features
-[cs#50]:samples/csharp_dotnetcore/50.teams-messaging-extensions-search
-[cs#51]:samples/csharp_dotnetcore/51.teams-messaging-extensions-action
-[cs#52]:samples/csharp_dotnetcore/52.teams-messaging-extensions-search-auth-config
-[cs#53]:samples/csharp_dotnetcore/53.teams-messaging-extensions-action-preview
-[cs#54]:samples/csharp_dotnetcore/54.teams-task-module
-[cs#55]:samples/csharp_dotnetcore/55.teams-link-unfurling
-[cs#56]:samples/csharp_dotnetcore/56.teams-file-upload
-[cs#57]:samples/csharp_dotnetcore/57.teams-conversation-bot
-[cs#58]:samples/csharp_dotnetcore/58.teams-start-new-thread-in-channel
 [cs#60]:samples/csharp_dotnetcore/60.slack-adapter
 [cs#61]:samples/csharp_dotnetcore/61.facebook-adapter
 [cs#62]:samples/csharp_dotnetcore/62.webex-adapter
@@ -188,23 +177,12 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [js#21]:samples/javascript_nodejs/21.corebot-app-insights
 [js#23]:samples/javascript_nodejs/23.facebook-events
 [js#24]:samples/javascript_nodejs/24.bot-authentication-msgraph
-[js#25]:samples/javascript_nodejs/25.message-reaction
 [js#40]:samples/javascript_nodejs/40.timex-resolution
 [js#43]:samples/javascript_nodejs/43.complex-dialog
 [js#44]:samples/javascript_nodejs/44.prompt-for-user-input
 [js#45]:samples/javascript_nodejs/45.state-management
-[js#46]:samples/javascript_nodejs/46.teams-auth
 [js#47]:samples/javascript_nodejs/47.inspection
 [js#48]:samples/javascript_nodejs/48.customQABot-all-features
-[js#50]:samples/javascript_nodejs/50.teams-messaging-extensions-search
-[js#51]:samples/javascript_nodejs/51.teams-messaging-extensions-action
-[js#52]:samples/javascript_nodejs/52.teams-messaging-extensions-search-auth-config
-[js#53]:samples/javascript_nodejs/53.teams-messaging-extensions-action-preview
-[js#54]:samples/javascript_nodejs/54.teams-task-module
-[js#55]:samples/javascript_nodejs/55.teams-link-unfurling
-[js#56]:samples/javascript_nodejs/56.teams-file-upload
-[js#57]:samples/javascript_nodejs/57.teams-conversation-bot
-[js#58]:samples/javascript_nodejs/58.teams-start-new-thread-in-channel
 [js#80]:samples/javascript_nodejs/80.skills-simple-bot-to-bot
 [js#81]:samples/javascript_nodejs/81.skills-skilldialog
 [js#82]:samples/javascript_nodejs/82.skills-sso-cloudadapter
@@ -230,17 +208,7 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [py#43]:samples/python/43.complex-dialog
 [py#44]:samples/python/44.prompt-for-user-input
 [py#45]:samples/python/45.state-management
-[py#46]:samples/python/46.teams-auth
 [py#47]:samples/python/47.inspection
-[py#50]:samples/python/50.teams-messaging-extensions-search
-[py#51]:samples/python/51.teams-messaging-extensions-action
-[py#52]:samples/python/52.teams-messaging-extensions-search-auth-config
-[py#53]:samples/python/53.teams-messaging-extensions-action-preview
-[py#54]:samples/python/54.teams-task-module
-[py#55]:samples/python/55.teams-link-unfurling
-[py#56]:samples/python/56.teams-file-upload
-[py#57]:samples/python/57.teams-conversation-bot
-[py#58]:samples/python/58.teams-start-thread-in-channel
 [py#60]:samples/python/60.slack-adapter
 [py#80]:samples/python/80.skills-simple-bot-to-bot
 [py#81]:samples/python/81.skills-skilldialog
@@ -260,23 +228,12 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [java#21]:samples/java_springboot/21.corebot-app-insights
 [java#23]:samples/java_springboot/23.facebook-events
 [java#24]:samples/java_springboot/24.bot-authentication-msgraph
-[java#25]:samples/java_springboot/25.message-reaction
 [java#40]:samples/java_springboot/40.timex-resolution
 [java#42]:samples/java_springboot/42.scaleout
 [java#43]:samples/java_springboot/43.complex-dialog
 [java#44]:samples/java_springboot/44.prompt-users-for-input
 [java#45]:samples/java_springboot/45.state-management
-[java#46]:samples/java_springboot/46.teams-auth
 [java#47]:samples/java_springboot/47.inspection
-[java#50]:samples/java_springboot/50.teams-messaging-extensions-search
-[java#51]:samples/java_springboot/51.teams-messaging-extensions-action
-[java#52]:samples/java_springboot/52.teams-messaging-extensions-search-auth-config
-[java#53]:samples/java_springboot/53.teams-messaging-extensions-action-preview
-[java#54]:samples/java_springboot/54.teams-task-module
-[java#55]:samples/java_springboot/55.teams-link-unfurling
-[java#56]:samples/java_springboot/56.teams-file-upload
-[java#57]:samples/java_springboot/57.teams-conversation-bot
-[java#58]:samples/java_springboot/58.teams-start-new-thread-in-channel
 [java#80]:samples/java_springboot/80.skills-simple-bot-to-bot
 [java#81]:samples/java_springboot/81.skills-skilldialog
 
