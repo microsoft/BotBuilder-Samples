@@ -29,7 +29,7 @@ Samples are designed to illustrate functionality you'll need to implement to bui
     - [Advanced bots](#advanced-bots)
     - [Authentication samples](#authentication-samples)
     - [Custom question answering samples](#Custom-question-answering-samples)
-    - [Teams samples](#teams-samples)
+    - [Teams samples site](https://github.com/OfficeDev/Microsoft-Teams-Samples)
     - [Custom adapter samples](#custom-adapter-samples)
     - [Skills samples](#skills-samples)
     - [Experimental / preview samples](#experimental--preview-samples)
@@ -99,7 +99,6 @@ Samples are designed to illustrate functionality you'll need to implement to bui
 |57|Conversation bot     | Demonstrates various features of bots on Teams: message all members in a Team or Channel, @mention a user from a bot, update previously sent messages, etc. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-conversation/java)
 |58|Start new thread in a channel     | Demonstrates creating a new thread in a channel. |[.NET&nbsp;Core](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/csharp)|[JavaScript](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/nodejs)          |[Python](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/python) |[Java](https://github.com/OfficeDev/Microsoft-Teams-Samples/tree/main/samples/bot-initiate-thread-in-channel/java)
 
-
 ### Skills samples
 
 |    | Sample Name           | Description                                                                      | .NET    | JavaScript   | Python  | Java
@@ -134,8 +133,6 @@ A [collection of **experimental** samples](./experimental) exist, intended to pr
 [cs#43]:samples/csharp_dotnetcore/43.complex-dialog
 [cs#44]:samples/csharp_dotnetcore/44.prompt-users-for-input
 [cs#45]:samples/csharp_dotnetcore/45.state-management
-[cs#47]:samples/csharp_dotnetcore/47.inspection
-[cs#48]:samples/csharp_dotnetcore/48.customQABot-all-features
 [cs#60]:samples/csharp_dotnetcore/60.slack-adapter
 [cs#61]:samples/csharp_dotnetcore/61.facebook-adapter
 [cs#62]:samples/csharp_dotnetcore/62.webex-adapter

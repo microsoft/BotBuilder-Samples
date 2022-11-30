@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <title>Web Chat</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      crossorigin="anonymous"
+      src="https://cdn.botframework.com/botframework-webchat/latest/webchat.js"
+    ></script>
+    <style>
+      html,
+      body {
+        background-color: #f7f7f7;
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+      }
+
+      #webchat {
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+        height: 100%;
+        margin: auto;
+        max-width: 480px;
+        min-width: 360px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="webchat" role="main"></div>
+    <script>
+      (async function() {
+        const res = await fetch('https://<BOT-HOST-NAME>.azurewebsites.net/api/token/directlinease', { 
+          method: 'POST'
+        });
+
+        const { token } = await res.json();
+
+        window.WebChat.renderWebChat(
+          {
+            directLine: await window.WebChat.createDirectLineAppServiceExtension({
+              domain: 'https://<BOT-HOST-NAME>.azurewebsites.net/.bot/v3/directline',
+              token
+            })
+          },
+          document.getElementById('webchat')
+        );
+
+        document.querySelector('#webchat > *').focus();
+      })().catch(err => console.error(err));
+    </script>
+  </body>
+</html>

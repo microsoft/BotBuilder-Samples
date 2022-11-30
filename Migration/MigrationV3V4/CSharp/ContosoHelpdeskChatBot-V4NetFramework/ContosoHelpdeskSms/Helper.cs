@@ -13,8 +13,8 @@ namespace ContosoHelpdeskSms
     {
         public static bool SendSms(string ToMobileNumber, string Message)
         {
-            string TWILIO_ACCOUNT_SID = "AC724d44f065c6423925f36597c2351b2b";
-            string TWILIO_AUTH_TOKEN = "5804c1c451d19a2f14843cc9735294f6";
+            string TWILIO_ACCOUNT_SID = "";
+            string TWILIO_AUTH_TOKEN = "";
 
             TwilioClient.Init(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
 

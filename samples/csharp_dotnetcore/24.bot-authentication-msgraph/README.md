@@ -9,7 +9,7 @@ application setup for use in Azure Bot Service. The [scopes](https://developer.m
 - `profile`
 - `User.Read`
 
-NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 46.teams-auth.
+NOTE: Microsoft Teams currently differs slightly in the way auth is integrated with the bot. Refer to sample 5 [here](https://github.com/OfficeDev/Microsoft-Teams-Samples#bots-samples-using-the-v4-sdk).
 
 ## Prerequisites
 
