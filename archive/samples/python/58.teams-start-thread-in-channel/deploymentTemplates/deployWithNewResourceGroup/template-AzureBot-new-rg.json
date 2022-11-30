@@ -1,0 +1,104 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "groupName": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the name of the Resource Group."
+      }
+    },
+    "groupLocation": {
+      "type": "string",
+      "metadata": {
+        "description": "Specifies the location of the Resource Group."
+      }
+    },
+    "azureBotId": {
+      "type": "string",
+      "metadata": {
+        "description": "The globally unique and immutable bot ID."
+      }
+    },
+    "azureBotSku": {
+      "type": "string",
+      "defaultValue": "S1",
+      "metadata": {
+        "description": "The pricing tier of the Bot Service Registration. Acceptable values are F0 and S1."
+      }
+    },
+    "azureBotRegion": {
+      "type": "string",
+      "defaultValue": "global",
+      "metadata": {
+        "description": ""
+      }
+    },
+    "botEndpoint": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Use to handle client messages, Such as https://<botappServiceName>.azurewebsites.net/api/messages."
+      }
+    },
+    "appId": {
+      "type": "string",
+      "metadata": {
+        "description": "Active Directory App ID or User-Assigned Managed Identity Client ID, set as MicrosoftAppId in the Web App's Application Settings."
+      }
+    }
+  },
+  "variables": {
+    "botEndpoint": "[if(empty(parameters('botEndpoint')), concat('https://', parameters('azureBotId'), '.azurewebsites.net/api/messages'), parameters('botEndpoint'))]"
+  },
+  "resources": [
+    {
+      "name": "[parameters('groupName')]",
+      "type": "Microsoft.Resources/resourceGroups",
+      "apiVersion": "2018-05-01",
+      "location": "[parameters('groupLocation')]",
+      "properties": {}
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2018-05-01",
+      "name": "storageDeployment",
+      "resourceGroup": "[parameters('groupName')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.Resources/resourceGroups/', parameters('groupName'))]"
+      ],
+      "properties": {
+        "mode": "Incremental",
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "parameters": {},
+          "variables": {},
+          "resources": [
+            {
+              "apiVersion": "2021-03-01",
+              "type": "Microsoft.BotService/botServices",
+              "name": "[parameters('azureBotId')]",
+              "location": "[parameters('azureBotRegion')]",
+              "kind": "azurebot",
+              "sku": {
+                "name": "[parameters('azureBotSku')]"
+              },
+              "properties": {
+                "name": "[parameters('azureBotId')]",
+                "displayName": "[parameters('azureBotId')]",
+                "iconUrl": "https://docs.botframework.com/static/devportal/client/images/bot-framework-default.png",
+                "endpoint": "[variables('botEndpoint')]",
+                "msaAppId": "[parameters('appId')]",
+                "luisAppIds": [],
+                "schemaTransformationVersion": "1.3",
+                "isCmekEnabled": false,
+                "isIsolated": false
+              }
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

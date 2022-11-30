@@ -454,23 +454,12 @@
     <module>21.corebot-app-insights</module>
     <module>23.facebook-events</module>
     <module>24.bot-authentication-msgraph</module>
-    <module>25.message-reaction</module>
     <module>40.timex-resolution</module>
     <module>42.scaleout</module>
     <module>43.complex-dialog</module>
     <module>44.prompt-users-for-input</module>
     <module>45.state-management</module>
-    <module>46.teams-auth</module>
     <module>47.inspection</module>
-    <module>50.teams-messaging-extensions-search</module>
-    <module>51.teams-messaging-extensions-action</module>
-    <module>52.teams-messaging-extensions-search-auth-config</module>
-    <module>53.teams-messaging-extensions-action-preview</module>
-    <module>54.teams-task-module</module>
-    <module>55.teams-link-unfurling</module>
-    <module>56.teams-file-upload</module>
-    <module>57.teams-conversation-bot</module>
-    <module>58.teams-start-new-thread-in-channel</module>
     <module>80.skills-simple-bot-to-bot\DialogRootBot</module>
     <module>80.skills-simple-bot-to-bot\DialogSkillBot</module>
     <module>81.skills-skilldialog\dialog-root-bot</module>
