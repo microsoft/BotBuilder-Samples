@@ -13,11 +13,11 @@ namespace Microsoft.BotBuilderSamples
     // https://platform.openai.com/docs/libraries
     // nodejs version: https://www.npmjs.com/package/openai
     /// </summary>
-    public class OpenAI : ICompletion
+    public class OpenAIClient : ICompletion
     {
         private readonly OpenAIService openAIService;
 
-        public OpenAI(string apiKey, string? organization = null)
+        public OpenAIClient(string apiKey, string? organization = null)
         {
             var options = new OpenAiOptions()
             {

@@ -9,12 +9,12 @@ namespace Microsoft.BotBuilderSamples
     /// <summary>
     /// https://github.com/Azure/azure-sdk-for-net/tree/main/sdk/openai/Azure.AI.OpenAI
     /// </summary>
-    public class AzureOpenAI : ICompletion
+    public class AzureOpenAIClient : ICompletion
     {
-        private readonly OpenAIClient openAIClient;
+        private readonly global::Azure.AI.OpenAI.OpenAIClient openAIClient;
         private readonly string deploymentId;
 
-        public AzureOpenAI(string apiKey, string endpoint, string deploymentId)
+        public AzureOpenAIClient(string apiKey, string endpoint, string deploymentId)
         {
             openAIClient = new(new Uri(endpoint), new AzureKeyCredential(apiKey));
             this.deploymentId = deploymentId;

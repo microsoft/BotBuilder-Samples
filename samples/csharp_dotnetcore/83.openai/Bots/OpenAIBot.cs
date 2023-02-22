@@ -19,7 +19,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             var resolvers = GetCompletionResolvers();
             foreach (var resolver in resolvers)
             {
-                var result = await resolver.GenerateCompletion(turnContext.Activity.Text);
+                var result = await resolver.GenerateCompletionAsync(turnContext.Activity.Text);
                 var replyText = $"result from {resolver.GetType()}:\r\n{result}";
                 await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
             }
@@ -40,10 +40,10 @@ namespace Microsoft.BotBuilderSamples.Bots
         private List<ICompletion> GetCompletionResolvers() => new()
         {
             // OpenAI
-            new OpenAI(config.GetValue<string>("OpenAIKey")),
+            new OpenAIClient(config.GetValue<string>("OpenAIKey")),
 
             // Azure OpenAI
-            new AzureOpenAI(
+            new AzureOpenAIClient(
                 config.GetValue<string>("AzureOpenAIKey"),
                 config.GetValue<string>("AzureOpenAIEndpoint"),
                 config.GetValue<string>("AzureOpenAIDeploymentId"))
