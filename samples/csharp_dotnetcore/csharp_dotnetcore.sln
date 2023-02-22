@@ -82,6 +82,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABot", "12.customQAB
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomQABotAllFeatures", "48.customQABot-all-features\CustomQABotAllFeatures.csproj", "{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenAIBot", "83.openai\OpenAIBot.csproj", "{6AA71121-CA26-434E-AB34-A373FAED1EE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -344,6 +346,14 @@ Global
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.ActiveCfg = Release|Any CPU
 		{4C855F46-DCA3-4A69-9ED3-3B7491F91CF4}.Release|x64.Build.0 = Release|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Debug|x64.Build.0 = Debug|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Release|x64.ActiveCfg = Release|Any CPU
+		{6AA71121-CA26-434E-AB34-A373FAED1EE3}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
