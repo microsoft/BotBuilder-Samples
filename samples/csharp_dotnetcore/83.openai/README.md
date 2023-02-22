@@ -16,7 +16,7 @@ This bot include Open ai api and Azure OpenAI SDK
   ```
 
 - Open AI account
-  1. Found the api key
+  1. Found the api key in https://platform.openai.com/docs/introduction/overview
   > Right click your project name in "solution explorer" then click "Manage User Secret", it is a good way to keep your api keys
   2. Paste it into the `OpenAIKey` property in `sppsettings.json`
 
