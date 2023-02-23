@@ -8,20 +8,28 @@ namespace Microsoft.BotBuilderSamples.Bots
 {
     public class OpenAIBot : ActivityHandler
     {
-        private readonly IConfiguration config;
-        public OpenAIBot(IConfiguration config)
+        private readonly IConfiguration configuration;
+        public OpenAIBot(IConfiguration configuration)
         {
-            this.config = config;
+            this.configuration = configuration;
         }
 
         protected override async Task OnMessageActivityAsync(ITurnContext<IMessageActivity> turnContext, CancellationToken cancellationToken)
         {
             var resolvers = GetCompletionResolvers();
-            foreach (var resolver in resolvers)
+            if (resolvers.Count == 0)
             {
-                var result = await resolver.GenerateCompletionAsync(turnContext.Activity.Text);
-                var replyText = $"result from {resolver.GetType()}:\r\n{result}";
-                await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+                var text = "Please fill in at least one resolver property in appsettings";
+                await turnContext.SendActivityAsync(MessageFactory.Text(text, text), cancellationToken);
+            }
+            else
+            {
+                foreach (var resolver in resolvers)
+                {
+                    var result = await resolver.GenerateCompletionAsync(turnContext.Activity.Text);
+                    var replyText = $"result from {resolver.GetType()}:\r\n{result}";
+                    await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
+                }
             }
         }
 
@@ -37,16 +45,29 @@ namespace Microsoft.BotBuilderSamples.Bots
             }
         }
 
-        private List<ICompletion> GetCompletionResolvers() => new()
+        private List<ICompletion> GetCompletionResolvers()
         {
+            var resolvers = new List<ICompletion>();
+
             // OpenAI
-            new OpenAIClient(config.GetValue<string>("OpenAIKey")),
+            var openAIKey = configuration.GetValue<string>("OpenAIKey");
+            if (!string.IsNullOrEmpty(openAIKey))
+            {
+                resolvers.Add(new OpenAIClient(configuration.GetValue<string>("OpenAIKey")));
+            }
 
             // Azure OpenAI
-            new AzureOpenAIClient(
-                config.GetValue<string>("AzureOpenAIKey"),
-                config.GetValue<string>("AzureOpenAIEndpoint"),
-                config.GetValue<string>("AzureOpenAIDeploymentId"))
-        };
+            var azureOpenAIKey = configuration.GetValue<string>("AzureOpenAIKey");
+            var azureOpenAIEndpoint = configuration.GetValue<string>("AzureOpenAIEndpoint");
+            var azureOpenAIDeploymentId = configuration.GetValue<string>("AzureOpenAIDeploymentId");
+            if (!string.IsNullOrEmpty(azureOpenAIKey)
+                && !string.IsNullOrEmpty(azureOpenAIEndpoint)
+                && !string.IsNullOrEmpty(azureOpenAIDeploymentId))
+            {
+                resolvers.Add(new AzureOpenAIClient(azureOpenAIKey, azureOpenAIEndpoint, azureOpenAIDeploymentId));
+            }
+
+            return resolvers;
+        }
     }
 }
