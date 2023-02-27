@@ -42,8 +42,8 @@ namespace Microsoft.BotBuilderSamples
             //             typeof(UserProfile)
             //         })
             // });
-
-            /* JSON SERIALIZER - Uncomment the code in this section to use a JsonSerializer with a custom SerializationBinder. */
+            
+            /* JSON SERIALIZER - Uncomment the code in this section to use a JsonSerializer with a custom SerializationBinder configuration. */
 
             // Create the storage we'll be using for User and Conversation state.
             // (Memory is great for testing purposes - examples of implementing storage with
