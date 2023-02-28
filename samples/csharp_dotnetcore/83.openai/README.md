@@ -26,7 +26,7 @@ This bot include Open ai api and Azure OpenAI SDK
   2. Follow the below step to create Azure OpenAI resource
   [Create Azure OpenAI resource](https://learn.microsoft.com/en-us/azure/cognitive-services/openai/how-to/create-resource?pivots=web-portal)
   3. Deploy model
-  4.Fill in the key and endpoint and deployid into app settings.
+  4. Fill in the key and endpoint and deployment id into app settings.
 
 ## To try this sample
 
@@ -67,7 +67,7 @@ This bot include Open ai api and Azure OpenAI SDK
 
 ## Interacting with the bot
 
-Enter text in the emulator. The bot would return the completion result.
+Enter text in the emulator. The input would as prompt, the bot would return the completion result.
 
 ## Deploy the bot to Azure
 
