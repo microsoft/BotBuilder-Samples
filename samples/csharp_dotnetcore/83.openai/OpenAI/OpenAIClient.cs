@@ -32,7 +32,7 @@ namespace Microsoft.BotBuilderSamples
             var completionResult = await openAIService.Completions.CreateCompletion(new CompletionCreateRequest()
             {
                 Prompt = prompt,
-
+                MaxTokens = 2048,
                 // Change the mode here
                 Model = Models.TextDavinciV3
             });
