@@ -29,18 +29,20 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<string> GenerateCompletionAsync(string prompt)
         {
-            var completionResult = await openAIService.Completions.CreateCompletion(new CompletionCreateRequest()
+            var completionResult = await openAIService.ChatCompletion.CreateCompletion(new ChatCompletionCreateRequest()
             {
-                Prompt = prompt,
+                Messages = new List<ChatMessage>
+                {
+                    ChatMessage.FromUser(prompt)
+                },
                 MaxTokens = 2048,
                 // Change the mode here
-                Model = Models.TextDavinciV3
+                Model = Models.ChatGpt3_5Turbo0301
             });
 
             if (completionResult.Successful && completionResult.Choices.Count > 0)
             {
-                var result = completionResult.Choices[0].Text;
-                return result;
+                return completionResult.Choices.First()?.Message?.Content ?? "no result";
             }
             else
             {
