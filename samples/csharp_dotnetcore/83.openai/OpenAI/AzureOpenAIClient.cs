@@ -22,18 +22,13 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<string> GenerateCompletionAsync(string prompt)
         {
-            try
-            {
-                var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, prompt);
-                var completion = completionsResponse.Value.Choices[0].Text;
-                return completion;
-            }
-            catch
-            {
-                return "Azure Open AI is not ready.";
-            }
-            
-           
+            var completionsOptions = new CompletionsOptions();
+            completionsOptions.Prompt.Add(prompt);
+            completionsOptions.MaxTokens = 2048;
+
+            var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
+            var completion = completionsResponse?.Value?.Choices[0]?.Text ?? "no result";
+            return completion;
         }
     }
 }
