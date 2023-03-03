@@ -75,11 +75,14 @@ async def messages(req: Request) -> Response:
     invoke_response = await ADAPTER.process_activity(
         activity, auth_header, BOT.on_turn
     )
-    if invoke_response:
+    if invoke_response and invoke_response.body:
         return json_response(
             data=invoke_response.body, status=invoke_response.status
         )
-    return Response(status=HTTPStatus.OK)
+
+    status = HTTPStatus.OK if not invoke_response else invoke_response.status
+    
+    return Response(status=status)
 
 
 APP = web.Application(middlewares=[aiohttp_error_middleware])
