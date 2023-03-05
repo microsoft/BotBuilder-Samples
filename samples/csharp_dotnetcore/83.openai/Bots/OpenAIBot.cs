@@ -26,7 +26,7 @@ namespace Microsoft.BotBuilderSamples.Bots
             {
                 foreach (var resolver in resolvers)
                 {
-                    var result = await resolver.GenerateCompletionAsync(turnContext.Activity.Text);
+                    var result = await resolver.GenerateCompletionAsync(turnContext);
                     var replyText = $"result from {resolver.GetType().Name}:\r\n{result}";
                     await turnContext.SendActivityAsync(MessageFactory.Text(replyText, replyText), cancellationToken);
                 }

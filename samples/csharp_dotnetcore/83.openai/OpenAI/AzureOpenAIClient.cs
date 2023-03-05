@@ -3,6 +3,8 @@
 
 using Azure;
 using Azure.AI.OpenAI;
+using Microsoft.Bot.Builder;
+using Microsoft.Bot.Schema;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -20,10 +22,10 @@ namespace Microsoft.BotBuilderSamples
             this.deploymentId = deploymentId;
         }
 
-        public async Task<string> GenerateCompletionAsync(string prompt)
+        public async Task<string> GenerateCompletionAsync(ITurnContext<IMessageActivity> turnContext)
         {
             var completionsOptions = new CompletionsOptions();
-            completionsOptions.Prompt.Add(prompt);
+            completionsOptions.Prompt.Add(turnContext.Activity.Text);
             completionsOptions.MaxTokens = 2048;
 
             var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
