@@ -6,6 +6,7 @@ using Azure;
 using Azure.AI.OpenAI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using Newtonsoft.Json;
 using OpenAI.GPT3.ObjectModels.RequestModels;
 
 namespace Microsoft.BotBuilderSamples
@@ -28,15 +29,25 @@ namespace Microsoft.BotBuilderSamples
 
         public async Task<string> GenerateCompletionAsync(ITurnContext<IMessageActivity> turnContext)
         {
-            var completionsOptions = new CompletionsOptions();
-            var chatHistory = RefreshConversationHistory(turnContext, turnContext.Activity.Text, "user");
-            completionsOptions.Prompt.Add(string.Join('\n', chatHistory));
-            completionsOptions.MaxTokens = 2048;
+            try
+            {
+                var completionsOptions = new CompletionsOptions();
+                var chatHistory = RefreshConversationHistory(turnContext, turnContext.Activity.Text, "user");
+                completionsOptions.Prompt.Add($"{string.Join("\\n", chatHistory)}\\n<|im_start|>assistant");
+                completionsOptions.Stop.Add("<|im_end|>");
+                completionsOptions.MaxTokens = 2048;
 
-            var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
-            var completion = completionsResponse?.Value?.Choices[0]?.Text ?? "no result";
-            RefreshConversationHistory(turnContext, completion, "assistant");
-            return completion;
+                var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
+                var completion = completionsResponse?.Value?.Choices[0]?.Text ?? "no result";
+                
+                RefreshConversationHistory(turnContext, completion, "assistant");
+                return completion;
+            }
+            catch(Exception e)
+            {
+                return e.Message;
+            }
+          
         }
 
         private List<string> RefreshConversationHistory(ITurnContext<IMessageActivity> turnContext, string message, string role)
@@ -44,7 +55,7 @@ namespace Microsoft.BotBuilderSamples
             var conversationId = turnContext.Activity.Conversation.Id;
 
             // https://learn.microsoft.com/en-us/azure/cognitive-services/openai/chatgpt-quickstart?tabs=command-line&pivots=rest-api#understanding-the-prompt-structure
-            var currentMessage = $"<|im_start|>{role}\n{message}\n<|im_end|>";
+            var currentMessage = $"<|im_start|>{role}\\n{message}\\n<|im_end|>";
             if (conversationHistory.TryGetValue(conversationId, out var history))
             {
                 history.Add(currentMessage);
