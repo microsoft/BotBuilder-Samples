@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Linq;
 using Azure;
 using Azure.AI.OpenAI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using OpenAI.GPT3.ObjectModels.RequestModels;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,6 +17,8 @@ namespace Microsoft.BotBuilderSamples
     {
         private readonly global::Azure.AI.OpenAI.OpenAIClient openAIClient;
         private readonly string deploymentId;
+        // Use your own storage to store the conversation history
+        private static readonly Dictionary<string, List<string>> conversationHistory = new();
 
         public AzureOpenAIClient(string apiKey, string endpoint, string deploymentId)
         {
@@ -25,12 +29,33 @@ namespace Microsoft.BotBuilderSamples
         public async Task<string> GenerateCompletionAsync(ITurnContext<IMessageActivity> turnContext)
         {
             var completionsOptions = new CompletionsOptions();
-            completionsOptions.Prompt.Add(turnContext.Activity.Text);
+            var chatHistory = RefreshConversationHistory(turnContext, turnContext.Activity.Text, "user");
+            completionsOptions.Prompt.Add(string.Join('\n', chatHistory));
             completionsOptions.MaxTokens = 2048;
 
             var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
             var completion = completionsResponse?.Value?.Choices[0]?.Text ?? "no result";
+            RefreshConversationHistory(turnContext, completion, "assistant");
             return completion;
+        }
+
+        private List<string> RefreshConversationHistory(ITurnContext<IMessageActivity> turnContext, string message, string role)
+        {
+            var conversationId = turnContext.Activity.Conversation.Id;
+
+            // https://learn.microsoft.com/en-us/azure/cognitive-services/openai/chatgpt-quickstart?tabs=command-line&pivots=rest-api#understanding-the-prompt-structure
+            var currentMessage = $"<|im_start|>{role}\n{message}\n<|im_end|>";
+            if (conversationHistory.TryGetValue(conversationId, out var history))
+            {
+                history.Add(currentMessage);
+            }
+            else
+            {
+                history = new List<string> { currentMessage };
+                conversationHistory.Add(conversationId, history);
+            }
+
+            return history;
         }
     }
 }
