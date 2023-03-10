@@ -1,13 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-using System.Linq;
 using Azure;
 using Azure.AI.OpenAI;
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
-using Newtonsoft.Json;
-using OpenAI.GPT3.ObjectModels.RequestModels;
 
 namespace Microsoft.BotBuilderSamples
 {
