@@ -4,7 +4,7 @@ Bot Framework v4 openai bot sample.
 
 This bot has been created using [Bot Framework](https://dev.botframework.com), it shows how to create a simple bot that accepts input from the user and echoes it back.
 
-This bot include Open ai api and Azure OpenAI SDK
+This bot include Open AI API and Azure OpenAI SDK
 
 ## Prerequisites
 
@@ -18,7 +18,7 @@ This bot include Open ai api and Azure OpenAI SDK
 - Open AI account
   1. Found the api key in https://platform.openai.com/docs/introduction/overview
   > Right click your project name in "solution explorer" then click "Manage User Secret", it is a good way to keep your api keys
-  2. Paste it into the `OpenAIKey` property in `sppsettings.json`
+  2. Paste it into the `OpenAIKey` property in `appsettings.json`
 
 - Azure OpenAI account
   1. Fill in this form to enable Azure OpenAI feature in subscription

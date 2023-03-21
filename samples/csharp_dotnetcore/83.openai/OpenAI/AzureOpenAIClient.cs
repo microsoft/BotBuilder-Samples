@@ -1,10 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
+using System.Text;
 using Azure;
 using Azure.AI.OpenAI;
-using Microsoft.Bot.Builder;
-using Microsoft.Bot.Schema;
+using OpenAI.GPT3.ObjectModels.RequestModels;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -15,8 +15,6 @@ namespace Microsoft.BotBuilderSamples
     {
         private readonly global::Azure.AI.OpenAI.OpenAIClient openAIClient;
         private readonly string deploymentId;
-        // Use your own storage to store the conversation history
-        private static readonly Dictionary<string, List<string>> conversationHistory = new();
 
         public AzureOpenAIClient(string apiKey, string endpoint, string deploymentId)
         {
@@ -24,21 +22,17 @@ namespace Microsoft.BotBuilderSamples
             this.deploymentId = deploymentId;
         }
 
-        public async Task<string> GenerateCompletionAsync(ITurnContext<IMessageActivity> turnContext)
+        public async Task<string> GenerateCompletionAsync(IEnumerable<ChatMessage> history)
         {
             try
             {
                 var completionsOptions = new CompletionsOptions();
-                var chatHistory = RefreshConversationHistory(turnContext, turnContext.Activity.Text, "user");
-                completionsOptions.Prompt.Add($"{string.Join("\\n", chatHistory)}\\n<|im_start|>assistant");
+                completionsOptions.Prompt.Add(BuildMessage(history));
                 completionsOptions.Stop.Add("<|im_end|>");
                 completionsOptions.MaxTokens = 2048;
 
                 var completionsResponse = await openAIClient.GetCompletionsAsync(deploymentId, completionsOptions);
-                var completion = completionsResponse?.Value?.Choices[0]?.Text ?? "no result";
-                
-                RefreshConversationHistory(turnContext, completion, "assistant");
-                return completion;
+                return completionsResponse?.Value?.Choices[0]?.Text ?? string.Empty;
             }
             catch(Exception e)
             {
@@ -47,23 +41,16 @@ namespace Microsoft.BotBuilderSamples
           
         }
 
-        private List<string> RefreshConversationHistory(ITurnContext<IMessageActivity> turnContext, string message, string role)
+        private static string BuildMessage(IEnumerable<ChatMessage> messages)
         {
-            var conversationId = turnContext.Activity.Conversation.Id;
-
             // https://learn.microsoft.com/en-us/azure/cognitive-services/openai/chatgpt-quickstart?tabs=command-line&pivots=rest-api#understanding-the-prompt-structure
-            var currentMessage = $"<|im_start|>{role}\\n{message}\\n<|im_end|>";
-            if (conversationHistory.TryGetValue(conversationId, out var history))
+            var message = new StringBuilder();
+            foreach (var chatMessage in messages)
             {
-                history.Add(currentMessage);
+                message.Append($"<|im_start|>{chatMessage.Role}\\n{chatMessage.Content}\\n<|im_end|>\\n");
             }
-            else
-            {
-                history = new List<string> { currentMessage };
-                conversationHistory.Add(conversationId, history);
-            }
-
-            return history;
+            message.Append("<|im_start|>assistant\\n");
+            return message.ToString();
         }
     }
 }

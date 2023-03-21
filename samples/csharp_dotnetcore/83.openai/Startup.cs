@@ -6,6 +6,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Connector.Authentication;
 
 using Microsoft.BotBuilderSamples.Bots;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Microsoft.BotBuilderSamples
 {
@@ -28,7 +29,7 @@ namespace Microsoft.BotBuilderSamples
 
             // Create the Bot Framework Authentication to be used with the Bot Adapter.
             services.AddSingleton<BotFrameworkAuthentication, ConfigurationBotFrameworkAuthentication>();
-
+            services.AddSingleton<ITranscriptStore, MemoryTranscriptStore>();
             // Create the Bot Adapter with error handling enabled.
             services.AddSingleton<IBotFrameworkHttpAdapter, AdapterWithErrorHandler>();
 

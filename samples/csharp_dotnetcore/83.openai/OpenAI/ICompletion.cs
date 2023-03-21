@@ -3,11 +3,12 @@
 
 using Microsoft.Bot.Builder;
 using Microsoft.Bot.Schema;
+using OpenAI.GPT3.ObjectModels.RequestModels;
 
 namespace Microsoft.BotBuilderSamples
 {
     public interface ICompletion
     {
-        Task<string> GenerateCompletionAsync(ITurnContext<IMessageActivity> turnContext);
+        Task<string> GenerateCompletionAsync(IEnumerable<ChatMessage> history);
     }
 }
