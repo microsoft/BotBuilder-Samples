@@ -6,7 +6,7 @@ using Microsoft.Bot.Builder.Integration.AspNet.Core;
 using Microsoft.Bot.Schema;
 using Microsoft.Extensions.Logging;
 
-namespace BasicLanguageAssistantWithCLU.Controllers
+namespace BasicAssistantCLU.Controllers
 {
     /// <summary>
     /// A controller that handles skill replies to the bot.

@@ -1,7 +1,7 @@
 {
   "$kind": "Microsoft.AdaptiveDialog",
   "$designer": {
-    "name": "BasicLanguageAssistantWithCLU",
+    "name": "BasicAssistantCLU",
     "description": "",
     "id": "4pM5gc"
   },
@@ -147,8 +147,8 @@
       ]
     }
   ],
-  "generator": "BasicLanguageAssistantWithCLU.lg",
-  "id": "BasicLanguageAssistantWithCLU",
+  "generator": "BasicAssistantCLU.lg",
+  "id": "BasicAssistantCLU",
   "recognizer": {
     "$kind": "Microsoft.CluRecognizer",
     "projectName": "",
